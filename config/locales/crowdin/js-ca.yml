@@ -47,6 +47,8 @@ ca:
       draggable_hint: 'Arrossega a l''editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l''editor seguiran oberts mentre se segueixi arrossegant.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Afegeix element
@@ -1122,7 +1124,6 @@ ca:
         default_mode: Llista plana
         display_settings: Configuració de visualització
         display_sums_hint: Mostra les sumes totals dels atributs que es poden sumar en una fila a sota de la taula de resultats.
-        embedded_tab_disabled: Aquesta pestanya de configuració no està disponible per a la vista incrustada que estàs editant.
         hierarchy_hint: A tots els resultats filtrats de la taula se'ls afegirà els seus antecessors. Les jerarquies es poden expandir i col·lapsar.
         hierarchy_mode: Jerarquia
         highlighting: Ressaltar

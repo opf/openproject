@@ -132,6 +132,10 @@ module Import
       get("/rest/api/2/mypermissions")
     end
 
+    def administrator?
+      mypermissions.dig("permissions", "ADMINISTER", "havePermission") == true
+    end
+
     def index_condition_summary
       get("/rest/api/2/index/summary")
     end
@@ -194,12 +198,7 @@ module Import
     end
 
     def issue_types_count
-      response = get_response("/rest/api/2/issuetype/page", params: { maxResults: 0 })
-      if response.is_a?(Net::HTTPSuccess)
-        parse_json(response)["total"]
-      else
-        issue_types.count
-      end
+      paged_total("/rest/api/2/issuetype/page") { issue_types.count }
     end
 
     def issue_types_schemes
@@ -219,12 +218,15 @@ module Import
     end
 
     def statuses_count
-      response = get_response("/rest/api/2/status/search", params: { maxResults: 0 })
-      if response.is_a?(Net::HTTPSuccess)
-        parse_json(response)["total"]
-      else
-        statuses.count
-      end
+      paged_total("/rest/api/2/status/search") { statuses.count }
+    end
+
+    def resolutions
+      get("/rest/api/2/resolution")
+    end
+
+    def resolutions_count
+      paged_total("/rest/api/2/resolution/page") { resolutions.count }
     end
 
     def status_categories
@@ -407,6 +409,15 @@ module Import
       params[:projectIds] = Array(project_ids).join(",") if project_ids.present?
       params[:issueTypeIds] = Array(issue_type_ids).join(",") if issue_type_ids.present?
       params
+    end
+
+    def paged_total(path)
+      response = get_response(path, params: { maxResults: 0 })
+      if response.is_a?(Net::HTTPSuccess)
+        parse_json(response)["total"]
+      else
+        yield
+      end
     end
 
     def get(path, params: {})

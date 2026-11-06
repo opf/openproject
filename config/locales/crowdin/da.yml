@@ -828,7 +828,7 @@ da:
               switch_target_blank: Vælg den variant, der skal skiftes til
               switch_target_identical: Måltypen skal være en anden end den type, projektet bruger nu
               switch_target_not_in_family: Der kan kun skiftes til en anden type i samme familie
-          cannot_be_assigned_to_artifact_work_package: Den valgte bruger må ikke få tildelt arbejdspakker.
+          cannot_be_assigned_to_artefact_work_package: Den valgte bruger må ikke få tildelt arbejdspakker.
           foreign_wps_reference_version: Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.
         project/phase:
           attributes:
@@ -1639,6 +1639,10 @@ da:
         button_delete_personal_access_token: Slet PAT
         button_save: Gem konfiguration
         button_test_connection: Test forbindelse
+        credential_requirements:
+          administrator: Brugeren skal være Jira-administrator.
+          project_member: Brugeren skal være medlem af alle de Jira-projekter, du vil migrere.
+          title: Krav til Jira-brugeren bag legitimationsoplysningerne
         delete_basic_auth_password_confirm: Er du sikker på, at du vil slette adgangskoden til basic auth? Forbindelsen til Jira bliver slået fra.
         delete_personal_access_token_confirm: Er du sikker på, at du vil slette det personlige adgangstoken (PAT)? Forbindelsen til Jira bliver slået fra.
         exclude_resolution_fields_caption: Du kan udelade felterne for løsning og løsningsdato fra importen for denne konfiguration.
@@ -1650,6 +1654,7 @@ da:
           personal_access_token: Personligt adgangstoken (PAT)
           url: URL til Jira Server/Data Center
         label_testing: Tester konfigurationen …
+        personal_access_token_caption: Tokenet skal tilhøre en Jira-administrator.
       personal_access_token_deleted: Det personlige adgangstoken (PAT) er slettet.
       run:
         actions:
@@ -1679,12 +1684,12 @@ da:
             title: Opret tidsregistreringer for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Opret versioner for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Hent vedhæftede filer til arbejdspakker for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Opret arbejdspakker for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Opret brugere
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Hent vedhæftede filer til arbejdspakker for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Hent brugerdefinerede felter
           JiraFetchIssueTypesJob:
@@ -1707,6 +1712,9 @@ da:
             title: Henter metadata om de valgte projekter
           JiraRevertImportJob:
             title: Tilbagefører denne importkørsel fra Jira
+        not_administrator_error:
+          basic: Jira-konfigurationen bruger en basic auth-bruger uden administratortilladelser. Migreringen kræver en Jira-administrator for at kunne gennemføres. Rediger konfigurationen med en administrators legitimationsoplysninger, og prøv igen.
+          bearer: Jira-konfigurationen bruger en almindelig brugers personlige adgangstoken. Migreringen kræver et personligt adgangstoken fra en administrator for at kunne gennemføres. Rediger konfigurationen med et administratortoken, og prøv igen.
         project_identifier_taken: 'Du forsøger at importere et projekt med et id, der allerede er i brug: %{taken_identifier}. Ret projektets id i Jira, og klik så på Prøv igen.'
         remove_error: En importkørsel fra Jira kan ikke fjernes, mens den kører
         side_panel:
@@ -1768,6 +1776,9 @@ da:
             projects:
               one: "%{count} projekt"
               other: "%{count} projekter"
+            resolutions:
+              one: "%{count} løsning"
+              other: "%{count} løsninger"
             statuses:
               one: "%{count} status"
               other: "%{count} statusser"
@@ -1797,6 +1808,7 @@ da:
               label_available_data: Data, der importeres
               label_import_data: Importeres nu
               label_progress: Importen er i gang …
+              label_resolution_statuses_explanation: Ekstra statusser, der kombinerer status og løsning (fx "Done - Fixed")
               label_users_import_explanation: Brugere, der er involveret i de valgte projekter (inklusive gruppemedlemskaber)
               title: Importér data
             fetch_data:
@@ -1923,10 +1935,12 @@ da:
         error: Der opstod en uventet fejl under test af forbindelsen
         failed: 'Forbindelsen mislykkedes: Serveroplysningerne kunne ikke hentes'
         invalid_url: Angiv en gyldig URL
+        not_administrator:
+          basic: Basic auth-brugeren skal være Jira-administrator.
+          bearer: Det personlige adgangstoken skal være et administratortoken.
         parse_error: Svaret fra serveren kunne ikke fortolkes. Serveren er måske ikke en gyldig Jira-installation.
         personal_access_token_invalid: Ugyldigt personligt adgangstoken (PAT). Kontrollér legitimationsoplysningerne i konfigurationen.
         success: Forbundet til %{server} (version %{version})
-        user_is_not_admin: Ejeren af legitimationsoplysningerne er ikke administrator i Jira
       title: Jira-migrering
       user:
         unknown_name: Ukendt
@@ -2308,6 +2322,8 @@ da:
         emoji_reactions_activity_type_not_supported: Denne aktivitetstype understøtter ikke emoji-reaktioner.
         invalid_link: Linket under nøglen '%{key}' er ugyldigt.
         links_not_an_object: _links skal være et JSON-objekt.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Ugyldig forespørgsel: %{message}'
       code_401: Du skal være logget ind for at få adgang til denne ressource.
       code_401_wrong_credentials: Du har ikke givet korrekte loginoplysninger.
@@ -2657,6 +2673,22 @@ da:
       missing_value: Attributten "%{custom_field_name}" er påkrævet af den beregnede værdi, men er tom.
       unknown: Der opstod en ukendt fejl. Gennemse formlen for den beregnede værdi.
   colors:
+    contrast:
+      background: Baggrund
+      caption: Baseret på WCAG AA's mindstekrav til kontrastforhold på 4,5:1 for normal tekst.
+      dark: Mørk tilstand
+      description: Farverne fremhæver oplysninger som arbejdspakketyper og statusser i tabeller og backlogs. Forhåndsvisningerne viser, hvordan din farve ser ud, når den bruges som tekst eller som baggrund i standardtemaerne lys og mørk.
+      fail: Ikke bestået
+      foreground: Forgrund
+      light: Lys tilstand
+      pass: Bestået
+      ratio: Kontrastforhold
+      sample: Eksempeltekst
+      text: Tekst
+      title: Forhåndsvisning af kontrast
+      used_as_background: Brugt som baggrund
+      used_as_foreground: Brugt som forgrund
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Rediger farve
     form:
@@ -3828,6 +3860,9 @@ da:
         header: ændringer af %{author}
         migrated: fra Jira
         set_with_diff: "%{field} angivet (%{link})"
+      label_deleted:
+        one: "%{label_names} er slettet"
+        other: "%{label_names} er slettet"
       meeting_cancelled: "(aflyst)"
       meeting_deleted: "(slettet)"
       meeting_series_backlog_html: backlog for mødeserien %{link}
@@ -3871,8 +3906,10 @@ da:
       comment_retracted: Kommentaren er trukket tilbage
       dates_changed: Datoer ændret
       default_attribute_written: Skrivebeskyttede attributter skrevet
+      email_html: "<strong>Via e-mail</strong> fra %{sender}"
       forum_message_html: "<strong>Oprettet ud fra meddelelse i forum</strong> %{message_information}"
       import: Importeret
+      label_deleted: 'Mærkat fjernet:'
       meeting_agenda_item_added_html: "<strong>Tilføjet til mødet</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Tilføjet til</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Drøftet på mødet</strong> %{meeting_title_information}"
@@ -5890,7 +5927,7 @@ da:
           description_file_link_export: Artefaktets arbejdspakke får et fil-link til en PDF i et eksternt fillager. Det kræver et fungerende fillager med automatisk administrerede projektmapper til dette projekt. I øjeblikket understøttes kun Nextcloud-fillagre.
           description_file_storage_selection: Vælg, hvilket af de konfigurerede eksterne fillagre der skal bruges.
           external_file_storage: Eksternt fillager
-          label_artifact_export: Eksport af artefakt
+          label_artefact_export: Eksport af artefakt
           label_attachment_export: Gem som vedhæftet fil på arbejdspakken
           label_file_link_export: Overfør filen til eksternt fillager, og tilføj et fil-link til arbejdspakken
           pdf_file_storage: Fillager til PDF
@@ -6029,8 +6066,8 @@ da:
     status:
       button_edit: Rediger status
     wizard:
-      create_artifact_storage_error: Artefaktet kunne ikke gemmes i fillageret
-      create_artifact_work_package_error: Artefaktets arbejdspakke kunne ikke oprettes
+      create_artefact_storage_error: Artefaktet kunne ikke gemmes i fillageret
+      create_artefact_work_package_error: Artefaktets arbejdspakke kunne ikke oprettes
       no_custom_fields_html: Projektet har ingen projektattributter aktiveret til guiden. Aktivér mindst én i <a href="%{link}">projektindstillingerne</a>.
       no_help_text: Der er ikke defineret nogen hjælpetekst til attributten.
       progress_label: "%{current} af %{total}"
@@ -6062,6 +6099,22 @@ da:
         automatic:
           description: Sortér %{plural} efter et eller flere sorteringskriterier. Den tidligere sortering går tabt.
           heading: Automatisk
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6618,8 +6671,8 @@ da:
 
         '
       name:
-        artifact_name: Artefaktets navn
-        artifact_name_caption: Vælg det navn for artefaktet, som jeres projektmodel anbefaler.
+        artefact_name: Artefaktets navn
+        artefact_name_caption: Vælg det navn for artefaktet, som jeres projektmodel anbefaler.
         options:
           project_creation_wizard: Guide til oprettelse af projekt
           project_initiation_request: Anmodning om projektinitiering
@@ -6818,9 +6871,9 @@ da:
         <br>
         <strong>Bemærk</strong>: Nedarvede værdier (fx fra underordnede eller relationer) gælder fortsat.
       used_by_workflows:
-        one: This status is used by %{count} workflow.
-        other: This status is used by %{count} workflows.
-      view_workflows_button: View workflows
+        one: Statussen bruges af %{count} arbejdsgang.
+        other: Statussen bruges af %{count} arbejdsgange.
+      view_workflows_button: Vis arbejdsgange
     index:
       could_not_be_moved: Statussen kunne ikke flyttes.
       headers:
@@ -6831,8 +6884,8 @@ da:
       no_results_title_text: Der er i øjeblikket ingen statusser for arbejdspakker.
       status_actions: Handlinger for status
       workflows_count:
-        one: "%{count} workflow"
-        other: "%{count} workflows"
+        one: "%{count} arbejdsgang"
+        other: "%{count} arbejdsgange"
   support:
     array:
       sentence_connector: og
@@ -7004,6 +7057,9 @@ da:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: eftermiddag
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: til
     show: Vis tidsramme
@@ -7232,6 +7288,11 @@ da:
         no_inactive_attributes: Ingen inaktive attributter
         not_found: Det ønskede formularelement blev ikke fundet.
         query_group_label: Tabel med relaterede arbejdspakker
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Fjern fra afsnit
         rename_group: Omdøb afsnit
         required:
@@ -7293,8 +7354,6 @@ da:
           no_results: Ingen projekter matcher.
           title: Bruges endnu ikke i noget projekt
         enable_all: Aktivér for alle projekter
-        select_projects: Vælg projekter
-        select_projects_description: Vælg de projekter, hvor du vil bruge typen.
         switch_dialog:
           description: Følgende projekter bruger allerede andre varianter af %{type}. Er du sikker på, at du vil erstatte dem med "%{variant}"? Det påvirker formularer og arbejdsgange i alle disse projekter.
           title: Erstat varianter?

@@ -296,7 +296,7 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
-    describe "labels", with_flag: :work_package_labels do
+    describe "labels" do
       let(:extra_permissions) { %i[edit_work_packages] }
       let(:parameters) do
         super().deep_merge(_links: { labels: [{ href: nil, title: "Needs triage" }] })

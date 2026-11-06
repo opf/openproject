@@ -295,7 +295,7 @@ RSpec.describe UserMailer do
     it_behaves_like "mail is sent" do
       it "includes the password" do
         expect(html_body)
-          .to have_content(pwd)
+          .to have_text(pwd)
       end
     end
   end

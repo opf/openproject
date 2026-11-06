@@ -79,7 +79,7 @@ RSpec.describe "Programs",
 
       program = Project.last
       expect(page).to have_current_path %r{/projects/#{program.identifier}/?}
-      expect(page).to have_content "Foo bar"
+      expect(page).to have_text "Foo bar"
 
       expect(program.name).to eq "Foo bar"
       expect(program.workspace_type).to eq "program"
@@ -92,7 +92,7 @@ RSpec.describe "Programs",
       it "cannot create the program" do
         visit new_program_path
 
-        expect(page).to have_content "[Error 403] You are not authorized to access this page."
+        expect(page).to have_text "[Error 403] You are not authorized to access this page."
       end
     end
   end

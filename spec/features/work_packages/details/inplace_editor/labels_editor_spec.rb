@@ -7,7 +7,7 @@ require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 require "features/page_objects/notification"
 
-RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: true } do
+RSpec.describe "labels inplace editor", :js do
   let(:project) { create(:project) }
   let!(:label) { create(:label, name: "Bug") }
   let!(:other_label) { create(:label, name: "Feature") }

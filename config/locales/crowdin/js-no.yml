@@ -47,6 +47,8 @@
       draggable_hint: 'Dra i tekstbehandlerfeltet for å sette inn bilde eller referansevedlegg. Lukket felt i tekstbehandler åpnes mens du fortsetter å dra det.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Filen er satt i karantene fordi et virus ble funnet. Den er ikke tilgjengelig for nedlasting.
     autocomplete_ng_select:
       add_tag: Legg til element
@@ -1122,7 +1124,6 @@
         default_mode: Flat liste
         display_settings: Skjerminnstillinger
         display_sums_hint: Vis summer av alle summerbare egenskaper i en rad under tabellresultatene.
-        embedded_tab_disabled: Denne konfigurasjons-fanen er ikke tilgjengelig for den innebygde visningen du redigerer.
         hierarchy_hint: Alle filtrerte tabellresultater vil bli forsterket med sine overordnede. Hierarkier kan utvides og kollapses.
         hierarchy_mode: Hierarki
         highlighting: Utheving

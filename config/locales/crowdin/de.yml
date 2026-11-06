@@ -40,7 +40,7 @@ de:
         view: Ein dynamischer Link zu einer Ansicht, der mithilfe eines Makros eingefügt wurde.
         work_package: Ein dynamischer Link auf ein Arbeitspaket, der mithilfe eines Makros eingefügt wurde.
   account:
-    already_have_an_account: You already have an account?
+    already_have_an_account: Sie haben bereits einen Account?
     auth_source_login_html: Bitte melden Sie sich als <em>%{login}</em> an um Ihr Konto zu aktivieren.
     continue_with_provider: Mit %{name} fortfahren
     delete: Konto löschen
@@ -67,15 +67,15 @@ de:
     error_self_registration_limited_provider: 'Die Benutzerregistrierung ist für den Single Sign-On Provider ''%{name}'' eingeschränkt. Bitten Sie einen Administrator, das Konto für Sie zu aktivieren oder die Konfiguration der Selbstregistrierung für diesen Anbieter zu ändern.
 
       '
-    login_title: Sign in to %{app_title}
-    login_with_external_account: Sign in with an external account
-    no_account_yet: You don't have an account yet?
+    login_title: Bitte melden Sie sich an bei %{app_title}
+    login_with_external_account: Mit einem externen Konto anmelden
+    no_account_yet: Sie haben noch kein Konto?
     omniauth_direct_login_continue: Weiter zur Anmeldung
     omniauth_direct_login_redirecting: Sie werden zu Ihrem SSO-Anbieter weitergeleitet…
     omniauth_login: Bitte loggen Sie sich ein um Ihr Konto zu aktivieren.
     signup_title: Erstellen Sie ein Konto bei %{app_title}
     signup_with_external_account: Mit einem externen Konto anmelden
-    username_or_email: Username or email
+    username_or_email: Benutzername oder E-Mail
   actionview_instancetag_blank_option: Bitte auswählen
   activemodel:
     attributes:
@@ -159,7 +159,7 @@ de:
         semantic_key: Semantische Bedeutung
         visible_on_user_card: Auf Benutzerkarte anzeigen
       custom_field/project_specific_value_restriction:
-        restriction: Restriction
+        restriction: Beschränkung
       custom_value:
         value: Wert
       design_color:
@@ -192,7 +192,7 @@ de:
         attribute_groups: Formular
         description: Beschreibung
         name: Name
-        type_variants: Types and variants using this form
+        type_variants: Typen und Varianten, die dieses Formular nutzen
       form_configuration_attribute:
         attribute_key: Attribut
         custom_field: Benutzerdefiniertes Feld
@@ -209,7 +209,7 @@ de:
         row_count: Anzahl der Zeilen
         widgets: Widgets
       group:
-        avatar_color: Fallback color
+        avatar_color: Ersatzfarbe
         avatar_text: Avatartext
         avatar_type: Avatartyp
         group_users: Benutzer der Gruppe
@@ -217,15 +217,15 @@ de:
         organizational_unit: Organisationseinheit
         parent: Übergeordnete Gruppe
       group_detail:
-        avatar_color: Fallback color
+        avatar_color: Ersatzfarbe
         avatar_text: Avatartext
         avatar_type: Avatartyp
         organizational_unit: Organisationseinheit
         parent: Übergeordnete Gruppe
       import/jira:
         auth_method: Authentifizierungsmethode
-        basic_auth_password: Basic auth password
-        basic_auth_username: Basic auth username
+        basic_auth_password: Basic Auth Passwort
+        basic_auth_username: Basic Auth Benutzername
         name: Name der Jira-Instanz
         personal_access_token: Persönlicher Zugangs-Token
         url: URL der Jira-Instanz
@@ -455,7 +455,7 @@ de:
       user_preference:
         auto_hide_popups: Erfolgsbannern automatisch ausblenden
         auto_hide_popups_caption: Wenn diese Funktion aktiviert ist, verschwinden die grünen Erfolgsbanner automatisch nach 5 Sekunden.
-        avatar_color: Fallback color
+        avatar_color: Ersatzfarbe
         avatar_text: Avatartext
         avatar_type: Avatartyp
         button_update_alerts: Warnmeldungen aktualisieren
@@ -645,8 +645,8 @@ de:
         regex_invalid: konnte nicht mit dem zugehörigen regulären Ausdruck überprüft werden.
         regex_list_invalid: Die Zeilen %{invalid_lines} konnten nicht als regulärer Ausdruck gelesen werden.
         regex_match_failed: stimmt nicht mit dem regulären Ausdruck %{expression} überein.
-        replacement_workflow_invalid: The selected replacement must be another available workflow.
-        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
+        replacement_workflow_invalid: Der ausgewählte Ersatz muss ein anderer verfügbarer Workflow sein.
+        replacement_workflow_required: Bevor dieser Workflow gelöscht werden kann, muss ein anderer Workflow als Ersatz ausgewählt werden.
         smaller_than_or_equal_to_max_length: muss kleiner als oder gleich der maximalen Länge sein.
         smaller_than_or_equal_to_max_value: muss kleiner oder gleich dem maximal erlaubtem Wert sein.
         ssrf_filtered: verstößt gegen die SSRF-Richtlinien dieser OpenProject Instanz.
@@ -704,7 +704,7 @@ de:
               invalid_tokens: Nur numerische Werte, mathematische Operatoren, Funktionen, Schlüsselworte und Projektattribute vom Typ Integer, Float, Berechneter Wert und Gewichtete Liste sind erlaubt.
               not_allowed_custom_fields_referenced: Das Attribut %{custom_fields} kann nicht verwendet werden, da es zu einem Zirkelbezug führt; ein Attribut hängt vom anderen ab.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
+              not_supported: ist nur für benutzerdefinierte Felder von Arbeitspaketen der Formate „Liste“, „Hierarchie“ und „gewichtete Elementliste“ verfügbar.
             required:
               cannot_be_true: kann nicht auf 'wahr' gesetzt werden.
           previous_custom_field_recalculation_unprocessed: Die Neuberechnung früherer Änderungen für dieses benutzerdefinierte Feld wurde noch nicht durchgeführt. Bitte versuchen Sie es in ein paar Minuten erneut.
@@ -744,7 +744,7 @@ de:
               group_without_name: Gruppenname darf nicht leer sein.
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
             base:
-              default_undeletable: The default form cannot be deleted. Mark another form as default first.
+              default_undeletable: Das Standardformular kann nicht gelöscht werden. Legen Sie bitte zunächst ein anderes Formular als Standard fest.
         grids/grid:
           end_before_start: der Endwert muss größer sein als der Startwert.
           outside: ist außerhalb des Rasters.
@@ -767,7 +767,7 @@ de:
             name:
               blank: Name darf nicht leer sein.
               format: "%{message}"
-              taken: A label with this name already exists. Please use another one.
+              taken: Ein Label mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.
               too_long: Der Name ist zu lang (maximal %{count} Zeichen).
         ldap_auth_source:
           attributes:
@@ -814,7 +814,7 @@ de:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Sie haben nicht die erforderlichen Berechtigungen, um alle Unterprojekte zu archivieren. Bitte kontaktieren Sie einen Administrator.
-              project_initiation_request_disabled: Die Anfrage zur Projektinitiierung ist deaktiviert. Sie muss aktiviert sein, um das Artefakt-Arbeitspaket zu erstellen.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: Das Modul "%{dependency}" muss ebenfalls aktiviert sein, da das Modul "%{module}" dieses benötigt.
               format: "%{message}"
@@ -828,7 +828,7 @@ de:
               switch_target_blank: Wählen Sie die Variante aus, zu der Sie wechseln möchten
               switch_target_identical: Der Zieltyp muss sich von dem Typ unterscheiden, den das Projekt derzeit verwendet
               switch_target_not_in_family: Es ist nur möglich, zu einer anderen Variante desselben Typs zu wechseln
-          cannot_be_assigned_to_artifact_work_package: Der gewählte Nutzer darf im Arbeitspaket nicht zugewiesen werden.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.
         project/phase:
           attributes:
@@ -1639,6 +1639,10 @@ de:
         button_delete_personal_access_token: PAT löschen
         button_save: Konfiguration speichern
         button_test_connection: Verbindung testen
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1650,6 +1654,7 @@ de:
           personal_access_token: Personal access token (PAT)
           url: Jira Server/Datencenter URL
         label_testing: Teste Konfiguration...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1679,12 +1684,12 @@ de:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Versionen für ‚%{jira_project_name}‘ erstellen
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Anhänge zum Arbeitspaket für ‚%{jira_project_name}‘ herunterladen
           JiraCreateProjectWorkPackagesJob:
             title: Arbeitspakete für ‚%{jira_project_name}‘ erstellen
           JiraCreateUsersJob:
             title: Benutzer erstellen
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Benutzerdefinierte Felder abrufen
           JiraFetchIssueTypesJob:
@@ -1707,6 +1712,9 @@ de:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Sie versuchen ein Projekt mit einem bereits verwendeten Identifikator zu importieren: %{taken_identifier}. Bitte aktualisieren Sie die Projektkennung in Jira und klicken Sie dann auf Wiederholen.'
         remove_error: Ein Jira-Import kann nicht entfernt werden während er läuft
         side_panel:
@@ -1768,6 +1776,9 @@ de:
             projects:
               one: "%{count} Projekt"
               other: "%{count} Projekte"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} Statusse"
@@ -1797,6 +1808,7 @@ de:
               label_available_data: Zu importierende Daten
               label_import_data: Wird gerade importiert
               label_progress: Import läuft...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Nutzer, die an ausgewählten Projekten beteiligt sind (einschließlich Gruppenmitgliedschaften)
               title: Daten importieren
             fetch_data:
@@ -1852,7 +1864,7 @@ de:
                 issue_details: Beschreibung, Verlauf, Kommentare und Anhänge
                 issue_ids: Ticketkennungen
                 issues: Tickets
-                logged_time: Logged time
+                logged_time: Erfasste Zeit
                 permissions: Berechtigungen
                 project_ids: Projektkennungen
                 project_versions: Projektversionen
@@ -1923,10 +1935,12 @@ de:
         error: Beim Testen der Verbindung ist ein unerwarteter Fehler aufgetreten
         failed: 'Verbindung fehlgeschlagen: Serverinformationen können nicht abgerufen werden'
         invalid_url: Bitte eine gültige URL eingeben
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Die Antwort des Servers konnte nicht gelesen werden. Der Server ist möglicherweise keine gültige Jira-Instanz.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Erfolgreich verbunden mit %{server} (Version %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: Unbekannt
@@ -2222,8 +2236,8 @@ de:
         save: Änderungen speichern und fortfahren
         title: Änderungen speichern, bevor Sie fortfahren?
       read_only:
-        edit_action: Edit this workflow
-        text_html: 'Starting version 18.0, workflows are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original workflow or click on <strong>+ %{action}</strong> above to create a new one.
+        edit_action: Workflow bearbeiten
+        text_html: 'Ab Version 18.0 sind Workflows wiederverwendbare Objekte, die für mehrere Typen und Varianten genutzt werden können. Sie können nicht mehr direkt innerhalb eines Typs bearbeitet werden. Um Änderungen vorzunehmen, bearbeiten Sie entweder den ursprünglichen Workflow oder klicken Sie oben auf <strong>+ %{action}</strong>, um einen neuen zu erstellen.
 
           '
         title: Wichtige Änderungen
@@ -2308,6 +2322,8 @@ de:
         emoji_reactions_activity_type_not_supported: Dieser Aktivitätstyp unterstützt keine Emoji-Reaktionen.
         invalid_link: Der Link unter dem Schlüssel '%{key}' ist nicht gültig.
         links_not_an_object: _links muss ein JSON-Objekt sein.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Ungültige Anfrage: %{message}'
       code_401: Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können.
       code_401_wrong_credentials: Die von Ihnen benutzten Zugangsdaten sind nicht korrekt.
@@ -2357,7 +2373,7 @@ de:
       schema: Schema
     undisclosed:
       ancestor: Unbekannt - Das übergeordnete Element ist wegen fehlender Berechtigungen nicht sichtbar.
-      budget: Undisclosed - The budget is invisible because of lacking permissions.
+      budget: Unbekannt - Das Budget ist wegen fehlender Berechtigungen nicht sichtbar.
       definingProject: Unbekannt - Das Projekt ist wegen fehlender Berechtigungen nicht sichtbar.
       definingWorkspace: Unbekannt - Der Arbeitsbereich ist wegen fehlender Berechtigungen nicht sichtbar.
       parent: Unbekannt - Das übergeordnete Element ist wegen fehlender Berechtigungen nicht sichtbar.
@@ -2657,6 +2673,22 @@ de:
       missing_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
       unknown: Ein unbekannter Fehler ist aufgetreten. Bitte überprüfen Sie die Formel für diesen Berechneten Wert.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Farbe bearbeiten
     form:
@@ -3509,7 +3541,7 @@ de:
     button: Formular
     change:
       select:
-        caption: The type shows its work packages with the attribute groups of the form you pick here.
+        caption: Arbeitspakete dieses Typs nutzen die Attributgruppen der Form, die Sie hier auswählen.
         label: Formular
         placeholder: Formular auswählen…
       title: Formular ändern
@@ -3528,24 +3560,24 @@ de:
         label: Beschreibung
       edit_title: Formular bearbeiten
       name:
-        caption: Pick a name that will let you identify this form later in other places.
-        label: Form name
-      new_title: Create form
+        caption: Wählen Sie einen Namen, anhand dessen Sie dieses Formular später an anderer Stelle wiedererkennen können.
+        label: Formularname
+      new_title: Formular anlegen
     index:
       actions:
         edit: Formular bearbeiten
         menu: Aktionen für %{name}
         rename: Name und Beschreibung bearbeiten
       blank_slate:
-        description: Create a form to define the attribute groups a type or variant shows on its work packages.
-        filtered_description: No form matches the current filters.
+        description: Erstellen Sie ein Formular, um die Felder und Abschnitte zu definieren, die ein Typ oder eine Variante in ihren Arbeitspaketen verwendet.
+        filtered_description: Kein Formular entspricht dem aktuellen Filter.
         filtered_title: Es wurden keine passenden Formulare gefunden
         title: Keine Formulare
       columns:
-        name: Form name
+        name: Formularname
         projects: Projekte
         types_and_variants: Typen und Varianten
-      description: Every named work package form in this instance, with the types and variants using it.
+      description: Alle verfügbaren Arbeitspaketformulare und die zugehörigen Typen und Varianten, in denen das Formular verwendet wird.
       filters:
         name: Formular
         name_placeholder: Nach Formularname oder Beschreibung filtern…
@@ -3570,59 +3602,59 @@ de:
       title: Formular auswählen
     start:
       copy:
-        caption: Start with an existing form, change it as you wish and save it as a new form.
-        label: Start with a copy of an existing form
-        missing: Select the form to copy, or start from scratch instead.
+        caption: Beginnen Sie mit einem vorhandenen Formular, passen Sie es nach Belieben an und speichern Sie es als neues Formular.
+        label: Beginnen Sie mit einer Kopie eines vorhandenen Formulars
+        missing: Wählen Sie das Formular aus, das Sie kopieren möchten, oder beginnen Sie stattdessen von Neuem.
       label: Startpunkt
       scratch:
-        caption: Start with the default attribute groups and arrange them yourself.
+        caption: Beginnen Sie mit den Standard-Attributen und ordnen Sie diese nach Ihren Vorstellungen an.
         label: Von Grund auf neu beginnen
-      title: Configure a new form
+      title: Neues Formular konfigurieren
     tab:
       read_only:
-        edit_action: Edit this form
-        text_html: 'Starting version 18.0, forms are reusable objects that can be used across multiple types and variants. They can no longer be edited directly within a type. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+        edit_action: Dieses Formular bearbeiten
+        text_html: 'Ab Version 18.0 sind Formulare wiederverwendbare Objekte, die für mehrere Typen und Varianten genutzt werden können. Sie können nicht mehr direkt innerhalb eines Typs bearbeitet werden. Um Änderungen vorzunehmen, bearbeiten Sie entweder das ursprüngliche Formular oder klicken Sie oben auf <strong>+ Form</strong>, um ein neues zu erstellen.
 
           '
         title: Wichtige Änderungen
     usage:
       dialog:
         button: Abhängige Typen ansehen
-        caption_html: The form %{name} is used in the following types and variants.
-        title: Form used in types
+        caption_html: Das Formular %{name} wird in den folgenden Typen und Varianten verwendet.
+        title: Verwendungen des Formulars in Typen
         variant_of: Variante von %{type}
         variant_of_html: Variante von %{type}
         variants: Varianten
-      unused: No type or variant uses this form yet.
+      unused: Bislang nutzt noch kein Typ und keine Variante diese Form.
       used_by_types:
-        one: This form is used by %{count} type. Changes apply to it.
-        other: This form is used by %{count} types. Changes apply to all of them.
+        one: Dieses Formular wird von %{count} Typ verwendet. Die Änderungen gelten für dieses Formular.
+        other: Dieses Formular wird von %{count} Typen verwendet. Änderungen werden für all diese Typen angewendet.
       used_by_variants:
-        one: This form is used by %{count} type or variant. Changes apply to it.
-        other: This form is used by %{count} types and variants. Changes apply to all of them.
+        one: Dieses Formular wird von %{count} Typ oder Variante verwendet. Die Änderungen werden dort angewendet.
+        other: Dieses Formular wird von %{count} Typen und Varianten verwendet. Änderungen werden für alle angewendet.
     wizard:
       choice:
         existing:
-          caption: Use an existing form for this type with a pre-defined set of attribute groups.
-          label: Use an existing form
+          caption: Verwenden Sie für diesen Typ ein vorhandenes Formular mit einem vordefinierten Satz von Attributgruppen.
+          label: Verwenden Sie ein vorhandenes Formular
         new:
-          caption: Arrange the attribute groups of a new form for this type.
-          label: Configure a new form
+          caption: Legen Sie die Felder und Gruppen eines neuen Formulars für diesen Typ fest.
+          label: Neues Formular konfigurieren
   forums:
     index:
-      could_not_be_moved: Forum could not be moved.
-      forum_actions: Forum actions
-      no_results_title_text: There are currently no forums.
+      could_not_be_moved: Das Forum konnte nicht verschoben werden.
+      forum_actions: Forum-Aktionen
+      no_results_title_text: Derzeit gibt es keine Foren.
     show:
-      last_reply: Last reply
-      new_topic: New topic
-      no_results_title_text: No topics yet
+      last_reply: Letzte Antwort
+      new_topic: Neues Thema
+      no_results_title_text: Noch keine Themen
       sort:
-        fewest_replies: Fewest replies
-        most_replies: Most replies
-        newest: Newest
-        oldest: Oldest
-        oldest_activity: Oldest activity
+        fewest_replies: Wenigste Antworten
+        most_replies: Meiste Antworten
+        newest: Neueste
+        oldest: Älteste
+        oldest_activity: Älteste Aktivität
         recent_activity: Recent activity
       topic: Thema
     topic:
@@ -3826,6 +3858,9 @@ de:
         header: Änderungen durch %{author}
         migrated: aus Jira
         set_with_diff: "%{field} gesetzt (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(abgesagt)"
       meeting_deleted: "(gelöscht)"
       meeting_series_backlog_html: Backlog der Terminserie %{link}
@@ -3869,8 +3904,10 @@ de:
       comment_retracted: Comment retracted
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importiert
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Zur Besprechung hinzugefügt</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Hinzugefügt zu</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Diskutiert in der Besprechung</strong> %{meeting_title_information}"
@@ -5576,8 +5613,8 @@ de:
         label: Inhaltsverzeichnis
     page_nr_footer: Seite %{page} von %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Alle Attribute, die in der aktuellen Formularkonfiguration des Standardtemplates vorhanden sind.
       label: Attribute und Beschreibung
@@ -5890,11 +5927,11 @@ de:
           no_status_when_submitted: Der Antrag auf Projektinitiierung konnte nicht aktiviert werden, da für den Arbeitspaket-Typ %{type} mindestens ein Status erforderlich ist, der mit ihm verknüpft ist. Bitte aktivieren Sie mindestens einen Status-Workflow für diesen Arbeitspaket-Typ.
           no_work_package_type: Die Anfrage zur Projektinitiierung konnte nicht aktiviert werden, da dafür mindestens ein aktiver Arbeitspaket-Typ erforderlich ist und dieses Projekt keinen hat. Bitte fügen Sie diesem Projekt mindestens einen Arbeitspaket-Typ hinzu.
         export:
-          description_attachment_export: Das erzeugte Artefakt wird als PDF-Anhang zum erstellten Arbeitspaket gespeichert.
-          description_file_link_export: Das erstellte Arbeitspaket enthält einen Dateilink zu einer PDF-Datei, die in einem externen Dateispeicher gespeichert ist. Erfordert einen aktiven Dateispeicher mit automatisch verwalteten Projektordnern. Im Moment werden nur Nextcloud-Dateispeicher unterstützt.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Wählen Sie, welcher der konfigurierten externen Dateispeicher verwendet werden soll.
           external_file_storage: Externe Dateispeicher
-          label_artifact_export: Artefakt-Export
+          label_artefact_export: Artefact export
           label_attachment_export: Als Dateianhang des Arbeitspakets speichern
           label_file_link_export: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
           pdf_file_storage: PDF-Datei-Speicherort
@@ -5905,7 +5942,7 @@ de:
           '
       custom_fields:
         changes_heading: Wichtige Änderungen
-        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+        changes_text: 'Ab Version 18.0 werden benutzerdefinierte Felder nicht mehr auf dieser Seite für jedes Projekt einzeln aktiviert oder deaktiviert. Sie sind Bestandteil von Formularen, die von Formulartypen und -varianten verwendet werden. Die folgende Liste zeigt die benutzerdefinierten Felder in den Arbeitspaketen dieses Projekts sowie die Varianten, in denen sie enthalten sind.
 
           '
         column_name: Benutzerdefiniertes Feld
@@ -6033,14 +6070,14 @@ de:
     status:
       button_edit: Status bearbeiten
     wizard:
-      create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
-      create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: Für dieses Projekt sind keine Projektattribute für den Assistenten aktiviert. Bitte aktivieren Sie mindestens eines davon in den <a href="%{link}">Projekteinstellungen</a>.
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
       sidebar_content_title: Inhalt
-      success: Projektattribute gespeichert und Artefakt der Anfrage als Arbeitspaket erstellt.
+      success: Project attributes saved and artefact work package created successfully.
       title: Projektinitiierungsantrag
   pwa:
     offline:
@@ -6066,6 +6103,22 @@ de:
         automatic:
           description: Ordnen Sie %{plural} nach einem oder mehreren Sortierkriterien. Die vorherige Sortierung geht dabei verloren.
           heading: Automatisch
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6622,12 +6675,12 @@ de:
         confirmation_message: Der Projektinitiierungsantrag wird für neue Projekte, die auf dieser Vorlage basieren, nicht mehr verfügbar sein. Projektmanager und Projektverantwortliche müssen die entsprechenden Informationen in der Projektübersicht manuell konfigurieren und ausfüllen.
         heading: Diesen Projektinitiationsantrag deaktivieren?
         title: Projektinitiierungsantrag deaktivieren
-      header_description: 'OpenProject kann einen Schritt-für-Schritt-Assistenten erstellen, der beim Ausfüllen eines Projektinitiierungsantrags unterstützt. Sie können die abgefragten Projektattribute wählen und ein Artefakt als Ergebnis erzeugen lassen.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Name des Artefakts
-        artifact_name_caption: Wählen Sie den Namen für dieses Artefakt, passend zu Ihrer Projektmanagement-Methodik.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Projekterstellungs-Assistent
           project_initiation_request: Projektinitiierungsantrag
@@ -6647,8 +6700,8 @@ de:
           Sie haben einen Antrag auf Projektinitiierung für **%{project_name}** eingereicht. Dieser wartet nun auf seine Überprüfung.
           Klicken Sie auf den untenstehenden Link, um das Arbeitspaket mit Ihrem Antrag aufzurufen.
         confirmation_email_text: Text der Bestätigungs-E-Mail
-        description: Wenn ein Benutzer eine Anfrage zur Projektinitiierung einreicht, wird ein neues Arbeitspaket erstellt, an das ein Artefakt der Anfrage als PDF-Datei angehängt wird. Die folgenden Einstellungen definieren den Typ, den Status und den Empfänger für dieses neue Arbeitspaket.
-        description_template: "**Dieses Arbeitspaket wurde automatisch nach Abschluss des %{wizard_name} Workflows erstellt.** Ein PDF-Artefakt mit allen eingereichten Informationen wurde generiert und zu Referenz- und Prüfzwecken an dieses Arbeitspaket angehängt. Wenn Sie die Einleitungsschritte aktualisieren oder erneut ausführen müssen, können Sie den Assistenten jederzeit über den unten stehenden Link erneut öffnen:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Senden Sie eine Bestätigungs-E-Mail an den Benutzer, der den Projektinitiierungsantrag gestellt hat
         status_when_submitted: Status bei Einreichung
         status_when_submitted_caption: Der Status, in den das erstellte Arbeitspaket übergeht, sobald der Antrag eingereicht wird.
@@ -6656,7 +6709,7 @@ de:
         work_package_comment_caption: Der oben ausgewählte Empfänger wird automatisch in dem Kommentar @erwähnt.
         work_package_comment_default: Ein Antrag auf Projektinitiierung für **%{project_name}** wurde eingereicht und wartet auf seine Prüfung.
         work_package_type: Arbeitspaket-Typ
-        work_package_type_caption: Der Arbeitspaket-Typ, der zum Speichern des Artefakts verwendet wird.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Projekterstellungs-Assistent öffnen
         project_initiation_request: Projektinitiierungsantrag öffnen
@@ -7009,6 +7062,9 @@ de:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: nachmittags
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: bis
     show: Zeitausschnitt anzeigen
@@ -7041,25 +7097,25 @@ de:
   types:
     aspect_descriptions:
       defaults:
-        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
-        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+        type: Legen Sie eine Vorlage für den Beschreibungstext dieses Typs fest und wählen Sie aus, ob die Arbeitspaket-Titel von den Benutzern verfasst oder automatisch generiert werden sollen.
+        variant: Legen Sie eine Vorlage für den Beschreibungstext dieser Variante fest und wählen Sie aus, ob die Arbeitspaket-Titel von den Benutzern verfasst oder automatisch generiert werden sollen.
       details:
-        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
-        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+        type: Legen Sie die grundlegenden Eigenschaften dieses Typs fest, wie beispielsweise Name, Farbe und die Darstellung in Projekten. Projektmitglieder sehen stets diesen Namen, auch wenn ihr Projekt eine Variante verwendet.
+        variant: Benennen Sie diese Variante so, dass Administratoren sie von anderen Varianten unterscheiden können. Projektmitglieder sehen diesen Namen nicht; sie sehen den Namen des übergeordneten Typs.
       form_configuration:
         existing:
-          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
-          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+          type: Dies sind die Felder, die den Projektmitgliedern beim Anlegen oder Bearbeiten eines Arbeitspakets dieses Typs angezeigt werden. Sie können Felder, die Sie ausblenden möchten, deaktivieren.
+          variant: Dies sind die Felder, die den Projektmitgliedern beim Anlegen oder Bearbeiten eines Arbeitspakets dieser Variante angezeigt werden. Sie können Felder, die Sie ausblenden möchten, deaktivieren.
         new:
-          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
-          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
-      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
-      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+          type: Dies sind die Felder, die den Projektmitgliedern beim Anlegen oder Bearbeiten eines Arbeitspakets dieses Typs angezeigt werden. Sie können Felder, die Sie ausblenden möchten, deaktivieren.
+          variant: Dies sind die Felder, die den Projektmitgliedern beim Anlegen oder Bearbeiten eines Arbeitspakets dieser Variante angezeigt werden. Sie können Felder, die Sie ausblenden möchten, deaktivieren.
+      pdf: Wählen Sie aus, welche PDF-Vorlagen bei der Erstellung der PDF-Datei für Arbeitspakete, die diese Einstellungen verwenden, zur Verfügung stehen sollen. Jede Vorlage legt das Layout fest und bestimmt, welche Attribute in der PDF-Datei angezeigt werden. Die erste Vorlage in der Liste ist die Standardvorlage.
+      project_attributes: Wählen Sie aus, welche Projektattribute in den Arbeitspaketen angezeigt werden sollen. Projektmitglieder mit entsprechender Berechtigung können diese auf der Registerkarte „Projektattribute“ des jeweiligen Arbeitspakets einsehen und bearbeiten.
       projects:
-        type: Choose the projects in which this type should be available.
-        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
-      variants: See all variants of this type, including those created by project admins within their projects.
-      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
+        type: Wählen Sie die Projekte aus, in denen dieser Typ verfügbar sein soll.
+        variant: Wählen Sie die Projekte aus, in denen diese Variante verfügbar sein soll. In diesen Projekten ersetzen die Einstellungen der Variante die des übergeordneten Typs.
+      variants: Sehen Sie sich alle Varianten dieser Art an, einschließlich der Varianten, die von Projektadministratoren innerhalb ihrer Projekte erstellt wurden.
+      workflows: Legen Sie fest, welche Statusänderungen die einzelnen Rollen bei Arbeitspaketen dieses Typs vornehmen dürfen. Workflows werden typ- und variantübergreifend als benannte Objekte genutzt.
     comparison:
       action: Varianten vergleichen
       blankslate:
@@ -7111,30 +7167,30 @@ de:
       placeholder_description: Dieser Schritt wird in Kürze verfügbar sein.
       progress_label: Schritt %{number} von %{total}
       start:
-        next_heading: What happens next?
+        next_heading: Was kommt als Nächstes?
         submit: Beginn
         type:
           heading: Neuen Typ erstellen
-          lead_html: You are about to create a new work package type in your instance. A type is a kind of work package, such as a Bug, Task or Milestone, with its own form, workflow and settings.
-          next_steps: You will configure your type in the next steps, choosing the settings that best fit your needs. Once the type exists, you can create variants of it to adapt individual settings without creating another type.
-          objects_description: Form and workflows are standalone objects that can be shared across multiple types and variants. You can select an existing one, create a new one from a copy, or start from scratch.
+          lead_html: Sie sind dabei, in Ihrer Instanz einen neuen Arbeitspaket-Typ anzulegen. Ein Typ ist eine Art von Arbeitspaket – beispielsweise ein Bug, eine Aufgabe oder ein Meilenstein – mit einem eigenen Formular, einem eigenen Workflow und eigenen Einstellungen.
+          next_steps: In den nächsten Schritten werden Sie Ihren Typ konfigurieren und dabei die Einstellungen auswählen, die Ihren Anforderungen am besten entsprechen. Sobald der Typ angelegt ist, können Sie Varianten davon erstellen, um in einzelnen Einstellungen des Typs abzuweichen, ohne einen neuen Typ anlegen zu müssen.
+          objects_description: Formulare und Arbeitsabläufe sind eigenständige Objekte, die für mehrere Typen und Varianten gemeinsam genutzt werden können. Sie können ein vorhandenes Objekt auswählen, ein neues anhand einer Kopie erstellen oder ganz von Grund auf neu beginnen.
           objects_title: Objekte
           options_heading: Einstellungen und Objekte
-          options_intro: A type is made up of two kinds of building blocks.
-          settings_description: Details, defaults, project attributes, projects and PDF export belong to the type itself. You configure them directly for this type.
+          options_intro: Ein Typ besteht aus zwei Arten von Bausteinen.
+          settings_description: Details, Standardwerte, Projektattribute, Projekte und der PDF-Export gehören zum Typ selbst. Sie konfigurieren diese direkt für diesen Typ.
           settings_title: Einstellungen
         variant:
           heading: Neue Variante erstellen
-          inherit_description: The variant uses the parent type's settings. Any changes to the parent type are automatically reflected in the variant.
-          inherit_title: Use the same settings as the type
-          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
-          manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
+          inherit_description: Die Variante übernimmt standardmäßig die Einstellungen des übergeordneten Typs. Alle Änderungen am übergeordneten Typ werden somit automatisch in der Variante übernommen.
+          inherit_title: Verwenden Sie dieselben Einstellungen wie für den Typ
+          lead_html: Sie sind dabei, eine neue Variante von <b>%{type_name}</b> in Ihrer Instanz anlegen. Eine Variante ist eine alternative Version eines Arbeitspakettyps. Sie basiert auf der Konfiguration des ursprünglichen Typs und ermöglicht es Ihnen, einzelne Einstellungen anzupassen, ohne einen völlig neuen Typ anlegen zu müssen. Eine Variante hat wird in Projekten immer mit dem Namen des Typs angezeigt.
+          manual_description: Beginnen Sie mit einer Kopie der aktuellen Einstellungen des übergeordneten Typs und passen Sie diese eigenständig an, oder fangen Sie ganz von vorne an. Änderungen am übergeordneten Typ haben keinen Einfluss auf diese Konfiguration.
           manual_title: Manuelle Konfiguration
-          next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
-          objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
-          objects_heading: Reuse workflow and form objects
-          options_heading: Reuse or customize settings
-          options_intro: For most settings, you can choose whether to use the parent type's configuration or configure it independently. Form and workflows are handled separately below.
+          next_steps: In den nächsten Schritten werden Sie Ihre Variante konfigurieren und dabei die Einstellungen auswählen, die Ihren Anforderungen am besten entsprechen.
+          objects_description: Formulare und Arbeitsabläufe sind eigenständige Objekte, die für mehrere Typen und Varianten gemeinsam genutzt werden können. Sie können ein vorhandenes Objekt auswählen, ein neues anhand einer Kopie erstellen oder ganz von Grund auf neu beginnen.
+          objects_heading: Workflow- und Formularobjekte wiederverwenden
+          options_heading: Einstellungen wiederverwenden oder anpassen
+          options_intro: Bei den meisten Einstellungen können Sie wählen, ob Sie die Konfiguration des übergeordneten Typs verwenden oder diese eigenständig konfigurieren möchten. Formulare und Workflows werden im Folgenden gesondert behandelt.
       steps:
         defaults: Standardwerte
         details: Details
@@ -7153,9 +7209,9 @@ de:
           label: Automatisch generierte Titel
         description:
           caption:
-            type: This text is included by default in the description of every new work package of this type.
-            variant: This text is included by default in the description of every new work package of this variant.
-          label: Description template
+            type: Dieser Text ist standardmäßig in der Beschreibung jedes neuen Arbeitspakets dieses Typs enthalten.
+            variant: Dieser Text ist standardmäßig in der Beschreibung jedes neuen Arbeitspakets dieser Variante enthalten.
+          label: Beschreibungsvorlage
         manually_editable_subjects:
           caption: 'Nutzer: innen können die Titel der Arbeitspakete ohne Einschränkungen manuell eingeben und bearbeiten.'
           label: Manuell bearbeitbare Titel
@@ -7186,13 +7242,13 @@ de:
           file_link:
             caption: Die erstellte PDF-Datei wird in den automatisch verwalteten Nextcloud-Speicher des Projekts hochgeladen und vom Arbeitspaket aus verlinkt. Arbeitspakete in Projekten ohne einen solchen Speicher werden übersprungen.
             label: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: Es wird kein PDF automatisch generiert.
             label: Aus
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: Nicht verfügbar, es ist kein automatisch verwalteter Nextcloud-Speicher konfiguriert
         pdf_export_templates:
           actions:
@@ -7218,7 +7274,7 @@ de:
         confirm_reset: Sind Sie sicher, dass Sie das Formular zurücksetzen möchten?
         custom_field: Benutzerdefiniertes Feld
         defaults_not_generated:
-          already_configured: This form already has groups or attributes.
+          already_configured: Dieses Formular enthält bereits Gruppen oder Attribute.
         delete_group: Abschnitt löschen
         drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
         drag_to_reorder: Ziehen zum Neuordnen
@@ -7239,6 +7295,11 @@ de:
         no_inactive_attributes: Keine inaktiven Attribute
         not_found: Das angeforderte Formularfeld konnte nicht gefunden werden.
         query_group_label: Zugehörige Arbeitspaket-Tabelle
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
         required:
@@ -7246,9 +7307,9 @@ de:
           for_variant: Für diesen Typ erforderlich
           globally: Erforderlich
           globally_hint: Ändern Sie dies im benutzerdefinierten Feld
-          mark: Require for this type
+          mark: Für diesen Typ erforderlich
           not_a_custom_field: Nur ein benutzerdefiniertes Feld kann für einen einzelnen Typ als Pflichtfeld festgelegt werden.
-          unmark: Do not require for this type
+          unmark: Für diesen Typ nicht erforderlich
         reset_description: 'Dadurch werden die Attribute auf ihre Standardgruppe zurückgesetzt und ALLE benutzerdefinierten Felder deaktiviert.
 
           '
@@ -7259,14 +7320,14 @@ de:
         tab: Formular
         untitled_group: Unbenannte Gruppe
       overview:
-        caption: Variants can either use settings from the original type or you can manually configure them to be different. This table shows you where the configuration for each setting comes from.
+        caption: Varianten können entweder die Einstellungen des ursprünglichen Typs übernehmen, oder Sie können sie manuell konfigurieren. Diese Tabelle zeigt Ihnen, woher die Konfiguration für die einzelnen Einstellungen stammt.
         configuration_mode: Konfigurationsmodus
         mode:
           always_manual: Immer manuell
-          inheriting_from_html: Using the same as type (%{source_name})
+          inheriting_from_html: Identisch zum Typ (%{source_name})
           manual: Manuell konfiguriert
-          using_form_html: Using form %{name}
-          using_workflow_html: Using workflow %{name}
+          using_form_html: Verwendet Formular %{name}
+          using_workflow_html: Verwendet Workflow %{name}
         settings: Einstellungen
         tab: Übersicht
       project_attributes:
@@ -7298,12 +7359,10 @@ de:
         empty_state:
           description: Fügen Sie ein Projekt hinzu, das diese Konfiguration verwendet.
           no_results: Keine übereinstimmenden Projekte.
-          title: Not used in any project yet
+          title: Wird in keinem Projekt verwendet
         enable_all: Für alle Projekte aktivieren
-        select_projects: Projekt auswählen
-        select_projects_description: Wählen Sie die Projekte aus, in denen Sie diesen Typ verwenden möchten.
         switch_dialog:
-          description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
+          description: Die folgenden Projekte verwenden bereits andere Varianten für „ %{type}“. Sind Sie sicher, dass Sie diese durch „%{variant}“ ersetzen möchten? Dies hat Auswirkungen auf Formulare und Workflows in all diesen Projekten.
           title: Varianten ersetzen?
         tab: Projekte
         variant_column: Variante oder Typ
@@ -7339,9 +7398,9 @@ de:
             submit: Wechseln
             title: Von einem anderen Typ erben
           invalid_source: Die Konfiguration kann nicht vom ausgewählten Typ geerbt werden. Bitte wählen Sie einen anderen Quelltyp aus.
-          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
-          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
-          mode_label: Use the same settings as the type
+          mode_description: Diese Variante verwendet dieselben Einstellungen wie der Typ ([%{source_name}](source_url)). Alle dort vorgenommenen Änderungen werden automatisch hier übernommen.
+          mode_description_unlinked: Diese Variante verwendet dieselben Einstellungen wie der Typ. Alle dort vorgenommenen Änderungen werden automatisch hier übernommen.
+          mode_label: Gleiche Einstellungen wie der Typ nutzen
           success: Der Konfigurationsmodus wurde gewechselt.
           title: Vererbte Konfiguration
         manual:
@@ -7354,10 +7413,10 @@ de:
           dialog:
             submit: Wechseln
             title: Manuell konfigurieren
-          inherit_from_type: Inherit from parent
+          inherit_from_type: Vom übergeordneten Typ übernehmen
           invalid_mode: Der ausgewählte Modus ist für diese Konfiguration nicht verfügbar. Bitte wählen Sie einen anderen Modus aus.
-          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
-          mode_label: Configure this page manually
+          mode_description: Konfigurieren Sie diese Seite manuell. Änderungen am übergeordneten Typ wirken sich nicht mehr auf sie aus.
+          mode_label: Diese Seite manuell konfigurieren
           modes:
             copy:
               caption: Beginnen Sie mit einer einmaligen Kopie der Einstellungen, die diese Konfiguration derzeit übernimmt.
@@ -7429,7 +7488,7 @@ de:
       make_default: In neuen Projekten aktivieren
       make_default_notice: "%{name} ist nun in neuen Projekten aktiviert."
       migrated_variants_banner:
-        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+        text: 'Im Rahmen der Version 18.0 wurden bei der Migration automatisch einige Varianten erstellt, um projektspezifische Konfigurationen benutzerdefinierter Felder beizubehalten. Diese sind mit "%{label}" gekennzeichnet. Um sie zu entfernen, stellen Sie sicher, dass die betroffenen Projekte eine andere Variante oder einen anderen Typ verwenden, und löschen Sie anschließend die Variante, die vom System migriert wurde. [Klicken Sie hier, um mehr über Typen und Varianten zu erfahren](docs_url).
 
           '
       no_results_content_text: Neuen Typ erstellen
@@ -8096,11 +8155,11 @@ de:
       confirm:
         consequence: Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible.
         description: 'The following statuses don’t exist in the workflow you have selected ("%{name}"):'
-        description_blank: The new workflow has no transitions. All status transitions of %{type} will be removed.
-        description_empty: The workflow you have selected ("%{name}") has no transitions. All status transitions of %{type} will be removed.
+        description_blank: Der neue Workflow hat keine Übergänge. Alle Statusübergänge von %{type} werden entfernt.
+        description_empty: Der ausgewählte Workflow ("%{name}") hat keine Übergänge. Alle Statusübergänge von %{type} werden entfernt.
         title: Use a different workflow for %{name}?
       select:
-        caption: The type uses the status transitions of the workflow you pick here.
+        caption: Der Typ verwendet die Statusübergänge des Workflows, den Sie hier auswählen.
         label: Workflow
         placeholder: Select a workflow…
       title: Change workflow
@@ -8117,13 +8176,13 @@ de:
         dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
-        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
-        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+        one: Dieser Workflow wird derzeit von %{count} Typ oder der Variante verwendet. Bitte wählen Sie einen neuen Workflow aus, durch den dieser ersetzt werden soll.
+        other: Dieser Workflow wird derzeit von %{count} Typen und Varianten verwendet. Bitte wählen Sie einen neuen Workflow aus, durch den dieser ersetzt werden soll.
       body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
       button: Delete workflow
       confirmation_checkbox_label: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann.
       no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
-      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_caption: Der ausgewählte Workflow wird auf alle oben aufgeführten Typen und Varianten angewendet.
       replace_label: Replace with workflow
       replace_placeholder: Select a workflow
       title: Delete workflow %{name}?
@@ -8155,7 +8214,7 @@ de:
         menu: Aktionen für %{name}
         rename: Name und Beschreibung bearbeiten
       blank_slate:
-        description: Create a workflow to define the status transitions a type or variant may use.
+        description: Erstellen Sie einen Workflow, um die Statusübergänge zu definieren, die ein Typ oder eine Variante nutzen kann.
         filtered_description: No workflow matches the current filters.
         filtered_title: No matching workflows
         title: No workflows
@@ -8164,7 +8223,7 @@ de:
         projects: Projekte
         roles: Rollen
         types_and_variants: Typen und Varianten
-      description: Every named set of status transitions in this instance, with the types and variants using it.
+      description: Alle verfügbaren Arbeitspaketformulare und die zugehörigen Typen und Varianten, in denen das Formular verwendet wird.
       filters:
         name: Workflow
         name_placeholder: Filter by workflow name or description…
@@ -8207,25 +8266,25 @@ de:
     usage:
       dialog:
         button: Abhängige Typen ansehen
-        caption_html: The workflow %{name} is used in the following types and variants.
-        title: Workflow used in types
+        caption_html: Der Workflow %{name} wird in den folgenden Typen und Varianten verwendet.
+        title: Verwendungen des Workflows in Typen
         variant_of: Variante von %{type}
         variant_of_html: Variante von %{type}
         variants: Varianten
-      unused: No type or variant uses this workflow yet.
+      unused: Bislang nutzt noch kein Typ und keine Variante diesen Workflow.
       used_by_types:
-        one: This workflow is used by %{count} type. Changes apply to it.
-        other: This workflow is used by %{count} types. Changes apply to all of them.
+        one: Dieser Workflow wird von %{count} Typ verwendet. Änderungen wirken sich auf diesen Typ aus.
+        other: Dieser Workflow wird von %{count} Typen verwendet. Änderungen wirken sich auf alle aus.
       used_by_variants:
-        one: This workflow is used by %{count} type or variant. Changes apply to it.
-        other: This workflow is used by %{count} types and variants. Changes apply to all of them.
+        one: Dieses Formular wird von %{count} Typ oder Variante verwendet. Die Änderungen werden dort angewendet.
+        other: Dieses Formular wird von %{count} Typen und Varianten verwendet. Die Änderungen werden dort angewendet.
     wizard:
       choice:
         existing:
-          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          caption: Verwenden Sie für diesen Typ einen bestehenden Workflow mit vordefinierten Statusübergängen für eine Reihe von Rollen.
           label: Use an existing workflow
         new:
-          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          caption: Erstellen Sie einen neuen Workflow für diesen Typ, indem Sie festlegen, welche Statusübergänge für welche Rollen zulässig sind.
           label: Configure a new workflow
   working_days:
     change_button: Arbeitstage ändern

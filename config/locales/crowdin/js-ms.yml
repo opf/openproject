@@ -47,6 +47,8 @@ ms:
       draggable_hint: 'Tarik ruang pengedit ke imej sebaris atau lampiran rujukan. Ruang pengedit yang ditutup akan dibuka semasa anda menariknya.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Fail ini telah dikuarantin kerana virus telah ditemui. Ia tidak tersedia untuk dimuat turun.
     autocomplete_ng_select:
       add_tag: Tambah item
@@ -1114,7 +1116,6 @@ ms:
         default_mode: Senarai datar
         display_settings: Tetapan paparan
         display_sums_hint: Paparkan jumlah semua atribut yang boleh dijumlahkan dalam baris di bawah hasil jadual.
-        embedded_tab_disabled: Tab konfigurasi ini tidak tersedia untuk paparan tersemat yang anda sedang edit.
         hierarchy_hint: Semua hasil jadual tersaring akan ditambah bersama leluhur mereka. Hierarki boleh dikembang dan ditutup.
         hierarchy_mode: Hierarki
         highlighting: Menyorotkan

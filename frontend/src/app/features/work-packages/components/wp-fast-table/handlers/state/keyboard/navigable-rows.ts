@@ -31,8 +31,7 @@ import { NavigableRow, ROW_KINDS, RowKind } from './focus-position';
 import { navigableCells } from './roving-tabindex';
 import { headerRowOf, totalsRowOf } from '../../../helpers/structural-rows';
 
-export const headerRowKey = 'header';
-export const totalsRowKey = 'totals';
+export { headerRowKey, totalsRowKey } from '../../../row-keys';
 
 export { headerRowOf, totalsRowOf };
 

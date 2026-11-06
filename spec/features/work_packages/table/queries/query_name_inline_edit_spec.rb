@@ -97,9 +97,7 @@ RSpec.describe "Query name inline edit", :js do
     expect(assignee_query.filters.count).to eq(1)
     expect(assignee_query.filters.first.name).to eq :status_id
 
-    url = URI.parse(page.current_url).query
-    expect(url).to include("query_id=#{assignee_query.id}")
-    expect(url).not_to match(/query_props=.+/)
+    expect(page).to have_current_query_params("query_id" => assignee_query.id.to_s)
 
     # Rename query
     query_title.rename "Not my assignee query"

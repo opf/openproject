@@ -47,6 +47,8 @@ vi:
       draggable_hint: 'Kéo trường soạn thảo vào hình ảnh nội tuyến hoặc tệp đính kèm tham chiếu. Các trường soạn thảo đã đóng sẽ được mở trong khi bạn tiếp tục kéo.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Tệp đã được cách ly vì đã tìm thấy vi-rút. Nó không có sẵn để tải về.
     autocomplete_ng_select:
       add_tag: Thêm mục
@@ -1114,7 +1116,6 @@ vi:
         default_mode: Danh sách phẳng
         display_settings: Cài đặt hiển thị
         display_sums_hint: Hiển thị tổng của tất cả các thuộc tính có thể tính tổng trong một hàng bên dưới kết quả của bảng.
-        embedded_tab_disabled: Tab cấu hình này không có sẵn cho chế độ xem được nhúng mà bạn đang chỉnh sửa.
         hierarchy_hint: Tất cả các kết quả bảng đã lọc sẽ được tăng cường với tổ tiên của chúng. Hệ thống phân cấp có thể được mở rộng và thu gọn.
         hierarchy_mode: Hệ thống phân cấp
         highlighting: Làm nổi bật

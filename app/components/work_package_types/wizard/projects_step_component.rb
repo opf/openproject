@@ -27,14 +27,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labels
-  module LabelsFeature
-    extend ActiveSupport::Concern
+module WorkPackageTypes
+  module Wizard
+    # Embeds the projects tab's listing, whose dialogs and actions persist through the tab's own
+    # turbo endpoints; the wizard only navigates between steps.
+    class ProjectsStepComponent < ApplicationComponent
+      def initialize(variant:, reload_url:)
+        super(variant)
 
-    private
+        @reload_url = reload_url
+      end
 
-    def require_work_package_labels_feature
-      render_404 unless OpenProject::FeatureDecisions.work_package_labels_active?
+      def call
+        render(ReloadableConfigurationFrameComponent.new(reload_url: @reload_url, reload_from_location: true)) do
+          safe_join([
+                      render(AspectDescriptionComponent.new(variant: model, aspect: :projects)),
+                      render(helpers.sub_header_component),
+                      render(helpers.projects_table_component)
+                    ])
+        end
+      end
     end
   end
 end

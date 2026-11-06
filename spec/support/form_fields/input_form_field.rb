@@ -33,11 +33,11 @@ module FormFields
   class InputFormField < FormField
     def expect_value(value)
       scroll_to_element(field_container)
-      expect(field_container).to have_css("input") { |el| el.value == value }
+      expect(field_container).to have_field(with: value)
     end
 
     def expect_visible
-      expect(field_container).to have_css("input")
+      expect(field_container).to have_field
     end
 
     ##

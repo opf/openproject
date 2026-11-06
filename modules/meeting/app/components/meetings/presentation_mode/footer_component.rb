@@ -62,11 +62,19 @@ module Meetings
       end
 
       def has_previous?
-        has_previous_item? || @current_slide > 1
+        has_previous_item? || previous_slide?
       end
 
       def has_next?
-        has_next_item? || @current_slide < total_slides
+        has_next_item? || next_slide?
+      end
+
+      def previous_slide?
+        @current_slide > 1
+      end
+
+      def next_slide?
+        @current_slide < total_slides
       end
 
       def has_previous_item?
@@ -86,7 +94,7 @@ module Meetings
       end
 
       def next_item
-        return nil unless has_next_item?
+        return nil if next_slide? || !has_next_item?
 
         if defined?(@next_item)
           @next_item
@@ -97,7 +105,7 @@ module Meetings
       end
 
       def previous_item
-        return nil unless has_previous_item?
+        return nil if previous_slide? || !has_previous_item?
 
         if defined?(@previous_item)
           @previous_item
@@ -107,12 +115,30 @@ module Meetings
         end
       end
 
-      def next_presenter_changed?
-        next_item&.presenter.present? && next_item.presenter != current_item&.presenter
+      def next_presenter
+        return if next_item.nil? || next_item.presenter == current_item.presenter
+
+        next_item.presenter
       end
 
-      def previous_presenter_changed?
-        previous_item&.presenter.present? && previous_item.presenter != current_item&.presenter
+      def previous_presenter
+        return if previous_item.nil? || previous_item.presenter == current_item.presenter
+
+        previous_item.presenter
+      end
+
+      def next_label_text
+        next_slide? ? slide_label(@current_slide + 1) : next_item&.display_title
+      end
+
+      def previous_label_text
+        previous_slide? ? slide_label(@current_slide - 1) : previous_item&.display_title
+      end
+
+      def section_prefix(item)
+        return if item.nil? || item.meeting_section == current_section
+
+        item.meeting_section.title.presence || t("meeting_section.untitled_title")
       end
 
       def progress_text
@@ -126,13 +152,23 @@ module Meetings
       def slide_progress_text
         return if total_slides <= 1
 
-        t("meeting.presentation_mode.slide_progress", current: @current_slide, total: total_slides)
+        slide_text(@current_slide)
+      end
+
+      def slide_text(number)
+        t("meeting.presentation_mode.slide_progress", current: number, total: total_slides)
       end
 
       def running_time
         render(OpPrimer::RelativeTimeComponent.new(datetime: helpers.in_user_zone(@started_at),
                                                    format: :elapsed,
                                                    prefix: nil))
+      end
+
+      private
+
+      def slide_label(number)
+        "#{current_item.display_title}: #{slide_text(number)}"
       end
     end
   end

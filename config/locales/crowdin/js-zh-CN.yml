@@ -47,6 +47,8 @@ zh-CN:
       draggable_hint: '将图片或附件拖到编辑区内即可添加。鼠标在关闭的编辑区上停留将打开这个编辑区。
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: 该文件由于发现了病毒已被隔离。该文件不可下载。
     autocomplete_ng_select:
       add_tag: 添加项目
@@ -1114,7 +1116,6 @@ zh-CN:
         default_mode: 扁平列表
         display_settings: 显示设置
         display_sums_hint: 在表结果下方一行中显示所有可累加属性的总和。
-        embedded_tab_disabled: 此配置选项卡不适用于您正在编辑的嵌入式视图。
         hierarchy_hint: 所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。
         hierarchy_mode: 层次结构
         highlighting: 突出显示

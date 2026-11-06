@@ -119,7 +119,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
     it "does not show the project custom fields page" do
       visit project_settings_project_custom_fields_path(project)
 
-      expect(page).to have_content("You are not authorized to access this page.")
+      expect(page).to have_text("You are not authorized to access this page.")
     end
   end
 
@@ -141,12 +141,12 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
 
       within_custom_field_section_container(section_for_input_fields) do
         within_custom_field_container(boolean_project_custom_field) do
-          expect(page).to have_content("Boolean field")
+          expect(page).to have_text("Boolean field")
           expect_type("Bool")
           expect_unchecked_state
         end
         within_custom_field_container(string_project_custom_field) do
-          expect(page).to have_content("String field")
+          expect(page).to have_text("String field")
           expect_type("Text")
           expect_unchecked_state
         end
@@ -154,7 +154,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
 
       within_custom_field_section_container(section_for_select_fields) do
         within_custom_field_container(list_project_custom_field) do
-          expect(page).to have_content("List field")
+          expect(page).to have_text("List field")
           expect_type("List")
           expect_unchecked_state
         end
@@ -162,7 +162,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
 
       within_custom_field_section_container(section_for_multi_select_fields) do
         within_custom_field_container(multi_list_project_custom_field) do
-          expect(page).to have_content("Multi list field")
+          expect(page).to have_text("Multi list field")
           expect_type("List")
           expect_unchecked_state
         end
@@ -350,16 +350,16 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
       fill_in "border-box-filter", with: "Boolean"
 
       within_custom_field_section_container(section_for_input_fields) do
-        expect(page).to have_content("Boolean field")
-        expect(page).to have_no_content("String field")
+        expect(page).to have_text("Boolean field")
+        expect(page).to have_no_text("String field")
       end
 
       within_custom_field_section_container(section_for_select_fields) do
-        expect(page).to have_no_content("List field")
+        expect(page).to have_no_text("List field")
       end
 
       within_custom_field_section_container(section_for_multi_select_fields) do
-        expect(page).to have_no_content("Multi list field")
+        expect(page).to have_no_text("Multi list field")
       end
     end
 
@@ -487,8 +487,8 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
 
         it "shows the invisible project custom fields" do
           within_custom_field_section_container(section_with_invisible_fields) do
-            expect(page).to have_content("Normal field")
-            expect(page).to have_content("Admin only field")
+            expect(page).to have_text("Normal field")
+            expect(page).to have_text("Admin only field")
           end
         end
 
@@ -527,8 +527,8 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
 
         it "does not show the invisible project custom fields" do
           within_custom_field_section_container(section_with_invisible_fields) do
-            expect(page).to have_content("Normal field")
-            expect(page).to have_no_content("Admin only field")
+            expect(page).to have_text("Normal field")
+            expect(page).to have_no_text("Admin only field")
           end
         end
 
@@ -653,7 +653,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
 
   def expect_type(type)
     within "[data-test-selector='custom-field-type']" do
-      expect(page).to have_content(type)
+      expect(page).to have_text(type)
     end
   end
 

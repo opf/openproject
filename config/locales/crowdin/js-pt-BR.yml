@@ -47,6 +47,8 @@ pt-BR:
       draggable_hint: 'Arraste sobre o campo do editor para incorporar uma imagem ou referenciar um anexo. Campos do editor fechados serão abertos enquanto você continuar arrastando.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: O arquivo foi colocado em quarentena devido à detecção de um vírus. Portanto, não está disponível para download.
     autocomplete_ng_select:
       add_tag: Adicionar item
@@ -1122,7 +1124,6 @@ pt-BR:
         default_mode: Lista plana
         display_settings: Configurações de exibição
         display_sums_hint: Exiba as somas de todos os atributos somáveis na linha abaixo da tabela de resultados.
-        embedded_tab_disabled: Esta aba de configuração não está disponível para a exibição incorporada que você está editando.
         hierarchy_hint: Todos os resultados da tabela filtrada serão aumentados com seus ancestrais. As hierarquias podem ser expandidas e recolhidas.
         hierarchy_mode: Hierarquia
         highlighting: Destacando

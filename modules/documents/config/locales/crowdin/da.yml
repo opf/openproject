@@ -84,6 +84,12 @@ da:
         primary_action: Aktivér samarbejde i realtid
         success: Samarbejde i realtid er blevet aktiveret.
     button_add_type: Type
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Dokumentet og alle vedhæftede filer slettes permanent. Er du sikker på, at du vil gøre det?
       heading: Vil du slette dokumentet?

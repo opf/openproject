@@ -67,7 +67,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     visit document_path(document)
 
     expect(page).to have_test_selector("blocknote-document-description")
-    expect(find("op-block-note", visible: false)["project-id"]).to eq(document.project_id.to_s)
+    expect(find("op-block-note", visible: :all)["project-id"]).to eq(document.project_id.to_s)
   end
 
   it "formats tables with header rows, cell colors and merged cells" do
@@ -148,7 +148,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     it "renders the BlockNote shadow-DOM stylesheet urls prefixed with the relative url root" do
       visit document_path(document)
 
-      block_note_element = find("op-block-note", visible: false)
+      block_note_element = find("op-block-note", visible: :all)
       expect(block_note_element["blocknote-stylesheet-url"])
         .to match(%r{\A/openproject/assets/frontend/blocknote(.*)\.css\z})
       expect(block_note_element["shadow-dom-stylesheet-url"])
@@ -162,7 +162,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
       expect(page).to have_test_selector("blocknote-document-description")
       editor.fill_in("/openproject")
-      expect(editor.content).to have_content("Link existing work package")
+      expect(editor.content).to have_text("Link existing work package")
     end
 
     it "orders results of the work package search by updated at DESC" do

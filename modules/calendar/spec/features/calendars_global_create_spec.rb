@@ -54,7 +54,7 @@ RSpec.describe "Calendar",
 
       it "navigates to the global create form" do
         expect(page).to have_current_path new_calendar_path
-        expect(page).to have_content I18n.t(:label_new_calendar)
+        expect(page).to have_text I18n.t(:label_new_calendar)
       end
     end
   end

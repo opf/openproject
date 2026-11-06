@@ -47,6 +47,8 @@ ru:
       draggable_hint: 'Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Этот файл помещен в карантин, так как в нем обнаружен вирус. Он недоступен для загрузки.
     autocomplete_ng_select:
       add_tag: Добавить элемент
@@ -1140,7 +1142,6 @@ ru:
         default_mode: Простой список
         display_settings: Настройки отображения
         display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под таблицей результатов.
-        embedded_tab_disabled: Эта вкладка конфигурации недоступна для редактируемого вами вида.
         hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их предками. Иерархии можно разворачивать и сворачивать.
         hierarchy_mode: Иерархия
         highlighting: Выделение

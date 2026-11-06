@@ -64,7 +64,7 @@ RSpec.describe "Boards",
 
       it "navigates to the global create form" do
         expect(page).to have_current_path new_work_package_board_path
-        expect(page).to have_content I18n.t("boards.label_create_new_board")
+        expect(page).to have_text I18n.t("boards.label_create_new_board")
       end
     end
   end

@@ -114,20 +114,16 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
             .ensureLoaded(resource.sumsSchema.href!)
             .then(() => {
               if (table.destroyed || this.destroyRef.destroyed || this.workPackageTable !== table || !this.wpTableSums.isEnabled) return;
-              table.keyboardNavigation?.captureOwnership();
-              this.refresh(columns, resource);
-              table.notifyRowsRefreshed(totalsRowKey);
+              table.mutate(new Set([totalsRowKey]), () => this.refresh(columns, resource));
             });
         } else if (this.element.hasChildNodes()) {
-          table.keyboardNavigation?.captureOwnership();
-          this.clear();
-          table.notifyRowsRefreshed(totalsRowKey);
+          table.mutate(new Set([totalsRowKey]), () => this.clear());
         }
       });
   }
 
   private reconcileSemantics(table:WorkPackageTable) {
-    if (!table.destroyed) table.painter.paint(new Set());
+    table.mutate(new Set([totalsRowKey]), () => undefined);
   }
 
   private clear() {

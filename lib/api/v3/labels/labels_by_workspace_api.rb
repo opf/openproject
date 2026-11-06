@@ -34,8 +34,6 @@ module API
       class LabelsByWorkspaceAPI < ::API::OpenProjectAPI
         resources :labels do
           after_validation do
-            raise API::Errors::NotFound unless OpenProject::FeatureDecisions.work_package_labels_active?
-
             authorize_in_project(:view_work_packages, project: @project)
           end
 
