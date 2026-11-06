@@ -134,7 +134,8 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     } else {
       this.displayModeSingle = false;
 
-      params.push({ name: this.I18n.t('js.label_open_work_packages'), props: this.propsOpen });
+      params.push({ name: this.I18n.t('js.label_to_do_work_packages'), props: this.propsToDo });
+      params.push({ name: this.I18n.t('js.label_in_progress_work_packages'), props: this.propsInProgress });
       params.push({ name: this.I18n.t('js.label_closed_work_packages'), props: this.propsClosed });
     }
 
@@ -151,8 +152,12 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     return this.baseProps();
   }
 
-  public get propsOpen() {
-    return this.baseProps({ status: { operator: 'o', values: [] } });
+  public get propsToDo() {
+    return this.baseProps({ status: { operator: 'to_do', values: [] } });
+  }
+
+  public get propsInProgress() {
+    return this.baseProps({ status: { operator: 'in_progress', values: [] } });
   }
 
   public get propsClosed() {

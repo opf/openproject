@@ -36,7 +36,7 @@ RSpec.describe Sprints::Burndown do
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
-  shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
+  shared_let(:closed_status) { create(:status, name: "Closed", category: "closed") }
 
   # A sprint from one Monday to the Friday of the following week: 10 working days
   # around a single weekend.

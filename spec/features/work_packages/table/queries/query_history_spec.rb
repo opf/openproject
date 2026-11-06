@@ -131,7 +131,7 @@ RSpec.describe "Going back and forth through the browser history", :js do
     retry_block do
       filters.open
       filters.expect_open
-      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Status", "open (to-do + in progress)", nil)
       filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
     end
 
@@ -143,7 +143,7 @@ RSpec.describe "Going back and forth through the browser history", :js do
     retry_block do
       filters.open
       filters.expect_open
-      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Status", "open (to-do + in progress)", nil)
       filters.expect_filter_by("Assignee", "is (OR)", user.name)
     end
 
@@ -157,7 +157,7 @@ RSpec.describe "Going back and forth through the browser history", :js do
     retry_block do
       filters.open
       filters.expect_open
-      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Status", "open (to-do + in progress)", nil)
     end
 
     page.execute_script("window.history.forward()")
@@ -168,7 +168,7 @@ RSpec.describe "Going back and forth through the browser history", :js do
     retry_block do
       filters.open
       filters.expect_open
-      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Status", "open (to-do + in progress)", nil)
       filters.expect_filter_by("Assignee", "is (OR)", user.name)
     end
 
@@ -180,7 +180,7 @@ RSpec.describe "Going back and forth through the browser history", :js do
     retry_block do
       filters.open
       filters.expect_open
-      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Status", "open (to-do + in progress)", nil)
       filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
     end
 
@@ -192,7 +192,7 @@ RSpec.describe "Going back and forth through the browser history", :js do
     retry_block do
       filters.open
       filters.expect_open
-      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Status", "open (to-do + in progress)", nil)
       filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
       filters.expect_filter_by("Assignee", "is (OR)", user.name)
     end

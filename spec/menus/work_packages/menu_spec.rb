@@ -36,7 +36,7 @@ RSpec.describe WorkPackages::Menu do
     menu = described_class.new(params: {})
 
     expect(menu.default_queries.map(&:title)).to eq(
-      %i[all_open latest_activity recently_created overdue].map do |query_key|
+      %i[all_open to_do in_progress latest_activity recently_created overdue].map do |query_key|
         I18n.t("js.work_packages.default_queries.#{query_key}")
       end
     )
