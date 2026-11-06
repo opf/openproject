@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Admin text transform actions", :skip_csrf, type: :rails_request, with_ee: %i[mcp_server],
+RSpec.describe "Admin text transform actions", :skip_csrf, type: :rails_request, with_ee: %i[text_assistant],
                                                            with_flag: { ai_text_transform_actions: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
