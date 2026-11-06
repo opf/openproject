@@ -28,20 +28,20 @@ allOf:
             type: array
             items:
               $ref: './project_phase_definition_model.yml'
-example:
-  _type: Collection
-  total: 2
-  count: 2
-  _links:
-    self:
-      href: '/api/v3/project_phase_definitions'
-  _embedded:
-    elements:
-      - id: 14
-        name: "Initiating"
-        _type: ProjectPhaseDefinition
-        _abbreviated: project phase definition resource shortened for brevity
-      - id: 15
-        name: "Executing"
-        _type: ProjectPhaseDefinition
-        _abbreviated: project phase definition resource shortened for brevity
+examples:
+  - _type: Collection
+    total: 2
+    count: 2
+    _links:
+      self:
+        href: '/api/v3/project_phase_definitions'
+    _embedded:
+      elements:
+        - id: 14
+          name: "Initiating"
+          _type: ProjectPhaseDefinition
+          _abbreviated: project phase definition resource shortened for brevity
+        - id: 15
+          name: "Executing"
+          _type: ProjectPhaseDefinition
+          _abbreviated: project phase definition resource shortened for brevity

@@ -95,59 +95,110 @@ module Exports::PDF::Common::Attachments
     tmp_file
   end
 
+  WEBP_BITSTREAM_IDS = %W[VP8\x20 VP8L].map(&:b).freeze
+  WEBP_CONTAINER_ID = "VP8X".b
+  WEBP_ALPHA_ID = "ALPH".b
+  WEBP_ANIMATION_FLAG = 0x02
+  WEBP_ALPHA_FLAG = 0x10
+  WEBP_FRAME_HEADER_SIZE = 16
+
   def convert_webp_to_png(filename)
+    source = webp_single_frame_source(filename)
+    return if source.nil?
+
     tmp_file = temp_image_file(".png")
-
-    # ImageMagick loads ALL frames of an animated WebP into its pixel cache even
-    # when only frame 0 is needed, which can exhaust memory or even cache for large animations.
-    # Instead, parse the RIFF/WEBP binary to extract the first ANMF frame as a
-    # standalone single-frame WebP, then convert only that.
-    source = extract_first_webp_frame(filename) || filename
-
     image = MiniMagick::Image.open(source)
     image.frames.first.write(tmp_file)
     tmp_file
   end
 
-  # Parses the RIFF/WEBP container and extracts the first animation frame
-  # (ANMF chunk) as a standalone single-frame WebP written to a temp file.
-  # Returns nil if the file is not an animated WebP.
-  #
-  # Each ANMF frame in animated WebP is independently encoded (no inter-frame
-  # references), so the raw frame chunk is a valid standalone WebP image.
-  def extract_first_webp_frame(filename) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    data = File.binread(filename)
-    return unless data.bytesize > 12 && data[0, 4] == "RIFF".b && data[8, 4] == "WEBP".b
+  # ImageMagick loads ALL frames of an animated WebP into its pixel cache even when
+  # only frame 0 is needed, which can exhaust memory or even cache for large
+  # animations, so an animation must never reach MiniMagick. Returns the file itself
+  # when it carries no animation, a temp file holding only frame 0 when it does, and
+  # nil when an animation's frame 0 cannot be read - the caller then drops the image.
+  def webp_single_frame_source(filename)
+    animated, frame = scan_webp_animation(File.binread(filename))
+    return filename unless animated
 
-    webp_type = %W[VP8\x20 VP8L VP8X]
+    unless readable_webp_frame?(frame)
+      Rails.logger.error "Skipping animated WebP: frame 0 is not a readable image chunk"
+      return
+    end
+
+    write_single_frame_webp(frame)
+  rescue StandardError => e
+    Rails.logger.error "Failed to extract first webp frame: #{e}"
+    nil
+  end
+
+  # Reports whether the container declares an animation, together with the payload of
+  # its first ANMF chunk - nil when there is none to read.
+  def scan_webp_animation(data)
+    animated = false
+
+    each_webp_chunk(data) do |chunk_id, payload|
+      return [true, payload] if chunk_id == "ANMF".b
+
+      animated ||= chunk_id == WEBP_CONTAINER_ID && payload.getbyte(0)&.anybits?(WEBP_ANIMATION_FLAG)
+    end
+
+    [animated, nil]
+  end
+
+  # A frame opens either with its bitstream or, when it carries transparency, with an
+  # ALPH subchunk holding the alpha plane for the bitstream that follows.
+  def readable_webp_frame?(frame)
+    return false if frame.nil? || frame.bytesize <= WEBP_FRAME_HEADER_SIZE
+
+    image = frame[WEBP_FRAME_HEADER_SIZE..]
+    return true if WEBP_BITSTREAM_IDS.include?(image[0, 4])
+    return false unless image[0, 4] == WEBP_ALPHA_ID && image.bytesize >= 8
+
+    alpha_size = image[4, 4].unpack1("V")
+    WEBP_BITSTREAM_IDS.include?(image[8 + alpha_size + (alpha_size & 1), 4])
+  end
+
+  def each_webp_chunk(data)
+    return unless webp_container?(data)
+
+    size = data.bytesize
     pos = 12
-    while pos + 8 <= data.bytesize
-      chunk_id = data[pos, 4]
+    while pos + 8 <= size
       chunk_size = data[pos + 4, 4].unpack1("V")
-      break if pos + 8 + chunk_size > data.bytesize
-
-      if chunk_id == "ANMF".b && chunk_size > 16
-        # ANMF payload: 16 bytes of frame metadata (position, size, duration, flags)
-        # followed by the frame image data as a VP8 / VP8L / VP8X chunk.
-        # Wrap it in a minimal RIFF/WEBP container to create a single-frame WebP.
-        frame_chunk = data[pos + 8 + 16, chunk_size - 16]
-        # Reject frames whose payload isn't a recognized WebP bitstream type
-        next unless webp_type.map(&:b).include?(frame_chunk[0, 4])
-
-        riff_size = 4 + frame_chunk.bytesize # "WEBP" + frame data
-        tmp_frame = temp_image_file(".webp")
-        File.binwrite(tmp_frame, "RIFF".b + [riff_size].pack("V") + "WEBP".b + frame_chunk)
-        return tmp_frame
-      end
+      yield data[pos, 4], data[pos + 8, chunk_size]
+      # A chunk running past the container ends the walk, but it is still handed over
+      # above so that a truncated animation is recognized as one rather than passed on.
+      break if pos + 8 + chunk_size > size
 
       # RIFF chunks are padded to even byte offsets; use & 1 to get the padding.
       pos += 8 + chunk_size + (chunk_size & 1)
     end
+  end
 
-    nil
-  rescue StandardError => e
-    Rails.logger.error "Failed to extract first webp frame: #{e}"
-    nil
+  def webp_container?(data)
+    data.bytesize > 12 && data[0, 4] == "RIFF".b && data[8, 4] == "WEBP".b
+  end
+
+  # Each ANMF frame in animated WebP is independently encoded (no inter-frame
+  # references), so the raw frame chunk is a valid standalone WebP image once
+  # wrapped in a minimal RIFF/WEBP container.
+  def write_single_frame_webp(frame)
+    image = frame[WEBP_FRAME_HEADER_SIZE..]
+    body = "WEBP".b + webp_extended_header(frame) + image
+    tmp_frame = temp_image_file(".webp")
+    File.binwrite(tmp_frame, "RIFF".b + [body.bytesize].pack("V") + body)
+    tmp_frame
+  end
+
+  # An ALPH subchunk is only legal in the extended format, so such a frame needs a
+  # VP8X header to stand alone. The ANMF frame header stores its width and height in
+  # the same minus-one 24-bit encoding and order as the VP8X canvas, so they copy over.
+  def webp_extended_header(frame)
+    return "".b unless frame[WEBP_FRAME_HEADER_SIZE, 4] == WEBP_ALPHA_ID
+
+    payload = [WEBP_ALPHA_FLAG].pack("C") + ("\0".b * 3) + frame[6, 6]
+    WEBP_CONTAINER_ID + [payload.bytesize].pack("V") + payload
   end
 
   def attachment_by_api_content_src(src)

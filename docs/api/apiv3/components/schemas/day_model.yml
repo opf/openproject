@@ -44,19 +44,19 @@ properties:
           - $ref: './link.yml'
           - description: |-
               The week day for this day.
-example:
-  _type: Day
-  date: '2022-12-25'
-  name: Sunday (Christmas)
-  working: false
-  _links:
-    self:
-      href: /api/v3/days/2022-12-25
-    nonWorkingReasons:
-      - href: /api/v3/days/week/7
+examples:
+  - _type: Day
+    date: '2022-12-25'
+    name: Sunday (Christmas)
+    working: false
+    _links:
+      self:
+        href: /api/v3/days/2022-12-25
+      nonWorkingReasons:
+        - href: /api/v3/days/week/7
+          title: Sunday
+        - href: /api/v3/days/non_working/2022-12-25
+          title: Christmas
+      weekday:
+        href: /api/v3/days/week/7
         title: Sunday
-      - href: /api/v3/days/non_working/2022-12-25
-        title: Christmas
-    weekday:
-      href: /api/v3/days/week/7
-      title: Sunday

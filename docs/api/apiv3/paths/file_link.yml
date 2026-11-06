@@ -43,7 +43,7 @@ delete:
     - File links
   description: |-
     Removes a file link on a work package.
-    
+
     The request contains only the file link identifier as a path parameter. No request body is needed.
   parameters:
     - name: id

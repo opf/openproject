@@ -226,7 +226,7 @@ RSpec.describe "Calendar sharing via ical", :js do
 
         # modal is still shown and error message is shown
         expect(page).to have_css(".spot-modal--header", text: "Subscribe to calendar")
-        expect(page).to have_content("Name is mandatory")
+        expect(page).to have_text("Name is mandatory")
       end
 
       it "validates the uniqueness of a name" do
@@ -253,7 +253,7 @@ RSpec.describe "Calendar sharing via ical", :js do
 
         # modal is still shown and error message is shown
         expect(page).to have_css(".spot-modal--header", text: "Subscribe to calendar")
-        expect(page).to have_content("Name is already in use")
+        expect(page).to have_text("Name is already in use")
       end
     end
   end
@@ -278,7 +278,7 @@ RSpec.describe "Calendar sharing via ical", :js do
       click_button "Save"
 
       expect(page)
-        .to have_content "Successful update."
+        .to have_text "Successful update."
 
       expect(page)
         .to have_field("Enable iCalendar subscriptions", checked: false)

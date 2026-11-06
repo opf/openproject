@@ -160,6 +160,37 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_u
       expect(staged_direct_upload(pending_attachment)).to be_nil
     end
 
+    it "deletes the staged upload only after the transaction is committed" do
+      baseline_transactions = ActiveRecord::Base.connection.open_transactions
+      transactions_at_deletion = nil
+      stored_content_at_deletion = nil
+      allow(DirectFogUploader).to receive(:delete_staged_upload).and_wrap_original do |original, attachment|
+        transactions_at_deletion = ActiveRecord::Base.connection.open_transactions
+        stored_content_at_deletion = stored_content
+        original.call(attachment)
+      end
+
+      job.perform(pending_attachment.id)
+
+      expect(transactions_at_deletion).to eq baseline_transactions
+      expect(stored_content_at_deletion).to eq "test content"
+    end
+
+    context "when storing the final file fails" do
+      before do
+        pending_scope = instance_double(ActiveRecord::Relation, find_by: pending_attachment)
+        allow(Attachment).to receive(:pending_direct_upload).and_return(pending_scope)
+        allow(pending_attachment).to receive(:store_file!).and_raise("storage failure")
+      end
+
+      it "keeps the staged upload and the prepared attachment" do
+        expect { job.perform(pending_attachment.id) }.to raise_error("storage failure")
+
+        expect(Attachment.find(pending_attachment.id)).to be_prepared
+        expect(staged_direct_upload(pending_attachment)).not_to be_nil
+      end
+    end
+
     context "with an isolated upload cache" do
       let(:cache_dir) { Dir.mktmpdir }
 

@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Project status id
-    example: on_track
-    in: path
-    name: id
-    required: true
-    schema:
-      type: string
+    - description: Project status id
+      example: on_track
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
   responses:
     '200':
       content:
@@ -23,7 +23,7 @@ get:
                 id: on_track
                 name: On track
           schema:
-            "$ref": "../components/schemas/view_project_status_model.yml"
+            $ref: "../components/schemas/view_project_status_model.yml"
       description: OK
       headers: {}
     '404':
@@ -40,7 +40,7 @@ get:
       description: Returned if the project status does not exist.
       headers: {}
   tags:
-  - Projects
+    - Projects
   description: ''
   operationId: View_project_status
   summary: View project status

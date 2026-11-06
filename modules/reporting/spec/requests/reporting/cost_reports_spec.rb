@@ -81,6 +81,27 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
 
       expect(response).to have_http_status(:not_found)
     end
+
+    context "with a public report of a project the user cannot view" do
+      let(:other_report) do
+        CostReport.create!(name: "Elsewhere", principal: create(:user), public: true, query: CostReportQuery.new,
+                           project: create(:project, enabled_module_names: %i[costs]))
+      end
+
+      it "404s on the global url" do
+        get reporting_cost_report_path(other_report)
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).not_to include("Elsewhere")
+      end
+
+      it "404s on the url of the user's own project" do
+        get project_reporting_cost_report_path(project, other_report)
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).not_to include("Elsewhere")
+      end
+    end
   end
 
   describe "GET /cost_reports/:id, the pre-migration url" do
@@ -100,6 +121,15 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
 
     it "404s for an id that was never converted" do
       get "/cost_reports/999999"
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "404s for a public report of a project the user cannot view" do
+      CostReport.create!(name: "Elsewhere", principal: create(:user), public: true, query: CostReportQuery.new,
+                         project: create(:project, enabled_module_names: %i[costs]), legacy_cost_query_id: 4712)
+
+      get "/cost_reports/4712"
 
       expect(response).to have_http_status(:not_found)
     end

@@ -5,6 +5,7 @@ import { initializeOpBlockNoteExtensions } from '../lib';
 import { clearWorkPackageCache } from '../lib/services/workPackageLoader';
 import { forgetLastSelection } from '../lib/components/CreateWorkPackage/lastSelection';
 import { clearPickerCache } from '../lib/components/CreateWorkPackage/usePickerOptions';
+import { clearDatePickerSettings } from '../lib/components/CreateWorkPackage/datePickerSettings';
 import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi';
 import { DESKTOP } from './helpers/createWorkPackageHelpers';
 
@@ -13,6 +14,7 @@ beforeEach(async () => {
   clearWorkPackageCache();
   forgetLastSelection();
   clearPickerCache();
+  clearDatePickerSettings();
 });
 
 beforeAll(async () => {

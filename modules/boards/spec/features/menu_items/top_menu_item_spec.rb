@@ -45,8 +45,8 @@ RSpec.describe "Top menu item for boards", :js do
         click_on boards
       end
 
-      expect(page).to have_content(boards)
-      expect(page).to have_content(I18n.t(:no_results_title_text))
+      expect(page).to have_text(boards)
+      expect(page).to have_text(I18n.t(:no_results_title_text))
     end
   end
 
@@ -69,7 +69,7 @@ RSpec.describe "Top menu item for boards", :js do
       current_user { user }
 
       it "does not display the menu item" do
-        within "#op-app-header--modules-menu-list", visible: false do
+        within "#op-app-header--modules-menu-list", visible: :all do
           expect(page).to have_no_link boards
         end
       end

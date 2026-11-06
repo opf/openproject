@@ -28,44 +28,44 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: This collection
-example:
-  _type: "Collection"
-  total: 2
-  count: 2
-  _embedded:
-    elements:
-      - _type: "EmojiReaction"
-        id: "1-thumbs_up"
-        reaction: "thumbs_up"
-        emoji: "👍"
-        reactionsCount: 3
-        firstReactionAt: "2024-04-08T15:37:19.275Z"
-        _links:
-          self:
-            href: "/api/v3/emoji_reactions/1-thumbs_up"
-          reactable:
-            href: "/api/v3/activities/1"
-          reactingUsers:
-            - href: "/api/v3/users/435"
-              title: "John Doe"
-            - href: "/api/v3/users/436"
-              title: "Jane Smith"
-            - href: "/api/v3/users/437"
-              title: "Bob Johnson"
-      - _type: "EmojiReaction"
-        id: "1-heart"
-        reaction: "heart"
-        emoji: "❤️"
-        reactionsCount: 1
-        firstReactionAt: "2024-04-08T15:38:19.275Z"
-        _links:
-          self:
-            href: "/api/v3/emoji_reactions/1-heart"
-          reactable:
-            href: "/api/v3/activities/1"
-          reactingUsers:
-            - href: "/api/v3/users/435"
-              title: "John Doe"
-  _links:
-    self:
-      href: "/api/v3/activities/1/emoji_reactions"
+examples:
+  - _type: "Collection"
+    total: 2
+    count: 2
+    _embedded:
+      elements:
+        - _type: "EmojiReaction"
+          id: "1-thumbs_up"
+          reaction: "thumbs_up"
+          emoji: "👍"
+          reactionsCount: 3
+          firstReactionAt: "2024-04-08T15:37:19.275Z"
+          _links:
+            self:
+              href: "/api/v3/emoji_reactions/1-thumbs_up"
+            reactable:
+              href: "/api/v3/activities/1"
+            reactingUsers:
+              - href: "/api/v3/users/435"
+                title: "John Doe"
+              - href: "/api/v3/users/436"
+                title: "Jane Smith"
+              - href: "/api/v3/users/437"
+                title: "Bob Johnson"
+        - _type: "EmojiReaction"
+          id: "1-heart"
+          reaction: "heart"
+          emoji: "❤️"
+          reactionsCount: 1
+          firstReactionAt: "2024-04-08T15:38:19.275Z"
+          _links:
+            self:
+              href: "/api/v3/emoji_reactions/1-heart"
+            reactable:
+              href: "/api/v3/activities/1"
+            reactingUsers:
+              - href: "/api/v3/users/435"
+                title: "John Doe"
+    _links:
+      self:
+        href: "/api/v3/activities/1/emoji_reactions"

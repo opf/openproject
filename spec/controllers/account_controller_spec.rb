@@ -156,6 +156,16 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(flash[:error]).to include "Invalid user or password"
       end
 
+      it "logs the submitted username on a single line" do
+        allow(Rails.logger).to receive(:warn)
+
+        post :login, params: { username: "probe\n[FORGED] INFO -- : Successful admin login", password: "bad" }
+
+        expect(Rails.logger)
+          .to have_received(:warn)
+          .with(a_string_starting_with('Failed login for "probe\\n[FORGED] INFO -- : Successful admin login" from'))
+      end
+
       context "with unrestricted password login", with_settings: { password_login: "all" } do
         it "does not hint at single sign-on" do
           post :login, params: { username: "admin", password: "bad" }
@@ -485,6 +495,18 @@ RSpec.describe AccountController, :skip_2fa_stage do
       it "is not found" do
         expect(response).to have_http_status :not_found
       end
+    end
+  end
+
+  describe "POST #lost_password" do
+    it "logs an unknown mail on a single line" do
+      allow(Rails.logger).to receive(:error)
+
+      post :lost_password, params: { mail: "nobody@example.com\n[FORGED] INFO -- : Password reset" }
+
+      expect(Rails.logger)
+        .to have_received(:error)
+        .with('Lost password unknown email input: "nobody@example.com\\n[FORGED] INFO -- : Password reset"')
     end
   end
 

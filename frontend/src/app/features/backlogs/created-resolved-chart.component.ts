@@ -38,22 +38,21 @@ import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 type SeriesKey = 'created'|'resolved';
 
 // ORDER IS SIGNIFICANT: the legend and the tooltip read in the order these are declared. It is
-// not the order the lines are drawn in -- resolved never exceeds created, so it takes the lower
-// `order` to be drawn on top and stay visible.
+// not the order the lines are drawn in -- the band is painted with the series that declares it,
+// so created takes the higher `order` to be drawn first and leave both lines above the band.
 //
-// A count is a step function: four work packages hold from the moment the fourth arrived until
-// the fifth does, so both series are stepped rather than interpolated through counts that never
-// existed.
-const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle> = {
+// Which of the two leads is the whole question the chart answers, so the band between them is
+// red while work is arriving faster than it is finished and green while it is not.
+const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle<SeriesKey>> = {
   created: {
     swatch: 'rect',
     borderWidth: 1,
     order: 1,
     stepped: 'after',
-    fill: true,
+    band: { to: 'resolved', above: paleRed, below: paleGreen },
     color: () => ({
       border: getCSSVariable('--display-red-scale-4', '#e5484d'),
-      background: getCSSVariable('--display-red-scale-2', '#fda5a7'),
+      background: paleRed(),
     }),
   },
   resolved: {
@@ -61,10 +60,9 @@ const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle> = {
     borderWidth: 1,
     order: 0,
     stepped: 'after',
-    fill: true,
     color: () => ({
       border: getCSSVariable('--display-green-scale-4', '#30a46c'),
-      background: getCSSVariable('--display-green-scale-2', '#b1efc8'),
+      background: paleGreen(),
     }),
   },
   [NON_WORKING_KEY]: {
@@ -73,6 +71,14 @@ const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle> = {
     color: () => ({ border: nonWorkingDaysColor(), background: nonWorkingDaysColor() }),
   },
 };
+
+function paleRed():string {
+  return getCSSVariable('--display-red-scale-2', '#fda5a7');
+}
+
+function paleGreen():string {
+  return getCSSVariable('--display-green-scale-2', '#b1efc8');
+}
 
 @Component({
   selector: 'op-created-resolved-chart',
@@ -86,8 +92,5 @@ export class CreatedResolvedComponent extends SeriesChartComponent<SeriesKey> {
 
   protected readonly yAxisTitle = this.i18n.t('js.created_resolved_chart.work_packages');
 
-  // Both series are counted at the same ticks, so they share every x value, which is what index
-  // matching needs. The burndown reaches for 'series-at-x' because its series are sampled at
-  // different rates; these are not.
   protected readonly interaction:ChartOptions<'line'>['interaction'] = { mode: 'index', intersect: false };
 }

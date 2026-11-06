@@ -68,7 +68,7 @@ RSpec.describe Projects::RowComponent, type: :component do
       let(:user) { build_stubbed(:anonymous) }
 
       it "renders no action menu" do
-        expect(rendered_component).not_to have_element "action-menu"
+        expect(rendered_component).to have_no_element "action-menu"
       end
     end
 

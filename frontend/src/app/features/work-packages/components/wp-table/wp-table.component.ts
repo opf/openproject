@@ -42,6 +42,7 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { createScrollSync, ScrollSync } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
 import { WpTableHoverSync } from 'core-app/features/work-packages/components/wp-table/wp-table-hover-sync';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
+import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -276,8 +277,11 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   }
 
   private renderHeader():void {
-    this.cdRef.detectChanges();
-    this.workPackageTable?.painter.paint(new Set());
+    if (!this.workPackageTable) {
+      this.cdRef.detectChanges();
+      return;
+    }
+    this.workPackageTable.mutate(new Set([headerRowKey]), () => this.cdRef.detectChanges());
   }
 
   public get isEmbedded() {

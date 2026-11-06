@@ -24,7 +24,9 @@ export default defineConfig({
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled, including their subpaths
-      external: buildExternals.map((name) => new RegExp(`^${name}(/|$)`)),
+      // (except `?inline` imports, which only Vite can resolve)
+      external: (id) => !id.endsWith('?inline')
+        && buildExternals.some((name) => new RegExp(`^${name}(/|$)`).test(id)),
     },
   },
 });
