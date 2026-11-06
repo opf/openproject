@@ -82,11 +82,11 @@ module Sprints
     end
 
     def added_after_start_ids
-      finish_points.keys - start_points.keys
+      @added_after_start_ids ||= finish_points.keys - start_points.keys
     end
 
     def removed_after_start_ids
-      start_points.keys - finish_points.keys
+      @removed_after_start_ids ||= start_points.keys - finish_points.keys
     end
 
     def done_status_ids
@@ -182,7 +182,7 @@ module Sprints
     end
 
     def retained_ids
-      start_points.keys & finish_points.keys
+      @retained_ids ||= start_points.keys & finish_points.keys
     end
 
     def retained_deltas(start_values, finish_values)
