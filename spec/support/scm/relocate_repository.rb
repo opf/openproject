@@ -60,7 +60,7 @@ RSpec.shared_examples_for "repository can be relocated" do |vendor|
       expect(Dir.exist?(repository.managed_repository_path)).to be true
 
       # Rename the project
-      project.update!(identifier: "somenewidentifier")
+      project.update!(identifier: attributes_for(:project)[:identifier])
       repository.reload
 
       job_call
@@ -97,7 +97,7 @@ RSpec.shared_examples_for "repository can be relocated" do |vendor|
       old_identifier = "bar"
 
       # Rename the project
-      project.identifier = "somenewidentifier"
+      project.identifier = attributes_for(:project)[:identifier]
 
       job_call
 

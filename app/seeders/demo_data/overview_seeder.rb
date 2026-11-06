@@ -62,7 +62,7 @@ module DemoData
     def demo_projects_exist?
       identifiers = []
       seed_data.each_data("projects") do |project_data|
-        identifiers << project_data.lookup("identifier")
+        identifiers << ProjectSeeder.identifier(project_data)
       end
 
       identifiers.all? { |identifier| Project.exists?(identifier:) }
@@ -80,7 +80,7 @@ module DemoData
     end
 
     def find_project(project_data)
-      Project.find_by!(identifier: project_data.lookup("identifier"))
+      Project.find_by!(identifier: ProjectSeeder.identifier(project_data))
     end
 
     def create_overview(overview_data, project_data)

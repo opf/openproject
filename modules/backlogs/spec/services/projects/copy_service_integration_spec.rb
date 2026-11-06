@@ -46,7 +46,7 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
 
   let(:instance) { described_class.new(source:, user: current_user) }
   let(:target_project_params) do
-    { name: "Target Project Name", identifier: "some-identifier" }
+    { name: "Target Project Name", identifier: attributes_for(:project)[:identifier] }
   end
   let(:params) do
     { target_project_params:, send_notifications: false }
@@ -323,7 +323,7 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
 
       context "and the copy is moved out of the subtree" do
         let(:target_project_params) do
-          { name: "Target Project Name", identifier: "some-identifier", parent_id: nil }
+          { name: "Target Project Name", identifier: attributes_for(:project)[:identifier], parent_id: nil }
         end
 
         it "keeps the assignment to the borrowed sprint" do

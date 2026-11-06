@@ -28,8 +28,8 @@
 #++
 
 RSpec.shared_context "with seeded projects, members and project custom fields" do |seed_all: true|
-  let(:project) { create(:project, name: "Foo project", identifier: "foo-project") }
-  let(:other_project) { create(:project, name: "Bar project", identifier: "bar-project") }
+  let(:project) { create(:project, name: "Foo project") }
+  let(:other_project) { create(:project, name: "Bar project") }
 
   let(:first_version) { create(:version, name: "Version 1", project:) }
   let(:second_version) { create(:version, name: "Version 2", project:) }

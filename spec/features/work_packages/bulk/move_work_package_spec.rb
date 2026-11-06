@@ -147,7 +147,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
           # Clicking the link directly to save the 2 seconds of auto-click
           click_on(I18n.t("job_status_dialog.redirect_link"))
 
-          expect(page).to have_current_path "/projects/#{project2.identifier}/work_packages/#{work_package.id}/activity"
+          expect(page).to have_current_path "/projects/#{project2.identifier}/work_packages/#{work_package.display_id}/activity"
           page.find_by_id("projects-menu", text: "Target")
         end
       end
@@ -325,7 +325,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
       expect_flash(type: :error,
                    message: I18n.t("work_packages.bulk.could_not_be_saved"))
       expect_flash(type: :error,
-                   message: "#{work_package2.id}: Project #{I18n.t('activerecord.errors.messages.error_readonly')}")
+                   message: "#{work_package2.display_id}: Project #{I18n.t('activerecord.errors.messages.error_readonly')}")
 
       expect_flash(type: :error, message:
         I18n.t("work_packages.bulk.x_out_of_y_could_be_saved",

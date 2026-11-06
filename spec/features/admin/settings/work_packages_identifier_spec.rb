@@ -44,7 +44,8 @@ RSpec.describe "Work packages identifier admin settings", :js do
     expect(page).to have_css("legend", text: "Work package identifier", wait: 10)
   end
 
-  context "when no projects have problematic identifiers" do
+  context "when no projects have problematic identifiers",
+          with_settings: { work_packages_identifier: "classic" } do
     it "saves the setting without showing a dialog" do
       visit_settings
       choose "Project-based semantic identifiers"
@@ -57,7 +58,9 @@ RSpec.describe "Work packages identifier admin settings", :js do
   end
 
   context "when a project has a problematic identifier" do
-    shared_let(:project) { create(:project, identifier: "bad-id", name: "Bad Project") }
+    shared_let(:project) do
+      create(:project, name: "Bad Project").tap { it.update_column(:identifier, "bad-id") }
+    end
 
     context "when switching from semantic to classic", with_settings: { work_packages_identifier: "semantic" } do
       it "saves without showing the confirmation dialog" do
@@ -76,7 +79,7 @@ RSpec.describe "Work packages identifier admin settings", :js do
       end
     end
 
-    context "when switching to semantic" do
+    context "when switching to semantic", with_settings: { work_packages_identifier: "classic" } do
       before do
         visit_settings
         choose "Project-based semantic identifiers"

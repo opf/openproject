@@ -46,13 +46,11 @@ RSpec.describe "Persisted lists on projects index page",
 
   shared_let(:project) do
     create(:project,
-           name: "Plain project",
-           identifier: "plain-project")
+           name: "Plain project")
   end
   shared_let(:public_project) do
     project = create(:project,
                      name: "Public project",
-                     identifier: "public-project",
                      public: true)
     project.custom_field_values = {
       invisible_custom_field.id => "Secret CF",
@@ -64,8 +62,7 @@ RSpec.describe "Persisted lists on projects index page",
   end
   shared_let(:development_project) do
     create(:project,
-           name: "Development project",
-           identifier: "development-project")
+           name: "Development project")
   end
 
   let(:projects_page) { Pages::Projects::Index.new }
@@ -122,7 +119,6 @@ RSpec.describe "Persisted lists on projects index page",
       shared_let(:archived_project) do
         create(:project,
                name: "Archived project",
-               identifier: "archived-project",
                active: false)
       end
 
@@ -389,8 +385,7 @@ RSpec.describe "Persisted lists on projects index page",
 
     let(:another_project) do
       create(:project,
-             name: "Another project",
-             identifier: "another-project")
+             name: "Another project")
     end
 
     let!(:project_member) { create(:member, principal: user, project:, roles: [developer]) }

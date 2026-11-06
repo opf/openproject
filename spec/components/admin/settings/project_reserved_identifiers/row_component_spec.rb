@@ -32,7 +32,7 @@ require "rails_helper"
 RSpec.describe Admin::Settings::ProjectReservedIdentifiers::RowComponent, type: :component do
   include Rails.application.routes.url_helpers
 
-  let!(:project) { create(:project, identifier: "current-id", name: "My Project") }
+  let!(:project) { create(:project, name: "My Project") }
   let!(:slug) { FriendlyId::Slug.create!(sluggable: project, slug: "old-id") }
 
   subject(:rendered_component) do

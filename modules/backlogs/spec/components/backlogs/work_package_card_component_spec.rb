@@ -48,7 +48,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
 
   it "renders the common work package card" do
     expect(rendered_component).to have_text("Backlogs card")
-    expect(rendered_component).to have_text("##{work_package.id}")
+    expect(rendered_component).to have_text(work_package.formatted_id)
   end
 
   it "renders story points as the card metric" do

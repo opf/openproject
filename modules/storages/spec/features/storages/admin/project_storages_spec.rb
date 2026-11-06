@@ -183,8 +183,8 @@ RSpec.describe "Admin lists project mappings for a storage",
     end
 
     it_behaves_like "a fill-in project autocompleter searchable by identifier" do
-      let(:target_project) { create(:project, name: "Searched Storage Project", identifier: "searched-storage-project") }
-      let(:control_project) { create(:project, name: "Unrelated Storage Project", identifier: "unrelated-storage-project") }
+      let(:target_project) { create(:project, name: "Searched Storage Project") }
+      let(:control_project) { create(:project, name: "Unrelated Storage Project") }
 
       before do
         click_on "Add projects"

@@ -153,12 +153,12 @@ RSpec.shared_examples "notification settings workflow" do
       # Membership is required for the autocompleter to offer these projects at
       # all when the logged-in user is not an admin (as in "as a regular user").
       let(:target_project) do
-        create(:project, name: "Alpha Initiative", identifier: "zulu-target", members: { user => role })
+        create(:project, name: "Alpha Initiative", members: { user => role })
       end
       # A project without notification settings of its own, so that it is
       # offered by the autocompleter unless the search filters it out.
       let(:control_project) do
-        create(:project, name: "Beta Initiative", identifier: "yankee-other", members: { user => role })
+        create(:project, name: "Beta Initiative", members: { user => role })
       end
 
       before do

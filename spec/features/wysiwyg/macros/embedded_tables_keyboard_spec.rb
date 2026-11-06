@@ -82,7 +82,7 @@ RSpec.describe "Wiki embedded work package table keyboard navigation", :js do
     end
 
     it_behaves_like "an embedded keyboard table", editable: true do
-      let(:first_row_controls) { [rows.first.id.to_s] }
+      let(:first_row_controls) { [rows.first.display_id.to_s] }
       let(:next_control) { { role: :button, name: "Create new work package" } }
       let(:axe_states) do
         [lambda do

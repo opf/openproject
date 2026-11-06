@@ -156,7 +156,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
     end
 
     context "when the branch name buries a semantic identifier" do
-      let(:work_package) { create(:work_package, identifier: "PROJ-42") }
+      let(:work_package) { create(:work_package).tap { it.update_columns(identifier: "PROJ-42") } }
       let(:branch_name) { "update-on-proj-42-send-invitation-to-speakers" }
 
       it "still matches the work package" do
@@ -182,7 +182,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
     end
 
     context "when the branch name uses a semantic identifier" do
-      let(:work_package) { create(:work_package, identifier: "PROJ-42") }
+      let(:work_package) { create(:work_package).tap { it.update_columns(identifier: "PROJ-42") } }
       let(:branch_name) { "bug/proj-42-fix-the-thing" }
 
       it "matches the work package despite the lowercased branch name" do

@@ -129,7 +129,7 @@ RSpec.describe "Custom fields reporting", :js do
 
       # Expect row of work package
       within("#result-table") do
-        expect(page).to have_css("a.work_package", text: "#{work_package.type} ##{work_package.id}")
+        expect(page).to have_css("a.work_package", text: "#{work_package.type} #{work_package.formatted_id}")
         # There used to be additional and unwanted text after the option name being rendered.
         expect(page).to have_css("th.inner", text: /^First option$/)
         expect(page).to have_no_css("th.inner", text: "Second option")
@@ -191,7 +191,7 @@ RSpec.describe "Custom fields reporting", :js do
 
         # Expect row of work package
         within("#result-table") do
-          expect(page).to have_css("a.work_package", text: "#{work_package.type} ##{work_package.id}")
+          expect(page).to have_css("a.work_package", text: "#{work_package.type} #{work_package.formatted_id}")
           expect(page).to have_css("th.inner", text: "1")
           expect(page).to have_no_css("th.inner", text: "invalid!")
         end
@@ -223,7 +223,7 @@ RSpec.describe "Custom fields reporting", :js do
 
       # Expect row of work package
       within("#result-table") do
-        expect(page).to have_css("a.work_package", text: "#{work_package.type} ##{work_package.id}")
+        expect(page).to have_css("a.work_package", text: "#{work_package.type} #{work_package.formatted_id}")
         expect(page).to have_css("th.inner", text: "foo")
         expect(page).to have_no_css("th.inner", text: "None")
 

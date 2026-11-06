@@ -64,7 +64,7 @@ RSpec.describe OpPrimer::WorkPackageCardComponent, type: :component do
 
   it "renders the work-package info line (type + id)" do
     expect(rendered_component).to have_text("FEATURE")
-    expect(rendered_component).to have_text("##{work_package.id}")
+    expect(rendered_component).to have_text(work_package.formatted_id)
   end
 
   it "renders the subject in semibold text" do

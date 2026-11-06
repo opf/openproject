@@ -30,8 +30,8 @@
 require "spec_helper"
 
 RSpec.describe "Projects custom fields mapping via project settings", :js do
-  let(:project) { create(:project, name: "Foo project", identifier: "foo-project") }
-  let(:other_project) { create(:project, name: "Bar project", identifier: "bar-project") }
+  let(:project) { create(:project, name: "Foo project") }
+  let(:other_project) { create(:project, name: "Bar project") }
 
   let!(:user_with_sufficient_permissions) do
     create(:user,

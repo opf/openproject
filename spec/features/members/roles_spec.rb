@@ -34,7 +34,6 @@ RSpec.describe "Members Role CRUD", :js do
   let(:project) do
     create(:project,
            name: "Project 1",
-           identifier: "project1",
            members: {
              alice => beta,
              bob => alpha

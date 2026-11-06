@@ -69,7 +69,7 @@ module Pages
 
       def click_id(notification)
         within_item(notification) do
-          click_on("##{notification.resource.id}")
+          click_on(notification.resource.formatted_id)
         end
       end
 

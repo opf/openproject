@@ -134,7 +134,7 @@ RSpec.describe "Work package navigation", :js do
     # Back to split screen using the button
     full_work_package.go_back
     global_work_packages.expect_work_package_listed(work_package)
-    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}"
+    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.display_id}"
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)
@@ -190,7 +190,7 @@ RSpec.describe "Work package navigation", :js do
 
     wait_for_network_idle
 
-    page.find(".wp-table--cell-td.id a", text: work_package.id, wait: 20).click
+    page.find(".wp-table--cell-td.id a", text: work_package.display_id, wait: 20).click
 
     full_page = Pages::FullWorkPackage.new work_package, work_package.project
     full_page.ensure_page_loaded

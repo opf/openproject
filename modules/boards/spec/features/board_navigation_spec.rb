@@ -35,8 +35,7 @@ RSpec.describe "Work Package boards spec",
     create(:user,
            member_with_roles: { project => role })
   end
-  # The identifier is important to test https://community.openproject.com/wp/29754
-  let(:project) { create(:project, identifier: "boards", enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:permissions) { %i[show_board_views manage_board_views add_work_packages view_work_packages manage_public_queries] }
   let(:role) { create(:project_role, permissions:) }
   let(:admin) { create(:admin) }
@@ -70,7 +69,7 @@ RSpec.describe "Work Package boards spec",
       .find_test_selector("op-wp-single-card--content-type")
       .double_click
 
-    expect(page).to have_current_path project_work_package_path(project, wp.id, "activity")
+    expect(page).to have_current_path project_work_package_path(project, wp, "activity")
 
     # Click back goes back to the board
     page.go_back
@@ -83,7 +82,7 @@ RSpec.describe "Work Package boards spec",
     split_view = card.open_details_view
     split_view.expect_subject
 
-    expect(page).to have_current_path /details\/#{wp.id}/
+    expect(page).to have_current_path /details\/#{wp.display_id}/
     card.expect_selected
     split_view.close
 
@@ -99,28 +98,33 @@ RSpec.describe "Work Package boards spec",
 
     # Click on the card again
     card.open_details_view
-    expect(page).to have_current_path /details\/#{wp.id}/
+    expect(page).to have_current_path /details\/#{wp.display_id}/
   end
 
-  it "navigates correctly the path from overview page to the boards page",
-     # The polling interval is only lowered as the sidemenu relies on Angular's change
-     # detection to be updated. This is a bug.
-     # In reality, it does not really matter as the user will always move the mouse or do
-     # a similar action.
-     with_settings: { notifications_polling_interval: 1_000 } do
-    visit project_path(project)
+  shared_examples "navigation from the overview page to the boards page" do
+    it "navigates correctly the path from overview page to the boards page" do
+      visit project_path(project)
 
-    page.find_test_selector("main-menu-toggler--boards", wait: 10).click
+      page.find_test_selector("main-menu-toggler--boards", wait: 10).click
 
-    subitem = page.find_test_selector("op-submenu--item-action", text: "My board", wait: 10)
-    # Ends with boards due to lazy route
-    expect(subitem[:href]).to end_with project_work_package_board_path(project, board_view.id)
+      subitem = page.find_test_selector("op-submenu--item-action", text: "My board", wait: 10)
+      # Ends with boards due to lazy route
+      expect(subitem[:href]).to end_with project_work_package_board_path(project, board_view.id)
 
-    subitem.click
+      subitem.click
 
-    board_page = Pages::Board.new board_view
-    board_page.expect_query "List 1", editable: true
-    board_page.add_card "List 1", "Task 1"
+      board_page = Pages::Board.new board_view
+      board_page.expect_query "List 1", editable: true
+      board_page.add_card "List 1", "Task 1"
+    end
+  end
+
+  # The polling interval is only lowered as the sidemenu relies on Angular's change
+  # detection to be updated. This is a bug.
+  # In reality, it does not really matter as the user will always move the mouse or do
+  # a similar action.
+  context "with a lowered polling interval", with_settings: { notifications_polling_interval: 1_000 } do
+    it_behaves_like "navigation from the overview page to the boards page"
   end
 
   it "navigates from boards to the WP details view then go to full view then go back (see #33747)" do
@@ -140,7 +144,7 @@ RSpec.describe "Work Package boards spec",
     split_view = card.open_details_view
     split_view.expect_subject
     split_view.switch_to_tab tab: :relations
-    expect(page).to have_current_path /details\/#{wp.id}\/relations/
+    expect(page).to have_current_path /details\/#{wp.display_id}\/relations/
 
     # Go to full view of WP
     full_view = split_view.switch_to_fullscreen
@@ -150,7 +154,7 @@ RSpec.describe "Work Package boards spec",
     full_view.go_back
     split_view.expect_subject
 
-    expect(page).to have_current_path /details\/#{wp.id}\/relations/
+    expect(page).to have_current_path /details\/#{wp.display_id}\/relations/
     split_view.expect_tab "Relations"
   end
 
@@ -209,5 +213,13 @@ RSpec.describe "Work Package boards spec",
     wait_for_network_idle
 
     expect(page).to have_current_path "/projects/#{project.identifier}/work_packages"
+  end
+
+  # Only classic identifiers can be lowercase and thus equal the boards route segment.
+  context "with a project identified as 'boards' (Regression #29754)",
+          with_settings: { work_packages_identifier: "classic", notifications_polling_interval: 1_000 } do
+    let(:project) { create(:project, identifier: "boards", enabled_module_names: %i[work_package_tracking board_view]) }
+
+    it_behaves_like "navigation from the overview page to the boards page"
   end
 end

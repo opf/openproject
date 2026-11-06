@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe Gantt::GanttController do
-  shared_let(:project) { create(:project, identifier: "test_project", public: false) }
+  shared_let(:project) { create(:project, public: false) }
 
   current_user do
     create(:user,

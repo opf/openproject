@@ -31,6 +31,8 @@ require "spec_helper"
 require "rack/test"
 
 RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_good_job_batches: [CopyProjectJob] do
+  let(:copy_identifier) { attributes_for(:project)[:identifier] }
+
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -97,7 +99,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
     describe "with attributes given" do
       let(:params) do
         { name: "My copied project",
-          identifier: "my-copied-project",
+          identifier: copy_identifier,
           text_custom_field.attribute_name(:camel_case) => {
             raw: "CF text"
           } }
@@ -134,7 +136,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
           .to be_json_eql("Created project My copied project".to_json)
                 .at_path("message")
 
-        project = Project.find_by(identifier: "my-copied-project")
+        project = Project.find_by(identifier: copy_identifier)
         expect(project).to be_present
 
         expect(project.custom_value_for(text_custom_field).value).to eq "CF text"
@@ -145,7 +147,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
     describe "with internal copying" do
       let(:params) do
         { name: "My copied project",
-          identifier: "my-copied-project",
+          identifier: copy_identifier,
           _meta: {
             copyWorkPackages: true,
             copyWiki: false
@@ -155,7 +157,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
       it "does not copy the wiki" do
         GoodJob.perform_inline
 
-        project = Project.find_by(identifier: "my-copied-project")
+        project = Project.find_by(identifier: copy_identifier)
         expect(project).to be_present
 
         expect(source_project.wiki.pages.count).to eq 1
@@ -169,7 +171,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
     describe "sendNotifications" do
       let(:params) do
         { name: "My copied project",
-          identifier: "my-copied-project",
+          identifier: copy_identifier,
           _meta: {
             sendNotifications:
           } }

@@ -29,7 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe ProjectIdentifiers::RevertProjectToClassicService do
+RSpec.describe ProjectIdentifiers::RevertProjectToClassicService, :classic_identifiers do
   describe "#call" do
     context "when the project has a classic identifier in FriendlyId history" do
       let!(:project) do

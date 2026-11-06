@@ -1507,7 +1507,7 @@ module Settings
                      "(e.g. 'PROJA-123').",
         format: :string,
         allowed: -> { Setting::WorkPackageIdentifier::ALLOWED_VALUES },
-        default: "classic"
+        default: "semantic"
       },
       work_package_list_default_highlighted_attributes: {
         default: ["status", "priority", "due_date"],

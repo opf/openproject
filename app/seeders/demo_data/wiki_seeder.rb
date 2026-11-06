@@ -29,6 +29,8 @@
 
 module DemoData
   class WikiSeeder < Seeder
+    include References
+
     attr_reader :project
     alias_method :project_data, :seed_data
 
@@ -69,7 +71,7 @@ module DemoData
         title: data[:title],
         parent:,
         author: admin_user,
-        text: data[:content]
+        text: with_references(data[:content], tags: %w[project])
       )
 
       print_status "."

@@ -41,7 +41,7 @@ RSpec.describe Bim::Bcf::IssuesController do
 
   let(:non_member) { create(:user) }
   let(:project) do
-    create(:project, enabled_module_names: %w[bim], identifier: "bim_project")
+    create(:project, enabled_module_names: %w[bim])
   end
   let(:member) do
     create(:member,
@@ -123,7 +123,7 @@ RSpec.describe Bim::Bcf::IssuesController do
       it "redirects back to where we started from" do
         expect { action }.not_to change { Attachment.count }
         expect(response).to have_http_status 302
-        expect(response.headers["Location"]).to end_with "/projects/bim_project/issues/upload"
+        expect(response.headers["Location"]).to end_with "/projects/#{project.identifier}/issues/upload"
       end
     end
   end

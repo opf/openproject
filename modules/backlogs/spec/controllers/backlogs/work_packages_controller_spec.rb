@@ -1211,7 +1211,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
 
       it "embeds the no-sprint work_packages path in the dialog form action URL" do
-        expect(body).to include("backlogs/work_packages/#{inbox_work_package.id}/move")
+        expect(body).to include("backlogs/work_packages/#{inbox_work_package.to_param}/move")
         expect(body).not_to include("sprints")
       end
 

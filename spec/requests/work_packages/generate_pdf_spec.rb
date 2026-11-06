@@ -93,7 +93,7 @@ RSpec.describe "POST work package generate_pdf", :skip_csrf, type: :rails_reques
     end
 
     it "still shows the work package" do
-      get "/projects/#{project.id}/work_packages/#{work_package.id}/activity"
+      get "/projects/#{project.id}/work_packages/#{work_package.to_param}/activity"
 
       expect(response).to have_http_status(:ok)
     end

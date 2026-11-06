@@ -117,10 +117,11 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   end
 
   context "updating the form payload" do
+    let(:copy_identifier) { attributes_for(:project)[:identifier] }
     let(:params) do
       {
         name: "My copied project",
-        identifier: "foobar",
+        identifier: copy_identifier,
         text_custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         },
@@ -136,18 +137,14 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
       }
     end
 
-    it "sets those values" do
+    it "sets the attribute values" do
       expect(response.body)
         .to be_json_eql("My copied project".to_json)
               .at_path("_embedded/payload/name")
 
       expect(response.body)
-        .to be_json_eql("foobar".to_json)
+        .to be_json_eql(copy_identifier.to_json)
               .at_path("_embedded/payload/identifier")
-
-      expect(response.body)
-        .to be_json_eql(api_v3_paths.project_status("on_track").to_json)
-              .at_path("_embedded/payload/_links/status/href")
 
       expect(response.body)
         .to be_json_eql("A magic dwells in each beginning.".to_json)
@@ -156,6 +153,12 @@ RSpec.describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
       expect(response.body)
         .to be_json_eql("CF text".to_json)
               .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+    end
+
+    it "sets the linked values and the form links" do
+      expect(response.body)
+        .to be_json_eql(api_v3_paths.project_status("on_track").to_json)
+              .at_path("_embedded/payload/_links/status/href")
 
       expect(response.body)
         .to be_json_eql(list_custom_field.custom_options.first.value.to_json)

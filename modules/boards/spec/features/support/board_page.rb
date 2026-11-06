@@ -115,7 +115,7 @@ module Pages
       select_autocomplete(page.find("ng-select.wp-inline-create--reference-autocompleter"),
                           query: work_package.subject,
                           results_selector: "body",
-                          select_text: "##{work_package.id}")
+                          select_text: work_package.formatted_id)
 
       expect_card(list_name, work_package.subject)
     end

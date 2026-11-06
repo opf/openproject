@@ -246,6 +246,11 @@ module Pages
     # Clicks on the row of the specified work package.
     #
     # @param work_package [WorkPackage] The work package object.
+    # The id cell is mostly covered by the link to the full view, which a click on the cell center would follow.
+    def id_cell_click_offset(cell)
+      { x: 0, y: -(cell.evaluate_script("this.getBoundingClientRect().height") / 2) + 2 }
+    end
+
     def click_on_row(work_package)
       loading_indicator_saveguard
       row(work_package).click
@@ -271,7 +276,7 @@ module Pages
     # @param work_package [WorkPackage] The work package object.
     # @return [Pages::FullWorkPackage] The full work package page oobject.
     def open_full_screen_by_link(work_package)
-      row(work_package).click_link(work_package.id.to_s)
+      row(work_package).click_link(work_package.display_id.to_s)
 
       FullWorkPackage.new(work_package)
     end

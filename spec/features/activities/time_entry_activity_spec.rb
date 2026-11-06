@@ -73,7 +73,7 @@ RSpec.describe "TimeEntry activity",
     click_button "Apply"
 
     within("li.op-activity-list--item", match: :first) do
-      expect(page).to have_link("#{project.enabled_types.first} ##{work_package.id}: #{work_package.subject}")
+      expect(page).to have_link("#{project.enabled_types.first} #{work_package.formatted_id}: #{work_package.subject}")
       expect(page).to have_css("li", text: "Spent time: 5 hours")
       expect(page).to have_link("Details")
       click_link("Details")
@@ -82,7 +82,7 @@ RSpec.describe "TimeEntry activity",
     wait_for_reload
 
     wp_autocompleter = find("opce-autocompleter#work_package_id_select_1")
-    expect_current_autocompleter_value(wp_autocompleter, "##{work_package.id} #{work_package.subject}")
+    expect_current_autocompleter_value(wp_autocompleter, "#{work_package.formatted_id} #{work_package.subject}")
 
     old_comments = time_entry.comments
     old_spent_on = time_entry.spent_on
@@ -105,7 +105,7 @@ RSpec.describe "TimeEntry activity",
     click_button "Apply"
 
     within("li.op-activity-list--item", match: :first) do
-      expect(page).to have_link("#{project.enabled_types.first} ##{work_package2.id}: #{work_package2.subject}")
+      expect(page).to have_link("#{project.enabled_types.first} #{work_package2.formatted_id}: #{work_package2.subject}")
       expect(page).to have_css("li", text: "Logged for #{user2.name}")
       expect(page).to have_css("li",
                                text: "Logged for changed from #{work_package.name} to #{work_package2.name}")
@@ -120,6 +120,6 @@ RSpec.describe "TimeEntry activity",
     wait_for_reload
 
     wp_autocompleter = find("opce-autocompleter#work_package_id_select_1")
-    expect_current_autocompleter_value(wp_autocompleter, "##{work_package2.id} #{work_package2.subject}")
+    expect_current_autocompleter_value(wp_autocompleter, "#{work_package2.formatted_id} #{work_package2.subject}")
   end
 end

@@ -32,7 +32,7 @@ require "spec_helper"
 RSpec.describe "Homescreen", "index" do
   let(:admin) { create(:admin) }
   let(:user) { build_stubbed(:user) }
-  let!(:project) { create(:public_project, identifier: "public-project") }
+  let!(:project) { create(:public_project) }
   let(:general_settings_page) { Pages::Admin::SystemSettings::General.new }
   let(:global_html_title) { Components::HtmlTitle.new }
 
@@ -49,7 +49,7 @@ RSpec.describe "Homescreen", "index" do
 
   context "with a dynamic URL in the welcome text" do
     before do
-      Setting.welcome_text = "With [a link to the public project]({{opSetting:base_url}}/projects/public-project)"
+      Setting.welcome_text = "With [a link to the public project]({{opSetting:base_url}}/projects/#{project.identifier})"
       Setting.welcome_on_homescreen = true
     end
 
@@ -57,7 +57,7 @@ RSpec.describe "Homescreen", "index" do
       login_as user
       visit root_url
       expect(page)
-        .to have_css("a[href=\"#{Rails.application.root_url}/projects/public-project\"]")
+        .to have_css("a[href=\"#{Rails.application.root_url}/projects/#{project.identifier}\"]")
 
       click_link "a link to the public project"
       expect(page).to have_current_path project_path(project)
@@ -77,7 +77,7 @@ RSpec.describe "Homescreen", "index" do
 
       visit root_url
       expect(page)
-        .to have_css("a[href=\"#{Rails.application.root_url}/projects/public-project\"]")
+        .to have_css("a[href=\"#{Rails.application.root_url}/projects/#{project.identifier}\"]")
 
       click_link "a link to the public project"
       expect(page).to have_current_path /#{Regexp.escape(project_path(project))}\/?$/

@@ -33,9 +33,9 @@ require Rails.root.join("db/migrate/20260312121938_initialize_historic_identifie
 RSpec.describe InitializeHistoricIdentifiers, type: :model do
   subject(:execute_migration) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 
-  let!(:project1) { create(:project, identifier: "project-one") }
-  let!(:project2) { create(:project, identifier: "project-two") }
-  let!(:project3) { create(:project, identifier: "project-three") }
+  let!(:project1) { create(:project) }
+  let!(:project2) { create(:project) }
+  let!(:project3) { create(:project) }
 
   it "succeeds" do
     expect { execute_migration }.not_to raise_error
@@ -47,7 +47,7 @@ RSpec.describe InitializeHistoricIdentifiers, type: :model do
 
     slug1 = FriendlyId::Slug.find_by(sluggable_id: project1.id, sluggable_type: "Project")
     expect(slug1).to have_attributes(
-      slug: "project-one",
+      slug: project1.identifier,
       sluggable_id: project1.id,
       sluggable_type: "Project",
       scope: nil
@@ -55,7 +55,7 @@ RSpec.describe InitializeHistoricIdentifiers, type: :model do
 
     slug2 = FriendlyId::Slug.find_by(sluggable_id: project2.id, sluggable_type: "Project")
     expect(slug2).to have_attributes(
-      slug: "project-two",
+      slug: project2.identifier,
       sluggable_id: project2.id,
       sluggable_type: "Project",
       scope: nil
@@ -63,7 +63,7 @@ RSpec.describe InitializeHistoricIdentifiers, type: :model do
 
     slug3 = FriendlyId::Slug.find_by(sluggable_id: project3.id, sluggable_type: "Project")
     expect(slug3).to have_attributes(
-      slug: "project-three",
+      slug: project3.identifier,
       sluggable_id: project3.id,
       sluggable_type: "Project",
       scope: nil

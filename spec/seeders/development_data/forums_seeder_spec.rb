@@ -38,7 +38,7 @@ RSpec.describe DevelopmentData::ForumsSeeder do
     end
 
     context "with the dev-forums project" do
-      let!(:project) { create(:project, identifier: "dev-forums") }
+      let!(:project) { create(:project, identifier: DevelopmentData::ProjectsSeeder.identifier("dev-forums")) }
 
       it "is applicable while the project has no forums" do
         expect(seeder).to be_applicable
@@ -53,7 +53,11 @@ RSpec.describe DevelopmentData::ForumsSeeder do
   end
 
   describe "#seed_data!" do
-    shared_let(:project) { create(:project, identifier: "dev-forums", enabled_module_names: %w[work_package_tracking]) }
+    shared_let(:project) do
+      create(:project,
+             identifier: DevelopmentData::ProjectsSeeder.identifier("dev-forums"),
+             enabled_module_names: %w[work_package_tracking])
+    end
     shared_let(:task) { create(:type, name: "Task") }
     shared_let(:status) { create(:default_status) }
     shared_let(:priority) { create(:default_priority) }

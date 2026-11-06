@@ -125,8 +125,8 @@ RSpec.describe "Project Custom Field Mappings", :js do
     end
 
     it_behaves_like "a fill-in project autocompleter searchable by identifier" do
-      let(:target_project) { create(:project, name: "Alpha Initiative", identifier: "zulu-target") }
-      let(:control_project) { create(:project, name: "Beta Initiative", identifier: "yankee-other") }
+      let(:target_project) { create(:project, name: "Alpha Initiative") }
+      let(:control_project) { create(:project, name: "Beta Initiative") }
 
       before do
         click_on "Add projects"

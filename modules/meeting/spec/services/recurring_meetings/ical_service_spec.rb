@@ -36,7 +36,7 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
                   mail: "bob@example.com", preferences: { time_zone: "America/New_York" })
   end
   shared_let(:user2) { create(:user, firstname: "Foo", lastname: "Fooer", mail: "foo@example.com") }
-  shared_let(:project) { create(:project, name: "My Project", identifier: "my-project") }
+  shared_let(:project) { create(:project, name: "My Project") }
 
   shared_let(:series) do
     create(:recurring_meeting,

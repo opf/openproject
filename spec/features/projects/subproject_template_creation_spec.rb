@@ -98,10 +98,9 @@ RSpec.describe "Creating subproject with predefined template from quick add menu
           .detect { |mail| mail.subject == "Created project New Subproject" }
 
         expect(mail).not_to be_nil
-        expect(page).to have_current_path /\/projects\/new-subproject\/?/, wait: 20
+        subproject = Project.find_by!(name: "New Subproject")
+        expect(page).to have_current_path %r{/projects/#{subproject.identifier}/?}, wait: 20
 
-        subproject = Project.find_by identifier: "new-subproject"
-        expect(subproject.name).to eq "New Subproject"
         expect(subproject).not_to be_templated
         expect(subproject.parent).to eq(parent_project)
       end

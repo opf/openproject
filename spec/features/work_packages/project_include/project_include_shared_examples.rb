@@ -51,7 +51,7 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
   end
 
   shared_let(:other_project) do
-    create(:project, name: "Other project", identifier: "unrelated-slug", enabled_module_names: enabled_modules)
+    create(:project, name: "Other project", enabled_module_names: enabled_modules)
   end
 
   shared_let(:other_sub_project) do

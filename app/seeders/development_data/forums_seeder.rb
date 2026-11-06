@@ -29,14 +29,13 @@
 
 module DevelopmentData
   class ForumsSeeder < Seeder
-    PROJECT_IDENTIFIER = "dev-forums"
     CONTENT_FILE = Rails.root.join("app/seeders/development_data/forums.yml")
     MINUTES_BETWEEN_REPLIES = 40
 
     def seed_data!
       print_status " ↳ Creating development forums..."
 
-      project = Project.find_by!(identifier: PROJECT_IDENTIFIER)
+      project = Project.find_by!(identifier: project_identifier)
       project.enabled_module_names = project.enabled_module_names | %w[forums]
 
       without_notifications do
@@ -45,10 +44,14 @@ module DevelopmentData
     end
 
     def applicable?
-      Project.find_by(identifier: PROJECT_IDENTIFIER)&.forums&.none? || false
+      Project.find_by(identifier: project_identifier)&.forums&.none? || false
     end
 
     private
+
+    def project_identifier
+      ProjectsSeeder.identifier("dev-forums")
+    end
 
     def seed_forum(project, data)
       forum = project.forums.create!(name: data["name"], description: data["description"])

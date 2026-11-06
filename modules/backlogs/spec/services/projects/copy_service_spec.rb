@@ -39,7 +39,7 @@ RSpec.describe Projects::CopyService, "backlogs settings", type: :model do
   let(:instance) { described_class.new(source:, user:) }
   let(:params) do
     {
-      target_project_params: { name: "Copied Project", identifier: "copied-project" },
+      target_project_params: { name: "Copied Project", identifier: attributes_for(:project)[:identifier] },
       only: []
     }
   end

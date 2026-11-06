@@ -177,8 +177,10 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         context "with work package list" do
           context "with classic (numeric) identifiers" do
             it "displays a hash-prefixed numeric id link for each work package" do
-              assert_select "ul li a", text: /\A#{Regexp.escape(work_package1.type.to_s)} ##{work_package1.id}\z/
-              assert_select "ul li a", text: /\A#{Regexp.escape(work_package2.type.to_s)} ##{work_package2.id}\z/
+              assert_select "ul li a",
+                            text: /\A#{Regexp.escape(work_package1.type.to_s)} #{Regexp.escape(work_package1.formatted_id)}\z/
+              assert_select "ul li a",
+                            text: /\A#{Regexp.escape(work_package2.type.to_s)} #{Regexp.escape(work_package2.formatted_id)}\z/
             end
           end
 

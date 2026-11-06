@@ -29,7 +29,7 @@
 
 require "rails_helper"
 
-RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator do
+RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator, :classic_identifiers do
   describe ".call" do
     context "when given an empty array" do
       it "returns an empty array" do
@@ -38,7 +38,7 @@ RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestio
     end
 
     context "when a project has a too-long identifier" do
-      shared_let(:project) { create(:project, identifier: "verylongidentifier", name: "Very Long Identifier") }
+      let!(:project) { create(:project, identifier: "verylongidentifier", name: "Very Long Identifier") }
 
       it "returns one suggestion entry for the project" do
         result = described_class.call([project])
@@ -51,7 +51,7 @@ RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestio
     end
 
     context "when a project has a special-character identifier" do
-      shared_let(:project) { create(:project, identifier: "f-s", name: "Fly Sky") }
+      let!(:project) { create(:project, identifier: "f-s", name: "Fly Sky") }
 
       it "returns a suggestion entry with a suggested_identifier" do
         result = described_class.call([project])
@@ -61,8 +61,8 @@ RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestio
     end
 
     context "when multiple projects generate conflicting identifiers" do
-      shared_let(:project_sc1) { create(:project, identifier: "sc-app",         name: "Stream Communicator") }
-      shared_let(:project_sc2) { create(:project, identifier: "stream-channel", name: "Stream Channel") }
+      let!(:project_sc1) { create(:project, identifier: "sc-app",         name: "Stream Communicator") }
+      let!(:project_sc2) { create(:project, identifier: "stream-channel", name: "Stream Channel") }
 
       it "generates unique identifiers for each project" do
         identifiers = described_class.call([project_sc1, project_sc2]).pluck(:suggested_identifier)

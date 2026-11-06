@@ -60,7 +60,7 @@ RSpec.describe DevelopmentData::ProjectsSeeder do
     end
 
     context "with a project having identifier 'dev-empty'" do
-      before { create(:project, identifier: "dev-empty") }
+      before { create(:project, identifier: described_class.identifier("dev-empty")) }
 
       it "returns false" do
         expect(project_seeder).not_to be_applicable
@@ -68,7 +68,7 @@ RSpec.describe DevelopmentData::ProjectsSeeder do
     end
 
     context "with a project having identifier 'dev-work-package-sharing'" do
-      before { create(:project, identifier: "dev-work-package-sharing") }
+      before { create(:project, identifier: described_class.identifier("dev-work-package-sharing")) }
 
       it "returns false" do
         expect(project_seeder).not_to be_applicable
@@ -76,7 +76,7 @@ RSpec.describe DevelopmentData::ProjectsSeeder do
     end
 
     context "with a project having identifier 'dev-large'" do
-      before { create(:project, identifier: "dev-large") }
+      before { create(:project, identifier: described_class.identifier("dev-large")) }
 
       it "returns false" do
         expect(project_seeder).not_to be_applicable
@@ -84,7 +84,7 @@ RSpec.describe DevelopmentData::ProjectsSeeder do
     end
 
     context "with a project having identifier 'dev-large-child'" do
-      before { create(:project, identifier: "dev-large-child") }
+      before { create(:project, identifier: described_class.identifier("dev-large-child")) }
 
       it "returns false" do
         expect(project_seeder).not_to be_applicable
@@ -92,7 +92,7 @@ RSpec.describe DevelopmentData::ProjectsSeeder do
     end
 
     context "with a project having identifier 'dev-custom-fields'" do
-      before { create(:project, identifier: "dev-custom-fields") }
+      before { create(:project, identifier: described_class.identifier("dev-custom-fields")) }
 
       it "returns false" do
         expect(project_seeder).not_to be_applicable
@@ -100,7 +100,7 @@ RSpec.describe DevelopmentData::ProjectsSeeder do
     end
 
     context "with a project having identifier 'dev-forums'" do
-      before { create(:project, identifier: "dev-forums") }
+      before { create(:project, identifier: described_class.identifier("dev-forums")) }
 
       it "returns false" do
         expect(project_seeder).not_to be_applicable

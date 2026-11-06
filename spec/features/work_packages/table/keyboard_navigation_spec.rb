@@ -105,7 +105,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.focus_row_by_keyboard(sibling)
 
     wp_table.press_keys(:tab)
-    expect(page).to have_link(sibling.id.to_s, focused: true)
+    expect(page).to have_link(sibling.display_id.to_s, focused: true)
     wp_table.press_keys(:tab)
     wp_table.expect_focus_on_control(sibling, "Open details view")
     wp_table.press_keys(:tab)
@@ -126,7 +126,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.press_keys(%i[shift tab])
     wp_table.expect_focus_on_control(sibling, "Open details view")
     wp_table.press_keys(%i[shift tab])
-    expect(page).to have_link(sibling.id.to_s, focused: true)
+    expect(page).to have_link(sibling.display_id.to_s, focused: true)
     wp_table.press_keys(%i[shift tab])
     wp_table.expect_focus_on_row(sibling)
     wp_table.press_keys(%i[shift tab])
@@ -230,7 +230,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
     it_behaves_like "an embedded keyboard table", drag_and_drop_enabled: true do
       let(:rows) { [child, sibling, parent] }
-      let(:first_row_controls) { [child.id.to_s, "Open details view", "Open context menu"] }
+      let(:first_row_controls) { [child.display_id.to_s, "Open details view", "Open context menu"] }
       let(:next_control) { { role: :button, name: "Create new work package" } }
       let(:context_menu_enabled) { true }
       let(:axe_states) { [-> { wp_table.expect_focus_on_row(rows.first) }] }
@@ -361,7 +361,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
       wp_table.focus_row_by_keyboard(excluded)
       wp_table.press_keys(:tab)
-      expect(page).to have_link(excluded.id.to_s, focused: true)
+      expect(page).to have_link(excluded.display_id.to_s, focused: true)
       wp_table.press_keys(:tab)
       expect(page).to have_button("Status excluded from hierarchy totals", focused: true)
       wp_table.press_keys(:tab)

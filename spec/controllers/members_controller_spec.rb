@@ -31,7 +31,7 @@ require "spec_helper"
 
 RSpec.describe MembersController do
   shared_let(:admin) { create(:admin) }
-  shared_let(:project) { create(:project, identifier: "pet_project") }
+  shared_let(:project) { create(:project) }
 
   let(:user) { create(:user) }
   let(:role) { create(:project_role) }
@@ -278,7 +278,7 @@ RSpec.describe MembersController do
           .to change(Member, :count).by(1)
           .and change(User, :count).by(0)
 
-        expect(response).to redirect_to "/projects/pet_project/members?status=all"
+        expect(response).to redirect_to "/projects/#{project.identifier}/members?status=all"
 
         # The hidden user should now be a member of the project
         hidden_user.reload
@@ -328,7 +328,7 @@ RSpec.describe MembersController do
 
       it "adds a member" do
         expect { action }.to change(Member, :count).by(1)
-        expect(response).to redirect_to "/projects/pet_project/members?status=all"
+        expect(response).to redirect_to "/projects/#{project.identifier}/members?status=all"
         expect(user2).to be_member_of(project)
       end
     end
@@ -344,7 +344,7 @@ RSpec.describe MembersController do
 
       it "adds all members" do
         expect { action }.to change(Member, :count).by(3)
-        expect(response).to redirect_to "/projects/pet_project/members?status=all"
+        expect(response).to redirect_to "/projects/#{project.identifier}/members?status=all"
         expect(user2).to be_member_of(project)
         expect(user3).to be_member_of(project)
         expect(user4).to be_member_of(project)
@@ -376,7 +376,7 @@ RSpec.describe MembersController do
       end
 
       it "redirects to the members list" do
-        expect(response).to redirect_to "/projects/pet_project/members?status=all"
+        expect(response).to redirect_to "/projects/#{project.identifier}/members?status=all"
       end
 
       it "adds members" do
@@ -411,7 +411,7 @@ RSpec.describe MembersController do
       end
 
       it "does not redirect to the members index" do
-        expect(response).not_to redirect_to "/projects/pet_project/members"
+        expect(response).not_to redirect_to "/projects/#{project.identifier}/members"
       end
 
       it "shows an error message" do
@@ -452,7 +452,7 @@ RSpec.describe MembersController do
 
       it "destroys the project role member" do
         expect { action }.to change(Member, :count).by(-1)
-        expect(response).to redirect_to "/projects/pet_project/members"
+        expect(response).to redirect_to "/projects/#{project.identifier}/members"
         expect(user).not_to be_member_of(project)
       end
     end
@@ -462,7 +462,7 @@ RSpec.describe MembersController do
 
       it "destroys the project role member" do
         expect { action }.to change(Member, :count).by(-2)
-        expect(response).to redirect_to "/projects/pet_project/members"
+        expect(response).to redirect_to "/projects/#{project.identifier}/members"
         expect(user).to be_member_of(project)
       end
     end
@@ -472,7 +472,7 @@ RSpec.describe MembersController do
 
       it "destroys the project role member" do
         expect { action }.to change(Member, :count).by(-3)
-        expect(response).to redirect_to "/projects/pet_project/members"
+        expect(response).to redirect_to "/projects/#{project.identifier}/members"
         expect(user).not_to be_member_of(project)
       end
     end
@@ -495,7 +495,7 @@ RSpec.describe MembersController do
 
     it "updates the member" do
       expect { action }.not_to change(Member, :count)
-      expect(response).to redirect_to "/projects/pet_project/members"
+      expect(response).to redirect_to "/projects/#{project.identifier}/members"
     end
 
     context "when the member is a group" do
@@ -516,7 +516,7 @@ RSpec.describe MembersController do
 
       it "updates the group member instead of returning a 404" do
         action
-        expect(response).to redirect_to "/projects/pet_project/members"
+        expect(response).to redirect_to "/projects/#{project.identifier}/members"
         expect(member.reload.roles).to contain_exactly(role2)
       end
     end

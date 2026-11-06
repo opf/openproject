@@ -52,9 +52,9 @@ RSpec.describe McpTools::SearchProjects do
   let(:call_args) { {} }
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
 
-  let!(:project_a) { create(:project, identifier: "abc", name: "The ABC Project", status_code: :on_track) }
-  let!(:project_b) { create(:project, identifier: "def", name: "The DEF Project", status_code: :off_track) }
-  let!(:portfolio) { create(:portfolio, identifier: "ghi", name: "The unrelated Portfolio", status_code: :on_track) }
+  let!(:project_a) { create(:project, name: "The ABC Project", status_code: :on_track) }
+  let!(:project_b) { create(:project, name: "The DEF Project", status_code: :off_track) }
+  let!(:portfolio) { create(:portfolio, name: "The unrelated Portfolio", status_code: :on_track) }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
@@ -80,7 +80,7 @@ RSpec.describe McpTools::SearchProjects do
     end
 
     context "when passing an exact identifier" do
-      let(:call_args) { { identifier: "abc" } }
+      let(:call_args) { { identifier: project_a.identifier } }
 
       it "finds the project" do
         mcp_request
@@ -89,7 +89,7 @@ RSpec.describe McpTools::SearchProjects do
     end
 
     context "when passing a non-exact identifier" do
-      let(:call_args) { { identifier: "Abc" } }
+      let(:call_args) { { identifier: project_a.identifier.swapcase } }
 
       it "does not find the project" do
         mcp_request
@@ -117,7 +117,6 @@ RSpec.describe McpTools::SearchProjects do
 
         project_count.times do |idx|
           create(:project,
-                 identifier: "p#{idx}",
                  name: "Death Star construction phase #{idx}",
                  status_code: :on_track)
         end
@@ -161,7 +160,7 @@ RSpec.describe McpTools::SearchProjects do
       end
 
       context "and when passing a project identifier" do
-        let(:call_args) { { status_code: "on_track", identifier: "abc" } }
+        let(:call_args) { { status_code: "on_track", identifier: project_a.identifier } }
 
         it "finds the project" do
           mcp_request
@@ -170,7 +169,7 @@ RSpec.describe McpTools::SearchProjects do
       end
 
       context "and when passing the project identifier of a project in a different status" do
-        let(:call_args) { { status_code: "on_track", identifier: "def" } }
+        let(:call_args) { { status_code: "on_track", identifier: project_b.identifier } }
 
         it "does not find the project" do
           mcp_request

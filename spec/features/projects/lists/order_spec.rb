@@ -35,13 +35,13 @@ RSpec.describe "Projects lists ordering", :js, with_settings: { login_required?:
   shared_let(:custom_field) { create(:text_project_custom_field) }
   shared_let(:invisible_custom_field) { create(:project_custom_field, admin_only: true) }
 
-  shared_let(:project) { create(:project, name: "Plain project", identifier: "plain-project") }
+  shared_let(:project) { create(:project, name: "Plain project") }
   shared_let(:public_project) do
-    create(:project, name: "Public Pr", identifier: "public-pr", public: true) do |project|
+    create(:project, name: "Public Pr", public: true) do |project|
       project.custom_field_values = { invisible_custom_field.id => "Secret CF" }
     end
   end
-  shared_let(:development_project) { create(:project, name: "Development project", identifier: "development-project") }
+  shared_let(:development_project) { create(:project, name: "Development project") }
 
   let(:projects_page) { Pages::Projects::Index.new }
 
