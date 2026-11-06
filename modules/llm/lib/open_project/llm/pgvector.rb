@@ -32,8 +32,10 @@ module OpenProject
     # pgvector is optional while installations catch up on installing it.
     #
     # Migrations that need it live in db/migrate_requires_pgvector, which is only added to
-    # the migration paths once the extension is installed. Until then they are
+    # the migration paths once the extension can be created. Until then they are
     # neither run nor reported as pending, and a later db:migrate picks them up.
+    # The extension itself is created by a migration in that path, so installation goes
+    # through the regular migration pipeline instead of a single connection.
     # Making pgvector mandatory means moving them into db/migrate and deleting this.
     module Pgvector
       EXTENSION = "vector"
@@ -65,7 +67,7 @@ module OpenProject
         end
 
         def enable
-          failure = create_extension
+          failure = probe_extension
           include_migrations_path! if failure.nil?
           failure
         end
@@ -102,12 +104,14 @@ module OpenProject
 
         private
 
-        def create_extension
+        # Rolled back on purpose: the EnablePgvector migration installs the extension, not this probe.
+        def probe_extension
           return Failure.new(reason: :unavailable, detail: nil) unless extension_available?
 
           begin
             connection.transaction(requires_new: true) do
-              connection.execute("CREATE EXTENSION IF NOT EXISTS #{EXTENSION}")
+              connection.execute("CREATE EXTENSION IF NOT EXISTS #{EXTENSION} WITH SCHEMA pg_catalog")
+              raise ActiveRecord::Rollback
             end
             nil
           rescue ActiveRecord::StatementInvalid => e
@@ -126,7 +130,7 @@ module OpenProject
           when :insufficient_privilege
             <<~TEXT.chomp
               The database user is not allowed to create the pgvector extension.
-              Ask your database administrator to run `CREATE EXTENSION #{EXTENSION};` in the OpenProject database,
+              Ask your database administrator to run `CREATE EXTENSION #{EXTENSION} WITH SCHEMA pg_catalog;` in the OpenProject database,
               or allow the extension in the settings of your PostgreSQL provider.
             TEXT
           else
