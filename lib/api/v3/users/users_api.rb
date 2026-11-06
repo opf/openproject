@@ -90,7 +90,9 @@ module API
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: User).mount
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: User).mount
+            patch &::API::V3::Utilities::Endpoints::Update
+                    .new(model: User, process_state: ->(**) { { session: env["rack.session"] } })
+                    .mount
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: User, success_status: 202).mount
 
             mount ::API::V3::Users::UpdateFormAPI

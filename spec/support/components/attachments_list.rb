@@ -60,7 +60,7 @@ module Components
       item.hover
       item.find(:button, title: I18n.t("js.label_remove_file", fileName: file_name)).click
       # confirm delete confirmation dialog
-      expect(page).to have_content(I18n.t("js.attachments.delete_confirmation"))
+      expect(page).to have_text(I18n.t("js.attachments.delete_confirmation"))
       find(:button, text: I18n.t("js.attachments.delete")).click
     end
 

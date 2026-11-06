@@ -436,6 +436,56 @@ RSpec.describe Type do
       expect(type.reload.pdf_export_templates.settings_for("attributes")).to eq(page_orientation: "landscape")
     end
 
+    describe "#settings_with_defaults_for" do
+      let(:work_package) { build_stubbed(:work_package) }
+
+      it "fills in the template defaults the admin never configured" do
+        expect(type.pdf_export_templates.settings_with_defaults_for("attributes", work_package))
+          .to eq(footer_text: work_package.project.name,
+                 page_orientation: "portrait",
+                 hyphenation: false,
+                 hyphenation_language: "en")
+        expect(type.pdf_export_templates.settings_with_defaults_for("contract", work_package))
+          .to eq(footer_text_center: work_package.subject,
+                 hyphenation: false,
+                 hyphenation_language: "en")
+        expect(type.pdf_export_templates.settings_with_defaults_for("artefact", work_package))
+          .to eq(toc: WorkPackage::PDFExport::Artefact::DEFAULT_TOC,
+                 include_lifecycle: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE,
+                 include_budget: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET,
+                 hyphenation: false,
+                 hyphenation_language: "en")
+      end
+
+      it "lets a stored blank value win over the default" do
+        type.pdf_export_templates.update_settings("attributes", "footer_text" => "")
+        type.save!
+
+        expect(type.reload.pdf_export_templates.settings_with_defaults_for("attributes", work_package))
+          .to include(footer_text: "")
+      end
+
+      it "casts stored boolean settings, which round-trip as strings" do
+        type.pdf_export_templates.update_settings("artefact", "toc" => "false", "hyphenation" => "true")
+        type.save!
+
+        expect(type.reload.pdf_export_templates.settings_with_defaults_for("artefact", work_package))
+          .to include(toc: false, hyphenation: true)
+      end
+
+      it "falls back to a blank hyphenation language when the locale has none" do
+        I18n.with_locale(:ja) do
+          expect(type.pdf_export_templates.settings_with_defaults_for("attributes", work_package))
+            .to include(hyphenation_language: "")
+        end
+      end
+
+      it "rejects an unknown template id" do
+        expect { type.pdf_export_templates.settings_with_defaults_for("bogus", work_package) }
+          .to raise_error(ArgumentError)
+      end
+    end
+
     it "rejects an unknown template id" do
       expect { type.pdf_export_templates.settings_for("bogus") }.to raise_error(ArgumentError)
       expect { type.pdf_export_templates.update_settings("bogus", {}) }.to raise_error(ArgumentError)

@@ -1116,7 +1116,6 @@ ms:
         default_mode: Senarai datar
         display_settings: Tetapan paparan
         display_sums_hint: Paparkan jumlah semua atribut yang boleh dijumlahkan dalam baris di bawah hasil jadual.
-        embedded_tab_disabled: Tab konfigurasi ini tidak tersedia untuk paparan tersemat yang anda sedang edit.
         hierarchy_hint: Semua hasil jadual tersaring akan ditambah bersama leluhur mereka. Hierarki boleh dikembang dan ditutup.
         hierarchy_mode: Hierarki
         highlighting: Menyorotkan

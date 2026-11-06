@@ -37,9 +37,6 @@
           <% end %>
         <% else %>
           <%# Self-persisting editor: this form only advances to the next step on submit. %>
-          <% if current_step == :projects %>
-            <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: editor_record, aspect: current_step)) %>
-          <% end %>
           <%= render(step_body) %>
           <%= primer_form_with(
                 url: step_url,

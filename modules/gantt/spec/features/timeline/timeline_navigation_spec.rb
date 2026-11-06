@@ -389,9 +389,7 @@ RSpec.describe "Work package timeline navigation",
       group_by.enable_via_menu "Project"
 
       # Collapse Foo section
-      find(".wp-table--group-header", text: "My Project No.")
-        .find(".expander")
-        .click
+      within(".wp-table--group-header", text: "My Project No.") { find(".expander").click }
 
       # Folding will lead to having milestones presented within the group row
       expect(page).to have_css(".-group-row .timeline-element.milestone")
@@ -407,9 +405,7 @@ RSpec.describe "Work package timeline navigation",
       expect(milestone).to have_css(".labelFarRight", visible: :hidden)
 
       # Unfold Group rows
-      find(".wp-table--group-header", text: "My Project No.")
-        .find(".expander")
-        .click
+      within(".wp-table--group-header", text: "My Project No.") { find(".expander").click }
 
       expect(page).to have_no_css(".-group-row .timeline-element")
 

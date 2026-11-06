@@ -100,7 +100,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
       name_workflow_and_continue("Taken flow")
 
       expect(page).to have_text("Name has already been taken")
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_current_query_params("step" => "workflows", "role_ids" => [role.id.to_s])
     end
 
     it "asks for no name when the workflow belongs to another type as well" do
@@ -159,7 +159,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
       end
 
       expect(page).to have_css "#workflow_form_author"
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_current_query_params("step" => "workflows", "role_ids" => [role.id.to_s], "tab" => "author")
 
       expect_transition(role, 1, 0, exist: true)
     end

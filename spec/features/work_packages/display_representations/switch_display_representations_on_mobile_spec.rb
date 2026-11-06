@@ -66,8 +66,7 @@ RSpec.describe "Switching work package view on mobile", :js do
       page.go_back
       # The query is however unchanged
       expect(page).to have_no_css(".editable-toolbar-title--save")
-      url = URI.parse(page.current_url).query
-      expect(url).not_to match(/query_props=.+/)
+      expect(page).to have_no_current_query_params(a_hash_including("query_props" => be_present))
 
       # Since the query is unchanged, the WPs will be displayed as list on larger screens again
       page.current_window.resize_to(700, 1080)

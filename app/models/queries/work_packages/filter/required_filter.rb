@@ -40,7 +40,7 @@ class Queries::WorkPackages::Filter::RequiredFilter <
   private
 
   def relation_filter
-    { from_id: values }
+    { from_id: work_package_ids }
   end
 
   def relation_select

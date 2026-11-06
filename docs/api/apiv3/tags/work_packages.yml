@@ -13,6 +13,7 @@ description: |-
   | addWatcher          | Add any user to WP watchers                                              | **Permission**: add watcher            |
   | allocateResource    | Request returning the dialog to add a resource allocation to the WP. Used by the frontend, not intended for API users. | **Permission**: allocate user resources; resource management module; enterprise token |
   | customActions       | Collection of predefined changes that can be applied to the work package |                                        |
+  | exportPdf           | Render the WP as a PDF document                                          | **Permission**: export work packages   |
   | logTime             | Log time on the work package                                             | **Permission**: Log time, Log own time |
   | previewMarkup       | Post markup (in markdown) here to receive an HTML-rendered response      |                                        |
   | removeWatcher       | Remove any user from WP watchers                                         | **Permission**: delete watcher         |

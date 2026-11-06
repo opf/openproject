@@ -1622,7 +1622,7 @@ module Pages
     def dismiss_menu(menu_owner)
       selector = menu_owner_overlay_selector(menu_owner)
 
-      return unless page.has_css?(selector, visible: true, wait: 0)
+      return unless page.has_css?(selector, visible: :visible, wait: 0)
       return if page.has_selector?(:modal, wait: 0)
 
       find(selector, wait: 0).click
@@ -1634,7 +1634,7 @@ module Pages
       # the overlay is unclickable (Cuprite raises CoordinatesNotFoundError,
       # Selenium ElementNotInteractableError) and dismissal is moot.
       raise unless page.has_selector?(:modal, wait: 0) ||
-        page.has_no_css?(selector, visible: true, wait: 0)
+        page.has_no_css?(selector, visible: :visible, wait: 0)
     end
 
     def headed_section_titles(id_prefix:)

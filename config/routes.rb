@@ -173,7 +173,7 @@ Rails.application.routes.draw do
     resources :settings, controller: "settings_tab", only: %i[index]
 
     if administration
-      resource :projects, controller: "projects_tab", only: %i[edit update] do
+      resource :projects, controller: "projects_tab", only: %i[edit] do
         collection do
           post :enable_all, to: "projects_tab#enable_all_projects"
 
@@ -281,7 +281,9 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+    resource :creation_wizard, controller: "creation_wizard", only: %i[show update] do
+      get :projects if administration
+    end
   end
 
   resources :types, module: "work_package_types", only: %i[index destroy] do

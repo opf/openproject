@@ -52,10 +52,20 @@ da:
       itsm/outgoing_mailbox:
         one: Udgående postkasse
         other: Udgående postkasser
-  admin:
-    description: Gør det muligt at oprette arbejdspakker ved at sende e-mails via en IMAP-server og at besvare dem via en SMTP-server.
-    enable_helpdesk: Slå helpdesk til i denne installation
-    helpdesk_set_by_environment: Helpdesk-funktionen er angivet med en miljøvariabel og kan ikke ændres her.
+  itsm:
+    admin:
+      description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
+      enable_helpdesk: Enable Helpdesk in this instance
+      helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
+      imap_server_configuration_component:
+        description: Configure the IMAP server to transform incoming emails to work packages.
+        edit: Edit IMAP server configuration
+        title: IMAP server configuration
+      mail_servers: Mail servers
+      smtp_server_configuration_component:
+        description: Configure the SMTP server to reply emails directly from the work packages activity.
+        edit: Edit SMTP server configuration
+        title: SMTP server configuration
   label_helpdesk: Helpdesk
   permission_manage_helpdesk: Administrer helpdesk
   project_module_helpdesk: Helpdesk

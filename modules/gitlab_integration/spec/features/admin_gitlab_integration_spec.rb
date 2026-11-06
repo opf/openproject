@@ -51,7 +51,7 @@ RSpec.describe "Admin GitLab Integration settings", :js do
     fill_in I18n.t(:label_gitlab_webhook_secret), with: "my-gitlab-secret"
     click_button I18n.t(:button_save)
 
-    expect(page).to have_content(I18n.t(:notice_successful_update))
+    expect(page).to have_text(I18n.t(:notice_successful_update))
 
     Setting.clear_cache
     expect(Setting.plugin_openproject_gitlab_integration["webhook_secret"]).to eq("my-gitlab-secret")
@@ -72,7 +72,7 @@ RSpec.describe "Admin GitLab Integration settings", :js do
 
     click_button I18n.t(:button_save)
 
-    expect(page).to have_content(I18n.t(:notice_successful_update))
+    expect(page).to have_text(I18n.t(:notice_successful_update))
 
     Setting.clear_cache
     expect(Setting.plugin_openproject_gitlab_integration["gitlab_user_id"]).to eq(gitlab_actor.id.to_s)

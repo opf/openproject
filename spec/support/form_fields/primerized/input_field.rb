@@ -69,12 +69,12 @@ module FormFields
 
       def expect_error(string = nil)
         expect(page).to have_css("#{selector}[invalid='true']")
-        expect(field_container).to have_content(string) if string
+        expect(field_container).to have_text(string) if string
       end
 
       def expect_value(value)
         scroll_to_element(field_container)
-        expect(field_container).to have_css("input") { |el| el.value == value }
+        expect(field_container).to have_field(with: value)
       end
 
       def expect_blank
