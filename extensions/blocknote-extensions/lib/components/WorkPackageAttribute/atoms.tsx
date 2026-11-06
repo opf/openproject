@@ -33,7 +33,7 @@ export const AttributeChipSurface = styled.span.attrs({
   }
 `;
 
-export const AttributeChip = styled(AttributeChipSurface).attrs({ contentEditable: false })<{ $selected:boolean }>`
+export const AttributeChip = styled(AttributeChipSurface).attrs({ contentEditable: false })<{ $selected?:boolean }>`
   position: relative;
   cursor: pointer;
   box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.inlineFocusShadow : ATTRIBUTE_BORDER)};
@@ -196,4 +196,59 @@ export const SelectedSubject = styled.span`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+`;
+
+export const AttributeBlockFrame = styled.div.attrs({
+  className: 'op-bn-wp-attribute-block',
+  contentEditable: false,
+})<{ $selected?:boolean }>`
+  ${defaultWpVariables}
+  ${nonSelectableStyles}
+  position: relative;
+  padding: var(--spacer-m) var(--spacer-l);
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: var(--bn-border-radius-medium, 8px);
+  color: var(--bn-colors-editor-text);
+  cursor: pointer;
+  box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
+`;
+
+export const AttributeBlockTitle = styled.div`
+  font-size: 13px;
+  font-weight: 600;
+
+  & + * {
+    margin-top: var(--spacer-s);
+  }
+`;
+
+export const AttributeBlockBody = styled.div`
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+
+  & > :first-child {
+    margin-top: 0;
+  }
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+`;
+
+export const BlockPreview = styled(AttributeBlockFrame)`
+  max-height: 160px;
+  overflow-y: auto;
+  background: var(--op-create-wp-surface);
+  cursor: default;
+`;
+
+export const MenuAnchor = styled.span`
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0;
 `;

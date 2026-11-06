@@ -1,18 +1,14 @@
 import type { AnyEditor } from '../../editorTypes';
+import { canBlockWorkPackageReplaceCurrentBlock } from '../../utils/blockContent';
+import { findPendingInlineChip, pendingInlineChipRange, removePendingInlineChip } from '../../utils/inlineChipActions';
+import { BLOCK_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
 import { makePendingWpid, PENDING_PREFIX } from '../InlineWorkPackage/callbacks';
-import { findPendingInlineChip, removePendingInlineChip } from '../../utils/inlineChipActions';
 import { attributeInlineConfig } from './inlineConfig';
-import type { AttributeDisplay } from './externalHtml';
-
-export interface AttributeChoice {
-  wpid:string;
-  displayId:string;
-  attribute:string;
-  display:AttributeDisplay;
-}
+import type { AttributeNodeKind } from './externalHtml';
+import type { AttributeChoice } from './types';
 
 interface PendingAttribute {
-  onInsert:(choice:AttributeChoice) => void;
+  onInsert:(choice:AttributeChoice, kind:AttributeNodeKind) => void;
   onCancel:() => void;
 }
 
@@ -28,14 +24,30 @@ export function insertPendingAttribute(editor:AnyEditor):void {
 
   // Resolved in place with setNodeMarkup, for the same collaboration reasons
   // as pending work package chips (see SlashMenu).
-  const onInsert = (choice:AttributeChoice) => {
+  const onInsert = (choice:AttributeChoice, kind:AttributeNodeKind) => {
     registry.delete(pendingWpid);
     const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid, attributeInlineConfig.type);
     if (!found) return;
 
     editor.focus();
-    editor.transact((tr) => {
-      tr.setNodeMarkup(found.position, undefined, { ...found.node.attrs, ...choice });
+    if (kind === 'inline') {
+      editor.transact((tr) => {
+        tr.setNodeMarkup(found.position, undefined, { ...found.node.attrs, ...choice });
+      });
+      return;
+    }
+
+    // A long text takes the place of the placeholder's line, or follows it when
+    // that line holds more.
+    const [from, to] = pendingInlineChipRange(editor.prosemirrorState.doc, found);
+    editor.transact(() => {
+      editor.transact((tr) => {
+        tr.delete(from, to);
+      });
+      const line = editor.getTextCursorPosition().block;
+      const block = { type: BLOCK_ATTRIBUTE_TYPE, props: choice } as Parameters<typeof editor.insertBlocks>[0][number];
+      if (canBlockWorkPackageReplaceCurrentBlock(editor)) editor.replaceBlocks([line], [block]);
+      else editor.insertBlocks([block], line, 'after');
     });
   };
 
