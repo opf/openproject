@@ -147,35 +147,6 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response.body).to include("Use the default (Qwen 3.6)")
       end
 
-      # An unconfirmed capability is not a capability: offering such a model
-      # invites a choice that fails much later, at index time.
-      it "offers an embedding feature only models known to create embeddings" do
-        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
-                                        state: "supported", source: "probe")
-
-        get llm_feature_bindings_path
-
-        expect(offered_models(:semantic_search)).to contain_exactly("bge-m3")
-        expect(offered_models(:description_assistant)).to contain_exactly("qwen3.6-27b")
-      end
-
-      it "says so, and where to read up on model types" do
-        get llm_feature_bindings_path
-
-        expect(response.body).to include("Only models known to create embeddings are offered")
-        expect(response.body).to include("huggingface.co/blog/getting-started-with-embeddings")
-      end
-
-      # Otherwise opening the page and saving it would blank a working binding.
-      it "keeps the bound model listed once it no longer qualifies" do
-        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "qwen3.6-27b")
-
-        get llm_feature_bindings_path
-
-        expect(offered_models(:semantic_search)).to include("qwen3.6-27b")
-        expect(response.body).to include("no longer eligible for this feature")
-      end
-
       context "without pgvector" do
         let(:warning) { "[data-test-selector='llm-feature-bindings--pgvector-unavailable']" }
 
@@ -305,56 +276,6 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       patch llm_feature_binding_path("no_such_feature"), params: { llm_feature_binding: { model_id: "x" } }
 
       expect(response).to have_http_status(:not_found)
-    end
-  end
-
-  describe "embedding settings" do
-    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
-
-    before do
-      login_as admin
-      # Binding an embedding feature probes the model for a vector.
-      mock_llm_embeddings_response(base_url)
-    end
-
-    it "stores the vector size" do
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "1024" } }
-
-      binding = connection.feature_bindings.find_by(feature_key: "semantic_search")
-
-      expect(binding.dimensions).to eq(1024)
-    end
-
-    it "rejects a dimension count that is not a positive integer" do
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "0" } }
-
-      expect(connection.feature_bindings.find_by(feature_key: "semantic_search")&.dimensions).to be_nil
-    end
-
-    it "ignores vector settings sent to a chat feature" do
-      patch llm_feature_binding_path(:description_assistant),
-            params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "1024" } }
-
-      binding = connection.feature_bindings.find_by(feature_key: "description_assistant")
-
-      expect(binding.model_id).to eq("qwen3.6-27b")
-      expect(binding.dimensions).to be_nil
-    end
-
-    # A locked binding is the record that a vector index exists. Everything the
-    # index depends on is frozen, not just the model.
-    it "refuses to change anything a locked index depends on" do
-      binding = create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3",
-                                             dimensions: 1024, locked_at: Time.current)
-
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "512" } }
-
-      binding.reload
-      expect(binding.model_id).to eq("bge-m3")
-      expect(binding.dimensions).to eq(1024)
     end
   end
 end

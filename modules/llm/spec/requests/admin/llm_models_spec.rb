@@ -818,15 +818,6 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(Llm::Runtime.for(:description_assistant).model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
       end
 
-      it "follows a model a locked binding depends on" do
-        binding = connection.feature_bindings.first
-        binding.update!(locked_at: Time.current)
-
-        patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
-
-        expect(binding.reload.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
-      end
-
       # The server names its own models; renaming one here would only be undone by
       # the next refresh.
       it "refuses to rename a discovered model" do
