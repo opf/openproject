@@ -44,10 +44,12 @@ RSpec.describe "Test management admin settings", :skip_csrf, type: :rails_reques
   context "as admin" do
     before { login_as(admin) }
 
-    it "shows prefix, integrations and Planned import placeholders" do
+    it "shows and updates the default display prefix" do
       get test_management_admin_settings_path
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('data-test-selector="tm-admin-import-placeholders"')
+      expect(response.body).to include('name="default_display_prefix"')
+      expect(response.body).not_to include("tm-admin-import-placeholders")
+      expect(response.body).not_to include("Open core GitHub or GitLab")
 
       patch test_management_admin_settings_path, params: { default_display_prefix: "QA" }
 

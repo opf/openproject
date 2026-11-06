@@ -28,8 +28,5 @@ stage that ships each feature.
 
 ## Administration
 
-Administration → Test management:
-
-- Default display prefix (used when a project has none)
-- Links to GitHub and GitLab integration settings
-- Xray / TestRail import placeholders (**Planned**)
+Administration → Test management: default display prefix (used when a project has
+none). Integration links and import/export arrive in later stages.

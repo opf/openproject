@@ -18,13 +18,6 @@ en:
       default_display_prefix_too_long: "Default display prefix is too long (maximum is %{count} characters)."
       general: General
       heading: Test management
-      import: Import
-      import_hint: External test management imports are not available yet.
-      import_testrail: TestRail
-      import_xray: Xray
-      integrations: Integrations
-      integrations_hint: Open core GitHub or GitLab integration settings.
-      planned: Planned
     cases:
       empty: No test cases yet
       empty_hint: Case create and folders arrive in a later change.
