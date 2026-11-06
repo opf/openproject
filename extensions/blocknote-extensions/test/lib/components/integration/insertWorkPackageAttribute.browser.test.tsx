@@ -315,6 +315,138 @@ describe('Insert work package attribute', () => {
     await expect.element(preview()).toHaveTextContent('Choose a work package and an attribute');
   });
 
+  describe('work package field', () => {
+    const resultList = () => page.getByRole('listbox', { name: 'Work package' });
+    const toggle = () => page.getByTestId('op-bn-wp-attribute-work-package-toggle');
+    const deselectButton = () => page.getByTestId('op-bn-wp-attribute-work-package-clear');
+    const result = (subject:string) => page.getByRole('option', { name: new RegExp(subject) });
+
+    it('removes the chosen work package and keeps the attribute for the next one', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Status');
+
+      await expect.element(deselectButton()).toHaveAccessibleName('Remove selection');
+      await userEvent.click(deselectButton());
+
+      await expect.element(selectedWorkPackage()).not.toBeInTheDocument();
+      await expect.element(workPackageField()).toHaveValue('');
+      await vi.waitFor(() => expect(document.activeElement).toBe(workPackageField().element()));
+      await expect.element(insertButton()).toBeDisabled();
+
+      await pickWorkPackage('beta', 'Public beta');
+      await expect.element(preview()).toHaveTextContent('Scheduled');
+    });
+
+    it('removes a prefilled work package', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Status');
+      await userEvent.click(insertButton());
+      await userEvent.keyboard('{End}');
+      await openWorkPackageAttributeDialog();
+      await expect.element(selectedWorkPackage()).toBeVisible();
+
+      await userEvent.click(deselectButton());
+
+      await expect.element(selectedWorkPackage()).not.toBeInTheDocument();
+      await expect.element(page.getByText('Prefilled with your last selection')).not.toBeInTheDocument();
+      await expect.element(insertButton()).toBeDisabled();
+    });
+
+    it('removes the chosen work package with Backspace', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+      await userEvent.keyboard('{Backspace}');
+
+      await expect.element(selectedWorkPackage()).not.toBeInTheDocument();
+      await expect.element(deselectButton()).not.toBeInTheDocument();
+    });
+
+    it('keeps the chosen work package clear of its buttons', async () => {
+      const subject = 'Test'.repeat(40);
+      answerSearchWith([{ ...mockAttributeWorkPackage, subject }]);
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Test', subject);
+
+      const layer = selectedWorkPackage().element().getBoundingClientRect();
+      expect(layer.right).toBeLessThanOrEqual(deselectButton().element().getBoundingClientRect().left);
+    });
+
+    it('opens and closes the results with its arrows', async () => {
+      await openWorkPackageAttributeDialog();
+      await userEvent.fill(workPackageField(), 'Redesign');
+      await expect.element(resultList()).toBeVisible();
+
+      await userEvent.click(toggle());
+
+      await expect.element(resultList()).not.toBeInTheDocument();
+      await expect.element(workPackageField()).toHaveValue('Redesign');
+
+      await userEvent.click(toggle());
+
+      await expect.element(result('Redesign onboarding flow')).toBeVisible();
+    });
+
+    it('opens nothing with its arrows before a search', async () => {
+      await openWorkPackageAttributeDialog();
+
+      await userEvent.click(toggle());
+
+      await expect.element(resultList()).not.toBeInTheDocument();
+      await vi.waitFor(() => expect(document.activeElement).toBe(workPackageField().element()));
+    });
+
+    it('reopens the results of the last search with its arrows to correct a pick', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await expect.element(resultList()).not.toBeInTheDocument();
+
+      await userEvent.click(toggle());
+
+      await expect.element(workPackageField()).toHaveValue('Redesign');
+      await expect.element(result('Redesign onboarding flow')).toHaveAttribute('aria-selected', 'true');
+      await userEvent.click(result('Public beta'));
+
+      await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-654MilestonePublic beta');
+    });
+
+    it('reopens the results of the last search with the down key, from the chosen one', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+      await userEvent.keyboard('{ArrowDown}');
+
+      await expect.element(workPackageField()).toHaveAttribute('aria-activedescendant', 'op-bn-wp-attribute-work-package-option-0');
+      await userEvent.keyboard('{ArrowDown}{Enter}');
+
+      await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-654MilestonePublic beta');
+    });
+
+    it('picks nothing from the results of the last search while they are closed', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await userEvent.keyboard('{ArrowDown}{ArrowDown}{Escape}');
+      await expect.element(resultList()).not.toBeInTheDocument();
+
+      await userEvent.keyboard('{Enter}');
+
+      await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
+    });
+
+    it('keeps the last search when the chosen work package is removed', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await userEvent.click(deselectButton());
+
+      await userEvent.click(toggle());
+
+      await expect.element(workPackageField()).toHaveValue('Redesign');
+      await expect.element(result('Public beta')).toBeVisible();
+    });
+  });
+
   describe('long text', () => {
     function blocks() {
       return editor.document.map((block) => ({ type: (block as { type:string }).type, props: (block as { props?:unknown }).props }));
