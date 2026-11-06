@@ -2002,6 +2002,11 @@ pl:
               few: "%{count} projects"
               many: "%{count} projects"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              few: "%{count} resolutions"
+              many: "%{count} resolutions"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               few: "%{count} statuses"
@@ -2039,6 +2044,7 @@ pl:
               label_available_data: Dane do zaimportowania
               label_import_data: Aktualnie importowane
               label_progress: Import w toku...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Użytkownicy zaangażowani w wybrane projekty (w tym członkostwo w grupach)
               title: Importuj dane
             fetch_data:
@@ -2566,6 +2572,8 @@ pl:
         emoji_reactions_activity_type_not_supported: Ten typ działań nie obsługuje reakcji emoji.
         invalid_link: Link pod kluczem „%{key}” jest nieprawidłowy.
         links_not_an_object: _links musi być obiektem JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Nieprawidłowe żądanie: %{message}'
       code_401: Musisz być uwierzytelniony, aby otrzymać dostęp do tego zasobu.
       code_401_wrong_credentials: Nie wprowadziłeś prawidłowych danych uwierzytelniania.
@@ -6443,6 +6451,22 @@ pl:
         automatic:
           description: Ustaw kolejność %{plural} według jednego lub więcej kryteriów sortowania. Poprzednie sortowanie zostanie utracone.
           heading: Automatycznie
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -7397,6 +7421,9 @@ pl:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: do
     show: Pokaż ramy czasowe
@@ -7627,6 +7654,11 @@ pl:
         no_inactive_attributes: Brak nieaktywnych atrybutów
         not_found: Nie można znaleźć żądanego elementu formularza.
         query_group_label: Tabela powiązanych pakietów roboczych
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Usuń z sekcji
         rename_group: Zmień nazwę sekcji
         required:
@@ -7688,8 +7720,6 @@ pl:
           no_results: Brak pasujących projektów.
           title: Not used in any project yet
         enable_all: Włącz dla wszystkich projektów
-        select_projects: Wybierz projekty
-        select_projects_description: Wybierz projekty, w których chcesz używać tego typu.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

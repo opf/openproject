@@ -1663,6 +1663,8 @@ zh-CN:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1688,6 +1690,7 @@ zh-CN:
               label_available_data: 要导入的数据
               label_import_data: 当前正在导入
               label_progress: 正在导入…
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: 参与所选项目的用户（包括群组成员资格）
               title: 导入数据
             fetch_data:
@@ -2192,6 +2195,8 @@ zh-CN:
         emoji_reactions_activity_type_not_supported: 此活动类型不支持表情符号回应。
         invalid_link: 密钥 '%{key}' 下的链接无效。
         links_not_an_object: _links 必须为 JSON 对象。
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 错误的请求：%{message}
       code_401: 你需要被授权访问该资源。
       code_401_wrong_credentials: 你没有提供正确的凭据。
@@ -5914,6 +5919,22 @@ zh-CN:
         automatic:
           description: 按一个或多个排序标准对 %{plural} 进行排序。您将失去之前的排序。
           heading: 自动
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6844,6 +6865,9 @@ zh-CN:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: 下午
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: 到
     show: 显示时间段
@@ -7071,6 +7095,11 @@ zh-CN:
         no_inactive_attributes: 没有停用的特性
         not_found: 找不到请求的表单条目。
         query_group_label: 相关的工作包表
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: 从小节中移除
         rename_group: 重命名小节
         required:
@@ -7132,8 +7161,6 @@ zh-CN:
           no_results: 没有匹配的项目。
           title: Not used in any project yet
         enable_all: 对所有项目启用
-        select_projects: 选择项目
-        select_projects_description: 选择您想要使用此类型的项目。
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

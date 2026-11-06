@@ -52,6 +52,8 @@ module WorkPackageTypes
 
       def table_variant = table.variant
 
+      def wizard_params = table.wizard? ? { wizard: true } : {}
+
       def applied_variant = @applied_variant ||= project.type_variant(table_variant.type)
 
       def variant_caption
@@ -78,7 +80,7 @@ module WorkPackageTypes
         menu.with_item(
           label: I18n.t("types.edit.projects.actions.switch_variant"),
           tag: :a,
-          href: new_switch_variant_projects_path(table_variant, project_id: project.id),
+          href: new_switch_variant_projects_path(table_variant, project_id: project.id, **wizard_params),
           content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :"list-ordered")
@@ -90,7 +92,10 @@ module WorkPackageTypes
           label: I18n.t("types.edit.projects.actions.remove_from_project"),
           scheme: :danger,
           tag: :a,
-          href: unlink_variant_projects_path(table_variant, project_id: project.id, page: table.rows.current_page),
+          href: unlink_variant_projects_path(table_variant,
+                                             project_id: project.id,
+                                             page: table.rows.current_page,
+                                             **wizard_params),
           content_arguments: { data: { turbo_method: :delete, turbo_confirm: confirm_removal } }
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)

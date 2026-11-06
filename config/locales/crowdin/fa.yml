@@ -1774,6 +1774,9 @@ fa:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1803,6 +1806,7 @@ fa:
               label_available_data: داده‌هایی که وارد می‌شوند
               label_import_data: در حال Import
               label_progress: Import در حال انجام است...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: کاربران درگیر در پروژه‌های انتخاب‌شده، همراه با عضویت گروه‌ها
               title: واردکردن داده‌ها
             fetch_data:
@@ -2316,6 +2320,8 @@ fa:
         emoji_reactions_activity_type_not_supported: این نوع فعالیت از واکنش Emoji پشتیبانی نمی‌کند.
         invalid_link: پیوند زیر کلید '%{key}' معتبر نیست.
         links_not_an_object: _links باید یک شیء JSON باشد.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'درخواست نامعتبر: %{message}'
       code_401: لازم است برای دسترسی به این منبع تأیید اعتبار شوید.
       code_401_wrong_credentials: اطلاعات اعتبارسنجی درستی ارایه نکرده اید.
@@ -6090,6 +6096,22 @@ fa:
         automatic:
           description: "%{plural} را بر اساس یک یا چند معیار مرتب‌سازی مرتب کنید. مرتب‌سازی قبلی از دست خواهد رفت."
           heading: خودکار
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -7040,6 +7062,9 @@ fa:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: ب.ظ
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: تا
     show: نمایش بازه زمانی
@@ -7268,6 +7293,11 @@ fa:
         no_inactive_attributes: ویژگی غیرفعالی وجود ندارد
         not_found: مورد درخواستی فرم پیدا نشد.
         query_group_label: جدول بسته‌های کاری مرتبط
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: حذف از بخش
         rename_group: تغییر نام بخش
         required:
@@ -7329,8 +7359,6 @@ fa:
           no_results: پروژه منطبقی وجود ندارد.
           title: Not used in any project yet
         enable_all: فعال‌کردن برای همه پروژه‌ها
-        select_projects: انتخاب پروژه‌ها
-        select_projects_description: پروژه‌هایی را که می‌خواهید از این نوع استفاده کنند انتخاب کنید.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

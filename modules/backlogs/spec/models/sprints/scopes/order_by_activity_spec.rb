@@ -92,6 +92,17 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
     expect(Sprint.order_by_activity.in_planning).to eq(expected_order)
   end
 
+  it "orders completed sprints by their actual start over the planned start date" do
+    started_late = create(:sprint, project:, name: "Started late", status: :completed,
+                                   start_date: Date.new(2025, 10, 1), finish_date: Date.new(2025, 10, 31),
+                                   started_at: Time.zone.local(2025, 10, 20, 9))
+    started_between = create(:sprint, project:, name: "Started between", status: :completed,
+                                      start_date: Date.new(2025, 10, 10), finish_date: Date.new(2025, 10, 31),
+                                      started_at: Time.zone.local(2025, 10, 10, 9))
+
+    expect(Sprint.order_by_activity.where(id: [started_late, started_between])).to eq([started_between, started_late])
+  end
+
   it "places sprints without dates last within their status group" do
     expect(Sprint.order_by_activity.in_planning.last).to eq(in_planning_sprint_no_dates)
   end

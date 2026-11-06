@@ -1663,6 +1663,8 @@ zh-TW:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1688,6 +1690,7 @@ zh-TW:
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
@@ -2194,6 +2197,8 @@ zh-TW:
         emoji_reactions_activity_type_not_supported: 此活動類型不支持表情符號反應。
         invalid_link: 金鑰「%{key}」下的連結無效。
         links_not_an_object: _links 必須是 JSON object。
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 錯誤請求：%{message}
       code_401: |-
         You need to be authenticated to access this resource.
@@ -5922,6 +5927,22 @@ zh-TW:
         automatic:
           description: 按一個或多個排序標準對 %{plural} 進行排序。您將失去之前的排序。
           heading: 自動
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6859,6 +6880,9 @@ zh-TW:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: 到
     show: 顯示時間
@@ -7086,6 +7110,11 @@ zh-TW:
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Remove from section
         rename_group: Rename section
         required:
@@ -7147,8 +7176,6 @@ zh-TW:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: 在所有專案中啟用
-        select_projects: 選取專案
-        select_projects_description: 選擇要使用此類型的專案。
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

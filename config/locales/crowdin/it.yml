@@ -1776,6 +1776,9 @@ it:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1805,6 +1808,7 @@ it:
               label_available_data: Dati da importare
               label_import_data: Importazione in corso
               label_progress: Importazione in corso...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Utenti coinvolti in progetti selezionati (membri del gruppo inclusi)
               title: Importa dati
             fetch_data:
@@ -2318,6 +2322,8 @@ it:
         emoji_reactions_activity_type_not_supported: Questo tipo di attività non supporta le reazioni emoji.
         invalid_link: Il link con la chiave '%{key}' non è valido.
         links_not_an_object: _links deve essere un oggetto JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Richiesta non valida: %{message}'
       code_401: Devi essere autenticato per accedere a questa risorsa.
       code_401_wrong_credentials: Non hai fornito le credenziali corrette.
@@ -6093,6 +6099,22 @@ it:
         automatic:
           description: Ordina %{plural} in base a uno o più criteri di ordinamento. Perderai l'ordinamento precedente.
           heading: Automatico
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -7036,6 +7058,9 @@ it:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: a
     show: Visualizza arco di tempo
@@ -7264,6 +7289,11 @@ it:
         no_inactive_attributes: Nessun attributo inattivo
         not_found: Non è stato possibile trovare l'elemento del modulo richiesto.
         query_group_label: Tabella di macro-attività correlate
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Rimuovi dalla sezione
         rename_group: Rinomina sezione
         required:
@@ -7325,8 +7355,6 @@ it:
           no_results: Nessun progetto corrispondente.
           title: Not used in any project yet
         enable_all: Abilita per tutti i progetti
-        select_projects: Seleziona progetti
-        select_projects_description: Seleziona i progetti in cui desideri utilizzare questo tipo.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

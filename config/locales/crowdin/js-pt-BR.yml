@@ -1124,7 +1124,6 @@ pt-BR:
         default_mode: Lista plana
         display_settings: Configurações de exibição
         display_sums_hint: Exiba as somas de todos os atributos somáveis na linha abaixo da tabela de resultados.
-        embedded_tab_disabled: Esta aba de configuração não está disponível para a exibição incorporada que você está editando.
         hierarchy_hint: Todos os resultados da tabela filtrada serão aumentados com seus ancestrais. As hierarquias podem ser expandidas e recolhidas.
         hierarchy_mode: Hierarquia
         highlighting: Destacando

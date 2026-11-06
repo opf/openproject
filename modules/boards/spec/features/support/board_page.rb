@@ -141,7 +141,7 @@ module Pages
         # Wait for the card loading to finish. A list can start another reload
         # right after a card was added or moved, so this needs more than the
         # default wait time.
-        expect(page).to have_no_selector(".loading-indicator--background", wait: 10)
+        expect(page).to have_no_css(".loading-indicator--background", wait: 10)
         expect(page).to have_conditional_selector(present,
                                                   '[data-test-selector="op-wp-single-card--content-subject"]',
                                                   text: card_title,
@@ -273,7 +273,7 @@ module Pages
         page.find('[data-test-selector="op-board-list--menu"] a').click
       end
 
-      page.find(".dropdown-menu button", text: action).click
+      page.find(".dropdown-menu").click_button(action)
     end
 
     def card_for(work_package)

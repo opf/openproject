@@ -54,7 +54,7 @@ RSpec.describe "group show page" do
     context "when the user is not a member of the group" do
       it "I get a 404 when visiting the group page" do
         visit show_group_path(group)
-        expect(page).to have_content("[Error 404] The page you were trying to access doesn't exist or has been removed")
+        expect(page).to have_text("[Error 404] The page you were trying to access doesn't exist or has been removed")
       end
     end
 

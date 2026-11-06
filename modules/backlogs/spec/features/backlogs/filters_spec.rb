@@ -335,7 +335,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.clear_subject_filter
       backlogs_page.expect_inbox_items(items: matching_inbox_wp)
       backlogs_page.expect_inbox_show_more
-      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+      expect(page).to have_no_current_query_params(a_hash_including("all"))
 
       backlogs_page.click_inbox_show_more
       backlogs_page.expect_no_inbox_show_more
@@ -343,7 +343,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.apply_status_filter(status_a)
       backlogs_page.expect_no_inbox_items(items: status_b_inbox_wp)
       backlogs_page.expect_inbox_show_more
-      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+      expect(page).to have_no_current_query_params(a_hash_including("all"))
     end
   end
 end

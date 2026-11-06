@@ -53,7 +53,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
       it "renders the onetime enabled banner" do
         expect(subject).to have_text I18n.t("meeting.notifications.enabled")
         expect(subject).to have_css(".Banner")
-        expect(subject).to have_no_selector(".Banner--warning")
+        expect(subject).to have_no_css(".Banner--warning")
       end
     end
 
@@ -85,7 +85,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
       it "renders the template enabled banner" do
         expect(subject).to have_text I18n.t("meeting.notifications.enabled")
         expect(subject).to have_css(".Banner")
-        expect(subject).to have_no_selector(".Banner--warning")
+        expect(subject).to have_no_css(".Banner--warning")
       end
     end
 
@@ -123,7 +123,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
         template
         expect(subject).to have_text I18n.t("meeting.notifications.enabled")
         expect(subject).to have_css(".Banner")
-        expect(subject).to have_no_selector(".Banner--warning")
+        expect(subject).to have_no_css(".Banner--warning")
       end
     end
 
@@ -151,7 +151,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
     it "renders the enabled banner regardless of notify" do
       expect(subject).to have_text I18n.t("meeting.notifications.enabled")
       expect(subject).to have_css(".Banner")
-      expect(subject).to have_no_selector(".Banner--warning")
+      expect(subject).to have_no_css(".Banner--warning")
     end
   end
 

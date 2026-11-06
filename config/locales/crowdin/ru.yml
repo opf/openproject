@@ -2002,6 +2002,11 @@ ru:
               few: "%{count} projects"
               many: "%{count} projects"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              few: "%{count} resolutions"
+              many: "%{count} resolutions"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               few: "%{count} statuses"
@@ -2039,6 +2044,7 @@ ru:
               label_available_data: Данные для импорта
               label_import_data: Сейчас импортируется
               label_progress: Идёт импорт...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Пользователи, участвующие в выбранных проектах (с учетом членства в группах)
               title: Импорт данных
             fetch_data:
@@ -2566,6 +2572,8 @@ ru:
         emoji_reactions_activity_type_not_supported: Этот тип деятельности не поддерживает реакции эмодзи.
         invalid_link: Ссылка с ключом '%{key}' недействительна.
         links_not_an_object: _links должен быть объектом JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Неверный запрос: %{message}'
       code_401: Вам нужно пройти проверку подлинности для доступа к этому ресурсу.
       code_401_wrong_credentials: Вы не ввели правильные учетные данные.
@@ -6443,6 +6451,22 @@ ru:
         automatic:
           description: Упорядочьте %{plural} по одному или нескольким критериям сортировки. Вы потеряете предыдущую сортировку.
           heading: Автоматически
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -7393,6 +7417,9 @@ ru:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: дня
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: до
     show: Показать сроки
@@ -7623,6 +7650,11 @@ ru:
         no_inactive_attributes: Нет неактивных атрибутов
         not_found: Не удалось найти запрошенный элемент формы.
         query_group_label: Таблица связанных пакетов работ
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Удалить из секции
         rename_group: Переименовать секцию
         required:
@@ -7684,8 +7716,6 @@ ru:
           no_results: Нет подходящих проектов.
           title: Not used in any project yet
         enable_all: Использовать во всех проектах
-        select_projects: Выберите проекты
-        select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

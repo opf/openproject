@@ -71,13 +71,13 @@ RSpec.describe "My page documents widget",
     document_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
-      .to have_content visible_document.title
+      .to have_text visible_document.title
     expect(page)
-      .to have_content visible_document.description
+      .to have_text visible_document.description
     expect(page)
-      .to have_content visible_document.created_at.strftime("%m/%d/%Y")
+      .to have_text visible_document.created_at.strftime("%m/%d/%Y")
 
     expect(page)
-      .to have_no_content invisible_document.title
+      .to have_no_text invisible_document.title
   end
 end
