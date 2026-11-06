@@ -364,6 +364,16 @@ RSpec.describe UserMailer do
                         href: url)
       end
     end
+
+    context "with a translation containing quotes",
+            with_settings: { available_languages: %w[en fr] } do
+      let(:token) { build_stubbed(:invitation_token, user: build_stubbed(:invited_user, language: "fr")) }
+
+      it "keeps them as plain text in the text part" do
+        expect(deliveries.first.text_part.body.decoded)
+          .to include("N'hésitez pas")
+      end
+    end
   end
 
   describe "#news_added rendering a description that references a work package" do
