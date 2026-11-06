@@ -4,10 +4,10 @@
 
 
 <%= "+" * 50 %>
-<%= strip_tags body_subheader %>
-<%= strip_tags body_header %>
+<%= CGI.unescapeHTML(strip_tags(body_subheader.to_s)) %>
+<%= CGI.unescapeHTML(strip_tags(body_header.to_s)) %>
 <%= "+" * 50 %>
 
-<%= strip_tags body %>
+<%= CGI.unescapeHTML(strip_tags(body)) %>
 
 <%= "-" * 100 %>
