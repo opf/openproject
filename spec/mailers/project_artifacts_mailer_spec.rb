@@ -165,6 +165,14 @@ RSpec.describe ProjectArtifactsMailer do
         expect(mail.text_part.body.encoded)
           .not_to include("<strong>")
       end
+
+      it "keeps HTML-significant characters in the notification text as plain text" do
+        allow(project).to receive(:project_creation_wizard_notification_text)
+          .and_return(%(Tom's R&D "plan"))
+
+        expect(mail.text_part.body.decoded)
+          .to include(%(Tom's R&D "plan"))
+      end
     end
   end
 end
