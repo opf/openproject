@@ -279,7 +279,7 @@ describe('HeadingLinkExtension', () => {
       },
     ]);
 
-    await expect.poll(() => Array.from(container.querySelectorAll('.bn-toggle-wrapper'), (toggle) => toggle.getAttribute('data-show-children')))
+    await expect.poll(() => Array.from(container.querySelectorAll('.bn-toggle-button'), (toggle) => toggle.getAttribute('aria-expanded')))
       .toEqual(['true', 'true']);
   });
 
