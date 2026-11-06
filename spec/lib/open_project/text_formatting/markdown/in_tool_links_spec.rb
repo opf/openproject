@@ -176,6 +176,16 @@ RSpec.describe OpenProject::TextFormatting,
         it { is_expected.to be_html_eql("<p class='op-uc-p'>#{version_link}</p>") }
       end
 
+      context "with a quoted version of a project with a semantic identifier",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:other_project) { create(:valid_project, identifier: "OTHERPROJ", public: true) }
+        let!(:version) { create(:version, name: "1.0", project: other_project) }
+
+        subject { format_text("#{other_project.identifier}:version:\"1.0\"") }
+
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{version_link}</p>") }
+      end
+
       context "Escaping link with version id" do
         subject { format_text("!version##{version.id}") }
 
