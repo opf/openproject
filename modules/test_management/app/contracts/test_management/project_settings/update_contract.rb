@@ -35,9 +35,6 @@ module TestManagement
       attribute :project
       attribute :display_prefix
       stored_attribute :folder_tree_layout, store: :options
-      TestManagement::ProjectSetting::FEATURES.each do |feature|
-        stored_attribute :"enable_#{feature}", store: :options
-      end
 
       validate :user_allowed_to_manage
 

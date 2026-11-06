@@ -22,9 +22,9 @@ Requires `manage_test_management`.
 |---|---|
 | Display prefix | Case ID prefix (for example `DEMO` → `DEMO-12`) |
 | Folder tree layout | `split_pane` or `sidebar` |
-| Enable CI | Stored for later; CI UI ships in a later stage |
-| Enable milestones / test plans / test assistant | Stored for later releases |
-| Enable requirements | Default **off**; Requirements ships in a later stage |
+
+Feature toggles (CI, milestones, plans, assistant, requirements) are added in the
+stage that ships each feature.
 
 ## Administration
 

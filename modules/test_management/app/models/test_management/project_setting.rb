@@ -34,8 +34,6 @@ module TestManagement
     FOLDER_TREE_LAYOUTS = %w[split_pane sidebar].freeze
     DEFAULT_FOLDER_TREE_LAYOUT = "split_pane"
     DISPLAY_PREFIX_MAX_LENGTH = 32
-    FEATURES = %w[ci milestones test_plans test_assistant requirements].freeze # shortcut: storage only, enforce in stages 3–12
-    FEATURES_DEFAULT_OFF = %w[requirements].freeze # shortcut: default off until stage 12
 
     belongs_to :project
 
@@ -43,7 +41,7 @@ module TestManagement
     validates :display_prefix, length: { maximum: DISPLAY_PREFIX_MAX_LENGTH }, allow_blank: true
     validate :validate_folder_tree_layout
 
-    store_accessor :options, :folder_tree_layout, *FEATURES.map { "enable_#{it}" }
+    store_accessor :options, :folder_tree_layout
 
     before_validation :normalize_blank_folder_tree_layout
 
@@ -58,20 +56,6 @@ module TestManagement
     def self.display_prefix_for(project)
       project.tm_setting&.display_prefix.presence ||
         Setting.plugin_openproject_test_management["default_display_prefix"]
-    end
-
-    def self.enabled?(project, feature)
-      return false if project.blank?
-
-      for_project(project).enabled?(feature)
-    end
-
-    def enabled?(feature)
-      key = "enable_#{feature}"
-      value = options[key]
-      return FEATURES_DEFAULT_OFF.exclude?(feature.to_s) if value.nil?
-
-      ActiveModel::Type::Boolean.new.cast(value)
     end
 
     def effective_folder_tree_layout

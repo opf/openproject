@@ -38,7 +38,7 @@ module TestManagement
     def update
       call = TestManagement::ProjectSettings::UpdateService
                .new(user: current_user, model: @setting)
-               .call(setting_attributes)
+               .call(setting_params.to_h)
       return render_update_error(call) unless call.success?
 
       flash[:notice] = I18n.t(:notice_successful_update)
@@ -52,20 +52,7 @@ module TestManagement
     end
 
     def setting_params
-      params.fetch(:project_setting, {}).permit(
-        :display_prefix,
-        :folder_tree_layout,
-        *TestManagement::ProjectSetting::FEATURES.map { "enable_#{it}" }
-      )
-    end
-
-    def setting_attributes
-      values = setting_params.to_h
-      TestManagement::ProjectSetting::FEATURES.each do |feature|
-        key = "enable_#{feature}"
-        values[key] = ActiveModel::Type::Boolean.new.cast(values[key]) if values.key?(key)
-      end
-      values
+      params.fetch(:project_setting, {}).permit(:display_prefix, :folder_tree_layout)
     end
 
     def render_update_error(call)

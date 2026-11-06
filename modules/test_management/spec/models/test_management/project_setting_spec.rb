@@ -55,21 +55,4 @@ RSpec.describe TestManagement::ProjectSetting do
     expect(setting).not_to be_valid
     expect(setting.errors[:display_prefix]).to be_present
   end
-
-  describe ".enabled?" do
-    it "defaults most features on and requirements off" do
-      expect(described_class.enabled?(project, :ci)).to be(true)
-      expect(described_class.enabled?(project, :requirements)).to be(false)
-    end
-
-    it "can switch features off and on" do
-      setting = described_class.for_project(project)
-      setting.enable_ci = false
-      setting.enable_requirements = true
-      setting.save!
-
-      expect(described_class.enabled?(project, :ci)).to be(false)
-      expect(described_class.enabled?(project, :requirements)).to be(true)
-    end
-  end
 end

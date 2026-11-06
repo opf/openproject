@@ -43,14 +43,12 @@ RSpec.describe "Test management project settings", :skip_csrf, type: :rails_requ
 
       before { login_as(user) }
 
-      it "updates prefix, layout and feature toggles" do
+      it "updates prefix and layout" do
         patch project_test_management_project_settings_path(project),
               params: {
                 project_setting: {
                   display_prefix: "TC",
-                  folder_tree_layout: "sidebar",
-                  enable_ci: "0",
-                  enable_requirements: "1"
+                  folder_tree_layout: "sidebar"
                 }
               }
 
@@ -58,16 +56,14 @@ RSpec.describe "Test management project settings", :skip_csrf, type: :rails_requ
         setting = TestManagement::ProjectSetting.find_by!(project:)
         expect(setting.display_prefix).to eq("TC")
         expect(setting.effective_folder_tree_layout).to eq("sidebar")
-        expect(setting.enabled?(:ci)).to be(false)
-        expect(setting.enabled?(:requirements)).to be(true)
       end
 
-      it "shows the settings form" do
+      it "shows the settings form without feature toggles" do
         get project_test_management_project_settings_path(project)
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('data-test-selector="tm-project-settings-form"')
-        expect(response.body).to include('data-test-selector="tm-enable-requirements"')
+        expect(response.body).not_to include("tm-enable-")
       end
 
       it "rejects a display prefix that is too long" do

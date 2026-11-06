@@ -49,20 +49,5 @@
     </div>
   </fieldset>
 
-  <fieldset class="form--fieldset">
-    <legend><%= t("test_management.project_settings.features") %></legend>
-    <% TestManagement::ProjectSetting::FEATURES.each do |feature| %>
-      <label class="form--label-with-check-box">
-        <%= f.check_box "enable_#{feature}",
-                        checked: @setting.enabled?(feature),
-                        data: { test_selector: "tm-enable-#{feature}" } %>
-        <%= t("test_management.project_settings.enable_#{feature}") %>
-      </label>
-      <% if feature != "ci" %>
-        <div class="form--field-instructions"><%= t("test_management.project_settings.later_release") %></div>
-      <% end %>
-    <% end %>
-  </fieldset>
-
   <%= f.submit t(:button_save), class: "button -primary", data: { test_selector: "tm-project-settings-save" } %>
 <% end %>
