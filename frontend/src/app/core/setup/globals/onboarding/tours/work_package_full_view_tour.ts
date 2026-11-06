@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { demoProjectUrl } from 'core-app/core/setup/globals/onboarding/helpers';
 import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
 export function wpFullViewOnboardingTourSteps():OnboardingStep[] {
@@ -46,7 +47,7 @@ export function wpFullViewOnboardingTourSteps():OnboardingStep[] {
     {
       containerClass: '-dark -hidden-arrow',
       onBeforeStart() {
-        window.location.href = `${window.location.origin}/projects/demo-project/gantt`;
+        window.location.href = `${demoProjectUrl()}/gantt`;
       },
     },
   ];
