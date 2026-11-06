@@ -39,8 +39,10 @@ module Components
 
     private
 
+    # Primer announces into the first live region in the document; dialogs
+    # and overlays may render their own further down.
     def polite_region
-      find("live-region", visible: :all).shadow_root
+      first("live-region", visible: :all, minimum: 1).shadow_root
     end
   end
 end

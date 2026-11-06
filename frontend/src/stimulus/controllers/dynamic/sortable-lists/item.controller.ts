@@ -138,13 +138,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.disconnectRoot();
   }
 
-  // A move item entering the DOM (inline or via a deferred fragment) triggers
-  // an availability refresh here, but `this.root` is usually still unset at
-  // this point (the outlet's connectRoot callback runs later), so this call
-  // typically no-ops. The menu-open toggle handler is what actually
-  // establishes correct availability, refreshing on every open once the root
-  // is connected and after any reorder has shifted siblings. No
-  // include-fragment knowledge, so both hooks work for any menu.
+  // Gates move items that arrive in a deferred menu fragment, after the
+  // open toggle has already refreshed availability.
   moveItemTargetConnected():void {
     this.refreshMoveMenuAvailability();
   }
@@ -162,6 +157,22 @@ export default class ItemController extends Controller<HTMLElement> implements R
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
       this.root?.moveInDirection(this.element, direction);
+    }
+  }
+
+  moveToDestination(event:ActionEvent):void {
+    const item = event.currentTarget;
+    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
+      return;
+    }
+
+    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
+      return;
+    }
+
+    const form = item.querySelector('form');
+    if (form) {
+      this.root?.moveToDestination(form);
     }
   }
 
