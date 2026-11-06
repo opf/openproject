@@ -74,12 +74,12 @@ describe('getOpenProjectSlashMenuItems', () => {
     await setLang('en');
   });
 
+  const titles = () => getOpenProjectSlashMenuItems({} as any).map((item) => item.title);
+
   it('offers the create item next to the link item', async () => {
     await setLang('en');
-    const items = getOpenProjectSlashMenuItems({} as any);
 
-    expect(items.map((item) => item.title))
-      .toEqual(['Link existing work package', 'Create new work package']);
+    expect(titles()).toEqual(['Link existing work package', 'Create new work package', 'Work package attribute']);
     expect(createItem().aliases).toContain('openproject work package create');
   });
 
@@ -87,6 +87,14 @@ describe('getOpenProjectSlashMenuItems', () => {
     await setLang('en');
     await answerPermissionProbeWith(403);
 
-    expect(createItem()).toBeUndefined();
+    expect(titles()).toEqual(['Link existing work package', 'Work package attribute']);
+  });
+
+  it('finds the attribute item by its aliases', async () => {
+    await setLang('en');
+    const attributeItem = getOpenProjectSlashMenuItems({} as any).at(-1)!;
+
+    expect(attributeItem.aliases).toContain('openproject work package attribute');
+    expect(attributeItem.aliases).toContain('wp attribute op');
   });
 });

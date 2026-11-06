@@ -33,7 +33,7 @@ const HIDDEN_KEYS = new Set([
   'version',
 ]);
 
-// Long text renders as a block, which an inline chip cannot hold.
+// Long text renders as a block, which an inline node cannot hold.
 const HIDDEN_TYPES = new Set(['Formattable']);
 
 export function listAttributes(schema:WorkPackageSchema):WorkPackageAttribute[] {

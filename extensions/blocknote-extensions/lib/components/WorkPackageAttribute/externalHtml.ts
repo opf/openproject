@@ -2,6 +2,8 @@
 // is the same attribute macro OpenProject renders for work package
 // attributes inserted with CKEditor.
 
+import { isPendingWpid } from '../../utils/pending';
+
 export type AttributeDisplay = 'label' | 'value' | 'both';
 
 export interface WorkPackageAttributeProps {
@@ -43,7 +45,7 @@ export function computeWorkPackageAttributeExternalData(
   props:WorkPackageAttributeProps,
 ):WorkPackageAttributeExternalData | null {
   const { wpid, attribute } = props;
-  if (!wpid || wpid.startsWith('pending:') || !attribute) return null;
+  if (!wpid || isPendingWpid(wpid) || !attribute) return null;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const displayId = props.displayId || wpid;
   const display = normalizeDisplay(props.display);
