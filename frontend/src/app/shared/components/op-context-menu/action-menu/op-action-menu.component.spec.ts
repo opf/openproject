@@ -84,6 +84,15 @@ describe('OpActionMenuComponent', () => {
     expect(within(subMenu()).getAllByRole('menuitem', { hidden: true })).toHaveLength(2);
   });
 
+  it('aligns labels beside legacy icons and Octicons', async () => {
+    await open();
+
+    const labelLeft = (name:string) => within(menu()).getByRole('menuitem', { name })
+      .querySelector('.ActionListItem-label')!.getBoundingClientRect().left;
+
+    expect(labelLeft('Open')).toBe(labelLeft('Move'));
+  });
+
   it('runs onClick and reports the activation', async () => {
     await open();
     const activated:string[] = [];

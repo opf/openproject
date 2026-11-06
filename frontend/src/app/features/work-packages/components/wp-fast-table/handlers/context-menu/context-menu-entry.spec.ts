@@ -73,6 +73,36 @@ describe('Context menu entry', () => {
     { key: 'F10', shiftKey: true, altKey: true },
   );
 
+  it('renders known table actions as Octicons and preserves custom visuals', () => {
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+      { key: 'delete' },
+      { key: 'log_costs', icon: 'icon-projects' },
+      { key: 'custom', icon: 'icon-custom' },
+    ]);
+
+    fireEvent.contextMenu(harness.row('1'));
+
+    expect(opened.mock.calls[0][0].locals.items).toEqual(expect.arrayContaining([
+      expect.objectContaining({ octicon: 'op-view-split' }),
+      expect.objectContaining({ octicon: 'trash' }),
+      expect.objectContaining({ icon: 'icon-projects', octicon: undefined }),
+      expect.objectContaining({ icon: 'icon-custom', octicon: undefined }),
+    ]));
+  });
+
+  it('uses the duplicate Octicon for the bulk copy action', () => {
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
+      .mockReturnValue([{ key: 'copy', text: 'Bulk duplicate' }]);
+    harness.click('1');
+    harness.click('2', { shiftKey: true });
+
+    fireEvent.contextMenu(harness.row('2'));
+
+    expect(opened.mock.calls[0][0].locals.items).toContainEqual(
+      expect.objectContaining({ linkText: 'Bulk duplicate', octicon: 'duplicate' }),
+    );
+  });
+
   it('selects an unselected row and opens the menu for it alone', () => {
     harness.click('2');
 

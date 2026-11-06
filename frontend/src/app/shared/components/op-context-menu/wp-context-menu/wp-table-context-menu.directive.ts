@@ -36,6 +36,29 @@ import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-
 import { MoveDirection } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/row-mover';
 import { forgetKeyboardMenuOpen } from 'core-app/features/work-packages/components/wp-fast-table/handlers/context-menu/context-menu-handler';
 
+const tableActionIcons:Readonly<Record<string, string | undefined>> = {
+  'icon-clipboard': 'paste',
+  'icon-code-tag': 'hash',
+  'icon-copy': 'duplicate',
+  'icon-delete': 'trash',
+  'icon-duplicate': 'duplicate',
+  'icon-edit': 'pencil',
+  'icon-export-atom': 'op-file-atom',
+  'icon-export-pdf-with-descriptions': 'op-pdf-description',
+  'icon-file-text': 'markdown',
+  'icon-log_time': 'clock',
+  'icon-move': 'op-move',
+  'icon-paragraph-left': 'op-outdent',
+  'icon-paragraph-right': 'op-indent',
+  'icon-project-types': 'op-copy-to-project',
+  'icon-relation-follows': 'op-relation-follows',
+  'icon-relation-new-child': 'op-relation-new-child',
+  'icon-relations': 'op-relations',
+  'icon-user-plus': 'person-add',
+  'icon-view-fullscreen': 'op-view-fullscreen',
+  'icon-view-split': 'op-view-split',
+};
+
 export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
   @LazyInject() wpViewIndentation:WorkPackageViewHierarchyIdentationService;
 
@@ -50,6 +73,13 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     this.origin = table.keyboardNavigation.originForControl(element);
     // Appended here: the base class builds `items` before `table` is assigned.
     this.appendMoveItems();
+  }
+
+  protected override buildItems() {
+    return super.buildItems().map((item) => ({
+      ...item,
+      octicon: item.icon ? tableActionIcons[item.icon] : undefined,
+    }));
   }
 
   private appendMoveItems():void {

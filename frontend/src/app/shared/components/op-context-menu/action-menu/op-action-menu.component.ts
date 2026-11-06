@@ -43,6 +43,11 @@ import { generateId } from 'core-app/shared/helpers/dom-helpers';
 @Component({
   selector: 'op-action-menu',
   templateUrl: './op-action-menu.component.html',
+  styles: [`
+    .ActionListItem-visual--leading
+      inline-size: var(--base-size-16)
+      justify-content: center
+  `],
   imports: [NgClass, NgTemplateOutlet, IconModule, DynamicIconDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,

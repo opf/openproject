@@ -116,7 +116,7 @@
     @if (item.octicon) {
       <svg octicon size="small" [icon]="item.octicon"></svg>
     } @else if (item.icon) {
-      <op-icon icon-classes="icon-action-menu {{ item.icon }}" />
+      <op-icon [icon-classes]="item.icon" />
     }
   </span>
 </ng-template>
