@@ -59,15 +59,18 @@ on lists that read newest-first, as the Backlogs inbox does.
 
 ## Rows that may not leave
 
-Set `data-sortable-lists--item-confined-value="true"` on a row the server
+Set `data-sortable-lists--item-mobility-value="confined"` on a row the server
 will reorder in place but refuses to relocate. It stays fully draggable and
 its own list accepts it, so reordering keeps working; every other list
 refuses the drop and a release there leaves the row where it was.
 
-That is different from a row that may not move at all. Backlogs renders a
-work package the user may not sort as a plain row: no `sortable-lists--item`
-controller and no item id, so it neither drags nor anchors its neighbors'
-drops.
+That is different from a row that may not move at all, which takes `fixed`:
+it registers no draggable and every direction of its move menu resolves
+unavailable, but it keeps its item id, so it still counts as a position its
+movable neighbors anchor their drops on. Backlogs renders both — a work
+package in a read-only status is `confined`, one the user may not sort at
+all is `fixed`. `free` is the default and needs no attribute; an
+unrecognized value is treated as `fixed`.
 
 ## Auto-scrolling columns
 

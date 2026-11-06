@@ -71,7 +71,7 @@ controller with a double underscore and the rest with single ones:
 | `id` | string | | the record id; expands `{id}` in the move URL and is sent as a neighbor's `prev_id` |
 | `type` | string | | matched against lists' `acceptedType`; keys `moveUrlTemplates` ([typing data](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/recipes/typing-data)) |
 | `label` | string | | accessible name used in announcements and in the external drag data |
-| `confined` | boolean | `false` | reorders within its own list only; foreign lists refuse it |
+| `mobility` | `free`, `confined` or `fixed` | `free` | `confined` reorders within its own list only, foreign lists refuse it; `fixed` takes no part in ordering at all, registering no draggable and no available move action, while still anchoring its neighbors' drops; an unrecognized value is treated as `fixed` |
 | `hideUnavailable` | boolean | `true` | hide inapplicable move actions; `false` disables them instead |
 | `externalUrl` | URL | | when set, a drag also carries `text/uri-list`, `text/plain` and, with a label, `text/html` for targets outside the page ([data for external consumers](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/element/about#data-for-external-consumers-getinitialdataforexternal), [external adapter](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/external/about)) |
 
