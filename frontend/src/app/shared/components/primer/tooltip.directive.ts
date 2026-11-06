@@ -46,7 +46,6 @@ import { attributeTokenList, ensureId, generateId, isTextCutOffOrHidden } from '
 import { OpTooltipComponent } from './tooltip.component';
 import { TooltipDirection, TooltipType } from './tool-tip-element';
 
-type ReferenceAttribute = 'aria-labelledby' | 'aria-describedby';
 type OwnedAttribute = 'aria-label' | 'aria-description';
 
 interface HostAria {
@@ -55,10 +54,12 @@ interface HostAria {
   'aria-description':string|null;
 }
 
-const REFERENCE_ATTRIBUTES:Record<TooltipType, ReferenceAttribute> = {
+const REFERENCE_ATTRIBUTES = {
   label: 'aria-labelledby',
   description: 'aria-describedby',
-};
+} as const satisfies Record<TooltipType, string>;
+
+type ReferenceAttribute = (typeof REFERENCE_ATTRIBUTES)[TooltipType];
 
 const presence = (value?:string) => (value === undefined || value === '' ? null : value);
 
@@ -85,15 +86,15 @@ export class OpTooltipDirective {
     const label = presence(this.label());
     const description = presence(this.description());
 
-    if (!this.showTooltip() || (!label && !description)) {
-      return { tooltip: null, 'aria-label': label, 'aria-description': description };
-    }
-
-    if (description) {
+    if (this.showTooltip() && description) {
       return { tooltip: { type: 'description', text: description }, 'aria-label': label, 'aria-description': null };
     }
 
-    return { tooltip: { type: 'label', text: label! }, 'aria-label': null, 'aria-description': null };
+    if (this.showTooltip() && label) {
+      return { tooltip: { type: 'label', text: label }, 'aria-label': null, 'aria-description': null };
+    }
+
+    return { tooltip: null, 'aria-label': label, 'aria-description': description };
   });
 
   private tooltipRef:ComponentRef<OpTooltipComponent>|null = null;
@@ -190,11 +191,11 @@ export class OpTooltipDirective {
       return;
     }
 
-    if (!this.displacedValues.has(attribute)) {
+    const displaced = this.displacedValues.get(attribute);
+    if (displaced === undefined) {
       return;
     }
 
-    const displaced = this.displacedValues.get(attribute)!;
     this.displacedValues.delete(attribute);
     if (displaced === null) {
       this.host.removeAttribute(attribute);
