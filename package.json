@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "scripts": {
     "herb:lint": "herb-lint",
-    "herb:test": "node --test script/test_herb_accessibility.mjs",
     "postinstall": "npm -C frontend install",
     "test": "npm -C frontend test",
     "serve": "npm -C frontend run serve",
