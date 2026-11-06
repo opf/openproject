@@ -74,10 +74,13 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <% if params[:filter] == "work_packages" %>
+  <% semantic_search_available = Llm::WorkPackages::SemanticSearch.available? %>
   <%= angular_component_tag "opce-global-search-work-packages",
                             inputs: {
                               searchTerm: @question,
                               scope: search_params[:scope],
+                              searchMode: search_params[:search_mode] == "semantic" && semantic_search_available ? "semantic" : "text",
+                              semanticSearchAvailable: semantic_search_available
                             } %>
 
 <% else %>

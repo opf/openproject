@@ -75,7 +75,7 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
       .pipe(
         this.untilDestroyed(),
         map(() => {
-          const currentSearchFilter = this.wpTableFilters.find('search');
+          const currentSearchFilter = this.wpTableFilters.find(this.wpTableFilters.textFilterId);
           return currentSearchFilter ? (currentSearchFilter.values[0] as string) : '';
         }),
       )
@@ -94,12 +94,12 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
       )
       .subscribe((term) => {
         if (term.length > 0) {
-          this.wpTableFilters.replace('search', (filter) => {
+          this.wpTableFilters.replace(this.wpTableFilters.textFilterId, (filter) => {
             filter.operator = filter.findOperator('**')!;
             filter.values = [term];
           });
         } else {
-          const filter = this.wpTableFilters.find('search');
+          const filter = this.wpTableFilters.find(this.wpTableFilters.textFilterId);
 
           this.wpTableFilters.remove(filter!);
 

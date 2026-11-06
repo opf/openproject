@@ -37,6 +37,8 @@ en:
         state: "Status"
         title: "Display name"
     errors:
+      messages:
+        semantic_search_unavailable: "is currently unavailable."
       models:
         llm_connection:
           attributes:
@@ -272,6 +274,9 @@ en:
         success: "The model list has been refreshed."
       update:
         success: "%{model} has been updated."
+  attributes:
+    semantic_similarity: "Similarity"
+  label_search_by_meaning: "Search by meaning"
   llm:
     api_formats:
       anthropic: "Anthropic"
