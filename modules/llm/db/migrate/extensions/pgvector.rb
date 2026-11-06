@@ -31,9 +31,6 @@ require Rails.root.join("db/migrate/extensions/base").to_s
 
 class Extensions::Pgvector < Extensions::Base
   extension "vector"
-  creation_sql <<~SQL.squish
-    CREATE EXTENSION IF NOT EXISTS vector;
-  SQL
   module_text <<~MESSAGE
 
     \e[33mWARNING:\e[0m Could not find the `vector` extension for PostgreSQL.
