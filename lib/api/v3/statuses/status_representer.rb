@@ -33,6 +33,15 @@ module API
 
         self_link
 
+        link :updateImmediately,
+             cache_if: -> { current_user.admin? } do
+          {
+            href: api_v3_paths.status(represented.id),
+            title: "Update #{represented.name}",
+            method: :patch
+          }
+        end
+
         property :id, render_nil: true
         property :name
         property :is_closed, render_nil: true

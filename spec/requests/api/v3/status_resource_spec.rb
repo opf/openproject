@@ -101,5 +101,36 @@ RSpec.describe "API v3 Status resource" do
         it_behaves_like "forbidden response based on login_required"
       end
     end
+
+    describe "#patch" do
+      let(:status) { statuses.first }
+      let(:patch_path) { api_v3_paths.status status.id }
+      let(:admin) { create(:admin) }
+
+      subject(:response) { last_response }
+
+      context "as admin" do
+        before do
+          allow(User).to receive(:current).and_return(admin)
+          patch patch_path, { name: "Renamed Status" }.to_json, "CONTENT_TYPE" => "application/json"
+        end
+
+        it "updates the status name" do
+          expect(response).to have_http_status(:ok)
+          expect(status.reload.name).to eq("Renamed Status")
+        end
+      end
+
+      context "as regular user" do
+        before do
+          allow(User).to receive(:current).and_return(current_user)
+          patch patch_path, { name: "Renamed Status" }.to_json, "CONTENT_TYPE" => "application/json"
+        end
+
+        it "forbids access" do
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+    end
   end
 end
