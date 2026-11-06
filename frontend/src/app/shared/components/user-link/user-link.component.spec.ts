@@ -27,19 +27,13 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
-import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { UserLinkComponent } from './user-link.component';
 
 describe('UserLinkComponent component test', () => {
   const PathHelperStub = {
     userPath: (id:string) => `/users/${id}`,
-  };
-
-  const I18nStub = {
-    t: (key:string, args:any) => `Author: ${args.user}`,
   };
 
   let fixture:ComponentFixture<UserLinkComponent>;
@@ -48,12 +42,10 @@ describe('UserLinkComponent component test', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OpTooltipDirective],
       declarations: [
         UserLinkComponent,
       ],
       providers: [
-        { provide: I18nService, useValue: I18nStub },
         { provide: PathHelperService, useValue: PathHelperStub },
       ],
     }).compileComponents();
@@ -74,12 +66,8 @@ describe('UserLinkComponent component test', () => {
         fixture.detectChanges();
       });
 
-      it('renders a link described as the author by its tooltip', async () => {
-        await fixture.whenStable();
-        const link = screen.getByRole('link', { name: 'First Last' });
-
-        expect(link).toHaveAccessibleDescription('Author: First Last');
-        expect(link).toHaveAttribute('href', '/users/1');
+      it('renders a link to the user', () => {
+        expect(screen.getByRole('link', { name: 'First Last' })).toHaveAttribute('href', '/users/1');
       });
     });
 
