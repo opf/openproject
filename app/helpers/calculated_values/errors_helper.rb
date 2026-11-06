@@ -47,9 +47,9 @@ module CalculatedValues::ErrorsHelper
 
     if %w[ERROR_MISSING_VALUE ERROR_DISABLED_VALUE ERROR_MULTI_VALUE_LIST].include?(error_code)
       # To keep the error message short, we only show the first custom field with a missing/disabled value.
-      missing_custom_field_id = calculated_value_error.missing_custom_field_ids.first
+      offending_custom_field_id = calculated_value_error.offending_custom_field_ids.first
       # One query per distinct missing field due to AR query cache
-      cf = CustomField.find_by(id: missing_custom_field_id) if missing_custom_field_id
+      cf = CustomField.find_by(id: offending_custom_field_id) if offending_custom_field_id
 
       if cf
         I18n.t(translation_key, custom_field_name: cf.name)

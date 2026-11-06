@@ -670,7 +670,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
             project.calculate_custom_fields([cv])
 
             expect(cv.first_calculation_error(project))
-              .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+              .to have_attributes(error_code: "ERROR_UNKNOWN", offending_custom_field_ids: [])
           end
         end
 
@@ -681,7 +681,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
             project.calculate_custom_fields([cv])
 
             expect(cv.first_calculation_error(project))
-              .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+              .to have_attributes(error_code: "ERROR_UNKNOWN", offending_custom_field_ids: [])
           end
         end
       end
@@ -698,7 +698,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           project.calculate_custom_fields([cv])
 
           expect(cv.first_calculation_error(project))
-            .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+            .to have_attributes(error_code: "ERROR_UNKNOWN", offending_custom_field_ids: [])
         end
       end
     end
@@ -719,7 +719,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         project.calculate_custom_fields([cv])
 
         expect(cv.first_calculation_error(project))
-          .to have_attributes(error_code: "ERROR_MISSING_VALUE", missing_custom_field_ids: [cf_int.id])
+          .to have_attributes(error_code: "ERROR_MISSING_VALUE", offending_custom_field_ids: [cf_int.id])
       end
     end
 

@@ -30,12 +30,12 @@
 module CalculatedValues
   class ErrorHandler
     class ErrorContext
-      attr_reader :custom_field_id, :error_code, :missing_custom_field_ids
+      attr_reader :custom_field_id, :error_code, :offending_custom_field_ids
 
-      def initialize(custom_field_id:, error_code:, missing_custom_field_ids: [])
+      def initialize(custom_field_id:, error_code:, offending_custom_field_ids: [])
         @custom_field_id = custom_field_id
         @error_code = error_code
-        @missing_custom_field_ids = missing_custom_field_ids
+        @offending_custom_field_ids = offending_custom_field_ids
       end
 
       def create_calculated_value_error!(customized)
@@ -43,7 +43,7 @@ module CalculatedValues
           customized:,
           custom_field_id:,
           error_code:,
-          missing_custom_field_ids:
+          offending_custom_field_ids:
         )
       end
     end
@@ -82,20 +82,20 @@ module CalculatedValues
       when Dentaku::ZeroDivisionError
         ErrorContext.new(custom_field_id:, error_code: "ERROR_MATHEMATICAL")
       when Dentaku::ArgumentError
-        missing_custom_field_ids = find_missing_values_for_field(custom_field_id)
-        if missing_custom_field_ids.present?
-          ErrorContext.new(custom_field_id:, error_code: "ERROR_MISSING_VALUE", missing_custom_field_ids:)
+        offending_custom_field_ids = find_missing_values_for_field(custom_field_id)
+        if offending_custom_field_ids.present?
+          ErrorContext.new(custom_field_id:, error_code: "ERROR_MISSING_VALUE", offending_custom_field_ids:)
         else
           ErrorContext.new(custom_field_id:, error_code: "ERROR_UNKNOWN")
         end
       when Dentaku::UnboundVariableError
         ErrorContext.new(custom_field_id:,
                          error_code: "ERROR_DISABLED_VALUE",
-                         missing_custom_field_ids: error.unbound_variables.map { to_id(it) })
+                         offending_custom_field_ids: error.unbound_variables.map { to_id(it) })
       when MultiValueListError
         ErrorContext.new(custom_field_id:,
                          error_code: "ERROR_MULTI_VALUE_LIST",
-                         missing_custom_field_ids: error.custom_field_ids)
+                         offending_custom_field_ids: error.custom_field_ids)
       else
         ErrorContext.new(custom_field_id:, error_code: "ERROR_UNKNOWN")
       end
