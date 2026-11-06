@@ -33,7 +33,7 @@ module WorkPackageTypes
       class ConfirmationsController < BaseTabController
         include OpTurbo::ComponentStream
         include SelectedProjects
-        include WizardListing
+        include WizardFlag::FromParams
 
         def new
           close_dialog_via_turbo_stream(BulkSwitchDialogComponent::DIALOG_ID)
@@ -41,7 +41,7 @@ module WorkPackageTypes
             variant: @variant,
             target: @type.variants.global.find(params.expect(:target_id)),
             projects: selected_projects,
-            wizard: listing_in_wizard?
+            wizard: wizard?
           )
         end
       end
