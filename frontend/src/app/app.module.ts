@@ -202,6 +202,7 @@ import {
   OpWpDatePickerInstanceComponent,
 } from 'core-app/shared/components/datepicker/wp-date-picker-modal/wp-date-picker-instance.component';
 import { AppBadgeService } from 'core-app/features/in-app-notifications/bell/app-badge.service';
+import { BrowserNotificationSyncService } from 'core-app/features/in-app-notifications/bell/browser-notification-sync.service';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
@@ -242,7 +243,12 @@ export function initializeServices(injector:Injector) {
     keyboardShortcuts.register();
 
     const configuration = injector.get(ConfigurationService).initialize();
-    void configuration.then(() => injector.get(AppBadgeService).initialize()).catch(() => undefined);
+    void configuration
+      .then(() => {
+        injector.get(AppBadgeService).initialize();
+        injector.get(BrowserNotificationSyncService).initialize();
+      })
+      .catch(() => undefined);
     return configuration;
   };
 }

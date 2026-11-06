@@ -75,6 +75,18 @@ RSpec.describe Users::LogoutService, type: :model do
         expect(Sessions::UserSession.for_user(user).count).to eq(0)
       end
 
+      it "keeps other sessions and tokens when told not to drop them", with_settings: { autologin: 7 } do
+        own_token = create(:autologin_token, user:)
+        other_token = create(:autologin_token, user:)
+        cookies[OpenProject::Configuration.autologin_cookie_name] = own_token.plain_value
+
+        instance.call!(user, drop_other_sessions: false)
+
+        expect(Sessions::UserSession.for_user(user).count).to eq(2)
+        expect { own_token.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { other_token.reload }.not_to raise_error
+      end
+
       describe "autologin cookie" do
         let!(:token) { create(:autologin_token, user:) }
         let!(:other_token) { create(:autologin_token, user:) }
