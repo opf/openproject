@@ -35,7 +35,7 @@ module PushSubscriptions
     private
 
     def validate_subscription_count
-      others = ::PushSubscription.where(user_id: model.user_id).where.not(id: model.id)
+      others = ::PushSubscription.active.where(user_id: model.user_id).where.not(id: model.id)
       return if others.count < ::PushSubscription::MAX_PER_USER
 
       errors.add(:base, :too_many_push_subscriptions, count: ::PushSubscription::MAX_PER_USER)

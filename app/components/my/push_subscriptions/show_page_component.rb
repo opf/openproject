@@ -95,7 +95,14 @@ module My
 
       def subscriptions_json
         subscriptions
-          .map { { endpoint: it.endpoint, revokeUrl: my_push_subscription_path(it), current: bound_to_current_session?(it) } }
+          .map do |subscription|
+            {
+              endpoint: subscription.endpoint,
+              revokeUrl: my_push_subscription_path(subscription),
+              current: bound_to_current_session?(subscription),
+              dormant: subscription.session_id.nil?
+            }
+          end
           .to_json
       end
 
@@ -106,7 +113,7 @@ module My
       end
 
       def bound_to_current_session?(subscription)
-        subscription.session.current?(current_session)
+        subscription.session&.current?(current_session)
       end
     end
   end
