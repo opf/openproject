@@ -118,6 +118,7 @@ describe('board list reconciliation after work package saves', () => {
       BoardSubprojectActionService,
       { provide: HalEventsService, useValue: { events$: events } },
       { provide: IsolatedQuerySpace, useValue: { results: { value: results }, query: { values$: () => NEVER } } },
+      { provide: WorkPackageStatesInitializationService, useValue: { updateQuerySpace: vi.fn() } },
       { provide: WorkPackageCardDragAndDropService, useValue: { workPackages: cards } },
       { provide: BoardFiltersService, useValue: { filters: { values$: () => NEVER }, current: filters } },
       { provide: WorkPackageViewSelectionService, useValue: { updates$: () => NEVER } },
@@ -136,7 +137,6 @@ describe('board list reconciliation after work package saves', () => {
         ChangeDetectorRef,
         ToastService,
         HalResourceNotificationService,
-        WorkPackageStatesInitializationService,
         WorkPackageViewFocusService,
         AuthorisationService,
         LoadingIndicatorService,
@@ -189,6 +189,36 @@ describe('board list reconciliation after work package saves', () => {
 
     component.refreshQueryIfOutdated({ updatedAt: 'newer' } as QueryResource, false);
     expect(reload).toHaveBeenCalledExactlyOnceWith(false);
+  });
+
+  it('keeps a moved card out of the source when a pre-drag response arrives after the poll', async () => {
+    const { component, reload, cards } = await list('status');
+    const pending = new Subject<QueryResource>();
+    const current = new Subject<QueryResource>();
+    const find = vi.spyOn(component.apiv3Service.queries, 'find');
+    find.mockReturnValueOnce(pending).mockReturnValueOnce(current);
+    const publish = vi.spyOn(component.wpStatesInitialization, 'updateQuerySpace');
+    publish.mockImplementation((_query, results) => {
+      cards.splice(0, cards.length, ...results.elements.map(({ id }) => ({ id: id!, ancestorIds: [] })));
+    });
+
+    const before = { updatedAt: '2026-11-06T10:00:00.000Z', results: { elements: [{ id: '42' }] } } as unknown as QueryResource;
+    const after = { updatedAt: '2026-11-06T10:00:01.000Z', results: { elements: [] } } as unknown as QueryResource;
+    component.query = { ...before } as QueryResource;
+    cards.splice(0, cards.length, { id: '42', ancestorIds: [] });
+    reload.mockRestore();
+    component.updateQuery(false);
+
+    cards.pop();
+    component.query.updatedAt = after.updatedAt;
+    component.refreshQueryIfOutdated(after, false);
+    pending.next(before);
+
+    expect(cards).toEqual([]);
+    expect(publish).not.toHaveBeenCalled();
+    expect(find).toHaveBeenCalledTimes(2);
+    current.next(after);
+    expect(publish).toHaveBeenCalledExactlyOnceWith(after, after.results);
   });
 
   it('refreshes the destination if a list request starts while persisting its order', async () => {

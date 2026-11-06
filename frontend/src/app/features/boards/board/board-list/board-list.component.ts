@@ -421,7 +421,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public refreshQueryIfOutdated(query:QueryResource, visibly = true) {
-    if (!query.updatedAt || this.query?.updatedAt !== query.updatedAt) {
+    // A pending response can still contain cards from before the acknowledged move.
+    if (this.queryPending || !query.updatedAt || this.query?.updatedAt !== query.updatedAt) {
       debugLog(`Refreshing ${query.name} visibly due to external changes`);
       this.updateQuery(visibly);
     }
