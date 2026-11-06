@@ -3,6 +3,7 @@ export {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   openProjectWorkPackageAttributeInlineSpec,
+  openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   useCreateWorkPackageFromSelection,

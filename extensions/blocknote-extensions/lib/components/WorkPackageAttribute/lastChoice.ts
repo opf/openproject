@@ -1,4 +1,4 @@
-import type { AttributeChoice } from './pending';
+import type { AttributeChoice } from './types';
 import { createDocumentMemory } from '../../utils/documentMemory';
 
 const memory = createDocumentMemory<AttributeChoice>();

@@ -35,6 +35,8 @@ export type {
 
 export { attributeInlineConfig } from './components/WorkPackageAttribute/inlineConfig';
 export { openProjectWorkPackageAttributeStaticInlineSpec } from './components/WorkPackageAttribute/staticSpec';
+export { attributeBlockConfig } from './components/WorkPackageAttribute/blockConfig';
+export { openProjectWorkPackageAttributeStaticBlockSpec } from './components/WorkPackageAttribute/staticBlockSpec';
 export {
   buildWorkPackageAttributeExternalDOM,
   computeWorkPackageAttributeExternalData,

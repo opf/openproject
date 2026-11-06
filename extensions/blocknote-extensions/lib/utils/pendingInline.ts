@@ -89,9 +89,16 @@ export function removePendingInline(
     const found = findPendingInline(tr.doc, wpid, type);
     if (!found) return false;
 
-    const end = found.position + found.node.nodeSize;
-    const spacerEnd = withSpacer && end < tr.doc.content.size && tr.doc.textBetween(end, end + 1) === ' ' ? end + 1 : end;
-    tr.delete(found.position, spacerEnd);
+    const [from, to] = withSpacer
+      ? rangeWithSpacer(tr.doc, found)
+      : [found.position, found.position + found.node.nodeSize];
+    tr.delete(from, to);
     return true;
   });
+}
+
+export function rangeWithSpacer(doc:ProsemirrorNode, found:FoundPendingInline):[number, number] {
+  const end = found.position + found.node.nodeSize;
+  const spacerEnd = end < doc.content.size && doc.textBetween(end, end + 1) === ' ' ? end + 1 : end;
+  return [found.position, spacerEnd];
 }
