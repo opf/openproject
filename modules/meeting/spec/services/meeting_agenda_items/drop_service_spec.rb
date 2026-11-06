@@ -63,6 +63,18 @@ RSpec.describe MeetingAgendaItems::DropService do
           )
         end
 
+        it "closes the gap in the old section and makes room in the new one" do
+          lower_item = create(:meeting_agenda_item, meeting:, meeting_section: section_one)
+          target_item = create(:meeting_agenda_item, meeting:, meeting_section: section_two)
+
+          expect(service_call).to be_success
+
+          expect(section_one.agenda_items.reload).to eq([first_item, lower_item])
+          expect(lower_item.reload.position).to eq(2)
+          expect(section_two.agenda_items.reload).to eq([meeting_agenda_item, target_item])
+          expect(target_item.reload.position).to eq(2)
+        end
+
         it "journals the meeting with the agenda item in its new section",
            with_settings: { journal_aggregation_time_minutes: 0 } do
           meeting.touch_and_save_journals
@@ -187,7 +199,7 @@ RSpec.describe MeetingAgendaItems::DropService do
           expect { service_call }.not_to change { meeting_agenda_item.reload.meeting_section_id }
 
           expect(service_call).to be_failure
-          expect(service_call.errors[:base].join).to match(/Couldn't find MeetingSection/)
+          expect(service_call.errors.symbols_for(:meeting_section)).to include(:invalid)
         end
       end
 
@@ -231,6 +243,18 @@ RSpec.describe MeetingAgendaItems::DropService do
         let(:target_id) { create(:meeting_section, meeting: other_meeting).id }
 
         it "fails without changing the agenda item" do
+          expect { service_call }.not_to change { meeting_agenda_item.reload.meeting_section_id }
+
+          expect(service_call).to be_failure
+          expect(service_call.errors.symbols_for(:meeting_section)).to include(:invalid)
+        end
+      end
+
+      context "when moving to a section of a meeting the user cannot see" do
+        let(:other_meeting) { create(:meeting, project: create(:project, enabled_module_names: %i[meetings])) }
+        let(:target_id) { create(:meeting_section, meeting: other_meeting).id }
+
+        it "fails as if the section did not exist" do
           expect { service_call }.not_to change { meeting_agenda_item.reload.meeting_section_id }
 
           expect(service_call).to be_failure
