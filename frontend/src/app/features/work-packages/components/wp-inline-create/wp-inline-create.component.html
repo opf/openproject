@@ -1,13 +1,13 @@
-@if (canAdd || canReference) {
-  @if (mode === 'inactive') {
+@if (canAdd() || canReference()) {
+  @if (mode() === 'inactive') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
       >
       <td
-        [attr.colspan]="colspan"
+        [attr.colspan]="colspan()"
         class="wp-inline-create-button-td"
         >
-        @if (canAdd) {
+        @if (canAdd()) {
           <button
             type="button"
             class="spot-link"
@@ -22,7 +22,7 @@
             <span [textContent]="text.create"></span>
           </button>
         }
-        @if (canReference) {
+        @if (canReference()) {
           <button
             type="button"
             class="spot-link wp-inline-create--split-link"
@@ -39,12 +39,12 @@
       </td>
     </tr>
   }
-  @if (hasReferenceClass && mode === 'reference') {
+  @if (hasReferenceClass && mode() === 'reference') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
       >
       <td
-        [attr.colspan]="colspan"
+        [attr.colspan]="colspan()"
         class="wp-inline-reference-row-td -no-highlighting"
         >
         <ng-container *ngComponentOutlet="referenceClass; injector: injector" />

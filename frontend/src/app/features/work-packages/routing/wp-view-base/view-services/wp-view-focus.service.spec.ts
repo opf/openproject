@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { createEnvironmentInjector, EnvironmentInjector } from '@angular/core';
+import { createEnvironmentInjector, EnvironmentInjector, DestroyRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, of, Subject } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
@@ -235,9 +235,9 @@ describe('WorkPackageViewFocusService', () => {
       const component = fromPrototype(WorkPackageInlineCreateComponent.prototype, {
         currentWorkPackage: workPackage,
         wpCreate: { onNewWorkPackage: () => created },
-        untilDestroyed: () => (source:unknown) => source,
+        destroyRef: TestBed.inject(DestroyRef),
         resetRow: () => undefined,
-        table: { configuration: { isEmbedded: false }, keyboardNavigation: { rememberWorkPackageAfterRender: () => undefined } },
+        table: () => ({ destroyed: false, configuration: { isEmbedded: false }, keyboardNavigation: { rememberWorkPackageAfterRender: () => undefined } }),
         wpTableSelection: selection,
         wpTableFocus: focus,
         wpInlineCreate: { newInlineWorkPackageCreated: new Subject<string>() },

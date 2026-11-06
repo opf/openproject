@@ -1,31 +1,32 @@
 <div class="generic-table--sort-header-outer">
-  @switch (columnType) {
+  @switch (columnType()) {
     @case ('hierarchy') {
       <span class="generic-table--sort-header">
-        @if (displayHierarchyIcon) {
+        @if (displayHierarchyIcon()) {
           <span
             class="hierarchy-header--icon"
             (click)="toggleHierarchy($event)"
-            [attr.title]="text.toggleHierarchy"
+            [attr.title]="hierarchyToggleTitle()"
             tabindex="-1"
             aria-hidden="true">
-            <op-icon icon-classes="icon {{ hierarchyIcon }}" />
+            <op-icon icon-classes="icon {{ hierarchyIcon() }}" />
           </span>
         }
         <!--suppress XmlDuplicatedId -->
-        @if (sortable) {
+        @if (sortable()) {
           <a href="#"
-            [ngClass]="[directionClass && 'sort', directionClass]"
-            lang-attribute
-            lang="{{locale}}"
-            id="{{ headerColumn.id }}"
+            [class.sort]="!!sortDirection()"
+            [class.asc]="sortDirection() === 'asc'"
+            [class.desc]="sortDirection() === 'desc'"
+            lang="{{locale()}}"
+            id="{{ headerColumn().id }}"
             tabindex="-1"
-          rel="nofollow">{{headerColumn.name}}</a>
+          rel="nofollow">{{headerColumn().name}}</a>
         }
-        @if (!sortable) {
-          <a>{{headerColumn.name}}</a>
+        @if (!sortable()) {
+          <a>{{headerColumn().name}}</a>
         }
-        @if (displayDropdownIcon) {
+        @if (displayDropdownIcon()) {
           <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
             icon-title="{{ text.openMenu }}"
            />
@@ -34,11 +35,11 @@
     }
     @case ('relation') {
       <span class="generic-table--sort-header">
-        <a [attr.title]="headerColumn.name">
+        <a [attr.title]="headerColumn().name">
           <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
-          {{columnName}}
+          {{ columnName() }}
         </a>
-        @if (displayDropdownIcon) {
+        @if (displayDropdownIcon()) {
           <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
             icon-title="{{ text.openMenu }}"
            />
@@ -53,19 +54,20 @@
     @default {
       <span class="generic-table--sort-header">
         <!--suppress XmlDuplicatedId -->
-        @if (sortable) {
+        @if (sortable()) {
           <a href="#"
-            [ngClass]="[directionClass && 'sort', directionClass]"
-            lang-attribute
-            lang="{{locale}}"
-            id="{{ headerColumn.id }}"
+            [class.sort]="!!sortDirection()"
+            [class.asc]="sortDirection() === 'asc'"
+            [class.desc]="sortDirection() === 'desc'"
+            lang="{{locale()}}"
+            id="{{ headerColumn().id }}"
             tabindex="-1"
-          rel="nofollow">{{headerColumn.name}}</a>
+          rel="nofollow">{{headerColumn().name}}</a>
         }
-        @if (!sortable) {
-          <a>{{headerColumn.name}}</a>
+        @if (!sortable()) {
+          <a>{{headerColumn().name}}</a>
         }
-        @if (baselineIncompatible) {
+        @if (baselineIncompatible()) {
           <span
             class="generic-table--sort-header--error-indicator"
             [attr.title]="text.baselineIncompatible"
@@ -73,7 +75,7 @@
             <svg alert-icon size="small"></svg>
           </span>
         }
-        @if (displayDropdownIcon) {
+        @if (displayDropdownIcon()) {
           <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
             icon-title="{{ text.openMenu }}"
            />
