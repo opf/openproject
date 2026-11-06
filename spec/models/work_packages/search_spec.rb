@@ -76,4 +76,27 @@ RSpec.describe WorkPackage, "search" do
         .to eq [work_package]
     end
   end
+
+  context "with the keyword only in an internal comment" do
+    let(:searchword) { "confidential" }
+
+    before do
+      work_package.add_journal(user: create(:admin), notes: "A #{searchword} remark", internal: true)
+      work_package.save!(validate: false)
+    end
+
+    it "does not find the work package" do
+      expect(subject)
+        .to be_empty
+    end
+
+    context "when allowed to see internal comments" do
+      let(:permissions) { %i[view_work_packages view_internal_comments] }
+
+      it "finds the work package" do
+        expect(subject)
+          .to eq [work_package]
+      end
+    end
+  end
 end

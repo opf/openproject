@@ -194,8 +194,7 @@ class Project < ApplicationRecord
          :available_custom_fields,
          :available_templates,
          :visible,
-         :with_settings,
-         :with_visible_internal_comments
+         :with_settings
 
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
@@ -227,6 +226,10 @@ class Project < ApplicationRecord
 
   def visible?(user = User.current)
     active? && (public? || user.admin? || user.access_to?(self))
+  end
+
+  def internal_comments_enabled?
+    EnterpriseToken.allows_to?(:internal_comments) && !!enabled_internal_comments
   end
 
   def archived?

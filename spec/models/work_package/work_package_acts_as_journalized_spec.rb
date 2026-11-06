@@ -1504,8 +1504,8 @@ RSpec.describe WorkPackage do
     end
   end
 
-  describe "#last_loaded_visible_journal", with_ee: %i[internal_comments] do
-    let(:project) { create(:project, enabled_internal_comments: true) }
+  describe "#last_loaded_visible_journal" do
+    let(:project) { create(:project) }
     let(:work_package) { create(:work_package, project:) }
 
     subject(:journal) { WorkPackage.includes(:journals).find(work_package.id).last_loaded_visible_journal(user) }

@@ -30,8 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe Query::Results, "Comment filter integration", with_ee: %i[internal_comments] do
-  let(:project) { create(:project, enabled_internal_comments: true) }
+RSpec.describe Query::Results, "Comment filter integration" do
+  let(:project) { create(:project) }
   let!(:public_comment_wp) { create(:work_package, project:) }
   let!(:internal_comment_wp) { create(:work_package, project:) }
   let(:query) do
@@ -77,17 +77,23 @@ RSpec.describe Query::Results, "Comment filter integration", with_ee: %i[interna
   end
 
   describe "search filter" do
-    context "when the user is anonymous (OP-20392)" do
-      let(:project) { create(:project, public: true, enabled_internal_comments: true) }
-      let(:user) { User.anonymous }
+    before do
+      query.add_filter("search", "**", ["note"])
+    end
 
-      before do
-        create(:anonymous_role, permissions: %i[view_work_packages])
-        query.add_filter("search", "**", ["note"])
-      end
+    context "when the user is not allowed to see internal comments" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
       it "does not match internal comments" do
         expect(work_packages).to contain_exactly(public_comment_wp)
+      end
+    end
+
+    context "when the user is allowed to see internal comments" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages view_internal_comments] }) }
+
+      it "matches internal comments" do
+        expect(work_packages).to contain_exactly(public_comment_wp, internal_comment_wp)
       end
     end
   end
