@@ -32,6 +32,13 @@ module SquashTMIntegration
     class RequirementComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
+      STATUS_SCHEMES = {
+        "WORK_IN_PROGRESS" => :attention,
+        "UNDER_REVIEW" => :accent,
+        "APPROVED" => :success,
+        "OBSOLETE" => :secondary
+      }.freeze
+
       alias_method :tab_state, :model
 
       delegate :server, :work_package_link, :requirement, :work_package, :project, :can_manage_links?, to: :tab_state
@@ -48,7 +55,11 @@ module SquashTMIntegration
         server.requirement_url(requirement_id)
       end
 
-      def status_label
+      def status_scheme
+        STATUS_SCHEMES.fetch(requirement.status.to_s, :secondary)
+      end
+
+      def requirement_status_label
         I18n.t(requirement.status.to_s.downcase,
                scope: "squashtm_integration.requirement_statuses",
                default: requirement.status.to_s.humanize)

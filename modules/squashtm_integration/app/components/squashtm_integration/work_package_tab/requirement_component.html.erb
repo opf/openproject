@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
 
             if requirement&.status
               details.with_column do
-                render(Primer::Beta::Label.new(size: :large)) { status_label }
+                render(Primer::Beta::Label.new(scheme: status_scheme, size: :large)) { requirement_status_label }
               end
             end
           end
