@@ -52,6 +52,8 @@ import {
   captureRowPositions,
   isOrderableItem,
   reorderRows,
+  resolveBlockMove,
+  resolveBlockMoveAvailability,
   resolveDirectionalPreviousItemId,
   resolveItemElement,
   resolveItemId,
@@ -418,7 +420,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // A direction is offered exactly when the move resolver can produce a
   // target for it, and never for an item moveInDirection would refuse below.
   // Null means the item is not in an owned list yet. A snapshot for menu
-  // gating; the click path re-resolves the live DOM.
+  // gating over the scope the menu was opened for; the click path
+  // re-resolves the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
     if (!isOrderableItem(itemElement)) {
       return {
@@ -427,8 +430,15 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
 
     const list = this.ownerListOf(itemElement);
+    if (!list) {
+      return null;
+    }
 
-    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+    const { items } = this.actionScopeFor(itemElement);
+
+    return items.length > 1
+      ? resolveBlockMoveAvailability({ itemElements: items, rowsContainer: list.rowsContainer })
+      : resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer });
   }
 
   moveToDestination(form:HTMLFormElement):void {
@@ -444,6 +454,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     // know about per-work-package movability, so a stale or over-permissive
     // menu must not execute a move the server will refuse.
     if (this.busy || !isOrderableItem(itemElement)) {
+      return;
+    }
+
+    const { items: scopeItems } = this.actionScopeFor(itemElement);
+    if (scopeItems.length > 1) {
+      this.moveBlockInDirection(itemElement, scopeItems, direction);
       return;
     }
 
@@ -476,6 +492,37 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       previousItemId,
       moveUrl,
       collapseSelectionOnto: itemElement,
+    });
+  }
+
+  // The action scope at activation, resolved against the live DOM; a morph
+  // that broke the block sends nothing and keeps the selection.
+  private moveBlockInDirection(itemElement:HTMLElement, scopeItems:HTMLElement[], direction:MoveDirection):void {
+    const list = this.ownerListOf(itemElement);
+    const moveUrl = this.resolveCollectionMoveUrl();
+    if (!list || !moveUrl) {
+      return;
+    }
+
+    const resolution = resolveBlockMove({ itemElements: scopeItems, direction, rowsContainer: list.rowsContainer });
+    if (!resolution.available) {
+      return;
+    }
+
+    const items = scopeItems
+      .map((element) => itemIdentity(element))
+      .filter((item):item is SelectionItem => item !== null);
+    if (items.length !== scopeItems.length) {
+      return;
+    }
+
+    void this.performMove({
+      rows: resolution.rows,
+      items,
+      rowsContainer: list.rowsContainer,
+      listData: list.listData,
+      previousItemId: resolution.previousItemId,
+      moveUrl,
     });
   }
 
@@ -676,8 +723,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   }
 
-  // Shared by drag drops, single or batch, and by the menu moves that pass
-  // no items.
+  // Shared by drag drops and menu moves, single or batch.
   private async performMove({
     rows,
     items,
