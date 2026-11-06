@@ -38,6 +38,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { boardInlineAddScope } from 'core-app/features/boards/board/inline-add/board-inline-add-scope';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -87,18 +88,19 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     if (results && results.elements.length > 0) {
       filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
     }
-    // Add the subproject filter, if any
     const query = this.querySpace.query.value;
-    if (query?.filters) {
-      const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
-      filters.merge(currentFilters, 'subprojectId');
-    }
+    const columnFilters = query?.filters ? this.urlParamsHelper.buildV3GetFilters(query.filters) : [];
+    const scope = boardInlineAddScope(columnFilters, this.CurrentProject.id);
+    filters.merge(columnFilters, ...scope.forwardedFilters);
 
     return this
       .apiV3Service
-      .withOptionalProject(this.CurrentProject.id)
+      .withOptionalProject(scope.projectId)
       .work_packages
-      .filtered(filters, { sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]' })
+      .filtered(filters, {
+        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
+        ...(query && { includeSubprojects: String(query.includeSubprojects) }),
+      })
       .get()
       .pipe(
         map((collection) => collection.elements),
