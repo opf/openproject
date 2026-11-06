@@ -221,7 +221,7 @@ class User < Principal
   end
 
   def password_expired?
-    current_password.expired?
+    current_password.present? && current_password.expired?
   end
 
   # create new password if password was set
