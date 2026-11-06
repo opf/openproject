@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { PENDING_PREFIX } from '../InlineWorkPackage/callbacks';
-import { BLOCK_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import { BLOCK_ATTRIBUTE_TYPE, INLINE_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import { selectInlineChipAtDOM } from '../../utils/inlineChipActions';
 import { useColors } from '../../services/colors';
 import type { AttributeDisplay } from './externalHtml';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
@@ -26,7 +27,16 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
   const { wpid, displayId, attribute, display } = content;
   const resolved = useWorkPackageAttribute(wpid, attribute);
   useColors();
-  const { elementRef, menuOpen, active, pick, toggleProps } = useAttributeDisplayMenu({ editor, display, onDisplayChange });
+  const { elementRef, menuOpen, active, pick, toggleProps } = useAttributeDisplayMenu({
+    editor,
+    display,
+    onDisplayChange,
+    onActivate: () => selectAttributeNode(),
+  });
+
+  function selectAttributeNode() {
+    if (editor && elementRef.current) selectInlineChipAtDOM(editor, elementRef.current, INLINE_ATTRIBUTE_TYPE);
+  }
 
   return (
     <AttributeChip
