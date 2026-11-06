@@ -1,0 +1,43 @@
+<% html_title(t("test_management.admin.heading")) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.admin.heading") }
+    header.with_breadcrumbs([t(:label_administration), t("test_management.admin.heading")])
+  end
+%>
+
+<%= form_with url: test_management_admin_settings_path, method: :patch, local: true do %>
+  <fieldset class="form--fieldset">
+    <legend><%= t("test_management.admin.general") %></legend>
+    <div class="form--field">
+      <label for="default_display_prefix"><%= t("test_management.admin.default_display_prefix") %></label>
+      <div class="form--field-container">
+        <%= text_field_tag :default_display_prefix,
+                           @settings[:default_display_prefix],
+                           class: "form--text-field",
+                           autocomplete: "off" %>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="form--fieldset">
+    <legend><%= t("test_management.admin.integrations") %></legend>
+    <p><%= t("test_management.admin.integrations_hint") %></p>
+    <p>
+      <%= link_to "GitHub", github_integration_admin_settings_path, class: "button" %>
+      <%= link_to "GitLab", gitlab_integration_admin_settings_path, class: "button" %>
+    </p>
+  </fieldset>
+
+  <fieldset class="form--fieldset" data-test-selector="tm-admin-import-placeholders">
+    <legend><%= t("test_management.admin.import") %></legend>
+    <p><%= t("test_management.admin.import_hint") %></p>
+    <ul>
+      <li><%= t("test_management.admin.import_xray") %> — <%= t("test_management.admin.planned") %></li>
+      <li><%= t("test_management.admin.import_testrail") %> — <%= t("test_management.admin.planned") %></li>
+    </ul>
+  </fieldset>
+
+  <%= submit_tag t(:button_save), class: "button -primary" %>
+<% end %>

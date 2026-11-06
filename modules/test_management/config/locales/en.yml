@@ -1,0 +1,48 @@
+---
+en:
+  activerecord:
+    attributes:
+      test_management/project_setting: {display_prefix: Display prefix, folder_tree_layout: Folder tree layout}
+    models:
+      test_management/project_setting: Test management settings
+  permission_add_test_cases: Add test cases
+  permission_delete_test_cases: Delete test cases
+  permission_edit_test_cases: Edit test cases
+  permission_manage_test_management: Manage test management
+  permission_manage_test_suites: Manage test suites
+  permission_view_test_cases: View test cases
+  project_module_test_management: Test management
+  test_management:
+    admin:
+      default_display_prefix: Default display prefix
+      default_display_prefix_too_long: "Default display prefix is too long (maximum is %{count} characters)."
+      general: General
+      heading: Test management
+      import: Import
+      import_hint: External test management imports are not available yet.
+      import_testrail: TestRail
+      import_xray: Xray
+      integrations: Integrations
+      integrations_hint: Open core GitHub or GitLab integration settings.
+      planned: Planned
+    cases:
+      empty: No test cases yet
+      empty_hint: Case create and folders arrive in a later change.
+      heading: Test cases
+    menu:
+      cases: Cases
+    project_settings:
+      display_prefix_hint: Used as the visible ID prefix for cases (for example DEMO-12).
+      enable_ci: Enable CI
+      enable_milestones: Enable milestones
+      enable_requirements: Enable requirements
+      enable_test_assistant: Enable test assistant
+      enable_test_plans: Enable test plans
+      features: Features
+      folder_tree_layout_hint: How the folder tree is shown next to the cases list.
+      general: General
+      heading: Test management
+      later_release: Available in a later release.
+      layouts:
+        sidebar: Sidebar
+        split_pane: Split pane
