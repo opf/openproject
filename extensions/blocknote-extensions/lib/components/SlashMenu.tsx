@@ -7,6 +7,7 @@ import { findPendingInlineChip, removePendingInlineChip } from '../utils/inlineC
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent.ts';
 import { canCreateWorkPackages } from '../services/openProjectApi.ts';
+import { uniqueId } from '../utils/id';
 import type { AnyEditor } from '../editorTypes';
 import type { PendingMode } from './WorkPackage/types';
 import type { WorkPackage } from '../openProjectTypes';
@@ -56,15 +57,23 @@ function insertBlockWorkPackage(editor:AnyEditor, mode:PendingMode):void {
   const blockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
   if (!blockId) return;
 
+  // The block's component mounts during insertBlocks and reads its pending
+  // mode right away, so the mode has to be registered under a known id first.
+  const pendingBlockId = uniqueId();
+  pendingBlockRegistry.add(pendingBlockId, mode);
+
   const block = {
+    id: pendingBlockId,
     type: 'openProjectWorkPackageBlock' as const,
     props: {},
   } as Parameters<typeof editor.insertBlocks>[0][number];
 
   const [insertedBlock] = editor.insertBlocks([block], blockId, 'after');
-  if (!insertedBlock?.id) return;
+  if (!insertedBlock?.id) {
+    pendingBlockRegistry.delete(pendingBlockId);
+    return;
+  }
 
-  pendingBlockRegistry.add(insertedBlock.id, mode);
   editor.removeBlocks([blockId]);
 }
 
