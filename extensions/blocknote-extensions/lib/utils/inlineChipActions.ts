@@ -7,7 +7,6 @@ import type { InlineWpSize, BlockWpSize } from '../components/WorkPackage/types'
 import { moveCursorAfterBlock } from './cursor';
 import { BLOCK_WP_TYPE, INLINE_WP_TYPE } from './nodeTypes';
 import { hideSafariPhantomSelection } from './selection';
-import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
 
 // Direct, position-based operations on inline work package chips.
 //
@@ -55,46 +54,6 @@ export function findInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement):Found
     if (node?.type.name === INLINE_WP_TYPE) return { position, node };
   }
   return null;
-}
-
-/**
- * Finds a pending chip by its wpid. Only `pending:<uuid>` placeholder wpids
- * are unique in the document, so only those can be found reliably.
- */
-export function findPendingInlineChip(
-  doc:ProsemirrorNode,
-  wpid:string,
-  type:string = INLINE_WP_TYPE,
-):FoundInlineChip | null {
-  if (!wpid.startsWith(PENDING_PREFIX)) return null;
-
-  let found:FoundInlineChip | null = null;
-  doc.descendants((node, position) => {
-    if (found) return false;
-    if (node.type.name === type && node.attrs.wpid === wpid) {
-      found = { position, node };
-      return false;
-    }
-    return true;
-  });
-  return found;
-}
-
-/** Removes a pending chip, if it is still in the document, and says whether it was. */
-export function removePendingInlineChip(
-  editor:AnyEditor,
-  wpid:string,
-  { type = INLINE_WP_TYPE, withSpacer = false }:{ type?:string; withSpacer?:boolean } = {},
-):boolean {
-  return editor.transact((tr) => {
-    const found = findPendingInlineChip(tr.doc, wpid, type);
-    if (!found) return false;
-
-    const end = found.position + found.node.nodeSize;
-    const spacerEnd = withSpacer && end < tr.doc.content.size && tr.doc.textBetween(end, end + 1) === ' ' ? end + 1 : end;
-    tr.delete(found.position, spacerEnd);
-    return true;
-  });
 }
 
 /** The inline content one chip is inserted from. */
