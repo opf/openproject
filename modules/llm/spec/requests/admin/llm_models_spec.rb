@@ -762,6 +762,13 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).not_to include("stop working until another model is selected")
       end
 
+      it "labels the confirm button Remove model rather than Delete" do
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response.body).to include('<span class="Button-label">Remove model</span>')
+        expect(response.body).not_to include('<span class="Button-label">Delete</span>')
+      end
+
       it "offers a confirmation naming the features that would break" do
         create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "hand-typed")
 
