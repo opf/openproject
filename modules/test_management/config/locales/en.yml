@@ -31,4 +31,4 @@ en:
       layouts:
         horizontal: Horizontal (top bar)
         vertical: Vertical (left panel)
-      navigation_layout_hint: "Vertical keeps Cases, Runs, and other sections in the left panel with folders and cases in the main area. Horizontal puts Cases · Runs · Milestones · … in a top bar above folders and cases."
+      navigation_layout_hint: "Vertical keeps Cases and later sections in the left panel with the main area beside it. Horizontal puts Cases and later sections in a top bar above the main area."

@@ -47,9 +47,10 @@ RSpec.describe "Test management section navigation", type: :rails_request do
       expect(response.body).to include(project_test_management_test_cases_path(project))
     end
 
-    it "does not render the horizontal section nav on cases" do
+    it "mounts the left submenu frame and omits the horizontal section nav" do
       get project_test_management_test_cases_path(project)
 
+      expect(response.body).to include('data-test-selector="tm-sub-menu-frame"')
       expect(response.body).not_to include('data-test-selector="tm-section-nav"')
     end
   end
@@ -57,17 +58,18 @@ RSpec.describe "Test management section navigation", type: :rails_request do
   context "with horizontal navigation" do
     before { create(:tm_project_setting, project:, navigation_layout: "horizontal") }
 
-    it "omits sidebar section links" do
+    it "omits sidebar section links when the menu endpoint is hit directly" do
       get project_test_management_menu_path(project, section: "cases")
 
       expect(response).to have_http_status(:ok)
       expect(response.body).not_to include(project_test_management_test_cases_path(project))
     end
 
-    it "renders the horizontal section nav on cases" do
+    it "skips left submenu chrome and renders the horizontal section nav" do
       get project_test_management_test_cases_path(project)
 
       expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include('data-test-selector="tm-sub-menu-frame"')
       expect(response.body).to include('data-test-selector="tm-section-nav"')
     end
   end

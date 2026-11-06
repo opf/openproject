@@ -96,7 +96,10 @@ module OpenProject::TestManagement
                   parent: :test_management,
                   partial: "test_management/menus/menu",
                   caption: :project_module_test_management,
-                  if: ->(project) { project.module_enabled?(:test_management) }
+                  if: ->(project) {
+                    project.module_enabled?(:test_management) &&
+                      TestManagement::ProjectSetting.for_project(project).vertical_navigation?
+                  }
 
         menu.push :settings_test_management,
                   { controller: "/test_management/project_settings", action: :show },
