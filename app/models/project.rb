@@ -194,7 +194,8 @@ class Project < ApplicationRecord
          :available_custom_fields,
          :available_templates,
          :visible,
-         :with_settings
+         :with_settings,
+         :with_visible_internal_comments
 
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])

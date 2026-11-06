@@ -31,12 +31,31 @@
 module WorkPackage::Journalized
   extend ActiveSupport::Concern
 
+  class_methods do
+    def internal_journals_visible_condition(user = User.current)
+      projects = Project.with_visible_internal_comments(user).select(:id)
+
+      "(#{Journal.table_name}.restricted = FALSE OR #{table_name}.project_id IN (#{projects.to_sql}))"
+    end
+  end
+
+  def internal_journals_visible?(user = User.current)
+    EnterpriseToken.allows_to?(:internal_comments) &&
+      project.enabled_internal_comments &&
+      user.allowed_in_project?(:view_internal_comments, project)
+  end
+
+  def last_loaded_visible_journal(user = User.current)
+    return unless journals.loaded?
+
+    visible = internal_journals_visible?(user) ? journals : journals.reject(&:internal?)
+    visible.max_by(&:version)
+  end
+
   included do
     acts_as_journalized journals_association_extension: proc {
       def internal_visible
-        if EnterpriseToken.allows_to?(:internal_comments) &&
-            proxy_association.owner.project.enabled_internal_comments &&
-            User.current.allowed_in_project?(:view_internal_comments, proxy_association.owner.project)
+        if proxy_association.owner.internal_journals_visible?
           all
         else
           where(internal: false)
