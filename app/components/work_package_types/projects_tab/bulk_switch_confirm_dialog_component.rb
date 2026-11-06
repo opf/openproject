@@ -36,20 +36,27 @@ module WorkPackageTypes
 
       DIALOG_ID = "type-projects-bulk-switch-confirm-dialog"
 
-      def initialize(variant:, target:, projects:)
+      def initialize(variant:, target:, projects:, wizard: false)
         super()
 
         @variant = variant
         @target = target
         @projects = projects
+        @wizard = wizard
       end
 
       private
 
       attr_reader :variant, :target, :projects
 
+      def wizard_params = @wizard ? { wizard: true } : {}
+
       def form_arguments
-        { action: variant_projects_switch_path(variant), method: :post, data: { turbo: true, turbo_stream: true } }
+        {
+          action: variant_projects_switch_path(variant, **wizard_params),
+          method: :post,
+          data: { turbo: true, turbo_stream: true }
+        }
       end
     end
   end

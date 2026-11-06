@@ -437,10 +437,12 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
 
   describe "GET link/deletion/new" do
     subject do
-      get new_type_projects_link_deletion_path(type_id: bug.id),
+      get new_type_projects_link_deletion_path(type_id: bug.id, **wizard_flag),
           params: { project_ids: [bookshop.id, foundry.id] },
           as: :turbo_stream
     end
+
+    let(:wizard_flag) { {} }
 
     it "asks to confirm the removal, listing the projects with their variants" do
       subject
@@ -448,6 +450,16 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Remove type &#39;Bug&#39; from these projects?")
         .and include("Bookshop").and include("Foundry").and include("Hardware")
+    end
+
+    context "when opened from the creation wizard" do
+      let(:wizard_flag) { { wizard: true } }
+
+      it "removes the type from within the wizard" do
+        subject
+
+        expect(response.body).to include(%(action="#{type_projects_link_path(type_id: bug.id, wizard: true)}"))
+      end
     end
 
     context "without admin access" do
