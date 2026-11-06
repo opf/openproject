@@ -30,8 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
-                                                      with_flag: { ai_text_actions: true },
-                                                      with_settings: { ai_text_actions_enabled: true } do
+                                                      with_flag: { ai_text_actions: true } do
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:work_package) { create(:work_package, project:, type:) }

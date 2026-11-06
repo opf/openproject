@@ -27,7 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper(data: wrapper_data_attributes) do %>
-  <% unless assistant_enabled? %>
+<%= helpers.turbo_frame_tag("text-actions-frame", **frame_arguments) do %>
+  <% if all_disabled? %>
     <%=
       render(
         Primer::Alpha::Banner.new(
@@ -54,7 +55,6 @@ See COPYRIGHT and LICENSE files for more details.
         header.with_action_button(
           tag: :a,
           href: enable_all_admin_text_actions_path,
-          disabled: !assistant_enabled?,
           scheme: :invisible,
           font_weight: :bold,
           color: :subtle,
@@ -68,7 +68,6 @@ See COPYRIGHT and LICENSE files for more details.
         header.with_action_button(
           tag: :a,
           href: disable_all_admin_text_actions_path,
-          disabled: !assistant_enabled?,
           scheme: :invisible,
           font_weight: :bold,
           color: :subtle,
@@ -93,13 +92,11 @@ See COPYRIGHT and LICENSE files for more details.
           data: item_data(text_action)
         ) do
           render(
-            Admin::TextActions::RowComponent.new(
-              text_action,
-              toggles_enabled: assistant_enabled?
-            )
+            Admin::TextActions::RowComponent.new(text_action)
           )
         end
       end
     end
   %>
+<% end %>
 <% end %>

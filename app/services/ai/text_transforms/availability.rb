@@ -32,7 +32,6 @@ module AI
     class Availability
       REASONS = %i[
         feature_disabled
-        assistant_disabled
         llm_unavailable
         action_inactive
         context_required
@@ -82,8 +81,6 @@ module AI
       def check_assistant
         if !OpenProject::FeatureDecisions.ai_text_actions_active?
           Result.new(false, :feature_disabled)
-        elsif !Setting.ai_text_actions_enabled?
-          Result.new(false, :assistant_disabled)
         elsif !gateway.readiness.ready?
           Result.new(false, :llm_unavailable)
         else

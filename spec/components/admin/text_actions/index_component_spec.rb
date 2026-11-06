@@ -41,7 +41,7 @@ RSpec.describe Admin::TextActions::IndexComponent, type: :component do
     end
   end
 
-  context "with actions", with_settings: { ai_text_actions_enabled: true } do
+  context "with actions" do
     shared_let(:action_a) { create(:ai_text_action, label: "Fix grammar", active: true) }
     shared_let(:action_b) do
       create(:ai_text_action, label: "Translate", active: false,
@@ -51,7 +51,7 @@ RSpec.describe Admin::TextActions::IndexComponent, type: :component do
     let(:text_actions) { [action_a, action_b] }
 
     it_behaves_like "rendering Box", row_count: 2
-    it_behaves_like "rendering Border Box List heading", text: "Text actions"
+    it_behaves_like "rendering Border Box List heading", text: "Action"
 
     it "wires the wrapper as the sortable-lists root with the drop URL template and no optimistic flag" do
       rendered_component
@@ -141,8 +141,8 @@ RSpec.describe Admin::TextActions::IndexComponent, type: :component do
     end
   end
 
-  context "with actions while the assistant setting is disabled" do
-    shared_let(:action) { create(:ai_text_action, label: "Fix grammar", active: true) }
+  context "with all actions disabled" do
+    shared_let(:action) { create(:ai_text_action, label: "Fix grammar", active: false) }
 
     let(:text_actions) { [action] }
 
@@ -151,24 +151,18 @@ RSpec.describe Admin::TextActions::IndexComponent, type: :component do
 
       expect(page).to have_css(
         "[data-test-selector='text-actions-disabled-banner']",
-        text: "Text actions are disabled. The following actions will not be available anywhere."
+        text: I18n.t("admin.text_actions.index_component.disabled_warning")
       )
     end
 
-    it "disables the row toggles and drops their mutation wiring" do
+    it "keeps the toggles and bulk actions usable" do
       rendered_component
 
       toggle = page.find("[data-test-selector='toggle-text-action-#{action.id}']")
-      expect(toggle).to have_css("button[disabled]")
-      expect(toggle["src"]).to be_nil
-    end
-
-    it "disables the enable all and disable all header actions" do
-      rendered_component
-
-      expect(page).to have_css("button[disabled][data-test-selector='enable-all-text-actions']")
-      expect(page).to have_css("button[disabled][data-test-selector='disable-all-text-actions']")
-      expect(page).to have_no_css("a[href='#{enable_all_admin_text_actions_path}']")
+      expect(toggle).to have_no_css("button[disabled]")
+      expect(toggle["src"]).to be_present
+      expect(page).to have_css("a[href='#{enable_all_admin_text_actions_path}']")
+      expect(page).to have_css("a[href='#{disable_all_admin_text_actions_path}']")
     end
   end
 

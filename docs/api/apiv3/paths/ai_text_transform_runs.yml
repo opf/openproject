@@ -110,7 +110,6 @@ post:
         In the latter case `_embedded.details.reason` carries a stable, untranslated code:
 
         * `feature_disabled`: the feature flag `ai_text_actions` is off
-        * `assistant_disabled`: the administrative setting is off
         * `llm_unavailable`: no LLM connection is ready
         * `unknown_action`: no action with the given id exists
         * `action_inactive`: the action is deactivated
