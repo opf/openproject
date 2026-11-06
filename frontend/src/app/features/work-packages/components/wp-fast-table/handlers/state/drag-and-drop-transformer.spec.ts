@@ -27,9 +27,18 @@
 
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { LiveRegionElement } from '@primer/live-region-element';
+import { type MockInstance } from 'vitest';
+import { firstValueFrom, from } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
-import { buildTable, TableHarness, TableHarnessOptions } from '../../testing/table-harness';
+import {
+  buildTable, FakeDragAndDropService, TableHarness, TableHarnessOptions,
+} from '../../testing/table-harness';
 
 const newStatus = { href: '/api/v3/statuses/1' };
 const inProgressStatus = { href: '/api/v3/statuses/2' };
@@ -265,5 +274,375 @@ describe('DragAndDropTransformer with two tables showing the same work packages'
     await table.drop('1', '3', 'bottom');
 
     expect(prepareMove).toHaveBeenCalledExactlyOnceWith(table.querySpace.query.value, ['1', '2', '3'], '1', 2, expect.any(Function));
+  });
+});
+
+function deferred<T = void>() {
+  let resolve!:(value:T) => void;
+  let reject!:(reason:unknown) => void;
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+  return { promise, resolve, reject };
+}
+
+describe('DragAndDropTransformer row moves', () => {
+  let harness:TableHarness;
+  let announce:MockInstance<typeof LiveRegionElement.prototype.announce>;
+
+  const threeRows = [{ id: '1' }, { id: '2' }, { id: '3' }];
+
+  const renderTable = async (options:Partial<TableHarnessOptions> = {}) => {
+    harness = buildTable({
+      workPackages: threeRows,
+      manualSort: true,
+      ...options,
+      configuration: { dragAndDropEnabled: true, ...options.configuration },
+    });
+    await harness.render();
+    return harness.table.rowMover!;
+  };
+
+  const orderService = () => harness.injector.get(WorkPackageViewOrderService);
+
+  const spyOnPrepareMove = () => vi.spyOn(orderService(), 'prepareMove');
+
+  const holdPersist = () => {
+    const gate = deferred();
+    const persisted = deferred();
+    const service = orderService();
+    const original = service.prepareMove.bind(service);
+    const prepareMove = vi.spyOn(service, 'prepareMove').mockImplementation(async (...args) => {
+      const prepared = await original(...args);
+      return {
+        ...prepared,
+        persist: async () => {
+          await gate.promise;
+          await prepared.persist();
+          persisted.resolve();
+        },
+      };
+    });
+    return { prepareMove, release: () => gate.resolve(), persisted: persisted.promise };
+  };
+
+  /** Feeds the refresh after a save from `refresh`; the first lookup loads the moved work package as usual. */
+  const stubRefresh = (refresh:() => Promise<void>) => {
+    const workPackages = harness.injector.get(ApiV3Service).work_packages;
+    const original = workPackages.id.bind(workPackages);
+    let lookups = 0;
+    return vi.spyOn(workPackages, 'id').mockImplementation((id) => {
+      lookups += 1;
+      if (lookups === 1) return original(id);
+      return { get: () => from(refresh().then(() => firstValueFrom(original(id).get()))) } as unknown as ReturnType<typeof original>;
+    });
+  };
+
+  const pickup = (id:string) => {
+    const handle = document.createElement('span');
+    handle.classList.add('wp-table--drag-and-drop-handle');
+    const dragService = harness.injector.get(DragAndDropService) as unknown as FakeDragAndDropService;
+    return dragService.memberOf(harness.tbody).canPickup(harness.row(id), handle);
+  };
+
+  beforeEach(() => {
+    document.body.append(document.createElement('live-region'));
+    announce = vi.spyOn(LiveRegionElement.prototype, 'announce');
+    window.I18n.store({
+      en: { js: { sortable_lists: { announcements: { moved: '%{label} moved to position %{position} of %{total}' } } } },
+    });
+  });
+
+  afterEach(async () => {
+    await harness.destroy();
+    document.querySelector('live-region')?.remove();
+    announce.mockRestore();
+  });
+
+  it('offers down and bottom on the first row', async () => {
+    const mover = await renderTable();
+
+    expect(mover.movableDirections('1')).toEqual(new Set(['down', 'bottom']));
+    expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+    expect(mover.movableDirections('3')).toEqual(new Set(['top', 'up']));
+  });
+
+  it('disables every direction in a single-row table', async () => {
+    const mover = await renderTable({ workPackages: [{ id: '1' }] });
+
+    expect(mover.movableDirections('1')).toEqual(new Set());
+  });
+
+  it('offers no moves outside manual sorting', async () => {
+    const mover = await renderTable({ manualSort: false });
+
+    expect(mover.movableDirections('2')).toBeNull();
+  });
+
+  it('offers no moves in a descending manual sort', async () => {
+    const mover = await renderTable({ manualSortDirection: QUERY_SORT_BY_DESC });
+
+    expect(mover.movableDirections('2')).toBeNull();
+  });
+
+  it('offers no moves in grouped or hierarchy tables', async () => {
+    const grouped = await renderTable({ workPackages: groupedWorkPackages, groups });
+    expect(grouped.movableDirections('2')).toBeNull();
+    await harness.destroy();
+
+    const hierarchy = await renderTable({ showHierarchies: true });
+    expect(hierarchy.movableDirections('2')).toBeNull();
+  });
+
+  it('offers no moves when the query cannot be reordered', async () => {
+    const mover = await renderTable({ canReorder: false });
+
+    expect(mover.movableDirections('2')).toBeNull();
+  });
+
+  it('offers moves when the query can be reordered', async () => {
+    const mover = await renderTable({ canReorder: true });
+
+    expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+  });
+
+  it('offers no moves for a work package that is not rendered', async () => {
+    const mover = await renderTable();
+
+    expect(mover.movableDirections('999')).toBeNull();
+  });
+
+  it('offers no moves when the table has drag and drop disabled', async () => {
+    const mover = await renderTable({ configuration: { dragAndDropEnabled: false } });
+
+    expect(mover.movableDirections('2')).toBeNull();
+  });
+
+  it('moves a row down through the drop path', async () => {
+    const mover = await renderTable();
+    const prepareMove = spyOnPrepareMove();
+    const rendered = harness.nextRender();
+
+    mover.move('1', 'down');
+    await rendered;
+
+    expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['1', '2', '3'], '1', 1, expect.any(Function));
+    expect(harness.rowIds()).toEqual(['2', '1', '3']);
+  });
+
+  it('moves a row to the top', async () => {
+    const mover = await renderTable();
+    const prepareMove = spyOnPrepareMove();
+    const rendered = harness.nextRender();
+
+    mover.move('3', 'top');
+    await rendered;
+
+    expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['1', '2', '3'], '3', 0, expect.any(Function));
+    expect(harness.rowIds()).toEqual(['3', '1', '2']);
+  });
+
+  it('moves a row to the bottom', async () => {
+    const mover = await renderTable();
+    const prepareMove = spyOnPrepareMove();
+    const rendered = harness.nextRender();
+
+    mover.move('1', 'bottom');
+    await rendered;
+
+    expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['1', '2', '3'], '1', 2, expect.any(Function));
+    expect(harness.rowIds()).toEqual(['2', '3', '1']);
+  });
+
+  it('announces the committed position by the row header name', async () => {
+    const mover = await renderTable();
+
+    mover.move('1', 'down');
+
+    await vi.waitFor(() => expect(announce).toHaveBeenCalled());
+    expect(announce).toHaveBeenCalledExactlyOnceWith('Work package 1 moved to position 2 of 3', { politeness: 'polite' });
+  });
+
+  it('announces only after the refreshed render commits', async () => {
+    const mover = await renderTable();
+    const { release, persisted } = holdPersist();
+    const refresh = deferred();
+    stubRefresh(() => refresh.promise);
+
+    mover.move('1', 'down');
+    release();
+    await persisted;
+    await new Promise((resolve) => { setTimeout(resolve, 20); });
+
+    expect(announce).not.toHaveBeenCalled();
+
+    const rendered = harness.nextRender();
+    refresh.resolve();
+    await rendered;
+
+    await vi.waitFor(() => expect(announce).toHaveBeenCalled());
+    expect(announce).toHaveBeenCalledExactlyOnceWith('Work package 1 moved to position 2 of 3', { politeness: 'polite' });
+  });
+
+  it('refuses a second menu move while the first is pending', async () => {
+    const mover = await renderTable();
+    const { prepareMove, release } = holdPersist();
+
+    mover.move('1', 'down');
+    await vi.waitFor(() => expect(prepareMove).toHaveBeenCalled());
+
+    expect(mover.movableDirections('2')).toEqual(new Set());
+    mover.move('2', 'down');
+
+    const rendered = harness.nextRender();
+    release();
+    await rendered;
+
+    expect(prepareMove).toHaveBeenCalledOnce();
+    await vi.waitFor(() => expect(mover.movableDirections('2')).not.toEqual(new Set()));
+  });
+
+  it('refuses a pointer pickup while a menu move is pending', async () => {
+    const mover = await renderTable();
+    const { prepareMove, release } = holdPersist();
+    expect(pickup('3')).toBe(true);
+
+    mover.move('1', 'down');
+    await vi.waitFor(() => expect(prepareMove).toHaveBeenCalled());
+
+    expect(pickup('3')).toBe(false);
+
+    release();
+    await vi.waitFor(() => expect(pickup('3')).toBe(true));
+  });
+
+  it('keeps moves disabled after a failed refresh until the table re-renders', async () => {
+    const mover = await renderTable();
+    const notification = harness.injector.get(HalResourceNotificationService);
+    const handleRawError = vi.spyOn(notification, 'handleRawError');
+    const prepareMove = spyOnPrepareMove();
+    const lookup = stubRefresh(() => Promise.reject(new Error('refresh failed')));
+
+    mover.move('1', 'down');
+    await vi.waitFor(() => expect(handleRawError).toHaveBeenCalled());
+    await new Promise((resolve) => { setTimeout(resolve, 20); });
+
+    expect(announce).not.toHaveBeenCalled();
+    expect(mover.movableDirections('1')).toEqual(new Set());
+
+    lookup.mockRestore();
+    await harness.render([{ id: '2' }, { id: '1' }, { id: '3' }]);
+    await vi.waitFor(() => expect(mover.movableDirections('1')).not.toEqual(new Set()));
+
+    prepareMove.mockClear();
+    const rendered = harness.nextRender();
+    mover.move('1', 'down');
+    await rendered;
+
+    expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['2', '1', '3'], '1', 2, expect.any(Function));
+    expect(harness.rowIds()).toEqual(['2', '3', '1']);
+  });
+
+  it('ignores expanded relation rows when offering and making moves', async () => {
+    harness = buildTable({
+      workPackages: threeRows,
+      manualSort: true,
+      relations: [{ from: '3', to: '1', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+      configuration: { dragAndDropEnabled: true },
+    });
+    harness.expand('3', 'relationsOfTypeFollows');
+    await harness.render();
+    const mover = harness.table.rowMover!;
+    const prepareMove = spyOnPrepareMove();
+    expect(harness.rowIds()).toEqual(['1', '2', '3', '1']);
+
+    expect(mover.movableDirections('3')).toEqual(new Set(['top', 'up']));
+
+    const rendered = harness.nextRender();
+    mover.move('2', 'down');
+    await rendered;
+
+    expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['1', '2', '3'], '2', 2, expect.any(Function));
+  });
+
+  it('keeps moves available in a query that rendered while a failed refresh was pending', async () => {
+    const mover = await renderTable();
+    const refreshStarted = deferred();
+    const refresh = deferred();
+    stubRefresh(() => {
+      refreshStarted.resolve();
+      return refresh.promise;
+    });
+
+    mover.move('1', 'down');
+    await refreshStarted.promise;
+    harness.querySpace.query.putValue({ ...harness.querySpace.query.value } as QueryResource);
+    await harness.render(threeRows);
+    refresh.reject(new Error('refresh failed'));
+
+    await vi.waitFor(() => {
+      expect(mover.movableDirections('1')).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+      expect(pickup('1')).toBe(true);
+    });
+  });
+
+  it('releases the guard at once when a move is abandoned before saving', async () => {
+    const mover = await renderTable();
+    const notification = harness.injector.get(HalResourceNotificationService);
+    const handleRawError = vi.spyOn(notification, 'handleRawError');
+    vi.spyOn(orderService(), 'prepareMove').mockRejectedValue(new Error('positions unavailable'));
+
+    mover.move('1', 'down');
+    await vi.waitFor(() => expect(handleRawError).toHaveBeenCalled());
+
+    await vi.waitFor(() => expect(mover.movableDirections('1')).toEqual(new Set(['down', 'bottom'])));
+    expect(harness.rowIds()).toEqual(['1', '2', '3']);
+    expect(announce).not.toHaveBeenCalled();
+  });
+
+  it('announces nothing after the view moved on during the save', async () => {
+    const mover = await renderTable();
+    const { prepareMove, release, persisted } = holdPersist();
+
+    mover.move('1', 'down');
+    await vi.waitFor(() => expect(prepareMove).toHaveBeenCalled());
+    harness.querySpace.query.putValue({ ...harness.querySpace.query.value } as QueryResource);
+    release();
+    await persisted;
+
+    await vi.waitFor(() => expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up', 'down', 'bottom'])));
+    expect(announce).not.toHaveBeenCalled();
+  });
+
+  it('ignores a direction that is not available', async () => {
+    const mover = await renderTable();
+    const prepareMove = spyOnPrepareMove();
+
+    mover.move('1', 'up');
+    await new Promise((resolve) => { setTimeout(resolve, 20); });
+
+    expect(prepareMove).not.toHaveBeenCalled();
+    expect(announce).not.toHaveBeenCalled();
+  });
+
+  it('announces nothing when the move is abandoned before persisting', async () => {
+    const mover = await renderTable();
+    const service = orderService();
+    const original = service.prepareMove.bind(service);
+    const persist = vi.fn();
+    vi.spyOn(service, 'prepareMove').mockImplementation(async (...args) => {
+      const prepared = await original(...args);
+      await harness.render([{ id: '3' }, { id: '1' }, { id: '2' }]);
+      return { ...prepared, persist };
+    });
+
+    mover.move('1', 'down');
+
+    await vi.waitFor(() => expect(mover.movableDirections('1')).toEqual(new Set(['top', 'up', 'down', 'bottom'])));
+    expect(persist).not.toHaveBeenCalled();
+    expect(announce).not.toHaveBeenCalled();
+    expect(harness.rowIds()).toEqual(['3', '1', '2']);
   });
 });

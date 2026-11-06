@@ -82,6 +82,26 @@ module Components
         end
       end
 
+      def open_submenu(label)
+        within_menu do
+          find(:menuitem, label, exact: true, aria: { haspopup: "menu" }).click
+        end
+        expect(page).to have_menu(label)
+      end
+
+      def choose_in_submenu(submenu, target)
+        open_submenu(submenu)
+        within(:menu, submenu) do
+          find(:menuitem, target, exact: true).click
+        end
+      end
+
+      def expect_no_submenu(label)
+        within_menu do
+          expect(page).to have_no_menuitem(label, exact: true, aria: { haspopup: "menu" })
+        end
+      end
+
       def choose_delete_and_confirm_deletion
         choose "Delete"
 
