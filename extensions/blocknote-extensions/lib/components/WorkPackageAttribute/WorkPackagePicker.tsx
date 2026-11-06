@@ -33,9 +33,6 @@ interface WorkPackagePickerProps {
   onEscape:() => void;
 }
 
-
-// The search of "Link existing work package" in the look of the pickers
-// of the create form.
 export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEscape }:WorkPackagePickerProps) => {
   const { t } = useTranslation();
   const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);

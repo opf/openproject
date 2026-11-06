@@ -6,12 +6,12 @@ import { useColors } from '../../services/colors';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { cachedWorkPackageSchema } from '../../services/workPackageLoader';
 import { formatWorkPackageId } from '../../utils/id';
-import { FullPagePortal, keepFocusInside, usePageScrollLock } from '../WorkPackage/modal';
+import { FullPagePortal, keepFocusInside, usePageScrollLock } from '../Shared/modal';
+import { Button } from '../Shared/Button';
 import { AllowedValuesSelect } from '../CreateWorkPackage/AllowedValuesSelect';
 import {
   Body,
   BodyContent,
-  Button,
   FieldHint,
   FieldLabel,
   FieldRow,
@@ -20,6 +20,7 @@ import {
   HeaderTitle,
   IconButton,
   Overlay,
+  Panel,
   RequiredMark,
 } from '../CreateWorkPackage/atoms';
 import { findAttribute, formatAttributeValue, listAttributes } from './attributes';
@@ -29,9 +30,8 @@ import { WorkPackageAttributeView } from './WorkPackageAttributeView';
 import { useAttributeFormatOptions } from './useWorkPackageAttribute';
 import { WorkPackagePicker } from './WorkPackagePicker';
 import {
-  AttributeChipSurface,
+  AttributeSurface,
   AttributeFieldLabel,
-  AttributePanel,
   DisabledControl,
   DisplayOption,
   DisplayOptions,
@@ -46,8 +46,7 @@ const ATTRIBUTE_CONTROL_ID = 'op-bn-wp-attribute-select';
 const WORK_PACKAGE_CONTROL_ID = 'op-bn-wp-attribute-work-package';
 const DISPLAY_LABEL_ID = 'op-bn-wp-attribute-display';
 
-// What the chip in the preview is drawn with.
-const EDITOR_VARIABLES = [
+const PREVIEW_EDITOR_VARIABLES = [
   '--bn-colors-editor-text',
   '--bn-colors-editor-background',
   '--bn-border-radius',
@@ -92,7 +91,6 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
   const attributes = useMemo(() => (schema ? listAttributes(schema) : []), [schema]);
   const selected = schema && attribute ? findAttribute(schema, attribute) : undefined;
 
-  // A newly picked work package may not offer what the previous one did.
   useEffect(() => {
     if (!schema || !attribute || findAttribute(schema, attribute) || !workPackage) return;
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -155,9 +153,9 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
     );
 
   return (
-    <FullPagePortal anchorEl={anchorEl} carriedVariables={EDITOR_VARIABLES}>
+    <FullPagePortal anchorEl={anchorEl} carriedVariables={PREVIEW_EDITOR_VARIABLES}>
       <Overlay onMouseDown={onCancel}>
-        <AttributePanel
+        <Panel
           ref={panelRef}
           tabIndex={-1}
           aria-label={t('workPackageAttribute.dialog.title')}
@@ -247,7 +245,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
               <PreviewBox data-testid="insert-attribute-preview">
                 {workPackage && selected
                   ? (
-                    <AttributeChipSurface>
+                    <AttributeSurface>
                       <WorkPackageAttributeView
                         resolved={{
                           state: 'ready',
@@ -258,7 +256,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
                         display={display}
                         reference={selected.reference}
                       />
-                    </AttributeChipSurface>
+                    </AttributeSurface>
                   )
                   : <PreviewPlaceholder>{t('workPackageAttribute.dialog.previewEmpty')}</PreviewPlaceholder>}
               </PreviewBox>
@@ -276,7 +274,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
               {t('workPackageAttribute.dialog.insert')}
             </Button>
           </Footer>
-        </AttributePanel>
+        </Panel>
       </Overlay>
     </FullPagePortal>
   );

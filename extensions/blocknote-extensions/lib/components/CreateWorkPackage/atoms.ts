@@ -93,14 +93,8 @@ export const Overlay = styled.div.attrs({
   --op-create-wp-danger: var(--fgColor-danger, #d1242f);
   --op-create-wp-link: var(--fgColor-link, #0969da);
   --op-create-wp-text: var(--fgColor-default, #1f2328);
-  --op-create-wp-accent: var(--button-primary-bgColor-rest, #1f883d);
-  --op-create-wp-accent-hover: var(--button-primary-bgColor-hover, #1c8139);
-  --op-create-wp-accent-text: var(--button-primary-fgColor-rest, #ffffff);
-  --op-create-wp-disabled: var(--button-primary-bgColor-disabled, #95d8a6);
-  --op-create-wp-disabled-text: var(--button-primary-fgColor-disabled, #ffffffcc);
   --op-create-wp-neutral: var(--button-default-bgColor-rest, #f6f8fa);
   --op-create-wp-neutral-hover: var(--button-default-bgColor-hover, #eff2f5);
-  --op-create-wp-neutral-border: var(--button-default-borderColor-rest, #d1d9e0);
   --op-create-wp-control-border: var(--control-borderColor-rest, #d1d9e0);
   --op-create-wp-placeholder: var(--control-fgColor-placeholder, #59636e);
   --op-create-wp-arrow: var(--fgColor-muted, #59636e);
@@ -122,13 +116,8 @@ export const Overlay = styled.div.attrs({
     --op-create-wp-danger: var(--fgColor-danger, #f85149);
     --op-create-wp-link: var(--fgColor-link, #6F8DD3);
     --op-create-wp-text: var(--fgColor-default, #f0f6fc);
-    --op-create-wp-accent: var(--button-primary-bgColor-rest, #238636);
-    --op-create-wp-accent-hover: var(--button-primary-bgColor-hover, #29903b);
-    --op-create-wp-disabled: var(--button-primary-bgColor-disabled, #105823);
-    --op-create-wp-disabled-text: var(--button-primary-fgColor-disabled, #ffffff66);
     --op-create-wp-neutral: var(--button-default-bgColor-rest, #212830);
     --op-create-wp-neutral-hover: var(--button-default-bgColor-hover, #262c36);
-    --op-create-wp-neutral-border: var(--button-default-borderColor-rest, #3d444d);
     --op-create-wp-control-border: var(--control-borderColor-rest, #3d444d);
     --op-create-wp-placeholder: var(--control-fgColor-placeholder, #9198a1);
     --op-create-wp-arrow: var(--fgColor-muted, #9198a1);
@@ -255,50 +244,6 @@ export const IconButton = styled.button`
 
   &:hover {
     background: var(--op-item-hover-bg);
-  }
-`;
-
-export const Button = styled.button<{ $primary?:boolean }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 28px;
-  padding: 0 var(--spacer-l);
-  border-radius: ${radius};
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1;
-  cursor: pointer;
-
-  ${({ $primary }) => ($primary
-    ? css`
-      border: 1px solid var(--op-create-wp-accent);
-      background: var(--op-create-wp-accent);
-      color: var(--op-create-wp-accent-text);
-
-      &:hover:not(:disabled) {
-        border-color: var(--op-create-wp-accent-hover);
-        background: var(--op-create-wp-accent-hover);
-      }
-
-      &:disabled {
-        border-color: var(--op-create-wp-disabled);
-        background: var(--op-create-wp-disabled);
-        color: var(--op-create-wp-disabled-text);
-      }
-    `
-    : css`
-      border: 1px solid var(--op-create-wp-neutral-border);
-      background: var(--op-create-wp-neutral);
-      color: ${textColor};
-
-      &:hover {
-        background: var(--op-create-wp-neutral-hover);
-      }
-    `)}
-
-  &:disabled {
-    cursor: not-allowed;
   }
 `;
 

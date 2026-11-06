@@ -8,10 +8,10 @@ import { PENDING_PREFIX } from '../InlineWorkPackage/callbacks';
 import { normalizeDisplay, type AttributeDisplay } from './externalHtml';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
 import { getPendingAttribute } from './pending';
-import { lastAttributeChoice, rememberAttributeChoice } from './lastChoice';
+import { lastChoice, rememberChoice } from './lastChoice';
 import { InsertAttributeModal } from './InsertAttributeModal';
 import { AttributeDisplayMenu } from './AttributeDisplayMenu';
-import { AttributeChip } from './atoms';
+import { AttributeInline } from './atoms';
 import { WorkPackageAttributeView } from './WorkPackageAttributeView';
 
 interface AttributeProps {
@@ -32,21 +32,21 @@ interface WorkPackageAttributeInlineProps {
 function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange }:WorkPackageAttributeInlineProps) {
   const { wpid, displayId, attribute, display } = content;
   const resolved = useWorkPackageAttribute(wpid, attribute);
-  const chipRef = useRef<HTMLElement | null>(null);
+  const attributeRef = useRef<HTMLElement | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const tapProps = useTapActivation();
   useSuppressFormattingToolbar(editor, menuOpen);
 
-  usePressOutside(chipRef, menuOpen, () => setMenuOpen(false));
+  usePressOutside(attributeRef, menuOpen, () => setMenuOpen(false));
 
   const title = resolved.state === 'ready'
     ? `${formatWorkPackageId(resolved.workPackage.displayId)} · ${resolved.workPackage.subject}`
     : formatWorkPackageId(displayId);
 
   return (
-    <AttributeChip
+    <AttributeInline
       ref={(node:HTMLElement | null) => {
-        chipRef.current = node;
+        attributeRef.current = node;
         contentRef?.(node);
       }}
       title={title}
@@ -65,7 +65,7 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
       {menuOpen && onDisplayChange && (
         <AttributeDisplayMenu
           // eslint-disable-next-line react-hooks/refs
-          anchorEl={chipRef.current}
+          anchorEl={attributeRef.current}
           active={normalizeDisplay(display)}
           onPick={(picked) => {
             setMenuOpen(false);
@@ -73,7 +73,7 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
           }}
         />
       )}
-    </AttributeChip>
+    </AttributeInline>
   );
 }
 
@@ -83,7 +83,7 @@ export function WorkPackageAttributeInline({ content, editor, contentRef, onDisp
 
   if (pending) {
     return (
-      <AttributeChip
+      <AttributeInline
         $selected={false}
         ref={(node:HTMLElement | null) => {
           setAnchorEl(node);
@@ -93,15 +93,15 @@ export function WorkPackageAttributeInline({ content, editor, contentRef, onDisp
         {anchorEl && (
           <InsertAttributeModal
             anchorEl={anchorEl}
-            prefill={lastAttributeChoice()}
+            prefill={lastChoice()}
             onInsert={(choice) => {
-              rememberAttributeChoice(choice);
+              rememberChoice(choice);
               pending.onInsert(choice);
             }}
             onCancel={pending.onCancel}
           />
         )}
-      </AttributeChip>
+      </AttributeInline>
     );
   }
 

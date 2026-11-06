@@ -4,8 +4,8 @@ import { contextProjectId } from '../../services/editorContext';
 import { projectIdFromHref } from '../../utils/id';
 import { allowedValueOf, toAllowedValues } from './formSchema';
 import type { AllowedValue, FieldLabels, FieldValues, FormField } from './formSchema';
-import { lastSelection } from './lastSelection';
-import type { LastSelection } from './lastSelection';
+import { lastChoice } from './lastChoice';
+import type { FormChoice } from './lastChoice';
 
 export interface Prefill {
   values:FieldValues;
@@ -107,7 +107,7 @@ export async function projectPrefill(field:FormField | undefined):Promise<Prefil
 
   // A project picked by hand outranks the one the editor is rendered in, which
   // seeds the first creation and stands in where the picked one is gone.
-  const candidates = [projectIdFromHref(lastSelection()[PROJECT_KEY]?.href), contextProjectId()];
+  const candidates = [projectIdFromHref(lastChoice()[PROJECT_KEY]?.href), contextProjectId()];
 
   for (const id of candidates) {
     if (id === undefined) continue;
@@ -121,7 +121,7 @@ export async function projectPrefill(field:FormField | undefined):Promise<Prefil
 
 /** The values the given fields open with, from what the document remembers and what the API defaults to. */
 export async function prefillFor(fields:FormField[], payload:WorkPackagePayload):Promise<Prefill> {
-  const remembered = lastSelection();
+  const remembered = lastChoice();
   const chosen:[string, AllowedValue | undefined][] = [];
 
   for (const { key, fallsBackToFirst } of PROJECT_DEPENDENT_FIELDS) {
@@ -134,12 +134,12 @@ export async function prefillFor(fields:FormField[], payload:WorkPackagePayload)
   return prefillOf(chosen);
 }
 
-export function selectionToRemember(
+export function choiceToRemember(
   fields:FormField[],
   values:FieldValues,
   labels:FieldLabels
-):LastSelection {
-  const selection:LastSelection = {};
+):FormChoice {
+  const choice:FormChoice = {};
 
   for (const key of REMEMBERED_KEYS) {
     const field = fields.find((candidate) => candidate.key === key);
@@ -149,8 +149,8 @@ export function selectionToRemember(
     const label = allowedValueOf(field, href)?.label ?? labels[key];
     if (!label) continue;
 
-    selection[key] = { href, label };
+    choice[key] = { href, label };
   }
 
-  return selection;
+  return choice;
 }

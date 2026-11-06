@@ -72,7 +72,7 @@ describe('Insert work package attribute', () => {
     expect(attributeStyle.backgroundColor).not.toBe(getComputedStyle(workPackageField().element()).backgroundColor);
     await expect.element(preview()).toHaveTextContent('Choose a work package and an attribute');
     await expect.element(insertButton()).toBeDisabled();
-    expect(getComputedStyle(insertButton().element()).backgroundColor).toBe('rgb(239, 242, 245)');
+    expect(getComputedStyle(insertButton().element()).backgroundColor).toBe('rgb(149, 216, 166)');
   });
 
   it('draws its preview with the colors of the editor it was opened from', async () => {
@@ -128,7 +128,7 @@ describe('Insert work package attribute', () => {
     await pickAttribute('Status');
 
     await expect.element(preview()).toHaveTextContent('In progress');
-    expect(getComputedStyle(insertButton().element()).backgroundColor).toBe('rgb(9, 105, 218)');
+    expect(getComputedStyle(insertButton().element()).backgroundColor).toBe('rgb(31, 136, 61)');
     await userEvent.click(page.getByRole('radio', { name: 'Label + value' }));
     await expect.element(preview()).toHaveTextContent('Status: In progress');
 
