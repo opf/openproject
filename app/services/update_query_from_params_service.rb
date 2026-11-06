@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ class UpdateQueryFromParamsService
     self.current_user = user
   end
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable-next Metrics/AbcSize
   def call(params, valid_subset: false)
     apply_group_by(params)
 
@@ -70,7 +69,6 @@ class UpdateQueryFromParamsService
       ServiceResult.failure(errors: query.errors)
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   private
 

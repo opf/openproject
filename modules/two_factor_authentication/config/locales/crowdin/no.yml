@@ -135,7 +135,7 @@
     error_invalid_backup_code: Ugyldig 2FA backup-kode
     error_is_enforced_not_active: 'Konfigurasjonsfeil: Tofaktorautentisering har blitt håndhevet, men ingen aktive strategier eksisterer.'
     error_no_device: Ingen registrert 2FA-enhet funnet for denne brukeren, til tross for at det kreves for denne forekomsten.
-    error_no_matching_strategy: Ingen matchende 2FA-strategi tilgjengelig for denne brukeren. Ta kontakt med administratoren din.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Tofaktorautentisering ikke aktiv

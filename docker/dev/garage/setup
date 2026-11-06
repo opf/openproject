@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")"
+
+BUCKET="openproject-uploads"
+KEY_NAME="openproject"
+KEY_ID="GKa1b2c3d4e5f60718293a4b5c"
+SECRET_KEY="6f70656e70726f6a6563742d6761726167652d6465762d7365637265742d3031"
+
+DETACH=false
+if [[ "${1:-}" == "-d" || "${1:-}" == "--detach" ]]; then
+  DETACH=true
+fi
+
+garage() {
+  docker compose exec -T garage /garage "$@"
+}
+
+wait_until_healthy() {
+  until [[ "$(docker compose ps --format '{{.Health}}' garage 2> /dev/null)" == "healthy" ]]; do
+    sleep 1
+  done
+}
+
+if $DETACH; then
+  docker compose up -d --wait garage
+else
+  docker compose up garage &
+  compose_pid=$!
+  trap 'kill "$compose_pid" 2> /dev/null || true' EXIT
+  wait_until_healthy
+fi
+
+if garage status | grep -q "NO ROLE ASSIGNED"; then
+  node_id="$(garage node id -q | cut -d@ -f1)"
+  garage layout assign -z dc1 -c 1G "$node_id"
+  garage layout apply --version 1
+fi
+
+garage bucket info "$BUCKET" > /dev/null 2>&1 || garage bucket create "$BUCKET"
+garage key info "$KEY_NAME" > /dev/null 2>&1 || garage key import --yes -n "$KEY_NAME" "$KEY_ID" "$SECRET_KEY"
+garage bucket allow --read --write --owner "$BUCKET" --key "$KEY_NAME"
+
+docker compose run --rm aws s3api put-bucket-cors --bucket "$BUCKET" --cors-configuration '{
+  "CORSRules": [{
+    "AllowedOrigins": ["*"],
+    "AllowedMethods": ["GET", "HEAD", "POST", "PUT"],
+    "AllowedHeaders": ["*"],
+    "ExposeHeaders": ["ETag", "Location"]
+  }]
+}'
+
+echo "Garage is ready: bucket '$BUCKET' on http://localhost:3900"
+
+if ! $DETACH; then
+  wait "$compose_pid"
+fi

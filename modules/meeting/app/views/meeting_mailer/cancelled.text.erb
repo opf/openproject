@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -30,13 +29,17 @@ See COPYRIGHT and LICENSE files for more details.
 <%
   summary =
     if @meeting.recurring?
-      I18n.t("meeting.email.cancelled.summary_occurrence",
-             title: @meeting.title,
-             actor: @actor)
+      I18n.t(
+        "meeting.email.cancelled.summary_occurrence",
+        title: @meeting.title,
+        actor: @actor
+      )
     else
-      I18n.t("meeting.email.cancelled.summary",
-             title: @meeting.title,
-             actor: @actor)
+      I18n.t(
+        "meeting.email.cancelled.summary",
+        title: @meeting.title,
+        actor: @actor
+      )
     end
 %>
 
@@ -45,3 +48,6 @@ See COPYRIGHT and LICENSE files for more details.
 <%= @meeting.project.name %>: <%= @meeting.title %>
 <%= @meeting.author %>
 <%= t :label_meeting_date_time %>: <%= format_date @meeting.start_time %> <%= format_time @meeting.start_time, include_date: false %>-<%= format_time @meeting.end_time, include_date: false %> (<%= formatted_time_zone_offset %>)
+<% if @cancellation_reason.present? %>
+<%= t("meeting.email.cancelled.reason") %>: <%= @cancellation_reason %>
+<% end %>

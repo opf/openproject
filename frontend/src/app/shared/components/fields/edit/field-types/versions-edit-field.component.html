@@ -8,7 +8,6 @@
   bindLabel="name"
   [virtualScroll]="true"
   [clearSearchOnAdd]="true"
-  [addTag]="createAllowed"
   (keydown)="handler.handleUserKeydown($event, true)"
   (open)="onOpen()"
   (close)="onClose()"
@@ -21,9 +20,6 @@
   [groupBy]="groupByFn"
   [dropdownPosition]="'top'"
   [hideSelected]="allowMultiple">
-  <ng-template ng-tag-tmp let-search="searchTerm">
-    <b [textContent]="createLabel"></b>: {{ search }}
-  </ng-template>
   <ng-template ng-option-tmp let-item="item">
     <span
       class="ng-option-label ellipsis"

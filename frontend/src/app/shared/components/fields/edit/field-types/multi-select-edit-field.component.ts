@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -52,7 +51,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     return project?.name || this.I18n.t('js.project.not_available');
   };
 
-  public availableOptions:any[] = [];
+  public availableOptions:HalResource[] = [];
 
   public text = {
     requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
@@ -61,7 +60,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
   };
 
-  public appendTo:any = null;
+  public appendTo:string|null|undefined = null;
 
   public currentValueInvalid = false;
 
@@ -99,7 +98,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   public get value() {
-    const val = this.resource[this.name];
+    const val = this.resource[this.name] as HalResource[]|null|undefined;
     return val ? val[0] : val;
   }
 
@@ -109,7 +108,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    * @returns {any}
    */
   public buildSelectedOption() {
-    const value:HalResource[] = this.resource[this.name];
+    const value = this.resource[this.name] as HalResource[];
     return value ? (Array.isArray(value) ? value : [value]).map((val) => this.findValueOption(val)) : [];
   }
 
@@ -135,7 +134,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       return option;
     };
 
-    (this.resource as Record<string, ValueOption[]>)[this.name] = (Array.isArray(val) ? val : [val]).map((el) => mapper(el) as ValueOption);
+    (this.resource as Record<string, ValueOption[]>)[this.name] = (Array.isArray(val) ? val : [val]).map((el) => mapper(el));
   }
 
   public onOpen() {
@@ -170,9 +169,9 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     return result || this.nullOption;
   }
 
-  private setValues(availableValues:any[], sortValuesByName = false) {
+  private setValues(availableValues:HalResource[], sortValuesByName = false) {
     if (sortValuesByName) {
-      availableValues.sort((a:any, b:any) => {
+      availableValues.sort((a, b) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
@@ -197,11 +196,11 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   private loadValues() {
     const { allowedValues } = this.schema;
     if (Array.isArray(allowedValues)) {
-      this.setValues(allowedValues);
+      this.setValues(allowedValues as HalResource[]);
     } else if (this.schema.allowedValues) {
-      return (this.schema.allowedValues.$load() as Promise<CollectionResource>).then((values:CollectionResource) => {
+      return ((this.schema.allowedValues as HalResource).$load() as Promise<CollectionResource>).then((values:CollectionResource) => {
         // The select options of the project shall be sorted
-        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
+        if (values.count > 0 && values.elements[0]._type === 'Project') {
           this.setValues(values.elements, true);
         } else {
           this.setValues(values.elements);

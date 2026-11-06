@@ -1,11 +1,38 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 require "features/page_objects/notification"
 
-RSpec.describe "new work package", :js, :selenium do
+RSpec.describe "new work package", :js do
   let(:type_task) { create(:type_task, default_work_package_description: "# New Task template\n\nHello there") }
   let(:type_feature) { create(:type_feature, default_work_package_description: "") }
   let(:type_bug) { create(:type_bug, default_work_package_description: "# New Bug template\n\nGeneral Kenobi") }
@@ -34,30 +61,34 @@ RSpec.describe "new work package", :js, :selenium do
 
     type_field.openSelectField
     type_field.set_value type_task
+    loading_indicator_saveguard
     expect(page).to have_css(".inline-edit--container.description h1", text: "New Task template")
 
     type_field.openSelectField
     type_field.set_value type_bug
+    loading_indicator_saveguard
     expect(page).to have_css(".inline-edit--container.description h1", text: "New Bug template")
 
-    description_field.set_value "Something different than the default."
-
-    sleep 0.1
+    wait_for_browser_event("work-package-updated") do
+      description_field.set_value "Something different than the default."
+    end
+    description_field.expect_value "Something different than the default."
 
     type_field.openSelectField
     type_field.set_value type_task
+    loading_indicator_saveguard
     expect(page).to have_css(".inline-edit--container.description", text: "Something different than the default.")
-
-    sleep 0.1
 
     type_field.openSelectField
     type_field.set_value type_bug
+    loading_indicator_saveguard
     expect(page).to have_css(".inline-edit--container.description", text: "Something different than the default.")
 
     if set_project
       project_field.openSelectField
-      project_field.set_value project
-      sleep 1
+      wait_for_browser_event("work-package-form-updated") do
+        project_field.set_value project
+      end
     end
 
     scroll_to_and_click find_by_id("work-packages--edit-actions-save")

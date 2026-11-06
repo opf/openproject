@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -61,7 +60,7 @@ export class WorkPackageViewHierarchiesService extends WorkPackageQueryStateServ
    * Return whether the current hierarchy mode is active
    */
   public get isEnabled():boolean {
-    return !!(this.current && this.current.isVisible);
+    return !!this.current?.isVisible;
   }
 
   public setEnabled(active = true) {

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -148,7 +147,7 @@ RSpec.describe "Work package activity tab comment editor",
       wp_page.wait_for_activity_tab
     end
 
-    it "has the rich text editor aria labelled" do
+    it "has the rich text editor aria labeled" do
       activity_tab.add_comment(text: "Sample text", save: false)
 
       activity_tab.expect_focus_on_editor
@@ -164,10 +163,12 @@ RSpec.describe "Work package activity tab comment editor",
   describe "Attachments" do
     let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
     let(:editor) { Components::WysiwygEditor.new }
+    let(:comment) { nil }
 
     current_user { admin }
 
     before do
+      comment
       wp_page.visit!
       wp_page.wait_for_activity_tab
     end
@@ -183,9 +184,15 @@ RSpec.describe "Work package activity tab comment editor",
       attachment = Attachment.where(author: admin).last
       expect(attachment.container).to be_nil
 
-      click_on "Submit"
+      wait_for_browser_event(
+        "turbo:submit-end",
+        target_id: "work-package-journal-form-element",
+        wait: 20
+      ) do
+        click_on "Submit"
+      end
 
-      expect(page).to have_content("An image caption")
+      expect(page).to have_test_selector("op-journal-notes-body", text: "An image caption", wait: 20)
       journal = work_package.reload.journals.last
       expect(journal.attachments).to contain_exactly(attachment)
     end
@@ -214,7 +221,7 @@ RSpec.describe "Work package activity tab comment editor",
 
         click_on "Save"
 
-        expect(page).to have_content("An image caption")
+        expect(page).to have_text("An image caption")
         newly_attached = Attachment.where(author: admin).last
         expect(comment.reload.attachments).to contain_exactly(newly_attached)
         expect(comment.reload.attachments).not_to include(existing_attachment)

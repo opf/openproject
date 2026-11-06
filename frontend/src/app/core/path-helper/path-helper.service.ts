@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -93,7 +92,7 @@ export class PathHelperService {
   }
 
   public bimDetailsPath(projectIdentifier:string, workPackageId:string, viewpoint:number|string|null = null) {
-    let path = `${this.projectPath(projectIdentifier)}/bcf/details/${workPackageId}`;
+    let path = `${this.projectPath(projectIdentifier)}/bcf/details/${workPackageId}/overview`;
 
     if (viewpoint !== null) {
       path += `?query_props=%7B"t"%3A"id%3Adesc"%2C"dr"%3A"splitCards"%7D&viewpoint=${viewpoint.toString()}`;
@@ -332,8 +331,9 @@ export class PathHelperService {
     return `${this.workPackagePath(workPackageId)}/${tab}`;
   }
 
-  public workPackageShortPath(id:string|number) {
-    return `${this.staticBase}/wp/${id.toString()}`;
+  public workPackageShortPath(id:string|number, { format }:{ format?:string } = {}) {
+    const path = `${this.staticBase}/wp/${id.toString()}`;
+    return format ? `${path}.${format}` : path;
   }
 
   public workPackageCopyPath(projectIdentifier:string|null, workPackageId:string|number) {
@@ -457,8 +457,8 @@ export class PathHelperService {
     return `${this.staticBase}/time_entries/${timeEntryId}`;
   }
 
-  public myTimeTrackingRefresh(date:string, viewMode:string, mode:string) {
-    return `${this.staticBase}/my/time-tracking/refresh?date=${date}&view_mode=${viewMode}&mode=${mode}`;
+  public myTimeRefresh(date:string, viewMode:string, mode:string, entries:string) {
+    return `${this.staticBase}/my/time/refresh?date=${date}&view_mode=${viewMode}&mode=${mode}&entries=${entries}`;
   }
 
   public previewCustomFieldRoleAssignmentDialog(customFieldId:number, roleId:number) {

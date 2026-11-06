@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -67,7 +66,7 @@ export default class PollingController extends BaseController {
 
   private updateInProgress = false;
   private pollingHalted = false;
-  private intervallId:number;
+  private intervalId:number;
   private abortController = new AbortController();
 
   initialize() {
@@ -128,15 +127,15 @@ export default class PollingController extends BaseController {
   private startPolling() {
     if (this.pollingHalted) return;
 
-    if (this.intervallId) {
+    if (this.intervalId) {
       this.stopPolling();
     }
 
-    this.intervallId = window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
+    this.intervalId = window.setInterval(() => this.updateActivitiesList(), this.pollingIntervalInMsValue);
   }
 
   private stopPolling() {
-    window.clearInterval(this.intervallId);
+    window.clearInterval(this.intervalId);
   }
 
   private isPermanentPollingFailure(error:unknown):boolean {

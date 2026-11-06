@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,7 +59,7 @@ module Storages
               let(:parent_location) { "/Folder" }
               let(:path) { "/Folder/#{folder_name}" }
 
-              # If you need to re-record this VCR cassete, execute "when folder already exists" first to make sure the
+              # If you need to re-record this VCR cassette, execute "when folder already exists" first to make sure the
               # parent folder already exists
 
               it_behaves_like "adapter create_folder_command: successful folder creation"

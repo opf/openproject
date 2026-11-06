@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,7 +76,7 @@ RSpec.describe Budgets::Widgets::BudgetTotals, type: :component do
     let(:work_package) { create(:work_package, project:, budget:) }
     let!(:budget) { create(:budget, project:, base_amount: BigDecimal("10000")) }
     let!(:hourly_rate) do
-      create(:hourly_rate, user: current_user, project:, rate: 50.0, valid_from: 1.month.ago)
+      create(:hourly_rate, principal: current_user, project:, rate: 50.0, valid_from: 1.month.ago)
     end
     let!(:time_entry) do
       create(:time_entry, entity: work_package, project:, user: current_user, hours: 40, spent_on: Date.current)
@@ -103,7 +102,7 @@ RSpec.describe Budgets::Widgets::BudgetTotals, type: :component do
     let(:work_package) { create(:work_package, project:, budget:) }
     let!(:budget) { create(:budget, project:, base_amount: BigDecimal("5000")) }
     let!(:hourly_rate) do
-      create(:hourly_rate, user: current_user, project:, rate: 100.0, valid_from: 1.month.ago)
+      create(:hourly_rate, principal: current_user, project:, rate: 100.0, valid_from: 1.month.ago)
     end
     let!(:time_entry) do
       create(:time_entry, entity: work_package, project:, user: current_user, hours: 100, spent_on: Date.current)

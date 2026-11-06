@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject } from '@angular/core';
 import moment, { Moment } from 'moment';
 import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
@@ -39,7 +38,12 @@ import {
 } from '../wp-timeline';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { TableUiWork } from 'core-app/features/work-packages/components/wp-fast-table/table-ui-work';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-grid',
   template: '<div class="wp-table-timeline--grid"></div>',
   standalone: false,
@@ -48,7 +52,25 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineGrid implements AfterViewInit {
+  readonly destroyRef = inject(DestroyRef);
+  private table:WorkPackageTable;
+  private uiWork:TableUiWork;
+
+  private prepareAttachment():boolean {
+    const controller = this.wpTimeline;
+    const table = controller.workPackageTable;
+    if (this.destroyRef.destroyed || controller.destroyed || !table) return false;
+    if (this.table !== table) {
+      this.uiWork?.cancel();
+      this.table = table;
+      this.uiWork = new TableUiWork(table.destroyRef,
+        () => !this.destroyRef.destroyed && !controller.destroyed && controller.workPackageTable === table);
+    }
+    return true;
+  }
+
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   wpTimeline = inject(WorkPackageTimelineTableController);
   private weekdaysService = inject(WeekdayService);
@@ -60,10 +82,14 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
   ngAfterViewInit():void {
     const element = this.elementRef.nativeElement;
     this.gridContainer = element.querySelector<HTMLElement>('.wp-table-timeline--grid')!;
-    this.wpTimeline.onRefreshRequested('grid', (vp:TimelineViewParameters) => this.refreshView(vp));
+    if (this.destroyRef.destroyed) return;
+    const release = this.wpTimeline.onRefreshRequested('grid', (vp:TimelineViewParameters) => this.refreshView(vp));
+    onDestroySafely(this.destroyRef, release);
+    onDestroySafely(this.destroyRef, () => this.uiWork?.cancel());
   }
 
   refreshView(vp:TimelineViewParameters):void {
+    if (!this.prepareAttachment()) return;
     this.renderLabels(vp);
   }
 
@@ -162,6 +188,7 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
     startView:Moment,
     endView:Moment,
     cellCallback:(start:Moment, cell:HTMLElement) => void):void {
+    if (!this.prepareAttachment()) return;
     const { inViewportAndBoundaries, rest } = getTimeSlicesForHeader(vp, unit, startView, endView);
 
     for (const [start, end] of inViewportAndBoundaries) {
@@ -172,7 +199,8 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
       this.gridContainer.appendChild(cell);
       cellCallback(start, cell);
     }
-    setTimeout(() => {
+    const uiWork = this.uiWork;
+    uiWork.task(() => {
       for (const [start, end] of rest) {
         const cell = document.createElement('div');
         cell.classList.add(timelineElementCssClass, timelineGridElementCssClass);
@@ -181,7 +209,7 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
         this.gridContainer.appendChild(cell);
         cellCallback(start, cell);
       }
-    }, 0);
+    });
   }
 
   private checkForNonWorkingDayHighlight(date:Moment, cell:HTMLElement) {

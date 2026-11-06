@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +33,8 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_section: nil, meeting_agenda_item: nil, hidden: true, type: :simple, current_occurrence: nil)
+    def initialize(meeting:, meeting_section: nil, meeting_agenda_item: nil, hidden: true, type: :simple,
+                   current_occurrence: nil, relative_to: nil, insert_position: nil)
       super
 
       @meeting = meeting
@@ -42,12 +43,22 @@ module MeetingAgendaItems
       @hidden = hidden
       @type = type
       @current_occurrence = current_occurrence
+      @relative_to = relative_to
+      @insert_position = insert_position
     end
 
     private
 
+    def relative?
+      @relative_to.present?
+    end
+
+    def relative_key
+      "relative-#{@relative_to.id}-#{@insert_position}" if relative?
+    end
+
     def wrapper_uniq_by
-      @meeting_section&.id
+      relative_key || @meeting_section&.id
     end
 
     def build_agenda_item

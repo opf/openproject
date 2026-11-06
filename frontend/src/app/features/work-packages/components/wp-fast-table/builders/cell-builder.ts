@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,6 +33,8 @@ import {
   editFieldContainerClass,
 } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { Injector } from '@angular/core';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { isNavigableColumn, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -47,15 +48,21 @@ export class CellBuilder {
 
   @LazyInject(WorkPackageViewBaselineService) wpTableBaseline:WorkPackageViewBaselineService;
 
-  public fieldRenderer = new DisplayFieldRenderer(this.injector, 'table');
+  public fieldRenderer:DisplayFieldRenderer;
 
-  constructor(public injector:Injector) {
+  constructor(public injector:Injector, private readonly configuration:WorkPackageTableConfiguration) {
+    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false });
   }
 
-  public build(workPackage:WorkPackageResource, column:QueryColumn) {
-    const td = document.createElement('td');
+  public build(workPackage:WorkPackageResource, column:QueryColumn, isRowHeader = false):HTMLTableCellElement {
+    const td = document.createElement(isRowHeader ? 'th' : 'td');
+    if (isRowHeader) td.scope = 'row';
     const attribute = column.id;
     td.classList.add(tdClassName, attribute);
+
+    if (isNavigableColumn(column, this.configuration)) {
+      td.classList.add(navigableCellClassName);
+    }
 
     if (attribute === 'subject') {
       td.classList.add('-max');
@@ -77,23 +84,33 @@ export class CellBuilder {
 
     const container = document.createElement('span');
     td.appendChild(container);
-    this.render(container, workPackage, attribute);
+    this.render(container, workPackage, attribute, td);
 
     return td;
   }
 
   public refresh(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
     container.innerHTML = '';
-    this.render(container, workPackage, attribute);
+    this.render(container, workPackage, attribute, container.parentElement as HTMLTableCellElement);
   }
 
-  private render(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
+  private render(
+    container:HTMLElement,
+    workPackage:WorkPackageResource,
+    attribute:string,
+    cell:HTMLTableCellElement,
+  ):void {
     const schema = this.schemaCache.of(workPackage);
     const mappedName = schema.mappedName(attribute);
     const hasBaseline = attribute !== 'id' && this.wpTableBaseline.isChanged(workPackage, mappedName);
     container.classList.add(editCellContainer, editFieldContainerClass, attribute);
 
     const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
+
+    if (attribute === 'subject' || attribute === 'id') {
+      const name = displayElement.textContent ?? '';
+      cell.dataset.rowHeaderName = name;
+    }
 
     if (hasBaseline) {
       displayElement.classList.add('op-table-baseline--field', 'op-table-baseline--new-field');
@@ -109,7 +126,7 @@ export class CellBuilder {
     attribute:string,
   ):void {
     const base = (workPackage.attributesByTimestamp!)[0];
-    base.$links.schema = base.$links.schema || workPackage.$links.schema;
+    base.$links.schema = base.$links.schema ?? workPackage.$links.schema;
     const span = this.fieldRenderer.render(base, attribute, null);
     span.classList.add('op-table-baseline--field', 'op-table-baseline--old-field');
     container.classList.add('op-table-baseline--container');

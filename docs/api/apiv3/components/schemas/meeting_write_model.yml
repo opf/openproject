@@ -32,6 +32,14 @@ properties:
       - in_progress
       - cancelled
       - closed
+  agendaSortingMode:
+    type: string
+    description: |-
+      The agenda sorting mode. Defaults to `manual` on creation. Updating it requires
+      `edit_meetings`. Switching modes preserves votes and manual positions.
+    enum:
+      - manual
+      - vote_based
   sharing:
     type: string
     description: |-

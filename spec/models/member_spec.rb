@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,7 @@ RSpec.describe Member do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
 
-  subject(:member) { build(:global_member, user:, roles: [global_role]) }
+  subject(:member) { build(:global_member, principal: user, roles: [global_role]) }
 
   describe "relations" do
     it { expect(member).to have_many(:member_roles).dependent(:destroy) }

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,7 +32,6 @@ import { map } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
@@ -69,7 +67,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
   showAttachments:boolean;
 
   ngOnInit():void {
-    const project = this.workPackage.project as HalResource;
+    const project = this.workPackage.project;
     if (project.id === null) {
       return;
     }

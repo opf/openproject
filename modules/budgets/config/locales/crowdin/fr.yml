@@ -61,6 +61,8 @@ fr:
   attributes:
     budget: Budget
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: Aucun taux horaire au %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ fr:
   events:
     budget: Budget modifié
   help_click_to_edit: Cliquez ici pour modifier.
-  help_currency_format: Format des valeurs monétaires affichées. %n est remplacé par le montant, %u est remplacé par l'unité monétaire.
+  help_currency_format: Format des valeurs monétaires affichées. %n est remplacé par la valeur monétaire, %u est remplacé par l'unité monétaire.
   help_override_rate: Entrez une valeur ici pour outrepasser les tarifs de défaut.
   label_budget_available: Budget disponible
   label_budget_details: Détails du budget

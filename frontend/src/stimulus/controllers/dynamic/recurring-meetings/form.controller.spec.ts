@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -101,6 +100,22 @@ describe('Recurring meetings form controller', () => {
     expect(url).toContain('specific_date');
     expect(url).toContain('2026-08-11');
     expect(url).toContain('iterations');
+    expect(request.mock.calls[0][3]).toBe('recurring-meeting-humanize-schedule');
+  });
+
+  it('settles quietly when a newer request replaces the schedule request', async () => {
+    const controller = await renderForm();
+    request.mockRejectedValueOnce(new DOMException('The user aborted a request.', 'AbortError'));
+
+    await expect(controller.updateFrequencyText()).resolves.toBeUndefined();
+  });
+
+  it('rejects when the schedule request fails', async () => {
+    const controller = await renderForm();
+    const failure = new Error('Internal Server Error');
+    request.mockRejectedValueOnce(failure);
+
+    await expect(controller.updateFrequencyText()).rejects.toBe(failure);
   });
 
   it('does not request when disconnected before the context resolves', async () => {

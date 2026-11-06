@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -60,7 +59,10 @@ function buildRow(id:string, opts:{ handle?:boolean } = {}):HTMLElement {
 
 function buildContainer(ids:string[], opts:{ handle?:boolean } = {}):{ container:HTMLElement; rows:HTMLElement[] } {
   const container = document.createElement('div');
-  container.style.cssText = 'width:200px;';
+  // `overflow-y` with no height keeps the container a scroll container for
+  // Pragmatic's computed-overflow check. This also computes overflow-x to
+  // `auto`, but rows are exactly 200px wide in a 200px container.
+  container.style.cssText = 'width:200px; overflow-y:auto;';
   const rows = ids.map((id) => {
     const row = buildRow(id, opts);
     container.appendChild(row);
@@ -159,7 +161,7 @@ describe('DragAndDropService', () => {
   describe('container append', () => {
     it('reports a drop below the rows as a null-target append intent', async () => {
       const { container, rows } = buildContainer(['a0', 'a1']);
-      container.style.cssText = 'width:200px; padding-bottom:40px;';
+      container.style.cssText = 'width:200px; padding-bottom:40px; overflow-y:auto;';
       const onMoved = vi.fn();
       service.register(buildMember(container, { onMoved }));
 

@@ -4,13 +4,13 @@ post:
   summary: Query Create Form
   operationId: Query_Create_Form
   tags:
-  - Queries
+    - Queries
   description: ''
   requestBody:
     content:
       application/json:
         schema:
-          "$ref": "../components/schemas/query_create_form.yml"
+          $ref: "../components/schemas/query_create_form.yml"
   responses:
     '200':
       description: OK

@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,7 +45,7 @@ RSpec.describe "Only see your own rates", :js do
   let(:work_package) { create(:work_package) }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:hourly_rate) do
-    create(:default_hourly_rate, user:,
+    create(:default_hourly_rate, principal: user,
                                  rate: 10.00)
   end
   let(:time_entry) do
@@ -74,7 +73,7 @@ RSpec.describe "Only see your own rates", :js do
            member_with_roles: { project => other_role })
   end
   let(:other_hourly_rate) do
-    create(:default_hourly_rate, user: other_user,
+    create(:default_hourly_rate, principal: other_user,
                                  rate: 11.00)
   end
   let(:other_time_entry) do

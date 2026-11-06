@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -111,7 +110,7 @@ RSpec.describe DigestMailer do
     it "includes a reference to the notification center if there are more than the maximum number of shown work packages" do
       stub_const("DigestMailer::MAX_SHOWN_WORK_PACKAGES", 0)
 
-      expect(mail_body).to have_text I18n.t(:"mail.work_packages.more_to_see.one")
+      expect(mail_body).to have_text I18n.t(:"mail.work_packages.more_to_see", count: 1)
       expect(mail_body).to have_link(I18n.t(:"mail.work_packages.see_all"), href: notifications_url)
     end
 

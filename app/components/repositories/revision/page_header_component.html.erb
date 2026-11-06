@@ -1,6 +1,6 @@
 <%= render Primer::OpenProject::PageHeader.new do |header| %>
   <% header.with_title do %>
-    <%= "#{t(:label_revision)} #{helpers.format_revision(@changeset)}" %>
+    <%= t(:label_revision) %> <%= helpers.format_revision(@changeset) %>
   <% end %>
 
   <% header.with_breadcrumbs([{

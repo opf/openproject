@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -83,7 +82,7 @@ RSpec.describe Grids::Widgets::News, type: :component do
         expect(rendered_component).to have_list_item(count: 2)
         expect(rendered_component).to have_list_item(position: 2) do |item|
           expect(item).to have_link href: project_news_path(project_red, news_red)
-          expect(item).to have_content(/Added by .+ on \d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [AP]M/)
+          expect(item).to have_text(/Added by .+ on \d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [AP]M/)
           expect(item).to have_link href: user_path(author)
         end
       end
@@ -106,7 +105,7 @@ RSpec.describe Grids::Widgets::News, type: :component do
         expect(rendered_component).to have_list_item(count: 3)
         expect(rendered_component).to have_list_item(position: 3) do |item|
           expect(item).to have_link href: project_news_path(project, news_items.first)
-          expect(item).to have_content(/Added by .+ on \d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [AP]M/)
+          expect(item).to have_text(/Added by .+ on \d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [AP]M/)
           expect(item).to have_link href: user_path(author)
         end
       end

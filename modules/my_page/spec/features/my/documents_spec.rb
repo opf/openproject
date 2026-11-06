@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,8 +30,7 @@ require "spec_helper"
 require_relative "../../support/pages/my/page"
 
 RSpec.describe "My page documents widget",
-               :js,
-               :selenium do
+               :js do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
   let!(:visible_document) do
@@ -73,13 +71,13 @@ RSpec.describe "My page documents widget",
     document_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
-      .to have_content visible_document.title
+      .to have_text visible_document.title
     expect(page)
-      .to have_content visible_document.description
+      .to have_text visible_document.description
     expect(page)
-      .to have_content visible_document.created_at.strftime("%m/%d/%Y")
+      .to have_text visible_document.created_at.strftime("%m/%d/%Y")
 
     expect(page)
-      .to have_no_content invisible_document.title
+      .to have_no_text invisible_document.title
   end
 end

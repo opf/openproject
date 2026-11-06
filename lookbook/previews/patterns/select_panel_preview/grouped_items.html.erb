@@ -1,0 +1,46 @@
+<%=
+  render(
+    Workflows::RoleSelectPanelComponent.new(
+      select_variant: :multiple,
+      fetch_strategy: :local,
+      title: "Select roles",
+      open_on_load: true,
+      data: {
+        controller: "admin--workflow-role-select",
+        action: "input->admin--workflow-role-select#filterGroups"
+      }
+    )
+  ) do |panel|
+    panel.with_show_button(scheme: :secondary) do |button|
+      button.with_trailing_visual_icon(icon: :"triangle-down")
+      "2 roles selected"
+    end
+    panel.with_divider(data: { "admin--workflow-role-select-target": "groupHeading", role_group: 0 }) do
+      "With transitions"
+    end
+    panel.with_item(
+      label: "Project admin", active: true, item_id: "1",
+      data: { filter_string: "Project admin", role_group: 0 }
+    )
+    panel.with_item(
+      label: "Member", active: true, item_id: "2",
+      data: { filter_string: "Member", role_group: 0 }
+    )
+    panel.with_divider(data: { "admin--workflow-role-select-target": "groupHeading", role_group: 1 }) do
+      "Without transitions"
+    end
+    panel.with_item(
+      label: "Reader", item_id: "3",
+      data: { filter_string: "Reader", role_group: 1 }
+    )
+    panel.with_item(
+      label: "Non member", item_id: "4",
+      data: { filter_string: "Non member", role_group: 1 }
+    )
+    panel.with_footer(show_divider: true) do
+      render(
+        Primer::Beta::Button.new(scheme: :primary)
+      ) { t(:button_apply) }
+    end
+  end
+%>

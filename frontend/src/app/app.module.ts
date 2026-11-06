@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -40,13 +39,10 @@ import { OpSpotModule } from 'core-app/spot/spot.module';
 import { OpDragScrollDirective } from 'core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { OpenprojectBoardsModule } from 'core-app/features/boards/openproject-boards.module';
+import { OpenprojectBimModule } from 'core-app/features/bim/openproject-bim.module';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
-import { OpenprojectRouterModule } from 'core-app/core/routing/openproject-router.module';
-import {
-  OpenprojectWorkPackageRoutesModule,
-} from 'core-app/features/work-packages/openproject-work-package-routes.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
 import { OpenprojectGlobalSearchModule } from 'core-app/core/global_search/openproject-global-search.module';
@@ -92,10 +88,16 @@ import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-el
 import {
   EmbeddedTablesMacroComponent,
 } from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
+import {
+  WorkPackageEmbeddedTableEntryComponent,
+} from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table-entry.component';
 import { OpPrincipalComponent } from 'core-app/shared/components/principal/principal.component';
 import {
   OpBasicSingleDatePickerComponent,
 } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
+import {
+  OpBasicSingleDatetimePickerComponent,
+} from 'core-app/shared/components/datepicker/basic-single-datetime-picker/basic-single-datetime-picker.component';
 import {
   OpBasicRangeDatePickerComponent,
 } from 'core-app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component';
@@ -112,6 +114,9 @@ import {
 import {
   UserAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
+import {
+  ResourceAllocationAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/resource-allocation-autocompleter/resource-allocation-autocompleter.component';
 import {
   MeetingAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/meeting-autocompleter/meeting-autocompleter.component';
@@ -143,13 +148,16 @@ import {
   BoardEntryComponent,
 } from 'core-app/features/boards/board/board-partitioned-page/board-entry.component';
 import { CalendarEntryComponent } from 'core-app/features/calendar/calendar-entry.component';
+import { IfcViewerEntryComponent } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-viewer-entry.component';
+import {
+  BcfContentRightEntryComponent,
+} from 'core-app/features/bim/ifc_models/bcf/split/right/bcf-content-right-entry.component';
 import { TeamPlannerEntryComponent } from 'core-app/features/team-planner/team-planner/team-planner-entry.component';
 import { TeamPlannerModule } from 'core-app/features/team-planner/team-planner/team-planner.module';
 import {
   StorageLoginButtonComponent,
 } from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
 import { OpCustomModalOverlayComponent } from 'core-app/shared/components/modal/custom-modal-overlay.component';
-import { TimerAccountMenuComponent } from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
 import {
   RemoteFieldUpdaterComponent,
 } from 'core-app/shared/components/remote-field-updater/remote-field-updater.component';
@@ -184,7 +192,6 @@ import { ColorsAutocompleterComponent } from 'core-app/shared/components/colors/
 import {
   StaticAttributeHelpTextComponent,
 } from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
-import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import { SpotSwitchComponent } from 'core-app/spot/components/switch/switch.component';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -194,13 +201,17 @@ import {
 import {
   OpWpDatePickerInstanceComponent,
 } from 'core-app/shared/components/datepicker/wp-date-picker-modal/wp-date-picker-instance.component';
+import { AppBadgeService } from 'core-app/features/in-app-notifications/bell/app-badge.service';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
 import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packages/routing/wp-full-view/wp-full-view-entry.component';
+import { WorkPackageViewPageEntryComponent } from 'core-app/features/work-packages/routing/wp-view-page/wp-view-page-entry.component';
 import { MyPageComponent } from './features/my-page/my-page.component';
 import { DashboardComponent } from './features/overview/dashboard.component';
 import { BurndownChartComponent } from './features/backlogs/burndown-chart.component';
+import { CreatedResolvedComponent } from './features/backlogs/created-resolved-chart.component';
+import { VelocityChartComponent } from './features/backlogs/velocity-chart.component';
 import { BudgetByCostTypeComponent } from './shared/components/budget-graphs/overview/budget-by-cost-type.component';
 import { ActualCostsComponent } from './shared/components/budget-graphs/overview/actual-costs.component';
 import { ProjectTimelineGraphComponent } from './shared/components/project-timeline-graph/project-timeline-graph.component';
@@ -230,18 +241,10 @@ export function initializeServices(injector:Injector) {
 
     keyboardShortcuts.register();
 
-    return injector.get(ConfigurationService).initialize();
+    const configuration = injector.get(ConfigurationService).initialize();
+    void configuration.then(() => injector.get(AppBadgeService).initialize()).catch(() => undefined);
+    return configuration;
   };
-}
-
-export function runBootstrap(appRef:ApplicationRef) {
-  // Try to bootstrap a dynamic root element
-  const root = document.querySelector(appBaseSelector);
-  if (root) {
-    appRef.bootstrap(ApplicationBaseComponent, root);
-  }
-
-  document.body.classList.add('__ng2-bootstrap-has-run');
 }
 
 @NgModule({
@@ -269,8 +272,6 @@ export function runBootstrap(appRef:ApplicationRef) {
     OpSpotModule,
     // State module
     OpenProjectStateModule,
-    // Router module
-    OpenprojectRouterModule,
     // Hal Module
     OpenprojectHalModule,
     OpenProjectJobStatusModule,
@@ -282,12 +283,14 @@ export function runBootstrap(appRef:ApplicationRef) {
     OpenprojectGridsModule,
     OpenprojectAttachmentsModule,
 
-    // Work packages and their routes
+    // Work packages
     OpenprojectWorkPackagesModule,
-    OpenprojectWorkPackageRoutesModule,
 
     // Boards
     OpenprojectBoardsModule,
+
+    // BIM/BCF
+    OpenprojectBimModule,
 
     // Work packages in graph representation
     OpenprojectWorkPackageGraphsModule,
@@ -357,20 +360,23 @@ export function runBootstrap(appRef:ApplicationRef) {
 export class OpenProjectModule implements DoBootstrap {
   // noinspection JSUnusedGlobalSymbols
   ngDoBootstrap(appRef:ApplicationRef) {
-    runBootstrap(appRef);
+    document.body.classList.add('__ng2-bootstrap-has-run');
     this.registerCustomElements(appRef.injector);
   }
 
   private registerCustomElements(injector:Injector) {
     registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
+    registerCustomElement('opce-embedded-work-package-table', WorkPackageEmbeddedTableEntryComponent, { injector });
     registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
+    registerCustomElement('opce-basic-single-datetime-picker', OpBasicSingleDatetimePickerComponent, { injector });
     registerCustomElement('opce-range-date-picker', OpBasicRangeDatePickerComponent, { injector });
     registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector });
     registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
     registerCustomElement('opce-project-autocompleter', ProjectAutocompleterComponent, { injector });
     registerCustomElement('opce-members-autocompleter', MembersAutocompleterComponent, { injector });
     registerCustomElement('opce-user-autocompleter', UserAutocompleterComponent, { injector });
+    registerCustomElement('opce-resource-allocation-autocompleter', ResourceAllocationAutocompleterComponent, { injector });
     registerCustomElement('opce-meeting-autocompleter', MeetingAutocompleterComponent, { injector });
     registerCustomElement('opce-time-entries-work-package-autocompleter', TimeEntriesWorkPackageAutocompleterComponent, { injector });
     registerCustomElement('opce-macro-attribute-value', AttributeValueMacroComponent, { injector });
@@ -388,12 +394,14 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-wp-split-view', WorkPackageSplitViewEntryComponent, { injector });
     registerCustomElement('opce-wp-split-create', WorkPackageSplitCreateEntryComponent, { injector });
     registerCustomElement('opce-board-view', BoardEntryComponent, { injector });
+    registerCustomElement('opce-ifc-viewer-view', IfcViewerEntryComponent, { injector });
+    registerCustomElement('opce-bcf-content-right', BcfContentRightEntryComponent, { injector });
     registerCustomElement('opce-calendar-view', CalendarEntryComponent, { injector });
     registerCustomElement('opce-team-planner-view', TeamPlannerEntryComponent, { injector });
     registerCustomElement('opce-wp-full-view', WorkPackageFullViewEntryComponent, { injector });
+    registerCustomElement('opce-work-packages-view', WorkPackageViewPageEntryComponent, { injector });
     registerCustomElement('opce-wp-full-create', WorkPackageFullCreateEntryComponent, { injector });
     registerCustomElement('opce-wp-full-copy', WorkPackageFullCopyEntryComponent, { injector });
-    registerCustomElement('opce-timer-account-menu', TimerAccountMenuComponent, { injector });
     registerCustomElement('opce-remote-field-updater', RemoteFieldUpdaterComponent, { injector });
     registerCustomElement('opce-wp-date-picker-instance', OpWpDatePickerInstanceComponent, { injector });
     registerCustomElement('opce-spot-drop-modal-portal', SpotDropModalPortalComponent, { injector });
@@ -416,6 +424,8 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-my-page', MyPageComponent, { injector });
     registerCustomElement('opce-dashboard', DashboardComponent, { injector });
     registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector });
+    registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector });
+    registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector });
     registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
     registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector });
     registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector });

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,7 +49,7 @@ class UserCustomFieldSection < CustomFieldSection
   # Returns [[section, [ordered_cfs]], ...] for the given user's filled, visible
   # custom fields.  Pass visible_on_user_card: true to restrict to hover-card fields.
   # Two SQL queries: one for sections, one for the relevant CFs (both use filled_cf_ids
-  # as a subquery so no values are materialised into Ruby memory).
+  # as a subquery so no values are materialized into Ruby memory).
   def self.with_filled_fields_for(user, visible_on_user_card: nil) # rubocop:disable Metrics/AbcSize
     cf_scope = UserCustomField.visible(User.current)
     cf_scope = cf_scope.where(visible_on_user_card: true) if visible_on_user_card

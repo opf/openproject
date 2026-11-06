@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,7 +33,6 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { zoomLevelOrder } from 'core-app/features/work-packages/components/wp-table/timeline/wp-timeline';
 import { TimelineLabels, TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
-import { StateService } from '@uirouter/angular';
 
 @Component({
   templateUrl: './timelines-tab.component.html',
@@ -49,7 +47,6 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
   readonly I18n = inject(I18nService);
   readonly wpTableTimeline = inject(WorkPackageViewTimelineService);
   readonly wpTableColumns = inject(WorkPackageViewColumnsService);
-  readonly $state = inject(StateService);
 
   public timelineVisible = false;
 
@@ -127,6 +124,6 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
   }
 
   timelineToggleDisabled():boolean {
-    return !!this.$state.current.name?.includes('gantt');
+    return window.location.pathname.includes('/gantt');
   }
 }

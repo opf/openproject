@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,10 +31,11 @@ module WorkPackageTypes
   module FormConfiguration
     class InactiveAttributesListComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include AttributeItemData
 
-      def initialize(variant:, inactive_attributes:)
+      def initialize(context:, inactive_attributes:)
         super
-        @variant = variant
+        @context = context
         @inactive_attributes = inactive_attributes
       end
 
@@ -45,23 +45,19 @@ module WorkPackageTypes
         {
           "test-selector": "type-form-configuration-inactive-container",
           "admin--type-form-configuration--main-target": "inactiveContainer",
-          "admin--type-form-configuration--rows-drag-and-drop-target": "container",
-          "target-container-accessor": "[data-test-selector='type-form-configuration-inactive-list']",
-          "target-id": "inactive",
-          "target-allowed-drag-type": "attribute"
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: SortableTypes::INACTIVE_ATTRIBUTE,
+          sortable_lists__list_accepted_type_value: SortableTypes::ATTRIBUTE,
+          sortable_lists__list_name_value: t("types.edit.form_configuration.inactive_attributes_heading"),
+          sortable_lists__list_rows_container_element: ".type-form-configuration-page--inactive-list"
         }
       end
 
       def item_data(attribute)
-        {
-          attr_key: attribute[:key],
-          attr_translation: attribute[:translation],
-          attr_is_cf: attribute[:is_cf],
-          "draggable-id": attribute[:key],
-          "draggable-type": "attribute",
-          "drop-url": drop_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id,
-                                                            row_key: attribute[:key])
-        }
+        merge_data(
+          { data: attribute_item_data(attribute) },
+          { data: { "filter--filter-list-target": "searchItem" } }
+        )
       end
     end
   end

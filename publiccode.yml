@@ -15,9 +15,9 @@ logo: 'publiccode_logo.svg'
 platforms:
   - web
 usedBy:
+  - Deutsche Bahn
   - Deutsches Museum
   - Europäische Kommission
-  - Deutsche Bahn
   - FITKO
   - Fraunhofer Institut
   - Harvard University
@@ -136,7 +136,7 @@ description:
       portfolio management.
 
       The software can be deployed on an organization’s own infrastructure, ensuring that users retain full control over their data and systems.
-      
+
       Additionally, the manufacturer offers hosting in a data center within the European Union in their [Enterprise Cloud](https://www.openproject.org/enterprise-edition/), which complies with the General Data Protection Regulation (GDPR).
 
       OpenProject complies with the requirements of the [BSI IT-Grundschutz](https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/IT-Grundschutz/it-grundschutz_node.html) and is continuously tested against the WCAG 2.1 guidelines, as demonstrated in the [audit report](https://gitlab.opencode.de/bmi/opendesk/info/-/blob/main/24.03/Barrierefreiheit/Barrierefreiheitsbericht%20-%20Komponente%20Projekte.pdf).
@@ -151,7 +151,7 @@ description:
     localisedName: OpenProject
     documentation: 'https://www.openproject.org/de/docs/'
     apiDocumentation: 'https://www.openproject.org/de/docs/api'
-    shortDescription: Web-basierte Projekt-Management und Projektportfolio-Mangement Software
+    shortDescription: Web-basierte Projekt-Management und Projektportfolio-Management Software
     screenshots:
       - screenshots/opencode_openproject_1_homepage.png
       - screenshots/opencode_openproject_2_gantt_chart.png
@@ -180,7 +180,7 @@ description:
       OpenProject ist eine web-basierte Projektmanagement-Lösung, welche speziell auf die Anforderungen der öffentlichen Verwaltung zugeschnitten ist. Sie unterstützt Projektplanung, Aufgabenmanagement, agile Workflows, Zeiterfassung und Projektportfolio-Management.
 
       Die Software kann in der eigenen Infrastruktur betrieben werden, sodass einsetzende Organisationen die volle Kontrolle über ihre Daten behalten.
-      
+
       Zusätzlich bietet der Hersteller in ihrer [Enterprise Cloud](https://www.openproject.org/de/enterprise-edition) ein Hosting in einem Rechenzentrum innerhalb der Europäischen Union an, das gemäß der Datenschutz-Grundverordnung (DS-GVO) erfolgt.
 
       OpenProject entspricht den Anforderungen des [BSI

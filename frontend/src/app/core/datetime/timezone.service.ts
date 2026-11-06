@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +28,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import moment, { Moment } from 'moment-timezone';
+import moment, { Moment, MomentInput } from 'moment-timezone';
 import { outputChronicDuration } from '../../shared/helpers/chronic_duration';
 
 @Injectable({ providedIn: 'root' })
@@ -55,7 +54,7 @@ export class TimezoneService {
       .tz(this.userTimezone());
   }
 
-  public parseDate(date:Date|string, format?:string):Moment {
+  public parseDate(date:MomentInput, format?:string):Moment {
     return moment(date, format);
   }
 
@@ -99,6 +98,17 @@ export class TimezoneService {
   public formattedDatetime(datetimeString:string):string {
     const c = this.formattedDatetimeComponents(datetimeString);
     return `${c[0]} ${c[1]}`;
+  }
+
+  /**
+   * The date a datetime falls on in the user's configured timezone, which is not what
+   * {@link formattedDate} answers: that one parses without a zone, as suits the 'YYYY-MM-DD'
+   * strings it is meant for.
+   *
+   * @param {String} datetimeString an instant, as 'YYYY-MM-DDTHH:mm:ssZ'
+   */
+  public formattedDatetimeAsDate(datetimeString:string):string {
+    return this.formattedDatetimeComponents(datetimeString)[0];
   }
 
   public formattedRelativeDateTime(datetimeString:string):string {
@@ -169,15 +179,15 @@ export class TimezoneService {
     return outputChronicDuration(seconds, opts) || '0h';
   }
 
-  public formattedISODate(date:any):string {
+  public formattedISODate(date:MomentInput):string {
     return this.parseDate(date).format('YYYY-MM-DD');
   }
 
-  public formattedISODateTime(datetime:any):string {
+  public formattedISODateTime(datetime:Moment):string {
     return datetime.format();
   }
 
-  public isValidISODate(date:any):boolean {
+  public isValidISODate(date:string):boolean {
     return this.isValid(date, 'YYYY-MM-DD');
   }
 
@@ -196,5 +206,26 @@ export class TimezoneService {
 
   public getTimeFormat():string {
     return this.configurationService.timeFormatPresent() ? this.configurationService.timeFormat() : 'LT';
+  }
+
+  /**
+   * Parses a date and time in the user's date and time format and time zone,
+   * as produced by formattedDatetime, and returns it as UTC ISO 8601 string.
+   *
+   * Uses moment instead of luxon, as the configured date and time formats are delivered
+   * as moment tokens (see API::V3::Configuration::ConfigurationRepresenter#date_format).
+   */
+  public parseFormattedDatetime(text:string):string|null {
+    const format = `${this.getDateFormat()} ${this.getTimeFormat()}`;
+    const parsed = moment.tz(text, format, true, this.userTimezone());
+
+    return parsed.isValid() ? parsed.utc().format() : null;
+  }
+
+  public uses24HourClock():boolean {
+    const format = this.getTimeFormat();
+    const expandedFormat = moment.localeData().longDateFormat(format as moment.LongDateFormatKey) || format;
+
+    return !/[aA]/.test(expandedFormat);
   }
 }

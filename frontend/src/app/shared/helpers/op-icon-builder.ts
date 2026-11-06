@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { toDOMString } from '@openproject/octicons-angular';
+import { SVGData, toDOMString } from '@openproject/octicons-angular';
 
 /**
  * Return an <i> HTML element with the given icon classes
@@ -44,7 +43,7 @@ export function opIconElement(...classes:string[]) {
  * Return an <i> HTML element with the octicon SVG inside
  * aria-hidden=true is set
  */
-export function octiconElement(iconData:any, size:'xsmall'|'small' = 'small', classes = '', title = '') {
+export function octiconElement(iconData:SVGData, size:'xsmall'|'small' = 'small', classes = '', title = '') {
   const iconString:string = toDOMString(
     iconData, // SVG data for the icon.
     size,

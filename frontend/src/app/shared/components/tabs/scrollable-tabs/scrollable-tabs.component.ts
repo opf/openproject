@@ -20,22 +20,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Injector, OnChanges, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
-import {
-  RawParams,
-  StateService,
-  UIRouterGlobals,
-} from '@uirouter/core';
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   templateUrl: 'scrollable-tabs.component.html',
@@ -45,8 +40,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
   standalone: false,
 })
 export class ScrollableTabsComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
-  protected readonly $state = inject(StateService);
   private cdRef = inject(ChangeDetectorRef);
+  private I18n = inject(I18nService);
   injector = inject(Injector);
 
   @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef<HTMLElement>;
@@ -69,7 +64,10 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
 
   @Output() public tabSelected = new EventEmitter<TabDefinition>();
 
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
+  public text = {
+    scrollLeft: this.I18n.t('js.label_scroll_left'),
+    scrollRight: this.I18n.t('js.label_scroll_right'),
+  };
 
   counters:Record<string, Observable<number>> = {};
 
@@ -89,18 +87,6 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
 
     this.resizeObserver = new ResizeObserver(() => this.updateScrollableArea());
     this.resizeObserver.observe(this.container);
-
-    this
-      .uiRouterGlobals
-      .params$
-      ?.pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe((params) => {
-        if (params.tabIdentifier) {
-          this.currentTabId = params.tabIdentifier as string;
-        }
-      });
   }
 
   override ngOnDestroy():void {
@@ -164,14 +150,6 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
     this.debouncedTabActivationTimeout = setTimeout(() => {
       this.currentTabId = tab.id;
       this.tabSelected.emit(tab);
-
-      const route = this.$state.includes('**.details.*')
-        ? this.$state.$current.name
-        : tab.route;
-
-      if (route) {
-        void this.$state.go(route, tab.routeParams as RawParams);
-      }
 
       this.debouncedTabActivationTimeout = null;
     }, 300);

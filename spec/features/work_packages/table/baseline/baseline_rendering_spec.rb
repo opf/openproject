@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,8 +62,7 @@ RSpec.describe "baseline rendering",
 
   shared_let(:project) do
     create(:project,
-           types: [type_bug, type_task, type_milestone],
-           work_package_custom_fields: custom_fields)
+           types: [type_bug, type_task, type_milestone])
   end
   shared_let(:user) do
     create(:admin,
@@ -312,6 +310,18 @@ RSpec.describe "baseline rendering",
                                          priority: ["Default", "High priority"],
                                          assignee: ["Assigned User", "Itsa Me"],
                                          responsible: ["Assigned User", "Itsa Me"]
+
+      changed_header = wp_table.row(wp_task_changed).find(:element, :th, scope: "row", role: "rowheader",
+                                                                         accessible_name: "New subject", exact: true)
+      expect(changed_header.style("padding-right")).to eq("padding-right" => "2px")
+      expect(wp_table.table_container)
+        .to have_element(:tr, role: "row", exact: true,
+                              accessible_name: "New subject",
+                              accessible_description: "Modified within the comparison time period")
+      expect(wp_table.table_container)
+        .to have_element(:tr, role: "row", exact: true,
+                              accessible_name: "Bug changed to Task",
+                              accessible_description: "Added to view within the comparison time period")
 
       baseline.expect_changed_attributes wp_task_assigned,
                                          assignee: ["-", "Itsa Me"]

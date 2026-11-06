@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,12 +38,13 @@ module Components
         text = descending ? "Sort descending" : "Sort ascending"
 
         SeleniumHubWaiter.wait unless using_cuprite?
-        open_table_column_context_menu(name, selector)
-        SeleniumHubWaiter.wait unless using_cuprite?
+        page.document.synchronize(20) do
+          open_table_column_context_menu(name, selector)
+          raise Capybara::ElementNotFound unless page.has_css?("#column-context-menu", wait: 2)
 
-        within_column_context_menu do
-          click_button text
+          page.find_by_id("column-context-menu").find_button(text).click
         end
+        SeleniumHubWaiter.wait unless using_cuprite?
 
         wait_for_network_idle
       end

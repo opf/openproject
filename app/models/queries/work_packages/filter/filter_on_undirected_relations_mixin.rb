@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,13 +56,13 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
 
   def relations_subselect_to_from
     relation_subselect
-      .where(to_id: values)
+      .where(to_id: work_package_ids)
       .select(:from_id)
   end
 
   def relations_subselect_from_to
     relation_subselect
-      .where(from_id: values)
+      .where(from_id: work_package_ids)
       .select(:to_id)
   end
 

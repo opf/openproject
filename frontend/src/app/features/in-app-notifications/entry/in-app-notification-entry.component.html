@@ -78,7 +78,7 @@
   class="op-ian-item--middle-line"
   >
   <span
-    [ngClass]="'op-ian-item--work-package-type __hl_inline_type_' + workPackage.type.id"
+    [ngClass]="'op-ian-item--work-package-type ' + typeHighlightingClass(workPackage)"
     [textContent]="workPackage.type.name">
   </span>
   <span

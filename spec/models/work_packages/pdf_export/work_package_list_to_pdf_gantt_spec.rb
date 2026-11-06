@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -440,6 +439,23 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
          "and groups work packages without a target version under a none placeholder" do
         expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
                                      "1.0, 2.0",
+                                     wp_title_column(work_package_task),
+                                     I18n.t(:label_none_parentheses),
+                                     wp_title_column(work_package_milestone),
+                                     "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
+      end
+    end
+
+    context "with multiple versions inactive",
+            with_settings: { work_package_multiple_versions: false } do
+      let(:query_attributes) { { group_by: "version" } }
+      let(:version_one) { create(:version, project:, name: "2.0") }
+      let(:version_two) { create(:version, project:, name: "1.0") }
+
+      it "groups a work package under its lowest-id target version, " \
+         "and groups work packages without a target version under a none placeholder" do
+        expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
+                                     version_one.name,
                                      wp_title_column(work_package_task),
                                      I18n.t(:label_none_parentheses),
                                      wp_title_column(work_package_milestone),

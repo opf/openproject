@@ -1,0 +1,14 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: 127.0.0.1
+  username: openproject
+  password: openproject
+
+development:
+  <<: *default
+  database: openproject_development
+
+test:
+  <<: *default
+  database: openproject_test<%= ENV["TEST_ENV_NUMBER"] %>

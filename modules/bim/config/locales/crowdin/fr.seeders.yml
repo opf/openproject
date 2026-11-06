@@ -61,7 +61,7 @@ fr:
         item_2:
           name: Gestionnaires BIM
         item_3:
-          name: Modélisateurs BIM
+          name: BIM Modelers
         item_4:
           name: Coordonnateurs principaux BIM
         item_5:
@@ -511,18 +511,18 @@ fr:
               description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
               children:
                 item_0:
-                  subject: Modélisation du modèle BIM initial
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Objectif
+                    # Goal
 
-                    * Modélisation du modèle BIM initial
-                    * Création d'un modèle BIM pour toute l'équipe de projet
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
                     # Description
 
-                    * Selon les données collectées du client, le modèle initial sera modélisé
-                    * Le modèle doit être modélisé selon les matrices LOD et contenir les informations nécessaires
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Initial, contrôle et révision du modèle interne
                   description: |-
@@ -538,23 +538,23 @@ fr:
                   subject: Soumission du modèle BIM initial
                   description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
             item_4:
-              subject: Modélisation, premier cycle
+              subject: Modeling, first cycle
               description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
               children:
                 item_0:
                   subject: Référencement des modèles BIM externes
                   description: |-
-                    # Objectif
+                    # Goal
 
-                    * Avoir une base pour développer le modèle interne/offrir des réponses
-                    * Utiliser le modèle externe pour développer le modèle interne
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
                     # Description
 
-                    * Le modèle externe sera référencé dans la plateforme BIM, et utilisé pour modéliser le modèle interne
-                    * ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: Modélisation du modèle BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # Objectif
 
@@ -602,19 +602,19 @@ fr:
                   subject: Finalisation de la coordination, premier cycle
                   description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
             item_6:
-              subject: Modélisation et coordination, deuxième cycle
+              subject: Modeling & coordinating, second cycle
               description: "## Objectif\r\n\r\n* ...\r\n\r\n## Description\r\n\r\n* \\ ..."
             item_7:
-              subject: Modélisation et coordination, ... cycle
+              subject: Modeling & coordinating, ... cycle
               description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
             item_8:
-              subject: Modélisation et coordination, (n-ème moins 1) cycle
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Objectif\r\n\r\n* ...\r\n\r\n## Description\r\n\r\n* \\ ..."
             item_9:
-              subject: Modélisation et coordination du n-ième cycle
+              subject: Modeling & coordinating n-th cycle
               description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
             item_10:
-              subject: Fin de la modélisation et de la coordination, n-ième cycle
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Ce type est hiérarchiquement un parent des types &quot;Conflit&quot; et &quot;Requête&quot;, et représente donc une note générale.
             item_11:
               subject: Utiliser le modèle pour la phase de construction

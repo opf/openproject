@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,8 @@
 require "rails_helper"
 
 RSpec.describe Members::RowComponent, type: :component do
+  include Rails.application.routes.url_helpers
+
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role) }
 
@@ -46,9 +47,11 @@ RSpec.describe Members::RowComponent, type: :component do
     create(:member, principal: regular_group, project:, roles: [role])
   end
 
+  let(:columns) { [:groups] }
+
   let(:table) do
     instance_double(Members::TableComponent,
-                    columns: [:groups],
+                    columns:,
                     project:,
                     authorize_update: false,
                     authorize_delete: false,
@@ -67,5 +70,39 @@ RSpec.describe Members::RowComponent, type: :component do
     # Exactly one briefcase: the department, not the regular group.
     expect(rendered).to have_css("td.groups .octicon-briefcase", count: 1)
     expect(rendered).to have_css("td.groups [aria-label='Organizational unit']", count: 1)
+  end
+
+  describe "the roles column" do
+    let(:columns) { [:roles] }
+
+    context "when the current user may inspect role permissions" do
+      current_user { create(:admin) }
+
+      it "names every role and offers an icon opening its permissions dialog" do
+        expect(rendered).to have_css("td.roles", text: role.name)
+        expect(rendered).to have_css("td.roles a[data-test-selector='op-roles--permissions-preview']",
+                                     count: 1,
+                                     visible: :all)
+        expect(rendered).to have_css("td.roles a[href='#{role_permissions_dialog_path(role)}']", visible: :all)
+        expect(rendered).to have_css("td.roles a[data-controller='async-dialog']", visible: :all)
+      end
+    end
+
+    context "when the current user holds the role themselves" do
+      current_user { user }
+
+      it "offers the preview for their own role" do
+        expect(rendered).to have_css("td.roles a[href='#{role_permissions_dialog_path(role)}']", visible: :all)
+      end
+    end
+
+    context "when the current user neither manages members nor holds the role" do
+      current_user { create(:user) }
+
+      it "renders the role names as plain text" do
+        expect(rendered).to have_css("td.roles", text: role.name)
+        expect(rendered).to have_no_css("td.roles a")
+      end
+    end
   end
 end

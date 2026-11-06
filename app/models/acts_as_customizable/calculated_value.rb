@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -92,7 +91,7 @@ module ActsAsCustomizable::CalculatedValue
 
       custom_field_values(all: true)
         .select { it.custom_field_id.in?(given_ids) }
-        .to_h { [it.custom_field.column_name, it.typed_value] }
+        .to_h { [it.custom_field.column_name, as_calculable(it.typed_value)] }
     end
 
     def calculated_value_fields_to_compute(custom_fields:, enabled_ids:)
@@ -129,6 +128,15 @@ module ActsAsCustomizable::CalculatedValue
         given_values: given_cfs,
         calculated_fields: enabled_calculated_fields
       )
+    end
+
+    def as_calculable(value)
+      case value
+      when CustomField::Hierarchy::Item
+        value.weight
+      else
+        value
+      end
     end
   end
 end

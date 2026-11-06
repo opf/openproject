@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,18 +30,182 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraClient do
-  subject(:client) { described_class.new(url:, personal_access_token:) }
+  subject(:client) { described_class.new(url:, auth_method:, personal_access_token:, basic_auth_username:, basic_auth_password:) }
 
   let(:url) { "https://jira.example.com" }
+  let(:auth_method) { "bearer" }
   let(:personal_access_token) { "test-token" }
+  let(:basic_auth_username) { nil }
+  let(:basic_auth_password) { nil }
 
   describe "#initialize" do
-    context "when personal_access_token is nil" do
-      let(:personal_access_token) { nil }
+    context "with bearer auth" do
+      let(:auth_method) { "bearer" }
 
-      it "raises ApiError" do
-        expect { client }.to raise_error(Import::JiraClient::Error)
+      context "when personal_access_token is nil" do
+        let(:personal_access_token) { nil }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /personal access token/i)
+        end
       end
+
+      context "when personal_access_token is blank" do
+        let(:personal_access_token) { "" }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /personal access token/i)
+        end
+      end
+
+      context "when personal_access_token is present" do
+        let(:personal_access_token) { "valid-token" }
+
+        it "creates the client successfully" do
+          expect { client }.not_to raise_error
+        end
+      end
+    end
+
+    context "with basic auth" do
+      let(:auth_method) { "basic" }
+      let(:personal_access_token) { nil }
+      let(:basic_auth_username) { "user" }
+      let(:basic_auth_password) { "pass" }
+
+      context "when basic_auth_username is blank" do
+        let(:basic_auth_username) { "" }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /basic auth username/i)
+        end
+      end
+
+      context "when basic_auth_password is blank" do
+        let(:basic_auth_password) { "" }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /basic auth password/i)
+        end
+      end
+
+      context "when both username and password are present" do
+        it "creates the client successfully" do
+          expect { client }.not_to raise_error
+        end
+      end
+    end
+
+    context "with unknown auth method" do
+      let(:auth_method) { "unknown" }
+
+      it "raises Error" do
+        expect { client }.to raise_error(Import::JiraClient::Error, /Unknown authentication method/i)
+      end
+    end
+  end
+
+  describe "#issue_watchers", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:issue_key) { "OP-10" }
+    let(:issue_watchers_url) { "#{url}/rest/api/2/issue/#{issue_key}/watchers" }
+    let(:headers) { { "Content-Type" => "application/json" } }
+    let(:body) do
+      {
+        "watchers" => [
+          {
+            "name" => "magdalena",
+            "key" => "JIRAUSER666",
+            "emailAddress" => "maggie@jira.internet",
+            "displayName" => "maggie",
+            "active" => true,
+            "timeZone" => "Etc/UTC"
+          }
+        ],
+        "isWatching" => true,
+        "watchCount" => 1
+      }
+    end
+
+    it "returns the watchers of the given issue" do
+      stub_request(:get, issue_watchers_url).to_return(status: 200, body: body.to_json, headers:)
+      expect(client.issue_watchers(issue_key)).to eq(body)
+    end
+
+    context "when the issue is not found" do
+      let(:body) { { "errorMessages" => ["Issue Does Not Exist"], "errors" => {} } }
+
+      it "raises an error" do
+        stub_request(:get, issue_watchers_url).to_return(status: 404, body: body.to_json, headers:)
+        expect { client.issue_watchers(issue_key) }.to raise_error(Import::JiraClient::ApiError, /status 404/)
+      end
+    end
+  end
+
+  describe "#resolutions", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:body) { [{ "id" => "10000", "name" => "Done" }, { "id" => "10001", "name" => "Won't Do" }] }
+
+    it "returns all resolutions of the instance" do
+      stub_request(:get, "#{url}/rest/api/2/resolution")
+        .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
+
+      expect(client.resolutions).to eq(body)
+    end
+  end
+
+  describe "#resolutions_count", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:headers) { { "Content-Type" => "application/json" } }
+
+    it "returns the total of the paged resolutions" do
+      stub_request(:get, "#{url}/rest/api/2/resolution/page")
+        .with(query: { maxResults: 0 })
+        .to_return(status: 200, body: { "total" => 7, "values" => [] }.to_json, headers:)
+
+      expect(client.resolutions_count).to eq(7)
+    end
+
+    context "when the paged resolutions are not supported" do
+      it "counts all resolutions of the instance" do
+        stub_request(:get, "#{url}/rest/api/2/resolution/page")
+          .with(query: { maxResults: 0 })
+          .to_return(status: 404, body: { "errorMessages" => [] }.to_json, headers:)
+        stub_request(:get, "#{url}/rest/api/2/resolution")
+          .to_return(status: 200, body: [{ "id" => "10000" }, { "id" => "10001" }].to_json, headers:)
+
+        expect(client.resolutions_count).to eq(2)
+      end
+    end
+  end
+
+  describe "#administrator?", :webmock do
+    include_context "with ssrf stubs"
+
+    before do
+      stub_request(:get, "#{url}/rest/api/2/mypermissions")
+        .to_return(status: 200, body: mypermissions.to_json, headers: { "Content-Type" => "application/json" })
+    end
+
+    context "when the credentials hold the ADMINISTER permission" do
+      let(:mypermissions) { { "permissions" => { "ADMINISTER" => { "havePermission" => true } } } }
+
+      it { expect(client).to be_administrator }
+    end
+
+    context "when the credentials lack the ADMINISTER permission" do
+      let(:mypermissions) { { "permissions" => { "ADMINISTER" => { "havePermission" => false } } } }
+
+      it { expect(client).not_to be_administrator }
+    end
+
+    context "when Jira does not report the ADMINISTER permission" do
+      let(:mypermissions) { { "permissions" => {} } }
+
+      it { expect(client).not_to be_administrator }
     end
   end
 
@@ -139,7 +302,7 @@ RSpec.describe Import::JiraClient do
         .to_return do |request|
           page = CGI.parse(URI(request.uri).query).fetch("page").first.to_i
           { status: 200,
-            body: { options: [option(10_200 + page, "Colour #{page}")] }.to_json,
+            body: { options: [option(10_200 + page, "Color #{page}")] }.to_json,
             headers: { "Content-Type" => "application/json" } }
         end
 
@@ -179,6 +342,112 @@ RSpec.describe Import::JiraClient do
       stub_request(:get, options_url).with(query: hash_including({})).to_return(status: 500)
 
       expect { client.custom_field_options(10264) }.to raise_error(Import::JiraClient::ApiError)
+    end
+  end
+
+  describe "#download_attachment", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:content_url) { "#{url}/secure/attachment/10100/screenshot.png" }
+
+    before do
+      stub_request(:get, content_url).to_return(status: 200, body: "file content")
+    end
+
+    it "yields the downloaded file and removes it afterwards" do
+      content = nil
+      path = nil
+      client.download_attachment(content_url, "screenshot.png") do |file|
+        content = file.read
+        path = file.path
+      end
+
+      expect(content).to eq("file content")
+      expect(File).not_to exist(path)
+    end
+
+    it "lets errors raised while handling the file through as they are" do
+      expect { client.download_attachment(content_url, "screenshot.png") { raise Timeout::Error } }
+        .to raise_error(Timeout::Error)
+    end
+
+    context "when the download fails" do
+      subject(:download) { client.download_attachment(content_url, "screenshot.png") { nil } }
+
+      it "raises a retryable error if it times out" do
+        stub_request(:get, content_url).to_timeout
+
+        expect { download }.to raise_error(Import::JiraClient::Error) do |error|
+          expect(error).to be_retryable
+        end
+      end
+
+      context "with a URL the SSRF filter rejects" do
+        let(:content_url) { "ftp://jira.example.com/screenshot.png" }
+
+        it "raises a non-retryable error" do
+          expect { download }.to raise_error(Import::JiraClient::Error) do |error|
+            expect(error).not_to be_retryable
+          end
+        end
+      end
+    end
+  end
+
+  describe Import::JiraClient::ApiError do
+    subject(:error) { described_class.new("Jira error", status: 404, response_body:, response_headers: {}) }
+
+    context "when the response body holds non-ASCII UTF-8 text as BINARY" do
+      let(:response_body) { %({"errorMessages":["Benutzer 'jöhn' existiert nicht"]}).b }
+
+      it "can be interpolated next to non-ASCII text" do
+        expect("Error fetching user data for user key jöhn: #{error.message}")
+          .to include("Benutzer 'jöhn' existiert nicht")
+      end
+    end
+
+    context "when the response body holds bytes that are not valid UTF-8" do
+      let(:response_body) { "M\xFCller".b }
+
+      it "replaces them" do
+        expect(error.response_body).to eq("M\uFFFDller")
+      end
+    end
+
+    context "when there is no response body" do
+      let(:response_body) { nil }
+
+      it "keeps an empty body" do
+        expect(error.response_body).to eq("")
+      end
+    end
+
+    describe "#retryable?" do
+      subject(:error) { described_class.new("Jira error", status:, response_body: nil, response_headers: {}) }
+
+      context "when the token stopped working" do
+        let(:status) { 401 }
+
+        it { is_expected.to be_retryable }
+      end
+
+      context "when Jira rate limits the request" do
+        let(:status) { 429 }
+
+        it { is_expected.to be_retryable }
+      end
+
+      context "when Jira fails to serve the request" do
+        let(:status) { 503 }
+
+        it { is_expected.to be_retryable }
+      end
+
+      context "when Jira no longer has the resource" do
+        let(:status) { 404 }
+
+        it { is_expected.not_to be_retryable }
+      end
     end
   end
 

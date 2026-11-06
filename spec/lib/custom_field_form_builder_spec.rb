@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 require "ostruct"
 
@@ -74,7 +74,7 @@ RSpec.describe CustomFieldFormBuilder do
       builder.cf_form_field options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default" do
       let(:container_count) { 2 }
     end

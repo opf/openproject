@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,6 +50,10 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
   private updateHandler:EventListener = this.handleSuccessfulUpdate.bind(this);
   private cancelHandler:EventListener = this.cancel.bind(this);
 
+  private unregisterOverlay:() => void = () => undefined;
+
+  private modal:OpWpDatePickerModalComponent|null = null;
+
   ngOnInit():void {
     super.ngOnInit();
 
@@ -61,6 +64,8 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   ngOnDestroy():void {
     super.ngOnDestroy();
+    this.unregisterOverlay();
+    this.closeOrphanedModal();
 
     document.removeEventListener('date-picker-modal:create', this.createHandler);
     document.removeEventListener('date-picker-modal:update', this.updateHandler);
@@ -72,6 +77,7 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
       .change
       .getForm(true)
       .then(() => {
+        if (this.opened || this.componentDestroyed) return;
         this.showDatePickerModal();
       })
       .catch(() => {
@@ -95,6 +101,9 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
             }
           });
 
+        this.modal = modal;
+        const overlay = modal.element.closest<HTMLElement>('.spot-modal-overlay') ?? modal.element;
+        this.unregisterOverlay = this.handler.registerOverlay(overlay);
         this.opened = true;
       });
   }
@@ -107,21 +116,15 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
       includeNonWorkingDays,
       scheduleManually } } = event as { detail:{ duration:number, startDate:Date, dueDate:Date, includeNonWorkingDays:boolean, scheduleManually:boolean } };
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.duration = duration ? this.timezoneService.toISODuration(duration, 'days') : null;
     // debugger;
     if (this.isMilestone()) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.resource.date = startDate;
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.resource.dueDate = dueDate;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.resource.startDate = startDate;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.ignoreNonWorkingDays = includeNonWorkingDays;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.resource.scheduleManually = scheduleManually;
 
     this.onModalClosed();
@@ -133,13 +136,27 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   public onModalClosed():void {
     this.opened = false;
+    this.modal = null;
 
     if (!this.handler.inEditMode) {
-      this.handler.deactivate(false);
+      this.handler.deactivate(false, true);
+    }
+    this.unregisterOverlay();
+    this.unregisterOverlay = () => undefined;
+  }
+
+  private closeOrphanedModal():void {
+    const modal = this.modal;
+    this.opened = false;
+    this.modal = null;
+    if (modal && this.opModalService.activeModalInstance$.value === modal) {
+      modal.closeMe();
     }
   }
 
-  public cancel():void {}
+  public cancel():void {
+    // The modal close event owns cancellation for this field type.
+  }
 
   private isMilestone():boolean {
     return !!this.change.schema.isMilestone;

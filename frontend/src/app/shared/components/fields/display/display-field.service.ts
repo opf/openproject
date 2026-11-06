@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -55,6 +54,14 @@ import {
   SingleLineUserDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/single-line-user-display-field.module';
 
+export interface DisplayFieldContextOptions {
+  [key:string]:unknown;
+  writable?:boolean;
+  layout?:string;
+  dateFormat?:string;
+  colorize?:boolean;
+}
+
 export interface DisplayFieldContext {
   /** The injector to use for the context of this field. Relevant for embedded service injection */
   injector:Injector;
@@ -63,11 +70,11 @@ export interface DisplayFieldContext {
   container:'table'|'single-view'|'timeline';
 
   /** Options passed to the display field */
-  options:Record<string, any>;
+  options:DisplayFieldContextOptions;
 }
 
 export interface IDisplayFieldType extends IFieldType<DisplayField> {
-  new(resource:HalResource, attributeType:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField;
+  new(name:string, context:DisplayFieldContext):DisplayField;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -128,7 +135,7 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
       return new MultipleLinesCustomOptionsDisplayField(fieldName, context);
     }
     const isUserMultiLinesField = ['[]User'].includes(schema.type);
-    if (context.container === 'single-view' && isUserMultiLinesField) {
+    if (context.container === 'single-view' && isUserMultiLinesField && !this.fieldType(fieldName)) {
       return new MultipleLinesUserFieldModule(fieldName, context);
     }
 

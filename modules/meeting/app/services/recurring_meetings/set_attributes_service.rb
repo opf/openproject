@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,7 +44,7 @@ module RecurringMeetings
     end
 
     # current_schedule_start is used as the DTSTART of the ICS series event.
-    # As a result, it needs to be conencted to the UID.
+    # As a result, it needs to be connected to the UID.
     # If DTSTART moves while the UID stays the same, some clients delete all earlier
     # occurrences
     #

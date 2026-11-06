@@ -11,6 +11,7 @@ jobs:
   erb-lint:
     name: ERB lint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: read
       checks: write

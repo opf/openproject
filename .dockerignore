@@ -45,3 +45,4 @@ vendor/bundle
 vendor/hocuspocus
 /public/assets
 /config/frontend_assets.manifest.json
+.oss-scanner

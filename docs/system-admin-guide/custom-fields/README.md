@@ -58,6 +58,7 @@ There are multiple format options for custom fields in OpenProject. You can sele
 
 - **Boolean** - creates a custom field for an attribute, that is either true or false. It is represented by a checkbox that can be checked or unchecked.
 - **Date** - creates a custom field, which allows selecting dates from a date picker.
+- **Date and time** - creates a custom field for work packages, which stores a date together with a time of day. See more in the section below.
 - **Float** - creates a custom field for rational numbers.
 - **Hierarchy (Enterprise add-on)** - creates a custom field, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the _Items_ tab of the custom field. See more in the section below.
 - **Integer** - creates a custom field for integers.
@@ -68,6 +69,15 @@ There are multiple format options for custom fields in OpenProject. You can sele
 - **User** - creates a custom field, which allows selecting users that are allowed to access the entity containing the custom field.
 - **Version** - creates a custom field, which allows selecting one or multiple versions. Versions are created on the project level in _Backlogs_ module.
 - **Weighted item list (Enterprise add-on)** - creates a custom field similar to the _Hierarchy_ type, but with underlying numerical values used for project evaluation (e.g., [calculated values project attributes](../projects/project-attributes/)). Please keep in mind that **weighted item lists** custom fields can't be used as multi-select.  
+
+### Date and time custom field
+
+A **Date and time** custom field stores a specific point in time, for example when an incident was detected. It is available for work packages only.
+
+- Every user enters and sees the value in their own time zone, as set in their [account settings](../../user-guide/account-settings/language-and-region/#change-your-time-zone). A value entered as 14:30 by a user in Berlin is shown as 08:30 to a user in New York.
+- A default value, a regular expression and length restrictions cannot be set. The field cannot be used in the global search.
+- When filtering, the operators **on** and **between** select whole days in the user's time zone.
+- Exports contain the date and time in the time zone of the user who creates the export.
 
 ### Hierarchy custom field (Enterprise add-on)
 

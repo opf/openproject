@@ -32,15 +32,18 @@
 class GitlabPipeline < ApplicationRecord
   belongs_to :gitlab_merge_request, touch: true
 
-  # TODO: confirm with the gitlab documentation what are the different statuses.
+  # Statuses according to docs at https://docs.gitlab.com/api/pipelines/#list-project-pipelines
   enum :status, {
     created: "created",
     running: "running",
     success: "success",
     waiting: "waiting",
+    waiting_for_resource: "waiting_for_resource",
+    waiting_for_callback: "waiting_for_callback",
     preparing: "preparing",
     failed: "failed",
     pending: "pending",
+    canceling: "canceling",
     canceled: "canceled",
     skipped: "skipped",
     manual: "manual",

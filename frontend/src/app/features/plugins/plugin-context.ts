@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -60,6 +59,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalEventsService } from '../hal/services/hal-events.service';
+import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
  * in order to access services and parts of the core application
@@ -97,6 +97,7 @@ export class OpenProjectPluginContext {
     http: this.injector.get(HttpClient),
     turboRequests: this.injector.get(TurboRequestsService),
     currentProject: this.injector.get(CurrentProjectService),
+    aiActions: this.injector.get(AiActionsService),
   };
 
   public readonly helpers = {

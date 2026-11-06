@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,6 +58,19 @@ RSpec.describe WorkPackage, "target versions" do
     work_package.save!
 
     expect(work_package.reload.target_versions).to be_empty
+  end
+
+  describe "#lowest_target_version" do
+    it "returns the target version with the lowest id" do
+      work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
+      work_package.save!
+
+      expect(work_package.reload.lowest_target_version).to eq(lower_version)
+    end
+
+    it "is nil without a target version" do
+      expect(work_package.lowest_target_version).to be_nil
+    end
   end
 
   describe "#target_versions_changed?" do

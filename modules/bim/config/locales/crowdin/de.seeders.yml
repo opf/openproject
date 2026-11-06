@@ -61,7 +61,7 @@ de:
         item_2:
           name: BIM Manager
         item_3:
-          name: BIM Modellierer
+          name: BIM Modelers
         item_4:
           name: Leitende BIM-Koordinatoren
         item_5:
@@ -513,18 +513,18 @@ de:
               description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
               children:
                 item_0:
-                  subject: Initiales BIM-Modell modellieren
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Ziel
+                    # Goal
 
-                    * Modellierung des BIM-Modells
-                    * Erstellen eines ersten BIM-Modells für das gesamte Projektteam
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Beschreibung
+                    # Description
 
-                    * Entsprechend den gesammelten Daten des Kunden, das ursprüngliche Modell wird nach dem Modell
-                    * Das Modell soll nach den LOD Matritzen modelliert werden und die Informationen enthalten
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Initiale, interne Modellprüfung und Überarbeitung
                   description: |-
@@ -540,23 +540,23 @@ de:
                   subject: Erstes BIM-Modell einreichen
                   description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_4:
-              subject: Erster Modellierungsdurchlauf
+              subject: Modeling, first cycle
               description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
               children:
                 item_0:
                   subject: Verweise auf externe BIM-Modelle
                   description: |-
-                    # Ziel
+                    # Goal
 
-                    * Ein Fundament für die Entwicklung des internen Modells/Antworten
-                    * Verwendung des externen Modells zur Entwicklung des internen Modells
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Beschreibung
+                    # Description
 
-                    * Das externe Modell wird in der BIM-Plattform referenziert und zum Modellieren des internen Modells verwendet
-                    * ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: Modellierung des BIM-Modells
+                  subject: Modeling the BIM model
                   description: |-
                     # Ziel
 
@@ -604,7 +604,7 @@ de:
                   subject: Erster Koordinierungsabschluss
                   description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_6:
-              subject: Modellierung & Koordinierung, zweiter Durchlauf
+              subject: Modeling & coordinating, second cycle
               description: |-
                 ## Ziel
 
@@ -614,10 +614,10 @@ de:
 
                 *  ...
             item_7:
-              subject: Modellierung & Koordinierung, zweiter Durchlauf
+              subject: Modeling & coordinating, ... cycle
               description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_8:
-              subject: Modellierung & Koordinierung, (n - 1ter) Durchlauf
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: |-
                 ## Ziel
 
@@ -627,10 +627,10 @@ de:
 
                 *  ...
             item_9:
-              subject: Modellierung & Koordinierung, (n - 1ter) Durchlauf
+              subject: Modeling & coordinating n-th cycle
               description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_10:
-              subject: Modellierung & Koordinierung, (n-ter) Durchlauf
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Dieser Typ ist hierarchisch ein Elternteil der Typen &quot;Konflikt&quot; und &quot;Anfrage&quot;, stellt also eine allgemeine Notiz dar.
             item_11:
               subject: Modell für die Bauphase verwenden

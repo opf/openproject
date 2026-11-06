@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -46,8 +45,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
       allow(wp).to receive(:type_variant).and_return(type_variant)
     end
   end
-  let(:type) { build_stubbed(:type) }
-  let(:type_variant) { build_stubbed(:type_variant, type:) }
+  let(:type) { create(:type) }
+  let(:type_variant) { create(:type_variant, type:) }
   let(:enabled_module_names) { %w[backlogs] }
   let(:project) do
     build_stubbed(:project, enabled_module_names:)
@@ -216,6 +215,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
 
         it_behaves_like "has the resource not embedded"
       end
+    end
+  end
+
+  describe ".to_eager_load" do
+    it "eager loads the sprint and backlog bucket" do
+      expect(described_class.to_eager_load).to include(:sprint, :backlog_bucket)
     end
   end
 end

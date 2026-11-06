@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 RSpec.shared_examples_for "provides a single WP context menu" do
@@ -12,7 +39,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     # Open detail pane
     open_context_menu.call
     menu.choose("Open details view")
-    split_page = Pages::SplitWorkPackage.new(work_package, work_package.project)
+    split_page = Pages::PrimerizedSplitWorkPackage.new(work_package, work_package.project)
     split_page.expect_attributes Subject: work_package.subject
 
     # Open full view
@@ -56,7 +83,8 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     open_context_menu.call
     menu.choose("Create new child")
     expect(page).to have_css(".inline-edit--container.subject input")
-    expect(current_url).to match(/.*\/(create_new|details\/new)\?.*(&)*parent_id=#{work_package.id}/)
+    expect(page).to have_current_path(%r{/(create_new|details/new)\z}, ignore_query: true)
+    expect(page).to have_current_query_params(a_hash_including("parent_id" => work_package.id.to_s))
 
     find_by_id("work-packages--edit-actions-cancel").click
     expect(page).to have_no_css(".inline-edit--container.subject input")
@@ -82,7 +110,8 @@ RSpec.shared_examples_for "provides a single WP context menu" do
       open_context_menu.call
       menu.choose("Create new child")
       expect(page).to have_css(".inline-edit--container.subject input")
-      expect(current_url).to match(/.*\/(create_new|details\/new)\?.*(&)*parent_id=#{work_package.id}/)
+      expect(page).to have_current_path(%r{/(create_new|details/new)\z}, ignore_query: true)
+      expect(page).to have_current_query_params(a_hash_including("parent_id" => work_package.id.to_s))
 
       split_view = Pages::SplitWorkPackageCreate.new project: work_package.project
       subject = split_view.edit_field(:subject)
@@ -120,8 +149,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
         menu.choose("Create new child")
         expect(page).to have_css(".inline-edit--container.subject input")
 
-        expect(current_url).to match(/parent_id=#{work_package.id}/)
-        expect(current_url).not_to match(/parent_id=#{Regexp.escape(work_package.identifier)}/)
+        expect(page).to have_current_query_params(a_hash_including("parent_id" => work_package.id.to_s))
 
         split_view = Pages::SplitWorkPackageCreate.new project: work_package.project
         subject = split_view.edit_field(:subject)

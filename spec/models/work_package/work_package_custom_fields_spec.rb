@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,8 +50,7 @@ RSpec.describe WorkPackage do
 
     shared_context "project with custom field" do |save = true|
       before do
-        project.work_package_custom_fields << custom_field
-        type.default_variant.custom_fields << custom_field
+        type.default_variant.custom_field_ids |= [custom_field.id]
 
         work_package.save if save
       end
@@ -256,7 +254,6 @@ RSpec.describe WorkPackage do
       end
 
       before do
-        project.work_package_custom_fields << custom_field_2
         project.project_types.create!(type: type_feature)
       end
 
@@ -446,6 +443,28 @@ RSpec.describe WorkPackage do
             .to eq "Ratio must be greater than or equal to 0.1234."
         end
       end
+    end
+  end
+
+  describe "#available_custom_fields" do
+    let(:type) { create(:type_task) }
+    let(:field) { create(:work_package_custom_field) }
+    let(:project) { create(:project, types: [type]) }
+    let(:work_package) { create(:work_package, project:, type:) }
+
+    before { type.default_variant.custom_field_ids |= [field.id] }
+
+    it "offers a field the applied variant's form configuration shows" do
+      expect(work_package.available_custom_fields).to include(field)
+    end
+
+    it "picks up a field the form configuration gained after an earlier lookup" do
+      later_field = create(:work_package_custom_field)
+      work_package.available_custom_fields.to_a
+
+      type.default_variant.custom_field_ids |= [later_field.id]
+
+      expect(described_class.find(work_package.id).available_custom_fields).to include(later_field)
     end
   end
 end

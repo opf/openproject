@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,7 +47,7 @@ RSpec.describe "API::V3::CustomActions::CustomActionsAPI" do
     create(:user, member_with_roles: { project => role })
   end
   let(:action) do
-    create(:custom_action, actions: [CustomActions::Actions::AssignedTo.new(nil)])
+    create(:automation, :with_button_trigger, actions: [Automations::Actions::AssignedTo.new])
   end
   let(:parameters) do
     {
@@ -89,6 +88,22 @@ RSpec.describe "API::V3::CustomActions::CustomActionsAPI" do
       it "is a 404 NOT FOUND" do
         expect(last_response.status)
           .to be(404)
+      end
+    end
+
+    context "for an automation without button trigger" do
+      let(:action) do
+        create(:automation, :with_button_trigger, actions: [Automations::Actions::AssignedTo.new]).tap do |automation|
+          automation.triggers.first.update_column(:type, "Automations::Triggers::Base")
+        end
+      end
+
+      before do
+        get api_v3_paths.custom_action(action.id)
+      end
+
+      it "is a 404 NOT FOUND" do
+        expect(last_response).to have_http_status(404)
       end
     end
 
@@ -212,9 +227,9 @@ RSpec.describe "API::V3::CustomActions::CustomActionsAPI" do
     context "when conditions are not fulfilled for the user" do
       let(:admin_role) { create(:project_role) }
       let(:action) do
-        create(:custom_action,
-               actions: [CustomActions::Actions::AssignedTo.new(nil)],
-               conditions: [CustomActions::Conditions::Role.new(admin_role.id)])
+        create(:automation, :with_button_trigger,
+               actions: [Automations::Actions::AssignedTo.new],
+               conditions: [Automations::Conditions::Role.new(admin_role.id)])
       end
 
       include_context "post request"

@@ -64,7 +64,7 @@ li:
       label_add_new: Add new webhook
       label_edit: Edit webhook
       label_x_events:
-        one: 1 gebeurtenis
+        one: "%{count} event"
         other: "%{count} events"
         zero: Gen gebeurtenisse
       no_results_table: No webhooks have been defined yet.

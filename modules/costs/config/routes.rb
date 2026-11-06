@@ -22,13 +22,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 Rails.application.routes.draw do
+  scope module: "grids" do
+    namespace :widgets do
+      resource :time_entries_current_user, controller: :time_entries_current_user, only: %i[show]
+    end
+  end
+
   resources :time_entries, only: %i[create update destroy] do
     get :dialog, on: :collection
     get :dialog, on: :member
@@ -40,28 +45,22 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "projects" do
     resources :cost_entries, controller: "costlog", only: %i[new create]
 
-    resources :hourly_rates, only: %i[show edit update]
+    resources :hourly_rates, only: %i[show new create]
 
     get "/time_entries/dialog" => "time_entries#dialog"
   end
 
   namespace "my" do
-    get "/timer" => "timer#show", as: "timers"
+    get "/hourly_rates" => "hourly_rates#show", as: "hourly_rates"
 
-    get "/time-tracking/(:mode-:view_mode)(/:date)" => "time_tracking#index",
-        as: :time_tracking,
-        constraints: {
-          mode: /day|week|workweek|month/,
-          view_mode: /list|calendar/,
-          date: /(\d{4}-\d{2}-\d{2}|today)/
-        }
-    get "/time-tracking/refresh" => "time_tracking#refresh",
-        as: :time_tracking_refresh
+    get "/timer" => "timer#show", as: "timers"
   end
 
   scope "projects/:project_id", as: "project", module: "projects" do
     namespace "settings" do
-      resource :time_entry_activities, only: %i[show update]
+      resource :time_entry_activities, only: %i[show] do
+        post "toggle/:activity_id", action: :toggle, as: :toggle
+      end
       resources :cost_types, only: %i[index] do
         member { post :toggle }
       end
@@ -77,8 +76,14 @@ Rails.application.routes.draw do
 
   get "/cost_types", to: redirect("/admin/cost_types")
 
-  # TODO: this is a duplicate from a route defined under project/:project_id, check whether we really want to do that
-  resources :hourly_rates, only: %i[edit update]
+  # Keyed by the rate, unlike the project scoped hourly_rates#show whose :id is
+  # the principal whose history is shown.
+  resources :hourly_rates, only: %i[edit update destroy] do
+    get :deletion_dialog, on: :member
+  end
+  resources :default_hourly_rates, only: %i[new create edit update destroy] do
+    get :deletion_dialog, on: :member
+  end
 
   namespace :admin do
     namespace :settings do
@@ -86,6 +91,21 @@ Rails.application.routes.draw do
         member do
           put :move
           get :reassign
+        end
+      end
+
+      resources :time_entry_custom_fields, controller: "/admin/settings/time_entry_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+          put :drop
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+
+          get :deletion_dialog
         end
       end
     end

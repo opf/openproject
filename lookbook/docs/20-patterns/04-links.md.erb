@@ -1,0 +1,44 @@
+This document outlines our principles for using HTML links within OpenProject. These guidelines align with our [Primer Design System](https://primer.style/product/components/link/accessibility/#accessibility-and-usability-expectations) to ensure consistency, accessibility and a user-friendly experience.
+
+# Link Target Behavior
+
+By default, all links **open in the same browser tab**. This maintains user context and keeps the navigation seamless. It also gives more agency to the user; if they want to open the link in a new tab, they can choose to do so manually (for example, by Command-clicking on links or right-clicking on them to select the 'Open in a new tab' option).
+
+# Exceptions
+There are **two exceptions** where links may open in a new tab (`target="_blank"`):
+
+* The link points to an **external platform** (e.g., Nextcloud)
+* Opening the link in the same tab would **break the current user flow**, such as during form completion
+
+When a link opens in a new tab, the following must be implemented:
+
+* The link must be followed by the `link-external` icon to visually indicate that a new tab will open.
+* Note: the link needs an accessible hint that it is opened in a new tab. This is done automatically, for details have a look at [accessibility guidelines](./accessibility/blank_target_links)
+
+# Inline Link Styling
+
+Links that are part of a paragraph or continuous text must be **underlined**. This ensures they are clearly distinguishable from surrounding text, which is especially important for users with color vision deficiencies.
+
+For links in form captions and PageHeader descriptions, this is done automatically. Otherwise, it has to be done [manually](https://primer.style/view-components/lookbook/inspect/primer/beta/link/default) by setting `underline: true`.
+
+<%= embed OpenProject::Common::LinkPreview, :inline %>
+
+# Links in translated texts
+
+The module `Redmine::I18n` offers a helper called `link_translate` that can be used to render inline links inside translated text. This method ensures that the guidelines above are respected.
+
+```ruby
+link_translate("consent.user_has_consented", links: { consent_settings: "www.openproject.com" })
+```
+
+For that to work, the base string needs to define the link in the following format in the yml file:
+
+```yml
+user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
+```
+
+That will result in:
+
+```html
+The user gave their consent to your <a target="_blank" href="www.openproject.com" data-view-component="true" class="Link Link--underline"><span data-view-component="true" class="Link-content">configured consent information text</span></a>.
+```

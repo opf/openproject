@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -638,8 +637,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         let!(:custom_field) { create(:work_package_custom_field, field_format: "string") }
 
         let!(:journal_with_cf_set) do
-          project.work_package_custom_fields << custom_field
-          work_package.type.default_variant.custom_fields << custom_field
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
           work_package.custom_field_values = { custom_field.id => "Value" }
           work_package.save!
           work_package.journals.order(:version).last
@@ -684,10 +682,8 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         let!(:other_cf) { create(:work_package_custom_field, field_format: "string") }
 
         let!(:journal_with_multi_cf_set) do
-          project.work_package_custom_fields << multi_select_cf
-          project.work_package_custom_fields << other_cf
-          work_package.type.default_variant.custom_fields << multi_select_cf
-          work_package.type.default_variant.custom_fields << other_cf
+          work_package.type.default_variant.custom_field_ids |= [multi_select_cf.id]
+          work_package.type.default_variant.custom_field_ids |= [other_cf.id]
           work_package.custom_field_values = { multi_select_cf.id => [option1.id, option2.id] }
           work_package.save!
           work_package.journals.order(:version).last
@@ -823,6 +819,54 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
           expect(changes).to eq({}) # no changes
 
           expect(records.map(&:id)).not_to include(journal_with_file_link_snapshot.id)
+        end
+      end
+
+      context "with label changes" do
+        let(:label_a) { create(:label, name: "alpha") }
+        let(:label_b) { create(:label, name: "beta") }
+
+        def save_labels(*labels)
+          work_package.reload.label_id_replacements = labels.map(&:id)
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        it "includes journal where a label was added" do
+          journal = save_labels(label_a)
+
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal.id)
+        end
+
+        it "includes journal where a label was replaced" do
+          save_labels(label_a)
+          journal = save_labels(label_b)
+
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal.id)
+        end
+
+        it "includes journal where a label was removed" do
+          save_labels(label_a)
+          journal = save_labels
+
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal.id)
+        end
+
+        it "excludes journal with only a label snapshot" do
+          save_labels(label_a)
+          work_package.reload.add_journal(notes: "Unrelated change")
+          work_package.save!
+          snapshot = work_package.journals.order(:version).last
+
+          _pagy, records = paginator.call
+          expect(snapshot.reload.label_journals.count).to eq(1)
+          changes = snapshot.reload.get_changes
+          expect(changes).to eq({})
+
+          expect(records.map(&:id)).not_to include(snapshot.id)
         end
       end
 
@@ -1060,7 +1104,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
       end
     end
 
-    context "with an unrecognised filter value" do
+    context "with an unrecognized filter value" do
       let(:initial_journal) { work_package.journals.find_by(version: 1) }
       let!(:journal_with_notes) do
         create(:work_package_journal, user:, notes: "A comment", journable: work_package, version: 2)
@@ -1070,7 +1114,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         params[:filter] = "bogus"
       end
 
-      it "normalises the filter to :all" do
+      it "normalizes the filter to :all" do
         expect(paginator.filter).to eq(:all)
       end
 

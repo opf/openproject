@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,6 +30,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBindi
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations-group',
   templateUrl: './wp-relations-group.template.html',
   standalone: false,
@@ -54,6 +54,7 @@ export class WorkPackageRelationsGroupComponent {
 
   @Input() public groupByWorkPackageType:boolean;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onToggleGroupBy = new EventEmitter<undefined>();
 
   @ViewChild('wpRelationGroupByToggler') readonly toggleElement:ElementRef<HTMLButtonElement>;

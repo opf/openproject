@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,8 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(agenda_item:, datetime:, skipped_cancelled: nil, skipped_closed: nil, next_occurrence: nil)
+    def initialize(agenda_item:, datetime:, skipped_cancelled: nil, skipped_closed: nil, next_occurrence: nil,
+                   presentation_mode: false, started_at: nil)
       super
 
       @agenda_item = agenda_item
@@ -42,6 +42,8 @@ module MeetingAgendaItems
       @skipped_cancelled = skipped_cancelled
       @skipped_closed = skipped_closed
       @next_occurrence = next_occurrence
+      @presentation_mode = presentation_mode
+      @started_at = started_at
     end
 
     private

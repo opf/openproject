@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,15 +33,25 @@ module Admin::Import::Jira::ImportRuns
     include Admin::Import::Jira::ImportRunsHelper
 
     def import_selection
+      (selected_counts + import_explanations)
+        .compact
+        .map { |label| { label:, checked: true } }
+    end
+
+    def selected_counts
       [
         projects_label(selected_projects_count),
         issues_label(selected_issues_count),
         statuses_label(selected_statuses_count),
         types_label(selected_types_count)
       ]
-        .compact
-        .map { |label| { label:, checked: true } }
-        .push({ label: I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_users_import_explanation") })
+    end
+
+    def import_explanations
+      [
+        users_explanation,
+        resolution_statuses_explanation
+      ]
     end
 
     def selected_projects_count
@@ -59,6 +68,16 @@ module Admin::Import::Jira::ImportRuns
 
     def selected_statuses_count
       model.selected["status_ids"]&.count
+    end
+
+    def users_explanation
+      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_users_import_explanation")
+    end
+
+    def resolution_statuses_explanation
+      return if model.exclude_resolution_fields?
+
+      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_resolution_statuses_explanation")
     end
   end
 end

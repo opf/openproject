@@ -406,7 +406,7 @@ class Formatter
 
   # Remove test failure backtrace lines that are not useful.
   # - rspec_retry and retriable lines
-  # - top level lines which are mostyl around blocks executing on each spec
+  # - top level lines which are mostly around blocks executing on each spec
   # - make the spec file name bold
   def clean_failures_explanation(failures_explanation)
     return failures_explanation if Options.full_backtrace

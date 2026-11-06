@@ -15,6 +15,7 @@ jobs:
     if: github.repository == 'opf/openproject'
     name: ${{ matrix.target }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
     services:
@@ -32,7 +33,6 @@ jobs:
         target:
           - debian:11
           - debian:12
-          - ubuntu:20.04
           - ubuntu:22.04
           - el:9
           - sles:15

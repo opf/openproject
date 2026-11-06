@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,7 +30,6 @@ import { Injectable, Injector, inject } from '@angular/core';
 import { debounceTime, defaultIfEmpty, distinctUntilChanged, map, mapTo, switchMap, take, tap } from 'rxjs/operators';
 import { forkJoin, from, Observable, Subject } from 'rxjs';
 import { ID, Query } from '@datorama/akita';
-import { StateService } from '@uirouter/angular';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -82,7 +80,6 @@ export class IanCenterService extends UntilDestroyedMixin {
   readonly apiV3Service = inject(ApiV3Service);
   readonly toastService = inject(ToastService);
   readonly urlParams = inject(UrlParamsService);
-  readonly state = inject(StateService);
   readonly deviceService = inject(DeviceService);
   readonly pathHelper = inject(PathHelperService);
   readonly ianBellService = inject(IanBellService);
@@ -231,10 +228,6 @@ export class IanCenterService extends UntilDestroyedMixin {
   openSplitScreen(workPackageId:string, tabIdentifier = 'activity'):void {
     const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
     Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
-  }
-
-  openFullView(workPackageId:string|null):void {
-    void this.state.go('work-packages.show', { workPackageId });
   }
 
   showNextNotification():void {

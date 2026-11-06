@@ -11,8 +11,8 @@ RSpec.describe "Work Package Activity Tab",
   shared_let(:project) { create(:project, enabled_module_names: Setting.default_projects_modules + %w[activity]) }
   shared_let(:work_package) { create(:work_package, project:) }
 
-  shared_let(:issue_author) { create(:gitlab_user, gitlab_username: "i_am_the_author") }
-  shared_let(:issue_closing_user) { create(:gitlab_user, gitlab_username: "i_closed") }
+  shared_let(:issue_author) { create(:gitlab_user, username: "i_am_the_author") }
+  shared_let(:issue_closing_user) { create(:gitlab_user, username: "i_closed") }
 
   shared_let(:gitlab_html_url) { "http://79dfcd98b723/root/hot_do/-/issues/4" }
   shared_let(:issue) do
@@ -38,10 +38,10 @@ RSpec.describe "Work Package Activity Tab",
       "event_type" => "issue",
       "user" => {
         "id" => issue_closing_user.gitlab_id,
-        "name" => issue_closing_user.gitlab_name,
-        "username" => issue_closing_user.gitlab_username,
-        "avatar_url" => issue_closing_user.gitlab_avatar_url,
-        "email" => issue_closing_user.gitlab_email
+        "name" => issue_closing_user.name,
+        "username" => issue_closing_user.username,
+        "avatar_url" => issue_closing_user.avatar_url,
+        "email" => "[REDACTED]"
       },
       "object_attributes" => {
         "action" => gitlab_action,
@@ -69,7 +69,7 @@ RSpec.describe "Work Package Activity Tab",
     }
   end
 
-  let(:work_package_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
   context "when there is an issue event" do
@@ -86,7 +86,7 @@ RSpec.describe "Work Package Activity Tab",
 
       let(:expected_comment) do
         "Issue Closed: Issue #{issue.gitlab_id} #{issue.title} for #{issue.repository} " \
-          "has been closed by #{issue_closing_user.gitlab_name}."
+          "has been closed by #{issue_closing_user.name}."
       end
 
       it "renders a comment referencing the issue" do

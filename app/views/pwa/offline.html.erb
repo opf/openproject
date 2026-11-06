@@ -1,0 +1,193 @@
+<% app_title = Setting.app_title %>
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= app_title %> | <%= t("pwa.offline.title") %></title>
+  <style>
+    :root {
+      --offline-bg: #ffffff;
+      --offline-fg: #1f2328;
+      --offline-fg-muted: #59636e;
+      --offline-header-bg: <%= header_bg_color %>;
+      --offline-header-height: 55px;
+      --offline-button-bg: #1f883d;
+      --offline-button-hover-bg: #1c8139;
+      --offline-button-active-bg: #197935;
+      --offline-button-fg: #ffffff;
+      --offline-button-border: #1f232826;
+      --focus-outlineColor: #0969da;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --offline-bg: #0d1117;
+        --offline-fg: #f0f6fc;
+        --offline-fg-muted: #9198a1;
+        --offline-header-bg: <%= header_bg_color(color_mode: :dark) %>;
+        --offline-button-bg: #238636;
+        --offline-button-hover-bg: #29903b;
+        --offline-button-active-bg: #2e9a40;
+        --offline-button-border: #ffffff1a;
+        --focus-outlineColor: #1f6feb;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { min-height: 100%; margin: 0; }
+
+    body {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: 100dvh;
+      background: var(--offline-bg);
+      color: var(--offline-fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .op-offline--header {
+      display: grid;
+      place-items: center;
+      height: var(--offline-header-height);
+      background: var(--offline-header-bg);
+    }
+
+    .op-offline--logo { display: block; width: 130px; height: 47px; object-fit: contain; }
+
+    .op-offline {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-self: center;
+      align-self: center;
+      width: 100%;
+      max-width: 400px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .op-offline--icon { position: relative; width: 32px; height: 32px; }
+
+    .op-offline--icon svg {
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+      transition: opacity 0.2s ease;
+    }
+
+    .op-offline--icon .op-offline--icon-online,
+    [data-state="online"] .op-offline--icon .op-offline--icon-offline { opacity: 0; }
+
+    [data-state="online"] .op-offline--icon .op-offline--icon-online { opacity: 1; }
+
+    .op-offline--headline {
+      margin: 16px 0 0;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+
+    .op-offline--body {
+      margin: 8px 0 0;
+      font-size: 16px;
+      line-height: 1.5;
+      text-wrap: pretty;
+    }
+
+    .op-offline--button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 40px;
+      margin-top: 40px;
+      padding: 0 16px;
+      border: 1px solid var(--offline-button-border);
+      border-radius: 6px;
+      background-color: var(--offline-button-bg);
+      color: var(--offline-button-fg);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .op-offline--button:hover:not([aria-disabled="true"]) { background-color: var(--offline-button-hover-bg); }
+
+    .op-offline--button:active:not([aria-disabled="true"]) { background-color: var(--offline-button-active-bg); }
+
+    .op-offline--button[aria-disabled="true"] { cursor: default; }
+
+    .op-offline--button:focus-visible {
+      outline: 2px solid var(--focus-outlineColor);
+      outline-offset: 2px;
+    }
+
+    [hidden] { display: none; }
+
+    .anim-rotate { animation: rotate-keyframes 1s linear infinite; }
+
+    .op-offline--status {
+      min-height: 24px;
+      margin: 16px 0 0;
+      color: var(--offline-fg-muted);
+      font-size: 14px;
+      line-height: 24px;
+    }
+
+    @keyframes rotate-keyframes { 100% { transform: rotate(360deg); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .op-offline--icon svg { transition: none; }
+      .anim-rotate { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="op-offline--header">
+    <img class="op-offline--logo" src="<%= pwa_offline_wordmark_data_uri %>" alt="<%= app_title %>">
+  </header>
+
+  <main class="op-offline"
+        data-offline-page
+        data-probe-url="<%= pwa_offline_path %>"
+        data-home-url="<%= root_path %>"
+        data-state="offline"
+        data-retry-label="<%= t("pwa.offline.retry") %>"
+        data-retrying-label="<%= t("pwa.offline.retrying") %>"
+        data-reloading-label="<%= t("pwa.offline.reloading") %>"
+        data-headline-offline="<%= t("pwa.offline.headline") %>"
+        data-headline-online="<%= t("pwa.offline.headline_online") %>"
+        data-status-checking="<%= t("pwa.offline.status_checking") %>"
+        data-status-still="<%= t("pwa.offline.status_still") %>"
+        data-status-restored="<%= t("pwa.offline.status_restored") %>">
+    <div class="op-offline--icon" aria-hidden="true">
+      <svg class="op-offline--icon-offline" data-offline-target="iconOffline" aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19h9a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 5.6 11.2 4 4 0 0 0 7.5 19Z"></path><path d="M4 4l16 16"></path></svg>
+      <svg class="op-offline--icon-online" data-offline-target="iconOnline" aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19h9a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 5.6 11.2 4 4 0 0 0 7.5 19Z"></path><path d="M9 14l2 2 4-4.5"></path></svg>
+    </div>
+
+    <h1 class="op-offline--headline" data-offline-target="headline"><%= t("pwa.offline.headline") %></h1>
+
+    <p class="op-offline--body"><%= t("pwa.offline.body", app_title:) %></p>
+
+    <button type="button" class="op-offline--button" data-offline-target="button">
+      <%= render(Primer::Beta::Spinner.new(size: :small, sr_text: nil, style: "box-sizing: content-box; color: currentColor;", wrapper_arguments: { hidden: true, data: { offline_target: "spinner" } })) %>
+      <span data-offline-target="label"><%= t("pwa.offline.retry") %></span>
+    </button>
+
+    <p class="op-offline--status" data-offline-target="status" role="status" aria-live="polite" aria-atomic="true"></p>
+  </main>
+
+  <%= nonced_javascript_tag type: :module do %>
+    <%= render partial: "pwa/offline_script", formats: [:js] %>
+  <% end %>
+</body>
+</html>

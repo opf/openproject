@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,7 +71,7 @@ module Components
     def drag_wp_to_date(work_package, date)
       wp_card = card(work_package)
       # The FullCalendar timeline day headers are not exposed as columnheaders
-      # (their table has a presentation role), so target the labelled slot by date.
+      # (their table has a presentation role), so target the labeled slot by date.
       day_header = page.find(".fc-timeline-slot-label[data-date='#{date.iso8601}']")
       drag_n_drop_element(from: wp_card, to: day_header, offset_y: day_header.native.size.height)
     end

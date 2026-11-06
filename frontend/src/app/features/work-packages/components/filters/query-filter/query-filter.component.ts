@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,9 +35,11 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[query-filter]',
   styleUrls: ['./query-filter.component.sass'],
   templateUrl: './query-filter.component.html',
@@ -66,7 +67,7 @@ export class QueryFilterComponent implements OnInit {
 
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
-  public availableOperators:any;
+  public availableOperators:QueryOperatorResource[];
 
   public showValuesInput = false;
 
@@ -97,7 +98,7 @@ export class QueryFilterComponent implements OnInit {
   }
 
   public get valueType():string|undefined {
-    if (this.filter.currentSchema && this.filter.currentSchema.values) {
+    if (this.filter.currentSchema?.values) {
       return this.filter.currentSchema.values.type;
     }
 
@@ -105,7 +106,7 @@ export class QueryFilterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.availableOperators = this.schemaCache.of(this.filter).availableOperators;
+    this.availableOperators = this.schemaCache.of(this.filter).availableOperators as QueryOperatorResource[];
     this.showValuesInput = this.showValues();
     this.baselineIncompatibleFilter = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleFilter(this.filter.id);
   }

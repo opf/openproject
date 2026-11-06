@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,52 +52,87 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
         render(Primer::Beta::Octicon.new(icon: "triangle-down", aria: { label: I18n.t("menus.quick_add.label") }))
       end
 
-      with_item_group(menu) { add_first_level_items(menu) }
-      with_item_group(menu) { add_second_level_items(menu) }
+      with_item_group(menu) { add_quick_add_items(menu) }
+      with_item_group(menu) { add_named_item(menu, :invite_user) }
     end
   end
 
-  def add_first_level_items(menu) # rubocop:disable Metrics/AbcSize
-    first_level_menu_items_for(:quick_add_menu, @project).each do |item|
-      html_options = item.html_options
-      html_options[:aria] = { labelledby: id_for_name(item.caption) } if html_options[:aria].blank?
+  def add_quick_add_items(menu)
+    add_work_package_item(menu)
+    add_named_item(menu, :new_project)
+    add_named_item(menu, :new_board)
+    add_named_item(menu, :new_meeting)
+    add_named_item(menu, :new_document)
+  end
 
-      menu.with_item(
-        href: item.url.present? ? allowed_node_url(item, @project) : "#",
-        content_arguments: {
-          target: html_options.fetch(:target, "_top"),
-          **html_options,
-          test_selector: "quick-add-menu-item"
-        },
-        label_arguments: { id: id_for_name(item.caption) },
-        label: item.caption,
-        test_selector: "op-menu--item-action"
-      ) do |menu_item|
-        menu_item.with_leading_visual_icon(icon: item.icon)
-      end
+  def add_named_item(menu, name)
+    item = quick_add_menu_items[name]
+    return unless item
+
+    menu.with_item(
+      href: named_item_href(item),
+      content_arguments: named_item_content_arguments(item),
+      label_arguments: { id: id_for_name(item.caption) },
+      label: item.caption,
+      test_selector: "op-menu--item-action"
+    ) do |menu_item|
+      menu_item.with_leading_visual_icon(icon: item.icon)
     end
   end
 
-  def add_second_level_items(menu)
-    if work_package_quick_add_items.present?
-      menu.with_group do |menu_group|
-        menu_group.with_heading(title: I18n.t(:label_work_package_plural), align_items: :flex_start)
+  def named_item_href(item)
+    return "#" if item.url.blank?
 
-        work_package_quick_add_items.each do |item|
-          menu_group.with_item(
-            href: item[:href],
-            label: item[:caption],
-            content_arguments: {
-              target: "_top",
-              aria: { labelledby: id_for_name(item[:caption]) }
-            },
-            label_arguments: { id: id_for_name(item[:caption]),
-                               classes: item[:classes] },
-            test_selector: "op-menu--item-action"
-          )
-        end
-      end
+    allowed_node_url(item, @project)
+  end
+
+  def named_item_content_arguments(item)
+    html_options = item.html_options
+    html_options[:aria] = { labelledby: id_for_name(item.caption) } if html_options[:aria].blank?
+
+    {
+      target: html_options.fetch(:target, "_top"),
+      **html_options,
+      test_selector: "quick-add-menu-item"
+    }
+  end
+
+  def quick_add_menu_items
+    @quick_add_menu_items ||= first_level_menu_items_for(:quick_add_menu, @project).index_by(&:name)
+  end
+
+  def add_work_package_item(menu)
+    return if work_package_quick_add_items.blank?
+
+    label = I18n.t(:label_work_package)
+
+    menu.with_sub_menu_item(
+      label:,
+      content_arguments: {
+        aria: { labelledby: id_for_name(label) },
+        test_selector: "quick-add-menu-item"
+      },
+      label_arguments: { id: id_for_name(label) },
+      test_selector: "op-menu--item-action"
+    ) do |sub_menu_item|
+      sub_menu_item.with_leading_visual_icon(icon: "op-view-list")
+
+      work_package_quick_add_items.each { |item| add_work_package_type_item(sub_menu_item, item) }
     end
+  end
+
+  def add_work_package_type_item(sub_menu_item, item)
+    sub_menu_item.with_item(
+      href: item[:href],
+      label: item[:caption],
+      content_arguments: {
+        target: "_top",
+        aria: { labelledby: id_for_name(item[:caption]) },
+        test_selector: "quick-add-menu-item"
+      },
+      label_arguments: { id: id_for_name(item[:caption]), classes: item[:classes] },
+      test_selector: "op-menu--item-action"
+    )
   end
 
   def work_package_quick_add_items
@@ -123,14 +157,16 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_create_link(type_id, type_name)
+    classes = "__hl_uppercase #{hl_foreground_class('type', type_id)}"
+
     if in_project_context?
       { caption: type_name,
         href: new_project_work_packages_path(project_id: @project.identifier, type: type_id),
-        classes: "__hl_inline_type_#{type_id}" }
+        classes: }
     else
       { caption: type_name,
         href: new_work_package_path(type: type_id),
-        classes: "__hl_inline_type_#{type_id}" }
+        classes: }
     end
   end
 
@@ -144,7 +180,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def show_quick_add_menu?
     !anonymous_and_login_required? &&
-      (global_add_permissions? || add_subproject_permission? || any_types?)
+      (quick_add_menu_items.any? || any_types?)
   end
 
   def in_project_context?
@@ -153,16 +189,6 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def anonymous_and_login_required?
     Setting.login_required? && User.current.anonymous?
-  end
-
-  def global_add_permissions?
-    User.current.allowed_globally?(:add_project) ||
-      User.current.allowed_in_any_project?(:manage_members)
-  end
-
-  def add_subproject_permission?
-    in_project_context? &&
-      User.current.allowed_in_project?(:add_subprojects, @project)
   end
 
   def any_types?

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -43,14 +42,14 @@ export class BcfTopicCollectionPath extends BcfResourceCollectionPath<BcfTopicPa
     super(injector, basePath, segment, BcfTopicPaths);
   }
 
-  get(params:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}) {
+  get(_params:HTTPClientParamMap = {}, _headers:HTTPClientHeaders = {}) {
     throw new Error('Not implemented');
   }
 
   /**
    * Create a topic from its to-be-associated work package
    */
-  post(payload:any):Observable<BcfTopicResource> {
+  post(payload:unknown):Observable<BcfTopicResource> {
     return this
       .bcfTopicService
       .request(

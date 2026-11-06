@@ -15,9 +15,9 @@ get:
         application/hal+json:
           examples:
             ViewWorkPackagesTable:
-              "$ref": "../components/examples/view_work_packages_table.yml"
+              $ref: "../components/examples/view_work_packages_table.yml"
             ViewTeamPlanner:
-              "$ref": "../components/examples/view_team_planner.yml"
+              $ref: "../components/examples/view_team_planner.yml"
       description: Returns the result of a single view, dependent of the view type.
     '400':
       $ref: "../components/responses/invalid_request_body.yml"
@@ -36,7 +36,7 @@ get:
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** The required permission depends on the type of the view.
-      headers: { }
+      headers: {}
     '404':
       content:
         application/hal+json:
@@ -53,7 +53,7 @@ get:
 
         *Note: A client without sufficient permissions shall not be able to test for the existence of
         a view. That's why a 404 is returned here, even if a 403 might be more appropriate.*
-      headers: { }
+      headers: {}
   tags:
     - Views
   description: ''
@@ -103,11 +103,11 @@ post:
             type: object
           examples:
             'Views::WorkPackagesTable':
-              "$ref": "../components/examples/view_work_packages_table.yml"
+              $ref: "../components/examples/view_work_packages_table.yml"
             'Views::TeamPlanner':
-              "$ref": "../components/examples/view_team_planner.yml"
+              $ref: "../components/examples/view_team_planner.yml"
       description: Created
-      headers: { }
+      headers: {}
     '400':
       $ref: "../components/responses/invalid_request_body.yml"
     '406':
@@ -137,7 +137,7 @@ post:
 
         * the client provides a link to an invalid resource (`ResourceTypeMismatch`),
           e.g. a query not found
-      headers: { }
+      headers: {}
   tags:
     - Views
   description: |-

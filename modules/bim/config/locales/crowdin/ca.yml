@@ -110,7 +110,7 @@ ca:
     not_recommended: no recomanat
     recommended: recomanat
     x_bcf_issues:
-      one: Un element BCF
+      one: "%{count} BCF issue"
       other: "%{count} elements BCF"
       zero: Sense elements de BCF
   bim:
@@ -148,8 +148,10 @@ ca:
       processing_default: 'El següent model IFC per defecte encara està sent processat, per això encara no està disponible:'
   oauth:
     scopes:
-      bcf_v2_1: Accés complet a la API BCF v2.1
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: L'aplicació rebrà accés complet de lectura i escriptura a la API BCF v2.1 d'OpenProject per efectuar les accions en el teu nom.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Elimina els elements de BCF
   permission_manage_bcf: Importa i administra els elements de BCF
   permission_manage_bcf_explanation: |

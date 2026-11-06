@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -113,7 +112,7 @@ RSpec.describe "Recurring meetings creation",
 
       # User is redirected to the template
       expect(page).to have_current_path(project_meeting_path(project, meeting.template))
-      expect(page).to have_content(I18n.t("recurring_meeting.template.description"))
+      expect(page).to have_text(I18n.t("recurring_meeting.template.description"))
 
       # Add participants
       template_page.open_participant_form
@@ -150,7 +149,7 @@ RSpec.describe "Recurring meetings creation",
       wait_for_network_idle
 
       # State component is only visible for draft mode in a template
-      expect(page).to have_no_selector("#meetings-side-panel-state-component")
+      expect(page).to have_no_css("#meetings-side-panel-state-component")
 
       # Sends out an invitation to the series
       show_page.visit!
@@ -243,7 +242,7 @@ RSpec.describe "Recurring meetings creation",
         page.find(".close-button").click
       end
 
-      expect(page).to have_no_selector("#new-meeting-dialog", wait: 10)
+      expect(page).to have_no_css("#new-meeting-dialog", wait: 10)
     end
   end
 end

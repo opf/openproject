@@ -35,7 +35,7 @@ sl:
         title: Members
         view_all_members: Poglej vse člane
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           two: and %{count} more members.
           few: and %{count} more members.
           other: and %{count} more members.

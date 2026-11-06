@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,8 +48,8 @@ RSpec.describe "Admin List File storages",
 
     it "renders a list of all storages" do
       within :css, "#content" do
-        expect(page).to have_list_item(nextcloud_storage.name)
-        expect(page).to have_list_item(one_drive_storage.name)
+        expect(page).to have_css(".Box-row", text: nextcloud_storage.name)
+        expect(page).to have_css(".Box-row", text: one_drive_storage.name)
       end
     end
 
@@ -74,7 +73,7 @@ RSpec.describe "Admin List File storages",
     end
 
     it "renders content that is accessible" do
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
     end
   end
 end

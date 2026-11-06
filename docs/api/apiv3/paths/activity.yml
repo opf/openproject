@@ -24,6 +24,21 @@ get:
           examples:
             response:
               $ref: '../components/examples/activity_response.yml'
+    '404':
+      description: |-
+        Returned if the activity does not exist or the user does not have sufficient permissions to see it.
+
+        **Required permission:** depends on the related entity, e.g. `view_work_package` for work packages.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified work package does not exist.
 
 patch:
   summary: Update activity

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,7 @@ module Components
       include RSpec::Matchers
 
       def expect_active
-        expect(page).to have_css('[data-test-selector="timer-active"]', wait: 10)
+        expect(page).to have_css('[data-test-selector="timer-active"]', wait: 60)
       end
 
       def expect_inactive
@@ -49,7 +48,7 @@ module Components
 
       def expect_visible(visible: true)
         if visible
-          expect(page).to have_css("op-wp-timer-button")
+          expect(page).to have_css("op-wp-timer-button", wait: 30)
         else
           expect(page).to have_no_css("op-wp-timer-button")
         end

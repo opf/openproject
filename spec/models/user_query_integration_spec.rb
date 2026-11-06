@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,7 +51,7 @@ RSpec.describe UserQuery, "integration" do
 
   # Alice is the logged-in user across most examples; she needs view_all_principals
   # so the existing filter/order expectations enumerate every seeded user.
-  # Visibility behaviour is exercised separately in the `describe "visibility"` block.
+  # Visibility behavior is exercised separately in the `describe "visibility"` block.
   shared_let(:alice) { create(:user, firstname: "Alice", lastname: "Anders", global_permissions: %i[view_all_principals]) }
   shared_let(:bob) { create(:user, firstname: "Bob", lastname: "Bauer") }
   shared_let(:carol) { create(:user, firstname: "Carol", lastname: "Cohen") }

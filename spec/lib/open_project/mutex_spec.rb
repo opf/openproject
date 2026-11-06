@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe OpenProject::Mutex do
@@ -41,6 +41,38 @@ RSpec.describe OpenProject::Mutex do
       held = described_class.with_advisory_lock(WorkPackage, "foo") { WorkPackage.current_advisory_lock }
 
       expect(held).to eq("op_foo")
+    end
+  end
+
+  describe ".with_advisory_lock_transaction" do
+    let(:entry) { build_stubbed(:work_package) }
+
+    before do
+      allow(WorkPackage).to receive(:with_advisory_lock) { |*, &block| block&.call }
+    end
+
+    it "defaults to a transaction-scoped lock" do
+      described_class.with_advisory_lock_transaction(entry) { :locked }
+
+      expect(WorkPackage)
+        .to have_received(:with_advisory_lock)
+        .with("mutex_on_WorkPackage_#{entry.id}", hash_including(transaction: true))
+    end
+
+    it "keeps an explicit transaction: false" do
+      described_class.with_advisory_lock_transaction(entry, nil, { transaction: false }) { :locked }
+
+      expect(WorkPackage)
+        .to have_received(:with_advisory_lock)
+        .with("mutex_on_WorkPackage_#{entry.id}", hash_including(transaction: false))
+    end
+
+    it "appends the suffix to the lock name" do
+      described_class.with_advisory_lock_transaction(entry, "backlogs") { :locked }
+
+      expect(WorkPackage)
+        .to have_received(:with_advisory_lock)
+        .with("mutex_on_WorkPackage_#{entry.id}_backlogs", anything)
     end
   end
 end

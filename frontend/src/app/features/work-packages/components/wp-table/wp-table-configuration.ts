@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:string|boolean }>;
+export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:string|boolean|null }>;
 
 export class WorkPackageTableConfiguration {
   /** Render the table results, set to false when only wanting the table initialization */
@@ -37,6 +36,9 @@ export class WorkPackageTableConfiguration {
 
   /** Render the action column (last column) with the actions defined in the TableActionsService */
   public actionsColumnEnabled = true;
+
+  /** Id of the visible heading that names the treegrid, used instead of the default label */
+  public labelledBy:string|null = null;
 
   /** Whether the work package context menu is enabled */
   public contextMenuEnabled = true;
@@ -80,7 +82,7 @@ export class WorkPackageTableConfiguration {
   constructor(providedConfig:WorkPackageTableConfigurationObject) {
     Object.entries(providedConfig).forEach(([k, value]) => {
       const key = (k as keyof WorkPackageTableConfiguration);
-      (this as any)[key] = value;
+      (this as Record<string, unknown>)[key] = value;
     });
   }
 }

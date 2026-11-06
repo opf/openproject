@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,7 +54,7 @@ class Roles::CreateService < BaseServices::Create
 
   def copy_workflows(copy_workflow_id, role)
     if copy_workflow_id.present? && (copy_from = Role.find_by(id: copy_workflow_id))
-      role.workflows.copy_from_role(copy_from)
+      role.workflow_status_transitions.copy_from_role(copy_from)
     end
   end
 end

@@ -412,14 +412,13 @@ da:
       empty_project_folder_validation: Du skal vælge en mappe for at fortsætte.
       existing_manual_folder: Du kan udpege en eksisterende mappe som rodmappe for projektet. Tilladelserne administreres dog ikke automatisk; administratoren skal selv sørge for, at de relevante brugere har adgang. Den valgte mappe kan bruges af flere projekter.
       host: Angiv lagerets værtsadresse inklusive https://. Den må højst være 255 tegn lang.
-      managed_project_folders_application_password_caption: 'Slå automatisk administrerede mapper til ved at kopiere værdien fra: %{provider_type_link}.'
+      managed_project_folders_application_password_caption_html: 'Slå automatisk administrerede mapper til ved at kopiere værdien fra: [%{integration}](provider_settings).'
       name: Giv lageret et navn, så brugerne kan skelne mellem flere lagre.
       new_storage_html: Læs vores dokumentation om [opsætning af en integration med et %{provider_name}-fillager](docs_url) for at få flere oplysninger.
       nextcloud:
-        application_link_text: appen “Integration OpenProject”
         integration: Nextcloud-administration / OpenProject
-        oauth_configuration: Kopiér værdierne fra %{application_link_text}.
-        provider_configuration: Sørg for, at du har administratorrettigheder i din Nextcloud-installation, og at %{application_link_text} er installeret, før du går i gang med opsætningen.
+        oauth_configuration_html: Kopiér værdierne fra [Nextcloud-administration / OpenProject](application_link).
+        provider_configuration_html: Sørg for, at du har administratorrettigheder i din Nextcloud-installation, og at [appen "Integration OpenProject"](application_link) er installeret, før du går i gang med opsætningen.
         storage_audience: Det klient-id, som Nextcloud-installationen bruger til at kommunikere med identitetsudbyderen.
         storage_audience_placeholder: fx nextcloud
         token_exchange_scope: De scopes, der skal anmodes om ved token-udveksling, adskilt med mellemrum.
@@ -428,27 +427,24 @@ da:
       not_logged_into_storage: Log ind først for at vælge en projektmappe
       oauth_application_details_html: Klienthemmeligheden kan ikke ses igen, når du har lukket vinduet. Kopiér værdierne til [indstillingerne for Nextcloud OpenProject Integration](oauth_application_details_link).
       one_drive:
-        application_link_text: Azure-portalen
         copy_redirect_uri: Kopiér omdirigerings-URI
-        documentation_link_text: dokumentationen om OneDrive-fillagre
-        drive_id: Kopiér id'et for det ønskede drev ved at følge trinene i %{drive_id_link_text}.
+        drive_id_html: Kopiér id'et for det ønskede drev ved at følge trinene i [dokumentationen om OneDrive-fillagre](drive_id_guide).
         integration: OneDrive
         missing_client_id_for_redirect_uri: Udfyld OAuth-værdierne for at danne en URI
         oauth_client_redirect_uri: Kopiér værdien til en ny web-omdirigerings-URI under Omdirigerings-URI'er.
         oauth_client_secret: Hvis der ikke er nogen klienthemmelighed for programmet under Klientlegitimationsoplysninger, skal du oprette en ny.
-        oauth_configuration: Kopiér værdierne fra det ønskede program i %{application_link_text}.
-        provider_configuration: Sørg for, at du har administratorrettigheder i %{application_link_text}, eller kontakt din Microsoft-administrator, før du går i gang med opsætningen. I portalen skal du også registrere et Azure-program eller bruge et eksisterende til godkendelse.
-        tenant_id: Kopiér mappe-id'et (tenant) fra det ønskede program under App-registreringer i %{application_link_text}.
+        oauth_configuration_html: Kopiér værdierne fra det ønskede program i [Azure-portalen](application_link).
+        provider_configuration_html: Sørg for, at du har administratorrettigheder i [Azure-portalen](application_link), eller kontakt din Microsoft-administrator, før du går i gang med opsætningen. I portalen skal du også registrere et Azure-program eller bruge et eksisterende til godkendelse.
+        tenant_id_html: Kopiér mappe-id'et (tenant) fra det ønskede program under App-registreringer i [Azure-portalen](application_link).
         tenant_id_placeholder: Navn eller UUID
       setting_up_additional_storages: Hvis du vil sætte flere fillagre op, kan du gå til
       setting_up_additional_storages_non_admin: Administratorer kan sætte flere fillagre op under Administration / Fillagre.
       setting_up_storages: Hvis du vil sætte fillagre op, kan du gå til
       setting_up_storages_non_admin: Administratorer kan sætte fillagre op under Administration / Fillagre.
       sharepoint:
-        application_link_text: SharePoint-webstedet
         integration: SharePoint-administration / OpenProject
-        oauth_configuration: Kopiér værdierne fra det ønskede program på %{application_link_text}.
-        provider_configuration: Sørg for, at du har administratorrettigheder på %{application_link_text}, eller kontakt din Microsoft-administrator, før du går i gang med opsætningen. I portalen skal du også registrere et Azure-program eller bruge et eksisterende til godkendelse.
+        oauth_configuration_html: Kopiér værdierne fra det ønskede program på [SharePoint-webstedet](application_link).
+        provider_configuration_html: Sørg for, at du har administratorrettigheder på [SharePoint-webstedet](application_link), eller kontakt din Microsoft-administrator, før du går i gang med opsætningen. I portalen skal du også registrere et Azure-program eller bruge et eksisterende til godkendelse.
       type: 'Sørg for, at du har administratorrettigheder i din Nextcloud-installation, og at følgende app er installeret, før du går i gang med opsætningen:'
       type_link_text: "“Integration OpenProject”"
     label_active: Aktiv
@@ -487,7 +483,7 @@ da:
       connected: Forbundet
       connected_no_permissions: Brugerens rolle har ingen tilladelser til lagre
       not_connectable: Kan ikke forbindes. Lageret kræver login via en SSO-udbyder, men brugeren logger ikke ind via SSO.
-      not_connected: Ikke forbundet. Brugeren skal logge ind på lageret via følgende %{link}.
+      not_connected_html: Ikke forbundet. Brugeren skal logge ind på lageret via følgende [link](storage_login).
       not_connected_sso: Endnu ikke forbundet. SSO forbinder automatisk brugeren, når vedkommende ser på filer.
     members_no_results: Der er ingen medlemmer at vise.
     no_results: Der er endnu ikke sat nogen lagre op.

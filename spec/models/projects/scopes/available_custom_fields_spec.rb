@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,32 +22,20 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
 RSpec.describe Projects::Scopes::AvailableCustomFields do
   shared_let(:project) { create(:project) }
 
-  shared_let(:custom_field) { create(:custom_field) }
   shared_let(:project_custom_field) { create(:project_custom_field) }
 
   shared_let(:project_custom_field_mapping) do
     create(:project_custom_field_project_mapping, project:, project_custom_field:)
-  end
-
-  shared_let(:custom_field_mapping) do
-    create(:custom_fields_project, project:, custom_field:)
-  end
-
-  describe ".with_available_custom_fields" do
-    it "returns projects with the given custom fields" do
-      expect(Project.with_available_custom_fields([custom_field.id])).to contain_exactly(project)
-    end
   end
 
   describe ".with_available_project_custom_fields" do
@@ -57,15 +45,59 @@ RSpec.describe Projects::Scopes::AvailableCustomFields do
     end
   end
 
-  describe ".without_available_custom_fields" do
-    it "returns projects without the given custom fields" do
-      expect(Project.without_available_custom_fields([custom_field.id])).to be_empty
-    end
-  end
-
   describe ".without_available_project_custom_fields" do
     it "returns projects without the given project custom fields" do
       expect(Project.without_available_project_custom_fields([project_custom_field.id])).to be_empty
+    end
+  end
+
+  describe ".with_available_custom_fields / .without_available_custom_fields" do
+    shared_let(:type) { create(:type) }
+    shared_let(:work_package_custom_field) { create(:integer_wp_custom_field) }
+    shared_let(:other_field) { create(:integer_wp_custom_field) }
+
+    shared_let(:using_project) { create(:project, types: [type]) }
+    shared_let(:bystander) { create(:project, no_types: true) }
+
+    before do
+      base = type.default_variant
+      base.custom_field_ids = [work_package_custom_field.id]
+      base.attribute_groups = [["Details", [work_package_custom_field.attribute_name]]]
+      base.save!
+    end
+
+    it "finds the project whose applied variant shows the field" do
+      expect(Project.with_available_custom_fields([work_package_custom_field.id]))
+        .to contain_exactly(using_project)
+      expect(Project.without_available_custom_fields([work_package_custom_field.id]))
+        .to include(bystander)
+    end
+
+    it "ignores a field no variant shows" do
+      expect(Project.with_available_custom_fields([other_field.id])).to be_empty
+    end
+
+    it "follows a variant that inherits the configuration rather than owning it" do
+      variant = create(:type_variant, type:, form_configuration: type.default_variant.form_configuration)
+      ProjectType.find_by(project: using_project, type:).update!(variant:)
+
+      expect(Project.with_available_custom_fields([work_package_custom_field.id]))
+        .to contain_exactly(using_project)
+    end
+
+    it "drops a project whose variant excludes the field" do
+      variant = create(:type_variant, type:,
+                                      form_configuration: type.default_variant.form_configuration,
+                                      form_configuration_excluded_elements: [work_package_custom_field.attribute_name])
+      ProjectType.find_by(project: using_project, type:).update!(variant:)
+
+      expect(Project.with_available_custom_fields([work_package_custom_field.id])).to be_empty
+      expect(Project.without_available_custom_fields([work_package_custom_field.id]))
+        .to include(using_project)
+    end
+
+    it "matches nothing for an empty list" do
+      expect(Project.with_available_custom_fields([])).to be_empty
     end
   end
 end

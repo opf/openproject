@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Revision id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Revision id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -40,7 +40,7 @@ get:
 
                     An elaborate description
           schema:
-            "$ref": "../components/schemas/revision_model.yml"
+            $ref: "../components/schemas/revision_model.yml"
       description: OK
       headers: {}
     '404':
@@ -64,7 +64,7 @@ get:
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
   tags:
-  - Revisions
+    - Revisions
   description: ''
   operationId: View_revision
   summary: View revision

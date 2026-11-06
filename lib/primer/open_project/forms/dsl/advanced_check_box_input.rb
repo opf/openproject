@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,9 +36,12 @@ module Primer
           DEFAULT_SCHEME = :boolean
           SCHEMES = [DEFAULT_SCHEME, :array].freeze
 
-          attr_reader :name, :label, :value, :unchecked_value, :scheme, :icon
+          attr_reader :name, :label, :value, :unchecked_value, :scheme, :leading_icon, :trailing_image
 
-          def initialize(name:, label:, value: nil, unchecked_value: nil, scheme: DEFAULT_SCHEME, icon: nil, **system_arguments)
+          # @param leading_icon [Symbol] octicon shown before the label.
+          # @param trailing_image [String] path to an SVG shown at the far end of the card.
+          def initialize(name:, label:, value: nil, unchecked_value: nil, scheme: DEFAULT_SCHEME,
+                         leading_icon: nil, trailing_image: nil, **system_arguments)
             raise ArgumentError, "Check box scheme must be one of #{SCHEMES.join(', ')}" unless SCHEMES.include?(scheme)
 
             raise ArgumentError, "Check box needs an explicit value if scheme is array" if scheme == :array && value.nil?
@@ -49,7 +51,8 @@ module Primer
             @value = value
             @unchecked_value = unchecked_value
             @scheme = scheme
-            @icon = icon
+            @leading_icon = leading_icon
+            @trailing_image = trailing_image
 
             super(**system_arguments)
 

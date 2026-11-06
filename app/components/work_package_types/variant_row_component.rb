@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,32 +34,32 @@ module WorkPackageTypes
   # points it back at itself.
   class VariantRowComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include WorkPackageTypes::VariantRoutes
 
     renders_one :caption, ->(**system_arguments) { Primer::Beta::Text.new(color: :muted, ml: 2, **system_arguments) }
 
     # What a list says about the variant in use here. Takes markup: one list uses an icon.
     renders_one :state
 
-    # A right-aligned label, for supplementary status rather than an affordance. Mirrors the
-    # surrounding BorderBoxListComponent header's own.
-    renders_one :status_label, ->(**system_arguments) { Primer::Beta::Label.new(**system_arguments) }
+    renders_many :status_labels, ->(**system_arguments) { Primer::Beta::Label.new(**system_arguments) }
 
     # @param linked [Boolean] whether the name leads to the variant's configuration. Pass false
     #   where the reader may not open it.
-    def initialize(variant:, linked: true)
+    # @param project [Project, nil] the project whose list this is, nil in administration.
+    def initialize(variant:, linked: true, project: nil)
       super()
 
       @variant = variant
       @linked = linked
+      @project = project
     end
 
     private
 
-    attr_reader :variant, :linked
+    attr_reader :variant, :linked, :project
 
     alias_method :linked?, :linked
 
-    # Carries the owning project, if any, so a variant is configured where it belongs.
-    def variant_path = type_settings_path(**variant.path_args)
+    def settings_path = variant_settings_path(project, variant)
   end
 end

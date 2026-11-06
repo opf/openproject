@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,24 +33,31 @@ module Users
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include RolesHelper
 
       def initialize(user:)
         super()
 
         @user = user
-        # show projects based on current user visibility.
-        # But don't simply concatenate the .visible scope to the memberships
-        # as .memberships has an include and an order which for whatever reason
-        # also gets applied to the Project.allowed_to parts concatenated by a UNION
-        # and an order inside a UNION is not allowed in postgres.
-        @memberships = @user.memberships
-                            .of_any_project
-                            .where(id: Member.visible(User.current))
-                            .order("projects.name ASC")
+        @memberships = visible_memberships.order("projects.name ASC")
       end
 
       def render?
         @memberships.any?
+      end
+
+      private
+
+      # The .visible scope cannot simply be concatenated to the memberships as .memberships
+      # has an include and an order which for whatever reason also gets applied to the
+      # Project.allowed_to parts concatenated by a UNION, and an order inside a UNION is
+      # not allowed in postgres.
+      def visible_memberships
+        memberships = @user.memberships.of_any_project
+
+        return memberships if @user == User.current
+
+        memberships.where(id: Member.visible(User.current))
       end
     end
   end

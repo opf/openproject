@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,6 +33,7 @@ module Components
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
+      include WaitHelpers
 
       def initialize(bulk_mode: false, dialog_id: "wp-delete-dialog")
         @bulk_mode = bulk_mode
@@ -47,7 +47,9 @@ module Components
       end
 
       def within_dialog(&)
-        within(dialog_css_selector, &)
+        dialog = find(dialog_css_selector)
+        wait_for_size_animation_completion(dialog)
+        within(dialog, &)
       end
 
       def expect_open
@@ -64,11 +66,12 @@ module Components
 
       def confirm_deletion
         within_dialog do
-          # By id: the label says what is being deleted and so varies with the hierarchy.
           check "#{dialog_id}-check_box", allow_label_click: true
-          expect(page).to have_button "Delete permanently", disabled: false
-          click_button "Delete permanently"
+          expect(page).to have_checked_field("#{dialog_id}-check_box")
         end
+
+        expect(page).to have_button "Delete permanently", disabled: false
+        click_button "Delete permanently"
       end
 
       def cancel_deletion

@@ -22,14 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Who may author a variant. A global one is instance configuration and stays with the
-# administrators; one a project owns may also be authored from inside that project.
+# Who may author an owned configuration record, such as a variant or a workflow. A global one is
+# instance configuration and stays with the administrators; one a project owns may also be
+# authored from inside that project.
 #
 module AuthorizesVariantAuthoring
   extend ActiveSupport::Concern
@@ -48,5 +48,5 @@ module AuthorizesVariantAuthoring
 
   private
 
-  def owning_project = model.project
+  def owning_project = model.try(:project)
 end

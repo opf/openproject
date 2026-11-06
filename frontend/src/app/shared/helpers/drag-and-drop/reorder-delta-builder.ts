@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -421,7 +420,7 @@ function rebuildPositions(
  * @param positions The current positions as loaded from backend / persisted from previous calls
  * @param wpId The work package that got moved
  * @param index The index a work package got moved into
- * @param fromIndex If moved within the order, the previous index used for movement optimzation
+ * @param fromIndex If moved within the order, the previous index used for movement optimization
  */
 export function buildDelta(
   order:string[],

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,6 +46,24 @@ RSpec.describe Group do
 
   it "creates" do
     expect(new_group.save).to be true
+  end
+
+  describe "#avatar_color=" do
+    it "normalizes a long hex form to uppercase" do
+      new_group.avatar_color = "#aabbcc"
+      expect(new_group.avatar_color).to eql "#AABBCC"
+    end
+
+    it "normalizes a short hex form to its long uppercase form" do
+      new_group.avatar_color = "#abc"
+      expect(new_group.avatar_color).to eql "#AABBCC"
+    end
+
+    it "clears the value when set to blank" do
+      new_group.avatar_color = "#aabbcc"
+      new_group.avatar_color = ""
+      expect(new_group.avatar_color).to be_nil
+    end
   end
 
   describe "with long but allowed attributes" do

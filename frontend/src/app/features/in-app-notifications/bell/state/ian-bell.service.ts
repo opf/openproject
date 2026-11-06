@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -68,6 +67,8 @@ export class IanBellService {
 
   unread$ = this.query.unread$;
 
+  loadedUnread$ = this.query.loadedUnread$;
+
   constructor() {
     this.query.unreadCountChanged$.subscribe((count) => {
       this.actions$.dispatch(notificationCountChanged({ origin: this.id, count }));
@@ -88,7 +89,7 @@ export class IanBellService {
         map((result) => result.total),
         tap({
           next: (count) => {
-            this.store.update({ totalUnread: count });
+            this.store.update({ totalUnread: count, loaded: true });
           },
           error: (error) => {
             console.error('Failed to load notifications: %O', error);
@@ -104,7 +105,9 @@ export class IanBellService {
     if (action.all) {
       this.fetchUnread().subscribe();
     } else {
-      this.store.update(({ totalUnread }) => ({ totalUnread: totalUnread - action.notifications.length }));
+      this.store.update(({ totalUnread }) => ({
+        totalUnread: totalUnread < 0 ? totalUnread : Math.max(0, totalUnread - action.notifications.length),
+      }));
     }
   }
 }

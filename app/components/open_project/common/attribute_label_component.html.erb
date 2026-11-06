@@ -1,7 +1,0 @@
-<%= render Primer::ConditionalWrapper.new(condition: !@tag.nil?, trim: true, **@system_arguments) do %>
-  <%= content %>
-  <% if @required %>
-    <%= render Primer::BaseComponent.new(tag: :span, ml: 1, aria: { hidden: true }).with_content("*") %>
-  <% end %>
-  <%= render OpenProject::Common::AttributeHelpTextComponent.new(help_text: @help_text) if @help_text.present? %>
-<% end %>

@@ -61,6 +61,8 @@ tr:
   attributes:
     budget: Bütçe
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ tr:
   events:
     budget: Bütçe düzenlendi
   help_click_to_edit: Düzenlemek için buraya tıklayın.
-  help_currency_format: Görüntülenen para birimi değerlerinin biçimi. % n, para birimi değeri ile değiştirilir,% u ist para birimi yerine geçer.%u%n
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Varsayılan oranı geçersiz kılmak için buraya bir değer girin.
   label_budget_available: Mevcut bütçe
   label_budget_details: Bütçe ayrıntıları

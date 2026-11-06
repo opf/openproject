@@ -53,14 +53,12 @@
       <a
         class="relation-row--grid-id"
         data-test-selector="op-relation--row-id"
-        uiSref="work-packages.show.tabs"
-        [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
+        [href]="relatedWorkPackagePath"
       >{{relatedWorkPackage.formattedId}}</a>
       <a
         class="relation-row--grid-subject"
         data-test-selector="op-relation--row-subject"
-        uiSref="work-packages.show.tabs"
-        [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
+        [href]="relatedWorkPackagePath"
         [textContent]="relatedWorkPackage.subject"
         [attr.aria-label]="normalizedRelationType + ' ' + relatedWorkPackage.subjectWithId(0)"
       ></a>

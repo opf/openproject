@@ -25,7 +25,11 @@ properties:
     $ref: "./formattable.yml"
   position:
     type: integer
-    description: The position of the agenda item within its section.
+    description: The manual position within the section, also used to break ties in vote-based sorting.
+  voteScore:
+    type: integer
+    readOnly: true
+    description: The number of upvotes minus downvotes. Can be negative.
   durationInMinutes:
     type:
       - integer
@@ -62,6 +66,19 @@ properties:
               This agenda item
 
               **Resource**: MeetingAgendaItem
+      upvote:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Toggle the current user's upvote via POST. Replaces an existing downvote.
+              Available with `view_meetings` in vote-based mode for non-backlog items
+              in draft, open, or in-progress meetings that are not templates.
+      downvote:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Toggle the current user's downvote via POST. Replaces an existing upvote.
+              Available under the same conditions as `upvote`.
       meeting:
         allOf:
           - $ref: './link.yml'

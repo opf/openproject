@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -80,7 +79,9 @@ module HasDetailsTable
       end
 
       # Register as a named constant so it appears in stack traces, queries, etc.
-      Object.const_set("#{name}Detail", klass)
+      class_name = "#{name}Detail"
+      Object.send(:remove_const, class_name) if Object.const_defined?(class_name, false)
+      Object.const_set(class_name, klass)
     end
 
     def setup_detail_association(association_name, detail_class, foreign_key) # rubocop:disable Metrics/AbcSize

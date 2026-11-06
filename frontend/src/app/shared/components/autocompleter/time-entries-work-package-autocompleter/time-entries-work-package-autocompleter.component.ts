@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -107,8 +106,8 @@ export class TimeEntriesWorkPackageAutocompleterComponent extends OpAutocomplete
           switchMap((collection:CollectionResource<TimeEntryResource>) => {
             this.recentWorkPackageIds = collection
               .elements
-              .filter((timeEntry) => timeEntry.workPackage?.href)
-              .map((timeEntry) => idFromLink(timeEntry.workPackage.href))
+              .filter((timeEntry) => (timeEntry.workPackage as HalResource|undefined)?.href)
+              .map((timeEntry) => idFromLink((timeEntry.workPackage as HalResource).href))
               .filter((v, i, a) => a.indexOf(v) === i);
 
             return this.loadWorkPackages(query);

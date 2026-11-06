@@ -20,28 +20,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Widget::Settings::Fieldset < Widget::Base
-  dont_cache!
+  option :type, default: -> { "filter" }
 
-  def render_with_options(options, &)
-    @type = options.delete(:type) || "filter"
+  def initialize(...)
+    super
+
     @id = @type.to_s
     @label = :"label_#{@type}"
-    super
   end
 
-  def render(&)
-    write(
-      render_view_component Primer::OpenProject::CollapsibleSection.new(id: @id, display: :block, mb: 3) do |section|
-        section.with_title(tag: :h3) { I18n.t(@label) }
-        section.with_collapsible_content(&)
-      end
-    )
+  def call
+    render Primer::OpenProject::CollapsibleSection.new(id: @id, display: :block, mb: 3) do |section|
+      section.with_title(tag: :h3) { I18n.t(@label) }
+      section.with_collapsible_content { content }
+    end
   end
 end

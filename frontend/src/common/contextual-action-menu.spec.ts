@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,6 +36,7 @@ import type AnchoredPositionElement from '@openproject/primer-view-components/ap
 // Side-effect import: the type-only import above is elided, and it is loading
 // the module that registers `<anchored-position>`.
 import '@openproject/primer-view-components/app/components/primer/anchored_position';
+import { nextFrame } from 'core-common/testing/timing';
 import { CONTEXTUAL_ALIGN, CONTEXTUAL_SIDE, ContextualActionMenu } from './contextual-action-menu';
 
 // The real <action-menu> custom element is registered by the Primer bundle,
@@ -52,8 +52,6 @@ interface FakeMenu {
 }
 
 describe('ContextualActionMenu', () => {
-  const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
   // The card sits at a known place well inside the viewport, so the pointer
   // offsets below are unambiguous and no viewport clamping muddies them.
   const CARD_LEFT = 100;

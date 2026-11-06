@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,7 +67,7 @@ class Mails::MailerJob < ActionMailer::MailDeliveryJob
   #       total_wait
   #     end
   #
-  # We set attemps to 14 to have it retry for 127715 seconds which is more than
+  # We set attempts to 14 to have it retry for 127715 seconds which is more than
   # 1 day (~= 1 day 11 hours 30 min)
   retry_on StandardError, wait: :polynomially_longer, attempts: 14
 end

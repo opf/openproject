@@ -20,37 +20,36 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from 'core-app/core/states/states.service';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import {
+  SelectionModifiers,
+  WorkPackageViewSelectionGesturesService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { displayClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { selectionGesture } from '../state/selection-feedback';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 export class RowClickHandler implements TableEventHandler {
   // Injections
-  @LazyInject() public $state:StateService;
-
-  @LazyInject() public states:States;
-
   @LazyInject() public keepTab:KeepTabService;
 
-  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
-
-  @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
+  @LazyInject() public configurationService:ConfigurationService;
 
   constructor(public readonly injector:Injector) {
   }
@@ -77,7 +76,7 @@ export class RowClickHandler implements TableEventHandler {
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (target.classList.contains(`${displayClassName}`) || target.classList.contains(`${activeFieldClassName}`)) {
+    if (this.clickActivatesCell(target) || target.classList.contains(`${activeFieldClassName}`)) {
       debugLog('Skipping click on inner cell');
       return true;
     }
@@ -85,36 +84,73 @@ export class RowClickHandler implements TableEventHandler {
     // Locate the row from event
     const element = target.closest<HTMLTableRowElement>(this.SELECTOR)!;
     const wpId = element.dataset.workPackageId;
-    const classIdentifier = element.dataset.classIdentifier!;
 
     if (!wpId) {
       return true;
     }
 
-    const [index, row] = view.workPackageTable.findRenderedRow(classIdentifier);
+    activateRow(view, wpId, element, evt);
 
-    // Update single selection if no modifier present
-    if (!(evt.ctrlKey || evt.metaKey || evt.shiftKey)) {
-      this.wpTableSelection.setSelection(wpId, index);
-      view.itemClicked.emit({ workPackageId: wpId, double: false });
-    }
-
-    // Multiple selection if shift present
-    if (evt.shiftKey) {
-      this.wpTableSelection.setMultiSelectionFrom(view.workPackageTable.renderedRows, wpId, index);
-    }
-
-    // Single selection expansion if ctrl / cmd(mac)
-    if (evt.ctrlKey || evt.metaKey) {
-      this.wpTableSelection.toggleRow(wpId);
-    }
-
-    view.selectionChanged.emit(this.wpTableSelection.getSelectedWorkPackageIds());
-
-    // The current row is the last selected work package
-    // not matter what other rows are (de-)selected below.
-    // Thus save that row for the details view button.
-    this.wpTableFocus.updateFocus(wpId);
     return false;
   }
+
+  private clickActivatesCell(target:HTMLElement):boolean {
+    return target.classList.contains(displayClassName)
+      && !this.configurationService.requireDoubleClickForInlineEdit();
+  }
+}
+
+/**
+ * Runs the effects of activating a row: updates the selection (plain
+ * activation replaces it), emits `itemClicked` without modifiers, makes the
+ * row the current work package and follows it in an open split view.
+ */
+export function activateRow(
+  view:TableEventComponent,
+  wpId:string,
+  element:HTMLTableRowElement,
+  modifiers:SelectionModifiers = {},
+):void {
+  const { injector } = view.workPackageTable;
+
+  const modified = [modifiers.ctrlKey, modifiers.metaKey, modifiers.shiftKey].some(Boolean);
+
+  selectionGesture(view.workPackageTable, modified ? 'selection' : 'navigation', () => {
+    injector.get(WorkPackageViewSelectionGesturesService)
+      .handleClick(wpId, view.workPackageTable.renderedRows, modifiers, element.dataset.classIdentifier);
+  });
+
+  if (!modified) {
+    view.itemClicked.emit({ workPackageId: wpId, double: false });
+  }
+
+  // The current row is the last selected work package
+  // not matter what other rows are (de-)selected below.
+  // Thus save that row for the details view button.
+  injector.get(WorkPackageViewFocusService).updateFocus(wpId);
+
+  switchOpenSplitViewTo(injector, wpId);
+}
+
+/**
+ * If a split view is currently open (URL has a /details/:id(/:tab) suffix), switch it
+ * to the clicked row's work package. List and split view are separate, independently
+ * bootstrapped Angular elements (each with their own isolated query space), so they
+ * don't share WorkPackageViewFocusService - this can't be done by reacting to
+ * updateFocus() from within the split view, it has to be driven from here.
+ */
+function switchOpenSplitViewTo(injector:Injector, wpId:string):void {
+  const urlParams = injector.get(UrlParamsService);
+  const details = urlParams.currentDetailsRouteParams();
+  if (!details) {
+    return;
+  }
+
+  const newRoutingId = resolveRoutingId(injector.get(States), wpId);
+  if (details.routingId === newRoutingId) {
+    return;
+  }
+
+  const newPath = `${urlParams.basePathWithoutDetails()}/details/${newRoutingId}${details.tab ? `/${details.tab}` : ''}${window.location.search}`;
+  Turbo.visit(newPath, { frame: 'content-bodyRight', action: 'advance' });
 }

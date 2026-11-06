@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ RSpec.describe "rendering the login buttons for all providers" do
     [
       { name: "mock_auth" },
       { name: "test_auth", display_name: "Test" },
-      { name: "foob_auth", icon: "foobar.png" }
+      { name: "foob_auth", display_name: "Foobar", icon: "auth_provider-saml.png" }
     ]
   end
 
@@ -45,15 +44,42 @@ RSpec.describe "rendering the login buttons for all providers" do
   end
 
   it "shows the mock_auth button with the name as its label" do
-    expect(rendered).to match /#{providers[0][:name]}/
+    expect(rendered).to have_link(text: "Continue with #{providers[0][:name]}")
   end
 
   it "shows the test_auth button with the given display_name as its label" do
-    expect(rendered).to match /#{providers[1][:display_name]}/
+    expect(rendered).to have_link(text: "Continue with #{providers[1][:display_name]}")
+  end
+
+  it "renders the provider icon inside the button" do
+    expect(rendered).to have_css("a.auth-provider-foob_auth img.auth-provider-icon")
+  end
+
+  it "renders no icon for providers without one" do
+    expect(rendered).to have_no_css("a.auth-provider-mock_auth img")
+  end
+
+  it "keeps the button content free of block level elements" do
+    expect(rendered).to have_no_css("a.auth-provider div")
   end
 
   it "links to the OmniAuth start form" do
     expect(rendered).to have_link(href: "/login/omniauth/mock_auth")
+  end
+
+  context "with an icon that cannot be resolved" do
+    let(:providers) do
+      [
+        { name: "mock_auth" },
+        { name: "foob_auth", display_name: "Foobar", icon: "there-is-no-such-asset.png" }
+      ]
+    end
+
+    it "still renders every provider button, without the icon" do
+      expect(rendered).to have_link(text: "Continue with Foobar")
+      expect(rendered).to have_link(text: "Continue with mock_auth")
+      expect(rendered).to have_no_css("img")
+    end
   end
 
   context "with relative url root", with_config: { rails_relative_url_root: "/foobar" } do

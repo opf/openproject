@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,12 +36,13 @@ module ResourceAllocations
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include ResourceAllocations::ScheduleSummary
+      include ResourceManagement::PlannerRoutes
 
       # `body_id`/`form_id`/`footer ids default to the allocate wizard's so the
       # create and edit flows are unchanged. The Staffing flow hosts the same
       # confirmation in its own dialog by passing its ids, a custom `form_url`
       # and the plain `hidden_fields` to carry through a confirmed resubmit.
-      def initialize(allocation:, project:, allocation_kind:, form_values:, overbooked_ranges: [],
+      def initialize(allocation:, project:, form_values:, overbooking: nil,
                      working_schedules: [], filters: nil, view: nil,
                      body_id: ResourceAllocations::NewDialogComponent::BODY_ID,
                      form_id: ResourceAllocations::NewDialogComponent::FORM_ID,
@@ -50,9 +50,8 @@ module ResourceAllocations
         super
         @allocation = allocation
         @project = project
-        @allocation_kind = allocation_kind
         @form_values = form_values
-        @overbooked_ranges = overbooked_ranges
+        @overbooking = overbooking
         @working_schedules = working_schedules
         @filters = filters
         @view = view
@@ -68,7 +67,7 @@ module ResourceAllocations
       end
 
       def overbooked?
-        @overbooked_ranges.any?
+        @overbooking&.overbooked? || false
       end
 
       private
@@ -81,9 +80,9 @@ module ResourceAllocations
         return @form_url if @form_url
 
         if @allocation.persisted?
-          project_resource_allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
+          allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
         else
-          project_resource_allocations_path(@project, resource_planner_view_id: @view&.id)
+          allocations_path(@project, resource_planner_view_id: @view&.id)
         end
       end
 
@@ -110,52 +109,29 @@ module ResourceAllocations
         schedule_sentence(@working_schedules)
       end
 
-      def capacity_summary(range)
+      def overtime_summary
         t(
-          "resource_management.allocate_resource_dialog.overbooking.capacity_summary",
-          available: format_hours(range.available_minutes),
-          scheduled: format_hours(scheduled_minutes(range))
+          "resource_management.allocate_resource_dialog.overbooking.overtime_summary_html",
+          hours: format_hours(@allocation.allocated_time),
+          start_date: format_date(@allocation.start_date),
+          end_date: format_date(@allocation.end_date),
+          overtime: format_hours(@overbooking.overtime_minutes),
+          overtime_start_date: format_date(@overbooking.period.begin),
+          overtime_end_date: format_date(@overbooking.period.end)
         )
       end
 
-      def scheduled_minutes(range)
-        range.items.sum(&:minutes)
+      def unplannable?
+        @overbooking.unplannable
       end
 
-      # The forced items whose work package the current user may see, each
-      # rendered individually.
-      def visible_items(range)
-        range.items.select { |item| work_package_for(item) }
-      end
-
-      # Work scheduled into the range for work packages the user cannot see,
-      # collapsed into a single lump sum so no cross-project subjects leak.
-      def hidden_minutes(range)
-        range.items.reject { |item| work_package_for(item) }.sum(&:minutes)
-      end
-
-      def work_packages_by_id
-        @work_packages_by_id ||=
-          WorkPackage
-            .visible(User.current)
-            .where(id: @overbooked_ranges.flat_map(&:work_package_ids).uniq)
-            .index_by(&:id)
-      end
-
-      def work_package_for(item)
-        work_packages_by_id[item.work_package_id]
-      end
-
-      def candidate?(item)
-        item.id == ResourceAllocations::Availability::CANDIDATE_ID
-      end
-
-      def date_range(from_date, to_date)
-        "#{format_or_dash(from_date)} - #{format_or_dash(to_date)}"
-      end
-
-      def format_or_dash(date)
-        date.present? ? helpers.format_date(date) : "—"
+      def unplannable_note
+        t(
+          "resource_management.allocate_resource_dialog.overbooking.unplannable",
+          user: @allocation.principal.name,
+          start_date: format_date(@allocation.start_date),
+          end_date: format_date(@allocation.end_date)
+        )
       end
 
       def format_hours(minutes)

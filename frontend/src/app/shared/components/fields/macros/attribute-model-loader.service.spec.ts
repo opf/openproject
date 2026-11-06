@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,7 +29,6 @@ import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, of } from 'rxjs';
 import { type Mock, vi } from 'vitest';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { TransitionService } from '@uirouter/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -61,7 +59,6 @@ describe('AttributeModelLoaderService', () => {
       providers: [
         AttributeModelLoaderService,
         { provide: ApiV3Service, useValue: apiV3Stub },
-        { provide: TransitionService, useValue: { onStart: vi.fn() } },
         { provide: CurrentProjectService, useValue: { id: 'demo-project' } },
         { provide: I18nService, useValue: { t: (key:string) => key } },
       ],

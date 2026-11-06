@@ -20,124 +20,108 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector, inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { Injectable, computed, debounced, effect, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, fromEvent, map, skip, startWith } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { queryVisible } from 'core-app/shared/helpers/dom-helpers';
 
 @Injectable({ providedIn: 'root' })
 export class MainMenuToggleService {
-  injector = inject(Injector);
-  readonly deviceService = inject(DeviceService);
+  private readonly deviceService = inject(DeviceService);
+  private readonly cookieService = inject(CookieService);
 
-  private elementWidth:number;
+  private readonly defaultWidth = 280;
 
-  private elementMinWidth = 11;
+  private readonly minOpenWidth = 11;
 
-  private readonly defaultWidth:number = 280;
+  private readonly widthStorageKey = 'openProject-mainMenuWidth';
 
-  private readonly localStorageKey:string = 'openProject-mainMenuWidth';
+  private readonly collapsedStorageKey = 'openProject-mainMenuCollapsed';
 
-  private readonly localStorageStateKey:string = 'openProject-mainMenuCollapsed';
+  private readonly cookieName = 'op_main_menu_width';
 
-  readonly currentProject = inject(CurrentProjectService);
+  private readonly openWidth = signal(this.defaultWidth);
 
-  private htmlNode = document.getElementsByTagName('html')[0];
+  private readonly collapsedByUser = signal(false);
+
+  private readonly hiddenByViewport = signal(false);
+
+  private readonly hydrated = signal(false);
+
+  // The server lays out the next page from this value before any script
+  // runs (OP-20429). A collapse forced by a narrow window is not the user's
+  // choice, so it is not part of it.
+  readonly preferredWidth = computed(() => (this.collapsedByUser() ? 0 : this.openWidth()));
+
+  // The requested width, not the measured one: on narrow windows the
+  // stylesheet gives an open menu its own width.
+  readonly width = computed(() => (this.hiddenByViewport() ? 0 : this.preferredWidth()));
+
+  readonly isOpen = computed(() => this.width() > 0);
+
+  private readonly debouncedPreferredWidth = debounced(
+    () => (this.hydrated() ? this.preferredWidth() : undefined),
+    50,
+  );
 
   private get mainMenu():HTMLElement|null {
     return document.querySelector<HTMLElement>('#main-menu');
   }
 
-  // Notes all changes of the menu size (currently needed in wp-resizer.component.ts)
-  private changeData = new BehaviorSubject<number|undefined>(undefined);
-  public changeData$ = this.changeData.asObservable();
-
-  private wasHiddenDueToResize = false;
-
-  private wasCollapsedByUser = false;
-
-  private lastInnerWidth = window.innerWidth;
-
   constructor() {
-    this.initializeMenu();
-    // Add resize event listener
-    window.addEventListener('resize', this.onWindowResize.bind(this));
+    effect(() => this.render(this.width()));
+
+    effect(() => {
+      const width = this.debouncedPreferredWidth.value();
+      if (width !== undefined) this.writeWidthCookie(width);
+    });
+
+    this.syncWithPage();
+
+    // Only a changed innerWidth matters: a virtual keyboard opening resizes
+    // the visual viewport alone and must not close the menu.
+    fromEvent(window, 'resize')
+      .pipe(
+        map(() => window.innerWidth),
+        startWith(window.innerWidth),
+        distinctUntilChanged(),
+        skip(1),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => this.onViewportWidthChange());
   }
 
-  public initializeMenu():void {
-    const mainMenu = this.mainMenu;
-    if (!mainMenu) {
-      return;
-    }
+  // Turbo replaces the body without touching this service, so every page
+  // with a main menu has to be brought back in line with the state.
+  public syncWithPage():void {
+    if (!this.mainMenu) return;
 
-    this.elementWidth = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string, 10);
-    const menuCollapsed = window.OpenProject.guardedLocalStorage(this.localStorageStateKey) === 'true';
+    this.readPreference();
+    this.storePreference();
+    this.onViewportWidthChange();
+    this.hydrated.set(true);
+    this.render(this.width());
+  }
 
-    // Set the initial value of the collapse tracking flag
-    this.wasCollapsedByUser = menuCollapsed;
+  public toggle():void {
+    if (!this.mainMenu) return;
 
-    if (!this.elementWidth) {
-      this.saveWidth(mainMenu.offsetWidth);
-    } else if (menuCollapsed) {
-      this.closeMenu();
+    if (this.isOpen()) {
+      this.collapsedByUser.set(true);
     } else {
-      this.setWidth();
+      this.collapsedByUser.set(false);
+      this.hiddenByViewport.set(false);
     }
+    this.storePreference();
 
-    this.adjustMenuVisibility();
-  }
-
-  private onWindowResize():void {
-    // Skip if only the visual viewport changed (e.g. virtual keyboard opening) —
-    // adjustMenuVisibility() only cares about innerWidth, and the keyboard does not change it.
-    const currentWidth = window.innerWidth;
-    if (currentWidth === this.lastInnerWidth) return;
-    this.lastInnerWidth = currentWidth;
-
-    this.adjustMenuVisibility();
-  }
-
-  private adjustMenuVisibility():void {
-    if (window.innerWidth >= 1012) {
-      // On larger screens, reopen the menu if it was hidden only due to screen resizing
-      if (this.wasHiddenDueToResize && !this.wasCollapsedByUser) {
-        this.setWidth(this.defaultWidth);
-        this.wasHiddenDueToResize = false; // Reset the flag since the menu is now shown
-      }
-    } else if (this.showNavigation) {
-        this.closeMenu();
-        this.wasHiddenDueToResize = true; // Indicate that the menu was hidden due to resize
-    }
-  }
-
-  public toggleNavigation(event?:Event):void {
-    if (event) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-
-    // Update the user collapse flag and clear `wasHiddenDueToResize`
-    this.wasCollapsedByUser = this.showNavigation;
-    this.wasHiddenDueToResize = false; // Reset because a manual toggle overrides any resize behavior
-
-    if (this.showNavigation) {
-      this.closeMenu();
-    } else {
-      this.openMenu();
-    }
-
-    // Save the collapsed state in localStorage
-    window.OpenProject.guardedLocalStorage(this.localStorageStateKey, String(!this.showNavigation));
-    // Set focus on first visible main menu item.
-    // This needs to be called after AngularJS has rendered the menu, which happens some when after(!) we leave this
-    // method here. So we need to set the focus after a timeout.
+    // The menu items only become focusable once the menu has been rendered open.
     setTimeout(() => {
       const mainMenu = this.mainMenu;
       if (!mainMenu) return;
@@ -146,61 +130,77 @@ export class MainMenuToggleService {
     }, 500);
   }
 
-  public closeMenu():void {
-    this.setWidth(0);
-    this.changeData.next(0);
-    document.querySelectorAll<HTMLElement>('.searchable-menu--search-input').forEach((input) => input.blur());
+  public resizeTo(width:number):void {
+    if (width < this.minOpenWidth) {
+      this.collapsedByUser.set(true);
+      this.openWidth.set(this.defaultWidth);
+    } else {
+      this.openWidth.set(Math.round(width));
+      this.collapsedByUser.set(false);
+    }
+    this.storePreference();
   }
 
-  public openMenu():void {
-    const width = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string, 10) || this.defaultWidth;
-    this.setWidth(width);
-    this.changeData.next(width);
+  private onViewportWidthChange():void {
+    if (!this.deviceService.isSmallDesktop) {
+      this.hiddenByViewport.set(false);
+    } else if (this.isOpen()) {
+      this.hiddenByViewport.set(true);
+    }
   }
 
-  public setWidth(width?:number):void {
-    if (width !== undefined) {
-      this.elementWidth = width;
+  // localStorage is written synchronously and re-read on every page, so it
+  // also carries changes made in another tab. The cookie is written late and
+  // only stands in before the first page has been read.
+  private readPreference():void {
+    const storedWidth = this.parseOpenWidth(window.OpenProject.guardedLocalStorage(this.widthStorageKey));
+    const storedCollapsed = window.OpenProject.guardedLocalStorage(this.collapsedStorageKey);
+    let fallbackWidth = this.openWidth();
+    let fallbackCollapsed = this.collapsedByUser();
+
+    if (!this.hydrated()) {
+      const cookie = this.cookieService.get(this.cookieName);
+      fallbackWidth = this.parseOpenWidth(cookie) ?? this.defaultWidth;
+      fallbackCollapsed = cookie === '0';
     }
 
+    this.openWidth.set(storedWidth ?? fallbackWidth);
+    this.collapsedByUser.set(storedCollapsed ? storedCollapsed === 'true' : fallbackCollapsed);
+  }
+
+  private storePreference():void {
+    window.OpenProject.guardedLocalStorage(this.widthStorageKey, String(this.openWidth()));
+    window.OpenProject.guardedLocalStorage(this.collapsedStorageKey, String(this.collapsedByUser()));
+  }
+
+  private parseOpenWidth(value:string|void):number|undefined {
+    if (!value || !/^\d+$/.test(value)) return undefined;
+
+    const width = parseInt(value, 10);
+    return width >= this.minOpenWidth ? width : undefined;
+  }
+
+  private render(width:number):void {
     const mainMenu = this.mainMenu;
     if (!mainMenu) return;
 
-    // Apply the width directly to the main menu
-    mainMenu.style.width = `${this.elementWidth}px`;
+    mainMenu.style.width = `${width}px`;
+    document.documentElement.style.setProperty('--main-menu-width', `${width}px`);
+    document
+      .querySelectorAll<HTMLElement>('.can-hide-navigation')
+      .forEach((element) => element.classList.toggle('hidden-navigation', width === 0));
 
-    // Apply to root CSS variable for any related layout adjustments
-    this.htmlNode.style.setProperty('--main-menu-width', `${this.elementWidth}px`);
-
-    // Check if menu is open or closed and apply CSS class if needed
-    this.toggleClassHidden();
-    this.snapBack();
-
-    // Save the width if it's open
-    if (this.elementWidth > 0) {
-      window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
+    if (width === 0) {
+      document.querySelectorAll<HTMLElement>('.searchable-menu--search-input').forEach((input) => input.blur());
     }
   }
 
-  public saveWidth(width?:number):void {
-    this.setWidth(width);
-    window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
-    window.OpenProject.guardedLocalStorage(this.localStorageStateKey, String(this.elementWidth === 0));
-  }
-
-  public get showNavigation():boolean {
-    return this.elementWidth >= this.elementMinWidth;
-  }
-
-  private snapBack():void {
-    if (this.elementWidth < this.elementMinWidth) {
-      this.elementWidth = 0;
-    }
-  }
-
-  private toggleClassHidden():void {
-    const isHidden = this.elementWidth < this.elementMinWidth;
-    const hideElements = document.querySelectorAll<HTMLElement>('.can-hide-navigation');
-    hideElements.forEach((hideElement) => hideElement.classList.toggle('hidden-navigation', isHidden));
+  private writeWidthCookie(width:number):void {
+    this.cookieService.set(this.cookieName, String(width), {
+      expires: 365,
+      path: window.appBasePath || '/',
+      secure: window.location.protocol === 'https:',
+      sameSite: 'Lax',
+    });
   }
 }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,22 +22,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Widget::Table::EntryTable < Widget::Table
-  include ReportingHelper
+  include AngularHelper
 
   FIELDS = %i[user_id activity_id entity_gid comments logged_by_id project_id].freeze
 
-  def render
-    content = content_tag :div, class: "generic-table--container -with-footer" do
+  def call
+    content_tag :div, class: "generic-table--container -with-footer" do
       content_tag :div, class: "generic-table--results-container" do
         table = content_tag :table, class: "generic-table",
-                                    id: "sortable-table" do
+                                    id: "sortable-table",
+                                    data: { reporting__page_target: "table" } do
           concat colgroup
           concat head
           concat foot
@@ -44,7 +46,6 @@ class Widget::Table::EntryTable < Widget::Table
         table
       end
     end
-    write content
   end
 
   def colgroup
@@ -136,7 +137,7 @@ class Widget::Table::EntryTable < Widget::Table
 
   def body
     content_tag :tbody do
-      rows = "".html_safe
+      rows = ActiveSupport::SafeBuffer.new
       @subject.each_direct_result do |result|
         rows << (content_tag(:tr) do
           concat body_column_field(:spent_on, result)

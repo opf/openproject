@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,6 +35,7 @@ export const contextMenuTdClassName = 'wp-table--context-menu-td';
 export const contextMenuSpanClassName = 'wp-table--context-menu-span';
 export const contextMenuLinkClassName = 'wp-table-context-menu-link';
 export const contextColumnIcon = 'wp-table-context-menu-icon';
+export const destructiveControlAttribute = 'data-wp-table-destructive';
 
 export abstract class OpTableAction {
   @LazyInject() I18n!:I18nService;
@@ -48,5 +48,5 @@ export abstract class OpTableAction {
   public abstract readonly identifier:string;
 
   /** The actual action factory to return the action element, if it can be rendered */
-  public abstract buildElement():HTMLElement|null;
+  public abstract buildElement():HTMLElement|DocumentFragment|null;
 }

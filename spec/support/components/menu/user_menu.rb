@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,9 +32,11 @@ module Components
     include Capybara::DSL
     include Capybara::RSpecMatchers
     include RSpec::Matchers
+    include WaitHelpers
 
     def open
       page.find_test_selector("op-app-header--user-menu-button").click
+      wait_for_size_animation_completion(page.find("dialog[open]:has(.op-app-header--modules-menu-header)"))
     end
 
     def close

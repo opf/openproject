@@ -61,6 +61,8 @@ sv:
   attributes:
     budget: Budget
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: Inget timpris den %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ sv:
   events:
     budget: Budget redigerad
   help_click_to_edit: Klicka här för att redigera.
-  help_currency_format: Format på visade valutavärden. %n ersätts med valutavärdet, %u ersätts med valutaenheten.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Ange ett värde här om du vill åsidosätta standardtimpriset.
   label_budget_available: Budget tillgänglig
   label_budget_details: Detaljer om budgeten

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,15 +42,6 @@ module Backlogs
     end
 
     private
-
-    def filter_fields_for
-      backlog_filter_params
-        .except(filter_field)
-        .flat_map do |name, value|
-          field_name = value.is_a?(Array) ? "#{name}[]" : name
-          Array(value).map { |v| [field_name, v, { id: nil }] }
-        end
-    end
 
     def items
       if filter_field == :sprint_ids
@@ -89,10 +79,6 @@ module Backlogs
 
     def filter_field_name
       filter_field == :sprint_ids ? "sprint" : "backlog_bucket"
-    end
-
-    def clear_form_id
-      "#{filter_field_name}-clear-form"
     end
   end
 end

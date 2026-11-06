@@ -26,10 +26,11 @@ ko:
         select: 파일 선택
         select_all: 모두 선택
         selection:
-          zero: 연결할 파일 선택
-          other: "%{count}개 파일 연결"
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          other: "%{count}개 파일 링크를 생성했습니다."
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: 이 파일을 찾을 수 없습니다.
           not_logged_in: 이 파일에 액세스하려면 저장소에 로그인하세요.

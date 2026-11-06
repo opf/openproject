@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,7 @@ require "contracts/shared/model_contract_shared_context"
 
 RSpec.shared_examples_for "resource allocation contract" do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
-  shared_let(:owner) { create(:user) }
+  shared_let(:owner) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
   shared_let(:work_package) { create(:work_package, project:) }
 
   let(:resource_allocation) do
@@ -60,5 +59,23 @@ RSpec.shared_examples_for "resource allocation contract" do
     let(:current_user) { create(:user) }
 
     it_behaves_like "contract user is unauthorized"
+  end
+
+  context "when the assignee does not work on the work package's project" do
+    shared_let(:other_project) { create(:project, enabled_module_names: %w[resource_management]) }
+    shared_let(:outsider) { create(:user, member_with_permissions: { other_project => %i[view_work_packages] }) }
+
+    let(:current_user) do
+      create(:user, member_with_permissions: { project => %i[view_resource_planners allocate_user_resources] })
+    end
+    let(:resource_allocation) do
+      build_stubbed(:resource_allocation, entity: work_package, principal: outsider)
+    end
+
+    it "is invalid" do
+      contract.validate
+
+      expect(contract.errors.symbols_for(:principal)).to include(:not_a_member)
+    end
   end
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,15 +39,23 @@ module Queries::Filters::Shared
         when "version"
           ::Version.where(id: values)
         when "list"
-          custom_field.custom_options.where(id: values)
+          visible_custom_options.where(id: values)
         else
           super
         end
       end
 
       def allowed_values
-        options = field_format == "version" ? { scope: :visible } : {}
-        custom_field.possible_values_options(project, options:)
+        if custom_field.list? && custom_field.project_specific_value_restriction
+          visible_custom_options.map { |option| [option.value, option.id.to_s] }
+        else
+          options = field_format == "version" ? { scope: :visible } : {}
+          custom_field.possible_values_options(project, options:)
+        end
+      end
+
+      def visible_custom_options
+        custom_field.visible_values_for(::User.current, within: projects_of_query)
       end
 
       def ar_object_filter?

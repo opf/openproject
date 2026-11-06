@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,6 +36,7 @@ import {
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpViewDropdown]',
   standalone: false,
 })
@@ -74,7 +74,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
           linkText: this.I18n.t('js.views.card'),
           title: this.I18n.t('js.button_show_cards'),
           icon: 'icon-view-card',
-          onClick: (evt:any) => {
+          onClick: () => {
             this.isOpen = false;
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
             if (this.wpTableTimeline.isVisible) {
@@ -94,7 +94,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
           linkText: this.I18n.t('js.views.list'),
           title: this.I18n.t('js.button_show_table'),
           icon: 'icon-view-list',
-          onClick: (evt:any) => {
+          onClick: () => {
             this.isOpen = false;
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
             if (this.wpTableTimeline.isVisible) {
@@ -113,7 +113,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
           linkText: this.I18n.t('js.views.timeline'),
           title: this.I18n.t('js.button_show_gantt'),
           icon: 'icon-view-timeline',
-          onClick: (evt:any) => {
+          onClick: () => {
             this.isOpen = false;
             if (!this.wpTableTimeline.isVisible) {
               this.wpTableTimeline.toggle();

@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,9 +30,9 @@ require "open3"
 
 module OpenProject
   module VERSION # :nodoc:
-    MAJOR = 17
-    MINOR = 9
-    PATCH = 7
+    MAJOR = 18
+    MINOR = 0
+    PATCH = 0
 
     class << self
       def revision
@@ -82,8 +81,14 @@ module OpenProject
 
       def to_s; STRING end
 
-      def to_semver(separator: ".")
-        [MAJOR, MINOR, PATCH].join(separator)
+      def to_semver(include_patch: true, separator: ".")
+        parts =
+          if include_patch
+            [MAJOR, MINOR, PATCH]
+          else
+            [MAJOR, MINOR]
+          end
+        parts.join(separator)
       end
 
       private

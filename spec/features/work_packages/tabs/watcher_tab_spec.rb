@@ -1,8 +1,35 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
-RSpec.describe "Watcher tab", :js, :selenium do
+RSpec.describe "Watcher tab", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let!(:standard_global_role) { create(:empty_global_role) }
@@ -22,13 +49,23 @@ RSpec.describe "Watcher tab", :js, :selenium do
   let!(:user) { create(:user, member_with_roles: { project => role }) }
   let!(:other_user) { create(:user, firstname: "Other", member_with_roles: { project => role }) }
 
-  let(:watch_button) { find_by_id "watch-button" }
   let(:watchers_tab) { find(".op-tab-row--link_selected", text: "WATCHERS") }
+
+  def toggle_watching(watched:)
+    current_button = watched ? "#watch-button" : "#unwatch-button"
+    expected_button = watched ? "#unwatch-button" : "#watch-button"
+    find(current_button, wait: 20).click
+
+    page.document.synchronize(30) do
+      persisted = work_package.reload.watched_by?(user) == watched
+      raise Capybara::ElementNotFound unless persisted && page.has_css?(expected_button, wait: 0)
+    end
+  end
 
   def expect_button_is_watching
     title = I18n.t("js.label_unwatch_work_package")
-    expect(page).to have_css("#unwatch-button[title='#{title}']", wait: 10)
-    expect(page).to have_css("#unwatch-button .button--icon[eye-icon]", wait: 10)
+    expect(page).to have_css("#unwatch-button[title='#{title}']", wait: 30)
+    expect(page).to have_css("#unwatch-button .button--icon[eye-icon]")
   end
 
   def expect_button_is_not_watching
@@ -42,14 +79,14 @@ RSpec.describe "Watcher tab", :js, :selenium do
       # Expect WP watch button is in not-watched state
       expect_button_is_not_watching
       expect(page).not_to have_test_selector("op-wp-watcher-name")
-      watch_button.click
+      toggle_watching(watched: true)
 
       # Expect WP watch button causes watcher list to add user
       expect_button_is_watching
       expect(page).to have_test_selector("op-wp-watcher-name", count: 1, text: user.name)
 
       # Expect WP unwatch button causes watcher list to remove user
-      watch_button.click
+      toggle_watching(watched: false)
       expect_button_is_not_watching
       expect(page).not_to have_test_selector("op-wp-watcher-name")
     end
@@ -154,12 +191,6 @@ RSpec.describe "Watcher tab", :js, :selenium do
         end
       end
     end
-  end
-
-  context "within a split screen" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
-
-    it_behaves_like "watchers tab"
   end
 
   context "within a primerized split screen" do

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,14 +60,10 @@ module WorkPackageTypes
                              disabled: inherited?,
                              caption: inherited_caption)
 
-      if offers_project_variants?
+      unless inherited?
         details_form.check_box(name: :allow_project_variants,
                                label: label(:allow_project_variants),
                                caption: I18n.t("types.edit.details.allow_project_variants_caption"))
-      elsif offers_new_project_default?
-        details_form.check_box(name: :enabled_in_new_projects,
-                               label: I18n.t("types.index.enabled_in_new_projects"),
-                               checked: model.default_variant.enabled_in_new_projects?)
       end
     end
 
@@ -76,16 +71,7 @@ module WorkPackageTypes
 
     def inherited? = model.is_a?(TypeVariant)
 
-    def offers_project_variants?
-      !inherited? && OpenProject::FeatureDecisions.type_variants_active?
-    end
-
     def name_attribute = inherited? ? :variant_name : :name
-
-    # TODO: Remove with type_variants feature flag
-    def offers_new_project_default?
-      !inherited? && !OpenProject::FeatureDecisions.type_variants_active?
-    end
 
     def color_caption
       inherited? ? inherited_caption : I18n.t("types.edit.details.type_color_text")

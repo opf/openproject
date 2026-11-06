@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,12 +37,9 @@ module WorkPackageTypes
     private
 
     def set_attributes(params)
-      permitted = params.except(:copy_workflow_from, :enabled_in_new_projects)
+      check_patterns(params)
 
-      check_patterns(permitted)
-      check_copy_workflow(params)
-
-      super(permitted.except(*@param_validations.keys))
+      super(params.except(*@param_validations.keys))
     end
 
     def validate_and_result
@@ -70,16 +66,6 @@ module WorkPackageTypes
       end
     rescue ArgumentError
       @param_validations.update({ patterns: :is_invalid })
-    end
-
-    # TODO: Remove with type_variants feature flag
-    def check_copy_workflow(params)
-      return unless params.key?(:copy_workflow_from)
-
-      result = CopyWorkflowAttributeContract.new.call(params.slice(:copy_workflow_from))
-      if result.failure?
-        @param_validations.update({ copy_workflow_from: validation_failure_to_message(result).join(", ") })
-      end
     end
 
     def validation_failure_to_message(result)

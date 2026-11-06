@@ -26,10 +26,11 @@ vi:
         select: Chọn tập tin
         select_all: Chọn tất cả
         selection:
-          zero: Chọn tập tin để liên kết
-          other: Liên kết tập tin %{count}
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          other: Đã tạo thành công liên kết tệp %{count}.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Không thể tìm thấy tập tin này.
           not_logged_in: Vui lòng đăng nhập vào bộ lưu trữ để truy cập tập tin này.

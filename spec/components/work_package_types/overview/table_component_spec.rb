@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,8 +30,9 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::Overview::TableComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
+  include_context "with variant scope"
+
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { type.default_variant }
 
@@ -40,7 +40,7 @@ RSpec.describe WorkPackageTypes::Overview::TableComponent,
     [
       { name: TypesHelper::SETTINGS_TAB, path: "/overview", label: "Overview", aspect: nil },
       { name: "details", path: "/details", label: "Details", aspect: nil },
-      { name: "workflow", path: "/workflow", label: "Workflows", aspect: TypeVariant::WORKFLOWS }
+      { name: "workflow", path: "/workflow", label: "Workflows", aspect: TypeVariant::DEFAULTS }
     ]
   end
 
@@ -48,10 +48,9 @@ RSpec.describe WorkPackageTypes::Overview::TableComponent,
 
   before { render_inline(component) }
 
-  it "heads the three columns" do
+  it "heads the two columns" do
     expect(page).to have_role(:columnheader, text: "Settings")
     expect(page).to have_role(:columnheader, text: "Configuration mode")
-    expect(page).to have_role(:columnheader, text: "Dependent types and variants")
   end
 
   it "gives every tab a row of its own" do

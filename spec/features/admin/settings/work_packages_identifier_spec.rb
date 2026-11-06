@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -111,11 +110,13 @@ RSpec.describe "Work packages identifier admin settings", :js do
       it "enables the confirm button only after checking the checkbox" do
         click_on "Convert identifiers"
 
-        within "[role=alertdialog]" do
+        within_dialog "Change work package identifiers" do
           expect(page).to have_button("Change identifiers", disabled: true)
 
-          check "I understand that this will permanently change all work package IDs"
+          confirmation = "I understand that this will permanently change all work package IDs"
+          find("label", text: confirmation, exact_text: true).click
 
+          expect(page).to have_checked_field(confirmation)
           expect(page).to have_button("Change identifiers", disabled: false)
         end
       end

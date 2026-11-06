@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative "../spec_helper"
 
-RSpec.describe "Work Package timer", :js, :selenium do
+RSpec.describe "Work Package timer", :js do
   shared_let(:project) { create(:project_with_types) }
 
   shared_let(:work_package_a) { create(:work_package, subject: "WP A", project:) }
@@ -51,9 +50,11 @@ RSpec.describe "Work Package timer", :js, :selenium do
   shared_examples "allows time tracking" do
     it "shows the timer and allows tracking time" do
       wp_view_a.visit!
+      wp_view_a.ensure_page_loaded
       timer_button.expect_visible
       timer_button.start
       timer_button.expect_active
+      timer_button.expect_time(/\d{2}:\d{2}:\d{2}/)
 
       active_time_entries = TimeEntry.where(ongoing: true, user:)
       expect(active_time_entries.count).to eq 1
@@ -89,6 +90,7 @@ RSpec.describe "Work Package timer", :js, :selenium do
       timer_button.expect_active
 
       wp_view_b.visit!
+      expect(page).to have_css(".op-top-menu-user-avatar .op-principal--timer")
 
       # Clicking timer opens stop modal
       timer_button.expect_visible

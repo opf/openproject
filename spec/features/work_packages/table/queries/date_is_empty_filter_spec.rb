@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe 'Filter by date with "is empty"', :js, :selenium do
+RSpec.describe 'Filter by date with "is empty"', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
@@ -65,8 +64,7 @@ RSpec.describe 'Filter by date with "is empty"', :js, :selenium do
            name: "Date CF",
            is_filter: true,
            searchable: true) do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package_with_custom_date.type.default_variant.custom_fields << custom_field
+      work_package_with_custom_date.type.default_variant.custom_field_ids |= [custom_field.id]
 
       create(:work_package_custom_value,
              custom_field:,

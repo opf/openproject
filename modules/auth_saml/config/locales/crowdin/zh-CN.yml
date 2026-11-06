@@ -13,6 +13,7 @@ zh-CN:
         icon: 自定义图标
         identifier: 标识符
         idp_cert: 身份提供商公共证书
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: 身份提供方实体 ID
         idp_slo_service_url: 身份供应商注销端点
         idp_sso_service_url: 身份供应商登录端点
@@ -151,6 +152,9 @@ zh-CN:
       metadata_too_large: 元数据文件超出允许的最大大小。
       success: 使用身份提供商元数据成功更新配置。
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: 属性映射
       attribute_mapping_text: '以下字段控制由 SAML 身份提供商提供的属性以在 OpenProject 中提供用户属性
 
@@ -170,9 +174,19 @@ zh-CN:
       label_uid: 内部用户ID
       metadata:
         dialog: 这是可用的 OpenProject SAML 元数据的 URL。可选使用它来配置您的身份提供商：
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: 尚未定义 SAML 身份提供商。
       notice_created: 成功创建了一个新的 SAML 身份提供程序。
       plural: SAML 身份供应商
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: 属性格式
         legend: '这些属性被添加到 SAML XML 元数据中，以指示身份提供商 OpenProject 需要哪些属性。您可能仍需要明确配置您的身份提供商以发送这些属性。请参阅您的 IdP 文档。
@@ -196,6 +210,10 @@ zh-CN:
         metadata_form_banner: '编辑元数据可能会覆盖其他部分中的现有值。 '
         requested_attributes: 定义发送给您身份提供商的 SAML 请求中要请求的属性集。
       seeded_from_env: 此提供商是从环境配置中生成的。它无法被编辑。
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: SAML 身份提供商
       upsell:
         description: 将 OpenProject 连接到 SAML 身份提供商

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,6 +46,7 @@ Rails.application.routes.draw do
       resource :backlog_multiple_active_sprints, only: %i[show] do
         post :toggle_multiple_active_sprints
       end
+      resource :backlog_estimation_unit, only: %i[show update]
     end
   end
 
@@ -99,6 +99,7 @@ Rails.application.routes.draw do
         collection do
           get :add_existing_dialog
           post :add_existing
+          put :move, action: :move_collection
         end
 
         member do

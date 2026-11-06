@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,14 +35,21 @@ module OpenProject
       def project_module(name, options = {})
         options[:dependencies] = Array(options[:dependencies]) if options[:dependencies]
         mapped_modules << { name:, order: 0 }.merge(options)
+        permission_count = mapped_permissions.size
 
         if block_given?
           @project_module = name
           yield self
           @project_module = nil
-        else
-          project_modules_without_permissions << name
         end
+
+        project_modules_without_permissions << name if mapped_permissions.size == permission_count
+      end
+
+      def enabled_by_default!(if: true)
+        raise ArgumentError, "enabled_by_default! must be called within a project_module block" unless @project_module
+
+        mapped_modules.last[:enabled_by_default] = binding.local_variable_get(:if)
       end
 
       def mapped_modules

@@ -20,14 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Injector } from '@angular/core';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -43,7 +43,7 @@ export class GroupFoldTransformer {
     this.workPackageViewCollapsedGroupsService
       .updates$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(table.destroyRef),
         distinctUntilChanged(),
       )
       .subscribe((groupsCollapseEvent) => table.setGroupsCollapseState(groupsCollapseEvent.state));

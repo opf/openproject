@@ -21,6 +21,7 @@ jobs:
       && github.event.pull_request.user.type != 'Bot'
       && github.event.pull_request.user.login != 'openprojectci'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - name: Checkout code

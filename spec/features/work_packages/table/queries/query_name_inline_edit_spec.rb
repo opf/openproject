@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Query name inline edit", :js, :selenium do
+RSpec.describe "Query name inline edit", :js do
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -98,9 +97,7 @@ RSpec.describe "Query name inline edit", :js, :selenium do
     expect(assignee_query.filters.count).to eq(1)
     expect(assignee_query.filters.first.name).to eq :status_id
 
-    url = URI.parse(page.current_url).query
-    expect(url).to include("query_id=#{assignee_query.id}")
-    expect(url).not_to match(/query_props=.+/)
+    expect(page).to have_current_query_params("query_id" => assignee_query.id.to_s)
 
     # Rename query
     query_title.rename "Not my assignee query"
@@ -113,8 +110,8 @@ RSpec.describe "Query name inline edit", :js, :selenium do
     wp_table.click_setting_item "Rename view"
 
     expect(page).to have_focus_on(".editable-toolbar-title--input")
-    page.driver.browser.switch_to.active_element.send_keys("Some other name")
-    page.driver.browser.switch_to.active_element.send_keys(:return)
+    page.active_element.send_keys("Some other name")
+    page.active_element.send_keys(:return)
 
     wp_table.expect_and_dismiss_toaster message: "Successful update."
 

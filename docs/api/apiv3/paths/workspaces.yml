@@ -5,10 +5,10 @@ get:
   operationId: list_workspace
   tags:
     - Workspace
-  description: Returns a collection of workspaces. The collection can be filtered via
-    query parameters similar to how work packages are filtered. In addition to the
-    provided filter, the result set is always limited to only contain workspaces the
-    client is allowed to see.
+  description: |-
+    Returns a collection of workspaces. The collection can be filtered via query parameters similar to how work
+    packages are filtered. In addition to the provided filter, the result set is always limited to only contain
+    workspaces the client is allowed to see.
 
     Since workspaces are the generic term for a number of resources like projects and portfolios, the returned
     collection will contain a mix of those resources.

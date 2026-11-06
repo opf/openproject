@@ -57,7 +57,7 @@ get:
 
         + user_id: Filter time entries by users
 
-        + ongoing: Filter to only recevie ongoing timers
+        + ongoing: Filter to only receive ongoing timers
 
         + spent_on: Filter time entries by spent on date
 
@@ -79,7 +79,7 @@ get:
           schema:
             $ref: "../components/schemas/time_entry_collection_model.yml"
     "400":
-      $ref: "../components/responses/invalid_request_body.yml"
+      $ref: "../components/responses/invalid_query.yml"
     "403":
       description: Returned if the client is not logged in and login is required.
       content:

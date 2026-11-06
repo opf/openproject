@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,9 @@ module ResourceManagement
 
     def date_range=(value)
       from, to = value.to_s.split(SEPARATOR, 2)
+      # The range date picker collapses a range starting and ending on the same
+      # day into that single date.
+      to = from unless value.to_s.include?(SEPARATOR)
 
       self.start_date = from.presence
       self.end_date = to.presence

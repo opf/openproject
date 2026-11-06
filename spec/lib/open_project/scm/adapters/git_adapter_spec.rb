@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -114,14 +113,14 @@ RSpec.describe OpenProject::SCM::Adapters::Git do
       end
 
       describe ".check_availability!" do
-        shared_examples "check_availibility raises empty" do
+        shared_examples "check_availability raises empty" do
           it do
             expect { adapter.check_availability! }
               .to raise_error(OpenProject::SCM::Exceptions::SCMEmpty)
           end
         end
 
-        it_behaves_like "check_availibility raises empty"
+        it_behaves_like "check_availability raises empty"
 
         describe "Git version compatibility" do
           before do
@@ -131,13 +130,13 @@ RSpec.describe OpenProject::SCM::Adapters::Git do
           context "older Git version" do
             let(:output) { "fatal: bad default revision 'HEAD'\n" }
 
-            it_behaves_like "check_availibility raises empty"
+            it_behaves_like "check_availability raises empty"
           end
 
           context "new Git version" do
             let(:output) { "fatal: your current branch 'master' does not have any commits yet\n" }
 
-            it_behaves_like "check_availibility raises empty"
+            it_behaves_like "check_availability raises empty"
           end
         end
       end

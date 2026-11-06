@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "rails_helper"
 
 RSpec.describe Grids::WidgetBoxComponent, type: :component do
@@ -40,6 +40,48 @@ RSpec.describe Grids::WidgetBoxComponent, type: :component do
 
   it "renders a widget box" do
     expect(rendered_component).to have_css ".widget-box"
+  end
+
+  it "labels the widget box with its visible heading" do
+    expect(rendered_component).to have_css(
+      ".widget-box[role='region']",
+      aria: { labelledby: "cool_widget-header" }
+    )
+    expect(rendered_component).to have_css(
+      "h3#cool_widget-header",
+      text: "Cool Widget"
+    )
+  end
+
+  it "preserves additional aria attributes on the widget box" do
+    rendered_component = render_component(
+      key: "cool_widget",
+      title: "Cool Widget",
+      aria: { describedby: "cool_widget-description" }
+    )
+
+    expect(rendered_component).to have_css(
+      ".widget-box",
+      aria: { labelledby: "cool_widget-header", describedby: "cool_widget-description" }
+    )
+  end
+
+  it "preserves a caller-provided accessible name" do
+    rendered_component = render_component(
+      key: "cool_widget",
+      title: "Cool Widget",
+      aria: { labelledby: "custom-heading" }
+    )
+
+    expect(rendered_component).to have_css(".widget-box", aria: { labelledby: "custom-heading" })
+  end
+
+  it "does not reference a heading when the title is blank" do
+    rendered_component = render_inline(described_class.new(key: "cool_widget", title: "")) { "Content" }
+
+    expect(rendered_component).to have_css(".widget-box", text: "Content")
+    expect(rendered_component).to have_no_css(".widget-box[role='region']")
+    expect(rendered_component).to have_css(".widget-box", aria: { labelledby: nil })
   end
 
   it "renders turbo-frame around content" do

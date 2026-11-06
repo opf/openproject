@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,6 +35,7 @@ import {
 } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export abstract class ApiV3Resource<T extends HasId = HalResource>
   extends ApiV3GettableResource<T> {
@@ -137,7 +137,7 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
         switchMap((resource) => {
           if (resource.$links.schema) {
             return this.schemaCache
-              .requireAndStream(resource.$links.schema.href)
+              .requireAndStream((resource.$links.schema as CallableHalLink).href!)
               .pipe(
                 take(1),
                 mapTo(resource),
@@ -145,7 +145,7 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
           }
           return of(resource);
         }),
-      ) as any; // T does not extend HalResource for virtual endpoints such as board, thus we need to cast here
+      ) as unknown as Observable<T>; // T does not extend HalResource for virtual endpoints such as board, thus we need to cast here
   }
 
   /**

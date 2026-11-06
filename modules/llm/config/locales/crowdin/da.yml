@@ -1,0 +1,316 @@
+---
+da:
+  activerecord:
+    attributes:
+      llm_capability_verdict:
+        capability: Egenskab
+        model_id: Model
+        state: Tilstand
+      llm_connection:
+        api_format: API-format
+        api_key: API-nøgle
+        base_url: Værtens URL
+        default_chat_model: Standard-chatmodel
+        default_embedding_model: Standard-embedding-model
+        env_fingerprint: Anvendt miljøkonfiguration
+        env_provisioned_at: Anvendt fra miljøet
+        llm_features_enabled: Slå LLM'er til for denne installation
+      llm_feature_binding:
+        dimensions: Dimensioner
+        feature_key: Funktion
+        model: Model
+      llm_model:
+        admin_context_window: Kontekstvindue
+        display_name: Visningsnavn
+        external: Modelnavn
+    errors:
+      models:
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: kræver legitimationsoplysninger, som OpenProject ikke kan gemme, fx en separat hemmelig nøgle eller region.
+            api_key:
+              invalid_api_key: blev afvist af LLM-serveren.
+            base:
+              singleton: Der kan kun være én aktiv LLM-forbindelse.
+            base_url:
+              cannot_be_connected_to: kunne ikke nås. Sørg for, at LLM-serveren kører og kan nås fra OpenProject.
+              models_endpoint_missing: har ingen modelliste på denne adresse, så API-nøglen kunne heller ikke kontrolleres. Tjek URL'en, især at den indeholder segmentet med API-versionen (fx https://example.com/v1).
+              not_openai_compatible: returnerede ikke en gyldig modelliste. Sørg for, at URL'en peger på et endepunkt, der er kompatibelt med OpenAI's API, inklusive segmentet med API-versionen (fx https://example.com/v1).
+              request_timed_out: svarede ikke i tide. Sørg for, at LLM-serveren kan nås og ikke er overbelastet.
+              ssl_error: kunne ikke nås via en sikker forbindelse. Tjek LLM-serverens TLS-certifikat, eller brug en http://-URL, hvis serveren ikke tilbyder TLS.
+              ssrf_filtered: peger på en blokeret adresse. Hvis LLM-serveren kører på et internt netværk, så tillad dens IP-adresse via miljøvariablen %{env_name}.
+            custom_headers:
+              invalid: skal knytte headernavne til værdier i almindelig tekst.
+            default_chat_model_id:
+              cannot_chat: er ifølge LLM-serveren en embedding-model og kan ikke bruges til chat.
+              not_available: tilbydes ikke af den konfigurerede LLM-server.
+            default_embedding_model_id:
+              cannot_embed: kan ifølge LLM-serveren ikke danne embeddings.
+              not_available: tilbydes ikke af den konfigurerede LLM-server.
+            llm_features_enabled:
+              requires_connection: kan ikke slås til, før der er konfigureret en forbindelse.
+        llm_feature_binding:
+          attributes:
+            dimensions:
+              locked: kan ikke ændres, så længe der findes data, der er indekseret med den. Indeksér igen for at ændre den.
+              not_for_chat_feature: gælder kun funktioner, der danner embeddings.
+            feature_key:
+              not_registered: hører ikke til en kendt AI-funktion.
+            model_id:
+              locked: kan ikke ændres, så længe der findes data, der er indekseret med den. Indeksér igen for at skifte model.
+              not_available: tilbydes ikke af den konfigurerede LLM-server.
+        llm_model:
+          attributes:
+            external_id:
+              conflicting_capabilities: har gemte oplysninger om egenskaber, der er i modstrid med denne models.
+  admin:
+    llm_connections:
+      delete_api_key:
+        configured_from_env: Forbindelsen er konfigureret via miljøet og kan ikke ændres her.
+        description: OpenProject holder op med at sende en API-nøgle med forespørgslerne. Funktionerne virker kun fortsat, hvis serveren ikke kræver godkendelse. Du kan til enhver tid angive en ny nøgle.
+        heading: Vil du fjerne den gemte API-nøgle?
+        menu_label: Fjern API-nøgle
+        success: API-nøglen er fjernet.
+        title: Fjern API-nøgle
+      disabled_notice: LLM-funktioner er slået fra i denne installation. Slå dem til her først.
+      disconnect:
+        configured_from_env: Forbindelsen er konfigureret via miljøet og kan ikke ændres her.
+        description: OpenProject holder op med at bruge LLM-serveren. AI-funktionerne er ikke tilgængelige, før du forbinder igen.
+        heading: Vil du afbryde forbindelsen til LLM-serveren?
+        keeps_bindings: 'Den model, der er valgt til hver funktion, bevares: %{features}.'
+        keeps_models: Modellisten bevares, også modeller, som du har tilføjet manuelt.
+        keeps_settings: Endepunktet og API-formatet bevares. Kun den gemte API-nøgle fjernes.
+        menu_label: Afbryd forbindelse
+        success: OpenProject har afbrudt forbindelsen til LLM-serveren.
+        title: Afbryd forbindelse
+      form:
+        api_format_caption: Det API, som serveren bruger. Vælg OpenAI for de fleste gateways og selvhostede servere.
+        api_key_caption: Den nøgle, som OpenProject godkender sig med. Lad feltet stå tomt, hvis serveren ikke kræver godkendelse.
+        api_key_caption_discarded: Den nøgle, som du angav, blev ikke gemt og vises ikke igen. Angiv den igen for at gemme den, eller lad feltet stå tomt for at beholde den gemte nøgle.
+        api_key_caption_env: Nøglen kommer fra miljøet.
+        api_key_caption_stored: Der er gemt en nøgle. Lad feltet stå tomt for at beholde den nuværende nøgle, eller angiv en ny for at erstatte den.
+        api_key_placeholder_stored: API-nøgle gemt
+        api_key_remove: Fjern nøgle
+        base_url_caption: Serverens basis-URL, fx https://example.com/v1.
+        env_applied: Anvendt fra miljøet %{time}. Ændrede variabler træder i kraft, næste gang startdata indlæses i databasen.
+        env_changed: Miljøvariablerne er ændret, siden de blev anvendt %{time}. Værdierne nedenfor bruges fortsat, indtil startdata indlæses i databasen igen.
+        env_pending: Miljøvariabler konfigurerer forbindelsen, men er ikke anvendt endnu. Næste gang startdata indlæses i databasen, erstattes værdierne nedenfor, og siden låses.
+        label_connecting: Kontakter LLM-serveren…
+        llm_features_enabled_caption: Når indstillingen er slået fra, holder alle AI-funktioner, der bygger på LLM'er, op med at virke. Forbindelsesindstillingerne bevares.
+        server_description: Forbind OpenProject med en server, der bruger API'et %{api_format}, så AI-funktionerne kan bruge den. Værtens URL nedenfor afgør, hvilken server det er.
+        server_group: Server
+      show:
+        description: Forbind OpenProject med en LLM-server, så AI-funktionerne kan bruge den.
+        description_enabled: Når forbindelsen er oprettet, kan du se serverens modeller på fanen [Modeller](models_url).
+      tabs:
+        connection: Forbindelse
+        features: Konfiguration af funktioner
+        models: Modeller
+      update:
+        disabled: Gemt. LLM-funktioner er slået fra i denne installation.
+        no_models: Gemt, men der er endnu ingen gemte modeller. Enten tilbyder serveren ingen modelliste, eller også mangler endepunktet segmentet med API-versionen (fx /v1). Opdater listen på fanen Modeller.
+        success: Forbindelsen til LLM-serveren er oprettet.
+    llm_feature_bindings:
+      dangling: "%{model} tilbydes ikke længere af LLM-serveren. Funktionen kører ikke, før der er valgt en anden model."
+      form:
+        dimensions_caption: Hvor mange tal hver vektor har. Lad feltet stå tomt for at bruge det, som serveren returnerer.
+        dimensions_caption_probed: Serveren returnerede vektorer med %{dimensions} dimensioner for denne model. Lad feltet stå tomt for at bruge det, som den returnerer ved indeksering.
+        model_caption_embedding: Der tilbydes kun modeller, der vides at kunne danne embeddings. [Læs mere](docs_url) om modeltyper.
+        model_caption_ruled_out: Modeller, der vides at mangle en egenskab, som funktionen har brug for, tilbydes ikke.
+      index:
+        description: Vælg, hvilken model hver AI-funktion bruger. Funktioner uden et valg bruger standardmodellerne på fanen [Modeller](models_url).
+      inherit_with_default: Brug standarden (%{model})
+      inherit_without_default: Brug standarden (ingen angivet)
+      locked: "%{model} bruges af indekserede data og kan ikke ændres her. Indeksér igen for at skifte model."
+      locked_values_heading: Værdier, der er fastlagt af det eksisterende indeks
+      option_unqualified: "%{model} (kan ikke længere bruges til denne funktion)"
+      update:
+        model_incapable: Modellen til %{feature} er gemt, men serveren har netop oplyst, at den ikke understøtter %{capability}. Vælg en anden model, eller angiv egenskaben på modellen, hvis du ved bedre.
+        success: Modellen til %{feature} er gemt.
+    llm_health_status:
+      create:
+        success: 'Kontrollerne er kørt: %{passed} bestået, %{warnings} advarsler, %{failures} mislykkedes.'
+      create_health_status_report:
+        success: Kontrollerne er kørt.
+      show:
+        blankslate_description: Kør kontrollerne for at finde ud af, om OpenProject kan nå LLM-serveren, om den accepterer API-nøglen, og om hver AI-funktion har en model, der kan bruges.
+        blankslate_heading: Forbindelsen er ikke kontrolleret endnu
+        download: Hent rapport
+        last_check: Senest kontrolleret %{datetime}.
+        run_checks: Kør kontroller
+        running: Kører kontroller...
+        summary: "%{passed} bestået, %{warnings} advarsler, %{failures} mislykkedes."
+        title: Driftsstatus
+    llm_models:
+      configured_from_env: Miljøet konfigurerer modellen som standard, så den kan ikke fjernes eller omdøbes her.
+      create:
+        success: "%{model} er tilføjet."
+      defaults:
+        chat_caption: Embedding-modeller tilbydes ikke.
+        description: Bruges af AI-funktioner, der ikke selv vælger en model.
+        embedding_caption: Der tilbydes kun modeller, der vides at kunne danne embeddings. [Læs mere](docs_url) om modeltyper.
+        embedding_none: Ingen model vides at kunne danne embeddings. Hvis du ved, at en model kan, så åbn den i listen nedenfor, og sæt dens type til Embedding-model.
+        embedding_option_unqualified: "%{model} (vides ikke at kunne danne embeddings)"
+        heading: Standardmodeller
+        success: Standardmodellerne er gemt.
+      destroy:
+        description: Modellen tilbydes ikke længere til AI-funktioner.
+        description_bound: Modellen bruges i øjeblikket af %{features}. Disse funktioner holder op med at virke, indtil der er valgt en anden model.
+        heading: Vil du fjerne %{model}?
+        success: "%{model} er fjernet."
+        title: Fjern model
+      edit:
+        description: Rediger, hvordan OpenProject bruger modellen.
+      form:
+        context_window: Kontekstvindue
+        context_window_caption: Hvor mange tokens modellen accepterer. Lad feltet stå tomt, hvis du ikke ved det.
+        context_window_known: Lad feltet stå tomt for at bruge %{value}, %{source}.
+        display_name_caption: Et valgfrit, letforståeligt navn, der vises i stedet for modellens id.
+        external_id_caption: Modelnavnet præcis, som serveren forventer det.
+        model_type: Modeltype
+        model_type_caption: Chatmodeller besvarer forespørgsler. Embedding-modeller omdanner tekst til vektorer til søgning. [Læs mere](docs_url).
+        model_type_chat: Chatmodel
+        model_type_embedding: Embedding-model
+        model_type_unspecified: Ikke angivet
+        state_inherited: Arv fra serveren (%{state})
+        state_supported: Understøttet
+        state_unsupported: Ikke understøttet
+      index:
+        add_model: Model
+        blank_description: Serveren oplyste ingen modeller. Opdater listen, når serveren kan nås, eller tilføj en manuelt.
+        blank_title: Ingen tilgængelige modeller
+        context_window: Kontekstvindue
+        description: Oplyst af serveren %{fetched_at}.
+        description_unfetched: Serveren har endnu ikke returneret en modelliste. Opdater modellerne, når den kan nås.
+        filter_label: Filtrér modeller
+        identifier: Model
+        kind: Type
+        refresh: Opdater modeller
+        source: Kilde
+        source_discovered: Server
+        source_discovered_description: Oplyst af serveren
+        source_manual: Manuel
+        source_manual_description: Tilføjet manuelt af en administrator
+        source_withdrawn: Trukket tilbage
+        source_withdrawn_description: Oplyses ikke længere af serveren
+        stale_warning: Forbindelsesindstillingerne er ændret, siden modellisten sidst blev opdateret, så listen kan være forældet. Opdater modellerne for at være sikker.
+      new:
+        description: Angiv navnet på en model, som serveren kan bruge, men ikke annoncerer, og beskriv, hvad den kan.
+        title: Tilføj en model
+      refresh:
+        failure: Modellisten kunne ikke opdateres. Tjek, at LLM-serveren stadig kan nås.
+        success: Modellisten er opdateret.
+      update:
+        success: "%{model} er opdateret."
+  llm:
+    api_formats:
+      anthropic: Anthropic
+      azure: Azure OpenAI
+      bedrock: AWS Bedrock
+      deepseek: DeepSeek
+      gemini: Google Gemini
+      gpustack: GPUStack
+      mistral: Mistral
+      ollama: Ollama
+      openai: OpenAI
+      openrouter: OpenRouter
+      perplexity: Perplexity
+      vertexai: Google Vertex AI
+      xai: xAI
+    capabilities:
+      embeddings:
+        label: Embeddings
+      function_calling:
+        label: Værktøjskald
+      reasoning:
+        label: Ræsonnering
+      structured_output:
+        label: Struktureret output
+      vision:
+        label: Billedforståelse
+    context_window_sources:
+      registry: det tal, der er offentliggjort for modellen
+      server: oplyst af serveren
+    features:
+      description_assistant:
+        caption: Omskriver og omstrukturerer arbejdspakkers tekst efter ønske.
+        label: Beskrivelsesassistent
+      semantic_search:
+        caption: Indekserer arbejdspakker, så de kan findes ud fra betydning frem for nøgleord.
+        label: Semantisk søgning
+    health_checks:
+      configuration:
+        api_format_supported: Endepunktets format kan bruges
+        base_url_present: Endepunktet er konfigureret
+        credentials_present: API-nøglen er gemt
+        enabled: Forbindelsen er slået til
+        feature_flag: AI-funktioner er slået til
+        header: Konfiguration
+      errors:
+        api_key_missing: Der er ikke gemt nogen API-nøgle. Det er kun korrekt, hvis LLM-serveren ikke kræver godkendelse.
+        catalogue_never_fetched: Modellisten er aldrig hentet fra serveren.
+        catalogue_stale: Modellisten blev senest hentet %{fetched_at} og svarer måske ikke længere til det, som serveren tilbyder.
+        catalogue_stale_settings: Forbindelsesindstillingerne er ændret, siden modellisten sidst blev opdateret. Opdater modellerne på fanen Modeller.
+        chat_failed: Serveren afviste en forespørgsel til %{model} med status %{status}.
+        connection_disabled: Forbindelsen er konfigureret, men slået fra, så ingen funktioner bruger den.
+        connection_error: Serveren kunne ikke nås. Sørg for, at den kører og kan nås fra OpenProject.
+        default_model_missing: "%{model} tilbydes ikke længere af serveren."
+        default_model_unset: Der er ikke valgt nogen standardmodel på fanen Modeller, så funktionerne bruger deres eget valg.
+        empty_completion: "%{model} svarede med en tom besked."
+        feature_flag_off: Funktionen LLM-forbindelse er slået fra, så forbindelsen bruges ikke endnu.
+        features_incapable: "%{features} kan ikke køre, fordi den valgte model ikke har: %{capabilities}."
+        features_model_missing: "%{features} peger på en model, som serveren ikke længere tilbyder."
+        features_unbound: "%{features} har endnu ikke fået valgt en model."
+        invalid_api_key: Serveren afviste den gemte API-nøgle.
+        locked_model_missing: "%{features} har indekseret data med en model, som serveren ikke længere tilbyder. Indekset kan ikke udvides, før det er bygget igen."
+        model_not_served: Serveren har ingen rute til %{model} (404). Tjek, at modellen stadig tilbydes til din konto, og at værtens URL indeholder segmentet med API-versionen.
+        models_endpoint_missing: Serveren har ingen modelliste på denne adresse, så API-nøglen kunne heller ikke kontrolleres. Tjek, at URL'en indeholder segmentet med API-versionen (fx https://example.com/v1).
+        no_model_to_test: Der er ingen model at teste med. Tilføj en model, eller vælg en standard først.
+        no_models: Serveren offentliggør ikke en modelliste. Enten tilbyder den ingen, eller også mangler endepunktet segmentet med API-versionen. Modeller kan tilføjes manuelt; det er inferenskontrollen, der viser, om endepunktet er rigtigt.
+        no_models_endpoint: Serveren tilbyder ingen modelliste, så API-nøglen kunne ikke kontrolleres. Kør inferenskontrollen for at kontrollere den.
+        not_configured: Der er ikke konfigureret noget endepunkt.
+        not_openai_compatible: Endepunktet returnerede ikke en gyldig modelliste. Sørg for, at det peger på et endepunkt, der er kompatibelt med OpenAI's API, inklusive segmentet med API-versionen.
+        request_timed_out: Serveren svarede ikke i tide.
+        server_error: Serveren svarede med status %{status}.
+        ssrf_filtered: Endepunktet peger på en blokeret adresse.
+        unsupported_api_format: "%{api_format} kræver legitimationsoplysninger, som OpenProject ikke kan gemme."
+      features:
+        bindings_resolvable: Hver funktion har en model, der kan bruges
+        header: AI-funktioner
+        locked_bindings_intact: Indekserede data har stadig deres model
+      inference:
+        chat_round_trip: Serveren besvarer en forespørgsel
+        header: Inferens
+      models:
+        catalogue_fresh: Modellisten er opdateret
+        catalogue_present: Der er tilgængelige modeller
+        default_chat_model: Standard-chatmodel
+        default_embedding_model: Standard-embedding-model
+        header: Modeller
+      server:
+        credentials_accepted: Serveren accepterer API-nøglen
+        header: Server
+        reachable: Serveren kan nås
+    health_report_kinds:
+      full: Fuld kontrol, inklusive en inferensforespørgsel.
+      without_inference: Kontrolleret uden en inferensforespørgsel, som ved den planlagte kontrol. Kør kontrollerne for at få en med.
+    model_kinds:
+      chat: Chat
+      embedding: Embedding
+    verdict_states:
+      supported: understøttet
+      unknown: ikke kontrolleret
+      unsupported: ikke understøttet
+  llm_connections:
+    side_panel:
+      health_status_component:
+        last_check: Senest kontrolleret %{datetime}.
+        never_checked: Forbindelsen er ikke kontrolleret endnu.
+        open_report: Åbn hele driftsstatusrapporten
+        run_checks: Kør kontroller nu
+        running: Kører kontroller...
+        title: Driftsstatus
+  menus:
+    admin:
+      llm_connection: LLM-indstillinger

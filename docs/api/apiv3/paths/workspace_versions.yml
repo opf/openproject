@@ -76,7 +76,7 @@ get:
                 count: 3
                 total: 3
           schema:
-            "$ref": "../components/schemas/versions_by_workspace_model.yml"
+            $ref: "../components/schemas/versions_by_workspace_model.yml"
       description: OK
       headers: {}
     '404':

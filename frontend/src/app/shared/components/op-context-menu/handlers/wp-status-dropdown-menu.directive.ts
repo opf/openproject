@@ -20,13 +20,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
 import { Directive, Input, inject } from '@angular/core';
 import {
   OpContextMenuTrigger
@@ -37,7 +35,7 @@ import {
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import {
   Highlighting
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
@@ -49,13 +47,14 @@ import {
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpStatusDropdown]',
   standalone: false,
 })
 export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
-  readonly $state = inject(StateService);
   protected workPackageNotificationService = inject(WorkPackageNotificationService);
   protected halEditing = inject(HalResourceEditingService);
   protected toastService = inject(ToastService);
@@ -68,11 +67,11 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   protected open(evt:Event) {
     const change = this.halEditing.changeFor(this.workPackage);
 
-    change.getForm().then((form:any) => {
-      const statuses = form.schema.status.allowedValues;
+    void change.getForm().then((form) => {
+      const statuses = form.schema.status!.allowedValues as HalResource[];
       this.buildItems(statuses);
 
-      const { writable } = change.schema.status;
+      const { writable } = change.schema.status as IOPFieldSchema;
       if (!writable) {
         this.toastService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
       } else {
@@ -90,7 +89,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
 
   private updateStatus(status:HalResource) {
     const change = this.halEditing.changeFor(this.workPackage);
-    change.projectedResource.status = status;
+    change.projectedResource.status = status as StatusResource;
 
     if (!isNewResource(this.workPackage)) {
       this.halEditing
@@ -99,18 +98,18 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
           this.workPackageNotificationService.showSave(this.workPackage);
         })
         .catch((e:unknown) => {
-          this.workPackageNotificationService.showError((e as HalError).resource, change.projectedResource);
+          this.workPackageNotificationService.showError((e as HalError).resource!, change.projectedResource);
         });
     }
   }
 
-  private buildItems(statuses:CollectionResource<HalResource>) {
+  private buildItems(statuses:HalResource[]) {
     this.items = statuses.map((status:HalResource) => ({
       disabled: false,
       linkText: status.name,
       postIcon: status.isReadonly ? 'icon-locked' : null,
       postIconTitle: this.I18n.t('js.work_packages.message_work_package_read_only'),
-      class: Highlighting.inlineClass('status', status.id!),
+      class: Highlighting.dotClass('status', status.id!),
       onClick: () => {
         this.updateStatus(status);
         return true;

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,19 +38,18 @@ module Components
     end
 
     def expect_item(name, selected: false, favorited: nil, visible: true)
-      within "#main-menu" do
-        selected_specifier = selected ? ".selected" : ":not(.selected)"
+      selected_specifier = selected ? ".selected" : ":not(.selected)"
+      selector = "#main-menu .op-submenu--item-action#{selected_specifier}"
 
-        if favorited.nil?
-          expect(page).to have_css(".op-submenu--item-action#{selected_specifier}", text: name, visible:)
+      if favorited.nil?
+        expect(page).to have_css(selector, text: name, visible:)
+      else
+        item = page.find(selector, text: name, visible:)
+
+        if favorited
+          expect(item).to have_css(".op-primer--star-icon")
         else
-          item = page.find(".op-submenu--item-action#{selected_specifier}", text: name, visible:)
-
-          if favorited
-            expect(item).to have_css(".op-primer--star-icon")
-          else
-            expect(item).to have_no_css(".op-primer--star-icon")
-          end
+          expect(item).to have_no_css(".op-primer--star-icon")
         end
       end
     end
@@ -63,14 +61,18 @@ module Components
     end
 
     def expect_item_with_count(item, count)
-      within page.find_test_selector("op-submenu--item-action", text: item) do
-        expect_count count
+      page.document.synchronize do
+        page
+          .find_test_selector("op-submenu--item-action", text: item)
+          .find("[data-test-selector='op-submenu--item-count']", exact_text: count.to_s)
       end
     end
 
     def expect_item_with_no_count(item)
-      within page.find_test_selector("op-submenu--item-action", text: item) do
-        expect_no_count
+      page.document.synchronize do
+        page
+          .find_test_selector("op-submenu--item-action", text: item)
+          .assert_no_selector("[data-test-selector='op-submenu--item-count']")
       end
     end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,19 +32,19 @@ module MeetingAgendaItems
     module CopyAttachments
       private
 
-      def copy_attachments_from_meeting(agenda_item, source_meeting_id)
-        return if agenda_item.notes.blank?
-        return if agenda_item.meeting_id == source_meeting_id
+      def copy_attachments_from_meeting(record, source_meeting_id)
+        return if record.notes.blank?
+        return if record.meeting.id == source_meeting_id
 
         source_meeting = Meeting.find(source_meeting_id)
         source_meeting.attachments.each do |attachment|
-          next unless agenda_item.notes.include?("/attachments/#{attachment.id}/")
+          next unless record.notes.include?("/attachments/#{attachment.id}/")
 
-          copy_attachment(attachment, agenda_item.meeting, agenda_item)
+          copy_attachment(attachment, record.meeting, record)
         end
       end
 
-      def copy_attachment(source_attachment, target_meeting, agenda_item)
+      def copy_attachment(source_attachment, target_meeting, record)
         copy = Attachment.new(
           source_attachment
             .dup
@@ -57,12 +56,12 @@ module MeetingAgendaItems
         source_attachment.file.copy_to(copy)
         copy.save!
 
-        updated_notes = agenda_item.notes.gsub(
+        updated_notes = record.notes.gsub(
           "/api/v3/attachments/#{source_attachment.id}/content",
           "/api/v3/attachments/#{copy.id}/content"
         )
 
-        agenda_item.update!(notes: updated_notes)
+        record.update!(notes: updated_notes)
       end
     end
   end

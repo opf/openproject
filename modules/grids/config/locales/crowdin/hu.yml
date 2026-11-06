@@ -31,7 +31,7 @@ hu:
         title: Tagok
         view_all_members: Az összes tag megtekintése
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           other: and %{count} more members.
       news:
         no_results: Semmi új jelenteni való.

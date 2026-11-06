@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,9 +42,9 @@ RSpec.describe "Document collaboration settings admin",
 
       within_test_selector("collaboration-settings-disabled-notice") do
         expect(page).to have_heading("Real-time collaboration is not enabled")
-        expect(page).to have_content("Once enabled, multiple users will be able to work together on a " \
-                                     "document at the same time. All new documents will be based on a new " \
-                                     "editor (BlockNote) and will require a working connection to a Hocuspocus server.")
+        expect(page).to have_text("Once enabled, multiple users will be able to work together on a " \
+                                  "document at the same time. All new documents will be based on a new " \
+                                  "editor (BlockNote) and will require a working connection to a Hocuspocus server.")
         click_on "Enable real-time collaboration"
       end
 
@@ -62,7 +61,7 @@ RSpec.describe "Document collaboration settings admin",
       expect_and_dismiss_flash(message: "Successful update.")
 
       expect(page).to have_field("Hocuspocus server URL", with: "wss://hocuspocus.example.com")
-      expect(page).to have_field("Client secret", with: "") # Secret is not exposed on forms
+      expect(page).to have_field("Client secret", with: Settings::Definition::SECRET_PLACEHOLDER)
 
       setting_url = Setting.find_by(name: "collaborative_editing_hocuspocus_url")
       setting_secret = Setting.find_by(name: "collaborative_editing_hocuspocus_secret")
@@ -71,14 +70,19 @@ RSpec.describe "Document collaboration settings admin",
 
       # Now disable text collaboration
       click_on "Disable"
+      expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
 
       within_dialog("Disable real-time collaboration") do
         expect(page).to have_heading "Disable real-time collaboration?"
-        expect(page).to have_content "All existing documents may become inaccessible. " \
-                                     "Please only do this if you are certain you want to " \
-                                     "disable real-time collaboration and the BlockNote editor in this instance."
+        expect(page).to have_text "All existing documents may become inaccessible. " \
+                                  "Please only do this if you are certain you want to " \
+                                  "disable real-time collaboration and the BlockNote editor in this instance."
 
-        check "I understand that I might permanently lose data"
+        page.document.synchronize do
+          confirmation = find_field("I understand that I might permanently lose data", exact: true, wait: 0)
+          confirmation.click unless confirmation.checked?
+          expect(confirmation).to be_checked
+        end
 
         click_on "Disable"
       end
@@ -100,7 +104,7 @@ RSpec.describe "Document collaboration settings admin",
       click_on("Save")
 
       # Inline validation shown on the field
-      expect(page).to have_content("Must use a WebSocket protocol (ws:// or wss://).")
+      expect(page).to have_text("Must use a WebSocket protocol (ws:// or wss://).")
 
       # Setting unchanged
       expect(Setting.collaborative_editing_hocuspocus_url).to eq("wss://hocuspocus.example.com")
@@ -117,14 +121,14 @@ RSpec.describe "Document collaboration settings admin",
     end
 
     it "shows the url as read-only" do
-      expect(page).to have_content("Some values are configured via environment variables and cannot be edited here.")
+      expect(page).to have_text("Some values are configured via environment variables and cannot be edited here.")
 
       expect(page).to have_field("Hocuspocus server URL",
                                  with: "wss://env-hocuspocus.example.com",
                                  disabled: true)
 
       expect(page).to have_field("Client secret",
-                                 with: "",
+                                 with: Settings::Definition::SECRET_PLACEHOLDER,
                                  disabled: false)
     end
   end
@@ -141,7 +145,7 @@ RSpec.describe "Document collaboration settings admin",
       expect(page).to have_field("Hocuspocus server URL",
                                  with: "https://env-hocuspocus.example.com",
                                  disabled: true)
-      expect(page).to have_content("Must use a WebSocket protocol")
+      expect(page).to have_text("Must use a WebSocket protocol")
     end
   end
 
@@ -154,13 +158,13 @@ RSpec.describe "Document collaboration settings admin",
     end
 
     it "shows the secret as read-only" do
-      expect(page).to have_content("Some values are configured via environment variables and cannot be edited here.")
+      expect(page).to have_text("Some values are configured via environment variables and cannot be edited here.")
 
       expect(page).to have_field("Hocuspocus server URL",
                                  with: "wss://env-hocuspocus.example.com",
                                  disabled: false)
       expect(page).to have_field("Client secret",
-                                 with: "",
+                                 with: Settings::Definition::SECRET_PLACEHOLDER,
                                  disabled: true)
     end
   end
@@ -177,13 +181,13 @@ RSpec.describe "Document collaboration settings admin",
     end
 
     it "shows both fields as read-only" do
-      expect(page).to have_content("These values are configured via environment variables and cannot be edited here.")
+      expect(page).to have_text("These values are configured via environment variables and cannot be edited here.")
 
       expect(page).to have_field("Hocuspocus server URL",
                                  with: "wss://env-hocuspocus.example.com",
                                  disabled: true)
       expect(page).to have_field("Client secret",
-                                 with: "",
+                                 with: Settings::Definition::SECRET_PLACEHOLDER,
                                  disabled: true)
     end
 
@@ -198,7 +202,7 @@ RSpec.describe "Document collaboration settings admin",
     it "is not accessible" do
       visit admin_settings_document_collaboration_settings_path
 
-      expect(page).to have_content("You are not authorized to access this page.")
+      expect(page).to have_text("You are not authorized to access this page.")
     end
   end
 end

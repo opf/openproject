@@ -4,7 +4,7 @@ get:
   summary: View schema for global queries
   operationId: View_schema_for_global_queries
   tags:
-  - Queries
+    - Queries
   description: Retrieve the schema for global queries, those, that are not assigned
     to a project.
   responses:
@@ -13,9 +13,9 @@ get:
         application/hal+json:
           examples:
             QuerySchema:
-              "$ref": "../components/examples/query_schema.yml"
+              $ref: "../components/examples/query_schema.yml"
           schema:
-            "$ref": "../components/schemas/schema_for_global_queries_model.yml"
+            $ref: "../components/schemas/schema_for_global_queries_model.yml"
       description: OK
       headers: {}
     '403':

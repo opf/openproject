@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -36,15 +35,13 @@ See COPYRIGHT and LICENSE files for more details.
   )
 %>
 
-<% if TimeEntryActivity.any? %>
-  <%= labelled_tabular_form_for @project,
-                                url: project_settings_time_entry_activities_path(@project) do %>
+<%= render(Primer::Beta::Text.new(color: :muted, tag: :p, mt: 3)) { I18n.t("cost_types.settings.time_entry_activities.hint") } %>
 
-    <%= render partial: "/projects/settings/time_entry_activities/activities",
-               locals: { project: @project } %>
-  <% end %>
-
-  <br>
-<% else %>
-  <%= no_results_box custom_title: t("projects.settings.activities.no_results_title_text") %>
-<% end %>
+<%=
+  render(
+    Projects::Settings::TimeEntryActivities::IndexComponent.new(
+      project: @project,
+      activities: @activities
+    )
+  )
+%>

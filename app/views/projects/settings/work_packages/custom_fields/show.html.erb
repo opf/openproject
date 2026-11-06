@@ -29,28 +29,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Settings::ProjectWorkPackages::HeaderComponent.new(@project)) %>
 
-<%=
-  if current_user.admin?
-    render(CustomFields::FormatSubHeaderComponent.new(customizable_name: "WorkPackage"))
-  end
-%>
-
-<% if @wp_custom_fields.any? %>
-  <%= labelled_tabular_form_for @project,
-                                url: project_settings_work_packages_custom_fields_path(@project),
-                                html: { id: "modules-form" } do |form| %>
-
-    <%= render partial: "form",
-               locals: {
-                 project: @project,
-                 form: form,
-                 work_package_custom_fields: @wp_custom_fields
-               } %>
-
-    <div class="generic-table--action-buttons">
-      <%= form.button t(:button_save), class: "button -primary -with-icon icon-checkmark" %>
-    </div>
-  <% end %>
-<% else %>
-  <%= no_results_box custom_title: t("projects.settings.custom_fields.no_results_title_text") %>
-<% end %>
+<%= render(Projects::Settings::WorkPackages::CustomFields::OverviewComponent.new(project: @project)) %>

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -203,6 +202,54 @@ RSpec.describe Meeting do
       it "does not raise an exception (Regression #61632)" do
         expect { meeting.destroy! }.not_to raise_error
         expect { meeting.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+
+  describe "#changed_hash" do
+    let!(:first_agenda_item) { create(:meeting_agenda_item, meeting:) }
+    let!(:second_agenda_item) { create(:meeting_agenda_item, meeting:) }
+
+    it "changes when an agenda item is updated within the same second" do
+      timestamp = Time.current.change(usec: 0)
+      section = create(:meeting_section, meeting:)
+      first_agenda_item.update!(meeting_section: section, updated_at: timestamp)
+      second_agenda_item.update!(meeting_section: section, updated_at: timestamp)
+      hash_before_update = meeting.changed_hash
+
+      travel_to(timestamp + 0.5.seconds, with_usec: true) do
+        first_agenda_item.update!(title: "Updated item")
+      end
+
+      expect(meeting.changed_hash).not_to eq(hash_before_update)
+    end
+
+    it "changes when an agenda item is deleted" do
+      hash_before_deletion = meeting.changed_hash
+
+      first_agenda_item.destroy!
+
+      expect(meeting.changed_hash).not_to eq(hash_before_deletion)
+    end
+
+    context "with a backlog" do
+      let!(:backlog) { create(:meeting_section, meeting:, backlog: true) }
+
+      it "does not change when a backlog item is added" do
+        hash_before_addition = meeting.changed_hash
+
+        create(:meeting_agenda_item, meeting:, meeting_section: backlog)
+
+        expect(meeting.changed_hash).to eq(hash_before_addition)
+      end
+
+      it "does not change when a backlog item is updated" do
+        backlog_item = create(:meeting_agenda_item, meeting:, meeting_section: backlog)
+        hash_before_update = meeting.changed_hash
+
+        travel_to(1.minute.from_now) { backlog_item.update!(title: "Updated backlog item") }
+
+        expect(meeting.changed_hash).to eq(hash_before_update)
       end
     end
   end

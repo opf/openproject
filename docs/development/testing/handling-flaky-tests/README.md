@@ -314,13 +314,15 @@ split_view.expect_subject
 | `wait_for_network_idle` | a plain AJAX/Angular request with **no** Turbo rendering to wait for. | `columns.remove("Priority"); wait_for_network_idle` |
 | `dismiss_specific_toaster!(message:)` | **multiple** toasts may appear in sequence and `dismiss_toaster!` could close the wrong one. | `dismiss_specific_toaster!(message: "Saved successfully")` |
 | `have_test_selector(sel, text:)` | the container itself may be **replaced** by a Turbo Stream (stale node). Re-queries the DOM on each retry, unlike `within_test_selector`. | `expect(page).to have_test_selector("agenda-items-list", text: "No notes")` |
-| `retry_block { action }` | page state is **non-deterministic** after navigation (e.g. `go_back` re-initializes asynchronously). | `retry_block { click_on "Calendar event" }` |
+| `page.go_back` + `have_no_css("html[aria-busy]")` | a **browser back** navigation. Chrome restores the page from the back/forward cache, and the application then starts a Turbo visit that replaces the body. Wait until Turbo removes `aria-busy`. | `page.go_back; expect(page).to have_no_css("html[aria-busy]")` |
 | `have_button("Label", wait: 20)` | an Angular custom element sets its label asynchronously in `ngOnInit` and the default wait is too short on slow CI. | `expect(page).to have_button("Nextcloud login", wait: 20)` |
 | `expect_active!` (not `activate!`) | a field is **already** in edit mode (e.g. auto-opened after a failed save). | `subject_field.expect_active!` |
 
 A frequent trap: a helper method call (`field.open_field`) followed by a bare `wait_for_network_idle` on the next line. The HTTP request finishes but Turbo hasn't applied the stream yet — replace it with `wait_for_turbo_stream { field.open_field }`. Wrapping a helper that internally calls `wait_for_network_idle` is safe, because the outer listener is registered before the block runs.
 
 To pick the right wait when unsure, check the controller action: `render turbo_stream:` / `format.turbo_stream` → `wait_for_turbo_stream`; `redirect_to` → `wait_for_turbo`; a `<turbo-frame>` update → `wait_for_turbo_frame`.
+
+For flakes that only occur with Cuprite, see [Cuprite pitfalls](../browser-drivers/#cuprite-pitfalls). Do not move a flaky spec to Selenium. See [When to use Selenium](../browser-drivers/#when-to-use-selenium).
 
 ### Is the failure authentic?
 

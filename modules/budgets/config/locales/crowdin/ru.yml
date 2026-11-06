@@ -67,6 +67,8 @@ ru:
   attributes:
     budget: Бюджет
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: Нет почасовой ставки на %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -112,7 +114,7 @@ ru:
   events:
     budget: Бюджет изменен
   help_click_to_edit: Нажмите здесь, чтобы править.
-  help_currency_format: Формат отображения денежных значений. %n заменяется значением валюты, %u заменяется денежной единицой.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Введите значение здесь для переопределения тарифа по умолчанию.
   label_budget_available: Доступный бюджет
   label_budget_details: Детали бюджета

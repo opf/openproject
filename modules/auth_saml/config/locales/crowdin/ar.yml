@@ -13,6 +13,7 @@ ar:
         icon: أيقونة مُخصصة
         identifier: المعرّف
         idp_cert: مزود شهادات الهوية العامة
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: معرف كيان موفر الهُوِيَّة
         idp_slo_service_url: نقطة تسجيل الخروج لمزود الهوية
         idp_sso_service_url: نقطة تسجيل الدخول لمزود الهوية
@@ -156,6 +157,9 @@ ar:
       metadata_too_large: يتجاوز ملف البيانات الوصفية الحد الأقصى المسموح به للحجم.
       success: تم تحديث التكوين بنجاح باستخدام بيانات تعريف مزود الهوية.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: تعيين السمات
       attribute_mapping_text: 'تحدد الحقول التالية السمات التي يوفرها مزود الهوية SAML والتي سيتم استخدامها لتوفير سمات المستخدم في OpenProject
 
@@ -175,9 +179,19 @@ ar:
       label_uid: معرّف المستخدم الداخلي
       metadata:
         dialog: 'هذا هو عنوان URL الذي تتوفر فيه بيانات تعريف SAML الخاصة بـ OpenProject. يمكنك استخدامه اختياريًّا لتكوين مزود الهوية الخاص بك:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: لم يتم تحديد أي مزودي هوية SAML حتى الآن.
       notice_created: A new SAML identity provider was successfully created.
       plural: مزودي الهوية SAML
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: تنسيق السمة
         legend: 'تُضاف هذه السمات إلى البيانات الوصفية لـ SAML XML لإعلام مزود الهوية بالسمات التي يتطلبها OpenProject. وقد تظل بحاجة إلى تكوين مزود الهوية الخاص بك بشكل صريح لإرسال هذه السمات. يرجى الرجوع إلى وثائق مزود الهوية الخاص بك.
@@ -201,6 +215,10 @@ ar:
         metadata_form_banner: 'قد يؤدي تعديل البيانات الوصفية إلى استبدال القيم الموجودة في الأقسام الأخرى. '
         requested_attributes: حدد مجموعة السمات المطلوب طلبها في طلب SAML الذي يتم إرساله إلى مزود الهوية الخاص بك.
       seeded_from_env: تم إنشاء هذا المزود تلقائيًا من إعدادات البيئة. ولا يمكن تعديله.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: مزود الهوية SAML
       upsell:
         description: ربط OpenProject بمزود هوية SAML

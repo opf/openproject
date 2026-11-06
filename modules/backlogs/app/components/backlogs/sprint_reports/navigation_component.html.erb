@@ -1,0 +1,67 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Box.new(classes: "op-sprint-report-navigation", display: :flex, mb: 3, test_selector: "sprint-report-navigation")) do %>
+  <% if previous_sprint %>
+    <%= render(Primer::Box.new(classes: "op-sprint-report-navigation--item", display: :flex, direction: :column, align_items: :flex_start)) do %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: project_backlogs_sprint_report_path(@project, previous_sprint),
+              test_selector: "sprint-report-previous",
+              scheme: :invisible
+            )
+          ) do |button| %>
+        <% button.with_leading_visual_icon(icon: :"chevron-left") %>
+        <%= t(".previous") %>
+      <% end %>
+      <%= render(Primer::Beta::Text.new(color: :muted, pl: 3, mt: 2, test_selector: "sprint-report-previous-name")) do %>
+        <%= previous_sprint.name %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if next_sprint %>
+    <%= render(Primer::Box.new(classes: "op-sprint-report-navigation--item", display: :flex, direction: :column, align_items: :flex_end, ml: :auto)) do %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: project_backlogs_sprint_report_path(@project, next_sprint),
+              test_selector: "sprint-report-next",
+              scheme: :invisible
+            )
+          ) do |button| %>
+        <% button.with_trailing_visual_icon(icon: :"chevron-right") %>
+        <%= t(".next") %>
+      <% end %>
+      <%= render(Primer::Beta::Text.new(color: :muted, text_align: :right, pr: 3, mt: 2, test_selector: "sprint-report-next-name")) do %>
+        <%= next_sprint.name %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

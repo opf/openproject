@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -106,7 +105,12 @@ RSpec.describe "Logging time within the work package view", :js, :with_cuprite d
       end
 
       it "can log time for that user" do
-        # click on button opens modal
+        # Simulate a link rendered before midnight.
+        time_log_link = page.find(".inline-edit--container.spentTime .icon-time")
+        page.execute_script(<<~JS, time_log_link)
+          arguments[0].href = arguments[0].href.replace(/date=[^&]+/, "date=2000-01-01")
+        JS
+
         spent_time_field.open_time_log_modal
 
         log_time_via_modal log_for_user: other_user
@@ -210,15 +214,19 @@ RSpec.describe "Logging time within the work package view", :js, :with_cuprite d
       loading_indicator_saveguard
     end
 
-    it "shows no logging button within the display field" do
+    it "opens the labeled logging control and refreshes spent time after saving" do
       wp_table.expect_work_package_listed work_package, second_work_package
 
-      find("tr:nth-of-type(1) .wp-table--cell-td.spentTime .icon-time").click
+      wp_table.row(work_package).find(:link, accessible_name: "Log time", exact: true).hover
+      expect(page).to have_element(:"tool-tip", text: "Log time")
+      wp_table.row(work_package).find(:link, accessible_name: "Log time", exact: true).click
 
       log_time_via_modal
 
-      expect(page).to have_css("tr:nth-of-type(1) .wp-table--cell-td.spentTime", text: "1h")
-      expect(page).to have_css("tr:nth-of-type(2) .wp-table--cell-td.spentTime", text: "0h")
+      expect(wp_table.row(work_package)).to have_selector(:link, accessible_name: "1h",
+                                                                 accessible_description: "Show spent time for this work package",
+                                                                 exact: true)
+      expect(wp_table.row(second_work_package)).to have_selector(:link, accessible_name: "0h", exact: true)
     end
   end
 end

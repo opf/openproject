@@ -26,11 +26,11 @@ da:
         select: Vælg filer
         select_all: Vælg alle
         selection:
-          zero: Vælg filer, der skal linkes
-          one: Link 1 fil
+          none: Vælg filer, der skal linkes
+          one: Link %{count} fil
           other: Link %{count} filer
         success_create:
-          one: 1 fil-link er oprettet.
+          one: "%{count} fil-link er oprettet."
           other: "%{count} fil-links er oprettet."
         tooltip:
           not_found: Filen blev ikke fundet.

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ RSpec.describe "Localization", with_settings: { login_required?: false,
       visit projects_path
 
       expect(page)
-        .to have_content("Projekte")
+        .to have_text("Projekte")
     end
   end
 
@@ -54,7 +53,7 @@ RSpec.describe "Localization", with_settings: { login_required?: false,
     it "uses the default language configured in administration" do
       visit projects_path
 
-      expect(page).to have_content("Projects")
+      expect(page).to have_text("Projects")
     end
   end
 end

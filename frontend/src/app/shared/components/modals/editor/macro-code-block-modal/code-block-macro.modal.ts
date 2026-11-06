@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -68,7 +67,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   readonly I18n = inject(I18nService);
   readonly codeMirrorLoader = inject(CodeMirrorLoaderService);
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.editor.macro.code_block.title'),
     language: this.I18n.t('js.editor.macro.code_block.language'),
     language_hint: this.I18n.t('js.editor.macro.code_block.language_hint'),

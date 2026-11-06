@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -119,7 +118,7 @@ class Report::Filter
     end
 
     ##
-    # Returns a [:label_of_value, value]-kind array (as in self.vailable_values)
+    # Returns a [:label_of_value, value]-kind array (as in self.available_values)
     # for the given value
     def self.label_for_value(value)
       available_values(reverse_search: true).find { |v| v.second == value || v.second.to_s == value }

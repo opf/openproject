@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -67,6 +66,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 import {
@@ -121,6 +121,7 @@ import {
   personIconData,
   toDOMString,
 } from '@openproject/octicons-angular';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks'|'resourceTimelineFourWeeks'|'resourceTimelineEightWeeks';
 export type TeamPlannerViewOptions = Record<TeamPlannerViewOptionKey, RawOptionsFromRefiners<Required<ViewOptionRefiners>>>;
@@ -139,6 +140,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   private wpTableFilters = inject(WorkPackageViewFiltersService);
   private querySpace = inject(IsolatedQuerySpace);
   private currentProject = inject(CurrentProjectService);
+
+  private urlParams = inject(UrlParamsService);
   private I18n = inject(I18nService);
   readonly injector = inject(Injector);
   readonly calendar = inject(OpCalendarService);
@@ -639,7 +642,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   public get currentViewTitle():string {
-    return this.viewOptions[((this.ucCalendar && this.ucCalendar.getApi().view.type) || this.initialCalendarView) as TeamPlannerViewOptionKey].buttonText as string;
+    return this.viewOptions[(this.ucCalendar?.getApi().view.type || this.initialCalendarView) as TeamPlannerViewOptionKey].buttonText as string;
   }
 
   /**
@@ -737,7 +740,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   isStatusClosed(workPackage:WorkPackageResource):boolean {
-    const status = this.statuses.find((el) => el.id === (workPackage.status as StatusResource).id);
+    const status = this.statuses.find((el) => el.id === workPackage.status.id);
 
     return status ? status.isClosed : false;
   }
@@ -811,7 +814,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     ['$event.detail.start', '$event.detail.end', '$event.detail.assignee'],
   )
   openNewSplitCreate(start:string, end:string, resourceHref:string, nonWorkingDays?:boolean):void {
-    const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+    const basePath = this.urlParams.basePathWithoutDetails();
     const search = new URLSearchParams(window.location.search);
     search.set('startDate', start);
     search.set('dueDate', end);
@@ -863,7 +866,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       await this.halEditing.save(changeset);
     } catch (e:unknown) {
       this.loading$?.complete();
-      this.halNotification.showError((e as HalError).resource, changeset.projectedResource);
+      this.halNotification.showError((e as HalError).resource!, changeset.projectedResource);
       this.calendarDrag.handleDropError(changeset.projectedResource);
       info?.revert();
     }
@@ -871,8 +874,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private eventResourceEditable(wp:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(wp);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return !!schema.assignee?.writable && schema.isAttributeEditable('assignee');
+    return !!(schema.assignee as IOPFieldSchema|undefined)?.writable && schema.isAttributeEditable('assignee');
   }
 
   // Todo: Evaluate whether we really want to use that from a UI perspective ¯\_(ツ)_/¯
@@ -896,7 +898,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       return constraints;
     }
 
-    const assignables = projectAssignables[(wp.project as HalResource).href!];
+    const assignables = projectAssignables[wp.project.href!];
     if (assignables) {
       constraints.resourceIds = [...assignables];
     }
@@ -914,7 +916,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private wpAssignee(wp:WorkPackageResource):string {
-    return (wp.assignee as HalResource).href!;
+    return wp.assignee!.href!;
   }
 
   private toggleAddExistingPane():void {
@@ -942,7 +944,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .pipe(
         filter((el) => Object.keys(el).length > 0),
         take(1),
-        map((projectAssignables) => projectAssignables[(wp.project as HalResource).href!]),
+        map((projectAssignables) => projectAssignables[wp.project.href!]),
         withLatestFrom(this.principals$),
       )
       .subscribe(([assignable, principals]) => {

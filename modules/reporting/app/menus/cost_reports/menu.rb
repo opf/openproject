@@ -1,4 +1,6 @@
-# -- copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -20,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
+
 module CostReports
   class Menu < Submenu
     attr_reader :view_type, :project
@@ -44,14 +46,14 @@ module CostReports
     end
 
     def global_queries
-      CostQuery.public(project)
+      CostReport.public_in(project)
         .pluck(:id, :name)
         .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
         .sort_by { |item| item.title.downcase }
     end
 
     def custom_queries
-      CostQuery.private(project, User.current)
+      CostReport.private_in(project, User.current)
         .pluck(:id, :name)
         .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
         .sort_by { |item| item.title.downcase }
@@ -67,9 +69,9 @@ module CostReports
 
     def query_path(query_params)
       if project.present?
-        cost_report_path(project, query_params)
+        project_reporting_cost_report_path(project, query_params[:id])
       else
-        global_cost_reports_path(query_params)
+        reporting_cost_report_path(query_params[:id])
       end
     end
   end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,7 +63,7 @@ module AllMeetings
       uid = event.uid&.value_ical
       recurrence_start_time = event.recurrence_id&.to_time
 
-      # First check if the UID belongs to a single meeeting
+      # First check if the UID belongs to a single meeting
       meeting = Meeting.visible(user).find_by(uid:)
 
       if meeting
@@ -184,15 +183,16 @@ module AllMeetings
       status = partstat(attendee_from_event)
 
       if status.present?
-        participant = meeting.participants.find_by!(user: user)
-        participant.update!(
-          participation_status: status,
-          comment: comment(attendee_from_event, event)
-        )
+        update_participant(meeting, participation_status: status, comment: comment(attendee_from_event, event))
       else
         Rails.logger.warn("[iCal Meeting Response] No attendee found for user #{user.mail} in " \
                           "event #{event.uid}#{" with recurrence ID #{event.recurrence_id.iso8601}" if event.recurrence_id}")
       end
+    end
+
+    def update_participant(meeting, attributes)
+      meeting.participants.find_by!(user:).update!(attributes)
+      User.execute_as(user) { meeting.save_journals }
     end
 
     def instantiated_scheduled_meetings_awaiting_responses(recurring_meeting)

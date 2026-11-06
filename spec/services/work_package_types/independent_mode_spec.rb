@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,9 +31,8 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::IndependentMode do
   describe ".available_for" do
-    it "offers copy and default for form configuration" do
-      expect(described_class.available_for(TypeVariant::FORM_CONFIGURATION))
-        .to eq([described_class::COPY, described_class::DEFAULT])
+    it "offers nothing for the form, which a variant references rather than inherits" do
+      expect(described_class.available_for(TypeVariant::FORM_CONFIGURATION)).to be_empty
     end
 
     it "offers copy and empty for patterns" do
@@ -45,11 +43,6 @@ RSpec.describe WorkPackageTypes::IndependentMode do
     it "offers copy and default for PDF export" do
       expect(described_class.available_for(TypeVariant::PDF_EXPORT))
         .to eq([described_class::COPY, described_class::DEFAULT])
-    end
-
-    it "offers copy and empty for workflows" do
-      expect(described_class.available_for(TypeVariant::WORKFLOWS))
-        .to eq([described_class::COPY, described_class::EMPTY])
     end
 
     it "offers copy and empty for project attributes" do
@@ -64,7 +57,7 @@ RSpec.describe WorkPackageTypes::IndependentMode do
 
   describe ".available?" do
     it "is true for a mode the aspect offers" do
-      expect(described_class).to be_available(TypeVariant::FORM_CONFIGURATION, described_class::DEFAULT)
+      expect(described_class).to be_available(TypeVariant::PDF_EXPORT, described_class::DEFAULT)
     end
 
     it "is false for a mode the aspect does not offer" do

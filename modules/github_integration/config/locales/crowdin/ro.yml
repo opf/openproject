@@ -48,7 +48,7 @@ ro:
     changed_files_count: Fișiere modificate
     comments_count: Numărul de comentarii
     deletions_count: Numărul elementelor șterse
-    github: Identificator GitHub
+    github: GitHub identifier
     github_app_owner_avatar_url: Owner avatar URL
     github_avatar_url: Avatar URL
     github_html_url: Pull Request URL

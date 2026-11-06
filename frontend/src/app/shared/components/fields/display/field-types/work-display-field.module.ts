@@ -20,12 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -123,20 +123,18 @@ export class WorkDisplayField extends DisplayField {
     const link = document.createElement('a');
 
     link.textContent = `Σ ${displayText}`;
-    link.title = `${this.derivedValueString} ${this.derivedText}`;
     link.classList.add('-derived-value', uiStateLinkClass);
 
     this.hierarchyQueryLinkHelper.addHref(link, this.resource);
 
-    element.appendChild(link);
+    element.appendChild(withTooltip(link, this.derivedText, 'description'));
   }
 
-  public get title():string|null {
+  public override get title():string|null {
     return null; // we want to render separate titles ourselves
   }
 
   public isEmpty():boolean {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { value } = this;
     const derived = this.derivedValue;
 

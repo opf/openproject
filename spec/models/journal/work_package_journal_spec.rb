@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,16 +32,14 @@ require "spec_helper"
 RSpec.describe Journal::WorkPackageJournal do
   describe "#render_detail" do
     shared_let(:type) { create(:type) }
+    shared_let(:other_type) { create(:type) }
     shared_let(:project) { create(:project, types: [type]) }
-    shared_let(:other_project) { create(:project) }
 
-    # Visible: assigned to the work package's own project and type.
     shared_let(:visible_custom_field) do
-      create(:boolean_wp_custom_field, projects: [project], types: [type])
+      create(:boolean_wp_custom_field, types: [type])
     end
-    # Hidden: assigned to the type, but only mapped to a different project.
     shared_let(:hidden_custom_field) do
-      create(:boolean_wp_custom_field, projects: [other_project], types: [type])
+      create(:boolean_wp_custom_field, types: [other_type])
     end
 
     shared_let(:work_package) { create(:work_package, project:, type:) }
@@ -51,14 +48,14 @@ RSpec.describe Journal::WorkPackageJournal do
 
     current_user { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
-    it "renders a custom field assigned to the work package's project/type normally" do
+    it "renders a custom field on the work package's type normally" do
       rendered = journal.render_detail(["custom_fields_#{visible_custom_field.id}", [nil, "t"]])
 
       expect(rendered).to include(visible_custom_field.name)
       expect(rendered).not_to include(I18n.t(:text_journal_permission_denied))
     end
 
-    it "hides a custom field not assigned to the work package's project/type" do
+    it "hides a custom field that is not on the work package's type" do
       rendered = journal.render_detail(["custom_fields_#{hidden_custom_field.id}", [nil, "t"]])
 
       expect(rendered).not_to include(hidden_custom_field.name)
@@ -66,7 +63,7 @@ RSpec.describe Journal::WorkPackageJournal do
     end
 
     it "renders a custom field that has since been deleted as such" do
-      deleted = create(:string_wp_custom_field, projects: [project], types: [type])
+      deleted = create(:string_wp_custom_field, types: [type])
       key = "custom_fields_#{deleted.id}"
       deleted.destroy!
 
@@ -78,7 +75,7 @@ RSpec.describe Journal::WorkPackageJournal do
 
     it "does not render a permission error on a journal created after a custom field was deleted",
        with_settings: { journal_aggregation_time_minutes: 0 } do
-      custom_field = create(:list_wp_custom_field, projects: [project], types: [type])
+      custom_field = create(:list_wp_custom_field, types: [type])
       updated_work_package = create(:work_package, project:, type:, subject: "Before")
       updated_work_package.update!(custom_field_values: { custom_field.id => custom_field.custom_options.first.id })
       custom_field.destroy!
@@ -93,12 +90,12 @@ RSpec.describe Journal::WorkPackageJournal do
     end
 
     describe "the backing visibility check (N+1 guard)" do
-      let(:formatter) { OpenProject::JournalFormatter::CustomField::Plain.new(journal) }
+      let(:formatter) { OpenProject::JournalFormatter::CustomField.new(journal) }
 
       it "does not re-query the visible custom field ids for a project already checked" do
-        formatter.send(:visible_custom_field_ids, project) # warms the cache
+        formatter.send(:visible_work_package_custom_field_ids, project) # warms the cache
 
-        expect { formatter.send(:visible_custom_field_ids, project) }.to have_a_query_limit(0)
+        expect { formatter.send(:visible_work_package_custom_field_ids, project) }.to have_a_query_limit(0)
       end
     end
   end

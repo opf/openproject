@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -83,9 +82,7 @@ module OpenProject::GithubIntegration
         return if notes.nil?
 
         work_packages.each do |work_package|
-          ::WorkPackages::UpdateService
-            .new(user:, model: work_package)
-            .call(journal_notes: notes, send_notifications: false)
+          ::AddWorkPackageNoteService.new(user:, work_package:).call(notes, send_notifications: false)
         end
       end
 
@@ -97,7 +94,7 @@ module OpenProject::GithubIntegration
       end
 
       ##
-      # A wapper around a ruby Hash to access webhook payloads.
+      # A wrapper around a ruby Hash to access webhook payloads.
       # All methods called on it are converted to `.fetch` hash-access, raising an error if the string-key does not exist.
       # If the method ends with a question mark, e.g. "comment?" not error is raised if the key does not exist.
       # If the fetched value is again a hash, the value is wrapped into a new payload object.

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,8 @@ module WorkPackageTypes
     class RowComponent < OpPrimer::BorderBoxRowComponent
       delegate :variant, to: :table
 
+      WORKFLOW_TAB = "workflow"
+
       def row_css_id = "overview-#{tab[:name]}"
 
       def setting
@@ -40,19 +41,12 @@ module WorkPackageTypes
       end
 
       def configuration_mode
-        return muted(t("types.edit.overview.mode.always_manual")) if aspect.nil?
-        return muted(t("types.edit.overview.mode.manual")) unless variant.linked?(aspect)
+        return form_configuration_mode if tab[:name] == TypeVariant::FORM_CONFIGURATION
+        return workflow_mode if tab[:name] == WORKFLOW_TAB
+        return muted_mode("always_manual") if aspect.nil?
+        return muted_mode("manual") unless variant.linked?(aspect)
 
         t("types.edit.overview.mode.inheriting_from_html", source_name:)
-      end
-
-      def dependents
-        return muted("-") if dependents_count.zero?
-
-        render(Primer::Beta::Link.new(href: dependents_dialog_path,
-                                      data: { controller: "async-dialog" })) do
-          t("types.edit.reuse_mode.dependents.title", count: dependents_count)
-        end
       end
 
       private
@@ -66,27 +60,39 @@ module WorkPackageTypes
       def source = variant.source_for(aspect)
 
       def source_name
-        return bold(source.composite_name) unless source_reachable?
+        reference_link(source.composite_name, helpers.aspect_edit_path(source, aspect), reachable: reachable?(source))
+      end
 
-        render(Primer::Beta::Link.new(href: helpers.aspect_edit_path(source, aspect), font_weight: :bold)) do
-          source.composite_name
+      def form_configuration_mode
+        named_reference_mode(variant.form_configuration, "using_form_html") do |form|
+          helpers.edit_form_configuration_path(form)
         end
       end
 
+      def workflow_mode
+        named_reference_mode(variant.workflow, "using_workflow_html") do |workflow|
+          helpers.edit_workflow_path(workflow)
+        end
+      end
+
+      def named_reference_mode(reference, key)
+        t("types.edit.overview.mode.#{key}", name: reference_link(reference.name, yield(reference), reachable: admin_context?))
+      end
+
+      def muted_mode(key) = muted(t("types.edit.overview.mode.#{key}"))
+
+      def reference_link(label, path, reachable:)
+        return bold(label) unless reachable
+
+        render(Primer::Beta::Link.new(href: path, font_weight: :bold)) { label }
+      end
+
+      def admin_context? = helpers.variant_scope_project.nil?
+
       # A project's own variant may only borrow from that project, so a source outside it
       # belongs to administration and is named without a link the reader could not follow.
-      def source_reachable?
-        return true if helpers.variant_scope_project.nil?
-
-        source.project_id == helpers.variant_scope_project.id
-      end
-
-      def dependents_count
-        @dependents_count ||= aspect.nil? ? 0 : variant.dependents_for(aspect).count(:all)
-      end
-
-      def dependents_dialog_path
-        type_configuration_dependents_dialog_path(**variant.path_args, aspect:)
+      def reachable?(source_record)
+        admin_context? || source_record.project_id == helpers.variant_scope_project.id
       end
 
       def muted(text) = render(Primer::Beta::Text.new(color: :muted)) { text }

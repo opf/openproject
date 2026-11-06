@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,7 +77,37 @@ RSpec.describe WorkPackageTypes::CreateVariantService, "owning project" do
     variant = call(user: project_admin, project:).result
 
     TypeVariant::ASPECTS.each do |aspect|
-      expect(variant.public_send(:"#{aspect}_source")).to eq(type.default_variant)
+      expect(variant.source_for(aspect)).to eq(type.default_variant)
+    end
+  end
+
+  describe "the workflow it starts on" do
+    shared_let(:role) { create(:project_role) }
+    shared_let(:status_a) { create(:status) }
+    shared_let(:status_b) { create(:status) }
+
+    before_all do
+      create(:workflow, workflow: type.default_variant.workflow, role:,
+                        old_status: status_a, new_status: status_b)
+    end
+
+    it "is the type's own for a global variant" do
+      variant = call(user: admin, project: nil).result
+
+      expect(variant.workflow).to eq(type.default_variant.workflow)
+    end
+
+    it "is the type's own for a project-owned variant as well" do
+      variant = call(user: project_admin, project:).result
+
+      expect(variant.workflow).to eq(type.default_variant.workflow)
+    end
+
+    it "shows the transitions the type already has" do
+      variant = call(user: project_admin, project:).result
+
+      expect(variant.workflow.status_transitions.pluck(:old_status_id, :new_status_id))
+        .to contain_exactly([status_a.id, status_b.id])
     end
   end
 end

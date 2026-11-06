@@ -250,70 +250,26 @@ da:
                 I dette modul kan du formidle projektnyheder til dine teammedlemmer.
           versions:
             item_0:
-              name: Bug Backlog
-            item_1:
-              name: Product Backlog
-            item_2:
-              name: Sprint 1
               wiki:
-                title: Sprint 1
+                title: Release 1.0
                 content: |
-                  ### Sprintplanlægningsmøde
+                  ### Release 1.0
 
-                  _Dokumentér emnerne til sprintplanlægningsmødet her_
+                  _Dokumentér her, hvad denne release indeholder._
 
-                  * Tidsafgrænset (8 t)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
-
-                  * Opdelt i to yderligere tidsrum på 4 t:
-
-                      * Product Owner præsenterer [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) og prioriteterne for teamet og forklarer sprintmålet, som teamet skal være enigt i. Sammen prioriterer de de emner fra Product Backlog, som teamet tager sig af i den næste sprint. Teamet forpligter sig til den aftalte levering.
-                      * Teamet planlægger selvstændigt (uden Product Owner) i detaljer og nedbryder opgaverne fra de aftalte krav til en samlet [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum-møde
-
-                  _Dokumentér emnerne til Daily Scrum-mødet her_
-
-                  * Kort, dagligt statusmøde i teamet.
-                  * Tidsafgrænset (højst 15 min).
-                  * Stand-up-møde, hvor følgende emner fra [opgavetavlen](##sprint:scrum_project__version__sprint_1) drøftes.
-                      * Hvad planlægger jeg at gøre inden næste Daily Scrum?
-                      * Hvad har blokeret mit arbejde (forhindringer)?
-                  * Scrum Master leder mødet og noterer [forhindringer i sprinten](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner kan deltage for at holde sig orienteret.
-
-                  ### Sprint Review-møde
-
-                  _Dokumentér emnerne til Sprint Review-mødet her_
-
-                  * Tidsafgrænset (4 t).
-                  * Højst en times forberedelse pr. person.
-                  * Teamet viser Product Owner og andre interesserede, hvad der er nået i denne sprint.
-                  * Vigtigt: ingen attrapper og ingen PowerPoint! Kun færdig produktfunktionalitet (increments) skal demonstreres.
-                  * Feedback fra Product Owner, interessenter og andre er ønsket og indgår i det videre arbejde.
-                  * Ud fra de demonstrerede funktioner beslutter Product Owner, om dette increment skal i drift eller udvikles videre. Det giver mulighed for et tidligt ROI.
-
-
-                  ### Sprint Retrospective
-
-                  _Dokumentér emnerne til Sprint Retrospective-mødet her_
-
-                  * Tidsafgrænset (3 t).
-                  * Efter Sprint Review, ledes af Scrum Master.
-                  * Teamet drøfter sprinten: hvad gik godt, og hvad skal forbedres for at være mere produktive i næste sprint eller have det endnu sjovere.
-            item_3:
-              name: Sprint 2
+                  * Arbejdspakkerne i denne release er dem med målversion 1.0.
+                  * Release-datoen er datoen for milepælen *Release v1.0*.
+                  * Åbn [Køreplanen]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) for at følge fremdriften i alle versioner.
+                  * Åbn [Projektindstillinger &rightarrow; Versioner]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) for at knytte en anden wiki-side til en version.
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
           queries:
             item_0:
               name: Projektplan
             item_1:
-              name: Product Backlog
+              name: Version 1.1
             item_2:
-              name: Sprint 1
+              name: Version 1.0
             item_3:
               name: Opgaver
           boards:
@@ -345,11 +301,12 @@ da:
 
                     1. *Invitér nye medlemmer til dit projekt*: &rightarrow; Gå til [Medlemmer]({{opSetting:base_url}}/projects/your-scrum-project/members) i projektnavigationen.
                     2. *Se din Product Backlog og dine Sprint Backlogs*: &rightarrow; Gå til [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i projektnavigationen.
-                    3. *Se din opgavetavle*: &rightarrow; Gå til [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klik på højrepilen ved en sprint &rightarrow; Vælg [Opgavetavle](##sprint:scrum_project__version__sprint_1).
-                    4. *Opret en ny arbejdspakke*: &rightarrow; Gå til [Arbejdspakker &rightarrow; Opret]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Opret og opdater en projektplan*: &rightarrow; Gå til [Projektplan](##query:scrum_project__query__project_plan) i projektnavigationen.
-                    6. *Opret en sprintwiki*: &rightarrow; Gå til [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs), og åbn sprintwikien fra rullemenuen til højre i en sprint. Du kan tilpasse [wikiskabelonen]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) efter behov.
+                    3. *Opret en sprint*: &rightarrow; Gå til [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs), og klik på "+ Sprint" for at oprette en ny sprint. Flyt arbejdspakker fra backloggen til sprinten for at planlægge arbejdet. Klik på "Start sprint", når I er klar.
+                    4. *Se din sprinttavle*: &rightarrow; Gå til [Tavler]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Åbn sprintens tavle ved at klikke på sprintens navn.
+                    5. *Opret en ny arbejdspakke*: &rightarrow; Gå til [Arbejdspakker &rightarrow; Opret]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Opret og opdater en projektplan*: &rightarrow; Gå til [Projektplan](##query:scrum_project__query__project_plan) i projektnavigationen.
                     7. *Aktivér flere moduler*: &rightarrow; Gå til [Projektindstillinger &rightarrow; Moduler]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+
 
                     Her finder du vores [brugervejledninger](https://www.openproject.org/docs/user-guide/).
                     Sig til, hvis du har spørgsmål eller brug for hjælp. Kontakt os: [support[at]openproject.com](mailto:support@openproject.com).

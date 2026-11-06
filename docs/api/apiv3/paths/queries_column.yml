@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: QueryColumn id
-    example: priority
-    in: path
-    name: id
-    required: true
-    schema:
-      type: string
+    - description: QueryColumn id
+      example: priority
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
   responses:
     '200':
       content:
@@ -24,7 +24,7 @@ get:
                 id: priority
                 name: Priority
           schema:
-            "$ref": "../components/schemas/query_column_model.yml"
+            $ref: "../components/schemas/query_column_model.yml"
       description: OK
       headers: {}
     '403':
@@ -57,7 +57,7 @@ get:
       description: Returned if the QueryColumn does not exist.
       headers: {}
   tags:
-  - Query Columns
+    - Query Columns
   description: Retrieve an individual QueryColumn as identified by the `id` parameter.
   operationId: View_Query_Column
   summary: View Query Column

@@ -22,10 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
+
 module DemoData
   class WorkPackageSeeder < Seeder
     include CreateAttachments
@@ -89,6 +90,7 @@ module DemoData
       wp_attr = base_work_package_attributes attributes
 
       set_target_versions! wp_attr, attributes
+      set_observed_in_versions! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
@@ -173,11 +175,19 @@ module DemoData
     end
 
     def set_target_versions!(wp_attr, attributes)
-      version_ids = Array(attributes["target_versions"]).filter_map do |reference|
-        seed_data.find_reference(reference)&.id
-      end
+      version_ids = version_ids_for(attributes, "target_versions")
 
       wp_attr[:target_version_ids_replacements] = version_ids if version_ids.any?
+    end
+
+    def set_observed_in_versions!(wp_attr, attributes)
+      version_ids = version_ids_for(attributes, "observed_in_versions")
+
+      wp_attr[:observed_in_version_ids_replacements] = version_ids if version_ids.any?
+    end
+
+    def version_ids_for(attributes, key)
+      seed_data.find_references(attributes[key]).filter_map { it&.id }
     end
 
     def set_time_tracking_attributes!(wp_attr, attributes)

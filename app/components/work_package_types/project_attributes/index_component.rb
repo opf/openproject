@@ -7,6 +7,23 @@
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
@@ -29,7 +46,7 @@ module WorkPackageTypes
       private
 
       def linked?
-        OpenProject::FeatureDecisions.type_variants_active? && @variant.linked?(ASPECT)
+        @variant.linked?(ASPECT)
       end
 
       def exclusion_state
@@ -63,13 +80,12 @@ module WorkPackageTypes
       end
 
       def show_in_linked_mode?(custom_field)
-        source_active_field_ids.include?(custom_field.id) &&
-          !exclusion_state&.excluded_by_source?(custom_field.attribute_name)
+        source_active_field_ids.include?(custom_field.id)
       end
 
       def source_active_field_ids
         @source_active_field_ids ||=
-          @variant.effective_source_for(ASPECT).own_project_custom_field_type_mappings.to_set(&:custom_field_id)
+          @variant.owner_of(ASPECT).own_project_custom_field_type_mappings.to_set(&:custom_field_id)
       end
 
       def wrapper_data_attributes

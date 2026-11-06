@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,13 +37,27 @@ module Pages
 
     attr_reader :container
 
-    def initialize(container, project = nil)
+    def initialize(container, project = nil, entry_control: nil, table_name: nil)
       super(project)
       @container = container
+      @entry_control = entry_control
+      @table_name = table_name
+    end
+
+    def table_name
+      @table_name || super
+    end
+
+    def entry_control
+      @entry_control ? @entry_control.call : super
     end
 
     def table_container
       container.find("table.work-package-table", wait: 10)
+    end
+
+    def axe_scope
+      "##{container.find('table.work-package-table[id]', wait: 10)[:id]}"
     end
 
     def click_reference_inline_create
@@ -60,8 +73,7 @@ module Pages
       autocomplete_container = container.find('[data-test-selector="wp-relations-autocomplete"]')
       select_autocomplete autocomplete_container,
                           query:,
-                          results_selector: ".ng-dropdown-panel-items",
-                          wait_for_fetched_options: false
+                          results_selector: ".ng-dropdown-panel-items"
 
       expect_work_package_listed work_package
     end
