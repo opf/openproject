@@ -107,6 +107,19 @@ RSpec.describe "Edit project custom field calculated value", :js, with_ee: %i[ca
       expect(custom_field.reload.formula_string).to eq(original_formula)
     end
 
+    it "prevents saving a formula using a multi-select list outside an aggregate function" do
+      multi_value_list = create(:weighted_item_list_project_custom_field, multi_value: true, name: "Multi-select list")
+      original_formula = custom_field.formula_string
+
+      find_field(id: "custom_field_formula", type: :hidden).set("{{cf_#{multi_value_list.id}}} * 2")
+      click_on "Save"
+
+      expect(page).to have_text("Multi-select attributes (Multi-select list) can only be used within aggregate functions.")
+      expect(page).to have_no_text("Successful update")
+
+      expect(custom_field.reload.formula_string).to eq(original_formula)
+    end
+
     it "allows submitting formula by pressing Enter/Return" do
       # ensure multiple spaces are handled without problems
       formula = "2 +  (1   +1)"
