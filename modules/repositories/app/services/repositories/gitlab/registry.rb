@@ -49,5 +49,9 @@ module Repositories::Gitlab
       register(:create, Repositories::GitlabProviders::CreateContract)
       register(:update, Repositories::GitlabProviders::UpdateContract)
     end
+
+    namespace("services") do
+      register(:url_builder, Repositories::Gitlab::UrlBuilder)
+    end
   end
 end
