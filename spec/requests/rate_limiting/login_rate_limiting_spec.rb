@@ -46,6 +46,34 @@ RSpec.describe "Rate limiting login",
     end
   end
 
+  it "blocks a username submitted in the query string" do
+    freeze_time do
+      3.times { post signin_path(username: "victim"), params: { password: "wrong" } }
+
+      post signin_path(username: "victim"), params: { password: "wrong" }
+      expect(response).to have_http_status(:too_many_requests)
+    end
+  end
+
+  it "blocks password change attempts after burst_limit attempts for the same username" do
+    freeze_time do
+      3.times { post "/account/change_password", params: { password_change_user: "victim", password: "wrong" } }
+
+      post "/account/change_password", params: { password_change_user: "victim", password: "wrong" }
+      expect(response).to have_http_status(:too_many_requests)
+    end
+  end
+
+  it "shares the limit between login and password change" do
+    freeze_time do
+      2.times { post signin_path, params: { username: "victim", password: "wrong" } }
+      post "/account/change_password", params: { password_change_user: "victim", password: "wrong" }
+
+      post signin_path, params: { username: "victim", password: "wrong" }
+      expect(response).to have_http_status(:too_many_requests)
+    end
+  end
+
   it "does not throttle when no username is submitted" do
     4.times { post signin_path, params: {} }
     expect(response).not_to have_http_status(:too_many_requests)
