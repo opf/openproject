@@ -26,6 +26,7 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { readOnlyClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../testing/table-harness';
@@ -72,6 +73,22 @@ describe('Edit cell entry', () => {
 
       await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+    });
+
+    it('does not open the work package when double clicking a control nested in the open editor', async () => {
+      const itemClicked = vi.fn();
+      harness.outputs.itemClicked.subscribe(itemClicked);
+      fireEvent.click(subjectField('1'));
+      const textbox = await within(harness.row('1')).findByRole('textbox');
+      const host = document.createElement('div');
+      host.classList.add(activeFieldClassName);
+      const nested = document.createElement('button');
+      host.append(nested);
+      textbox.closest('td, th')!.append(host);
+
+      fireEvent.dblClick(nested);
+
+      expect(itemClicked).not.toHaveBeenCalled();
     });
   });
 

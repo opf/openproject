@@ -38,6 +38,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { selectionGesture } from '../state/selection-feedback';
+import { controlSelector } from '../state/keyboard/cell-interaction';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
@@ -76,9 +77,16 @@ export class RowClickHandler implements TableEventHandler {
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (this.clickActivatesCell(view, target) || target.classList.contains(`${activeFieldClassName}`)) {
+    if (this.clickActivatesCell(view, target) || target.closest(`.${activeFieldClassName}`)) {
       debugLog('Skipping click on inner cell');
       return true;
+    }
+
+    if (!view.workPackageTable.configuration.selectionEnabled) {
+      if (!target.closest(controlSelector)) {
+        this.focusClickedCell(view, target);
+      }
+      return false;
     }
 
     // Locate the row from event
@@ -92,6 +100,17 @@ export class RowClickHandler implements TableEventHandler {
     activateRow(view, wpId, element, evt);
 
     return false;
+  }
+
+  private focusClickedCell(view:TableEventComponent, target:HTMLElement):void {
+    const navigation = view.workPackageTable.keyboardNavigation;
+    const cell = target.closest<HTMLElement>('td, th') ?? target.closest(this.SELECTOR);
+    if (!cell) return;
+
+    const position = navigation.positionOfCell(cell);
+    if (position) {
+      navigation.focusPosition(position);
+    }
   }
 
   private clickActivatesCell(view:TableEventComponent, target:HTMLElement):boolean {
@@ -113,7 +132,6 @@ export function activateRow(
   modifiers:SelectionModifiers = {},
 ):void {
   const { injector } = view.workPackageTable;
-
   const modified = [modifiers.ctrlKey, modifiers.metaKey, modifiers.shiftKey].some(Boolean);
 
   selectionGesture(view.workPackageTable, modified ? 'selection' : 'navigation', () => {

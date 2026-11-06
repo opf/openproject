@@ -62,6 +62,10 @@ export class RowDoubleClickHandler implements TableEventHandler {
   public handleEvent(view:TableEventComponent, evt:MouseEvent) {
     const target = evt.target as HTMLElement;
 
+    if (!view.workPackageTable.configuration.selectionEnabled) {
+      return true;
+    }
+
     // Skip clicks with modifiers
     if (isClickedWithModifier(evt)) {
       return true;
@@ -69,7 +73,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (this.clickActivatesCell(view, target) || target.classList.contains(activeFieldClassName)) {
+    if (this.clickActivatesCell(view, target) || target.closest(`.${activeFieldClassName}`)) {
       debugLog('Skipping click on inner cell');
       return true;
     }

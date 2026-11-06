@@ -107,6 +107,12 @@ RSpec.describe(
     Pages::EmbeddedWorkPackagesTable.new(widget, table_name: title)
   end
 
+  def wait_for_rows(tables)
+    tables.each do |title, work_package|
+      report_table(title).treegrid.find(:role, "rowheader", accessible_name: work_package.subject, exact: true)
+    end
+  end
+
   def focus_report_row(table, work_package)
     table.row(work_package).execute_script("this.focus()")
     table.expect_focus_on_row(work_package)
@@ -115,6 +121,7 @@ RSpec.describe(
   shared_examples "accessible read-only sprint tables" do
     before do
       visit project_backlogs_sprint_report_path(project, sprint)
+      wait_for_rows(tables)
     end
 
     let(:tables) do
@@ -173,33 +180,47 @@ RSpec.describe(
       end
     end
 
-    it "keeps selection and native Tab walks local when two widgets share a record" do
+    it "marks each table read-only without selection semantics" do
+      tables.each_key do |title|
+        treegrid = report_table(title).treegrid
+
+        expect(treegrid).to match_selector(:table, role: "treegrid", accessible_name: title, exact: true)
+        expect(treegrid["aria-readonly"]).to eq("true")
+        expect(treegrid["aria-multiselectable"]).to be_nil
+        expect(treegrid).to have_selector(:role, "rowheader", minimum: 1)
+        expect(treegrid).to have_no_css("[aria-selected]")
+      end
+    end
+
+    it "moves focus without selecting when clicking or pressing selection keys" do
       completed = report_table("Completed work")
-      unfinished = report_table("Unfinished work")
-      increased = report_table("Scope increase after sprint start")
+      row = completed.row(added_and_completed)
+
+      row.find(:role, "rowheader", accessible_name: added_and_completed.subject, exact: true).click
+      completed.expect_focus_on_cell(added_and_completed, :subject)
 
       focus_report_row(completed, added_and_completed)
-      completed.press_keys(%i[shift space])
-      expect(completed.row(added_and_completed)).to match_selector(:row, aria: { selected: true })
-      expect(increased.row(added_and_completed)).to match_selector(:row, aria: { selected: false })
+      completed.press_keys(%i[shift space], %i[shift down])
+      expect(page).to have_no_css("[aria-selected]")
+      expect(page).to have_current_path(project_backlogs_sprint_report_path(project, sprint))
+    end
+
+    it "keeps native Tab walks local when two widgets share a record" do
+      completed = report_table("Completed work")
+      unfinished = report_table("Unfinished work")
+
+      focus_report_row(completed, added_and_completed)
+      completed.press_keys(:right)
+      completed.expect_focus_on_cell(added_and_completed, :id)
+      completed.press_keys(:left)
+      completed.expect_focus_on_row(added_and_completed)
+
       completed.press_keys(:tab)
       expect(completed.row(added_and_completed))
         .to have_selector(:link, accessible_name: added_and_completed.id.to_s, focused: true, exact: true)
       completed.press_keys(:tab)
       unfinished.expect_focus_on_row(kept)
       completed.expect_focus_outside_table
-
-      focus_report_row(increased, added_and_completed)
-      increased.press_keys(%i[shift space])
-      expect(increased.row(added_and_completed)).to match_selector(:row, aria: { selected: true })
-      increased.press_keys(%i[shift space])
-      expect(increased.row(added_and_completed)).to match_selector(:row, aria: { selected: false })
-      expect(completed.row(added_and_completed)).to match_selector(:row, aria: { selected: true })
-      focus_report_row(completed, added_and_completed)
-      completed.press_keys(:right)
-      completed.expect_focus_on_cell(added_and_completed, :id)
-      completed.press_keys(:left)
-      completed.expect_focus_on_row(added_and_completed)
     end
 
     it "opens the work package from its ID link without activating an editor" do

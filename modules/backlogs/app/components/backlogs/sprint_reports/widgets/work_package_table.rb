@@ -72,7 +72,8 @@ module Backlogs
             columnMenuEnabled: false,
             contextMenuEnabled: false,
             inlineCreateEnabled: false,
-            inlineEditEnabled: false
+            inlineEditEnabled: false,
+            selectionEnabled: false
           }
         end
 

@@ -58,6 +58,9 @@ export class WorkPackageTableConfiguration {
   /** Whether inline edit is enabled */
   public inlineEditEnabled = true;
 
+  /** Whether rows can be selected and activated as the current work package */
+  public selectionEnabled = true;
+
   /** Whether the hierarchy toggler item in the subject column is enabled */
   public hierarchyToggleEnabled = true;
 

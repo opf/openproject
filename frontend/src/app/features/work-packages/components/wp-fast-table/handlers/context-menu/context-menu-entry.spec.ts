@@ -182,6 +182,16 @@ describe('Context menu entry', () => {
     expect(opened).toHaveBeenCalledTimes(1);
   });
 
+  it('opens the menu for the row without selecting it when selection is disabled', async () => {
+    await harness.destroy();
+    await mount({ configuration: { contextMenuEnabled: true, selectionEnabled: false } });
+
+    expect(fireEvent.contextMenu(harness.row('1'))).toBe(false);
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual([]);
+    expect(menuTargets).toEqual([['1']]);
+  });
+
   it('keeps a batch selection and opens the menu for the whole batch', () => {
     harness.click('1');
     harness.click('2', { shiftKey: true });
