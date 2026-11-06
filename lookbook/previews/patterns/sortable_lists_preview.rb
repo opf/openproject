@@ -46,5 +46,14 @@ module Patterns
     def sibling_lists
       render_with_template
     end
+
+    # Chapters reorder among themselves, articles reorder within a chapter and
+    # move to another one. "Release notes" is `confined`: it reorders in its own
+    # chapter and every other article list refuses it. Persistence fails as in
+    # the other previews, so the rows roll back after each drop.
+    # @display min_height 440px
+    def nested_lists
+      render_with_template
+    end
   end
 end

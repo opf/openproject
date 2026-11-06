@@ -1,0 +1,123 @@
+<%
+  chapters = [
+    {
+      id: "getting-started",
+      name: "Getting started",
+      articles: [
+        { id: "install", name: "Install OpenProject" },
+        { id: "first-project", name: "Create your first project" }
+      ]
+    },
+    {
+      id: "daily-work",
+      name: "Daily work",
+      articles: [
+        { id: "work-packages", name: "Work with work packages" },
+        { id: "release-notes", name: "Release notes", mobility: "confined" }
+      ]
+    }
+  ]
+  move_url_templates = {
+    chapter: "/lookbook/sortable-lists-preview/chapters/{id}/drop",
+    article: "/lookbook/sortable-lists-preview/articles/{id}/drop"
+  }
+%>
+<div id="sortable-lists-preview-nested"
+     data-controller="sortable-lists"
+     data-sortable-lists-move-url-templates-value="<%= move_url_templates.to_json %>"
+     data-sortable-lists-sortable-lists--list-outlet="#sortable-lists-preview-nested [data-controller~='sortable-lists--list']"
+     data-sortable-lists-sortable-lists--item-outlet="#sortable-lists-preview-nested [data-controller~='sortable-lists--item']">
+  <%=
+    render(
+      Primer::Alpha::Stack.new(
+        gap: :normal,
+        data: {
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: "chapter",
+          sortable_lists__list_accepted_type_value: "chapter"
+        }
+      )
+    ) do
+      chapters.each do |chapter|
+        concat(
+          render(
+            Primer::Alpha::StackItem.new(
+              data: {
+                controller: "sortable-lists--item",
+                sortable_lists__item_id_value: chapter[:id],
+                sortable_lists__item_type_value: "chapter",
+                sortable_lists__item_label_value: chapter[:name]
+              }
+            )
+          ) do
+            render(
+              OpPrimer::BorderBoxListComponent.new(
+                container: "sortable-lists-preview-#{chapter[:id]}",
+                data: {
+                  controller: "sortable-lists--list",
+                  sortable_lists__list_type_value: "article",
+                  sortable_lists__list_accepted_type_value: "article",
+                  sortable_lists__list_id_value: chapter[:id],
+                  sortable_lists__list_name_value: chapter[:name],
+                  sortable_lists__item_target: "preview"
+                }
+              )
+            ) do |list|
+              list.with_header(
+                title: chapter[:name],
+                show_drag_handle: true,
+                drag_handle_arguments: { data: { sortable_lists__item_target: "handle" } }
+              ) do |header|
+                header.with_menu(button_arguments: { aria: { label: "Actions for #{chapter[:name]}" } }) do |menu|
+                  SortableLists::MoveMenu::DIRECTIONS.each do |move|
+                    menu.with_item(label: t(move.label), tag: :button, data: move.item_data) do |item|
+                      item.with_leading_visual_icon(icon: move.icon)
+                    end
+                  end
+                end
+              end
+
+              chapter[:articles].each do |article|
+                list.with_item(
+                  data: {
+                    controller: "sortable-lists--item",
+                    sortable_lists__item_id_value: article[:id],
+                    sortable_lists__item_type_value: "article",
+                    sortable_lists__item_label_value: article[:name],
+                    sortable_lists__item_mobility_value: article[:mobility]
+                  }.compact
+                ) do
+                  render(Primer::Box.new(display: :flex, align_items: :center)) do
+                    concat(
+                      render(
+                        Primer::OpenProject::DragHandle.new(
+                          classes: "handle",
+                          mr: 2,
+                          data: { sortable_lists__item_target: "handle" }
+                        )
+                      )
+                    )
+                    concat(render(Primer::Beta::Text.new(flex: 1)) { article[:name] })
+                    if article[:mobility] == "confined"
+                      concat(render(Primer::Beta::Label.new(scheme: :attention, mr: 2)) { "Confined" })
+                    end
+                    concat(
+                      render(Primer::Alpha::ActionMenu.new(anchor_align: :end)) do |menu|
+                        menu.with_show_button(icon: "kebab-horizontal", "aria-label": "Actions for #{article[:name]}", scheme: :invisible)
+                        SortableLists::MoveMenu::DIRECTIONS.each do |move|
+                          menu.with_item(label: t(move.label), tag: :button, data: move.item_data) do |item|
+                            item.with_leading_visual_icon(icon: move.icon)
+                          end
+                        end
+                      end
+                    )
+                  end
+                end
+              end
+            end
+          end
+        )
+      end
+    end
+  %>
+</div>
