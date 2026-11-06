@@ -33,6 +33,7 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
+      include WizardFlag
 
       DIALOG_ID = "type-projects-bulk-switch-confirm-dialog"
 
@@ -48,8 +49,6 @@ module WorkPackageTypes
       private
 
       attr_reader :variant, :target, :projects
-
-      def wizard_params = @wizard ? { wizard: true } : {}
 
       def form_arguments
         {

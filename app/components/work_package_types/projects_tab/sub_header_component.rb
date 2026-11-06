@@ -33,6 +33,7 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
+      include WizardFlag
 
       def initialize(type:, variant:, query:, wizard: false)
         super()
@@ -82,10 +83,6 @@ module WorkPackageTypes
       private
 
       attr_reader :type, :variant, :query
-
-      def wizard? = @wizard
-
-      def wizard_params = wizard? ? { wizard: true } : {}
 
       def add_path = new_variant_projects_link_path(variant, **wizard_params)
 

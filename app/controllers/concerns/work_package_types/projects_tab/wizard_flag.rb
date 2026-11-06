@@ -29,12 +29,20 @@
 
 module WorkPackageTypes
   module ProjectsTab
-    module WizardListing
+    module WizardFlag
       private
 
-      def listing_in_wizard? = params[:wizard].present?
+      def wizard? = @wizard
 
-      def wizard_params = listing_in_wizard? ? { wizard: true } : {}
+      def wizard_params = wizard? ? { wizard: true } : {}
+
+      module FromParams
+        include WizardFlag
+
+        private
+
+        def wizard? = params[:wizard].present?
+      end
     end
   end
 end

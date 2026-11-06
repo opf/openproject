@@ -33,6 +33,7 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
+      include WizardFlag
 
       DIALOG_ID = "type-projects-bulk-remove-dialog"
 
@@ -47,8 +48,6 @@ module WorkPackageTypes
       private
 
       attr_reader :variant, :projects
-
-      def wizard_params = @wizard ? { wizard: true } : {}
 
       def title = t("types.edit.projects.bulk_remove.title", type: variant.type.name)
 
