@@ -47,6 +47,7 @@ module Backlogs
 
         def render?
           sprint.date_range_set? &&
+            !project.estimation_unit_none? &&
             !project.allow_multiple_active_sprints? &&
             user_allowed?(:view_sprints)
         end
