@@ -129,5 +129,44 @@ RSpec.describe CalculatedValues::ErrorsHelper do
         expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
       end
     end
+
+    describe "multi value lists" do
+      it "includes the custom field name for a multi value list error" do
+        error.missing_custom_field_ids = [custom_field.id]
+
+        error.error_code = "ERROR_MULTI_VALUE_LIST"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.multi_value_list",
+                                                                       custom_field_name: custom_field.name))
+      end
+
+      it "when there are multiple fields affected, only includes the first custom field name" do
+        error.missing_custom_field_ids = [other_custom_field.id, custom_field.id]
+
+        error.error_code = "ERROR_MULTI_VALUE_LIST"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.multi_value_list",
+                                                                       custom_field_name: other_custom_field.name))
+      end
+
+      it "when there are no fields, it falls back to unknown error" do
+        error.missing_custom_field_ids = []
+
+        error.error_code = "ERROR_MULTI_VALUE_LIST"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
+      end
+
+      it "when custom field can't be found, it fallbacks to unknown error" do
+        error.missing_custom_field_ids = [0]
+
+        error.error_code = "ERROR_MULTI_VALUE_LIST"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
+      end
+
+      it "with unexpected disabled value, it fallbacks to unknown error" do
+        error.missing_custom_field_ids = [nil]
+
+        error.error_code = "ERROR_DISABLED_VALUE"
+        expect(subject.calculated_value_error_msg(error)).to eq(I18n.t("calculated_values.errors.unknown"))
+      end
+    end
   end
 end

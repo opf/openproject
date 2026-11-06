@@ -630,6 +630,23 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     end
   end
 
+  describe "#multi_value_lists_outside_aggregate_functions" do
+    let(:single) { create(:weighted_item_list_project_custom_field, multi_value: false) }
+    let(:multi) { create(:weighted_item_list_project_custom_field, multi_value: true) }
+
+    subject(:misused_lists_for) do
+      ->(formula) {
+        build_stubbed(:calculated_value_project_custom_field, formula:).multi_value_lists_outside_aggregate_functions
+      }
+    end
+
+    it { expect(misused_lists_for.("SUM(#{multi})")).to be_empty }
+    it { expect(misused_lists_for.("MUL(#{multi}, 2, #{single})")).to be_empty }
+    it { expect(misused_lists_for.("#{multi} * 2")).to contain_exactly(multi) }
+    it { expect(misused_lists_for.(multi.to_s)).to contain_exactly(multi) }
+    it { expect(misused_lists_for.("ROUND(#{multi})")).to contain_exactly(multi) }
+  end
+
   describe "validations" do
     shared_examples_for "valid formula" do
       it "is valid", :aggregate_failures do

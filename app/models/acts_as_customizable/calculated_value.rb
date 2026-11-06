@@ -44,11 +44,14 @@ module ActsAsCustomizable::CalculatedValue
       validate_custom_fields_for_calculation!(custom_fields)
 
       enabled_ids = enabled_custom_field_ids
+      enabled_fields = custom_fields.select { it.id.in?(enabled_ids) }
+
       given = calculated_value_fields_given(custom_fields:, enabled_ids:)
 
       calculate_custom_fields_result(
         given:,
-        to_compute: calculated_value_fields_to_compute(custom_fields:, enabled_ids:)
+        to_compute: calculated_value_fields_to_compute(enabled_fields),
+        formula_errors: formula_errors(enabled_fields)
       ) => { result:, errors: }
 
       self.custom_field_values = custom_fields.to_h { [it.id, result[it.column_name]] }
@@ -64,14 +67,22 @@ module ActsAsCustomizable::CalculatedValue
       end
     end
 
-    def calculate_custom_fields_result(given:, to_compute:)
+    def formula_errors(enabled_fields)
+      enabled_fields
+        .to_h { [it.column_name, it.multi_value_lists_outside_aggregate_functions] }
+        .reject { |_column_name, lists| lists.empty? }
+        .transform_values { CalculatedValues::MultiValueListError.new(it.map(&:id)) }
+    end
+
+    def calculate_custom_fields_result(given:, to_compute:, formula_errors:)
+      given, to_compute = exclude_formula_errors(given:, to_compute:, formula_errors:)
       calculator = CustomField::CalculatedValue.calculator_instance
       calculator.store(given)
 
       calculation = calculator.solve(to_compute, &:itself)
 
       result = {}
-      errors = {}
+      errors = formula_errors.dup
 
       calculation.each do |key, value|
         if CustomField::CalculatedValue.computed_value?(value)
@@ -85,6 +96,13 @@ module ActsAsCustomizable::CalculatedValue
       { result:, errors: }
     end
 
+    def exclude_formula_errors(given:, to_compute:, formula_errors:)
+      [
+        given.merge(formula_errors.transform_values { nil }),
+        to_compute.except(*formula_errors.keys)
+      ]
+    end
+
     def calculated_value_fields_given(custom_fields:, enabled_ids:)
       referenced_ids = custom_fields.flat_map(&:formula_referenced_custom_field_ids)
       given_ids = (enabled_ids & referenced_ids) - custom_fields.map(&:id)
@@ -95,10 +113,8 @@ module ActsAsCustomizable::CalculatedValue
         .to_h { |cf, cv| [cf.column_name, calculable_value(cf, cv)] }
     end
 
-    def calculated_value_fields_to_compute(custom_fields:, enabled_ids:)
-      custom_fields
-        .select { it.id.in?(enabled_ids) }
-        .to_h { [it.column_name, it.formula_str_without_patterns] }
+    def calculated_value_fields_to_compute(enabled_fields)
+      enabled_fields.to_h { [it.column_name, it.formula_str_without_patterns] }
     end
 
     def handle_calculation_errors!(given_cfs, enabled_ids, calculated_fields, result, errors)

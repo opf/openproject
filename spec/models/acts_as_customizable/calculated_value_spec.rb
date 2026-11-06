@@ -858,7 +858,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         end
       end
 
-      describe "when applying an arithmetic operation to a list" do
+      describe "when using a multi-value list outside an aggregation function" do
         let(:cf_list) { create(:weighted_item_list_project_custom_field, multi_value: true, projects: [project]) }
         let!(:cf_sum) do
           create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "SUM(#{cf_list})")
@@ -866,18 +866,30 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         let!(:cf_add) do
           create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "#{cf_list} + 0")
         end
+        let!(:cf_mul) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "MUL(#{cf_list} * 2)")
+        end
+        let!(:cf_chained) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "#{cf_add} + 2")
+        end
         let(:items) { [1.5, 2].map { create(:hierarchy_item, parent: cf_list.hierarchy_root, weight: it) } }
 
         before { items.each { create(:custom_value, customized: project, custom_field: cf_list, value: it) } }
 
-        it "reports an error for the arithmetic operation" do
-          project.calculate_custom_fields([cf_sum, cf_add])
+        it "reports an error and sets the result to nil" do
+          project.calculate_custom_fields([cf_sum, cf_add, cf_mul, cf_chained])
 
           expect(project.typed_custom_value_for(cf_sum)).to eq(3.5)
           expect_no_calculated_value_errors(cf_sum, project)
 
           expect(project.typed_custom_value_for(cf_add)).to be_nil
-          expect_calculated_value_error(cf_add, project, "ERROR_UNKNOWN")
+          expect_calculated_value_error(cf_add, project, "ERROR_MULTI_VALUE_LIST")
+
+          expect(project.typed_custom_value_for(cf_mul)).to be_nil
+          expect_calculated_value_error(cf_mul, project, "ERROR_MULTI_VALUE_LIST")
+
+          expect(project.typed_custom_value_for(cf_chained)).to be_nil
+          expect_calculated_value_error(cf_chained, project, "ERROR_MISSING_VALUE")
         end
       end
     end
