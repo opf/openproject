@@ -175,6 +175,27 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(offered_models(:semantic_search)).to include("qwen3.6-27b")
         expect(response.body).to include("no longer eligible for this feature")
       end
+
+      context "without pgvector" do
+        let(:warning) { "[data-test-selector='llm-feature-bindings--pgvector-unavailable']" }
+
+        before { allow(OpenProject::Llm::Pgvector).to receive(:available?).and_return(false) }
+
+        it "warns that semantic search is unavailable" do
+          get llm_feature_bindings_path
+
+          expect(page).to have_css(warning)
+          expect(page).to have_link(href: OpenProject::Llm::Pgvector::DOCS_URL)
+        end
+
+        it "does not warn when semantic search is switched off",
+           with_flag: { llm_connection: true, semantic_search: false } do
+          get llm_feature_bindings_path
+
+          expect(response.body).to include("Feature configuration")
+          expect(page).to have_no_css(warning)
+        end
+      end
     end
   end
 

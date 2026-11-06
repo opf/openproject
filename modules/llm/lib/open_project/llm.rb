@@ -30,6 +30,7 @@
 module OpenProject
   module Llm
     require "open_project/llm/features"
+    require "open_project/llm/pgvector"
     require "open_project/llm/engine"
   end
 end

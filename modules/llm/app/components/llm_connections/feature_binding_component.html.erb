@@ -5,6 +5,19 @@
     <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { feature.caption } %>
   <% end %>
 
+  <% if feature.embedding? && feature.enabled? && !feature.available? %>
+    <%= render(
+          Primer::Alpha::Banner.new(
+            scheme: :warning,
+            mb: 3,
+            icon: :alert,
+            test_selector: "llm-feature-bindings--pgvector-unavailable"
+          )
+        ) do %>
+      <%= link_translate("llm.pgvector.unavailable", links: { docs_url: OpenProject::Llm::Pgvector::DOCS_URL }) %>
+    <% end %>
+  <% end %>
+
   <% if dangling? %>
     <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 2, icon: :alert)) do %>
       <%= t("admin.llm_feature_bindings.dangling", model: binding.resolved_model_id) %>

@@ -86,6 +86,8 @@ sudo pg_restore --clean --if-exists --dbname $(sudo openproject config:get DATAB
 
 As the `pg_restore` tries to apply the username from the dumped database as the owner, you might see errors if you restoring to a database with a different username. In this case, please add `--no-owner` as a command line argument.
 
+If the backup uses [pgvector](../../system-requirements/#pgvector), install it on the database server before restoring.
+
 > **NOTE:** If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
 
 #### Troubleshooting
@@ -131,6 +133,7 @@ For Docker-based installations, assuming you have a backup as per the procedure 
 
 Let's assume you want to restore a database dump given in a file, say `openproject.sql`.
 Run the following commands from the directory that contains your `docker-compose.yml`, after you have started the stack at least once with `docker compose up -d`.
+If the dump uses [pgvector](../../system-requirements/#pgvector), your `db` service needs an image that includes it, such as `pgvector/pgvector:pg17-trixie`.
 
 > [!WARNING]
 > If the dump comes from an OpenProject version that is **more than one major release** behind the image used by Docker Compose, the `seeder` may crash-loop without a useful error.
@@ -250,10 +253,10 @@ This then has initialized the database under `/var/lib/openproject/pgdata` on yo
 
 #### 3) Restore the dump
 
-Now we can restore the database. For this we mount the initialized `pgdata` folder using the postgres docker container.
+Now we can restore the database. For this we mount the initialized `pgdata` folder using the `pgvector/pgvector` docker container, which is the official PostgreSQL image plus [pgvector](../../system-requirements/#pgvector).
 
 ```shell
-docker run --rm -d --name postgres -v /var/lib/openproject/pgdata:/var/lib/postgresql/data postgres:17
+docker run --rm -d --name postgres -v /var/lib/openproject/pgdata:/var/lib/postgresql/data pgvector/pgvector:pg17-trixie
 ```
 
 Once the container is ready you can copy your SQL dump onto it and start `psql`.

@@ -6,6 +6,9 @@ sidebar_navigation:
 
 # Configuring a custom database server
 
+> [!NOTE]
+> If you use your own database server, install [pgvector](../../system-requirements/#pgvector) on it to get access to all features.
+
 ## Package-based installation
 
 Simply run `sudo openproject reconfigure`, and when the database wizard is displayed, select the **Use an existing PostgreSQL database** option and fill in the required details ([cf the initial configuration section](../../installation/packaged/#step-2-postgresql-database-configuration)).

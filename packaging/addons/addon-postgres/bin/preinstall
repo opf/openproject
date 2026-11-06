@@ -9,6 +9,7 @@ ADDON_VERSION="v1"
 MSG_CONFLICTING_INSTALL="ERROR: It seems like you already have PostgreSQL installed. Please run '$APP_NAME reconfigure' and choose to use the existing installation instead."
 MSG_UNKNOWN_DISTRIBUTION_VERSION="ERROR: The current distribution is not supported by this wizard. Please install PostgreSQL manually and retry."
 MSG_CONNECTION_KO="ERROR: Connection KO. Aborting postgres installation. You should check the wizard configuration in /etc/$APP_NAME/installer.dat"
+MSG_PGVECTOR_FAILED="WARNING: Could not install pgvector. Features that depend on it stay disabled. See https://www.openproject.org/docs/installation-and-operations/system-requirements/#pgvector"
 
 PGHOST="$(wiz_get "postgres/db_host" || echo "127.0.0.1")"
 PGPORT="$(wiz_get "postgres/db_port" || echo "5432")"
@@ -171,6 +172,21 @@ function _configure_postgres_server() {
 	chown -R postgres:postgres $base_dir/conf.d
 }
 
+function _install_pgvector() {
+	local major
+	major="$(su - postgres -c "psql -p $PGPORT --no-readline -tAc \"SELECT current_setting('server_version_num')::int / 10000\"")" || { echo "$MSG_PGVECTOR_FAILED"; return 0; }
+
+	echo "INFO: Installing pgvector for PostgreSQL v${major}..."
+	case "$(wiz_fact "osfamily")" in
+		"debian")
+			wiz_check_package "postgresql-${major}-pgvector" || DEBIAN_FRONTEND=noninteractive apt-get install -y "postgresql-${major}-pgvector"
+			;;
+		"redhat")
+			wiz_check_package "pgvector_${major}" || yum install -y "pgvector_${major}"
+			;;
+	esac || echo "$MSG_PGVECTOR_FAILED"
+}
+
 function _configure_database_and_user() {
 	if su - postgres -c "createuser -p $PGPORT --createdb --login --superuser $PGUSER 2>&1 || true" | grep -q "already exists" ; then
 		echo "INFO: user $PGUSER already exists"
@@ -196,6 +212,7 @@ case "$(wiz_get "postgres/autoinstall")" in
 			wiz_set "postgres/addon_version" "$ADDON_VERSION"
 			_ensure_connection_ok
 		fi
+		_install_pgvector
 		;;
 	"reuse")
 		echo "INFO: autoinstall=reuse. Skipping to next step."

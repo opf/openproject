@@ -36,7 +36,7 @@ To upgrade to PostgreSQL 17, you need to override the default database image.
 #### Create `docker-compose.override.yml`
 
 Create a file named `docker-compose.override.yml` in the docker compose directory. 
-Replace the default PostgreSQL version with 17. 
+Replace the `db` service image with `pgvector/pgvector:pg17-trixie` which is the official PostgreSQL 17 image plus [pgvector](../../system-requirements/#pgvector).
 Also, define a new volume for the upgraded database to avoid overwriting the existing one.
 
 Here’s an example configuration:
@@ -47,7 +47,7 @@ volumes:
 
 services:
   db:
-    image: postgres:17
+    image: pgvector/pgvector:pg17-trixie
     volumes:
       - pgdata17:/var/lib/postgresql/data
 
@@ -120,15 +120,17 @@ docker run --rm -d --name postgres \
 -e LANG=C.UTF-8 \
 -e LC_ALL=C.UTF-8 \
 -v /var/lib/openproject/pgdata17:/var/lib/postgresql/data \
-postgres:17
+pgvector/pgvector:pg17-trixie
 ```
+
+The `pgvector/pgvector` image is the official PostgreSQL image plus [pgvector](../../system-requirements/#pgvector).
 
 ### 4. Create OpenProject user
 
 Connect to the new PostgreSQL 17 container and drop the `openproject` database:
 
 ```shell
-echo "CREATE USER openproject WITH PASSWORD 'openproject';" | docker exec -i postgres psql -U postgres
+echo "CREATE USER openproject WITH SUPERUSER PASSWORD 'openproject';" | docker exec -i postgres psql -U postgres
 ```
 
 ### 5. Create a New Database
@@ -208,18 +210,20 @@ sudo systemctl stop postgresql-13
 
 ### 4. Install PostgreSQL 17
 
+The commands below also install [pgvector](../../system-requirements/#pgvector).
+
 #### On Debian/Ubuntu
 
 ```shell
 sudo apt update
-sudo apt install postgresql-17
+sudo apt install postgresql-17 postgresql-17-pgvector
 sudo pg_createcluster 17 main --start
 ```
 
 #### On CentOS/RHEL
 
 ```shell
-sudo dnf install -y postgresql17-server postgresql17-contrib
+sudo dnf install -y postgresql17-server postgresql17-contrib pgvector_17
 sudo /usr/pgsql-17/bin/postgresql-17-setup initdb
 sudo systemctl enable --now postgresql-17
 ```
