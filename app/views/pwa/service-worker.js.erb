@@ -28,21 +28,590 @@ See COPYRIGHT and LICENSE files for more details.
 const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
 
 <% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
-const CACHE_NAME = <%== pwa_cache_name.to_json %>;
-const OFFLINE_URL = <%== pwa_offline_path.to_json %>;
+/*
+ * Service worker of the progressive web app.
+ *
+ *   - Offline fallback: navigations that cannot reach the server get a precached offline page.
+ *   - Push wake-ups: a push carries no content, so the worker fetches the unread summary and
+ *     renders one notification per work package.
+ *   - Notification clicks open or focus a window on the target page.
+ *   - Signing out, or an admin turning push off, clears every notification, the remembered state and the app badge.
+ *   - An open page asks the worker to reconcile, which closes notifications that are no longer
+ *     unread without showing or alerting anything.
+ *   - A page reporting a different signed-in user closes the previous user's notifications.
+ *
+ *   OpenProject --push--> push service --wake-up--> worker --GET push summary--> OpenProject
+ *   worker --show / close--> notifications, app badge
+ *   logout navigation --> worker --clears--> notifications, remembered state, app badge
+ */
+const Config = Object.freeze({
+  cache: { name: <%== pwa_cache_name.to_json %>, state: `${CACHE_PREFIX}push-state` },
+  urls: {
+    offline: <%== pwa_offline_path.to_json %>,
+    home: <%== root_path.to_json %>,
+    signOut: <%== signout_path.to_json %>,
+    push: <%== pwa_push_notification_path.to_json %>,
+  },
+  tags: {
+    prefix: "openproject-",
+    workPackage: /^openproject-(\d+)-wp-/,
+    placeholder: "openproject-unread",
+    nothingNew: "openproject-nothing-new",
+    more: "openproject-more",
+  },
+  push: {
+    fetchTimeoutMs: 10000,
+    signOutTimeoutMs: 10000,
+    fallbackTitle: <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>,
+    allReadTitle: <%== I18n.t("pwa.push.all_read_title", locale: Setting.default_language).to_json %>,
+    icon: <%== image_path("pwa/icon-192.png").to_json %>,
+  },
+});
 
-// An error status or a redirect fails the install, which keeps the previous worker.
-const precacheOfflinePage = async () => {
-  const response = await fetch(new Request(OFFLINE_URL, { credentials: "omit", cache: "reload" }));
-  if (!response.ok || response.redirected) throw new Error("Offline page unavailable");
+/**
+ * What the worker last showed, kept in the cache because the worker stops between pushes.
+ * Per notification tag it remembers the content fingerprint and the time of the latest activity.
+ */
+class PushState {
+  static get shownUrl() {
+    return `${Config.urls.push}?shown`;
+  }
 
-  const cache = await caches.open(CACHE_NAME);
-  await cache.put(OFFLINE_URL, response);
-};
+  static async read() {
+    const cache = await caches.open(Config.cache.state);
+    const stored = await cache.match(PushState.shownUrl);
+    return stored ? stored.json() : {};
+  }
+
+  static async write(state) {
+    const cache = await caches.open(Config.cache.state);
+    await cache.put(PushState.shownUrl, new Response(JSON.stringify(state), { headers: { "Content-Type": "application/json" } }));
+  }
+
+  static clear() {
+    return PushState.write({});
+  }
+}
+
+/**
+ * Decides what to show for an unread summary, without touching the browser.
+ *
+ * Each group is one work package. Compared with what was shown before, per group:
+ *
+ * ```
+ * new activity since last shown ............................ alert  (sound, renotify)
+ * else: open and its content changed, nothing but the
+ *       placeholder open, or it was evicted earlier ........ refresh (silent, same tag)
+ * else .................................................... skip
+ * ```
+ *
+ * Only the newest five groups are listed; the rest collapse into one "more" notification. A group
+ * that drops out of the list is closed and remembered as evicted, so it returns silently if it
+ * comes back. Groups are shown oldest first so the newest ends on top.
+ *
+ * A push must end with something visible: if nothing qualifies, the newest group is refreshed when
+ * it is open, otherwise a quiet "nothing new" notice shows, which does not bring dismissed groups
+ * back. The refresh is needed even when that notification is already on screen: Safari only counts
+ * a push that calls showNotification and drops every subscription of the site after three pushes
+ * that did not.
+ */
+class NotificationPlan {
+  static activityAt(group) {
+    return Number(group.revision.split(":")[1]) || 0;
+  }
+
+  static staleTags({ groups, more, openTags }) {
+    const keepTags = new Set(groups.map((group) => group.tag));
+    if (more) keepTags.add(Config.tags.more);
+    return openTags.filter((tag) => !keepTags.has(tag));
+  }
+
+  static isNewActivity(previous, at) {
+    return previous?.at === undefined || at > previous.at;
+  }
+
+  static needsRefresh({ group, previous, openTags }) {
+    const onlyPlaceholderOpen = openTags.length > 0 && openTags.every((tag) => tag === Config.tags.placeholder);
+    return (
+      onlyPlaceholderOpen || previous.evicted || (openTags.includes(group.tag) && previous.fingerprint !== group.fingerprint)
+    );
+  }
+
+  static evictedState(closeTags, state) {
+    const evicted = {};
+    closeTags
+      .filter((tag) => state[tag]?.at !== undefined)
+      .forEach((tag) => {
+        evicted[tag] = { ...state[tag], evicted: true };
+      });
+    return evicted;
+  }
+
+  static stateAfterClose({ closeTags, more, state }) {
+    const remaining = Object.fromEntries(Object.entries(state).filter(([tag]) => !closeTags.includes(tag)));
+    return more ? { ...remaining, ...NotificationPlan.evictedState(closeTags, state) } : remaining;
+  }
+
+  static for({ groups, more, openTags, state }) {
+    const closeTags = NotificationPlan.staleTags({ groups, more, openTags });
+    const nextState = {};
+    const show = [];
+
+    if (more) {
+      Object.assign(nextState, NotificationPlan.evictedState(closeTags, state));
+      nextState[Config.tags.more] = { fingerprint: more.fingerprint };
+      if (state[Config.tags.more]?.fingerprint !== more.fingerprint || !openTags.includes(Config.tags.more)) {
+        show.push({ kind: "more", more });
+      }
+    }
+
+    // Shown oldest first, so the newest ends on top.
+    for (const group of [...groups].reverse()) {
+      const previous = state[group.tag];
+      const at = NotificationPlan.activityAt(group);
+      nextState[group.tag] = { fingerprint: group.fingerprint, at: Math.max(at, previous?.at || 0) };
+
+      if (NotificationPlan.isNewActivity(previous, at)) {
+        show.push({ kind: "alert", group });
+      } else if (NotificationPlan.needsRefresh({ group, previous, openTags })) {
+        show.push({ kind: "refresh", group });
+      }
+    }
+
+    if (show.length === 0) {
+      show.push(openTags.includes(groups[0].tag) ? { kind: "refresh", group: groups[0] } : { kind: "nothingNew" });
+    }
+
+    return { show, state: more ? { ...state, ...nextState } : nextState };
+  }
+}
+
+/** Lists, closes and shows the worker's notifications; every tag carries the worker's prefix. */
+class Notifications {
+  static async listOpen() {
+    const notifications = await self.registration.getNotifications();
+    return notifications.filter((notification) => notification.tag.startsWith(Config.tags.prefix));
+  }
+
+  static ownerOf(tag) {
+    return tag.match(Config.tags.workPackage)?.[1];
+  }
+
+  static close(open, tags) {
+    open.filter((notification) => tags.includes(notification.tag)).forEach((notification) => notification.close());
+  }
+
+  static closeAll(open) {
+    open.forEach((notification) => notification.close());
+  }
+
+  static show(item) {
+    switch (item.kind) {
+      case "alert":
+        return Notifications.showGroup(item.group, { renotify: true });
+      case "refresh":
+        return Notifications.showGroup(item.group, { silent: true, renotify: false });
+      case "more":
+        return Notifications.showMore(item.more);
+      case "nothingNew":
+        return Notifications.showFallback(Config.tags.nothingNew);
+      default:
+        return Notifications.showFallback();
+    }
+  }
+
+  static showGroup(group, flags) {
+    return Notifications.display(group.title, {
+      tag: group.tag,
+      body: group.body,
+      data: { url: group.url, revision: group.revision },
+      ...flags,
+    });
+  }
+
+  static showMore(more) {
+    return Notifications.display(more.title, {
+      tag: Config.tags.more,
+      silent: true,
+      data: { url: more.url, revision: more.title },
+    });
+  }
+
+  static showFallback(tag = Config.tags.placeholder) {
+    return Notifications.display(Config.push.fallbackTitle, {
+      tag,
+      silent: true,
+      renotify: false,
+      data: { url: Config.urls.home, revision: "fallback" },
+    });
+  }
+
+  static showAllRead() {
+    return Notifications.display(Config.push.allReadTitle, {
+      tag: Config.tags.placeholder,
+      silent: true,
+      data: { url: Config.urls.home, revision: "all-read" },
+    });
+  }
+
+  static display(title, options) {
+    return self.registration.showNotification(title, { icon: Config.push.icon, ...options });
+  }
+}
+
+/** Fetches the unread summary with the user's session and reduces the response to one outcome. */
+class UnreadSummary {
+  static async fetch() {
+    try {
+      const response = await fetch(Config.urls.push, {
+        credentials: "include",
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+        signal: AbortSignal.timeout(Config.push.fetchTimeoutMs),
+      });
+      if (response.status === 401) return { outcome: "signedOut" };
+      if (response.status === 404) return { outcome: "pushOff" };
+      if (!response.ok) return { outcome: "unavailable" };
+
+      const data = await response.json();
+      if (!data) return { outcome: "unavailable" };
+      if (data.count === 0) return { outcome: "empty" };
+      return { outcome: "unread", count: data.count, groups: data.groups, more: data.more };
+    } catch {
+      return { outcome: "unavailable" };
+    }
+  }
+}
+
+class Badge {
+  static set(count) {
+    return navigator.setAppBadge?.(count).catch(() => undefined);
+  }
+
+  static clear() {
+    return navigator.clearAppBadge?.().catch(() => undefined);
+  }
+}
+
+/**
+ * Fingerprints what each notification shows, so the plan can tell whether an open notification
+ * is out of date. The fingerprint covers the activity revision, title and body; a change refreshes
+ * the notification silently, while only newer activity makes a sound.
+ */
+class NotificationFingerprint {
+  static async of(...parts) {
+    const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify(parts)));
+    return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  }
+
+  static async addTo({ groups, more }) {
+    return {
+      groups: await Promise.all(groups.map(async (group) => ({
+        ...group,
+        fingerprint: await NotificationFingerprint.of(group.revision, group.title, group.body || ""),
+      }))),
+      more: more && { ...more, fingerprint: await NotificationFingerprint.of(more.title) },
+    };
+  }
+}
+
+/**
+ * Turns push wake-ups into notifications and clears them on sign-out.
+ *
+ * Pushes run one at a time through a queue. Whatever goes wrong, a push ends in a visible
+ * notification; for a push that shows nothing Chrome shows a generic notice and Safari may
+ * revoke the subscription.
+ *
+ * ```
+ * push event ──► queue ──► GET push summary
+ *                            │
+ *                            ├─ signed out (401), push off (404)
+ *                            │               clear badge, close and forget all, fallback
+ *                            ├─ unavailable .. fallback
+ *                            ├─ empty ........ close and forget all, "all read", clear badge
+ *                            └─ unread ....... set badge
+ *                                              close notifications no longer listed
+ *                                              fingerprint groups ► plan ► show each item
+ *                                              save state
+ *
+ * any error on the way ► fallback
+ *
+ * logout navigation ──► bump sign-out generation, sign-out in progress
+ *                         ├─ clear now
+ *                         └─ response settled, or 10 s passed ► bump generation again, clear once
+ *                                               more behind any push (it may have re-shown some)
+ * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
+ *
+ * reconcile message ──► queue ──► none of its notifications open? stop
+ *                                  else GET push summary, same outcomes as a push except that
+ *                                  nothing is shown and "all read" is not announced; unavailable
+ *                                  does nothing; unread closes unlisted notifications (marked
+ *                                  evicted when more are collapsed), sets the badge, saves state
+ *
+ * account message ──► user differs from the last one this worker instance saw?
+ *                       yes: bump sign-out generation; close and forget every notification
+ *                            that is not this user's, including "more" and the placeholder;
+ *                            set the badge from this user's summary
+ *                       no (or first message since the worker started): close and forget only
+ *                            work package notifications of other users
+ * ```
+ */
+class PushHandler {
+  constructor() {
+    this.queue = Promise.resolve();
+    this.signOutGeneration = 0;
+    this.signOutsInProgress = 0;
+    this.accountId = undefined;
+    this.signOutPath = new URL(Config.urls.signOut, self.location.href).pathname;
+  }
+
+  isSignOut(request) {
+    return new URL(request.url).pathname === this.signOutPath;
+  }
+
+  static settled(navigation) {
+    let timer;
+    const timeout = new Promise((resolve) => {
+      timer = setTimeout(resolve, Config.push.signOutTimeoutMs);
+    });
+    return Promise.race([navigation.catch(() => undefined), timeout]).finally(() => clearTimeout(timer));
+  }
+
+  signOut(navigation) {
+    this.signOutGeneration += 1;
+    this.signOutsInProgress += 1;
+    const cleared = this.clearForSignOut().catch(() => undefined);
+    const clearedAfterSettled = PushHandler.settled(navigation).then(() => {
+      this.signOutGeneration += 1;
+      this.signOutsInProgress -= 1;
+      return this.enqueue(() => this.clearForSignOut());
+    });
+    return Promise.all([cleared, clearedAfterSettled]);
+  }
+
+  onPush(event) {
+    event.waitUntil(this.enqueue(() => this.showUnread()));
+  }
+
+  onMessage(event) {
+    const { type, userId } = event.data || {};
+    if (type === "reconcile") {
+      event.waitUntil(this.enqueue(() => this.reconcile()));
+    } else if (type === "account" && userId) {
+      event.waitUntil(this.switchAccount(String(userId)));
+    }
+  }
+
+  switchAccount(userId) {
+    const changed = this.accountId !== undefined && this.accountId !== userId;
+    if (changed) this.signOutGeneration += 1;
+    this.accountId = userId;
+    return this.enqueue(async () => {
+      await this.closeOtherAccounts(userId, changed);
+      if (changed) await this.refreshBadge();
+    });
+  }
+
+  enqueue(task) {
+    this.queue = this.queue.then(task, task).catch(() => undefined);
+    return this.queue;
+  }
+
+  async showUnread() {
+    try {
+      await this.render();
+    } catch {
+      await Notifications.showFallback();
+    }
+  }
+
+  async render() {
+    const generation = this.signOutGeneration;
+    const summary = await UnreadSummary.fetch();
+    if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return Notifications.showFallback();
+
+    switch (summary.outcome) {
+      case "signedOut":
+      case "pushOff":
+        await Badge.clear();
+        await this.closeAndForgetAll();
+        return Notifications.showFallback();
+      case "unavailable":
+        return Notifications.showFallback();
+      case "empty":
+        await this.closeAndForgetAll();
+        await Notifications.showAllRead();
+        return Badge.clear();
+      default:
+        await Badge.set(summary.count);
+        return this.showUnreadGroups(summary);
+    }
+  }
+
+  async reconcile() {
+    const generation = this.signOutGeneration;
+    if ((await Notifications.listOpen()).length === 0) return;
+
+    const summary = await UnreadSummary.fetch();
+    if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return;
+
+    switch (summary.outcome) {
+      case "signedOut":
+      case "pushOff":
+      case "empty":
+        await this.closeAndForgetAll();
+        return Badge.clear();
+      case "unavailable":
+        return;
+      default:
+        await Badge.set(summary.count);
+        return this.closeUnlisted(summary);
+    }
+  }
+
+  async refreshBadge() {
+    const generation = this.signOutGeneration;
+    const summary = await UnreadSummary.fetch();
+    if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return;
+    if (summary.outcome === "unavailable") return;
+
+    return summary.outcome === "unread" ? Badge.set(summary.count) : Badge.clear();
+  }
+
+  async closeStale({ groups, more }) {
+    const state = await PushState.read();
+    const open = await Notifications.listOpen();
+    const openTags = open.map((notification) => notification.tag);
+    const closeTags = NotificationPlan.staleTags({ groups, more, openTags });
+    Notifications.close(open, closeTags);
+    return { state, openTags, closeTags };
+  }
+
+  async closeUnlisted(summary) {
+    const { state, closeTags } = await this.closeStale(summary);
+    if (closeTags.length === 0) return;
+
+    await PushState.write(NotificationPlan.stateAfterClose({ closeTags, more: summary.more, state }));
+  }
+
+  async showUnreadGroups(summary) {
+    const { groups, more } = summary;
+    const { state, openTags } = await this.closeStale(summary);
+    if (groups.length === 0) return Notifications.showFallback();
+
+    const plan = NotificationPlan.for({ ...(await NotificationFingerprint.addTo({ groups, more })), openTags, state });
+    for (const item of plan.show) await Notifications.show(item);
+    await PushState.write(plan.state);
+  }
+
+  async closeAndForgetAll() {
+    Notifications.closeAll(await Notifications.listOpen());
+    await PushState.clear();
+  }
+
+  async closeOtherAccounts(userId, changed) {
+    const isOther = (tag) => {
+      const owner = Notifications.ownerOf(tag);
+      return owner === undefined ? changed : owner !== userId;
+    };
+    const open = await Notifications.listOpen();
+    Notifications.close(open, open.map((notification) => notification.tag).filter(isOther));
+
+    const state = await PushState.read();
+    const remembered = Object.entries(state).filter(([tag]) => !isOther(tag));
+    if (remembered.length !== Object.keys(state).length) await PushState.write(Object.fromEntries(remembered));
+  }
+
+  async clearForSignOut() {
+    await this.closeAndForgetAll();
+    await Badge.clear();
+  }
+}
+
+/** Focuses an existing controlled window of the app and opens a clicked notification's page there, or in a new one. */
+class NotificationClick {
+  static sameOriginUrl(url) {
+    const resolved = new URL(url, self.location.href);
+    return resolved.origin === self.location.origin ? resolved.href : new URL(Config.urls.home, self.location.href).href;
+  }
+
+  static async windowsInScope() {
+    const windows = await self.clients.matchAll({ type: "window" });
+    return windows.filter((candidate) => candidate.url.startsWith(self.registration.scope));
+  }
+
+  static async open(requestedUrl) {
+    const url = NotificationClick.sameOriginUrl(requestedUrl);
+    const clients = await NotificationClick.windowsInScope();
+
+    const client =
+      clients.find((candidate) => candidate.visibilityState === "visible" || candidate.focused) || clients[0];
+    if (!client) return self.clients.openWindow(url);
+
+    try {
+      await client.focus();
+      await client.navigate(url);
+    } catch {
+      return self.clients.openWindow(url);
+    }
+  }
+}
+
+/** Precaches the offline page on install and serves it when a navigation cannot reach the app. */
+class OfflinePage {
+  // An error status or a redirect fails the install, which keeps the previous worker.
+  static async precache() {
+    const response = await fetch(new Request(Config.urls.offline, { credentials: "omit", cache: "reload" }));
+    if (!response.ok || response.redirected) throw new Error("Offline page unavailable");
+
+    const cache = await caches.open(Config.cache.name);
+    await cache.put(Config.urls.offline, response);
+  }
+
+  static async deleteStaleCaches() {
+    for (const name of await caches.keys()) {
+      if (name.startsWith(CACHE_PREFIX) && name !== Config.cache.name && name !== Config.cache.state) await caches.delete(name);
+    }
+  }
+
+  // The URL stays the requested one so the offline page can retry it.
+  static respondTo(event) {
+    const { request } = event;
+    if (request.mode !== "navigate" || request.destination !== "document" || request.method !== "GET") return;
+
+    const response = OfflinePage.load(event);
+    event.respondWith(response);
+    return response;
+  }
+
+  static async load(event) {
+    let preloaded;
+    try {
+      preloaded = await event.preloadResponse;
+    } catch {
+      preloaded = undefined;
+    }
+
+    try {
+      return preloaded || (await fetch(event.request));
+    } catch {
+      const cache = await caches.open(Config.cache.name);
+      return (await cache.match(Config.urls.offline)) || Response.error();
+    }
+  }
+}
+
+/*****************************************************************************************
+ * BROWSER EVENTS
+ *
+ * The browser calls the worker only through these listeners: install, activate, fetch,
+ * push, notificationclick and message. Each one delegates to the classes above.
+ *****************************************************************************************/
+const pushHandler = new PushHandler();
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    precacheOfflinePage()
+    OfflinePage.precache()
       .catch((error) => {
         console.warn("Offline page could not be precached", error);
         throw error;
@@ -53,35 +622,27 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((names) =>
-        Promise.all(
-          names
-            .filter((name) => name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME)
-            .map((name) => caches.delete(name)),
-        ),
-      )
+    OfflinePage.deleteStaleCaches()
       .then(() => self.registration.navigationPreload?.enable())
       .then(() => self.clients.claim()),
   );
 });
 
-// The URL stays the requested one so the offline page can retry it.
+// Sign-out is detected on navigation because the worker is the only place that sees every logout, including SSO redirects.
 self.addEventListener("fetch", (event) => {
-  const { request } = event;
-  if (request.mode !== "navigate" || request.destination !== "document" || request.method !== "GET") return;
+  const response = OfflinePage.respondTo(event);
+  if (response && pushHandler.isSignOut(event.request)) {
+    event.waitUntil(pushHandler.signOut(response));
+  }
+});
 
-  event.respondWith(
-    (async () => {
-      try {
-        return (await event.preloadResponse) || (await fetch(request));
-      } catch {
-        const cache = await caches.open(CACHE_NAME);
-        return (await cache.match(OFFLINE_URL)) || Response.error();
-      }
-    })(),
-  );
+self.addEventListener("push", (event) => pushHandler.onPush(event));
+
+self.addEventListener("message", (event) => pushHandler.onMessage(event));
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(NotificationClick.open(event.notification.data?.url || Config.urls.home));
 });
 <% else %>
 self.addEventListener("install", (event) => {
