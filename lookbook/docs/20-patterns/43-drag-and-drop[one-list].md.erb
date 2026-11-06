@@ -119,6 +119,10 @@ drags, its `move` action just does nothing. The `moveDivider` target on the
 divider above the group lets the controller hide it together with the
 actions when none applies.
 
+The snippet spells the contract out; a component does not have to.
+`SortableLists::MoveMenu` holds the four directions with their labels and
+icons, and `with_move_items(menu)` renders them onto an open menu.
+
 Availability is recomputed every time the menu opens: the first row has no
 "up", the last no "down". Unavailable actions are hidden; set
 `data-sortable-lists--item-hide-unavailable-value="false"` on the row to
