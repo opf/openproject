@@ -233,6 +233,7 @@ module WorkPackageTypes
       NamedReferences::NameDialogComponent.new(record:,
                                                model_class: record.class,
                                                ask_copy_source: false,
+                                               creating: true,
                                                url:)
     end
 
