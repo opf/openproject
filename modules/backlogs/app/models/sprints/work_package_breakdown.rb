@@ -57,8 +57,8 @@ module Sprints
 
     def changed_after_start
       @changed_after_start ||= begin
-        added_story_points, removed_story_points = estimate_change(start_points, finish_points)
-        added_estimated_hours, removed_estimated_hours = estimate_change(start_hours, finish_hours)
+        added_story_points, removed_story_points = estimate_change(:story_points)
+        added_estimated_hours, removed_estimated_hours = estimate_change(:estimated_hours)
 
         ChangeBlock.new(
           added_count: added_after_start_ids.size,
@@ -82,11 +82,11 @@ module Sprints
     end
 
     def added_after_start_ids
-      @added_after_start_ids ||= finish_points.keys - start_points.keys
+      @added_after_start_ids ||= finish_ids - start_ids
     end
 
     def removed_after_start_ids
-      @removed_after_start_ids ||= start_points.keys - finish_points.keys
+      @removed_after_start_ids ||= start_ids - finish_ids
     end
 
     def done_status_ids
@@ -99,20 +99,16 @@ module Sprints
       @timeframe ||= Timeframe.new(@sprint)
     end
 
-    def start_points
-      @start_points ||= points_by_id(start_snapshots)
+    def start_ids
+      @start_ids ||= start_snapshots.map(&:work_package_id)
     end
 
-    def finish_points
-      @finish_points ||= points_by_id(finish_snapshots)
+    def finish_ids
+      @finish_ids ||= finish_snapshots.map(&:work_package_id)
     end
 
-    def start_hours
-      @start_hours ||= hours_by_id(start_snapshots)
-    end
-
-    def finish_hours
-      @finish_hours ||= hours_by_id(finish_snapshots)
+    def retained_ids
+      @retained_ids ||= start_ids & finish_ids
     end
 
     def start_snapshots
@@ -160,29 +156,23 @@ module Sprints
       )
     end
 
-    def points_by_id(snapshots)
-      snapshots.to_h { [it.work_package_id, it.story_points || 0] }
+    def values_by_id(snapshots, attribute)
+      snapshots.to_h { [it.work_package_id, it.public_send(attribute) || 0] }
     end
 
-    def hours_by_id(snapshots)
-      snapshots.to_h { [it.work_package_id, it.estimated_hours || 0] }
+    def sum_values(ids, values)
+      values.values_at(*ids).sum
     end
 
-    def sum_values(ids, values_by_id)
-      values_by_id.values_at(*ids).sum
-    end
-
-    def estimate_change(start_values, finish_values)
+    def estimate_change(attribute)
+      start_values = values_by_id(start_snapshots, attribute)
+      finish_values = values_by_id(finish_snapshots, attribute)
       increases, decreases = retained_deltas(start_values, finish_values).partition(&:positive?)
 
       [
         sum_values(added_after_start_ids, finish_values) + increases.sum,
         sum_values(removed_after_start_ids, start_values) - decreases.sum
       ]
-    end
-
-    def retained_ids
-      @retained_ids ||= start_points.keys & finish_points.keys
     end
 
     def retained_deltas(start_values, finish_values)
