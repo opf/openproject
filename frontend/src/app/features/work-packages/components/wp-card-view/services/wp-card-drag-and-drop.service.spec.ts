@@ -177,8 +177,9 @@ describe('WorkPackageCardDragAndDropService', () => {
     cdRef:{ detectChanges:ReturnType<typeof vi.fn> };
     cardView:{ updateRenderedCardsValues:ReturnType<typeof vi.fn> };
     onMoved:{ emit:ReturnType<typeof vi.fn> };
-    orderSaveFailed:{ emit:ReturnType<typeof vi.fn> };
+    queryRefreshRequested:{ emit:ReturnType<typeof vi.fn> };
     workPackageAddedHandler:ReturnType<typeof vi.fn>;
+    retainsCard?:() => boolean;
     orderIsMembership:boolean;
     resolvedListId:string;
   };
@@ -218,7 +219,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       cdRef: { detectChanges: vi.fn() },
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
-      orderSaveFailed: { emit: vi.fn() },
+      queryRefreshRequested: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
       orderIsMembership: false,
       resolvedListId: LIST_ID,
@@ -465,6 +466,43 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(updateOrderSpy).toHaveBeenCalledWith(['x'], expect.any(Number));
     });
 
+    it('keeps an ordinary action-board insert local after the attribute and order are saved', async () => {
+      seed('x');
+      service.workPackages = [];
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true });
+      service.handleDrop(buildDropEvent({ sourceId: 'x', sourceListId: 'source', targetId: null }));
+      await flush();
+
+      expect(cardView.queryRefreshRequested.emit).not.toHaveBeenCalled();
+      expect(apiV3ServiceStub.work_packages.id).not.toHaveBeenCalled();
+    });
+
+    it('refreshes a filtered destination only after its order is saved', async () => {
+      seed('x');
+      service.workPackages = [];
+      const orderSave = deferred<void>();
+      reorderServiceStub.add.mockReturnValue(orderSave.promise);
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true, needsQueryRefresh: () => true });
+      service.handleDrop(buildDropEvent({ sourceId: 'x', sourceListId: 'source', targetId: null }));
+      await flush();
+
+      expect(cardView.queryRefreshRequested.emit).not.toHaveBeenCalled();
+      orderSave.resolve();
+      await flush();
+      expect(cardView.queryRefreshRequested.emit).toHaveBeenCalledOnce();
+    });
+
+    it('restores the existing target position when an overlapping cross-list move fails', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['x', 'p', 'q'].map(buildWp);
+      cardView.workPackageAddedHandler.mockRejectedValue(new Error('save failed'));
+      service.handleDrop(buildDropEvent({ sourceId: 'x', sourceListId: 'source', targetId: 'q', edge: 'top' }));
+
+      expect(idsOf(service.workPackages)).toEqual(['p', 'x', 'q']);
+      await flush();
+      expect(idsOf(service.workPackages)).toEqual(['x', 'p', 'q']);
+    });
+
     it('inserts before/after the target item according to the edge', () => {
       seed('x', 'p', 'q');
       service.workPackages = ['p', 'q'].map(buildWp);
@@ -529,7 +567,7 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(idsOf(service.workPackages)).toEqual(['p', 'q']);
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
-      expect(cardView.orderSaveFailed.emit).not.toHaveBeenCalled();
+      expect(cardView.queryRefreshRequested.emit).not.toHaveBeenCalled();
       expect(complete).toHaveBeenCalledWith(false);
     });
 
@@ -549,7 +587,7 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(idsOf(service.workPackages)).toEqual(['p', 'x', 'q']);
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
-      expect(cardView.orderSaveFailed.emit).toHaveBeenCalled();
+      expect(cardView.queryRefreshRequested.emit).toHaveBeenCalled();
       expect(complete).toHaveBeenCalledWith(true);
     });
 
@@ -568,7 +606,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       rejectAdd(new Error('add persistence failed'));
       await flush();
 
-      expect(cardView.orderSaveFailed.emit).not.toHaveBeenCalled();
+      expect(cardView.queryRefreshRequested.emit).not.toHaveBeenCalled();
     });
 
     it('requests a reload when a same-order refresh landed before the order save failed', async () => {
@@ -586,7 +624,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       rejectAdd(new Error('add persistence failed'));
       await flush();
 
-      expect(cardView.orderSaveFailed.emit).toHaveBeenCalledOnce();
+      expect(cardView.queryRefreshRequested.emit).toHaveBeenCalledOnce();
     });
 
     it('does not roll back a failed add when a refresh changed the order meanwhile', async () => {
@@ -838,6 +876,28 @@ describe('WorkPackageCardDragAndDropService', () => {
       service.handleRemoved(event);
 
       expect(idsOf(service.workPackages)).toEqual(['b']);
+      expect(reorderServiceStub.removePersisted).not.toHaveBeenCalled();
+    });
+
+    it('keeps the source position when the saved card still matches this version', async () => {
+      cardView.retainsCard = () => true;
+      service.handleRemoved(buildRemovedEvent({ itemId: 'a', completion: Promise.resolve(true) }));
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['a', 'b']);
+      expect(reorderServiceStub.removePersisted).not.toHaveBeenCalled();
+    });
+
+    it('rechecks retained membership if new results arrived during the drop', async () => {
+      cardView.retainsCard = () => true;
+      const completion = deferred<boolean>();
+      service.handleRemoved(buildRemovedEvent({ itemId: 'a', completion: completion.promise }));
+      service.workPackages = [buildWp('b')];
+      completion.resolve(true);
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['b']);
+      expect(cardView.queryRefreshRequested.emit).toHaveBeenCalledOnce();
       expect(reorderServiceStub.removePersisted).not.toHaveBeenCalled();
     });
 
@@ -1108,7 +1168,7 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
       cdRef: { detectChanges: () => { listHost.resync(); fixture.detectChanges(); } },
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
-      orderSaveFailed: { emit: vi.fn() },
+      queryRefreshRequested: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue(true),
       resolvedListId: listHost.listId(),
     } as unknown as WorkPackageCardViewComponent);

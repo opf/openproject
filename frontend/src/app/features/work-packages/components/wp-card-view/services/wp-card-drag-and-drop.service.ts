@@ -36,7 +36,7 @@ import type {
   SortableListsDropEvent,
   SortableListsRemovedEvent,
 } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
-import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import { type WorkPackageAddedResult, WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -219,6 +219,15 @@ export class WorkPackageCardDragAndDropService {
 
     void event.completion
       .then(async (ok) => {
+        const saved = this.states.workPackages.get(event.itemId).value;
+        if (ok && saved && this.cardView.retainsCard?.(saved)) {
+          if (this.stillAt(revision, optimistic)) {
+            this.applyLocalOrder(before);
+          } else if (!this.destroyed && !this.currentOrder.includes(event.itemId)) {
+            this.cardView.queryRefreshRequested.emit();
+          }
+          return;
+        }
         if (ok) {
           // Target succeeded: persist the removal here; a failure here does not
           // undo the target's already-completed insert.
@@ -276,7 +285,10 @@ export class WorkPackageCardDragAndDropService {
         return;
       }
 
-      const toIndex = this.insertionIndexFor(this.currentOrder, event.targetId, event.edge);
+      const order = this.currentOrder;
+      const toIndex = event.targetId === event.sourceId
+        ? order.indexOf(event.sourceId)
+        : this.insertionIndexFor(order.filter((id) => id !== event.sourceId), event.targetId, event.edge);
       void this
         .addWorkPackageToQuery(workPackage, toIndex, true)
         .then((success) => event.complete(success))
@@ -357,14 +369,15 @@ export class WorkPackageCardDragAndDropService {
    */
   async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex = -1, optimistic = false):Promise<boolean> {
     const insertionOrder = () => {
-      const before = this.currentOrder.filter((id) => id !== workPackage.id);
-      const insertIndex = toIndex === -1 ? before.length : toIndex;
-      const after = [...before];
+      const before = this.currentOrder;
+      const others = before.filter((id) => id !== workPackage.id);
+      const insertIndex = toIndex === -1 ? others.length : Math.min(toIndex, others.length);
+      const after = [...others];
       after.splice(insertIndex, 0, workPackage.id!);
 
-      return { before, after, insertIndex };
+      return { before, others, after, insertIndex };
     };
-    let { before, after, insertIndex } = insertionOrder();
+    let { before, others, after, insertIndex } = insertionOrder();
 
     this.states.workPackages.get(workPackage.id!).putValue(workPackage);
     if (optimistic) {
@@ -372,12 +385,13 @@ export class WorkPackageCardDragAndDropService {
     }
     let revision = this.orderRevision;
     let membershipPersisted:boolean;
+    let needsQueryRefresh:WorkPackageAddedResult['needsQueryRefresh'];
 
     try {
       const result = await this.cardView.workPackageAddedHandler(workPackage);
-      membershipPersisted = result.membershipPersisted;
+      ({ membershipPersisted, needsQueryRefresh } = result);
       if (!optimistic) {
-        ({ before, after, insertIndex } = insertionOrder());
+        ({ before, others, after, insertIndex } = insertionOrder());
         this.applyLocalOrder(after);
         revision = this.orderRevision;
       }
@@ -390,17 +404,19 @@ export class WorkPackageCardDragAndDropService {
     }
 
     try {
-      // Defensive copy: `add` mutates its `order` arg in place, and `before`
-      // is the rollback reference on failure below.
-      await this.reorderService.add([...before], workPackage.id!, insertIndex);
-      void this.updateOrder(after, revision);
+      await this.reorderService.add(others, workPackage.id!, insertIndex);
+      if (!this.destroyed && needsQueryRefresh?.()) {
+        this.cardView.queryRefreshRequested.emit();
+      } else if (!membershipPersisted) {
+        void this.updateOrder(after, revision);
+      }
       return true;
     } catch (e) {
       this.notificationService.handleRawError(e, workPackage);
       if (membershipPersisted) {
         // Not `stillAt`: a same-order refresh bumps the revision without saving the position.
-        if (!this.destroyed && this.currentOrderEquals(after)) {
-          this.cardView.orderSaveFailed.emit();
+        if (!this.destroyed && (this.currentOrderEquals(after) || needsQueryRefresh?.())) {
+          this.cardView.queryRefreshRequested.emit();
         }
       } else if (this.stillAt(revision, after)) {
         this.applyLocalOrder(before);

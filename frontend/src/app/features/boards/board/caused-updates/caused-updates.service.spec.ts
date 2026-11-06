@@ -37,13 +37,13 @@ describe('CausedUpdatesService', () => {
     service = new CausedUpdatesService();
   });
 
-  it('recognises an update to a board list query in the polled query', () => {
+  it('recognizes an update to a board list query in the polled query', () => {
     service.add(query('/api/v3/queries/2552?columns%5B%5D=id&pageSize=500'));
 
     expect(service.includes(query('/api/v3/queries/2552'))).toBe(true);
   });
 
-  it('does not recognise a later update of the same query', () => {
+  it('does not recognize a later update of the same query', () => {
     service.add(query('/api/v3/queries/2552'));
 
     expect(service.includes(query('/api/v3/queries/2552', '2026-10-21T06:26:03.000Z'))).toBe(false);
