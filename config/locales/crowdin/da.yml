@@ -1692,7 +1692,7 @@ da:
           JiraCreateUsersJob:
             title: Opret brugere
           JiraDownloadProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
+            title: Hent vedhæftede filer til arbejdspakker for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Hent brugerdefinerede felter
           JiraFetchIssueTypesJob:
@@ -3868,8 +3868,8 @@ da:
         migrated: fra Jira
         set_with_diff: "%{field} angivet (%{link})"
       label_deleted:
-        one: "%{label_names} was deleted"
-        other: "%{label_names} were deleted"
+        one: "%{label_names} er slettet"
+        other: "%{label_names} er slettet"
       meeting_cancelled: "(aflyst)"
       meeting_deleted: "(slettet)"
       meeting_series_backlog_html: backlog for mødeserien %{link}
@@ -3915,7 +3915,7 @@ da:
       default_attribute_written: Skrivebeskyttede attributter skrevet
       forum_message_html: "<strong>Oprettet ud fra meddelelse i forum</strong> %{message_information}"
       import: Importeret
-      label_deleted: 'Label removed:'
+      label_deleted: 'Mærkat fjernet:'
       meeting_agenda_item_added_html: "<strong>Tilføjet til mødet</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Tilføjet til</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Drøftet på mødet</strong> %{meeting_title_information}"
