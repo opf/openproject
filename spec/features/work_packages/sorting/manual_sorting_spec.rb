@@ -348,8 +348,10 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
   describe "move actions in the context menu", selenium: false do
     let(:context_menu) { Components::WorkPackages::ContextMenu.new }
     let(:sort_criteria) { [[:manual_sorting, "asc"]] }
+    let(:show_hierarchies) { false }
+    let(:group_by) { nil }
     let!(:query) do
-      create(:query, user:, project:, show_hierarchies: false).tap do |q|
+      create(:query, user:, project:, show_hierarchies:, group_by:).tap do |q|
         q.sort_criteria = sort_criteria
         q.save!
       end
@@ -410,6 +412,38 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
         expect(page).to have_menuitem("Move to top", disabled: true)
         expect(page).to have_menuitem("Move down", disabled: false)
         expect(page).to have_menuitem("Move to bottom", disabled: false)
+      end
+    end
+
+    context "when grouped by type" do
+      let(:group_by) { "type" }
+
+      it "moves within the group and keeps the work package type" do
+        open_menu_by_keyboard(work_package2)
+        context_menu.choose_in_submenu "Move", "Move to top"
+
+        wp_table.expect_work_package_order work_package2, work_package1, work_package3, work_package4
+        wp_table.expect_focus_on_row(work_package2)
+        expect(work_package2.reload.type).to eq(type_task)
+        wp_table.visit_query query
+        wp_table.expect_work_package_order work_package2, work_package1, work_package3, work_package4
+      end
+    end
+
+    context "when displaying a hierarchy" do
+      let(:show_hierarchies) { true }
+      let(:work_package3) { create(:work_package, subject: "WP3", project:, type: type_bug) }
+
+      it "moves a root with its descendants and preserves parents after reloading" do
+        open_menu_by_keyboard(work_package1)
+        context_menu.choose_in_submenu "Move", "Move down"
+
+        wp_table.expect_work_package_order work_package3, work_package4, work_package1, work_package2
+        wp_table.expect_focus_on_row(work_package1)
+        expect(work_package1.reload.parent).to be_nil
+        expect(work_package2.reload.parent).to eq(work_package1)
+        wp_table.visit_query query
+        wp_table.expect_work_package_order work_package3, work_package4, work_package1, work_package2
       end
     end
 

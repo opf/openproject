@@ -41,7 +41,7 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QUERY_SORT_BY_ASC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
+import { PreparedQueryOrder, WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -51,11 +51,15 @@ import { locateTableRow } from 'core-app/features/work-packages/components/wp-fa
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageTable } from '../../wp-fast-table';
+import type { PrimaryRenderPass } from '../../builders/primary-render-pass';
+import { wpOccurrenceKey } from '../../rendered-occurrence-ledger';
 import { selectionGesture } from './selection-feedback';
 import type { MoveDirection, RowMover } from './row-mover';
 import { firstValueFrom } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { announce } from '@primer/live-region-element';
+
+const maxPrepareAttempts = 5;
 
 type MoveOutcome = 'moved'|'unchanged'|'abandoned';
 
@@ -163,31 +167,118 @@ export class DragAndDropTransformer implements RowMover {
   }
 
   public movableDirections(workPackageId:string):ReadonlySet<MoveDirection>|null {
+    const directions = this.directionsFor(workPackageId);
+    return directions && this.moveInFlight ? new Set() : directions;
+  }
+
+  private directionsFor(workPackageId:string):Set<MoveDirection>|null {
     const query = this.querySpace.query.value;
-    const order = this.currentOrder;
+    const order = this.menuOrder(workPackageId);
     const index = order.indexOf(workPackageId);
     if (!query || index === -1 || !this.canMoveRows(query)) return null;
 
     const directions = new Set<MoveDirection>();
-    if (this.moveInFlight) return directions;
     if (index > 0) directions.add('top').add('up');
     if (index < order.length - 1) directions.add('down').add('bottom');
     return directions;
   }
 
   public move(workPackageId:string, direction:MoveDirection):void {
-    if (!this.movableDirections(workPackageId)?.has(direction)) return;
+    const query = this.querySpace.query.value;
+    if (!query || !this.movableDirections(workPackageId)?.has(direction)) return;
+    if (this.wpTableGroupBy.isEnabled || this.wpTableHierarchies.isEnabled) {
+      void this.moveWithinPeers(workPackageId, direction, query);
+      return;
+    }
     const intent = this.intentFor(workPackageId, direction);
     if (!intent) return;
 
-    const query = this.querySpace.query.value;
     void this.performMove(intent, () => undefined).then((outcome) => {
       if (outcome === 'moved') this.announceMove(workPackageId, query);
     });
   }
 
+  private menuOrder(workPackageId:string):string[] {
+    const table = this.table;
+    if (this.wpTableGroupBy.isEnabled) {
+      const groups = new Map<string, string>();
+      let group:string|undefined;
+      for (const row of table.ledger.occurrences) {
+        if (row.kind === 'groupHeader') group = row.key;
+        if (group && row.workPackageId && row.key === wpOccurrenceKey(row.workPackageId)) {
+          groups.set(row.workPackageId, group);
+        }
+      }
+      const sourceGroup = groups.get(workPackageId);
+      return sourceGroup ? table.originalRows.filter((id) => groups.get(id) === sourceGroup) : [];
+    }
+    if (this.wpTableHierarchies.isEnabled) {
+      if (!table.originalRowIndex[workPackageId]) return [];
+      const parentOf = (id:string) => table.originalRowIndex[id].object.getAncestors().at(-1)?.id;
+      const parent = parentOf(workPackageId);
+      return table.originalRows.filter((id) => parentOf(id) === parent);
+    }
+    return this.currentOrder;
+  }
+
+  private async moveWithinPeers(workPackageId:string, direction:MoveDirection, query:QueryResource):Promise<void> {
+    const table = this.table;
+    const isCurrent = () => !table.destroyed && this.querySpace.query.value === query;
+    this.moveInFlight = true;
+    try {
+      let attempt = await this.preparePeerMove(workPackageId, direction, query, isCurrent);
+      for (let tries = 1; attempt && isCurrent() && this.renderedSince(attempt.renderPass) && tries < maxPrepareAttempts; tries++) {
+        await table.whenRendered();
+        attempt = isCurrent() ? await this.preparePeerMove(workPackageId, direction, query, isCurrent) : null;
+      }
+      if (!attempt || !isCurrent() || this.renderedSince(attempt.renderPass) || !this.canMoveRows(query)) return;
+      const { prepared } = attempt;
+      await prepared.persist();
+      if (!isCurrent()) return;
+      await table.whenRendered();
+      if (!isCurrent() || !this.canMoveRows(query)) return;
+
+      const currentPeers = new Set(this.menuOrder(workPackageId));
+      const orderedPeers = prepared.order.filter((id) => currentPeers.has(id));
+      if (!orderedPeers.includes(workPackageId)) return;
+      const slots = new Set(orderedPeers);
+      let nextPeer = 0;
+      const resources = table.originalRows.map((id) => {
+        const reorderedId = slots.has(id) ? orderedPeers[nextPeer++] : id;
+        return table.originalRowIndex[reorderedId].object;
+      });
+      table.initialSetup(resources);
+      await table.whenRendered();
+      this.announceMove(workPackageId, query);
+    } catch (error:unknown) {
+      if (!table.destroyed) this.halNotification.handleRawError(error);
+    } finally {
+      this.moveInFlight = false;
+    }
+  }
+
+  /** Prepares against the rows as rendered now; a render that lands meanwhile makes the result stale. */
+  private async preparePeerMove(
+    workPackageId:string,
+    direction:MoveDirection,
+    query:QueryResource,
+    isCurrent:() => boolean,
+  ):Promise<{ prepared:PreparedQueryOrder, renderPass:PrimaryRenderPass|null }|null> {
+    if (!this.directionsFor(workPackageId)?.has(direction)) return null;
+    const order = this.menuOrder(workPackageId);
+    const index = order.indexOf(workPackageId);
+    const targets = { top: 0, up: index - 1, down: index + 1, bottom: order.length - 1 } satisfies Record<MoveDirection, number>;
+    const renderPass = this.table.lastRenderPass;
+    const prepared = await this.wpTableOrder.prepareMove(query, order, workPackageId, targets[direction], isCurrent);
+    return { prepared, renderPass };
+  }
+
+  private renderedSince(renderPass:PrimaryRenderPass|null):boolean {
+    return this.table.hasPendingRender || this.table.lastRenderPass !== renderPass;
+  }
+
   private intentFor(workPackageId:string, direction:MoveDirection):DragIntent|null {
-    const order = this.currentOrder;
+    const order = this.menuOrder(workPackageId);
     const index = order.indexOf(workPackageId);
     const targets:Record<MoveDirection, [string|undefined, Edge]> = {
       top: [order[0], 'top'],
@@ -201,7 +292,7 @@ export class DragAndDropTransformer implements RowMover {
 
   private announceMove(workPackageId:string, query:QueryResource|undefined):void {
     if (this.table.destroyed || this.querySpace.query.value !== query) return;
-    const order = this.currentOrder;
+    const order = this.menuOrder(workPackageId);
     const index = order.indexOf(workPackageId);
     if (index === -1) return;
 
@@ -219,8 +310,6 @@ export class DragAndDropTransformer implements RowMover {
     return this.table.configuration.dragAndDropEnabled
       && this.wpTableSortBy.isManualSortingMode
       && this.wpTableSortBy.current[0].direction.href === QUERY_SORT_BY_ASC
-      && !this.wpTableGroupBy.isEnabled
-      && !this.wpTableHierarchies.isEnabled
       && (isNewResource(query) || !!query.updateOrderedWorkPackages);
   }
 
