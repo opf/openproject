@@ -136,6 +136,14 @@ module OpenProject::Llm
       OpenProject::Llm::Hooks
     end
 
+    initializer "openproject_llm.event_subscriptions" do
+      Rails.application.config.after_initialize do
+        OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
+          Llm::WorkPackages::RefreshEmbedding.call(payload[:journal])
+        end
+      end
+    end
+
     config.to_prepare do
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::SemanticSearchFilter
