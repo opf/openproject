@@ -69,6 +69,15 @@ RSpec.describe OpenProject::Llm::Pgvector do
       expect(described_class.enable).to be_nil
     end
 
+    it "probes in a rolled-back transaction so the rake task does not install the extension" do
+      probe = nil
+      allow(connection).to receive(:transaction).with(requires_new: true) { |&block| probe = block }
+
+      described_class.enable
+
+      expect { probe.call }.to raise_error(ActiveRecord::Rollback)
+    end
+
     it "reports if pgvector is unavailable" do
       allow(described_class).to receive(:extension_available?).and_return(false)
 
