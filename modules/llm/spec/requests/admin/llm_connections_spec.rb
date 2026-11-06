@@ -113,22 +113,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(response.body).not_to include("llm-settings--tabs")
       end
 
-      it "points at no tab while the connection is disabled" do
+      it "shows the shared header description while the connection is disabled" do
         create(:llm_connection, base_url:)
 
         get llm_connection_path
 
-        expect(response.body).to include("Connect OpenProject to an LLM server")
-        expect(response.body).not_to include("review the models offered by the server")
+        expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
       end
 
-      it "points at the Models tab once the features are on",
+      it "shows the shared header description once the features are on",
          with_settings: { llm_features_enabled: true } do
         create(:llm_connection, base_url:)
 
         get llm_connection_path
 
-        expect(response.body).to include("review the models offered by the server")
+        expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
         expect(page).to have_css("a[href='#{llm_models_path}']", text: "Models")
       end
 
