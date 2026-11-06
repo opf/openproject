@@ -193,7 +193,7 @@ module LlmConnections
 
           edit_item(menu)
           menu.with_divider
-          active? ? locked_delete_item(menu) : delete_item(menu)
+          delete_item(menu)
         end
       end
 
@@ -208,24 +208,40 @@ module LlmConnections
         end
       end
 
-      def locked_delete_item(menu)
-        menu.with_item(label: I18n.t("admin.semantic_indexes.menu.delete"), disabled: true) do |item|
-          item.with_leading_visual_icon(icon: :trash)
-          item.with_description { I18n.t("admin.semantic_indexes.menu.locked_while_active") }
-        end
-      end
+      def delete_locked? = active? || semantic_index.indexing?
 
       def delete_item(menu)
+        return locked_delete_item(menu) if delete_locked?
+
         menu.with_item(
           label: I18n.t("admin.semantic_indexes.menu.delete"),
           tag: :a,
           href: deletion_dialog_semantic_index_path(semantic_index),
-          scheme: semantic_index.indexing? ? :default : :danger,
-          disabled: semantic_index.indexing?,
+          scheme: :danger,
           content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end
+      end
+
+      def locked_delete_item(menu)
+        menu.with_item(
+          label: I18n.t("admin.semantic_indexes.menu.delete"),
+          tag: :a,
+          href: deletion_dialog_semantic_index_path(semantic_index),
+          scheme: :default,
+          disabled: true,
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+          item.with_tooltip(text: locked_delete_tooltip)
+        end
+      end
+
+      def locked_delete_tooltip
+        return I18n.t("admin.semantic_indexes.menu.locked_while_active") if active?
+
+        I18n.t("admin.semantic_indexes.menu.locked_while_indexing")
       end
     end
   end
