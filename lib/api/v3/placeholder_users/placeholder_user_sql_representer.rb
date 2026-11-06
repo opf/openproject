@@ -48,6 +48,12 @@ module API
 
         property :email,
                  column: :mail
+
+        property :login,
+                 representation: ->(*) { "NULL" }
+
+        property :admin,
+                 representation: ->(*) { "false" }
       end
     end
   end

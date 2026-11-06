@@ -109,9 +109,42 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
 
 // Mentions autocomplete
 .ck-list__item .mention-list-item
-  display: block
+  display: flex
+  align-items: center
+  gap: 10px
   max-width: 400px
-  @include text-shortener
+  width: 100%
+
+  .op-mention-avatar
+    width: 32px
+    height: 32px
+    min-width: 32px
+    max-width: 32px
+    border-radius: 50%
+    object-fit: cover
+    flex-shrink: 0
+
+  .op-mention-info
+    display: flex
+    flex-direction: column
+    flex: 1
+    min-width: 0
+
+    .op-mention-name
+      @include text-shortener
+      font-weight: 600
+      font-size: 13px
+
+    .op-mention-handle
+      font-size: 11px
+      color: var(--fgColor-muted)
+
+  .op-mention-role-badge
+    font-size: 10px
+    padding: 2px 7px
+    border-radius: 4px
+    border: 1px solid var(--borderColor-default)
+    font-family: monospace, sans-serif
 
 // Document editor styles
 .document-editor
