@@ -86,10 +86,10 @@ da:
     button_add_type: Type
     collaboration_token:
       errors:
-        collaboration_disabled: Real-time collaboration is not enabled.
-        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
-        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
-        not_collaborative: The document does not support real-time collaboration.
+        collaboration_disabled: Samarbejde i realtid er ikke aktiveret.
+        collaboration_token_not_allowed: Anmodninger, der er godkendt med et samarbejdstoken, kan ikke anmode om nye samarbejdstokens.
+        invalid_previous_token: Det forrige samarbejdstoken er ugyldigt, allerede tilbagekaldt eller hører ikke til dette dokument og denne bruger.
+        not_collaborative: Dokumentet understøtter ikke samarbejde i realtid.
     delete_dialog:
       confirmation_message_html: Dokumentet og alle vedhæftede filer slettes permanent. Er du sikker på, at du vil gøre det?
       heading: Vil du slette dokumentet?
