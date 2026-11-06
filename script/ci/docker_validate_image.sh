@@ -112,7 +112,7 @@ ls /app/public/assets/frontend/*.js >/dev/null 2>&1 || {
   exit 1
 }
 
-for plugin_dir in budgets costs documents github_integration gitlab_integration meeting; do
+for plugin_dir in budgets costs documents github_integration gitlab_integration meeting squashtm_integration; do
   [ -d "/app/modules/${plugin_dir}/frontend/module" ] || {
     echo "Expected plugin frontend module directory '/app/modules/${plugin_dir}/frontend/module'"
     exit 1

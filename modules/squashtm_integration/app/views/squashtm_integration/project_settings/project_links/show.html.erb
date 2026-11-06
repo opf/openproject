@@ -1,0 +1,80 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_project_settings), t(:project_module_squashtm) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:project_module_squashtm) }
+    header.with_description { t(".description") }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       { href: project_settings_general_path(@project.id), text: t(:label_project_settings) },
+       t(:project_module_squashtm)]
+    )
+  end
+%>
+
+<%=
+  render(
+    SquashTMIntegration::ProjectSettings::StatusBannerComponent.new(
+      server: @server, project_link: @project_link, squashtm_projects: @squashtm_projects
+    )
+  )
+%>
+
+<% if @project_link.errors[:base].any? %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, mb: 3)) { @project_link.errors.full_messages_for(:base).to_sentence } %>
+<% end %>
+
+<% if @project_link.persisted? %>
+  <%=
+    render(
+      SquashTMIntegration::ProjectSettings::LinkedProjectComponent.new(
+        project: @project, project_link: @project_link, server: @server
+      )
+    )
+  %>
+<% elsif @server.nil? %>
+  <%=
+    render(Primer::Beta::Text.new(tag: :p, color: :subtle)) do
+      t(".not_linked")
+    end
+  %>
+<% elsif @squashtm_projects %>
+  <%=
+    primer_form_with(
+      model: @project_link,
+      scope: :squashtm_project_link,
+      url: project_settings_squashtm_path(@project),
+      method: :patch
+    ) do |form|
+      render(SquashTMIntegration::ProjectSettings::ProjectLinkForm.new(form, squashtm_projects: @squashtm_projects))
+    end
+  %>
+<% end %>
