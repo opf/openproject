@@ -64,6 +64,13 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
     expect(imap).to have_received(:uid_expunge).with(7)
   end
 
+  it "queues the confirmation for the new work package" do
+    result
+
+    expect(ITSM::OutboundEmails::SendConfirmationJob)
+      .to have_been_enqueued.with(ITSM::EmailThread.find_by!(work_package: WorkPackage.last))
+  end
+
   it "logs the work package, tagged with the Message-ID" do
     result
 
@@ -74,8 +81,9 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
   context "when the email was already processed" do
     before { described_class.new(mailbox:, session:).call(uid: 7) }
 
-    it "removes it without creating another work package" do
+    it "removes it without creating another work package or confirming it again" do
       expect { result }.not_to change(WorkPackage, :count)
+      expect(ITSM::OutboundEmails::SendConfirmationJob).to have_been_enqueued.once
       expect(imap).to have_received(:uid_expunge).with(7).twice
       expect(logged).to include("Already in work package ##{WorkPackage.last.id}")
     end
@@ -88,6 +96,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       expect { result }.not_to change(WorkPackage, :count)
       expect(imap).to have_received(:uid_expunge).with(7)
       expect(logged).to include("Ignored (automatic)")
+      expect(ITSM::OutboundEmails::SendConfirmationJob).not_to have_been_enqueued
     end
   end
 
@@ -104,6 +113,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
       expect(imap).not_to have_received(:uid_expunge)
       expect(logged).to include("Not processed (reply)")
+      expect(ITSM::OutboundEmails::SendConfirmationJob).not_to have_been_enqueued
     end
   end
 
@@ -125,6 +135,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
       expect(imap).not_to have_received(:uid_expunge)
       expect(warned).to include("Not processed (requester_email blank)")
+      expect(ITSM::OutboundEmails::SendConfirmationJob).not_to have_been_enqueued
     end
   end
 

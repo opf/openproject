@@ -78,6 +78,7 @@ module ITSM
       def create_work_package(email)
         case InboundEmails::CreateWorkPackageService.new(user: User.system).call(mailbox:, email:)
         in { success: true, result: thread } if thread.previously_new_record?
+          OutboundEmails::SendConfirmationJob.perform_later(thread)
           remove("Added to work package ##{thread.work_package_id}")
         in { success: true, result: thread }
           remove("Already in work package ##{thread.work_package_id}")
