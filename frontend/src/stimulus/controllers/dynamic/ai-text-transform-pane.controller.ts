@@ -26,8 +26,8 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { renderStreamMessage } from '@hotwired/turbo';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
-import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 
 const EDGE_MARGIN = 8;
@@ -38,6 +38,8 @@ const POLL_MIN = 400;
 const POLL_MAX = 1000;
 const POLL_BACKOFF = 1.5;
 const POLL_HIDDEN = 5000;
+const POLL_RETRIES = 5;
+const RETRY_MIN = 1000;
 const APPLY_TIMEOUT = 300;
 
 type Geometry = Partial<Record<typeof GEOMETRY_PROPERTIES[number], string>>;
@@ -79,7 +81,6 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     requestFailed: String,
   };
 
-  static services:ServiceKey[] = ['turboRequests'];
 
   declare readonly paneTarget:HTMLElement;
   declare readonly errorTarget:HTMLElement;
@@ -89,7 +90,6 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   declare readonly editorGoneValue:string;
   declare readonly selectionGoneValue:string;
   declare readonly requestFailedValue:string;
-  declare services:Promise<PickedServices<'turboRequests'>>;
 
   private dragOffset:{ x:number; y:number }|null = null;
   private resizeStart:ResizeStart|null = null;
@@ -99,15 +99,12 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private pollTimer:ReturnType<typeof setTimeout>|null = null;
   private pollInFlight = false;
   private pollDelay = POLL_MIN;
+  private pollFailures = 0;
   private applyTimer:ReturnType<typeof setTimeout>|null = null;
   private applyAnswered = false;
   private closing = false;
   private abandoned = false;
   private focusToRestore:{ form:string }|null = null;
-
-  initialize():void {
-    useAngularServices(this);
-  }
 
   connect():void {
     if (rememberedGeometry) {
@@ -296,24 +293,39 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     url.searchParams.set('after', this.run.seq);
     url.searchParams.set('state', this.run.state);
 
-    try {
-      const { turboRequests } = await this.services;
-      const { html } = await turboRequests.request(
-        url.toString(),
-        { method: 'GET', headers: { Accept: 'text/vnd.turbo-stream.html' }, credentials: 'same-origin' },
-        true,
-      );
-      this.pollDelay = html.trim() === '' ? Math.min(POLL_MAX, this.pollDelay * POLL_BACKOFF) : POLL_MIN;
-    } catch {
-      this.showError(this.requestFailedValue);
+    const response = await fetch(url, { headers: { Accept: 'text/vnd.turbo-stream.html' }, credentials: 'same-origin' })
+      .catch(() => null);
+    const html = response?.ok ? await response.text().catch(() => null) : null;
+    this.pollInFlight = false;
+
+    // A new run replaces this pane under the same element ids, so a late answer must not render into it.
+    if (!this.element.isConnected) {
       return;
-    } finally {
-      this.pollInFlight = false;
     }
 
-    if (this.element.isConnected && this.run.state === 'generating') {
+    if (html === null) {
+      this.pollFailed(response);
+      return;
+    }
+
+    this.pollFailures = 0;
+    this.pollDelay = html.trim() === '' ? Math.min(POLL_MAX, this.pollDelay * POLL_BACKOFF) : POLL_MIN;
+    renderStreamMessage(html);
+    if (this.run.state === 'generating') {
       this.schedulePoll();
     }
+  }
+
+  private pollFailed(response:Response|null):void {
+    const transient = !response || response.ok || response.status >= 500;
+    this.pollFailures += 1;
+    if (!transient || this.pollFailures > POLL_RETRIES) {
+      this.showError(this.requestFailedValue);
+      return;
+    }
+
+    this.pollDelay = Math.min(POLL_HIDDEN, RETRY_MIN * 2 ** (this.pollFailures - 1));
+    this.schedulePoll();
   }
 
   private restoreFocus():void {
