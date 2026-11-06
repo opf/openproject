@@ -28,7 +28,9 @@
 import {
   DEFAULT_ORDER,
   MAX_ORDER,
+  MIN_ORDER,
   buildDelta,
+  buildBlockDelta,
 } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 
@@ -52,6 +54,36 @@ describe('ReorderDeltaBuilder', () => {
     }
     return buildDelta(wps, positions, wpId, toIndex, fromIndex);
   }
+
+  describe('block moves', () => {
+    it('keeps a tied page ahead of the first off-page row', () => {
+      const positions = { '1': 0, '2': 0, '3': 0, '4': 1 };
+      const order = ['3', '1', '2'];
+      const delta = buildBlockDelta(order, positions);
+      const result:QueryOrder = { ...positions, ...delta };
+
+      expect(order.map((id) => result[id])).toEqual([-2, 0, 0]);
+      expect(delta).not.toHaveProperty('4');
+    });
+
+    it('keeps the hidden row after a block at the minimum integer rank', () => {
+      const positions = { '1': MIN_ORDER, '2': MIN_ORDER, '3': MIN_ORDER, '4': MIN_ORDER };
+      const result:QueryOrder = { ...positions, ...buildBlockDelta(['3', '2', '1'], positions) };
+      const sorted = Object.keys(result).sort((a, b) => result[a] - result[b] || Number(a) - Number(b));
+      expect(sorted).toEqual(['3', '2', '1', '4']);
+      expect(Math.min(...Object.values(result))).toBeGreaterThanOrEqual(MIN_ORDER);
+    });
+
+    it('assigns missing ranks and never emits the API deletion sentinel', () => {
+      const order = ['3', '2', '1', '4'];
+      const positions = { '1': -2, '2': -2, '3': 0 };
+      const result:QueryOrder = { ...positions, ...buildBlockDelta(order, positions) };
+      const ranks = order.map((id) => result[id]);
+      expect(new Set(ranks).size).toBe(4);
+      expect(ranks).not.toContain(-1);
+      expect(ranks).toEqual([...ranks].sort((a, b) => a - b));
+    });
+  });
 
   it('Empty, inserting at beginning sets the delta for wpId 1 to the default value', () => {
     const delta = buildSpecDelta('1', {});

@@ -222,14 +222,13 @@ describe('Context menu entry', () => {
       ]);
     });
 
-    it('offers no move group for a batch selection', () => {
+    it('offers the bulk move submenu with selection-wide edges', () => {
       harness.click('1');
       harness.click('2', { shiftKey: true });
 
       openFromKeyboard('2');
 
-      expect(hasMoveSubmenu()).toBe(false);
-      expect(moveItems()).toEqual([]);
+      expect(moveItems().map((item) => item.disabled)).toEqual([true, true, false, false]);
     });
 
     it('offers no move group outside manual sorting', async () => {

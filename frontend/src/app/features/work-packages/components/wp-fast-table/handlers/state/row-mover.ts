@@ -29,6 +29,6 @@ export type MoveDirection = 'top'|'up'|'down'|'bottom';
 
 export interface RowMover {
   /** The directions a work package can move, or `null` when moving is not offered for it. */
-  movableDirections(workPackageId:string):ReadonlySet<MoveDirection>|null;
-  move(workPackageId:string, direction:MoveDirection):void;
+  movableDirections(selection:string|readonly string[]):ReadonlySet<MoveDirection>|null;
+  move(selection:string|readonly string[], direction:MoveDirection):void;
 }

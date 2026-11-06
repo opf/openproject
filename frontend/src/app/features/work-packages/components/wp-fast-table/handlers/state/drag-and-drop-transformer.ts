@@ -161,24 +161,29 @@ export class DragAndDropTransformer implements RowMover {
     });
   }
 
-  public movableDirections(workPackageId:string):ReadonlySet<MoveDirection>|null {
+  public movableDirections(selection:string|readonly string[]):ReadonlySet<MoveDirection>|null {
     const query = this.querySpace.query.value;
-    const order = this.menuOrder(workPackageId);
-    const index = order.indexOf(workPackageId);
-    if (!query || index === -1 || !this.canMoveRows(query)) return null;
+    if (!query || !this.canMoveRows(query)) return null;
+    const ids = typeof selection === 'string' ? [selection] : selection;
+    if (!ids.length) return null;
+    const order = this.menuOrder(ids[0], ids.length > 1);
+    const positions = ids.map((id) => order.indexOf(id));
+    if (positions.includes(-1)) return null;
 
     const directions = new Set<MoveDirection>();
     if (this.moveInFlight) return directions;
-    if (index > 0) directions.add('top').add('up');
-    if (index < order.length - 1) directions.add('down').add('bottom');
+    if (Math.min(...positions) > 0) directions.add('top').add('up');
+    if (Math.max(...positions) < order.length - 1) directions.add('down').add('bottom');
     return directions;
   }
 
-  public move(workPackageId:string, direction:MoveDirection):void {
-    if (!this.movableDirections(workPackageId)?.has(direction)) return;
+  public move(selection:string|readonly string[], direction:MoveDirection):void {
+    if (!this.movableDirections(selection)?.has(direction)) return;
+    const ids = typeof selection === 'string' ? [selection] : selection;
+    const workPackageId = ids[0];
     const query = this.querySpace.query.value!;
-    if (this.wpTableGroupBy.isEnabled || this.wpTableHierarchies.isEnabled) {
-      void this.moveWithinPeers(workPackageId, direction, query);
+    if (ids.length > 1 || this.wpTableGroupBy.isEnabled || this.wpTableHierarchies.isEnabled) {
+      void this.moveWithinPeers(ids, direction, query);
       return;
     }
     const intent = this.intentFor(workPackageId, direction);
@@ -189,7 +194,7 @@ export class DragAndDropTransformer implements RowMover {
     });
   }
 
-  private menuOrder(workPackageId:string):string[] {
+  private menuOrder(workPackageId:string, bulk = false):string[] {
     const table = this.table;
     if (this.wpTableGroupBy.isEnabled) {
       const groups = new Map<string, string>();
@@ -209,28 +214,35 @@ export class DragAndDropTransformer implements RowMover {
       const parent = parentOf(workPackageId);
       return table.originalRows.filter((id) => parentOf(id) === parent);
     }
-    return this.currentOrder;
+    return bulk ? table.originalRows : this.currentOrder;
   }
 
-  private async moveWithinPeers(workPackageId:string, direction:MoveDirection, query:QueryResource):Promise<void> {
+  private async moveWithinPeers(ids:readonly string[], direction:MoveDirection, query:QueryResource):Promise<void> {
     const table = this.table;
-    const order = this.menuOrder(workPackageId);
-    const index = order.indexOf(workPackageId);
-    const targets = { top: 0, up: index - 1, down: index + 1, bottom: order.length - 1 };
+    const selected = new Set(ids);
+    const bulk = selected.size > 1;
+    const order = this.menuOrder(ids[0], bulk);
+    const block = order.filter((id) => selected.has(id));
+    const first = order.indexOf(block[0]);
+    const last = order.indexOf(block[block.length - 1]);
+    const targets = { top: 0, up: first - 1, down: last - block.length + 2, bottom: order.length - block.length };
+    const target = targets[direction];
     const renderPass = table.lastRenderPass;
     const isCurrent = () => !table.destroyed && this.querySpace.query.value === query;
     this.moveInFlight = true;
     try {
-      const prepared = await this.wpTableOrder.prepareMove(query, order, workPackageId, targets[direction], isCurrent);
+      const prepared = bulk
+        ? await this.wpTableOrder.prepareBlockMove(query, order, block, target, isCurrent)
+        : await this.wpTableOrder.prepareMove(query, order, block[0], target, isCurrent);
       if (!isCurrent() || table.hasPendingRender || table.lastRenderPass !== renderPass || !this.canMoveRows(query)) return;
       await prepared.persist();
       if (!isCurrent()) return;
       await table.whenRendered();
       if (!isCurrent() || !this.canMoveRows(query)) return;
 
-      const currentPeers = new Set(this.menuOrder(workPackageId));
+      const currentPeers = new Set(this.menuOrder(ids[0], bulk));
       const orderedPeers = prepared.order.filter((id) => currentPeers.has(id));
-      if (!orderedPeers.includes(workPackageId)) return;
+      if (!orderedPeers.length) return;
       const slots = new Set(orderedPeers);
       let nextPeer = 0;
       const resources = table.originalRows.map((id) => {
@@ -239,7 +251,18 @@ export class DragAndDropTransformer implements RowMover {
       });
       table.initialSetup(resources);
       await table.whenRendered();
-      this.announceMove(workPackageId, query);
+      if (table.destroyed || this.querySpace.query.value !== query) return;
+      if (bulk) {
+        const peers = this.menuOrder(ids[0], true);
+        const start = peers.indexOf(block[0]);
+        if (start >= 0 && block.every((id, offset) => peers[start + offset] === id)) {
+          void announce(I18n.t('js.sortable_lists.announcements.moved_batch', {
+            count: block.length, first: start + 1, last: start + block.length, total: peers.length,
+          }), { politeness: 'polite' });
+        }
+      } else {
+        this.announceMove(block[0], query);
+      }
     } catch (error:unknown) {
       if (!table.destroyed) this.halNotification.handleRawError(error);
     } finally {

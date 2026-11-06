@@ -318,7 +318,10 @@ describe('DragAndDropTransformer row moves', () => {
     document.body.append(document.createElement('live-region'));
     announce = vi.spyOn(LiveRegionElement.prototype, 'announce');
     window.I18n.store({
-      en: { js: { sortable_lists: { announcements: { moved: '%{label} moved to position %{position} of %{total}' } } } },
+      en: { js: { sortable_lists: { announcements: {
+        moved: '%{label} moved to position %{position} of %{total}',
+        moved_batch: { other: '%{count} items moved to positions %{first} through %{last} of %{total}' },
+      } } } },
     });
   });
 
@@ -392,6 +395,51 @@ describe('DragAndDropTransformer row moves', () => {
     release();
 
     await vi.waitFor(() => expect(harness.rowIds()).toEqual(['2', '1', '3', '4']));
+  });
+
+  it('closes a non-contiguous selection into one block in table order', async () => {
+    const mover = await renderTable({ workPackages: ['1', '2', '3', '4', '5'].map((id) => ({ id })) });
+    const rendered = harness.nextRender();
+
+    mover.move(['4', '2'], 'down');
+    await rendered;
+
+    expect(harness.rowIds()).toEqual(['1', '3', '5', '2', '4']);
+    await vi.waitFor(() => expect(announce).toHaveBeenCalledWith('2 items moved to positions 4 through 5 of 5', { politeness: 'polite' }));
+    expect(mover.movableDirections(['4', '2'])).toEqual(new Set(['up', 'top']));
+  });
+
+  it('moves selected siblings together with their descendants', async () => {
+    const mover = await renderTable({ showHierarchies: true, workPackages: [
+      { id: '1' }, { id: '2', ancestors: [{ id: '1' }] }, { id: '3' }, { id: '4' },
+    ] });
+    const rendered = harness.nextRender();
+    mover.move(['4', '3'], 'up');
+    await rendered;
+
+    expect(harness.rowIds()).toEqual(['3', '4', '1', '2']);
+  });
+
+  it('moves a selection within its group while preserving the neighboring group', async () => {
+    const mover = await renderTable({ groups: [{ ...groups[0], count: 3 }, groups[1]], workPackages: [
+      groupedWorkPackages[0], groupedWorkPackages[1], { id: '5', attributes: { status: newStatus } },
+      groupedWorkPackages[2], groupedWorkPackages[3],
+    ] });
+    const rendered = harness.nextRender();
+    mover.move(['2', '5'], 'top');
+    await rendered;
+
+    expect(harness.rowIds()).toEqual(['2', '5', '1', '3', '4']);
+  });
+
+  it('only offers bulk moves within one group or sibling set', async () => {
+    const grouped = await renderTable({ workPackages: groupedWorkPackages, groups });
+    expect(grouped.movableDirections(['1', '3'])).toBeNull();
+    expect(grouped.movableDirections(['1', '2'])).toEqual(new Set());
+    await harness.destroy();
+
+    const hierarchy = await renderTable({ showHierarchies: true, workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '1' }] }] });
+    expect(hierarchy.movableDirections(['1', '2'])).toBeNull();
   });
 
   it('offers no moves when the query cannot be reordered', async () => {
