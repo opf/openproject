@@ -603,22 +603,22 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "calendar"
 
   menu.push :ai,
-            { controller: "/admin/mcp_configurations", action: :index },
+            ->(_) { AdminHelper.ai_landing_path },
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.ai"),
             icon: :sparkle
+
+  menu.push :text_actions,
+            { controller: "/admin/text_actions", action: :index },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_text_actions_active? },
+            caption: :"menus.admin.text_actions",
+            parent: :ai
 
   menu.push :mcp_configurations,
             { controller: "/admin/mcp_configurations", action: :index },
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.mcp_configurations"),
             enterprise_feature: "mcp_server",
-            parent: :ai
-
-  menu.push :text_transform_actions,
-            { controller: "/admin/text_transform_actions", action: :index },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_text_transform_actions_active? },
-            caption: :"menus.admin.text_transform_actions",
             parent: :ai
 
   menu.push :working_days_and_hours,
