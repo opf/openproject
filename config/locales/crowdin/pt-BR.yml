@@ -2322,6 +2322,8 @@ pt-BR:
         emoji_reactions_activity_type_not_supported: Este tipo de atividade não dá suporte a reações por emoji.
         invalid_link: O link sob a chave "%{key}" não é válido.
         links_not_an_object: _links deve ser um objeto JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Requisição inválida: %{message}'
       code_401: Você precisa estar autenticado para acessar este recurso.
       code_401_wrong_credentials: Você não forneceu as credenciais corretas.
@@ -6099,6 +6101,22 @@ pt-BR:
         automatic:
           description: Ordene os %{plural} por um ou mais critérios de ordenação. A ordenação anterior será perdida.
           heading: Automático
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -7032,6 +7050,9 @@ pt-BR:
       short: "%d/%b %H:%M"
       time: "%I:%M %p"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: para
     show: Mostrar intervalo de tempo
@@ -7260,6 +7281,11 @@ pt-BR:
         no_inactive_attributes: Nenhum atributo inativo
         not_found: O item de formulário solicitado não foi encontrado.
         query_group_label: Tabela de pacotes de trabalho relacionados
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Remover da seção
         rename_group: Renomear seção
         required:
@@ -7321,8 +7347,6 @@ pt-BR:
           no_results: Não existem projetos correspondentes.
           title: Not used in any project yet
         enable_all: Habilitar para todos os projetos
-        select_projects: Selecionar projetos
-        select_projects_description: Selecione os projetos nos quais deseja usar esse tipo.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

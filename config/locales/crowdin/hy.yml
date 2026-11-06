@@ -2320,6 +2320,8 @@ hy:
         emoji_reactions_activity_type_not_supported: Գործունեության այս տեսակը չի աջակցում էմոջի արձագանքներին։
         invalid_link: "'%{key}' բանալու տակ գտնվող հղումը վավեր չէ։"
         links_not_an_object: _links-ը պետք է լինի JSON օբյեկտ։
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: Սխալ հարցում՝ %{message}
       code_401: Այս ռեսուրսին մուտք գործելու համար պետք է նույնականացված լինեք։
       code_401_wrong_credentials: Դուք չեք տրամադրել ճիշտ մուտքի տվյալները։
@@ -6094,6 +6096,22 @@ hy:
         automatic:
           description: Դասավորեք %{plural}-ը մեկ կամ մի քանի դասավորման չափանիշով։ Դուք կկորցնեք նախորդ դասավորումը։
           heading: Ինքնաշխատ
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -7042,6 +7060,9 @@ hy:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: ԿՀ
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: մինչև
     show: Ցուցադրել ժամանակահատվածը
@@ -7270,6 +7291,11 @@ hy:
         no_inactive_attributes: Ոչ ակտիվ հատկանիշներ չկան
         not_found: The requested form item could not be found.
         query_group_label: Կապակցված աշխատանքային փաթեթների աղյուսակ
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Հեռացնել բաժնից
         rename_group: Վերանվանել բաժինը
         required:
@@ -7331,8 +7357,6 @@ hy:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: Միացնել բոլոր նախագծերի համար
-        select_projects: Ընտրել նախագծերը
-        select_projects_description: Ընտրեք նախագծերը, որոնցում ցանկանում եք օգտագործել այս տեսակը։
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

@@ -2322,6 +2322,8 @@ de:
         emoji_reactions_activity_type_not_supported: Dieser Aktivitätstyp unterstützt keine Emoji-Reaktionen.
         invalid_link: Der Link unter dem Schlüssel '%{key}' ist nicht gültig.
         links_not_an_object: _links muss ein JSON-Objekt sein.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Ungültige Anfrage: %{message}'
       code_401: Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können.
       code_401_wrong_credentials: Die von Ihnen benutzten Zugangsdaten sind nicht korrekt.
@@ -6101,6 +6103,22 @@ de:
         automatic:
           description: Ordnen Sie %{plural} nach einem oder mehreren Sortierkriterien. Die vorherige Sortierung geht dabei verloren.
           heading: Automatisch
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -7044,6 +7062,9 @@ de:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: nachmittags
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: bis
     show: Zeitausschnitt anzeigen
@@ -7274,6 +7295,11 @@ de:
         no_inactive_attributes: Keine inaktiven Attribute
         not_found: Das angeforderte Formularfeld konnte nicht gefunden werden.
         query_group_label: Zugehörige Arbeitspaket-Tabelle
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
         required:
@@ -7335,8 +7361,6 @@ de:
           no_results: Keine übereinstimmenden Projekte.
           title: Wird in keinem Projekt verwendet
         enable_all: Für alle Projekte aktivieren
-        select_projects: Projekt auswählen
-        select_projects_description: Wählen Sie die Projekte aus, in denen Sie diesen Typ verwenden möchten.
         switch_dialog:
           description: Die folgenden Projekte verwenden bereits andere Varianten für „ %{type}“. Sind Sie sicher, dass Sie diese durch „%{variant}“ ersetzen möchten? Dies hat Auswirkungen auf Formulare und Workflows in all diesen Projekten.
           title: Varianten ersetzen?

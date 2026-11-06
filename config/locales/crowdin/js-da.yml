@@ -47,8 +47,8 @@ da:
       draggable_hint: 'Træk til et redigeringsfelt for at indsætte et billede i teksten eller henvise til den vedhæftede fil. Lukkede redigeringsfelter åbnes, mens du trækker.
 
         '
-      import_failed_hint: The file could not be imported. It is not available for download.
-      import_prepared_hint: The file is still being imported. It is not available for download yet.
+      import_failed_hint: Filen kunne ikke importeres. Den kan ikke hentes.
+      import_prepared_hint: Filen er ved at blive importeret. Den kan ikke hentes endnu.
       quarantined_hint: Filen er sat i karantæne, fordi der blev fundet en virus. Den kan ikke hentes.
     autocomplete_ng_select:
       add_tag: Tilføj element
@@ -1124,7 +1124,6 @@ da:
         default_mode: Flad liste
         display_settings: Visningsindstillinger
         display_sums_hint: Vis summen af alle attributter, der kan summeres, i en række under tabellens resultater.
-        embedded_tab_disabled: Fanen er ikke tilgængelig for den indlejrede visning, som du redigerer.
         hierarchy_hint: Alle filtrerede resultater i tabellen suppleres med deres overordnede. Hierarkier kan foldes ud og sammen.
         hierarchy_mode: Hierarki
         highlighting: Fremhævning

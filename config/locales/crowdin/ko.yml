@@ -2195,6 +2195,8 @@ ko:
         emoji_reactions_activity_type_not_supported: 이 활동 유형은 이모티콘 반응을 지원하지 않습니다.
         invalid_link: "'%{key}' 키 아래의 링크가 유효하지 않습니다."
         links_not_an_object: _links는 JSON 개체여야 합니다.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: '잘못된 요청: %{message}'
       code_401: 접근하기 위해서 인증해야 합니다.
       code_401_wrong_credentials: 올바른 자격 증명을 제공하지 않았습니다.
@@ -5920,6 +5922,22 @@ ko:
         automatic:
           description: 하나 이상의 정렬 기준에 따라 %{plural}을(를) 정렬합니다. 이전 정렬은 손실됩니다.
           heading: 자동
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6853,6 +6871,9 @@ ko:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: 오후
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: 끝
     show: 시간 범위 표시
@@ -7080,6 +7101,11 @@ ko:
         no_inactive_attributes: 비활성 특성 없음
         not_found: 요청한 양식 항목을 찾을 수 없습니다.
         query_group_label: 관련 작업 패키지 테이블
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: 섹션에서 제거
         rename_group: 섹션 이름 바꾸기
         required:
@@ -7141,8 +7167,6 @@ ko:
           no_results: 일치하는 프로젝트가 없습니다.
           title: Not used in any project yet
         enable_all: 모든 프로젝트에 대해 활성화
-        select_projects: 프로젝트 선택
-        select_projects_description: 이 유형을 사용하려는 프로젝트를 선택합니다.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?
