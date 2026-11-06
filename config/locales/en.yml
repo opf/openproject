@@ -2730,7 +2730,7 @@ en:
       disabled_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is disabled for the project.
       mathematical: "The mathematical formula leads to an error. Please review the project calculation attribute and try again."
       missing_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is empty.
-      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated Value.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: "An unknown error occurred. Please review the formula for this Calculated value."
 
   colors:

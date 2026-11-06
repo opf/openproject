@@ -207,7 +207,7 @@ module CustomField::CalculatedValue
     end
 
     def formula_ast
-      @formula_ast ||= CustomField::CalculatedValue.calculator_instance.ast(formula_str_without_patterns)
+      CustomField::CalculatedValue.calculator_instance.ast(formula_str_without_patterns)
     end
 
     def formula_contains_only_allowed_tokens?
@@ -245,6 +245,8 @@ module CustomField::CalculatedValue
     end
 
     def used_multi_value_lists
+      return CustomField.none if formula_referenced_custom_field_ids.empty?
+
       CustomField.where(id: formula_referenced_custom_field_ids, field_format: "weighted_item_list", multi_value: true)
     end
 

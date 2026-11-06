@@ -75,7 +75,7 @@ module ActsAsCustomizable::CalculatedValue
     end
 
     def calculate_custom_fields_result(given:, to_compute:, formula_errors:)
-      given, to_compute = exclude_formula_errors(given:, to_compute:, formula_errors:)
+      given, to_compute = skip_fields_with_formula_errors(given:, to_compute:, formula_errors:)
       calculator = CustomField::CalculatedValue.calculator_instance
       calculator.store(given)
 
@@ -96,7 +96,7 @@ module ActsAsCustomizable::CalculatedValue
       { result:, errors: }
     end
 
-    def exclude_formula_errors(given:, to_compute:, formula_errors:)
+    def skip_fields_with_formula_errors(given:, to_compute:, formula_errors:)
       [
         given.merge(formula_errors.transform_values { nil }),
         to_compute.except(*formula_errors.keys)
