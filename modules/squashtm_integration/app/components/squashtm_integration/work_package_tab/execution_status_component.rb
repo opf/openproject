@@ -32,38 +32,43 @@ module SquashTMIntegration
     class ExecutionStatusComponent < ApplicationComponent
       Appearance = Data.define(:scheme, :icon)
 
-      NOT_EXECUTED = Appearance.new(scheme: :secondary, icon: :dash)
+      UNKNOWN = Appearance.new(scheme: :secondary, icon: :circle)
 
       APPEARANCES = {
-        "SUCCESS" => Appearance.new(scheme: :success, icon: :"check-circle"),
-        "SETTLED" => Appearance.new(scheme: :success, icon: :check),
-        "FAILURE" => Appearance.new(scheme: :danger, icon: :"x-circle"),
-        "ERROR" => Appearance.new(scheme: :danger, icon: :stop),
-        "BLOCKED" => Appearance.new(scheme: :attention, icon: :blocked),
-        "WARNING" => Appearance.new(scheme: :attention, icon: :alert),
-        "RUNNING" => Appearance.new(scheme: :accent, icon: :sync),
-        "READY" => Appearance.new(scheme: :secondary, icon: :circle),
-        "UNTESTABLE" => Appearance.new(scheme: :secondary, icon: :skip),
-        "SKIPPED" => Appearance.new(scheme: :secondary, icon: :skip),
-        "CANCELLED" => Appearance.new(scheme: :secondary, icon: :x),
-        "NOT_RUN" => NOT_EXECUTED,
-        "NOT_FOUND" => Appearance.new(scheme: :secondary, icon: :question)
+        success: Appearance.new(scheme: :success, icon: :"check-circle"),
+        settled: Appearance.new(scheme: :success, icon: :check),
+        failure: Appearance.new(scheme: :danger, icon: :"x-circle"),
+        error: Appearance.new(scheme: :danger, icon: :stop),
+        blocked: Appearance.new(scheme: :attention, icon: :blocked),
+        warning: Appearance.new(scheme: :attention, icon: :alert),
+        running: Appearance.new(scheme: :accent, icon: :sync),
+        ready: Appearance.new(scheme: :secondary, icon: :circle),
+        untestable: Appearance.new(scheme: :secondary, icon: :skip),
+        skipped: Appearance.new(scheme: :secondary, icon: :skip),
+        cancelled: Appearance.new(scheme: :secondary, icon: :x),
+        not_run: Appearance.new(scheme: :secondary, icon: :dash),
+        not_executed: Appearance.new(scheme: :secondary, icon: :dash),
+        not_found: Appearance.new(scheme: :secondary, icon: :question)
       }.freeze
 
       alias_method :test_case, :model
 
       def appearance
-        return NOT_EXECUTED unless test_case.executed?
-
-        APPEARANCES.fetch(test_case.execution_status, Appearance.new(scheme: :secondary, icon: :circle))
+        APPEARANCES.fetch(execution_status, UNKNOWN)
       end
 
       def label
-        return t(".not_executed") unless test_case.executed?
-
-        I18n.t(test_case.execution_status.to_s.downcase,
+        I18n.t(execution_status,
                scope: "squashtm_integration.execution_statuses",
-               default: test_case.execution_status.to_s.humanize)
+               default: execution_status.to_s.humanize)
+      end
+
+      private
+
+      def execution_status
+        return :not_executed unless test_case.executed?
+
+        test_case.execution_status.to_s.downcase.to_sym
       end
     end
   end

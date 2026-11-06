@@ -85,6 +85,7 @@ en:
       cancelled: "Cancelled"
       error: "Error"
       failure: "Failed"
+      not_executed: "Not executed"
       not_found: "Not found"
       not_run: "Not run"
       ready: "Ready"
@@ -154,8 +155,6 @@ en:
         description: "The test cases of this requirement will no longer be shown on this work package."
         heading: "Unlink the SquashTM requirement %{name}?"
         title: "Unlink SquashTM requirement"
-      execution_status_component:
-        not_executed: "Not executed"
       linked_requirement_component:
         no_test_cases:
           description: "No test case in SquashTM verifies this requirement yet."
