@@ -33,6 +33,7 @@ import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/wor
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { MoveDirection } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/row-mover';
 import type { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import { forgetKeyboardMenuOpen } from 'core-app/features/work-packages/components/wp-fast-table/handlers/context-menu/context-menu-handler';
 
@@ -77,6 +78,8 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     protected table:WorkPackageTable) {
     super(injector, workPackageId, element, additionalPositionArgs, true);
     this.origin = table.keyboardNavigation.originForControl(element);
+    // Appended here: the base class builds `items` before `table` is assigned.
+    this.appendMoveItems();
   }
 
   protected override buildItems():OpContextMenuItem[] {
@@ -84,6 +87,38 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
       ...item,
       octicon: item.icon ? octiconFor(item.icon) : undefined,
     }));
+  }
+
+  private appendMoveItems():void {
+    if (this.selectedWorkPackages.length !== 1) return;
+
+    const id = this.workPackageId;
+    const mover = this.table.rowMover;
+    const directions = mover?.movableDirections(id);
+    if (!mover || !directions) return;
+
+    const entries:{ direction:MoveDirection, linkText:string, octicon:DynamicIconName }[] = [
+      { direction: 'top', linkText: I18n.t('js.label_sort_highest'), octicon: 'move-to-top' },
+      { direction: 'up', linkText: I18n.t('js.label_sort_higher'), octicon: 'chevron-up' },
+      { direction: 'down', linkText: I18n.t('js.label_sort_lower'), octicon: 'chevron-down' },
+      { direction: 'bottom', linkText: I18n.t('js.label_sort_lowest'), octicon: 'move-to-bottom' },
+    ];
+    this.items.push(
+      { divider: true },
+      {
+        linkText: I18n.t('js.button_move'),
+        octicon: 'op-arrow-in',
+        children: entries.map(({ direction, linkText, octicon }) => ({
+          linkText,
+          octicon,
+          disabled: !directions.has(direction),
+          onClick: () => {
+            mover.move(id, direction);
+            return true;
+          },
+        })),
+      },
+    );
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {

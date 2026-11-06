@@ -345,6 +345,95 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
     end
   end
 
+  describe "move actions in the context menu", selenium: false do
+    let(:context_menu) { Components::WorkPackages::ContextMenu.new }
+    let(:sort_criteria) { [[:manual_sorting, "asc"]] }
+    let!(:query) do
+      create(:query, user:, project:, show_hierarchies: false).tap do |q|
+        q.sort_criteria = sort_criteria
+        q.save!
+      end
+    end
+
+    before do
+      [work_package1, work_package2, work_package3, work_package4].each_with_index do |work_package, position|
+        OrderedWorkPackage.create(query:, work_package:, position:)
+      end
+
+      wp_table.visit_query query
+      wp_table.expect_work_package_order work_package1, work_package2, work_package3, work_package4
+    end
+
+    def open_menu_by_keyboard(work_package)
+      wp_table.focus_row_by_keyboard(work_package)
+      wp_table.press_keys(%i[shift f10])
+      context_menu.expect_open
+    end
+
+    it "moves a work package down with the keyboard" do
+      open_menu_by_keyboard(work_package1)
+      context_menu.choose_in_submenu "Move", "Move down"
+
+      wp_table.expect_work_package_order work_package2, work_package1, work_package3, work_package4
+      expect_query_order(query, [work_package2, work_package1, work_package3, work_package4].map(&:id))
+      wp_table.expect_focus_on_row(work_package1)
+    end
+
+    it "keeps a move past a tied position after reloading the query" do
+      OrderedWorkPackage.where(query:, work_package: [work_package1, work_package2]).update_all(position: 0)
+      wp_table.visit_query query
+      wp_table.expect_work_package_order work_package1, work_package2, work_package3, work_package4
+
+      open_menu_by_keyboard(work_package1)
+      context_menu.choose_in_submenu "Move", "Move down"
+      wp_table.expect_work_package_order work_package2, work_package1, work_package3, work_package4
+
+      wp_table.visit_query query
+      wp_table.expect_work_package_order work_package2, work_package1, work_package3, work_package4
+    end
+
+    it "moves a work package to the bottom and keeps focus on it" do
+      open_menu_by_keyboard(work_package1)
+      context_menu.choose_in_submenu "Move", "Move to bottom"
+
+      wp_table.expect_work_package_order work_package2, work_package3, work_package4, work_package1
+      expect_query_order(query, [work_package2, work_package3, work_package4, work_package1].map(&:id))
+      wp_table.expect_focus_on_row(work_package1)
+    end
+
+    it "disables moving the first work package up" do
+      open_menu_by_keyboard(work_package1)
+      context_menu.open_submenu "Move"
+
+      within(:menu, "Move") do
+        expect(page).to have_menuitem("Move up", disabled: true)
+        expect(page).to have_menuitem("Move to top", disabled: true)
+        expect(page).to have_menuitem("Move down", disabled: false)
+        expect(page).to have_menuitem("Move to bottom", disabled: false)
+      end
+    end
+
+    context "when the table is sorted automatically" do
+      let(:sort_criteria) { [[:id, "asc"]] }
+
+      it "offers no move actions" do
+        open_menu_by_keyboard(work_package2)
+
+        context_menu.expect_no_submenu "Move"
+      end
+    end
+
+    context "when the table is sorted manually in descending direction" do
+      let(:sort_criteria) { [[:manual_sorting, "desc"]] }
+
+      it "offers no move actions" do
+        open_menu_by_keyboard(work_package2)
+
+        context_menu.expect_no_submenu "Move"
+      end
+    end
+  end
+
   describe "flat mode" do
     before do
       wp_table.visit!
