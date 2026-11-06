@@ -342,8 +342,12 @@ de:
         custom_field_section: Abschnitt
       project_type:
         variant: Variante
+      push_subscription:
+        created_at: Hinzugefügt
+        endpoint: Endpunkt
+        session_id: Sitzung
       query:
-        child_work_packages: Unteraufgaben
+        child_work_packages: Kinder
         column_names: Spalten
         columns: Spalten
         display_representation: Anzeigemodus
@@ -814,7 +818,7 @@ de:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Sie haben nicht die erforderlichen Berechtigungen, um alle Unterprojekte zu archivieren. Bitte kontaktieren Sie einen Administrator.
-              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
+              project_initiation_request_disabled: Die Anfrage zur Projektinitiierung ist deaktiviert. Sie muss aktiviert sein, um das Artefakt-Arbeitspaket zu erstellen.
             enabled_modules:
               dependency_missing: Das Modul "%{dependency}" muss ebenfalls aktiviert sein, da das Modul "%{module}" dieses benötigt.
               format: "%{message}"
@@ -828,7 +832,7 @@ de:
               switch_target_blank: Wählen Sie die Variante aus, zu der Sie wechseln möchten
               switch_target_identical: Der Zieltyp muss sich von dem Typ unterscheiden, den das Projekt derzeit verwendet
               switch_target_not_in_family: Es ist nur möglich, zu einer anderen Variante desselben Typs zu wechseln
-          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
+          cannot_be_assigned_to_artifact_work_package: Der gewählte Nutzer darf im Arbeitspaket nicht zugewiesen werden.
           foreign_wps_reference_version: Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.
         project/phase:
           attributes:
@@ -847,6 +851,10 @@ de:
             variant:
               must_be_owned_by_the_project: Es darf sich nicht um eine Variante handeln, die zu einem anderen Projekt gehört.
               must_belong_to_the_type: muss eine Variante des Typs sein, den das Projekt verwendet.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1071,7 +1079,7 @@ de:
             target_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
-              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unteraufgaben besitzt.
+              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unterelemente besitzt.
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge.'
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
           target_versions_only_allow_single_value: Zielversionen können nur einen einzigen Wert enthalten.
@@ -1547,7 +1555,7 @@ de:
         heading: Farbschema ändern?
         title: Farbschema ändern
     enterprise:
-      add_token: Enterprise-Edition Support Token hochladen
+      add_token: Enterprise edition Support Token hochladen
       book_now: Jetzt buchen
       buttons:
         contact: Kontaktieren Sie uns für eine Demo
@@ -1564,9 +1572,9 @@ de:
       enterprise_link: Klicken Sie hier für weitere Informationen.
       get_quote: Angebot anfordern
       order: Enterprise on-premises bestellen
-      paste: Enterprise-Edition Support Token hier einfügen
+      paste: Enterprise edition Support Token hier einfügen
       replace_token: Aktuellen Enterprise edition Support Token ersetzen
-      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar.
+      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar.
       start_trial: Kostenlose Testversion starten
       status:
         expired: Abgelaufen
@@ -1639,10 +1647,6 @@ de:
         button_delete_personal_access_token: PAT löschen
         button_save: Konfiguration speichern
         button_test_connection: Verbindung testen
-        credential_requirements:
-          administrator: The user must be a Jira administrator.
-          project_member: The user must be a member of every Jira project you want to migrate.
-          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1654,7 +1658,6 @@ de:
           personal_access_token: Personal access token (PAT)
           url: Jira Server/Datencenter URL
         label_testing: Teste Konfiguration...
-        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1712,9 +1715,6 @@ de:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
-        not_administrator_error:
-          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
-          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Sie versuchen ein Projekt mit einem bereits verwendeten Identifikator zu importieren: %{taken_identifier}. Bitte aktualisieren Sie die Projektkennung in Jira und klicken Sie dann auf Wiederholen.'
         remove_error: Ein Jira-Import kann nicht entfernt werden während er läuft
         side_panel:
@@ -1776,9 +1776,6 @@ de:
             projects:
               one: "%{count} Projekt"
               other: "%{count} Projekte"
-            resolutions:
-              one: "%{count} resolution"
-              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} Statusse"
@@ -1808,7 +1805,6 @@ de:
               label_available_data: Zu importierende Daten
               label_import_data: Wird gerade importiert
               label_progress: Import läuft...
-              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Nutzer, die an ausgewählten Projekten beteiligt sind (einschließlich Gruppenmitgliedschaften)
               title: Daten importieren
             fetch_data:
@@ -1935,12 +1931,10 @@ de:
         error: Beim Testen der Verbindung ist ein unerwarteter Fehler aufgetreten
         failed: 'Verbindung fehlgeschlagen: Serverinformationen können nicht abgerufen werden'
         invalid_url: Bitte eine gültige URL eingeben
-        not_administrator:
-          basic: Basic auth user must be a Jira administrator.
-          bearer: Personal Access Token must be an admin token.
         parse_error: Die Antwort des Servers konnte nicht gelesen werden. Der Server ist möglicherweise keine gültige Jira-Instanz.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Erfolgreich verbunden mit %{server} (Version %{version})
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: Unbekannt
@@ -2108,6 +2102,37 @@ de:
           error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
         move:
           error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: Der Abschnitt konnte nicht gelöscht werden.
@@ -2322,8 +2347,6 @@ de:
         emoji_reactions_activity_type_not_supported: Dieser Aktivitätstyp unterstützt keine Emoji-Reaktionen.
         invalid_link: Der Link unter dem Schlüssel '%{key}' ist nicht gültig.
         links_not_an_object: _links muss ein JSON-Objekt sein.
-        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
-        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Ungültige Anfrage: %{message}'
       code_401: Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können.
       code_401_wrong_credentials: Die von Ihnen benutzten Zugangsdaten sind nicht korrekt.
@@ -2673,22 +2696,6 @@ de:
       missing_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
       unknown: Ein unbekannter Fehler ist aufgetreten. Bitte überprüfen Sie die Formel für diesen Berechneten Wert.
   colors:
-    contrast:
-      background: Background
-      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
-      dark: Dark mode
-      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
-      fail: Fail
-      foreground: Foreground
-      light: Light mode
-      pass: Pass
-      ratio: Contrast ratio
-      sample: Sample text
-      text: Text
-      title: Contrast preview
-      used_as_background: Used as background
-      used_as_foreground: Used as foreground
-      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Farbe bearbeiten
     form:
@@ -3353,7 +3360,7 @@ de:
   error_custom_option_not_found: Option ist nicht vorhanden.
   error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten.
   error_enterprise_plan_needed: Sie benötigen den Enterprise-Plan %{plan}, um diese Aktion durchzuführen.
-  error_enterprise_token_invalid_domain: Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
+  error_enterprise_token_invalid_domain: Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
   error_external_authentication_failed_message: 'Die externe Authentifizierung ist fehlgeschlagen: %{message}'
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_in_dependent: 'Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
@@ -3866,7 +3873,7 @@ de:
       meeting_series_backlog_html: Backlog der Terminserie %{link}
       meeting_series_template_html: Vorlage der Terminserie %{link}
       meeting_template_html: Besprechungsvorlage %{link}
-      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-bezogen gesetzt
+      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
       status_percent_complete_changed: "% abgeschlossen von %{old_value}% auf %{new_value} % geändert"
@@ -3904,7 +3911,6 @@ de:
       comment_retracted: Comment retracted
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
-      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importiert
       label_deleted: 'Label removed:'
@@ -4143,7 +4149,7 @@ de:
   label_end_to_start: Ende - Anfang
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: Enterprise Edition
+  label_enterprise_edition: Enterprise edition
   label_enterprise_support: Enterprise Support
   label_enumeration_new: Neuer Aufzählungswert
   label_enumeration_value: Aufzählungswert
@@ -5047,6 +5053,7 @@ de:
       mail_notification: Mailbenachrichtigung
       mails_and_notifications: E-Mails und Benachrichtigungen
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browser notifications
       text_transform_actions: Textumwandlungsaktionen
     quick_add:
       label: Hinzufügen…
@@ -5613,8 +5620,8 @@ de:
         label: Inhaltsverzeichnis
     page_nr_footer: Seite %{page} von %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: Alle Attribute, die in der aktuellen Formularkonfiguration des Standardtemplates vorhanden sind.
       label: Attribute und Beschreibung
@@ -5927,11 +5934,11 @@ de:
           no_status_when_submitted: Der Antrag auf Projektinitiierung konnte nicht aktiviert werden, da für den Arbeitspaket-Typ %{type} mindestens ein Status erforderlich ist, der mit ihm verknüpft ist. Bitte aktivieren Sie mindestens einen Status-Workflow für diesen Arbeitspaket-Typ.
           no_work_package_type: Die Anfrage zur Projektinitiierung konnte nicht aktiviert werden, da dafür mindestens ein aktiver Arbeitspaket-Typ erforderlich ist und dieses Projekt keinen hat. Bitte fügen Sie diesem Projekt mindestens einen Arbeitspaket-Typ hinzu.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: Das erzeugte Artefakt wird als PDF-Anhang zum erstellten Arbeitspaket gespeichert.
+          description_file_link_export: Das erstellte Arbeitspaket enthält einen Dateilink zu einer PDF-Datei, die in einem externen Dateispeicher gespeichert ist. Erfordert einen aktiven Dateispeicher mit automatisch verwalteten Projektordnern. Im Moment werden nur Nextcloud-Dateispeicher unterstützt.
           description_file_storage_selection: Wählen Sie, welcher der konfigurierten externen Dateispeicher verwendet werden soll.
           external_file_storage: Externe Dateispeicher
-          label_artefact_export: Artefact export
+          label_artifact_export: Artefakt-Export
           label_attachment_export: Als Dateianhang des Arbeitspakets speichern
           label_file_link_export: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
           pdf_file_storage: PDF-Datei-Speicherort
@@ -6070,14 +6077,14 @@ de:
     status:
       button_edit: Status bearbeiten
     wizard:
-      create_artefact_storage_error: Failed to store artefact in file storage
-      create_artefact_work_package_error: Failed to create artefact work package
+      create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
+      create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
       no_custom_fields_html: Für dieses Projekt sind keine Projektattribute für den Assistenten aktiviert. Bitte aktivieren Sie mindestens eines davon in den <a href="%{link}">Projekteinstellungen</a>.
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
       sidebar_content_title: Inhalt
-      success: Project attributes saved and artefact work package created successfully.
+      success: Projektattribute gespeichert und Artefakt der Anfrage als Arbeitspaket erstellt.
       title: Projektinitiierungsantrag
   pwa:
     offline:
@@ -6103,22 +6110,6 @@ de:
         automatic:
           description: Ordnen Sie %{plural} nach einem oder mehreren Sortierkriterien. Die vorherige Sortierung geht dabei verloren.
           heading: Automatisch
-    filter_summary:
-      between: "%{field} %{operator} %{lower} and %{upper}"
-      current_work_package: current work package
-      from: "%{field} is on or after %{date}"
-      relative:
-        ago: "%{field} is %{duration} ago"
-        in: "%{field} is in %{duration}"
-        in_less_than: "%{field} is in less than %{duration}"
-        in_more_than: "%{field} is in more than %{duration}"
-        less_than_ago: "%{field} is less than %{duration} ago"
-        more_than_ago: "%{field} is more than %{duration} ago"
-      unavailable_filter: Unavailable filter
-      unavailable_value: Unavailable value
-      until: "%{field} is on or before %{date}"
-      with_values: "%{field} %{operator} %{values}"
-      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6231,7 +6222,7 @@ de:
       not_available: Genutzter Festplattenspeicher ist nicht für dieses Projektarchiv verfügbar.
       oauth_application_details_html: 'Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:'
       oauth_application_details_link_text: Zu den Einstellungen gehen
-      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Dateispeichers benötigen, konsultieren Sie bitte die Dokumentation: '
+      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: '
       setup_documentation_details_link_text: Dateispeicher einrichten
       show_warning_details: Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren.
       update_timeout: |-
@@ -6532,6 +6523,12 @@ de:
   setting_user_format: Format des Benutzernamens
   setting_users_deletable_by_admins: Admins können Nutzeraccounts löschen
   setting_users_deletable_by_self: Nutzer können ihren Account löschen
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_welcome_text: Text für Willkommens-Block
   setting_welcome_title: Titel des Willkommens-Block
@@ -6675,12 +6672,12 @@ de:
         confirmation_message: Der Projektinitiierungsantrag wird für neue Projekte, die auf dieser Vorlage basieren, nicht mehr verfügbar sein. Projektmanager und Projektverantwortliche müssen die entsprechenden Informationen in der Projektübersicht manuell konfigurieren und ausfüllen.
         heading: Diesen Projektinitiationsantrag deaktivieren?
         title: Projektinitiierungsantrag deaktivieren
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject kann einen Schritt-für-Schritt-Assistenten erstellen, der beim Ausfüllen eines Projektinitiierungsantrags unterstützt. Sie können die abgefragten Projektattribute wählen und ein Artefakt als Ergebnis erzeugen lassen.
 
         '
       name:
-        artefact_name: Artefact name
-        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artifact_name: Name des Artefakts
+        artifact_name_caption: Wählen Sie den Namen für dieses Artefakt, passend zu Ihrer Projektmanagement-Methodik.
         options:
           project_creation_wizard: Projekterstellungs-Assistent
           project_initiation_request: Projektinitiierungsantrag
@@ -6700,8 +6697,8 @@ de:
           Sie haben einen Antrag auf Projektinitiierung für **%{project_name}** eingereicht. Dieser wartet nun auf seine Überprüfung.
           Klicken Sie auf den untenstehenden Link, um das Arbeitspaket mit Ihrem Antrag aufzurufen.
         confirmation_email_text: Text der Bestätigungs-E-Mail
-        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: Wenn ein Benutzer eine Anfrage zur Projektinitiierung einreicht, wird ein neues Arbeitspaket erstellt, an das ein Artefakt der Anfrage als PDF-Datei angehängt wird. Die folgenden Einstellungen definieren den Typ, den Status und den Empfänger für dieses neue Arbeitspaket.
+        description_template: "**Dieses Arbeitspaket wurde automatisch nach Abschluss des %{wizard_name} Workflows erstellt.** Ein PDF-Artefakt mit allen eingereichten Informationen wurde generiert und zu Referenz- und Prüfzwecken an dieses Arbeitspaket angehängt. Wenn Sie die Einleitungsschritte aktualisieren oder erneut ausführen müssen, können Sie den Assistenten jederzeit über den unten stehenden Link erneut öffnen:\n"
         send_confirmation_email: Senden Sie eine Bestätigungs-E-Mail an den Benutzer, der den Projektinitiierungsantrag gestellt hat
         status_when_submitted: Status bei Einreichung
         status_when_submitted_caption: Der Status, in den das erstellte Arbeitspaket übergeht, sobald der Antrag eingereicht wird.
@@ -6709,7 +6706,7 @@ de:
         work_package_comment_caption: Der oben ausgewählte Empfänger wird automatisch in dem Kommentar @erwähnt.
         work_package_comment_default: Ein Antrag auf Projektinitiierung für **%{project_name}** wurde eingereicht und wartet auf seine Prüfung.
         work_package_type: Arbeitspaket-Typ
-        work_package_type_caption: The work package type that should be used to store the completed artefact.
+        work_package_type_caption: Der Arbeitspaket-Typ, der zum Speichern des Artefakts verwendet wird.
       wizard_status_button:
         project_creation_wizard: Projekterstellungs-Assistent öffnen
         project_initiation_request: Projektinitiierungsantrag öffnen
@@ -7062,9 +7059,6 @@ de:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: nachmittags
-    relative_ago: "%{time} ago"
-    relative_at: "%{relative} at %{time}"
-    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: bis
     show: Zeitausschnitt anzeigen
@@ -7242,13 +7236,13 @@ de:
           file_link:
             caption: Die erstellte PDF-Datei wird in den automatisch verwalteten Nextcloud-Speicher des Projekts hochgeladen und vom Arbeitspaket aus verlinkt. Arbeitspakete in Projekten ohne einen solchen Speicher werden übersprungen.
             label: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+          intro: Automatisch ein PDF-Artefakt eines Arbeitspakets dieses Typs generieren, wenn sich dessen Status ändert.
+          invalid_mode: Ungültiger Artefakt-Exportmodus.
+          label: Automatischer Export von Artefakten
           off_mode:
             caption: Es wird kein PDF automatisch generiert.
             label: Aus
-          section_title: Automatic artefact export
+          section_title: Automatischer Export von Artefakten
           unavailable: Nicht verfügbar, es ist kein automatisch verwalteter Nextcloud-Speicher konfiguriert
         pdf_export_templates:
           actions:
@@ -7295,11 +7289,6 @@ de:
         no_inactive_attributes: Keine inaktiven Attribute
         not_found: Das angeforderte Formularfeld konnte nicht gefunden werden.
         query_group_label: Zugehörige Arbeitspaket-Tabelle
-        query_summary:
-          baseline:
-            between: Changes between %{from} and %{to}
-            since: Changes since %{time}
-          unavailable: Configuration unavailable
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
         required:
@@ -7361,6 +7350,8 @@ de:
           no_results: Keine übereinstimmenden Projekte.
           title: Wird in keinem Projekt verwendet
         enable_all: Für alle Projekte aktivieren
+        select_projects: Projekt auswählen
+        select_projects_description: Wählen Sie die Projekte aus, in denen Sie diesen Typ verwenden möchten.
         switch_dialog:
           description: Die folgenden Projekte verwenden bereits andere Varianten für „ %{type}“. Sind Sie sicher, dass Sie diese durch „%{variant}“ ersetzen möchten? Dies hat Auswirkungen auf Formulare und Workflows in all diesen Projekten.
           title: Varianten ersetzen?
@@ -7734,7 +7725,7 @@ de:
   warning_user_limit_reached_admin_html: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte [aktualisieren Sie Ihr Abonnement](upgrade_url) um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
 
     '
-  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
 
     '
   wiki:
@@ -7811,7 +7802,7 @@ de:
       blocked_by_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocked_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocks_description: Das verknüpfte Arbeitspaket kann erst geschlossen werden, wenn dieses Arbeitspaket geschlossen ist
-      child: Unteraufgabe
+      child: Kind
       child_description: Macht das zugehörige Arbeitspaket zu einer Unteraufgabe des aktuellen (übergeordneten) Arbeitspakets
       duplicated_by_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
       duplicated_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
@@ -7924,7 +7915,7 @@ de:
           manual_with_children: Hat Unteraufgaben aber ihre Startdaten werden ignoriert.
         title:
           automatic_mobile: Automatisch geplant.
-          automatic_with_children: Unteraufgaben bestimmen Termine.
+          automatic_with_children: Die Termine sind durch untergeordnete Arbeitspakete bestimmt.
           automatic_with_predecessor: Der Anfangstermin wird von einem Vorgänger festgelegt.
           manual_mobile: Manuell geplant.
           manually_scheduled: Manuell geplant – Daten unabhängig von Beziehungen.

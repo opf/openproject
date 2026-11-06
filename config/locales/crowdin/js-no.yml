@@ -164,7 +164,7 @@
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Avmerk alle
-    button_update: Oppdater
+    button_update: Oppdatèr
     button_view_markdown: View Markdown
     caption_rate_history: Satshistorikk
     card:
@@ -1124,6 +1124,7 @@
         default_mode: Flat liste
         display_settings: Skjerminnstillinger
         display_sums_hint: Vis summer av alle summerbare egenskaper i en rad under tabellresultatene.
+        embedded_tab_disabled: Denne konfigurasjons-fanen er ikke tilgjengelig for den innebygde visningen du redigerer.
         hierarchy_hint: Alle filtrerte tabellresultater vil bli forsterket med sine overordnede. Hierarkier kan utvides og kollapses.
         hierarchy_mode: Hierarki
         highlighting: Utheving

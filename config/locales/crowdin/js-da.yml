@@ -1124,6 +1124,7 @@ da:
         default_mode: Flad liste
         display_settings: Visningsindstillinger
         display_sums_hint: Vis summen af alle attributter, der kan summeres, i en række under tabellens resultater.
+        embedded_tab_disabled: Fanen er ikke tilgængelig for den indlejrede visning, som du redigerer.
         hierarchy_hint: Alle filtrerede resultater i tabellen suppleres med deres overordnede. Hierarkier kan foldes ud og sammen.
         hierarchy_mode: Hierarki
         highlighting: Fremhævning

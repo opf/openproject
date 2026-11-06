@@ -164,7 +164,7 @@ vi:
     button_start_timer: Bắt đầu hẹn giờ
     button_stop_timer: Dừng hẹn giờ
     button_uncheck_all: Bỏ chọn tất cả
-    button_update: cập nhật
+    button_update: Cập Nhật
     button_view_markdown: View Markdown
     caption_rate_history: Lịch sử giá
     card:
@@ -1116,6 +1116,7 @@ vi:
         default_mode: Danh sách phẳng
         display_settings: Cài đặt hiển thị
         display_sums_hint: Hiển thị tổng của tất cả các thuộc tính có thể tính tổng trong một hàng bên dưới kết quả của bảng.
+        embedded_tab_disabled: Tab cấu hình này không có sẵn cho chế độ xem được nhúng mà bạn đang chỉnh sửa.
         hierarchy_hint: Tất cả các kết quả bảng đã lọc sẽ được tăng cường với tổ tiên của chúng. Hệ thống phân cấp có thể được mở rộng và thu gọn.
         hierarchy_mode: Hệ thống phân cấp
         highlighting: Làm nổi bật

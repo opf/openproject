@@ -1124,6 +1124,7 @@ sv:
         default_mode: Platt lista
         display_settings: Visningsinställningar
         display_sums_hint: Visa summan av alla summerbara attribut på en rad under tabellresultaten.
+        embedded_tab_disabled: Den här konfigurationsfliken är inte tillgänglig för den inbäddade vy som du redigerar.
         hierarchy_hint: Alla filtrerade tabellresultat kompletteras med sina överordnade. Hierarkier kan fällas ut och fällas ihop.
         hierarchy_mode: Hierarki
         highlighting: Markering

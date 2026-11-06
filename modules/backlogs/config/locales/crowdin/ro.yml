@@ -45,7 +45,7 @@ ro:
       work_package:
         backlog_bucket: Backlog bucket
         backlog_inbox: Backlog inbox
-        backlogs_work_package_type: Tipul de restante
+        backlogs_work_package_type: Tip restanță
         position: Poziție
         sprint: Sprint
         story_points: Puncte
@@ -148,8 +148,8 @@ ro:
         blankslate_title: No burndown data available
     created_resolved_chart:
       series:
-        created: Created
-        resolved: Resolved
+        created: Created work packages
+        resolved: Resolved work packages
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available

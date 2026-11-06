@@ -1124,6 +1124,7 @@ nl:
         default_mode: Platte lijst
         display_settings: Weergave-instellingen
         display_sums_hint: Waarden van alle optelbare attributen in een rij onder de tabel resultaten weergeven.
+        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
         hierarchy_mode: Hiërarchie
         highlighting: Markering

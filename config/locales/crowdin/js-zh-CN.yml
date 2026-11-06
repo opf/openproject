@@ -1116,6 +1116,7 @@ zh-CN:
         default_mode: 扁平列表
         display_settings: 显示设置
         display_sums_hint: 在表结果下方一行中显示所有可累加属性的总和。
+        embedded_tab_disabled: 此配置选项卡不适用于您正在编辑的嵌入式视图。
         hierarchy_hint: 所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。
         hierarchy_mode: 层次结构
         highlighting: 突出显示
