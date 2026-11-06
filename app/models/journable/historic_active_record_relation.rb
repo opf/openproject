@@ -152,15 +152,27 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
     ["#{journals}.journable_id AS id",
      "#{journals}.id AS journal_id",
-     "#{model.table_name}.created_at",
+     *current_record_selects,
      "#{journals}.updated_at",
      "CASE #{timestamp_case_when_statements} END as timestamp",
-     *model.journal_class.column_names
-           .reject { it == "id" }
-           .map { |c| "#{model.journal_class.table_name}.#{c}" },
-     *model.column_names_missing_in_journal.map do |missing_column_name|
-       "null as #{missing_column_name}"
-     end]
+     *journal_data_selects,
+     *missing_column_selects]
+  end
+
+  def current_record_selects
+    model.column_names_from_current_record.map { |c| "#{model.table_name}.#{c}" }
+  end
+
+  def journal_data_selects
+    journal_data_table = model.journal_class.table_name
+
+    model.journal_class.column_names
+         .reject { it == "id" }
+         .map { |c| "#{journal_data_table}.#{c}" }
+  end
+
+  def missing_column_selects
+    model.column_names_missing_in_journal.map { |c| "null as #{c}" }
   end
 
   # Additional table joins can appear in the where clause, such as the custom_values table join.
