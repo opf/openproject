@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { http, HttpResponse } from "msw";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { server } from "../mocks/node";
 
 // Web requests are mocked via the dynamic document response (see `handlers.ts`) returning
 // the `__echo` field we use to confirm the called URL and host header.
@@ -74,5 +76,57 @@ describe("fetchResource", () => {
 
       expect(response).toMatchObject({ __echo: { url: 'http://web/api/v3/documents/42', xForwardedProtoHeader: "https" }});
     });
+  });
+
+  describe("logging", () => {
+    test("logs method, URL and status, but never the token", async () => {
+      const log = vi.spyOn(console, "log").mockImplementation(() => {});
+      const { fetchResource } = await import("../../src/services/resourceService");
+
+      await fetchResource("https://test.openproject.com/api/v3/documents/42", "__valid_oauth_token");
+
+      const output = log.mock.calls.flat().join("\n");
+      expect(output).toMatch(/\] GET https:\/\/test\.openproject\.com\/api\/v3\/documents\/42 request_id=\S+ -> 200 \(\d+ms\)/);
+      expect(output).not.toContain("__valid_oauth_token");
+      log.mockRestore();
+    });
+  });
+});
+
+describe("describeErrorResponse", () => {
+  const resourceUrl = "https://test.openproject.com/api/v3/documents/42";
+
+  async function errorResponse(body: string) {
+    server.use(http.get(resourceUrl, () => new HttpResponse(body, { status: 500 })));
+    return fetch(resourceUrl);
+  }
+
+  test("logs error bodies on a single line", async () => {
+    const { describeErrorResponse } = await import("../../src/services/resourceService");
+    const response = await errorResponse(JSON.stringify({
+      _type: "Error",
+      errorIdentifier: "urn:openproject-org:api:v3:errors:MissingPermission",
+      message: "You are not authorized to access this resource.",
+    }, null, 2));
+
+    const description = await describeErrorResponse(response);
+
+    expect(description).toEqual('{ "_type": "Error", "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission", "message": "You are not authorized to access this resource." }');
+    expect(await response.json()).toMatchObject({ _type: "Error" });
+  });
+});
+
+describe("describeFetchError", () => {
+  test("includes the underlying cause of a failed fetch", async () => {
+    const { describeFetchError } = await import("../../src/services/resourceService");
+    const cause = Object.assign(new Error("connect ECONNREFUSED 127.0.0.1:3000"), {
+      code: "ECONNREFUSED",
+      syscall: "connect",
+      address: "127.0.0.1",
+      port: 3000,
+    });
+
+    expect(describeFetchError(new TypeError("fetch failed", { cause })))
+      .toEqual("fetch failed (connect ECONNREFUSED 127.0.0.1:3000)");
   });
 });

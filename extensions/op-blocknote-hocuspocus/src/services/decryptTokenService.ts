@@ -46,15 +46,29 @@ type PackedParams = {
  * Decrypts a given token using AES-256-GCM algorithm.
  */
 export function decryptToken(encrypted:string):PackedParams {
-  const [token, iv, authTag] = encrypted.split('--').map((part:string) => Buffer.from(part, 'base64'));
+  const decrypted = decrypt(encrypted);
 
-  const decipher = createDecipheriv(ALGORITHM, SECRET, iv);
-  decipher.setAuthTag(authTag);
+  try {
+    return JSON.parse(decrypted.toString());
+  } catch {
+    throw new Error("Unauthorized: Decrypted token is not valid JSON");
+  }
+}
 
-  const decrypted = Buffer.concat([
-    decipher.update(token),
-    decipher.final()
-  ]);
+function decrypt(encrypted:string):Buffer {
+  try {
+    const [token, iv, authTag] = encrypted.split('--').map((part:string) => Buffer.from(part, 'base64'));
+    const decipher = createDecipheriv(ALGORITHM, SECRET, iv);
+    decipher.setAuthTag(authTag);
 
-  return JSON.parse(decrypted.toString());
+    return Buffer.concat([
+      decipher.update(token),
+      decipher.final()
+    ]);
+  } catch {
+    throw new Error(
+      "Unauthorized: Could not decrypt token. " +
+      "Check that SECRET matches OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET of OpenProject."
+    );
+  }
 }

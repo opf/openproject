@@ -56,7 +56,7 @@ describe("OpenProjectApi", () => {
           token: "mXPMUDJ41lbo0xc0qjgeUrk0nYfuCKMxPZa+/euNNM8jVpeZI5uU/YQQa60WnLoYo7gkCKlOCcdY5BVS2MqkpnSf5RWQPhNjm0czkiZ6hK4G6Y3EJOZkE67MPyVmyYFGgxnoGajwMAI=--gyIqET3MOf8a+HDk--DW5I6ZOWaGHRgiJ6FjOcZQ==",
           documentName: "https://test.api/api/v3/documents/1",
         } as unknown as onAuthenticatePayload)
-      ).rejects.toThrowError("Unsupported state or unable to authenticate data");
+      ).rejects.toThrowError("Unauthorized: Could not decrypt token.");
     });
 
     test("when the origin does not match the one in the token", async () => {
