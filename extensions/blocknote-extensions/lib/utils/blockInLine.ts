@@ -1,4 +1,5 @@
-import { blockToNode, UniqueID } from '@blocknote/core';
+import { blockToNode } from '@blocknote/core';
+import { UniqueID } from '@blocknote/core/extensions';
 import type { Fragment, Node, ResolvedPos } from 'prosemirror-model';
 import type { Transaction } from 'prosemirror-state';
 import type { AnyEditor } from '../editorTypes';

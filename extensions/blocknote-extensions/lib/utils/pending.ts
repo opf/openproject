@@ -1,3 +1,5 @@
+import { uniqueId } from './id';
+
 const PENDING_PREFIX = 'pending:';
 
 export interface PendingHandlers<Result> {
@@ -12,10 +14,7 @@ export interface PendingRegistry<Result, Entry extends PendingHandlers<Result>> 
 }
 
 export function makePendingWpid():string {
-  const token = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-    ? crypto.randomUUID()
-    : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  return `${PENDING_PREFIX}${token}`;
+  return `${PENDING_PREFIX}${uniqueId()}`;
 }
 
 export function isPendingWpid(wpid:string):boolean {
