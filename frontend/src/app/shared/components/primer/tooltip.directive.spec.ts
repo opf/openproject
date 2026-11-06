@@ -29,6 +29,7 @@ import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { fireEvent, screen, waitFor } from '@testing-library/dom';
+import { page, userEvent } from 'vitest/browser';
 import { OpTooltipDirective } from './tooltip.directive';
 import { ToolTipElement } from './tool-tip-element';
 
@@ -64,6 +65,17 @@ describe('OpTooltipDirective', () => {
   }
 
   const tooltip = () => document.querySelector<ToolTipElement>('tool-tip')!;
+
+  // Earlier spec files can leave the real pointer where fixtures render, and Chromium then fires
+  // mouseenter on them, which opens their tooltips.
+  beforeEach(async () => {
+    const corner = document.createElement('div');
+    corner.dataset.testid = 'pointer-rest';
+    corner.style.cssText = 'position:fixed; right:0; bottom:0; width:10px; height:10px';
+    document.body.append(corner);
+    await userEvent.hover(page.getByTestId('pointer-rest'));
+    corner.remove();
+  });
 
   afterEach(() => {
     fixture?.destroy();
