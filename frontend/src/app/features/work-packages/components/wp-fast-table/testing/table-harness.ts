@@ -47,6 +47,7 @@ import { States } from 'core-app/core/states/states.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -139,6 +140,10 @@ export interface TableHarnessOptions {
   groups?:GroupFixture[];
   groupBy?:string;
   showHierarchies?:boolean;
+  /** Sorts the built query manually. */
+  manualSort?:boolean;
+  /** Builds a persisted query that can (default) or cannot update its ordered work packages. */
+  canReorder?:boolean;
   configuration?:WorkPackageTableConfigurationObject;
   /** Keeps production defaults for every setting but the extra columns the harness cannot build. */
   productionDefaults?:boolean;
@@ -321,6 +326,13 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     options.timelineVisible ?? false,
     options.highlightingMode,
   );
+  if (options.manualSort) {
+    query.sortBy = [{ href: '/api/v3/queries/sort_bys/manualSorting-asc', column: { href: '/api/v3/queries/columns/manualSorting' } } as unknown as QuerySortByResource];
+  }
+  if (options.canReorder !== undefined) {
+    query.id = '1';
+    query.updateOrderedWorkPackages = options.canReorder ? vi.fn() : undefined;
+  }
   querySpace.query.putValue(query);
   const configuration = new WorkPackageTableConfiguration(
     { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },

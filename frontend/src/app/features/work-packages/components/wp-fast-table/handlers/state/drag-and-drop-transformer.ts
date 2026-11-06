@@ -36,6 +36,10 @@ import { TableDragActionsRegistryService } from 'core-app/features/work-packages
 import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { States } from 'core-app/core/states/states.service';
 import { DragAndDropService, DragIntent } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
@@ -46,9 +50,14 @@ import { collapsedGroupClass } from 'core-app/features/work-packages/components/
 import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { selectionGesture } from './selection-feedback';
+import type { MoveDirection, RowMover } from './row-mover';
 import { firstValueFrom } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
+import { announce } from '@primer/live-region-element';
 
-export class DragAndDropTransformer {
+type MoveOutcome = 'moved'|'unchanged'|'abandoned';
+
+export class DragAndDropTransformer implements RowMover {
   @LazyInject() private readonly states:States;
 
   @LazyInject() private readonly querySpace:IsolatedQuerySpace;
@@ -58,6 +67,10 @@ export class DragAndDropTransformer {
   @LazyInject() private readonly halNotification:HalResourceNotificationService;
 
   @LazyInject() private readonly wpTableSortBy:WorkPackageViewSortByService;
+
+  @LazyInject() private readonly wpTableGroupBy:WorkPackageViewGroupByService;
+
+  @LazyInject() private readonly wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   @LazyInject() private readonly wpTableOrder:WorkPackageViewOrderService;
 
@@ -71,6 +84,8 @@ export class DragAndDropTransformer {
 
   @LazyInject(DragAndDropService, null) private readonly dragService:DragAndDropService|null;
 
+  private moveInFlight = false;
+
   constructor(public readonly injector:Injector,
     public table:WorkPackageTable) {
     // The DragService may not have been provided
@@ -82,6 +97,7 @@ export class DragAndDropTransformer {
     }
 
     onDestroySafely(table.destroyRef, () => dragService.remove(table.tbody));
+    table.attachRowMover(this);
 
     this.inlineCreateService.newInlineWorkPackageCreated
       .pipe(takeUntilDestroyed(table.destroyRef))
@@ -108,7 +124,7 @@ export class DragAndDropTransformer {
       itemIdOf: (row) => (table.destroyed ? null : row.dataset.workPackageId ?? null),
       accepts: () => !table.destroyed,
       canPickup: (row, handle) => {
-        if (table.destroyed) return false;
+        if (table.destroyed || this.moveInFlight) return false;
         if (!handle?.classList.contains('wp-table--drag-and-drop-handle')) {
           return false;
         }
@@ -140,8 +156,69 @@ export class DragAndDropTransformer {
       // single picked-up row. Collapse the selection to that row so the
       // drag never LOOKS like it carries the other selected rows along.
       onDragStarted: (row) => this.collapseSelectionTo(row),
-      onMoved: (intent, complete) => this.performMove(intent, complete),
+      onMoved: (intent, complete) => { void this.performMove(intent, complete); },
     });
+  }
+
+  public movableDirections(workPackageId:string):ReadonlySet<MoveDirection>|null {
+    const query = this.querySpace.query.value;
+    const order = this.currentOrder;
+    const index = order.indexOf(workPackageId);
+    if (!query || index === -1 || !this.canMoveRows(query)) return null;
+
+    const directions = new Set<MoveDirection>();
+    if (this.moveInFlight) return directions;
+    if (index > 0) directions.add('top').add('up');
+    if (index < order.length - 1) directions.add('down').add('bottom');
+    return directions;
+  }
+
+  public move(workPackageId:string, direction:MoveDirection):void {
+    if (!this.movableDirections(workPackageId)?.has(direction)) return;
+    const intent = this.intentFor(workPackageId, direction);
+    if (!intent) return;
+
+    const query = this.querySpace.query.value;
+    void this.performMove(intent, () => undefined).then((outcome) => {
+      if (outcome === 'moved') this.announceMove(workPackageId, query);
+    });
+  }
+
+  private intentFor(workPackageId:string, direction:MoveDirection):DragIntent|null {
+    const order = this.currentOrder;
+    const index = order.indexOf(workPackageId);
+    const targets:Record<MoveDirection, [string|undefined, Edge]> = {
+      top: [order[0], 'top'],
+      up: [order[index - 1], 'top'],
+      down: [order[index + 1], 'bottom'],
+      bottom: [order[order.length - 1], 'bottom'],
+    };
+    const [targetId, edge] = targets[direction];
+    return index === -1 || targetId === undefined ? null : { sourceId: workPackageId, targetId, edge };
+  }
+
+  private announceMove(workPackageId:string, query:QueryResource|undefined):void {
+    if (this.table.destroyed || this.querySpace.query.value !== query) return;
+    const order = this.currentOrder;
+    const index = order.indexOf(workPackageId);
+    if (index === -1) return;
+
+    const row = locateTableRow(workPackageId, this.table.tbody);
+    const label = row?.querySelector<HTMLElement>('th[scope="row"]')?.dataset.rowHeaderName
+      ?? this.states.workPackages.get(workPackageId).value?.subjectWithId()
+      ?? workPackageId;
+    void announce(
+      I18n.t('js.sortable_lists.announcements.moved', { label, position: index + 1, total: order.length }),
+      { politeness: 'polite' },
+    );
+  }
+
+  private canMoveRows(query:QueryResource):boolean {
+    return this.table.configuration.dragAndDropEnabled
+      && this.wpTableSortBy.isManualSortingMode
+      && !this.wpTableGroupBy.isEnabled
+      && !this.wpTableHierarchies.isEnabled
+      && (isNewResource(query) || !!query.updateOrderedWorkPackages);
   }
 
   private collapseSelectionTo(row:HTMLElement):void {
@@ -154,13 +231,14 @@ export class DragAndDropTransformer {
     }
   }
 
-  /** Prepare against the live view, then finish every accepted persistence phase. */
-  private performMove(intent:DragIntent, complete:(success:boolean) => void):void {
+  /** Prepare against the live view, then finish every accepted persistence phase and the refreshed render. */
+  private performMove(intent:DragIntent, complete:(success:boolean) => void):Promise<MoveOutcome> {
     const table = this.table;
-    if (table.destroyed) {
+    if (table.destroyed || this.moveInFlight) {
       complete(false);
-      return;
+      return Promise.resolve('abandoned');
     }
+    this.moveInFlight = true;
     const notification = this.halNotification;
     const api = this.apiV3Service;
     const orderService = this.wpTableOrder;
@@ -173,24 +251,35 @@ export class DragAndDropTransformer {
     let workPackage = this.states.workPackages.get(wpId).value;
     const isCurrent = () => !table.destroyed && querySpace.query.value === originalQuery;
     let recoverIfCurrent:() => void = () => undefined;
+    let refresh:Promise<boolean>|null = null;
+    let renderedOrderIsStale = false;
+    const settleRefresh = async ():Promise<boolean> => {
+      if (!refresh) return false;
+      if (!(await refresh)) {
+        renderedOrderIsStale = true;
+        return false;
+      }
+      await table.whenRendered();
+      return isCurrent();
+    };
 
-    void (async () => {
+    return (async ():Promise<MoveOutcome> => {
       try {
         if (!originalQuery) {
           complete(false);
-          return;
+          return 'abandoned';
         }
         const loaded = await firstValueFrom(api.work_packages.id(wpId).get());
         workPackage = loaded;
         if (!isCurrent()) {
           complete(false);
-          return;
+          return 'abandoned';
         }
         // A refresh while loading may remove either endpoint of the intent.
         const order = this.currentOrder;
         if (!order.includes(wpId) || (intent.targetId !== null && !order.includes(intent.targetId))) {
           complete(false);
-          return;
+          return 'abandoned';
         }
         const { targetId, edge } = this.resolveEffectiveTarget(intent);
         const renderPass = table.lastRenderPass;
@@ -198,7 +287,7 @@ export class DragAndDropTransformer {
         const target = targetId ? locateTableRow(targetId, table.tableAndTimelineContainer) : null;
         if (!source || (targetId !== null && !target)) {
           complete(false);
-          return;
+          return 'abandoned';
         }
         const { parentNode, nextSibling } = source;
         const stillEligible = () => isCurrent()
@@ -216,7 +305,7 @@ export class DragAndDropTransformer {
         };
         if (!stillEligible()) {
           complete(false);
-          return;
+          return 'abandoned';
         }
         const newOrder = reorderById({
           list: order,
@@ -229,7 +318,7 @@ export class DragAndDropTransformer {
         // A valid unchanged order remains a successful no-op.
         if (newOrder === order) {
           complete(true);
-          return;
+          return 'unchanged';
         }
         const manualSort = !sortService.isManualSortingMode
           ? sortService.available.find((sort) => sort.column.href?.endsWith('/manualSorting'))
@@ -237,7 +326,7 @@ export class DragAndDropTransformer {
         const preparedOrder = await orderService.prepareMove(originalQuery, order, wpId, newOrder.indexOf(wpId), isCurrent);
         if (!stillEligible()) {
           complete(false);
-          return;
+          return 'abandoned';
         }
         // Only preparation observes the staged neighbors. Persistence captures no row.
         table.mutate('positions', () => {
@@ -248,14 +337,14 @@ export class DragAndDropTransformer {
         if (!stillEligible()) {
           recoverIfCurrent();
           complete(false);
-          return;
+          return 'abandoned';
         }
         const ownsQuery = (expectedQuery = originalQuery) => !table.destroyed && querySpace.query.value === expectedQuery;
         const preparedQuery = manualSort ? await listService.prepareSave(originalQuery, ownsQuery) : undefined;
         if (!stillEligible()) {
           recoverIfCurrent();
           complete(false);
-          return;
+          return 'abandoned';
         }
         const refreshLiveView = async (ids:readonly string[]) => {
           if (!isCurrent()) return;
@@ -272,7 +361,14 @@ export class DragAndDropTransformer {
         await preparedOrder.persist();
         await preparedAction.persist();
         recoverIfCurrent = () => {
-          if (isCurrent()) void refreshLiveView(preparedOrder.order).catch(reportUiFailure);
+          if (!isCurrent()) return;
+          refresh = refreshLiveView(preparedOrder.order).then(
+            () => true,
+            (error:unknown) => {
+              reportUiFailure(error);
+              return false;
+            },
+          );
         };
         if (preparedQuery && manualSort) {
           originalQuery.setSortBy([manualSort]);
@@ -280,12 +376,32 @@ export class DragAndDropTransformer {
         }
         complete(true);
         recoverIfCurrent();
+        return await settleRefresh() ? 'moved' : 'abandoned';
       } catch (error:unknown) {
         recoverIfCurrent();
         notification.handleRawError(error, workPackage);
         complete(false);
+        await settleRefresh();
+        return 'abandoned';
+      } finally {
+        if (renderedOrderIsStale) this.releaseMovesAfterNextRender();
+        else this.moveInFlight = false;
       }
     })();
+  }
+
+  /** The DOM already shows the saved order while the rendered state still holds the old one until a new pass commits. */
+  private releaseMovesAfterNextRender():void {
+    const table = this.table;
+    if (table.destroyed) return;
+    const stalePass = table.lastRenderPass;
+    this.querySpace.tableRendered.values$()
+      .pipe(
+        filter(() => table.lastRenderPass !== stalePass),
+        take(1),
+        takeUntilDestroyed(table.destroyRef),
+      )
+      .subscribe(() => { this.moveInFlight = false; });
   }
 
   /**
