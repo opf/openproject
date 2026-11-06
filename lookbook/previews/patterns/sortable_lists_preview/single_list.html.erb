@@ -16,7 +16,6 @@
       )
     ) do |list|
       list.with_header(title: "Tasks")
-      move_items = { "Move to top" => "top", "Move up" => "up", "Move down" => "down", "Move to bottom" => "bottom" }
 
       ["Write the spec", "Review the design", "Ship it"].each_with_index do |title, index|
         list.with_item(
@@ -41,17 +40,10 @@
             concat(
               render(Primer::Alpha::ActionMenu.new(anchor_align: :end)) do |menu|
                 menu.with_show_button(icon: "kebab-horizontal", "aria-label": "Actions for #{title}", scheme: :invisible)
-                menu.with_divider(data: { sortable_lists__item_target: "moveDivider" })
-                move_items.each do |label, direction|
-                  menu.with_item(
-                    label:,
-                    tag: :button,
-                    data: {
-                      sortable_lists__item_target: "moveItem",
-                      sortable_lists__item_direction_param: direction,
-                      action: "click->sortable-lists--item#move"
-                    }
-                  )
+                SortableLists::MoveMenu::DIRECTIONS.each do |move|
+                  menu.with_item(label: t(move.label), tag: :button, data: move.item_data) do |item|
+                    item.with_leading_visual_icon(icon: move.icon)
+                  end
                 end
               end
             )
