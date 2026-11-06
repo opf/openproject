@@ -73,7 +73,7 @@ export interface SeriesChartData<Key extends string> {
   step:ChartStep;
   range:ChartedRange;
   series:ChartSeries<Key>[];
-  nonWorkingIntervals:NonWorkingInterval[];
+  nonWorkingIntervals?:NonWorkingInterval[];
 }
 
 export interface SeriesColor {
@@ -130,8 +130,10 @@ export abstract class SeriesChartComponent<Key extends string> {
   readonly chartData = input.required<string>();
 
   // Everything that tells the series apart, so that a line and its swatch cannot drift. The order
-  // the entries are declared in is the order the legend and the tooltip read them in.
-  protected abstract readonly seriesStyle:Record<Key|NonWorkingKey, SeriesStyle<Key>>;
+  // the entries are declared in is the order the legend and the tooltip read them in. A chart
+  // drawn over a span too long for single days to mean anything leaves the non-working ones out.
+  protected abstract readonly seriesStyle:Record<Key, SeriesStyle<Key>>
+  & Partial<Record<NonWorkingKey, SeriesStyle<Key>>>;
 
   protected abstract readonly yAxisTitle:string;
 
@@ -139,12 +141,15 @@ export abstract class SeriesChartComponent<Key extends string> {
 
   protected readonly parsedInput = computed(() => JSON.parse(this.chartData()) as SeriesChartData<Key>);
 
-  // The non-working days join the series they are drawn among, without data points but present, so
-  // that the legend and its toggle reach them through chart.js.
-  protected readonly series = computed<ChartSeries<Key|NonWorkingKey>[]>(() => {
-    const { series, nonWorkingIntervals } = this.parsedInput();
+  protected readonly nonWorkingIntervals = computed(() => this.parsedInput().nonWorkingIntervals ?? []);
 
-    if (nonWorkingIntervals.length === 0) {
+  // The non-working days join the series they are drawn among, without data points but present, so
+  // that the legend and its toggle reach them through chart.js. Only for a chart that styled them:
+  // the rest have nothing to put in that legend entry and nothing to paint under it.
+  protected readonly series = computed<ChartSeries<Key|NonWorkingKey>[]>(() => {
+    const { series } = this.parsedInput();
+
+    if (this.nonWorkingIntervals().length === 0 || this.seriesStyle[NON_WORKING_KEY] === undefined) {
       return series;
     }
 
@@ -197,7 +202,7 @@ export abstract class SeriesChartComponent<Key extends string> {
         // these charts set deliberately, on every layout.
         'primer-colors': { enabled: false },
         'non-working-days': {
-          intervals: this.parsedInput().nonWorkingIntervals,
+          intervals: this.nonWorkingIntervals(),
           zone,
           datasetIndex: this.nonWorkingDatasetIndex(),
         },
