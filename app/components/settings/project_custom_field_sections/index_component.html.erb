@@ -2,7 +2,7 @@
   <% if @project_custom_field_sections.any? %>
     <%= render(Primer::Alpha::Stack.new(gap: :normal, mt: 3, data: sections_list_data)) do %>
       <% @project_custom_field_sections.each do |section| %>
-        <%= render(Primer::Alpha::StackItem.new(data: section_item_data(section))) do %>
+        <%= stack_item(data: section_item_data(section)) do %>
           <%= render(row_component_class.new(project_custom_field_section: section, first_and_last:)) %>
         <% end %>
       <% end %>
