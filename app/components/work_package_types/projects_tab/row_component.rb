@@ -31,6 +31,7 @@ module WorkPackageTypes
   module ProjectsTab
     class RowComponent < OpPrimer::BorderBoxRowComponent
       include WorkPackageTypes::VariantRoutes
+      include WizardFlag
 
       SELECTION_TYPE = "type_project"
 
@@ -64,7 +65,7 @@ module WorkPackageTypes
 
       def table_variant = table.variant
 
-      def wizard_params = table.wizard? ? { wizard: true } : {}
+      def wizard? = table.wizard?
 
       def applied_variant = @applied_variant ||= project.type_variant(table_variant.type)
 

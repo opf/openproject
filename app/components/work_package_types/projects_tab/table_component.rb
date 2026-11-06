@@ -31,6 +31,9 @@ module WorkPackageTypes
   module ProjectsTab
     class TableComponent < OpPrimer::BorderBoxTableComponent
       include WorkPackageTypes::VariantRoutes
+      include WizardFlag
+
+      public :wizard?
 
       columns :name, :variant
       main_column :name, :variant
@@ -82,10 +85,6 @@ module WorkPackageTypes
       def has_actions? = true
 
       def mobile_title = I18n.t("types.edit.projects.tab")
-
-      def wizard? = @wizard
-
-      def wizard_params = wizard? ? { wizard: true } : {}
 
       def pagination_params
         if wizard?

@@ -32,6 +32,7 @@ module WorkPackageTypes
     class AddDialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WizardFlag
 
       def initialize(variant:, wizard: false)
         super()

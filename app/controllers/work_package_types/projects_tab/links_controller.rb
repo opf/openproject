@@ -39,7 +39,7 @@ module WorkPackageTypes
       before_action :load_query, only: %i[create destroy]
 
       def new
-        respond_with_dialog AddDialogComponent.new(variant: @variant, wizard: listing_in_wizard?)
+        respond_with_dialog AddDialogComponent.new(variant: @variant, wizard: wizard?)
       end
 
       def create
@@ -80,7 +80,7 @@ module WorkPackageTypes
         update_via_turbo_stream(
           component: AddFormComponent.new(
             variant: @variant,
-            wizard: listing_in_wizard?,
+            wizard: wizard?,
             validation_message: I18n.t("types.edit.projects.add_dialog.no_projects_selected")
           ),
           status: :bad_request
