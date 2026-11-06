@@ -37,11 +37,12 @@ module WorkPackageTypes
       DIALOG_ID = "type-projects-bulk-switch-dialog"
       FORM_ID = "type-projects-bulk-switch-form"
 
-      def initialize(variant:, projects:)
+      def initialize(variant:, projects:, wizard: false)
         super()
 
         @variant = variant
         @projects = projects
+        @wizard = wizard
       end
 
       private
