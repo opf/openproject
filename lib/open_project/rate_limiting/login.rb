@@ -78,14 +78,15 @@ module OpenProject
       def submitted_username(req)
         return unless req.post?
 
-        username =
+        param_name =
           if req.path.end_with?("/login")
-            req.params["username"]
+            "username"
           elsif req.path.end_with?("/account/change_password")
-            req.params["password_change_user"]
+            "password_change_user"
           end
+        return unless param_name
 
-        username.to_s.downcase.presence
+        ActionDispatch::Request.new(req.env).params[param_name].to_s.downcase.presence
       end
 
       def burst_limit
