@@ -68,12 +68,8 @@ $op-sortable-item: '[data-sortable-lists--item-id-value]'
   outline-color: var(--borderColor-danger-muted)
 
 #{$op-sortable-list}
-  --op-sortable-drop-indicator-height: 8px
-  --op-sortable-drop-indicator-border-width: 2px
-  // @primer/primitives defines no --stack-gap-none, leaving Primer's
-  // `gap: :none` rule to resolve --stack-gap to a unitless 0 that calc()
-  // cannot add to a length.
-  --stack-gap-none: 0px
+  --op-sortable-drop-indicator-height: var(--base-size-8)
+  --op-sortable-drop-indicator-line-width: var(--borderWidth-thick)
   // Items sit flush by default and the indicator centers on their shared
   // border. Every list declares the gap because the property inherits: a
   // Border Box list nested in a list of groups must not pick up the outer gap.
@@ -85,6 +81,10 @@ $op-sortable-item: '[data-sortable-lists--item-id-value]'
   // Primer's Stack publishes the amount it applies as --stack-gap, through the
   // same fallback chain it gives the `gap` property itself.
   &.Stack
+    // @primer/primitives defines no --stack-gap-none, leaving Primer's
+    // `gap: :none` rule to resolve --stack-gap to a unitless 0 that calc()
+    // cannot add to a length.
+    --stack-gap-none: 0px
     --op-sortable-drop-gap: var(--stack-gap, var(--stack-gap-normal, 1rem))
 
   #{$op-sortable-item}[data-dragging="source"]
@@ -104,17 +104,15 @@ $op-sortable-item: '[data-sortable-lists--item-id-value]'
       left: 0
       right: 0
       height: var(--op-sortable-drop-indicator-height)
-      background: linear-gradient(
-        to bottom,
-        var(--bgColor-accent-muted) 0,
-        var(--bgColor-accent-muted) calc(50% - var(--op-sortable-drop-indicator-border-width) / 2),
-        var(--fgColor-accent) calc(50% - var(--op-sortable-drop-indicator-border-width) / 2),
-        var(--fgColor-accent) calc(50% + var(--op-sortable-drop-indicator-border-width) / 2),
-        var(--bgColor-accent-muted) calc(50% + var(--op-sortable-drop-indicator-border-width) / 2),
-        var(--bgColor-accent-muted) 100%
-      )
+      background-color: var(--fgColor-accent)
+      border-block: calc((var(--op-sortable-drop-indicator-height) - var(--op-sortable-drop-indicator-line-width)) / 2) solid var(--bgColor-accent-muted)
       pointer-events: none
       z-index: 1
+
+      // Both borders take the one forced foreground color, so letting them
+      // meet reads as a single bar rather than two lines around a gap.
+      @media (forced-colors: active)
+        border-block-width: calc(var(--op-sortable-drop-indicator-height) / 2)
 
     &[data-drop-position="top"]::before
       content: ''

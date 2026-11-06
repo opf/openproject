@@ -93,10 +93,10 @@ Angular directives in
 write the same attributes onto hosts that carry none of those contract
 attributes, and keep their own component styles.
 
-A list that spaces its items apart has to publish the spacing as `--stack-gap`
+A list that spaces its items apart has to publish the spacing as `--op-sortable-drop-gap`
 for the drop indicator to be laid out in the gap instead of on an item's own
-edge. `Primer::Alpha::Stack` publishes it for every `gap:` it accepts,
-including the `normal` it falls back to when none is given.
+edge. We already integrate with `Primer::Alpha::Stack` which accepts a `gap:`
+parameter.
 
 Selection gestures announce membership changes, including changes that retain
 the same count. Plain navigation clicks announce only when a wider batch
