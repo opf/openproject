@@ -177,6 +177,7 @@ describe('WorkPackageCardDragAndDropService', () => {
     cdRef:{ detectChanges:ReturnType<typeof vi.fn> };
     cardView:{ updateRenderedCardsValues:ReturnType<typeof vi.fn> };
     onMoved:{ emit:ReturnType<typeof vi.fn> };
+    orderSaveFailed:{ emit:ReturnType<typeof vi.fn> };
     workPackageAddedHandler:ReturnType<typeof vi.fn>;
     orderIsMembership:boolean;
     resolvedListId:string;
@@ -217,6 +218,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       cdRef: { detectChanges: vi.fn() },
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
+      orderSaveFailed: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
       orderIsMembership: false,
       resolvedListId: LIST_ID,
@@ -527,6 +529,7 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(idsOf(service.workPackages)).toEqual(['p', 'q']);
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+      expect(cardView.orderSaveFailed.emit).not.toHaveBeenCalled();
       expect(complete).toHaveBeenCalledWith(false);
     });
 
@@ -546,7 +549,44 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(idsOf(service.workPackages)).toEqual(['p', 'x', 'q']);
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+      expect(cardView.orderSaveFailed.emit).toHaveBeenCalled();
       expect(complete).toHaveBeenCalledWith(true);
+    });
+
+    it('does not request a reload when a newer order replaced the failed insert', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['p', 'q'].map(buildWp);
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true });
+      let rejectAdd!:(error:Error) => void;
+      reorderServiceStub.add.mockReturnValue(new Promise((_resolve, reject) => { rejectAdd = reject; }));
+      service.handleDrop(buildDropEvent({
+        sourceId: 'x', sourceListId: 'source-list', targetId: 'q', edge: 'top', complete: vi.fn(),
+      }));
+      await flush();
+
+      service.workPackages = ['q', 'x', 'p'].map(buildWp);
+      rejectAdd(new Error('add persistence failed'));
+      await flush();
+
+      expect(cardView.orderSaveFailed.emit).not.toHaveBeenCalled();
+    });
+
+    it('requests a reload when a same-order refresh landed before the order save failed', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['p', 'q'].map(buildWp);
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true });
+      let rejectAdd!:(error:Error) => void;
+      reorderServiceStub.add.mockReturnValue(new Promise((_resolve, reject) => { rejectAdd = reject; }));
+      service.handleDrop(buildDropEvent({
+        sourceId: 'x', sourceListId: 'source-list', targetId: 'q', edge: 'top', complete: vi.fn(),
+      }));
+      await flush();
+
+      service.workPackages = [...service.workPackages];
+      rejectAdd(new Error('add persistence failed'));
+      await flush();
+
+      expect(cardView.orderSaveFailed.emit).toHaveBeenCalledOnce();
     });
 
     it('does not roll back a failed add when a refresh changed the order meanwhile', async () => {
@@ -1068,6 +1108,7 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
       cdRef: { detectChanges: () => { listHost.resync(); fixture.detectChanges(); } },
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
+      orderSaveFailed: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue(true),
       resolvedListId: listHost.listId(),
     } as unknown as WorkPackageCardViewComponent);

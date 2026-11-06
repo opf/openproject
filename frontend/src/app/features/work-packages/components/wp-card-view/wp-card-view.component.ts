@@ -146,6 +146,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onMoved = new EventEmitter<void>();
 
+  @Output() public orderSaveFailed = new EventEmitter<void>();
+
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
