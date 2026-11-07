@@ -29,8 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work Package table child relations",
-               :js do
+RSpec.shared_examples "work package table child relations" do |new_table_rendering|
   shared_let(:user) { create(:admin) }
 
   shared_let(:type) { create(:type) }
@@ -52,6 +51,14 @@ RSpec.describe "Work Package table child relations",
   shared_let(:parent) { create(:work_package, subject: "Parent", project:, type:, author: user) }
   shared_let(:child) { create(:work_package, subject: "Child", parent:, project:, type:, author: user) }
 
+  def expect_renderer(new_table_rendering)
+    if new_table_rendering
+      expect(wp_table.table_container).to have_css("#{wp_table.row_selector(parent)}[opwptablerow]")
+    else
+      expect(wp_table.table_container).to have_no_css("tr[opwptablerow]")
+    end
+  end
+
   before do
     login_as(user)
   end
@@ -60,6 +67,7 @@ RSpec.describe "Work Package table child relations",
     wp_table.visit_query(query)
     wp_table.expect_work_package_listed(parent)
     columns.add("Children")
+    expect_renderer(new_table_rendering)
     wp_table.focus_cell_by_keyboard(parent, :relationChild)
 
     wp_table.press_keys(:enter)
@@ -77,6 +85,7 @@ RSpec.describe "Work Package table child relations",
     wp_table.visit_query(query)
     wp_table.expect_work_package_listed(parent)
     columns.add("Children")
+    expect_renderer(new_table_rendering)
     wp_table.focus_cell_by_keyboard(parent, :relationChild)
 
     wp_table.press_keys(:tab)
@@ -92,6 +101,7 @@ RSpec.describe "Work Package table child relations",
     wp_table.expect_work_package_listed(parent)
 
     columns.add("Children")
+    expect_renderer(new_table_rendering)
 
     parent_row = wp_table.row(parent)
     child_row = wp_table.row(child)
@@ -119,6 +129,7 @@ RSpec.describe "Work Package table child relations",
     wp_table.expect_work_package_listed(parent)
 
     columns.add("Children")
+    expect_renderer(new_table_rendering)
 
     header_button = find_button(accessible_name: /\Achildren\z/i)
     expect(page).to be_axe_clean.within(".wp-table--table-header:has(.relations-header--button)")
@@ -132,5 +143,13 @@ RSpec.describe "Work Package table child relations",
     page.send_keys(:escape)
     expect(page).to have_no_css("#column-context-menu")
     wp_table.expect_focus_on_column_header("Children")
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Work Package table child relations (new_table_rendering=#{new_table_rendering})",
+                 :js,
+                 with_flag: { new_table_rendering: } do
+    it_behaves_like "work package table child relations", new_table_rendering
   end
 end
