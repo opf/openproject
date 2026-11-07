@@ -36,13 +36,12 @@ import { OpTableActionsService } from 'core-app/features/work-packages/component
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
 import { placeholderOccurrenceKey } from '../rendered-occurrence-ledger';
+import { RenderPassOptions } from '../builders/primary-render-pass';
+import { TimelineRenderPass } from '../builders/timeline/timeline-render-pass';
 
 /**
  * Produces the rows of a flat table as data for the row template instead
- * of DOM. Row highlighting and drag handles are bound by the template; the
- * timeline and relation rows are not supported yet, so the plain rows
- * builder only picks this pass for tables without a visible timeline or
- * relation columns.
+ * of DOM. Row highlighting and drag handles are bound by the template.
  */
 export class TemplatePlainRenderPass extends PlainRenderPass {
   public readonly templateRows:TemplateRow[] = [];
@@ -65,9 +64,13 @@ export class TemplatePlainRenderPass extends PlainRenderPass {
     isEditing: (workPackage, column, cell) => this.isEditing(workPackage, column, cell),
   };
 
-  public override render():this {
-    this.prepare();
+  public override render({ timeline }:RenderPassOptions):this {
+    this.draft = this.workPackageTable.ledger.beginRender(timeline);
     this.doRender();
+    if (timeline) {
+      this.timeline = new TimelineRenderPass(this.injector, this.workPackageTable, this);
+      this.timeline.render();
+    }
     return this;
   }
 

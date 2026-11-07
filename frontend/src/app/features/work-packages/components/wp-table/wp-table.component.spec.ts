@@ -1066,6 +1066,28 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(first?.previousElementSibling).toBe(resultRow('3'));
     });
 
+    it('keeps template rows aligned with the timeline across redraws', async () => {
+      const timeline = TestBed.inject(WorkPackageViewTimelineService);
+      timeline.setVisible(true);
+      await mount({}, [{ id: '1' }, { id: '2' }]);
+      const first = resultRow('1');
+      const timelineIdentifiers = () => Array.from(document.querySelectorAll<HTMLElement>('.wp-timeline-cell'))
+        .map((row) => row.dataset.classIdentifier);
+
+      expect(first).toHaveAttribute('opwptablerow');
+      expect(timelineIdentifiers()).toEqual(['wp-row-1', 'wp-row-2']);
+
+      await render([{ id: '3' }, { id: '1' }]);
+
+      expect(resultRow('1')).toBe(first);
+      expect(first?.previousElementSibling).toBe(resultRow('3'));
+      expect(timelineIdentifiers()).toEqual(['wp-row-3', 'wp-row-1']);
+
+      await render([]);
+      expect(resultRow('1')).toBeNull();
+      expect(timelineIdentifiers()).toEqual([]);
+    });
+
     it('binds the row highlight and swaps it on refresh', async () => {
       const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
       TestBed.inject(WorkPackageViewHighlightingService).update({ mode: 'status' });
