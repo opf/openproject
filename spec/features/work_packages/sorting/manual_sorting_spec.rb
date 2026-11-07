@@ -513,6 +513,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
       wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
       wp_table.expect_and_dismiss_toaster message: "Successful creation."
+      expect(page).to have_current_path(/query_id=/)
 
       # Try to sort by creation date
       sort_by.sort_via_header "Subject"

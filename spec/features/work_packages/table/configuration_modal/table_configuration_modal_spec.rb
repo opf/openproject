@@ -55,10 +55,10 @@ RSpec.describe "Work Package table configuration modal", :js do
 
   it "focuses on the columns tab when opened through header" do
     # Open header dropdown
-    find(".work-package-table--container th #subject").click
+    find(:columnheader, "Subject").click
 
     # Open insert columns entry
-    find("#column-context-menu .menu-item", text: "Insert columns").click
+    within(:menu, "Subject") { click_on "Insert columns" }
 
     # Expect active tab is columns
     expect(page).to have_css(".op-tab-row--link_selected", text: "COLUMNS")

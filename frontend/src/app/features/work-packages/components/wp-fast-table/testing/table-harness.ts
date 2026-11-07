@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
 import { fireEvent } from '@testing-library/dom';
 import {
   createEnvironmentInjector, DestroyRef, EnvironmentInjector, EventEmitter, Injector, Provider, Type,
@@ -78,6 +79,7 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { OpContextMenuTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/context-menu-table-action';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
@@ -678,6 +680,7 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     { provide: WorkPackageRelationsService, useValue: relationsStub(options.relations ?? []) },
     { provide: WorkPackageContextMenuHelperService, useValue: { getPermittedActions: () => [] } },
     { provide: OPContextMenuService, useValue: { close: () => undefined, show: () => undefined } },
+    { provide: OpActionMenuService, useClass: OpActionMenuService },
     {
       provide: ConfigurationService,
       useValue: { requireDoubleClickForInlineEdit: () => !!options.requireDoubleClickForInlineEdit },

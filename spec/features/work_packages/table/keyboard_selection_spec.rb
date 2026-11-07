@@ -286,7 +286,7 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.press_keys(:right, :right, :up, :up, :up)
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
-      within "#column-context-menu" do
+      within(:menu, "Subject") do
         click_on "Sort descending"
       end
 
@@ -300,7 +300,7 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.press_keys(:right, :right, :up, :up)
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
-      within "#column-context-menu" do
+      within(:menu, "Subject") do
         click_on "Move column left"
       end
 
@@ -314,7 +314,7 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.press_keys(:right, :right, :up, :up)
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
-      within "#column-context-menu" do
+      within(:menu, "Subject") do
         click_on "Hide column"
       end
 
