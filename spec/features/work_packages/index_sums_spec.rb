@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package index sums", :js do
+RSpec.shared_examples "work package index sums" do |new_table_rendering|
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status_new) { create(:status, name: "New") }
@@ -118,9 +118,18 @@ RSpec.describe "Work package index sums", :js do
 
   current_user { user }
 
+  def expect_renderer(new_table_rendering)
+    if new_table_rendering
+      expect(wp_table.table_container).to have_css("#{wp_table.row_selector(work_package1)}[opwptablerow]")
+    else
+      expect(wp_table.table_container).to have_no_css("tr[opwptablerow]")
+    end
+  end
+
   it "calculates sums correctly" do
     visit project_work_packages_path(project)
     wp_table.expect_work_package_listed work_package1, work_package2
+    expect_renderer(new_table_rendering)
 
     # Add summable columns, without saving changes to save time
     columns.add "Work", save_changes: false
@@ -136,6 +145,7 @@ RSpec.describe "Work package index sums", :js do
     modal.set_display_sums enable: true
 
     wp_table.expect_work_package_listed work_package1, work_package2
+    expect_renderer(new_table_rendering)
 
     # Expect the total sums row
     aggregate_failures do
@@ -176,6 +186,7 @@ RSpec.describe "Work package index sums", :js do
     # Expect to have three sums rows now
     expect(page).to have_row("Sum", count: 2)
     expect(page).to have_row("Total sum", count: 1)
+    expect_renderer(new_table_rendering)
 
     first_sum_row, second_sum_row = *find_all(:row, "Sum")
     # First status row
@@ -277,6 +288,7 @@ RSpec.describe "Work package index sums", :js do
                                     :labor_costs, :material_costs, :overall_costs])
       wp_table.visit_query query
       wp_table.expect_work_package_listed work_package1, work_package2, work_package3, work_package4
+      expect_renderer(new_table_rendering)
 
       # Expect the total sums row without filtering
       aggregate_failures do
@@ -325,6 +337,7 @@ RSpec.describe "Work package index sums", :js do
       # Expect to have three sums rows now
       expect(page).to have_row("Sum", count: 2)
       expect(page).to have_row("Total sum", count: 1)
+      expect_renderer(new_table_rendering)
 
       first_sum_row, second_sum_row = *find_all(:row, "Sum")
       # First status row
@@ -365,5 +378,13 @@ RSpec.describe "Work package index sums", :js do
         end
       end
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Work package index sums (new_table_rendering=#{new_table_rendering})",
+                 :js,
+                 with_flag: { new_table_rendering: } do
+    it_behaves_like "work package index sums", new_table_rendering
   end
 end
