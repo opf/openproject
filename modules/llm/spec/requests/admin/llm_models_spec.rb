@@ -647,7 +647,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(LlmModel.where(id: llm_model.id)).to be_empty
       end
 
-      # cascade_rename! keeps the defaults pointing at the model; deleting one has
+      # A rename keeps the defaults pointing at the model; deleting one has
       # to let go of it, or the connection keeps a default no model answers to.
       it "lets go of a connection default that named the deleted model" do
         llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
@@ -834,6 +834,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         patch llm_model_path(discovered), params: { llm_model: { external_id: "renamed" } }
 
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(discovered.reload.external_id).to eq("server-named")
       end
     end
