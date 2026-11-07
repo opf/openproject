@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work Package highlighting fields", :js do
+RSpec.shared_examples "both renderers: work package highlighting fields" do |new_table_rendering|
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -84,7 +84,16 @@ RSpec.describe "Work Package highlighting fields", :js do
     wp_table.expect_work_package_listed wp_1, wp_2
   end
 
+  def expect_renderer(new_table_rendering)
+    if new_table_rendering
+      expect(wp_table.table_container).to have_css("#{wp_table.row_selector(wp_1)}[opwptablerow]")
+    else
+      expect(wp_table.table_container).to have_no_css("tr[opwptablerow]")
+    end
+  end
+
   it "provides highlighting through css classes" do
+    expect_renderer(new_table_rendering)
     # Default inline highlight
     wp1_row = wp_table.row(wp_1)
     wp2_row = wp_table.row(wp_2)
@@ -222,6 +231,7 @@ RSpec.describe "Work Package highlighting fields", :js do
   end
 
   it "correctly parses custom selected inline attributes" do
+    expect_renderer(new_table_rendering)
     # Highlight only one attribute
     highlighting.switch_inline_attribute_highlight "Priority"
 
@@ -235,6 +245,7 @@ RSpec.describe "Work Package highlighting fields", :js do
   end
 
   it "does not set query_props when switching in view (Regression #32118)" do
+    expect_renderer(new_table_rendering)
     prio_wp1 = wp_table.edit_field(wp_1, :priority)
     prio_wp1.update priority_no_color.name
     prio_wp1.expect_state_text priority_no_color.name
@@ -250,5 +261,12 @@ RSpec.describe "Work Package highlighting fields", :js do
     query_title.expect_not_changed
 
     expect(page).to have_current_query_params("query_id" => query.id.to_s)
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Work Package highlighting fields (new_table_rendering=#{new_table_rendering})",
+                 :js, with_flag: { new_table_rendering: } do
+    it_behaves_like "both renderers: work package highlighting fields", new_table_rendering
   end
 end
