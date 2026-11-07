@@ -140,8 +140,8 @@ zh-TW:
         blankslate_title: 沒有可用的燃盡圖資料
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -252,9 +252,9 @@ zh-TW:
             heading: 沒有衝刺數據
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: 範圍變更
-              story_points_change: "+%{added} / -%{removed} 故事點數"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: 已完成
             initially_planned:
@@ -266,8 +266,14 @@ zh-TW:
               show_all: 查看全部
               show_all_label: 'View all: %{heading}'
           closed_work_packages: 已關閉的工作項目
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            other: "%{percentage} (%{resolved} of %{total} work packages)"
+            story_points:
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
           title: Work packages within the sprint
         work_package_table:
           added:

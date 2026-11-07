@@ -75,7 +75,7 @@ module CostReports
     end
 
     def filter_class
-      @filter_class ||= ::CostQuery::Filter.all.detect { |filter| filter.underscore_name == params[:dependent] }
+      @filter_class ||= ::CostQuery::Filter.named(params[:dependent])
     end
   end
 end

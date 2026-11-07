@@ -104,30 +104,30 @@ properties:
 
               **Permission**: the run belongs to the current user
 
-example:
-  _type: AITextTransformRun
-  id: 6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
-  status: running
-  events:
-    - seq: 1
-      kind: status
-      payload:
-        status: running
-    - seq: 2
-      kind: text_delta
-      payload:
-        delta: 'The login page does not work '
-    - seq: 3
-      kind: text_delta
-      payload:
-        delta: 'on Safari 17.'
-    - seq: 4
-      kind: completed
-      payload:
-        text: The login page does not work on Safari 17.
-  _links:
-    self:
-      href: /api/v3/ai_text_transform_runs/6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
-    cancel:
-      href: /api/v3/ai_text_transform_runs/6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d/cancel
-      method: post
+examples:
+  - _type: AITextTransformRun
+    id: 6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+    status: running
+    events:
+      - seq: 1
+        kind: status
+        payload:
+          status: running
+      - seq: 2
+        kind: text_delta
+        payload:
+          delta: 'The login page does not work '
+      - seq: 3
+        kind: text_delta
+        payload:
+          delta: 'on Safari 17.'
+      - seq: 4
+        kind: completed
+        payload:
+          text: The login page does not work on Safari 17.
+    _links:
+      self:
+        href: /api/v3/ai_text_transform_runs/6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+      cancel:
+        href: /api/v3/ai_text_transform_runs/6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d/cancel
+        method: post

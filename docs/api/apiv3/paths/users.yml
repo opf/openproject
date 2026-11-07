@@ -3,7 +3,7 @@
 get:
   summary: List Users
   operationId: list_Users
-  description: |- 
+  description: |-
     Lists users. Only administrators or users with the following global permission can access this resource:
     - `manage_user`
   tags:
@@ -29,13 +29,13 @@ get:
         JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
         endpoint. Currently supported filters are:
-        
+
         + status: Status the user has
-        
+
         + group: Name of the group in which to-be-listed users are members.
-        
+
         + name: Filter users in whose first or last names, or email addresses the given string occurs.
-        
+
         + login: User's login
       example: '[{ "status": { "operator": "=", "values": ["invited"] } }, { "group":
       { "operator": "=", "values": ["1"] } }, { "name": { "operator": "=", "values":
@@ -98,7 +98,7 @@ post:
     Valid values for `status`:
 
     1) "active" - In this case a password has to be provided in addition to the other attributes.
-    
+
     2) "invited" - In this case nothing but the email address is required. The rest is optional. An invitation will be sent to the user.
   requestBody:
     content:

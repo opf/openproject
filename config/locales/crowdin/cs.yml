@@ -818,7 +818,7 @@ cs:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Nemáte dostatečná oprávnění k archivaci všech podprojektů. Obraťte se na správce.
-              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artifact work package.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: Modul '%{dependency}' musí být také povolen, protože modul '%{module}' na něm závisí.
               format: "%{message}"
@@ -832,7 +832,7 @@ cs:
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
               switch_target_not_in_family: Can only switch to another type of the same family
-          cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Pracovní balíčky v projektech, které nejsou potomky, odkazují na verze projektu nebo jeho potomků.
         project/phase:
           attributes:
@@ -1861,6 +1861,10 @@ cs:
         button_delete_personal_access_token: Delete PAT
         button_save: Uložit konfiguraci
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1872,6 +1876,7 @@ cs:
           personal_access_token: Personal access token (PAT)
           url: Jira Server/Data Center URL
         label_testing: Testování konfigurace...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1901,12 +1906,12 @@ cs:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1929,6 +1934,9 @@ cs:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: Běh Jira importu nemůže být odstraněn za běhu
         side_panel:
@@ -1996,6 +2004,11 @@ cs:
               few: "%{count} projects"
               many: "%{count} projects"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              few: "%{count} resolutions"
+              many: "%{count} resolutions"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               few: "%{count} statuses"
@@ -2033,6 +2046,7 @@ cs:
               label_available_data: Data k importu
               label_import_data: Momentálně importováno
               label_progress: Probíhá import...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Uživatelé, kteří jsou zapojeni do vybraných projektů (včetně členství ve skupinách)
               title: Import dat
             fetch_data:
@@ -2161,10 +2175,12 @@ cs:
         error: Při testování připojení došlo k neočekávané chybě
         failed: 'Připojení se nezdařilo: Nelze načíst informace o serveru'
         invalid_url: Zadejte platnou URL adresu
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Failed to parse the response from the server. The server may not be a valid Jira instance.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Úspěšně připojeno k %{server} (verze %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrátor
       user:
         unknown_name: Neznámý
@@ -2558,6 +2574,8 @@ cs:
         emoji_reactions_activity_type_not_supported: Tento typ aktivity nepodporuje emoji reakce.
         invalid_link: Odkaz pod klíčem '%{key}' není platný.
         links_not_an_object: _links musí být objekt JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Špatný požadavek: %{message}'
       code_401: Pro přístup k tomuto prostředku musíte být přihlášeni.
       code_401_wrong_credentials: Neposkytli jste správné přihlašovací údaje.
@@ -2907,6 +2925,22 @@ cs:
       missing_value: Atribut "%{custom_field_name}" je vyžadován touto vypočtenou hodnotou, ale je prázdný.
       unknown: An unknown error occurred. Please review the formula for this Calculated value.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Upravit barvu
     form:
@@ -4144,6 +4178,11 @@ cs:
         header: změny od %{author}
         migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        few: "%{label_names} were deleted"
+        many: "%{label_names} were deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
       meeting_series_backlog_html: backlog for meeting series %{link}
@@ -4187,8 +4226,10 @@ cs:
       comment_retracted: Comment retracted
       dates_changed: Data změněna
       default_attribute_written: Zápis atributů pouze pro čtení
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importováno
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
@@ -5919,8 +5960,8 @@ cs:
         label: Table of contents
     page_nr_footer: Strana %{page} z %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: Atributy a popis
@@ -6235,11 +6276,11 @@ cs:
           no_status_when_submitted: Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type.
           no_work_package_type: Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Select which of the configured external file storages should be used.
           external_file_storage: Externí úložiště souborů
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: Save as work package file attachment
           label_file_link_export: Upload file to external file storage and add file link to work package
           pdf_file_storage: Úložiště souborů PDF
@@ -6384,14 +6425,14 @@ cs:
     status:
       button_edit: Upravit stav
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Tento atribut nemá žádný text nápovědy.
       progress_label: "%{current} z %{total}"
       sections: Sekce
       sidebar_content_title: Obsah
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Žádost o zahájení projektu
   pwa:
     offline:
@@ -6417,6 +6458,22 @@ cs:
         automatic:
           description: Order the %{plural} by one or more sorting criteria. You will lose the previous sorting.
           heading: Automaticky
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6989,12 +7046,12 @@ cs:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Project creation wizard
           project_initiation_request: Project initiation request
@@ -7014,8 +7071,8 @@ cs:
           You submitted a project initiation request for **%{project_name}**. It is now awaiting review.
           Click the link below to access the work package with your request.
         confirmation_email_text: Confirmation email text
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Status when submitted
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -7023,7 +7080,7 @@ cs:
         work_package_comment_caption: The assignee selected above will automatically be @mentioned in the comment.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -7192,6 +7249,12 @@ cs:
         No attributes can be changed with the exception of the status.
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -7201,6 +7264,11 @@ cs:
       no_results_content_text: Přidat nový stav
       no_results_title_text: Momentálně zde nejsou žádné stavy pracovního balíčku.
       status_actions: Status actions
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: a
@@ -7374,6 +7442,9 @@ cs:
       short: "%e. %-m. %H:%M"
       time: "%H:%M"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: do
     show: Zobrazit časový rámec
@@ -7551,13 +7622,13 @@ cs:
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: No PDF is generated automatically.
             label: 'Off'
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         pdf_export_templates:
           actions:
@@ -7604,6 +7675,11 @@ cs:
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Remove from section
         rename_group: Rename section
         required:
@@ -7665,8 +7741,6 @@ cs:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: Povolit pro všechny projekty
-        select_projects: Vybrat projekty
-        select_projects_description: Vyberte projekty, ve kterých chcete tento typ použít.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

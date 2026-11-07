@@ -3,7 +3,8 @@
         [class.-active]="isActive"
         [disabled]="disabled || (!isToggle() && isActive)"
         [attr.id]="buttonId"
-        [attr.title]="label"
+        opTooltip
+        [label]="label"
         [attr.accesskey]="accessKey"
         (click)="performAction($event)">
   <op-icon icon-classes="{{ iconClass }} button--icon" />

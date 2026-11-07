@@ -104,13 +104,18 @@
 @mixin hl_lightness_switch($threshold)
   --hl-lightness-switch: max(0, min(calc(1 / (#{$threshold} - var(--hl-perceived-lightness))), 1))
 
+@mixin hl_theme($selector)
+  // Stop at nested theme containers so the page theme cannot override a preview's theme.
+  @scope (#{$selector}) to ([data-color-mode])
+    @content
+
 @mixin hl_color_variables
   @include hl_lightness_switch(0.35)
   // For light mode, we invert the switch to make the text lighter (that's why we subtract from 1)
   // Further, the lightness switch threshold is set to a lower value than in dark mode
   --hl-lighten-by: calc((0.35 - var(--hl-perceived-lightness)) * 100 * (1 - var(--hl-lightness-switch)))
 
-  body[data-color-mode="dark"] &
+  @include hl_theme('[data-color-mode="dark"]')
     @include hl_lightness_switch(0.6)
     --hl-lighten-by: calc((0.6 - var(--hl-perceived-lightness)) * 100 * var(--hl-lightness-switch))
 
@@ -121,15 +126,15 @@
   background: var(--hl-color) !important
   border: 1px solid hsl(from var(--hl-color) h s calc(l - 15)) !important
 
-  body[data-light-theme="light_high_contrast"] &
+  @include hl_theme('[data-light-theme="light_high_contrast"]')
     border: 1px solid hsl(from var(--hl-color) h s calc(l - 75)) !important
 
-  body[data-color-mode="dark"] &
+  @include hl_theme('[data-color-mode="dark"]')
     color: hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
     background: rgb(from var(--hl-color) r g b / 0.18) !important
     border: 1px solid hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
 
-  body[data-dark-theme="dark_high_contrast"] &
+  @include hl_theme('[data-dark-theme="dark_high_contrast"]')
     color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
     background: rgb(from var(--hl-color) r g b / 0.18) !important
     border: 1px solid hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
@@ -140,8 +145,7 @@
   background: rgb(from var(--hl-color) r g b / 0.18) !important
   border: 1px solid hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
 
-  body[data-dark-theme="dark_high_contrast"] &,
-  body[data-light-theme="light_high_contrast"] &
+  @include hl_theme('[data-dark-theme="dark_high_contrast"], [data-light-theme="light_high_contrast"]')
     color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
     background: rgb(from var(--hl-color) r g b / 0.18) !important
     border: 1px solid hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
@@ -150,13 +154,13 @@
 @mixin hl_foreground_styles
   color: hsl(from var(--hl-color) h s calc(l - (l * 0.22))) !important
 
-  body[data-light-theme="light_high_contrast"] &
+  @include hl_theme('[data-light-theme="light_high_contrast"]')
     color: hsl(from var(--hl-color) h s calc(l - (l * 0.5))) !important
 
-  body[data-color-mode="dark"] &
+  @include hl_theme('[data-color-mode="dark"]')
     color: hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
 
-  body[data-dark-theme="dark_high_contrast"] &
+  @include hl_theme('[data-dark-theme="dark_high_contrast"]')
     color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
 
 .__hl_background

@@ -13,7 +13,7 @@ get:
       description: |-
         JSON specifying filter conditions. Accepts the same format as returned by
         the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Valid fields to filter by are:
-        
+
         - id - ID of relation
         - from - ID of work package from which the filtered relations emanates.
         - to - ID of work package to which this related points.

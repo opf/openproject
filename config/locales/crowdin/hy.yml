@@ -814,7 +814,7 @@ hy:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Դուք չունեք բոլոր ենթանախագծերն արխիվացնելու համար պահանջվող թույլտվությունները։ Խնդրում ենք դիմել ադմինիստրատորին։
-              project_initiation_request_disabled: Նախագծի նախաձեռնման հայտն անջատված է։ Արտեֆակտ աշխատանքային փաթեթը ստեղծելու համար այն պետք է միացված լինի։
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: "'%{dependency}' մոդուլը նույնպես պետք է միացված լինի, քանի որ '%{module}' մոդուլը կախված է դրանից։"
               format: "%{message}"
@@ -828,7 +828,7 @@ hy:
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
               switch_target_not_in_family: Can only switch to another type of the same family
-          cannot_be_assigned_to_artifact_work_package: Ընտրված օգտատիրոջը թույլատրված չէ նշանակել աշխատանքային փաթեթներին։
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Ոչ հետնորդ նախագծերի աշխատանքային փաթեթները հղում են կատարում այս նախագծի կամ դրա հետնորդների տարբերակներին։
         project/phase:
           attributes:
@@ -1639,6 +1639,10 @@ hy:
         button_delete_personal_access_token: Delete PAT
         button_save: Պահպանել կազմաձևումը
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1650,6 +1654,7 @@ hy:
           personal_access_token: Personal access token (PAT)
           url: Jira Server/Data Center URL
         label_testing: Կազմաձևման փորձարկում...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1679,12 +1684,12 @@ hy:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1707,6 +1712,9 @@ hy:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: Դուք փորձում եք ներմուծել նախագիծ, որի նույնացուցիչն արդեն օգտագործվում է՝ %{taken_identifier}։ Խնդրում ենք թարմացնել նախագծի նույնացուցիչը Jira-ում, ապա սեղմել Կրկին փորձել կոճակը։
         remove_error: Jira-ի ներմուծման գործարկումը հնարավոր չէ հեռացնել, քանի դեռ այն ընթացքի մեջ է
         side_panel:
@@ -1768,6 +1776,9 @@ hy:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1797,6 +1808,7 @@ hy:
               label_available_data: Ներմուծվող տվյալներ
               label_import_data: Ներկայումս ներմուծվում է
               label_progress: Ներմուծումն ընթացքի մեջ է...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Ընտրված նախագծերում ներգրավված օգտատերերը (ներառյալ խմբային անդամակցությունները)
               title: Ներմուծել տվյալները
             fetch_data:
@@ -1923,10 +1935,12 @@ hy:
         error: Կապը ստուգելիս անսպասելի սխալ է տեղի ունեցել
         failed: Կապը ձախողվեց՝ հնարավոր չէ ստանալ սերվերի տեղեկությունները
         invalid_url: Խնդրում ենք տրամադրել վավեր URL
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Չհաջողվեց վերլուծել սերվերի պատասխանը։ Հնարավոր է՝ սերվերը վավեր Jira համակարգ չէ։
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Հաջողությամբ միացվել է %{server}-ին (տարբերակ %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira միգրացիոն գործիք
       user:
         unknown_name: Անհայտ
@@ -2306,6 +2320,8 @@ hy:
         emoji_reactions_activity_type_not_supported: Գործունեության այս տեսակը չի աջակցում էմոջի արձագանքներին։
         invalid_link: "'%{key}' բանալու տակ գտնվող հղումը վավեր չէ։"
         links_not_an_object: _links-ը պետք է լինի JSON օբյեկտ։
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: Սխալ հարցում՝ %{message}
       code_401: Այս ռեսուրսին մուտք գործելու համար պետք է նույնականացված լինեք։
       code_401_wrong_credentials: Դուք չեք տրամադրել ճիշտ մուտքի տվյալները։
@@ -2655,6 +2671,22 @@ hy:
       missing_value: '"%{custom_field_name}" հատկանիշը պարտադիր է այս հաշվարկված արժեքի համար, սակայն դատարկ է։'
       unknown: Տեղի է ունեցել անհայտ սխալ։ Խնդրում ենք ստուգել այս հաշվարկված արժեքի բանաձևը։
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Խմբագրել գույնը
     form:
@@ -3824,6 +3856,9 @@ hy:
         header: "%{author}-ի կատարած փոփոխություններ"
         migrated: from Jira
         set_with_diff: "%{field} սահմանվել է (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
       meeting_series_backlog_html: backlog for meeting series %{link}
@@ -3867,8 +3902,10 @@ hy:
       comment_retracted: Comment retracted
       dates_changed: Ամսաթվերը փոխվել են
       default_attribute_written: Միայն ընթերցելի հատկանիշները գրանցվել են
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Ներմուծված
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
@@ -5569,8 +5606,8 @@ hy:
         label: Բովանդակության ցանկ
     page_nr_footer: Էջ %{page} %{total}-ից
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: Հատկանիշներ և նկարագրություն
@@ -5883,11 +5920,11 @@ hy:
           no_status_when_submitted: Չհաջողվեց միացնել նախագծի նախաձեռնման հայտը, քանի որ %{type} աշխատանքային փաթեթի տեսակը պահանջում է առնվազն մեկ առնչվող կարգավիճակ։ Խնդրում ենք միացնել առնվազն մեկ կարգավիճակի աշխատանքային հոսք այս աշխատանքային փաթեթի տեսակի համար։
           no_work_package_type: Չհաջողվեց միացնել նախագծի նախաձեռնման հայտը, քանի որ այն պահանջում է առնվազն մեկ ակտիվ աշխատանքային փաթեթի տեսակ, իսկ այս նախագիծը չունի այդպիսին։ Խնդրում ենք այս նախագծին ավելացնել առնվազն մեկ աշխատանքային փաթեթի տեսակ։
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Ընտրեք, թե կազմաձևված արտաքին նիշքերի պահեստներից որը պետք է օգտագործվի։
           external_file_storage: Արտաքին նիշքերի պահեստ
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: Պահպանել որպես աշխատանքային փաթեթի նիշքային կցորդ
           label_file_link_export: Վերբեռնել նիշքն արտաքին նիշքերի պահեստ և ավելացնել նիշքի հղումն աշխատանքային փաթեթին
           pdf_file_storage: PDF-ի նիշքերի պահեստ
@@ -6026,14 +6063,14 @@ hy:
     status:
       button_edit: Խմբագրել կարգավիճակը
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Այս հատկանիշի համար օգնության տեքստ սահմանված չէ։
       progress_label: "%{current}-ը %{total}-ից"
       sections: Բաժիններ
       sidebar_content_title: Բովանդակություն
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Նախագծի նախաձեռնման հայտ
   pwa:
     offline:
@@ -6059,6 +6096,22 @@ hy:
         automatic:
           description: Դասավորեք %{plural}-ը մեկ կամ մի քանի դասավորման չափանիշով։ Դուք կկորցնեք նախորդ դասավորումը։
           heading: Ինքնաշխատ
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6615,12 +6668,12 @@ hy:
         confirmation_message: Նախաձեռնման հայտի օգնականն այլևս հասանելի չի լինի այս ձևանմուշի հիման վրա ստեղծված նոր նախագծերի համար։ Նախագծերի կառավարիչները և նախագծերի սեփականատերերը պետք է ձեռքով կազմաձևեն և լրացնեն համապատասխան տեղեկությունները Նախագծի ընդհանուր տեսքում։
         heading: Անջատե՞լ նախագծի այս նախաձեռնման հայտը։
         title: Անջատել նախագծի նախաձեռնման հայտը
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Նախագծի ստեղծման օգնական
           project_initiation_request: Նախագծի նախաձեռնման հայտ
@@ -6640,8 +6693,8 @@ hy:
           Դուք ներկայացրել եք նախագծի նախաձեռնման հայտ **%{project_name}**-ի համար։ Այն այժմ սպասում է վերանայման։
           Սեղմեք ստորև գտնվող հղումը՝ Ձեր հայտով աշխատանքային փաթեթին հասանելիություն ստանալու համար։
         confirmation_email_text: Հաստատման էլ. նամակի տեքստ
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Ուղարկել հաստատման նամակ նախագծի նախաձեռնման հայտը ներկայացրած օգտատիրոջը
         status_when_submitted: Կարգավիճակ ներկայացնելիս
         status_when_submitted_caption: Կարգավիճակը, որին կանցնի ստեղծված աշխատանքային փաթեթը, երբ հայտը ներկայացվի։
@@ -6649,7 +6702,7 @@ hy:
         work_package_comment_caption: Վերևում ընտրված պատասխանատուն ավտոմատ կերպով @-ով կհիշատակվի մեկնաբանության մեջ։
         work_package_comment_default: "**%{project_name}**-ի համար ներկայացվել է նախագծի նախաձեռնման հայտ, որը սպասում է վերանայման։"
         work_package_type: Աշխատանքային փաթեթի տեսակ
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Բացել նախագծի ստեղծման օգնականը
         project_initiation_request: Բացել նախագծի նախաձեռնման հայտը
@@ -6818,6 +6871,10 @@ hy:
         Բացի կարգավիճակից՝ ոչ մի հատկանիշ չի կարող փոփոխվել։
         <br>
         <strong>Նշում</strong>՝ ժառանգված արժեքները (օրինակ՝ ենթատարրերից կամ կապերից) դեռևս կկիրառվեն։
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -6827,6 +6884,9 @@ hy:
       no_results_content_text: Ավելացրեք նոր կարգավիճակ
       no_results_title_text: Ներկայումս աշխատանքային փաթեթների կարգավիճակներ չկան։
       status_actions: Status actions
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: և
@@ -7000,6 +7060,9 @@ hy:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: ԿՀ
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: մինչև
     show: Ցուցադրել ժամանակահատվածը
@@ -7175,13 +7238,13 @@ hy:
           file_link:
             caption: Ստեղծված PDF-ը վերբեռնվում է նախագծի ավտոմատ կառավարվող Nextcloud պահեստ և հղվում աշխատանքային փաթեթից։ Այդպիսի պահեստ չունեցող նախագծերի աշխատանքային փաթեթները բաց են թողնվում։
             label: Վերբեռնել նիշքն արտաքին նիշքերի պահեստ և ավելացնել նիշքի հղումն աշխատանքային փաթեթին
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: PDF ավտոմատ կերպով չի ստեղծվում։
             label: Անջատված
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: անհասանելի է, ավտոմատ կառավարվող Nextcloud պահեստ կազմաձևված չէ
         pdf_export_templates:
           actions:
@@ -7228,6 +7291,11 @@ hy:
         no_inactive_attributes: Ոչ ակտիվ հատկանիշներ չկան
         not_found: The requested form item could not be found.
         query_group_label: Կապակցված աշխատանքային փաթեթների աղյուսակ
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Հեռացնել բաժնից
         rename_group: Վերանվանել բաժինը
         required:
@@ -7289,8 +7357,6 @@ hy:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: Միացնել բոլոր նախագծերի համար
-        select_projects: Ընտրել նախագծերը
-        select_projects_description: Ընտրեք նախագծերը, որոնցում ցանկանում եք օգտագործել այս տեսակը։
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

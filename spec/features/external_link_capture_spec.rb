@@ -82,7 +82,7 @@ RSpec.describe "External link capture", :js do
       new_window = window_opened_by { link.click }
 
       within_window new_window do
-        expect(page.current_url).to include("/external_redirect")
+        expect(page).to have_current_path(%r{\A/external_redirect\b})
         expect(page).to have_text I18n.t("external_link_warning.title")
         expect(page).to have_text I18n.t("external_link_warning.warning_message")
         expect(page).to have_text I18n.t("external_link_warning.continue_message")
@@ -104,7 +104,7 @@ RSpec.describe "External link capture", :js do
 
       it "redirects to login page if not logged in" do
         visit external_redirect_path(url: external_url)
-        expect(page.current_url).to include("/login")
+        expect(page).to have_current_path(%r{\A/login\b})
         expect(page).to have_no_text I18n.t("external_link_warning.title")
         expect(page).to have_no_text I18n.t("external_link_warning.warning_message")
         expect(page).to have_no_text I18n.t("external_link_warning.continue_message")
@@ -118,7 +118,7 @@ RSpec.describe "External link capture", :js do
                              capture_external_links_require_login: false } do
       it "shows the external link warning" do
         visit external_redirect_path(url: external_url)
-        expect(page.current_url).to include("/external_redirect")
+        expect(page).to have_current_path(%r{\A/external_redirect\b})
         expect(page).to have_text I18n.t("external_link_warning.title")
         expect(page).to have_text I18n.t("external_link_warning.warning_message")
         expect(page).to have_text I18n.t("external_link_warning.continue_message")

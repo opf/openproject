@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { TableRowPositions } from './table-row-positions';
 import { buildTable, TableHarness, TableHarnessOptions } from '../testing/table-harness';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -33,7 +34,6 @@ import { nextTask } from 'core-common/testing/timing';
 import { States } from 'core-app/core/states/states.service';
 import { groupOccurrenceKey, type RenderDraft } from '../rendered-occurrence-ledger';
 import { buildWorkPackage } from '../testing/work-package-fixture';
-import { environment } from '../../../../../../environments/environment';
 
 function deferred<T>() {
   let resolve!:(value:T) => void;
@@ -50,7 +50,7 @@ describe('TableRowPositions', () => {
       productionMarkup: true,
       pagination: { offset: 2, pageSize: 20, total: 100 },
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { inlineCreateEnabled: true, ...options.configuration },
     });
     return harness.render();
   };
@@ -78,8 +78,8 @@ describe('TableRowPositions', () => {
 
   it('reprojects local structure without changing the body coordinates', async () => {
     await mount();
-    harness.totalsRow().setAttribute('aria-hidden', 'true');
-    harness.table.rowPositions!.paint();
+    harness.totalsRow().replaceChildren();
+    harness.table.painter.paint('positions');
     expect(harness.totalsRow()).not.toHaveAttribute('aria-rowindex');
     expect(harness.row('21')).toHaveAttribute('aria-rowindex', '22');
     expect(createRow()).toHaveAttribute('aria-rowindex', '102');
@@ -91,7 +91,7 @@ describe('TableRowPositions', () => {
     const nested = document.createElement('table');
     nested.innerHTML = '<tbody><tr aria-rowindex="7"><td>nested</td></tr></tbody>';
     harness.row('21').cells[0].append(nested);
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     expect(nested.rows[0]).toHaveAttribute('aria-rowindex', '7');
     expect(table()).toHaveAttribute('aria-rowcount', '103');
   });
@@ -100,15 +100,15 @@ describe('TableRowPositions', () => {
     await mount();
     const extra = table().createTBody().insertRow();
     extra.insertCell().textContent = 'Unclassified';
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     harness.expectNoRowPositions();
   });
 
   it('reports a foreign row once per table', async () => {
     await mount();
     table().createTBody().insertRow().insertCell().textContent = 'Unclassified';
-    harness.table.rowPositions!.paint();
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
+    harness.table.painter.paint('positions');
     expect(captureMessage).toHaveBeenCalledExactlyOnceWith('Row positions withdrawn: foreign row', 'warning');
   });
 
@@ -117,92 +117,80 @@ describe('TableRowPositions', () => {
     const grouped = { workPackages: [{ id: '1', attributes: { status } }], pagination: { offset: 1, pageSize: 20, total: 1 }, groups: [{ value: 'G', href: status.href, count: 1 }] };
     const hierarchy = { workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '1' }] }], showHierarchies: true };
     const recapture = (draft:RenderDraft = harness.table.ledger.beginRender()) => {
-      const positions = harness.table.rowPositions!;
-      positions.commit(positions.capture(draft));
-      positions.paint();
+      const { painter } = harness.table;
+      painter.commitPositions(painter.capturePositions(draft));
+      painter.paint('positions');
     };
-    const withdrawals:[string, () => Promise<unknown>][] = [
-      ['withdrawn: foreign row', async () => {
+    const withdrawals:[string, string, () => Promise<unknown>][] = [
+      ['withdrawn', 'foreign row', async () => {
         await mount();
         table().createTBody().insertRow().insertCell().textContent = 'Unclassified';
-        harness.table.rowPositions!.paint();
+        harness.table.painter.paint('positions');
       }],
-      ['withdrawn: untrusted collection href', () => mount({
+      ['withdrawn', 'untrusted collection href', () => mount({
         workPackages: [{ id: '1', attributes: { status } }],
         pagination: { offset: 1, pageSize: 20, total: 1 },
         groups: [{ value: 'G', href: status.href, count: 1 }],
         collectionHref: '/api/v3/versions/3/work_packages',
       })],
-      ['withdrawn: non-monotonic', async () => {
+      ['withdrawn', 'non-monotonic', async () => {
         await mount({ workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '1' }] }], showHierarchies: true });
         harness.row('1').before(harness.row('2'));
-        harness.table.rowPositions!.paint();
+        harness.table.painter.paint('positions');
       }],
-      ['withdrawn: group objects differ from collection', async () => {
+      ['withdrawn', 'group objects differ from collection', async () => {
         await mount(grouped);
         harness.querySpace.groups.putValue([...harness.querySpace.groups.value!]);
         recapture();
       }],
-      ['withdrawn: invalid pagination', async () => {
+      ['withdrawn', 'invalid pagination', async () => {
         await mount(hierarchy);
         harness.querySpace.results.value!.offset = 0;
         recapture();
       }],
-      ['withdrawn: duplicate occurrence keys', async () => {
+      ['withdrawn', 'duplicate occurrence keys', async () => {
         await mount(hierarchy);
         recapture({ occurrences: [{ key: 'wp:1' }, { key: 'wp:1' }] } as unknown as RenderDraft);
       }],
-      ['withdrawn: header rows', async () => {
+      ['withdrawn', 'header rows', async () => {
         await mount();
         table().tHead!.insertRow();
-        harness.table.rowPositions!.paint();
+        harness.table.painter.paint('positions');
       }],
-      ['withdrawn: unsafe count', async () => {
+      ['withdrawn', 'unsafe count', async () => {
         await mount();
         const ordinals = new Map([['wp:21', 21], ['wp:22', 22]]);
-        harness.table.rowPositions!.commit({ kind: 'query', source: harness.querySpace.results.value!, body: { count: Number.MAX_SAFE_INTEGER, ordinals } });
-        harness.table.rowPositions!.paint();
+        harness.table.painter.commitPositions({ kind: 'query', source: harness.querySpace.results.value!, body: { count: Number.MAX_SAFE_INTEGER, ordinals } });
+        harness.table.painter.paint('positions');
       }],
-      ['not offered: rows await a matching collection', async () => {
+      ['not offered', 'rows await a matching collection', async () => {
         await mount();
         harness.table.originalRows.reverse();
         recapture();
       }],
-      ['not offered: collection changed before render', async () => {
+      ['not offered', 'collection changed before render', async () => {
         await mount();
-        vi.spyOn(harness.table.uiWork, 'frame').mockImplementation(() => undefined);
+        harness.holdFrames();
         void harness.render([{ id: '31' }]);
-        harness.table.rowPositions!.paint();
+        harness.table.painter.paint('positions');
       }],
-      ['not offered: grouped hierarchy', () => mount({ ...grouped, showHierarchies: true })],
-      ['not offered: grouped baseline', () => mount({ ...grouped, baseline: true })],
-      ['not offered: expanded relation columns', async () => {
+      ['not offered', 'grouped hierarchy', () => mount({ ...grouped, showHierarchies: true })],
+      ['not offered', 'grouped baseline', () => mount({ ...grouped, baseline: true })],
+      ['not offered', 'expanded relation columns', async () => {
         harness = buildTable({
           workPackages: [{ id: '21' }], productionMarkup: true,
           pagination: { offset: 2, pageSize: 20, total: 100 },
           columns: ['id', 'subject', { id: 'children', children: true }],
-          configuration: { keyboardNavigationEnabled: true },
         });
         harness.expand('999', 'children');
         await harness.render();
       }],
     ];
 
-    const originalProduction = environment.production;
-    let log:ReturnType<typeof vi.spyOn>;
-    beforeEach(() => {
-      environment.production = false;
-      log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
-    });
-    afterEach(() => {
-      environment.production = originalProduction;
-      log.mockRestore();
-    });
-
-    it.each(withdrawals)('logs the reason %s', async (reason, withdraw) => {
+    it.each(withdrawals)('reports %s positions on later paints: %s', async (_outcome, reason, withdraw) => {
       await withdraw();
       harness.expectNoRowPositions();
-      expect(log).toHaveBeenCalledWith(`[DEBUG] Row positions ${reason}`);
+      expect(harness.table.painter.paint('positions').positionsWithdrawn).toBe(reason);
     });
   });
 
@@ -274,10 +262,10 @@ describe('TableRowPositions', () => {
       await mountHierarchy();
       const restore = harness.row('2').nextSibling;
       harness.row('1').before(harness.row('2'));
-      harness.table.rowPositions!.paint();
+      harness.table.painter.paint('positions');
       harness.expectNoRowPositions();
       harness.tbody.insertBefore(harness.row('2'), restore);
-      harness.table.rowPositions!.paint();
+      harness.table.painter.paint('positions');
       harness.expectRowPositions(['1', '22', '23', '24', '25'], '-1');
     });
 
@@ -288,7 +276,7 @@ describe('TableRowPositions', () => {
       const row = empty.insertRow();
       row.insertCell().textContent = 'No results';
       harness.tbody.before(empty);
-      harness.table.rowPositions!.paint();
+      harness.table.painter.paint('positions');
       expect(row).toHaveAttribute('aria-rowindex', '2');
       expect(table()).toHaveAttribute('aria-rowcount', '-1');
     });
@@ -310,12 +298,6 @@ describe('TableRowPositions', () => {
     });
   });
 
-  it('does not activate capability-off consumers', async () => {
-    await mount({ configuration: { keyboardNavigationEnabled: false } });
-    expect(harness.table.rowPositions).toBeNull();
-    expect(table()).not.toHaveAttribute('aria-rowcount');
-  });
-
   it('counts the genuinely empty message and excludes the drag placeholder', async () => {
     await mount({ workPackages: [], pagination: { offset: 1, pageSize: 20, total: 0 }, configuration: { dragAndDropEnabled: true } });
     const empty = document.createElement('tbody');
@@ -323,7 +305,7 @@ describe('TableRowPositions', () => {
     const row = empty.insertRow();
     row.insertCell().textContent = 'No results';
     harness.tbody.before(empty);
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     expect(row).toHaveAttribute('aria-rowindex', '2');
     expect(harness.totalsRow()).toHaveAttribute('aria-rowindex', '3');
     expect(table()).toHaveAttribute('aria-rowcount', '4');
@@ -336,7 +318,7 @@ describe('TableRowPositions', () => {
     empty.className = 'work-package--empty-tbody';
     empty.insertRow().insertCell().textContent = 'No results';
     harness.tbody.before(empty);
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     harness.expectNoRowPositions();
   });
 
@@ -348,21 +330,20 @@ describe('TableRowPositions', () => {
       new Map([['wp:21', 21]]),
     ];
     for (const ordinals of variants) {
-      harness.table.rowPositions!.commit({ kind: 'query', source: harness.querySpace.results.value!, body: { count: 100, ordinals } });
-      harness.table.rowPositions!.paint();
+      harness.table.painter.commitPositions({ kind: 'query', source: harness.querySpace.results.value!, body: { count: 100, ordinals } });
+      harness.table.painter.paint('positions');
       harness.expectNoRowPositions();
     }
   });
 
   it('clears stale coordinates before a newer collection commits', async () => {
     await mount();
-    const frames:(() => void)[] = [];
-    vi.spyOn(harness.table.uiWork, 'frame').mockImplementation((callback) => { frames.push(callback); });
+    const frames = harness.holdFrames();
     const rendered = harness.render([{ id: '31' }, { id: '32' }]);
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     expect(table()).not.toHaveAttribute('aria-rowcount');
     expect(harness.row('21')).not.toHaveAttribute('aria-rowindex');
-    frames.splice(0).forEach((callback) => callback());
+    frames.commit();
     await rendered;
     expect(harness.row('31')).toHaveAttribute('aria-rowindex', '22');
     expect(table()).toHaveAttribute('aria-rowcount', '103');
@@ -370,28 +351,27 @@ describe('TableRowPositions', () => {
 
   it('paints replacement work-package rows before refresh notification', async () => {
     await mount();
-    let observed:string|null = null;
-    harness.table.rowsRefreshed$.subscribe(() => { observed = index(harness.row('21')); });
+    const observed = harness.nextMutation().then(() => index(harness.row('21')));
     const resource = harness.table.originalRowIndex['21'].object;
     harness.table.refreshRows(resource);
-    expect(observed).toBe('22');
+    expect(await observed).toBe('22');
   });
 
   it('finds rendered rows without scanning the ledger', async () => {
     await mount();
     const scanned = vi.spyOn(harness.table.ledger, 'occurrences', 'get');
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     expect(scanned).not.toHaveBeenCalled();
     harness.expectRowPositions(['1', '22', '23', '102', '103'], '103');
   });
 
   it('skips the row scan while positions stay withdrawn', async () => {
     await mount();
-    harness.table.rowPositions!.commit(null);
-    harness.table.rowPositions!.paint();
+    harness.table.painter.commitPositions(null);
+    harness.table.painter.paint('positions');
     harness.expectNoRowPositions();
     const scanned = vi.spyOn(table(), 'rows', 'get');
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     expect(scanned).not.toHaveBeenCalled();
   });
 
@@ -404,11 +384,11 @@ describe('TableRowPositions', () => {
       occurrence.element!.replaceWith(replacement);
       return replacement;
     });
-    const painted = vi.spyOn(harness.table.rowPositions!, 'paint');
+    const positionsPainted = vi.spyOn(TableRowPositions.prototype, 'paint');
     for (let refresh = 0; refresh < 50; refresh += 1) {
       harness.table.refreshRows(harness.table.originalRowIndex[refresh % 2 ? '22' : '21'].object);
     }
-    expect(painted).not.toHaveBeenCalled();
+    expect(positionsPainted).not.toHaveBeenCalled();
     expect(harness.row('21')).not.toBe(original);
     harness.expectRowPositions(['1', '22', '23', '102', '103'], '103');
   });
@@ -420,7 +400,7 @@ describe('TableRowPositions', () => {
       occurrence.element!.replaceWith(replacement);
       return replacement;
     });
-    vi.spyOn(harness.table.uiWork, 'frame').mockImplementation(() => undefined);
+    harness.holdFrames();
     void harness.render([{ id: '21' }, { id: '22' }]);
     harness.table.refreshRows(harness.table.originalRowIndex['21'].object);
     harness.expectNoRowPositions();
@@ -430,7 +410,7 @@ describe('TableRowPositions', () => {
     await mount();
     await harness.destroy();
     table().removeAttribute('aria-rowcount');
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     expect(table()).not.toHaveAttribute('aria-rowcount');
   });
 
@@ -439,7 +419,7 @@ describe('TableRowPositions', () => {
       workPackages: [{ id: '21' }], productionMarkup: true,
       pagination: { offset: 2, pageSize: 20, total: 100 },
       columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
-      configuration: { keyboardNavigationEnabled: true },
+      configuration: { inlineCreateEnabled: true },
     });
     harness.expand('999', 'relationsOfTypeFollows');
     await harness.render();
@@ -593,7 +573,7 @@ describe('TableRowPositions', () => {
         pagination: { offset: 2, pageSize: 20, total: 100 },
         columns: ['id', 'subject', children],
         loadChildren: false,
-        configuration: { keyboardNavigationEnabled: true },
+        configuration: { inlineCreateEnabled: true },
         requireAll: async (ids) => {
           await loaded;
           return ids.map((id) => {
@@ -625,15 +605,14 @@ describe('TableRowPositions', () => {
 
   it('publishes indices from the accepted render instead of a superseded frame', async () => {
     await mount();
-    const frames:(() => void)[] = [];
-    vi.spyOn(harness.table.uiWork, 'frame').mockImplementation((callback) => { frames.push(callback); });
+    const frames = harness.holdFrames();
     const first = harness.render([{ id: '31' }]);
     const second = harness.render([{ id: '41' }, { id: '42' }]);
     const publications:(string|null)[][] = [];
     const subscription = harness.querySpace.tableRendered.values$().subscribe(() => {
       publications.push(harness.rows().map(index));
     });
-    frames.splice(0).forEach((callback) => callback());
+    frames.commit();
     await Promise.all([first, second]);
     subscription.unsubscribe();
     expect(harness.rowIds()).toEqual(['41', '42']);
@@ -691,7 +670,7 @@ describe('TableRowPositions', () => {
   it('withdraws positions while the create section exposes two rows', async () => {
     await mount();
     (createRow().parentElement as HTMLTableSectionElement).insertRow().insertCell().textContent = 'Editing';
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     harness.expectNoRowPositions();
   });
 
@@ -700,7 +679,7 @@ describe('TableRowPositions', () => {
     const records:MutationRecord[] = [];
     const observer = new MutationObserver((batch) => records.push(...batch));
     observer.observe(table(), { subtree: true, attributes: true });
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     await nextTask();
     observer.disconnect();
     expect(records).toEqual([]);
@@ -711,7 +690,7 @@ describe('TableRowPositions', () => {
     const row = harness.row('21');
     row.setAttribute('aria-posinset', '21');
     row.setAttribute('aria-setsize', '100');
-    harness.table.rowPositions!.paint();
+    harness.table.painter.paint('positions');
     expect(row).toHaveAttribute('aria-posinset', '21');
     expect(row).toHaveAttribute('aria-setsize', '100');
     expect(harness.totalsRow()).not.toHaveAttribute('aria-posinset');

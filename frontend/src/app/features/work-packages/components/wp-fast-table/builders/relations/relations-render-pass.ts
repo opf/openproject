@@ -138,6 +138,7 @@ export class RelationsRenderPass {
       `.${this.relationRowBuilder.classIdentifier(from)},.${relationGroupClass(from.id!)}`,
       {
         key: relationOccurrenceKey(type, from.id!, to.id!),
+        kind: 'workPackage',
         classIdentifier: this.relationRowBuilder.relationClassIdentifier(from, to),
         additionalClasses: row.additionalClasses.concat(['wp-table--relations-additional-row']),
         workPackage: to,

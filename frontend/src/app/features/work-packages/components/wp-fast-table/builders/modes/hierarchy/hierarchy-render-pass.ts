@@ -48,6 +48,11 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
+interface DeferredRow {
+  readonly workPackage:WorkPackageResource;
+  readonly parent:WorkPackageResource;
+}
+
 export class HierarchyRenderPass extends PrimaryRenderPass {
   @LazyInject() querySpace:IsolatedQuerySpace;
 
@@ -64,7 +69,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   private additionalParents:Record<string, WorkPackageResource> = {};
 
   // Defer children to be rendered when their parent occurs later in the table
-  private deferred:Record<string, WorkPackageResource[]> = {};
+  private deferred:Record<string, DeferredRow[]> = {};
 
   // Collapsed state
   private hierarchies:WorkPackageViewHierarchies;
@@ -155,16 +160,14 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       }
 
       if (inTable) {
-        // Get the current elements
-        let elements = this.deferred[parent.id!] || [];
-        // Append to them the child and all children below
-        let newElements:WorkPackageResource[] = ancestorChain.slice(i + 1, ancestorChain.length);
-        newElements = newElements.map((child) => this.apiV3Service.work_packages.cache.state(child.id!).value!);
-        // Append all new elements
-        elements = elements.concat(newElements);
+        // Append the child and all children below, each under its parent in the query's ancestor chain
+        const newRows = ancestorChain.slice(i + 1).map((child, offset) => ({
+          workPackage: this.queriedOrCached(child),
+          parent: ancestorChain[i + offset],
+        }));
         // Remove duplicates (Regression #29652)
         const seen = new Set<string>();
-        this.deferred[parent.id!] = elements.filter((el) => {
+        this.deferred[parent.id!] = (this.deferred[parent.id!] || []).concat(newRows).filter(({ workPackage: el }) => {
           if (seen.has(el.id!)) { return false; }
           seen.add(el.id!);
           return true;
@@ -188,16 +191,18 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // If the work package has deferred children to render,
     // run them through the callback
-    deferredChildren.forEach((child:WorkPackageResource) => {
-      this.insertUnderParent(this.indexedOrGiven(child), child.parent ?? workPackage);
+    deferredChildren.forEach(({ workPackage: child, parent }) => {
+      this.insertUnderParent(child, parent);
 
       // Descend into any children the child WP might have and callback
       this.renderAllDeferredChildren(child);
     });
   }
 
-  private indexedOrGiven(workPackage:WorkPackageResource):WorkPackageResource {
-    return this.workPackageTable.originalRowIndex[workPackage.id!]?.object ?? workPackage;
+  /** A row the query returned keeps the query's resource, whose ancestors placed it; an ancestor outside the results comes from the cache. */
+  private queriedOrCached(workPackage:WorkPackageResource):WorkPackageResource {
+    return this.workPackageTable.originalRowIndex[workPackage.id!]?.object
+      ?? this.apiV3Service.work_packages.cache.state(workPackage.id!).getValueOr(workPackage);
   }
 
   private buildWithHierarchy(row:WorkPackageTableRow) {
@@ -290,6 +295,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     return {
       key: this.occurrenceKey(workPackage, isAncestor),
+      kind: 'workPackage',
       classIdentifier: isAncestor ? ancestorClassIdentifier(workPackage.id!) : this.rowBuilder.classIdentifier(workPackage),
       additionalClasses: isAncestor ? [additionalHierarchyRowClassName].concat(ancestorClasses) : ancestorClasses,
       workPackage,

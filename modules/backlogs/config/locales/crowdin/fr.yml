@@ -136,7 +136,7 @@ fr:
       title: Supprimer le bucket de backlog ?
     burndown_chart:
       series:
-        guideline: Guideline
+        guideline: Lignes directrices
         projection: Remaining story points (projection)
         remaining: Remaining story points
       show:
@@ -144,8 +144,8 @@ fr:
         blankslate_title: Aucune donnée de burndown disponible
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -262,9 +262,9 @@ fr:
             heading: Aucune donnée de sprint disponible
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Modification du périmètre
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Terminés
             initially_planned:
@@ -276,9 +276,16 @@ fr:
               show_all: Tout afficher
               show_all_label: 'View all: %{heading}'
           closed_work_packages: Lots de travaux fermés
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            one: "%{percentage} (%{resolved} of %{total} work package)"
-            other: "%{percentage} (%{resolved} of %{total} work packages)"
+            story_points:
+              one: "%{percentage} (%{resolved} of %{total} story point)"
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} of %{total} work package)"
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
           title: Work packages within the sprint
         work_package_table:
           added:
@@ -300,7 +307,7 @@ fr:
                 description: Sprint start and finish dates are necessary to show completed work packages.
               not_started:
                 description: Completed work packages will appear here after the sprint starts.
-            title: Completed work
+            title: Travail terminé
           removed:
             blankslate:
               empty:

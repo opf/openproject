@@ -84,8 +84,13 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
       return true;
     }
 
-    // Blur the target to avoid focus being kept there
-    target.closest('a')?.blur();
+    const navigation = view.workPackageTable.keyboardNavigation;
+    const origin = navigation?.originForControl(element) ?? navigation?.positionOfCell(element);
+    if (origin && navigation) {
+      navigation.focusPosition(origin);
+    } else {
+      target.closest('a')?.blur();
+    }
 
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.

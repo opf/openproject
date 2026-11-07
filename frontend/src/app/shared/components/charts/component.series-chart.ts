@@ -81,13 +81,22 @@ export interface SeriesColor {
   background?:string;
 }
 
-export interface SeriesStyle {
+// Define how to paint the area between this series and another one. Depending on whether which series is ahead,
+// a different color can be chosen. The colors are read on demand for the reason the series colors are.
+export interface SeriesBand<Key extends string> {
+  to:Key;
+  above:() => string;
+  below:() => string;
+}
+
+export interface SeriesStyle<Key extends string = string> {
   swatch:PointStyle;
   borderWidth:number;
   borderDash?:number[];
   order?:number;
   stepped?:'after';
   fill?:boolean;
+  band?:SeriesBand<Key>;
   pointRadius?:number;
   pointHitRadius?:number;
   pointHoverRadius?:number;
@@ -105,10 +114,12 @@ const Y_AXIS_HEADROOM = 1.1;
 const SWATCH_WIDTH = 24;
 
 // True of every line, and overridable by any of them: the points are never drawn, but they stay
-// wide enough to be found by a cursor that is not exactly on one.
+// wide enough to be found by a cursor that is not exactly on one. Chart.js reads a missing `fill`
+// off the background color, so a line that is not meant to fill has to say so.
 const SERIES_DEFAULTS:Omit<Partial<SeriesStyle>, 'swatch'|'color'> = {
   pointRadius: 0,
   pointHitRadius: 8,
+  fill: false,
 };
 
 @Directive()
@@ -120,7 +131,7 @@ export abstract class SeriesChartComponent<Key extends string> {
 
   // Everything that tells the series apart, so that a line and its swatch cannot drift. The order
   // the entries are declared in is the order the legend and the tooltip read them in.
-  protected abstract readonly seriesStyle:Record<Key|NonWorkingKey, SeriesStyle>;
+  protected abstract readonly seriesStyle:Record<Key|NonWorkingKey, SeriesStyle<Key>>;
 
   protected abstract readonly yAxisTitle:string;
 
@@ -234,7 +245,9 @@ export abstract class SeriesChartComponent<Key extends string> {
   // Everything the style holds but the swatch, which belongs to the legend, is already a dataset
   // property under its own name.
   private datasetFor(series:ChartSeries<Key|NonWorkingKey>):ChartDataset<'line', SeriesPoint[]> {
-    const { swatch: _swatch, color, ...dataset } = this.seriesStyle[series.id];
+    const {
+      swatch: _swatch, color, band, ...dataset
+    } = this.seriesStyle[series.id];
     const datasetColor = color?.();
 
     return {
@@ -242,9 +255,20 @@ export abstract class SeriesChartComponent<Key extends string> {
       data: series.data,
       ...SERIES_DEFAULTS,
       ...dataset,
+      ...this.bandFill(band),
       borderColor: datasetColor?.border,
       backgroundColor: datasetColor?.background,
     };
+  }
+
+  private bandFill(band:SeriesBand<Key>|undefined):Pick<ChartDataset<'line'>, 'fill'>|undefined {
+    if (band === undefined) {
+      return undefined;
+    }
+
+    const target = this.series().findIndex((series) => series.id === band.to);
+
+    return { fill: target === -1 ? false : { target, above: band.above(), below: band.below() } };
   }
 
   private legendLabels(chart:Chart):LegendItem[] {

@@ -814,7 +814,7 @@ sv:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Du har inte de behörigheter som krävs för att arkivera alla delprojekt. Kontakta en administratör.
-              project_initiation_request_disabled: Begäran om projektinitiering är inaktiverad. Den måste aktiveras för att artefaktarbetspaketet ska kunna skapas.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: Modulen ”%{dependency}” måste också aktiveras eftersom modulen ”%{module}” är beroende av den.
               format: "%{message}"
@@ -828,7 +828,7 @@ sv:
               switch_target_blank: Välj varianten att byta till
               switch_target_identical: Måltypen måste skilja sig från den typ som projektet använder nu
               switch_target_not_in_family: Det går endast att byta till en annan typ i samma familj
-          cannot_be_assigned_to_artifact_work_package: Den valda användaren får inte tilldelas arbetspaket.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Arbetspaket i icke efterkommande projekt referensversioner av projektet eller dess efterkommande.
         project/phase:
           attributes:
@@ -1639,6 +1639,10 @@ sv:
         button_delete_personal_access_token: Delete PAT
         button_save: Spara konfiguration
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1650,6 +1654,7 @@ sv:
           personal_access_token: Personal access token (PAT)
           url: URL till Jira Server/Data Center
         label_testing: Testar konfigurationen...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1679,12 +1684,12 @@ sv:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1707,6 +1712,9 @@ sv:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Du försöker importera ett projekt med en identifierare som redan används: %{taken_identifier}. Uppdatera projektidentifieraren i Jira och klicka sedan på Försök igen.'
         remove_error: En Jira-importkörning kan inte tas bort medan den körs
         side_panel:
@@ -1768,6 +1776,9 @@ sv:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1797,6 +1808,7 @@ sv:
               label_available_data: Data som ska importeras
               label_import_data: Importerar för närvarande
               label_progress: Import pågår...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Användare som är involverade i de valda projekten (inklusive gruppmedlemskap)
               title: Importera data
             fetch_data:
@@ -1923,10 +1935,12 @@ sv:
         error: Ett oväntat fel inträffade när anslutningen testades
         failed: 'Anslutningen misslyckades: Det gick inte att hämta serverinformation'
         invalid_url: Ange en giltig URL
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Det gick inte att tolka svaret från servern. Servern kanske inte är en giltig Jira-instans.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Anslutningen till %{server} lyckades (version %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira-migrerare
       user:
         unknown_name: Okänd
@@ -2308,6 +2322,8 @@ sv:
         emoji_reactions_activity_type_not_supported: Den här aktivitetstypen stöder inte emoji-reaktioner.
         invalid_link: Länken under nyckeln ”%{key}” är ogiltig.
         links_not_an_object: _links måste vara ett JSON-objekt.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Felaktig begäran: %{message}'
       code_401: Du måste autentiseras för att få tillgång till denna resurs.
       code_401_wrong_credentials: Du har inte lämnat korrekta autentiseringsuppgifter.
@@ -2655,6 +2671,22 @@ sv:
       missing_value: Attributet ”%{custom_field_name}” krävs av det här beräknade värdet men är tomt.
       unknown: Ett okänt fel inträffade. Granska formeln för det här beräknade värdet.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Redigera färg
     form:
@@ -3826,6 +3858,9 @@ sv:
         header: ändringar av %{author}
         migrated: från Jira
         set_with_diff: "%{field} angavs (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(avbruten)"
       meeting_deleted: "(borttagen)"
       meeting_series_backlog_html: backlogg för mötesserien %{link}
@@ -3869,8 +3904,10 @@ sv:
       comment_retracted: Comment retracted
       dates_changed: Datum ändrade
       default_attribute_written: Skrivskyddade attribut skrevs
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importerad
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Tillagd i möte</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Tillagd i</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Diskuterad på möte</strong> %{meeting_title_information}"
@@ -5569,8 +5606,8 @@ sv:
         label: Innehållsförteckning
     page_nr_footer: Sida %{page} av %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Alla attribut som finns i det aktuella formuläret med standardmallen.
       label: Attribut och beskrivning
@@ -5883,11 +5920,11 @@ sv:
           no_status_when_submitted: Det gick inte att aktivera begäran om projektinitiering eftersom arbetspaketstypen %{type} kräver minst en associerad status. Aktivera minst ett statusarbetsflöde för denna arbetspaketstyp.
           no_work_package_type: Det gick inte att aktivera begäran om projektinitiering eftersom den kräver minst en aktiv arbetspaketstyp och projektet saknar sådana. Lägg till minst en arbetspaketstyp i projektet.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Välj vilken av de konfigurerade externa fillagringarna som ska användas.
           external_file_storage: Extern fillagring
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: Spara som filbilaga till arbetspaket
           label_file_link_export: Ladda upp fil till extern fillagring och lägg till fillänk i arbetspaket
           pdf_file_storage: PDF-fillagring
@@ -6026,14 +6063,14 @@ sv:
     status:
       button_edit: Redigera status
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: Det här projektet har inga projektattribut aktiverade för guiden. Aktivera minst ett i <a href="%{link}">projektinställningarna</a>.
       no_help_text: Det finns ingen hjälptext definierad för det här attributet.
       progress_label: "%{current} av %{total}"
       sections: Avsnitt
       sidebar_content_title: Innehåll
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Begäran om projektinitiering
   pwa:
     offline:
@@ -6059,6 +6096,22 @@ sv:
         automatic:
           description: Sortera %{plural} efter ett eller flera sorteringskriterier. Den tidigare sorteringen går förlorad.
           heading: Automatisk
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6607,12 +6660,12 @@ sv:
         confirmation_message: Guiden för projektinitieringsbegäran kommer inte längre att vara tillgänglig för nya projekt som baseras på denna mall. Projektledare och projektägare måste konfigurera och fylla i relevant information manuellt i projektöversikten.
         heading: Inaktivera denna begäran om projektinitiering?
         title: Inaktivera begäran om projektinitiering
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Guide för projektskapande
           project_initiation_request: Begäran om projektinitiering
@@ -6632,8 +6685,8 @@ sv:
           Du skickade in en begäran om projektinitiering för **%{project_name}**. Den väntar nu på granskning.
           Klicka på länken nedan för att komma åt arbetspaketet med din begäran.
         confirmation_email_text: Text i bekräftelsemeddelande
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Skicka ett bekräftelsemeddelande till användaren som skickade in begäran om projektinitiering
         status_when_submitted: Status vid inskickning
         status_when_submitted_caption: Den status som det genererade arbetspaketet övergår till när begäran skickas in.
@@ -6641,7 +6694,7 @@ sv:
         work_package_comment_caption: Den tilldelade som väljs ovan @omnämns automatiskt i kommentaren.
         work_package_comment_default: En begäran om projektinitiering för **%{project_name}** har skickats in och väntar på granskning.
         work_package_type: Arbetspaketstyp
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Öppna guiden för projektskapande
         project_initiation_request: Öppna begäran om projektinitiering
@@ -6810,6 +6863,10 @@ sv:
         Inga attribut kan ändras förutom statusen.
         <br>
         <strong>Obs!</strong> Ärvda värden (t.ex. från underordnade objekt eller relationer) tillämpas fortfarande.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Det gick inte att flytta statusen.
       headers:
@@ -6819,6 +6876,9 @@ sv:
       no_results_content_text: Lägg till ny status
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
       status_actions: Statusåtgärder
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: och
@@ -6986,6 +7046,9 @@ sv:
       short: "%d %b %H:%M:%S"
       time: "%H:%M:%S"
     pm: em
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: till
     show: Visa tidsram
@@ -7161,13 +7224,13 @@ sv:
           file_link:
             caption: Den genererade PDF-filen laddas upp till projektets automatiskt hanterade Nextcloud-lagring och länkas från arbetspaketet. Arbetspaket i projekt utan sådan lagring hoppas över.
             label: Ladda upp fil till extern fillagring och lägg till fillänk i arbetspaket
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: Ingen PDF genereras automatiskt.
             label: Av
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: inte tillgänglig, ingen automatiskt hanterad Nextcloud-lagring är konfigurerad
         pdf_export_templates:
           actions:
@@ -7214,6 +7277,11 @@ sv:
         no_inactive_attributes: Inga inaktiva attribut
         not_found: Den begärda formulärposten hittades inte.
         query_group_label: Tabell med relaterade arbetspaket
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Ta bort från avsnitt
         rename_group: Döp om sektion
         required:
@@ -7275,8 +7343,6 @@ sv:
           no_results: Inga matchande projekt.
           title: Not used in any project yet
         enable_all: Aktivera för alla projekt
-        select_projects: Välj projekt
-        select_projects_description: Välj de projekt där du vill använda den här typen.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

@@ -816,7 +816,7 @@ ru:
           attributes:
             base:
               archive_permission_missing_on_subprojects: У вас нет разрешений, необходимых для архивирования всех подпроектов. Обратитесь к администратору.
-              project_initiation_request_disabled: Запрос на инициирование проекта отключен. Он должен быть включен, чтобы создать пакет работ артефактов.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: Модуль '%{dependency}' ' должен быть включен, так как модуль '%{module}' зависит от него.
               format: "%{message}"
@@ -830,7 +830,7 @@ ru:
               switch_target_blank: Выберите вариант, на который хотите переключиться
               switch_target_identical: Целевой тип должен отличаться от типа, который сейчас используется в проекте
               switch_target_not_in_family: Можно переключиться только на тип одного семейства
-          cannot_be_assigned_to_artifact_work_package: Выбранный пользователь не может быть назначен пакетам работ.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Комплексы работ в проектах, не расположенных по убыванию, ссылаются на версии проекта или его производных.
         project/phase:
           attributes:
@@ -1859,6 +1859,10 @@ ru:
         button_delete_personal_access_token: Delete PAT
         button_save: Сохранить конфигурацию
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1870,6 +1874,7 @@ ru:
           personal_access_token: Personal access token (PAT)
           url: URL сервера/центра обработки данных Jira
         label_testing: Тестирование конфигурации...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1899,12 +1904,12 @@ ru:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1927,6 +1932,9 @@ ru:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Вы пытаетесь импортировать проект с уже использованным идентификатором: %{taken_identifier}. Пожалуйста, обновите идентификатор проекта в Jira, затем нажмите «Повторить».'
         remove_error: Запуск импорта Jira не может быть удалён, пока он запущен
         side_panel:
@@ -1994,6 +2002,11 @@ ru:
               few: "%{count} projects"
               many: "%{count} projects"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              few: "%{count} resolutions"
+              many: "%{count} resolutions"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               few: "%{count} statuses"
@@ -2031,6 +2044,7 @@ ru:
               label_available_data: Данные для импорта
               label_import_data: Сейчас импортируется
               label_progress: Идёт импорт...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Пользователи, участвующие в выбранных проектах (с учетом членства в группах)
               title: Импорт данных
             fetch_data:
@@ -2159,10 +2173,12 @@ ru:
         error: Во время тестирования соединения произошла непредвиденная ошибка
         failed: 'Соединение не удалось: Невозможно получить информацию о сервере'
         invalid_url: Укажите корректный URL
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Не удалось разобрать ответ от сервера. Возможно, сервер не является действующим экземпляром Jira.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Успешное подключение к %{server} (версия %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Мигратор Jira
       user:
         unknown_name: Неизвестен
@@ -2556,6 +2572,8 @@ ru:
         emoji_reactions_activity_type_not_supported: Этот тип деятельности не поддерживает реакции эмодзи.
         invalid_link: Ссылка с ключом '%{key}' недействительна.
         links_not_an_object: _links должен быть объектом JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Неверный запрос: %{message}'
       code_401: Вам нужно пройти проверку подлинности для доступа к этому ресурсу.
       code_401_wrong_credentials: Вы не ввели правильные учетные данные.
@@ -2907,6 +2925,22 @@ ru:
       missing_value: Атрибут "%{custom_field_name}" необходим для этого рассчитываемого значения, но он пуст.
       unknown: Произошла неизвестная ошибка. Пожалуйста, проверьте формулу для этого рассчитываемого значения.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Изменить цвет
     form:
@@ -4142,6 +4176,11 @@ ru:
         header: изменения %{author}
         migrated: из Jira
         set_with_diff: "%{field} установлено (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        few: "%{label_names} were deleted"
+        many: "%{label_names} were deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(отменена)"
       meeting_deleted: "(удалена)"
       meeting_series_backlog_html: бэклог для встреч серии %{link}
@@ -4185,8 +4224,10 @@ ru:
       comment_retracted: Comment retracted
       dates_changed: Даты изменены
       default_attribute_written: Запись атрибутов со свойством "только для чтения"
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Импортировано
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Добавлено в повестку встречи</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Добавлено в</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Обсуждалось на встрече</strong> %{meeting_title_information}"
@@ -5912,8 +5953,8 @@ ru:
         label: Содержание
     page_nr_footer: Страница %{page} из %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Все атрибуты, присутствующие в текущей форме используют шаблон по умолчанию.
       label: Атрибуты и описание
@@ -6228,11 +6269,11 @@ ru:
           no_status_when_submitted: Не удалось включить запрос на инициирование проекта, поскольку тип пакета работ %{type} требует наличия хотя бы одного связанного с ним статуса. Пожалуйста, включите хотя бы один рабочий процесс со статусом для этого типа пакета работ.
           no_work_package_type: Не удалось включить запрос на инициирование проекта, поскольку для этого требуется хотя бы один активный тип пакета работ, а в данном проекте его нет. Пожалуйста, добавьте хотя бы один тип пакета работ в этот проект.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Выберите, какое из настроенных внешних файловых хранилищ должно использоваться.
           external_file_storage: Внешнее хранилище файлов
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: Сохраните как вложение файла в пакете работ
           label_file_link_export: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
           pdf_file_storage: Хранилище файлов PDF
@@ -6377,14 +6418,14 @@ ru:
     status:
       button_edit: Редактировать статус
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: Для данного проекта не включены атрибуты проекта, необходимые для работы мастера. Пожалуйста, включите хотя бы один из них в <a href="%{link}">настройках проекта</a>.
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы
       sidebar_content_title: Содержимое
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Запрос на инициализацию проекта
   pwa:
     offline:
@@ -6410,6 +6451,22 @@ ru:
         automatic:
           description: Упорядочьте %{plural} по одному или нескольким критериям сортировки. Вы потеряете предыдущую сортировку.
           heading: Автоматически
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6970,12 +7027,12 @@ ru:
         confirmation_message: Мастер запроса инициации больше не будет доступен для новых проектов, основанных на этом шаблоне. Менеджерам и руководителям проектов придется вручную настраивать и заполнять соответствующую информацию в обзоре проекта.
         heading: Отключить запрос на инициирование этого проекта?
         title: Отключить запрос на инициализацию проекта
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Мастер создания проекта
           project_initiation_request: Запрос на инициализацию проекта
@@ -6995,8 +7052,8 @@ ru:
           Вы подали запрос на инициирование проекта **%{project_name}**. Сейчас он ожидает рассмотрения.
           Щелкните по ссылке ниже, чтобы получить доступ к пакету работ с Вашим запросом.
         confirmation_email_text: Текст письма подтверждения
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Отправить подтверждение по электронной почте пользователю, подавшему запрос на инициирование проекта
         status_when_submitted: Статус на момент подачи
         status_when_submitted_caption: Статус, в который перейдет созданный пакет работ после отправки запроса.
@@ -7004,7 +7061,7 @@ ru:
         work_package_comment_caption: Выбранный выше адресат будет автоматически @указан в комментарии.
         work_package_comment_default: Запрос на инициализацию проекта **%{project_name}** был отправлен и ожидает рассмотрения.
         work_package_type: Тип пакета работ
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Открыть мастер создания проекта
         project_initiation_request: Открыть запрос на инициализацию проекта
@@ -7173,6 +7230,12 @@ ru:
         Никакие атрибуты не могут быть изменены за исключением статуса.
         <br>
         <strong>Примечание</strong>: Будут применены унаследованные значения (например, от дочерних или родительских пакетов работ).
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Статус не может быть перемещён.
       headers:
@@ -7182,6 +7245,11 @@ ru:
       no_results_content_text: Добавить новый статус
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
       status_actions: Действия, связанные со статусом
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: и
@@ -7349,6 +7417,9 @@ ru:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: дня
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: до
     show: Показать сроки
@@ -7526,13 +7597,13 @@ ru:
           file_link:
             caption: Сгенерированный PDF-файл загружается в хранилище Nextcloud, управляемое автоматически в рамках проекта, и ссылка на него добавляется в пакет работ. Пакеты работ в проектах, не имеющих такого хранилища, пропускаются.
             label: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: PDF-файл не создается автоматически.
             label: Выключено
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: недоступно, не настроено ни одного хранилища Nextcloud с автоматическим администрированием
         pdf_export_templates:
           actions:
@@ -7579,6 +7650,11 @@ ru:
         no_inactive_attributes: Нет неактивных атрибутов
         not_found: Не удалось найти запрошенный элемент формы.
         query_group_label: Таблица связанных пакетов работ
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Удалить из секции
         rename_group: Переименовать секцию
         required:
@@ -7640,8 +7716,6 @@ ru:
           no_results: Нет подходящих проектов.
           title: Not used in any project yet
         enable_all: Использовать во всех проектах
-        select_projects: Выберите проекты
-        select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

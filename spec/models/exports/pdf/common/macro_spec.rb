@@ -337,6 +337,24 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
+    describe "with an attribute the user may not view" do
+      let(:markdown) { "workPackageValue:spentTime" }
+
+      before { create(:time_entry, entity: work_package, project:, user:, hours: 2) }
+
+      it "outputs a blank value" do
+        expect(formatted).to be_blank
+      end
+
+      context "when the user may view time entries" do
+        let(:additional_permissions) { %i[view_time_entries] }
+
+        it "outputs the attribute value" do
+          expect(formatted).to eq("2h")
+        end
+      end
+    end
+
     describe "with multi select custom field and layout argument" do
       shared_let(:multi_list_custom_field) do
         create(

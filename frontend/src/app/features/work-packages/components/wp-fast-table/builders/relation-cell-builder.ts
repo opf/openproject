@@ -35,9 +35,8 @@ import { States } from 'core-app/core/states/states.service';
 import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
 import { QueryColumn, queryColumnTypes } from '../../wp-query/query-column';
 import { tdClassName } from './cell-builder';
-import { keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
@@ -51,7 +50,7 @@ export class RelationCellbuilder {
 
   @LazyInject() I18n!:I18nService;
 
-  constructor(public readonly injector:Injector, private readonly configuration?:WorkPackageTableConfiguration) {
+  constructor(public readonly injector:Injector) {
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
@@ -59,9 +58,7 @@ export class RelationCellbuilder {
     td.classList.add(tdClassName, relationCellTdClassName, column.id);
     td.dataset.columnId = column.id;
 
-    if (keyboardNavigationEnabled(this.configuration)) {
-      td.classList.add(navigableCellClassName);
-    }
+    td.classList.add(navigableCellClassName);
 
     // Get current expansion and value state
     const expanded = this.wpTableRelationColumns.getExpandFor(workPackage.id!) === column.id;
@@ -96,26 +93,17 @@ export class RelationCellbuilder {
   }
 
   private renderIndicator(workPackage:WorkPackageResource, column:QueryColumn, expanded:boolean) {
-    if (keyboardNavigationEnabled(this.configuration)) {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.classList.add(relationCellIndicatorClassName);
-      button.setAttribute('tabindex', '-1');
-      button.setAttribute('aria-expanded', expanded.toString());
-      button.setAttribute('aria-label', this.I18n.t('js.work_packages.table.relations_button', {
-        column: column.name,
-        work_package: workPackage.formattedId,
-      }));
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.classList.add(relationCellIndicatorClassName);
+    button.setAttribute('tabindex', '-1');
+    button.setAttribute('aria-expanded', expanded.toString());
+    button.setAttribute('aria-label', this.I18n.t('js.work_packages.table.relations_button', {
+      column: column.name,
+      work_package: workPackage.formattedId,
+    }));
 
-      return button;
-    }
-
-    const indicator = document.createElement('span');
-    indicator.classList.add(relationCellIndicatorClassName);
-    indicator.setAttribute('aria-hidden', 'true');
-    indicator.setAttribute('tabindex', '0');
-
-    return indicator;
+    return button;
   }
 
   private renderBadge(count:number) {

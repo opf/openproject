@@ -40,6 +40,10 @@ class Report::GroupBy
     all.group_by(&:applies_for).to_a.sort { |a, b| a.first.to_s <=> b.first.to_s }
   end
 
+  def self.named(name)
+    all.detect { |group_by| group_by.name.demodulize == name.to_s.camelcase }
+  end
+
   def self.from_hash
     raise SubclassResponsibilityError
   end

@@ -23,6 +23,7 @@ extend-ignore-re = [
   "FND-\\d+", # ticket reference
   "\\b(Ben(jamin)? Tey|Valentin Ege|Abou-Rikab)\\b", # contributor names
   "Bitte stimmen Sie den neuen Bedingungen zu|deutsches Dokument|Mein schöner Titel|Noch mal ein Dialog", # German test strings
+  "%<count>s Tage?|vor (%<time>s|\\d+ Tage?)", # German test strings in humanizer_spec
   "Nam vel neque|sea tak|asperiores possimus nam doloribus ab", # Lorem ipsum
   "IfcEntites", # comment in the vendored BCF markup.xsd
   "&#x[0-9A-Fa-f]+;", # SVG glyph code points
@@ -57,9 +58,6 @@ extend-ignore-re = [
   "fourty minutes", # commented-out parser input
   "\\.highlight \\.nd", # Rouge token class
   "op-header-project-select--no-favourites", # CSS class; follow-up
-  "(::|module |class )Artefact\\b|\\bArtefact::", # PMflex artefact export constants; follow-up
-  "[\"']artefact[\"']|%w\\[[^\\]]*\\bartefact\\b[^\\]]*\\]", # PDF export template id stored in type settings; follow-up
-  "\\bartefact(_spec)?\\.rb|/artefact/", # PMflex artefact export file names; follow-up
   "</?organisation(Scope)?>", # Nextcloud user query payload
   "\\), labelled AS \\(|FROM labelled\\b", # CTE alias in a shipped migration
   "Centre of [Ee]xcellence\\s+in\\s+PM", # name of the EU PM² body
@@ -89,7 +87,6 @@ extend-ignore-identifiers-re = [
   "^isLoggedInAndHasCapabalities\\$?$", # public service method; follow-up
   "^iterate_user_statusses$", # public helper; follow-up
   "^loading_indicator_saveguard$", # spec helper used across modules; follow-up
-  "^mesage_type$", # ServiceResult kwarg typo raises ArgumentError; follow-up bug
   "^no_role_assigment$", # i18n key
   "^notice_annoucement_active$", # public helper; follow-up
   "^notifiation_message$", # spec sets the wrong attribute, so the assertion is vacuous; follow-up
@@ -113,8 +110,6 @@ extend-ignore-identifiers-re = [
   "^wait_thr$", # Open3 convention
   "^wheres$", # Arel API
   "^wil_", # weighted item list
-  "^\\w*(_artefact|artefact_)\\w*$", # PMflex artefact export code, i18n keys and routes; follow-up
-  "^\\w*[a-z]Artefact\\w*$|^Artefact[A-Z]\\w*$", # PMflex artefact export classes; follow-up
   "^(a|A)uthorisationService$", # public frontend service; follow-up
   "^labelled_tabular_form_(for|with)$", # public form helpers; follow-up
   "^server_flavour$", # key in stored LLM connection options; follow-up
@@ -126,11 +121,14 @@ extend-ignore-identifiers-re = [
   "^localised_(other_)?name$", # methods in a shipped migration
   "^marshalling_format_version$", # Rails configuration option
   "(?i)^aria_?labelledby$", # aria-labelledby attribute
+  "^labelled[Bb]y$", # mirrors the aria-labelledby attribute
   "^will_remove_all_(group|user)_access_priveleges$", # i18n keys
 ]
 
 [default.extend-words]
 anc = "anc" # SQL alias and index names for ancestor
+artefact = "artefact" # project management term for a deliverable (PM²/PMflex)
+artefacts = "artefacts"
 axe = "axe" # axe-core accessibility engine
 lod = "lod" # level of detail / BIM level of development
 tweek = "tweek" # time_entries column; follow-up

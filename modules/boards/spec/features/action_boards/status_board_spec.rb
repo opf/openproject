@@ -273,9 +273,7 @@ RSpec.describe "Status action board",
       board_page.expect_card("Closed", "Task 1", present: true)
       board_page.expect_card("Whatever", work_package.subject, present: false)
 
-      # Expect query props to be present
-      url = URI.parse(page.current_url).query
-      expect(url).to include("query_props=")
+      expect(page).to have_current_query_params("query_props" => be_present)
 
       # Save that filter
       board_page.save

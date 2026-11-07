@@ -67,7 +67,7 @@ module Pages
     def expect_work_package_listed(*work_packages)
       within(table_container) do
         work_packages.each do |wp|
-          expect(page).to have_css(".wp-row-#{wp.id} td.subject",
+          expect(page).to have_css(".wp-row-#{wp.id} .wp-table--cell-td.subject",
                                    text: wp.subject,
                                    wait: 20)
         end
@@ -87,7 +87,7 @@ module Pages
           # will happily match cells that contain text.
           text_options = value.to_s.empty? ? { exact_text: "" } : { text: value.to_s }
           expect(page).to have_css(
-            ".wp-row-#{work_package.id} td.#{column.to_s.camelize(:lower)}", **text_options, wait: 20
+            ".wp-row-#{work_package.id} .wp-table--cell-td.#{column.to_s.camelize(:lower)}", **text_options, wait: 20
           )
         end
       end
@@ -121,7 +121,7 @@ module Pages
     # @param subject [String] The subject of the work package.
     def expect_work_package_subject(subject)
       within(table_container) do
-        expect(page).to have_css("td.subject",
+        expect(page).to have_css(".wp-table--cell-td.subject",
                                  text: subject,
                                  wait: 20)
       end
@@ -158,7 +158,7 @@ module Pages
       retry_block(args: { tries: 3, base_interval: 5 }) do
         within(table_container) do
           work_packages.each do |wp|
-            expect(page).to have_no_css(".wp-row-#{wp.id} td.subject", text: wp.subject)
+            expect(page).to have_no_css(".wp-row-#{wp.id} .wp-table--cell-td.subject", text: wp.subject)
           end
         end
       end
@@ -289,10 +289,29 @@ module Pages
       expect(page).to have_no_css "#work-package-context-menu"
     end
 
-    # Moves focus into the table with Tab from the last toolbar control.
+    # Moves focus into the table with Tab from the entry control.
     def tab_into_table
-      last_toolbar_control.execute_script("this.focus()")
+      entry_control.execute_script("this.focus()")
       press_keys(:tab)
+    end
+
+    # Presses Tab until `element` holds focus, giving up after `bound` presses.
+    #
+    # @param element [Capybara::Node::Element] The element expected to receive focus.
+    # @param bound [Integer] The maximum number of Tab presses.
+    def tab_until_focused(element, bound: 40)
+      bound.times do
+        break if element.matches_selector?(:css, ":focus", wait: 0)
+
+        press_keys(:tab)
+      end
+
+      expect(element).to match_selector(:css, ":focus")
+    end
+
+    # @return [Capybara::Node::Element] The control directly before the table in tab order.
+    def entry_control
+      last_toolbar_control
     end
 
     # Tabs into the table, returns to the header row with Ctrl+Home and moves
@@ -330,6 +349,11 @@ module Pages
       page.driver.browser.page.command("Input.dispatchKeyEvent", type: "keyUp", **key)
     end
 
+    def expect_focus_on_control(work_package, name)
+      expect(find(row_selector(work_package)))
+        .to have_selector(:link_or_button, accessible_name: name, focused: true)
+    end
+
     # Expects the "Create new work package" button below the results to be rendered.
     def expect_inline_create_button
       expect(table_container).to have_button("Create new work package")
@@ -340,6 +364,24 @@ module Pages
     # @param work_package [WorkPackage] The work package object.
     def expect_focus_on_row(work_package)
       expect(table_container).to have_css(row_selector(work_package), focused: true)
+    end
+
+    # Expects the row for `work_package` to be marked as the current work package.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    def expect_current_row(work_package)
+      expect(table_container).to have_css("#{row_selector(work_package)}[data-pressed]")
+    end
+
+    # Expects exactly the rows in `selected` among `among` to be marked selected.
+    #
+    # @param selected [Array<WorkPackage>] The work packages expected to be selected.
+    # @param among [Array<WorkPackage>] The work packages whose selection state is checked.
+    def expect_selected_rows(*selected, among:)
+      among.each do |work_package|
+        expect(treegrid)
+          .to have_selector(:row, work_package.subject, aria: { selected: selected.include?(work_package) })
+      end
     end
 
     # Expects the cell for `attribute` in the row for `work_package` to hold focus.
@@ -371,7 +413,7 @@ module Pages
     # Expects focus to rest on an element outside the table's grid (header,
     # rows and totals), and not on the document body.
     def expect_focus_outside_table
-      expect(page).to have_no_css(
+      expect(table_container).to have_no_css(
         "thead :focus, thead:focus, tr.wp-table--row:focus, tr.wp-table--row :focus, tr.wp-table--sums-row :focus, " \
         "tr.wp-table--group-header:focus, tr.wp-table--group-header :focus"
       )
@@ -380,7 +422,20 @@ module Pages
 
     # @return [Capybara::Node::Element] The work package table exposed as a treegrid.
     def treegrid
-      find(:table, role: "treegrid", accessible_name: "Work packages")
+      container.find(:table, role: "treegrid", accessible_name: table_name, exact: true)
+    end
+
+    def container
+      page
+    end
+
+    # @return [String] A CSS selector matching only this table, for scoping axe scans.
+    def axe_scope
+      "##{table_container.find('table.work-package-table[id]')[:id]}"
+    end
+
+    def table_name
+      I18n.t("js.label_work_package_plural")
     end
 
     # Expects the table's `aria-rowcount` and the `aria-rowindex` of every
@@ -507,10 +562,6 @@ module Pages
 
     protected
 
-    def container
-      page
-    end
-
     def work_package_field(work_package, key)
       row = work_package.nil? ? ".wp-inline-create-row" : row_selector(work_package)
       selector = "#{row} .inline-edit--container.#{key.to_s.camelize(:lower)}"
@@ -551,7 +602,7 @@ module Pages
     end
 
     def cell_selector(attribute)
-      "td.#{attribute.to_s.camelize(:lower)}"
+      ".wp-table--cell-td.#{attribute.to_s.camelize(:lower)}"
     end
 
     def path

@@ -97,7 +97,6 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     cancel: this.I18n.t('js.button_cancel'),
     save: this.I18n.t('js.button_save'),
     removeButton: this.I18n.t('js.relation_buttons.remove'),
-    description_label: this.I18n.t('js.relation_buttons.update_description'),
     toggleDescription: this.I18n.t('js.relation_buttons.toggle_description'),
     updateRelation: this.I18n.t('js.relation_buttons.update_relation'),
     placeholder: {

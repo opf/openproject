@@ -102,7 +102,8 @@ module FormFields
       end
 
       def attach_file(path)
-        input = shadow_root.find("input[type='file']", visible: false)
+        # find_field queries by XPath, which WebDriver does not support inside shadow roots
+        input = shadow_root.find("input[type='file']", visible: :all) # rubocop:disable Capybara/SpecificFinders
         input.attach_file(path, make_visible: true)
       end
 

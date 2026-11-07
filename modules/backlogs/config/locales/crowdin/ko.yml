@@ -140,8 +140,8 @@ ko:
         blankslate_title: 사용 가능한 번다운 데이터 없음
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -252,9 +252,9 @@ ko:
             heading: 사용 가능한 스프린트 데이터 없음
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: 범위 변경
-              story_points_change: "+%{added} / -%{removed} 스토리 포인트"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: 완료
             initially_planned:
@@ -266,8 +266,14 @@ ko:
               show_all: 모두 보기 
               show_all_label: 'View all: %{heading}'
           closed_work_packages: 마감된 작업 패키지
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            other: "%{percentage} (%{resolved} of %{total} work packages)"
+            story_points:
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
           title: Work packages within the sprint
         work_package_table:
           added:

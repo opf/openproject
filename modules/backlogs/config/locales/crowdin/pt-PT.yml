@@ -144,8 +144,8 @@ pt-PT:
         blankslate_title: Não há dados de burndown disponíveis
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -262,9 +262,9 @@ pt-PT:
             heading: Não há dados de sprint disponíveis
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Alteração de âmbito
-              story_points_change: "+%{added} / -%{removed} pontos de história"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Concluído
             initially_planned:
@@ -276,9 +276,16 @@ pt-PT:
               show_all: Ver tudo
               show_all_label: 'View all: %{heading}'
           closed_work_packages: Pacotes de trabalho fechados
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            one: "%{percentage} (%{resolved} of %{total} work package)"
-            other: "%{percentage} (%{resolved} of %{total} work packages)"
+            story_points:
+              one: "%{percentage} (%{resolved} of %{total} story point)"
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} of %{total} work package)"
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
           title: Work packages within the sprint
         work_package_table:
           added:

@@ -33,7 +33,6 @@ The package is available for the following Linux distributions:
 | Distribution (64 bits only)                 |
 |---------------------------------------------|
 | [Ubuntu 22.04 Jammy](#ubuntu-2204)          |
-| [Ubuntu 20.04 Focal](#ubuntu-2004)          |
 | [Debian 12 Bookworm](#debian-12)            |
 | [Debian 11 Bullseye](#debian-11)            |
 | [CentOS/RHEL 9.x](#centos-9--rhel-9)        |
@@ -91,45 +90,6 @@ apt-cache policy
 Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/openproject-installation-ubuntu.mp4"></video>
-
-### Ubuntu 20.04
-
-Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
-
-```shell
-sudo apt-get update
-sudo apt-get install apt-transport-https ca-certificates curl
-```
-
-Import the PGP key used to sign our packages:
-
-```shell
-sudo curl -fsSL "https://packages.openproject.com/srv/deb/opf/openproject/gpg-key.gpg" \
-  -o /usr/share/keyrings/openproject.gpg
-```
-
-Add the OpenProject package source:
-
-```shell
-sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/ubuntu/20.04.list" \
-  -o /etc/apt/sources.list.d/openproject.list
-```
-
-Download the OpenProject package:
-
-```shell
-sudo apt-get update
-sudo apt-get install openproject
-```
-
-Verify the repository is configured correctly:
-
-```shell
-apt-cache policy
-```
-
-Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 ## Debian Installation
 
@@ -341,7 +301,6 @@ You can find more about the BIM edition on [this page](https://www.openproject.o
 >
 > - RHEL/CentOS 9
 > - Ubuntu 22.04
-> - Ubuntu 20.04
 > - Debian 11
 >
 > On older distributions, this wizard step won't be displayed, and the installation will default to the default edition.

@@ -813,7 +813,7 @@ zh-CN:
           attributes:
             base:
               archive_permission_missing_on_subprojects: 您没有归档所有子项目所需的权限。请联系管理员。
-              project_initiation_request_disabled: 项目启动请求已禁用。必须启用才能创建工件工作包。
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: 还需要启用模块“%{dependency}”，因为模块“%{module}”依赖于该模块。
               format: "%{message}"
@@ -827,7 +827,7 @@ zh-CN:
               switch_target_blank: 选择要切换到的变体
               switch_target_identical: 目标类型必须不同于项目现在使用的类型
               switch_target_not_in_family: 只能切换到同一品类的其他类型
-          cannot_be_assigned_to_artifact_work_package: 不允许将所选用户指定至工作包。
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: 非子级项目中的工作包会引用此项目或其子级的版本。
         project/phase:
           attributes:
@@ -1529,6 +1529,10 @@ zh-CN:
         button_delete_personal_access_token: Delete PAT
         button_save: 保存配置
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1540,6 +1544,7 @@ zh-CN:
           personal_access_token: Personal access token (PAT)
           url: Jira 服务器/数据中心 URL
         label_testing: 正在测试配置…
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1569,12 +1574,12 @@ zh-CN:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1597,6 +1602,9 @@ zh-CN:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 您尝试导入的项目所使用的标识符 %{taken_identifier} 已经用过。请在 Jira 中更新项目标识符，然后点击“重试”。
         remove_error: 无法移除正在运行的 Jira 导入运行
         side_panel:
@@ -1655,6 +1663,8 @@ zh-CN:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1680,6 +1690,7 @@ zh-CN:
               label_available_data: 要导入的数据
               label_import_data: 当前正在导入
               label_progress: 正在导入…
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: 参与所选项目的用户（包括群组成员资格）
               title: 导入数据
             fetch_data:
@@ -1805,10 +1816,12 @@ zh-CN:
         error: 测试连接时发生意外错误
         failed: 连接失败：无法检索服务器信息
         invalid_url: 请提供有效的 URL
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: 服务器响应解析失败。服务器可能不是有效的 Jira 实例。
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: 成功连接到 %{server}（版本 %{version}）
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: 未知
@@ -2182,6 +2195,8 @@ zh-CN:
         emoji_reactions_activity_type_not_supported: 此活动类型不支持表情符号回应。
         invalid_link: 密钥 '%{key}' 下的链接无效。
         links_not_an_object: _links 必须为 JSON 对象。
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 错误的请求：%{message}
       code_401: 你需要被授权访问该资源。
       code_401_wrong_credentials: 你没有提供正确的凭据。
@@ -2529,6 +2544,22 @@ zh-CN:
       missing_value: 属性“%{custom_field_name}”为此计算值的必填项，但当前为空。
       unknown: 发生未知错误。请检查此计算值的公式。
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: 编辑颜色
     form:
@@ -3667,6 +3698,8 @@ zh-CN:
         header: 更改者：%{author}
         migrated: 从 Jira
         set_with_diff: "“%{field}”已设置 (%{link})"
+      label_deleted:
+        other: "%{label_names} were deleted"
       meeting_cancelled: "（已取消）"
       meeting_deleted: "（已删除）"
       meeting_series_backlog_html: 系列会议 %{link} 的积压工作
@@ -3710,8 +3743,10 @@ zh-CN:
       comment_retracted: Comment retracted
       dates_changed: 日期已更改
       default_attribute_written: 已写入只读属性
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: 已导入
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>已添加到会议</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>已添加到</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: 已在会议 %{meeting_title_information} 中<strong>讨论</strong>
@@ -5398,8 +5433,8 @@ zh-CN:
         label: 目录
     page_nr_footer: 第 %{page} 页，共%{total} 页
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: 当前表单中使用默认模板的所有特性。
       label: 属性和描述
@@ -5711,11 +5746,11 @@ zh-CN:
           no_status_when_submitted: 无法启用项目启动请求，因为工作包类型“%{type}” 至少需要一个与之相关的状态。请为此工作包类型至少启用一个状态工作流。
           no_work_package_type: 无法启用项目启动请求，因为它至少需要一个有效工作包类型，但此项目没有。请为此项目至少添加一种工作包类型。
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: 选择应使用哪个配置的外部文件存储空间。
           external_file_storage: 外部文件存储空间
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: 保存为工作包文件附件
           label_file_link_export: 将文件上传到外部文件存储空间，并将文件链接添加到工作包
           pdf_file_storage: PDF 文件存储空间
@@ -5851,14 +5886,14 @@ zh-CN:
     status:
       button_edit: 编辑状态
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: 此项目没有为向导启用任何项目特性。请在<a href="%{link}">项目设置</a>中至少启用一个属性。
       no_help_text: 此特性未定义帮助文本。
       progress_label: "%{current}/%{total}"
       sections: 分区
       sidebar_content_title: 目录
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: 项目启动请求
   pwa:
     offline:
@@ -5884,6 +5919,22 @@ zh-CN:
         automatic:
           description: 按一个或多个排序标准对 %{plural} 进行排序。您将失去之前的排序。
           heading: 自动
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6425,12 +6476,12 @@ zh-CN:
         confirmation_message: 基于此模板的新项目将无法再使用启动请求向导。项目经理和项目所有者需要在项目概览中手动配置和填写相关信息。
         heading: 是否禁用此项目启动请求？
         title: 禁用项目启动请求
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: 项目创建向导
           project_initiation_request: 项目启动请求
@@ -6450,8 +6501,8 @@ zh-CN:
           您提交了 **%{project_name}** 的项目启动请求。目前正在等待审查。
           请点击下方链接访问工作包以及您的请求。
         confirmation_email_text: 确认电子邮件文本
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: 向提交项目启动请求的用户发送确认电子邮件
         status_when_submitted: 提交时的状态
         status_when_submitted_caption: 提交请求后，生成的工作包将转入的状态。
@@ -6459,7 +6510,7 @@ zh-CN:
         work_package_comment_caption: 在上方选择的受理人将在备注中被自动提及。
         work_package_comment_default: "**%{project_name}** 的项目启动请求已提交，正在等待审查。"
         work_package_type: 工作包类型
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: 打开项目创建向导
         project_initiation_request: 打开项目启动请求
@@ -6627,6 +6678,9 @@ zh-CN:
         除了状态外，不能更改其他属性。
         <br>
         <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: 无法移动状态。
       headers:
@@ -6636,6 +6690,8 @@ zh-CN:
       no_results_content_text: 添加新的状态
       no_results_title_text: 目前没有工作包状态。
       status_actions: 状态操作
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: 和
@@ -6809,6 +6865,9 @@ zh-CN:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: 下午
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: 到
     show: 显示时间段
@@ -6983,13 +7042,13 @@ zh-CN:
           file_link:
             caption: 生成的 PDF 会上传至项目的自动管理的 Nextcloud 存储空间，并与该工作包相关联。没有此类存储空间的项目中的工作包将被跳过。
             label: 将文件上传到外部文件存储空间，并将文件链接添加到工作包
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: 不会自动生成 PDF。
             label: 关闭
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: 不可用，未配置自动管理的 Nextcloud 存储空间
         pdf_export_templates:
           actions:
@@ -7036,6 +7095,11 @@ zh-CN:
         no_inactive_attributes: 没有停用的特性
         not_found: 找不到请求的表单条目。
         query_group_label: 相关的工作包表
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: 从小节中移除
         rename_group: 重命名小节
         required:
@@ -7097,8 +7161,6 @@ zh-CN:
           no_results: 没有匹配的项目。
           title: Not used in any project yet
         enable_all: 对所有项目启用
-        select_projects: 选择项目
-        select_projects_description: 选择您想要使用此类型的项目。
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

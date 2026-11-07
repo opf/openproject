@@ -66,7 +66,8 @@
   &.__internal-sorthandle
     white-space: nowrap
 
-.work-package-table--container table.generic-table tbody td
+.work-package-table--container table.generic-table tbody td,
+.work-package-table--container table.generic-table tbody th[scope="row"]
   padding-left: 0
   padding-top: 0
   padding-bottom: 0
@@ -78,8 +79,22 @@
   .inline-edit--field.ng-select
     min-width: 140px
 
+.work-package-table--container table.generic-table tbody th[scope="row"]
+  font-weight: var(--base-text-weight-normal, 400)
+
+:where(.work-package-table--container) table th:where([scope="row"])
+  padding-right: 6px
+
+.work-package-table--container tr.context-menu-selection > th[scope="row"],
+.work-package-table--container tr.-checked > th[scope="row"]
+  color: var(--body-font-color) !important
+
+  a
+    color: var(--body-font-color) !important
+
 // Styles for inline editable attributes
-.work-package-table--container td.-editable
+.work-package-table--container td.-editable,
+.work-package-table--container th[scope="row"].-editable
   display: table-cell
   width: auto
 

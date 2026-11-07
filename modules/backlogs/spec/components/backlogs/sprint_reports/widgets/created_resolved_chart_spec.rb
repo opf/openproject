@@ -45,6 +45,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
   let(:sunday) { Date.new(2026, 10, 18) }
   let(:second_friday) { Date.new(2026, 10, 23) }
   let(:sprint_start) { monday.in_time_zone + 9.hours }
+  let(:work_added) { sprint_start + 1.day }
   let(:now) { monday.in_time_zone + 3.days + 12.hours }
 
   let(:sprint) do
@@ -66,9 +67,9 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
   context "when the sprint has a date range set" do
     before do
       create(:work_package, project:, sprint:, status: open_status,
-                            journals: { sprint_start => { subject: "Open one" } })
+                            journals: { work_added => { subject: "Open one" } })
       create(:work_package, project:, sprint:, status: closed_status,
-                            journals: { sprint_start => { subject: "Closed one", status_id: closed_status.id } })
+                            journals: { work_added => { subject: "Closed one", status_id: closed_status.id } })
     end
 
     it "renders the created vs resolved chart element" do
@@ -77,16 +78,16 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
 
     it "carries each series under a stable id and a translated label" do
       expect(chart_data["series"].pluck("id", "label"))
-        .to eq([["created", "Created work packages"],
-                ["resolved", "Resolved work packages"]])
+        .to eq([["created", "Created"], ["resolved", "Resolved"]])
     end
 
-    it "sends points as x/y pairs, counting what the sprint held at each tick" do
-      created, resolved = chart_data["series"].map { it["data"].first }
+    it "sends points as x/y pairs, counting what the project gained since the window opened" do
+      created, resolved = chart_data["series"].pluck("data")
 
-      expect(created["x"]).to eq sprint_start.utc.iso8601(3)
-      expect(created["y"]).to eq 2.0
-      expect(resolved["y"]).to eq 1.0
+      expect(created.first["x"]).to eq sprint_start.utc.iso8601(3)
+      expect(created.first["y"]).to eq 0.0
+      expect(created.last["y"]).to eq 2.0
+      expect(resolved.last["y"]).to eq 1.0
     end
 
     # Both series are counted at the same ticks, which is what lets the chart match them by index.

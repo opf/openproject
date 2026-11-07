@@ -28,6 +28,7 @@
 #++
 
 require "spec_helper"
+require "support/shared/embedded_keyboard_table_examples"
 
 RSpec.describe "Work package table keyboard navigation", :js do
   let(:project) { create(:project) }
@@ -100,14 +101,36 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_on_column_header("Subject")
   end
 
-  it "leaves the table forward with one Tab from the last row" do
-    wp_table.tab_into_table
-    wp_table.press_keys(:down, :down)
-    wp_table.expect_focus_on_row(sibling)
+  it "walks the row's controls with Tab and leaves after the last one" do
+    wp_table.focus_row_by_keyboard(sibling)
 
+    wp_table.press_keys(:tab)
+    expect(page).to have_link(sibling.id.to_s, focused: true)
+    wp_table.press_keys(:tab)
+    wp_table.expect_focus_on_control(sibling, "Open details view")
+    wp_table.press_keys(:tab)
+    wp_table.expect_focus_on_control(sibling, "Open context menu")
     wp_table.press_keys(:tab)
 
     expect(page).to have_button("Create new work package", focused: true)
+
+    wp_table.press_keys(%i[shift tab])
+    wp_table.expect_focus_on_row(sibling)
+  end
+
+  it "walks back with Shift+Tab to the row and then leaves backwards" do
+    wp_table.focus_row_by_keyboard(sibling)
+    wp_table.press_keys(:tab, :tab, :tab)
+    wp_table.expect_focus_on_control(sibling, "Open context menu")
+
+    wp_table.press_keys(%i[shift tab])
+    wp_table.expect_focus_on_control(sibling, "Open details view")
+    wp_table.press_keys(%i[shift tab])
+    expect(page).to have_link(sibling.id.to_s, focused: true)
+    wp_table.press_keys(%i[shift tab])
+    wp_table.expect_focus_on_row(sibling)
+    wp_table.press_keys(%i[shift tab])
+    wp_table.expect_focus_outside_table
   end
 
   it "selects only the row Enter is pressed on" do
@@ -183,10 +206,35 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.focus_cell_by_keyboard(sibling, :subject)
 
     wp_table.press_keys(:tab)
+    wp_table.expect_focus_on_control(sibling, "Open details view")
+    wp_table.press_keys(:tab)
+    wp_table.expect_focus_on_control(sibling, "Open context menu")
+    wp_table.press_keys(:tab)
     expect(page).to have_button("Create new work package", focused: true)
 
     wp_table.press_keys(%i[shift tab])
     wp_table.expect_focus_on_cell(sibling, :subject)
+  end
+
+  context "as a flat table" do
+    let!(:query) do
+      create(:query, user:, project:, column_names: %w[id subject],
+                     sort_criteria: [%w[subject asc]], show_hierarchies: false)
+    end
+
+    before do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_order(child, sibling, parent)
+      wp_table.expect_inline_create_button
+    end
+
+    it_behaves_like "an embedded keyboard table", drag_and_drop_enabled: true do
+      let(:rows) { [child, sibling, parent] }
+      let(:first_row_controls) { [child.id.to_s, "Open details view", "Open context menu"] }
+      let(:next_control) { { role: :button, name: "Create new work package" } }
+      let(:context_menu_enabled) { true }
+      let(:axe_states) { [-> { wp_table.expect_focus_on_row(rows.first) }] }
+    end
   end
 
   context "with a read-only column" do
@@ -201,6 +249,10 @@ RSpec.describe "Work package table keyboard navigation", :js do
       wp_table.cell(sibling, :created_at).click
       wp_table.expect_focus_on_cell(sibling, :created_at)
 
+      wp_table.press_keys(:tab)
+      wp_table.expect_focus_on_control(sibling, "Open details view")
+      wp_table.press_keys(:tab)
+      wp_table.expect_focus_on_control(sibling, "Open context menu")
       wp_table.press_keys(:tab)
       expect(page).to have_button("Create new work package", focused: true)
 
@@ -240,6 +292,34 @@ RSpec.describe "Work package table keyboard navigation", :js do
       expect_focus_on_group_header("Group one")
     end
 
+    it "leaves natively from a group header without walking its expander" do
+      wp_table.visit_query(query)
+      wp_table.focus_row_by_keyboard(child)
+      wp_table.press_keys(:up)
+      expect_focus_on_group_header("Group one")
+
+      wp_table.press_keys(:tab)
+
+      wp_table.expect_focus_outside_table
+    end
+
+    it "toggles a group from its header cell with Enter and keeps the cell focused" do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_order(child, parent, sibling)
+
+      wp_table.focus_row_by_keyboard(child)
+      wp_table.press_keys(:up, :right)
+      expect(wp_table.table_container).to have_css("tr.wp-table--group-header > td", text: "Group one", focused: true)
+
+      wp_table.press_keys(:enter)
+      expect(page).to have_no_css(wp_table.row_selector(child))
+      expect(wp_table.table_container).to have_css("tr.wp-table--group-header > td", text: "Group one", focused: true)
+
+      wp_table.press_keys(:enter)
+      expect(page).to have_css(wp_table.row_selector(child))
+      expect(wp_table.table_container).to have_css("tr.wp-table--group-header > td", text: "Group one", focused: true)
+    end
+
     it "collapses and expands a group from its header with Left, Right and Enter" do
       wp_table.visit_query(query)
       wp_table.expect_work_package_order(child, parent, sibling)
@@ -273,13 +353,21 @@ RSpec.describe "Work package table keyboard navigation", :js do
       create(:query, user:, project:, column_names: %w[id subject estimated_hours], display_sums: true)
     end
 
-    it "leaves the grid with one Tab after a custom element renders a Tab stop" do
+    it "walks a custom element's role button before leaving the grid" do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(excluded)
       wp_table.expect_inline_create_button
       expect(page).to have_css("opce-exclusion-info [tabindex]", visible: :all)
 
       wp_table.focus_row_by_keyboard(excluded)
+      wp_table.press_keys(:tab)
+      expect(page).to have_link(excluded.id.to_s, focused: true)
+      wp_table.press_keys(:tab)
+      expect(page).to have_button("Status excluded from hierarchy totals", focused: true)
+      wp_table.press_keys(:tab)
+      wp_table.expect_focus_on_control(excluded, "Open details view")
+      wp_table.press_keys(:tab)
+      wp_table.expect_focus_on_control(excluded, "Open context menu")
       wp_table.press_keys(:tab)
 
       expect(page).to have_button("Create new work package", focused: true)

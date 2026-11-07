@@ -820,7 +820,7 @@ uk:
           attributes:
             base:
               archive_permission_missing_on_subprojects: У вас немає дозволів для архівації всіх підпроєктів. Зверніться до адміністратора.
-              project_initiation_request_disabled: Запит на ініціювання проєкту вимкнено. Щоб створити пакет робіт артефакту, його потрібно ввімкнути.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: Модуль «%{dependency}» потрібно також увімкнути, оскільки від нього залежить модуль «%{module}».
               format: "%{message}"
@@ -834,7 +834,7 @@ uk:
               switch_target_blank: Виберіть варіант, на який потрібно перемкнутися
               switch_target_identical: Цільовий тип має відрізнятися від типу, що використовується в проєкті зараз
               switch_target_not_in_family: Можна перемкнутися лише на інший тип із того самого сімейства
-          cannot_be_assigned_to_artifact_work_package: Вибраного користувача не дозволяється призначати для пакетів робіт.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Пакети робіт у ненащадкових проєктах посилаються на версії цього проєкту або його нащадків.
         project/phase:
           attributes:
@@ -1863,6 +1863,10 @@ uk:
         button_delete_personal_access_token: Delete PAT
         button_save: Зберегти конфігурацію
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1874,6 +1878,7 @@ uk:
           personal_access_token: Personal access token (PAT)
           url: URL-адреса Jira Server / Data Center
         label_testing: Перевірка конфігурації…
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1903,12 +1908,12 @@ uk:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1931,6 +1936,9 @@ uk:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Ви намагаєтесь імпортувати проєкт з ідентифікатором, який уже використовується: %{taken_identifier}. Будь ласка, оновіть ідентифікатор проєкту в Jira, а потім натисніть на кнопку «Повторити спробу».'
         remove_error: Цикл імпорту Jira не можна видалити, поки він виконується
         side_panel:
@@ -1998,6 +2006,11 @@ uk:
               few: "%{count} projects"
               many: "%{count} projects"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              few: "%{count} resolutions"
+              many: "%{count} resolutions"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               few: "%{count} statuses"
@@ -2035,6 +2048,7 @@ uk:
               label_available_data: Дані, які імпортуватимуться
               label_import_data: Зараз імпортується
               label_progress: Виконується імпорт…
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Користувачі, залучені до вибраних проєктів (зокрема, члени груп)
               title: Імпортуйте дані
             fetch_data:
@@ -2163,10 +2177,12 @@ uk:
         error: Під час перевірки з’єднання сталася неочікувана помилка
         failed: 'З’єднання не встановлено: не вдалось отримати інформацію про сервер'
         invalid_url: Укажіть дійсну URL-адресу
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Не вдалося проаналізувати відповідь сервера. Можливо, він не є дійсним екземпляром Jira.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Встановлено з’єднання із сервером %{server} (версії %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: Невідомо
@@ -2560,6 +2576,8 @@ uk:
         emoji_reactions_activity_type_not_supported: Дія такого типу не підтримує реакцію за допомогою емодзі.
         invalid_link: Посилання, пов’язане з ключем «%{key}», недійсне.
         links_not_an_object: _links має бути об’єктом JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Поганий запит: %{message}'
       code_401: Щоб отримати доступ до цього ресурсу, потрібно пройти аутентифікацію.
       code_401_wrong_credentials: Ви не надати правильні облікові дані.
@@ -2907,6 +2925,22 @@ uk:
       missing_value: Атрибут «%{custom_field_name}» обов’язковий для цього поля «Розраховане значення», але є порожнім.
       unknown: Сталася невідома помилка. Перевірте формулу, що використовується для цього поля «Розраховане значення».
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Редагувати колір
     form:
@@ -4146,6 +4180,11 @@ uk:
         header: зміни вніс (внесла) %{author}
         migrated: з Jira
         set_with_diff: Поле «%{field}» налаштовано (%{link})
+      label_deleted:
+        one: "%{label_names} was deleted"
+        few: "%{label_names} were deleted"
+        many: "%{label_names} were deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(скасовано)"
       meeting_deleted: "(видалено)"
       meeting_series_backlog_html: беклог для серії нарад %{link}
@@ -4189,8 +4228,10 @@ uk:
       comment_retracted: Comment retracted
       dates_changed: Дати змінено
       default_attribute_written: Атрибути лише для читання записано
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Імпортовано
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Додано в нараду</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Додано сюди:</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Обговорювалося на нараді</strong> %{meeting_title_information}"
@@ -5916,8 +5957,8 @@ uk:
         label: Зміст
     page_nr_footer: Сторінка %{page} з %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Усі атрибути, наявні в поточній формі, що використовують шаблон за промовчанням.
       label: Атрибути й опис
@@ -6232,11 +6273,11 @@ uk:
           no_status_when_submitted: Не вдалося ввімкнути запит на ініціювання проєкту, оскільки з типом пакета робіт «%{type}» має бути пов’язано принаймні один статус. Увімкніть для нього принаймні один робочий процес статусу.
           no_work_package_type: Не вдалося ввімкнути запит на ініціювання проєкту, оскільки для цього потрібен принаймні один активний тип пакета робіт, а в цьому проєкті немає жодного. Додайте в нього принаймні один тип пакета робіт.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Виберіть налаштоване зовнішнє файлове сховище, яке слід використовувати.
           external_file_storage: Зовнішнє файлове сховище
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: Зберегти як вкладення файлу в пакеті робіт
           label_file_link_export: Завантажити файл у зовнішнє файлове сховище й додати посилання на нього в пакет робіт
           pdf_file_storage: Сховище файлів PDF
@@ -6381,14 +6422,14 @@ uk:
     status:
       button_edit: Редагувати статус
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: Для цього проєкту не ввімкнено жодних атрибутів, що необхідні для роботи майстра. Увімкніть хоча б один атрибут у <a href="%{link}">налаштуваннях проєкту</a>.
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи
       sidebar_content_title: Зміст
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Запит на ініціювання проєкту
   pwa:
     offline:
@@ -6414,6 +6455,22 @@ uk:
         automatic:
           description: Упорядкуйте %{plural} за одним або кількома критеріями сортування. Результати попереднього сортування буде втрачено.
           heading: Автоматично
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute}%{direction}"
   query_fields:
@@ -6986,12 +7043,12 @@ uk:
         confirmation_message: Майстер запиту на ініціювання більше не буде доступний для нових проєктів, створених на основі цього шаблону. Менеджерам і власникам проєктів доведеться вручну вибирати налаштування й указувати відповідну інформацію на сторінці «Огляд проєкту».
         heading: Вимкнути цей запит на ініціювання проєкту?
         title: Вимкнути запит на ініціювання проєкту
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Майстер створення проєктів
           project_initiation_request: Запит на ініціювання проєкту
@@ -7011,8 +7068,8 @@ uk:
           Ви подали запит на ініціювання проєкту **%{project_name}**. Зараз він очікує на розгляд.
           Перейдіть за посиланням нижче, щоб отримати доступ до пакета робіт із Вашим запитом.
         confirmation_email_text: Текст листа з підтвердженням
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Надіслати лист із підтвердженням користувачу, що подав запит на ініціювання проєкту
         status_when_submitted: Статус на момент подання
         status_when_submitted_caption: Статус, який буде присвоєно створеному пакету робіт після подання запиту.
@@ -7020,7 +7077,7 @@ uk:
         work_package_comment_caption: Виконавця, вибраного вище, буде автоматично @згадано в коментарі.
         work_package_comment_default: Запит на ініціювання проєкту **%{project_name}** подано, і він очікує на розгляд.
         work_package_type: Тип пакета робіт
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Відкрити майстер створення проєктів
         project_initiation_request: Відкрити запит на ініціювання проєкту
@@ -7186,6 +7243,12 @@ uk:
         Крім статусу, ви не зможете змінювати жодні атрибути.
         <br>
         <strong>Примітка</strong>: успадковані значення (напр., значення дочірніх елементів або зв’язки) не зміняться.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        few: This status is used by %{count} workflows.
+        many: This status is used by %{count} workflows.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Не вдалося перемістити статус.
       headers:
@@ -7195,6 +7258,11 @@ uk:
       no_results_content_text: Додати новий статус
       no_results_title_text: Наразі немає статусів робочих пакетів.
       status_actions: Дії зі статусом
+      workflows_count:
+        one: "%{count} workflow"
+        few: "%{count} workflows"
+        many: "%{count} workflows"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: і
@@ -7368,6 +7436,9 @@ uk:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: після обіду
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: до
     show: Показувати часові рамки
@@ -7545,13 +7616,13 @@ uk:
           file_link:
             caption: Згенерований файл PDF завантажується в сховище Nextcloud з автоматичним керуванням, яке використовується для проєкту. Посилання на файл є в пакеті робіт. Якщо в проєкті немає такого сховища, відповідні пакети робіт пропускаються.
             label: Завантажити файл у зовнішнє файлове сховище й додати посилання на нього в пакет робіт
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: Файл PDF не генерується автоматично.
             label: Вимкнено
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: недоступно, не налаштовано жодного сховища Nextcloud з автоматичним керуванням
         pdf_export_templates:
           actions:
@@ -7598,6 +7669,11 @@ uk:
         no_inactive_attributes: Немає неактивних атрибутів
         not_found: Не вдалося знайти потрібний елемент форми.
         query_group_label: Таблиця пов’язаних робочих пакетів
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Вилучити з розділу
         rename_group: Перейменувати розділ
         required:
@@ -7659,8 +7735,6 @@ uk:
           no_results: Немає відповідних проєктів.
           title: Not used in any project yet
         enable_all: Використовувати у всіх проєктах
-        select_projects: Вибрати проєкти
-        select_projects_description: Виберіть проєкти, у яких ви хочете використовувати цей тип.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

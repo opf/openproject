@@ -813,7 +813,7 @@ zh-TW:
           attributes:
             base:
               archive_permission_missing_on_subprojects: 您沒有權限將所有子專案封存。請洽系統管理員。
-              project_initiation_request_disabled: 專案啟動請求已被停用。必須啟用它才能建立成品工作套件。
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: 還需要啓用模塊“%{dependency}”，因為模塊“%{module}”依賴於該模塊。
               format: "%{message}"
@@ -827,7 +827,7 @@ zh-TW:
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
               switch_target_not_in_family: Can only switch to another type of the same family
-          cannot_be_assigned_to_artifact_work_package: 不允許指定所選使用者為工作套件。
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: 非子孫專案中的工作套件參考該專案或其子孫專案的版本。
         project/phase:
           attributes:
@@ -1529,6 +1529,10 @@ zh-TW:
         button_delete_personal_access_token: Delete PAT
         button_save: Save configuration
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1540,6 +1544,7 @@ zh-TW:
           personal_access_token: Personal access token (PAT)
           url: Jira Server/Data Center URL
         label_testing: Testing configuration...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1569,12 +1574,12 @@ zh-TW:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1597,6 +1602,9 @@ zh-TW:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
         side_panel:
@@ -1655,6 +1663,8 @@ zh-TW:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1680,6 +1690,7 @@ zh-TW:
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
@@ -1805,10 +1816,12 @@ zh-TW:
         error: An unexpected error occurred while testing the connection
         failed: 'Connection failed: Unable to retrieve server information'
         invalid_url: Please provide a valid URL
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Failed to parse the response from the server. The server may not be a valid Jira instance.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Successfully connected to %{server} (version %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: Unknown
@@ -2184,6 +2197,8 @@ zh-TW:
         emoji_reactions_activity_type_not_supported: 此活動類型不支持表情符號反應。
         invalid_link: 金鑰「%{key}」下的連結無效。
         links_not_an_object: _links 必須是 JSON object。
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 錯誤請求：%{message}
       code_401: |-
         You need to be authenticated to access this resource.
@@ -2537,6 +2552,22 @@ zh-TW:
       missing_value: 此計算值需要屬性 "%{custom_field_name}"，但該屬性為空。
       unknown: 發生未知錯誤。請查看此計算值的公式。
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: 編輯色彩
     form:
@@ -3673,6 +3704,8 @@ zh-TW:
         header: changes by %{author}
         migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
+      label_deleted:
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
       meeting_series_backlog_html: backlog for meeting series %{link}
@@ -3716,8 +3749,10 @@ zh-TW:
       comment_retracted: Comment retracted
       dates_changed: 日期變更
       default_attribute_written: 已寫入只讀屬性
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
@@ -5406,8 +5441,8 @@ zh-TW:
         label: Table of contents
     page_nr_footer: 頁面 %{page} of %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: 屬性以及說明
@@ -5719,11 +5754,11 @@ zh-TW:
           no_status_when_submitted: 啟用專案啟動請求失敗，因為工作包類型 %{type} 至少需要一個狀態與之相關。請為此工作包類型啟用至少一個狀態工作流程。
           no_work_package_type: 啟用專案啟動請求失敗，因為它需要至少一個作用中的工作套件類型，而此專案沒有。請為此專案新增至少一個工作套件類型。
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: 選擇應使用哪個已設定的外部檔案儲存空間。
           external_file_storage: 外部存儲空間
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: 儲存為工作套件檔案附件
           label_file_link_export: 將檔案上傳至外部檔案儲存空間，並將檔案連結新增至工作套件
           pdf_file_storage: PDF 檔案儲存
@@ -5859,14 +5894,14 @@ zh-TW:
     status:
       button_edit: 編輯狀態
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: 此屬性未定義任何說明文字。
       progress_label: "%{current} of %{total}"
       sections: 區段
       sidebar_content_title: 內容
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: 專案啟動請求
   pwa:
     offline:
@@ -5892,6 +5927,22 @@ zh-TW:
         automatic:
           description: 按一個或多個排序標準對 %{plural} 進行排序。您將失去之前的排序。
           heading: 自動
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6441,12 +6492,12 @@ zh-TW:
         confirmation_message: 啟動請求精靈將不再適用於基於此模板的新專案。專案經理和專案所有人將需要在專案概述中手動設定和填寫相關資訊。
         heading: 停用此專案啟動請求？
         title: 停用專案啟動請求
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: 專案建立精靈
           project_initiation_request: 專案啟動請求
@@ -6464,8 +6515,8 @@ zh-TW:
           您已提交 %{project_name} 的專案啟動請求，目前正等待審核。
           請點擊下方連結以存取包含您請求的工作套件。
         confirmation_email_text: 確認電子郵件文字
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: 向提交專案啟動請求的使用者傳送確認電子郵件
         status_when_submitted: 提交時的狀態
         status_when_submitted_caption: 提交請求後，產生的工作套件將轉換到的狀態。
@@ -6473,7 +6524,7 @@ zh-TW:
         work_package_comment_caption: 上面選擇的執行者會自動在留言中 @。
         work_package_comment_default: "%{project_name} 的專案啟動請求已提交，正在等待審核。"
         work_package_type: 工作套件類型
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: 開啟專案建立精靈
         project_initiation_request: 開啟專案啟動請求
@@ -6642,6 +6693,9 @@ zh-TW:
         除狀態外，任何屬性都無法改變。
         <br>
         <strong>注意</strong>：繼承的值（例如來自子項或關係）仍然適用。
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -6651,6 +6705,8 @@ zh-TW:
       no_results_content_text: 新增一個狀態
       no_results_title_text: 目前沒有任何工作套件狀態。
       status_actions: Status actions
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: 和
@@ -6824,6 +6880,9 @@ zh-TW:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: 到
     show: 顯示時間
@@ -6998,13 +7057,13 @@ zh-TW:
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: No PDF is generated automatically.
             label: 'Off'
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         pdf_export_templates:
           actions:
@@ -7051,6 +7110,11 @@ zh-TW:
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Remove from section
         rename_group: Rename section
         required:
@@ -7112,8 +7176,6 @@ zh-TW:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: 在所有專案中啟用
-        select_projects: 選取專案
-        select_projects_description: 選擇要使用此類型的專案。
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

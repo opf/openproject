@@ -185,14 +185,22 @@ module Redmine
 
       parts = []
       parts << format_date(local) if include_date
-      parts <<
-        if format.blank?
-          ::I18n.l(local, format: :time)
-        else
-          local.strftime(format)
-        end
+      parts << format_time_of_day(local, format:)
 
       parts.join(" ")
+    end
+
+    # Formats only the clock time, leaving the time's zone or offset as given.
+    #
+    # @param time [Time] The time to format.
+    # @param format [String] The strftime format; the locale's time format when blank.
+    # @return [String]
+    def format_time_of_day(time, format: User.current.time_format)
+      if format.blank?
+        ::I18n.l(time, format: :time)
+      else
+        time.strftime(format)
+      end
     end
 
     ##

@@ -14,7 +14,7 @@ get:
         JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
         Currently supported filters are:
-        
+
         - name: filters placeholder users by the name.
         - group: filters placeholder by the group it is contained in.
         - status: filters placeholder by the status it has.
@@ -104,5 +104,3 @@ post:
         Returned if:
 
         * a constraint for a property was violated (`PropertyConstraintViolation`)
-
-  

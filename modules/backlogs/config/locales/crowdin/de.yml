@@ -144,12 +144,12 @@ de:
         blankslate_title: Keine Burndown-Daten verfügbar
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
-    estimation_unit: Units
+    estimation_unit: Stücke
     excluded_work_package_types_caption: 'Wählen Sie, welche Arbeitspaket-Typen Sie aus dem Backlog ausblenden möchten. Elemente der ausgewählten Typen erscheinen nicht automatisch im Backlog und sind so auf die Arbeit konzentriert, die für Ihr Team wichtig ist. Typen wie Epics oder Milestones, die auf einer höheren Ebene verwaltet werden, können beispielsweise ausgeblendet werden, damit sich das Backlog auf umsetzbare Aufgaben konzentriert.
 
       '
@@ -226,7 +226,7 @@ de:
         title: "%{sprint} Bericht"
       widgets:
         burndown_chart:
-          title: Burndown chart
+          title: Burndown-Diagramm
         created_resolved_chart:
           title: Created vs resolved work packages
         epic_progress:
@@ -245,15 +245,15 @@ de:
             other: 'Average of previous %{count} sprints:'
           average_legend: Average
           committed: Committed
-          completed: Completed
+          completed: Abgeschlossen
           story_points: "%{value} SP"
           summary:
             one: Bar chart of committed and completed story points of the last sprint.
             other: Bar chart of committed and completed story points of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
-          title: Velocity chart
+          title: Velocity-Diagramm
           velocity: "%{sprint}:"
-          y_axis_title: Story points
+          y_axis_title: Story-Points
         work_package_graph:
           title: Arbeitspaket-Graph
         work_package_overview:
@@ -262,9 +262,9 @@ de:
             heading: Keine Sprintdaten verfügbar
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Scope-Änderungen
-              story_points_change: "+%{added} / -%{removed} Story-Punkte"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Abgeschlossen
             initially_planned:
@@ -276,10 +276,17 @@ de:
               show_all: Alle anzeigen
               show_all_label: 'View all: %{heading}'
           closed_work_packages: Abgeschlossene Arbeitspakete
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            one: "%{percentage} (%{resolved} of %{total} work package)"
-            other: "%{percentage} (%{resolved} of %{total} work packages)"
-          title: Work packages within the sprint
+            story_points:
+              one: "%{percentage} (%{resolved} of %{total} story point)"
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} of %{total} work package)"
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Arbeitspakete innerhalb des Sprints
         work_package_table:
           added:
             blankslate:
@@ -291,7 +298,7 @@ de:
                 description: Added work packages will appear here after the sprint starts.
             title: Scope increase after sprint start
           blankslate:
-            heading: No work packages to display
+            heading: Keine Arbeitspakete anzuzeigen
           completed:
             blankslate:
               empty:
@@ -428,14 +435,14 @@ de:
       sprints: Sprints
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: Stück
         options:
           none:
             caption: Die Anzahl der Arbeitspakete wird in den Diagrammen als Standardeinheit verwendet. Einige Diagramme aus den Sprintberichten werden nicht angezeigt.
             label: Keine
           story_points:
             caption: The cards and charts will display story points.
-            label: Story points
+            label: Story-Points
           time:
             caption: The cards and charts will display work time estimates.
             label: Arbeitszeitschätzung

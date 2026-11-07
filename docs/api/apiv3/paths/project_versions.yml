@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: ID of the project whose versions will be listed
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: ID of the project whose versions will be listed
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -18,57 +18,57 @@ get:
               value:
                 _embedded:
                   elements:
-                  - _links:
-                      availableInProjects:
-                        href: "/api/v3/versions/11/workspaces"
-                      definingProject:
-                        href: "/api/v3/projects/11"
-                      self:
-                        href: "/api/v3/versions/11"
-                    _type: Version
-                    description:
-                      format: plain
-                      html: This version has a description
-                      raw: This version has a description
-                    endDate: 
-                    id: 11
-                    name: v3.0 Alpha
-                    startDate: '2014-11-20'
-                    status: Open
-                  - _links:
-                      availableInProjects:
-                        href: "/api/v3/versions/12/workspaces"
-                      definingProject:
-                        href: "/api/v3/projects/11"
-                      self:
-                        href: "/api/v3/versions/12"
-                    _type: Version
-                    description:
-                      format: plain
-                      html: ''
-                      raw: ''
-                    endDate: 
-                    id: 12
-                    name: v2.0
-                    startDate: 
-                    status: Closed
-                  - _links:
-                      availableInProjects:
-                        href: "/api/v3/versions/10/workspaces"
-                      definingProject:
-                        href: "/api/v3/projects/11"
-                      self:
-                        href: "/api/v3/versions/10"
-                    _type: Version
-                    description:
-                      format: plain
-                      html: ''
-                      raw: ''
-                    endDate: 
-                    id: 10
-                    name: v1.0
-                    startDate: 
-                    status: Open
+                    - _links:
+                        availableInProjects:
+                          href: "/api/v3/versions/11/workspaces"
+                        definingProject:
+                          href: "/api/v3/projects/11"
+                        self:
+                          href: "/api/v3/versions/11"
+                      _type: Version
+                      description:
+                        format: plain
+                        html: This version has a description
+                        raw: This version has a description
+                      endDate:
+                      id: 11
+                      name: v3.0 Alpha
+                      startDate: '2014-11-20'
+                      status: Open
+                    - _links:
+                        availableInProjects:
+                          href: "/api/v3/versions/12/workspaces"
+                        definingProject:
+                          href: "/api/v3/projects/11"
+                        self:
+                          href: "/api/v3/versions/12"
+                      _type: Version
+                      description:
+                        format: plain
+                        html: ''
+                        raw: ''
+                      endDate:
+                      id: 12
+                      name: v2.0
+                      startDate:
+                      status: Closed
+                    - _links:
+                        availableInProjects:
+                          href: "/api/v3/versions/10/workspaces"
+                        definingProject:
+                          href: "/api/v3/projects/11"
+                        self:
+                          href: "/api/v3/versions/10"
+                      _type: Version
+                      description:
+                        format: plain
+                        html: ''
+                        raw: ''
+                      endDate:
+                      id: 10
+                      name: v1.0
+                      startDate:
+                      status: Open
                 _links:
                   self:
                     href: "/api/v3/projects/11/versions"
@@ -76,7 +76,7 @@ get:
                 count: 3
                 total: 3
           schema:
-            "$ref": "../components/schemas/versions_by_workspace_model.yml"
+            $ref: "../components/schemas/versions_by_workspace_model.yml"
       description: OK
       headers: {}
     '404':
@@ -100,7 +100,7 @@ get:
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
   tags:
-  - Versions
+    - Versions
   description: |-
     This endpoint lists the versions that are *available* in a given project.
     Note that due to sharing this might be more than the versions *defined* by that project.

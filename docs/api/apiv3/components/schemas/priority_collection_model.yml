@@ -12,18 +12,18 @@ allOf:
         required:
           - self
         properties:
-            self:
-              allOf:
-                - $ref: "./link.yml"
-                - properties:
-                    self:
-                      allOf:
-                        - $ref: "./link.yml"
-                        - description: |-
-                            This priority collection
-                            
-                            **Resource**: PriorityCollectionModel
-              readOnly: true
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - properties:
+                  self:
+                    allOf:
+                      - $ref: "./link.yml"
+                      - description: |-
+                          This priority collection
+
+                          **Resource**: PriorityCollectionModel
+            readOnly: true
       _embedded:
         type: object
         required:
