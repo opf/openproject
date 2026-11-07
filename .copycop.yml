@@ -27,12 +27,13 @@
 
 ---
 copyright: COPYRIGHT_short
+alternative_copyrights:
+  - COPYRIGHT_short_legacy
 
 ignore:
   # 3rd party
   - "**/node_modules/**/*"
   - "**/vendor/**/*"
-  - "modules/gitlab_integration/**/*"
   - "lib_static/plugins/verification/**/*"
   - "lib/chronic_duration.rb"
   - "frontend/src/global_styles/content/_loading_indicator.sass"
