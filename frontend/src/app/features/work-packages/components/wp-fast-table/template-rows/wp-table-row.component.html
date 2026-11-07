@@ -21,12 +21,14 @@
     }
   }
   @case ('workPackage') {
+    @let editing = editingColumns();
     @for (column of view().columns; track column.id) {
       @let isRowHeader = column.id === view().rowHeader;
       @let presentation = column.id === 'id' ? null : textCells().get(column.id);
       @if (column.id === 'id' && isRowHeader) {
-        <th scope="row" opWpTableIdCell #idCell="opWpTableIdCell" [row]="entry">
-          @let value = idCell.value();
+        <th scope="row" opWpTableIdCell class="wp-table--cell-td id wp-table--navigable-cell"
+          [attr.data-row-header-name]="idValue().text">
+          @let value = idValue();
           <span class="wp-table--cell-container inline-edit--container id">
             <span class="inline-edit--display-field id -read-only"
               data-field-name="id"
@@ -43,8 +45,9 @@
           </span>
         </th>
       } @else if (column.id === 'id') {
-        <td opWpTableIdCell #idCell="opWpTableIdCell" [row]="entry">
-          @let value = idCell.value();
+        <td opWpTableIdCell class="wp-table--cell-td id wp-table--navigable-cell"
+          [attr.data-row-header-name]="idValue().text">
+          @let value = idValue();
           <span class="wp-table--cell-container inline-edit--container id">
             <span class="inline-edit--display-field id -read-only"
               data-field-name="id"
@@ -61,9 +64,15 @@
           </span>
         </td>
       } @else if (presentation && isRowHeader) {
-        <th scope="row" opWpTableTextCell #textCell="opWpTableTextCell" [presentation]="presentation">
-          @if (textCell.editing()) {
-            <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute"></span>
+        <th scope="row" opWpTableTextCell class="wp-table--cell-td wp-table--navigable-cell"
+          [class]="presentation.attribute"
+          [class.-no-ellipsis]="['startDate', 'dueDate', 'duration'].includes(presentation.attribute)"
+          [class.-min-200]="['estimatedTime', 'remainingTime'].includes(presentation.attribute)"
+          [class.-max]="presentation.attribute === 'subject'"
+          [attr.data-row-header-name]="presentation.attribute === 'subject' ? presentation.text : null">
+          @if (editing?.has(column.id)) {
+            <span class="wp-table--cell-container inline-edit--container"
+              [class]="presentation.attribute" data-op-table-editor-slot></span>
           } @else {
             <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
               <span class="inline-edit--display-field"
@@ -80,9 +89,15 @@
           }
         </th>
       } @else if (presentation) {
-        <td opWpTableTextCell #textCell="opWpTableTextCell" [presentation]="presentation">
-          @if (textCell.editing()) {
-            <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute"></span>
+        <td opWpTableTextCell class="wp-table--cell-td wp-table--navigable-cell"
+          [class]="presentation.attribute"
+          [class.-no-ellipsis]="['startDate', 'dueDate', 'duration'].includes(presentation.attribute)"
+          [class.-min-200]="['estimatedTime', 'remainingTime'].includes(presentation.attribute)"
+          [class.-max]="presentation.attribute === 'subject'"
+          [attr.data-row-header-name]="presentation.attribute === 'subject' ? presentation.text : null">
+          @if (editing?.has(column.id)) {
+            <span class="wp-table--cell-container inline-edit--container"
+              [class]="presentation.attribute" data-op-table-editor-slot></span>
           } @else {
             <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
               <span class="inline-edit--display-field"

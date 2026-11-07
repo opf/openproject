@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { templateCellEditors } from '../wp-fast-table/template-rows/template-cell-editing';
+import { beginTemplateCellEdit, endTemplateCellEdit } from '../wp-fast-table/template-rows/template-cell-editing';
 import { Injector } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -166,7 +166,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
         this.assertActivationActive();
         return this.editingPortalService.create(
-          templateCellEditors.get(td)?.beginEdit() ?? cell,
+          beginTemplateCellEdit(td, fieldName) ?? cell,
           this.injector,
           form,
           schema,
@@ -196,9 +196,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       this.mutateOwnRow(() => {
         td.style.width = '';
         td.style.maxWidth = '';
-        const templateCell = templateCellEditors.get(td);
-        if (templateCell) {
-          templateCell.endEdit();
+        if (endTemplateCellEdit(td, fieldName)) {
           this.table.refreshRows(this.resource);
         } else {
           this.cellBuilder.refresh(cell, this.resource, fieldName);

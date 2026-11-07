@@ -25,9 +25,44 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export interface TemplateCellEditor {
-  beginEdit():HTMLElement;
-  endEdit():void;
+import invariant from 'tiny-invariant';
+
+interface TemplateRowEditor {
+  setEditing(columnId:string, editing:boolean):void;
 }
 
-export const templateCellEditors = new WeakMap<HTMLTableCellElement, TemplateCellEditor>();
+const rowEditors = new WeakMap<HTMLTableRowElement, TemplateRowEditor>();
+
+export function registerTemplateRowEditor(row:HTMLTableRowElement, editor:TemplateRowEditor):void {
+  rowEditors.set(row, editor);
+}
+
+export function unregisterTemplateRowEditor(row:HTMLTableRowElement):void {
+  rowEditors.delete(row);
+}
+
+function editorFor(cell:HTMLTableCellElement, columnId:string):TemplateRowEditor|undefined {
+  const row = cell.parentElement;
+  if (row instanceof HTMLTableRowElement && cell.hasAttribute('opwptabletextcell') && cell.classList.contains(columnId)) {
+    return rowEditors.get(row);
+  }
+  return undefined;
+}
+
+export function beginTemplateCellEdit(cell:HTMLTableCellElement, columnId:string):HTMLElement|null {
+  const editor = editorFor(cell, columnId);
+  if (!editor) return null;
+
+  editor.setEditing(columnId, true);
+  const slot = cell.querySelector<HTMLElement>(':scope > [data-op-table-editor-slot]');
+  invariant(slot, `Template editor slot missing for ${columnId}`);
+  return slot;
+}
+
+export function endTemplateCellEdit(cell:HTMLTableCellElement, columnId:string):boolean {
+  const editor = editorFor(cell, columnId);
+  if (!editor) return false;
+
+  editor.setEditing(columnId, false);
+  return true;
+}

@@ -32,7 +32,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { within } from '@testing-library/dom';
 import { buildQuery, FakeDragAndDropService, harnessProviders } from '../testing/table-harness';
 import { buildWorkPackage } from '../testing/work-package-fixture';
-import { templateCellEditors } from './template-cell-editing';
+import { beginTemplateCellEdit, endTemplateCellEdit } from './template-cell-editing';
 import { TemplateRowView, TemplateWorkPackageRow } from './template-row';
 import { TextCellPresentation } from './text-cell-presentation';
 import { WorkPackageTableRowComponent } from './wp-table-row.component';
@@ -67,9 +67,15 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
     fixture.componentRef.setInput('row', row);
   }
 
-  function setPresentation(presentation:TextCellPresentation):void {
-    view = { ...view, textCell: (_row, column) => (column.id === presentation.attribute ? presentation : null) };
+  function setPresentation(...presentations:TextCellPresentation[]):void {
+    view = { ...view, textCell: (_row, column) => presentations.find(({ attribute }) => attribute === column.id) ?? null };
     fixture.componentRef.setInput('view', view);
+  }
+
+  function setColumns(...columns:string[]):void {
+    view = { ...view, columns: buildQuery(columns, null, false, false).columns };
+    fixture.componentRef.setInput('view', view);
+    fixture.detectChanges();
   }
 
   beforeEach(() => {
@@ -104,6 +110,8 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
     const rowComponent = fixture.debugElement.query(By.directive(WorkPackageTableRowComponent)).componentInstance as WorkPackageTableRowComponent;
     expect(getDebugNode(idCell)?.componentInstance === rowComponent).toBe(true);
     expect(getDebugNode(subjectCell)?.componentInstance === rowComponent).toBe(true);
+    expect(getDebugNode(idCell)?.providerTokens).toEqual([]);
+    expect(getDebugNode(subjectCell)?.providerTokens).toEqual([]);
     expect(idCell.tagName).toBe(rowHeader === 'id' ? 'TH' : 'TD');
     expect(subjectCell.tagName).toBe(rowHeader === 'subject' ? 'TH' : 'TD');
     expect(row.querySelector('th')).toHaveAttribute('scope', 'row');
@@ -162,20 +170,80 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
   });
 
   it('gives the editor an independent container and restores the Angular display after closing', () => {
-    const editor = templateCellEditors.get(subjectCell)!;
-    const slot = editor.beginEdit();
+    const slot = beginTemplateCellEdit(subjectCell, 'subject')!;
     slot.innerHTML = '<input aria-label="Subject" value="Unsaved">';
     const input = within(subjectCell).getByRole('textbox', { name: 'Subject' });
     setPresentation({ ...before, text: 'Refreshed' });
     fixture.detectChanges();
     expect(within(subjectCell).getByRole('textbox', { name: 'Subject' })).toBe(input);
     expect(input).toHaveValue('Unsaved');
-    editor.endEdit();
+    endTemplateCellEdit(subjectCell, 'subject');
     expect(within(subjectCell).queryByRole('textbox')).toBeNull();
     expect(subjectCell.querySelector('.inline-edit--display-field')).toHaveTextContent('Refreshed');
-    const second = editor.beginEdit();
+    const second = beginTemplateCellEdit(subjectCell, 'subject')!;
     second.innerHTML = '<input aria-label="Subject">';
-    editor.endEdit();
+    endTemplateCellEdit(subjectCell, 'subject');
     expect(subjectCell.querySelector('.inline-edit--display-field')).toHaveTextContent('Refreshed');
+  });
+
+  it('keeps another cell editor open when one field closes', () => {
+    view = { ...view, columns: buildQuery(['id', 'subject', 'customField1'], null, false, false).columns };
+    setPresentation(before, { ...before, attribute: 'customField1', text: 'Custom field' });
+    fixture.detectChanges();
+
+    const customCell = row.cells[2];
+    beginTemplateCellEdit(subjectCell, 'subject')!.innerHTML = '<input aria-label="Subject">';
+    beginTemplateCellEdit(customCell, 'customField1')!.innerHTML = '<input aria-label="Custom field" value="Unsaved">';
+    const input = within(customCell).getByRole('textbox', { name: 'Custom field' });
+
+    setColumns('customField1', 'id', 'subject');
+    expect(row.cells[0]).toBe(customCell);
+    expect(within(customCell).getByRole('textbox', { name: 'Custom field' })).toBe(input);
+
+    endTemplateCellEdit(subjectCell, 'subject');
+
+    expect(within(subjectCell).queryByRole('textbox')).toBeNull();
+    expect(within(customCell).getByRole('textbox', { name: 'Custom field' })).toBe(input);
+    expect(input).toHaveValue('Unsaved');
+    endTemplateCellEdit(customCell, 'customField1');
+    expect(within(customCell).queryByRole('textbox')).toBeNull();
+  });
+
+  it('restores the display when a column is removed and added again', () => {
+    beginTemplateCellEdit(subjectCell, 'subject')!.innerHTML = '<input aria-label="Subject">';
+
+    setColumns('id');
+    setColumns('id', 'subject');
+
+    const replacement = row.cells[1];
+    expect(replacement).not.toBe(subjectCell);
+    expect(replacement.querySelector('.inline-edit--display-field')).toHaveTextContent('<Original>');
+    expect(within(replacement).queryByRole('textbox')).toBeNull();
+  });
+
+  it('restores the display when an active cell changes its header role', () => {
+    beginTemplateCellEdit(subjectCell, 'subject')!.innerHTML = '<input aria-label="Subject">';
+    view = { ...view, rowHeader: rowHeader === 'subject' ? 'id' : 'subject' };
+    fixture.componentRef.setInput('view', view);
+    fixture.detectChanges();
+
+    const replacement = row.cells[1];
+    expect(replacement).not.toBe(subjectCell);
+    expect(replacement.querySelector('.inline-edit--display-field')).toHaveTextContent('<Original>');
+    expect(within(replacement).queryByRole('textbox')).toBeNull();
+  });
+
+  it('restores the display when a column switches to fallback and back', () => {
+    beginTemplateCellEdit(subjectCell, 'subject')!.innerHTML = '<input aria-label="Subject">';
+
+    setPresentation();
+    fixture.detectChanges();
+    setPresentation(before);
+    fixture.detectChanges();
+
+    const replacement = row.cells[1];
+    expect(replacement).not.toBe(subjectCell);
+    expect(replacement.querySelector('.inline-edit--display-field')).toHaveTextContent('<Original>');
+    expect(within(replacement).queryByRole('textbox')).toBeNull();
   });
 });

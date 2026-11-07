@@ -25,11 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { WorkPackageTableTextCellDirective } from './wp-table-text-cell.directive';
-import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, linkedSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, ElementRef, inject, Injector, input, linkedSignal, OnDestroy,
+} from '@angular/core';
 import { WorkPackageTableCellContentDirective, WorkPackageTableCellDirective } from './wp-table-cell.directive';
 import { WorkPackageTableActionComponent } from './wp-table-action.component';
-import { WorkPackageTableIdCellDirective } from './wp-table-id-cell.directive';
+import { IdCellPresenter } from './id-cell-presenter';
+import { registerTemplateRowEditor, unregisterTemplateRowEditor } from './template-cell-editing';
 import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
 import { isRelationColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { internalContextMenuColumn, internalSortColumn } from '../builders/internal-sort-columns';
@@ -47,11 +49,9 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'tr[opWpTableRow]',
   imports: [
-    WorkPackageTableTextCellDirective,
     WorkPackageTableCellDirective,
     WorkPackageTableCellContentDirective,
     WorkPackageTableActionComponent,
-    WorkPackageTableIdCellDirective,
     PrimerIconButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,7 +68,7 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
   },
   templateUrl: './wp-table-row.component.html',
 })
-export class WorkPackageTableRowComponent {
+export class WorkPackageTableRowComponent implements OnDestroy {
   readonly row = input.required<TemplateRow>();
   readonly view = input.required<TemplateRowView>();
 
@@ -84,6 +84,14 @@ export class WorkPackageTableRowComponent {
   });
 
   private readonly element = inject<ElementRef<HTMLTableRowElement>>(ElementRef);
+  private readonly injector = inject(Injector);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private idPresenter?:IdCellPresenter;
+
+  readonly idValue = computed(() => {
+    this.idPresenter ??= new IdCellPresenter(this.injector);
+    return this.idPresenter.present(this.workPackageRow()!.workPackage);
+  });
 
   readonly textCells = linkedSignal({
     source: () => ({ row: this.workPackageRow(), view: this.view() }),
@@ -94,6 +102,18 @@ export class WorkPackageTableRowComponent {
       }
       return [column.id, row ? view.textCell(row, column) : null];
     })),
+  });
+
+  readonly editingColumns = linkedSignal({
+    source: this.view,
+    computation: (view, previous):ReadonlySet<string>|null => {
+      if (!this.workPackageRow() || !previous?.value) return null;
+
+      const presentations = this.textCells();
+      const retained = [...previous.value].filter((columnId) =>
+        !!presentations.get(columnId) && (view.rowHeader === columnId) === (previous.source.rowHeader === columnId));
+      return retained.length ? new Set(retained) : null;
+    },
   });
 
   readonly groupHeader = computed(() => {
@@ -129,4 +149,23 @@ export class WorkPackageTableRowComponent {
     }
     return classes;
   });
+
+  constructor() {
+    registerTemplateRowEditor(this.element.nativeElement, this);
+  }
+
+  ngOnDestroy():void {
+    unregisterTemplateRowEditor(this.element.nativeElement);
+  }
+
+  setEditing(columnId:string, editing:boolean):void {
+    const current = this.editingColumns();
+    if ((current?.has(columnId) ?? false) === editing) return;
+
+    const next = new Set(current);
+    if (editing) next.add(columnId);
+    else next.delete(columnId);
+    this.editingColumns.set(next.size ? next : null);
+    this.cdRef.detectChanges();
+  }
 }

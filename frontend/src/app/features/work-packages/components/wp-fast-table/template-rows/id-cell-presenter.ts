@@ -25,32 +25,28 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Directive, computed, inject, Injector, input } from '@angular/core';
+import { Injector } from '@angular/core';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { WorkPackageIdDisplayField } from 'core-app/shared/components/fields/display/field-types/wp-id-display-field.module';
-import { TemplateWorkPackageRow } from './template-row';
 import { UiStateLinkBuilder } from '../builders/ui-state-link-builder';
 
-@Directive({
-  selector: 'td[opWpTableIdCell], th[opWpTableIdCell]',
-  exportAs: 'opWpTableIdCell',
-  host: {
-    class: 'wp-table--cell-td id wp-table--navigable-cell',
-    '[attr.data-row-header-name]': 'value().text',
-  },
-})
-export class WorkPackageTableIdCellDirective {
-  readonly row = input.required<Pick<TemplateWorkPackageRow, 'workPackage'|'revision'>>();
-  private readonly injector = inject(Injector);
-  private readonly schemaCache = inject(SchemaCacheService);
-  private readonly links = new UiStateLinkBuilder(inject(KeepTabService), inject(CurrentProjectService), inject(PathHelperService), inject(UrlParamsService));
+export class IdCellPresenter {
+  private readonly schemaCache = this.injector.get(SchemaCacheService);
+  private readonly links = new UiStateLinkBuilder(
+    this.injector.get(KeepTabService),
+    this.injector.get(CurrentProjectService),
+    this.injector.get(PathHelperService),
+    this.injector.get(UrlParamsService),
+  );
 
-  readonly value = computed(() => {
-    const { workPackage } = this.row();
+  constructor(private readonly injector:Injector) {}
+
+  public present(workPackage:WorkPackageResource) {
     const field = new WorkPackageIdDisplayField('id', { injector: this.injector, container: 'table', options: { tabbable: false } });
     const schema = this.schemaCache.of(workPackage).ofProperty('id');
     if (!schema) return { text: '', title: null, label: null, required: false, href: null };
@@ -63,5 +59,5 @@ export class WorkPackageTableIdCellDirective {
       required: field.required,
       href: field.value ? this.links.hrefFor(workPackage.id!, 'show', field.valueString) : null,
     };
-  });
+  }
 }
