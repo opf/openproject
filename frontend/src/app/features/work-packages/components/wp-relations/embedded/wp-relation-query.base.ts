@@ -57,7 +57,7 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
    * Request to refresh the results of the embedded table
    */
   public refreshTable() {
-    this.embeddedTable?.isInitialized && this.embeddedTable.loadQuery(true, false);
+    void (this.embeddedTable?.isInitialized && this.embeddedTable.loadQuery(true, false));
   }
 
   /**

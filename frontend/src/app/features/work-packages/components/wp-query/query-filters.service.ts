@@ -73,7 +73,7 @@ export class QueryFiltersService {
 
   public setSchemas(schemas:CollectionResource<QueryFilterInstanceSchemaResource>) {
     schemas.elements.forEach((schema) => {
-      this.schemaCache.updateValue(schema.$links.self.href!, schema);
+      void this.schemaCache.updateValue(schema.$links.self.href!, schema);
     });
   }
 }

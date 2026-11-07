@@ -53,7 +53,7 @@ export abstract class WidgetAbstractMenuComponent {
     return {
       linkText: this.i18n.t('js.grid.remove'),
       onClick: () => {
-        this.remove.widget(this.resource);
+        void this.remove.widget(this.resource);
         return true;
       },
     };

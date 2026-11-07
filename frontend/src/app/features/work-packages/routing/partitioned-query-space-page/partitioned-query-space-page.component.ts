@@ -209,7 +209,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     if (this.currentQuery && isPersistedResource(this.currentQuery)) {
       this.updateTitleName(val);
     } else {
-      this.wpListService
+      void this.wpListService
         .create(this.currentQuery!, val)
         .finally(() => { this.toolbarDisabled = false; });
     }
@@ -218,7 +218,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   updateTitleName(val:string):void {
     this.toolbarDisabled = true;
     this.currentQuery!.name = val;
-    this.wpListService
+    void this.wpListService
       .save(this.currentQuery)
       .finally(() => {
         this.toolbarDisabled = false;

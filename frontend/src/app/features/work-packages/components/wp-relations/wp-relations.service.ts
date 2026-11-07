@@ -263,7 +263,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       const relevant = relations.filter((r) => r.isInvolved(wpId));
       const value = this.relationsStateValue(wpId, relevant);
 
-      this.updateValue(wpId, value);
+      void this.updateValue(wpId, value);
     });
   }
 }

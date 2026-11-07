@@ -89,7 +89,7 @@ describe('HalResource', () => {
 
     it('should perform a request', () => {
       resource = halResourceService.createHalResource(source, true);
-      resource.$update();
+      void resource.$update();
 
       expect(getStub).toHaveBeenCalled();
     });

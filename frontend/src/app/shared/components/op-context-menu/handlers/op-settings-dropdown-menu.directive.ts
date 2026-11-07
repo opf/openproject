@@ -265,7 +265,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
           if (!isPersistedResource(query) && this.allowQueryAction(event, 'updateImmediately')) {
             this.opModalService.show(SaveQueryModalComponent, this.injector);
           } else if (query.id && this.allowQueryAction(event, 'updateImmediately')) {
-            this.wpListService.save(query);
+            void this.wpListService.save(query);
           }
 
           return true;
@@ -292,7 +292,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
         onClick: (event) => {
           if (this.allowQueryAction(event, 'delete')
             && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
-            this.wpListService.delete();
+            void this.wpListService.delete();
           }
 
           return true;

@@ -138,7 +138,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-sort-descending',
         onClick: () => {
           if (this.wpTableSortBy.isManualSortingMode) {
-            this.confirmDialog.confirm({
+            void this.confirmDialog.confirm({
               text: this.text.confirmDelete,
             }).then(() => {
               this.wpTableSortBy.setAsSingleSortCriteria(c, QUERY_SORT_BY_DESC);
@@ -157,7 +157,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         icon: 'icon-sort-ascending',
         onClick: () => {
           if (this.wpTableSortBy.isManualSortingMode) {
-            this.confirmDialog.confirm({
+            void this.confirmDialog.confirm({
               text: this.text.confirmDelete,
             }).then(() => {
               this.wpTableSortBy.setAsSingleSortCriteria(c, QUERY_SORT_BY_ASC);

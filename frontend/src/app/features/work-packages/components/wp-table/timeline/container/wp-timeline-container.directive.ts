@@ -322,7 +322,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
 
-    timeOutput('refreshView() in timeline container', async () => {
+    void timeOutput('refreshView() in timeline container', async () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.style.setProperty('width', 'auto');
 
