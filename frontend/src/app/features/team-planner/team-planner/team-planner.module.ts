@@ -27,7 +27,6 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicModule } from 'ng-dynamic-component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
@@ -54,7 +53,6 @@ import { TeamPlannerViewSelectMenuDirective } from 'core-app/features/team-plann
   ],
   imports: [
     OpSharedModule,
-    DynamicModule,
     CommonModule,
     IconModule,
     OpenprojectPrincipalRenderingModule,

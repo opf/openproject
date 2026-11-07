@@ -15,8 +15,8 @@
       [ngClass]="{ '-large-header': hasLargeHeader }"
       data-test-selector="op-board-list--header">
       @if (headerComponent) {
-        <ndc-dynamic [ndcDynamicComponent]="headerComponent"
-          [ndcDynamicInputs]="{ resource: actionResource }" />
+        <ng-container [ngComponentOutlet]="headerComponent"
+          [ngComponentOutletInputs]="{ resource: actionResource }" />
       }
       <h3 class="toolbar-title--container">
         @if (!headerComponent) {
