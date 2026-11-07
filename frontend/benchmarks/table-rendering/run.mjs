@@ -36,7 +36,7 @@ const benchmarkOptions = {
   scenario: process.env.TABLE_BENCHMARK_CASE,
   suite: process.env.TABLE_BENCHMARK_SUITE ?? 'default',
 };
-if (!['default', 'wide'].includes(benchmarkOptions.suite)) throw new Error('Unknown benchmark suite');
+if (!['default', 'wide', 'actions'].includes(benchmarkOptions.suite)) throw new Error('Unknown benchmark suite');
 const samplingInterval = Number(process.env.TABLE_BENCHMARK_PROFILE_INTERVAL_US ?? 1000);
 if (!Number.isInteger(samplingInterval) || samplingInterval <= 0) throw new Error('Invalid profile sampling interval');
 const output = resolve(process.env.TABLE_BENCHMARK_BUILD_DIRECTORY ?? 'dist/table-rendering-benchmark');
@@ -83,7 +83,17 @@ try {
   if (errors.length) throw new Error(errors.join('\n'));
   if (benchmarkOptions.initialOnly && benchmark.initialOnly !== true) throw new Error('Bundle does not support initial-only profiling');
   if (benchmarkOptions.scenario && benchmark.scenario !== benchmarkOptions.scenario) throw new Error('Bundle does not support scenario selection');
-  if (benchmarkOptions.suite === 'wide' && benchmark.suite !== 'wide') throw new Error('Bundle does not support wide suite');
+  if (benchmarkOptions.suite !== 'default' && benchmark.suite !== benchmarkOptions.suite) throw new Error('Bundle does not support requested suite');
+  if (benchmarkOptions.suite === 'actions') {
+    const operations = benchmarkOptions.initialOnly ? ['initial'] : ['initial', 'redraw', 'refresh'];
+    const valid = benchmark.results.length === (benchmarkOptions.scenario ? 1 : 2)
+      && benchmark.results.every((result) => result.fixtureVersion === 'production-actions-v1'
+        && result.actionsColumnEnabled === true && result.renderedColumns === 3 && result.rowCount === 500
+        && operations.every((operation) => Number.isFinite(result.actionsReady?.[`${operation}Ms`])
+          && result.actionsReady?.timings?.[operation]?.length === result.samples
+          && result.actionsReady.timings[operation].every(Number.isFinite)));
+    if (!valid) throw new Error('Bundle does not support production actions and ready timings');
+  }
   if (benchmark.isDevMode !== false) throw new Error('Expected optimized Angular production mode');
   const result = { buildDirectory: output, bundles, node: process.version, profiled: !!process.env.TABLE_BENCHMARK_PROFILE, profileSamplingIntervalUs: process.env.TABLE_BENCHMARK_PROFILE ? samplingInterval : null, browser: browser.version(), capturedAt: new Date().toISOString(), buildTarget: 'OpenProject:table-benchmark', aot: true, optimization: true, ...benchmark };
   const destination = process.env.TABLE_BENCHMARK_OUTPUT ?? `${output}/results.json`;

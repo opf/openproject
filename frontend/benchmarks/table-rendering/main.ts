@@ -27,6 +27,8 @@
 
 import '@angular/compiler';
 import { wideFixture, WideProfile } from './wide-fixture';
+import { assertActions } from './actions-fixture';
+import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { CommonModule } from '@angular/common';
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { I18n } from 'i18n-js';
@@ -69,12 +71,17 @@ function assert(condition:unknown, message:string):asserts condition {
 window.I18n = new I18n();
 TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
 
-export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:string; suite?:'default'|'wide' } = {}) {
+export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:string; suite?:'default'|'wide'|'actions' } = {}) {
   assert(!isDevMode(), 'Angular development mode is enabled');
+  const actions = options.suite === 'actions';
+  if (actions) {
+    await import('@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js');
+    assert(customElements.get('tool-tip'), 'Production tooltip element is not registered');
+  }
   const results:unknown[] = [];
   const cases:{ rowCount:number; parents:number; profile?:WideProfile }[] = options.suite === 'wide'
     ? [100, 500].flatMap((rowCount) => (['simple8', 'mixed10'] as const).map((profile) => ({ rowCount, parents: 0, profile })))
-    : [{ rowCount: 100, parents: 0 }, { rowCount: 500, parents: 0 }, { rowCount: 500, parents: 20 }];
+    : actions ? [{ rowCount: 500, parents: 0 }] : [{ rowCount: 100, parents: 0 }, { rowCount: 500, parents: 0 }, { rowCount: 500, parents: 20 }];
   for (const { rowCount, parents, profile } of cases) {
     const wide = profile ? wideFixture(profile) : undefined;
     const columns = wide?.columns ?? (parents ? ['id', 'subject', { id: 'follows', relationType: 'follows' }] : ['id', 'subject']);
@@ -90,6 +97,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
         providers: [
           ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], relations }),
           ...(wide?.providers ?? []),
+          ...(actions ? [OpTableActionsService] : []),
           WorkPackageViewSumService,
           { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false, live$: () => of(null) } },
         ],
@@ -114,6 +122,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
       resources.forEach((resource) => states.workPackages.get(resource.id!).putValue(resource));
       querySpace.results.putValue({ elements: [], offset: 1, pageSize: rowCount, count: 0, total: 0 } as unknown as WorkPackageCollectionResource);
       const timings = { initial: [] as number[], redraw: [] as number[], refresh: [] as number[] };
+      const actionsReady = { initial: [] as number[], redraw: [] as number[], refresh: [] as number[] };
       const stages = {
         initial: { buildRows: [] as number[], angular: [] as number[], calls: [] as number[] },
         redraw: { buildRows: [] as number[], angular: [] as number[], calls: [] as number[] },
@@ -125,7 +134,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
         querySpace.initialized.clear();
         const fixture = TestBed.createComponent(BenchmarkTableComponent);
         fixture.componentRef.setInput('configuration', {
-          actionsColumnEnabled: false, columnMenuEnabled: false, contextMenuEnabled: false,
+          actionsColumnEnabled: actions, columnMenuEnabled: false, contextMenuEnabled: actions,
           inlineCreateEnabled: false, dragAndDropEnabled: false,
         });
         const root = fixture.nativeElement as HTMLElement;
@@ -157,9 +166,17 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
             }
             stage = { buildRows: 0, angular: 0, calls: 0 };
           };
+          const recordActionsReady = async (operation:keyof typeof actionsReady, start:number) => {
+            await fixture.whenStable();
+            const duration = performance.now() - start;
+            assertActions(root, rowCount, templates);
+            if (sample >= warmups) actionsReady[operation].push(duration);
+          };
+          let commitStart = 0;
           const committedDuration = async (run:() => void) => {
             querySpace.tableRendered.clear();
             const start = performance.now();
+            if (actions) commitStart = start;
             const committed = firstValueFrom(querySpace.tableRendered.values$().pipe(take(1), map(() => performance.now() - start)));
             run();
             return committed;
@@ -169,6 +186,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
             querySpace.initialized.putValue(null);
           });
           recordStage('initial');
+          if (actions) await recordActionsReady('initial', commitStart);
           assert(root.querySelectorAll('.work-package--results-tbody > tr').length === rowCount + parents, 'Incorrect row count');
           assert(root.querySelector('.work-package--results-tbody a[href*="/work_packages/1"]'), `Missing work package link (${templates ? 'Angular' : 'legacy'}, ${rowCount}): ${root.querySelector('.work-package--results-tbody > tr')?.innerHTML}`);
           assert(root.querySelectorAll('tr[opwptablerow]').length === (templates ? rowCount + parents : 0), 'Incorrect renderer');
@@ -186,6 +204,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
           const firstRow = root.querySelector('.work-package--results-tbody > tr');
           const redraw = await committedDuration(() => table.redrawTable());
           recordStage('redraw');
+          if (actions) await recordActionsReady('redraw', commitStart);
           if (templates) assert(root.querySelector('.work-package--results-tbody > tr') === firstRow, 'Row identity changed');
           const targetRows = Array.from(root.querySelectorAll<HTMLTableRowElement>('.work-package--results-tbody > tr'))
             .filter((row) => row.querySelector(`a[data-work-package-id="${target}"]`));
@@ -194,6 +213,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
           table.refreshRows(buildWorkPackage({ id: target, subject: `Updated ${sample}`, attributes: wide?.attributes(Number(target) - 1) }));
           const refresh = performance.now() - refreshStart;
           recordStage('refresh');
+          if (actions) await recordActionsReady('refresh', refreshStart);
           const updatedRows = Array.from(root.querySelectorAll<HTMLTableRowElement>('.work-package--results-tbody > tr'))
             .filter((row) => row.querySelector(`a[data-work-package-id="${target}"]`));
           assert(updatedRows.length === parents + 1, 'Refresh lost occurrences');
@@ -214,7 +234,16 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
         }
       }
       results.push({
-        renderer: templates ? 'Angular' : 'legacy', profile: profile ?? null, fixtureVersion: wide ? 'typed-hal-v1' : null, rowCount, relationParents: parents, columns, warmups, samples,
+        renderer: templates ? 'Angular' : 'legacy', profile: profile ?? null, fixtureVersion: wide ? 'typed-hal-v1' : actions ? 'production-actions-v1' : null, rowCount, relationParents: parents, columns, warmups, samples,
+        ...(actions ? {
+          actionsColumnEnabled: true,
+          renderedColumns: 3,
+          actionsReady: {
+            boundary: 'fixture.whenStable; excludes assertion work; not paint timing',
+            initialMs: median(actionsReady.initial), redrawMs: median(actionsReady.redraw), refreshMs: median(actionsReady.refresh),
+            timings: actionsReady,
+          },
+        } : {}),
         initialMs: median(timings.initial), redrawMs: median(timings.redraw), refreshMs: median(timings.refresh),
         timings,
         stages: Object.fromEntries(Object.entries(stages).map(([operation, values]) => [operation, {
