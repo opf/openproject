@@ -31,7 +31,7 @@ import {
 import { WorkPackageTableCellContentDirective, WorkPackageTableCellDirective } from './wp-table-cell.directive';
 import { WorkPackageTableActionComponent } from './wp-table-action.component';
 import { registerTemplateRowEditor, unregisterTemplateRowEditor } from './template-cell-editing';
-import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
+import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
 import { isRelationColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { internalContextMenuColumn, internalSortColumn } from '../builders/internal-sort-columns';
 import { TextCellPresentation } from './text-cell-presentation';
@@ -66,7 +66,7 @@ const sizedTextCellClasses:ReadonlyMap<string, string> = new Map([
     WorkPackageTableCellDirective,
     WorkPackageTableCellContentDirective,
     WorkPackageTableActionComponent,
-    PrimerIconButtonComponent,
+    DynamicIconDirective,
     GuardDetachedTooltipDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -95,6 +95,12 @@ export class WorkPackageTableRowComponent implements OnDestroy {
   readonly isRelationColumn = isRelationColumn;
 
   private detailsIdPrefix?:string;
+  private contextMenuId?:string;
+
+  contextMenuControlId():string {
+    this.contextMenuId ??= generateId('wp-table-context-menu');
+    return this.contextMenuId;
+  }
 
   detailsAction(action:OpTableAction):OpDetailsTableAction|null {
     return action instanceof OpDetailsTableAction ? action : null;

@@ -128,13 +128,28 @@
           <span class="wp-table--context-menu-span">
             @for (action of actions(); track action.identifier) {
               @if (action.identifier === 'open-context-menu-action') {
-                <primer-icon-button
-                  icon="kebab-horizontal"
-                  scheme="invisible"
-                  button-class="wp-table-context-menu-link"
-                  [label]="view().contextMenuLabel"
-                  [tabindex]="-1"
-                />
+                @let controlId = contextMenuControlId();
+                @let tooltipId = controlId + '-tooltip';
+                @let label = view().contextMenuLabel;
+                <button
+                  type="button"
+                  tabindex="-1"
+                  class="Button Button--iconOnly Button--medium Button--invisible wp-table-context-menu-link"
+                  [id]="controlId"
+                  [attr.aria-labelledby]="label ? tooltipId : null"
+                ><svg octicon size="small" class="Button-visual" icon="kebab-horizontal"></svg></button>
+                @if (label) {
+                  <tool-tip
+                    opGuardDetachedTooltip
+                    class="sr-only position-absolute"
+                    popover="manual"
+                    data-type="label"
+                    data-direction="s"
+                    aria-hidden="true"
+                    [id]="tooltipId"
+                    [attr.for]="controlId"
+                  >{{ label }}</tool-tip>
+                }
               } @else if (detailsAction(action); as details) {
                 @let controlId = detailsControlId(details);
                 @let tooltipId = controlId + '-tooltip';

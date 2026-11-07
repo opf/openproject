@@ -82,7 +82,8 @@ import { Highlighting } from 'core-app/features/work-packages/components/wp-fast
 import { OpTableActionsService } from './table-actions/table-actions.service';
 import { OpDetailsTableAction } from './table-actions/actions/details-table-action';
 import type { ToolTipElement } from 'core-app/shared/components/primer/tool-tip-element';
-import { page } from 'vitest/browser';
+import { page, userEvent } from 'vitest/browser';
+import { WorkPackageContextMenuHelperService } from './context-menu-helper/wp-context-menu-helper.service';
 
 /** Shows the table or the card view, as `wp-list-view` does when the viewport or query changes. */
 @Component({
@@ -1538,9 +1539,15 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
 
       const button = await within(resultRow('1')!).findByRole('button', { name: 'Open context menu' });
-      expect(button).toHaveClass('Button--iconOnly', 'Button--invisible', 'wp-table-context-menu-link');
+      expect(button.parentElement).toHaveClass('wp-table--context-menu-span');
+      expect(button).toHaveClass('Button', 'Button--iconOnly', 'Button--medium', 'Button--invisible', 'wp-table-context-menu-link');
+      expect(button).toBeEnabled();
+      expect(button).toHaveAttribute('type', 'button');
       expect(button).toHaveAttribute('tabindex', '-1');
       expect(button.closest('td')).toHaveClass('wp-table--context-menu-td', 'wp-table--navigable-cell');
+      const icon = button.querySelector('svg.Button-visual')!;
+      expect(icon).toHaveAttribute('viewBox', '0 0 16 16');
+      expect(icon.querySelector('path')).toBeInTheDocument();
     });
 
     describe('the details action', () => {
@@ -1624,9 +1631,89 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
       const show = vi.spyOn(TestBed.inject(OpActionMenuService), 'show').mockImplementation(() => undefined);
 
-      fireEvent.click(await within(resultRow('1')!).findByRole('button', { name: 'Open context menu' }));
+      const button = await within(resultRow('1')!).findByRole('button', { name: 'Open context menu' });
+      fireEvent.click(button);
 
       expect(show).toHaveBeenCalledOnce();
+      fireEvent.click(button.querySelector('svg path')!);
+      expect(show).toHaveBeenCalledTimes(2);
+    });
+
+    describe('the context-menu tooltip', () => {
+      const contextButton = (id:string) => within(resultRow(id)!).getByRole<HTMLButtonElement>('button', { name: 'Open context menu' });
+      const findContextButton = (id:string) => within(resultRow(id)!).findByRole<HTMLButtonElement>('button', { name: 'Open context menu' });
+
+      beforeEach(async () => {
+        await import('@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js');
+      });
+
+      it('retains unique control and tooltip IDs across refresh and reorder', async () => {
+        const { workPackageTable } = await mount({ actionsColumnEnabled: true, contextMenuEnabled: true });
+        const buttons = await Promise.all(['1', '2'].map(findContextButton));
+        const tips = buttons.map((button) => {
+          const tip = button.nextElementSibling!;
+          expect(tip.tagName).toBe('TOOL-TIP');
+          expect(tip).toHaveAttribute('for', button.id);
+          expect(button).toHaveAttribute('aria-labelledby', tip.id);
+          expect(tip).toHaveAttribute('popover', 'manual');
+          expect(tip).toHaveTextContent('Open context menu');
+          return tip;
+        });
+        const ids = [...buttons, ...tips].map(({ id }) => id);
+        expect(ids.every(Boolean)).toBe(true);
+        expect(new Set(ids).size).toBe(4);
+        workPackageTable.refreshRows(buildWorkPackage({ id: '1', subject: 'Refreshed' }));
+        TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['subject', 'id'], null, false, false).columns);
+        await waitFor(() => expect(resultRow('1')?.firstElementChild).toHaveClass('subject'));
+
+        expect(contextButton('1')).toBe(buttons[0]);
+        expect(contextButton('2')).toBe(buttons[1]);
+        expect(buttons.map((button) => button.nextElementSibling)).toEqual(tips);
+        expect([...buttons, ...tips].map(({ id }) => id)).toEqual(ids);
+      });
+
+      it.each(['{Enter}', ' '])('opens with %j, hides the tooltip, and returns focus on Escape', async (key) => {
+        vi.spyOn(TestBed.inject(WorkPackageContextMenuHelperService), 'getPermittedActions')
+          .mockReturnValue([{ key: 'test-action', text: 'Test action', link: '#' }]);
+        await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
+        const button = await findContextButton('1');
+        const tooltip = resultRow('1')!.querySelector('tool-tip')!;
+        const menu = TestBed.inject(OpActionMenuService);
+        try {
+          const cell = button.closest('td')!;
+          cell.focus();
+          button.focus();
+          expect(button).toHaveFocus();
+          await waitFor(() => expect(tooltip.matches(':popover-open')).toBe(true));
+          await userEvent.keyboard(key);
+          expect(await screen.findByRole('menuitem', { name: 'Test action' })).toBeInTheDocument();
+          await waitFor(() => expect(screen.getAllByRole('menuitem')[0]).toHaveFocus());
+          expect(tooltip.matches(':popover-open')).toBe(false);
+          await userEvent.keyboard('{Escape}');
+          expect(menu.active).toBeNull();
+          expect(cell).toHaveFocus();
+        } finally {
+          menu.close();
+        }
+      });
+
+      it('survives a pending focus tooltip during teardown', async () => {
+        await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
+        const button = await findContextButton('1');
+        const tooltip = resultRow('1')!.querySelector<ToolTipElement>('tool-tip')!;
+        const handleEvent = tooltip.handleEvent.bind(tooltip);
+        let pending:Promise<void>|undefined;
+        vi.spyOn(tooltip, 'handleEvent').mockImplementation((event) => {
+          const result = handleEvent(event);
+          if (event.type === 'focus') pending = result;
+          return result;
+        });
+
+        fireEvent.focus(button);
+        (fixture.nativeElement as HTMLElement).remove();
+        expect(pending).toBeDefined();
+        await expect(pending).resolves.toBeUndefined();
+      });
     });
 
     it('keeps separate template occurrences of a target shared by two relation rows', async () => {
