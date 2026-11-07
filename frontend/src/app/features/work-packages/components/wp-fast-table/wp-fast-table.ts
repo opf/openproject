@@ -53,6 +53,8 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
 import type { RowPositionEvidence } from './semantics/table-row-positions';
 import { RowStatePainter, type RowReplacement } from './semantics/row-state-painter';
 import { RowClassifier } from './semantics/row-classifier';
+import { TemplatePlainRenderPass } from './template-rows/template-plain-render-pass';
+import { TemplateRowsController } from './template-rows/template-rows-controller';
 import { type MutationExit, type PaintScope, RowMutations } from './row-mutations';
 
 export interface CommittedRows extends Pick<MutationExit, 'scope'> {
@@ -102,6 +104,9 @@ export class WorkPackageTable {
 
   // Last render pass used for refreshing single rows
   public lastRenderPass:PrimaryRenderPass|null = null;
+
+  /** Set when the `newTableRendering` flag hands flat result rows to the table template. */
+  public templateRows:TemplateRowsController|null = null;
 
   public readonly ledger = new RenderedOccurrenceLedger();
 
@@ -360,7 +365,16 @@ export class WorkPackageTable {
       this.mutations.run('all', () => {
         this.pendingRender = null;
         const { pass } = pending;
-        this.tbody.replaceChildren(pass.tableBody);
+        if (!this.templateRows) {
+          this.tbody.replaceChildren(pass.tableBody);
+        } else if (pass instanceof TemplatePlainRenderPass) {
+          this.templateRows.commit(pass);
+        } else {
+          // The template's anchor comments must survive a legacy render into the same body.
+          this.templateRows.clear();
+          this.tbody.querySelectorAll(':scope > tr').forEach((row) => row.remove());
+          this.tbody.append(pass.tableBody);
+        }
         const timelinePass = pending.timeline ? pass.timeline : null;
         if (timelinePass) {
           this.timelineBody.replaceChildren(timelinePass.timelineBody);

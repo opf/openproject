@@ -156,6 +156,8 @@ export interface TableHarnessOptions {
    */
   editing?:{ formWritable?:boolean; fields?:string[]; save?:() => Promise<{ resource:WorkPackageResource; wasNew:boolean }> };
   requireDoubleClickForInlineEdit?:boolean;
+  /** Feature flags reported by the configuration, camel-cased as the backend sends them. */
+  activeFeatureFlags?:string[];
   /** The application-wide resource cache; pass one instance to tables that share a page. */
   states?:States;
   /** Shows the timeline side through the query, as a saved Gantt view does. */
@@ -683,7 +685,10 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     { provide: OpActionMenuService, useClass: OpActionMenuService },
     {
       provide: ConfigurationService,
-      useValue: { requireDoubleClickForInlineEdit: () => !!options.requireDoubleClickForInlineEdit },
+      useValue: {
+        requireDoubleClickForInlineEdit: () => !!options.requireDoubleClickForInlineEdit,
+        activeFeatureFlags: options.activeFeatureFlags ?? [],
+      },
     },
     {
       provide: OpTableActionsService,

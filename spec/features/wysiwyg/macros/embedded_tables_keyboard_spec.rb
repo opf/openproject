@@ -120,6 +120,38 @@ RSpec.describe "Wiki embedded work package table keyboard navigation", :js do
     end
   end
 
+  context "with a flat table rendered from templates", with_flag: :new_table_rendering do
+    shared_let(:work_packages) do
+      (1..3).map { |n| create(:work_package, project:, subject: "Template keyboard #{n}") }
+    end
+    let(:rows) { work_packages }
+
+    before do
+      wp_table.expect_work_package_listed(*rows)
+      wp_table.expect_inline_create_button
+    end
+
+    it "renders the result rows from the row template" do
+      expect(page).to have_css(".work-package--results-tbody > tr[opwptablerow]", count: 3)
+    end
+
+    it_behaves_like "an embedded keyboard table", editable: true do
+      let(:first_row_controls) { [rows.first.id.to_s] }
+      let(:next_control) { { role: :button, name: "Create new work package" } }
+      let(:axe_states) do
+        [lambda do
+          wp_table.click_inline_create
+          wait_for_network_idle
+        end]
+      end
+    end
+
+    it "numbers the rows of the table" do
+      wp_table.tab_into_table
+      wp_table.expect_row_positions(rowcount: 5, rows: [1, 2, 3, 4, 5])
+    end
+  end
+
   context "with two tables showing the same work package" do
     let!(:work_package) { create(:work_package, project:, subject: "Shared original") }
     let!(:wiki_page) do

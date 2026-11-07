@@ -256,6 +256,7 @@ import {
   WorkPackageSettingsButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
+import { WorkPackageTableRowComponent } from 'core-app/features/work-packages/components/wp-fast-table/template-rows/wp-table-row.component';
 import {
   WorkPackageGroupToggleDropdownMenuDirective,
 } from 'core-app/shared/components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive';
@@ -416,6 +417,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
 
 @NgModule({
   imports: [
+    WorkPackageTableRowComponent,
     // Commons
     OpSharedModule,
     NgSelectModule,

@@ -62,6 +62,8 @@ import {
 import { buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
 import { WorkPackageTimelineTableController } from './timeline/container/wp-timeline-container.directive';
 import { WorkPackagesTableComponent } from './wp-table.component';
+import { WorkPackageTableRowComponent } from '../wp-fast-table/template-rows/wp-table-row.component';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 /** Shows the table or the card view, as `wp-list-view` does when the viewport or query changes. */
 @Component({
@@ -430,6 +432,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     created = new Subject();
     newWorkPackage = Object.assign(buildWorkPackage({ id: HAL_NEW_RESOURCE_ID, subject: '' }), { __initialized_at: 1 });
     await TestBed.configureTestingModule({
+      imports: [WorkPackageTableRowComponent],
       declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, ListViewStandInComponent, TwoTablesStandInComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
@@ -1025,6 +1028,47 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
       canAdd.next(false);
       expect(createSection()).toHaveAttribute('aria-hidden', 'true');
+    });
+  });
+
+  describe('with the newTableRendering flag', () => {
+    beforeEach(() => {
+      Object.assign(TestBed.inject(ConfigurationService), { activeFeatureFlags: ['newTableRendering'] });
+    });
+
+    const resultRow = (id:string) => document.querySelector<HTMLTableRowElement>(`.work-package--results-tbody > tr[data-work-package-id="${id}"]`);
+
+    it('renders the result rows from the row template, painted like legacy rows', async () => {
+      await mount({}, [{ id: '1', subject: 'First' }, { id: '2', subject: 'Second' }]);
+
+      const row = resultRow('1')!;
+      expect(row).toHaveAttribute('opwptablerow');
+      expect(row).toHaveAttribute('data-occurrence-key', 'wp:1');
+      expect(row).toHaveClass('wp-table--row', 'wp-row-1', 'wp-row-1-table');
+      expect(row).toHaveAttribute('aria-rowindex');
+      expect(within(row).getByRole('rowheader', { name: 'First' })).toBeInTheDocument();
+      expect(within(resultRow('2')!).getByRole('rowheader', { name: 'Second' })).toBeInTheDocument();
+    });
+
+    it('keeps the elements of rows that survive a redraw', async () => {
+      await mount({}, [{ id: '1' }, { id: '2' }]);
+      const first = resultRow('1');
+
+      await render([{ id: '3' }, { id: '1' }]);
+
+      expect(resultRow('1')).toBe(first);
+      expect(resultRow('2')).toBeNull();
+      expect(first?.previousElementSibling).toBe(resultRow('3'));
+    });
+
+    it('refreshes a row in place', async () => {
+      const table = await mount({}, [{ id: '1', subject: 'Before' }]);
+      const row = resultRow('1')!;
+
+      table.workPackageTable.refreshRows(buildWorkPackage({ id: '1', subject: 'After' }));
+
+      expect(resultRow('1')).toBe(row);
+      expect(within(row).getByRole('rowheader', { name: 'After' })).toBeInTheDocument();
     });
   });
 });

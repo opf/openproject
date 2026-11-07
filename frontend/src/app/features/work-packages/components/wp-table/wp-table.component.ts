@@ -25,7 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewEncapsulation, OnDestroy, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewEncapsulation, OnDestroy, DestroyRef, inject, signal } from '@angular/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { TemplateRow, TemplateRowsHost, TemplateRowView } from 'core-app/features/work-packages/components/wp-fast-table/template-rows/template-row';
+import { TemplateRowsController } from 'core-app/features/work-packages/components/wp-fast-table/template-rows/template-rows-controller';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -75,7 +78,7 @@ export interface WorkPackageFocusContext {
   selector: 'wp-table',
   standalone: false,
 })
-export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent, OnDestroy {
+export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent, OnDestroy, TemplateRowsHost {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -90,6 +93,12 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   readonly wpTableSortBy = inject(WorkPackageViewSortByService);
   readonly wpTableSums = inject(WorkPackageViewSumService);
   readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
+
+  readonly newTableRendering = inject(ConfigurationService).activeFeatureFlags.includes('newTableRendering');
+
+  readonly templateRows = signal<readonly TemplateRow[]>([]);
+
+  readonly templateRowView = signal<TemplateRowView|null>(null);
 
   @Input() projectIdentifier:string;
 
@@ -224,6 +233,12 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     this.cdRef.detectChanges();
   }
 
+  public renderRows(rows:readonly TemplateRow[], view:TemplateRowView):void {
+    this.templateRows.set(rows);
+    this.templateRowView.set(view);
+    this.cdRef.detectChanges();
+  }
+
   public ngOnDestroy():void {
     this.workPackageTable?.destroy();
     this.wpTableHoverSync?.deactivate();
@@ -255,6 +270,9 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.configuration,
     );
     this.workPackageTable.colspan = this.numTableColumns;
+    if (this.newTableRendering) {
+      this.workPackageTable.templateRows = new TemplateRowsController(this, tbody);
+    }
 
     this.tbody = tbody;
     new TableHandlerRegistry(this.injector).attachTo(this);
