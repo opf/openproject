@@ -95,13 +95,19 @@ export class WorkPackageTableRowComponent implements OnDestroy {
 
   readonly textCells = linkedSignal({
     source: () => ({ row: this.workPackageRow(), view: this.view() }),
-    computation: ({ row, view }, previous):Map<string, TextCellPresentation|null> => new Map(view.columns.map((column) => {
-      const cell = Array.from(this.element.nativeElement.cells).find((entry) => entry.classList.contains(column.id));
-      if (row && cell && previous?.value.has(column.id) && view.isEditing(row.workPackage, column, cell)) {
-        return [column.id, previous.value.get(column.id) ?? null];
-      }
-      return [column.id, row ? view.textCell(row, column) : null];
-    })),
+    computation: ({ row, view }, previous):Map<string, TextCellPresentation|null> => {
+      let cells:HTMLTableCellElement[]|undefined;
+      return new Map(view.columns.map((column) => {
+        if (row && previous?.value.has(column.id)) {
+          cells ??= Array.from(this.element.nativeElement.cells);
+          const cell = cells.find((entry) => entry.classList.contains(column.id));
+          if (cell && view.isEditing(row.workPackage, column, cell)) {
+            return [column.id, previous.value.get(column.id) ?? null];
+          }
+        }
+        return [column.id, row ? view.textCell(row, column) : null];
+      }));
+    },
   });
 
   readonly editingColumns = linkedSignal({
