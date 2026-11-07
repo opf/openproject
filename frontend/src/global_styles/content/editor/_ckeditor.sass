@@ -20,6 +20,8 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   border: 1px solid var(--ck-color-base-border)
   min-height: 100px
   padding: 10px
+  // CKEditor 49 sets the editable padding (1em) from this variable.
+  --ck-editor-editable-padding: 7px 10px
 
   // Keep editor content typography aligned with surrounding OpenProject styles.
   --ck-content-font-family: var(--body-font-family)
@@ -27,6 +29,15 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
 
 // Specific overrides for ck contenteditable
 .ck-content
+
+  // Remove the 12px edge margin of CKEditor 49, except for widgets,
+  // which need the room for their "insert paragraph" buttons.
+  &.ck.ck-editor__editable_inline
+    > :first-child:not(.ck-widget)
+      margin-top: 0
+
+    > :last-child:not(.ck-widget)
+      margin-bottom: 0
 
   // Code block
   pre
