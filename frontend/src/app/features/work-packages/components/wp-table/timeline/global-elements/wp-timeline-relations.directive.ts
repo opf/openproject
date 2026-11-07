@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
@@ -80,10 +80,6 @@ function newSegment(vp:TimelineViewParameters,
   selector: 'wp-timeline-relations',
   template: '<div class="wp-table-timeline--relations"></div>',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineRelations implements OnInit {
