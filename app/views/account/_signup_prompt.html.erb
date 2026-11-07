@@ -23,8 +23,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
-
 ++#%>
+
 <%= render(Primer::Box.new(classes: "account-prompt", border: :top, mt: 4, pt: 4, text_align: :center)) do %>
   <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, font_weight: :bold, mb: 3)) do %>
     <%= I18n.t("account.no_account_yet") %>
