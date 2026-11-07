@@ -34,7 +34,9 @@ import { chromium } from 'playwright';
 const benchmarkOptions = {
   initialOnly: process.env.TABLE_BENCHMARK_INITIAL_ONLY === '1',
   scenario: process.env.TABLE_BENCHMARK_CASE,
+  suite: process.env.TABLE_BENCHMARK_SUITE ?? 'default',
 };
+if (!['default', 'wide'].includes(benchmarkOptions.suite)) throw new Error('Unknown benchmark suite');
 const samplingInterval = Number(process.env.TABLE_BENCHMARK_PROFILE_INTERVAL_US ?? 1000);
 if (!Number.isInteger(samplingInterval) || samplingInterval <= 0) throw new Error('Invalid profile sampling interval');
 const output = resolve(process.env.TABLE_BENCHMARK_BUILD_DIRECTORY ?? 'dist/table-rendering-benchmark');
@@ -81,11 +83,12 @@ try {
   if (errors.length) throw new Error(errors.join('\n'));
   if (benchmarkOptions.initialOnly && benchmark.initialOnly !== true) throw new Error('Bundle does not support initial-only profiling');
   if (benchmarkOptions.scenario && benchmark.scenario !== benchmarkOptions.scenario) throw new Error('Bundle does not support scenario selection');
+  if (benchmarkOptions.suite === 'wide' && benchmark.suite !== 'wide') throw new Error('Bundle does not support wide suite');
   if (benchmark.isDevMode !== false) throw new Error('Expected optimized Angular production mode');
   const result = { buildDirectory: output, bundles, node: process.version, profiled: !!process.env.TABLE_BENCHMARK_PROFILE, profileSamplingIntervalUs: process.env.TABLE_BENCHMARK_PROFILE ? samplingInterval : null, browser: browser.version(), capturedAt: new Date().toISOString(), buildTarget: 'OpenProject:table-benchmark', aot: true, optimization: true, ...benchmark };
   const destination = process.env.TABLE_BENCHMARK_OUTPUT ?? `${output}/results.json`;
   await writeFile(destination, JSON.stringify(result, null, 2) + '\n');
-  console.table(benchmark.results.map(({ renderer, rowCount, relationParents, initialMs, redrawMs, refreshMs, stages }) => ({ renderer, rowCount, relationParents, initialMs, redrawMs, refreshMs, refreshRenderCalls: stages.refresh.renderCalls })));
+  console.table(benchmark.results.map(({ renderer, profile, rowCount, relationParents, initialMs, redrawMs, refreshMs, stages }) => ({ renderer, profile, rowCount, relationParents, initialMs, redrawMs, refreshMs, refreshRenderCalls: stages.refresh.renderCalls })));
   console.log(`Saved ${destination}`);
 } finally {
   await browser?.close();

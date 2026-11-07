@@ -26,6 +26,7 @@
 //++
 
 import '@angular/compiler';
+import { wideFixture, WideProfile } from './wide-fixture';
 import { CommonModule } from '@angular/common';
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 import { I18n } from 'i18n-js';
@@ -33,6 +34,7 @@ import { Component, Injector, NO_ERRORS_SCHEMA, isDevMode } from '@angular/core'
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, map, of, take } from 'rxjs';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -67,15 +69,19 @@ function assert(condition:unknown, message:string):asserts condition {
 window.I18n = new I18n();
 TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
 
-export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:string } = {}) {
+export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:string; suite?:'default'|'wide' } = {}) {
   assert(!isDevMode(), 'Angular development mode is enabled');
   const results:unknown[] = [];
-  for (const { rowCount, parents } of [{ rowCount: 100, parents: 0 }, { rowCount: 500, parents: 0 }, { rowCount: 500, parents: 20 }]) {
-    const columns = parents ? ['id', 'subject', { id: 'follows', relationType: 'follows' }] : ['id', 'subject'];
+  const cases:{ rowCount:number; parents:number; profile?:WideProfile }[] = options.suite === 'wide'
+    ? [100, 500].flatMap((rowCount) => (['simple8', 'mixed10'] as const).map((profile) => ({ rowCount, parents: 0, profile })))
+    : [{ rowCount: 100, parents: 0 }, { rowCount: 500, parents: 0 }, { rowCount: 500, parents: 20 }];
+  for (const { rowCount, parents, profile } of cases) {
+    const wide = profile ? wideFixture(profile) : undefined;
+    const columns = wide?.columns ?? (parents ? ['id', 'subject', { id: 'follows', relationType: 'follows' }] : ['id', 'subject']);
     const target = parents ? String(rowCount) : '1';
     const relations = Array.from({ length: parents }, (_, index) => ({ from: String(index + 1), to: target, type: 'follows' }));
     for (const templates of [false, true]) {
-      const scenario = `${rowCount}:${parents}:${templates ? 'Angular' : 'legacy'}`;
+      const scenario = `${profile ? `${profile}:` : ''}${rowCount}:${parents}:${templates ? 'Angular' : 'legacy'}`;
       if (options.scenario && options.scenario !== scenario) continue;
       TestBed.resetTestingModule();
       await TestBed.configureTestingModule({
@@ -83,6 +89,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
         schemas: [NO_ERRORS_SCHEMA],
         providers: [
           ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], relations }),
+          ...(wide?.providers ?? []),
           WorkPackageViewSumService,
           { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false, live$: () => of(null) } },
         ],
@@ -91,7 +98,10 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
       const fields = TestBed.inject(DisplayFieldService);
       fields.addFieldType(TextDisplayField, 'text', ['String']);
       fields.addFieldType(WorkPackageIdDisplayField, 'id', ['id']);
+      wide?.register(fields);
+      if (wide) wide.initialize(TestBed.inject(HalResourceService));
       const query = buildQuery(columns, null, false, false);
+      if (wide) query.highlightedAttributes = wide.highlightedAttributes;
       const querySpace = TestBed.inject(IsolatedQuerySpace);
       querySpace.query.putValue(query);
       querySpace.groups.putValue([]);
@@ -100,7 +110,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
       relations.forEach(({ from }) => TestBed.inject(WorkPackageViewRelationColumnsService).setExpandFor(from, 'follows'));
 
       const states = TestBed.inject(States);
-      const resources = Array.from({ length: rowCount }, (_, index) => buildWorkPackage({ id: String(index + 1) }));
+      const resources = Array.from({ length: rowCount }, (_, index) => buildWorkPackage({ id: String(index + 1), attributes: wide?.attributes(index) }));
       resources.forEach((resource) => states.workPackages.get(resource.id!).putValue(resource));
       querySpace.results.putValue({ elements: [], offset: 1, pageSize: rowCount, count: 0, total: 0 } as unknown as WorkPackageCollectionResource);
       const timings = { initial: [] as number[], redraw: [] as number[], refresh: [] as number[] };
@@ -162,6 +172,10 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
           assert(root.querySelectorAll('.work-package--results-tbody > tr').length === rowCount + parents, 'Incorrect row count');
           assert(root.querySelector('.work-package--results-tbody a[href*="/work_packages/1"]'), `Missing work package link (${templates ? 'Angular' : 'legacy'}, ${rowCount}): ${root.querySelector('.work-package--results-tbody > tr')?.innerHTML}`);
           assert(root.querySelectorAll('tr[opwptablerow]').length === (templates ? rowCount + parents : 0), 'Incorrect renderer');
+          if (wide) {
+            root.querySelectorAll<HTMLTableRowElement>('.work-package--results-tbody > tr')
+              .forEach((row, index) => wide.assertRow(row, index, `Work package ${index + 1}`));
+          }
           if (options.initialOnly) {
             const occurrences = Array.from(root.querySelectorAll<HTMLTableRowElement>('.work-package--results-tbody > tr'))
               .filter((row) => row.querySelector(`a[data-work-package-id="${target}"]`));
@@ -177,7 +191,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
             .filter((row) => row.querySelector(`a[data-work-package-id="${target}"]`));
           assert(targetRows.length === parents + 1, 'Incorrect target occurrence count');
           const refreshStart = performance.now();
-          table.refreshRows(buildWorkPackage({ id: target, subject: `Updated ${sample}` }));
+          table.refreshRows(buildWorkPackage({ id: target, subject: `Updated ${sample}`, attributes: wide?.attributes(Number(target) - 1) }));
           const refresh = performance.now() - refreshStart;
           recordStage('refresh');
           const updatedRows = Array.from(root.querySelectorAll<HTMLTableRowElement>('.work-package--results-tbody > tr'))
@@ -186,6 +200,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
           updatedRows.forEach((row, index) => {
             assert(row.textContent?.includes(`Updated ${sample}`), 'Refresh failed');
             if (templates) assert(row === targetRows[index], 'Refresh replaced occurrence');
+            wide?.assertRow(row, Number(target) - 1, `Updated ${sample}`);
           });
           if (templates) assert(root.querySelector('.work-package--results-tbody > tr') === firstRow, 'Refresh replaced row');
           if (sample >= warmups) {
@@ -199,7 +214,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
         }
       }
       results.push({
-        renderer: templates ? 'Angular' : 'legacy', rowCount, relationParents: parents, columns, warmups, samples,
+        renderer: templates ? 'Angular' : 'legacy', profile: profile ?? null, fixtureVersion: wide ? 'typed-hal-v1' : null, rowCount, relationParents: parents, columns, warmups, samples,
         initialMs: median(timings.initial), redrawMs: median(timings.redraw), refreshMs: median(timings.refresh),
         timings,
         stages: Object.fromEntries(Object.entries(stages).map(([operation, values]) => [operation, {
@@ -210,7 +225,7 @@ export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:str
   }
   TestBed.resetTestingModule();
   assert(results.length > 0, 'No benchmark scenario matched');
-  return { isDevMode: isDevMode(), initialOnly: !!options.initialOnly, scenario: options.scenario ?? null, results };
+  return { isDevMode: isDevMode(), initialOnly: !!options.initialOnly, scenario: options.scenario ?? null, suite: options.suite ?? 'default', results };
 }
 
 Object.assign(window, { runBenchmark });
