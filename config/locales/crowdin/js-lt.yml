@@ -438,7 +438,6 @@ lt:
     label_assignee: Paskirtas
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Priedai
-    label_author: 'Autorius: %{user}'
     label_avatar: Nuotrauka
     label_between: tarp
     label_board: Lenta

@@ -438,7 +438,6 @@ sk:
     label_assignee: Priradené
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Prílohy
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: medzi
     label_board: Nástenka
