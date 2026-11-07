@@ -49,6 +49,13 @@ See COPYRIGHT and LICENSE files for more details.
             <%= in_use_marker(t("projects.settings.types.base_type_in_use")) %>
           <% end %>
         <% end %>
+        <% if project_type.type.description.present? %>
+          <% header.with_description(tag: :div, font_size: :small) do %>
+            <%= render(OpPrimer::ExpandableTextComponent.new) do %>
+              <%= project_type.type.description %>
+            <% end %>
+          <% end %>
+        <% end %>
         <% if type_actions?(project_type) %>
           <% header.with_menu do |menu| %>
             <% add_variant_action(menu, project_type.type) if manageable? %>

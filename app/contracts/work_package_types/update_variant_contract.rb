@@ -35,6 +35,7 @@ module WorkPackageTypes
 
     def self.model = TypeVariant
 
+    attribute :description
     attribute :variant_name
   end
 end
