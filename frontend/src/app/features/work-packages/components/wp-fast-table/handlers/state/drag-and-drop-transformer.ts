@@ -41,7 +41,7 @@ import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import type { SelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
+import { isSelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { locateTableRow } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
@@ -344,16 +344,11 @@ export class DragAndDropTransformer {
     return this.dragActionRegistry.get(this.injector);
   }
 
+  /** The query's own rows; expanded relation rows repeat work packages shown elsewhere. */
   protected get currentOrder():string[] {
-    return this
-      .currentRenderedOrder
+    return this.table.ledger.occurrences
+      .filter((row) => row.renderType === 'primary')
+      .filter(isSelectableOccurrence)
       .map((row) => row.workPackageId);
-  }
-
-  protected get currentRenderedOrder():SelectableOccurrence[] {
-    return this
-      .querySpace
-      .renderedWorkPackages
-      .getValueOr([]);
   }
 }
