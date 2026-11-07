@@ -31,4 +31,14 @@ module ITSM
   def self.table_name_prefix
     "itsm_"
   end
+
+  def self.helpdesk_user
+    HelpdeskUsers::FindOrCreateService.new.call
+      .on_failure { raise "Unable to create the help desk user: #{it.message}" }
+      .result
+  end
+
+  def self.helpdesk_role
+    helpdesk_user && ProjectRole.find_by(id: Setting.helpdesk_role_id)
+  end
 end

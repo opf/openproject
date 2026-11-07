@@ -49,6 +49,7 @@ module ITSM
 
       def enable_helpdesk
         enabled = ActiveModel::Type::Boolean.new.cast(params[:value])
+        ITSM.helpdesk_user if enabled
         Setting.helpdesk_enabled = enabled
 
         update_via_turbo_stream(component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled:, wizard:))

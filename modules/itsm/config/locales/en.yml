@@ -69,5 +69,7 @@ en:
         edit: Edit SMTP server configuration
         title: SMTP server configuration
   label_helpdesk: Help desk
+  label_helpdesk_role: Help desk
+  label_helpdesk_user: Help desk
   permission_manage_helpdesk: Manage help desk
   project_module_helpdesk: Help desk

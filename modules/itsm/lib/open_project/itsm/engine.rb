@@ -56,6 +56,14 @@ module OpenProject::ITSM
                                  writable: true,
                                  default: false,
                                  format: :boolean
+      ::Settings::Definition.add :helpdesk_user_id,
+                                 description: "Help desk user, set automatically when the help desk is first used.",
+                                 format: :integer,
+                                 default: nil
+      ::Settings::Definition.add :helpdesk_role_id,
+                                 description: "Role of the help desk user, set automatically when the help desk is first used.",
+                                 format: :integer,
+                                 default: nil
     end
 
     register "openproject-itsm", author_url: "https://www.openproject.org", bundled: true do
@@ -76,5 +84,18 @@ module OpenProject::ITSM
     end
 
     include_module "Projects::HelpdeskMailboxes", into: "Project"
+
+    initializer "openproject_itsm.event_subscriptions" do
+      Rails.application.config.after_initialize do
+        OpenProject::Notifications.subscribe(OpenProject::Events::MODULE_ENABLED) do |payload|
+          enabled_module = payload[:enabled_module]
+          next unless enabled_module.name == "helpdesk" && enabled_module.project
+
+          ITSM::HelpdeskUsers::AddToProjectService.new.call(project: enabled_module.project).on_failure do |result|
+            OpenProject.logger.error("Help desk user not added to project #{enabled_module.project.id}: #{result.message}")
+          end
+        end
+      end
+    end
   end
 end
