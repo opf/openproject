@@ -27,4 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <dt class="AttributesGroupItem-key"><%= key %></dt>
-<dd class="AttributesGroupItem-value"><%= content %></dd>
+<% descriptions.each do |description| %>
+  <dd class="AttributesGroupItem-value"><%= description %></dd>
+<% end %>

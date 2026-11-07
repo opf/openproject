@@ -35,5 +35,10 @@ module OpPrimer
     def with_header; end
 
     def with_long_values; end
+
+    # @param label_color select { choices: [default, muted] }
+    def tabular(label_color: :muted)
+      render_with_template(locals: { label_color: label_color.to_sym })
+    end
   end
 end

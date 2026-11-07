@@ -1,0 +1,11 @@
+<%= render(OpPrimer::AttributesGroupComponent.new(scheme: :tabular, label_color:)) do |component|
+      component.with_attribute(key: "Filters") do |attribute|
+        attribute.with_value { "Status is open" }
+        attribute.with_value { "Assignee is me" }
+        attribute.with_value { "Subject contains a rather long phrase that has to wrap onto another line instead of being cut off" }
+      end
+
+      component.with_attribute(key: "Sort") { "Priority (Descending)" }
+
+      component.with_attribute(key: "Group by") { "Project" }
+    end %>

@@ -29,18 +29,28 @@
 
 module OpPrimer
   class AttributesGroupComponent < ::Primer::Component
+    SCHEME_DEFAULT = :default
+    SCHEME_OPTIONS = [SCHEME_DEFAULT, :tabular].freeze
+    LABEL_COLOR_DEFAULT = :default
+    LABEL_COLOR_OPTIONS = [LABEL_COLOR_DEFAULT, :muted].freeze
+
     renders_one :header, Header
     renders_many :attributes, AttributeKeyValue
 
     attr_reader :system_arguments
 
-    def initialize(**system_arguments)
+    # @param scheme [Symbol] <%= one_of(OpPrimer::AttributesGroupComponent::SCHEME_OPTIONS) %>
+    # @param label_color [Symbol] <%= one_of(OpPrimer::AttributesGroupComponent::LABEL_COLOR_OPTIONS) %>
+    # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
+    def initialize(scheme: SCHEME_DEFAULT, label_color: LABEL_COLOR_DEFAULT, **system_arguments)
       super()
       @system_arguments = system_arguments
 
       @system_arguments[:classes] = class_names(
         @system_arguments[:classes],
-        "AttributesGroup"
+        "AttributesGroup",
+        "AttributesGroup--tabular" => fetch_or_fallback(SCHEME_OPTIONS, scheme, SCHEME_DEFAULT) == :tabular,
+        "AttributesGroup--mutedLabels" => fetch_or_fallback(LABEL_COLOR_OPTIONS, label_color, LABEL_COLOR_DEFAULT) == :muted
       )
     end
   end
