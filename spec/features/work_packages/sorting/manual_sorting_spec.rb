@@ -30,7 +30,7 @@
 require "spec_helper"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "Manual sorting of WP table", :js, :selenium do
+RSpec.shared_examples "manual sorting of the work package table" do
   let(:user) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -556,5 +556,12 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
         wp_timeline.expect_row_count(4)
       end
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Manual sorting of WP table (new_table_rendering=#{new_table_rendering})",
+                 :js, :selenium, with_flag: { new_table_rendering: } do
+    it_behaves_like "manual sorting of the work package table"
   end
 end
