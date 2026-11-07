@@ -36,6 +36,20 @@ OpenProject currently requires some bundled extensions, that should be available
 
 Additionally, OpenProject will try to create a [custom collation](https://www.postgresql.org/docs/current/collation.html) for version sorting that depends on `und-u-kn-true` ICU collation.
 
+### pgvector
+
+Some features, such as semantic search, need the [`pgvector`](https://github.com/pgvector/pgvector) extension.
+Without `pgvector`, OpenProject will continue to work but those features will not be available.
+
+Managed PostgreSQL services usually include `pgvector`.
+If you are running your own PostgreSQL, you may have to [install](https://github.com/pgvector/pgvector#installation) it separately.
+
+You can check whether `pgvector` is enabled in the settings under *Administration > Information*.
+
+If it is not enabled, install it, then run the migrations again and restart OpenProject.
+
+If you move your database to another server, install `pgvector` there before restoring the dump.
+
 ## Scaling requirements
 
 Generally speaking you will need more CPUs (the faster the better) and more RAM with an increasing number of users.
