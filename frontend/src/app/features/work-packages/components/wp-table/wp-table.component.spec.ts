@@ -1065,6 +1065,26 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     expect(document.querySelector('.work-package--results-tbody > tr[data-work-package-id="1"]')).not.toHaveAttribute('opwptablerow');
   });
 
+  it.each([false, true])('keeps native row headers when columns change (templates: %s)', async (templates) => {
+    Object.assign(TestBed.inject(ConfigurationService), { activeFeatureFlags: templates ? ['newTableRendering'] : [] });
+    const columns = TestBed.inject(WorkPackageViewColumnsService);
+    columns.update([buildColumn('id')] as QueryColumn[]);
+    await mount({}, [{ id: '42', subject: 'Header subject' }]);
+    const row = () => document.querySelector<HTMLTableRowElement>('.work-package--results-tbody > tr')!;
+    const idHeader = within(row()).getByRole('rowheader', { name: '42' });
+    expect(idHeader.tagName).toBe('TH');
+    expect(idHeader).toHaveAttribute('scope', 'row');
+
+    columns.update([buildColumn('subject'), buildColumn('id')] as QueryColumn[]);
+    await waitFor(() => expect(within(row()).getByRole('rowheader', { name: 'Header subject' })).toHaveAttribute('scope', 'row'));
+    expect(row().querySelector('th.subject')).toBeTruthy();
+    expect(row().querySelector('td.id')).toHaveTextContent('42');
+
+    columns.update([buildColumn('id')] as QueryColumn[]);
+    await waitFor(() => expect(within(row()).getByRole('rowheader', { name: '42' })).toHaveAttribute('scope', 'row'));
+    expect(row().querySelector('.subject')).toBeNull();
+  });
+
   describe('with the newTableRendering flag', () => {
     beforeEach(() => {
       Object.assign(TestBed.inject(ConfigurationService), { activeFeatureFlags: ['newTableRendering'] });

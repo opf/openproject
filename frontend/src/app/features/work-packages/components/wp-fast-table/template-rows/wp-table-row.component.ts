@@ -91,19 +91,17 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
       }
       @case ('workPackage') {
         @for (column of view().columns; track column.id) {
-          @if (column.id === 'id') {
-            @if (view().rowHeader === 'id') {
-              <th scope="row" opWpTableIdCell [row]="entry"></th>
-            } @else {
-              <td opWpTableIdCell [row]="entry"></td>
-            }
-          } @else if (textCells().get(column.id); as presentation) {
-            @if (column.id === view().rowHeader) {
-              <th scope="row" opWpTableTextCell [presentation]="presentation"></th>
-            } @else {
-              <td opWpTableTextCell [presentation]="presentation"></td>
-            }
-          } @else if (column.id === view().rowHeader) {
+          @let isRowHeader = column.id === view().rowHeader;
+          @let presentation = column.id === 'id' ? null : textCells().get(column.id);
+          @if (column.id === 'id' && isRowHeader) {
+            <th scope="row" opWpTableIdCell [row]="entry"></th>
+          } @else if (column.id === 'id') {
+            <td opWpTableIdCell [row]="entry"></td>
+          } @else if (presentation && isRowHeader) {
+            <th scope="row" opWpTableTextCell [presentation]="presentation"></th>
+          } @else if (presentation) {
+            <td opWpTableTextCell [presentation]="presentation"></td>
+          } @else if (isRowHeader) {
             <th scope="row" opWpTableCell [column]="column" [row]="entry" [view]="view()"></th>
           } @else if (column.id === sortColumnId && canDrag() !== null) {
             <td
