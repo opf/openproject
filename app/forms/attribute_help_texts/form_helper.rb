@@ -30,12 +30,15 @@
 module AttributeHelpTexts
   module FormHelper
     def wrap_attribute_label_with_help_text(label, attribute)
-      render OpPrimer::AttributeLabelComponent.new(
-        model:,
-        attribute:,
-        tag: nil,
-        current_user: User.current
-      ).with_content(label)
+      # the component template's copyright header leaves a leading newline
+      render(
+        OpPrimer::AttributeLabelComponent.new(
+          model:,
+          attribute:,
+          tag: nil,
+          current_user: User.current
+        ).with_content(label)
+      ).lstrip.html_safe # rubocop:disable Rails/OutputSafety
     end
   end
 end
