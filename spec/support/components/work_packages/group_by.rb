@@ -99,7 +99,7 @@ module Components
       end
 
       def within_column_context_menu(&)
-        page.within("#column-context-menu", &)
+        page.within(:menu, &)
       end
     end
   end

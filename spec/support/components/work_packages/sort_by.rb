@@ -40,7 +40,7 @@ module Components
         SeleniumHubWaiter.wait unless using_cuprite?
         page.document.synchronize(20) do
           open_table_column_context_menu(name, selector)
-          raise Capybara::ElementNotFound unless page.has_css?("#column-context-menu", wait: 2)
+          raise Capybara::ElementNotFound unless page.has_selector?(:menu, wait: 2)
 
           page.within(:menu) { click_on text }
         end
@@ -125,7 +125,7 @@ module Components
       end
 
       def within_column_context_menu(&)
-        page.within("#column-context-menu", &)
+        page.within(:menu, &)
       end
     end
   end
