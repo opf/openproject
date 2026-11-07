@@ -1,5 +1,5 @@
-<ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
-  [ndcDynamicInputs]="{
+<ng-container [ngComponentOutlet]="autocompleterComponent()"
+  [ngComponentOutletInputs]="{
     availableValues: availableOptions,
     appendTo: appendTo,
     model: selectedOption ? selectedOption : '',
@@ -10,5 +10,5 @@
     classes: 'inline-edit--field ' + handler.fieldName,
     resource: this.resource
   }"
-  [ndcDynamicOutputs]="referenceOutputs"
+  [opDynamicOutputs]="referenceOutputs"
  />

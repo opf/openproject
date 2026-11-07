@@ -162,7 +162,6 @@
     "moment": "^2.31.0",
     "moment-timezone": "^0.6.4",
     "mousetrap": "~1.6.3",
-    "ng-dynamic-component": "^10.7.0",
     "ng2-charts": "^10.0.0",
     "ng2-dragula": "^6.0.0",
     "ngx-cookie-service": "^22.0.0",

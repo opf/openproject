@@ -85,8 +85,8 @@
       </div>
     }
     @for (component of prependedAttributeGroupComponents(); track component) {
-      <ndc-dynamic [ndcDynamicComponent]="component"
-        [ndcDynamicInputs]="{ workPackage: workPackage }" />
+      <ng-container [ngComponentOutlet]="component"
+        [ngComponentOutletInputs]="{ workPackage: workPackage }" />
     }
     <div class="attributes-group description-group">
       <div class="single-attribute work-packages--details--description">
@@ -106,8 +106,8 @@
         >
         @if (group.isolated) {
           <ng-container opWorkPackageIsolatedQuerySpace>
-            <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
-                   [ndcDynamicInputs]="{ workPackage: workPackage,
+            <ng-container [ngComponentOutlet]="attributeGroupComponent(group)"
+                   [ngComponentOutletInputs]="{ workPackage: workPackage,
                                          group: group,
                                          query: group.query }" />
           </ng-container>
@@ -119,9 +119,9 @@
               [textContent]="group.name"></h3>
             </div>
           </div>
-          <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
-            [ndcDynamicInjector]="injector"
-            [ndcDynamicInputs]="{ workPackage: workPackage, group: group }" />
+          <ng-container [ngComponentOutlet]="attributeGroupComponent(group)"
+            [ngComponentOutletInjector]="injector"
+            [ngComponentOutletInputs]="{ workPackage: workPackage, group: group }" />
         }
       </div>
     }
@@ -138,11 +138,11 @@
         <div class="op-tab-content--header">
           <span class="op-tab-content--header-text" [textContent]="text.attachments.label"></span>
         </div>
-        <ndc-dynamic [ndcDynamicComponent]="attachmentListComponent()"
-          [ndcDynamicInputs]="{ resource: workPackage }" />
+        <ng-container [ngComponentOutlet]="attachmentListComponent()"
+          [ngComponentOutletInputs]="{ resource: workPackage }" />
         @if (workPackage.canAddAttachments) {
-          <ndc-dynamic [ndcDynamicComponent]="attachmentUploadComponent()"
-            [ndcDynamicInputs]="{ resource: workPackage }"
+          <ng-container [ngComponentOutlet]="attachmentUploadComponent()"
+            [ngComponentOutletInputs]="{ resource: workPackage }"
              />
         }
       </div>
