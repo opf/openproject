@@ -123,6 +123,43 @@ RSpec.shared_examples "both renderers: inline editing work packages" do |new_tab
       )
       expect(page).to have_css(".work-packages--details--subject", text: "Foobar")
     end
+
+    context "with a link custom field" do
+      let(:custom_field) { create(:link_wp_custom_field, name: "Reference", types: [type], is_for_all: true) }
+      let(:query) do
+        create(:query, user: manager, project:,
+                       column_names: ["id", "subject", custom_field.column_name], show_hierarchies: false)
+      end
+
+      it "renders links and uses their edit affordance to cancel and save changes" do
+        expect_renderer(new_table_rendering)
+        field = wp_table.edit_field(work_package, custom_field.attribute_name(:camel_case))
+        field.expect_text("-")
+        expect(field.display_element).to have_no_css("a")
+
+        field.update("https://example.com/reference")
+        wp_table.expect_and_dismiss_toaster(message: "Successful update.")
+
+        link = field.display_element.find_link("https://example.com/reference", href: "https://example.com/reference")
+        expect(link[:target]).to eq("_blank")
+        expect(link[:rel].split).to contain_exactly("noopener", "noreferrer")
+        expect(field.display_trigger_element).to match_selector("a.inline-edit--display-trigger")
+
+        field.activate!
+        field.set_value("https://example.com/discarded")
+        field.cancel_by_escape
+        field.expect_inactive!
+        expect(field.display_element).to have_link("https://example.com/reference", href: "https://example.com/reference")
+
+        field.activate!
+        field.set_value("https://example.com/updated")
+        field.save!
+        field.expect_inactive!
+        expect(field.display_element).to have_link("https://example.com/updated", href: "https://example.com/updated")
+        wp_table.expect_toast(message: "Successful update.")
+        expect(work_package.reload.custom_value_for(custom_field).typed_value).to eq("https://example.com/updated")
+      end
+    end
   end
 
   context "with a simple work package" do

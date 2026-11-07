@@ -123,6 +123,9 @@ export function wideFixture(profile:WideProfile) {
         if (!row.querySelector('.__hl_type_1')?.classList.contains('__hl_uppercase')) throw new Error('Missing type treatment');
         const link = row.querySelector<HTMLAnchorElement>('.customField7 a');
         if (link?.href !== values.customField7 || link.target !== '_blank') throw new Error('Missing specialized link field');
+        if (!link.relList.contains('noopener') || !link.relList.contains('noreferrer')) {
+          throw new Error('Missing link security attributes');
+        }
       }
     },
   };
