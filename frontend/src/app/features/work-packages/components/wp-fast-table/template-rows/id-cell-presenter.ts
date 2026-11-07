@@ -35,8 +35,17 @@ import { KeepTabService } from 'core-app/features/work-packages/components/wp-si
 import { WorkPackageIdDisplayField } from 'core-app/shared/components/fields/display/field-types/wp-id-display-field.module';
 import { UiStateLinkBuilder } from '../builders/ui-state-link-builder';
 
+export interface IdCellPresentation {
+  readonly text:string;
+  readonly title:string|null;
+  readonly label:string|null;
+  readonly required:boolean;
+  readonly href:string|null;
+}
+
 export class IdCellPresenter {
   private readonly schemaCache = this.injector.get(SchemaCacheService);
+  private readonly field = new WorkPackageIdDisplayField('id', { injector: this.injector, container: 'table', options: { tabbable: false } });
   private readonly links = new UiStateLinkBuilder(
     this.injector.get(KeepTabService),
     this.injector.get(CurrentProjectService),
@@ -46,10 +55,11 @@ export class IdCellPresenter {
 
   constructor(private readonly injector:Injector) {}
 
-  public present(workPackage:WorkPackageResource) {
-    const field = new WorkPackageIdDisplayField('id', { injector: this.injector, container: 'table', options: { tabbable: false } });
+  public present(workPackage:WorkPackageResource):IdCellPresentation {
     const schema = this.schemaCache.of(workPackage).ofProperty('id');
     if (!schema) return { text: '', title: null, label: null, required: false, href: null };
+
+    const { field } = this;
     field.apply(workPackage, schema);
     const text = field.value ? field.valueString : '';
     return {

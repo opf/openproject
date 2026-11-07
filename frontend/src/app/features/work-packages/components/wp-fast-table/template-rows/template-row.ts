@@ -26,6 +26,7 @@
 //++
 
 import type { TextCellPresentation } from './text-cell-presentation';
+import type { IdCellPresentation } from './id-cell-presenter';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { OccurrenceKey, RenderedOccurrence } from '../rendered-occurrence-ledger';
@@ -83,6 +84,7 @@ export interface TemplateRowView {
   canDrag(workPackage:WorkPackageResource):boolean|null;
   /** An empty drag and drop table renders a placeholder row as its drop target. */
   readonly placeholder:boolean;
+  idCell(workPackage:WorkPackageResource):IdCellPresentation;
   textCell(row:TemplateWorkPackageRow, column:QueryColumn):TextCellPresentation|null;
   buildCell(row:TemplateWorkPackageRow, column:QueryColumn):HTMLTableCellElement|null;
   isEditing(workPackage:WorkPackageResource, column:QueryColumn, cell:HTMLTableCellElement):boolean;

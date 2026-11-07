@@ -26,6 +26,7 @@
 //++
 
 import { textCellPresentation } from './text-cell-presentation';
+import { IdCellPresenter } from './id-cell-presenter';
 import { SingleHierarchyRowBuilder } from '../builders/modes/hierarchy/single-hierarchy-row-builder';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
@@ -47,6 +48,7 @@ export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
     ? new Set(selectedAttributes.map(({ id }) => id))
     : null;
   const shouldHighlightInline = (attribute:string):boolean => selectedInlineAttributes?.has(attribute) ?? false;
+  let idPresenter:IdCellPresenter|undefined;
 
   return {
     columns: rowBuilder.renderedColumns,
@@ -58,6 +60,7 @@ export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
     contextMenuLabel: injector.get(I18nService).t('js.label_open_context_menu'),
     canDrag: (workPackage) => dragActions?.canPickup(workPackage) ?? null,
     placeholder: workPackageTable.renderPlaceholderRow,
+    idCell: (workPackage) => (idPresenter ??= new IdCellPresenter(injector)).present(workPackage),
     textCell: ({ workPackage, relation }, column) => {
       if (column.id === 'id' || column.id.startsWith('__internal')) return null;
       if (!relation && column.id === 'subject' && rowBuilder instanceof SingleHierarchyRowBuilder) return null;

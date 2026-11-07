@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, getDebugNode, input } from '@angular/core';
+import { Component, getDebugNode, Injector, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -33,6 +33,7 @@ import { within } from '@testing-library/dom';
 import { buildQuery, FakeDragAndDropService, harnessProviders } from '../testing/table-harness';
 import { buildWorkPackage } from '../testing/work-package-fixture';
 import { beginTemplateCellEdit, endTemplateCellEdit } from './template-cell-editing';
+import { IdCellPresenter } from './id-cell-presenter';
 import { TemplateRowView, TemplateWorkPackageRow } from './template-row';
 import { TextCellPresentation } from './text-cell-presentation';
 import { WorkPackageTableRowComponent } from './wp-table-row.component';
@@ -88,6 +89,7 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
       ],
     });
     fixture = TestBed.createComponent(SimpleCellsTestTableComponent);
+    const idPresenter = new IdCellPresenter(TestBed.inject(Injector));
     view = {
       columns: buildQuery(['id', 'subject'], null, false, false).columns,
       rowHeader,
@@ -96,6 +98,7 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
       contextMenuLabel: '',
       canDrag: () => null,
       placeholder: false,
+      idCell: idPresenter.present.bind(idPresenter),
       textCell: () => null,
       buildCell: () => null,
       isEditing: () => false,
@@ -145,7 +148,24 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
     workPackage.displayId = 'DEMO-8';
     setRow({ workPackage, revision: 1 });
     fixture.detectChanges();
-    expect(within(idCell).getByRole('link', { name: 'DEMO-8' })).toBeTruthy();
+    const link = within(idCell).getByRole('link', { name: 'DEMO-8' });
+    expect(link).toHaveAttribute('href', `/work_packages/DEMO-8/activity${window.location.search}`);
+    expect(link).toHaveAttribute('data-work-package-id', '42');
+  });
+
+  it('updates the retained ID link from a new view without replacing the row input', () => {
+    const link = within(idCell).getByRole('link', { name: '42' });
+    const alternateInjector = Injector.create({
+      parent: TestBed.inject(Injector),
+      providers: [{ provide: PathHelperService, useValue: { genericWorkPackagePath: (_project:string, id:string, tab:string) => `/other/${id}/${tab}` } }],
+    });
+    const presenter = new IdCellPresenter(alternateInjector);
+    const nextView = { ...view, idCell: presenter.present.bind(presenter) };
+    fixture.componentRef.setInput('view', nextView);
+    fixture.detectChanges();
+
+    expect(within(idCell).getByRole('link', { name: '42' })).toBe(link);
+    expect(link).toHaveAttribute('href', `/other/42/activity${window.location.search}`);
   });
 
   it('falls back to a numeric ID and leaves new resources without a link', () => {

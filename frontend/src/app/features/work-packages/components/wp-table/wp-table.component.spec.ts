@@ -63,6 +63,7 @@ import { TextDisplayField } from 'core-app/shared/components/fields/display/fiel
 import { HighlightedResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/highlighted-resource-display-field.module';
 import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { TypeDisplayField } from 'core-app/shared/components/fields/display/field-types/type-display-field.module';
+import { WorkPackageIdDisplayField } from 'core-app/shared/components/fields/display/field-types/wp-id-display-field.module';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
   buildColumn, buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
@@ -1538,6 +1539,22 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(within(cell).getByRole('textbox')).not.toBe(input);
       reopened!.deactivate(false);
       expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Original');
+    });
+
+    it('applies ID fields for retained rows through one presenter per view', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1' }, { id: '2' }]);
+      const apply = vi.spyOn(WorkPackageIdDisplayField.prototype, 'apply');
+      const firstRow = resultRow('1');
+      const secondRow = resultRow('2');
+      const previous = querySpace.tableRendered.value;
+
+      workPackageTable.redrawTable();
+      await waitFor(() => expect(querySpace.tableRendered.value).not.toBe(previous));
+
+      expect(resultRow('1')).toBe(firstRow);
+      expect(resultRow('2')).toBe(secondRow);
+      expect(apply).toHaveBeenCalledTimes(2);
+      expect(new Set(apply.mock.contexts).size).toBe(1);
     });
 
     it('keeps the read-only marker from a failed activation when the display classes change', async () => {

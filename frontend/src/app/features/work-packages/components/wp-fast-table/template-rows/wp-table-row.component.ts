@@ -26,11 +26,10 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, ElementRef, inject, Injector, input, linkedSignal, OnDestroy,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, ElementRef, inject, input, linkedSignal, OnDestroy,
 } from '@angular/core';
 import { WorkPackageTableCellContentDirective, WorkPackageTableCellDirective } from './wp-table-cell.directive';
 import { WorkPackageTableActionComponent } from './wp-table-action.component';
-import { IdCellPresenter } from './id-cell-presenter';
 import { registerTemplateRowEditor, unregisterTemplateRowEditor } from './template-cell-editing';
 import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
 import { isRelationColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
@@ -84,14 +83,9 @@ export class WorkPackageTableRowComponent implements OnDestroy {
   });
 
   private readonly element = inject<ElementRef<HTMLTableRowElement>>(ElementRef);
-  private readonly injector = inject(Injector);
   private readonly cdRef = inject(ChangeDetectorRef);
-  private idPresenter?:IdCellPresenter;
 
-  readonly idValue = computed(() => {
-    this.idPresenter ??= new IdCellPresenter(this.injector);
-    return this.idPresenter.present(this.workPackageRow()!.workPackage);
-  });
+  readonly idValue = computed(() => this.view().idCell(this.workPackageRow()!.workPackage));
 
   readonly textCells = linkedSignal({
     source: () => ({ row: this.workPackageRow(), view: this.view() }),
