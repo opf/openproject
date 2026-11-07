@@ -30,48 +30,46 @@
 module Admin
   module Settings
     module UserCustomFieldSections
-      class BuiltInAttributesController < ::Admin::SettingsController
+      class FieldsController < ::Admin::SettingsController
         include OpTurbo::ComponentStream
+        include FlashMessagesOutputSafetyHelper
         include Admin::Settings::UserCustomFields::ComponentStreams
+        include ::SortableLists::DropRequestValidation
 
         menu_item :user_custom_fields_settings
 
-        before_action :set_section
-        before_action :set_attribute_key
+        configure_drop_request list_type: "user_field", list_id_scoped: true
 
-        def move
-          @section.move_in_order(@key, params.expect(:move_to)&.to_sym)
-          update_section_via_turbo_stream(user_custom_field_section: @section.reload)
-          respond_with_turbo_streams
-        end
+        def drop
+          return render_invalid_drop_request unless valid_drop_request?
 
-        def drop # rubocop:disable Metrics/AbcSize
-          new_section_id = params[:target_id]&.to_i
-          return head :bad_request if new_section_id.nil?
+          result = drop_service.call(list_id: drop_params[:list_id], prev_id: drop_params[:prev_id])
 
-          if @section.id == new_section_id
-            @section.add_to_order(@key, position: params[:position]&.to_i)
-            update_section_via_turbo_stream(user_custom_field_section: @section.reload)
+          if result.success?
+            drop_success_streams(result)
+            respond_with_turbo_streams
           else
-            new_section = UserCustomFieldSection.find(new_section_id)
-            @section.remove_from_order(@key)
-            new_section.add_to_order(@key, position: params[:position]&.to_i)
-            update_section_via_turbo_stream(user_custom_field_section: @section.reload)
-            update_section_via_turbo_stream(user_custom_field_section: new_section.reload)
+            render_error_flash_message_via_turbo_stream(message: join_flash_messages(result.errors))
+            respond_with_turbo_streams(status: :unprocessable_entity)
           end
-
-          respond_with_turbo_streams
         end
 
         private
 
-        def set_section
-          @section = UserCustomFieldSection.find(params.expect(:user_custom_field_section_id))
+        def drop_service
+          ::UserCustomFieldSections::DropService.new(user: current_user, key: params.expect(:key))
         end
 
-        def set_attribute_key
-          @key = params.expect(:key)
-          head :unprocessable_entity unless UserCustomFieldSection::BUILT_IN_ATTRIBUTES.include?(@key)
+        def render_invalid_drop_request
+          render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
+          respond_with_turbo_streams(status: :unprocessable_entity)
+        end
+
+        def drop_success_streams(call)
+          update_section_via_turbo_stream(user_custom_field_section: call.result[:current_section])
+          if call.result[:section_changed]
+            update_section_via_turbo_stream(user_custom_field_section: call.result[:old_section])
+          end
         end
       end
     end

@@ -34,12 +34,11 @@ module Settings
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include ::CustomFields::AdminRoutes
+      include SortableLists::MoveMenu
 
-      def initialize(user_custom_field:, first:, last:)
+      def initialize(user_custom_field:)
         super()
         @user_custom_field = user_custom_field
-        @first = first
-        @last = last
       end
 
       private
@@ -49,27 +48,6 @@ module Settings
                        href: edit_path(@user_custom_field),
                        data: { turbo: "false", test_selector: "user-custom-field-edit" }) do |item|
           item.with_leading_visual_icon(icon: :pencil)
-        end
-      end
-
-      def move_actions(menu)
-        unless @first
-          move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top")
-          move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up")
-        end
-        unless @last
-          move_action_item(menu, :lower, t("label_agenda_item_move_down"), "chevron-down")
-          move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"), "move-to-bottom")
-        end
-      end
-
-      def move_action_item(menu, move_to, label_text, icon)
-        menu.with_item(label: label_text,
-                       href: move_admin_settings_user_custom_field_path(@user_custom_field, move_to:),
-                       form_arguments: {
-                         method: :put, data: { "turbo-stream": true, test_selector: "user-custom-field-move-#{move_to}" }
-                       }) do |item|
-          item.with_leading_visual_icon(icon:)
         end
       end
 

@@ -53,30 +53,35 @@ module Settings
         @user_custom_field_section.id
       end
 
-      def drag_and_drop_target_config
+      def field_list_data
         {
-          generic_drag_and_drop_target: "container",
-          "target-container-accessor": ".Box > ul",
-          "target-id": @user_custom_field_section.id,
-          "target-allowed-drag-type": "user-field"
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: "user_field",
+          sortable_lists__list_accepted_type_value: "user_field",
+          sortable_lists__list_id_value: @user_custom_field_section.id,
+          sortable_lists__list_name_value: @user_custom_field_section.name,
+          # The section's drag preview snapshots the box itself rather than
+          # the browser's native capture of the row wrapper, which paints the
+          # box's top margin and squares off the rounded corners.
+          sortable_lists__item_target: "preview"
         }
       end
 
-      def draggable_item_config_for_custom_field(user_custom_field)
+      def field_item_data_for_built_in(key)
         {
-          "draggable-id": user_custom_field.id,
-          "draggable-type": "user-field",
-          "drop-url": drop_admin_settings_user_custom_field_path(user_custom_field)
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: key,
+          sortable_lists__item_type_value: "user_field",
+          sortable_lists__item_label_value: User.human_attribute_name(key)
         }
       end
 
-      def draggable_item_config_for_built_in(key)
+      def field_item_data_for_custom_field(cf)
         {
-          "draggable-id": key,
-          "draggable-type": "user-field",
-          "drop-url": drop_admin_settings_user_custom_field_section_built_in_attribute_path(
-            @user_custom_field_section, key
-          )
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: cf.id,
+          sortable_lists__item_type_value: "user_field",
+          sortable_lists__item_label_value: cf.name
         }
       end
 
