@@ -166,28 +166,31 @@ export class DragAndDropTransformer implements RowMover {
     });
   }
 
-  public movableDirections(workPackageId:string):ReadonlySet<MoveDirection>|null {
-    const directions = this.directionsFor(workPackageId);
+  public movableDirections(ids:readonly string[]):ReadonlySet<MoveDirection>|null {
+    const directions = this.directionsFor(ids);
     return directions && this.moveInFlight ? new Set() : directions;
   }
 
-  private directionsFor(workPackageId:string):Set<MoveDirection>|null {
+  private directionsFor(ids:readonly string[]):Set<MoveDirection>|null {
     const query = this.querySpace.query.value;
-    const order = this.menuOrder(workPackageId);
-    const index = order.indexOf(workPackageId);
-    if (!query || index === -1 || !this.canMoveRows(query)) return null;
+    if (!query || !this.canMoveRows(query)) return null;
+    if (!ids.length) return null;
+    const order = this.menuOrder(ids[0], ids.length > 1);
+    const positions = ids.map((id) => order.indexOf(id));
+    if (positions.includes(-1)) return null;
 
     const directions = new Set<MoveDirection>();
-    if (index > 0) directions.add('top').add('up');
-    if (index < order.length - 1) directions.add('down').add('bottom');
+    if (Math.min(...positions) > 0) directions.add('top').add('up');
+    if (Math.max(...positions) < order.length - 1) directions.add('down').add('bottom');
     return directions;
   }
 
-  public move(workPackageId:string, direction:MoveDirection):void {
+  public move(ids:readonly string[], direction:MoveDirection):void {
     const query = this.querySpace.query.value;
-    if (!query || !this.movableDirections(workPackageId)?.has(direction)) return;
-    if (this.wpTableGroupBy.isEnabled || this.wpTableHierarchies.isEnabled) {
-      void this.moveWithinPeers(workPackageId, direction, query);
+    if (!query || !this.movableDirections(ids)?.has(direction)) return;
+    const workPackageId = ids[0];
+    if (ids.length > 1 || this.wpTableGroupBy.isEnabled || this.wpTableHierarchies.isEnabled) {
+      void this.moveWithinPeers(ids, direction, query);
       return;
     }
     const intent = this.intentFor(workPackageId, direction);
@@ -198,7 +201,7 @@ export class DragAndDropTransformer implements RowMover {
     });
   }
 
-  private menuOrder(workPackageId:string):string[] {
+  private menuOrder(workPackageId:string, bulk = false):string[] {
     const table = this.table;
     if (this.wpTableGroupBy.isEnabled) {
       const groups = new Map<string, string>();
@@ -218,29 +221,30 @@ export class DragAndDropTransformer implements RowMover {
       const parent = parentOf(workPackageId);
       return table.originalRows.filter((id) => parentOf(id) === parent);
     }
-    return this.currentOrder;
+    return bulk ? table.originalRows : this.currentOrder;
   }
 
-  private async moveWithinPeers(workPackageId:string, direction:MoveDirection, query:QueryResource):Promise<void> {
+  private async moveWithinPeers(ids:readonly string[], direction:MoveDirection, query:QueryResource):Promise<void> {
     const table = this.table;
+    const bulk = new Set(ids).size > 1;
     const isCurrent = () => !table.destroyed && this.querySpace.query.value === query;
     this.moveInFlight = true;
     try {
-      let attempt = await this.preparePeerMove(workPackageId, direction, query, isCurrent);
+      let attempt = await this.preparePeerMove(ids, direction, query, isCurrent);
       for (let tries = 1; attempt && isCurrent() && this.renderedSince(attempt.renderPass) && tries < maxPrepareAttempts; tries++) {
         await table.whenRendered();
-        attempt = isCurrent() ? await this.preparePeerMove(workPackageId, direction, query, isCurrent) : null;
+        attempt = isCurrent() ? await this.preparePeerMove(ids, direction, query, isCurrent) : null;
       }
       if (!attempt || !isCurrent() || this.renderedSince(attempt.renderPass) || !this.canMoveRows(query)) return;
-      const { prepared } = attempt;
+      const { prepared, block } = attempt;
       await prepared.persist();
       if (!isCurrent()) return;
       await table.whenRendered();
       if (!isCurrent() || !this.canMoveRows(query)) return;
 
-      const currentPeers = new Set(this.menuOrder(workPackageId));
+      const currentPeers = new Set(this.menuOrder(ids[0], bulk));
       const orderedPeers = prepared.order.filter((id) => currentPeers.has(id));
-      if (!orderedPeers.includes(workPackageId)) return;
+      if (!orderedPeers.length) return;
       const slots = new Set(orderedPeers);
       let nextPeer = 0;
       const resources = table.originalRows.map((id) => {
@@ -249,7 +253,18 @@ export class DragAndDropTransformer implements RowMover {
       });
       table.initialSetup(resources);
       await table.whenRendered();
-      this.announceMove(workPackageId, query);
+      if (table.destroyed || this.querySpace.query.value !== query) return;
+      if (bulk) {
+        const peers = this.menuOrder(ids[0], true);
+        const start = peers.indexOf(block[0]);
+        if (start >= 0 && block.every((id, offset) => peers[start + offset] === id)) {
+          void announce(I18n.t('js.sortable_lists.announcements.moved_batch', {
+            count: block.length, first: start + 1, last: start + block.length, total: peers.length,
+          }), { politeness: 'polite' });
+        }
+      } else {
+        this.announceMove(block[0], query);
+      }
     } catch (error:unknown) {
       if (!table.destroyed) this.halNotification.handleRawError(error);
     } finally {
@@ -259,18 +274,24 @@ export class DragAndDropTransformer implements RowMover {
 
   /** Prepares against the rows as rendered now; a render that lands meanwhile makes the result stale. */
   private async preparePeerMove(
-    workPackageId:string,
+    ids:readonly string[],
     direction:MoveDirection,
     query:QueryResource,
     isCurrent:() => boolean,
-  ):Promise<{ prepared:PreparedQueryOrder, renderPass:PrimaryRenderPass|null }|null> {
-    if (!this.directionsFor(workPackageId)?.has(direction)) return null;
-    const order = this.menuOrder(workPackageId);
-    const index = order.indexOf(workPackageId);
-    const targets = { top: 0, up: index - 1, down: index + 1, bottom: order.length - 1 } satisfies Record<MoveDirection, number>;
+  ):Promise<{ prepared:PreparedQueryOrder, renderPass:PrimaryRenderPass|null, block:string[] }|null> {
+    if (!this.directionsFor(ids)?.has(direction)) return null;
+    const selected = new Set(ids);
+    const bulk = selected.size > 1;
+    const order = this.menuOrder(ids[0], bulk);
+    const block = order.filter((id) => selected.has(id));
+    const first = order.indexOf(block[0]);
+    const last = order.indexOf(block[block.length - 1]);
+    const targets = { top: 0, up: first - 1, down: last - block.length + 2, bottom: order.length - block.length } satisfies Record<MoveDirection, number>;
     const renderPass = this.table.lastRenderPass;
-    const prepared = await this.wpTableOrder.prepareMove(query, order, workPackageId, targets[direction], isCurrent);
-    return { prepared, renderPass };
+    const prepared = bulk
+      ? await this.wpTableOrder.prepareBlockMove(query, order, block, targets[direction], isCurrent)
+      : await this.wpTableOrder.prepareMove(query, order, block[0], targets[direction], isCurrent);
+    return { prepared, renderPass, block };
   }
 
   private renderedSince(renderPass:PrimaryRenderPass|null):boolean {

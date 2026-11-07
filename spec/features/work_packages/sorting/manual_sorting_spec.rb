@@ -415,6 +415,20 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       end
     end
 
+    it "moves a non-contiguous keyboard selection as one block and keeps focus" do
+      wp_table.focus_row_by_keyboard(work_package2)
+      wp_table.press_keys(%i[shift space], :down, :down, %i[shift space], %i[shift f10])
+      context_menu.choose_in_submenu "Move", "Move to top"
+
+      wp_table.expect_work_package_order work_package2, work_package4, work_package1, work_package3
+      wp_table.expect_focus_on_row(work_package4)
+      [work_package2, work_package4].each do |selected|
+        expect(wp_table.treegrid).to have_row(selected.subject, aria: { selected: true })
+      end
+      wp_table.visit_query query
+      wp_table.expect_work_package_order work_package2, work_package4, work_package1, work_package3
+    end
+
     context "when grouped by type" do
       let(:group_by) { "type" }
 

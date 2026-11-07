@@ -90,11 +90,11 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
   }
 
   private appendMoveItems():void {
-    if (this.selectedWorkPackages.length !== 1) return;
-
-    const id = this.workPackageId;
+    const selection = this.selectedWorkPackages.length === 1
+      ? [this.workPackageId]
+      : this.selectedWorkPackages.flatMap((wp) => wp.id ?? []);
     const mover = this.table.rowMover;
-    const directions = mover?.movableDirections(id);
+    const directions = mover?.movableDirections(selection);
     if (!mover || !directions) return;
 
     const entries:{ direction:MoveDirection, linkText:string, octicon:DynamicIconName }[] = [
@@ -113,7 +113,7 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
           octicon,
           disabled: !directions.has(direction),
           onClick: () => {
-            mover.move(id, direction);
+            mover.move(selection, direction);
             return true;
           },
         })),
