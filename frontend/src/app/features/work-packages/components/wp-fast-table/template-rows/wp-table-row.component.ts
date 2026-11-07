@@ -26,7 +26,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, ElementRef, inject, input, linkedSignal, OnDestroy,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, CUSTOM_ELEMENTS_SCHEMA, ElementRef, inject, input, linkedSignal, OnDestroy,
 } from '@angular/core';
 import { WorkPackageTableCellContentDirective, WorkPackageTableCellDirective } from './wp-table-cell.directive';
 import { WorkPackageTableActionComponent } from './wp-table-action.component';
@@ -40,6 +40,10 @@ import { hierarchyRootClass } from '../helpers/wp-table-hierarchy-helpers';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
 import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
 import { readOnlyClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
+import { OpTableAction } from '../../wp-table/table-actions/table-action';
+import { OpDetailsTableAction } from '../../wp-table/table-actions/actions/details-table-action';
+import { GuardDetachedTooltipDirective } from './guard-detached-tooltip.directive';
 
 const textCellBaseClasses = 'wp-table--cell-td wp-table--navigable-cell';
 const sizedTextCellClasses:ReadonlyMap<string, string> = new Map([
@@ -63,7 +67,9 @@ const sizedTextCellClasses:ReadonlyMap<string, string> = new Map([
     WorkPackageTableCellContentDirective,
     WorkPackageTableActionComponent,
     PrimerIconButtonComponent,
+    GuardDetachedTooltipDirective,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     tabindex: '-1',
@@ -87,6 +93,17 @@ export class WorkPackageTableRowComponent implements OnDestroy {
   readonly sortColumnId = internalSortColumn.id;
 
   readonly isRelationColumn = isRelationColumn;
+
+  private detailsIdPrefix?:string;
+
+  detailsAction(action:OpTableAction):OpDetailsTableAction|null {
+    return action instanceof OpDetailsTableAction ? action : null;
+  }
+
+  detailsControlId(action:OpDetailsTableAction):string {
+    this.detailsIdPrefix ??= generateId('wp-table-details');
+    return `${this.detailsIdPrefix}-${action.identifier}`;
+  }
 
   textCellClasses(columnId:string):string {
     // The column ID is the cell's tracking key. Keeping this value stable preserves classes added by editing.

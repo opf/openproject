@@ -135,6 +135,31 @@
                   [label]="view().contextMenuLabel"
                   [tabindex]="-1"
                 />
+              } @else if (detailsAction(action); as details) {
+                @let controlId = detailsControlId(details);
+                @let tooltipId = controlId + '-tooltip';
+                @let label = details.label;
+                <a
+                  class="__ui-state-link wp-table--details-link wp-table-context-menu-icon hidden-for-mobile"
+                  [id]="controlId"
+                  [href]="details.href"
+                  [attr.aria-labelledby]="label ? tooltipId : null"
+                  [attr.data-work-package-id]="details.workPackage.id"
+                  data-wp-state="split"
+                  tabindex="-1"
+                ><i class="icon icon-info2" aria-hidden="true"></i></a>
+                @if (label) {
+                  <tool-tip
+                    opGuardDetachedTooltip
+                    class="sr-only position-absolute"
+                    popover="manual"
+                    data-type="label"
+                    data-direction="s"
+                    aria-hidden="true"
+                    [id]="tooltipId"
+                    [attr.for]="controlId"
+                  >{{ label }}</tool-tip>
+                }
               } @else {
                 <span [opWpTableAction]="action"></span>
               }

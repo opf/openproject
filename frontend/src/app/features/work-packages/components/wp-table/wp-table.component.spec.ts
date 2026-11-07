@@ -79,6 +79,10 @@ import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { OpTableActionsService } from './table-actions/table-actions.service';
+import { OpDetailsTableAction } from './table-actions/actions/details-table-action';
+import type { ToolTipElement } from 'core-app/shared/components/primer/tool-tip-element';
+import { page } from 'vitest/browser';
 
 /** Shows the table or the card view, as `wp-list-view` does when the viewport or query changes. */
 @Component({
@@ -433,6 +437,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     'js.inplace.errors.messages_on_field': 'This field is invalid: %{messages}',
     'js.button_cancel': 'Cancel',
     'js.button_edit': 'Edit',
+    'js.button_open_details': 'Open details',
     'js.label_open_context_menu': 'Open context menu',
   };
   let baselineActive:boolean;
@@ -1536,6 +1541,83 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(button).toHaveClass('Button--iconOnly', 'Button--invisible', 'wp-table-context-menu-link');
       expect(button).toHaveAttribute('tabindex', '-1');
       expect(button.closest('td')).toHaveClass('wp-table--context-menu-td', 'wp-table--navigable-cell');
+    });
+
+    describe('the details action', () => {
+      beforeEach(async () => {
+        await page.viewport(1280, 900);
+        TestBed.inject(OpTableActionsService).setActions((injector, resource) => new OpDetailsTableAction(injector, resource));
+      });
+
+      it('retains the link and tooltip across refresh and reorder with unique IDs across tables', async () => {
+        const views = TestBed.createComponent(TwoTablesStandInComponent);
+        fixture = views;
+        views.componentInstance.configurations.forEach((configuration) => { configuration.actionsColumnEnabled = true; });
+        const root = views.nativeElement as HTMLElement;
+        document.body.appendChild(root);
+        views.detectChanges();
+        registerTables();
+        await render([{ id: '42', attributes: { displayId: 'DEMO-7' } }]);
+        const detailsLinks = () => within(root).getAllByRole('link', { name: 'Open details' });
+        await waitFor(() => expect(detailsLinks()).toHaveLength(2));
+        const links = detailsLinks();
+        const tips = links.map((link) => {
+          expect(link.parentElement).toHaveClass('wp-table--context-menu-span');
+          expect(link).toHaveAttribute('href', `/details/DEMO-7/overview${window.location.search}`);
+          expect(link).toHaveAttribute('data-work-package-id', '42');
+          expect(link).toHaveAttribute('data-wp-state', 'split');
+          expect(link).toHaveAttribute('tabindex', '-1');
+          const tip = link.nextElementSibling!;
+          expect(tip.tagName).toBe('TOOL-TIP');
+          expect(tip).toHaveAttribute('for', link.id);
+          expect(tip).toHaveAttribute('popover', 'manual');
+          expect(tip).toHaveAttribute('aria-hidden', 'true');
+          expect(link).toHaveAttribute('aria-labelledby', tip.id);
+          return tip;
+        });
+        const ids = [...links, ...tips].map(({ id }) => id);
+        expect(ids.every(Boolean)).toBe(true);
+        expect(new Set(ids).size).toBe(4);
+
+        tables()[0].workPackageTable.refreshRows(buildWorkPackage({ id: '42', attributes: { displayId: 'DEMO-8' } }));
+        expect(links[0]).toHaveAttribute('href', `/details/DEMO-8/overview${window.location.search}`);
+        expect(links[1]).toHaveAttribute('href', `/details/DEMO-7/overview${window.location.search}`);
+        TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['subject', 'id'], null, false, false).columns);
+        await waitFor(() => links.forEach((link) => expect(link.closest('tr')?.firstElementChild).toHaveClass('subject')));
+        expect(within(root).getAllByRole('link', { name: 'Open details' })).toEqual(links);
+        expect(links.map((link) => link.nextElementSibling)).toEqual(tips);
+        expect([...links, ...tips].map(({ id }) => id)).toEqual(ids);
+      });
+
+      it('opens on hover and focus, closes on Escape, and survives a pending open during teardown', async () => {
+        await import('@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js');
+        await mount({ actionsColumnEnabled: true }, [{ id: '1' }]);
+        const row = resultRow('1')!;
+        const link = await within(row).findByRole('link', { name: 'Open details' });
+        const tooltip = row.querySelector<ToolTipElement>('tool-tip')!;
+        const isOpen = () => tooltip.matches(':popover-open');
+
+        fireEvent.mouseEnter(link);
+        await waitFor(() => expect(isOpen()).toBe(true));
+        fireEvent.keyDown(document, { key: 'Escape' });
+        await waitFor(() => expect(isOpen()).toBe(false));
+        link.focus();
+        await waitFor(() => expect(isOpen()).toBe(true));
+        fireEvent.keyDown(document, { key: 'Escape' });
+        await waitFor(() => expect(isOpen()).toBe(false));
+
+        const handleEvent = tooltip.handleEvent.bind(tooltip);
+        let pending:Promise<void>|undefined;
+        vi.spyOn(tooltip, 'handleEvent').mockImplementation((event) => {
+          const result = handleEvent(event);
+          if (event.type === 'focus') pending = result;
+          return result;
+        });
+        fireEvent.focus(link);
+        (fixture.nativeElement as HTMLElement).remove();
+        expect(pending).toBeDefined();
+        await expect(pending).resolves.toBeUndefined();
+      });
     });
 
     it('opens the action menu from the Primer context menu button', async () => {
