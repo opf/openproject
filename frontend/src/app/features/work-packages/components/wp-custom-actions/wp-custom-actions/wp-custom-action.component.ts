@@ -41,6 +41,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import {
   WorkPackagesActivityService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { firstValueFrom } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
@@ -107,31 +108,25 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
       },
     };
 
-    // Mark changeset as in flight
-    this.change.inFlight = true;
+    const change = this.change;
+    change.inFlight = true;
 
-    this.halResourceService
-      .post<WorkPackageResource>(`${this.action.href}/execute`, payload)
-      .subscribe(
-        (savedWp:WorkPackageResource) => {
-          this.notificationService.showSave(savedWp, false);
-          this.workPackage = savedWp;
-          this.wpActivity.clear(this.workPackage.id);
-          // Loading the schema might be necessary in cases where the button switches
-          // project or type.
-          void this.apiV3Service.work_packages.cache.updateWorkPackage(savedWp).then(() => {
-            this.halEditing.stopEditing(savedWp);
-            this.halEvents.push(savedWp, { eventType: 'updated' });
-            this.change.inFlight = false;
-            this.cdRef.detectChanges();
-          });
-        },
-        (errorResource) => {
-          this.notificationService.handleRawError(errorResource, this.workPackage);
-          this.change.inFlight = false;
-          this.cdRef.detectChanges();
-        },
-      );
+    void firstValueFrom(this.halResourceService.post<WorkPackageResource>(`${this.action.href}/execute`, payload))
+      .then(async (savedWp) => {
+        this.notificationService.showSave(savedWp, false);
+        this.workPackage = savedWp;
+        this.wpActivity.clear(savedWp.id);
+        await this.apiV3Service.work_packages.cache.updateWorkPackage(savedWp);
+        this.halEditing.stopEditing(savedWp);
+        this.halEvents.push(savedWp, { eventType: 'updated' });
+      })
+      .catch((error:unknown) => {
+        this.notificationService.handleRawError(error, this.workPackage);
+      })
+      .finally(() => {
+        change.inFlight = false;
+        this.cdRef.markForCheck();
+      });
   }
 
   @HostListener('mouseenter') onMouseEnter():void {
