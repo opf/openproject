@@ -51,10 +51,7 @@ import { JobStatusModalService } from 'core-app/features/job-status/job-status-m
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'bcf-export-button',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   readonly I18n = inject(I18nService);

@@ -25,6 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { CommonModule } from '@angular/common';
+import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
@@ -78,5 +80,31 @@ describe('OPContextMenuComponent', () => {
 
     expect(listItems.map((li) => li?.tagName)).toEqual(['LI', 'LI', 'LI']);
     expect(listItems.map((li) => li?.querySelectorAll('tool-tip').length)).toEqual([1, 1, 0]);
+  });
+});
+
+describe('OPContextMenuComponent actions', () => {
+  it('renders visible menu items and invokes their actions', async () => {
+    const close = vi.fn();
+    const onClick = vi.fn().mockReturnValue(true);
+    TestBed.configureTestingModule({
+      declarations: [OPContextMenuComponent, OpIconComponent],
+      imports: [CommonModule, OpTooltipDirective],
+      providers: [{
+        provide: OpContextMenuLocalsToken,
+        useValue: {
+          items: [{ linkText: 'Open', onClick }, { linkText: 'Hidden', hidden: true }],
+          service: { close },
+        },
+      }],
+    });
+    const fixture = TestBed.createComponent(OPContextMenuComponent);
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element).toHaveTextContent('Open');
+    expect(element).not.toHaveTextContent('Hidden');
+    element.querySelector('button')!.click();
+    expect(onClick).toHaveBeenCalled();
+    expect(close).toHaveBeenCalledWith(false, 'action');
   });
 });

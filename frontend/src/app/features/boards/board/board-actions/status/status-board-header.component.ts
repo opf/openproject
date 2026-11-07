@@ -34,10 +34,7 @@ import { StatusResource } from 'core-app/features/hal/resources/status-resource'
   styleUrls: ['./status-board-header.sass'],
   host: { class: 'title-container -small' },
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusBoardHeaderComponent {
   readonly I18n = inject(I18nService);
