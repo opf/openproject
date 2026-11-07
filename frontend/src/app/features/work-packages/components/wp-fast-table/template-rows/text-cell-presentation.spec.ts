@@ -42,6 +42,10 @@ class MappedResourceDisplayField extends ResourceDisplayField {
   protected override get attribute():unknown {
     return this.resource.project;
   }
+
+  public override get title():string {
+    return 'Project tooltip';
+  }
 }
 
 class SpecializedResourceDisplayField extends ResourceDisplayField {
@@ -60,7 +64,7 @@ class SpecializedResourceDisplayField extends ResourceDisplayField {
 
   it('keeps field labels, placeholders and editability for empty subject text', () => {
     const value = textCellPresentation(TestBed.inject(Injector), buildWorkPackage({ id: '1', subject: '' }), 'subject');
-    expect(value).toMatchObject({ text: '-', label: 'Edit subject No value' });
+    expect(value).toMatchObject({ text: '-', title: null, label: 'Edit subject No value' });
     expect(value?.displayClasses.split(' ').sort()).toEqual(['-editable', '-placeholder', 'subject']);
   });
 
@@ -77,7 +81,7 @@ class SpecializedResourceDisplayField extends ResourceDisplayField {
     expect(textCellPresentation(TestBed.inject(Injector), buildWorkPackage({ id: '1' }), 'subject')).toBeNull();
   });
 
-  it('uses the mapped resource field and its attribute getter', () => {
+  it('uses the mapped resource attribute and its independent title', () => {
     TestBed.inject(DisplayFieldService).addFieldType(MappedResourceDisplayField, 'resource', ['String']);
     const workPackage = buildWorkPackage({ id: '1', subject: 'Other text', attributes: { project: { name: 'Mapped project' } } });
     const cache = TestBed.inject(SchemaCacheService);
@@ -86,7 +90,7 @@ class SpecializedResourceDisplayField extends ResourceDisplayField {
 
     const value = textCellPresentation(TestBed.inject(Injector), workPackage, 'project');
     expect(value).toMatchObject({
-      attribute: 'project', text: 'Mapped project', title: 'Mapped project', label: 'Edit subject Mapped project',
+      attribute: 'project', text: 'Mapped project', title: 'Project tooltip', label: 'Edit subject Mapped project',
     });
     expect(value?.displayClasses.split(' ')).toContain('-read-only');
   });

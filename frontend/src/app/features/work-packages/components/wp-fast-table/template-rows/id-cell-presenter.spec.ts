@@ -89,6 +89,8 @@ describe('ID cell presentation', () => {
     expect(presenter.present(buildWorkPackage({ id: '43' }))).toEqual({ text: '', title: null, label: null, required: false, href: null });
     expect(presenter.present(existing)).toEqual(valid);
     expect(presenter.present(buildWorkPackage({ id: 'new' }))).toMatchObject({ text: '', href: null });
+    const draft = Object.assign(buildWorkPackage({ id: 'new' }), { displayId: 'DEMO-NEW' });
+    expect(presenter.present(draft)).toMatchObject({ text: '', title: 'DEMO-NEW', label: 'ID DEMO-NEW', href: null });
     expect(presenter.present(existing)).toEqual(valid);
   });
 
