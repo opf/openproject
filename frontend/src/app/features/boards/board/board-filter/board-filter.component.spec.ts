@@ -116,6 +116,7 @@ describe('BoardFilterComponent', () => {
     expect(updateStatesFromForm).toHaveBeenCalledWith(query, form);
 
     boards.next(board);
+    expect(load).toHaveBeenCalledOnce();
   });
 
   it('cancels a pending query form on teardown', async () => {

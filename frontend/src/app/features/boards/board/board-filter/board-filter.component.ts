@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { AfterViewInit, Component, Input, inject } from '@angular/core';
 import { Board } from 'core-app/features/boards/board/board';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
@@ -47,10 +47,6 @@ import * as Turbo from '@hotwired/turbo';
   selector: 'board-filter',
   templateUrl: './board-filter.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BoardFilterComponent extends UntilDestroyedMixin implements AfterViewInit {
   private readonly currentProjectService = inject(CurrentProjectService);
