@@ -34,6 +34,7 @@ import { WpTableConfigurationRelationSelectorComponent } from 'core-app/features
 import { WpTableConfigurationModalPrependToken } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
 import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
 import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { nextTask } from 'core-common/testing/timing';
 import { ExternalQueryConfigurationComponent, QueryConfigurationLocals } from './external-query-configuration.component';
 import { OpQueryConfigurationLocalsToken } from './external-query-configuration.constants';
 import { ExternalQueryConfigurationService } from './external-query-configuration.service';
@@ -123,5 +124,17 @@ describe.each([
 
     await waitFor(() => expect(callback).toHaveBeenCalledExactlyOnceWith(urlParams ? 'page=8' : { page: 8 }));
     expect(detach).toHaveBeenCalledBefore(callback);
+  });
+
+  it('ignores a queued Apply after its configuration view has been destroyed', async () => {
+    const fixture = TestBed.createComponent(component);
+    const body = within(fixture.nativeElement);
+    fireEvent.click(await body.findByRole('button', { name: 'Apply configured query' }));
+    fixture.destroy();
+
+    await nextTask();
+
+    expect(detach).not.toHaveBeenCalled();
+    expect(callback).not.toHaveBeenCalled();
   });
 });

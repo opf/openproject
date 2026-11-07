@@ -175,11 +175,20 @@ describe('embedded work package table', () => {
     fixture.componentRef.setInput('queryProps', { page: 2 });
     const page = within(fixture.nativeElement);
     await fixture.whenStable();
+    const embedded = fixture.debugElement.query(By.directive(WorkPackageEmbeddedTableComponent))
+      .injector.get(WorkPackageEmbeddedTableComponent);
+    const loaded = vi.fn<(result:QueryResource) => void>();
+    const failed = vi.fn<(error:unknown) => void>();
+    embedded.onQueryLoaded.subscribe(loaded);
+    embedded.onError.subscribe(failed);
 
     expect(find).toHaveBeenCalledWith({ page: 2 }, undefined, 'project');
     expect(page.queryByRole('table')).not.toBeInTheDocument();
-    respond(0);
+    const initialQuery = query();
+    respond(0, initialQuery);
     const table = await page.findByRole('table', { name: 'Embedded work packages' });
+    expect(loaded).toHaveBeenCalledExactlyOnceWith(initialQuery);
+    expect(failed).not.toHaveBeenCalled();
     expect(table).toBeVisible();
     expect(within(table).queryByRole('button', { name: 'Actions' })).not.toBeInTheDocument();
     expect(page.getByRole('navigation', { name: 'Pagination' })).toBeVisible();
@@ -190,17 +199,22 @@ describe('embedded work package table', () => {
     fixture.componentRef.setInput('queryProps', { page: 3 });
     await fixture.whenStable();
     expect(find).toHaveBeenLastCalledWith({ page: 3 }, undefined, 'project');
-    requests[1].error(new Error('Request failed'));
+    const error = new Error('Request failed');
+    requests[1].error(error);
     expect(await page.findByText('js.error.embedded_table_loading')).toBeVisible();
+    expect(loaded).toHaveBeenCalledTimes(1);
+    expect(failed).toHaveBeenCalledExactlyOnceWith(error);
 
-    const embedded = fixture.debugElement.query(By.directive(WorkPackageEmbeddedTableComponent))
-      .injector.get(WorkPackageEmbeddedTableComponent);
     void embedded.loadQuery();
     await fixture.whenStable();
     expect(page.queryByText('js.error.embedded_table_loading')).not.toBeInTheDocument();
-    respond(2);
+    const retryQuery = query();
+    respond(2, retryQuery);
     await nextTask();
     await fixture.whenStable();
+    expect(loaded).toHaveBeenCalledTimes(2);
+    expect(loaded).toHaveBeenLastCalledWith(retryQuery);
+    expect(failed).toHaveBeenCalledTimes(1);
     expect(table).toBeVisible();
   });
 
@@ -226,5 +240,36 @@ describe('embedded work package table', () => {
     expect(table).toBeVisible();
     expect(table.closest('.work-packages-embedded-view--container')).not.toHaveClass('-compact-tables');
     expect(page.getByRole('button', { name: 'Filter embedded results' })).toBeVisible();
+  });
+
+  it.each([
+    { outcome: 'succeeds', settle: (request:Subject<QueryResource>) => { request.next(query(false, 'Obsolete result')); request.complete(); } },
+    { outcome: 'fails', settle: (request:Subject<QueryResource>) => request.error(new Error('Obsolete request')) },
+  ])('keeps the replacement result if the initial request $outcome later', async ({ settle }) => {
+    const fixture = TestBed.createComponent(EmbeddedTablesMacroComponent);
+    const page = within(fixture.nativeElement);
+    fixture.componentRef.setInput('queryProps', { page: 2 });
+    await fixture.whenStable();
+    const embedded = fixture.debugElement.query(By.directive(WorkPackageEmbeddedTableComponent))
+      .injector.get(WorkPackageEmbeddedTableComponent);
+    const loaded = vi.fn<(result:QueryResource) => void>();
+    const failed = vi.fn<(error:unknown) => void>();
+    embedded.onQueryLoaded.subscribe(loaded);
+    embedded.onError.subscribe(failed);
+
+    fixture.componentRef.setInput('queryProps', { page: 3 });
+    await fixture.whenStable();
+    const currentQuery = query(false, 'Current result');
+    respond(1, currentQuery);
+    expect(await page.findByText('Current result')).toBeVisible();
+
+    settle(requests[0]);
+    await nextTask();
+    await fixture.whenStable();
+    expect(page.queryByText('js.error.embedded_table_loading')).not.toBeInTheDocument();
+    expect(page.queryByText('Obsolete result')).not.toBeInTheDocument();
+    expect(page.getByText('Current result')).toBeVisible();
+    expect(loaded).toHaveBeenCalledExactlyOnceWith(currentQuery);
+    expect(failed).not.toHaveBeenCalled();
   });
 });

@@ -90,6 +90,8 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   // use it to cache first loading
   private loadedQuery:QueryResource|undefined;
 
+  private loadId = 0;
+
   ngOnInit() {
     super.ngOnInit();
     this.loadedQuery = this.querySpace.query.value;
@@ -143,7 +145,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     this.querySpace
       .initialized
       .values$()
-      .pipe(take(1))
+      .pipe(take(1), this.untilDestroyed())
       .subscribe(() => {
         this.showTablePagination = query.results.total > query.results.count;
 
@@ -157,7 +159,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   }
 
   public loadQuery(visible = true, firstPage = false):Promise<QueryResource> {
-
+    const loadId = ++this.loadId;
     if (this.loadedQuery) {
       const query = this.loadedQuery;
       this.loadedQuery = undefined;
@@ -190,12 +192,16 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       )
       .toPromise()
       .then((query:QueryResource) => {
-        this.initializeStates(query);
-        this.onQueryLoaded.emit(query);
-        this.cdRef.markForCheck();
+        if (!this.componentDestroyed && loadId === this.loadId) {
+          this.initializeStates(query);
+          this.onQueryLoaded.emit(query);
+          this.cdRef.markForCheck();
+        }
         return query;
       })
       .catch((error:unknown) => {
+        if (this.componentDestroyed || loadId !== this.loadId) return;
+
         const message = (error as { message?:unknown } | null | undefined)?.message;
         this.error = this.I18n.t(
           'js.error.embedded_table_loading',

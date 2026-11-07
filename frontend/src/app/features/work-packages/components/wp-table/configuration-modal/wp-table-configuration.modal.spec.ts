@@ -213,4 +213,22 @@ describe('table configuration modal', () => {
     expect(update).not.toHaveBeenCalled();
     expect(columns.getColumns()).toEqual(query.columns);
   });
+
+  it('does not create a tab if cancelled while the form is loading', async () => {
+    const app = TestBed.inject(ApplicationRef);
+    const viewCount = app.viewCount;
+    const fixture = TestBed.createComponent(WpTableConfigurationModalComponent);
+    const modal = within(fixture.nativeElement);
+    close.mockImplementation(() => fixture.destroy());
+    await fixture.whenStable();
+
+    fireEvent.click(modal.getByRole('button', { name: 'js.modals.button_cancel' }));
+    expect(close).toHaveBeenCalledOnce();
+    expect(fixture.componentRef.hostView.destroyed).toBe(true);
+    expect(app.viewCount).toBe(viewCount);
+    await resolveForm();
+
+    expect(app.viewCount).toBe(viewCount);
+    expect(modal.queryByRole('list', { name: 'js.label_manage_columns' })).not.toBeInTheDocument();
+  });
 });

@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, Component, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ApplicationRef, Component, DestroyRef, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
@@ -65,6 +65,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   readonly notificationService = inject(WorkPackageNotificationService);
   readonly wpTableColumns = inject(WorkPackageViewColumnsService);
   readonly ConfigurationService = inject(ConfigurationService);
+  private readonly destroyRef = inject(DestroyRef);
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.modal_title'),
@@ -103,6 +104,8 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
     this.loadingIndicator.indicator('modal').promise = this.loadForm()
       .then(() => {
+        if (this.destroyRef.destroyed) return;
+
         const initialTabName = this.locals.initialTab as string|undefined;
         const initialTab = this.availableTabs.find((el) => el.id === initialTabName);
         this.switchTo(initialTab ?? this.availableTabs[0]);
@@ -110,6 +113,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   }
 
   ngOnDestroy():void {
+    super.ngOnDestroy();
     this.onDataUpdated.complete();
     this.tabPortalHost.dispose();
   }
@@ -162,10 +166,14 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       .load(query)
       .toPromise()
       .then(([form, _]:[QueryFormResource, QueryResource]) => {
-        this.wpStatesInitialization.updateStatesFromForm(query, form);
+        if (!this.destroyRef.destroyed) {
+          this.wpStatesInitialization.updateStatesFromForm(query, form);
+        }
 
         return form;
       })
-      .catch((error) => this.notificationService.handleRawError(error));
+      .catch((error) => {
+        if (!this.destroyRef.destroyed) this.notificationService.handleRawError(error);
+      });
   }
 }
