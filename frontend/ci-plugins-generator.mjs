@@ -28,15 +28,12 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { upperFirst, camelCase } from 'lodash-es';
-import { copyrightHeader } from './copyright.mjs';
 
 const LINKED_PLUGINS_MODULE_TEMPLATE = (plugins) => {
   const importableName = (name) => upperFirst(camelCase(name));
   const frontendPlugins = plugins.map(([name]) => [name, importableName(name)]);
 
-  return `${copyrightHeader}
-
-import {NgModule} from '@angular/core';
+  return `import {NgModule} from '@angular/core';
 ${
   frontendPlugins
     .map(([actualName, moduleName]) =>
