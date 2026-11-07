@@ -9,9 +9,9 @@
   @if (inReference) {
     <div
       class="wp-inline-create--reference-container">
-      <ndc-dynamic [ndcDynamicComponent]="referenceClass"
-        [ndcDynamicInjector]="injector"
-        [ndcDynamicOutputs]="referenceOutputs" />
+      <ng-container [ngComponentOutlet]="referenceClass"
+        [ngComponentOutletInjector]="injector"
+        [opDynamicOutputs]="referenceOutputs" />
     </div>
   }
 

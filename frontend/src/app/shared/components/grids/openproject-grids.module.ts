@@ -26,7 +26,6 @@
 //++
 
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { DynamicModule } from 'ng-dynamic-component';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
@@ -94,7 +93,6 @@ import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.di
 
     OpenprojectAttachmentsModule,
 
-    DynamicModule,
 
     // Support for inline editig fields
     OpenprojectFieldsModule,
