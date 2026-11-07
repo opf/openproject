@@ -11,7 +11,6 @@ on:
       - '**.json'
       - '**.mjs'
       - '**.ts'
-      - 'COPYRIGHT_short'
       - '!extensions/blocknote-extensions/**'
 
 jobs:
