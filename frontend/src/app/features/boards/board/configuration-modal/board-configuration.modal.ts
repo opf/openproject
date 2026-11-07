@@ -67,6 +67,8 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
+  private initialTabTimer:ReturnType<typeof setTimeout>;
+
   ngOnInit() {
     this.element = this.elementRef.nativeElement;
 
@@ -77,13 +79,14 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
       this.injector,
     );
 
-    setTimeout(() => {
+    this.initialTabTimer = setTimeout(() => {
       const initialTab = this.availableTabs[0];
       this.switchTo(initialTab);
     });
   }
 
   ngOnDestroy() {
+    clearTimeout(this.initialTabTimer);
     this.tabPortalHost.dispose();
   }
 
