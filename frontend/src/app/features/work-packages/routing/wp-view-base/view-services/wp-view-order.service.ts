@@ -33,7 +33,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import { MAX_ORDER, buildDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
+import { MAX_ORDER, buildDelta, buildMoveDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -266,7 +266,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     const querySpace = this.querySpace;
     const positionsState = this.positions;
     const positions = await this.positionsFor(query);
-    const delta = buildDelta(reordered, positions, wpId, toIndex, fromIndex);
+    const delta = buildMoveDelta(reordered, positions, wpId, toIndex, fromIndex);
     const updatedPositions = { ...positions, ...delta };
     return {
       order: reordered,
