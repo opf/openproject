@@ -53,7 +53,7 @@ module OpenProject
         # rubocop:disable Metrics/AbcSize
         def extract_params(payload)
           {
-            gitlab_id: payload.object_attributes.iid,
+            gitlab_id: payload.object_attributes.iid, # TODO: this is sadly wrong... it should've been id, not iid
             gitlab_user: gitlab_user_id(payload.user),
             number: payload.object_attributes.iid,
             gitlab_html_url: payload.object_attributes.url,
