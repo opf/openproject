@@ -282,109 +282,123 @@ RSpec.describe "baseline rendering",
   end
 
   describe "with EE", with_ee: %i[baseline_comparison] do
-    it "does show changes" do
-      wp_table.visit_query(query)
-      wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task,
-                                          wp_task_assigned, wp_milestone_date_changed
-      wp_table.ensure_work_package_not_listed! wp_bug
+    shared_examples "rendering baseline changes" do |new_table_rendering|
+      it "does show changes" do
+        wp_table.visit_query(query)
+        wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task,
+                                            wp_task_assigned, wp_milestone_date_changed
+        wp_table.ensure_work_package_not_listed! wp_bug
 
-      baseline.expect_active
-      baseline.expect_added wp_task_was_bug
-      baseline.expect_removed wp_bug_was_task
-      baseline.expect_changed wp_task_changed
-      baseline.expect_changed wp_task_assigned
-      baseline.expect_changed wp_milestone_date_changed
-      baseline.expect_unchanged wp_task
+        if new_table_rendering
+          expect(wp_table.table_container).to have_css("#{wp_table.row_selector(wp_task_changed)}[opwptablerow]")
+        else
+          expect(wp_table.table_container).to have_no_css("tr[opwptablerow]")
+        end
 
-      baseline.expect_changed_attributes wp_task_was_bug,
-                                         type: %w[BUG TASK]
+        baseline.expect_active
+        baseline.expect_added wp_task_was_bug
+        baseline.expect_removed wp_bug_was_task
+        baseline.expect_changed wp_task_changed
+        baseline.expect_changed wp_task_assigned
+        baseline.expect_changed wp_milestone_date_changed
+        baseline.expect_unchanged wp_task
 
-      baseline.expect_changed_attributes wp_bug_was_task,
-                                         type: %w[TASK BUG]
+        baseline.expect_changed_attributes wp_task_was_bug,
+                                           type: %w[BUG TASK]
 
-      baseline.expect_changed_attributes wp_task_changed,
-                                         subject: ["Old subject", "New subject"],
-                                         startDate: ["2023-05-01", (today - 2.days).iso8601],
-                                         dueDate: ["2023-05-02", (today - 1.day).iso8601],
-                                         version: ["Version A", "Version B"],
-                                         priority: ["Default", "High priority"],
-                                         assignee: ["Assigned User", "Itsa Me"],
-                                         responsible: ["Assigned User", "Itsa Me"]
+        baseline.expect_changed_attributes wp_bug_was_task,
+                                           type: %w[TASK BUG]
 
-      changed_header = wp_table.row(wp_task_changed).find(:element, :th, scope: "row", role: "rowheader",
-                                                                         accessible_name: "New subject", exact: true)
-      expect(changed_header.style("padding-right")).to eq("padding-right" => "2px")
-      expect(wp_table.table_container)
-        .to have_element(:tr, role: "row", exact: true,
-                              accessible_name: "New subject",
-                              accessible_description: "Modified within the comparison time period")
-      expect(wp_table.table_container)
-        .to have_element(:tr, role: "row", exact: true,
-                              accessible_name: "Bug changed to Task",
-                              accessible_description: "Added to view within the comparison time period")
+        baseline.expect_changed_attributes wp_task_changed,
+                                           subject: ["Old subject", "New subject"],
+                                           startDate: ["2023-05-01", (today - 2.days).iso8601],
+                                           dueDate: ["2023-05-02", (today - 1.day).iso8601],
+                                           version: ["Version A", "Version B"],
+                                           priority: ["Default", "High priority"],
+                                           assignee: ["Assigned User", "Itsa Me"],
+                                           responsible: ["Assigned User", "Itsa Me"]
 
-      baseline.expect_changed_attributes wp_task_assigned,
-                                         assignee: ["-", "Itsa Me"]
+        changed_header = wp_table.row(wp_task_changed).find(:element, :th, scope: "row", role: "rowheader",
+                                                                           accessible_name: "New subject", exact: true)
+        expect(changed_header.style("padding-right")).to eq("padding-right" => "2px")
+        expect(wp_table.table_container)
+          .to have_element(:tr, role: "row", exact: true,
+                                accessible_name: "New subject",
+                                accessible_description: "Modified within the comparison time period")
+        expect(wp_table.table_container)
+          .to have_element(:tr, role: "row", exact: true,
+                                accessible_name: "Bug changed to Task",
+                                accessible_description: "Added to view within the comparison time period")
 
-      baseline.expect_changed_attributes wp_milestone_date_changed,
-                                         startDate: [
-                                           (today - 5.days).iso8601,
-                                           (today + 1.day).iso8601
-                                         ],
-                                         dueDate: [
-                                           (today - 5.days).iso8601,
-                                           (today + 1.day).iso8601
-                                         ]
+        baseline.expect_changed_attributes wp_task_assigned,
+                                           assignee: ["-", "Itsa Me"]
 
-      baseline.expect_unchanged_attributes wp_task_changed, :type
-      baseline.expect_unchanged_attributes wp_task,
-                                           :type, :subject, :start_date, :due_date,
-                                           :version, :priority, :assignee, :accountable
+        baseline.expect_changed_attributes wp_milestone_date_changed,
+                                           startDate: [
+                                             (today - 5.days).iso8601,
+                                             (today + 1.day).iso8601
+                                           ],
+                                           dueDate: [
+                                             (today - 5.days).iso8601,
+                                             (today + 1.day).iso8601
+                                           ]
 
-      baseline.expect_changed_attributes wp_task_cf,
-                                         "customField#{int_wp_custom_field.id}": [
-                                           "1",
-                                           "-"
-                                         ],
-                                         "customField#{string_wp_custom_field.id}": [
-                                           "this is a string",
-                                           "this is a changed string"
-                                         ],
-                                         "customField#{bool_wp_custom_field.id}": [
-                                           "yes",
-                                           "no"
-                                         ],
-                                         "customField#{float_wp_custom_field.id}": [
-                                           "-",
-                                           "3.7"
-                                         ],
-                                         "customField#{date_wp_custom_field.id}": [
-                                           Date.yesterday.iso8601,
-                                           Time.zone.today.iso8601
-                                         ],
-                                         "customField#{list_wp_custom_field.id}": [
-                                           "-",
-                                           "B"
-                                         ],
-                                         "customField#{multi_list_wp_custom_field.id}": [
-                                           "A, B, ...7",
-                                           "A, B"
-                                         ],
-                                         "customField#{user_wp_custom_field.id}": [
-                                           "Assigned User",
-                                           "-"
-                                         ],
-                                         "customField#{version_wp_custom_field.id}": [
-                                           "Version A",
-                                           "Version B"
-                                         ]
+        baseline.expect_unchanged_attributes wp_task_changed, :type
+        baseline.expect_unchanged_attributes wp_task,
+                                             :type, :subject, :start_date, :due_date,
+                                             :version, :priority, :assignee, :accountable
 
-      # Shows changes even if columns not showing
-      query.column_names -= %w[start_date due_date]
-      query.save!
-      wp_table.visit_query(query)
+        baseline.expect_changed_attributes wp_task_cf,
+                                           "customField#{int_wp_custom_field.id}": [
+                                             "1",
+                                             "-"
+                                           ],
+                                           "customField#{string_wp_custom_field.id}": [
+                                             "this is a string",
+                                             "this is a changed string"
+                                           ],
+                                           "customField#{bool_wp_custom_field.id}": [
+                                             "yes",
+                                             "no"
+                                           ],
+                                           "customField#{float_wp_custom_field.id}": [
+                                             "-",
+                                             "3.7"
+                                           ],
+                                           "customField#{date_wp_custom_field.id}": [
+                                             Date.yesterday.iso8601,
+                                             Time.zone.today.iso8601
+                                           ],
+                                           "customField#{list_wp_custom_field.id}": [
+                                             "-",
+                                             "B"
+                                           ],
+                                           "customField#{multi_list_wp_custom_field.id}": [
+                                             "A, B, ...7",
+                                             "A, B"
+                                           ],
+                                           "customField#{user_wp_custom_field.id}": [
+                                             "Assigned User",
+                                             "-"
+                                           ],
+                                           "customField#{version_wp_custom_field.id}": [
+                                             "Version A",
+                                             "Version B"
+                                           ]
 
-      baseline.expect_icon wp_milestone_date_changed, "changed"
+        # Shows changes even if columns not showing
+        query.column_names -= %w[start_date due_date]
+        query.save!
+        wp_table.visit_query(query)
+
+        baseline.expect_icon wp_milestone_date_changed, "changed"
+      end
+    end
+
+    [false, true].each do |new_table_rendering|
+      context "with new_table_rendering=#{new_table_rendering}", with_flag: { new_table_rendering: } do
+        it_behaves_like "rendering baseline changes", new_table_rendering
+      end
     end
 
     shared_examples_for "selecting a builtin view" do

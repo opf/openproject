@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "baseline readonly mode", :js, with_ee: %i[baseline_comparison] do
+RSpec.shared_examples "baseline readonly mode" do |new_table_rendering|
   shared_let(:project) { create(:project) }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
@@ -52,6 +52,14 @@ RSpec.describe "baseline readonly mode", :js, with_ee: %i[baseline_comparison] d
 
   def subject_field = wp_table.edit_field(work_package, :subject)
 
+  def expect_renderer(new_table_rendering)
+    if new_table_rendering
+      expect(wp_table.table_container).to have_css("#{wp_table.row_selector(work_package)}[opwptablerow]")
+    else
+      expect(wp_table.table_container).to have_no_css("tr[opwptablerow]")
+    end
+  end
+
   context "when comparing two dates in the past" do
     let(:timestamps) { ["P-5d", "P-2d"] }
 
@@ -59,6 +67,7 @@ RSpec.describe "baseline readonly mode", :js, with_ee: %i[baseline_comparison] d
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(work_package)
       baseline.expect_active
+      expect_renderer(new_table_rendering)
 
       subject_field.expect_read_only
     end
@@ -71,6 +80,7 @@ RSpec.describe "baseline readonly mode", :js, with_ee: %i[baseline_comparison] d
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(work_package)
       baseline.expect_active
+      expect_renderer(new_table_rendering)
 
       subject_field.expect_editable
 
@@ -83,8 +93,18 @@ RSpec.describe "baseline readonly mode", :js, with_ee: %i[baseline_comparison] d
       loading_indicator_saveguard
       wp_table.expect_work_package_listed(work_package)
       baseline.expect_active
+      expect_renderer(new_table_rendering)
 
       subject_field.expect_read_only
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "baseline readonly mode (new_table_rendering=#{new_table_rendering})",
+                 :js,
+                 with_ee: %i[baseline_comparison],
+                 with_flag: { new_table_rendering: } do
+    it_behaves_like "baseline readonly mode", new_table_rendering
   end
 end
