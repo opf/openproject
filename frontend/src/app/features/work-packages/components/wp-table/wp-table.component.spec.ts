@@ -64,6 +64,8 @@ import { WorkPackageTimelineTableController } from './timeline/container/wp-time
 import { WorkPackagesTableComponent } from './wp-table.component';
 import { WorkPackageTableRowComponent } from '../wp-fast-table/template-rows/wp-table-row.component';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 /** Shows the table or the card view, as `wp-list-view` does when the viewport or query changes. */
 @Component({
@@ -1059,6 +1061,19 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(resultRow('1')).toBe(first);
       expect(resultRow('2')).toBeNull();
       expect(first?.previousElementSibling).toBe(resultRow('3'));
+    });
+
+    it('binds the row highlight and swaps it on refresh', async () => {
+      const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
+      TestBed.inject(WorkPackageViewHighlightingService).update({ mode: 'status' });
+      const table = await mount({}, [{ id: '1', attributes: status('11') }]);
+      const row = resultRow('1')!;
+      expect(row).toHaveClass(...Highlighting.backgroundClass('status', '11').split(' '));
+
+      table.workPackageTable.refreshRows(buildWorkPackage({ id: '1', attributes: status('12') }));
+
+      expect(row).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' '));
+      expect(row).not.toHaveClass(Highlighting.resourceClass('status', '11'));
     });
 
     it('refreshes a row in place', async () => {

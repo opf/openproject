@@ -35,6 +35,15 @@ import { Highlighting } from 'core-app/features/work-packages/components/wp-fast
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
+/** The background highlight classes of a work package's row; empty when rows are not highlighted. */
+export function rowHighlightClasses(highlighting:WorkPackageViewHighlightingService, workPackage:WorkPackageResource):string[] {
+  if (highlighting.isInline || highlighting.isDisabled) return [];
+
+  const highlightAttribute = highlighting.current.mode;
+  const property = workPackage[highlightAttribute] as HalResource|null|undefined;
+  return property ? Highlighting.backgroundClass(highlightAttribute, property.id!).split(' ') : [];
+}
+
 export class HighlightingRenderPass {
   @LazyInject() wpTableHighlighting:WorkPackageViewHighlightingService;
 
@@ -67,10 +76,7 @@ export class HighlightingRenderPass {
   }
 
   private paintRow(row:HTMLTableRowElement, workPackage:WorkPackageResource):void {
-    const highlightAttribute = this.wpTableHighlighting.current.mode;
-    const property = workPackage[highlightAttribute] as HalResource|null|undefined;
-    if (!property) return;
-    row.classList.add(...Highlighting.backgroundClass(highlightAttribute, property.id!).split(' '));
+    row.classList.add(...rowHighlightClasses(this.wpTableHighlighting, workPackage));
   }
 
   private get isApplicable() {

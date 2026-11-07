@@ -30,12 +30,14 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { PlainRenderPass } from '../builders/modes/plain/plain-render-pass';
 import { RenderedOccurrence, wpOccurrenceKey } from '../rendered-occurrence-ledger';
 import { TemplateRow, TemplateRowView } from './template-row';
+import { rowHighlightClasses } from '../builders/highlighting/row-highlight-render-pass';
+import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 
 /**
  * Produces the rows of a flat table as data for the row template instead
- * of DOM. Secondary passes (timeline, relations, drag handles,
- * highlighting) are not supported yet, so the pass only runs for tables
- * that need none of them.
+ * of DOM. Row highlighting is bound by the template; the other secondary
+ * passes (timeline, relations, drag handles) are not supported yet, so
+ * the pass only runs for tables that need none of them.
  */
 export class TemplatePlainRenderPass extends PlainRenderPass {
   public readonly templateRows:TemplateRow[] = [];
@@ -43,6 +45,7 @@ export class TemplatePlainRenderPass extends PlainRenderPass {
   public readonly view:TemplateRowView = {
     columns: this.rowBuilder.renderedColumns,
     rowHeader: this.rowBuilder.rowHeaderColumn,
+    rowClasses: (workPackage) => rowHighlightClasses(this.injector.get(WorkPackageViewHighlightingService), workPackage),
     buildCell: (workPackage, column) => this.rowBuilder.buildCell(workPackage, column),
     isEditing: (workPackage, column, cell) => this.isEditing(workPackage, column, cell),
   };

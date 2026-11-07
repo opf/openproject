@@ -41,7 +41,7 @@ import { TemplateRow, TemplateRowView } from './template-row';
   host: {
     tabindex: '-1',
     class: 'wp-table--row wp--row issue',
-    '[class]': 'identifierClasses()',
+    '[class]': 'hostClasses()',
     '[attr.data-work-package-id]': 'row().workPackage.id',
     '[attr.data-class-identifier]': 'identifier()',
     '[attr.data-occurrence-key]': 'row().key',
@@ -61,8 +61,9 @@ export class WorkPackageTableRowComponent {
   readonly view = input.required<TemplateRowView>();
 
   readonly identifier = computed(() => `wp-row-${this.row().workPackage.id}`);
-  readonly identifierClasses = computed(() => ({
-    [this.identifier()]: true,
-    [`${this.identifier()}-table`]: true,
-  }));
+  readonly hostClasses = computed(() => [
+    this.identifier(),
+    `${this.identifier()}-table`,
+    ...this.view().rowClasses(this.row().workPackage),
+  ]);
 }

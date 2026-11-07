@@ -39,6 +39,7 @@ export interface TemplateRow {
 export interface TemplateRowView {
   readonly columns:readonly QueryColumn[];
   readonly rowHeader:'subject'|'id'|null;
+  rowClasses(workPackage:WorkPackageResource):readonly string[];
   buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null;
   isEditing(workPackage:WorkPackageResource, column:QueryColumn, cell:HTMLTableCellElement):boolean;
 }
