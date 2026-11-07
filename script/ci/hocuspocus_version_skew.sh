@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
