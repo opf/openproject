@@ -37,7 +37,9 @@ import { TemplateRowView, TemplateWorkPackageRow } from './template-row';
 import { TextCellPresentation } from './text-cell-presentation';
 import { WorkPackageTableRowComponent } from './wp-table-row.component';
 
-const before:TextCellPresentation = { attribute: 'subject', text: '<Original>', title: '<Original>', label: 'Edit Subject <Original>', editable: true, required: true, empty: false };
+const before:TextCellPresentation = {
+  attribute: 'subject', displayClasses: 'subject -editable -required', text: '<Original>', title: '<Original>', label: 'Edit Subject <Original>',
+};
 
 @Component({
   imports: [WorkPackageTableRowComponent],
@@ -169,6 +171,25 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
     expect(subjectCell).toHaveAttribute('data-row-header-name', 'After');
   });
 
+  it('updates owned editability and required classes on the retained display', () => {
+    const display = subjectCell.querySelector('.inline-edit--display-field');
+    expect(display).toHaveClass('-editable', '-required');
+
+    setPresentation({ ...before, displayClasses: 'subject -read-only' });
+    fixture.detectChanges();
+
+    expect(subjectCell.querySelector('.inline-edit--display-field')).toBe(display);
+    expect(display).toHaveClass('-read-only');
+    expect(display).not.toHaveClass('-editable');
+    expect(display).not.toHaveClass('-required');
+
+    setPresentation(before);
+    fixture.detectChanges();
+
+    expect(display).toHaveClass('-editable', '-required');
+    expect(display).not.toHaveClass('-read-only');
+  });
+
   it('gives the editor an independent container and restores the Angular display after closing', () => {
     const slot = beginTemplateCellEdit(subjectCell, 'subject')!;
     slot.innerHTML = '<input aria-label="Subject" value="Unsaved">';
@@ -188,7 +209,7 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
 
   it('keeps another cell editor open when one field closes', () => {
     view = { ...view, columns: buildQuery(['id', 'subject', 'customField1'], null, false, false).columns };
-    setPresentation(before, { ...before, attribute: 'customField1', text: 'Custom field' });
+    setPresentation(before, { ...before, attribute: 'customField1', displayClasses: 'customField1 -editable -required', text: 'Custom field' });
     fixture.detectChanges();
 
     const customCell = row.cells[2];

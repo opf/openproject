@@ -76,11 +76,7 @@
           } @else {
             <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
               <span class="inline-edit--display-field"
-                [class]="presentation.displayClasses ?? presentation.attribute"
-                [class.-editable]="presentation.editable"
-                [class.-read-only]="!presentation.editable"
-                [class.-required]="presentation.required"
-                [class.-placeholder]="presentation.empty"
+                [class]="presentation.displayClasses"
                 [attr.data-field-name]="presentation.attribute"
                 [attr.title]="presentation.title"
                 [attr.aria-label]="presentation.label"
@@ -101,11 +97,7 @@
           } @else {
             <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
               <span class="inline-edit--display-field"
-                [class]="presentation.displayClasses ?? presentation.attribute"
-                [class.-editable]="presentation.editable"
-                [class.-read-only]="!presentation.editable"
-                [class.-required]="presentation.required"
-                [class.-placeholder]="presentation.empty"
+                [class]="presentation.displayClasses"
                 [attr.data-field-name]="presentation.attribute"
                 [attr.title]="presentation.title"
                 [attr.aria-label]="presentation.label"

@@ -31,6 +31,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import {
+  editableClassName, placeholderClassName, readOnlyClassName, requiredClassName,
+} from 'core-app/shared/components/fields/display/display-field-renderer';
 import { HighlightedResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/highlighted-resource-display-field.module';
 import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -38,13 +41,10 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 
 export interface TextCellPresentation {
   attribute:string;
-  displayClasses?:string;
+  displayClasses:string;
   text:string;
   title:string|null;
   label:string;
-  editable:boolean;
-  required:boolean;
-  empty:boolean;
 }
 
 export function textCellPresentation(injector:Injector, workPackage:WorkPackageResource, attribute:string):TextCellPresentation|null {
@@ -61,17 +61,19 @@ export function textCellPresentation(injector:Injector, workPackage:WorkPackageR
   const highlightClasses = highlighted ? field.inlineHighlightClasses : null;
   const empty = field.isEmpty();
   const editable = schema.isAttributeEditable(attribute);
+  let displayClasses = `${attribute} ${editable ? editableClassName : readOnlyClassName}`;
+  if (field.required) displayClasses += ` ${requiredClassName}`;
+  if (empty) displayClasses += ` ${placeholderClassName}`;
+  if (highlightClasses) displayClasses += ` ${highlightClasses}`;
+
   const labelEditable = mapped === attribute ? editable : schema.isAttributeEditable(mapped);
   const i18n = injector.get(I18nService);
   const name = `${field.displayName} ${empty ? i18n.t('js.inplace.null_value_label') : field.valueString}`;
   return {
     attribute,
-    displayClasses: highlightClasses ? `${attribute} ${highlightClasses}` : undefined,
+    displayClasses,
     text: String(empty ? field.placeholder : field.valueString),
     title: field.title === '' ? null : field.title,
     label: field.writable && labelEditable ? i18n.t('js.inplace.button_edit', { attribute: name }) : name,
-    editable,
-    required: field.required,
-    empty,
   };
 }

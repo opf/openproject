@@ -60,12 +60,14 @@ class SpecializedResourceDisplayField extends ResourceDisplayField {
 
   it('keeps field labels, placeholders and editability for empty subject text', () => {
     const value = textCellPresentation(TestBed.inject(Injector), buildWorkPackage({ id: '1', subject: '' }), 'subject');
-    expect(value).toMatchObject({ text: '-', empty: true, editable: true, label: 'Edit subject No value' });
+    expect(value).toMatchObject({ text: '-', label: 'Edit subject No value' });
+    expect(value?.displayClasses.split(' ').sort()).toEqual(['-editable', '-placeholder', 'subject']);
   });
 
   it('renders zero instead of the empty placeholder', () => {
     const value = textCellPresentation(TestBed.inject(Injector), buildWorkPackage({ id: '0' }), 'id');
-    expect(value).toMatchObject({ text: '0', empty: false });
+    expect(value).toMatchObject({ text: '0' });
+    expect(value?.displayClasses.split(' ').sort()).toEqual(['-read-only', 'id']);
   });
 
   it('keeps specialized link fields and baseline changes on their existing rendering path', () => {
@@ -82,9 +84,11 @@ class SpecializedResourceDisplayField extends ResourceDisplayField {
     const schema = cache.of(workPackage);
     vi.spyOn(cache, 'of').mockReturnValue(Object.assign(schema, { mappedName: () => 'subject' }));
 
-    expect(textCellPresentation(TestBed.inject(Injector), workPackage, 'project')).toMatchObject({
-      attribute: 'project', text: 'Mapped project', title: 'Mapped project', label: 'Edit subject Mapped project', editable: false,
+    const value = textCellPresentation(TestBed.inject(Injector), workPackage, 'project');
+    expect(value).toMatchObject({
+      attribute: 'project', text: 'Mapped project', title: 'Mapped project', label: 'Edit subject Mapped project',
     });
+    expect(value?.displayClasses.split(' ')).toContain('-read-only');
   });
 
   it('keeps an overridden resource renderer on its existing rendering path', () => {

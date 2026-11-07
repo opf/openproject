@@ -1512,6 +1512,25 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Original');
     });
 
+    it('keeps the read-only marker from a failed activation when the display classes change', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: '' }]);
+      const row = resultRow('1')!;
+      const display = row.querySelector<HTMLElement>('.inline-edit--display-field.subject')!;
+      expect(display).toHaveClass('-editable', '-placeholder');
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      vi.spyOn(form, 'activate').mockResolvedValue(undefined);
+      fireEvent.click(display);
+      await waitFor(() => expect(display).toHaveClass('-read-only'));
+
+      workPackageTable.refreshRows(buildWorkPackage({ id: '1', subject: 'After' }));
+
+      expect(row.querySelector('.inline-edit--display-field.subject')).toBe(display);
+      expect(display).toHaveTextContent('After');
+      expect(display).toHaveClass('-editable', '-read-only');
+      expect(display).not.toHaveClass('-placeholder');
+    });
+
     it('refreshes a row in place', async () => {
       const table = await mount({}, [{ id: '1', subject: 'Before' }]);
       const row = resultRow('1')!;
