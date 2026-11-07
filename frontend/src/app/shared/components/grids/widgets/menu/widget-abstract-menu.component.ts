@@ -45,22 +45,22 @@ export abstract class WidgetAbstractMenuComponent {
     return this.buildItems.bind(this);
   }
 
-  protected async buildItems():Promise<OpContextMenuItem[]> {
-    return [this.removeItem];
+  protected buildItems():Promise<OpContextMenuItem[]> {
+    return Promise.resolve([this.removeItem]);
   }
 
   protected get removeItem():OpContextMenuItem {
     return {
       linkText: this.i18n.t('js.grid.remove'),
       onClick: () => {
-        this.remove.widget(this.resource);
+        void this.remove.widget(this.resource).catch(() => undefined);
         return true;
       },
     };
   }
 
   public get hasMenu() {
-    return this.layout.isEditable;
+    return this.layout.isEditable();
   }
 
   public widgetMenuLabel():string {

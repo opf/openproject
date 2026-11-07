@@ -59,7 +59,7 @@ describe('WidgetHeaderComponent', () => {
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
         WorkPackageViewSumService,
         { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false, live$: () => of(null) } },
-        { provide: GridAreaService, useValue: { isEditable } },
+        { provide: GridAreaService, useValue: { isEditable: () => isEditable } },
         { provide: GridDragAndDropService, useValue: { isDraggable: false } },
       ],
     }).overrideTemplate(WidgetStandInComponent, `
@@ -102,7 +102,7 @@ describe('WidgetHeaderComponent heading input', () => {
       declarations: [WidgetHeaderComponent],
       imports: [CommonModule],
       providers: [
-        { provide: GridAreaService, useValue: { isEditable: false } },
+        { provide: GridAreaService, useValue: { isEditable: () => false } },
         { provide: GridDragAndDropService, useValue: { isDraggable: false } },
       ],
       schemas: [NO_ERRORS_SCHEMA],
