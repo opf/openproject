@@ -273,6 +273,7 @@ export class DragAndDropTransformer {
         };
         if (preparedQuery && manualSort) {
           originalQuery.setSortBy([manualSort]);
+          if (ownsQuery()) sortService.update([manualSort]);
           await preparedQuery.persist();
         }
         complete(true);

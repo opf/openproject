@@ -41,10 +41,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
       }
       `,
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpIconComponent {
   // eslint-disable-next-line @angular-eslint/no-input-rename
