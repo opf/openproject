@@ -352,7 +352,10 @@ describe('DragAndDropTransformer row moves', () => {
     document.body.append(document.createElement('live-region'));
     announce = vi.spyOn(LiveRegionElement.prototype, 'announce');
     window.I18n.store({
-      en: { js: { sortable_lists: { announcements: { moved: '%{label} moved to position %{position} of %{total}' } } } },
+      en: { js: { sortable_lists: { announcements: {
+        moved: '%{label} moved to position %{position} of %{total}',
+        moved_batch: { other: '%{count} items moved to positions %{first} through %{last} of %{total}' },
+      } } } },
     });
   });
 
@@ -365,37 +368,37 @@ describe('DragAndDropTransformer row moves', () => {
   it('offers down and bottom on the first row', async () => {
     const mover = await renderTable();
 
-    expect(mover.movableDirections('1')).toEqual(new Set(['down', 'bottom']));
-    expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up', 'down', 'bottom']));
-    expect(mover.movableDirections('3')).toEqual(new Set(['top', 'up']));
+    expect(mover.movableDirections(['1'])).toEqual(new Set(['down', 'bottom']));
+    expect(mover.movableDirections(['2'])).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+    expect(mover.movableDirections(['3'])).toEqual(new Set(['top', 'up']));
   });
 
   it('disables every direction in a single-row table', async () => {
     const mover = await renderTable({ workPackages: [{ id: '1' }] });
 
-    expect(mover.movableDirections('1')).toEqual(new Set());
+    expect(mover.movableDirections(['1'])).toEqual(new Set());
   });
 
   it('offers no moves outside manual sorting', async () => {
     const mover = await renderTable({ manualSort: false });
 
-    expect(mover.movableDirections('2')).toBeNull();
+    expect(mover.movableDirections(['2'])).toBeNull();
   });
 
   it('offers no moves in a descending manual sort', async () => {
     const mover = await renderTable({ manualSortDirection: QUERY_SORT_BY_DESC });
 
-    expect(mover.movableDirections('2')).toBeNull();
+    expect(mover.movableDirections(['2'])).toBeNull();
   });
 
   it('moves to an edge within the group without preparing an attribute update', async () => {
     const prepareDrop = vi.fn();
     const mover = await renderTable({ workPackages: groupedWorkPackages, groups, dragAction: { prepareDrop } });
-    expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up']));
-    expect(mover.movableDirections('3')).toEqual(new Set(['down', 'bottom']));
+    expect(mover.movableDirections(['2'])).toEqual(new Set(['top', 'up']));
+    expect(mover.movableDirections(['3'])).toEqual(new Set(['down', 'bottom']));
 
     const rendered = harness.nextRender();
-    mover.move('2', 'top');
+    mover.move(['2'], 'top');
     await rendered;
 
     expect(harness.rowIds()).toEqual(['2', '1', '3', '4']);
@@ -410,11 +413,11 @@ describe('DragAndDropTransformer row moves', () => {
       showHierarchies: true,
       dragAction: { prepareDrop },
     });
-    expect(mover.movableDirections('2')).toEqual(new Set());
-    expect(mover.movableDirections('1')).toEqual(new Set(['down', 'bottom']));
+    expect(mover.movableDirections(['2'])).toEqual(new Set());
+    expect(mover.movableDirections(['1'])).toEqual(new Set(['down', 'bottom']));
 
     const rendered = harness.nextRender();
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await rendered;
 
     expect(harness.rowIds()).toEqual(['3', '4', '1', '2']);
@@ -431,7 +434,7 @@ describe('DragAndDropTransformer row moves', () => {
       return prepared;
     });
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
 
     await vi.waitFor(() => expect(harness.rowIds()).toEqual(['2', '1', '3', '4']));
     expect(prepareMove).toHaveBeenCalledTimes(2);
@@ -448,7 +451,7 @@ describe('DragAndDropTransformer row moves', () => {
       return prepared;
     });
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
 
     await vi.waitFor(() => expect(harness.rowIds()).toEqual(['2', '1', '3', '4']));
     expect(prepareMove).toHaveBeenCalledTimes(3);
@@ -457,7 +460,7 @@ describe('DragAndDropTransformer row moves', () => {
   it('applies an accepted move after another render of the same view', async () => {
     const mover = await renderTable({ workPackages: groupedWorkPackages, groups });
     const { started, release } = holdPersist();
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await started;
 
     harness.table.redrawTableAndTimeline();
@@ -467,28 +470,73 @@ describe('DragAndDropTransformer row moves', () => {
     await vi.waitFor(() => expect(harness.rowIds()).toEqual(['2', '1', '3', '4']));
   });
 
+  it('closes a non-contiguous selection into one block in table order', async () => {
+    const mover = await renderTable({ workPackages: ['1', '2', '3', '4', '5'].map((id) => ({ id })) });
+    const rendered = harness.nextRender();
+
+    mover.move(['4', '2'], 'down');
+    await rendered;
+
+    expect(harness.rowIds()).toEqual(['1', '3', '5', '2', '4']);
+    await vi.waitFor(() => expect(announce).toHaveBeenCalledWith('2 items moved to positions 4 through 5 of 5', { politeness: 'polite' }));
+    expect(mover.movableDirections(['4', '2'])).toEqual(new Set(['up', 'top']));
+  });
+
+  it('moves selected siblings together with their descendants', async () => {
+    const mover = await renderTable({ showHierarchies: true, workPackages: [
+      { id: '1' }, { id: '2', ancestors: [{ id: '1' }] }, { id: '3' }, { id: '4' },
+    ] });
+    const rendered = harness.nextRender();
+    mover.move(['4', '3'], 'up');
+    await rendered;
+
+    expect(harness.rowIds()).toEqual(['3', '4', '1', '2']);
+  });
+
+  it('moves a selection within its group while preserving the neighboring group', async () => {
+    const mover = await renderTable({ groups: [{ ...groups[0], count: 3 }, groups[1]], workPackages: [
+      groupedWorkPackages[0], groupedWorkPackages[1], { id: '5', attributes: { status: newStatus } },
+      groupedWorkPackages[2], groupedWorkPackages[3],
+    ] });
+    const rendered = harness.nextRender();
+    mover.move(['2', '5'], 'top');
+    await rendered;
+
+    expect(harness.rowIds()).toEqual(['2', '5', '1', '3', '4']);
+  });
+
+  it('only offers bulk moves within one group or sibling set', async () => {
+    const grouped = await renderTable({ workPackages: groupedWorkPackages, groups });
+    expect(grouped.movableDirections(['1', '3'])).toBeNull();
+    expect(grouped.movableDirections(['1', '2'])).toEqual(new Set());
+    await harness.destroy();
+
+    const hierarchy = await renderTable({ showHierarchies: true, workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '1' }] }] });
+    expect(hierarchy.movableDirections(['1', '2'])).toBeNull();
+  });
+
   it('offers no moves when the query cannot be reordered', async () => {
     const mover = await renderTable({ canReorder: false });
 
-    expect(mover.movableDirections('2')).toBeNull();
+    expect(mover.movableDirections(['2'])).toBeNull();
   });
 
   it('offers moves when the query can be reordered', async () => {
     const mover = await renderTable({ canReorder: true });
 
-    expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+    expect(mover.movableDirections(['2'])).toEqual(new Set(['top', 'up', 'down', 'bottom']));
   });
 
   it('offers no moves for a work package that is not rendered', async () => {
     const mover = await renderTable();
 
-    expect(mover.movableDirections('999')).toBeNull();
+    expect(mover.movableDirections(['999'])).toBeNull();
   });
 
   it('offers no moves when the table has drag and drop disabled', async () => {
     const mover = await renderTable({ configuration: { dragAndDropEnabled: false } });
 
-    expect(mover.movableDirections('2')).toBeNull();
+    expect(mover.movableDirections(['2'])).toBeNull();
   });
 
   it('moves a row down through the drop path', async () => {
@@ -496,7 +544,7 @@ describe('DragAndDropTransformer row moves', () => {
     const prepareMove = spyOnPrepareMove();
     const rendered = harness.nextRender();
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await rendered;
 
     expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['1', '2', '3'], '1', 1, expect.any(Function));
@@ -508,7 +556,7 @@ describe('DragAndDropTransformer row moves', () => {
     const prepareMove = spyOnPrepareMove();
     const rendered = harness.nextRender();
 
-    mover.move('3', 'top');
+    mover.move(['3'], 'top');
     await rendered;
 
     expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['1', '2', '3'], '3', 0, expect.any(Function));
@@ -520,7 +568,7 @@ describe('DragAndDropTransformer row moves', () => {
     const prepareMove = spyOnPrepareMove();
     const rendered = harness.nextRender();
 
-    mover.move('1', 'bottom');
+    mover.move(['1'], 'bottom');
     await rendered;
 
     expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['1', '2', '3'], '1', 2, expect.any(Function));
@@ -530,7 +578,7 @@ describe('DragAndDropTransformer row moves', () => {
   it('announces the committed position by the row header name', async () => {
     const mover = await renderTable();
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
 
     await vi.waitFor(() => expect(announce).toHaveBeenCalled());
     expect(announce).toHaveBeenCalledExactlyOnceWith('Work package 1 moved to position 2 of 3', { politeness: 'polite' });
@@ -542,7 +590,7 @@ describe('DragAndDropTransformer row moves', () => {
     const refresh = deferred();
     stubRefresh(() => refresh.promise);
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     release();
     await persisted;
     await new Promise((resolve) => { setTimeout(resolve, 20); });
@@ -561,18 +609,18 @@ describe('DragAndDropTransformer row moves', () => {
     const mover = await renderTable();
     const { prepareMove, release } = holdPersist();
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await vi.waitFor(() => expect(prepareMove).toHaveBeenCalled());
 
-    expect(mover.movableDirections('2')).toEqual(new Set());
-    mover.move('2', 'down');
+    expect(mover.movableDirections(['2'])).toEqual(new Set());
+    mover.move(['2'], 'down');
 
     const rendered = harness.nextRender();
     release();
     await rendered;
 
     expect(prepareMove).toHaveBeenCalledOnce();
-    await vi.waitFor(() => expect(mover.movableDirections('2')).not.toEqual(new Set()));
+    await vi.waitFor(() => expect(mover.movableDirections(['2'])).not.toEqual(new Set()));
   });
 
   it('refuses a pointer pickup while a menu move is pending', async () => {
@@ -580,7 +628,7 @@ describe('DragAndDropTransformer row moves', () => {
     const { prepareMove, release } = holdPersist();
     expect(pickup('3')).toBe(true);
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await vi.waitFor(() => expect(prepareMove).toHaveBeenCalled());
 
     expect(pickup('3')).toBe(false);
@@ -596,20 +644,20 @@ describe('DragAndDropTransformer row moves', () => {
     const prepareMove = spyOnPrepareMove();
     const lookup = stubRefresh(() => Promise.reject(new Error('refresh failed')));
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await vi.waitFor(() => expect(handleRawError).toHaveBeenCalled());
     await new Promise((resolve) => { setTimeout(resolve, 20); });
 
     expect(announce).not.toHaveBeenCalled();
-    expect(mover.movableDirections('1')).toEqual(new Set());
+    expect(mover.movableDirections(['1'])).toEqual(new Set());
 
     lookup.mockRestore();
     await harness.render([{ id: '2' }, { id: '1' }, { id: '3' }]);
-    await vi.waitFor(() => expect(mover.movableDirections('1')).not.toEqual(new Set()));
+    await vi.waitFor(() => expect(mover.movableDirections(['1'])).not.toEqual(new Set()));
 
     prepareMove.mockClear();
     const rendered = harness.nextRender();
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await rendered;
 
     expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['2', '1', '3'], '1', 2, expect.any(Function));
@@ -630,10 +678,10 @@ describe('DragAndDropTransformer row moves', () => {
     const prepareMove = spyOnPrepareMove();
     expect(harness.rowIds()).toEqual(['1', '2', '3', '1']);
 
-    expect(mover.movableDirections('3')).toEqual(new Set(['top', 'up']));
+    expect(mover.movableDirections(['3'])).toEqual(new Set(['top', 'up']));
 
     const rendered = harness.nextRender();
-    mover.move('2', 'down');
+    mover.move(['2'], 'down');
     await rendered;
 
     expect(prepareMove).toHaveBeenCalledExactlyOnceWith(harness.querySpace.query.value, ['1', '2', '3'], '2', 2, expect.any(Function));
@@ -648,14 +696,14 @@ describe('DragAndDropTransformer row moves', () => {
       return refresh.promise;
     });
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await refreshStarted.promise;
     harness.querySpace.query.putValue({ ...harness.querySpace.query.value } as QueryResource);
     await harness.render(threeRows);
     refresh.reject(new Error('refresh failed'));
 
     await vi.waitFor(() => {
-      expect(mover.movableDirections('1')).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+      expect(mover.movableDirections(['1'])).toEqual(new Set(['top', 'up', 'down', 'bottom']));
       expect(pickup('1')).toBe(true);
     });
   });
@@ -666,10 +714,10 @@ describe('DragAndDropTransformer row moves', () => {
     const handleRawError = vi.spyOn(notification, 'handleRawError');
     vi.spyOn(orderService(), 'prepareMove').mockRejectedValue(new Error('positions unavailable'));
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await vi.waitFor(() => expect(handleRawError).toHaveBeenCalled());
 
-    await vi.waitFor(() => expect(mover.movableDirections('1')).toEqual(new Set(['down', 'bottom'])));
+    await vi.waitFor(() => expect(mover.movableDirections(['1'])).toEqual(new Set(['down', 'bottom'])));
     expect(harness.rowIds()).toEqual(['1', '2', '3']);
     expect(announce).not.toHaveBeenCalled();
   });
@@ -678,13 +726,13 @@ describe('DragAndDropTransformer row moves', () => {
     const mover = await renderTable();
     const { prepareMove, release, persisted } = holdPersist();
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
     await vi.waitFor(() => expect(prepareMove).toHaveBeenCalled());
     harness.querySpace.query.putValue({ ...harness.querySpace.query.value } as QueryResource);
     release();
     await persisted;
 
-    await vi.waitFor(() => expect(mover.movableDirections('2')).toEqual(new Set(['top', 'up', 'down', 'bottom'])));
+    await vi.waitFor(() => expect(mover.movableDirections(['2'])).toEqual(new Set(['top', 'up', 'down', 'bottom'])));
     expect(announce).not.toHaveBeenCalled();
   });
 
@@ -692,7 +740,7 @@ describe('DragAndDropTransformer row moves', () => {
     const mover = await renderTable();
     const prepareMove = spyOnPrepareMove();
 
-    mover.move('1', 'up');
+    mover.move(['1'], 'up');
     await new Promise((resolve) => { setTimeout(resolve, 20); });
 
     expect(prepareMove).not.toHaveBeenCalled();
@@ -710,9 +758,9 @@ describe('DragAndDropTransformer row moves', () => {
       return { ...prepared, persist };
     });
 
-    mover.move('1', 'down');
+    mover.move(['1'], 'down');
 
-    await vi.waitFor(() => expect(mover.movableDirections('1')).toEqual(new Set(['top', 'up', 'down', 'bottom'])));
+    await vi.waitFor(() => expect(mover.movableDirections(['1'])).toEqual(new Set(['top', 'up', 'down', 'bottom'])));
     expect(persist).not.toHaveBeenCalled();
     expect(announce).not.toHaveBeenCalled();
     expect(harness.rowIds()).toEqual(['3', '1', '2']);
