@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require "base64"
-require "json"
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,6 +26,9 @@ require "json"
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
+require "base64"
+require "json"
 
 module API
   module V3
