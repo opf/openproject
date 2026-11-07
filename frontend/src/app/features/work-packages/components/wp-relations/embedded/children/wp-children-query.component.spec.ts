@@ -25,87 +25,202 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, NO_ERRORS_SCHEMA, ChangeDetectorRef } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ChangeDetectorRef, Component, SimpleChange, input, output } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { fireEvent, screen } from '@testing-library/dom';
 import { EMPTY, Subject } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { initializeHalResourceConfig } from 'core-app/features/hal/services/hal-resource.config';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { RelationsStateValue, WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { GroupDescriptor } from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { initializeHalResourceConfig } from 'core-app/features/hal/services/hal-resource.config';
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageRelationQueryComponent } from '../relations/wp-relation-query.component';
 import { WorkPackageChildrenQueryComponent } from './wp-children-query.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-embedded-table',
-  template: '',
-  standalone: false,
+  template: `
+    <table [attr.aria-labelledby]="configuration().labelledBy"></table>
+    <button type="button" (click)="load()">Load query</button>
+  `,
 })
 class EmbeddedTableStubComponent {
-  @Input() configuration:Record<string, unknown>;
-}
+  readonly configuration = input.required<{ labelledBy:string|null }>();
+  readonly queryProps = input.required<object>();
+  readonly initialLoadingIndicator = input.required<boolean>();
+  readonly tableActions = input.required<unknown[]>();
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
+  readonly onQueryLoaded = output<QueryResource>();
 
-describe('WorkPackageChildrenQueryComponent group heading', () => {
-  let fixture:ComponentFixture<WorkPackageChildrenQueryComponent>;
+  loadedQuery:Promise<QueryResource>;
 
-  function mount(group?:GroupDescriptor) {
-    TestBed.configureTestingModule({
-      declarations: [WorkPackageChildrenQueryComponent, EmbeddedTableStubComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-      providers: [
-        { provide: WorkPackageRelationsHierarchyService, useValue: {} },
-        { provide: PathHelperService, useValue: {} },
-        { provide: HalEventsService, useValue: {} },
-        { provide: ApiV3Service, useValue: { work_packages: { id: () => ({ observe: () => EMPTY }) } } },
-        { provide: I18nService, useValue: { t: (key:string) => key } },
-        { provide: WorkPackageRelationsService, useValue: {} },
-        { provide: UrlParamsHelperService, useValue: {} },
-      ],
-    }).overrideComponent(WorkPackageChildrenQueryComponent, {
-      set: { providers: [{ provide: WorkPackageInlineCreateService, useValue: { newInlineWorkPackageCreated: EMPTY } }] },
-    });
-
-    fixture = TestBed.createComponent(WorkPackageChildrenQueryComponent);
-    fixture.componentInstance.workPackage = { project: { href: '/api/v3/projects/1' } } as unknown as WorkPackageResource;
-    fixture.componentInstance.query = {};
-    fixture.componentInstance.group = group;
-    fixture.detectChanges();
+  async load():Promise<void> {
+    this.onQueryLoaded.emit(await this.loadedQuery);
   }
 
-  const tableConfiguration = () => fixture.debugElement
-    .query(By.directive(EmbeddedTableStubComponent))
-    .componentInstance.configuration as Record<string, unknown>;
+  readonly isInitialized = true;
+  readonly loadQuery = vi.fn();
+}
 
-  it('labels the table by the group heading', () => {
-    mount({ name: 'Children' } as GroupDescriptor);
+describe('embedded relation queries', () => {
+  let hal:HalResourceService;
+  let workPackageChanges:Map<string, Subject<WorkPackageResource>>;
+  let relationChanges:Map<string, Subject<RelationsStateValue>>;
+  let updateCounter:ReturnType<typeof vi.fn>;
 
-    const heading = (fixture.nativeElement as HTMLElement).querySelector('h3.attributes-group--header-text')!;
-    expect(heading.id).toMatch(/^wp-query-group-heading-/);
-    expect(tableConfiguration().labelledBy).toBe(heading.id);
+  beforeEach(() => {
+    workPackageChanges = new Map();
+    relationChanges = new Map();
+    updateCounter = vi.fn();
+    TestBed.configureTestingModule({
+      declarations: [WorkPackageChildrenQueryComponent, WorkPackageRelationQueryComponent],
+      imports: [EmbeddedTableStubComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: WorkPackageRelationsHierarchyService, useValue: {} },
+        { provide: PathHelperService, useValue: { api: { v3: { apiV3Base: '/api/v3' } } } },
+        { provide: CurrentUserService, useValue: {} },
+        { provide: CurrentProjectService, useValue: {} },
+        { provide: SchemaCacheService, useValue: {} },
+        { provide: ApiV3Service, useValue: { work_packages: { id: (wp:WorkPackageResource) => ({ observe: () => workPackageChanges.get(wp.id!) }) } } },
+        { provide: I18nService, useValue: { t: (key:string) => key } },
+        { provide: WorkPackageRelationsService, useValue: { observe: (id:string) => relationChanges.get(id), updateCounter } },
+        { provide: WorkPackageNotificationService, useValue: {} },
+        { provide: UrlParamsHelperService, useValue: { buildV3GetQueryFromQueryResource: (query:QueryResource) => ({ filters: query.filters }) } },
+      ],
+    });
+    hal = TestBed.inject(HalResourceService);
+    hal.registerResource('WorkPackage', { cls: WorkPackageResource });
+    hal.registerResource('QueryFilter', { cls: QueryFilterResource });
+    hal.registerResource('QueryFilterInstance', { attrTypes: { filter: 'QueryFilter' } });
   });
 
-  it('leaves the table unlabeled without a group', () => {
-    mount();
+  function workPackage(id:number) {
+    workPackageChanges.set(String(id), new Subject());
+    relationChanges.set(String(id), new Subject());
+    return hal.createHalResource<WorkPackageResource>({
+      _type: 'WorkPackage',
+      _links: {
+        self: { href: `/api/v3/work_packages/${id}` },
+        project: { href: '/api/v3/projects/1' },
+      },
+    });
+  }
 
-    expect((fixture.nativeElement as HTMLElement).querySelector('h3')).toBeNull();
-    expect(tableConfiguration().labelledBy).toBeNull();
+  function group(name:string):GroupDescriptor {
+    return { name, id: name, type: 'WorkPackageFormRelationQueryGroup', relationType: 'blocks', isolated: true, members: [] };
+  }
+
+  function query(projectFilter = false) {
+    return hal.createHalResourceOfClass(QueryResource, {
+      _type: 'Query',
+      filters: projectFilter ? [{ _links: { filter: { href: '/api/v3/queries/filters/project' } }, values: ['1'] }] : [],
+    });
+  }
+
+  async function mount(kind:'children'|'related', heading?:GroupDescriptor, initialQuery = query()) {
+    const fixture = TestBed.createComponent<WorkPackageChildrenQueryComponent|WorkPackageRelationQueryComponent>(
+      kind === 'children' ? WorkPackageChildrenQueryComponent : WorkPackageRelationQueryComponent,
+    );
+    const wp = workPackage(1);
+    fixture.componentRef.setInput('workPackage', wp);
+    fixture.componentRef.setInput('query', initialQuery);
+    fixture.componentRef.setInput('group', heading);
+    await fixture.whenStable();
+
+    const table = fixture.debugElement.children.find((child) => child.componentInstance instanceof EmbeddedTableStubComponent)!
+      .componentInstance as EmbeddedTableStubComponent;
+    return { fixture, table, wp };
+  }
+
+  it('labels the table by the group heading', async () => {
+    await mount('children', group('Children'));
+
+    const heading = screen.getByRole('heading', { name: 'Children' });
+    expect(heading.id).toMatch(/^wp-query-group-heading-/);
+    expect(screen.getByRole('table', { name: 'Children' })).toHaveAttribute('aria-labelledby', heading.id);
+  });
+
+  it('leaves the table unlabeled without a group', async () => {
+    await mount('children');
+
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+    expect(screen.getByRole('table')).not.toHaveAttribute('aria-labelledby');
+  });
+
+  it('hides a related table when its loaded query loses the project filter and keeps it hidden on replacement', async () => {
+    const { fixture, table } = await mount('related', group('Blocks'), query(true));
+    expect(screen.getByRole('table', { name: 'Blocks' })).toBeInTheDocument();
+
+    let resolveQuery!:(query:QueryResource) => void;
+    table.loadedQuery = new Promise((resolve) => { resolveQuery = resolve; });
+    fireEvent.click(screen.getByRole('button', { name: 'Load query' }));
+    await fixture.whenStable();
+    expect(screen.getByRole('table', { name: 'Blocks' })).toBeInTheDocument();
+
+    resolveQuery(query());
+    await table.loadedQuery;
+    await fixture.whenStable();
+    expect(screen.queryByRole('table')).not.toBeInTheDocument();
+
+    fixture.componentRef.setInput('query', query(true));
+    await fixture.whenStable();
+    expect(screen.queryByRole('table')).not.toBeInTheDocument();
+  });
+
+  it('publishes child associations, refreshes only for the current work package, and unsubscribes on destroy', async () => {
+    const { fixture, table, wp } = await mount('children');
+    const events = vi.spyOn(TestBed.inject(HalEventsService), 'push');
+    const inlineCreate = fixture.debugElement.injector.get(WorkPackageInlineCreateService);
+
+    inlineCreate.newInlineWorkPackageCreated.next('3');
+    expect(events).toHaveBeenCalledWith(wp, expect.objectContaining({ eventType: 'association', relatedWorkPackage: '3', relationType: 'child' }));
+
+    const previous = workPackageChanges.get('1')!;
+    previous.next(wp);
+    expect(table.loadQuery).toHaveBeenCalledOnce();
+    expect(updateCounter).toHaveBeenCalledWith(wp);
+
+    const replacement = workPackage(2);
+    fixture.componentRef.setInput('workPackage', replacement);
+    await fixture.whenStable();
+    expect(inlineCreate.referenceTarget).toBe(replacement);
+    expect(previous.observed).toBe(false);
+
+    const current = workPackageChanges.get('2')!;
+    current.next(replacement);
+    expect(table.loadQuery).toHaveBeenCalledTimes(2);
+    expect(updateCounter).toHaveBeenLastCalledWith(replacement);
+
+    fixture.destroy();
+    expect(current.observed).toBe(false);
+    expect(inlineCreate.newInlineWorkPackageCreated.observed).toBe(false);
   });
 });
 
 describe('children query input contracts', () => {
+  function firstChange<T>(value:T) {
+    return new SimpleChange<T>(undefined as T, value, true);
+  }
+
   let resource:WorkPackageResource;
   let factory:HalResourceService;
 
@@ -144,7 +259,10 @@ describe('children query input contracts', () => {
     const childQuery = TestBed.runInInjectionContext(() => new WorkPackageChildrenQueryComponent());
     childQuery.workPackage = resource;
     childQuery.query = requestParams;
-    childQuery.ngOnInit();
+    childQuery.ngOnChanges({
+      workPackage: firstChange(resource),
+      query: firstChange(childQuery.query),
+    });
 
     expect(childQuery.queryProps).toBe(requestParams);
   });
@@ -155,7 +273,10 @@ describe('children query input contracts', () => {
     childQuery.query = factory.createHalResourceOfType<QueryResource>('Query', {
       columns: [], filters: [], sortBy: [], timestamps: [], showHierarchies: true,
     });
-    childQuery.ngOnInit();
+    childQuery.ngOnChanges({
+      workPackage: firstChange(resource),
+      query: firstChange(childQuery.query),
+    });
 
     expect(childQuery.queryProps).toMatchObject({ valid_subset: true, showHierarchies: true, filters: '[]' });
     expect(TestBed.inject(WorkPackageInlineCreateService).referenceTarget).toBe(resource);

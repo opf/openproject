@@ -25,11 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './relations-tab.html',
@@ -41,19 +42,25 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implements OnInit {
+export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implements OnChanges {
   readonly I18n = inject(I18nService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly cdRef = inject(ChangeDetectorRef);
+
+  private workPackageSubscription?:Subscription;
 
   @Input() public workPackageId?:string;
 
   @Input() public workPackage:WorkPackageResource;
 
-  ngOnInit() {
+  ngOnChanges(changes:SimpleChanges<WorkPackageRelationsTabComponent>):void {
     this.workPackageId = this.workPackage.id!;
+    if (!changes.workPackage || changes.workPackage.previousValue?.id === this.workPackageId) {
+      return;
+    }
 
-    this
+    this.workPackageSubscription?.unsubscribe();
+    this.workPackageSubscription = this
       .apiV3Service
       .work_packages
       .id(this.workPackageId)

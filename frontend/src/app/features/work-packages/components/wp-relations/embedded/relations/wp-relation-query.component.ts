@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, SimpleChanges, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -35,6 +35,7 @@ import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/
 import { WorkPackageRelationQueryBase } from 'core-app/features/work-packages/components/wp-relations/embedded/wp-relation-query.base';
 import { WpRelationInlineCreateService } from 'core-app/features/work-packages/components/wp-relations/embedded/relations/wp-relation-inline-create.service';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
@@ -65,9 +66,11 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
 
   @Input() public workPackage:WorkPackageResource;
 
-  @Input() public query:QueryResource;
+  @Input() public query:QueryResource|object;
 
   @Input() public group:GroupDescriptor;
+
+  private relationsSubscription?:Subscription;
 
   public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(
@@ -89,43 +92,46 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
 
   public idFromLink = idFromLink;
 
-  ngOnInit() {
-    const relationType = this.getRelationTypeFromQuery();
-
-    // Set reference target and reference class
-    this.wpInlineCreate.referenceTarget = this.workPackage;
-    this.wpInlineCreate.relationType = relationType;
-
-    // Set up the query props
-    this.queryProps = this.buildQueryProps();
-
+  ngOnInit():void {
     // Wire the successful saving of a new addition to refreshing the embedded table
     this.wpInlineCreate.newInlineWorkPackageCreated
       .pipe(
         this.untilDestroyed(),
       )
       .subscribe((toId:string) => this.addRelation(toId));
+  }
 
-    // When relations have changed, refresh this table
-    this.wpRelations.observe(this.workPackage.id!)
+  override ngOnChanges(changes:SimpleChanges<WorkPackageRelationQueryComponent>):void {
+    super.ngOnChanges(changes);
+    this.wpInlineCreate.referenceTarget = this.workPackage;
+    this.wpInlineCreate.relationType = this.getRelationTypeFromQuery();
+
+    if (!changes.workPackage || changes.workPackage.previousValue?.id === this.workPackage.id) {
+      return;
+    }
+
+    this.relationsSubscription?.unsubscribe();
+    this.relationsSubscription = this.wpRelations.observe(this.workPackage.id!)
       .pipe(
-        filter((val) => !(val == null || (Array.isArray(val) ? val.length === 0 : Object.keys(val).length === 0))),
+        filter((relations) => !!relations && Object.keys(relations).length > 0),
         this.untilDestroyed(),
       )
       .subscribe(() => this.refreshTable());
   }
 
   private addRelation(toId:string) {
+    const workPackage = this.workPackage;
+    const relationType = this.getRelationTypeFromQuery();
     this.wpInlineCreate
-      .add(this.workPackage, toId)
+      .add(workPackage, toId)
       .then(() => {
-        this.halEvents.push(this.workPackage, {
+        this.halEvents.push(workPackage, {
           eventType: 'association',
           relatedWorkPackage: toId,
-          relationType: this.getRelationTypeFromQuery(),
+          relationType,
         });
       })
-      .catch((error) => this.notificationService.handleRawError(error, this.workPackage));
+      .catch((error:unknown) => this.notificationService.handleRawError(error, workPackage));
   }
 
   private getRelationTypeFromQuery() {
