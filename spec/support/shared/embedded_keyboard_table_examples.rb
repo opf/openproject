@@ -133,14 +133,16 @@ RSpec.shared_examples "an embedded keyboard table" do |editable: true, drag_and_
     wp_table.press_keys(%i[shift f10])
 
     if context_menu_enabled
-      expect(page).to have_css("#work-package-context-menu")
+      within(:menu, I18n.t("js.label_work_package_context_menu")) do
+        expect(page).to have_selector(:menuitem, focused: true)
+      end
       wp_table.press_keys(:escape)
-      expect(page).to have_no_css("#work-package-context-menu")
+      expect(page).to have_no_selector(:menu, I18n.t("js.label_work_package_context_menu"))
       wp_table.expect_focus_on_row(rows.first)
     else
       wp_table.press_keys(:down)
       wp_table.expect_focus_on_row(rows.second)
-      expect(page).to have_no_css("#work-package-context-menu")
+      expect(page).to have_no_selector(:menu, I18n.t("js.label_work_package_context_menu"))
     end
   end
 

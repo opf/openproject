@@ -34,15 +34,15 @@ module Components
       include Capybara::RSpecMatchers
       include RSpec::Matchers
 
-      def sort_via_header(name, selector: nil, descending: false)
+      def sort_via_header(name, button_name: name, descending: false)
         text = descending ? "Sort descending" : "Sort ascending"
 
         SeleniumHubWaiter.wait unless using_cuprite?
         page.document.synchronize(20) do
-          open_table_column_context_menu(name, selector)
-          raise Capybara::ElementNotFound unless page.has_css?("#column-context-menu", wait: 2)
+          open_table_column_context_menu(name, button_name)
+          raise Capybara::ElementNotFound unless page.has_selector?(:menu, wait: 2)
 
-          page.within(:menu) { click_on text }
+          within_column_context_menu { find(:menuitem, text).click }
         end
         SeleniumHubWaiter.wait unless using_cuprite?
 
@@ -119,13 +119,12 @@ module Components
         ["desc", "descending"].include?(direction.to_s)
       end
 
-      def open_table_column_context_menu(name, id)
-        id ||= name.downcase
-        page.find(".generic-table--sort-header ##{id}").click
+      def open_table_column_context_menu(name, button_name = name)
+        page.find(:columnheader, name).click_button(button_name)
       end
 
       def within_column_context_menu(&)
-        page.within("#column-context-menu", &)
+        page.within(:menu, &)
       end
     end
   end

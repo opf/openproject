@@ -238,7 +238,7 @@ module Pages
       row_element = row(work_package)
       row_element.hover
 
-      scroll_to_and_click(row_element.find(".wp-table--details-link"))
+      scroll_to_and_click(row_element.find(:link, accessible_name: I18n.t("js.button_open_details")))
 
       split_page
     end
@@ -286,7 +286,7 @@ module Pages
 
     def select_all_work_packages
       send_select_all(roving_tab_stop || table_container.first("tr.wp-table--row", minimum: 1))
-      expect(page).to have_no_css "#work-package-context-menu"
+      expect(page).to have_no_selector(:menu, I18n.t("js.label_work_package_context_menu"))
     end
 
     # Moves focus into the table with Tab from the entry control.

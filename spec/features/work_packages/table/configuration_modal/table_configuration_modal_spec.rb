@@ -58,7 +58,7 @@ RSpec.describe "Work Package table configuration modal", :js do
     find(:columnheader, "Subject").click
 
     # Open insert columns entry
-    within(:menu, "Subject") { click_on "Insert columns" }
+    within(:menu, "Subject") { find(:menuitem, "Insert columns").click }
 
     # Expect active tab is columns
     expect(page).to have_css(".op-tab-row--link_selected", text: "COLUMNS")
