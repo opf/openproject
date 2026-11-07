@@ -25,7 +25,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-
 # script/ci/runner.sh
 # $1 = TEST_SUITE
 # $2 = GROUP_SIZE
