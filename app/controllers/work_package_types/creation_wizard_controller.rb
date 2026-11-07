@@ -290,7 +290,7 @@ module WorkPackageTypes
 
     def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
 
-    def listing_in_wizard? = true
+    def wizard? = true
 
     def find_type
       @type = ::Type.find(params.expect(:type_id))

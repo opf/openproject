@@ -47,6 +47,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
 
   let(:projects) { Project.where(id: [on_base, on_hardware, archived, owning]) }
   let(:filtered) { false }
+  let(:wizard) { false }
   let(:base_row) { find_test_selector("type-projects-row-#{on_base.id}") }
   let(:hardware_row) { find_test_selector("type-projects-row-#{on_hardware.id}") }
   let(:archived_row) { find_test_selector("type-projects-row-#{archived.id}") }
@@ -55,7 +56,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
   subject(:rendered_component) do
     with_request_url "/types/#{type.id}/projects/edit" do
       render_inline(
-        described_class.new(rows: projects.paginate(page: 1, per_page: 10), variant: type.default_variant, filtered:)
+        described_class.new(rows: projects.paginate(page: 1, per_page: 10), variant: type.default_variant, filtered:, wizard:)
       )
     end
   end
@@ -85,6 +86,53 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
     expect(owning_row).to have_text("Firmware")
     expect(owning_row)
       .to have_css(".color-fg-muted", exact_text: I18n.t("projects.settings.types.project_specific_variant"))
+  end
+
+  it "lets rows be selected but not dragged" do
+    table = page.find_by_id("project-table")
+
+    expect(table["data-sortable-lists-selection-enabled-value"]).to eq("true")
+    expect(table["data-sortable-lists-drag-enabled-value"]).to eq("false")
+  end
+
+  it "makes each row a focusable selection item identified by its project" do
+    expect(base_row["data-sortable-lists--item-id-value"]).to eq(on_base.id.to_s)
+    expect(base_row["tabindex"]).to eq("0")
+  end
+
+  it "offers switching and removal for the row's own project" do
+    expect(base_row).to have_css(".ActionListItem", text: "Switch variant")
+    expect(base_row).to have_css(".ActionListItem", text: "Remove type from this project")
+  end
+
+  it "points the selection's menu actions at the bulk dialogs" do
+    table = page.find_by_id("project-table")
+
+    expect(table["data-controller"]).to include("admin--type-projects-selection")
+    expect(table["data-admin--type-projects-selection-switch-url-value"])
+      .to eq(new_type_projects_switch_path(type_id: type.id))
+    expect(table["data-admin--type-projects-selection-remove-url-value"])
+      .to eq(new_type_projects_link_deletion_path(type_id: type.id))
+  end
+
+  context "when listed in the creation wizard" do
+    let(:wizard) { true }
+
+    it "keeps the selection's menu actions in the wizard" do
+      table = page.find_by_id("project-table")
+
+      expect(table["data-admin--type-projects-selection-switch-url-value"])
+        .to eq(new_type_projects_switch_path(type_id: type.id, wizard: true))
+      expect(table["data-admin--type-projects-selection-remove-url-value"])
+        .to eq(new_type_projects_link_deletion_path(type_id: type.id, wizard: true))
+    end
+  end
+
+  it "holds the plural actions back until the row's menu acts on a selection" do
+    batch_items = base_row.all("[data-type-projects-selection-scope='batch']", visible: :all)
+
+    expect(batch_items.map { it.text(:all).strip }).to eq(["Switch variant", "Remove type from these projects"])
+    expect(batch_items).to all(match_selector("[hidden]", visible: :all))
   end
 
   context "without any project" do

@@ -7,6 +7,10 @@ sets `announcementScope` for its translation vocabulary and
 `selectionDescriptionId` for one shared description element. Selected items
 reference that description through `aria-describedby` on their focus host.
 
+A root that only needs batch selection sets `dragEnabled` to `false`: its
+items register no drag source, while the selection gestures keep working. They
+stay orderable, since orderability is what makes them selectable.
+
 Items declare `mobility`: `fixed`, `confined`, or `free`. Mobility gates dragging,
 selection eligibility, and positional moves. A missing value defaults to `free`;
 an unrecognized value resolves to `fixed`. Structural rows such as “Show more”

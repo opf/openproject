@@ -30,6 +30,11 @@
 module WorkPackageTypes
   module ProjectsTab
     class TableComponent < OpPrimer::BorderBoxTableComponent
+      include WorkPackageTypes::VariantRoutes
+      include WizardFlag
+
+      public :wizard?
+
       columns :name, :variant
       main_column :name, :variant
       mobile_labels :variant
@@ -48,6 +53,23 @@ module WorkPackageTypes
 
       def container_id = "project-table"
 
+      def container_data
+        {
+          controller: "sortable-lists sortable-lists--list admin--type-projects-selection",
+          admin__type_projects_selection_switch_url_value: new_variant_projects_switch_path(variant, **wizard_params),
+          admin__type_projects_selection_remove_url_value: new_variant_projects_link_deletion_path(variant, **wizard_params),
+          sortable_lists_selection_enabled_value: true,
+          sortable_lists_drag_enabled_value: false,
+          sortable_lists_announcement_scope_value: "js.types.projects.selection",
+          sortable_lists_sortable_lists__list_outlet: "##{container_id}",
+          sortable_lists_sortable_lists__item_outlet: "##{container_id} [data-controller~='sortable-lists--item']",
+          sortable_lists__list_type_value: RowComponent::SELECTION_TYPE,
+          sortable_lists__list_accepted_type_value: RowComponent::SELECTION_TYPE,
+          sortable_lists__list_name_value: Project.model_name.human(count: 2),
+          "sortable-lists--list-rows-container-element": ":scope > .#{rows_container_class}"
+        }
+      end
+
       def switchable?
         @switchable = variant.type.variants.many? if @switchable.nil?
         @switchable
@@ -63,8 +85,6 @@ module WorkPackageTypes
       def has_actions? = true
 
       def mobile_title = I18n.t("types.edit.projects.tab")
-
-      def wizard? = @wizard
 
       def pagination_params
         if wizard?

@@ -101,7 +101,7 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request do
   end
 
   it "renders the add projects dialog" do
-    get new_link_type_projects_path(type_id: type.id), as: :turbo_stream
+    get new_type_projects_link_path(type_id: type.id), as: :turbo_stream
 
     expect(response).to have_http_status(:ok)
   end
@@ -109,7 +109,7 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request do
   it "renders the project tree the add dialog picks from" do
     create(:project, name: "Bookshop")
 
-    get tree_type_projects_path(type_id: type.id, name: "project_ids")
+    get type_projects_link_candidates_path(type_id: type.id, name: "project_ids")
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("Bookshop")
@@ -118,7 +118,7 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request do
   it "renders the switch dialog for a listed project" do
     project = create(:project, types: [variant])
 
-    get new_switch_type_projects_path(type_id: type.id, project_id: project.id),
+    get new_type_projects_switch_path(type_id: type.id, project_ids: [project.id]),
         as: :turbo_stream
 
     expect(response).to have_http_status(:ok)

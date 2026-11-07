@@ -32,6 +32,7 @@ module WorkPackageTypes
     module TableRefresh
       extend ActiveSupport::Concern
       include PaginationHelper
+      include WizardFlag::FromParams
 
       VARIANT_FILTER_KEY = ::Queries::Projects::Filters::TypeVariantFilter.key.to_s
       NAME_FILTER_KEY = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
@@ -88,7 +89,7 @@ module WorkPackageTypes
       end
 
       def refresh_projects
-        return reload_wizard_step if listing_in_wizard?
+        return reload_wizard_step if wizard?
 
         update_via_turbo_stream(component: projects_table_component)
         replace_via_turbo_stream(component: sub_header_component)
@@ -96,12 +97,12 @@ module WorkPackageTypes
 
       # Built in one place so the first render and every stream that replaces it cannot drift.
       def sub_header_component
-        ProjectsTab::SubHeaderComponent.new(type: @type, variant: @variant, query: @query, wizard: listing_in_wizard?)
+        ProjectsTab::SubHeaderComponent.new(type: @type, variant: @variant, query: @query, wizard: wizard?)
       end
 
       def projects_table_component
         ProjectsTab::TableComponent.new(rows: paginated_projects, variant: @variant, filtered: requested_filters.any?,
-                                        wizard: listing_in_wizard?)
+                                        wizard: wizard?)
       end
 
       def paginated_projects
@@ -112,10 +113,6 @@ module WorkPackageTypes
 
       # The wizard's projects step lists the same projects with its own URLs, so a change made from
       # there reloads that step rather than streaming in the tab's table.
-      def listing_in_wizard? = params[:wizard].present?
-
-      def wizard_params = listing_in_wizard? ? { wizard: true } : {}
-
       def reload_wizard_step
         dispatch_event_via_turbo_stream(ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME, detail: { type_id: @type.id })
       end
