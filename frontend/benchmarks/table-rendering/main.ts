@@ -58,7 +58,7 @@ class BenchmarkTableComponent extends WorkPackagesTableComponent {}
 
 const warmups = 2;
 const samples = 7;
-const median = (values:number[]) => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
+const median = (values:number[]) => values.length ? [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)] : null;
 
 function assert(condition:unknown, message:string):asserts condition {
   if (!condition) throw new Error(message);
@@ -67,7 +67,7 @@ function assert(condition:unknown, message:string):asserts condition {
 window.I18n = new I18n();
 TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
 
-export async function runBenchmark() {
+export async function runBenchmark(options:{ initialOnly?:boolean; scenario?:string } = {}) {
   assert(!isDevMode(), 'Angular development mode is enabled');
   const results:unknown[] = [];
   for (const { rowCount, parents } of [{ rowCount: 100, parents: 0 }, { rowCount: 500, parents: 0 }, { rowCount: 500, parents: 20 }]) {
@@ -75,6 +75,8 @@ export async function runBenchmark() {
     const target = parents ? String(rowCount) : '1';
     const relations = Array.from({ length: parents }, (_, index) => ({ from: String(index + 1), to: target, type: 'follows' }));
     for (const templates of [false, true]) {
+      const scenario = `${rowCount}:${parents}:${templates ? 'Angular' : 'legacy'}`;
+      if (options.scenario && options.scenario !== scenario) continue;
       TestBed.resetTestingModule();
       await TestBed.configureTestingModule({
         imports: [BenchmarkTableComponent],
@@ -160,6 +162,13 @@ export async function runBenchmark() {
           assert(root.querySelectorAll('.work-package--results-tbody > tr').length === rowCount + parents, 'Incorrect row count');
           assert(root.querySelector('.work-package--results-tbody a[href*="/work_packages/1"]'), `Missing work package link (${templates ? 'Angular' : 'legacy'}, ${rowCount}): ${root.querySelector('.work-package--results-tbody > tr')?.innerHTML}`);
           assert(root.querySelectorAll('tr[opwptablerow]').length === (templates ? rowCount + parents : 0), 'Incorrect renderer');
+          if (options.initialOnly) {
+            const occurrences = Array.from(root.querySelectorAll<HTMLTableRowElement>('.work-package--results-tbody > tr'))
+              .filter((row) => row.querySelector(`a[data-work-package-id="${target}"]`));
+            assert(occurrences.length === parents + 1, 'Incorrect initial target occurrence count');
+            if (sample >= warmups) timings.initial.push(initial);
+            continue;
+          }
           const firstRow = root.querySelector('.work-package--results-tbody > tr');
           const redraw = await committedDuration(() => table.redrawTable());
           recordStage('redraw');
@@ -200,7 +209,8 @@ export async function runBenchmark() {
     }
   }
   TestBed.resetTestingModule();
-  return { isDevMode: isDevMode(), results };
+  assert(results.length > 0, 'No benchmark scenario matched');
+  return { isDevMode: isDevMode(), initialOnly: !!options.initialOnly, scenario: options.scenario ?? null, results };
 }
 
 Object.assign(window, { runBenchmark });

@@ -31,6 +31,12 @@ import { resolve, extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { chromium } from 'playwright';
 
+const benchmarkOptions = {
+  initialOnly: process.env.TABLE_BENCHMARK_INITIAL_ONLY === '1',
+  scenario: process.env.TABLE_BENCHMARK_CASE,
+};
+const samplingInterval = Number(process.env.TABLE_BENCHMARK_PROFILE_INTERVAL_US ?? 1000);
+if (!Number.isInteger(samplingInterval) || samplingInterval <= 0) throw new Error('Invalid profile sampling interval');
 const output = resolve(process.env.TABLE_BENCHMARK_BUILD_DIRECTORY ?? 'dist/table-rendering-benchmark');
 const workspace = JSON.parse(await readFile('angular.json', 'utf8'));
 const options = workspace.projects.OpenProject.architect['table-benchmark'].options;
@@ -60,11 +66,12 @@ try {
   const session = await page.context().newCDPSession(page);
   if (process.env.TABLE_BENCHMARK_PROFILE) {
     await session.send('Profiler.enable');
+    await session.send('Profiler.setSamplingInterval', { interval: samplingInterval });
     await session.send('Profiler.start');
   }
   let timeout;
   const benchmark = await Promise.race([
-    page.evaluate(() => window.runBenchmark()),
+    page.evaluate((settings) => window.runBenchmark(settings), benchmarkOptions),
     new Promise((_, reject) => { timeout = setTimeout(() => reject(new Error('Benchmark timed out')), 120_000); }),
   ]).finally(() => clearTimeout(timeout));
   if (process.env.TABLE_BENCHMARK_PROFILE) {
@@ -72,8 +79,10 @@ try {
     await writeFile(process.env.TABLE_BENCHMARK_PROFILE, JSON.stringify(profile));
   }
   if (errors.length) throw new Error(errors.join('\n'));
+  if (benchmarkOptions.initialOnly && benchmark.initialOnly !== true) throw new Error('Bundle does not support initial-only profiling');
+  if (benchmarkOptions.scenario && benchmark.scenario !== benchmarkOptions.scenario) throw new Error('Bundle does not support scenario selection');
   if (benchmark.isDevMode !== false) throw new Error('Expected optimized Angular production mode');
-  const result = { buildDirectory: output, bundles, node: process.version, profiled: !!process.env.TABLE_BENCHMARK_PROFILE, browser: browser.version(), capturedAt: new Date().toISOString(), buildTarget: 'OpenProject:table-benchmark', aot: true, optimization: true, ...benchmark };
+  const result = { buildDirectory: output, bundles, node: process.version, profiled: !!process.env.TABLE_BENCHMARK_PROFILE, profileSamplingIntervalUs: process.env.TABLE_BENCHMARK_PROFILE ? samplingInterval : null, browser: browser.version(), capturedAt: new Date().toISOString(), buildTarget: 'OpenProject:table-benchmark', aot: true, optimization: true, ...benchmark };
   const destination = process.env.TABLE_BENCHMARK_OUTPUT ?? `${output}/results.json`;
   await writeFile(destination, JSON.stringify(result, null, 2) + '\n');
   console.table(benchmark.results.map(({ renderer, rowCount, relationParents, initialMs, redrawMs, refreshMs, stages }) => ({ renderer, rowCount, relationParents, initialMs, redrawMs, refreshMs, refreshRenderCalls: stages.refresh.renderCalls })));
