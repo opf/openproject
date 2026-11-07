@@ -28,6 +28,7 @@
 /* eslint-disable @angular-eslint/component-selector */
 
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
 import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 
@@ -41,12 +42,16 @@ export class BlankslateIconComponent {
   readonly icon = input.required<DynamicIconName>();
 }
 
+export type BlankslateHeadingLevel = 2|3|4|5|6;
+
 @Component({
   selector: 'blankslate-heading',
-  template: '<h3 class="blankslate-heading"><ng-content/></h3>',
+  templateUrl: './blankslate-heading.component.html',
+  imports: [NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlankslateHeadingComponent {
+  readonly level = input<BlankslateHeadingLevel>(3);
 }
 
 @Component({

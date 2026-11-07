@@ -30,6 +30,7 @@ import { screen } from '@testing-library/dom';
 import { graphIconData, noteIconData } from '@openproject/octicons-angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
+import { BlankslateHeadingLevel } from './blankslate.component';
 import { NoResultsComponent } from './no-results.component';
 
 describe('NoResultsComponent', () => {
@@ -55,7 +56,7 @@ describe('NoResultsComponent', () => {
     fixture.destroy();
   });
 
-  function render(inputs:{ icon?:DynamicIconName, title?:string, message?:string } = {}):void {
+  function render(inputs:{ icon?:DynamicIconName, title?:string, message?:string, headingLevel?:BlankslateHeadingLevel } = {}):void {
     Object.entries(inputs).forEach(([key, value]) => fixture.componentRef.setInput(key, value));
     fixture.detectChanges();
   }
@@ -72,6 +73,18 @@ describe('NoResultsComponent', () => {
     render();
 
     expect(screen.getByRole('heading', { name: 'No data to display' })).toHaveClass('blankslate-heading');
+  });
+
+  it('renders the heading at level 3 by default', () => {
+    render();
+
+    expect(screen.getByRole('heading', { level: 3, name: 'No data to display' })).toBeInTheDocument();
+  });
+
+  it('renders the heading at the given level', () => {
+    render({ headingLevel: 4 });
+
+    expect(screen.getByRole('heading', { level: 4, name: 'No data to display' })).toHaveClass('blankslate-heading');
   });
 
   it('renders the given title as the heading', () => {

@@ -32,6 +32,7 @@ import {
   BlankslateComponent,
   BlankslateDescriptionComponent,
   BlankslateHeadingComponent,
+  BlankslateHeadingLevel,
   BlankslateIconComponent,
 } from './blankslate.component';
 
@@ -52,4 +53,5 @@ export class NoResultsComponent {
   readonly icon = input<DynamicIconName>('graph');
   readonly title = input(this.i18n.t('js.label_no_data'));
   readonly message = input<string>();
+  readonly headingLevel = input<BlankslateHeadingLevel>(3);
 }
