@@ -87,10 +87,10 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
 
     this.searchTermChanged
       .pipe(
-        this.untilDestroyed(),
         distinctUntilChanged(),
         tap((val) => this.searchTerm.putValue(val)),
         debounceTime(500),
+        this.untilDestroyed(),
       )
       .subscribe((term) => {
         if (term.length > 0) {
