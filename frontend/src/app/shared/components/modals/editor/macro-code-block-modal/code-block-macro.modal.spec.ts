@@ -25,48 +25,80 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { page } from 'vitest/browser';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { CodeMirrorLoaderService } from 'core-app/shared/components/editor/components/ckeditor/codemirror-loader.service';
+import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { CodeBlockMacroModalComponent } from './code-block-macro.modal';
 
 describe('CodeBlockMacroModalComponent', () => {
-  it('initializes the editor asynchronously and saves its content', async () => {
-    const close = vi.fn();
-    const editor = { getValue: () => 'Updated code', setOption: vi.fn(), refresh: vi.fn() };
-    const fromTextArea = vi.fn().mockReturnValue(editor);
+  let fixture:ComponentFixture<CodeBlockMacroModalComponent>;
+  let modal:CodeBlockMacroModalComponent;
+  let root:HTMLElement;
+  let close:ReturnType<typeof vi.fn<OpModalService['close']>>;
+
+  async function render(languageClass = 'language-text') {
+    await page.viewport(1280, 800);
+    close = vi.fn<OpModalService['close']>();
     TestBed.configureTestingModule({
+      imports: [CommonModule, FormsModule],
       declarations: [CodeBlockMacroModalComponent],
-      imports: [FormsModule],
       providers: [
         { provide: I18nService, useValue: { t: (key:string) => key } },
-        { provide: OpModalLocalsToken, useValue: { content: 'Original code', languageClass: 'language-text', service: { close } } },
-        { provide: CodeMirrorLoaderService, useValue: {
-          loadCore: () => Promise.resolve({ fromTextArea }),
-          ensureModeLoaded: () => Promise.resolve(true),
-        } },
+        { provide: OpModalLocalsToken, useValue: { service: { close }, content: 'Original code', languageClass } },
       ],
     });
-    const fixture = TestBed.createComponent(CodeBlockMacroModalComponent);
-    try {
-      await fixture.whenStable();
-      const element = fixture.nativeElement as HTMLElement;
-      expect(element.querySelector('textarea')).toHaveValue('Original code');
-      expect(fromTextArea).toHaveBeenCalledWith(element.querySelector('textarea'), expect.objectContaining({ value: 'Original code' }));
-      const language = element.querySelector<HTMLInputElement>('#selected-language')!;
-      language.value = 'ruby';
-      language.dispatchEvent(new Event('input', { bubbles: true }));
-      await fixture.whenStable();
-      fixture.componentInstance.debouncedLanguageLoader.flush();
-      await vi.waitFor(() => expect(editor.setOption).toHaveBeenCalledWith('mode', 'ruby'));
-      element.querySelector<HTMLButtonElement>('.spot-modal--submit-button')!.click();
-      expect(fixture.componentInstance.content).toBe('Updated code');
-      expect(fixture.componentInstance.languageClass).toBe('language-ruby');
-      expect(close).toHaveBeenCalled();
-    } finally {
-      fixture.componentInstance.debouncedLanguageLoader.cancel();
-    }
+    fixture = TestBed.createComponent(CodeBlockMacroModalComponent);
+    modal = fixture.componentInstance;
+    root = fixture.nativeElement as HTMLElement;
+    await fixture.whenStable();
+    await waitFor(() => expect(modal.codeMirrorInstance).toBeDefined());
+  }
+
+  afterEach(() => modal?.debouncedLanguageLoader.cancel());
+
+  it('renders initial content with the real code editor', async () => {
+    await render();
+    expect(root.querySelector('.CodeMirror')).toBeInTheDocument();
+    expect(modal.codeMirrorInstance?.getValue()).toBe('Original code');
+    expect(within(root).getByRole('textbox', { name: 'js.editor.macro.code_block.language' })).toHaveValue('text');
+  });
+
+  it('saves edited code and the selected language', async () => {
+    await render();
+    modal.codeMirrorInstance!.setValue('Updated code');
+    fireEvent.input(within(root).getByRole('textbox', { name: 'js.editor.macro.code_block.language' }), { target: { value: 'ruby' } });
+    await fixture.whenStable();
+    fireEvent.click(within(root).getByRole('button', { name: 'js.button_save' }));
+    await fixture.whenStable();
+    expect(modal.content).toBe('Updated code');
+    expect(modal.languageClass).toBe('language-ruby');
+    expect(modal.changed).toBe(true);
+    expect(close).toHaveBeenCalledOnce();
+  });
+
+  it('defaults an empty language to plain text when saving', async () => {
+    await render('invalid');
+    const language = within(root).getByRole('textbox', { name: 'js.editor.macro.code_block.language' });
+    expect(language).toHaveValue('text');
+    fireEvent.input(language, { target: { value: '' } });
+    await fixture.whenStable();
+    fireEvent.submit(root.querySelector('form')!);
+    await fixture.whenStable();
+    expect(modal.languageClass).toBe('language-text');
+    expect(close).toHaveBeenCalledOnce();
+  });
+
+  it('cancels without applying changes from the editor', async () => {
+    await render();
+    modal.codeMirrorInstance!.setValue('Discarded code');
+    fireEvent.click(within(root).getByRole('button', { name: 'js.button_cancel' }));
+    await fixture.whenStable();
+    expect(modal.changed).toBe(false);
+    expect(modal.content).toBe('Original code');
+    expect(close).toHaveBeenCalledOnce();
   });
 });
