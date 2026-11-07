@@ -25,13 +25,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { WorkPackageTableTextCellComponent } from './wp-table-text-cell.component';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, linkedSignal } from '@angular/core';
 import { WorkPackageTableCellContentDirective, WorkPackageTableCellDirective } from './wp-table-cell.directive';
 import { WorkPackageTableActionComponent } from './wp-table-action.component';
 import { WorkPackageTableIdCellComponent } from './wp-table-id-cell.component';
 import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
 import { isRelationColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { internalContextMenuColumn, internalSortColumn } from '../builders/internal-sort-columns';
+import { TextCellPresentation } from './text-cell-presentation';
 import { TemplateRow, TemplateRowView } from './template-row';
 import { hierarchyRootClass } from '../helpers/wp-table-hierarchy-helpers';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
@@ -45,6 +47,7 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'tr[opWpTableRow]',
   imports: [
+    WorkPackageTableTextCellComponent,
     WorkPackageTableCellDirective,
     WorkPackageTableCellContentDirective,
     WorkPackageTableActionComponent,
@@ -93,6 +96,12 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
               <th scope="row" opWpTableIdCell [row]="entry"></th>
             } @else {
               <td opWpTableIdCell [row]="entry"></td>
+            }
+          } @else if (textCells().get(column.id); as presentation) {
+            @if (column.id === view().rowHeader) {
+              <th scope="row" opWpTableTextCell [presentation]="presentation"></th>
+            } @else {
+              <td opWpTableTextCell [presentation]="presentation"></td>
             }
           } @else if (column.id === view().rowHeader) {
             <th scope="row" opWpTableCell [column]="column" [row]="entry" [view]="view()"></th>
@@ -151,6 +160,19 @@ export class WorkPackageTableRowComponent {
   readonly workPackageRow = computed(() => {
     const row = this.row();
     return row.kind === 'workPackage' ? row : null;
+  });
+
+  private readonly element = inject<ElementRef<HTMLTableRowElement>>(ElementRef);
+
+  readonly textCells = linkedSignal({
+    source: () => ({ row: this.workPackageRow(), view: this.view() }),
+    computation: ({ row, view }, previous):Map<string, TextCellPresentation|null> => new Map(view.columns.map((column) => {
+      const cell = Array.from(this.element.nativeElement.cells).find((entry) => entry.classList.contains(column.id));
+      if (row && cell && previous?.value.has(column.id) && view.isEditing(row.workPackage, column, cell)) {
+        return [column.id, previous.value.get(column.id) ?? null];
+      }
+      return [column.id, row ? view.textCell(row, column) : null];
+    })),
   });
 
   readonly groupHeader = computed(() => {

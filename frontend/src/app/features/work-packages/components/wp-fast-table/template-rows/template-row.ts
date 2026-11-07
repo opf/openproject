@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { TextCellPresentation } from './text-cell-presentation';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { OccurrenceKey, RenderedOccurrence } from '../rendered-occurrence-ledger';
@@ -45,7 +46,7 @@ export interface TemplateWorkPackageRow extends TemplateRowIdentity {
   readonly revision:number;
 }
 
-interface TemplateGroupHeader extends TemplateRowIdentity {
+export interface TemplateGroupHeader extends TemplateRowIdentity {
   readonly kind:'groupHeader';
   readonly index:number;
   readonly identifier:string;
@@ -82,6 +83,7 @@ export interface TemplateRowView {
   canDrag(workPackage:WorkPackageResource):boolean|null;
   /** An empty drag and drop table renders a placeholder row as its drop target. */
   readonly placeholder:boolean;
+  textCell(row:TemplateWorkPackageRow, column:QueryColumn):TextCellPresentation|null;
   buildCell(row:TemplateWorkPackageRow, column:QueryColumn):HTMLTableCellElement|null;
   isEditing(workPackage:WorkPackageResource, column:QueryColumn, cell:HTMLTableCellElement):boolean;
 }

@@ -1314,6 +1314,58 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(within(resultRow('3')!).getByRole('rowheader', { name: 'Updated while moving' })).toBeInTheDocument();
     });
 
+    it.each([false, true])('keeps an open editor when baseline eligibility changes from %s', async (initiallyChanged) => {
+      let changed = initiallyChanged;
+      vi.spyOn(TestBed.inject(WorkPackageViewBaselineService), 'isChanged').mockImplementation((_resource, attribute) => attribute === 'subject' && changed);
+      const component = await mount({}, [{ id: '1', subject: 'Original', baseline: 'updated' }]);
+      const table = component.workPackageTable;
+      const cell = within(resultRow('1')!).getByRole('rowheader', { name: 'Original' });
+      const workPackage = states.workPackages.get('1').value!;
+      const form = table.editing.startEditing(workPackage, 'wp-row-1');
+      const field = await form.activate('subject');
+      const input = within(cell).getByRole('textbox');
+      fireEvent.input(input, { target: { value: 'Unsaved' } });
+
+      changed = !initiallyChanged;
+      table.refreshRows(workPackage);
+
+      expect(within(resultRow('1')!).getByRole('textbox')).toBe(input);
+      expect(input).toHaveValue('Unsaved');
+      field!.deactivate(false);
+      const refreshed = within(resultRow('1')!).getByRole('rowheader', { name: 'Original' });
+      expect(refreshed.hasAttribute('opwptabletextcell')).toBe(initiallyChanged);
+      expect(within(refreshed).queryByRole('textbox')).toBeNull();
+    });
+
+    it('keeps a text cell editable after refresh, cancellation and reactivation', async () => {
+      const component = await mount({}, [{ id: '1', subject: 'Original' }]);
+      const table = component.workPackageTable;
+      const row = resultRow('1')!;
+      const cell = within(row).getByRole('rowheader', { name: 'Original' });
+      expect(cell).toHaveAttribute('opwptabletextcell');
+      const workPackage = states.workPackages.get('1').value!;
+      const form = table.editing.startEditing(workPackage, 'wp-row-1');
+      const field = await form.activate('subject');
+      expect(field).toBeTruthy();
+      const input = within(cell).getByRole('textbox');
+      fireEvent.input(input, { target: { value: 'Unsaved' } });
+      expect(cell.querySelector('.inline-edit--display-field')).toBeNull();
+
+      table.refreshRows(workPackage);
+
+      expect(within(cell).getByRole('textbox')).toBe(input);
+      expect(input).toHaveValue('Unsaved');
+      field!.deactivate(false);
+      expect(within(cell).queryByRole('textbox')).toBeNull();
+      expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Original');
+      expect(within(row).getByRole('rowheader', { name: 'Original' })).toBe(cell);
+
+      const reopened = await form.activate('subject');
+      expect(within(cell).getByRole('textbox')).not.toBe(input);
+      reopened!.deactivate(false);
+      expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Original');
+    });
+
     it('refreshes a row in place', async () => {
       const table = await mount({}, [{ id: '1', subject: 'Before' }]);
       const row = resultRow('1')!;

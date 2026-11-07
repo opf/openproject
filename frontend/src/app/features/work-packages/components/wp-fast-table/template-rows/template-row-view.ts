@@ -25,6 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { textCellPresentation } from './text-cell-presentation';
+import { SingleHierarchyRowBuilder } from '../builders/modes/hierarchy/single-hierarchy-row-builder';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
@@ -50,6 +52,11 @@ export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
     contextMenuLabel: injector.get(I18nService).t('js.label_open_context_menu'),
     canDrag: (workPackage) => dragActions?.canPickup(workPackage) ?? null,
     placeholder: workPackageTable.renderPlaceholderRow,
+    textCell: ({ workPackage, relation }, column) => {
+      if (column.id === 'id' || column.id.startsWith('__internal')) return null;
+      if (!relation && column.id === 'subject' && rowBuilder instanceof SingleHierarchyRowBuilder) return null;
+      return textCellPresentation(injector, workPackage, column.id);
+    },
     buildCell: ({ workPackage, level, relation }, column) => (relation
       ? pass.relations.relationRowBuilder.buildCell(workPackage, column)
       : rowBuilder.buildTemplateCell(workPackage, column, level - 1)),
