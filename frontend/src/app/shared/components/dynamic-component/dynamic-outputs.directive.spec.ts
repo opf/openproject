@@ -40,7 +40,7 @@ class ChildComponent implements OnInit, AfterViewInit {
   readonly label = input('first');
   readonly context = inject(context);
   // eslint-disable-next-line @angular-eslint/no-output-rename -- The adapter must resolve public output aliases.
-  @Output('accepted') readonly changed = new EventEmitter<string>();
+  @Output('accepted') changed = new EventEmitter<string>();
   @Output() readonly initialized = new EventEmitter<string>();
   readonly modern = output<string>();
 
@@ -165,18 +165,38 @@ describe('DynamicOutputsDirective', () => {
     expect(host.last).toBe('new');
   });
 
+  it('disconnects a replaced output on the same child', async () => {
+    await render();
+    const original = child().changed;
+    child().changed = new EventEmitter<string>();
+    host.changeDetector.markForCheck();
+    await fixture.whenStable();
+    expect(original.observed).toBe(false);
+    original.emit('old output');
+    expect(host.last).toBe('nothing');
+    child().changed.emit('replacement output');
+    await fixture.whenStable();
+    expect(text()).toBe('replacement output');
+  });
+
   it('disconnects when the output map is removed or the host is destroyed', async () => {
     await render();
     const original = child();
     const handlers = host.handlers();
     host.handlers.set(undefined);
     await fixture.whenStable();
+    expect(original.changed.observed).toBe(false);
     original.changed.emit('removed map');
     expect(host.last).toBe('nothing');
     host.handlers.set(handlers);
     await fixture.whenStable();
+    original.changed.emit('restored map');
+    await fixture.whenStable();
+    expect(text()).toBe('restored map');
+    expect(original.changed.observed).toBe(true);
     fixture.destroy();
+    expect(original.changed.observed).toBe(false);
     original.changed.emit('destroyed');
-    expect(host.last).toBe('nothing');
+    expect(host.last).toBe('restored map');
   });
 });
