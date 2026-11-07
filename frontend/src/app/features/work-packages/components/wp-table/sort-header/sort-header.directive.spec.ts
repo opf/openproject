@@ -47,7 +47,7 @@ import { nextTask } from 'core-common/testing/timing';
 import { buildQuery, buildTable, FakeDragAndDropService, harnessProviders, initializeViewServices, TableHarness } from '../../wp-fast-table/testing/table-harness';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { OpColumnsContextMenu } from 'core-app/shared/components/op-context-menu/handlers/op-columns-context-menu.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { SortHeaderDirective } from './sort-header.directive';
@@ -358,7 +358,7 @@ describe('SortHeaderDirective relation columns in several tables', () => {
         WorkPackageViewBaselineService, ConfigurationService, TimezoneService, WeekdayService,
         { provide: DayResourceService, useValue: { requireNonWorkingYears$: () => of([]) } },
         { provide: WeekdayResourceService, useValue: { requireCollection: () => of([]) } },
-        { provide: OPContextMenuService, useValue: contextMenu },
+        { provide: OpActionMenuService, useValue: contextMenu },
         { provide: OpModalService, useValue: {} },
         { provide: ConfirmDialogService, useValue: {} },
       ],
