@@ -25,6 +25,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 class RemoveAITextActionsEnabledSetting < ActiveRecord::Migration[8.1]
   ENV_VARIABLES = %w[

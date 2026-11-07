@@ -25,6 +25,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 class AddOriginColumnsToWorkPackages < ActiveRecord::Migration[8.1]
   def change
