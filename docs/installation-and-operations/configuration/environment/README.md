@@ -347,6 +347,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_PLUGIN__OPENPROJECT__RESOURCE__MANAGEMENT` | `nil` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__STORAGES` | `nil` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__TEAM__PLANNER` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__TEST__MANAGEMENT` | `nil` |  |
 | `OPENPROJECT_PROJECT__GANTT__QUERY` | `nil` | Project portfolio Gantt view |
 | `OPENPROJECT_RAILS__ASSET__HOST` | `nil` | Custom asset hostname for serving assets (e.g., Cloudfront) |
 | `OPENPROJECT_RAILS__CACHE__STORE` | `:file_store` | Set cache store implementation to use with OpenProject |
