@@ -32,6 +32,7 @@ import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { fireEvent } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SpotFormFieldComponent } from './form-field.component';
 import { SpotFormBindingDirective } from './form-binding.directive';
@@ -79,12 +80,18 @@ describe.each([
   }
 
   function expectError(visible:boolean) {
-    expect(element.classList.contains('spot-form-field_invalid')).toBe(visible);
     const errors = element.querySelector('.spot-form-field--errors');
-    expect(Boolean(errors)).toBe(visible);
+    if (visible) {
+      expect(element).toHaveClass('spot-form-field_invalid');
+      expect(errors).toBeInTheDocument();
+      expect(errors).toHaveTextContent('Required');
+    } else {
+      expect(element).not.toHaveClass('spot-form-field_invalid');
+      expect(errors).not.toBeInTheDocument();
+    }
     const description = element.querySelector('.spot-form-field--description')!;
-    expect(element.querySelector('.spot-form-field--input')?.getAttribute('aria-describedby'))
-      .toBe((errors ?? description).id);
+    expect(element.querySelector('.spot-form-field--input'))
+      .toHaveAttribute('aria-describedby', (errors ?? description).id);
   }
 
   it.each([false, true])('updates touched validation with a projected control: %s', async (projected) => {
@@ -138,10 +145,10 @@ describe.each([
     await fixture.whenStable();
     expectError(false);
     const form = (fixture.nativeElement as HTMLElement).querySelector('form')!;
-    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    fireEvent.submit(form);
     await fixture.whenStable();
     expectError(true);
-    form.dispatchEvent(new Event('reset', { bubbles: true, cancelable: true }));
+    fireEvent.reset(form);
     await fixture.whenStable();
     expectError(false);
   });
@@ -225,10 +232,10 @@ describe.each([
     field.componentRef.setInput('label', 'Unbound');
     await field.whenStable();
     expect(field.nativeElement as HTMLElement).toHaveTextContent('Unbound');
-    expect((field.nativeElement as HTMLElement).querySelector('.spot-form-field--errors')).toBeNull();
+    expect((field.nativeElement as HTMLElement).querySelector('.spot-form-field--errors')).not.toBeInTheDocument();
   });
 
-  it('keeps validation hidden in never mode' , async () => {
+  it('keeps validation hidden in never mode', async () => {
     await render();
     host.mode.set('never');
     await fixture.whenStable();

@@ -29,6 +29,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { createEvent, fireEvent, within } from '@testing-library/dom';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { SpotTextFieldComponent } from './text-field.component';
 
@@ -45,7 +46,7 @@ class HostComponent {
 describe('SpotTextFieldComponent', () => {
   let fixture:ComponentFixture<HostComponent>;
   let host:HostComponent;
-  let input:HTMLInputElement;
+  let input:HTMLElement;
   let element:HTMLElement;
 
   beforeEach(async () => {
@@ -60,52 +61,51 @@ describe('SpotTextFieldComponent', () => {
     host = fixture.componentInstance;
     await fixture.whenStable();
     element = (fixture.nativeElement as HTMLElement).querySelector('spot-text-field')!;
-    input = element.querySelector('input')!;
+    input = within(element).getByRole('textbox');
   });
 
   it('renders programmatic form values', async () => {
-    expect(input.value).toBe('Initial');
+    expect(input).toHaveValue('Initial');
     host.control.setValue('Replacement');
     await fixture.whenStable();
-    expect(input.value).toBe('Replacement');
+    expect(input).toHaveValue('Replacement');
     host.control.reset();
     await fixture.whenStable();
-    expect(input.value).toBe('Initial');
+    expect(input).toHaveValue('Initial');
   });
 
   it('propagates user input and clear actions to the form', async () => {
-    input.value = 'Typed';
-    input.dispatchEvent(new Event('input', { bubbles: true }));
+    fireEvent.input(input, { target: { value: 'Typed' } });
     await fixture.whenStable();
     expect(host.control.value).toBe('Typed');
-    element.querySelector('button')!.click();
+    fireEvent.click(within(element).getByRole('button'));
     await fixture.whenStable();
     expect(host.control.value).toBe('');
-    expect(input.value).toBe('');
-    expect(element.querySelector('button')).toBeNull();
+    expect(input).toHaveValue('');
+    expect(within(element).queryByRole('button')).not.toBeInTheDocument();
   });
 
   it('reflects disabled and enabled form state', async () => {
     host.control.disable();
     await fixture.whenStable();
-    expect(input.disabled).toBe(true);
+    expect(input).toBeDisabled();
     expect(element).toHaveClass('spot-text-field_disabled');
-    expect(element.querySelector('button')).toBeNull();
+    expect(within(element).queryByRole('button')).not.toBeInTheDocument();
     host.control.enable();
     await fixture.whenStable();
-    expect(input.disabled).toBe(false);
+    expect(input).toBeEnabled();
     expect(element).not.toHaveClass('spot-text-field_disabled');
-    expect(element.querySelector('button')).not.toBeNull();
+    expect(within(element).getByRole('button')).toBeInTheDocument();
   });
 
   it('reflects focus state and forwards focus events', async () => {
-    const focus = new FocusEvent('focus');
-    const blur = new FocusEvent('blur');
-    input.dispatchEvent(focus);
+    const focus = createEvent.focus(input);
+    const blur = createEvent.blur(input);
+    fireEvent(input, focus);
     await fixture.whenStable();
     expect(element).toHaveClass('spot-text-field_focused');
     expect(host.focusEvents).toEqual([focus]);
-    input.dispatchEvent(blur);
+    fireEvent(input, blur);
     await fixture.whenStable();
     expect(element).not.toHaveClass('spot-text-field_focused');
     expect(host.blurEvents).toEqual([blur]);

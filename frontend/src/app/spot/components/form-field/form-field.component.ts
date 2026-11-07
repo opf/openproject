@@ -91,7 +91,7 @@ export class SpotFormFieldComponent implements AfterContentChecked {
    */
   @Input() hidden = false;
 
-  @ContentChild(NgControl) ngControl:NgControl;
+  @ContentChild(NgControl) ngControl?:NgControl;
 
   internalID = `spot-form-field-${+new Date()}`;
 

@@ -92,7 +92,7 @@ export class SpotSelectorFieldComponent implements AfterContentChecked {
    */
   @Input() hidden = false;
 
-  @ContentChild(NgControl) ngControl:NgControl;
+  @ContentChild(NgControl) ngControl?:NgControl;
 
   internalID = `spot-selector-field-${+new Date()}`;
 
