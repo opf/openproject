@@ -23,8 +23,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
-
 ++#%>
+
 <%=
   render OpenProject::Common::SubmenuComponent.new(
     sidebar_menu_items: Wikis::WikiPages::Menu.new(params: params.permit(:query_id)).menu_items

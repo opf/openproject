@@ -23,8 +23,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
-
 ++#%>
+
 <% if @entry && @entry.kind == 'file' %>
   <p>
     <%= link_to_if action_name != "changes", t(:label_history), { action: "changes", project_id: @project, repo_path: to_path_param(@path), rev: @rev } %> |
