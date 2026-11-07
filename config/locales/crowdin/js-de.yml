@@ -1126,7 +1126,6 @@ de:
         default_mode: Flache Liste
         display_settings: Anzeigeeinstellungen
         display_sums_hint: Zeigt eine Zeile mit den Summen aller summierbaren Spalten unterhalb den Ergebnissen an.
-        embedded_tab_disabled: Dieser Reiter ist in der eingebetteten Ansicht, die Sie bearbeiten, nicht verfübar.
         hierarchy_hint: Zusätzlich zu den Ergebnissen der Tabelle werden die Eltern der Elemente angezeigt. Hierarchien können in der Tabelle ein- und ausgeklappt werden.
         hierarchy_mode: Hierarchie
         highlighting: Hervorhebung

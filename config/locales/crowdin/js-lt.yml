@@ -1140,7 +1140,6 @@ lt:
         default_mode: Paprastas sąrašas
         display_settings: Rodymo nustatymai
         display_sums_hint: Rodyti visų sumuotinų atributų sumas eilutėje lentelės apačioje po rezultatais.
-        embedded_tab_disabled: Ši konfigūracijos kortelė nerodoma įterpiamam vaizdui, kurį jūs redaguojate.
         hierarchy_hint: Visi filtruoti lentelės rezultatai bus papildyti savo tėvais. Hierarchijas galima išplėsti ir sutraukti.
         hierarchy_mode: Hierarchija
         highlighting: Paryškinimai
