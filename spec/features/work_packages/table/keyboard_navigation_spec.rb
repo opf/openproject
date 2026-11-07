@@ -30,7 +30,7 @@
 require "spec_helper"
 require "support/shared/embedded_keyboard_table_examples"
 
-RSpec.describe "Work package table keyboard navigation", :js do
+RSpec.shared_examples "both renderers: work package table keyboard navigation" do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
@@ -406,5 +406,12 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
       wp_table.expect_focus_on_totals_cell(:estimated_time)
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Work package table keyboard navigation (new_table_rendering=#{new_table_rendering})",
+                 :js, with_flag: { new_table_rendering: } do
+    it_behaves_like "both renderers: work package table keyboard navigation"
   end
 end
