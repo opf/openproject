@@ -2813,6 +2813,50 @@ en:
     update_consent_last_time: "Last update of consent: %{update_time}"
     user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
 
+  contextual_help:
+    open: "Learn more about phases and phase gates"
+    project_life_cycle:
+      example_note: >-
+        Example mapping for PMflex-based projects. Follow your organisation's agreed methodology and configuration.
+      gates: >-
+        Phase gates represent review and decision points. Document the decision and supporting evidence in work packages
+        or meetings. Entering a gate date does not record an approval. Gate dates follow the start or finish of their phase.
+      gates_heading: "How do phase gates relate to approvals?"
+      monitoring: "Monitoring and control continue across all phases, rather than forming a separate sequential phase."
+      phases:
+        closing:
+          description: "Confirm acceptance, capture lessons learned and formally close the project."
+          name: "Closing"
+        executing:
+          description: "Coordinate the planned work and deliver the agreed project outcomes."
+          name: "Executing"
+        initiating:
+          description: "Clarify the need, objectives and justification for the project."
+          name: "Initiating"
+        planning:
+          description: "Agree on the scope, responsibilities, resources and schedule."
+          name: "Planning"
+      purpose: >-
+        A project life cycle provides a shared structure for planning and reviewing the project.
+        PMflex builds on PM², whose four phases can be represented by OpenProject's project phases.
+      purpose_heading: "What does the life cycle describe?"
+      reference: "Further guidance: PM² and PMflex in OpenProject (opens in a new tab)"
+      steps:
+        define: >-
+          An administrator defines the available phases, their order and their gates under Administration → Projects → Project life cycle.
+        review: >-
+          Review the dates and required outputs with the responsible people before moving to the next phase.
+          Keep the related tasks and decisions in work packages and meetings.
+        schedule: >-
+          On the project home page, set the start and finish dates for each active phase.
+          Changing dates can automatically reschedule subsequent phases.
+        select: >-
+          Under Project settings → Project life cycle, enable the phases needed for your project.
+          The available actions depend on your permissions and edition.
+      steps_heading: "How do I map this in OpenProject?"
+      subtitle: "Methodology and practical guidance"
+      title: "The PMflex project life cycle in OpenProject"
+
   copy_project:
     copy_options:
       dependencies_label: "Copy from project"

@@ -1,0 +1,86 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: Help::ProjectLifeCycleDialogComponent::DIALOG_ID,
+        title: t("contextual_help.project_life_cycle.title"),
+        subtitle: t("contextual_help.project_life_cycle.subtitle"),
+        size: :large,
+        position: :right
+      )
+    ) do |dialog| %>
+  <% if options[:show_button] %>
+    <% dialog.with_show_button(
+         scheme: :link,
+         test_selector: "project-life-cycle-contextual-help",
+         aria: { haspopup: "dialog" }
+       ) do |button| %>
+      <% button.with_leading_visual_icon(icon: :book) %>
+      <%= t("contextual_help.open") %>
+    <% end %>
+  <% end %>
+  <% dialog.with_header(variant: :large) %>
+  <% dialog.with_body do %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("contextual_help.project_life_cycle.example_note") } %>
+
+    <%= render(Primer::Beta::Heading.new(tag: :h2, font_size: 3, mt: 3, mb: 2)) { t("contextual_help.project_life_cycle.purpose_heading") } %>
+    <%= render(Primer::Beta::Text.new(tag: :p)) { t("contextual_help.project_life_cycle.purpose") } %>
+
+    <dl>
+      <% %w[initiating planning executing closing].each do |phase| %>
+        <dt><strong><%= t("contextual_help.project_life_cycle.phases.#{phase}.name") %></strong></dt>
+        <dd><%= t("contextual_help.project_life_cycle.phases.#{phase}.description") %></dd>
+      <% end %>
+    </dl>
+    <%= render(Primer::Beta::Text.new(tag: :p)) { t("contextual_help.project_life_cycle.monitoring") } %>
+
+    <%= render(Primer::Beta::Heading.new(tag: :h2, font_size: 3, mt: 3, mb: 2)) { t("contextual_help.project_life_cycle.steps_heading") } %>
+    <ol>
+      <% %w[define select schedule review].each do |step| %>
+        <li><%= t("contextual_help.project_life_cycle.steps.#{step}") %></li>
+      <% end %>
+    </ol>
+
+    <%= render(Primer::Beta::Heading.new(tag: :h2, font_size: 3, mt: 3, mb: 2)) { t("contextual_help.project_life_cycle.gates_heading") } %>
+    <%= render(Primer::Beta::Text.new(tag: :p)) { t("contextual_help.project_life_cycle.gates") } %>
+
+    <%= render(
+          Primer::Beta::Link.new(
+            href: "https://www.openproject.org/docs/use-cases/project-management-pm2-pmflex/",
+            target: "_blank",
+            rel: "noopener noreferrer"
+          )
+        ) { t("contextual_help.project_life_cycle.reference") } %>
+  <% end %>
+  <% dialog.with_footer do %>
+    <%= render(
+          Primer::Beta::Button.new(data: { close_dialog_id: Help::ProjectLifeCycleDialogComponent::DIALOG_ID })
+        ) { t(:button_close) } %>
+  <% end %>
+<% end %>

@@ -19,6 +19,9 @@
             )
           end
         end
+        details_container.with_row(mt: 3) do
+          render Help::ProjectLifeCycleDialogComponent.new(show_button: true)
+        end
       end
     end
   end
