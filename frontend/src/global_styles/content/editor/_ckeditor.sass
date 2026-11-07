@@ -14,21 +14,15 @@
 opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   margin-top: var(--stack-gap-normal)
 
-// Ensure same border and min-height for preview
-.ck-content,
-.ck-editor__preview
-  border: 1px solid var(--ck-color-base-border)
+// Specific overrides for ck contenteditable
+.ck-content
   min-height: 100px
-  padding: 10px
   // CKEditor 49 sets the editable padding (1em) from this variable.
   --ck-editor-editable-padding: 7px 10px
 
   // Keep editor content typography aligned with surrounding OpenProject styles.
   --ck-content-font-family: var(--body-font-family)
   --ck-content-font-size: var(--body-font-size)
-
-// Specific overrides for ck contenteditable
-.ck-content
 
   // Remove the 12px edge margin of CKEditor 49, except for widgets,
   // which need the room for their "insert paragraph" buttons.
@@ -60,43 +54,14 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
     th[style^="width:"]
       word-break: break-all
 
-.ck .ck-widget.op-ckeditor--code-block
-  // Display content as pre
-  white-space: pre-wrap
-  padding: 10px 5px 0 5px
-  border: 1px dashed #eee
-  background: #f1f1f1
-  cursor: pointer
-
-  .op-ckeditor--code-block-language
-    text-align: right
-    font-style: italic
-    font-size: 0.8rem
-    padding: 5px 0
-
 .op-macro-list-button
   > .ck.ck-button
     text-align: left
-
-.ckeditor-type-balloon
-  margin-left: 25px
-
-.ck.ck-block-toolbar-button
-  transform: translateX( -15px )
-  z-index: 1000 !important
 
 // Force forms of ck to be block
 // as our forms are inline by default
 .ck.ck-form
   display: block
-
-// Override fixed position of toolbar
-// Otherwise the toolbar will 'disappear' behind the topmenu
-.ck.ck-sticky-panel__placeholder
-  height: 0 !important
-
-.ck.ck-sticky-panel__content
-  position: unset !important
 
 // Keep the grouped toolbar dropdown within the editor when surrounding split
 // panes reduce its available width.
