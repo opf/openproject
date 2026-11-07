@@ -31,21 +31,12 @@ import tseslint from 'typescript-eslint';
 import vitest from '@vitest/eslint-plugin';
 import angular from 'angular-eslint';
 import stylistic from '@stylistic/eslint-plugin';
-import headers from 'eslint-plugin-headers';
 import json from '@eslint/json';
 
 import { defineConfig, globalIgnores } from 'eslint/config';
-import { copyrightHeaderOptions } from './copyright.mjs';
 import { jsonConfig } from './eslint-json.mjs';
 
 export default defineConfig([
-  {
-    files: ['**/*.{js,mjs,cjs,ts,tsx,mts,cts}'],
-    plugins: { headers },
-    rules: {
-      'headers/header-format': ['error', copyrightHeaderOptions],
-    },
-  },
   {
     files: ['**/*.{js,mjs,cjs}'],
     extends: [
@@ -289,7 +280,5 @@ export default defineConfig([
     'coverage/',
     'src/locales/',
     '**/vendor',
-    // Carries a third-party copyright notice; excluded from `rake copyright:update_*` too.
-    'src/app/features/plugins/linked/openproject-gitlab_integration/**',
   ]),
 ]);
