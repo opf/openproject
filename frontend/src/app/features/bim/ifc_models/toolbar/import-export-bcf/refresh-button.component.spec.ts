@@ -25,9 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { RefreshButtonComponent } from './refresh-button.component';
 
@@ -35,11 +37,11 @@ describe('RefreshButtonComponent', () => {
   beforeEach(async () => {
     await TestBed
       .configureTestingModule({
-        declarations: [RefreshButtonComponent],
+        imports: [OpTooltipDirective],
+        declarations: [RefreshButtonComponent, OpIconComponent],
         providers: [
           { provide: I18nService, useValue: { t: (key:string) => key } },
         ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
       .compileComponents();
 
