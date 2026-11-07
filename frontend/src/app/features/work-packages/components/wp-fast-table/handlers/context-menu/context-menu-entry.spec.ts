@@ -222,14 +222,13 @@ describe('Context menu entry', () => {
       ]);
     });
 
-    it('offers no move group for a batch selection', () => {
+    it('offers the bulk move submenu with selection-wide edges', () => {
       harness.click('1');
       harness.click('2', { shiftKey: true });
 
       openFromKeyboard('2');
 
-      expect(hasMoveSubmenu()).toBe(false);
-      expect(moveItems()).toEqual([]);
+      expect(moveItems().map((item) => item.disabled)).toEqual([true, true, false, false]);
     });
 
     it('offers no move group outside manual sorting', async () => {
@@ -256,7 +255,7 @@ describe('Context menu entry', () => {
 
       expect(moveItems()[2].onClick!()).toBe(true);
 
-      await vi.waitFor(() => expect(harness.table.rowMover!.movableDirections('2')).toEqual(new Set(['top', 'up'])));
+      await vi.waitFor(() => expect(harness.table.rowMover!.movableDirections(['2'])).toEqual(new Set(['top', 'up'])));
     });
 
     it('disables every move while a move is pending', async () => {
@@ -268,7 +267,7 @@ describe('Context menu entry', () => {
         const prepared = await original(...args);
         return { ...prepared, persist: async () => { await gate; await prepared.persist(); } };
       });
-      harness.table.rowMover!.move('1', 'down');
+      harness.table.rowMover!.move(['1'], 'down');
       await vi.waitFor(() => expect(prepareMove).toHaveBeenCalled());
 
       openFromKeyboard('2');

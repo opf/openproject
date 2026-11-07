@@ -206,6 +206,17 @@ describe('WorkPackageViewOrderService', () => {
 
 
   describe('captured persistence', () => {
+    it('persists a non-contiguous selection in one delta and leaves unrelated positions alone', async () => {
+      endpointA.order.get.mockResolvedValue({ '1': 10, '2': 20, '3': 30, '4': 40, '9': 90 });
+
+      const prepared = await service.prepareBlockMove(queryA, ['1', '2', '3', '4'], ['4', '2'], 0, () => true);
+      expect(prepared.order).toEqual(['2', '4', '1', '3']);
+      await prepared.persist();
+
+      expect(endpointA.order.update).toHaveBeenCalledExactlyOnceWith({ '2': 10, '4': 20, '1': 30, '3': 40 });
+      expect(queryA.orderedWorkPackages).toMatchObject({ '9': 90 });
+    });
+
     it('prepares without writing and persists A after navigation during its read', async () => {
       const read = deferred<QueryOrder>();
       endpointA.order.get.mockReturnValue(read.promise);
