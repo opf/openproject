@@ -60,6 +60,7 @@ import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
+import { LinkDisplayField } from 'core-app/shared/components/fields/display/field-types/link-display-field.module';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { HighlightedResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/highlighted-resource-display-field.module';
 import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
@@ -431,6 +432,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     'js.work_packages.table.sorted_manually': 'Sorted manually.',
     'js.inplace.errors.messages_on_field': 'This field is invalid: %{messages}',
     'js.button_cancel': 'Cancel',
+    'js.button_edit': 'Edit',
     'js.label_open_context_menu': 'Open context menu',
   };
   let baselineActive:boolean;
@@ -461,7 +463,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
             { from: '2', to: '3', type: 'follows', reverseType: 'precedes' },
           ],
           translations,
-          editing: { fields: ['subject', 'project'] },
+          editing: { fields: ['subject', 'project', 'customField1'] },
         }),
         provideHttpClient(),
         { provide: HalResourceService, useClass: HalResourceService },
@@ -1257,6 +1259,92 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await waitFor(() => expect(row).not.toHaveClass(Highlighting.resourceClass('status', '12')));
       highlighting.update({ mode: 'status' });
       await waitFor(() => expect(row).toHaveClass(Highlighting.resourceClass('status', '12')));
+    });
+
+    describe('link cells', () => {
+      const cell = () => resultRow('1')!.querySelector<HTMLTableCellElement>('td.customField1')!;
+      const display = () => cell().querySelector<HTMLElement>('.inline-edit--display-field')!;
+      const url = 'https://example.org/docs';
+
+      beforeEach(() => {
+        TestBed.inject(DisplayFieldService).addFieldType(LinkDisplayField, 'link', ['Link']);
+        const cache = TestBed.inject(SchemaCacheService);
+        const original = cache.of.bind(cache);
+        vi.spyOn(cache, 'of').mockImplementation((resource) => {
+          const schema = original(resource);
+          const ofProperty = schema.ofProperty.bind(schema);
+          return Object.assign(schema, {
+            ofProperty: (name:string) => name === 'customField1'
+              ? { type: 'Link', name: 'Reference', writable: true, hasDefault: false }
+              : ofProperty(name),
+          });
+        });
+        TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['id', 'subject', 'customField1'], null, false, false).columns);
+      });
+
+      it('retains the display while switching between empty, external and same-origin URLs', async () => {
+        const { workPackageTable } = await mount({}, [{ id: '1', attributes: { customField1: '' } }]);
+        const field = display();
+        expect(cell()).toHaveAttribute('opwptabletextcell');
+        expect(field).toHaveClass('-placeholder');
+        expect(field).toHaveTextContent('-');
+        expect(within(field).queryByRole('link')).toBeNull();
+
+        const refresh = (value:string) => workPackageTable.refreshRows(buildWorkPackage({ id: '1', attributes: { customField1: value } }));
+        refresh(url);
+        const anchor = within(field).getByRole('link', { name: url });
+        expect(display()).toBe(field);
+        expect(field).not.toHaveClass('-placeholder');
+        expect(field).toHaveAttribute('title', url);
+        expect(anchor).toHaveAttribute('href', url);
+        expect(anchor).toHaveAttribute('target', '_blank');
+        expect(anchor).toHaveAttribute('rel', 'noopener noreferrer');
+        expect(anchor).toHaveAttribute('tabindex', '-1');
+        expect(field.querySelector('.inline-edit--display-trigger')).toBeNull();
+
+        refresh('/help');
+        expect(within(field).getByRole('link', { name: '/help' })).toBe(anchor);
+        expect(anchor).toHaveAttribute('href', '/help');
+        expect(anchor).toHaveAttribute('target', '');
+
+        refresh('http://[');
+        expect(anchor).toHaveAttribute('href', 'http://[');
+        expect(anchor).toHaveAttribute('target', '');
+
+        refresh('javascript:alert(1)');
+        expect(anchor.getAttribute('href')).toMatch(/^unsafe:/);
+
+        refresh('');
+        expect(within(field).queryByRole('link')).toBeNull();
+        expect(field).toHaveClass('-placeholder');
+      });
+
+      it('activates the edit affordance and preserves the editor across a link refresh', async () => {
+        const attributes = { customField1: url, updateImmediately: vi.fn() };
+        const { workPackageTable } = await mount({}, [{ id: '1', attributes }]);
+        const root = cell();
+        const edit = within(display()).getByRole('link', { name: 'Edit' });
+        expect(root).toHaveAttribute('opwptabletextcell');
+        expect(edit).toHaveClass('icon', 'icon-edit');
+        expect(edit).toHaveAttribute('href', '#');
+        expect(edit).toHaveAttribute('tabindex', '-1');
+
+        fireEvent.click(edit);
+        const input = await within(root).findByRole('textbox');
+        const form = workPackageTable.editing.forms['1'];
+        await waitFor(() => expect(form.activeFields.customField1).toBeDefined());
+        fireEvent.input(input, { target: { value: 'Unsaved' } });
+
+        const workPackage = states.workPackages.get('1').value!;
+        Object.assign(workPackage, { customField1: '/updated' });
+        workPackageTable.refreshRows(workPackage);
+        expect(cell()).toBe(root);
+        expect(within(root).getByRole('textbox')).toBe(input);
+        expect(input).toHaveValue('Unsaved');
+
+        form.activeFields.customField1.deactivate(false);
+        expect(within(root).getByRole('link', { name: '/updated' })).toHaveAttribute('href', '/updated');
+      });
     });
 
     describe('resource cells', () => {

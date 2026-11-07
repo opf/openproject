@@ -32,6 +32,7 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
+import { LinkDisplayField } from 'core-app/shared/components/fields/display/field-types/link-display-field.module';
 import { WorkPackageIdDisplayField } from 'core-app/shared/components/fields/display/field-types/wp-id-display-field.module';
 import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { FakeDragAndDropService, harnessProviders } from '../testing/table-harness';
@@ -49,6 +50,12 @@ class MappedResourceDisplayField extends ResourceDisplayField {
 }
 
 class SpecializedResourceDisplayField extends ResourceDisplayField {
+  public override render(element:HTMLElement, displayText:string):void {
+    super.render(element, `${displayText}!`);
+  }
+}
+
+class SpecializedLinkDisplayField extends LinkDisplayField {
   public override render(element:HTMLElement, displayText:string):void {
     super.render(element, `${displayText}!`);
   }
@@ -98,6 +105,12 @@ class SpecializedResourceDisplayField extends ResourceDisplayField {
   it('keeps an overridden resource renderer on its existing rendering path', () => {
     TestBed.inject(DisplayFieldService).addFieldType(SpecializedResourceDisplayField, 'resource', ['String']);
     const workPackage = buildWorkPackage({ id: '1', attributes: { subject: { name: 'Specialized resource' } } });
+    expect(textCellPresentation(TestBed.inject(Injector), workPackage, 'subject')).toBeNull();
+  });
+
+  it('keeps an overridden link renderer on its existing rendering path', () => {
+    TestBed.inject(DisplayFieldService).addFieldType(SpecializedLinkDisplayField, 'link', ['String']);
+    const workPackage = buildWorkPackage({ id: '1', subject: '/help' });
     expect(textCellPresentation(TestBed.inject(Injector), workPackage, 'subject')).toBeNull();
   });
 });

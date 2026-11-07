@@ -35,6 +35,7 @@ import {
   editableClassName, placeholderClassName, readOnlyClassName, requiredClassName,
 } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { HighlightedResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/highlighted-resource-display-field.module';
+import { LinkDisplayField, type LinkDisplayPresentation } from 'core-app/shared/components/fields/display/field-types/link-display-field.module';
 import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
@@ -45,6 +46,7 @@ export interface TextCellPresentation {
   text:string;
   title:string|null;
   label:string;
+  link?:LinkDisplayPresentation|null;
 }
 
 export function textCellPresentation(
@@ -65,7 +67,8 @@ export function textCellPresentation(
   });
   const highlighted = field instanceof HighlightedResourceDisplayField && field.render === HighlightedResourceDisplayField.prototype.render;
   const disclosed = field instanceof ResourceDisplayField && field.render === ResourceDisplayField.prototype.render && !field.isUndisclosed;
-  if (field.isFormattable || !(field.render === DisplayField.prototype.render || highlighted || disclosed)) return null;
+  const link = field instanceof LinkDisplayField && field.render === LinkDisplayField.prototype.render;
+  if (field.isFormattable || !(field.render === DisplayField.prototype.render || highlighted || disclosed || link)) return null;
 
   const highlightClasses = highlighted ? field.inlineHighlightClasses : null;
   const empty = field.isEmpty();
@@ -78,11 +81,13 @@ export function textCellPresentation(
   const labelEditable = mapped === attribute ? editable : schema.isAttributeEditable(mapped);
   const i18n = injector.get(I18nService);
   const name = `${field.displayName} ${empty ? i18n.t('js.inplace.null_value_label') : field.valueString}`;
-  return {
+  const presentation:TextCellPresentation = {
     attribute,
     displayClasses,
     text: String(empty ? field.placeholder : field.valueString),
     title: field.title === '' ? null : field.title,
     label: field.writable && labelEditable ? i18n.t('js.inplace.button_edit', { attribute: name }) : name,
   };
+  if (link) presentation.link = field.linkPresentation;
+  return presentation;
 }

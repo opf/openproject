@@ -76,7 +76,12 @@
                 [attr.data-field-name]="presentation.attribute"
                 [attr.title]="presentation.title"
                 [attr.aria-label]="presentation.label"
-              >{{ presentation.text }}</span>
+              >{{ presentation.link ? '' : presentation.text }}@if (presentation.link; as link) {
+                <a [href]="link.href" rel="noopener noreferrer" [target]="link.target" tabindex="-1">{{ presentation.text }}</a>
+                @if (link.editLabel !== null) {
+                  <a class="icon icon-edit inline-edit--display-trigger" href="#" tabindex="-1" [attr.aria-label]="link.editLabel"></a>
+                }
+              }</span>
             </span>
           }
         </th>
@@ -93,7 +98,12 @@
                 [attr.data-field-name]="presentation.attribute"
                 [attr.title]="presentation.title"
                 [attr.aria-label]="presentation.label"
-              >{{ presentation.text }}</span>
+              >{{ presentation.link ? '' : presentation.text }}@if (presentation.link; as link) {
+                <a [href]="link.href" rel="noopener noreferrer" [target]="link.target" tabindex="-1">{{ presentation.text }}</a>
+                @if (link.editLabel !== null) {
+                  <a class="icon icon-edit inline-edit--display-trigger" href="#" tabindex="-1" [attr.aria-label]="link.editLabel"></a>
+                }
+              }</span>
             </span>
           }
         </td>
