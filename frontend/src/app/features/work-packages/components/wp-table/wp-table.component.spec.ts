@@ -1164,7 +1164,8 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
         { id: '1', attributes: { status: newStatus } },
         { id: '2', attributes: { status: inProgressStatus } },
       ];
-      await mount({}, entries);
+      const { workPackageTable } = await mount({}, entries);
+      const before = workPackageTable.templateRows!.snapshot();
       const header = () => document.querySelector<HTMLTableRowElement>('.work-package--results-tbody > tr[data-occurrence-key="group:0:header"]')!;
       const first = header();
       const sums = resultRow('1')!.nextElementSibling!;
@@ -1181,6 +1182,9 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(first).toHaveAttribute('aria-expanded', 'false');
       expect(sums).not.toBeVisible();
       expect(timelineSums()).not.toBeVisible();
+
+      workPackageTable.templateRows!.restore(before);
+      expect(first.querySelector('.expander')).toHaveClass('icon-plus');
 
       await render(entries);
 
@@ -1304,8 +1308,10 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       rows.move('wp:3', 'wp:1', true);
       expect(ids()).toEqual(['3', '1', '2']);
 
+      table.workPackageTable.refreshRows(buildWorkPackage({ id: '3', subject: 'Updated while moving' }));
       rows.restore(before);
       expect(ids()).toEqual(['1', '2', '3']);
+      expect(within(resultRow('3')!).getByRole('rowheader', { name: 'Updated while moving' })).toBeInTheDocument();
     });
 
     it('refreshes a row in place', async () => {

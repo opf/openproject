@@ -56,12 +56,14 @@ export class TemplateRowsController {
     return this.rows.some(({ key }) => key === row.dataset.occurrenceKey);
   }
 
-  public snapshot():readonly TemplateRow[] {
-    return this.rows;
+  public snapshot():readonly OccurrenceKey[] {
+    return this.rows.map(({ key }) => key);
   }
 
-  public restore(rows:readonly TemplateRow[]):void {
-    this.render(rows, this.view);
+  public restore(order:readonly OccurrenceKey[]):void {
+    const current = new Map(this.rows.map((row) => [row.key, row]));
+    if (order.length !== current.size || order.some((key) => !current.has(key))) return;
+    this.render(order.map((key) => current.get(key)!), this.view);
   }
 
   /** Moves a row next to another, as a drop shows the new order before it is saved. */
