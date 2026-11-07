@@ -30,6 +30,8 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTable } from '../../wp-fast-table';
 import type { PrimaryRenderPass, RenderPassOptions } from '../primary-render-pass';
+import { isRelationColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 
 export abstract class RowsBuilder {
   @LazyInject() public states:States;
@@ -47,5 +49,10 @@ export abstract class RowsBuilder {
    */
   public isApplicable(_table:WorkPackageTable) {
     return true;
+  }
+
+  protected get usesTemplateRows():boolean {
+    return this.workPackageTable.templateRows !== null
+      && !this.injector.get(WorkPackageViewColumnsService).getColumns().some(isRelationColumn);
   }
 }

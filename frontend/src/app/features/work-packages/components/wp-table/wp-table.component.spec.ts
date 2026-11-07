@@ -67,6 +67,7 @@ import { WorkPackageTableRowComponent } from '../wp-fast-table/template-rows/wp-
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 /** Shows the table or the card view, as `wp-list-view` does when the viewport or query changes. */
@@ -1086,6 +1087,45 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await render([]);
       expect(resultRow('1')).toBeNull();
       expect(timelineIdentifiers()).toEqual([]);
+    });
+
+    it('renders hierarchy occurrences in tree order with a stable ancestor row and collapse state', async () => {
+      const parent = { id: '1' };
+      const child = { id: '2', ancestors: [parent] };
+      const hierarchies = TestBed.inject(WorkPackageViewHierarchiesService);
+      hierarchies.setEnabled();
+      states.workPackages.get('1').putValue(buildWorkPackage(parent));
+      const listView = TestBed.createComponent(ListViewStandInComponent);
+      fixture = listView;
+      document.body.appendChild(listView.nativeElement as HTMLElement);
+      listView.detectChanges();
+      registerTables();
+      querySpace.tableRendered.clear();
+      putResults([child, { id: '3' }]);
+      querySpace.initialized.putValue(null);
+      await waitFor(() => expect(querySpace.tableRendered.value?.map(({ workPackageId }) => workPackageId)).toEqual(['1', '2', '3']));
+
+      const ancestor = resultRow('1')!;
+      expect(ancestor).toHaveAttribute('opwptablerow');
+      expect(ancestor).toHaveAttribute('data-occurrence-key', 'ancestor:1');
+      expect(ancestor).toHaveAttribute('aria-expanded', 'true');
+      expect(resultRow('2')).toHaveAttribute('aria-level', '2');
+
+      fireEvent.click(ancestor.querySelector('.wp-table--hierarchy-indicator')!);
+      expect(ancestor).toHaveAttribute('aria-expanded', 'false');
+      expect(resultRow('2')).not.toBeVisible();
+
+      querySpace.tableRendered.clear();
+      putResults([child, { id: '4' }]);
+      querySpace.initialized.putValue(null);
+      await waitFor(() => expect(querySpace.tableRendered.value?.map(({ workPackageId }) => workPackageId)).toEqual(['1', '2', '4']));
+      expect(resultRow('1')).toBe(ancestor);
+      expect(ancestor).toHaveAttribute('aria-expanded', 'false');
+      expect(resultRow('2')).not.toBeVisible();
+
+      fireEvent.click(ancestor.querySelector('.wp-table--hierarchy-indicator')!);
+      expect(ancestor).toHaveAttribute('aria-expanded', 'true');
+      expect(resultRow('2')).toBeVisible();
     });
 
     it('binds the row highlight and swaps it on refresh', async () => {

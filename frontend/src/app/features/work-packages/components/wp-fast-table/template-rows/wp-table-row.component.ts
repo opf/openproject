@@ -31,6 +31,8 @@ import { LegacyTableActionDirective } from './legacy-table-action.directive';
 import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
 import { internalContextMenuColumn, internalSortColumn } from '../builders/internal-sort-columns';
 import { TemplateRow, TemplateRowView } from './template-row';
+import { hierarchyRootClass } from '../helpers/wp-table-hierarchy-helpers';
+import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
 
 /**
  * A work package result row. Binds only the row's identity; row state
@@ -46,8 +48,9 @@ import { TemplateRow, TemplateRowView } from './template-row';
     class: 'wp-table--row wp--row issue',
     '[class]': 'hostClasses()',
     '[attr.data-work-package-id]': 'row().workPackage.id',
-    '[attr.data-class-identifier]': 'identifier()',
+    '[attr.data-class-identifier]': 'row().classIdentifier',
     '[attr.data-occurrence-key]': 'row().key',
+    '[attr.data-expandable]': 'expandable() ? "" : null',
   },
   template: `
     @for (column of view().columns; track column.id) {
@@ -99,10 +102,15 @@ export class WorkPackageTableRowComponent {
 
   readonly actions = computed(() => this.view().actions(this.row().workPackage));
 
-  readonly identifier = computed(() => `wp-row-${this.row().workPackage.id}`);
-  readonly hostClasses = computed(() => [
-    this.identifier(),
-    `${this.identifier()}-table`,
-    ...this.view().rowClasses(this.row().workPackage),
-  ]);
+  readonly expandable = computed(() => this.view().rowHeader === 'subject'
+    && this.row().additionalClasses.includes(hierarchyRootClass(this.row().workPackage.id!)));
+
+  readonly hostClasses = computed(() => {
+    const { key, workPackage, classIdentifier, additionalClasses } = this.row();
+    const classes = [classIdentifier, `${classIdentifier}-table`, ...additionalClasses, ...this.view().rowClasses(workPackage)];
+    if (key === ancestorOccurrenceKey(workPackage.id!)) {
+      classes.push(`wp-row-${workPackage.id}`, `wp-row-${workPackage.id}-table`);
+    }
+    return classes;
+  });
 }

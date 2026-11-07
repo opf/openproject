@@ -44,13 +44,13 @@ export class WorkPackageTableCellDirective {
   constructor() {
     effect(() => {
       const column = this.column();
-      const { workPackage } = this.row();
+      const row = this.row();
       const view = this.view();
 
       untracked(() => {
-        if (view.isEditing(workPackage, column, this.cell)) return;
+        if (view.isEditing(row.workPackage, column, this.cell)) return;
 
-        const built = view.buildCell(workPackage, column);
+        const built = view.buildCell(row, column);
         if (built) this.adopt(built);
       });
     });

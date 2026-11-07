@@ -33,15 +33,10 @@ import type { PrimaryRenderPass, RenderPassOptions } from '../../primary-render-
 import { SingleRowBuilder } from '../../rows/single-row-builder';
 import { RowsBuilder } from '../rows-builder';
 import { PlainRenderPass } from './plain-render-pass';
-import { TemplatePlainRenderPass } from '../../../template-rows/template-plain-render-pass';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { isRelationColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 
 export class PlainRowsBuilder extends RowsBuilder {
   // Injections
   @LazyInject() public I18n:I18nService;
-
-  @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
 
   // The group expansion state
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
@@ -53,14 +48,6 @@ export class PlainRowsBuilder extends RowsBuilder {
    */
   public buildRows(options:RenderPassOptions):PrimaryRenderPass {
     const builder = new SingleRowBuilder(this.injector, this.workPackageTable);
-    if (this.usesTemplateRows()) {
-      return new TemplatePlainRenderPass(this.injector, this.workPackageTable, builder).render(options);
-    }
-    return new PlainRenderPass(this.injector, this.workPackageTable, builder).render(options);
-  }
-
-  private usesTemplateRows():boolean {
-    return this.workPackageTable.templateRows !== null
-      && !this.wpTableColumns.getColumns().some(isRelationColumn);
+    return new PlainRenderPass(this.injector, this.workPackageTable, builder).render({ ...options, template: this.usesTemplateRows });
   }
 }

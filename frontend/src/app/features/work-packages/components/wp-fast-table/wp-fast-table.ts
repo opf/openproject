@@ -53,7 +53,6 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
 import type { RowPositionEvidence } from './semantics/table-row-positions';
 import { RowStatePainter, type RowReplacement } from './semantics/row-state-painter';
 import { RowClassifier } from './semantics/row-classifier';
-import { TemplatePlainRenderPass } from './template-rows/template-plain-render-pass';
 import { TemplateRowsController } from './template-rows/template-rows-controller';
 import { type MutationExit, type PaintScope, RowMutations } from './row-mutations';
 
@@ -367,9 +366,9 @@ export class WorkPackageTable {
         const { pass } = pending;
         if (!this.templateRows) {
           this.tbody.replaceChildren(pass.tableBody);
-        } else if (pass instanceof TemplatePlainRenderPass) {
-          if (!(this.lastRenderPass instanceof TemplatePlainRenderPass)) this.removeImperativeRows();
-          this.templateRows.commit(pass);
+        } else if (pass.templateView) {
+          if (!this.lastRenderPass?.templateView) this.removeImperativeRows();
+          this.templateRows.commit(pass.draft, pass.templateView);
         } else {
           // The template's anchor comments must survive a legacy render into the same body.
           this.templateRows.clear();

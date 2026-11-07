@@ -157,6 +157,10 @@ export class SingleRowBuilder {
     }
   }
 
+  public buildTemplateCell(workPackage:WorkPackageResource, column:QueryColumn, _depth:number):HTMLTableCellElement|null {
+    return this.buildCell(workPackage, column);
+  }
+
   /**
    * Build the columns on the given empty row
    */

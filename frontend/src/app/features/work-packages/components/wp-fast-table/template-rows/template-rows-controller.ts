@@ -28,7 +28,7 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { OccurrenceKey } from '../rendered-occurrence-ledger';
 import { TemplateRow, TemplateRowsHost, TemplateRowView } from './template-row';
-import type { TemplatePlainRenderPass } from './template-plain-render-pass';
+import type { RenderDraft } from '../rendered-occurrence-ledger';
 
 /** The fast table's side of template rendering: what is rendered, and the element of each row. */
 export class TemplateRowsController {
@@ -41,9 +41,12 @@ export class TemplateRowsController {
     private readonly tbody:HTMLTableSectionElement,
   ) {}
 
-  public commit(pass:TemplatePlainRenderPass):void {
-    this.render(pass.templateRows, pass.view);
-    pass.draft.occurrences.forEach((occurrence) => {
+  public commit(draft:RenderDraft, view:TemplateRowView):void {
+    const rows = draft.occurrences.flatMap(({ key, workPackage, classIdentifier, additionalClasses, level }) => (
+      workPackage ? [{ key, workPackage, classIdentifier, additionalClasses, level, revision: 0 }] : []
+    ));
+    this.render(rows, view);
+    draft.occurrences.forEach((occurrence) => {
       occurrence.element = this.elementOf(occurrence.key);
     });
   }
@@ -80,7 +83,7 @@ export class TemplateRowsController {
     if (!this.rows.some((row) => row.key === key)) return null;
 
     this.render(
-      this.rows.map((row) => (row.key === key ? { key, workPackage, revision: row.revision + 1 } : row)),
+      this.rows.map((row) => (row.key === key ? { ...row, workPackage, revision: row.revision + 1 } : row)),
       this.view,
     );
     return this.elementOf(key);

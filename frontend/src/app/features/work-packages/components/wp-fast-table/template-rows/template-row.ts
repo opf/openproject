@@ -33,6 +33,9 @@ import { OpTableAction } from 'core-app/features/work-packages/components/wp-tab
 export interface TemplateRow {
   readonly key:OccurrenceKey;
   readonly workPackage:WorkPackageResource;
+  readonly classIdentifier:string;
+  readonly additionalClasses:readonly string[];
+  readonly level:number;
   /** Bumped on every refresh, since refreshed resources may be the same mutated instance. */
   readonly revision:number;
 }
@@ -48,7 +51,7 @@ export interface TemplateRowView {
   canDrag(workPackage:WorkPackageResource):boolean|null;
   /** An empty drag and drop table renders a placeholder row as its drop target. */
   readonly placeholder:boolean;
-  buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null;
+  buildCell(row:TemplateRow, column:QueryColumn):HTMLTableCellElement|null;
   isEditing(workPackage:WorkPackageResource, column:QueryColumn, cell:HTMLTableCellElement):boolean;
 }
 
