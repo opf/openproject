@@ -49,6 +49,14 @@ export class OpDetailsTableAction extends OpTableAction {
     button: this.I18n.t('js.button_open_details'),
   };
 
+  public get href():string {
+    return this.uiStatebuilder.hrefFor(this.workPackage.id!, 'split', this.workPackage.displayId);
+  }
+
+  public get label():string {
+    return this.text.button;
+  }
+
   public buildElement() {
     // Append details button
     const { link: detailsLink, element } = this.uiStatebuilder.linkToDetails(
