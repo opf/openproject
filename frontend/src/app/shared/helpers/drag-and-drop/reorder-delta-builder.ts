@@ -436,3 +436,97 @@ export function buildDelta(
   // Insert only the new element
   return buildInsertPosition(order, positions, wpId, index, fromIndex);
 }
+
+/**
+ * Ranks the work packages in `order` so that sorting by position, then by
+ * numeric ID, reproduces their order. Every other result keeps its rank.
+ */
+export function buildOrderDelta(order:readonly string[], positions:QueryOrder):QueryOrder {
+  const peers = new Set(order);
+  const ids = [...new Set([...Object.keys(positions), ...order])];
+  ids.sort((a, b) => (positions[a] ?? MAX_ORDER + 1) - (positions[b] ?? MAX_ORDER + 1) || Number(a) - Number(b));
+
+  let nextPeer = 0;
+  let lastRank = DEFAULT_ORDER - ORDER_DISTANCE;
+  const slots = ids.map((id) => {
+    const rank = positions[id] ?? Math.min(lastRank + ORDER_DISTANCE, MAX_ORDER);
+    lastRank = rank;
+    return { id: peers.has(id) ? order[nextPeer++] : id, rank };
+  });
+
+  // Manual queries break position ties by numeric ID. Keep every other
+  // result in its slot, including rows beyond the displayed page.
+  for (let i = slots.length - 2; i >= 0; i--) {
+    const slot = slots[i];
+    const next = slots[i + 1];
+    const limit = Number(slot.id) < Number(next.id) ? next.rank : next.rank - 1;
+    slot.rank = Math.min(slot.rank, limit);
+    if (slot.rank === -1) slot.rank--; // The API reserves -1 for deletion.
+  }
+
+  // A tied run at the minimum integer can only make room to its right.
+  let floor = MIN_ORDER;
+  const delta:QueryOrder = {};
+  for (const [i, slot] of slots.entries()) {
+    const rank = Math.max(floor, slot.rank);
+    slot.rank = rank === -1 ? 0 : rank;
+    if (positions[slot.id] !== slot.rank) delta[slot.id] = slot.rank;
+    const next = slots[i + 1];
+    if (next) floor = Number(slot.id) < Number(next.id) ? slot.rank : slot.rank + 1;
+  }
+  return delta;
+}
+
+function sortRank(positions:QueryOrder, id:string):number {
+  return positions[id] ?? MAX_ORDER + 1;
+}
+
+function sortsBefore(positions:QueryOrder, a:string, b:string):boolean {
+  const rankDifference = sortRank(positions, a) - sortRank(positions, b);
+  return rankDifference < 0 || (rankDifference === 0 && Number(a) < Number(b));
+}
+
+function reloadsInOrder(order:readonly string[], positions:QueryOrder):boolean {
+  return order.every((id, index) => {
+    if (positions[id] === -1) return false;
+    return index === 0 || sortsBefore(positions, order[index - 1], id);
+  });
+}
+
+/**
+ * Results beyond the displayed rows must stay on their side of them. Results
+ * that sorted between the displayed rows, e.g. ones that no longer match the
+ * filters, may land anywhere among them.
+ */
+function keepsOthersOutside(order:readonly string[], positions:QueryOrder, updated:QueryOrder):boolean {
+  const peers = new Set(order);
+  const span = [...peers].sort((a, b) => (sortsBefore(positions, a, b) ? -1 : 1));
+  const first = span[0];
+  const last = span[span.length - 1];
+  return Object.keys(positions)
+    .filter((id) => !peers.has(id))
+    .every((id) => {
+      if (sortsBefore(positions, id, first)) return sortsBefore(updated, id, order[0]);
+      if (sortsBefore(positions, last, id)) return sortsBefore(updated, order[order.length - 1], id);
+      return true;
+    });
+}
+
+/**
+ * Moves one work package with a single new position where its neighbors allow
+ * it. Where tied positions would sort it back after a reload, or past results
+ * beyond the displayed rows, ranks the whole order instead.
+ */
+export function buildMoveDelta(
+  order:readonly string[],
+  positions:QueryOrder,
+  wpId:string,
+  index:number,
+  fromIndex:number|null,
+):QueryOrder {
+  const delta = buildDelta([...order], positions, wpId, index, fromIndex);
+  const updated = { ...positions, ...delta };
+  return reloadsInOrder(order, updated) && keepsOthersOutside(order, positions, updated)
+    ? delta
+    : buildOrderDelta(order, positions);
+}
