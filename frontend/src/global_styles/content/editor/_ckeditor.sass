@@ -124,6 +124,27 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   max-width: 400px
   @include text-shortener
 
+// CKEditor 49 changed the mention list: it insets the items, no longer pads
+// our custom items, and marks the selected item only with an outline.
+// Restore the CKEditor 48 look.
+.ck.ck-list.ck-mentions
+  --ck-list-padding: var(--ck-spacing-small, var(--ck-spacing-sm)) 0
+  --ck-list-item-outer-padding: 0
+  --ck-list-item-min-width: 15em
+
+  // Must be more specific than the .ck-reset_all reset of CKEditor.
+  > .ck-list__item > .mention-list-item
+    padding: 0.18em 1.2em
+    line-height: 1.84615
+
+  > .ck-list__item.ck-mentions__item_focused > .ck-button
+    &,
+    &:hover:not(.ck-disabled)
+      background: var(--ck-color-list-button-on-background, var(--ck-list-button-on-background-color))
+      color: var(--ck-color-list-button-on-text, var(--ck-list-button-on-text-color))
+      border-color: transparent
+      box-shadow: none
+
 // Document editor styles
 .document-editor
   /* This element is a flex container for easier rendering. */
