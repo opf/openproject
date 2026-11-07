@@ -33,6 +33,7 @@ import { IconModule } from '../icon/icon.module';
 import { AbstractBaseButtonDirective } from './abstract-base-button.directive';
 import { PrimerBaseButtonDirective } from './base-button.directive';
 import { DynamicIconDirective } from './dynamic-icon.directive';
+import { DynamicIconName } from './dynamic-icon-map';
 
 type Scheme = 'default' | 'primary' | 'secondary' | 'danger' | 'invisible';
 type Size = 'small' | 'medium' | 'large';
@@ -49,7 +50,7 @@ export class PrimerIconButtonComponent extends AbstractBaseButtonDirective {
   readonly buttonId = input(generateId('icon-button'));
   readonly buttonClass = input('', { alias: 'button-class' });
 
-  readonly icon = input.required<string>();
+  readonly icon = input.required<DynamicIconName>();
   readonly scheme = input<Scheme>('default');
   readonly size = input<Size>('medium');
 
