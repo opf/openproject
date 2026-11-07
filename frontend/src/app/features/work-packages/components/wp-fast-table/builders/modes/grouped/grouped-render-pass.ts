@@ -52,6 +52,8 @@ export const groupRowClass = '-group-row';
 export class GroupedRenderPass extends PlainRenderPass {
   private sumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
 
+  private readonly templateGroups = new Map<string, GroupObject>();
+
   constructor(public readonly injector:Injector,
     public workPackageTable:WorkPackageTable,
     public groups:GroupObject[],
@@ -80,7 +82,9 @@ export class GroupedRenderPass extends PlainRenderPass {
       if (nextGroup && groupsChanged) {
         const groupClass = groupClassNameFor(nextGroup);
         const rowElement = this.templateView ? null : this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
-        this.appendNonWorkPackageRow(groupOccurrenceKey(nextGroup.index, 'header'), 'groupHeader', rowElement, groupClass, [groupRowClass], false, nextGroup.identifier);
+        const key = groupOccurrenceKey(nextGroup.index, 'header');
+        if (this.templateView) this.templateGroups.set(key, nextGroup);
+        this.appendNonWorkPackageRow(key, 'groupHeader', rowElement, groupClass, [groupRowClass], false, nextGroup.identifier);
         currentGroup = nextGroup;
       }
 
@@ -94,8 +98,8 @@ export class GroupedRenderPass extends PlainRenderPass {
   }
 
   protected override toTemplateRow(occurrence:DraftOccurrence):TemplateRow|null {
-    const { key, classIdentifier, additionalClasses, kind, groupIdentifier } = occurrence;
-    const group = this.groups.find(({ identifier }) => identifier === groupIdentifier);
+    const { key, classIdentifier, additionalClasses, kind } = occurrence;
+    const group = this.templateGroups.get(key);
     if (!group) return super.toTemplateRow(occurrence);
 
     if (kind === 'groupHeader') {
@@ -217,7 +221,9 @@ export class GroupedRenderPass extends PlainRenderPass {
     const { additionalClasses, hidden } = this.groupRowState(group);
 
     rowElement?.classList.add(...additionalClasses);
-    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), 'sums', rowElement, groupClass, additionalClasses, hidden, group.identifier, 2);
+    const key = groupOccurrenceKey(group.index, 'sums');
+    if (this.templateView) this.templateGroups.set(key, group);
+    this.appendNonWorkPackageRow(key, 'sums', rowElement, groupClass, additionalClasses, hidden, group.identifier, 2);
   }
 
   private groupRowState(group:GroupObject):{ additionalClasses:string[], hidden:boolean } {

@@ -45,6 +45,7 @@ import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
 import { PrimaryRenderPass } from '../primary-render-pass';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { findLast } from 'lodash-es';
 import {
   type DraftOccurrence,
   relationOccurrenceKey,
@@ -102,22 +103,15 @@ export class RelationsRenderPass {
           const denormalized = relation.denormalized(workPackage);
           const to = this.states.workPackages.get(denormalized.targetId).value!;
 
-          // Build each relation row (currently sorted by order defined in API)
-          const [relationRow, target] = this.relationRowBuilder.buildEmptyRelationRow(
-            workPackage,
-            to,
-          );
-
           // Augment any data for the belonging work package row to it
           const label = this.relationTypeLabel(workPackage, to, relation, type);
-          this.renderRelationRow(relationRow, row, label, column, workPackage, target, type);
+          this.renderRelationRow(row, label, column, workPackage, to, type);
         },
       );
     });
   }
 
   protected renderRelationRow(
-    relationRow:HTMLTableRowElement,
     row:DraftOccurrence,
     label:string,
     column:QueryColumn,
@@ -125,9 +119,31 @@ export class RelationsRenderPass {
     to:WorkPackageResource,
     type:RelationColumnType,
   ) {
-    const relation = { label, columnId: column.id, relationType: type };
+    const relationGroup = relationGroupClass(from.id!);
+    const occurrence:Omit<DraftOccurrence, 'element'> = {
+      key: relationOccurrenceKey(type, from.id!, to.id!),
+      kind: 'workPackage',
+      classIdentifier: this.relationRowBuilder.relationClassIdentifier(from, to),
+      additionalClasses: row.additionalClasses.concat(['wp-table--relations-additional-row']),
+      workPackage: to,
+      workPackageId: to.id!,
+      renderType: this.renderType,
+      hidden: row.hidden,
+      level: row.level + 1,
+      relation: { label, columnId: column.id, relationType: type },
+    };
+
+    if (this.tablePass.templateView) {
+      const { draft } = this.tablePass;
+      const target = findLast(draft.occurrences, (item) => item.additionalClasses.includes(relationGroup));
+      occurrence.additionalClasses.push(relationGroup);
+      draft.spliceAfter(target?.key ?? row.key, { ...occurrence, element: null });
+      return;
+    }
+
+    const [relationRow] = this.relationRowBuilder.buildEmptyRelationRow(from, to);
     relationRow.classList.add(...row.additionalClasses);
-    this.relationRowBuilder.appendRelationLabel(relationRow, relation.label, relation.columnId);
+    this.relationRowBuilder.appendRelationLabel(relationRow, label, column.id);
 
     // Insert next to the work package row
     // If no relations exist until here, directly under the row
@@ -135,19 +151,8 @@ export class RelationsRenderPass {
     // Insert into table
     this.tablePass.spliceRow(
       relationRow,
-      `.${this.relationRowBuilder.classIdentifier(from)},.${relationGroupClass(from.id!)}`,
-      {
-        key: relationOccurrenceKey(type, from.id!, to.id!),
-        kind: 'workPackage',
-        classIdentifier: this.relationRowBuilder.relationClassIdentifier(from, to),
-        additionalClasses: row.additionalClasses.concat(['wp-table--relations-additional-row']),
-        workPackage: to,
-        workPackageId: to.id!,
-        renderType: this.renderType,
-        hidden: row.hidden,
-        level: row.level + 1,
-        relation,
-      },
+      `.${this.relationRowBuilder.classIdentifier(from)},.${relationGroup}`,
+      occurrence,
     );
   }
 

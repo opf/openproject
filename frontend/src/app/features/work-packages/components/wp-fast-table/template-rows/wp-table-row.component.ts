@@ -28,7 +28,9 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { WorkPackageTableCellContentDirective, WorkPackageTableCellDirective } from './wp-table-cell.directive';
 import { WorkPackageTableActionComponent } from './wp-table-action.component';
+import { WorkPackageTableIdCellComponent } from './wp-table-id-cell.component';
 import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
+import { isRelationColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { internalContextMenuColumn, internalSortColumn } from '../builders/internal-sort-columns';
 import { TemplateRow, TemplateRowView } from './template-row';
 import { hierarchyRootClass } from '../helpers/wp-table-hierarchy-helpers';
@@ -42,7 +44,13 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'tr[opWpTableRow]',
-  imports: [WorkPackageTableCellDirective, WorkPackageTableCellContentDirective, WorkPackageTableActionComponent, PrimerIconButtonComponent],
+  imports: [
+    WorkPackageTableCellDirective,
+    WorkPackageTableCellContentDirective,
+    WorkPackageTableActionComponent,
+    WorkPackageTableIdCellComponent,
+    PrimerIconButtonComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     tabindex: '-1',
@@ -80,7 +88,13 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
       }
       @case ('workPackage') {
         @for (column of view().columns; track column.id) {
-          @if (column.id === view().rowHeader) {
+          @if (column.id === 'id') {
+            @if (view().rowHeader === 'id') {
+              <th scope="row" opWpTableIdCell [row]="entry"></th>
+            } @else {
+              <td opWpTableIdCell [row]="entry"></td>
+            }
+          } @else if (column.id === view().rowHeader) {
             <th scope="row" opWpTableCell [column]="column" [row]="entry" [view]="view()"></th>
           } @else if (column.id === sortColumnId && canDrag() !== null) {
             <td
@@ -90,6 +104,12 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
             >
               @if (canDrag()) {
                 <span class="wp-table--drag-and-drop-handle icon-drag-handle"></span>
+              }
+            </td>
+          } @else if (entry.relation && isRelationColumn(column)) {
+            <td class="wp-table--cell-td wp-table--relation-cell-td wp-table--navigable-cell" [class]="column.id">
+              @if (entry.relation.columnId === column.id) {
+                <span class="relation-row--type-label badge">{{ entry.relation.label }}</span>
               }
             </td>
           } @else if (column.id === actionsColumnId && actions()) {
@@ -126,6 +146,8 @@ export class WorkPackageTableRowComponent {
 
   readonly sortColumnId = internalSortColumn.id;
 
+  readonly isRelationColumn = isRelationColumn;
+
   readonly workPackageRow = computed(() => {
     const row = this.row();
     return row.kind === 'workPackage' ? row : null;
@@ -138,7 +160,7 @@ export class WorkPackageTableRowComponent {
 
   readonly canDrag = computed(() => {
     const row = this.workPackageRow();
-    return row ? this.view().canDrag(row.workPackage) : null;
+    return row && !row.relation ? this.view().canDrag(row.workPackage) : null;
   });
 
   readonly actions = computed(() => {
@@ -148,7 +170,7 @@ export class WorkPackageTableRowComponent {
 
   readonly expandable = computed(() => {
     const row = this.workPackageRow();
-    return row && this.view().rowHeader === 'subject' && row.additionalClasses.includes(hierarchyRootClass(row.workPackage.id!));
+    return row && !row.relation && this.view().rowHeader === 'subject' && row.additionalClasses.includes(hierarchyRootClass(row.workPackage.id!));
   });
 
   readonly hostClasses = computed(() => {
@@ -157,8 +179,8 @@ export class WorkPackageTableRowComponent {
     if (row.kind === 'groupHeader') return [rowGroupClassName, classIdentifier];
     if (row.kind === 'sums') return ['wp-table--sums-row', 'wp-table--row', classIdentifier, ...additionalClasses];
 
-    const classes = ['wp-table--row', 'wp--row', 'issue', classIdentifier, `${classIdentifier}-table`,
-      ...additionalClasses, ...this.view().rowClasses(row.workPackage)];
+    const classes = ['wp-table--row', 'wp--row', 'issue', classIdentifier, `${classIdentifier}-table`, ...additionalClasses];
+    if (!row.relation) classes.push(...this.view().rowClasses(row.workPackage));
     if (key === ancestorOccurrenceKey(row.workPackage.id!)) {
       classes.push(`wp-row-${row.workPackage.id}`, `wp-row-${row.workPackage.id}-table`);
     }

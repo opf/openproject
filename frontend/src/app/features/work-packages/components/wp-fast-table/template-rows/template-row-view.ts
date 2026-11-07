@@ -33,7 +33,8 @@ import { rowHighlightClasses } from '../builders/highlighting/row-highlight-rend
 import type { PrimaryRenderPass } from '../builders/primary-render-pass';
 import type { TemplateRowView } from './template-row';
 
-export function templateRowView({ injector, rowBuilder, workPackageTable }:PrimaryRenderPass):TemplateRowView {
+export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
+  const { injector, rowBuilder, workPackageTable } = pass;
   const { configuration, editing } = workPackageTable;
   const dragActions = configuration.dragAndDropEnabled
     ? injector.get(TableDragActionsRegistryService).get(injector)
@@ -49,7 +50,9 @@ export function templateRowView({ injector, rowBuilder, workPackageTable }:Prima
     contextMenuLabel: injector.get(I18nService).t('js.label_open_context_menu'),
     canDrag: (workPackage) => dragActions?.canPickup(workPackage) ?? null,
     placeholder: workPackageTable.renderPlaceholderRow,
-    buildCell: ({ workPackage, level }, column) => rowBuilder.buildTemplateCell(workPackage, column, level - 1),
+    buildCell: ({ workPackage, level, relation }, column) => (relation
+      ? pass.relations.relationRowBuilder.buildCell(workPackage, column)
+      : rowBuilder.buildTemplateCell(workPackage, column, level - 1)),
     isEditing: (workPackage, column, cell) => {
       const field = editing.forms[workPackage.id!]?.activeFields[column.id];
       return field?.element !== undefined && cell.contains(field.element);

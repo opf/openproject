@@ -444,7 +444,16 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, ListViewStandInComponent, TwoTablesStandInComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], groups: [newStatus, inProgressStatus], translations, editing: {} }),
+        ...harnessProviders(new FakeDragAndDropService(), {
+          workPackages: [],
+          groups: [newStatus, inProgressStatus],
+          relations: [
+            { from: '1', to: '3', type: 'follows', reverseType: 'precedes' },
+            { from: '2', to: '3', type: 'follows', reverseType: 'precedes' },
+          ],
+          translations,
+          editing: {},
+        }),
         WorkPackageViewSumService,
         { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, live$: () => of(null) } },
         {
@@ -1046,6 +1055,16 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     });
   });
 
+  it('keeps imperative rows for tables with relation columns when the flag is off', async () => {
+    vi.spyOn(TestBed.inject(WorkPackageViewColumnsService), 'getColumns').mockReturnValue(
+      [buildColumn('id'), buildColumn('subject'), buildColumn({ id: 'relationsOfTypeFollows', relationType: 'follows' })] as QueryColumn[],
+    );
+
+    await mount({}, [{ id: '1' }]);
+
+    expect(document.querySelector('.work-package--results-tbody > tr[data-work-package-id="1"]')).not.toHaveAttribute('opwptablerow');
+  });
+
   describe('with the newTableRendering flag', () => {
     beforeEach(() => {
       Object.assign(TestBed.inject(ConfigurationService), { activeFeatureFlags: ['newTableRendering'] });
@@ -1172,6 +1191,18 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(resultRow('2')).toBeVisible();
     });
 
+    it('renders the correct header for groups with the same normalized name', async () => {
+      querySpace.groups.putValue([
+        buildGroup({ ...newStatus, value: 'A+B' }, 'status', 0),
+        buildGroup({ ...newStatus, value: 'A B' }, 'status', 1),
+      ]);
+
+      await mount({}, [{ id: '1', attributes: { status: 'A+B' } }, { id: '2', attributes: { status: 'A B' } }]);
+
+      expect(resultRow('1')?.previousElementSibling).toHaveTextContent('A+B');
+      expect(resultRow('2')?.previousElementSibling).toHaveTextContent('A B');
+    });
+
     it('binds the row highlight and swaps it on refresh', async () => {
       const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
       TestBed.inject(WorkPackageViewHighlightingService).update({ mode: 'status' });
@@ -1203,14 +1234,53 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(show).toHaveBeenCalledOnce();
     });
 
-    it('keeps the imperative rows for tables with relation columns', async () => {
-      vi.spyOn(TestBed.inject(WorkPackageViewColumnsService), 'getColumns').mockReturnValue(
-        [buildColumn('id'), buildColumn('subject'), buildColumn({ id: 'relationsOfTypeFollows', relationType: 'follows' })] as QueryColumn[],
-      );
+    it('keeps separate template occurrences of a target shared by two relation rows', async () => {
+      const columns = buildQuery(['id', 'subject', { id: 'follows', relationType: 'follows' }], null, false, true).columns;
+      TestBed.inject(WorkPackageViewColumnsService).update(columns);
+      TestBed.inject(WorkPackageViewTimelineService).setVisible(true);
+      const table = await mount({}, [{ id: '1' }, { id: '2' }, { id: '3' }]);
+      const occurrence = (key:string) => document.querySelector<HTMLTableRowElement>(`.work-package--results-tbody > tr[data-occurrence-key="${key}"]`);
+      const toggle = (source:string) => fireEvent.click(occurrence(`wp:${source}`)!.querySelector('.wp-table--relation-indicator')!);
+      expect(occurrence('wp:1')).toHaveAttribute('opwptablerow');
 
-      await mount({}, [{ id: '1' }]);
+      toggle('1');
+      await waitFor(() => expect(occurrence('relation:ofType:1:3')).toBeInTheDocument());
+      const first = occurrence('relation:ofType:1:3')!;
+      expect(first).toHaveAttribute('opwptablerow');
+      expect(first).toHaveAttribute('aria-level', '2');
+      expect(first.previousElementSibling).toBe(occurrence('wp:1'));
+      expect(first.querySelector('.relation-row--type-label')).toHaveTextContent('Task');
+      expect(first.querySelector('.wp-table--relation-indicator')).toBeNull();
 
-      expect(resultRow('1')).not.toHaveAttribute('opwptablerow');
+      toggle('2');
+      await waitFor(() => expect(occurrence('relation:ofType:2:3')).toBeInTheDocument());
+      const second = occurrence('relation:ofType:2:3')!;
+      const target = occurrence('wp:3')!;
+      expect(occurrence('relation:ofType:1:3')).toBe(first);
+      expect(second.previousElementSibling).toBe(occurrence('wp:2'));
+      expect(document.querySelector('.wp-timeline-cell.wp-relation-row-1-to-3')).toBeInTheDocument();
+      expect(document.querySelector('.wp-timeline-cell.wp-relation-row-2-to-3')).toBeInTheDocument();
+
+      table.workPackageTable.refreshRows(buildWorkPackage({ id: '3', subject: 'Renamed target' }));
+      [first, second, target].forEach((row) => expect(within(row).getByRole('rowheader', { name: 'Renamed target' })).toBeInTheDocument());
+
+      toggle('1');
+      await waitFor(() => expect(first).not.toBeInTheDocument());
+      expect(occurrence('relation:ofType:2:3')).toBe(second);
+      expect(occurrence('wp:3')).toBe(target);
+      expect(document.querySelector('.wp-timeline-cell.wp-relation-row-1-to-3')).toBeNull();
+    });
+
+    it('renders child relation rows from the same template list', async () => {
+      const columns = buildQuery(['id', 'subject', { id: 'children', children: true }], null, false, false).columns;
+      TestBed.inject(WorkPackageViewColumnsService).update(columns);
+      await mount({}, [{ id: '1', children: [{ id: '2' }] }, { id: '2' }]);
+      const parent = resultRow('1')!;
+      fireEvent.click(parent.querySelector('.wp-table--relation-indicator')!);
+
+      await waitFor(() => expect(parent.nextElementSibling).toHaveAttribute('data-occurrence-key', 'relation:children:1:2'));
+      expect(parent.nextElementSibling).toHaveAttribute('opwptablerow');
+      expect(parent.nextElementSibling?.querySelector('.relation-row--type-label')).toHaveTextContent('js.relation_labels.child');
     });
 
     it('renders drag handles and the drop placeholder for drag and drop tables', async () => {

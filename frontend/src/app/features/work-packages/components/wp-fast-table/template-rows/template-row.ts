@@ -27,7 +27,7 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { OccurrenceKey } from '../rendered-occurrence-ledger';
+import { OccurrenceKey, RenderedOccurrence } from '../rendered-occurrence-ledger';
 import { OpTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 
 interface TemplateRowIdentity {
@@ -40,6 +40,7 @@ export interface TemplateWorkPackageRow extends TemplateRowIdentity {
   readonly kind:'workPackage';
   readonly workPackage:WorkPackageResource;
   readonly level:number;
+  readonly relation?:RenderedOccurrence['relation'];
   /** Bumped on every refresh, since refreshed resources may be the same mutated instance. */
   readonly revision:number;
 }

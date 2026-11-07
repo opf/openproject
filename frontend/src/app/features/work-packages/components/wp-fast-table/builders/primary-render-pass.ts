@@ -71,6 +71,8 @@ export abstract class PrimaryRenderPass {
 
   public templateView:TemplateRowView|null = null;
 
+  public templateRows:readonly TemplateRow[] = [];
+
   /** Resulting table body */
   public tableBody:DocumentFragment;
 
@@ -117,14 +119,19 @@ public readonly injector:Injector,
 
     // Render subsequent passes
     // that may modify the structure of the table
-    if (!this.templateView) {
-      this.highlighting.render();
+    if (!this.templateView) this.highlighting.render();
 
-      timeOutput('Relations render pass', () => {
-        this.relations.render();
-        this.childRelations.render();
+    timeOutput('Relations render pass', () => {
+      this.relations.render();
+      this.childRelations.render();
+    });
+
+    if (this.templateView) {
+      this.templateRows = this.draft.occurrences.flatMap((occurrence) => {
+        const row = this.toTemplateRow(occurrence);
+        return row ? [row] : [];
       });
-
+    } else {
       timeOutput('Drag handle render pass', () => {
         this.dragDropHandle.render();
       });
@@ -158,15 +165,8 @@ public readonly injector:Injector,
     return replacement;
   }
 
-  public get templateRows():readonly TemplateRow[] {
-    return this.draft.occurrences.flatMap((occurrence) => {
-      const row = this.toTemplateRow(occurrence);
-      return row ? [row] : [];
-    });
-  }
-
-  protected toTemplateRow({ key, workPackage, classIdentifier, additionalClasses, level }:DraftOccurrence):TemplateRow|null {
-    return workPackage ? { kind: 'workPackage', key, workPackage, classIdentifier, additionalClasses, level, revision: 0 } : null;
+  protected toTemplateRow({ key, workPackage, classIdentifier, additionalClasses, level, relation }:DraftOccurrence):TemplateRow|null {
+    return workPackage ? { kind: 'workPackage', key, workPackage, classIdentifier, additionalClasses, level, relation, revision: 0 } : null;
   }
 
   private refreshedRow(
