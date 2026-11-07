@@ -44,6 +44,7 @@ import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -57,13 +58,14 @@ import { IntegerDisplayField } from 'core-app/shared/components/fields/display/f
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
-  buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
+  buildColumn, buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
 } from '../wp-fast-table/testing/table-harness';
 import { buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
 import { WorkPackageTimelineTableController } from './timeline/container/wp-timeline-container.directive';
 import { WorkPackagesTableComponent } from './wp-table.component';
 import { WorkPackageTableRowComponent } from '../wp-fast-table/template-rows/wp-table-row.component';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
@@ -417,6 +419,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     'js.work_packages.table.sorted_manually': 'Sorted manually.',
     'js.inplace.errors.messages_on_field': 'This field is invalid: %{messages}',
     'js.button_cancel': 'Cancel',
+    'js.label_open_context_menu': 'Open context menu',
   };
   let baselineActive:boolean;
   let canAdd:BehaviorSubject<boolean>;
@@ -1074,6 +1077,34 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
       expect(row).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' '));
       expect(row).not.toHaveClass(Highlighting.resourceClass('status', '11'));
+    });
+
+    it('renders the context menu action as a Primer icon button outside the Tab order', async () => {
+      await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
+
+      const button = within(resultRow('1')!).getByRole('button', { name: 'Open context menu' });
+      expect(button).toHaveClass('Button--iconOnly', 'Button--invisible', 'wp-table-context-menu-link');
+      expect(button).toHaveAttribute('tabindex', '-1');
+      expect(button.closest('td')).toHaveClass('wp-table--context-menu-td', 'wp-table--navigable-cell');
+    });
+
+    it('opens the action menu from the Primer context menu button', async () => {
+      await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
+      const show = vi.spyOn(TestBed.inject(OpActionMenuService), 'show').mockImplementation(() => undefined);
+
+      fireEvent.click(within(resultRow('1')!).getByRole('button', { name: 'Open context menu' }));
+
+      expect(show).toHaveBeenCalledOnce();
+    });
+
+    it('keeps the imperative rows for tables with relation columns', async () => {
+      vi.spyOn(TestBed.inject(WorkPackageViewColumnsService), 'getColumns').mockReturnValue(
+        [buildColumn('id'), buildColumn('subject'), buildColumn({ id: 'relationsOfTypeFollows', relationType: 'follows' })] as QueryColumn[],
+      );
+
+      await mount({}, [{ id: '1' }]);
+
+      expect(resultRow('1')).not.toHaveAttribute('opwptablerow');
     });
 
     it('refreshes a row in place', async () => {

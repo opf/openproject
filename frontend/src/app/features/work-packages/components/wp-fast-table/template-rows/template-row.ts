@@ -28,6 +28,7 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { OccurrenceKey } from '../rendered-occurrence-ledger';
+import { OpTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 
 export interface TemplateRow {
   readonly key:OccurrenceKey;
@@ -40,6 +41,9 @@ export interface TemplateRowView {
   readonly columns:readonly QueryColumn[];
   readonly rowHeader:'subject'|'id'|null;
   rowClasses(workPackage:WorkPackageResource):readonly string[];
+  /** The actions of the trailing cell, or null when that cell is not an actions cell. */
+  actions(workPackage:WorkPackageResource):readonly OpTableAction[]|null;
+  readonly contextMenuLabel:string;
   buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null;
   isEditing(workPackage:WorkPackageResource, column:QueryColumn, cell:HTMLTableCellElement):boolean;
 }

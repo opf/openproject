@@ -32,12 +32,15 @@ import { RenderedOccurrence, wpOccurrenceKey } from '../rendered-occurrence-ledg
 import { TemplateRow, TemplateRowView } from './template-row';
 import { rowHighlightClasses } from '../builders/highlighting/row-highlight-render-pass';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 /**
  * Produces the rows of a flat table as data for the row template instead
  * of DOM. Row highlighting is bound by the template; the other secondary
- * passes (timeline, relations, drag handles) are not supported yet, so
- * the pass only runs for tables that need none of them.
+ * passes (timeline, relation rows, drag handles) are not supported yet,
+ * so the plain rows builder only picks this pass for tables without a
+ * visible timeline, drag and drop, or relation columns.
  */
 export class TemplatePlainRenderPass extends PlainRenderPass {
   public readonly templateRows:TemplateRow[] = [];
@@ -46,6 +49,10 @@ export class TemplatePlainRenderPass extends PlainRenderPass {
     columns: this.rowBuilder.renderedColumns,
     rowHeader: this.rowBuilder.rowHeaderColumn,
     rowClasses: (workPackage) => rowHighlightClasses(this.injector.get(WorkPackageViewHighlightingService), workPackage),
+    actions: (workPackage) => (this.workPackageTable.configuration.actionsColumnEnabled
+      ? this.injector.get(OpTableActionsService).actionsFor(workPackage)
+      : null),
+    contextMenuLabel: this.injector.get(I18nService).t('js.label_open_context_menu'),
     buildCell: (workPackage, column) => this.rowBuilder.buildCell(workPackage, column),
     isEditing: (workPackage, column, cell) => this.isEditing(workPackage, column, cell),
   };

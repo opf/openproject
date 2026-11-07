@@ -27,6 +27,9 @@
 
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { WorkPackageTableCellDirective } from './wp-table-cell.directive';
+import { LegacyTableActionDirective } from './legacy-table-action.directive';
+import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
+import { internalContextMenuColumn } from '../builders/internal-sort-columns';
 import { TemplateRow, TemplateRowView } from './template-row';
 
 /**
@@ -36,7 +39,7 @@ import { TemplateRow, TemplateRowView } from './template-row';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'tr[opWpTableRow]',
-  imports: [WorkPackageTableCellDirective],
+  imports: [WorkPackageTableCellDirective, LegacyTableActionDirective, PrimerIconButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     tabindex: '-1',
@@ -50,6 +53,24 @@ import { TemplateRow, TemplateRowView } from './template-row';
     @for (column of view().columns; track column.id) {
       @if (column.id === view().rowHeader) {
         <th scope="row" opWpTableCell [column]="column" [row]="row()" [view]="view()"></th>
+      } @else if (column.id === actionsColumnId && actions()) {
+        <td class="wp-table--cell-td wp-table--context-menu-td __internal-contextMenu hide-when-print wp-table--navigable-cell">
+          <span class="wp-table--context-menu-span">
+            @for (action of actions(); track action.identifier) {
+              @if (action.identifier === 'open-context-menu-action') {
+                <primer-icon-button
+                  icon="kebab-horizontal"
+                  scheme="invisible"
+                  button-class="wp-table-context-menu-link"
+                  [label]="view().contextMenuLabel"
+                  [tabindex]="-1"
+                />
+              } @else {
+                <ng-container [opWpLegacyTableAction]="action" />
+              }
+            }
+          </span>
+        </td>
       } @else {
         <td opWpTableCell [column]="column" [row]="row()" [view]="view()"></td>
       }
@@ -59,6 +80,10 @@ import { TemplateRow, TemplateRowView } from './template-row';
 export class WorkPackageTableRowComponent {
   readonly row = input.required<TemplateRow>();
   readonly view = input.required<TemplateRowView>();
+
+  readonly actionsColumnId = internalContextMenuColumn.id;
+
+  readonly actions = computed(() => this.view().actions(this.row().workPackage));
 
   readonly identifier = computed(() => `wp-row-${this.row().workPackage.id}`);
   readonly hostClasses = computed(() => [

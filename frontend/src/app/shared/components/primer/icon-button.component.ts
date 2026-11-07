@@ -78,6 +78,9 @@ export class PrimerIconButtonComponent extends AbstractBaseButtonDirective {
   readonly tooltipId = input(generateId('tooltip'));
   readonly tooltipDirection = input<TooltipDirection>('s', { alias: 'tooltip-direction' });
 
+  /** For controls inside a composite widget that manages focus itself, such as a grid cell. */
+  readonly tabIndex = input<number|undefined>(undefined, { alias: 'tabindex' });
+
   readonly clicked = output();
 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
