@@ -23,8 +23,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
-
 ++#%>
+
 <%= render(Primer::Alpha::Banner.new(scheme: banner_scheme, mb: 3, test_selector: test_selector("banner"))) do |banner| %>
   <% if list_users? %>
     <% banner.with_action_content do %>
