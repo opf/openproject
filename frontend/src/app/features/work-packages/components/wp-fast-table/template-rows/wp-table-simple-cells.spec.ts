@@ -1,0 +1,181 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { Component, getDebugNode, input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { within } from '@testing-library/dom';
+import { buildQuery, FakeDragAndDropService, harnessProviders } from '../testing/table-harness';
+import { buildWorkPackage } from '../testing/work-package-fixture';
+import { templateCellEditors } from './template-cell-editing';
+import { TemplateRowView, TemplateWorkPackageRow } from './template-row';
+import { TextCellPresentation } from './text-cell-presentation';
+import { WorkPackageTableRowComponent } from './wp-table-row.component';
+
+const before:TextCellPresentation = { attribute: 'subject', text: '<Original>', title: '<Original>', label: 'Edit Subject <Original>', editable: true, required: true, empty: false };
+
+@Component({
+  imports: [WorkPackageTableRowComponent],
+  template: '<table><tbody><tr opWpTableRow [row]="row()" [view]="view()"></tr></tbody></table>',
+})
+class SimpleCellsTestTableComponent {
+  readonly row = input.required<TemplateWorkPackageRow>();
+  readonly view = input.required<TemplateRowView>();
+}
+
+describe.each(['id', 'subject'] as const)('template simple cells with %s as row header', (rowHeader) => {
+  let fixture:ComponentFixture<SimpleCellsTestTableComponent>;
+  let row:HTMLTableRowElement;
+  let idCell:HTMLTableCellElement;
+  let subjectCell:HTMLTableCellElement;
+  let view:TemplateRowView;
+
+  function setRow(update:Pick<TemplateWorkPackageRow, 'workPackage'|'revision'>):void {
+    const row:TemplateWorkPackageRow = {
+      kind: 'workPackage',
+      key: 'wp:42',
+      classIdentifier: 'wp-row-42',
+      additionalClasses: [],
+      level: 1,
+      ...update,
+    };
+    fixture.componentRef.setInput('row', row);
+  }
+
+  function setPresentation(presentation:TextCellPresentation):void {
+    view = { ...view, textCell: (_row, column) => (column.id === presentation.attribute ? presentation : null) };
+    fixture.componentRef.setInput('view', view);
+  }
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
+        { provide: PathHelperService, useValue: { genericWorkPackagePath: (_project:string, id:string, tab:string) => `/work_packages/${id}/${tab}` } },
+      ],
+    });
+    fixture = TestBed.createComponent(SimpleCellsTestTableComponent);
+    view = {
+      columns: buildQuery(['id', 'subject'], null, false, false).columns,
+      rowHeader,
+      rowClasses: () => [],
+      actions: () => null,
+      contextMenuLabel: '',
+      canDrag: () => null,
+      placeholder: false,
+      textCell: () => null,
+      buildCell: () => null,
+      isEditing: () => false,
+    };
+    setPresentation(before);
+    setRow({ workPackage: buildWorkPackage({ id: '42' }), revision: 0 });
+    fixture.detectChanges();
+    row = (fixture.nativeElement as HTMLElement).querySelector('tr')!;
+    idCell = row.cells[0];
+    subjectCell = row.cells[1];
+  });
+
+  it('renders simple cell contents in the row view', () => {
+    const rowComponent = fixture.debugElement.query(By.directive(WorkPackageTableRowComponent)).componentInstance as WorkPackageTableRowComponent;
+    expect(getDebugNode(idCell)?.componentInstance === rowComponent).toBe(true);
+    expect(getDebugNode(subjectCell)?.componentInstance === rowComponent).toBe(true);
+    expect(idCell.tagName).toBe(rowHeader === 'id' ? 'TH' : 'TD');
+    expect(subjectCell.tagName).toBe(rowHeader === 'subject' ? 'TH' : 'TD');
+    expect(row.querySelector('th')).toHaveAttribute('scope', 'row');
+  });
+
+  it('keeps the ID link while updating its text, URL and numeric identity', () => {
+    const root = idCell;
+    setRow({ workPackage: Object.assign(buildWorkPackage({ id: '42' }), { displayId: 'DEMO-7' }), revision: 0 });
+    fixture.detectChanges();
+    const link = within(root).getByRole('link', { name: 'DEMO-7' });
+    expect(link).toHaveAttribute('href', `/work_packages/DEMO-7/activity${window.location.search}`);
+    expect(link).toHaveAttribute('data-work-package-id', '42');
+    expect(link).toHaveAttribute('data-wp-state', 'show');
+    expect(link).toHaveAttribute('tabindex', '-1');
+    expect(root).toHaveAttribute('data-row-header-name', 'DEMO-7');
+    expect(root.querySelector('.inline-edit--display-field')).toHaveClass('-read-only');
+
+    setRow({ workPackage: Object.assign(buildWorkPackage({ id: '43' }), { displayId: 'DEMO-8' }), revision: 1 });
+    fixture.detectChanges();
+    expect(within(root).getByRole('link', { name: 'DEMO-8' })).toBe(link);
+    expect(link).toHaveAttribute('data-work-package-id', '43');
+    expect(root).toHaveAttribute('data-row-header-name', 'DEMO-8');
+  });
+
+  it('refreshes the same mutated resource when the row revision changes', () => {
+    const workPackage = Object.assign(buildWorkPackage({ id: '42' }), { displayId: 'DEMO-7' });
+    setRow({ workPackage, revision: 0 });
+    fixture.detectChanges();
+    workPackage.displayId = 'DEMO-8';
+    setRow({ workPackage, revision: 1 });
+    fixture.detectChanges();
+    expect(within(idCell).getByRole('link', { name: 'DEMO-8' })).toBeTruthy();
+  });
+
+  it('falls back to a numeric ID and leaves new resources without a link', () => {
+    setRow({ workPackage: buildWorkPackage({ id: '42' }), revision: 0 });
+    fixture.detectChanges();
+    expect(within(idCell).getByRole('link', { name: '42' })).toBeTruthy();
+    setRow({ workPackage: buildWorkPackage({ id: 'new' }), revision: 1 });
+    fixture.detectChanges();
+    expect(within(idCell).queryByRole('link')).toBeNull();
+    expect(idCell).toHaveAttribute('data-row-header-name', '');
+  });
+
+  it('renders escaped text and updates the retained display field', () => {
+    const display = subjectCell.querySelector('.inline-edit--display-field');
+    expect(display).toHaveTextContent('<Original>');
+    expect(display).toHaveClass('-editable', '-required');
+    expect(display).toHaveAttribute('aria-label', 'Edit Subject <Original>');
+    expect(subjectCell.querySelector('original')).toBeNull();
+    setPresentation({ ...before, text: 'After', title: 'After' });
+    fixture.detectChanges();
+    expect(subjectCell.querySelector('.inline-edit--display-field')).toBe(display);
+    expect(display).toHaveTextContent('After');
+    expect(subjectCell).toHaveAttribute('data-row-header-name', 'After');
+  });
+
+  it('gives the editor an independent container and restores the Angular display after closing', () => {
+    const editor = templateCellEditors.get(subjectCell)!;
+    const slot = editor.beginEdit();
+    slot.innerHTML = '<input aria-label="Subject" value="Unsaved">';
+    const input = within(subjectCell).getByRole('textbox', { name: 'Subject' });
+    setPresentation({ ...before, text: 'Refreshed' });
+    fixture.detectChanges();
+    expect(within(subjectCell).getByRole('textbox', { name: 'Subject' })).toBe(input);
+    expect(input).toHaveValue('Unsaved');
+    editor.endEdit();
+    expect(within(subjectCell).queryByRole('textbox')).toBeNull();
+    expect(subjectCell.querySelector('.inline-edit--display-field')).toHaveTextContent('Refreshed');
+    const second = editor.beginEdit();
+    second.innerHTML = '<input aria-label="Subject">';
+    editor.endEdit();
+    expect(subjectCell.querySelector('.inline-edit--display-field')).toHaveTextContent('Refreshed');
+  });
+});

@@ -31,7 +31,7 @@ import { resolve, extname } from 'node:path';
 import { createHash } from 'node:crypto';
 import { chromium } from 'playwright';
 
-const output = resolve('dist/table-rendering-benchmark');
+const output = resolve(process.env.TABLE_BENCHMARK_BUILD_DIRECTORY ?? 'dist/table-rendering-benchmark');
 const workspace = JSON.parse(await readFile('angular.json', 'utf8'));
 const options = workspace.projects.OpenProject.architect['table-benchmark'].options;
 if (!options.aot || !options.optimization.scripts) throw new Error('Benchmark requires AOT and script optimization');
@@ -73,7 +73,7 @@ try {
   }
   if (errors.length) throw new Error(errors.join('\n'));
   if (benchmark.isDevMode !== false) throw new Error('Expected optimized Angular production mode');
-  const result = { bundles, node: process.version, profiled: !!process.env.TABLE_BENCHMARK_PROFILE, browser: browser.version(), capturedAt: new Date().toISOString(), buildTarget: 'OpenProject:table-benchmark', aot: true, optimization: true, ...benchmark };
+  const result = { buildDirectory: output, bundles, node: process.version, profiled: !!process.env.TABLE_BENCHMARK_PROFILE, browser: browser.version(), capturedAt: new Date().toISOString(), buildTarget: 'OpenProject:table-benchmark', aot: true, optimization: true, ...benchmark };
   const destination = process.env.TABLE_BENCHMARK_OUTPUT ?? `${output}/results.json`;
   await writeFile(destination, JSON.stringify(result, null, 2) + '\n');
   console.table(benchmark.results.map(({ renderer, rowCount, relationParents, initialMs, redrawMs, refreshMs, stages }) => ({ renderer, rowCount, relationParents, initialMs, redrawMs, refreshMs, refreshRenderCalls: stages.refresh.renderCalls })));

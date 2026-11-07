@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, computed, inject, Injector, input } from '@angular/core';
+import { Directive, computed, inject, Injector, input } from '@angular/core';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -35,32 +35,15 @@ import { WorkPackageIdDisplayField } from 'core-app/shared/components/fields/dis
 import { TemplateWorkPackageRow } from './template-row';
 import { UiStateLinkBuilder } from '../builders/ui-state-link-builder';
 
-@Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+@Directive({
   selector: 'td[opWpTableIdCell], th[opWpTableIdCell]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: 'opWpTableIdCell',
   host: {
     class: 'wp-table--cell-td id wp-table--navigable-cell',
     '[attr.data-row-header-name]': 'value().text',
   },
-  template: `
-    <span class="wp-table--cell-container inline-edit--container id">
-      <span class="inline-edit--display-field id -read-only"
-        data-field-name="id"
-        [class.-required]="value().required"
-        [attr.title]="value().title"
-        [attr.aria-label]="value().label"
-      >
-        @if (value().href; as href) {
-          <a class="__ui-state-link" [href]="href" tabindex="-1" title=""
-            [attr.data-work-package-id]="row().workPackage.id" data-wp-state="show"
-          >{{ value().text }}</a>
-        }
-      </span>
-    </span>
-  `,
 })
-export class WorkPackageTableIdCellComponent {
+export class WorkPackageTableIdCellDirective {
   readonly row = input.required<Pick<TemplateWorkPackageRow, 'workPackage'|'revision'>>();
   private readonly injector = inject(Injector);
   private readonly schemaCache = inject(SchemaCacheService);

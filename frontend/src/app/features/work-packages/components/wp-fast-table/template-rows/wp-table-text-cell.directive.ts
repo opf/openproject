@@ -25,14 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ElementRef, inject, input, signal, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Directive, DestroyRef, ElementRef, inject, input, signal } from '@angular/core';
 import { TextCellPresentation } from './text-cell-presentation';
 import { templateCellEditors } from './template-cell-editing';
 
-@Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+@Directive({
   selector: 'td[opWpTableTextCell], th[opWpTableTextCell]',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: 'opWpTableTextCell',
   host: {
     class: 'wp-table--cell-td wp-table--navigable-cell',
     '[class]': 'presentation().attribute',
@@ -41,41 +40,22 @@ import { templateCellEditors } from './template-cell-editing';
     '[class.-max]': 'presentation().attribute === "subject"',
     '[attr.data-row-header-name]': 'presentation().attribute === "subject" ? presentation().text : null',
   },
-  template: `
-    @if (editing()) {
-      <span #editor class="wp-table--cell-container inline-edit--container" [class]="presentation().attribute"></span>
-    } @else {
-      <span class="wp-table--cell-container inline-edit--container" [class]="presentation().attribute">
-        <span class="inline-edit--display-field"
-          [class]="presentation().attribute"
-          [class.-editable]="presentation().editable"
-          [class.-read-only]="!presentation().editable"
-          [class.-required]="presentation().required"
-          [class.-placeholder]="presentation().empty"
-          [attr.data-field-name]="presentation().attribute"
-          [attr.title]="presentation().title"
-          [attr.aria-label]="presentation().label"
-        >{{ presentation().text }}</span>
-      </span>
-    }
-  `,
 })
-export class WorkPackageTableTextCellComponent {
+export class WorkPackageTableTextCellDirective {
   readonly presentation = input.required<TextCellPresentation>();
   readonly editing = signal(false);
-  private readonly editor = viewChild<ElementRef<HTMLElement>>('editor');
+  private readonly cell = inject<ElementRef<HTMLTableCellElement>>(ElementRef).nativeElement;
   private readonly cdRef = inject(ChangeDetectorRef);
 
   constructor() {
-    const cell = inject<ElementRef<HTMLTableCellElement>>(ElementRef).nativeElement;
-    templateCellEditors.set(cell, this);
-    inject(DestroyRef).onDestroy(() => templateCellEditors.delete(cell));
+    templateCellEditors.set(this.cell, this);
+    inject(DestroyRef).onDestroy(() => templateCellEditors.delete(this.cell));
   }
 
   beginEdit():HTMLElement {
     this.editing.set(true);
     this.cdRef.detectChanges();
-    return this.editor()!.nativeElement;
+    return this.cell.querySelector<HTMLElement>(':scope > .inline-edit--container')!;
   }
 
   endEdit():void {

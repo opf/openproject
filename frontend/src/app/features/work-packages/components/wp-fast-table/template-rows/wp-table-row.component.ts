@@ -25,11 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { WorkPackageTableTextCellComponent } from './wp-table-text-cell.component';
+import { WorkPackageTableTextCellDirective } from './wp-table-text-cell.directive';
 import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, linkedSignal } from '@angular/core';
 import { WorkPackageTableCellContentDirective, WorkPackageTableCellDirective } from './wp-table-cell.directive';
 import { WorkPackageTableActionComponent } from './wp-table-action.component';
-import { WorkPackageTableIdCellComponent } from './wp-table-id-cell.component';
+import { WorkPackageTableIdCellDirective } from './wp-table-id-cell.directive';
 import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
 import { isRelationColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { internalContextMenuColumn, internalSortColumn } from '../builders/internal-sort-columns';
@@ -47,11 +47,11 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'tr[opWpTableRow]',
   imports: [
-    WorkPackageTableTextCellComponent,
+    WorkPackageTableTextCellDirective,
     WorkPackageTableCellDirective,
     WorkPackageTableCellContentDirective,
     WorkPackageTableActionComponent,
-    WorkPackageTableIdCellComponent,
+    WorkPackageTableIdCellDirective,
     PrimerIconButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,84 +66,7 @@ import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
     '[attr.data-occurrence-key]': 'row().key',
     '[attr.data-expandable]': 'expandable() ? "" : null',
   },
-  template: `
-    @let entry = row();
-    @switch (entry.kind) {
-      @case ('groupHeader') {
-        <td [attr.colspan]="view().columns.length" class="-no-highlighting wp-table--navigable-cell" tabindex="-1">
-          <div class="expander icon-context" [class.icon-plus]="entry.collapsed" [class.icon-minus2]="!entry.collapsed">
-            <span class="sr-only">{{ entry.collapsed ? entry.expandLabel : entry.collapseLabel }}</span>
-          </div>
-          <div class="group--value" data-test-selector="op-group--value">
-            @if (entry.leadingIcon; as icon) {
-              <span [opWpTableCellContent]="icon"></span>
-            }
-            {{ entry.name }} <span class="count">({{ entry.count }})</span>
-          </div>
-        </td>
-      }
-      @case ('sums') {
-        @for (cell of entry.cells; track cell.columnId) {
-          <td [class.wp-table--navigable-cell]="cell.navigable"
-            [attr.aria-describedby]="cell.describedBy"
-            [opWpTableCellContent]="cell.content"></td>
-        }
-      }
-      @case ('workPackage') {
-        @for (column of view().columns; track column.id) {
-          @let isRowHeader = column.id === view().rowHeader;
-          @let presentation = column.id === 'id' ? null : textCells().get(column.id);
-          @if (column.id === 'id' && isRowHeader) {
-            <th scope="row" opWpTableIdCell [row]="entry"></th>
-          } @else if (column.id === 'id') {
-            <td opWpTableIdCell [row]="entry"></td>
-          } @else if (presentation && isRowHeader) {
-            <th scope="row" opWpTableTextCell [presentation]="presentation"></th>
-          } @else if (presentation) {
-            <td opWpTableTextCell [presentation]="presentation"></td>
-          } @else if (isRowHeader) {
-            <th scope="row" opWpTableCell [column]="column" [row]="entry" [view]="view()"></th>
-          } @else if (column.id === sortColumnId && canDrag() !== null) {
-            <td
-              class="wp-table--cell-td __internal-sorthandle"
-              [class.wp-table--sort-td]="canDrag()"
-              [class.hide-when-print]="canDrag()"
-            >
-              @if (canDrag()) {
-                <span class="wp-table--drag-and-drop-handle icon-drag-handle"></span>
-              }
-            </td>
-          } @else if (entry.relation && isRelationColumn(column)) {
-            <td class="wp-table--cell-td wp-table--relation-cell-td wp-table--navigable-cell" [class]="column.id">
-              @if (entry.relation.columnId === column.id) {
-                <span class="relation-row--type-label badge">{{ entry.relation.label }}</span>
-              }
-            </td>
-          } @else if (column.id === actionsColumnId && actions()) {
-            <td class="wp-table--cell-td wp-table--context-menu-td __internal-contextMenu hide-when-print wp-table--navigable-cell">
-              <span class="wp-table--context-menu-span">
-                @for (action of actions(); track action.identifier) {
-                  @if (action.identifier === 'open-context-menu-action') {
-                    <primer-icon-button
-                      icon="kebab-horizontal"
-                      scheme="invisible"
-                      button-class="wp-table-context-menu-link"
-                      [label]="view().contextMenuLabel"
-                      [tabindex]="-1"
-                    />
-                  } @else {
-                    <span [opWpTableAction]="action"></span>
-                  }
-                }
-              </span>
-            </td>
-          } @else {
-            <td opWpTableCell [column]="column" [row]="entry" [view]="view()"></td>
-          }
-        }
-      }
-    }
-  `,
+  templateUrl: './wp-table-row.component.html',
 })
 export class WorkPackageTableRowComponent {
   readonly row = input.required<TemplateRow>();
