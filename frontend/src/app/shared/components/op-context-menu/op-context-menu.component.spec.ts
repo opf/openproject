@@ -25,6 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { A11yModule } from '@angular/cdk/a11y';
+import { PortalModule } from '@angular/cdk/portal';
+import { OpModalOverlayComponent } from '../modal/modal-overlay.component';
+import { ConfirmDialogService } from '../modals/confirm-dialog/confirm-dialog.service';
+import { ConfirmDialogModalComponent } from '../modals/confirm-dialog/confirm-dialog.modal';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CommonModule } from '@angular/common';
 import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -106,5 +112,41 @@ describe('OPContextMenuComponent actions', () => {
     element.querySelector('button')!.click();
     expect(onClick).toHaveBeenCalled();
     expect(close).toHaveBeenCalledWith(false, 'action');
+  });
+});
+
+describe('OPContextMenuComponent confirmation', () => {
+  it('keeps the confirmation dialog open after choosing a menu action', async () => {
+    const changed = vi.fn();
+    TestBed.configureTestingModule({
+      imports: [CommonModule, A11yModule, PortalModule, OpTooltipDirective],
+      declarations: [OPContextMenuComponent, OpIconComponent, OpModalOverlayComponent, ConfirmDialogModalComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        ConfirmDialogService,
+        { provide: I18nService, useValue: { t: (key:string) => key } },
+        { provide: OpContextMenuLocalsToken, useValue: {
+          items: [{ linkText: 'Sort ascending', onClick: () => {
+            const confirm = TestBed.inject(ConfirmDialogService);
+            void confirm.confirm({ text: { title: 'Change sorting', text: 'Manual order will be lost' } }).then(changed);
+            return false;
+          } }],
+          service: { close: vi.fn() },
+        } },
+      ],
+    });
+    const overlay = TestBed.createComponent(OpModalOverlayComponent);
+    const menu = TestBed.createComponent(OPContextMenuComponent);
+    await overlay.whenStable();
+    await menu.whenStable();
+    (menu.nativeElement as HTMLElement).querySelector('button')!.click();
+    await overlay.whenStable();
+    const dialog = (overlay.nativeElement as HTMLElement).querySelector('.spot-modal');
+    expect(dialog).not.toBeNull();
+    expect(dialog).toHaveTextContent('Manual order will be lost');
+    expect(changed).not.toHaveBeenCalled();
+    dialog?.querySelector<HTMLButtonElement>('[data-test-selector="confirmation-modal--confirmed"]')?.click();
+    await overlay.whenStable();
+    expect(changed).toHaveBeenCalledOnce();
   });
 });
