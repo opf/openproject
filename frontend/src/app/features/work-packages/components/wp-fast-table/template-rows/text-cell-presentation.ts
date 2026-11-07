@@ -31,11 +31,14 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { HighlightedResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/highlighted-resource-display-field.module';
+import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 export interface TextCellPresentation {
   attribute:string;
+  displayClasses?:string;
   text:string;
   title:string|null;
   label:string;
@@ -51,16 +54,22 @@ export function textCellPresentation(injector:Injector, workPackage:WorkPackageR
   const fieldSchema = schema.ofProperty(mapped);
   if (!fieldSchema || injector.get(WorkPackageViewBaselineService).isChanged(workPackage, mapped)) return null;
   const field = injector.get(DisplayFieldService).getField(workPackage, mapped, fieldSchema, { injector, container: 'table', options: { tabbable: false } });
-  if (field.render !== DisplayField.prototype.render || field.isFormattable) return null;
+  const highlighted = field instanceof HighlightedResourceDisplayField && field.render === HighlightedResourceDisplayField.prototype.render;
+  const disclosed = field instanceof ResourceDisplayField && field.render === ResourceDisplayField.prototype.render && !field.isUndisclosed;
+  if (field.isFormattable || !(field.render === DisplayField.prototype.render || highlighted || disclosed)) return null;
+
+  const highlightClasses = highlighted ? field.inlineHighlightClasses : null;
   const empty = field.isEmpty();
   const editable = schema.isAttributeEditable(attribute);
+  const labelEditable = mapped === attribute ? editable : schema.isAttributeEditable(mapped);
   const i18n = injector.get(I18nService);
   const name = `${field.displayName} ${empty ? i18n.t('js.inplace.null_value_label') : field.valueString}`;
   return {
     attribute,
+    displayClasses: highlightClasses ? `${attribute} ${highlightClasses}` : undefined,
     text: String(empty ? field.placeholder : field.valueString),
     title: field.title === '' ? null : field.title,
-    label: field.writable && editable ? i18n.t('js.inplace.button_edit', { attribute: name }) : name,
+    label: field.writable && labelEditable ? i18n.t('js.inplace.button_edit', { attribute: name }) : name,
     editable,
     required: field.required,
     empty,

@@ -27,14 +27,28 @@
 
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
 import { WorkPackageIdDisplayField } from 'core-app/shared/components/fields/display/field-types/wp-id-display-field.module';
+import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { FakeDragAndDropService, harnessProviders } from '../testing/table-harness';
 import { buildWorkPackage } from '../testing/work-package-fixture';
 import { textCellPresentation } from './text-cell-presentation';
+
+class MappedResourceDisplayField extends ResourceDisplayField {
+  protected override get attribute():unknown {
+    return this.resource.project;
+  }
+}
+
+class SpecializedResourceDisplayField extends ResourceDisplayField {
+  public override render(element:HTMLElement, displayText:string):void {
+    super.render(element, `${displayText}!`);
+  }
+}
 
  describe('text cell presentation', () => {
   beforeEach(() => {
@@ -59,5 +73,23 @@ import { textCellPresentation } from './text-cell-presentation';
     expect(textCellPresentation(TestBed.inject(Injector), buildWorkPackage({ id: '1' }), 'id')).toBeNull();
     vi.spyOn(TestBed.inject(WorkPackageViewBaselineService), 'isChanged').mockReturnValue(true);
     expect(textCellPresentation(TestBed.inject(Injector), buildWorkPackage({ id: '1' }), 'subject')).toBeNull();
+  });
+
+  it('uses the mapped resource field and its attribute getter', () => {
+    TestBed.inject(DisplayFieldService).addFieldType(MappedResourceDisplayField, 'resource', ['String']);
+    const workPackage = buildWorkPackage({ id: '1', subject: 'Other text', attributes: { project: { name: 'Mapped project' } } });
+    const cache = TestBed.inject(SchemaCacheService);
+    const schema = cache.of(workPackage);
+    vi.spyOn(cache, 'of').mockReturnValue(Object.assign(schema, { mappedName: () => 'subject' }));
+
+    expect(textCellPresentation(TestBed.inject(Injector), workPackage, 'project')).toMatchObject({
+      attribute: 'project', text: 'Mapped project', title: 'Mapped project', label: 'Edit subject Mapped project', editable: false,
+    });
+  });
+
+  it('keeps an overridden resource renderer on its existing rendering path', () => {
+    TestBed.inject(DisplayFieldService).addFieldType(SpecializedResourceDisplayField, 'resource', ['String']);
+    const workPackage = buildWorkPackage({ id: '1', attributes: { subject: { name: 'Specialized resource' } } });
+    expect(textCellPresentation(TestBed.inject(Injector), workPackage, 'subject')).toBeNull();
   });
 });

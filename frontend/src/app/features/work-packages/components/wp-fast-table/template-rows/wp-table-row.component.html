@@ -76,7 +76,7 @@
           } @else {
             <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
               <span class="inline-edit--display-field"
-                [class]="presentation.attribute"
+                [class]="presentation.displayClasses ?? presentation.attribute"
                 [class.-editable]="presentation.editable"
                 [class.-read-only]="!presentation.editable"
                 [class.-required]="presentation.required"
@@ -101,7 +101,7 @@
           } @else {
             <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
               <span class="inline-edit--display-field"
-                [class]="presentation.attribute"
+                [class]="presentation.displayClasses ?? presentation.attribute"
                 [class.-editable]="presentation.editable"
                 [class.-read-only]="!presentation.editable"
                 [class.-required]="presentation.required"

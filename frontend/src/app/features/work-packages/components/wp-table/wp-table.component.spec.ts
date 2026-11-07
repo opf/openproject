@@ -28,6 +28,7 @@
 import { headerRowKey, inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import type { PaintScope } from 'core-app/features/work-packages/components/wp-fast-table/row-mutations';
 import { Component, Injector, NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
@@ -35,6 +36,9 @@ import { BehaviorSubject, config, of, Subject } from 'rxjs';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { States } from 'core-app/core/states/states.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { URN_UNDISCLOSED } from 'core-app/core/apiv3/api-v3-urns';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC, QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
@@ -56,6 +60,9 @@ import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
+import { HighlightedResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/highlighted-resource-display-field.module';
+import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
+import { TypeDisplayField } from 'core-app/shared/components/fields/display/field-types/type-display-field.module';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
   buildColumn, buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
@@ -452,8 +459,10 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
             { from: '2', to: '3', type: 'follows', reverseType: 'precedes' },
           ],
           translations,
-          editing: {},
+          editing: { fields: ['subject', 'project'] },
         }),
+        provideHttpClient(),
+        { provide: HalResourceService, useClass: HalResourceService },
         WorkPackageViewSumService,
         { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, live$: () => of(null) } },
         {
@@ -1246,6 +1255,113 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await waitFor(() => expect(row).not.toHaveClass(Highlighting.resourceClass('status', '12')));
       highlighting.update({ mode: 'status' });
       await waitFor(() => expect(row).toHaveClass(Highlighting.resourceClass('status', '12')));
+    });
+
+    describe('resource cells', () => {
+      const resourceTypes:Record<string, string> = { status: 'Status', priority: 'Priority', type: 'Type', project: 'Project' };
+      const cell = (attribute:string) => resultRow('1')!.querySelector<HTMLTableCellElement>(`td.${attribute}`)!;
+      const display = (attribute:string) => cell(attribute).querySelector<HTMLElement>('.inline-edit--display-field')!;
+      const hal = (type:string, id:string, name:string, href:string) => TestBed.inject(HalResourceService).createHalResource({
+        _type: type, id, name, _links: { self: { href } },
+      });
+
+      beforeEach(() => {
+        const fields = TestBed.inject(DisplayFieldService);
+        fields.addFieldType(HighlightedResourceDisplayField, 'highlight', ['Status', 'Priority']);
+        fields.addFieldType(TypeDisplayField, 'type', ['Type']);
+        fields.addFieldType(ResourceDisplayField, 'resource', ['Project']);
+        const cache = TestBed.inject(SchemaCacheService);
+        const original = cache.of.bind(cache);
+        vi.spyOn(cache, 'of').mockImplementation((resource) => {
+          const schema = original(resource);
+          const ofProperty = schema.ofProperty.bind(schema);
+          return Object.assign(schema, {
+            ofProperty: (name:string) => resourceTypes[name]
+              ? { type: resourceTypes[name], name, writable: name === 'project', hasDefault: false }
+              : ofProperty(name),
+          });
+        });
+        TestBed.inject(WorkPackageViewColumnsService)
+          .update(buildQuery(['id', 'subject', 'status', 'priority', 'type', 'project'], null, false, false).columns);
+      });
+
+      it('updates inline resource highlights without replacing the display spans', async () => {
+        const highlighting = TestBed.inject(WorkPackageViewHighlightingService);
+        const selectedAttributes = ['status', 'priority'].map((id) => hal('QueryColumn', id, id, `/api/v3/queries/columns/${id}`));
+        highlighting.update({ mode: 'inline', selectedAttributes });
+        const attributes = {
+          status: hal('Status', '11', 'Open', '/api/v3/statuses/11'),
+          priority: hal('Priority', '21', 'Normal', '/api/v3/priorities/21'),
+          type: hal('Type', '31', 'Task', '/api/v3/types/31'),
+          project: hal('Project', '41', 'Project A', '/api/v3/projects/41'),
+        };
+        const { workPackageTable } = await mount({}, [{ id: '1', attributes }]);
+        const status = display('status');
+        const priority = display('priority');
+        const type = display('type');
+        Object.keys(resourceTypes).forEach((attribute) => expect(cell(attribute)).toHaveAttribute('opwptabletextcell'));
+        expect(status).toHaveClass(...Highlighting.inlineClass('status', '11').split(' '));
+        expect(priority).toHaveClass(...Highlighting.inlineClass('priority', '21').split(' '));
+        expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+        expect(display('project')).toHaveTextContent('Project A');
+
+        attributes.status = hal('Status', '12', 'Closed', '/api/v3/statuses/12');
+        workPackageTable.refreshRows(buildWorkPackage({ id: '1', attributes }));
+        expect(display('status')).toBe(status);
+        expect(status).toHaveTextContent('Closed');
+        expect(status).toHaveClass(Highlighting.resourceClass('status', '12'));
+        expect(status).not.toHaveClass(Highlighting.resourceClass('status', '11'));
+
+        highlighting.update({ mode: 'status' });
+        await waitFor(() => expect(status).not.toHaveClass('__hl_dot'));
+        expect(priority).not.toHaveClass('__hl_dot');
+        expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+        expect(resultRow('1')).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' '));
+
+        highlighting.update({ mode: 'none' });
+        await waitFor(() => expect(resultRow('1')).not.toHaveClass('__hl_background'));
+        expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+      });
+
+      it('keeps text and empty placeholders for resources without highlight classes', async () => {
+        TestBed.inject(WorkPackageViewHighlightingService)
+          .update({ mode: 'inline', selectedAttributes: [hal('QueryColumn', 'status', 'status', '/api/v3/queries/columns/status')] });
+        await mount({}, [{ id: '1', attributes: { status: { id: '11', name: 'Open' }, project: null } }]);
+
+        expect(cell('status')).toHaveAttribute('opwptabletextcell');
+        expect(display('status')).toHaveTextContent('Open');
+        expect(display('status')).not.toHaveClass('__hl_dot');
+        expect(cell('project')).toHaveAttribute('opwptabletextcell');
+        expect(display('project')).toHaveClass('-placeholder');
+        expect(display('project')).toHaveTextContent('-');
+      });
+
+      it.each([false, true])('retains an open project editor when undisclosed state changes from %s', async (initiallyUndisclosed) => {
+        const disclosed = hal('Project', '41', 'Project A', '/api/v3/projects/41');
+        const undisclosed = hal('Project', '42', 'Undisclosed', URN_UNDISCLOSED);
+        const { workPackageTable } = await mount({}, [{ id: '1', attributes: { project: initiallyUndisclosed ? undisclosed : disclosed } }]);
+        const before = cell('project');
+        expect(before.hasAttribute('opwptabletextcell')).toBe(!initiallyUndisclosed);
+        expect(display('project').querySelector('.color-fg-subtle')?.textContent ?? null).toBe(initiallyUndisclosed ? 'Undisclosed' : null);
+        const workPackage = states.workPackages.get('1').value!;
+        const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+        const field = await form.activate('project');
+        const input = within(before).getByRole('textbox');
+        fireEvent.input(input, { target: { value: 'Unsaved' } });
+
+        Object.assign(workPackage, { project: initiallyUndisclosed ? disclosed : undisclosed });
+        workPackageTable.refreshRows(workPackage);
+
+        expect(cell('project')).toBe(before);
+        expect(within(before).getByRole('textbox')).toBe(input);
+        expect(input).toHaveValue('Unsaved');
+        field!.deactivate(false);
+
+        expect(cell('project').hasAttribute('opwptabletextcell')).toBe(initiallyUndisclosed);
+        expect(within(cell('project')).queryByRole('textbox')).toBeNull();
+        expect(display('project')).toHaveTextContent(initiallyUndisclosed ? 'Project A' : 'Undisclosed');
+        expect(display('project').querySelector('.color-fg-subtle')?.textContent ?? null).toBe(initiallyUndisclosed ? null : 'Undisclosed');
+      });
     });
 
     it('renders the context menu action as a Primer icon button outside the Tab order', async () => {
