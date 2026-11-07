@@ -115,6 +115,10 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     if (this.activationCancelled) throw new EditActivationCancelled();
   }
 
+  protected installField(fieldName:string, handler:EditFieldHandler):void {
+    this.activeFields[fieldName] = handler;
+  }
+
   /**
    * Return whether this form has any active fields
    */
@@ -401,7 +405,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     return promise
       .then((fieldHandler:EditFieldHandler) => {
         this.assertActivationActive();
-        this.activeFields[fieldName] = fieldHandler;
+        this.installField(fieldName, fieldHandler);
         return fieldHandler;
       })
       .catch((error:unknown) => {

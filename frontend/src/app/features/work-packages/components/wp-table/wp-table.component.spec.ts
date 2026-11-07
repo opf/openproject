@@ -49,6 +49,7 @@ import { WorkPackageCreateService } from 'core-app/features/work-packages/compon
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
@@ -1792,6 +1793,124 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       rows.restore(before);
       expect(ids()).toEqual(['1', '2', '3']);
       expect(within(resultRow('3')!).getByRole('rowheader', { name: 'Updated while moving' })).toBeInTheDocument();
+    });
+
+    it.each([
+      { templates: true, initiallyChanged: false },
+      { templates: true, initiallyChanged: true },
+      { templates: false, initiallyChanged: false },
+    ])('keeps a pending editor on refresh (templates: $templates, baseline: $initiallyChanged)', async ({ templates, initiallyChanged }) => {
+      Object.assign(TestBed.inject(ConfigurationService), { activeFeatureFlags: templates ? ['newTableRendering'] : [] });
+      let changed = initiallyChanged;
+      vi.spyOn(TestBed.inject(WorkPackageViewBaselineService), 'isChanged')
+        .mockImplementation((_resource, attribute) => attribute === 'subject' && changed);
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: 'Original', baseline: 'updated' }]);
+      const row = resultRow('1')!;
+      const cell = row.querySelector<HTMLTableCellElement>('th.subject')!;
+      expect(cell.hasAttribute('opwptabletextcell')).toBe(templates && !initiallyChanged);
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      const service = TestBed.inject(EditingPortalService);
+      const create = service.create.bind(service);
+      let ready!:() => void;
+      const readiness = new Promise<void>((resolve) => { ready = resolve; });
+      vi.spyOn(service, 'create').mockImplementation(async (...args) => {
+        const handler = await create(...args);
+        await readiness;
+        return handler;
+      });
+      const activation = form.activate('subject');
+      try {
+        const input = await within(cell).findByRole('textbox');
+        expect(form.activeFields.subject).toBeUndefined();
+        changed = true;
+        workPackageTable.refreshRows(workPackage);
+        expect(row.querySelector('th.subject')).toBe(cell);
+        expect(within(cell).getByRole('textbox')).toBe(input);
+
+        ready();
+        expect(await activation).toBe(form.activeFields.subject);
+        expect(within(cell).getByRole('textbox')).toBe(input);
+      } finally {
+        ready();
+        (await activation)?.deactivate(false);
+      }
+      expect(row.querySelector('th.subject')).not.toHaveAttribute('opwptabletextcell');
+      expect(within(row).queryByRole('textbox')).toBeNull();
+    });
+
+    it('releases a rejected pending editor and allows a retry', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: 'Original' }]);
+      const row = resultRow('1')!;
+      const cell = within(row).getByRole('rowheader', { name: 'Original' });
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      vi.spyOn(TestBed.inject(EditingPortalService), 'create').mockRejectedValueOnce(new Error('Editor readiness failed'));
+      vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+      await expect(form.activate('subject')).resolves.toBeUndefined();
+      expect(cell).not.toHaveClass(editModeClassName);
+      expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Original');
+      const field = await form.activate('subject');
+      expect(within(cell).getByRole('textbox')).toBeInTheDocument();
+      field!.deactivate(false);
+    });
+
+    it('removes a pending editor on form teardown without disturbing its replacement', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: 'Original' }]);
+      const row = resultRow('1')!;
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      const service = TestBed.inject(EditingPortalService);
+      const create = service.create.bind(service);
+      let ready!:() => void;
+      const readiness = new Promise<void>((resolve) => { ready = resolve; });
+      vi.spyOn(service, 'create').mockImplementationOnce(async (...args) => {
+        const handler = await create(...args);
+        await readiness;
+        return handler;
+      });
+      const activation = form.activate('subject');
+
+      try {
+        const oldInput = await within(row).findByRole('textbox');
+        workPackageTable.editing.stopEditing(workPackage);
+        expect(oldInput).not.toBeInTheDocument();
+        expect(within(row).getByRole('rowheader', { name: 'Original' })).not.toHaveClass(editModeClassName);
+        const successor = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+        const field = await successor.activate('subject');
+        const input = within(row).getByRole('textbox');
+        ready();
+
+        await expect(activation).resolves.toBeUndefined();
+        expect(successor.activeFields.subject).toBe(field);
+        expect(within(row).getByRole('textbox')).toBe(input);
+        field!.deactivate(false);
+      } finally {
+        ready();
+        await activation;
+      }
+    });
+
+    it('does not register an editor torn down between portal readiness and field installation', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: 'Original' }]);
+      const row = resultRow('1')!;
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      const service = TestBed.inject(EditingPortalService);
+      const create = service.create.bind(service);
+      vi.spyOn(service, 'create').mockImplementationOnce(async (...args) => {
+        const handler = await create(...args);
+        Object.defineProperty(handler, 'overlayMarker', {
+          set: () => { queueMicrotask(() => workPackageTable.editing.stopEditing(workPackage)); },
+        });
+        return handler;
+      });
+
+      await expect(form.activate('subject')).resolves.toBeUndefined();
+      expect(form.activeFields.subject).toBeUndefined();
+      expect(within(row).queryByRole('textbox')).toBeNull();
+      expect(within(row).getByRole('rowheader', { name: 'Original' })).not.toHaveClass(editModeClassName);
     });
 
     it.each([false, true])('keeps an open editor when baseline eligibility changes from %s', async (initiallyChanged) => {

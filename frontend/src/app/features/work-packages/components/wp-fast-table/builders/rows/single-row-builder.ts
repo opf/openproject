@@ -258,9 +258,7 @@ export class SingleRowBuilder {
     column:QueryColumn,
     cell:HTMLTableCellElement,
   ):boolean {
-    const field = this.workPackageTable.editing.forms[workPackage.id!]?.activeFields[column.id];
-
-    return field?.element !== undefined && cell.contains(field.element);
+    return this.workPackageTable.editing.forms[workPackage.id!]?.ownsCell(column.id, cell) ?? false;
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {

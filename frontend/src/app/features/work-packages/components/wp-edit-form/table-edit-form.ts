@@ -26,7 +26,7 @@
 //++
 
 import { beginTemplateCellEdit, endTemplateCellEdit } from '../wp-fast-table/template-rows/template-cell-editing';
-import { Injector } from '@angular/core';
+import { DestroyRef, Injector } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { onDestroySafely, runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
@@ -49,7 +49,7 @@ import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-f
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
+import { displayClassName, editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { FocusPosition, samePosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 import { insideGrid, insideGridContent } from '../wp-fast-table/handlers/state/keyboard/roving-tabindex';
@@ -58,6 +58,39 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
+
+class TableFieldLifetime extends DestroyRef {
+  private readonly cancellation = new AbortController();
+
+  constructor(private readonly table:DestroyRef) {
+    super();
+  }
+
+  override get destroyed():boolean {
+    return this.table.destroyed || this.cancellation.signal.aborted;
+  }
+
+  override onDestroy(callback:() => void):() => void {
+    const unregister = onDestroySafely(this.table, callback);
+    const { signal } = this.cancellation;
+    signal.addEventListener('abort', callback, { once: true });
+    return () => {
+      unregister();
+      signal.removeEventListener('abort', callback);
+    };
+  }
+
+  cancel():void {
+    this.cancellation.abort();
+  }
+}
+
+interface PendingField {
+  readonly activation:Promise<void|EditFieldHandler>;
+  cell?:HTMLTableCellElement;
+  lifetime?:TableFieldLifetime;
+  handler?:EditFieldHandler;
+}
 
 export class TableEditForm extends EditForm<WorkPackageResource> {
   @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
@@ -73,6 +106,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   private readonly origins = new Map<string, FocusPosition>();
 
   private readonly userActivations = new Set<string>();
+
+  private pendingFields?:Map<string, PendingField>;
 
   private submittedOrigin:FocusPosition|null = null;
 
@@ -100,6 +135,9 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   }
 
   destroy() {
+    this.pendingFields?.forEach((pending, fieldName) => {
+      if (pending.cell) this.releasePendingField(fieldName, pending);
+    });
     Object.values(this.activeFields).forEach((field) => {
       if (this.table.destroyed) runCleanup(() => field.deactivate(false));
       else field.deactivate(false);
@@ -128,13 +166,47 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       this.userActivations.add(fieldName);
     }
 
+    const fields = this.pendingFields ??= new Map<string, PendingField>();
+    const existing = fields.get(fieldName);
+    if (existing) return existing.activation;
+
+    const pending:PendingField = { activation: super.activate(fieldName, noWarnings) };
+    fields.set(fieldName, pending);
     try {
-      return await super.activate(fieldName, noWarnings);
+      return await pending.activation;
     } finally {
-      this.userActivations.delete(fieldName);
-      if (!this.hasActiveFields()) {
-        this.origins.clear();
+      if (fields.get(fieldName) === pending) {
+        if (this.activeFields[fieldName]) fields.delete(fieldName);
+        else this.releasePendingField(fieldName, pending);
+        this.userActivations.delete(fieldName);
+        if (!this.hasActiveFields() && !fields.size) this.origins.clear();
       }
+    }
+  }
+
+  public ownsCell(fieldName:string, cell:HTMLTableCellElement):boolean {
+    const field = this.activeFields[fieldName];
+    return this.pendingFields?.get(fieldName)?.cell === cell || (field?.element !== undefined && cell.contains(field.element));
+  }
+
+  protected override installField(fieldName:string, handler:EditFieldHandler):void {
+    if (this.pendingFields?.get(fieldName)?.handler !== handler) throw new EditActivationCancelled();
+    super.installField(fieldName, handler);
+  }
+
+  private releasePendingField(fieldName:string, pending:PendingField):void {
+    this.pendingFields?.delete(fieldName);
+    this.userActivations.delete(fieldName);
+    pending.lifetime?.cancel();
+    const cell = pending.cell;
+    if (!cell || this.table.destroyed || this.findCell(fieldName) !== cell || !cell.classList.contains(editModeClassName)) return;
+
+    if (this.findContainer(fieldName)?.querySelector(`.${displayClassName}`)) {
+      cell.style.width = '';
+      cell.style.maxWidth = '';
+      cell.classList.remove(editModeClassName);
+    } else {
+      this.reset(fieldName);
     }
   }
 
@@ -147,10 +219,12 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   }
 
   public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
+    const pending = this.pendingFields?.get(fieldName);
     return this.waitForContainer(fieldName)
       .then((cell) => {
         this.assertActivationActive();
         this.table.editing.forms[this.workPackageId] ??= this;
+        if (this.table.editing.forms[this.workPackageId] !== this) throw new EditActivationCancelled();
         if (this.userActivations.delete(fieldName)) {
           this.originOf(fieldName);
         }
@@ -158,6 +232,10 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
         // be given more width. Thereby preserve a minimum width of 150.
         // To avoid flickering content, the padding is removed, too.
         const td = this.findCell(fieldName)!;
+        if (pending) {
+          pending.cell = td;
+          pending.lifetime = new TableFieldLifetime(this.table.destroyRef);
+        }
         td.classList.add(editModeClassName);
         let width = td.offsetWidth;
         width = width > 150 ? width - 10 : 150;
@@ -172,17 +250,18 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
           schema,
           fieldName,
           errors,
-          this.table.destroyRef,
+          pending?.lifetime ?? this.table.destroyRef,
         );
       })
       .then((field) => {
         field.overlayMarker = (overlay) => {
           this.table.editing.markOverlay(overlay);
         };
-        if (this.table.destroyed) {
+        if (this.table.destroyed || (pending && (this.pendingFields?.get(fieldName) !== pending || this.findCell(fieldName) !== pending.cell))) {
           field.deactivate(false);
           throw new EditActivationCancelled();
         }
+        if (pending) pending.handler = field;
         return field;
       });
   }
@@ -190,7 +269,13 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   public reset(fieldName:string, focus?:boolean, userEnded = false, closing?:EditFieldHandler) {
     if (this.table.destroyed) return;
     const cell = this.findContainer(fieldName);
+    if (closing && closing.element !== cell) return;
     const td = this.findCell(fieldName)!;
+    const pending = this.pendingFields?.get(fieldName);
+    if (closing && pending?.cell === td) {
+      this.pendingFields?.delete(fieldName);
+      this.userActivations.delete(fieldName);
+    }
 
     if (cell) {
       this.mutateOwnRow(() => {

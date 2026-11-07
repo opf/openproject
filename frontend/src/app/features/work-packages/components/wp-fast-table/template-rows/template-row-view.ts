@@ -76,9 +76,6 @@ export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
     buildCell: ({ workPackage, level, relation }, column) => (relation
       ? pass.relations.relationRowBuilder.buildCell(workPackage, column)
       : rowBuilder.buildTemplateCell(workPackage, column, level - 1)),
-    isEditing: (workPackage, column, cell) => {
-      const field = editing.forms[workPackage.id!]?.activeFields[column.id];
-      return field?.element !== undefined && cell.contains(field.element);
-    },
+    isEditing: (workPackage, column, cell) => editing.forms[workPackage.id!]?.ownsCell(column.id, cell) ?? false,
   };
 }
