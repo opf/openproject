@@ -34,18 +34,24 @@ import { rowHighlightClasses } from '../builders/highlighting/row-highlight-rend
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
+import { placeholderOccurrenceKey } from '../rendered-occurrence-ledger';
 
 /**
  * Produces the rows of a flat table as data for the row template instead
- * of DOM. Row highlighting is bound by the template; the other secondary
- * passes (timeline, relation rows, drag handles) are not supported yet,
- * so the plain rows builder only picks this pass for tables without a
- * visible timeline, drag and drop, or relation columns.
+ * of DOM. Row highlighting and drag handles are bound by the template; the
+ * timeline and relation rows are not supported yet, so the plain rows
+ * builder only picks this pass for tables without a visible timeline or
+ * relation columns.
  */
 export class TemplatePlainRenderPass extends PlainRenderPass {
   public readonly templateRows:TemplateRow[] = [];
 
-  public readonly view:TemplateRowView = {
+  private readonly dragActions = this.workPackageTable.configuration.dragAndDropEnabled
+    ? this.injector.get(TableDragActionsRegistryService).get(this.injector)
+    : null;
+
+  public view:TemplateRowView = {
     columns: this.rowBuilder.renderedColumns,
     rowHeader: this.rowBuilder.rowHeaderColumn,
     rowClasses: (workPackage) => rowHighlightClasses(this.injector.get(WorkPackageViewHighlightingService), workPackage),
@@ -53,6 +59,8 @@ export class TemplatePlainRenderPass extends PlainRenderPass {
       ? this.injector.get(OpTableActionsService).actionsFor(workPackage)
       : null),
     contextMenuLabel: this.injector.get(I18nService).t('js.label_open_context_menu'),
+    canDrag: (workPackage) => this.dragActions?.canPickup(workPackage) ?? null,
+    placeholder: false,
     buildCell: (workPackage, column) => this.rowBuilder.buildCell(workPackage, column),
     isEditing: (workPackage, column, cell) => this.isEditing(workPackage, column, cell),
   };
@@ -85,6 +93,22 @@ export class TemplatePlainRenderPass extends PlainRenderPass {
         element: null,
       });
     });
+
+    if (this.templateRows.length === 0 && this.workPackageTable.renderPlaceholderRow) {
+      this.view = { ...this.view, placeholder: true };
+      this.draft.append({
+        key: placeholderOccurrenceKey(),
+        kind: 'placeholder',
+        classIdentifier: 'wp--placeholder-row',
+        additionalClasses: [],
+        workPackage: null,
+        workPackageId: null,
+        renderType: 'primary',
+        hidden: false,
+        level: 1,
+        element: null,
+      });
+    }
   }
 
   private isEditing(workPackage:WorkPackageResource, column:QueryColumn, cell:HTMLTableCellElement):boolean {

@@ -48,6 +48,30 @@ export class TemplateRowsController {
     });
   }
 
+  /** Whether the row is rendered by the template rather than by an imperative pass. */
+  public owns(row:HTMLTableRowElement):boolean {
+    return this.rows.some(({ key }) => key === row.dataset.occurrenceKey);
+  }
+
+  public snapshot():readonly TemplateRow[] {
+    return this.rows;
+  }
+
+  public restore(rows:readonly TemplateRow[]):void {
+    this.render(rows, this.view);
+  }
+
+  /** Moves a row next to another, as a drop shows the new order before it is saved. */
+  public move(sourceKey:OccurrenceKey, targetKey:OccurrenceKey|null, before:boolean):void {
+    const source = this.rows.find(({ key }) => key === sourceKey);
+    if (!source) return;
+
+    const rest = this.rows.filter((row) => row !== source);
+    const targetIndex = rest.findIndex(({ key }) => key === targetKey);
+    const at = targetIndex === -1 ? rest.length : targetIndex + (before ? 0 : 1);
+    this.render([...rest.slice(0, at), source, ...rest.slice(at)], this.view);
+  }
+
   public clear():void {
     if (this.rows.length > 0) this.render([], this.view);
   }

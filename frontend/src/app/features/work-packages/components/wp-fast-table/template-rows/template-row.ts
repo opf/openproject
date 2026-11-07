@@ -44,6 +44,10 @@ export interface TemplateRowView {
   /** The actions of the trailing cell, or null when that cell is not an actions cell. */
   actions(workPackage:WorkPackageResource):readonly OpTableAction[]|null;
   readonly contextMenuLabel:string;
+  /** Whether the row offers a drag handle, or null when the table has no drag and drop. */
+  canDrag(workPackage:WorkPackageResource):boolean|null;
+  /** An empty drag and drop table renders a placeholder row as its drop target. */
+  readonly placeholder:boolean;
   buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null;
   isEditing(workPackage:WorkPackageResource, column:QueryColumn, cell:HTMLTableCellElement):boolean;
 }

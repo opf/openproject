@@ -29,7 +29,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { WorkPackageTableCellDirective } from './wp-table-cell.directive';
 import { LegacyTableActionDirective } from './legacy-table-action.directive';
 import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
-import { internalContextMenuColumn } from '../builders/internal-sort-columns';
+import { internalContextMenuColumn, internalSortColumn } from '../builders/internal-sort-columns';
 import { TemplateRow, TemplateRowView } from './template-row';
 
 /**
@@ -53,6 +53,16 @@ import { TemplateRow, TemplateRowView } from './template-row';
     @for (column of view().columns; track column.id) {
       @if (column.id === view().rowHeader) {
         <th scope="row" opWpTableCell [column]="column" [row]="row()" [view]="view()"></th>
+      } @else if (column.id === sortColumnId && canDrag() !== null) {
+        <td
+          class="wp-table--cell-td __internal-sorthandle"
+          [class.wp-table--sort-td]="canDrag()"
+          [class.hide-when-print]="canDrag()"
+        >
+          @if (canDrag()) {
+            <span class="wp-table--drag-and-drop-handle icon-drag-handle"></span>
+          }
+        </td>
       } @else if (column.id === actionsColumnId && actions()) {
         <td class="wp-table--cell-td wp-table--context-menu-td __internal-contextMenu hide-when-print wp-table--navigable-cell">
           <span class="wp-table--context-menu-span">
@@ -82,6 +92,10 @@ export class WorkPackageTableRowComponent {
   readonly view = input.required<TemplateRowView>();
 
   readonly actionsColumnId = internalContextMenuColumn.id;
+
+  readonly sortColumnId = internalSortColumn.id;
+
+  readonly canDrag = computed(() => this.view().canDrag(this.row().workPackage));
 
   readonly actions = computed(() => this.view().actions(this.row().workPackage));
 

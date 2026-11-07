@@ -368,11 +368,12 @@ export class WorkPackageTable {
         if (!this.templateRows) {
           this.tbody.replaceChildren(pass.tableBody);
         } else if (pass instanceof TemplatePlainRenderPass) {
+          if (!(this.lastRenderPass instanceof TemplatePlainRenderPass)) this.removeImperativeRows();
           this.templateRows.commit(pass);
         } else {
           // The template's anchor comments must survive a legacy render into the same body.
           this.templateRows.clear();
-          this.tbody.querySelectorAll(':scope > tr').forEach((row) => row.remove());
+          this.removeImperativeRows();
           this.tbody.append(pass.tableBody);
         }
         const timelinePass = pending.timeline ? pass.timeline : null;
@@ -387,6 +388,10 @@ export class WorkPackageTable {
     } finally {
       if (this.lastRenderPass === pending.pass) this.publishRendered();
     }
+  }
+
+  private removeImperativeRows():void {
+    this.tbody.querySelectorAll(':scope > tr').forEach((row) => row.remove());
   }
 
   private publishRendered():void {

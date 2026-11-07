@@ -100,6 +100,12 @@
             @if (templateRowView(); as view) {
               @for (row of templateRows(); track row.key) {
                 <tr opWpTableRow [row]="row" [view]="view"></tr>
+              } @empty {
+                @if (view.placeholder) {
+                  <tr class="wp--placeholder-row" data-occurrence-key="placeholder">
+                    <td [attr.colspan]="view.columns.length"></td>
+                  </tr>
+                }
               }
             }
           </tbody>

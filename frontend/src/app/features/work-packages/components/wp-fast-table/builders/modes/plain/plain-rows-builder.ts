@@ -64,7 +64,6 @@ export class PlainRowsBuilder extends RowsBuilder {
 
   private usesTemplateRows():boolean {
     return this.workPackageTable.templateRows !== null
-      && !this.workPackageTable.configuration.dragAndDropEnabled
       && !this.wpTableTimeline.isVisible
       && !this.wpTableColumns.getColumns().some(isRelationColumn);
   }

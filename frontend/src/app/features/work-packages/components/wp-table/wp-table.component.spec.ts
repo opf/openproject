@@ -1107,6 +1107,31 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(resultRow('1')).not.toHaveAttribute('opwptablerow');
     });
 
+    it('renders drag handles and the drop placeholder for drag and drop tables', async () => {
+      await mount({ dragAndDropEnabled: true }, [{ id: '1' }]);
+
+      expect(resultRow('1')).toHaveAttribute('opwptablerow');
+      expect(resultRow('1')!.querySelector('td.__internal-sorthandle .wp-table--drag-and-drop-handle')).toBeInTheDocument();
+
+      await render([]);
+
+      expect(document.querySelector('.work-package--results-tbody > tr.wp--placeholder-row'))
+        .toHaveAttribute('data-occurrence-key', 'placeholder');
+    });
+
+    it('moves and restores rows through the template rows', async () => {
+      const table = await mount({ dragAndDropEnabled: true }, [{ id: '1' }, { id: '2' }, { id: '3' }]);
+      const rows = table.workPackageTable.templateRows!;
+      const before = rows.snapshot();
+      const ids = () => Array.from(document.querySelectorAll<HTMLElement>('.work-package--results-tbody > tr')).map((row) => row.dataset.workPackageId);
+
+      rows.move('wp:3', 'wp:1', true);
+      expect(ids()).toEqual(['3', '1', '2']);
+
+      rows.restore(before);
+      expect(ids()).toEqual(['1', '2', '3']);
+    });
+
     it('refreshes a row in place', async () => {
       const table = await mount({}, [{ id: '1', subject: 'Before' }]);
       const row = resultRow('1')!;
