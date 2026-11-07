@@ -976,12 +976,23 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expectStructuralRow(row);
     });
 
-    it('keeps the Cancel link in a gridcell when no trailing column renders', async () => {
+    it('keeps the Cancel button in a gridcell when no trailing column renders', async () => {
       await mount({ inlineCreateEnabled: true });
       const row = await openCreateRow();
 
-      expect(within(row).getByRole('link', { name: 'Cancel' }).closest('td')).toHaveAttribute('role', 'gridcell');
+      expect(within(row).getByRole('button', { name: 'Cancel' }).closest('td')).toHaveAttribute('role', 'gridcell');
       expectStructuralRow(row);
+    });
+
+    it('restores the button row when the Cancel button is clicked', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+
+      fireEvent.click(within(row).getByRole('button', { name: 'Cancel' }));
+
+      expect(createRow()).not.toBeInTheDocument();
+      await waitFor(() => expectExposed());
+      expectStructuralRow(within(createSection()).getByRole('row'));
     });
 
     it('restores the button row after cancelling, hiding the section in between', async () => {

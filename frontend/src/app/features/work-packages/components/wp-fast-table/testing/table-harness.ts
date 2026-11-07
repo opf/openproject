@@ -50,6 +50,7 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { InlineCreateRowBuilder } from 'core-app/features/work-packages/components/wp-inline-create/inline-create-row-builder';
+import { InlineCreateCancelButton } from 'core-app/features/work-packages/components/wp-inline-create/inline-create-cancel-button';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
@@ -234,6 +235,8 @@ export interface TableHarness {
   expand(workPackageId:string, columnId:string):void;
   /** Appends the unsaved row the inline-create component renders into its own `<tbody>`. */
   addInlineCreateRow():HTMLTableRowElement;
+  /** A row builder sharing the Cancel button of the row from `addInlineCreateRow`. */
+  inlineCreateRowBuilder():InlineCreateRowBuilder;
   destroy():Promise<void>;
 }
 
@@ -348,6 +351,11 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
   let fixtures = options.workPackages;
   let destroyed = false;
+  let cancelButton:InlineCreateCancelButton|null = null;
+  const inlineCreateRowBuilder = () => {
+    cancelButton ??= new InlineCreateCancelButton(injector, injector.get(I18nService).t('js.button_cancel'), () => undefined);
+    return new InlineCreateRowBuilder(injector, table, cancelButton);
+  };
 
   const nextRender = () => firstValueFrom(
     querySpace.tableRendered.values$().pipe(skip(querySpace.tableRendered.hasValue() ? 1 : 0), take(1)),
@@ -524,18 +532,21 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     addInlineCreateRow() {
       const workPackage = buildWorkPackage({ id: HAL_NEW_RESOURCE_ID, subject: '' });
       states.workPackages.get(HAL_NEW_RESOURCE_ID).putValue(workPackage);
-      const builder = new InlineCreateRowBuilder(injector, table);
+      const builder = inlineCreateRowBuilder();
       table.editing.startEditing(workPackage, builder.classIdentifier(workPackage));
       const [row] = builder.buildEmpty(workPackage);
       inlineCreateBodyOf(dom).append(row);
       return row;
     },
 
+    inlineCreateRowBuilder,
+
     destroy() {
       if (destroyed) {
         return Promise.resolve();
       }
       destroyed = true;
+      cancelButton?.destroy();
       table.destroy();
       dom.wrapper.remove();
       injector.destroy();

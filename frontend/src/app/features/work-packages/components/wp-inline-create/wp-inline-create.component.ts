@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Injector, Input, OnInit, Output, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ElementRef, EventEmitter, HostListener, Injector, Input, OnInit, Output, inject } from '@angular/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import {
   WorkPackageViewFocusService,
@@ -45,19 +45,14 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import {
-  inlineCreateCancelClassName,
-  InlineCreateRowBuilder,
-  inlineCreateRowClassName,
-} from './inline-create-row-builder';
+import { InlineCreateRowBuilder, inlineCreateRowClassName } from './inline-create-row-builder';
+import { InlineCreateCancelButton } from './inline-create-cancel-button';
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
 import { inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
-import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { delegate, DelegateEvent } from '@knowledgecode/delegate';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -82,6 +77,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   protected readonly wpTableFocus = inject(WorkPackageViewFocusService);
   protected readonly halEditing = inject(HalResourceEditingService);
   protected readonly authorisationService = inject(AuthorisationService);
+  private readonly destroyRef = inject(DestroyRef);
 
   @Input() colspan:number;
 
@@ -113,12 +109,15 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   private element:HTMLTableSectionElement;
 
+  private cancelButton:InlineCreateCancelButton|null = null;
+
   get isActive():boolean {
     return this.mode !== 'inactive';
   }
 
   ngOnInit() {
     this.element = this.elementRef.nativeElement as HTMLTableSectionElement;
+    this.destroyRef.onDestroy(() => this.destroyCancelButton());
   }
 
   ngAfterViewInit():void {
@@ -141,29 +140,6 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
     // Watch on this scope when the columns change and refresh this row
     this.refreshOnColumnChanges();
-
-    // Cancel edition of current new row
-    this.registerCancelHandler();
-  }
-
-  /**
-   * Reset the inline creation row on the cancel button,
-   * which is dynamically inserted into the action row by the inline create renderer.
-   */
-  private registerCancelHandler() {
-    const handler = (evt:DelegateEvent) => {
-      onClickOrEnter(evt.originalEvent, () => {
-        evt.preventDefault();
-        this.resetRow();
-      });
-
-      evt.stopImmediatePropagation();
-      return false;
-    };
-
-    delegate(this.element)
-      .on('click', `.${inlineCreateCancelClassName}`, handler)
-      .on('keydown', `.${inlineCreateCancelClassName}`, handler);
   }
 
   /**
@@ -276,7 +252,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   private refreshRow() {
-    const builder = new InlineCreateRowBuilder(this.injector, this.table);
+    const builder = new InlineCreateRowBuilder(this.injector, this.table, this.ensureCancelButton());
     const rowElement = this.element.querySelector<HTMLTableRowElement>(`.${inlineCreateRowClassName}`);
 
     if (rowElement && this.currentWorkPackage) {
@@ -292,7 +268,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
    * @returns The work package form of the row
    */
   private renderInlineCreateRow(wp:WorkPackageResource):EditForm {
-    const builder = new InlineCreateRowBuilder(this.injector, this.table);
+    const builder = new InlineCreateRowBuilder(this.injector, this.table, this.ensureCancelButton());
     const form = this.table.editing.startEditing(wp, builder.classIdentifier(wp));
 
     const [row] = builder.buildNew(wp, form);
@@ -328,9 +304,24 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     this.wpCreate.cancelCreation();
     this.currentWorkPackage = null;
     this.mutateRow(() => this.element.querySelector('.wp-row-new')?.remove());
+    this.destroyCancelButton();
     if (this.editingSubscription) {
       this.editingSubscription.unsubscribe();
     }
+  }
+
+  private ensureCancelButton():InlineCreateCancelButton {
+    this.cancelButton ??= new InlineCreateCancelButton(
+      this.injector,
+      this.I18n.t('js.button_cancel'),
+      () => this.resetRow(),
+    );
+    return this.cancelButton;
+  }
+
+  private destroyCancelButton():void {
+    this.cancelButton?.destroy();
+    this.cancelButton = null;
   }
 
   public showRow() {
