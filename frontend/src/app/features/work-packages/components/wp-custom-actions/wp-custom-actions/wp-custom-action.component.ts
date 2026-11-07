@@ -87,8 +87,8 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
       });
   }
 
-  public get title():string {
-    return this.action.description || this.action.name;
+  public get description():string|undefined {
+    return this.action.description || undefined;
   }
 
   public get change():ResourceChangeset<WorkPackageResource> {

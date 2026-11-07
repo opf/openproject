@@ -31,6 +31,8 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe "Managing file links in work package", :js, :webmock do
+  include_context "with axe on Cuprite"
+
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
@@ -128,7 +130,8 @@ RSpec.describe "Managing file links in work package", :js, :webmock do
     within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do
       within(:list_item, text: "jingle.ogg") do
         page.find("span", text: "jingle.ogg").hover
-        page.click_on("Remove file link")
+        expect(page).to be_axe_clean.within(".op-file-list--item-floating-actions")
+        page.click_on(accessible_name: "Remove file link")
       end
     end
 

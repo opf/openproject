@@ -326,7 +326,7 @@ module Components
       def add_parent(work_package)
         # Open the parent edit
         SeleniumHubWaiter.wait
-        find(".wp-relation--parent-change").click
+        click_on accessible_name: I18n.t("js.relation_buttons.set_parent")
 
         # Enter the query and select the child
         SeleniumHubWaiter.wait
@@ -349,7 +349,7 @@ module Components
 
       def remove_parent
         SeleniumHubWaiter.wait
-        find(".wp-relation--parent-remove").click
+        click_on accessible_name: I18n.t("js.relation_buttons.remove_parent")
       end
 
       def children_table

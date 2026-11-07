@@ -438,7 +438,6 @@ vi:
     label_assignee: Người được chuyển nhượng
     label_assignee_alt_text: Gói công việc này được giao cho %{name}
     label_attachments: tệp đính kèm
-    label_author: 'Tác giả: %{user}'
     label_avatar: hình đại diện
     label_between: giữa
     label_board: bảng

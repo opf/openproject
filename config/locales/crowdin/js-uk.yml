@@ -438,7 +438,6 @@ uk:
     label_assignee: Виконавець
     label_assignee_alt_text: 'Пакет робіт призначено цьому користувачу: %{name}'
     label_attachments: Вкладення
-    label_author: 'Автор: %{user}'
     label_avatar: Аватар
     label_between: між ними
     label_board: Дошка

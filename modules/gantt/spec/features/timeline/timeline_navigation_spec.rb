@@ -29,6 +29,8 @@ require "spec_helper"
 
 RSpec.describe "Work package timeline navigation",
                :js do
+  include_context "with axe on Cuprite"
+
   let(:user) { create(:admin) }
   let(:enabled_module_names) { %i[work_package_tracking gantt] }
   let(:project) { create(:project, enabled_module_names:) }
@@ -205,7 +207,10 @@ RSpec.describe "Work package timeline navigation",
     wp_timeline.expect_zoom_at :auto
 
     # Zooming in = days
-    expect(wp_timeline.zoom_in_button).to be_disabled
+    expect(page).to have_css("#work-packages-timeline-zoom-in-button[aria-disabled='true']")
+    expect(page).to be_axe_clean.within("#work-packages-timeline-mode-selection")
+    wp_timeline.zoom_in
+    wp_timeline.expect_zoom_at :auto
     wp_timeline.zoom_out
     wp_timeline.expect_zoom_at :weeks
 
