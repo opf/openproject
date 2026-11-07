@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, HostBinding, Injector, Input, ViewEncapsulation, inject } from '@angular/core';
+import { Component, HostBinding, Injector, Input, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
@@ -42,10 +42,6 @@ import {
   styleUrls: ['./wp-attribute-group.component.sass'],
   encapsulation: ViewEncapsulation.None,
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin {
   readonly I18n = inject(I18nService);
@@ -64,7 +60,7 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
    * @param {FieldDescriptor} field
    */
   public shouldHideField(descriptor:FieldDescriptor) {
-    const field = descriptor.field || descriptor.fields![0];
+    const field = descriptor.field ?? descriptor.fields![0];
     return this.wpEditForm.editMode && !field.writable;
   }
 }

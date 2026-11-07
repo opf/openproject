@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, Input, OnChanges, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { randomString } from 'core-app/shared/helpers/random-string';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -36,15 +38,22 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   selector: 'wp-subject',
   templateUrl: './wp-subject.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class WorkPackageSubjectComponent extends UntilDestroyedMixin {
+export class WorkPackageSubjectComponent extends UntilDestroyedMixin implements OnChanges {
   protected apiV3Service = inject(ApiV3Service);
+
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
+  private workPackageSubscription?:Subscription;
 
   @Input() workPackage:WorkPackageResource;
 
   public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
+
+  ngOnChanges():void {
+    this.workPackageSubscription?.unsubscribe();
+    this.workPackageSubscription = this.workPackage?.state.values$()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.cdRef.markForCheck());
+  }
 }
