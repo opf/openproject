@@ -28,12 +28,13 @@
 import { TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SimpleChange, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { fireEvent, waitFor, screen } from '@testing-library/dom';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { OpIconComponent } from '../icon/icon.component';
 import { AutofocusDirective } from '../../directives/focus/autofocus.directive';
-import { fireEvent, waitFor } from '@testing-library/dom';
-import { SimpleChange } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { EditableToolbarTitleComponent } from './editable-toolbar-title.component';
+import { EditableToolbarTitleComponent, triggerEditingEvent } from './editable-toolbar-title.component';
 
 describe('EditableToolbarTitleComponent loading title', () => {
   beforeEach(async () => {
@@ -88,30 +89,6 @@ describe('EditableToolbarTitleComponent loading title', () => {
     expect(input.selectionEnd).toBe('Original'.length);
   });
 
-  it('resets on Escape and submits a changed title on Enter', async () => {
-    const fixture = TestBed.createComponent(EditableToolbarTitleComponent);
-    fixture.componentRef.setInput('title', 'Original');
-    fixture.detectChanges();
-    await fixture.whenStable();
-    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
-    const save = vi.fn();
-    fixture.componentInstance.onSave.subscribe(save);
-
-    fireEvent.input(input, { target: { value: 'Draft' } });
-    fixture.detectChanges();
-    fireEvent.keyDown(input, { key: 'Escape' });
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    expect(input).toHaveValue('Original');
-    expect(save).not.toHaveBeenCalled();
-
-    fireEvent.input(input, { target: { value: '  Changed  ' } });
-    fireEvent.keyDown(input, { key: 'Enter' });
-
-    expect(save).toHaveBeenCalledWith('Changed');
-  });
-
   it('reports an empty submission when the title has not loaded', () => {
     const fixture = TestBed.createComponent(EditableToolbarTitleComponent);
     const component = fixture.componentInstance;
@@ -157,5 +134,54 @@ describe('EditableToolbarTitleComponent loading title', () => {
     component.save(new Event('submit', { cancelable: true }));
 
     expect(save).toHaveBeenCalledWith('Changed');
+  });
+});
+
+describe('EditableToolbarTitleComponent', () => {
+  async function render() {
+    TestBed.configureTestingModule({
+      declarations: [EditableToolbarTitleComponent, AutofocusDirective, OpIconComponent],
+      imports: [CommonModule, FormsModule, OpTooltipDirective],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    });
+    const fixture = TestBed.createComponent(EditableToolbarTitleComponent);
+    fixture.componentRef.setInput('title', 'Original title');
+    await fixture.whenStable();
+    return fixture;
+  }
+
+  it('restores the title on Escape and emits the trimmed title on Enter', async () => {
+    const fixture = await render();
+    const save = vi.fn<(title:string) => void>();
+    fixture.componentInstance.onSave.subscribe(save);
+    const input = screen.getByRole('textbox');
+
+    fireEvent.input(input, { target: { value: 'Draft' } });
+    await screen.findByText('Draft');
+    fireEvent.keyDown(input, { key: 'Escape' });
+    await waitFor(() => expect(input).toHaveValue('Original title'));
+    expect(save).not.toHaveBeenCalled();
+
+    fireEvent.input(input, { target: { value: ' New title ' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(save).toHaveBeenCalledExactlyOnceWith('New title');
+    await waitFor(() => expect(input).toBeDisabled());
+    await waitFor(() => expect(input).toBeEnabled());
+    expect(input).toHaveValue('New title');
+  });
+
+  it('responds to a native edit request, then shows an updated read-only title', async () => {
+    const fixture = await render();
+    const host = fixture.nativeElement as HTMLElement;
+    const input = screen.getByRole('textbox');
+
+    fireEvent(host, new CustomEvent(triggerEditingEvent, { detail: 'Suggested title' }));
+    await waitFor(() => expect(input).toHaveValue('Suggested title'));
+    await waitFor(() => expect(input).toHaveFocus());
+
+    fixture.componentRef.setInput('editable', false);
+    fixture.componentRef.setInput('title', 'Read-only title');
+    expect(await screen.findByText('Read-only title')).toBeVisible();
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
   });
 });

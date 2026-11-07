@@ -141,6 +141,7 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
     }
     this.unregisterOverlay();
     this.unregisterOverlay = () => undefined;
+    this.cdRef.markForCheck();
   }
 
   private closeOrphanedModal():void {

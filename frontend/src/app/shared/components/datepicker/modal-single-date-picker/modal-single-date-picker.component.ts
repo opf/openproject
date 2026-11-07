@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Injector, Input, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { AfterContentInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Injector, Input, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { onDayCreate, parseDate, setDates } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
@@ -52,10 +52,6 @@ import {
     },
   ],
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class OpModalSingleDatePickerComponent implements ControlValueAccessor, OnInit, AfterContentInit {
   readonly I18n = inject(I18nService);
@@ -198,7 +194,7 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
   }
 
   private enforceManualChangesToDatepicker(enforceDate?:Date) {
-    const date = parseDate(this.workingDate || '');
+    const date = parseDate(this.workingDate ?? '');
     setDates(date, this.datePickerInstance, enforceDate);
   }
 
@@ -220,7 +216,7 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
     this.datePickerInstance = new DatePicker(
       this.injector,
       this.id,
-      this.workingDate || '',
+      this.workingDate ?? '',
       {
         mode: 'single',
         showMonths: 1,
@@ -239,16 +235,20 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
 
           this.cdRef.detectChanges();
         },
-        onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
-          onDayCreate(
-            dayElem,
-            !this.ignoreNonWorkingDays,
-            await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
-            !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
-          );
+        onDayCreate: (_dates:Date[], _dateString:string, _instance:flatpickr.Instance, dayElem:DayElement) => {
+          void this.markDay(dayElem);
         },
       },
       this.flatpickrTarget.nativeElement,
+    );
+  }
+
+  private async markDay(dayElem:DayElement):Promise<void> {
+    onDayCreate(
+      dayElem,
+      !this.ignoreNonWorkingDays,
+      await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
+      !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
     );
   }
 
@@ -261,8 +261,8 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
   }
 
   writeValue(value:string):void {
-    this.writeWorkingValue(value);
     this.value = value;
+    this.cdRef.markForCheck();
   }
 
   onChange = (_:string):void => {};

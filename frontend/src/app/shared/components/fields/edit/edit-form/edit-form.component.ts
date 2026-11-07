@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
 import { input } from '@openproject/reactivestates';
 import { filter, map, take } from 'rxjs/operators';
@@ -48,10 +48,6 @@ import { firstValueFrom } from 'rxjs';
   selector: 'edit-form,[edit-form]',
   template: '<ng-content />',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class EditFormComponent<T extends HalResource = HalResource> extends EditForm<T> implements OnInit, OnDestroy {
   readonly injector:Injector;
@@ -111,6 +107,7 @@ export class EditFormComponent<T extends HalResource = HalResource> extends Edit
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises -- The field can register after reset is requested.
   public async reset(fieldName:string, focus = false) {
     const ctrl = await this.waitForField(fieldName);
     ctrl.reset();
@@ -155,7 +152,7 @@ export class EditFormComponent<T extends HalResource = HalResource> extends Edit
     const shouldActivate = (this.editMode && !this.skipField(field) || this.activeFields[field.fieldName]);
 
     if (shouldActivate) {
-      field.activateOnForm(true);
+      void field.activateOnForm(true);
     }
   }
 

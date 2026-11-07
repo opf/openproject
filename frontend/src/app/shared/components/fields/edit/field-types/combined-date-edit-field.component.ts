@@ -26,9 +26,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
+  Component, OnInit,
 } from '@angular/core';
 import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -36,10 +34,6 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 @Component({
   templateUrl: './combined-date-edit-field.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent implements OnInit {
   dates = '';
