@@ -106,6 +106,7 @@ export class WorkPackageTableRowComponent implements OnDestroy {
     source: () => ({ row: this.workPackageRow(), view: this.view() }),
     computation: ({ row, view }, previous):Map<string, TextCellPresentation|null> => {
       let cells:HTMLTableCellElement[]|undefined;
+      let present:ReturnType<TemplateRowView['prepareTextCells']>|undefined;
       return new Map(view.columns.map((column) => {
         if (row && previous?.value.has(column.id)) {
           cells ??= Array.from(this.element.nativeElement.cells);
@@ -114,7 +115,7 @@ export class WorkPackageTableRowComponent implements OnDestroy {
             return [column.id, previous.value.get(column.id) ?? null];
           }
         }
-        return [column.id, row ? view.textCell(row, column) : null];
+        return [column.id, row ? (present ??= view.prepareTextCells(row))(column) : null];
       }));
     },
   });

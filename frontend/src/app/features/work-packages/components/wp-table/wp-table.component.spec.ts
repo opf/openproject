@@ -1261,6 +1261,53 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await waitFor(() => expect(row).toHaveClass(Highlighting.resourceClass('status', '12')));
     });
 
+    it('shares presentation setup across cells and reads fresh schema on refresh', async () => {
+      const cache = TestBed.inject(SchemaCacheService);
+      const original = cache.of.bind(cache);
+      let projectWritable = true;
+      const readSchema = vi.spyOn(cache, 'of').mockImplementation((resource) => {
+        const schema = original(resource);
+        const ofProperty = schema.ofProperty.bind(schema);
+        const isAttributeEditable = schema.isAttributeEditable.bind(schema);
+        return Object.assign(schema, {
+          ofProperty: (name:string) => name === 'project'
+            ? { type: 'String', name: projectWritable ? 'Project' : 'Updated project', writable: projectWritable, hasDefault: false }
+            : ofProperty(name),
+          isAttributeEditable: (name:string) => name === 'project' ? projectWritable : isAttributeEditable(name),
+        });
+      });
+      TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['subject', 'project'], null, false, false).columns);
+      const component = await mount({}, [{ id: '1', subject: 'Before', attributes: { project: 'Old project' } }]);
+      const table = component.workPackageTable;
+      const row = resultRow('1')!;
+      const subject = row.querySelector('.subject .inline-edit--display-field')!;
+      const project = row.querySelector('.project .inline-edit--display-field')!;
+      expect(project).toHaveTextContent('Old project');
+      expect(project).toHaveClass('-editable');
+
+      const workPackage = states.workPackages.get('1').value!;
+      const resolveService = vi.spyOn(table.injector, 'get');
+      const displayServiceReads = () => resolveService.mock.calls.filter(([token]) => token === DisplayFieldService);
+      readSchema.mockClear();
+      projectWritable = false;
+      Object.assign(workPackage, { subject: 'After', project: 'New project' });
+      table.refreshRows(workPackage);
+
+      expect(row.querySelector('.subject .inline-edit--display-field')).toBe(subject);
+      expect(subject).toHaveTextContent('After');
+      expect(row.querySelector('.project .inline-edit--display-field')).toBe(project);
+      expect(project).toHaveTextContent('New project');
+      expect(project).toHaveAttribute('aria-label', 'Updated project New project');
+      expect(project).toHaveClass('-read-only');
+      expect(readSchema).toHaveBeenCalledExactlyOnceWith(workPackage);
+      expect(displayServiceReads()).toHaveLength(0);
+
+      const oldView = component.templateRowView();
+      table.redrawTable();
+      await waitFor(() => expect(component.templateRowView()).not.toBe(oldView));
+      expect(displayServiceReads()).toHaveLength(1);
+    });
+
     describe('link cells', () => {
       const cell = () => resultRow('1')!.querySelector<HTMLTableCellElement>('td.customField1')!;
       const display = () => cell().querySelector<HTMLElement>('.inline-edit--display-field')!;

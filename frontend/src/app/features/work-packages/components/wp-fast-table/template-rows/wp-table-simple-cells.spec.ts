@@ -72,7 +72,7 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
   }
 
   function setPresentation(...presentations:TextCellPresentation[]):void {
-    view = { ...view, textCell: (_row, column) => presentations.find(({ attribute }) => attribute === column.id) ?? null };
+    view = { ...view, prepareTextCells: () => (column) => presentations.find(({ attribute }) => attribute === column.id) ?? null };
     fixture.componentRef.setInput('view', view);
   }
 
@@ -100,7 +100,7 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
       canDrag: () => null,
       placeholder: false,
       idCell: idPresenter.present.bind(idPresenter),
-      textCell: () => null,
+      prepareTextCells: () => () => null,
       buildCell: () => null,
       isEditing: () => false,
     };

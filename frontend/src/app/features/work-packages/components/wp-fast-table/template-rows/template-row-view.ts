@@ -25,9 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { textCellPresentation } from './text-cell-presentation';
+import { TextCellPresenter } from './text-cell-presentation';
 import { IdCellPresenter } from './id-cell-presenter';
 import { SingleHierarchyRowBuilder } from '../builders/modes/hierarchy/single-hierarchy-row-builder';
+import type { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
@@ -49,6 +50,7 @@ export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
     : null;
   const shouldHighlightInline = (attribute:string):boolean => selectedInlineAttributes?.has(attribute) ?? false;
   let idPresenter:IdCellPresenter|undefined;
+  let textPresenter:TextCellPresenter|undefined;
 
   return {
     columns: rowBuilder.renderedColumns,
@@ -61,10 +63,15 @@ export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
     canDrag: (workPackage) => dragActions?.canPickup(workPackage) ?? null,
     placeholder: workPackageTable.renderPlaceholderRow,
     idCell: (workPackage) => (idPresenter ??= new IdCellPresenter(injector)).present(workPackage),
-    textCell: ({ workPackage, relation }, column) => {
-      if (column.id === 'id' || column.id.startsWith('__internal')) return null;
-      if (!relation && column.id === 'subject' && rowBuilder instanceof SingleHierarchyRowBuilder) return null;
-      return textCellPresentation(injector, workPackage, column.id, shouldHighlightInline);
+    prepareTextCells: ({ workPackage, relation }) => {
+      let schema:ISchemaProxy|undefined;
+      return (column) => {
+        if (column.id === 'id' || column.id.startsWith('__internal')) return null;
+        if (!relation && column.id === 'subject' && rowBuilder instanceof SingleHierarchyRowBuilder) return null;
+        const presenter = textPresenter ??= new TextCellPresenter(injector, shouldHighlightInline);
+        schema ??= presenter.schemaFor(workPackage);
+        return presenter.present(workPackage, schema, column.id);
+      };
     },
     buildCell: ({ workPackage, level, relation }, column) => (relation
       ? pass.relations.relationRowBuilder.buildCell(workPackage, column)

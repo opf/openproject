@@ -85,7 +85,7 @@ export interface TemplateRowView {
   /** An empty drag and drop table renders a placeholder row as its drop target. */
   readonly placeholder:boolean;
   idCell(workPackage:WorkPackageResource):IdCellPresentation;
-  textCell(row:TemplateWorkPackageRow, column:QueryColumn):TextCellPresentation|null;
+  prepareTextCells(row:TemplateWorkPackageRow):(column:QueryColumn) => TextCellPresentation|null;
   buildCell(row:TemplateWorkPackageRow, column:QueryColumn):HTMLTableCellElement|null;
   isEditing(workPackage:WorkPackageResource, column:QueryColumn, cell:HTMLTableCellElement):boolean;
 }
