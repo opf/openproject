@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module Saml::Providers::Sections
   class ShowComponent < SectionComponent
     def initialize(provider, view_mode:, target_state:,

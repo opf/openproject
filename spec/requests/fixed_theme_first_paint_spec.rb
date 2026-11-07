@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe "Fixed theme first paint", type: :rails_request do

@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 require "spec_helper"
 
 RSpec.describe Primer::OpenProject::Forms::SelectPanel, type: :forms do

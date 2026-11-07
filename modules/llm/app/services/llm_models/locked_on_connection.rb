@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module LlmModels
   # A seed applying the environment's values, and any concurrent rename or delete,
   # holds the connection's advisory lock until it commits. Both records are

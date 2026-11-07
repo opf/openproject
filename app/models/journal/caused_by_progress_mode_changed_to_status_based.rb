@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 class Journal::CausedByProgressModeChangedToStatusBased < CauseOfChange::Base
   def initialize
     super("progress_mode_changed_to_status_based")
