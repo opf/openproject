@@ -43,7 +43,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/child-relations-render-pass';
 import invariant from 'tiny-invariant';
 import { templateRowView } from '../template-rows/template-row-view';
-import type { TemplateRowView } from '../template-rows/template-row';
+import type { TemplateRow, TemplateRowView } from '../template-rows/template-row';
 import {
   type DraftOccurrence,
   type OccurrenceKey,
@@ -158,6 +158,17 @@ public readonly injector:Injector,
     return replacement;
   }
 
+  public get templateRows():readonly TemplateRow[] {
+    return this.draft.occurrences.flatMap((occurrence) => {
+      const row = this.toTemplateRow(occurrence);
+      return row ? [row] : [];
+    });
+  }
+
+  protected toTemplateRow({ key, workPackage, classIdentifier, additionalClasses, level }:DraftOccurrence):TemplateRow|null {
+    return workPackage ? { kind: 'workPackage', key, workPackage, classIdentifier, additionalClasses, level, revision: 0 } : null;
+  }
+
   private refreshedRow(
     occurrence:RenderedOccurrence,
     workPackage:WorkPackageResource,
@@ -259,14 +270,14 @@ workPackage:WorkPackageResource,
   protected appendNonWorkPackageRow(
     key:OccurrenceKey,
     kind:'groupHeader'|'sums',
-    row:HTMLTableRowElement,
+    row:HTMLTableRowElement|null,
     classIdentifier:string,
     additionalClasses:string[] = [],
     hidden = false,
     groupIdentifier?:string,
     level = 1,
   ) {
-    row.classList.add(classIdentifier);
+    row?.classList.add(classIdentifier);
     this.registerAppended(row, {
       key,
       kind,

@@ -41,13 +41,13 @@ export class TemplateRowsController {
     private readonly tbody:HTMLTableSectionElement,
   ) {}
 
-  public commit(draft:RenderDraft, view:TemplateRowView):void {
-    const rows = draft.occurrences.flatMap(({ key, workPackage, classIdentifier, additionalClasses, level }) => (
-      workPackage ? [{ key, workPackage, classIdentifier, additionalClasses, level, revision: 0 }] : []
-    ));
+  public commit(draft:RenderDraft, rows:readonly TemplateRow[], view:TemplateRowView):void {
     this.render(rows, view);
+    const elements = new Map(
+      Array.from(this.tbody.querySelectorAll<HTMLTableRowElement>(':scope > tr[data-occurrence-key]'), (row) => [row.dataset.occurrenceKey!, row]),
+    );
     draft.occurrences.forEach((occurrence) => {
-      occurrence.element = this.elementOf(occurrence.key);
+      occurrence.element = elements.get(occurrence.key) ?? null;
     });
   }
 
@@ -80,13 +80,20 @@ export class TemplateRowsController {
   }
 
   public refreshRow(key:OccurrenceKey, workPackage:WorkPackageResource):HTMLTableRowElement|null {
-    if (!this.rows.some((row) => row.key === key)) return null;
+    if (!this.rows.some((row) => row.kind === 'workPackage' && row.key === key)) return null;
 
     this.render(
-      this.rows.map((row) => (row.key === key ? { ...row, workPackage, revision: row.revision + 1 } : row)),
+      this.rows.map((row) => (row.kind === 'workPackage' && row.key === key ? { ...row, workPackage, revision: row.revision + 1 } : row)),
       this.view,
     );
     return this.elementOf(key);
+  }
+
+  public updateGroupHeaders(collapsed:ReadonlyMap<OccurrenceKey, boolean>):void {
+    if (collapsed.size === 0) return;
+    this.render(this.rows.map((row) => (row.kind === 'groupHeader' && collapsed.has(row.key)
+      ? { ...row, collapsed: collapsed.get(row.key)! }
+      : row)), this.view);
   }
 
   private render(rows:readonly TemplateRow[], view:TemplateRowView|null):void {

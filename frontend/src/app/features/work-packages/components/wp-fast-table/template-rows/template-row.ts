@@ -30,15 +30,45 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { OccurrenceKey } from '../rendered-occurrence-ledger';
 import { OpTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 
-export interface TemplateRow {
+interface TemplateRowIdentity {
   readonly key:OccurrenceKey;
-  readonly workPackage:WorkPackageResource;
   readonly classIdentifier:string;
   readonly additionalClasses:readonly string[];
+}
+
+export interface TemplateWorkPackageRow extends TemplateRowIdentity {
+  readonly kind:'workPackage';
+  readonly workPackage:WorkPackageResource;
   readonly level:number;
   /** Bumped on every refresh, since refreshed resources may be the same mutated instance. */
   readonly revision:number;
 }
+
+interface TemplateGroupHeader extends TemplateRowIdentity {
+  readonly kind:'groupHeader';
+  readonly index:number;
+  readonly identifier:string;
+  readonly name:string;
+  readonly count:number;
+  readonly collapsed:boolean;
+  readonly expandLabel:string;
+  readonly collapseLabel:string;
+  readonly leadingIcon:HTMLElement|null;
+}
+
+interface TemplateGroupSums extends TemplateRowIdentity {
+  readonly kind:'sums';
+  readonly cells:readonly TemplateSumCell[];
+}
+
+export interface TemplateSumCell {
+  readonly columnId:string;
+  readonly navigable:boolean;
+  readonly describedBy:string|null;
+  readonly content:HTMLElement;
+}
+
+export type TemplateRow = TemplateWorkPackageRow|TemplateGroupHeader|TemplateGroupSums;
 
 export interface TemplateRowView {
   readonly columns:readonly QueryColumn[];
@@ -51,7 +81,7 @@ export interface TemplateRowView {
   canDrag(workPackage:WorkPackageResource):boolean|null;
   /** An empty drag and drop table renders a placeholder row as its drop target. */
   readonly placeholder:boolean;
-  buildCell(row:TemplateRow, column:QueryColumn):HTMLTableCellElement|null;
+  buildCell(row:TemplateWorkPackageRow, column:QueryColumn):HTMLTableCellElement|null;
   isEditing(workPackage:WorkPackageResource, column:QueryColumn, cell:HTMLTableCellElement):boolean;
 }
 

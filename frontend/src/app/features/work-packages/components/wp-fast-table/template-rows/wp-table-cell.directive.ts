@@ -27,7 +27,7 @@
 
 import { Directive, effect, ElementRef, inject, input, untracked } from '@angular/core';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { TemplateRow, TemplateRowView } from './template-row';
+import { TemplateWorkPackageRow, TemplateRowView } from './template-row';
 
 /**
  * Hosts the cell markup of today's cell builders in a template cell, so
@@ -36,7 +36,7 @@ import { TemplateRow, TemplateRowView } from './template-row';
 @Directive({ selector: 'td[opWpTableCell], th[opWpTableCell]' })
 export class WorkPackageTableCellDirective {
   readonly column = input.required<QueryColumn>();
-  readonly row = input.required<TemplateRow>();
+  readonly row = input.required<TemplateWorkPackageRow>();
   readonly view = input.required<TemplateRowView>();
 
   private readonly cell = inject<ElementRef<HTMLTableCellElement>>(ElementRef).nativeElement;
@@ -62,5 +62,16 @@ export class WorkPackageTableCellDirective {
       .forEach((attribute) => this.cell.removeAttribute(attribute.name));
     Array.from(built.attributes).forEach((attribute) => this.cell.setAttribute(attribute.name, attribute.value));
     this.cell.replaceChildren(...Array.from(built.childNodes));
+  }
+}
+
+@Directive({ selector: '[opWpTableCellContent]' })
+export class WorkPackageTableCellContentDirective {
+  readonly content = input.required<HTMLElement>({ alias: 'opWpTableCellContent' });
+
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+
+  constructor() {
+    effect(() => this.host.replaceChildren(this.content()));
   }
 }

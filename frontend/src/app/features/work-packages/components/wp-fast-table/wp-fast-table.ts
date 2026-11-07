@@ -368,7 +368,7 @@ export class WorkPackageTable {
           this.tbody.replaceChildren(pass.tableBody);
         } else if (pass.templateView) {
           if (!this.lastRenderPass?.templateView) this.removeImperativeRows();
-          this.templateRows.commit(pass.draft, pass.templateView);
+          this.templateRows.commit(pass.draft, pass.templateRows, pass.templateView);
         } else {
           // The template's anchor comments must survive a legacy render into the same body.
           this.templateRows.clear();

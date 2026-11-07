@@ -60,7 +60,7 @@ import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
   buildColumn, buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
 } from '../wp-fast-table/testing/table-harness';
-import { buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
+import { buildGroup, buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
 import { WorkPackageTimelineTableController } from './timeline/container/wp-timeline-container.directive';
 import { WorkPackagesTableComponent } from './wp-table.component';
 import { WorkPackageTableRowComponent } from '../wp-fast-table/template-rows/wp-table-row.component';
@@ -408,6 +408,8 @@ class TwoTablesStandInComponent {
 }
 
 describe('WorkPackagesTableComponent treegrid structure', () => {
+  const newStatus = { value: 'New', href: '/api/v3/statuses/1', count: 1, sums: { storyPoints: 13 } };
+  const inProgressStatus = { value: 'In progress', href: '/api/v3/statuses/2', count: 1, sums: { storyPoints: 21 } };
   const translations = {
     'js.label_work_package_plural': 'Work packages',
     'js.label_sorting': 'Sorting',
@@ -442,7 +444,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, ListViewStandInComponent, TwoTablesStandInComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], translations, editing: {} }),
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], groups: [newStatus, inProgressStatus], translations, editing: {} }),
         WorkPackageViewSumService,
         { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, live$: () => of(null) } },
         {
@@ -499,7 +501,14 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   function putResults(fixtures:WorkPackageFixture[]) {
     const resources = fixtures.map(buildWorkPackage);
     resources.forEach((wp) => states.workPackages.get(wp.id!).putValue(wp));
-    querySpace.results.putValue({ elements: resources, offset: 1, pageSize: 20, count: resources.length, total: resources.length } as unknown as WorkPackageCollectionResource);
+    querySpace.results.putValue({
+      elements: resources,
+      offset: 1,
+      pageSize: 20,
+      count: resources.length,
+      total: resources.length,
+      sumsSchema: { href: '/api/v3/work_packages/schemas/sums' },
+    } as unknown as WorkPackageCollectionResource);
   }
 
   function tables():WorkPackagesTableComponent[] {
@@ -1128,6 +1137,41 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(resultRow('2')).toBeVisible();
     });
 
+    it('keeps template group headers and sums aligned with their collapsed rows', async () => {
+      querySpace.groups.putValue([buildGroup(newStatus, 'status', 0), buildGroup(inProgressStatus, 'status', 1)]);
+      TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['id', 'subject', 'storyPoints'], 'status', false, true).columns);
+      TestBed.inject(WorkPackageViewTimelineService).setVisible(true);
+      const entries = [
+        { id: '1', attributes: { status: newStatus } },
+        { id: '2', attributes: { status: inProgressStatus } },
+      ];
+      await mount({}, entries);
+      const header = () => document.querySelector<HTMLTableRowElement>('.work-package--results-tbody > tr[data-occurrence-key="group:0:header"]')!;
+      const first = header();
+      const sums = resultRow('1')!.nextElementSibling!;
+      const timelineSums = () => document.querySelector<HTMLElement>('.wp-timeline-cell.__row-group-0:not([data-work-package-id])');
+      expect(first).toHaveAttribute('opwptablerow');
+      expect(first).toHaveTextContent('New');
+      expect(resultRow('1')).toHaveAttribute('opwptablerow');
+      expect(sums).toHaveAttribute('opwptablerow');
+      expect(sums).toHaveTextContent('13');
+      expect(timelineSums()).toBeVisible();
+
+      fireEvent.click(first.querySelector('.expander')!);
+      expect(header()).toBe(first);
+      expect(first).toHaveAttribute('aria-expanded', 'false');
+      expect(sums).not.toBeVisible();
+      expect(timelineSums()).not.toBeVisible();
+
+      await render(entries);
+
+      expect(header()).toBe(first);
+      expect(resultRow('1')!.nextElementSibling).toBe(sums);
+      expect(sums).not.toBeVisible();
+      expect(timelineSums()).not.toBeVisible();
+      expect(resultRow('2')).toBeVisible();
+    });
+
     it('binds the row highlight and swaps it on refresh', async () => {
       const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
       TestBed.inject(WorkPackageViewHighlightingService).update({ mode: 'status' });
@@ -1144,7 +1188,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     it('renders the context menu action as a Primer icon button outside the Tab order', async () => {
       await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
 
-      const button = within(resultRow('1')!).getByRole('button', { name: 'Open context menu' });
+      const button = await within(resultRow('1')!).findByRole('button', { name: 'Open context menu' });
       expect(button).toHaveClass('Button--iconOnly', 'Button--invisible', 'wp-table-context-menu-link');
       expect(button).toHaveAttribute('tabindex', '-1');
       expect(button.closest('td')).toHaveClass('wp-table--context-menu-td', 'wp-table--navigable-cell');
@@ -1154,7 +1198,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
       const show = vi.spyOn(TestBed.inject(OpActionMenuService), 'show').mockImplementation(() => undefined);
 
-      fireEvent.click(within(resultRow('1')!).getByRole('button', { name: 'Open context menu' }));
+      fireEvent.click(await within(resultRow('1')!).findByRole('button', { name: 'Open context menu' }));
 
       expect(show).toHaveBeenCalledOnce();
     });
