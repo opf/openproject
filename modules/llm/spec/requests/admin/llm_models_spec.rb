@@ -69,6 +69,15 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     context "when logged in as admin" do
       before { login_as admin }
 
+      it "shows the shared header description whether or not models were fetched" do
+        create(:llm_connection, :with_models, base_url:)
+
+        get llm_models_path
+
+        expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
+        expect(response.body).not_to include("Reported by the server on")
+      end
+
       # The controller reads turboStreamRequest; with the old name the value was
       # ignored, live updates stayed off and typing sent no request at all.
       # Nothing caught it because the request spec calls /search directly.

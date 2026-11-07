@@ -83,6 +83,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   describe "GET /admin/llm_feature_bindings" do
     before { login_as admin }
 
+    it "shows the shared header description" do
+      create(:llm_connection, :with_models, base_url:)
+
+      get llm_feature_bindings_path
+
+      expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
+    end
+
     it "sends the administrator to the settings while no connection is stored" do
       get llm_feature_bindings_path
 
@@ -130,11 +138,13 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_feature_bindings_path}']")
       end
 
-      it "points at the page where the default models are chosen" do
+      it "labels the model options with the model name and submits the external id" do
+        connection.models.find_by!(external_id: "qwen3.6-27b").update!(display_name: "Qwen 3.6")
+
         get llm_feature_bindings_path
 
-        expect(response.body).to include("use the default models set on the")
-        expect(response.body).to include(llm_models_path)
+        items = page.find("form[action='#{llm_feature_binding_path(:description_assistant)}'] opce-autocompleter")["data-items"]
+        expect(JSON.parse(items)).to include(a_hash_including("id" => "qwen3.6-27b", "name" => "Qwen 3.6"))
       end
 
       it "names the default model a feature inherits" do
