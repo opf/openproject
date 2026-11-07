@@ -32,8 +32,6 @@ import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
-// The OnPush change detection strategy makes the page very slow, especially removing widgets. See #66753
-// TODO: Investigate whether this can be migrated to OnPush after zoneless testing.
 @Component({
   templateUrl: '../../shared/components/grids/grid/page/grid-page.component.html',
   styleUrls: ['../../shared/components/grids/grid/page/grid-page.component.sass'],
@@ -43,8 +41,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   ],
   providers: GRID_PROVIDERS,
   standalone: true,
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent extends GridPageComponent implements OnInit {
   @Input() projectIdentifier:string;

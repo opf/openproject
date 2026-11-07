@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, HostListener, Input, OnDestroy, OnInit, Type, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, OnChanges, Type, inject } from '@angular/core';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
@@ -63,12 +63,9 @@ export const GRID_PROVIDERS = [
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'grid',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GridComponent implements OnDestroy, OnInit {
+export class GridComponent implements OnChanges {
   private sanitization = inject(DomSanitizer);
   private widgetsService = inject(GridWidgetsService);
   drag = inject(GridDragAndDropService);
@@ -77,9 +74,6 @@ export class GridComponent implements OnDestroy, OnInit {
   add = inject(GridAddWidgetService);
   remove = inject(GridRemoveWidgetService);
   readonly browserDetector = inject(BrowserDetector);
-  readonly cdRef = inject(ChangeDetectorRef);
-
-  public uiWidgets:ComponentRef<unknown>[] = [];
 
   public GRID_AREA_HEIGHT = 'auto';
 
@@ -89,12 +83,14 @@ export class GridComponent implements OnDestroy, OnInit {
 
   @Input() grid:GridResource;
 
-  ngOnInit() {
-    this.layout.gridResource = this.grid;
-  }
-
-  ngOnDestroy() {
-    this.uiWidgets.forEach((widget) => widget.destroy());
+  ngOnChanges() {
+    if (this.drag.currentlyDragging) {
+      this.drag.abort();
+    }
+    if (this.resize.currentlyResizing) {
+      this.resize.abort();
+    }
+    this.layout.initialize(this.grid);
   }
 
   // Cancellation happens on keyup; the keydown half would otherwise clear
@@ -120,11 +116,11 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public addWidget(area:GridWidgetArea|GridArea) {
-    this.detectChangesAfter(this.add.widget(area));
+    void this.add.widget(area);
   }
 
   public resizeEnd(area:GridWidgetArea) {
-    this.detectChangesAfter(this.resize.end(area));
+    void this.resize.end(area)?.catch(() => undefined);
   }
 
   public widgetComponent(area:GridWidgetArea) {
@@ -151,37 +147,19 @@ export class GridComponent implements OnDestroy, OnInit {
   public widgetComponentOutput(_area:GridWidgetArea) {
     return {
       resourceChanged: (changeset:WidgetChangeset) => {
-        this.detectChangesAfter(this.layout.saveWidgetChangeset(changeset));
+        void this.layout.saveWidgetChangeset(changeset).catch(() => undefined);
       },
     };
   }
 
   public get gridColumnStyle() {
-    return this.gridStyle(this.layout.numColumns,
-      `calc((100% - ${this.GRID_GAP_DIMENSION} * ${this.layout.numColumns + 1}) / ${this.layout.numColumns})`);
+    return this.gridStyle(this.layout.numColumns(),
+      `calc((100% - ${this.GRID_GAP_DIMENSION} * ${this.layout.numColumns() + 1}) / ${this.layout.numColumns()})`);
   }
 
   public get gridRowStyle() {
-    return this.gridStyle(this.layout.numRows,
+    return this.gridStyle(this.layout.numRows(),
       this.GRID_AREA_HEIGHT);
-  }
-
-  public get widgetAreasForDisplay():GridWidgetArea[] {
-    // Convert a 2D grid position to a flat linear index so widgets can be
-    // sorted by visual order (left-to-right, top-to-bottom) instead of their
-    // insertion order. Multiplying by numColumns ensures each row starts at a
-    // higher index than all cells of the previous row (e.g. for 3 columns:
-    // row 1 → 1–3, row 2 → 4–6, …). startRow is 1-based, hence the "- 1".
-    const index = (a:GridWidgetArea) =>
-      (a.startRow - 1) * this.layout.numColumns + a.startColumn;
-
-    const key = (a:GridWidgetArea) =>
-      (a.widget?.id ?? a.guid).toString();
-
-    return [...(this.layout.widgetAreas || [])].sort((a, b) => {
-      const diff = index(a) - index(b);
-      return diff !== 0 ? diff : key(a).localeCompare(key(b));
-    });
   }
 
   public identifyGridArea(index:number, area:GridArea) {
@@ -189,7 +167,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public get isHeadersDisplayed() {
-    return this.layout.isEditable;
+    return this.layout.isEditable();
   }
 
   public get isMobileDevice() {
@@ -205,11 +183,5 @@ export class GridComponent implements OnDestroy, OnInit {
     style += `${this.GRID_GAP_DIMENSION}`;
 
     return this.sanitization.bypassSecurityTrustStyle(style);
-  }
-
-  private detectChangesAfter<T>(promise:Promise<T>|undefined) {
-    void promise
-      ?.finally(() => this.cdRef.detectChanges())
-      .catch(() => undefined);
   }
 }

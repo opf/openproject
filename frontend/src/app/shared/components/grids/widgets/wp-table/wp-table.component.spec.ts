@@ -59,7 +59,7 @@ describe('WidgetWpTableComponent heading', () => {
       declarations: [WidgetWpTableComponent, WidgetHeaderComponent, EditableToolbarTitleComponent, EmbeddedTableStubComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        { provide: GridAreaService, useValue: { isEditable: false } },
+        { provide: GridAreaService, useValue: { isEditable: () => false } },
         { provide: GridDragAndDropService, useValue: { isDraggable: false } },
         { provide: ApiV3Service, useValue: {} },
         { provide: CurrentProjectService, useValue: {} },

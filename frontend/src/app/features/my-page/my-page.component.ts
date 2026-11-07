@@ -35,10 +35,7 @@ import { GridPageComponent } from 'core-app/shared/components/grids/grid/page/gr
   providers: GRID_PROVIDERS,
   encapsulation: ViewEncapsulation.None,
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyPageComponent extends GridPageComponent {
   protected gridScopePath():string {
