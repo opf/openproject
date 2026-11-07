@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module LlmModels
   class CreateContract < BaseContract
     attribute :llm_connection

@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 class Journal::CausedBySystemUpdate < CauseOfChange::Base
   def initialize(feature:, **additional_attributes)
     system_update_attributes =
