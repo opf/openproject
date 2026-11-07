@@ -745,7 +745,7 @@ describe('Context menu focus return', () => {
 
       fireEvent.contextMenu(icon, { clientX: 10, clientY: 10 });
 
-      await waitFor(() => within(document.querySelector<HTMLElement>(MENU)!).getByRole('menuitem', { name: 'Test action' }));
+      await waitFor(() => expect(within(document.querySelector<HTMLElement>(MENU)!).getByRole('menuitem', { name: 'Test action' })).toBeVisible());
     });
 
     it('row menu: an action that re-renders the row returns focus to the origin cell, not the body', async () => {
