@@ -26,6 +26,7 @@
 //++
 
 import { Injector } from '@angular/core';
+import { HighlightingMode } from './highlighting-mode.const';
 import { PrimaryRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
@@ -39,7 +40,11 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 export function rowHighlightClasses(highlighting:WorkPackageViewHighlightingService, workPackage:WorkPackageResource):string[] {
   if (highlighting.isInline || highlighting.isDisabled) return [];
 
-  const highlightAttribute = highlighting.current.mode;
+  return rowHighlightClassesForMode(highlighting.current.mode, workPackage);
+}
+
+export function rowHighlightClassesForMode(highlightAttribute:HighlightingMode, workPackage:WorkPackageResource):string[] {
+  if (highlightAttribute === 'inline' || highlightAttribute === 'none') return [];
   const property = workPackage[highlightAttribute] as HalResource|null|undefined;
   return property ? Highlighting.backgroundClass(highlightAttribute, property.id!).split(' ') : [];
 }

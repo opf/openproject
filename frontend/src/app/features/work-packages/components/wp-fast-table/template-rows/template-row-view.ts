@@ -31,7 +31,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
-import { rowHighlightClasses } from '../builders/highlighting/row-highlight-render-pass';
+import { rowHighlightClassesForMode } from '../builders/highlighting/row-highlight-render-pass';
 import type { PrimaryRenderPass } from '../builders/primary-render-pass';
 import type { TemplateRowView } from './template-row';
 
@@ -42,10 +42,12 @@ export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
     ? injector.get(TableDragActionsRegistryService).get(injector)
     : null;
 
+  const highlightingMode = injector.get(WorkPackageViewHighlightingService).current.mode;
+
   return {
     columns: rowBuilder.renderedColumns,
     rowHeader: rowBuilder.rowHeaderColumn,
-    rowClasses: (workPackage) => rowHighlightClasses(injector.get(WorkPackageViewHighlightingService), workPackage),
+    rowClasses: (workPackage) => rowHighlightClassesForMode(highlightingMode, workPackage),
     actions: (workPackage) => (configuration.actionsColumnEnabled
       ? injector.get(OpTableActionsService).actionsFor(workPackage)
       : null),

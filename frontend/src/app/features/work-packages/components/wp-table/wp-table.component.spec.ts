@@ -1209,15 +1209,23 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
     it('binds the row highlight and swaps it on refresh', async () => {
       const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
-      TestBed.inject(WorkPackageViewHighlightingService).update({ mode: 'status' });
+      const highlighting = TestBed.inject(WorkPackageViewHighlightingService);
+      highlighting.update({ mode: 'status' });
       const table = await mount({}, [{ id: '1', attributes: status('11') }]);
       const row = resultRow('1')!;
       expect(row).toHaveClass(...Highlighting.backgroundClass('status', '11').split(' '));
 
+      const readMode = vi.spyOn(highlighting, 'current', 'get');
       table.workPackageTable.refreshRows(buildWorkPackage({ id: '1', attributes: status('12') }));
+      expect(readMode).not.toHaveBeenCalled();
 
       expect(row).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' '));
       expect(row).not.toHaveClass(Highlighting.resourceClass('status', '11'));
+
+      highlighting.update({ mode: 'none' });
+      await waitFor(() => expect(row).not.toHaveClass(Highlighting.resourceClass('status', '12')));
+      highlighting.update({ mode: 'status' });
+      await waitFor(() => expect(row).toHaveClass(Highlighting.resourceClass('status', '12')));
     });
 
     it('renders the context menu action as a Primer icon button outside the Tab order', async () => {
@@ -1265,7 +1273,9 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(document.querySelector('.wp-timeline-cell.wp-relation-row-1-to-3')).toBeInTheDocument();
       expect(document.querySelector('.wp-timeline-cell.wp-relation-row-2-to-3')).toBeInTheDocument();
 
+      const renders = vi.spyOn(table, 'renderRows');
       table.workPackageTable.refreshRows(buildWorkPackage({ id: '3', subject: 'Renamed target' }));
+      expect(renders).toHaveBeenCalledTimes(1);
       [first, second, target].forEach((row) => expect(within(row).getByRole('rowheader', { name: 'Renamed target' })).toBeInTheDocument());
 
       toggle('1');

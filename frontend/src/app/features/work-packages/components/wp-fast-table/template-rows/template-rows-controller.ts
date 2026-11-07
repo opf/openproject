@@ -91,6 +91,21 @@ export class TemplateRowsController {
     return this.elementOf(key);
   }
 
+  public refreshWorkPackages(updates:ReadonlyMap<string, WorkPackageResource>):Map<OccurrenceKey, HTMLTableRowElement> {
+    const changed = new Set<OccurrenceKey>();
+    const rows = this.rows.map((row) => {
+      const workPackage = row.kind === 'workPackage' ? updates.get(row.workPackage.id!) : undefined;
+      if (!workPackage || row.kind !== 'workPackage') return row;
+      changed.add(row.key);
+      return { ...row, workPackage, revision: row.revision + 1 };
+    });
+    if (changed.size === 0) return new Map();
+    this.render(rows, this.view);
+    return new Map(Array.from(this.tbody.rows)
+      .filter((element) => changed.has(element.dataset.occurrenceKey!))
+      .map((element) => [element.dataset.occurrenceKey!, element]));
+  }
+
   public updateGroupHeaders(collapsed:ReadonlyMap<OccurrenceKey, boolean>):void {
     if (collapsed.size === 0) return;
     this.render(this.rows.map((row) => (row.kind === 'groupHeader' && collapsed.has(row.key)

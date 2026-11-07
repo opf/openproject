@@ -320,10 +320,11 @@ export class WorkPackageTable {
 
     this.mutate(this.ledger.keysOfAll(shown.map(([id]) => id)), () => {
       const replacements:RowReplacement[] = [];
+      const templateElements = pass.templateView ? this.templateRows?.refreshWorkPackages(new Map(shown)) : undefined;
       shown.forEach(([id, workPackage]) => {
         this.ledger.byWorkPackageId(id).forEach((occurrence) => {
           const previous = occurrence.element;
-          const replacement = pass.refresh(occurrence, workPackage);
+          const replacement = templateElements ? templateElements.get(occurrence.key) : pass.refresh(occurrence, workPackage);
           if (replacement) {
             this.ledger.replaceElement(occurrence.key, replacement);
             replacements.push({ key: occurrence.key, previous, replacement });
