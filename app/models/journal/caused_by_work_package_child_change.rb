@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 class Journal::CausedByWorkPackageChildChange < CauseOfChange::Base
   def initialize(work_package)
     additional = {

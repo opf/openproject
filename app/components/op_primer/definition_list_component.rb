@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module OpPrimer
   # A low-level component for semantic definition lists with unopinionated styling.
   # Each item wraps one term and its descriptions in a div, which HTML permits

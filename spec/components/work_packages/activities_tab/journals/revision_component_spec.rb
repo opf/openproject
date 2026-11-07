@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 require "spec_helper"
 
 RSpec.describe WorkPackages::ActivitiesTab::Journals::RevisionComponent, type: :component do

@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module Saml::Providers::Sections
   class FormComponent < SectionComponent
     attr_reader :edit_state, :next_edit_state, :new_mode

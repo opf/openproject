@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module OpPrimer
   class ExpandableListComponent < Primer::Component
     include ApplicationHelper

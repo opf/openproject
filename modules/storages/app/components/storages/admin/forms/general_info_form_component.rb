@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module Storages::Admin::Forms
   class GeneralInfoFormComponent < StorageFormComponent
     def self.wrapper_key = :storage_general_info_section

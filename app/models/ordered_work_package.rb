@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 class OrderedWorkPackage < ApplicationRecord
   belongs_to :query
   belongs_to :work_package

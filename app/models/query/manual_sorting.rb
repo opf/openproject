@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module Query::ManualSorting
   extend ActiveSupport::Concern
 

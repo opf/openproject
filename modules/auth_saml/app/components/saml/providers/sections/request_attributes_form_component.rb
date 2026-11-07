@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module Saml::Providers::Sections
   class RequestAttributesFormComponent < FormComponent
     def initialize(provider, new_mode: nil)
