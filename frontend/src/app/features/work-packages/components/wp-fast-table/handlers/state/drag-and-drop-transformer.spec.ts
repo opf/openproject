@@ -28,6 +28,7 @@
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { States } from 'core-app/core/states/states.service';
+import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../testing/table-harness';
 
 const newStatus = { href: '/api/v3/statuses/1' };
@@ -246,5 +247,23 @@ describe('DragAndDropTransformer with two tables showing the same work packages'
 
     expect(success).toBe(true);
     expect(drops).toEqual([{ group: null, previous: '1', next: '2' }]);
+  });
+
+  it('leaves expanded relation rows out of the dropped order', async () => {
+    const table = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
+      relations: [{ from: '3', to: '1', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+      states,
+    });
+    harnesses.push(table);
+    table.expand('3', 'relationsOfTypeFollows');
+    await table.render();
+    const prepareMove = vi.spyOn(table.injector.get(WorkPackageViewOrderService), 'prepareMove');
+    expect(table.rowIds()).toEqual(['1', '2', '3', '1']);
+
+    await table.drop('1', '3', 'bottom');
+
+    expect(prepareMove).toHaveBeenCalledExactlyOnceWith(table.querySpace.query.value, ['1', '2', '3'], '1', 2, expect.any(Function));
   });
 });
