@@ -476,7 +476,6 @@ en:
     label_assignee: "Assignee"
     label_assignee_alt_text: "This work package is assigned to %{name}"
     label_attachments: Attachments
-    label_author: "Author: %{user}"
     label_avatar: "Avatar"
     label_between: "between"
     label_board: "Board"

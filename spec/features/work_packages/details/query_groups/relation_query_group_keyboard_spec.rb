@@ -181,7 +181,7 @@ RSpec.describe "Relation query group keyboard navigation", :js do
     wp_table.press_keys(:enter)
     expect(page).to have_field(accessible_name: "Search", focused: true)
     wp_table.press_keys(:tab)
-    expect(wp_table.table_container).to have_button("Abort", focused: true)
+    expect(wp_table.table_container).to have_button(accessible_name: "Abort", focused: true)
     wp_table.press_keys(:enter)
 
     expect(page).to have_no_test_selector("wp-relations-autocomplete")

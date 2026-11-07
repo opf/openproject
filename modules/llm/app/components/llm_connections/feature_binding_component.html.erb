@@ -41,7 +41,7 @@
     <% end %>
     <% locked_values.each do |label, value| %>
       <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 0)) do %>
-        <%= "#{label}: #{value}" %>
+        <%= label %>: <%= value %>
       <% end %>
     <% end %>
   <% end %>

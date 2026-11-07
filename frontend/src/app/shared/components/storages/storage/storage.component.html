@@ -11,8 +11,8 @@
     @if (openStorageLink) {
       <a
         class="op-tab-content--header-action"
-        aria-label="{{text.openStorage(storageType | async)}}"
-        [title]="text.openStorage(storageType | async)"
+        opTooltip
+        [label]="text.openStorage(storageType | async)"
         [href]="openStorageLink"
         target="_blank"
       >

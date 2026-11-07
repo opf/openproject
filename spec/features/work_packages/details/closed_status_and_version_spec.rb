@@ -48,12 +48,16 @@ RSpec.describe "Closed status and version in full view", :js do
 
   it "shows a warning when trying to edit status" do
     # Should be initially editable (due to non specific schema)
-    status = page.find("#{test_selector('op-wp-status-button')} button:not([disabled])")
+    status = page.find("#{test_selector('op-wp-status-button')} button:not([aria-disabled='true'])")
     status.click
 
     wp_page.expect_and_dismiss_toaster type: :error,
                                        message: I18n.t("js.work_packages.message_work_package_status_blocked")
 
-    expect(page).to have_css("#{test_selector('op-wp-status-button')} button[disabled]")
+    expect(page).to have_css("#{test_selector('op-wp-status-button')} button[aria-disabled='true']")
+    expect(page).to have_button(
+      accessible_name: "Status #{work_package.status.name}",
+      accessible_description: "Work package status is not writable due to closed status and closed version being assigned."
+    )
   end
 end

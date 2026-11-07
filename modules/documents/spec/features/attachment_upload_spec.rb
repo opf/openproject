@@ -192,6 +192,7 @@ RSpec.describe "Upload attachment to documents",
 
       it "is possible to delete attachments from the sidebar" do
         attachments_list.expect_attached("test.jpg")
+        expect(page).to be_axe_clean.within("[data-test-selector='op-attachment-list-item']")
         expect do
           attachments_list.delete("test.jpg")
           attachments_list.expect_empty

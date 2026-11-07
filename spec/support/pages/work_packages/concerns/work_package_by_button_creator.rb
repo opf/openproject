@@ -46,12 +46,12 @@ module Pages
 
         def expect_wp_create_button
           expect(page)
-            .to have_css(".add-work-package:not([disabled])", text: "Create")
+            .to have_css(".add-work-package:not([disabled]):not([aria-disabled='true'])", text: "Create")
         end
 
         def expect_wp_create_button_disabled
           expect(page)
-            .to have_css(".add-work-package[disabled]", text: "Create")
+            .to have_css(".add-work-package[aria-disabled='true']", text: "Create")
         end
 
         def expect_type_available_for_create(type)

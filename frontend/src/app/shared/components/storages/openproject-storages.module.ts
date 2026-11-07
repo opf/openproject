@@ -62,13 +62,15 @@ import {
 import {
   StorageLoginButtonComponent,
 } from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 
 @NgModule({
   imports: [
     CommonModule,
     IconModule,
     OpSpotModule,
-    OpSharedModule
+    OpSharedModule,
+    OpTooltipDirective,
   ],
   declarations: [
     StorageComponent,

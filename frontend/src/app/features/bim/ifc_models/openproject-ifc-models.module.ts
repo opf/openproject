@@ -47,6 +47,7 @@ import { BcfListComponent } from 'core-app/features/bim/ifc_models/bcf/list/bcf-
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { OpenprojectBcfModule } from 'core-app/features/bim/bcf/openproject-bcf.module';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { IFCViewerComponent } from './ifc-viewer/ifc-viewer.component';
 import { BcfSplitLeftComponent } from 'core-app/features/bim/ifc_models/bcf/split/left/bcf-split-left.component';
 import { BcfSplitRightComponent } from 'core-app/features/bim/ifc_models/bcf/split/right/bcf-split-right.component';
@@ -62,6 +63,7 @@ import {
     OpenprojectBcfModule,
     OpenprojectWorkPackagesModule,
     IconModule,
+    OpTooltipDirective,
   ],
   providers: [
     IFCViewerService,

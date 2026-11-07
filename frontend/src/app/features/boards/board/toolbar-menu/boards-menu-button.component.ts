@@ -32,7 +32,8 @@ import { Observable } from 'rxjs';
 
 @Component({
   template: `
-    <button title="{{ text.button_more }}"
+    <button opTooltip
+            [label]="text.button_more"
             class="button last board--settings-dropdown toolbar-icon"
             boardsToolbarMenu
             [boardsToolbarMenu-resource]="board$ | async">
