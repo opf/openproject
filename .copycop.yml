@@ -37,8 +37,6 @@ ignore:
   - "lib_static/plugins/verification/**/*"
   - "lib/chronic_duration.rb"
   - "frontend/src/global_styles/content/_loading_indicator.sass"
-  # render copyright_header themselves
-  - "lib/open_project/plugins/frontend_linking/*.erb"
   # crowdin and generated
   - "modules/*/config/locales/crowdin/*.yml"
   - "config/locales/{crowdin,generated}/*.yml"
