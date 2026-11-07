@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 require "rails_helper"
 
 RSpec.describe Budgets::ActualMaterialBudgetItemsComponent, type: :component do

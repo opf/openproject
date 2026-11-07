@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module Storages::Admin::Forms
   class RedirectUriFormComponent < StorageFormComponent
     def self.wrapper_key = :storage_redirect_uri_section

@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module Storages::Admin
   class AccessManagementComponent < StorageInfoComponent
     def self.wrapper_key = :access_management_section
