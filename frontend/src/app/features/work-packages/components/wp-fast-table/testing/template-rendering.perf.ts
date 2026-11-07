@@ -35,7 +35,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
-import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
+import { WorkPackageIdDisplayField } from 'core-app/shared/components/fields/display/field-types/wp-id-display-field.module';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackagesTableComponent } from '../../wp-table/wp-table.component';
 import { WorkPackageTimelineTableController } from '../../wp-table/timeline/container/wp-timeline-container.directive';
@@ -65,7 +65,7 @@ for (const rowCount of [100, 500]) {
         Object.assign(TestBed.inject(ConfigurationService), { activeFeatureFlags: templates ? ['newTableRendering'] : [] });
         const fields = TestBed.inject(DisplayFieldService);
         fields.addFieldType(TextDisplayField, 'text', ['String']);
-        fields.addFieldType(IntegerDisplayField, 'integer', ['Integer']);
+        fields.addFieldType(WorkPackageIdDisplayField, 'id', ['id']);
         const query = buildQuery(columns, null, false, false);
         const querySpace = TestBed.inject(IsolatedQuerySpace);
         querySpace.query.putValue(query);
