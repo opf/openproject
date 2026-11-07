@@ -25,24 +25,23 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, inject } from '@angular/core';
+import { AfterContentChecked, Component, ContentChild, HostBinding, Input, inject } from '@angular/core';
 import {
   AbstractControl,
   FormGroupDirective,
   NgControl,
 } from '@angular/forms';
 
+import { observeFormState } from '../form-field/observe-form-state';
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-selector-field',
   templateUrl: './selector-field.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class SpotSelectorFieldComponent {
+export class SpotSelectorFieldComponent implements AfterContentChecked {
+  private readonly observeState = observeFormState();
   private formGroupDirective = inject(FormGroupDirective, { optional: true });
 
   @HostBinding('class.spot-form-field') className = true;
@@ -97,6 +96,10 @@ export class SpotSelectorFieldComponent {
 
   internalID = `spot-selector-field-${+new Date()}`;
 
+  ngAfterContentChecked():void {
+    this.observeState(this.formControl, this.formGroupDirective?.control);
+  }
+
   get errorsID():string {
     return `${this.internalID}-errors`;
   }
@@ -110,7 +113,7 @@ export class SpotSelectorFieldComponent {
   }
 
   get formControl():AbstractControl|undefined|null {
-    return this.ngControl?.control || this.control;
+    return this.ngControl?.control ?? this.control;
   }
 
   get showErrorMessage():boolean {
