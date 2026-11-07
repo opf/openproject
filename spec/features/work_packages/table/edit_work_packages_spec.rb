@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Inline editing work packages", :js do
+RSpec.shared_examples "both renderers: inline editing work packages" do |new_table_rendering|
   let(:manager_permissions) { %i[view_work_packages edit_work_packages] }
   let(:manager_role) do
     create(:project_role, permissions: manager_permissions)
@@ -70,7 +70,99 @@ RSpec.describe "Inline editing work packages", :js do
     login_as(manager)
   end
 
-  context "simple work package" do
+  context "in a flat table" do
+    let(:query) do
+      create(:query, user: manager, project:, column_names: %w[id subject], show_hierarchies: false)
+    end
+
+    before do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_listed(work_package)
+    end
+
+    def expect_renderer(new_table_rendering)
+      if new_table_rendering
+        expect(wp_table.table_container).to have_css("#{wp_table.row_selector(work_package)}[opwptablerow]")
+      else
+        expect(wp_table.table_container).to have_no_css("tr[opwptablerow]")
+      end
+    end
+
+    it "cancels, reopens, and saves the subject editor" do
+      expect_renderer(new_table_rendering)
+      subject_field = wp_table.edit_field(work_package, :subject)
+      subject_field.activate!
+      subject_field.set_value("Discard this draft")
+      subject_field.cancel_by_escape
+
+      subject_field.expect_inactive!
+      subject_field.expect_text("Foobar")
+      wp_table.expect_focus_on_cell(work_package, :subject)
+      expect(work_package.reload.subject).to eq("Foobar")
+
+      subject_field.activate!
+      subject_field.set_value("Saved after reopening")
+      subject_field.save!
+
+      subject_field.expect_inactive!
+      subject_field.expect_text("Saved after reopening")
+      wp_table.expect_toast(message: "Successful update.")
+      expect(work_package.reload.subject).to eq("Saved after reopening")
+    end
+
+    it "opens the work package through its ID link" do
+      expect_renderer(new_table_rendering)
+      within wp_table.cell(work_package, :id) do
+        click_link work_package.id.to_s, exact: true
+      end
+
+      Pages::FullWorkPackage.new(work_package).ensure_loaded
+      expect(page).to have_current_path(
+        project_work_package_path(project, work_package.id, :activity),
+        ignore_query: true
+      )
+      expect(page).to have_css(".work-packages--details--subject", text: "Foobar")
+    end
+
+    context "with a link custom field" do
+      let(:custom_field) { create(:link_wp_custom_field, name: "Reference", types: [type], is_for_all: true) }
+      let(:query) do
+        create(:query, user: manager, project:,
+                       column_names: ["id", "subject", custom_field.column_name], show_hierarchies: false)
+      end
+
+      it "renders links and uses their edit affordance to cancel and save changes" do
+        expect_renderer(new_table_rendering)
+        field = wp_table.edit_field(work_package, custom_field.attribute_name(:camel_case))
+        field.expect_text("-")
+        expect(field.display_element).to have_no_css("a")
+
+        field.update("https://example.com/reference")
+        wp_table.expect_and_dismiss_toaster(message: "Successful update.")
+
+        link = field.display_element.find_link("https://example.com/reference", href: "https://example.com/reference")
+        expect(link[:target]).to eq("_blank")
+        expect(link[:rel].split).to contain_exactly("noopener", "noreferrer")
+        expect(field.display_trigger_element).to match_selector("a.inline-edit--display-trigger")
+
+        field.activate!
+        field.set_value("https://example.com/discarded")
+        field.cancel_by_escape
+        field.expect_inactive!
+        expect(field.display_element).to have_link("https://example.com/reference", href: "https://example.com/reference")
+
+        field.activate!
+        field.set_value("https://example.com/updated")
+        field.save!
+        field.expect_inactive!
+        expect(field.display_element).to have_link("https://example.com/updated", href: "https://example.com/updated")
+        wp_table.expect_toast(message: "Successful update.")
+        expect(work_package.reload.custom_value_for(custom_field).typed_value).to eq("https://example.com/updated")
+      end
+    end
+  end
+
+  context "with a simple work package" do
     before do
       workflow
 
@@ -86,9 +178,10 @@ RSpec.describe "Inline editing work packages", :js do
 
       subject_field.set_value("New subject!")
 
-      expect(WorkPackages::UpdateService).to receive(:new).and_call_original
+      allow(WorkPackages::UpdateService).to receive(:new).and_call_original
       subject_field.save!
       subject_field.expect_text("New subject!")
+      expect(WorkPackages::UpdateService).to have_received(:new)
 
       wp_table.expect_toast(
         message: "Successful update."
@@ -160,7 +253,7 @@ RSpec.describe "Inline editing work packages", :js do
     end
   end
 
-  context "custom field" do
+  context "with a custom field" do
     let!(:custom_fields) do
       fields = [
         create(
@@ -306,5 +399,12 @@ RSpec.describe "Inline editing work packages", :js do
       expect(project_field.dropdown).to have_no_text("Test Project")
       project_field.expect_option("Test Portfolio", workspace_badge: "Portfolio")
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Inline editing work packages (new_table_rendering=#{new_table_rendering})",
+                 :js, with_flag: { new_table_rendering: } do
+    it_behaves_like "both renderers: inline editing work packages", new_table_rendering
   end
 end

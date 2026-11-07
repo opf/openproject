@@ -201,6 +201,8 @@ export class DragAndDropTransformer {
           return;
         }
         const { parentNode, nextSibling } = source;
+        const templateRows = table.templateRows?.owns(source) ? table.templateRows : null;
+        const templateOrder = templateRows?.snapshot();
         const stillEligible = () => isCurrent()
           && table.lastRenderPass === renderPass
           && source.parentNode === table.tbody
@@ -211,7 +213,8 @@ export class DragAndDropTransformer {
         recoverIfCurrent = () => {
           if (!isCurrent() || table.lastRenderPass !== renderPass || source.parentNode !== parentNode) return;
           table.mutate('positions', () => {
-            parentNode?.insertBefore(source, nextSibling?.parentNode === parentNode ? nextSibling : null);
+            if (templateRows && templateOrder) templateRows.restore(templateOrder);
+            else parentNode?.insertBefore(source, nextSibling?.parentNode === parentNode ? nextSibling : null);
           });
         };
         if (!stillEligible()) {
@@ -241,7 +244,8 @@ export class DragAndDropTransformer {
         }
         // Only preparation observes the staged neighbors. Persistence captures no row.
         table.mutate('positions', () => {
-          if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
+          if (templateRows) templateRows.move(source.dataset.occurrenceKey!, target?.dataset.occurrenceKey ?? null, edge === 'top');
+          else if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
           else table.tbody.appendChild(source);
         });
         const preparedAction = await actionService.prepareDrop(workPackage, source);

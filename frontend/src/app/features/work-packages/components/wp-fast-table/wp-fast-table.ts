@@ -53,6 +53,7 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
 import type { RowPositionEvidence } from './semantics/table-row-positions';
 import { RowStatePainter, type RowReplacement } from './semantics/row-state-painter';
 import { RowClassifier } from './semantics/row-classifier';
+import { TemplateRowsController } from './template-rows/template-rows-controller';
 import { type MutationExit, type PaintScope, RowMutations } from './row-mutations';
 
 export interface CommittedRows extends Pick<MutationExit, 'scope'> {
@@ -102,6 +103,9 @@ export class WorkPackageTable {
 
   // Last render pass used for refreshing single rows
   public lastRenderPass:PrimaryRenderPass|null = null;
+
+  /** Set when the `newTableRendering` flag hands flat result rows to the table template. */
+  public templateRows:TemplateRowsController|null = null;
 
   public readonly ledger = new RenderedOccurrenceLedger();
 
@@ -316,10 +320,11 @@ export class WorkPackageTable {
 
     this.mutate(this.ledger.keysOfAll(shown.map(([id]) => id)), () => {
       const replacements:RowReplacement[] = [];
+      const templateElements = pass.templateView ? this.templateRows?.refreshWorkPackages(new Map(shown)) : undefined;
       shown.forEach(([id, workPackage]) => {
         this.ledger.byWorkPackageId(id).forEach((occurrence) => {
           const previous = occurrence.element;
-          const replacement = pass.refresh(occurrence, workPackage);
+          const replacement = templateElements ? templateElements.get(occurrence.key) : pass.refresh(occurrence, workPackage);
           if (replacement) {
             this.ledger.replaceElement(occurrence.key, replacement);
             replacements.push({ key: occurrence.key, previous, replacement });
@@ -360,7 +365,17 @@ export class WorkPackageTable {
       this.mutations.run('all', () => {
         this.pendingRender = null;
         const { pass } = pending;
-        this.tbody.replaceChildren(pass.tableBody);
+        if (!this.templateRows) {
+          this.tbody.replaceChildren(pass.tableBody);
+        } else if (pass.templateView) {
+          if (!this.lastRenderPass?.templateView) this.removeImperativeRows();
+          this.templateRows.commit(pass.draft, pass.templateRows, pass.templateView);
+        } else {
+          // The template's anchor comments must survive a legacy render into the same body.
+          this.templateRows.clear();
+          this.removeImperativeRows();
+          this.tbody.append(pass.tableBody);
+        }
         const timelinePass = pending.timeline ? pass.timeline : null;
         if (timelinePass) {
           this.timelineBody.replaceChildren(timelinePass.timelineBody);
@@ -373,6 +388,10 @@ export class WorkPackageTable {
     } finally {
       if (this.lastRenderPass === pending.pass) this.publishRendered();
     }
+  }
+
+  private removeImperativeRows():void {
+    this.tbody.querySelectorAll(':scope > tr').forEach((row) => row.remove());
   }
 
   private publishRendered():void {

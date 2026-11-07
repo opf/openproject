@@ -40,7 +40,7 @@ export class OpUnlinkTableAction extends OpTableAction {
   constructor(public injector:Injector,
     public workPackage:WorkPackageResource,
     public readonly identifier:string,
-    private title:string,
+    readonly title:string,
     readonly applicable:(workPackage:WorkPackageResource) => boolean,
     readonly onClick:(workPackage:WorkPackageResource) => void) {
     super(injector, workPackage);

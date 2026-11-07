@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work Package table child relations", :js do
+RSpec.shared_examples "both renderers: work package table child relations" do
   let(:user) { create(:admin) }
 
   let(:type) { create(:type) }
@@ -82,5 +82,12 @@ RSpec.describe "Work Package table child relations", :js do
     # Collapse
     parent_row.find(".relationChild .wp-table--relation-indicator").click
     expect(page).to have_no_css(".__relations-expanded-from-#{parent.id}")
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Work Package table child relations (new_table_rendering=#{new_table_rendering})",
+                 :js, with_flag: { new_table_rendering: } do
+    it_behaves_like "both renderers: work package table child relations"
   end
 end

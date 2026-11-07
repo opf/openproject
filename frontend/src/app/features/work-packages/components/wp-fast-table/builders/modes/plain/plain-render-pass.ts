@@ -43,7 +43,7 @@ export class PlainRenderPass extends PrimaryRenderPass {
   protected doRender():void {
     this.workPackageTable.originalRows.forEach((wpId:string) => {
       const row = this.workPackageTable.originalRowIndex[wpId];
-      const [tr] = this.rowBuilder.buildEmpty(row.object);
+      const tr = this.templateView ? null : this.rowBuilder.buildEmpty(row.object)[0];
       this.appendRow(row.object, tr);
     });
   }

@@ -40,8 +40,12 @@ export class ResourceDisplayField extends DisplayField {
     return null;
   }
 
+  public get isUndisclosed():boolean {
+    return isUndisclosed(this.attribute as HalResource|null|undefined);
+  }
+
   public render(element:HTMLElement, displayText:string, options:Record<string, unknown> = {}):void {
-    if (isUndisclosed(this.attribute as HalResource|null|undefined)) {
+    if (this.isUndisclosed) {
       element.innerHTML = '';
       element.appendChild(undisclosedValueNode(displayText));
       return;

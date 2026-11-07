@@ -30,6 +30,8 @@ require_relative "../spec_helper"
 RSpec.describe "model viewer",
                :js,
                with_config: { edition: "bim" } do
+  include_context "with axe on Cuprite"
+
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
   let(:work_package) { create(:work_package, project:) }
@@ -65,6 +67,17 @@ RSpec.describe "model viewer",
         show_model_page.page_shows_a_toolbar true
         model_tree.sidebar_shows_viewer_menu true
         model_tree.expect_model_management_available visible: true
+      end
+
+      it "gives keyboard control to the viewer from the warning button" do
+        show_model_page.model_viewer_visible true
+        warning_text = "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+
+        expect(page).to be_axe_clean.within(".op-ifc-viewer--focus-warning")
+        page.find(:button, accessible_name: warning_text).send_keys(:enter)
+
+        expect(page).to have_no_button(accessible_name: warning_text)
+        expect(page).to have_focus_on(".op-ifc-viewer--model-canvas")
       end
 
       it "shows a work package list as cards next to the viewer" do

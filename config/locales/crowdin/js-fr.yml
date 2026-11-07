@@ -438,7 +438,6 @@ fr:
     label_assignee: Assigné
     label_assignee_alt_text: Ce lot de travaux est assigné à %{name}
     label_attachments: Pièces jointes
-    label_author: 'Auteur : %{user}'
     label_avatar: Avatar
     label_between: entre
     label_board: Tableau

@@ -60,6 +60,7 @@ export interface DisplayFieldContextOptions {
   layout?:string;
   dateFormat?:string;
   colorize?:boolean;
+  shouldHighlightInline?:(attribute:string) => boolean;
 }
 
 export interface DisplayFieldContext {

@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package table keyboard selection", :js do
+RSpec.shared_examples "both renderers: work package table keyboard selection" do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
@@ -286,7 +286,7 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.press_keys(:right, :right, :up, :up, :up)
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
-      within "#column-context-menu" do
+      within(:menu, "Subject") do
         click_on "Sort descending"
       end
 
@@ -300,7 +300,7 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.press_keys(:right, :right, :up, :up)
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
-      within "#column-context-menu" do
+      within(:menu, "Subject") do
         click_on "Move column left"
       end
 
@@ -314,7 +314,7 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.press_keys(:right, :right, :up, :up)
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
-      within "#column-context-menu" do
+      within(:menu, "Subject") do
         click_on "Hide column"
       end
 
@@ -613,5 +613,12 @@ RSpec.describe "Work package table keyboard selection", :js do
       expect_selection(*listed)
       live_region.expect_announcement("All 4 work packages on this page selected.")
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Work package table keyboard selection (new_table_rendering=#{new_table_rendering})",
+                 :js, with_flag: { new_table_rendering: } do
+    it_behaves_like "both renderers: work package table keyboard selection"
   end
 end

@@ -212,7 +212,8 @@
     "typecheck": "npm run typecheck:app && npm run typecheck:spec",
     "typecheck:app": "tsc -d --noEmit -p tsconfig.app.json",
     "typecheck:spec": "tsc --noEmit -p tsconfig.spec.json",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "benchmark:table:production": "ng run OpenProject:table-benchmark && node benchmarks/table-rendering/run.mjs"
   },
   "overrides": {
     "@angular/build": {

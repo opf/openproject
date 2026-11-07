@@ -36,7 +36,7 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { buildTable, TableHarness } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
@@ -62,6 +62,7 @@ describe('OpColumnsContextMenu', () => {
         { provide: I18nService, useValue: { t: (key:string) => key } },
         ...[
           OPContextMenuService,
+          OpActionMenuService,
           WorkPackageViewColumnsService,
           WorkPackageViewSortByService,
           WorkPackageViewGroupByService,
@@ -98,8 +99,7 @@ describe('OpColumnsContextMenu', () => {
 
 describe('OpColumnsContextMenu keyboard focus', () => {
   let harness:TableHarness;
-  let service:OPContextMenuService;
-  let unregister:() => void;
+  let service:OpActionMenuService;
   let page:HTMLElement;
 
   const nextFrame = () => new Promise<void>((resolve) => { requestAnimationFrame(() => resolve()); });
@@ -109,7 +109,6 @@ describe('OpColumnsContextMenu keyboard focus', () => {
       workPackages: [{ id: '1' }, { id: '2' }],
       columns: ['id', 'subject', 'status'],
       productionMarkup: true,
-      providers: [OPContextMenuService],
       configuration: { columnMenuEnabled: true },
     });
     await harness.render();
@@ -117,8 +116,7 @@ describe('OpColumnsContextMenu keyboard focus', () => {
     page.id = 'wrapper';
     page.textContent = 'Blank page';
     document.body.append(page);
-    service = harness.injector.get(OPContextMenuService);
-    unregister = registerContextMenu(service);
+    service = harness.injector.get(OpActionMenuService);
   });
 
   afterEach(async () => {
@@ -126,17 +124,17 @@ describe('OpColumnsContextMenu keyboard focus', () => {
     await nextFrame();
     await nextFrame();
     service.close();
-    unregister();
     page.remove();
     await harness.destroy();
   });
 
   const subjectHeader = () => harness.headerCells()[1];
 
-  const mountMenu = () => {
+  const mountMenu = (columnIndex = 1) => {
+    const header = harness.headerCells()[columnIndex];
     const injector = Injector.create({
       providers: [
-        { provide: ElementRef, useValue: new ElementRef(subjectHeader()) },
+        { provide: ElementRef, useValue: new ElementRef(header) },
         { provide: I18nService, useValue: { t: (key:string) => key } },
         { provide: OpModalService, useValue: {} },
         { provide: ConfirmDialogService, useValue: {} },
@@ -144,7 +142,7 @@ describe('OpColumnsContextMenu keyboard focus', () => {
       parent: harness.injector,
     });
     const menu = runInInjectionContext(injector, () => new OpColumnsContextMenu());
-    menu.column = harness.injector.get(WorkPackageViewColumnsService).getColumns().find((column) => column.id === 'subject')!;
+    menu.column = harness.injector.get(WorkPackageViewColumnsService).getColumns()[columnIndex];
     menu.table = harness.table;
     menu.ngAfterViewInit();
     return menu;
@@ -154,9 +152,58 @@ describe('OpColumnsContextMenu keyboard focus', () => {
     mountMenu();
     harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
     fireEvent.click(subjectHeader());
-    await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
-    return within(document.querySelector<HTMLElement>('.op-context-menu--overlay')!);
+    await waitFor(() => expect(document.querySelector('#column-context-menu [role="menuitem"]')).toHaveFocus());
+    return within(document.querySelector<HTMLElement>('#column-context-menu')!);
   };
+
+  it('anchors a pointer invocation to the header even when its link was clicked', async () => {
+    const menu = mountMenu();
+    const show = vi.spyOn(service, 'show');
+    fireEvent.click(subjectHeader().querySelector('a')!, { clientX: 25, clientY: 10 });
+
+    expect(show).toHaveBeenCalledWith(menu, expect.any(MouseEvent), subjectHeader());
+    expect(await within(document.body).findByRole('menu', { name: menu.column.name })).toBeVisible();
+  });
+
+  it('closes before confirming a change from manual sorting', async () => {
+    const menu = mountMenu();
+    vi.spyOn(menu.wpTableSortBy, 'isManualSortingMode', 'get').mockReturnValue(true);
+    vi.spyOn(menu.wpTableSortBy, 'isSortable').mockReturnValue(true);
+    const sort = vi.spyOn(menu.wpTableSortBy, 'setAsSingleSortCriteria').mockImplementation(() => undefined);
+    menu.confirmDialog.confirm = vi.fn().mockImplementation(() => {
+      expect(service.active).toBeNull();
+      return Promise.resolve();
+    });
+    fireEvent.click(subjectHeader());
+
+    fireEvent.click(await within(document.body).findByRole('menuitem', { name: 'js.work_packages.query.sort_descending' }));
+
+    await waitFor(() => expect(sort).toHaveBeenCalledTimes(1));
+  });
+
+  it('omits sorting and grouping for an ineligible column', async () => {
+    vi.spyOn(harness.injector.get(WorkPackageViewSortByService), 'isSortable').mockReturnValue(false);
+    vi.spyOn(harness.injector.get(WorkPackageViewGroupByService), 'isGroupable').mockReturnValue(false);
+    const overlay = await openMenu();
+
+    expect(overlay.queryByRole('menuitem', { name: /sort_|query.group/ })).toBeNull();
+  });
+
+  it('closes before opening the columns dialog so the dialog owns focus', async () => {
+    const menu = mountMenu();
+    const dialog = document.createElement('button');
+    document.body.append(dialog);
+    menu.opModalService.show = vi.fn().mockImplementation(() => {
+      expect(service.active).toBeNull();
+      dialog.focus();
+    });
+    fireEvent.click(subjectHeader());
+
+    fireEvent.click(await within(document.body).findByRole('menuitem', { name: 'js.work_packages.query.insert_columns' }));
+
+    expect(dialog).toHaveFocus();
+    dialog.remove();
+  });
 
   it('column menu: an action (move column) returns focus to the header cell, not the body', async () => {
     const overlay = await openMenu();
@@ -188,6 +235,24 @@ describe('OpColumnsContextMenu keyboard focus', () => {
     expect(idHeader).toHaveClass(navigableCellClassName);
   });
 
+  it('hides the first column and focuses the next header even when it has no sort link', async () => {
+    const [first, next] = harness.headerCells();
+    next.querySelector('a')!.removeAttribute('id');
+    const menu = mountMenu(0);
+    vi.spyOn(harness.injector.get(WorkPackageViewColumnsService), 'removeColumn').mockImplementation(() => {
+      menu.ngOnDestroy();
+      first.remove();
+    });
+    harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: 0, desiredColumn: 0 });
+    fireEvent.click(first);
+
+    const overlay = within(document.querySelector<HTMLElement>('#column-context-menu')!);
+    fireEvent.click(await overlay.findByRole('menuitem', { name: 'js.work_packages.query.hide_column' }));
+
+    expect(next).toHaveFocus();
+    expect(service.active).toBeNull();
+  });
+
   it('Escape immediately after opening closes the menu and returns focus to the header cell', async () => {
     mountMenu();
     harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
@@ -199,14 +264,14 @@ describe('OpColumnsContextMenu keyboard focus', () => {
     await nextFrame();
     await nextFrame();
     await nextFrame();
-    expect(document.querySelector('.op-context-menu--overlay .menu-item')).toBeNull();
+    expect(document.querySelector('#column-context-menu [role="menuitem"]')).toBeNull();
     expect(subjectHeader()).toHaveFocus();
   });
 
   it('a click outside closes the menu without returning focus to the header cell', async () => {
     await openMenu();
 
-    fireEvent.click(page);
+    fireEvent.pointerDown(page);
 
     expect(service.active).toBeNull();
     expect(document.body).toHaveFocus();

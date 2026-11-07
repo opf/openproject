@@ -438,7 +438,6 @@ eo:
     label_assignee: Asignita al
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Aldonaĵoj
-    label_author: 'Aŭtoro: %{user}'
     label_avatar: Avataro
     label_between: inter
     label_board: Tabulo

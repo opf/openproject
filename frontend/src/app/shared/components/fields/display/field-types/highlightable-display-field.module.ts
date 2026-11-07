@@ -50,6 +50,10 @@ export class HighlightableDisplayField extends DisplayField {
       return false;
     }
 
+    if (this.context.container === 'table' && this.context.options.shouldHighlightInline) {
+      return this.context.options.shouldHighlightInline(this.highlightName);
+    }
+
     const shouldHighlight = !!this.viewHighlighting && this.viewHighlighting.shouldHighlightInline(this.highlightName);
 
     return this.context.container !== 'table' || shouldHighlight;

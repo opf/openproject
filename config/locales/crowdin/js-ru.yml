@@ -438,7 +438,6 @@ ru:
     label_assignee: Исполнитель
     label_assignee_alt_text: Этот пакет работ назначен %{name}
     label_attachments: Вложения
-    label_author: 'Автор: %{user}'
     label_avatar: 'Аватар
 
       '

@@ -71,8 +71,8 @@ module Toasts
 
     # Clears a toaster if there is one waiting 1 second max, but do not fail if there is none
     def clear_any_toasters
-      if has_button?(I18n.t("js.close_popup_title"), wait: 1)
-        find_button(I18n.t("js.close_popup_title")).click
+      if has_button?(accessible_name: I18n.t("js.close_popup_title"), wait: 1)
+        find_button(accessible_name: I18n.t("js.close_popup_title")).click
       end
     end
 

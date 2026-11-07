@@ -48,4 +48,8 @@ export abstract class RowsBuilder {
   public isApplicable(_table:WorkPackageTable) {
     return true;
   }
+
+  protected get usesTemplateRows():boolean {
+    return this.workPackageTable.templateRows !== null;
+  }
 }

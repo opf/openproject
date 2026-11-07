@@ -7,7 +7,8 @@
       #addExistingToggle
       class="button op-team-planner--add-existing-toggle"
       [ngClass]="{'-active': (showAddExistingPane | async)}"
-      [title]="text.add_existing_title"
+      opTooltip
+      [description]="text.add_existing_title"
       data-test-selector="op-team-planner--add-existing-toggle"
       data-tour-selector="op-team-planner--add-existing-toggle"
       (click)="toggleAddExistingPane()">
@@ -25,14 +26,12 @@
     <button
       type="button"
       class="button op-team-planner--view-select-dropdown"
-      [title]="currentViewTitle"
       opTeamPlannerViewSelectDropdown
       [viewOptions]="viewOptions"
       (viewSelected)="switchView($event)"
       data-test-selector="op-team-planner--view-select-dropdown">
       <span class="button--text ellipsis"
-        [textContent]="currentViewTitle"
-      aria-hidden="true"></span>
+        [textContent]="currentViewTitle"></span>
       <op-icon icon-classes="button--icon icon-small icon-pulldown hidden-for-mobile" />
     </button>
   }

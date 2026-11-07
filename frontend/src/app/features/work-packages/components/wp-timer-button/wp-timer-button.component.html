@@ -4,7 +4,8 @@
       class="button button_flex op-wp-timer-button"
       type="button"
       data-test-selector="timer-active"
-      [title]="text.stop_timer"
+      opTooltip
+      [description]="text.stop_timer"
       (click)="stop()"
       >
       <svg op-stopwatch-stop-icon size="small" />
@@ -18,7 +19,8 @@
       class="button"
       type="button"
       data-test-selector="timer-inactive"
-      [title]="text.start_timer"
+      opTooltip
+      [label]="text.start_timer"
       (click)="start()"
       >
 

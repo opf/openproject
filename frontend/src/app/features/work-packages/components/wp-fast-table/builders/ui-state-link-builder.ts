@@ -55,6 +55,22 @@ export class UiStateLinkBuilder {
     return this.build(workPackageId, 'show', title, content, routingId);
   }
 
+  public hrefFor(workPackageId:string, state:'show'|'split', routingId?:string):string {
+    const idForHref = routingId ?? workPackageId;
+    let href:string;
+
+    if (state === 'show') {
+      const projectIdentifier = this.currentProject.identifier;
+      href = this.pathHelper.genericWorkPackagePath(projectIdentifier, idForHref, this.keepTab.currentShowTab) + window.location.search;
+    } else {
+      const tabIdentifier = this.keepTab.currentDetailsTab;
+      const basePath = this.urlParams.basePathWithoutDetails();
+      href = `${basePath}/details/${idForHref}/${tabIdentifier}${window.location.search}`;
+    }
+
+    return href;
+  }
+
   /**
    * Build an anchor element that serves two purposes:
    *
@@ -69,19 +85,8 @@ export class UiStateLinkBuilder {
    */
   private build(workPackageId:string, state:'show'|'split', title:string, content:string, routingId?:string):UiStateLink {
     const a = document.createElement('a');
-    const idForHref = routingId ?? workPackageId;
-    let href:string;
 
-    if (state === 'show') {
-      const projectIdentifier = this.currentProject.identifier;
-      href = this.pathHelper.genericWorkPackagePath(projectIdentifier, idForHref, this.keepTab.currentShowTab) + window.location.search;
-    } else {
-      const tabIdentifier = this.keepTab.currentDetailsTab;
-      const basePath = this.urlParams.basePathWithoutDetails();
-      href = `${basePath}/details/${idForHref}/${tabIdentifier}${window.location.search}`;
-    }
-
-    a.href = href;
+    a.href = this.hrefFor(workPackageId, state, routingId);
     a.classList.add(uiStateLinkClass);
     a.dataset.workPackageId = workPackageId;
     a.dataset.wpState = state;

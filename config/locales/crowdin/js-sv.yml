@@ -438,7 +438,6 @@ sv:
     label_assignee: Tilldelad till
     label_assignee_alt_text: Detta arbetspaket har tilldelats %{name}
     label_attachments: Bilagor
-    label_author: 'Författare: %{user}'
     label_avatar: Avatar
     label_between: mellan
     label_board: Tavla

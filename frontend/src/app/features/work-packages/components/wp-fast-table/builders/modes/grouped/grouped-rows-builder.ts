@@ -70,14 +70,14 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Returns the reference to the last table.groups state value
    */
   public get groups() {
-    return this.querySpace.groups.value || [];
+    return this.querySpace.groups.value ?? [];
   }
 
   /**
    * Returns the reference to the last table.collapesedGroups state value
    */
   public get collapsedGroups() {
-    return this.querySpace.collapsedGroups.value || {};
+    return this.querySpace.collapsedGroups.value ?? {};
   }
 
   public buildRows(options:RenderPassOptions) {
@@ -88,7 +88,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       this.getGroupData(),
       builder,
       this.workPackageTable.colspan,
-    ).render(options);
+    ).render({ ...options, template: this.usesTemplateRows });
   }
 
   /**
@@ -98,27 +98,27 @@ export class GroupedRowsBuilder extends RowsBuilder {
     const groups = this.getGroupData();
     const builder = new GroupHeaderBuilder(this.injector);
     const updates = new Map<OccurrenceKey, boolean>();
+    const templateHeaders = new Map<OccurrenceKey, boolean>();
+    const templateRows = this.workPackageTable.templateRows;
 
     this.workPackageTable.tableAndTimelineContainer
       .querySelectorAll<HTMLTableRowElement>(`.${rowGroupClassName}`)
       .forEach((oldRow) => {
-        const groupIndex = parseInt(oldRow.dataset.groupIndex || '', 10);
+        const groupIndex = parseInt(oldRow.dataset.groupIndex ?? '', 10);
         const group = groups[groupIndex];
 
         // Refresh the group header
-        const newRow = builder.buildGroupRow(group, this.workPackageTable.colspan);
         const headerKey = oldRow.dataset.occurrenceKey;
 
-        if (headerKey) {
-          newRow.dataset.occurrenceKey = headerKey;
-        }
-
-        if (oldRow.parentNode) {
-          oldRow.parentNode.replaceChild(newRow, oldRow);
-        }
-
-        if (headerKey) {
-          this.workPackageTable.ledger.replaceElement(headerKey, newRow);
+        if (headerKey && templateRows?.owns(oldRow)) {
+          templateHeaders.set(headerKey, !!group.collapsed);
+        } else {
+          const newRow = builder.buildGroupRow(group, this.workPackageTable.colspan);
+          oldRow.replaceWith(newRow);
+          if (headerKey) {
+            newRow.dataset.occurrenceKey = headerKey;
+            this.workPackageTable.ledger.replaceElement(headerKey, newRow);
+          }
         }
 
         // Set expansion state of contained rows
@@ -137,6 +137,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
           });
       });
 
+    templateRows?.updateGroupHeaders(templateHeaders);
     return updates;
   }
 

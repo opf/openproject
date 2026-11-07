@@ -438,7 +438,6 @@ zh-CN:
     label_assignee: 指定
     label_assignee_alt_text: 此工作包被指定至 %{name}
     label_attachments: 附件
-    label_author: '作者: %{user}'
     label_avatar: 头像
     label_between: 介于
     label_board: 面板

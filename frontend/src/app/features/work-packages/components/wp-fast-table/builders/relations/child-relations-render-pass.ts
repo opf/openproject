@@ -78,14 +78,8 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
           return;
         }
 
-        // Build each relation row (currently sorted by order defined in API)
-        const [relationRow] = this.relationRowBuilder.buildEmptyRelationRow(
-          workPackage,
-          target,
-        );
-
         // Augment any data for the belonging work package row to it
-        this.renderRelationRow(relationRow, row, this.label, column, workPackage, target, 'children');
+        this.renderRelationRow(row, this.label, column, workPackage, target, 'children');
       });
     });
 

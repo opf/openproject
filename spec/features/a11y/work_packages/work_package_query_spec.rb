@@ -35,8 +35,6 @@ RSpec.describe "Work package index accessibility" do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
-  let(:sort_ascending_selector) { ".icon-sort-ascending" }
-  let(:sort_descending_selector) { ".icon-sort-descending" }
 
   def visit_index_page
     work_packages_page.visit_index
@@ -56,15 +54,11 @@ RSpec.describe "Work package index accessibility" do
     before { visit_index_page }
 
     def click_sort_ascending_link
-      expect(page).to have_selector(sort_ascending_selector)
-      element = find(sort_ascending_selector)
-      element.click
+      within(:menu) { click_on "Sort ascending" }
     end
 
     def click_sort_descending_link
-      expect(page).to have_selector(sort_descending_selector)
-      element = find(sort_descending_selector)
-      element.click
+      within(:menu) { click_on "Sort descending" }
     end
 
     shared_examples_for "sort column" do

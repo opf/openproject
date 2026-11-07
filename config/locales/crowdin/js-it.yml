@@ -438,7 +438,6 @@ it:
     label_assignee: Assegnatario
     label_assignee_alt_text: Questa macro-attività è assegnata a %{name}
     label_attachments: Allegati
-    label_author: 'Autore: %{user}'
     label_avatar: Avatar
     label_between: tra
     label_board: Tabellone

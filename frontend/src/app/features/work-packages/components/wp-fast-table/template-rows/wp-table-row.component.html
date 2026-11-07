@@ -1,0 +1,151 @@
+@let entry = row();
+@switch (entry.kind) {
+  @case ('groupHeader') {
+    <td [attr.colspan]="view().columns.length" class="-no-highlighting wp-table--navigable-cell" tabindex="-1">
+      <div class="expander icon-context" [class.icon-plus]="entry.collapsed" [class.icon-minus2]="!entry.collapsed">
+        <span class="sr-only">{{ entry.collapsed ? entry.expandLabel : entry.collapseLabel }}</span>
+      </div>
+      <div class="group--value" data-test-selector="op-group--value">
+        @if (entry.leadingIcon; as icon) {
+          <span [opWpTableCellContent]="icon"></span>
+        }
+        {{ entry.name }} <span class="count">({{ entry.count }})</span>
+      </div>
+    </td>
+  }
+  @case ('sums') {
+    @for (cell of entry.cells; track cell.columnId) {
+      <td [class.wp-table--navigable-cell]="cell.navigable"
+        [attr.aria-describedby]="cell.describedBy"
+        [opWpTableCellContent]="cell.content"></td>
+    }
+  }
+  @case ('workPackage') {
+    @let editing = editingColumns();
+    @for (column of view().columns; track column.id) {
+      @let isRowHeader = column.id === view().rowHeader;
+      @let presentation = column.id === 'id' ? null : textCells().get(column.id);
+      @if (column.id === 'id' && isRowHeader) {
+        <th scope="row" opWpTableIdCell class="wp-table--cell-td id wp-table--navigable-cell"
+          [attr.data-row-header-name]="idValue().text">
+          @let value = idValue();
+          <span class="wp-table--cell-container inline-edit--container id">
+            <span class="inline-edit--display-field id -read-only"
+              data-field-name="id"
+              [class.-required]="value.required"
+              [attr.title]="value.title"
+              [attr.aria-label]="value.label"
+            >
+              @if (value.href; as href) {
+                <a class="__ui-state-link" [href]="href" tabindex="-1" title=""
+                  [attr.data-work-package-id]="entry.workPackage.id" data-wp-state="show"
+                >{{ value.text }}</a>
+              }
+            </span>
+          </span>
+        </th>
+      } @else if (column.id === 'id') {
+        <td opWpTableIdCell class="wp-table--cell-td id wp-table--navigable-cell"
+          [attr.data-row-header-name]="idValue().text">
+          @let value = idValue();
+          <span class="wp-table--cell-container inline-edit--container id">
+            <span class="inline-edit--display-field id -read-only"
+              data-field-name="id"
+              [class.-required]="value.required"
+              [attr.title]="value.title"
+              [attr.aria-label]="value.label"
+            >
+              @if (value.href; as href) {
+                <a class="__ui-state-link" [href]="href" tabindex="-1" title=""
+                  [attr.data-work-package-id]="entry.workPackage.id" data-wp-state="show"
+                >{{ value.text }}</a>
+              }
+            </span>
+          </span>
+        </td>
+      } @else if (presentation && isRowHeader) {
+        <th scope="row" opWpTableTextCell [attr.class]="textCellClasses(column.id)"
+          [attr.data-row-header-name]="presentation.attribute === 'subject' ? presentation.text : null">
+          @if (editing?.has(column.id)) {
+            <span class="wp-table--cell-container inline-edit--container"
+              [class]="presentation.attribute" data-op-table-editor-slot></span>
+          } @else {
+            <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
+              <span class="inline-edit--display-field"
+                [class]="presentation.displayClasses"
+                [attr.data-field-name]="presentation.attribute"
+                [attr.title]="presentation.title"
+                [attr.aria-label]="presentation.label"
+              >{{ presentation.link ? '' : presentation.text }}@if (presentation.link; as link) {
+                <a [href]="link.href" rel="noopener noreferrer" [target]="link.target" tabindex="-1">{{ presentation.text }}</a>
+                @if (link.editLabel !== null) {
+                  <a class="icon icon-edit inline-edit--display-trigger" href="#" tabindex="-1" [attr.aria-label]="link.editLabel"></a>
+                }
+              }</span>
+            </span>
+          }
+        </th>
+      } @else if (presentation) {
+        <td opWpTableTextCell [attr.class]="textCellClasses(column.id)"
+          [attr.data-row-header-name]="presentation.attribute === 'subject' ? presentation.text : null">
+          @if (editing?.has(column.id)) {
+            <span class="wp-table--cell-container inline-edit--container"
+              [class]="presentation.attribute" data-op-table-editor-slot></span>
+          } @else {
+            <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
+              <span class="inline-edit--display-field"
+                [class]="presentation.displayClasses"
+                [attr.data-field-name]="presentation.attribute"
+                [attr.title]="presentation.title"
+                [attr.aria-label]="presentation.label"
+              >{{ presentation.link ? '' : presentation.text }}@if (presentation.link; as link) {
+                <a [href]="link.href" rel="noopener noreferrer" [target]="link.target" tabindex="-1">{{ presentation.text }}</a>
+                @if (link.editLabel !== null) {
+                  <a class="icon icon-edit inline-edit--display-trigger" href="#" tabindex="-1" [attr.aria-label]="link.editLabel"></a>
+                }
+              }</span>
+            </span>
+          }
+        </td>
+      } @else if (isRowHeader) {
+        <th scope="row" opWpTableCell [column]="column" [row]="entry" [view]="view()"></th>
+      } @else if (column.id === sortColumnId && canDrag() !== null) {
+        <td
+          class="wp-table--cell-td __internal-sorthandle"
+          [class.wp-table--sort-td]="canDrag()"
+          [class.hide-when-print]="canDrag()"
+        >
+          @if (canDrag()) {
+            <span class="wp-table--drag-and-drop-handle icon-drag-handle"></span>
+          }
+        </td>
+      } @else if (entry.relation && isRelationColumn(column)) {
+        <td class="wp-table--cell-td wp-table--relation-cell-td wp-table--navigable-cell" [class]="column.id">
+          @if (entry.relation.columnId === column.id) {
+            <span class="relation-row--type-label badge">{{ entry.relation.label }}</span>
+          }
+        </td>
+      } @else if (column.id === actionsColumnId && actions()) {
+        <td class="wp-table--cell-td wp-table--context-menu-td __internal-contextMenu hide-when-print wp-table--navigable-cell">
+          <span class="wp-table--context-menu-span">
+            @for (action of actions(); track action.identifier) {
+              @if (action.identifier === 'open-context-menu-action') {
+                <primer-icon-button
+                  icon="kebab-horizontal"
+                  scheme="invisible"
+                  button-class="wp-table-context-menu-link"
+                  [label]="view().contextMenuLabel"
+                  [tabindex]="-1"
+                />
+              } @else {
+                <span [opWpTableAction]="action"></span>
+              }
+            }
+          </span>
+        </td>
+      } @else {
+        <td opWpTableCell [column]="column" [row]="entry" [view]="view()"></td>
+      }
+    }
+  }
+}

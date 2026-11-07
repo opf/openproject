@@ -36,6 +36,7 @@ import { groupedRowClassName } from 'core-app/features/work-packages/components/
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import type { TemplateSumCell } from '../../../template-rows/template-row';
 
 export class GroupSumsBuilder extends SingleRowBuilder {
   @LazyInject() readonly querySpace:IsolatedQuerySpace;
@@ -58,28 +59,26 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   }
 
   public renderColumns(sums:GroupObject['sums'], tr:HTMLTableRowElement, labelSuffix:number|'total') {
+    this.buildSumCells(sums, labelSuffix).forEach(({ content, describedBy, navigable }) => {
+      const td = document.createElement('td');
+      if (navigable) td.classList.add(navigableCellClassName);
+      if (describedBy) td.setAttribute('aria-describedby', describedBy);
+      td.appendChild(content);
+      tr.append(td);
+    });
+  }
+
+  public buildSumCells(sums:GroupObject['sums'], labelSuffix:number|'total'):TemplateSumCell[] {
     const { configuration } = this.workPackageTable;
     const labelId = `${this.workPackageTable.domId}-sum-${labelSuffix}`;
 
-    this.augmentedColumns.forEach((column, i:number) => {
-      const td = document.createElement('td');
+    return this.augmentedColumns.map((column, i) => {
       const navigable = isNavigableColumn(column, configuration);
-      if (navigable) {
-        td.classList.add(navigableCellClassName);
-      }
       const fieldSchema = this.sumsSchema[column.id] as IFieldSchema|undefined;
-      const div = this.renderContent(sums, column.id, fieldSchema);
-
-      if (navigable && div.hasChildNodes()) {
-        td.setAttribute('aria-describedby', labelId);
-      }
-
-      if (i === 0) {
-        this.appendFirstLabel(div, labelId);
-      }
-
-      td.appendChild(div);
-      tr.append(td);
+      const content = this.renderContent(sums, column.id, fieldSchema);
+      const describedBy = navigable && content.hasChildNodes() ? labelId : null;
+      if (i === 0) this.appendFirstLabel(content, labelId);
+      return { columnId: column.id, navigable, describedBy, content };
     });
   }
 

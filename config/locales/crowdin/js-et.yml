@@ -438,7 +438,6 @@ et:
     label_assignee: Määratud tegija
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Manused
-    label_author: 'Author: %{user}'
     label_avatar: Profiilipilt
     label_between: between
     label_board: Board

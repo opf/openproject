@@ -438,7 +438,6 @@ da:
     label_assignee: Tildelt
     label_assignee_alt_text: Arbejdspakken er tildelt %{name}
     label_attachments: Vedhæftede filer
-    label_author: 'Forfatter: %{user}'
     label_avatar: Avatar
     label_between: mellem
     label_board: Tavle

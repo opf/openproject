@@ -114,7 +114,11 @@ export class SingleRowBuilder {
     ];
   }
 
-  protected get rowHeaderColumn():'subject'|'id'|null {
+  public get renderedColumns():readonly QueryColumn[] {
+    return this.augmentedColumns;
+  }
+
+  public get rowHeaderColumn():'subject'|'id'|null {
     if (this.augmentedColumns.some((column) => column.id === 'subject')) return 'subject';
     return this.augmentedColumns.some((column) => column.id === 'id') ? 'id' : null;
   }
@@ -151,6 +155,10 @@ export class SingleRowBuilder {
       default:
         return this.cellBuilder.build(workPackage, column, column.id === this.rowHeaderColumn);
     }
+  }
+
+  public buildTemplateCell(workPackage:WorkPackageResource, column:QueryColumn, _depth:number):HTMLTableCellElement|null {
+    return this.buildCell(workPackage, column);
   }
 
   /**

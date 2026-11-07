@@ -39,13 +39,16 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
-import { computePosition, ComputePositionReturn, flip, shift } from '@floating-ui/dom';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { FocusPosition, samePosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Directive({
   selector: '[opColumnsContextMenu]',
   standalone: false,
+  host: {
+    '(pointerdown)': 'rememberPointerToggle()',
+  },
 })
 export class OpColumnsContextMenu extends OpContextMenuTrigger {
   readonly wpTableColumns = inject(WorkPackageViewColumnsService);
@@ -63,6 +66,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('opColumnsContextMenu-table') public table:WorkPackageTable;
 
+  private readonly actionMenu = inject(OpActionMenuService);
+  private wasOpenOnPointerDown = false;
   private origin:FocusPosition|null = null;
 
   public text = {
@@ -72,13 +77,31 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     },
   };
 
-  protected open(evt:Event) {
+  rememberPointerToggle():void {
+    this.wasOpenOnPointerDown = this.actionMenu.isActive(this);
+  }
+
+  protected override toggle(evt:MouseEvent):void {
+    if (this.actionMenu.isActive(this)) {
+      this.actionMenu.close();
+    } else if (evt.detail === 0 || !this.wasOpenOnPointerDown) {
+      this.open(evt);
+    }
+    this.wasOpenOnPointerDown = false;
+  }
+
+  override ngOnDestroy():void {
+    if (this.actionMenu.isActive(this)) this.actionMenu.close();
+    super.ngOnDestroy();
+  }
+
+  protected override open(evt:Event) {
     if (!this.table.configuration.columnMenuEnabled) {
       return;
     }
     this.buildItems();
     this.origin = this.table.keyboardNavigation.positionOfCell(this.element);
-    this.opContextMenu.show(this, evt);
+    this.actionMenu.show(this, evt, this.element.closest('th') ?? this.element);
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
@@ -92,25 +115,14 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
 
   public get locals() {
     return {
-      showAnchorRight: this.column && this.column.id !== 'id',
+      label: this.column.name,
       contextMenuId: 'column-context-menu',
       items: this.items,
     };
   }
 
-  public computePosition(floating:HTMLElement, _openerEvent:Event):Promise<ComputePositionReturn> {
-    const reference = this.element.querySelector<HTMLElement>('.generic-table--sort-header-outer')!;
-    return computePosition(reference, floating, {
-      placement: this.placement,
-      middleware: [
-        flip(),
-        shift({ padding: 10 }),
-      ],
-    });
-  }
-
   protected get afterFocusOn() {
-    return this.element.querySelector<HTMLElement>(`#${this.column.id}`)
+    return this.element.querySelector<HTMLElement>(`#${this.column.id}, .relations-header--button`)
       ?? this.element.closest<HTMLElement>('th')
       ?? this.element;
   }
@@ -127,53 +139,41 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     this.origin = position;
   }
 
+  private sortBy(direction:string):boolean {
+    const column = this.column;
+    if (!this.wpTableSortBy.isManualSortingMode) {
+      this.wpTableSortBy.addSortCriteria(column, direction);
+      return true;
+    }
+
+    this.actionMenu.close();
+    void this.confirmDialog.confirm({ text: this.text.confirmDelete }).then(
+      () => this.wpTableSortBy.setAsSingleSortCriteria(column, direction),
+      () => undefined,
+    );
+    return false;
+  }
+
   private buildItems() {
     const c = this.column;
 
     this.items = [
       {
-        // Sort ascending
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_descending'),
-        icon: 'icon-sort-descending',
-        onClick: () => {
-          if (this.wpTableSortBy.isManualSortingMode) {
-            this.confirmDialog.confirm({
-              text: this.text.confirmDelete,
-            }).then(() => {
-              this.wpTableSortBy.setAsSingleSortCriteria(c, QUERY_SORT_BY_DESC);
-              return true;
-            });
-            return false;
-          }
-          this.wpTableSortBy.addSortCriteria(c, QUERY_SORT_BY_DESC);
-          return true;
-        },
+        octicon: 'sort-desc',
+        onClick: () => this.sortBy(QUERY_SORT_BY_DESC),
       },
       {
-        // Sort descending
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_ascending'),
-        icon: 'icon-sort-ascending',
-        onClick: () => {
-          if (this.wpTableSortBy.isManualSortingMode) {
-            this.confirmDialog.confirm({
-              text: this.text.confirmDelete,
-            }).then(() => {
-              this.wpTableSortBy.setAsSingleSortCriteria(c, QUERY_SORT_BY_ASC);
-              return true;
-            });
-            return false;
-          }
-          this.wpTableSortBy.addSortCriteria(c, QUERY_SORT_BY_ASC);
-          return true;
-        },
+        octicon: 'sort-asc',
+        onClick: () => this.sortBy(QUERY_SORT_BY_ASC),
       },
       {
-        // Group by
         hidden: !this.wpTableGroupBy.isGroupable(c) || this.wpTableGroupBy.isCurrentlyGroupedBy(c),
         linkText: this.I18n.t('js.work_packages.query.group'),
-        icon: 'icon-group-by',
+        octicon: 'op-group',
         onClick: () => {
           if (this.wpTableHierarchies.isEnabled) {
             this.wpTableHierarchies.setEnabled(false);
@@ -183,10 +183,9 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         },
       },
       {
-        // Move left
         hidden: this.wpTableColumns.isFirst(c),
         linkText: this.I18n.t('js.work_packages.query.move_column_left'),
-        icon: 'icon-column-left',
+        octicon: 'op-columns-left',
         onClick: () => {
           this.wpTableColumns.shift(c, -1);
           this.followColumn(this.element);
@@ -194,10 +193,9 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         },
       },
       {
-        // Move right
         hidden: this.wpTableColumns.isLast(c),
         linkText: this.I18n.t('js.work_packages.query.move_column_right'),
-        icon: 'icon-column-right',
+        octicon: 'op-columns-right',
         onClick: () => {
           this.wpTableColumns.shift(c, 1);
           this.followColumn(this.element);
@@ -205,36 +203,35 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         },
       },
       {
-        // Hide column
         linkText: this.I18n.t('js.work_packages.query.hide_column'),
-        icon: 'icon-delete',
+        octicon: 'eye-closed',
         onClick: () => {
-          const focusColumn = this.wpTableColumns.previous(c) || this.wpTableColumns.next(c);
-          const headerRow = this.element.closest('tr');
+          const header = this.element.closest('th');
+          const neighbor = this.wpTableColumns.isFirst(c) ? header?.nextElementSibling : header?.previousElementSibling;
+          const focusHeader = neighbor instanceof HTMLTableCellElement ? neighbor : null;
+          this.actionMenu.close();
           this.wpTableColumns.removeColumn(c);
-          if (focusColumn) {
-            this.followColumn(headerRow?.querySelector<HTMLElement>(`#${CSS.escape(focusColumn.id)}`) ?? null);
-          }
+          this.followColumn(focusHeader);
 
-          setTimeout(() => {
-            if (focusColumn && !this.origin) {
-              document.querySelector<HTMLElement>(`#${focusColumn.id}`)?.focus();
-            }
-          });
-          return true;
+          if (this.origin) {
+            this.table.keyboardNavigation.returnFocusFromMenu(this.origin);
+          } else if (focusHeader) {
+            setTimeout(() => focusHeader.focus());
+          }
+          return false;
         },
       },
       {
-        // Insert columns
         linkText: this.I18n.t('js.work_packages.query.insert_columns'),
-        icon: 'icon-columns',
+        octicon: 'columns',
         onClick: () => {
+          this.actionMenu.close();
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
             this.injector,
             { initialTab: 'columns' },
           );
-          return true;
+          return false;
         },
       },
     ];

@@ -438,7 +438,6 @@ zh-TW:
     label_assignee: 執行者
     label_assignee_alt_text: 本工作包分配給 %{name}
     label_attachments: 附件
-    label_author: '工作套件發起者: %{user}'
     label_avatar: 大頭貼
     label_between: 介於
     label_board: 面板

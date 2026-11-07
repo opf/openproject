@@ -61,6 +61,6 @@ export class HierarchyRowsBuilder extends RowsBuilder {
    */
   public buildRows(options:RenderPassOptions):HierarchyRenderPass {
     const builder = new SingleHierarchyRowBuilder(this.injector, this.workPackageTable);
-    return new HierarchyRenderPass(this.injector, this.workPackageTable, builder).render(options);
+    return new HierarchyRenderPass(this.injector, this.workPackageTable, builder).render({ ...options, template: this.usesTemplateRows });
   }
 }

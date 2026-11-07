@@ -438,7 +438,6 @@ fil:
     label_assignee: Naitalaga
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Mga kalakip
-    label_author: 'May-Akda: %{user}'
     label_avatar: Avatar
     label_between: sa pagitan ng
     label_board: Board

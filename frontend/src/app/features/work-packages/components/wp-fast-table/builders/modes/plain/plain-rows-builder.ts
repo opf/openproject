@@ -48,6 +48,6 @@ export class PlainRowsBuilder extends RowsBuilder {
    */
   public buildRows(options:RenderPassOptions):PrimaryRenderPass {
     const builder = new SingleRowBuilder(this.injector, this.workPackageTable);
-    return new PlainRenderPass(this.injector, this.workPackageTable, builder).render(options);
+    return new PlainRenderPass(this.injector, this.workPackageTable, builder).render({ ...options, template: this.usesTemplateRows });
   }
 }

@@ -28,7 +28,7 @@
 import { Injector } from '@angular/core';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
@@ -56,7 +56,7 @@ export function forgetKeyboardMenuOpen(table:WorkPackageTable):void {
 
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections
-  @LazyInject() public opContextMenu:OPContextMenuService;
+  @LazyInject() public actionMenu:OpActionMenuService;
 
   @LazyInject() readonly selectionGestures:WorkPackageViewSelectionGesturesService;
 
@@ -119,6 +119,6 @@ export abstract class ContextMenuHandler implements TableEventHandler {
     });
 
     const handler = new WorkPackageTableContextMenu(this.injector, workPackageId, evt.target as HTMLElement, positionArgs, table);
-    this.opContextMenu.show(handler, evt);
+    this.actionMenu.show(handler, evt);
   }
 }

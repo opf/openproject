@@ -29,44 +29,61 @@ import { DisplayField } from 'core-app/shared/components/fields/display/display-
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { displayTriggerLink } from 'core-app/shared/components/fields/display/display-field-renderer';
 
+export interface LinkDisplayPresentation {
+  readonly href:string;
+  readonly target:string;
+  readonly editLabel:string|null;
+}
+
 export class LinkDisplayField extends DisplayField {
+  public get linkPresentation():LinkDisplayPresentation|null {
+    const href = this.value as string|null|undefined;
+    if (href === null || href === undefined || href === '') return null;
+
+    return {
+      href,
+      target: this.targetFor(href),
+      editLabel: this.resource.updateImmediately ? this.I18n.t('js.button_edit') : null,
+    };
+  }
+
   public render(element:HTMLElement, displayText:string):void {
-    if (this.value === null || this.value === undefined || this.value === '') {
+    const presentation = this.linkPresentation;
+    if (presentation === null) {
       element.textContent = this.placeholder;
       return;
     }
 
     const link = document.createElement('a');
     link.textContent = displayText;
-    link.href = this.value as string;
+    link.href = presentation.href;
     link.rel = 'noopener noreferrer';
-    link.target = this.target;
+    link.target = presentation.target;
 
     element.appendChild(link);
 
-    this.appendEditLink(element);
+    if (presentation.editLabel !== null) this.appendEditLink(element, presentation.editLabel);
   }
 
-  private appendEditLink(element:HTMLElement) {
-    if (this.resource.updateImmediately) {
-      const editLink = document.createElement('a');
-      editLink.classList.add('icon', 'icon-edit', displayTriggerLink);
-      editLink.setAttribute('href', '#');
+  private appendEditLink(element:HTMLElement, label:string) {
+    const editLink = document.createElement('a');
+    editLink.classList.add('icon', 'icon-edit', displayTriggerLink);
+    editLink.setAttribute('href', '#');
+    editLink.setAttribute('aria-label', label);
 
-      element.appendChild(editLink);
-    }
+    element.appendChild(editLink);
   }
 
-  private get target():string {
+  private targetFor(href:string):string {
     const origin = window.location.origin;
 
     try {
-      const url = new URL(this.value as string, window.location.origin);
+      const url = new URL(href, origin);
       if (origin !== url.origin) {
         return '_blank';
       }
     } catch (e) {
-      debugLog('Failed to parse origin for URL %O: %O', this.value, e);
+      debugLog('Failed to parse origin for URL %O: %O', href, e);
     }
 
     return '';
