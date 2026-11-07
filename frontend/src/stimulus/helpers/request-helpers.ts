@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { FrameElement } from '@hotwired/turbo';
 import { FetchRequest, FetchResponse, Options } from '@rails/request.js';
 import { hideElement, showElement } from 'core-app/shared/helpers/dom-helpers';
 import { TurboHelpers } from 'core-turbo/helpers';
@@ -35,13 +36,25 @@ export function post(url:string|URL, options?:Options) {
   return withLoadingIndicator(request.perform());
 }
 
-export function withLoadingIndicator(request:Promise<FetchResponse>) {
-  const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator');
-  invariant(loadingIndicator, 'Expected an Element with id global-loading-indicator to be present');
-  showElement(loadingIndicator);
+function loadingIndicator() {
+  const indicator = document.querySelector<HTMLElement>('#global-loading-indicator');
+  invariant(indicator, 'Expected an Element with id global-loading-indicator to be present');
+  return indicator;
+}
+
+export function showLoadingIndicator() {
+  showElement(loadingIndicator());
+}
+
+export function hideLoadingIndicator() {
+  hideElement(loadingIndicator());
+}
+
+export function withLoadingIndicator<T>(request:Promise<T>, shouldHide:() => boolean = () => true) {
+  showLoadingIndicator();
 
   return request.finally(() => {
-    hideElement(loadingIndicator);
+    if (shouldHide()) hideLoadingIndicator();
   });
 }
 
@@ -50,6 +63,22 @@ export function withProgressBar(request:Promise<FetchResponse>) {
 
   return request.finally(() => {
     TurboHelpers.hideProgressBar();
+  });
+}
+
+// frame.loaded never settles when a reload cancels the request or the response lacks the frame.
+// A cancelled request dispatches neither event, but the request replacing it does.
+export function frameResponded(frame:FrameElement):Promise<void> {
+  return new Promise((resolve) => {
+    const listeners = new AbortController();
+    const settle = (event:Event) => {
+      if (event.target !== frame) return;
+
+      listeners.abort();
+      resolve();
+    };
+    frame.addEventListener('turbo:before-fetch-response', settle, { signal: listeners.signal });
+    frame.addEventListener('turbo:fetch-request-error', settle, { signal: listeners.signal });
   });
 }
 

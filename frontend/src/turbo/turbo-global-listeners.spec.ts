@@ -65,3 +65,25 @@ describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
     expect(notCancelled).toBe(true);
   });
 });
+
+describe('addTurboGlobalListeners — snapshot caching', () => {
+  let controller:AbortController;
+
+  beforeEach(() => {
+    controller = new AbortController();
+    addTurboGlobalListeners(document, controller.signal);
+  });
+
+  afterEach(() => {
+    controller.abort();
+    document.body.innerHTML = '';
+  });
+
+  it('hides the global loading indicator before the page is cached', () => {
+    document.body.innerHTML = '<div id="global-loading-indicator"></div>';
+
+    document.dispatchEvent(new CustomEvent('turbo:before-cache'));
+
+    expect(document.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true);
+  });
+});

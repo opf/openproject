@@ -29,15 +29,18 @@ import { Controller } from '@hotwired/stimulus';
 import {
   renderStreamMessage,
   visit,
+  type FrameElement,
   type TurboBeforeMorphAttributeEvent,
   type TurboBeforeMorphElementEvent,
 } from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
-import {
-  hideElement,
-  showElement,
-} from 'core-app/shared/helpers/dom-helpers';
 import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
+import {
+  frameResponded,
+  hideLoadingIndicator,
+  showLoadingIndicator,
+  withLoadingIndicator,
+} from 'core-stimulus/helpers/request-helpers';
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { endOfDayISO, startOfDayISO } from 'core-common/local-datetime';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
@@ -146,6 +149,7 @@ export default class FiltersFormController extends Controller {
   private boundListener:() => void;
   private abortController?:AbortController;
   private sentFilters:string|null = null;
+  private streamAbortController:AbortController|null = null;
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
@@ -168,6 +172,7 @@ export default class FiltersFormController extends Controller {
 
   disconnect() {
     this.abortController?.abort();
+    this.streamAbortController?.abort();
   }
 
   addFilterSelectTargetConnected() {
@@ -332,6 +337,10 @@ export default class FiltersFormController extends Controller {
 
   private get liveUpdatesEnabled():boolean {
     return this.turboStreamRequestValue || this.hasTurboFrameRequestValue || this.hasFiltersInputTarget;
+  }
+
+  private get turboFrame():FrameElement|null {
+    return document.getElementById(this.turboFrameRequestValue) as FrameElement|null;
   }
 
   private addChangeListener(target:HTMLElement) {
@@ -593,7 +602,7 @@ export default class FiltersFormController extends Controller {
     const params = new URLSearchParams(window.location.search);
     const newFilters = this.buildFiltersParam(this.currentFilters());
 
-    if (newFilters === (this.sentFilters ?? params.get('filters') ?? '')) {
+    if (newFilters === this.requestedFilters()) {
       // Some fields may be triggered via the input event and the change event too.
       // This early return will prevent firing request when the filter params are not changed.
       return;
@@ -610,51 +619,66 @@ export default class FiltersFormController extends Controller {
     const pathName = this.urlPathNameValue || window.location.pathname;
     const search = params.toString();
     const url = `${pathName}${search ? `?${search}` : ''}`;
-    const browserUrl = `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`;
 
     if (this.hasTurboFrameRequestValue) {
-      // Turbo Drive shows its own progress bar for visits, so there is no need to
-      // toggle the global loading indicator here as the other branches below do.
-      visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
-      return;
-    }
-
-    const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator')!;
-    showElement(loadingIndicator);
-
-    if (this.turboStreamRequestValue) {
-      const previousFilters = this.sentFilters;
-      this.sentFilters = newFilters;
-
-      fetch(url, {
-        headers: {
-          Accept: 'text/vnd.turbo-stream.html',
-        },
-      })
-        .then((response:Response) => response.text())
-        .then((html:string) => {
-          if (this.sentFilters !== newFilters) return;
-
-          if (this.buildFiltersParam(this.currentFilters()) !== newFilters) {
-            this.sentFilters = previousFilters;
-            hideElement(loadingIndicator);
-            return;
-          }
-
-          renderStreamMessage(html);
-          window.history.replaceState(window.history.state, '', browserUrl);
-          hideElement(loadingIndicator);
-        })
-        .catch((error:Error) => {
-          if (this.sentFilters !== newFilters) return;
-
-          this.sentFilters = previousFilters;
-          console.error('Error:', error);
-          hideElement(loadingIndicator);
-        });
+      void this.visitFrame(url);
+    } else if (this.turboStreamRequestValue) {
+      void this.fetchStream(url, newFilters);
     } else {
+      showLoadingIndicator();
       window.location.href = url;
     }
+  }
+
+  private requestedFilters():string {
+    // Check for in-flight stream requests
+    if (this.sentFilters !== null) return this.sentFilters;
+
+    // Check for in-flight frame requests, otherwise use the browser href.
+    const frame = this.turboFrame;
+    const requestedUrl = frame?.hasAttribute('busy') && frame.src ? frame.src : window.location.href;
+
+    return new URL(requestedUrl, window.location.href).searchParams.get('filters') ?? '';
+  }
+
+  private visitFrame(url:string):Promise<void> {
+    // visit() snapshots the page for history; keep a previous request's indicator out of it.
+    hideLoadingIndicator();
+    visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
+
+    const { turboFrame } = this;
+    return withLoadingIndicator(turboFrame ? frameResponded(turboFrame) : Promise.resolve());
+  }
+
+  private fetchStream(url:string, newFilters:string):Promise<void> {
+    const { pathname, hash } = window.location;
+    const browserUrl = `${pathname}${new URL(url, window.location.href).search}${hash}`;
+
+    this.streamAbortController?.abort();
+    const request = new AbortController();
+    this.streamAbortController = request;
+    this.sentFilters = newFilters;
+
+    const response = fetch(url, { signal: request.signal, headers: { Accept: 'text/vnd.turbo-stream.html' } })
+      .then((fetched) => fetched.text())
+      .then((html) => {
+        if (this.buildFiltersParam(this.currentFilters()) !== newFilters) {
+          this.sentFilters = null;
+          return;
+        }
+
+        renderStreamMessage(html);
+        window.history.replaceState(window.history.state, '', browserUrl);
+      })
+      .catch((error:unknown) => {
+        if (request.signal.aborted) return;
+
+        console.error('Error:', error);
+        this.sentFilters = null;
+      });
+
+    // A newer request owns the indicator once it has replaced this one.
+    return withLoadingIndicator(response, () => this.streamAbortController === request);
   }
 
   private writeFiltersToHiddenInput() {

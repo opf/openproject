@@ -556,6 +556,30 @@ module Pages
       expect_turbo_frame_not_reloaded("backlogs_container", wait:)
     end
 
+    def expect_loading_skeleton
+      expect(page).to have_test_selector("op-backlogs-skeleton")
+      expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+
+      expect_no_loading_skeleton
+    end
+
+    def expect_no_loading_skeleton
+      expect(page).to have_no_test_selector("op-backlogs-skeleton")
+      expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+    end
+
+    def expect_loading_spinner
+      expect(page).to have_css("turbo-frame#backlogs_container[busy]")
+      expect(page).to have_css("#global-loading-indicator", visible: :visible)
+
+      expect_no_loading_spinner
+    end
+
+    def expect_no_loading_spinner
+      expect(page).to have_no_css("turbo-frame#backlogs_container[busy]")
+      expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+    end
+
     def expect_no_backlog_bucket_menu(bucket)
       within_backlog_bucket(bucket) do
         expect(page).to have_no_button(accessible_name: "Backlog bucket actions")

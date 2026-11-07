@@ -83,7 +83,9 @@ describe('Filters form navigation', () => {
     ctx = await setupStimulusTest({ controllers: { 'filter--filters-form': Controller } });
     await ctx.mount(`<div data-controller="filter--filters-form"
       data-filter--filters-form-turbo-frame-request-value="backlogs_container"
-      data-filter--filters-form-url-path-name-value="${framePath}" ${data}>${innerHtml}</div>`);
+      data-filter--filters-form-url-path-name-value="${framePath}" ${data}>${innerHtml}
+      <div id="global-loading-indicator" hidden></div>
+    </div>`);
     return ctx.getController<FiltersFormControllerType>('filter--filters-form');
   }
 
@@ -195,5 +197,90 @@ describe('Filters form navigation', () => {
     controller.sendForm();
 
     expect(visit).not.toHaveBeenCalled();
+  });
+
+  async function mountLoadingFrame() {
+    const controller = await mount(['page', 'all'], '<turbo-frame id="backlogs_container" disabled></turbo-frame>');
+    const frame = ctx.container.querySelector<HTMLElement>('#backlogs_container')!;
+    visit.mockImplementation((location) => {
+      frame.setAttribute('src', location);
+      frame.setAttribute('busy', '');
+    });
+
+    return { controller, frame };
+  }
+
+  it('navigates back to the applied filters while a newer visit is still loading', async () => {
+    setUrl();
+    const { controller } = await mountLoadingFrame();
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['mm'] } }];
+    controller.sendForm();
+    controller.currentFiltersValue = [];
+    controller.sendForm();
+
+    expect(visit).toHaveBeenCalledTimes(2);
+    const url = new URL(String(visit.mock.calls[1][0]), window.location.origin);
+    expect(url.searchParams.has('filters')).toBe(false);
+  });
+
+  it('shows the loading indicator until the frame has loaded', async () => {
+    setUrl();
+    const { controller, frame } = await mountLoadingFrame();
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['new'] } }];
+    controller.sendForm();
+    expect(indicator).toBeVisible();
+
+    frame.dispatchEvent(new CustomEvent('turbo:before-fetch-response', { bubbles: true }));
+
+    await vi.waitFor(() => expect(indicator).not.toBeVisible());
+  });
+
+  it('keeps a previous request\'s indicator out of the history snapshot', async () => {
+    setUrl();
+    const controller = await mount(['page', 'all'], '<turbo-frame id="backlogs_container"></turbo-frame>');
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+    indicator.hidden = false;
+    let hiddenWhenVisiting:HTMLElement['hidden']|undefined;
+    visit.mockImplementation(() => {
+      hiddenWhenVisiting = indicator.hidden;
+    });
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['new'] } }];
+    controller.sendForm();
+
+    expect(hiddenWhenVisiting).toBe(true);
+    expect(indicator).toBeVisible();
+  });
+
+  it('resends the same filters once a failed visit left the URL unchanged', async () => {
+    setUrl();
+    const { controller, frame } = await mountLoadingFrame();
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['mm'] } }];
+    controller.sendForm();
+    controller.sendForm();
+    expect(visit).toHaveBeenCalledOnce();
+
+    frame.removeAttribute('busy');
+    controller.sendForm();
+
+    expect(visit).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not resend the filters a finished visit has applied', async () => {
+    setUrl();
+    const { controller, frame } = await mountLoadingFrame();
+
+    controller.currentFiltersValue = [{ subject: { operator: '~', values: ['mm'] } }];
+    controller.sendForm();
+
+    frame.removeAttribute('busy');
+    setUrl('subject ~ "mm"');
+    controller.sendForm();
+
+    expect(visit).toHaveBeenCalledOnce();
   });
 });
