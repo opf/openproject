@@ -66,3 +66,7 @@ OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
 OpenProject::FeatureDecisions.add :progressive_web_app,
                                   description: "Lets OpenProject be installed as a desktop application (PWA). " \
                                                "See the SE-647 epic for details."
+
+OpenProject::FeatureDecisions.add :new_table_rendering,
+                                  description: "Renders work package table rows with Angular templates " \
+                                               "instead of the imperative row builders (flat tables only)."

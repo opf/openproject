@@ -31,9 +31,12 @@ import { PrimaryRenderPass } from 'core-app/features/work-packages/components/wp
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import type { WorkPackageTableRow } from 'core-app/features/work-packages/components/wp-fast-table/wp-table.interfaces';
+import invariant from 'tiny-invariant';
+import { findLast } from 'lodash-es';
 import {
   ancestorClassIdentifier,
   hierarchyGroupClass,
+  hierarchyRootClass,
 } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -116,8 +119,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         this.buildWithHierarchy(row);
       } else {
         // Render a work package root with no parents
-        const [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
-        this.markRendered(tr, workPackage, hidden);
+        this.markRendered(this.templateView ? null : this.rowBuilder.buildEmpty(workPackage)[0], workPackage);
       }
 
       // Render all potentially deferred rows
@@ -217,17 +219,17 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       // If we see the parent the first time,
       // build it as an additional row and insert it into the ancestry
       if (!this.rendered[ancestor.id!]) {
-        const [ancestorRow, hidden] = this.rowBuilder.buildAncestorRow(ancestor, ancestorGroups, index);
+        const ancestorRow = this.templateView ? null : this.rowBuilder.buildAncestorRow(ancestor, ancestorGroups, index)[0];
         // Insert the ancestor row, either right here if it's a root node
         // Or below the appropriate parent
 
         if (index === 0) {
           // Special case, first ancestor => root without parent
-          this.markRendered(ancestorRow, ancestor, hidden, true);
+          this.markRendered(ancestorRow, ancestor, true);
         } else {
           // This ancestor must be inserted in the last position of its root
           const parent = ancestors[index - 1];
-          this.insertAtExistingHierarchy(ancestor, ancestorRow, parent, hidden, true);
+          this.insertAtExistingHierarchy(ancestor, ancestorRow, parent, true);
         }
 
         // Remember we just added this extra ancestor row
@@ -252,36 +254,38 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * @param parent
    */
   private insertUnderParent(workPackage:WorkPackageResource, parent:WorkPackageResource) {
-    const [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
-    this.insertAtExistingHierarchy(workPackage, tr, parent, hidden, false);
+    const tr = this.templateView ? null : this.rowBuilder.buildEmpty(workPackage)[0];
+    this.insertAtExistingHierarchy(workPackage, tr, parent, false);
   }
 
   /**
    * Mark the given work package as rendered
    * @param workPackage
-   * @param hidden
    * @param isAncestor
    */
-  private markRendered(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden = false, isAncestor = false) {
+  private markRendered(row:HTMLTableRowElement|null, workPackage:WorkPackageResource, isAncestor = false) {
     this.rendered[workPackage.id!] = true;
-    this.registerAppended(row, this.buildOccurrence(workPackage, hidden, isAncestor));
+    this.registerAppended(row, this.buildOccurrence(workPackage, isAncestor));
   }
 
   /**
    * Append a row to the given parent hierarchy group.
    */
   private insertAtExistingHierarchy(workPackage:WorkPackageResource,
-    el:HTMLTableRowElement,
+    el:HTMLTableRowElement|null,
     parent:WorkPackageResource,
-    hidden:boolean,
     isAncestor:boolean) {
-    // Either append to the hierarchy group root (= the parentID row itself)
-    const hierarchyRoot = `.__hierarchy-root-${parent.id}`;
-    // Or, if it has descendants, append to the LATEST of that set
-    const hierarchyGroup = `.__hierarchy-group-${parent.id}`;
+    const root = hierarchyRootClass(parent.id!);
+    const group = hierarchyGroupClass(parent.id!);
+    const occurrence = this.buildOccurrence(workPackage, isAncestor);
 
-    // Insert into table
-    this.spliceRow(el, `${hierarchyRoot},${hierarchyGroup}`, this.buildOccurrence(workPackage, hidden, isAncestor));
+    if (el) {
+      this.spliceRow(el, `.${root},.${group}`, occurrence);
+    } else {
+      const target = findLast(this.draft.occurrences, ({ additionalClasses }) => additionalClasses.includes(root) || additionalClasses.includes(group));
+      invariant(target, `No hierarchy row found for parent ${parent.id}`);
+      this.draft.spliceAfter(target.key, { ...occurrence, element: null });
+    }
 
     this.rendered[workPackage.id!] = true;
   }
@@ -290,8 +294,8 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     return isAncestor ? ancestorOccurrenceKey(workPackage.id!) : wpOccurrenceKey(workPackage.id!);
   }
 
-  private buildOccurrence(workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):Omit<DraftOccurrence, 'element'> {
-    const [ancestorClasses] = this.rowBuilder.ancestorRowData(workPackage);
+  private buildOccurrence(workPackage:WorkPackageResource, isAncestor:boolean):Omit<DraftOccurrence, 'element'> {
+    const [ancestorClasses, hidden] = this.rowBuilder.ancestorRowData(workPackage);
 
     return {
       key: this.occurrenceKey(workPackage, isAncestor),

@@ -30,7 +30,7 @@
 require "spec_helper"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "Manual sorting of WP table", :js, :selenium do
+RSpec.shared_examples "manual sorting of the work package table" do
   let(:user) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -513,6 +513,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
       wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
       wp_table.expect_and_dismiss_toaster message: "Successful creation."
+      expect(page).to have_current_path(/query_id=/)
 
       # Try to sort by creation date
       sort_by.sort_via_header "Subject"
@@ -555,5 +556,12 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
         wp_timeline.expect_row_count(4)
       end
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Manual sorting of WP table (new_table_rendering=#{new_table_rendering})",
+                 :js, :selenium, with_flag: { new_table_rendering: } do
+    it_behaves_like "manual sorting of the work package table"
   end
 end

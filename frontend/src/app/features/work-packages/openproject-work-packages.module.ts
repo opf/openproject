@@ -256,6 +256,7 @@ import {
   WorkPackageSettingsButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
+import { WorkPackageTableRowComponent } from 'core-app/features/work-packages/components/wp-fast-table/template-rows/wp-table-row.component';
 import {
   WorkPackageGroupToggleDropdownMenuDirective,
 } from 'core-app/shared/components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive';
@@ -303,6 +304,7 @@ import { WorkPackagesGridComponent } from 'core-app/features/work-packages/compo
 import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 import { OpSortableListsListDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-list.directive';
 import { OpSortableListsItemDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-item.directive';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import {
   WorkPackageSplitViewToolbarComponent,
 } from 'core-app/features/work-packages/components/wp-details/wp-details-toolbar.component';
@@ -416,6 +418,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
 
 @NgModule({
   imports: [
+    WorkPackageTableRowComponent,
     // Commons
     OpSharedModule,
     NgSelectModule,
@@ -446,6 +449,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     OpSortableListsDirective,
     OpSortableListsListDirective,
     OpSortableListsItemDirective,
+    OpTooltipDirective,
   ],
   providers: [
     // Notification service

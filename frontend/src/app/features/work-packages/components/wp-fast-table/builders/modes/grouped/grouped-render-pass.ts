@@ -35,13 +35,15 @@ import { WorkPackageTable } from '../../../wp-fast-table';
 import { WorkPackageTableRow } from '../../../wp-table.interfaces';
 import { SingleRowBuilder } from '../../rows/single-row-builder';
 import { PlainRenderPass } from '../plain/plain-render-pass';
-import { groupOccurrenceKey } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
+import { type DraftOccurrence, groupOccurrenceKey } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
+import type { TemplateRow } from '../../../template-rows/template-row';
 import {
   groupClassNameFor,
   GroupHeaderBuilder,
 } from './group-header-builder';
 import {
   groupByProperty,
+  groupName,
   groupedRowClassName,
 } from './grouped-rows-helpers';
 
@@ -49,6 +51,8 @@ export const groupRowClass = '-group-row';
 
 export class GroupedRenderPass extends PlainRenderPass {
   private sumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
+
+  private readonly templateGroups = new Map<string, GroupObject>();
 
   constructor(public readonly injector:Injector,
     public workPackageTable:WorkPackageTable,
@@ -77,8 +81,10 @@ export class GroupedRenderPass extends PlainRenderPass {
       // Render the next group row
       if (nextGroup && groupsChanged) {
         const groupClass = groupClassNameFor(nextGroup);
-        const rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
-        this.appendNonWorkPackageRow(groupOccurrenceKey(nextGroup.index, 'header'), 'groupHeader', rowElement, groupClass, [groupRowClass], false, nextGroup.identifier);
+        const rowElement = this.templateView ? null : this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
+        const key = groupOccurrenceKey(nextGroup.index, 'header');
+        if (this.templateView) this.templateGroups.set(key, nextGroup);
+        this.appendNonWorkPackageRow(key, 'groupHeader', rowElement, groupClass, [groupRowClass], false, nextGroup.identifier);
         currentGroup = nextGroup;
       }
 
@@ -89,6 +95,37 @@ export class GroupedRenderPass extends PlainRenderPass {
     if (currentGroup) {
       this.renderSumsRow(currentGroup);
     }
+  }
+
+  protected override toTemplateRow(occurrence:DraftOccurrence):TemplateRow|null {
+    const { key, classIdentifier, additionalClasses, kind } = occurrence;
+    const group = this.templateGroups.get(key);
+    if (!group) return super.toTemplateRow(occurrence);
+
+    if (kind === 'groupHeader') {
+      return {
+        kind,
+        key,
+        classIdentifier,
+        additionalClasses,
+        index: group.index,
+        identifier: group.identifier,
+        name: groupName(group),
+        count: group.count,
+        collapsed: !!group.collapsed,
+        expandLabel: this.headerBuilder.text.expand,
+        collapseLabel: this.headerBuilder.text.collapse,
+        leadingIcon: this.headerBuilder.leadingIcon(group),
+      };
+    }
+
+    return {
+      kind: 'sums',
+      key,
+      classIdentifier,
+      additionalClasses,
+      cells: this.sumsBuilder.buildSumCells(group.sums, group.index),
+    };
   }
 
   /**
@@ -165,9 +202,9 @@ export class GroupedRenderPass extends PlainRenderPass {
     }
 
     const { additionalClasses, hidden } = group ? this.groupRowState(group) : { additionalClasses: [], hidden: false };
-    const [tr, _] = this.rowBuilder.buildEmpty(row.object);
+    const tr = this.templateView ? null : this.rowBuilder.buildEmpty(row.object)[0];
 
-    tr.classList.add(...additionalClasses);
+    tr?.classList.add(...additionalClasses);
     this.appendRow(row.object, tr, additionalClasses, hidden, 2);
   }
 
@@ -180,11 +217,13 @@ export class GroupedRenderPass extends PlainRenderPass {
     }
 
     const groupClass = groupClassNameFor(group);
-    const rowElement = this.sumsBuilder.buildSumsRow(group);
+    const rowElement = this.templateView ? null : this.sumsBuilder.buildSumsRow(group);
     const { additionalClasses, hidden } = this.groupRowState(group);
 
-    rowElement.classList.add(...additionalClasses);
-    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), 'sums', rowElement, groupClass, additionalClasses, hidden, group.identifier, 2);
+    rowElement?.classList.add(...additionalClasses);
+    const key = groupOccurrenceKey(group.index, 'sums');
+    if (this.templateView) this.templateGroups.set(key, group);
+    this.appendNonWorkPackageRow(key, 'sums', rowElement, groupClass, additionalClasses, hidden, group.identifier, 2);
   }
 
   private groupRowState(group:GroupObject):{ additionalClasses:string[], hidden:boolean } {

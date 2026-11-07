@@ -30,7 +30,7 @@
 require "spec_helper"
 require "support/shared/embedded_keyboard_table_examples"
 
-RSpec.describe "Wiki embedded work package table keyboard navigation", :js do
+RSpec.shared_examples "wiki embedded work package table keyboard navigation" do
   include_context "with axe on Cuprite"
 
   create_shared_association_defaults_for_work_package_factory
@@ -90,6 +90,11 @@ RSpec.describe "Wiki embedded work package table keyboard navigation", :js do
           wait_for_network_idle
         end]
       end
+    end
+
+    it "uses the configured renderer for result rows" do
+      rows_from_templates = page.all(".work-package--results-tbody > tr[opwptablerow]")
+      expect(rows_from_templates.size).to eq(new_table_rendering ? 3 : 0)
     end
 
     it "numbers the rows of the table" do
@@ -210,5 +215,14 @@ RSpec.describe "Wiki embedded work package table keyboard navigation", :js do
     it "numbers the rows without a total" do
       wp_table.expect_row_positions(rowcount: -1, rows: [1, 2, 3, 4])
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Wiki embedded table keyboard navigation (new_table_rendering=#{new_table_rendering})",
+                 :js, with_flag: { new_table_rendering: } do
+    let(:new_table_rendering) { new_table_rendering }
+
+    it_behaves_like "wiki embedded work package table keyboard navigation"
   end
 end

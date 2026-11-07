@@ -27,6 +27,7 @@
 
 import { Injectable, Injector, inject } from '@angular/core';
 import {
+  OpTableAction,
   OpTableActionFactory,
 } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { OpDetailsTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/details-table-action';
@@ -57,6 +58,10 @@ export class OpTableActionsService {
    * Render actions for the given work package.
    * @param {WorkPackageResource} workPackage
    */
+  public actionsFor(workPackage:WorkPackageResource):OpTableAction[] {
+    return this.actions.map((factory) => factory(this.injector, workPackage));
+  }
+
   public render(workPackage:WorkPackageResource):(HTMLElement|DocumentFragment)[] {
     const built = this.actions.map((factory) => factory(this.injector, workPackage).buildElement());
     return built.filter((x):x is NonNullable<typeof x> => Boolean(x));

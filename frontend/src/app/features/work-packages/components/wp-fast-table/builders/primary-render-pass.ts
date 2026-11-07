@@ -42,6 +42,8 @@ import {
   ChildRelationsRenderPass,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/child-relations-render-pass';
 import invariant from 'tiny-invariant';
+import { templateRowView } from '../template-rows/template-row-view';
+import type { TemplateRow, TemplateRowView } from '../template-rows/template-row';
 import {
   type DraftOccurrence,
   type OccurrenceKey,
@@ -53,6 +55,7 @@ import {
 
 export interface RenderPassOptions {
   timeline:boolean;
+  template?:boolean;
 }
 
 export abstract class PrimaryRenderPass {
@@ -65,6 +68,10 @@ export abstract class PrimaryRenderPass {
   public draft:RenderDraft;
 
   private withTimeline = false;
+
+  public templateView:TemplateRowView|null = null;
+
+  public templateRows:readonly TemplateRow[] = [];
 
   /** Resulting table body */
   public tableBody:DocumentFragment;
@@ -96,8 +103,9 @@ public readonly injector:Injector,
    * for timeline and relations.
    * @return {PrimaryRenderPass}
    */
-  public render({ timeline }:RenderPassOptions):this {
+  public render({ timeline, template }:RenderPassOptions):this {
     this.withTimeline = timeline;
+    this.templateView = template ? templateRowView(this) : null;
     timeOutput('Primary render pass', () => {
       // Prepare and reset the render pass
       this.prepare();
@@ -111,16 +119,23 @@ public readonly injector:Injector,
 
     // Render subsequent passes
     // that may modify the structure of the table
-    this.highlighting.render();
+    if (!this.templateView) this.highlighting.render();
 
     timeOutput('Relations render pass', () => {
       this.relations.render();
       this.childRelations.render();
     });
 
-    timeOutput('Drag handle render pass', () => {
-      this.dragDropHandle.render();
-    });
+    if (this.templateView) {
+      this.templateRows = this.draft.occurrences.flatMap((occurrence) => {
+        const row = this.toTemplateRow(occurrence);
+        return row ? [row] : [];
+      });
+    } else {
+      timeOutput('Drag handle render pass', () => {
+        this.dragDropHandle.render();
+      });
+    }
 
     // Synchronize the rows to timeline
     const timelinePass = this.timeline;
@@ -132,6 +147,9 @@ public readonly injector:Injector,
   }
 
   public refresh(occurrence:RenderedOccurrence, workPackage:WorkPackageResource):HTMLTableRowElement|null {
+    if (this.templateView) {
+      return this.workPackageTable.templateRows?.refreshRow(occurrence.key, workPackage) ?? null;
+    }
     const oldRow = occurrence.element;
     if (!oldRow) {
       return null;
@@ -145,6 +163,10 @@ public readonly injector:Injector,
     if (occurrence.renderType === 'primary') this.highlighting.refreshRow(replacement, workPackage);
 
     return replacement;
+  }
+
+  protected toTemplateRow({ key, workPackage, classIdentifier, additionalClasses, level, relation }:DraftOccurrence):TemplateRow|null {
+    return workPackage ? { kind: 'workPackage', key, workPackage, classIdentifier, additionalClasses, level, relation, revision: 0 } : null;
   }
 
   private refreshedRow(
@@ -198,7 +220,7 @@ public readonly injector:Injector,
    */
   protected postRender():void {
     if (this.draft.occurrences.length === 0 && this.workPackageTable.renderPlaceholderRow) {
-      this.registerAppended(this.rowBuilder.placeholderRow, {
+      this.registerAppended(this.templateView ? null : this.rowBuilder.placeholderRow, {
         key: placeholderOccurrenceKey(),
         kind: 'placeholder',
         classIdentifier: 'wp--placeholder-row',
@@ -221,7 +243,7 @@ public readonly injector:Injector,
    */
   protected appendRow(
 workPackage:WorkPackageResource,
-    row:HTMLTableRowElement,
+    row:HTMLTableRowElement|null,
     additionalClasses:string[] = [],
     hidden = false,
     level = 1,
@@ -248,14 +270,14 @@ workPackage:WorkPackageResource,
   protected appendNonWorkPackageRow(
     key:OccurrenceKey,
     kind:'groupHeader'|'sums',
-    row:HTMLTableRowElement,
+    row:HTMLTableRowElement|null,
     classIdentifier:string,
     additionalClasses:string[] = [],
     hidden = false,
     groupIdentifier?:string,
     level = 1,
   ) {
-    row.classList.add(classIdentifier);
+    row?.classList.add(classIdentifier);
     this.registerAppended(row, {
       key,
       kind,
@@ -270,9 +292,11 @@ workPackage:WorkPackageResource,
     });
   }
 
-  protected registerAppended(row:HTMLTableRowElement, occurrence:Omit<DraftOccurrence, 'element'>) {
-    this.tableBody.appendChild(row);
-    row.dataset.occurrenceKey = occurrence.key;
+  protected registerAppended(row:HTMLTableRowElement|null, occurrence:Omit<DraftOccurrence, 'element'>) {
+    if (row) {
+      this.tableBody.appendChild(row);
+      row.dataset.occurrenceKey = occurrence.key;
+    }
     this.draft.append({ ...occurrence, element: row });
   }
 }

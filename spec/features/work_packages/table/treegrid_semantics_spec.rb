@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package table treegrid semantics", :js do
+RSpec.shared_examples "work package table treegrid semantics" do
   include_context "with axe on Cuprite"
 
   let(:project) { create(:project) }
@@ -586,5 +586,13 @@ RSpec.describe "Work package table treegrid semantics", :js do
     expect(ax_node).not_to be_nil
     expect(ax_node).not_to be_ignored
     expect(ax_node.properties["level"]).to eq(level)
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Work package table treegrid semantics (new_table_rendering=#{new_table_rendering})",
+                 :js,
+                 with_flag: { new_table_rendering: } do
+    it_behaves_like "work package table treegrid semantics"
   end
 end

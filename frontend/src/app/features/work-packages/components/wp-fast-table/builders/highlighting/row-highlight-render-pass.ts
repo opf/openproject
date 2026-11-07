@@ -26,6 +26,7 @@
 //++
 
 import { Injector } from '@angular/core';
+import { HighlightingMode } from './highlighting-mode.const';
 import { PrimaryRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
@@ -34,6 +35,19 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+
+/** The background highlight classes of a work package's row; empty when rows are not highlighted. */
+export function rowHighlightClasses(highlighting:WorkPackageViewHighlightingService, workPackage:WorkPackageResource):string[] {
+  if (highlighting.isInline || highlighting.isDisabled) return [];
+
+  return rowHighlightClassesForMode(highlighting.current.mode, workPackage);
+}
+
+export function rowHighlightClassesForMode(highlightAttribute:HighlightingMode, workPackage:WorkPackageResource):string[] {
+  if (highlightAttribute === 'inline' || highlightAttribute === 'none') return [];
+  const property = workPackage[highlightAttribute] as HalResource|null|undefined;
+  return property ? Highlighting.backgroundClass(highlightAttribute, property.id!).split(' ') : [];
+}
 
 export class HighlightingRenderPass {
   @LazyInject() wpTableHighlighting:WorkPackageViewHighlightingService;
@@ -67,10 +81,7 @@ export class HighlightingRenderPass {
   }
 
   private paintRow(row:HTMLTableRowElement, workPackage:WorkPackageResource):void {
-    const highlightAttribute = this.wpTableHighlighting.current.mode;
-    const property = workPackage[highlightAttribute] as HalResource|null|undefined;
-    if (!property) return;
-    row.classList.add(...Highlighting.backgroundClass(highlightAttribute, property.id!).split(' '));
+    row.classList.add(...rowHighlightClasses(this.wpTableHighlighting, workPackage));
   }
 
   private get isApplicable() {

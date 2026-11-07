@@ -30,7 +30,7 @@
 require "spec_helper"
 require "support/shared/embedded_keyboard_table_examples"
 
-RSpec.describe "Work package table keyboard navigation", :js do
+RSpec.shared_examples "both renderers: work package table keyboard navigation" do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
@@ -61,11 +61,11 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_on_column_header("Subject")
 
     wp_table.press_keys(:enter)
-    within("#column-context-menu") do
+    within(:menu, "Subject") do
       expect(page).to have_selector(:menuitem, focused: true)
     end
     wp_table.press_keys(:escape)
-    expect(page).to have_no_css("#column-context-menu")
+    expect(page).to have_no_menu
     wp_table.expect_focus_on_column_header("Subject")
 
     wp_table.press_keys(:down)
@@ -74,7 +74,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.press_keys(:up)
     wp_table.expect_focus_on_column_header("Subject")
     wp_table.press_keys(:enter)
-    within "#column-context-menu" do
+    within(:menu, "Subject") do
       click_on "Sort ascending"
     end
     expect(page).to have_css(".generic-table--sort-header #subject.asc")
@@ -88,6 +88,19 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_outside_table
   end
 
+  it "toggles the column menu from its header and switches to a different header" do
+    subject_header = find(:columnheader, "Subject")
+    subject_header.click
+    expect(page).to have_menu("Subject")
+    subject_header.click
+    expect(page).to have_no_menu
+
+    subject_header.click
+    find(:columnheader, "ID", exact: true).click
+    expect(page).to have_menu("ID", exact: true)
+    expect(page).to have_no_menu("Subject")
+  end
+
   it "closes a column menu with Escape and keeps the header focused" do
     wp_table.tab_into_table
     wp_table.press_keys(:right, :right, :up)
@@ -97,7 +110,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
     expect(page).to have_selector(:menuitem, focused: true)
 
     wp_table.press_keys(:escape)
-    expect(page).to have_no_css("#column-context-menu")
+    expect(page).to have_no_menu
     wp_table.expect_focus_on_column_header("Subject")
   end
 
@@ -393,5 +406,12 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
       wp_table.expect_focus_on_totals_cell(:estimated_time)
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Work package table keyboard navigation (new_table_rendering=#{new_table_rendering})",
+                 :js, with_flag: { new_table_rendering: } do
+    it_behaves_like "both renderers: work package table keyboard navigation"
   end
 end

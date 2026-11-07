@@ -44,16 +44,20 @@ export function withTooltip(control:HTMLElement, text:string, type:TooltipType):
   tooltip.classList.add('sr-only', 'position-absolute');
   tooltip.textContent = text;
 
-  // Primer's pending focus handler can outlive owner removal: https://community.openproject.org/wp/DREAM-955.
-  const showPopover = tooltip.showPopover.bind(tooltip);
-  tooltip.showPopover = (options?:ShowPopoverOptions) => {
-    if (tooltip.isConnected) showPopover(options);
-  };
+  guardDetachedTooltip(tooltip);
 
   if (type === 'label') tooltip.setAttribute('aria-hidden', 'true');
   attributeTokenList(control, type === 'label' ? 'aria-labelledby' : 'aria-describedby').add(tooltip.id);
   fragment.append(tooltip);
   return fragment;
+}
+
+export function guardDetachedTooltip(tooltip:HTMLElement):void {
+  // Primer's pending focus handler can outlive owner removal: https://community.openproject.org/wp/DREAM-955.
+  const showPopover = tooltip.showPopover.bind(tooltip);
+  tooltip.showPopover = (options?:ShowPopoverOptions) => {
+    if (tooltip.isConnected) showPopover(options);
+  };
 }
 
 export function hideTooltip(control:HTMLElement):void {

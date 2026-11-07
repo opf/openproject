@@ -28,6 +28,7 @@
 import { headerRowKey, inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import type { PaintScope } from 'core-app/features/work-packages/components/wp-fast-table/row-mutations';
 import { Component, Injector, NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
@@ -35,6 +36,9 @@ import { BehaviorSubject, config, of, Subject } from 'rxjs';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { States } from 'core-app/core/states/states.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { URN_UNDISCLOSED } from 'core-app/core/apiv3/api-v3-urns';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC, QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
@@ -43,7 +47,10 @@ import { WorkPackageInlineCreateComponent } from 'core-app/features/work-package
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -54,14 +61,30 @@ import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
+import { LinkDisplayField } from 'core-app/shared/components/fields/display/field-types/link-display-field.module';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
+import { HighlightedResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/highlighted-resource-display-field.module';
+import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
+import { TypeDisplayField } from 'core-app/shared/components/fields/display/field-types/type-display-field.module';
+import { WorkPackageIdDisplayField } from 'core-app/shared/components/fields/display/field-types/wp-id-display-field.module';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
-  buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
+  buildColumn, buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
 } from '../wp-fast-table/testing/table-harness';
-import { buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
+import { buildGroup, buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
 import { WorkPackageTimelineTableController } from './timeline/container/wp-timeline-container.directive';
 import { WorkPackagesTableComponent } from './wp-table.component';
+import { WorkPackageTableRowComponent } from '../wp-fast-table/template-rows/wp-table-row.component';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
+import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { OpTableActionsService } from './table-actions/table-actions.service';
+import { OpDetailsTableAction } from './table-actions/actions/details-table-action';
+import type { ToolTipElement } from 'core-app/shared/components/primer/tool-tip-element';
+import { page, userEvent } from 'vitest/browser';
+import { WorkPackageContextMenuHelperService } from './context-menu-helper/wp-context-menu-helper.service';
 
 /** Shows the table or the card view, as `wp-list-view` does when the viewport or query changes. */
 @Component({
@@ -401,6 +424,8 @@ class TwoTablesStandInComponent {
 }
 
 describe('WorkPackagesTableComponent treegrid structure', () => {
+  const newStatus = { value: 'New', href: '/api/v3/statuses/1', count: 1, sums: { storyPoints: 13 } };
+  const inProgressStatus = { value: 'In progress', href: '/api/v3/statuses/2', count: 1, sums: { storyPoints: 21 } };
   const translations = {
     'js.label_work_package_plural': 'Work packages',
     'js.label_sorting': 'Sorting',
@@ -413,6 +438,9 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     'js.work_packages.table.sorted_manually': 'Sorted manually.',
     'js.inplace.errors.messages_on_field': 'This field is invalid: %{messages}',
     'js.button_cancel': 'Cancel',
+    'js.button_edit': 'Edit',
+    'js.button_open_details': 'Open details',
+    'js.label_open_context_menu': 'Open context menu',
   };
   let baselineActive:boolean;
   let canAdd:BehaviorSubject<boolean>;
@@ -430,10 +458,22 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     created = new Subject();
     newWorkPackage = Object.assign(buildWorkPackage({ id: HAL_NEW_RESOURCE_ID, subject: '' }), { __initialized_at: 1 });
     await TestBed.configureTestingModule({
+      imports: [WorkPackageTableRowComponent],
       declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, ListViewStandInComponent, TwoTablesStandInComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], translations, editing: {} }),
+        ...harnessProviders(new FakeDragAndDropService(), {
+          workPackages: [],
+          groups: [newStatus, inProgressStatus],
+          relations: [
+            { from: '1', to: '3', type: 'follows', reverseType: 'precedes' },
+            { from: '2', to: '3', type: 'follows', reverseType: 'precedes' },
+          ],
+          translations,
+          editing: { fields: ['subject', 'project', 'customField1'] },
+        }),
+        provideHttpClient(),
+        { provide: HalResourceService, useClass: HalResourceService },
         WorkPackageViewSumService,
         { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, live$: () => of(null) } },
         {
@@ -490,7 +530,14 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   function putResults(fixtures:WorkPackageFixture[]) {
     const resources = fixtures.map(buildWorkPackage);
     resources.forEach((wp) => states.workPackages.get(wp.id!).putValue(wp));
-    querySpace.results.putValue({ elements: resources, offset: 1, pageSize: 20, count: resources.length, total: resources.length } as unknown as WorkPackageCollectionResource);
+    querySpace.results.putValue({
+      elements: resources,
+      offset: 1,
+      pageSize: 20,
+      count: resources.length,
+      total: resources.length,
+      sumsSchema: { href: '/api/v3/work_packages/schemas/sums' },
+    } as unknown as WorkPackageCollectionResource);
   }
 
   function tables():WorkPackagesTableComponent[] {
@@ -1025,6 +1072,1021 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
       canAdd.next(false);
       expect(createSection()).toHaveAttribute('aria-hidden', 'true');
+    });
+  });
+
+  it('keeps imperative rows for tables with relation columns when the flag is off', async () => {
+    vi.spyOn(TestBed.inject(WorkPackageViewColumnsService), 'getColumns').mockReturnValue(
+      [buildColumn('id'), buildColumn('subject'), buildColumn({ id: 'relationsOfTypeFollows', relationType: 'follows' })] as QueryColumn[],
+    );
+
+    await mount({}, [{ id: '1' }]);
+
+    expect(document.querySelector('.work-package--results-tbody > tr[data-work-package-id="1"]')).not.toHaveAttribute('opwptablerow');
+  });
+
+  it.each([false, true])('keeps native row headers when columns change (templates: %s)', async (templates) => {
+    Object.assign(TestBed.inject(ConfigurationService), { activeFeatureFlags: templates ? ['newTableRendering'] : [] });
+    const columns = TestBed.inject(WorkPackageViewColumnsService);
+    columns.update([buildColumn('id')] as QueryColumn[]);
+    await mount({}, [{ id: '42', subject: 'Header subject' }]);
+    const row = () => document.querySelector<HTMLTableRowElement>('.work-package--results-tbody > tr')!;
+    const idHeader = within(row()).getByRole('rowheader', { name: '42' });
+    expect(idHeader.tagName).toBe('TH');
+    expect(idHeader).toHaveAttribute('scope', 'row');
+
+    columns.update([buildColumn('subject'), buildColumn('id')] as QueryColumn[]);
+    await waitFor(() => expect(within(row()).getByRole('rowheader', { name: 'Header subject' })).toHaveAttribute('scope', 'row'));
+    expect(row().querySelector('th.subject')).toBeTruthy();
+    expect(row().querySelector('td.id')).toHaveTextContent('42');
+
+    columns.update([buildColumn('id')] as QueryColumn[]);
+    await waitFor(() => expect(within(row()).getByRole('rowheader', { name: '42' })).toHaveAttribute('scope', 'row'));
+    expect(row().querySelector('.subject')).toBeNull();
+  });
+
+  describe('with the newTableRendering flag', () => {
+    beforeEach(() => {
+      Object.assign(TestBed.inject(ConfigurationService), { activeFeatureFlags: ['newTableRendering'] });
+    });
+
+    const resultRow = (id:string) => document.querySelector<HTMLTableRowElement>(`.work-package--results-tbody > tr[data-work-package-id="${id}"]`);
+
+    it('renders the result rows from the row template, painted like legacy rows', async () => {
+      await mount({}, [{ id: '1', subject: 'First' }, { id: '2', subject: 'Second' }]);
+
+      const row = resultRow('1')!;
+      expect(row).toHaveAttribute('opwptablerow');
+      expect(row).toHaveAttribute('data-occurrence-key', 'wp:1');
+      expect(row).toHaveClass('wp-table--row', 'wp-row-1', 'wp-row-1-table');
+      expect(row).toHaveAttribute('aria-rowindex');
+      expect(within(row).getByRole('rowheader', { name: 'First' })).toBeInTheDocument();
+      expect(within(resultRow('2')!).getByRole('rowheader', { name: 'Second' })).toBeInTheDocument();
+    });
+
+    it('keeps the elements of rows that survive a redraw', async () => {
+      await mount({}, [{ id: '1' }, { id: '2' }]);
+      const first = resultRow('1');
+
+      await render([{ id: '3' }, { id: '1' }]);
+
+      expect(resultRow('1')).toBe(first);
+      expect(resultRow('2')).toBeNull();
+      expect(first?.previousElementSibling).toBe(resultRow('3'));
+    });
+
+    it('keeps template rows aligned with the timeline across redraws', async () => {
+      const timeline = TestBed.inject(WorkPackageViewTimelineService);
+      timeline.setVisible(true);
+      await mount({}, [{ id: '1' }, { id: '2' }]);
+      const first = resultRow('1');
+      const timelineIdentifiers = () => Array.from(document.querySelectorAll<HTMLElement>('.wp-timeline-cell'))
+        .map((row) => row.dataset.classIdentifier);
+
+      expect(first).toHaveAttribute('opwptablerow');
+      expect(timelineIdentifiers()).toEqual(['wp-row-1', 'wp-row-2']);
+
+      await render([{ id: '3' }, { id: '1' }]);
+
+      expect(resultRow('1')).toBe(first);
+      expect(first?.previousElementSibling).toBe(resultRow('3'));
+      expect(timelineIdentifiers()).toEqual(['wp-row-3', 'wp-row-1']);
+
+      await render([]);
+      expect(resultRow('1')).toBeNull();
+      expect(timelineIdentifiers()).toEqual([]);
+    });
+
+    it('renders hierarchy occurrences in tree order with a stable ancestor row and collapse state', async () => {
+      const parent = { id: '1' };
+      const child = { id: '2', ancestors: [parent] };
+      const hierarchies = TestBed.inject(WorkPackageViewHierarchiesService);
+      hierarchies.setEnabled();
+      states.workPackages.get('1').putValue(buildWorkPackage(parent));
+      const listView = TestBed.createComponent(ListViewStandInComponent);
+      fixture = listView;
+      document.body.appendChild(listView.nativeElement as HTMLElement);
+      listView.detectChanges();
+      registerTables();
+      querySpace.tableRendered.clear();
+      putResults([child, { id: '3' }]);
+      querySpace.initialized.putValue(null);
+      await waitFor(() => expect(querySpace.tableRendered.value?.map(({ workPackageId }) => workPackageId)).toEqual(['1', '2', '3']));
+
+      const ancestor = resultRow('1')!;
+      expect(ancestor).toHaveAttribute('opwptablerow');
+      expect(ancestor).toHaveAttribute('data-occurrence-key', 'ancestor:1');
+      expect(ancestor).toHaveAttribute('aria-expanded', 'true');
+      expect(resultRow('2')).toHaveAttribute('aria-level', '2');
+
+      fireEvent.click(ancestor.querySelector('.wp-table--hierarchy-indicator')!);
+      expect(ancestor).toHaveAttribute('aria-expanded', 'false');
+      expect(resultRow('2')).not.toBeVisible();
+
+      querySpace.tableRendered.clear();
+      putResults([child, { id: '4' }]);
+      querySpace.initialized.putValue(null);
+      await waitFor(() => expect(querySpace.tableRendered.value?.map(({ workPackageId }) => workPackageId)).toEqual(['1', '2', '4']));
+      expect(resultRow('1')).toBe(ancestor);
+      expect(ancestor).toHaveAttribute('aria-expanded', 'false');
+      expect(resultRow('2')).not.toBeVisible();
+
+      fireEvent.click(ancestor.querySelector('.wp-table--hierarchy-indicator')!);
+      expect(ancestor).toHaveAttribute('aria-expanded', 'true');
+      expect(resultRow('2')).toBeVisible();
+    });
+
+    it('keeps template group headers and sums aligned with their collapsed rows', async () => {
+      querySpace.groups.putValue([buildGroup(newStatus, 'status', 0), buildGroup(inProgressStatus, 'status', 1)]);
+      TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['id', 'subject', 'storyPoints'], 'status', false, true).columns);
+      TestBed.inject(WorkPackageViewTimelineService).setVisible(true);
+      const entries = [
+        { id: '1', attributes: { status: newStatus } },
+        { id: '2', attributes: { status: inProgressStatus } },
+      ];
+      const { workPackageTable } = await mount({}, entries);
+      const before = workPackageTable.templateRows!.snapshot();
+      const header = () => document.querySelector<HTMLTableRowElement>('.work-package--results-tbody > tr[data-occurrence-key="group:0:header"]')!;
+      const first = header();
+      const sums = resultRow('1')!.nextElementSibling!;
+      const timelineSums = () => document.querySelector<HTMLElement>('.wp-timeline-cell.__row-group-0:not([data-work-package-id])');
+      expect(first).toHaveAttribute('opwptablerow');
+      expect(first).toHaveTextContent('New');
+      expect(resultRow('1')).toHaveAttribute('opwptablerow');
+      expect(sums).toHaveAttribute('opwptablerow');
+      expect(sums).toHaveTextContent('13');
+      expect(timelineSums()).toBeVisible();
+
+      fireEvent.click(first.querySelector('.expander')!);
+      expect(header()).toBe(first);
+      expect(first).toHaveAttribute('aria-expanded', 'false');
+      expect(sums).not.toBeVisible();
+      expect(timelineSums()).not.toBeVisible();
+
+      workPackageTable.templateRows!.restore(before);
+      expect(first.querySelector('.expander')).toHaveClass('icon-plus');
+
+      await render(entries);
+
+      expect(header()).toBe(first);
+      expect(resultRow('1')!.nextElementSibling).toBe(sums);
+      expect(sums).not.toBeVisible();
+      expect(timelineSums()).not.toBeVisible();
+      expect(resultRow('2')).toBeVisible();
+    });
+
+    it('renders the correct header for groups with the same normalized name', async () => {
+      querySpace.groups.putValue([
+        buildGroup({ ...newStatus, value: 'A+B' }, 'status', 0),
+        buildGroup({ ...newStatus, value: 'A B' }, 'status', 1),
+      ]);
+
+      await mount({}, [{ id: '1', attributes: { status: 'A+B' } }, { id: '2', attributes: { status: 'A B' } }]);
+
+      expect(resultRow('1')?.previousElementSibling).toHaveTextContent('A+B');
+      expect(resultRow('2')?.previousElementSibling).toHaveTextContent('A B');
+    });
+
+    it('binds the row highlight and swaps it on refresh', async () => {
+      const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
+      const highlighting = TestBed.inject(WorkPackageViewHighlightingService);
+      highlighting.update({ mode: 'status' });
+      const table = await mount({}, [{ id: '1', attributes: status('11') }]);
+      const row = resultRow('1')!;
+      expect(row).toHaveClass(...Highlighting.backgroundClass('status', '11').split(' '));
+
+      const readMode = vi.spyOn(highlighting, 'current', 'get');
+      table.workPackageTable.refreshRows(buildWorkPackage({ id: '1', attributes: status('12') }));
+      expect(readMode).not.toHaveBeenCalled();
+
+      expect(row).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' '));
+      expect(row).not.toHaveClass(Highlighting.resourceClass('status', '11'));
+
+      highlighting.update({ mode: 'none' });
+      await waitFor(() => expect(row).not.toHaveClass(Highlighting.resourceClass('status', '12')));
+      highlighting.update({ mode: 'status' });
+      await waitFor(() => expect(row).toHaveClass(Highlighting.resourceClass('status', '12')));
+    });
+
+    it('shares presentation setup across cells and reads fresh schema on refresh', async () => {
+      const cache = TestBed.inject(SchemaCacheService);
+      const original = cache.of.bind(cache);
+      let projectWritable = true;
+      const readSchema = vi.spyOn(cache, 'of').mockImplementation((resource) => {
+        const schema = original(resource);
+        const ofProperty = schema.ofProperty.bind(schema);
+        const isAttributeEditable = schema.isAttributeEditable.bind(schema);
+        return Object.assign(schema, {
+          ofProperty: (name:string) => name === 'project'
+            ? { type: 'String', name: projectWritable ? 'Project' : 'Updated project', writable: projectWritable, hasDefault: false }
+            : ofProperty(name),
+          isAttributeEditable: (name:string) => name === 'project' ? projectWritable : isAttributeEditable(name),
+        });
+      });
+      TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['subject', 'project'], null, false, false).columns);
+      const component = await mount({}, [{ id: '1', subject: 'Before', attributes: { project: 'Old project' } }]);
+      const table = component.workPackageTable;
+      const row = resultRow('1')!;
+      const subject = row.querySelector('.subject .inline-edit--display-field')!;
+      const project = row.querySelector('.project .inline-edit--display-field')!;
+      expect(project).toHaveTextContent('Old project');
+      expect(project).toHaveClass('-editable');
+
+      const workPackage = states.workPackages.get('1').value!;
+      const resolveService = vi.spyOn(table.injector, 'get');
+      const displayServiceReads = () => resolveService.mock.calls.filter(([token]) => token === DisplayFieldService);
+      readSchema.mockClear();
+      projectWritable = false;
+      Object.assign(workPackage, { subject: 'After', project: 'New project' });
+      table.refreshRows(workPackage);
+
+      expect(row.querySelector('.subject .inline-edit--display-field')).toBe(subject);
+      expect(subject).toHaveTextContent('After');
+      expect(row.querySelector('.project .inline-edit--display-field')).toBe(project);
+      expect(project).toHaveTextContent('New project');
+      expect(project).toHaveAttribute('aria-label', 'Updated project New project');
+      expect(project).toHaveClass('-read-only');
+      expect(readSchema).toHaveBeenCalledExactlyOnceWith(workPackage);
+      expect(displayServiceReads()).toHaveLength(0);
+
+      const oldView = component.templateRowView();
+      table.redrawTable();
+      await waitFor(() => expect(component.templateRowView()).not.toBe(oldView));
+      expect(displayServiceReads()).toHaveLength(1);
+    });
+
+    describe('link cells', () => {
+      const cell = () => resultRow('1')!.querySelector<HTMLTableCellElement>('td.customField1')!;
+      const display = () => cell().querySelector<HTMLElement>('.inline-edit--display-field')!;
+      const url = 'https://example.org/docs';
+
+      beforeEach(() => {
+        TestBed.inject(DisplayFieldService).addFieldType(LinkDisplayField, 'link', ['Link']);
+        const cache = TestBed.inject(SchemaCacheService);
+        const original = cache.of.bind(cache);
+        vi.spyOn(cache, 'of').mockImplementation((resource) => {
+          const schema = original(resource);
+          const ofProperty = schema.ofProperty.bind(schema);
+          return Object.assign(schema, {
+            ofProperty: (name:string) => name === 'customField1'
+              ? { type: 'Link', name: 'Reference', writable: true, hasDefault: false }
+              : ofProperty(name),
+          });
+        });
+        TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['id', 'subject', 'customField1'], null, false, false).columns);
+      });
+
+      it('retains the display while switching between empty, external and same-origin URLs', async () => {
+        const { workPackageTable } = await mount({}, [{ id: '1', attributes: { customField1: '' } }]);
+        const field = display();
+        expect(cell()).toHaveAttribute('opwptabletextcell');
+        expect(field).toHaveClass('-placeholder');
+        expect(field).toHaveTextContent('-');
+        expect(within(field).queryByRole('link')).toBeNull();
+
+        const refresh = (value:string) => workPackageTable.refreshRows(buildWorkPackage({ id: '1', attributes: { customField1: value } }));
+        refresh(url);
+        const anchor = within(field).getByRole('link', { name: url });
+        expect(display()).toBe(field);
+        expect(field).not.toHaveClass('-placeholder');
+        expect(field).toHaveAttribute('title', url);
+        expect(anchor).toHaveAttribute('href', url);
+        expect(anchor).toHaveAttribute('target', '_blank');
+        expect(anchor).toHaveAttribute('rel', 'noopener noreferrer');
+        expect(anchor).toHaveAttribute('tabindex', '-1');
+        expect(field.querySelector('.inline-edit--display-trigger')).toBeNull();
+
+        refresh('/help');
+        expect(within(field).getByRole('link', { name: '/help' })).toBe(anchor);
+        expect(anchor).toHaveAttribute('href', '/help');
+        expect(anchor).toHaveAttribute('target', '');
+
+        refresh('http://[');
+        expect(anchor).toHaveAttribute('href', 'http://[');
+        expect(anchor).toHaveAttribute('target', '');
+
+        refresh('javascript:alert(1)');
+        expect(anchor.getAttribute('href')).toMatch(/^unsafe:/);
+
+        refresh('');
+        expect(within(field).queryByRole('link')).toBeNull();
+        expect(field).toHaveClass('-placeholder');
+      });
+
+      it('activates the edit affordance and preserves the editor across a link refresh', async () => {
+        const attributes = { customField1: url, updateImmediately: vi.fn() };
+        const { workPackageTable } = await mount({}, [{ id: '1', attributes }]);
+        const root = cell();
+        const edit = within(display()).getByRole('link', { name: 'Edit' });
+        expect(root).toHaveAttribute('opwptabletextcell');
+        expect(edit).toHaveClass('icon', 'icon-edit');
+        expect(edit).toHaveAttribute('href', '#');
+        expect(edit).toHaveAttribute('tabindex', '-1');
+
+        fireEvent.click(edit);
+        const input = await within(root).findByRole('textbox');
+        const form = workPackageTable.editing.forms['1'];
+        await waitFor(() => expect(form.activeFields.customField1).toBeDefined());
+        fireEvent.input(input, { target: { value: 'Unsaved' } });
+
+        const workPackage = states.workPackages.get('1').value!;
+        Object.assign(workPackage, { customField1: '/updated' });
+        workPackageTable.refreshRows(workPackage);
+        expect(cell()).toBe(root);
+        expect(within(root).getByRole('textbox')).toBe(input);
+        expect(input).toHaveValue('Unsaved');
+
+        form.activeFields.customField1.deactivate(false);
+        expect(within(root).getByRole('link', { name: '/updated' })).toHaveAttribute('href', '/updated');
+      });
+    });
+
+    describe('resource cells', () => {
+      const resourceTypes:Record<string, string> = { status: 'Status', priority: 'Priority', type: 'Type', project: 'Project' };
+      const cell = (attribute:string) => resultRow('1')!.querySelector<HTMLTableCellElement>(`td.${attribute}`)!;
+      const display = (attribute:string) => cell(attribute).querySelector<HTMLElement>('.inline-edit--display-field')!;
+      const hal = (type:string, id:string, name:string, href:string) => TestBed.inject(HalResourceService).createHalResource({
+        _type: type, id, name, _links: { self: { href } },
+      });
+
+      beforeEach(() => {
+        const fields = TestBed.inject(DisplayFieldService);
+        fields.addFieldType(HighlightedResourceDisplayField, 'highlight', ['Status', 'Priority']);
+        fields.addFieldType(TypeDisplayField, 'type', ['Type']);
+        fields.addFieldType(ResourceDisplayField, 'resource', ['Project']);
+        const cache = TestBed.inject(SchemaCacheService);
+        const original = cache.of.bind(cache);
+        vi.spyOn(cache, 'of').mockImplementation((resource) => {
+          const schema = original(resource);
+          const ofProperty = schema.ofProperty.bind(schema);
+          return Object.assign(schema, {
+            ofProperty: (name:string) => resourceTypes[name]
+              ? { type: resourceTypes[name], name, writable: name === 'project', hasDefault: false }
+              : ofProperty(name),
+          });
+        });
+        TestBed.inject(WorkPackageViewColumnsService)
+          .update(buildQuery(['id', 'subject', 'status', 'priority', 'type', 'project'], null, false, false).columns);
+      });
+
+      it('updates inline resource highlights without replacing the display spans', async () => {
+        const highlighting = TestBed.inject(WorkPackageViewHighlightingService);
+        const selectedAttributes = ['status', 'priority'].map((id) => hal('QueryColumn', id, id, `/api/v3/queries/columns/${id}`));
+        highlighting.update({ mode: 'inline', selectedAttributes });
+        const attributes = {
+          status: hal('Status', '11', 'Open', '/api/v3/statuses/11'),
+          priority: hal('Priority', '21', 'Normal', '/api/v3/priorities/21'),
+          type: hal('Type', '31', 'Task', '/api/v3/types/31'),
+          project: hal('Project', '41', 'Project A', '/api/v3/projects/41'),
+        };
+        const { workPackageTable } = await mount({}, [{ id: '1', attributes }]);
+        const status = display('status');
+        const priority = display('priority');
+        const type = display('type');
+        Object.keys(resourceTypes).forEach((attribute) => expect(cell(attribute)).toHaveAttribute('opwptabletextcell'));
+        expect(status).toHaveClass(...Highlighting.inlineClass('status', '11').split(' '));
+        expect(priority).toHaveClass(...Highlighting.inlineClass('priority', '21').split(' '));
+        expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+        expect(display('project')).toHaveTextContent('Project A');
+
+        const readHighlighting = vi.spyOn(highlighting, 'current', 'get');
+        attributes.status = hal('Status', '12', 'Closed', '/api/v3/statuses/12');
+        workPackageTable.refreshRows(buildWorkPackage({ id: '1', attributes }));
+        expect(readHighlighting).not.toHaveBeenCalled();
+        expect(display('status')).toBe(status);
+        expect(status).toHaveTextContent('Closed');
+        expect(status).toHaveClass(Highlighting.resourceClass('status', '12'));
+        expect(status).not.toHaveClass(Highlighting.resourceClass('status', '11'));
+
+        const rendered = querySpace.tableRendered.value;
+        workPackageTable.redrawTable();
+        await waitFor(() => expect(querySpace.tableRendered.value).not.toBe(rendered));
+        expect(readHighlighting).toHaveBeenCalledTimes(1);
+
+        highlighting.update({ mode: 'inline', selectedAttributes: [selectedAttributes[1]] });
+        await waitFor(() => expect(status).not.toHaveClass('__hl_dot'));
+        expect(priority).toHaveClass(...Highlighting.inlineClass('priority', '21').split(' '));
+        expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+
+        highlighting.update({ mode: 'status' });
+        await waitFor(() => expect(resultRow('1')).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' ')));
+        expect(status).not.toHaveClass('__hl_dot');
+        expect(priority).not.toHaveClass('__hl_dot');
+        expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+
+        highlighting.update({ mode: 'none' });
+        await waitFor(() => expect(resultRow('1')).not.toHaveClass('__hl_background'));
+        expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+      });
+
+      it.each([{ selectedAttributes: undefined }, { selectedAttributes: [] }])('keeps only Type highlighted with inline selection $selectedAttributes', async ({ selectedAttributes }) => {
+        TestBed.inject(WorkPackageViewHighlightingService).update({ mode: 'inline', selectedAttributes });
+        await mount({}, [{
+          id: '1',
+          attributes: {
+            status: hal('Status', '11', 'Open', '/api/v3/statuses/11'),
+            priority: hal('Priority', '21', 'Normal', '/api/v3/priorities/21'),
+            type: hal('Type', '31', 'Task', '/api/v3/types/31'),
+          },
+        }]);
+
+        expect(display('status')).not.toHaveClass('__hl_dot');
+        expect(display('priority')).not.toHaveClass('__hl_dot');
+        expect(display('type')).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+      });
+
+      it('keeps text and empty placeholders for resources without highlight classes', async () => {
+        TestBed.inject(WorkPackageViewHighlightingService)
+          .update({ mode: 'inline', selectedAttributes: [hal('QueryColumn', 'status', 'status', '/api/v3/queries/columns/status')] });
+        await mount({}, [{ id: '1', attributes: { status: { id: '11', name: 'Open' }, project: null } }]);
+
+        expect(cell('status')).toHaveAttribute('opwptabletextcell');
+        expect(display('status')).toHaveTextContent('Open');
+        expect(display('status')).not.toHaveClass('__hl_dot');
+        expect(cell('project')).toHaveAttribute('opwptabletextcell');
+        expect(display('project')).toHaveClass('-placeholder');
+        expect(display('project')).toHaveTextContent('-');
+      });
+
+      it.each([false, true])('retains an open project editor when undisclosed state changes from %s', async (initiallyUndisclosed) => {
+        const disclosed = hal('Project', '41', 'Project A', '/api/v3/projects/41');
+        const undisclosed = hal('Project', '42', 'Undisclosed', URN_UNDISCLOSED);
+        const { workPackageTable } = await mount({}, [{ id: '1', attributes: { project: initiallyUndisclosed ? undisclosed : disclosed } }]);
+        const before = cell('project');
+        expect(before.hasAttribute('opwptabletextcell')).toBe(!initiallyUndisclosed);
+        expect(display('project').querySelector('.color-fg-subtle')?.textContent ?? null).toBe(initiallyUndisclosed ? 'Undisclosed' : null);
+        const workPackage = states.workPackages.get('1').value!;
+        const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+        const field = await form.activate('project');
+        const input = within(before).getByRole('textbox');
+        fireEvent.input(input, { target: { value: 'Unsaved' } });
+
+        Object.assign(workPackage, { project: initiallyUndisclosed ? disclosed : undisclosed });
+        workPackageTable.refreshRows(workPackage);
+
+        expect(cell('project')).toBe(before);
+        expect(within(before).getByRole('textbox')).toBe(input);
+        expect(input).toHaveValue('Unsaved');
+        field!.deactivate(false);
+
+        expect(cell('project').hasAttribute('opwptabletextcell')).toBe(initiallyUndisclosed);
+        expect(within(cell('project')).queryByRole('textbox')).toBeNull();
+        expect(display('project')).toHaveTextContent(initiallyUndisclosed ? 'Project A' : 'Undisclosed');
+        expect(display('project').querySelector('.color-fg-subtle')?.textContent ?? null).toBe(initiallyUndisclosed ? null : 'Undisclosed');
+      });
+    });
+
+    it('renders the context menu action as a Primer icon button outside the Tab order', async () => {
+      await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
+
+      const button = await within(resultRow('1')!).findByRole('button', { name: 'Open context menu' });
+      expect(button.parentElement).toHaveClass('wp-table--context-menu-span');
+      expect(button).toHaveClass('Button', 'Button--iconOnly', 'Button--medium', 'Button--invisible', 'wp-table-context-menu-link');
+      expect(button).toBeEnabled();
+      expect(button).toHaveAttribute('type', 'button');
+      expect(button).toHaveAttribute('tabindex', '-1');
+      expect(button.closest('td')).toHaveClass('wp-table--context-menu-td', 'wp-table--navigable-cell');
+      const icon = button.querySelector('svg.Button-visual')!;
+      expect(icon).toHaveAttribute('viewBox', '0 0 16 16');
+      expect(icon.querySelector('path')).toBeInTheDocument();
+    });
+
+    describe('the details action', () => {
+      beforeEach(async () => {
+        await page.viewport(1280, 900);
+        TestBed.inject(OpTableActionsService).setActions((injector, resource) => new OpDetailsTableAction(injector, resource));
+      });
+
+      it('retains the link and tooltip across refresh and reorder with unique IDs across tables', async () => {
+        const views = TestBed.createComponent(TwoTablesStandInComponent);
+        fixture = views;
+        views.componentInstance.configurations.forEach((configuration) => { configuration.actionsColumnEnabled = true; });
+        const root = views.nativeElement as HTMLElement;
+        document.body.appendChild(root);
+        views.detectChanges();
+        registerTables();
+        await render([{ id: '42', attributes: { displayId: 'DEMO-7' } }]);
+        const detailsLinks = () => within(root).getAllByRole('link', { name: 'Open details' });
+        await waitFor(() => expect(detailsLinks()).toHaveLength(2));
+        const links = detailsLinks();
+        const tips = links.map((link) => {
+          expect(link.parentElement).toHaveClass('wp-table--context-menu-span');
+          expect(link).toHaveAttribute('href', `/details/DEMO-7/overview${window.location.search}`);
+          expect(link).toHaveAttribute('data-work-package-id', '42');
+          expect(link).toHaveAttribute('data-wp-state', 'split');
+          expect(link).toHaveAttribute('tabindex', '-1');
+          const tip = link.nextElementSibling!;
+          expect(tip.tagName).toBe('TOOL-TIP');
+          expect(tip).toHaveAttribute('for', link.id);
+          expect(tip).toHaveAttribute('popover', 'manual');
+          expect(tip).toHaveAttribute('aria-hidden', 'true');
+          expect(link).toHaveAttribute('aria-labelledby', tip.id);
+          return tip;
+        });
+        const ids = [...links, ...tips].map(({ id }) => id);
+        expect(ids.every(Boolean)).toBe(true);
+        expect(new Set(ids).size).toBe(4);
+
+        tables()[0].workPackageTable.refreshRows(buildWorkPackage({ id: '42', attributes: { displayId: 'DEMO-8' } }));
+        expect(links[0]).toHaveAttribute('href', `/details/DEMO-8/overview${window.location.search}`);
+        expect(links[1]).toHaveAttribute('href', `/details/DEMO-7/overview${window.location.search}`);
+        TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['subject', 'id'], null, false, false).columns);
+        await waitFor(() => links.forEach((link) => expect(link.closest('tr')?.firstElementChild).toHaveClass('subject')));
+        expect(within(root).getAllByRole('link', { name: 'Open details' })).toEqual(links);
+        expect(links.map((link) => link.nextElementSibling)).toEqual(tips);
+        expect([...links, ...tips].map(({ id }) => id)).toEqual(ids);
+      });
+
+      it('opens on hover and focus, closes on Escape, and survives a pending open during teardown', async () => {
+        await import('@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js');
+        await mount({ actionsColumnEnabled: true }, [{ id: '1' }]);
+        const row = resultRow('1')!;
+        const link = await within(row).findByRole('link', { name: 'Open details' });
+        const tooltip = row.querySelector<ToolTipElement>('tool-tip')!;
+        const isOpen = () => tooltip.matches(':popover-open');
+
+        fireEvent.mouseEnter(link);
+        await waitFor(() => expect(isOpen()).toBe(true));
+        fireEvent.keyDown(document, { key: 'Escape' });
+        await waitFor(() => expect(isOpen()).toBe(false));
+        link.focus();
+        await waitFor(() => expect(isOpen()).toBe(true));
+        fireEvent.keyDown(document, { key: 'Escape' });
+        await waitFor(() => expect(isOpen()).toBe(false));
+
+        const handleEvent = tooltip.handleEvent.bind(tooltip);
+        let pending:Promise<void>|undefined;
+        vi.spyOn(tooltip, 'handleEvent').mockImplementation((event) => {
+          const result = handleEvent(event);
+          if (event.type === 'focus') pending = result;
+          return result;
+        });
+        fireEvent.focus(link);
+        (fixture.nativeElement as HTMLElement).remove();
+        expect(pending).toBeDefined();
+        await expect(pending).resolves.toBeUndefined();
+      });
+    });
+
+    it('opens the action menu from the Primer context menu button', async () => {
+      await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
+      const show = vi.spyOn(TestBed.inject(OpActionMenuService), 'show').mockImplementation(() => undefined);
+
+      const button = await within(resultRow('1')!).findByRole('button', { name: 'Open context menu' });
+      fireEvent.click(button);
+
+      expect(show).toHaveBeenCalledOnce();
+      fireEvent.click(button.querySelector('svg path')!);
+      expect(show).toHaveBeenCalledTimes(2);
+    });
+
+    describe('the context-menu tooltip', () => {
+      const contextButton = (id:string) => within(resultRow(id)!).getByRole<HTMLButtonElement>('button', { name: 'Open context menu' });
+      const findContextButton = (id:string) => within(resultRow(id)!).findByRole<HTMLButtonElement>('button', { name: 'Open context menu' });
+
+      beforeEach(async () => {
+        await import('@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js');
+      });
+
+      it('retains unique control and tooltip IDs across refresh and reorder', async () => {
+        const { workPackageTable } = await mount({ actionsColumnEnabled: true, contextMenuEnabled: true });
+        const buttons = await Promise.all(['1', '2'].map(findContextButton));
+        const tips = buttons.map((button) => {
+          const tip = button.nextElementSibling!;
+          expect(tip.tagName).toBe('TOOL-TIP');
+          expect(tip).toHaveAttribute('for', button.id);
+          expect(button).toHaveAttribute('aria-labelledby', tip.id);
+          expect(tip).toHaveAttribute('popover', 'manual');
+          expect(tip).toHaveTextContent('Open context menu');
+          return tip;
+        });
+        const ids = [...buttons, ...tips].map(({ id }) => id);
+        expect(ids.every(Boolean)).toBe(true);
+        expect(new Set(ids).size).toBe(4);
+        workPackageTable.refreshRows(buildWorkPackage({ id: '1', subject: 'Refreshed' }));
+        TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(['subject', 'id'], null, false, false).columns);
+        await waitFor(() => expect(resultRow('1')?.firstElementChild).toHaveClass('subject'));
+
+        expect(contextButton('1')).toBe(buttons[0]);
+        expect(contextButton('2')).toBe(buttons[1]);
+        expect(buttons.map((button) => button.nextElementSibling)).toEqual(tips);
+        expect([...buttons, ...tips].map(({ id }) => id)).toEqual(ids);
+      });
+
+      it.each(['{Enter}', ' '])('opens with %j, hides the tooltip, and returns focus on Escape', async (key) => {
+        vi.spyOn(TestBed.inject(WorkPackageContextMenuHelperService), 'getPermittedActions')
+          .mockReturnValue([{ key: 'test-action', text: 'Test action', link: '#' }]);
+        await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
+        const button = await findContextButton('1');
+        const tooltip = resultRow('1')!.querySelector('tool-tip')!;
+        const menu = TestBed.inject(OpActionMenuService);
+        try {
+          const cell = button.closest('td')!;
+          cell.focus();
+          button.focus();
+          expect(button).toHaveFocus();
+          await waitFor(() => expect(tooltip.matches(':popover-open')).toBe(true));
+          await userEvent.keyboard(key);
+          expect(await screen.findByRole('menuitem', { name: 'Test action' })).toBeInTheDocument();
+          await waitFor(() => expect(screen.getAllByRole('menuitem')[0]).toHaveFocus());
+          expect(tooltip.matches(':popover-open')).toBe(false);
+          await userEvent.keyboard('{Escape}');
+          expect(menu.active).toBeNull();
+          expect(cell).toHaveFocus();
+        } finally {
+          menu.close();
+        }
+      });
+
+      it('survives a pending focus tooltip during teardown', async () => {
+        await mount({ actionsColumnEnabled: true, contextMenuEnabled: true }, [{ id: '1' }]);
+        const button = await findContextButton('1');
+        const tooltip = resultRow('1')!.querySelector<ToolTipElement>('tool-tip')!;
+        const handleEvent = tooltip.handleEvent.bind(tooltip);
+        let pending:Promise<void>|undefined;
+        vi.spyOn(tooltip, 'handleEvent').mockImplementation((event) => {
+          const result = handleEvent(event);
+          if (event.type === 'focus') pending = result;
+          return result;
+        });
+
+        fireEvent.focus(button);
+        (fixture.nativeElement as HTMLElement).remove();
+        expect(pending).toBeDefined();
+        await expect(pending).resolves.toBeUndefined();
+      });
+    });
+
+    it('keeps separate template occurrences of a target shared by two relation rows', async () => {
+      const columns = buildQuery(['id', 'subject', { id: 'follows', relationType: 'follows' }], null, false, true).columns;
+      TestBed.inject(WorkPackageViewColumnsService).update(columns);
+      TestBed.inject(WorkPackageViewTimelineService).setVisible(true);
+      const table = await mount({}, [{ id: '1' }, { id: '2' }, { id: '3' }]);
+      const occurrence = (key:string) => document.querySelector<HTMLTableRowElement>(`.work-package--results-tbody > tr[data-occurrence-key="${key}"]`);
+      const toggle = (source:string) => fireEvent.click(occurrence(`wp:${source}`)!.querySelector('.wp-table--relation-indicator')!);
+      expect(occurrence('wp:1')).toHaveAttribute('opwptablerow');
+
+      toggle('1');
+      await waitFor(() => expect(occurrence('relation:ofType:1:3')).toBeInTheDocument());
+      const first = occurrence('relation:ofType:1:3')!;
+      expect(first).toHaveAttribute('opwptablerow');
+      expect(first).toHaveAttribute('aria-level', '2');
+      expect(first.previousElementSibling).toBe(occurrence('wp:1'));
+      expect(first.querySelector('.relation-row--type-label')).toHaveTextContent('Task');
+      expect(first.querySelector('.wp-table--relation-indicator')).toBeNull();
+
+      toggle('2');
+      await waitFor(() => expect(occurrence('relation:ofType:2:3')).toBeInTheDocument());
+      const second = occurrence('relation:ofType:2:3')!;
+      const target = occurrence('wp:3')!;
+      expect(occurrence('relation:ofType:1:3')).toBe(first);
+      expect(second.previousElementSibling).toBe(occurrence('wp:2'));
+      expect(document.querySelector('.wp-timeline-cell.wp-relation-row-1-to-3')).toBeInTheDocument();
+      expect(document.querySelector('.wp-timeline-cell.wp-relation-row-2-to-3')).toBeInTheDocument();
+
+      const renders = vi.spyOn(table, 'renderRows');
+      table.workPackageTable.refreshRows(buildWorkPackage({ id: '3', subject: 'Renamed target' }));
+      expect(renders).toHaveBeenCalledTimes(1);
+      [first, second, target].forEach((row) => expect(within(row).getByRole('rowheader', { name: 'Renamed target' })).toBeInTheDocument());
+
+      toggle('1');
+      await waitFor(() => expect(first).not.toBeInTheDocument());
+      expect(occurrence('relation:ofType:2:3')).toBe(second);
+      expect(occurrence('wp:3')).toBe(target);
+      expect(document.querySelector('.wp-timeline-cell.wp-relation-row-1-to-3')).toBeNull();
+    });
+
+    it('renders child relation rows from the same template list', async () => {
+      const columns = buildQuery(['id', 'subject', { id: 'children', children: true }], null, false, false).columns;
+      TestBed.inject(WorkPackageViewColumnsService).update(columns);
+      await mount({}, [{ id: '1', children: [{ id: '2' }] }, { id: '2' }]);
+      const parent = resultRow('1')!;
+      fireEvent.click(parent.querySelector('.wp-table--relation-indicator')!);
+
+      await waitFor(() => expect(parent.nextElementSibling).toHaveAttribute('data-occurrence-key', 'relation:children:1:2'));
+      expect(parent.nextElementSibling).toHaveAttribute('opwptablerow');
+      expect(parent.nextElementSibling?.querySelector('.relation-row--type-label')).toHaveTextContent('js.relation_labels.child');
+    });
+
+    it('renders drag handles and the drop placeholder for drag and drop tables', async () => {
+      await mount({ dragAndDropEnabled: true }, [{ id: '1' }]);
+
+      expect(resultRow('1')).toHaveAttribute('opwptablerow');
+      expect(resultRow('1')!.querySelector('td.__internal-sorthandle .wp-table--drag-and-drop-handle')).toBeInTheDocument();
+
+      await render([]);
+
+      expect(document.querySelector('.work-package--results-tbody > tr.wp--placeholder-row'))
+        .toHaveAttribute('data-occurrence-key', 'placeholder');
+    });
+
+    it('moves and restores rows through the template rows', async () => {
+      const table = await mount({ dragAndDropEnabled: true }, [{ id: '1' }, { id: '2' }, { id: '3' }]);
+      const rows = table.workPackageTable.templateRows!;
+      const before = rows.snapshot();
+      const ids = () => Array.from(document.querySelectorAll<HTMLElement>('.work-package--results-tbody > tr')).map((row) => row.dataset.workPackageId);
+
+      rows.move('wp:3', 'wp:1', true);
+      expect(ids()).toEqual(['3', '1', '2']);
+
+      table.workPackageTable.refreshRows(buildWorkPackage({ id: '3', subject: 'Updated while moving' }));
+      rows.restore(before);
+      expect(ids()).toEqual(['1', '2', '3']);
+      expect(within(resultRow('3')!).getByRole('rowheader', { name: 'Updated while moving' })).toBeInTheDocument();
+    });
+
+    it.each([
+      { templates: true, initiallyChanged: false },
+      { templates: true, initiallyChanged: true },
+      { templates: false, initiallyChanged: false },
+    ])('keeps a pending editor on refresh (templates: $templates, baseline: $initiallyChanged)', async ({ templates, initiallyChanged }) => {
+      Object.assign(TestBed.inject(ConfigurationService), { activeFeatureFlags: templates ? ['newTableRendering'] : [] });
+      let changed = initiallyChanged;
+      vi.spyOn(TestBed.inject(WorkPackageViewBaselineService), 'isChanged')
+        .mockImplementation((_resource, attribute) => attribute === 'subject' && changed);
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: 'Original', baseline: 'updated' }]);
+      const row = resultRow('1')!;
+      const cell = row.querySelector<HTMLTableCellElement>('th.subject')!;
+      expect(cell.hasAttribute('opwptabletextcell')).toBe(templates && !initiallyChanged);
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      const service = TestBed.inject(EditingPortalService);
+      const create = service.create.bind(service);
+      let ready!:() => void;
+      const readiness = new Promise<void>((resolve) => { ready = resolve; });
+      vi.spyOn(service, 'create').mockImplementation(async (...args) => {
+        const handler = await create(...args);
+        await readiness;
+        return handler;
+      });
+      const activation = form.activate('subject');
+      try {
+        const input = await within(cell).findByRole('textbox');
+        expect(form.activeFields.subject).toBeUndefined();
+        changed = true;
+        workPackageTable.refreshRows(workPackage);
+        expect(row.querySelector('th.subject')).toBe(cell);
+        expect(within(cell).getByRole('textbox')).toBe(input);
+
+        ready();
+        expect(await activation).toBe(form.activeFields.subject);
+        expect(within(cell).getByRole('textbox')).toBe(input);
+      } finally {
+        ready();
+        (await activation)?.deactivate(false);
+      }
+      expect(row.querySelector('th.subject')).not.toHaveAttribute('opwptabletextcell');
+      expect(within(row).queryByRole('textbox')).toBeNull();
+    });
+
+    it('releases a rejected pending editor and allows a retry', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: 'Original' }]);
+      const row = resultRow('1')!;
+      const cell = within(row).getByRole('rowheader', { name: 'Original' });
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      vi.spyOn(TestBed.inject(EditingPortalService), 'create').mockRejectedValueOnce(new Error('Editor readiness failed'));
+      vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+      await expect(form.activate('subject')).resolves.toBeUndefined();
+      expect(cell).not.toHaveClass(editModeClassName);
+      expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Original');
+      const field = await form.activate('subject');
+      expect(within(cell).getByRole('textbox')).toBeInTheDocument();
+      field!.deactivate(false);
+    });
+
+    it('removes a pending editor on form teardown without disturbing its replacement', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: 'Original' }]);
+      const row = resultRow('1')!;
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      const service = TestBed.inject(EditingPortalService);
+      const create = service.create.bind(service);
+      let ready!:() => void;
+      const readiness = new Promise<void>((resolve) => { ready = resolve; });
+      vi.spyOn(service, 'create').mockImplementationOnce(async (...args) => {
+        const handler = await create(...args);
+        await readiness;
+        return handler;
+      });
+      const activation = form.activate('subject');
+
+      try {
+        const oldInput = await within(row).findByRole('textbox');
+        workPackageTable.editing.stopEditing(workPackage);
+        expect(oldInput).not.toBeInTheDocument();
+        expect(within(row).getByRole('rowheader', { name: 'Original' })).not.toHaveClass(editModeClassName);
+        const successor = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+        const field = await successor.activate('subject');
+        const input = within(row).getByRole('textbox');
+        ready();
+
+        await expect(activation).resolves.toBeUndefined();
+        expect(successor.activeFields.subject).toBe(field);
+        expect(within(row).getByRole('textbox')).toBe(input);
+        field!.deactivate(false);
+      } finally {
+        ready();
+        await activation;
+      }
+    });
+
+    it('does not register an editor torn down between portal readiness and field installation', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: 'Original' }]);
+      const row = resultRow('1')!;
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      const service = TestBed.inject(EditingPortalService);
+      const create = service.create.bind(service);
+      vi.spyOn(service, 'create').mockImplementationOnce(async (...args) => {
+        const handler = await create(...args);
+        Object.defineProperty(handler, 'overlayMarker', {
+          set: () => { queueMicrotask(() => workPackageTable.editing.stopEditing(workPackage)); },
+        });
+        return handler;
+      });
+
+      await expect(form.activate('subject')).resolves.toBeUndefined();
+      expect(form.activeFields.subject).toBeUndefined();
+      expect(within(row).queryByRole('textbox')).toBeNull();
+      expect(within(row).getByRole('rowheader', { name: 'Original' })).not.toHaveClass(editModeClassName);
+    });
+
+    it.each([false, true])('keeps an open editor when baseline eligibility changes from %s', async (initiallyChanged) => {
+      let changed = initiallyChanged;
+      vi.spyOn(TestBed.inject(WorkPackageViewBaselineService), 'isChanged').mockImplementation((_resource, attribute) => attribute === 'subject' && changed);
+      const component = await mount({}, [{ id: '1', subject: 'Original', baseline: 'updated' }]);
+      const table = component.workPackageTable;
+      const cell = within(resultRow('1')!).getByRole('rowheader', { name: 'Original' });
+      const workPackage = states.workPackages.get('1').value!;
+      const form = table.editing.startEditing(workPackage, 'wp-row-1');
+      const field = await form.activate('subject');
+      const input = within(cell).getByRole('textbox');
+      fireEvent.input(input, { target: { value: 'Unsaved' } });
+
+      changed = !initiallyChanged;
+      table.refreshRows(workPackage);
+
+      expect(within(resultRow('1')!).getByRole('textbox')).toBe(input);
+      expect(input).toHaveValue('Unsaved');
+      field!.deactivate(false);
+      const refreshed = within(resultRow('1')!).getByRole('rowheader', { name: 'Original' });
+      expect(refreshed.hasAttribute('opwptabletextcell')).toBe(initiallyChanged);
+      expect(within(refreshed).queryByRole('textbox')).toBeNull();
+    });
+
+    it('keeps a text cell editable after refresh, cancellation and reactivation', async () => {
+      const component = await mount({}, [{ id: '1', subject: 'Original' }]);
+      const table = component.workPackageTable;
+      const row = resultRow('1')!;
+      const cell = within(row).getByRole('rowheader', { name: 'Original' });
+      expect(cell).toHaveAttribute('opwptabletextcell');
+      const workPackage = states.workPackages.get('1').value!;
+      const form = table.editing.startEditing(workPackage, 'wp-row-1');
+      const field = await form.activate('subject');
+      expect(field).toBeTruthy();
+      const input = within(cell).getByRole('textbox');
+      fireEvent.input(input, { target: { value: 'Unsaved' } });
+      expect(cell.querySelector('.inline-edit--display-field')).toBeNull();
+
+      expect(cell).toHaveClass(editModeClassName);
+      table.refreshRows(workPackage);
+      expect(cell).toHaveClass(editModeClassName);
+
+      expect(within(cell).getByRole('textbox')).toBe(input);
+      expect(input).toHaveValue('Unsaved');
+      field!.deactivate(false);
+      expect(within(cell).queryByRole('textbox')).toBeNull();
+      expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Original');
+      expect(within(row).getByRole('rowheader', { name: 'Original' })).toBe(cell);
+
+      const reopened = await form.activate('subject');
+      expect(within(cell).getByRole('textbox')).not.toBe(input);
+      reopened!.deactivate(false);
+      expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Original');
+    });
+
+    it('assigns native text cell layout classes by column ID', async () => {
+      const layouts = new Map([
+        ['id', 'id'],
+        ['subject', 'subject -max'],
+        ['startDate', 'startDate -no-ellipsis'],
+        ['dueDate', 'dueDate -no-ellipsis'],
+        ['duration', 'duration -no-ellipsis'],
+        ['estimatedTime', 'estimatedTime -min-200'],
+        ['remainingTime', 'remainingTime -min-200'],
+        ['status', 'status'],
+        ['customField1', 'customField1'],
+      ]);
+      const columns = [...layouts.keys()];
+      const textFieldAliases = new Map([['startDate', 'plannedStart'], ['dueDate', 'plannedFinish']]);
+      const cache = TestBed.inject(SchemaCacheService);
+      const original = cache.of.bind(cache);
+      vi.spyOn(cache, 'of').mockImplementation((resource) => {
+        const schema = original(resource);
+        const ofProperty = schema.ofProperty.bind(schema);
+        const mappedName = schema.mappedName.bind(schema);
+        return Object.assign(schema, {
+          ofProperty: (name:string) => ofProperty(name) ?? { type: 'String', name, writable: false, hasDefault: false },
+          mappedName: (name:string) => textFieldAliases.get(name) ?? mappedName(name),
+        });
+      });
+      TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(columns, null, false, false).columns);
+      await mount({}, [{ id: '1' }]);
+
+      const row = resultRow('1')!;
+      expect(row.querySelector('th[opwptabletextcell]')).toHaveClass('subject', '-max');
+      layouts.forEach((classes, column) => {
+        if (column === 'id' || column === 'subject') return;
+
+        const cell = row.querySelector(`td[opwptabletextcell].${column}`);
+        expect(cell, `Native ${column} cell`).toHaveClass(...classes.split(' '), 'wp-table--cell-td', 'wp-table--navigable-cell');
+      });
+      ['status', 'customField1'].forEach((column) => {
+        const cell = row.querySelector(`td.${column}`);
+        expect(cell).not.toHaveClass('-max');
+        expect(cell).not.toHaveClass('-min-200');
+        expect(cell).not.toHaveClass('-no-ellipsis');
+      });
+    });
+
+    it('applies ID fields for retained rows through one presenter per view', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1' }, { id: '2' }]);
+      const apply = vi.spyOn(WorkPackageIdDisplayField.prototype, 'apply');
+      const firstRow = resultRow('1');
+      const secondRow = resultRow('2');
+      const previous = querySpace.tableRendered.value;
+
+      workPackageTable.redrawTable();
+      await waitFor(() => expect(querySpace.tableRendered.value).not.toBe(previous));
+
+      expect(resultRow('1')).toBe(firstRow);
+      expect(resultRow('2')).toBe(secondRow);
+      expect(apply).toHaveBeenCalledTimes(2);
+      expect(new Set(apply.mock.contexts).size).toBe(1);
+    });
+
+    it('keeps the read-only marker from a failed activation when the display classes change', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: '' }]);
+      const row = resultRow('1')!;
+      const display = row.querySelector<HTMLElement>('.inline-edit--display-field.subject')!;
+      expect(display).toHaveClass('-editable', '-placeholder');
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      vi.spyOn(form, 'activate').mockResolvedValue(undefined);
+      fireEvent.click(display);
+      await waitFor(() => expect(display).toHaveClass('-read-only'));
+
+      form.reset('subject');
+      workPackageTable.refreshRows(buildWorkPackage({ id: '1', subject: 'After' }));
+
+      expect(row.querySelector('.inline-edit--display-field.subject')).toBe(display);
+      expect(display).toHaveTextContent('After');
+      expect(display).toHaveClass('-editable', '-read-only');
+      expect(display).not.toHaveClass('-placeholder');
+
+      const columns = TestBed.inject(WorkPackageViewColumnsService);
+      columns.update(buildQuery(['id'], null, false, false).columns);
+      await waitFor(() => expect(display).not.toBeInTheDocument());
+      columns.update(buildQuery(['id', 'subject'], null, false, false).columns);
+      await waitFor(() => expect(row.querySelector('.inline-edit--display-field.subject')).toHaveClass('-editable'));
+      expect(row.querySelector('.inline-edit--display-field.subject')).not.toHaveClass('-read-only');
+    });
+
+    it('does not carry a deferred activation failure into a replacement display', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: '' }]);
+      const row = resultRow('1')!;
+      const display = row.querySelector<HTMLElement>('.inline-edit--display-field.subject')!;
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      let reject!:(reason:unknown) => void;
+      vi.spyOn(form, 'activate').mockImplementationOnce(() => new Promise((_resolve, rejectPromise) => {
+        reject = rejectPromise;
+      }));
+      fireEvent.click(display);
+      const editor = await form.activate('subject');
+      expect(within(row).getByRole('textbox')).toBeInTheDocument();
+
+      reject(new Error('First activation failed'));
+      await nextTask();
+      editor!.deactivate(false);
+      const replacement = row.querySelector('.inline-edit--display-field.subject');
+      expect(replacement).not.toBe(display);
+      workPackageTable.refreshRows(buildWorkPackage({ id: '1', subject: 'After' }));
+      expect(replacement).toHaveTextContent('After');
+      expect(replacement).toHaveClass('-editable');
+      expect(replacement).not.toHaveClass('-read-only');
+    });
+
+    it('refreshes a row in place', async () => {
+      const table = await mount({}, [{ id: '1', subject: 'Before' }]);
+      const row = resultRow('1')!;
+
+      table.workPackageTable.refreshRows(buildWorkPackage({ id: '1', subject: 'After' }));
+
+      expect(resultRow('1')).toBe(row);
+      expect(within(row).getByRole('rowheader', { name: 'After' })).toBeInTheDocument();
     });
   });
 });

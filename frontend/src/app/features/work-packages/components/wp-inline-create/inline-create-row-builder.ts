@@ -69,7 +69,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
-  protected override get rowHeaderColumn():'subject'|'id'|null {
+  public override get rowHeaderColumn():'subject'|'id'|null {
     return null;
   }
 

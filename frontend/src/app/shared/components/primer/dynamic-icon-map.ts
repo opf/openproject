@@ -25,12 +25,89 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { circleSlashIconData, graphIconData, starIconData, SVGData, xIconData } from '@openproject/octicons-angular';
+import {
+  chevronDownIconData,
+  chevronRightIconData,
+  chevronUpIconData,
+  circleSlashIconData,
+  clockIconData,
+  columnsIconData,
+  duplicateIconData,
+  eyeClosedIconData,
+  graphIconData,
+  hashIconData,
+  kebabHorizontalIconData,
+  markdownIconData,
+  moveToBottomIconData,
+  moveToTopIconData,
+  opArrowInIconData,
+  opColumnsLeftIconData,
+  opColumnsRightIconData,
+  opCopyToProjectIconData,
+  opFileAtomIconData,
+  opGroupIconData,
+  opIndentIconData,
+  opMoveIconData,
+  opOutdentIconData,
+  opPdfDescriptionIconData,
+  opRelationFollowsIconData,
+  opRelationNewChildIconData,
+  opRelationsIconData,
+  opViewFullscreenIconData,
+  opViewSplitIconData,
+  pasteIconData,
+  pencilIconData,
+  personAddIconData,
+  sortAscIconData,
+  sortDescIconData,
+  starIconData,
+  trashIconData,
+  xIconData,
+  SVGData,
+} from '@openproject/octicons-angular';
 
-export const ICON_MAP:Record<string, SVGData> = {
-  x: xIconData,
-  star: starIconData,
+export const ICON_MAP = {
+  'chevron-down': chevronDownIconData,
+  'chevron-right': chevronRightIconData,
+  'chevron-up': chevronUpIconData,
   'circle-slash': circleSlashIconData,
+  clock: clockIconData,
+  columns: columnsIconData,
+  duplicate: duplicateIconData,
+  'eye-closed': eyeClosedIconData,
   graph: graphIconData,
-  // TODO add more icons
-};
+  hash: hashIconData,
+  'kebab-horizontal': kebabHorizontalIconData,
+  markdown: markdownIconData,
+  'move-to-bottom': moveToBottomIconData,
+  'move-to-top': moveToTopIconData,
+  'op-arrow-in': opArrowInIconData,
+  'op-columns-left': opColumnsLeftIconData,
+  'op-columns-right': opColumnsRightIconData,
+  'op-copy-to-project': opCopyToProjectIconData,
+  'op-file-atom': opFileAtomIconData,
+  'op-group': opGroupIconData,
+  'op-indent': opIndentIconData,
+  'op-move': opMoveIconData,
+  'op-outdent': opOutdentIconData,
+  'op-pdf-description': opPdfDescriptionIconData,
+  'op-relation-follows': opRelationFollowsIconData,
+  'op-relation-new-child': opRelationNewChildIconData,
+  'op-relations': opRelationsIconData,
+  'op-view-fullscreen': opViewFullscreenIconData,
+  'op-view-split': opViewSplitIconData,
+  paste: pasteIconData,
+  pencil: pencilIconData,
+  'person-add': personAddIconData,
+  'sort-asc': sortAscIconData,
+  'sort-desc': sortDescIconData,
+  star: starIconData,
+  trash: trashIconData,
+  x: xIconData,
+} satisfies Record<string, SVGData>;
+
+export type DynamicIconName = keyof typeof ICON_MAP;
+
+export function isDynamicIconName(name:string):name is DynamicIconName {
+  return Object.hasOwn(ICON_MAP, name);
+}

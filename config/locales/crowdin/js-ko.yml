@@ -438,7 +438,6 @@ ko:
     label_assignee: 담당자
     label_assignee_alt_text: 이 작업 패키지는 %{name} 님에게 할당되었습니다
     label_attachments: 첨부 파일
-    label_author: '작성자: %{user}'
     label_avatar: 아바타
     label_between: 사이에
     label_board: 게시판

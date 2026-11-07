@@ -97,7 +97,7 @@ export class GroupHeaderBuilder {
    * @param group the group object to check for a leading icon.
    * @private
    */
-  private leadingIcon(group:GroupObject) {
+  public leadingIcon(group:GroupObject) {
     // will also match project phase definitions
     const groupLink = group.href.find(
       (item) =>item.href?.includes('api/v3/project_phase')

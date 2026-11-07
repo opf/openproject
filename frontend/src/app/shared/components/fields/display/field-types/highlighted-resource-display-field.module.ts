@@ -33,9 +33,8 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
   public render(element:HTMLElement, displayText:string):void {
     super.render(element, displayText);
 
-    if (this.shouldHighlight) {
-      this.addHighlight(element);
-    }
+    const classes = this.inlineHighlightClasses;
+    if (classes) element.classList.add(...classes.split(' '));
   }
 
   public get value() {
@@ -45,10 +44,10 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
     return null;
   }
 
-  private addHighlight(element:HTMLElement):void {
-    if (this.attribute instanceof HalResource) {
-      const hlClass = Highlighting.inlineClass(this.name, this.attribute.id!);
-      element.classList.add(...hlClass.split(' '));
-    }
+  public get inlineHighlightClasses():string|null {
+    if (!this.shouldHighlight) return null;
+
+    const attribute = this.attribute;
+    return attribute instanceof HalResource ? Highlighting.inlineClass(this.name, attribute.id!) : null;
   }
 }

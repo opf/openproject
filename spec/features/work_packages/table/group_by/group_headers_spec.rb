@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work Package table group headers", :js do
+RSpec.shared_examples "both renderers: work package table group headers" do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -108,5 +108,12 @@ RSpec.describe "Work Package table group headers", :js do
       group_by.expect_grouped_by_value "1.0, 2.0", 1
       group_by.expect_grouped_by_value "-", 1
     end
+  end
+end
+
+[false, true].each do |new_table_rendering|
+  RSpec.describe "Work Package table group headers (new_table_rendering=#{new_table_rendering})",
+                 :js, with_flag: { new_table_rendering: } do
+    it_behaves_like "both renderers: work package table group headers"
   end
 end
