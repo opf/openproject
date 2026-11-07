@@ -29,6 +29,7 @@ import invariant from 'tiny-invariant';
 
 interface TemplateRowEditor {
   setEditing(columnId:string, editing:boolean):void;
+  recordActivationFailure(columnId:string, target:HTMLElement):void;
 }
 
 const rowEditors = new WeakMap<HTMLTableRowElement, TemplateRowEditor>();
@@ -47,6 +48,13 @@ function editorFor(cell:HTMLTableCellElement, columnId:string):TemplateRowEditor
     return rowEditors.get(row);
   }
   return undefined;
+}
+
+export function recordTemplateCellActivationFailure(columnId:string, target:HTMLElement):void {
+  const cell = target.parentElement?.parentElement;
+  if (target.isConnected && cell instanceof HTMLTableCellElement && target.dataset.fieldName === columnId) {
+    editorFor(cell, columnId)?.recordActivationFailure(columnId, target);
+  }
 }
 
 export function beginTemplateCellEdit(cell:HTMLTableCellElement, columnId:string):HTMLElement|null {

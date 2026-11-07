@@ -33,7 +33,7 @@ import type { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { DisplayFieldService, type DisplayFieldContextOptions } from 'core-app/shared/components/fields/display/display-field.service';
 import {
-  editableClassName, placeholderClassName, readOnlyClassName, requiredClassName,
+  displayClassName, editableClassName, placeholderClassName, readOnlyClassName, requiredClassName,
 } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { HighlightedResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/highlighted-resource-display-field.module';
 import { LinkDisplayField, type LinkDisplayPresentation } from 'core-app/shared/components/fields/display/field-types/link-display-field.module';
@@ -83,7 +83,7 @@ export class TextCellPresenter {
     const highlightClasses = highlighted ? field.inlineHighlightClasses : null;
     const empty = field.isEmpty();
     const editable = schema.isAttributeEditable(attribute);
-    let displayClasses = `${attribute} ${editable ? editableClassName : readOnlyClassName}`;
+    let displayClasses = `${displayClassName} ${attribute} ${editable ? editableClassName : readOnlyClassName}`;
     if (field.required) displayClasses += ` ${requiredClassName}`;
     if (empty) displayClasses += ` ${placeholderClassName}`;
     if (highlightClasses) displayClasses += ` ${highlightClasses}`;

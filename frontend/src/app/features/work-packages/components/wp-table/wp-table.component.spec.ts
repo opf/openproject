@@ -1750,12 +1750,45 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       fireEvent.click(display);
       await waitFor(() => expect(display).toHaveClass('-read-only'));
 
+      form.reset('subject');
       workPackageTable.refreshRows(buildWorkPackage({ id: '1', subject: 'After' }));
 
       expect(row.querySelector('.inline-edit--display-field.subject')).toBe(display);
       expect(display).toHaveTextContent('After');
       expect(display).toHaveClass('-editable', '-read-only');
       expect(display).not.toHaveClass('-placeholder');
+
+      const columns = TestBed.inject(WorkPackageViewColumnsService);
+      columns.update(buildQuery(['id'], null, false, false).columns);
+      await waitFor(() => expect(display).not.toBeInTheDocument());
+      columns.update(buildQuery(['id', 'subject'], null, false, false).columns);
+      await waitFor(() => expect(row.querySelector('.inline-edit--display-field.subject')).toHaveClass('-editable'));
+      expect(row.querySelector('.inline-edit--display-field.subject')).not.toHaveClass('-read-only');
+    });
+
+    it('does not carry a deferred activation failure into a replacement display', async () => {
+      const { workPackageTable } = await mount({}, [{ id: '1', subject: '' }]);
+      const row = resultRow('1')!;
+      const display = row.querySelector<HTMLElement>('.inline-edit--display-field.subject')!;
+      const workPackage = states.workPackages.get('1').value!;
+      const form = workPackageTable.editing.startEditing(workPackage, 'wp-row-1');
+      let reject!:(reason:unknown) => void;
+      vi.spyOn(form, 'activate').mockImplementationOnce(() => new Promise((_resolve, rejectPromise) => {
+        reject = rejectPromise;
+      }));
+      fireEvent.click(display);
+      const editor = await form.activate('subject');
+      expect(within(row).getByRole('textbox')).toBeInTheDocument();
+
+      reject(new Error('First activation failed'));
+      await nextTask();
+      editor!.deactivate(false);
+      const replacement = row.querySelector('.inline-edit--display-field.subject');
+      expect(replacement).not.toBe(display);
+      workPackageTable.refreshRows(buildWorkPackage({ id: '1', subject: 'After' }));
+      expect(replacement).toHaveTextContent('After');
+      expect(replacement).toHaveClass('-editable');
+      expect(replacement).not.toHaveClass('-read-only');
     });
 
     it('refreshes a row in place', async () => {

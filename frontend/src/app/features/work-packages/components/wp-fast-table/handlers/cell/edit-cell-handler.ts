@@ -41,6 +41,7 @@ import { TableEventComponent, TableEventHandler } from '../table-handler-registr
 import { ClickOrEnterHandler } from '../click-or-enter-handler';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { recordTemplateCellActivationFailure } from '../../template-rows/template-cell-editing';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
@@ -136,13 +137,17 @@ export function activateTableField(table:WorkPackageTable, target:HTMLElement, p
       if (table.destroyed) return;
       if (!handler) {
         target.classList.add(readOnlyClassName);
+        recordTemplateCellActivationFailure(fieldName, target);
         return;
       }
       handler.$onUserActivate.next();
       handler.focus(positionOffset);
     })
     .catch((error:unknown) => {
-      if (!(error instanceof EditActivationCancelled) && !table.destroyed) target.classList.add(readOnlyClassName);
+      if (!(error instanceof EditActivationCancelled) && !table.destroyed) {
+        target.classList.add(readOnlyClassName);
+        recordTemplateCellActivationFailure(fieldName, target);
+      }
     });
 
   return true;

@@ -79,13 +79,13 @@ describe('text cell presentation', () => {
   it('keeps field labels, placeholders and editability for empty subject text', () => {
     const value = present(buildWorkPackage({ id: '1', subject: '' }), 'subject');
     expect(value).toMatchObject({ text: '-', title: null, label: 'Edit subject No value' });
-    expect(value?.displayClasses.split(' ').sort()).toEqual(['-editable', '-placeholder', 'subject']);
+    expect(value?.displayClasses.split(' ').sort()).toEqual(['-editable', '-placeholder', 'inline-edit--display-field', 'subject']);
   });
 
   it('renders zero instead of the empty placeholder', () => {
     const value = present(buildWorkPackage({ id: '0' }), 'id');
     expect(value).toMatchObject({ text: '0' });
-    expect(value?.displayClasses.split(' ').sort()).toEqual(['-read-only', 'id']);
+    expect(value?.displayClasses.split(' ').sort()).toEqual(['-read-only', 'id', 'inline-edit--display-field']);
   });
 
   it('uses the active editing schema before consulting the schema cache', () => {

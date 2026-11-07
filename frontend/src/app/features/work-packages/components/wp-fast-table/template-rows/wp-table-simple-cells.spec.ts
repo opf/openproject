@@ -40,7 +40,7 @@ import { TextCellPresentation } from './text-cell-presentation';
 import { WorkPackageTableRowComponent } from './wp-table-row.component';
 
 const before:TextCellPresentation = {
-  attribute: 'subject', displayClasses: 'subject -editable -required', text: '<Original>', title: '<Original>', label: 'Edit Subject <Original>',
+  attribute: 'subject', displayClasses: 'inline-edit--display-field subject -editable -required', text: '<Original>', title: '<Original>', label: 'Edit Subject <Original>',
 };
 
 @Component({
@@ -215,7 +215,7 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
     const display = subjectCell.querySelector('.inline-edit--display-field');
     expect(display).toHaveClass('-editable', '-required');
 
-    setPresentation({ ...before, displayClasses: 'subject -read-only' });
+    setPresentation({ ...before, displayClasses: 'inline-edit--display-field subject -read-only' });
     fixture.detectChanges();
 
     expect(subjectCell.querySelector('.inline-edit--display-field')).toBe(display);
@@ -249,7 +249,7 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
 
   it('keeps another cell editor open when one field closes', () => {
     view = { ...view, columns: buildQuery(['id', 'subject', 'customField1'], null, false, false).columns };
-    setPresentation(before, { ...before, attribute: 'customField1', displayClasses: 'customField1 -editable -required', text: 'Custom field' });
+    setPresentation(before, { ...before, attribute: 'customField1', displayClasses: 'inline-edit--display-field customField1 -editable -required', text: 'Custom field' });
     fixture.detectChanges();
 
     const customCell = row.cells[2];

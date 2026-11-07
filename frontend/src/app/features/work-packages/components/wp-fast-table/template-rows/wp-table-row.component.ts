@@ -39,6 +39,7 @@ import { TemplateRow, TemplateRowView } from './template-row';
 import { hierarchyRootClass } from '../helpers/wp-table-hierarchy-helpers';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
 import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
+import { readOnlyClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 
 const textCellBaseClasses = 'wp-table--cell-td wp-table--navigable-cell';
 const sizedTextCellClasses:ReadonlyMap<string, string> = new Map([
@@ -99,6 +100,13 @@ export class WorkPackageTableRowComponent implements OnDestroy {
 
   private readonly element = inject<ElementRef<HTMLTableRowElement>>(ElementRef);
   private readonly cdRef = inject(ChangeDetectorRef);
+  private activationFailures?:Map<string, HTMLElement>;
+
+  displayClasses(columnId:string, presentation:TextCellPresentation):string {
+    const { displayClasses } = presentation;
+    if (!this.activationFailures?.has(columnId) || displayClasses.split(' ').includes(readOnlyClassName)) return displayClasses;
+    return `${displayClasses} ${readOnlyClassName}`;
+  }
 
   readonly idValue = computed(() => this.view().idCell(this.workPackageRow()!.workPackage));
 
@@ -107,7 +115,7 @@ export class WorkPackageTableRowComponent implements OnDestroy {
     computation: ({ row, view }, previous):Map<string, TextCellPresentation|null> => {
       let cells:HTMLTableCellElement[]|undefined;
       let present:ReturnType<TemplateRowView['prepareTextCells']>|undefined;
-      return new Map(view.columns.map((column) => {
+      const presentations = new Map(view.columns.map((column) => {
         if (row && previous?.value.has(column.id)) {
           cells ??= Array.from(this.element.nativeElement.cells);
           const cell = cells.find((entry) => entry.classList.contains(column.id));
@@ -117,6 +125,17 @@ export class WorkPackageTableRowComponent implements OnDestroy {
         }
         return [column.id, row ? (present ??= view.prepareTextCells(row))(column) : null];
       }));
+      const failures = this.activationFailures;
+      if (failures) {
+        const host = this.element.nativeElement;
+        failures.forEach((target, columnId) => {
+          const cell = target.parentElement?.parentElement;
+          if (!presentations.get(columnId) || cell?.parentElement !== host || (cell.tagName === 'TH') !== (view.rowHeader === columnId)) {
+            failures.delete(columnId);
+          }
+        });
+      }
+      return presentations;
     },
   });
 
@@ -174,13 +193,22 @@ export class WorkPackageTableRowComponent implements OnDestroy {
     unregisterTemplateRowEditor(this.element.nativeElement);
   }
 
+  recordActivationFailure(columnId:string, target:HTMLElement):void {
+    if (this.editingColumns()?.has(columnId)) return;
+    (this.activationFailures ??= new Map()).set(columnId, target);
+  }
+
   setEditing(columnId:string, editing:boolean):void {
     const current = this.editingColumns();
     if ((current?.has(columnId) ?? false) === editing) return;
 
     const next = new Set(current);
-    if (editing) next.add(columnId);
-    else next.delete(columnId);
+    if (editing) {
+      this.activationFailures?.delete(columnId);
+      next.add(columnId);
+    } else {
+      next.delete(columnId);
+    }
     this.editingColumns.set(next.size ? next : null);
     this.cdRef.detectChanges();
   }

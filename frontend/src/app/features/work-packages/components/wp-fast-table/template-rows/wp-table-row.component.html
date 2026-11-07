@@ -71,8 +71,7 @@
               [class]="presentation.attribute" data-op-table-editor-slot></span>
           } @else {
             <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
-              <span class="inline-edit--display-field"
-                [class]="presentation.displayClasses"
+              <span [attr.class]="displayClasses(column.id, presentation)"
                 [attr.data-field-name]="presentation.attribute"
                 [attr.title]="presentation.title"
                 [attr.aria-label]="presentation.label"
@@ -93,8 +92,7 @@
               [class]="presentation.attribute" data-op-table-editor-slot></span>
           } @else {
             <span class="wp-table--cell-container inline-edit--container" [class]="presentation.attribute">
-              <span class="inline-edit--display-field"
-                [class]="presentation.displayClasses"
+              <span [attr.class]="displayClasses(column.id, presentation)"
                 [attr.data-field-name]="presentation.attribute"
                 [attr.title]="presentation.title"
                 [attr.aria-label]="presentation.label"
