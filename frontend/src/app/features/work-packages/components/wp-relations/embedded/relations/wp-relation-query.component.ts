@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, SimpleChanges, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -66,6 +66,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
 
   @Input() public group:GroupDescriptor;
 
+  private readonly destroyRef = inject(DestroyRef);
   private relationsSubscription?:Subscription;
 
   public tableActions:OpTableActionFactory[] = [
@@ -73,14 +74,20 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
       'remove-relation-action',
       this.I18n.t('js.relation_buttons.remove'),
       (relatedTo:WorkPackageResource) => {
-        if (!this.embeddedTable) {
+        const { embeddedTable, workPackage } = this;
+        if (!embeddedTable) {
           return;
         }
 
-        this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id!)
-          .then(() => this.wpInlineCreate.remove(this.workPackage, relatedTo))
-          .then(() => this.refreshTable())
-          .catch((error) => this.notificationService.handleRawError(error, this.workPackage));
+        const relationType = this.wpInlineCreate.relationType;
+        embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id!)
+          .then(() => this.wpInlineCreate.remove(workPackage, relatedTo, relationType))
+          .then(() => {
+            if (!this.destroyRef.destroyed && this.workPackage.id === workPackage.id && this.wpInlineCreate.relationType === relationType) {
+              this.refreshTable();
+            }
+          })
+          .catch((error:unknown) => this.notificationService.handleRawError(error, workPackage));
       },
       (child:WorkPackageResource) => !!child.changeParent,
     ),

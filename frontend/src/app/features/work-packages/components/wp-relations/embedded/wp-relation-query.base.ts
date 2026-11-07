@@ -63,8 +63,10 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin i
    * Request to refresh the results of the embedded table
    */
   public refreshTable() {
-    if (this.embeddedTable?.isInitialized) {
-      void this.embeddedTable.loadQuery(true, false);
+    const table = this.embeddedTable;
+    // A cache replay can arrive before Angular binds the replacement query to the table.
+    if (table?.isInitialized && table.queryProps === this.queryProps) {
+      void table.loadQuery(true, false);
     }
   }
 

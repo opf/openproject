@@ -42,6 +42,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageInlineCreateComponent } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.component';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
@@ -173,7 +174,9 @@ describe('work package relation interactions', () => {
   });
 
   function workPackage(id:number, subject:string) {
-    streams.set(String(id), new Subject());
+    if (!streams.has(String(id))) {
+      streams.set(String(id), new Subject());
+    }
     return hal.createHalResource<WorkPackageResource>({
       _type: 'WorkPackage',
       subject,
@@ -224,6 +227,45 @@ describe('work package relation interactions', () => {
     expect(referenced.mock.calls).toEqual(success ? [['2']] : []);
     expect(notification.handleRawError.mock.calls).toEqual(success ? [] : [[error, wp]]);
     referencedSubscription.unsubscribe();
+  });
+
+  it('does not publish a late inline reference or reset a replacement row', async () => {
+    const wp = workPackage(1, 'Current');
+    const candidate = workPackage(2, 'Candidate');
+    const replacement = workPackage(3, 'Replacement');
+    const { promise, resolve } = deferred<Awaited<ReturnType<WpRelationInlineCreateServiceInterface['add']>>>();
+    inlineCreate = {
+      referenceTarget: wp,
+      relationType: 'children',
+      newInlineWorkPackageReferenced: new Subject(),
+      add: vi.fn<WpRelationInlineCreateServiceInterface['add']>().mockReturnValue(promise),
+    };
+    const push = vi.spyOn(TestBed.inject(HalEventsService), 'push');
+    const fixture = TestBed.createComponent(WpRelationInlineAddExistingComponent);
+    await fixture.whenStable();
+    const autocomplete = fixture.debugElement.query(
+      (node) => node.componentInstance instanceof AutocompleteStubComponent,
+    ).componentInstance as AutocompleteStubComponent;
+
+    const referenced = vi.fn<typeof inlineCreate.newInlineWorkPackageReferenced.next>();
+    const subscription = inlineCreate.newInlineWorkPackageReferenced.subscribe(referenced);
+    try {
+      selectWorkPackage(candidate, autocomplete);
+      expect(inlineCreate.add).toHaveBeenCalledExactlyOnceWith(wp, '2');
+      fixture.destroy();
+      inlineCreate.referenceTarget = replacement;
+      resolve(undefined);
+
+      // The next browser task runs after the request's then, catch and finally microtasks.
+      await new Promise<void>((settled) => setTimeout(settled));
+      expect(push).toHaveBeenCalledExactlyOnceWith(wp, expect.objectContaining({
+        eventType: 'association', relatedWorkPackage: '2', relationType: 'children',
+      }));
+      expect(referenced).not.toHaveBeenCalled();
+      expect(resetRow).not.toHaveBeenCalled();
+    } finally {
+      subscription.unsubscribe();
+    }
   });
 
   it('forwards the replacement work package to the relations tab and tears down both subscriptions', async () => {
