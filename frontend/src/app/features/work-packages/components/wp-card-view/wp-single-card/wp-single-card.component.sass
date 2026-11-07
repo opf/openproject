@@ -25,7 +25,9 @@
   color: var(--body-font-color)
   font-size: var(--body-font-size)
 
-  &:hover
+  &:hover,
+  &:focus-visible,
+  &:has(:focus-visible)
     --op-wp-single-card-bg-color: var(--box-list-item-bg-hover-color)
 
     .op-wp-single-card--inline-buttons
