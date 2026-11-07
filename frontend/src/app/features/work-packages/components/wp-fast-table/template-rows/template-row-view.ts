@@ -42,12 +42,16 @@ export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
     ? injector.get(TableDragActionsRegistryService).get(injector)
     : null;
 
-  const highlightingMode = injector.get(WorkPackageViewHighlightingService).current.mode;
+  const { mode, selectedAttributes } = injector.get(WorkPackageViewHighlightingService).current;
+  const selectedInlineAttributes = mode === 'inline' && selectedAttributes
+    ? new Set(selectedAttributes.map(({ id }) => id))
+    : null;
+  const shouldHighlightInline = (attribute:string):boolean => selectedInlineAttributes?.has(attribute) ?? false;
 
   return {
     columns: rowBuilder.renderedColumns,
     rowHeader: rowBuilder.rowHeaderColumn,
-    rowClasses: (workPackage) => rowHighlightClassesForMode(highlightingMode, workPackage),
+    rowClasses: (workPackage) => rowHighlightClassesForMode(mode, workPackage),
     actions: (workPackage) => (configuration.actionsColumnEnabled
       ? injector.get(OpTableActionsService).actionsFor(workPackage)
       : null),
@@ -57,7 +61,7 @@ export function templateRowView(pass:PrimaryRenderPass):TemplateRowView {
     textCell: ({ workPackage, relation }, column) => {
       if (column.id === 'id' || column.id.startsWith('__internal')) return null;
       if (!relation && column.id === 'subject' && rowBuilder instanceof SingleHierarchyRowBuilder) return null;
-      return textCellPresentation(injector, workPackage, column.id);
+      return textCellPresentation(injector, workPackage, column.id, shouldHighlightInline);
     },
     buildCell: ({ workPackage, level, relation }, column) => (relation
       ? pass.relations.relationRowBuilder.buildCell(workPackage, column)

@@ -30,7 +30,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { DisplayFieldService, type DisplayFieldContextOptions } from 'core-app/shared/components/fields/display/display-field.service';
 import {
   editableClassName, placeholderClassName, readOnlyClassName, requiredClassName,
 } from 'core-app/shared/components/fields/display/display-field-renderer';
@@ -47,13 +47,22 @@ export interface TextCellPresentation {
   label:string;
 }
 
-export function textCellPresentation(injector:Injector, workPackage:WorkPackageResource, attribute:string):TextCellPresentation|null {
+export function textCellPresentation(
+  injector:Injector,
+  workPackage:WorkPackageResource,
+  attribute:string,
+  shouldHighlightInline?:DisplayFieldContextOptions['shouldHighlightInline'],
+):TextCellPresentation|null {
   const editing = injector.get(HalResourceEditingService).typedState(workPackage);
   const schema = editing.value?.schema ?? injector.get(SchemaCacheService).of(workPackage);
   const mapped = schema.mappedName(attribute);
   const fieldSchema = schema.ofProperty(mapped);
   if (!fieldSchema || injector.get(WorkPackageViewBaselineService).isChanged(workPackage, mapped)) return null;
-  const field = injector.get(DisplayFieldService).getField(workPackage, mapped, fieldSchema, { injector, container: 'table', options: { tabbable: false } });
+  const field = injector.get(DisplayFieldService).getField(workPackage, mapped, fieldSchema, {
+    injector,
+    container: 'table',
+    options: { tabbable: false, shouldHighlightInline },
+  });
   const highlighted = field instanceof HighlightedResourceDisplayField && field.render === HighlightedResourceDisplayField.prototype.render;
   const disclosed = field instanceof ResourceDisplayField && field.render === ResourceDisplayField.prototype.render && !field.isUndisclosed;
   if (field.isFormattable || !(field.render === DisplayField.prototype.render || highlighted || disclosed)) return null;

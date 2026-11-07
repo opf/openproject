@@ -1305,22 +1305,50 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
         expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
         expect(display('project')).toHaveTextContent('Project A');
 
+        const readHighlighting = vi.spyOn(highlighting, 'current', 'get');
         attributes.status = hal('Status', '12', 'Closed', '/api/v3/statuses/12');
         workPackageTable.refreshRows(buildWorkPackage({ id: '1', attributes }));
+        expect(readHighlighting).not.toHaveBeenCalled();
         expect(display('status')).toBe(status);
         expect(status).toHaveTextContent('Closed');
         expect(status).toHaveClass(Highlighting.resourceClass('status', '12'));
         expect(status).not.toHaveClass(Highlighting.resourceClass('status', '11'));
 
-        highlighting.update({ mode: 'status' });
+        const rendered = querySpace.tableRendered.value;
+        workPackageTable.redrawTable();
+        await waitFor(() => expect(querySpace.tableRendered.value).not.toBe(rendered));
+        expect(readHighlighting).toHaveBeenCalledTimes(1);
+
+        highlighting.update({ mode: 'inline', selectedAttributes: [selectedAttributes[1]] });
         await waitFor(() => expect(status).not.toHaveClass('__hl_dot'));
+        expect(priority).toHaveClass(...Highlighting.inlineClass('priority', '21').split(' '));
+        expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+
+        highlighting.update({ mode: 'status' });
+        await waitFor(() => expect(resultRow('1')).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' ')));
+        expect(status).not.toHaveClass('__hl_dot');
         expect(priority).not.toHaveClass('__hl_dot');
         expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
-        expect(resultRow('1')).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' '));
 
         highlighting.update({ mode: 'none' });
         await waitFor(() => expect(resultRow('1')).not.toHaveClass('__hl_background'));
         expect(type).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
+      });
+
+      it.each([{ selectedAttributes: undefined }, { selectedAttributes: [] }])('keeps only Type highlighted with inline selection $selectedAttributes', async ({ selectedAttributes }) => {
+        TestBed.inject(WorkPackageViewHighlightingService).update({ mode: 'inline', selectedAttributes });
+        await mount({}, [{
+          id: '1',
+          attributes: {
+            status: hal('Status', '11', 'Open', '/api/v3/statuses/11'),
+            priority: hal('Priority', '21', 'Normal', '/api/v3/priorities/21'),
+            type: hal('Type', '31', 'Task', '/api/v3/types/31'),
+          },
+        }]);
+
+        expect(display('status')).not.toHaveClass('__hl_dot');
+        expect(display('priority')).not.toHaveClass('__hl_dot');
+        expect(display('type')).toHaveClass(...Highlighting.inlineClass('type', '31').split(' '));
       });
 
       it('keeps text and empty placeholders for resources without highlight classes', async () => {
