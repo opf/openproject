@@ -3265,6 +3265,7 @@ en:
       scim_api: SCIM server API
       sso_auth_providers: Single Sign-On
       team_planner_view: Team Planner View
+      text_assistant: Text assistant
       virus_scanning: Antivirus Scanning
       weighted_item_lists: Weighted item lists
       work_package_query_relation_columns: Work Package Query Relation Columns
@@ -3375,6 +3376,9 @@ en:
       sso_auth_providers:
         description: "Enable users to log in via external SSO providers using SAML or OpenID Connect for seamless access and integration with existing identity systems."
         title: "Single Sign-On (SSO)"
+      text_actions:
+        description: "Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own."
+        title: "Text assistant"
       title: "Enterprise add-on"
       trial_text: "This feature is included in your active Enterprise trial."
       unlimited: "Unlimited"

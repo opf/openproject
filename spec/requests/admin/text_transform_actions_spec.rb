@@ -29,8 +29,8 @@
 
 require "spec_helper"
 
-RSpec.describe "Admin text transform actions", :skip_csrf,
-               type: :rails_request, with_flag: { ai_text_transform_actions: true } do
+RSpec.describe "Admin text transform actions", :skip_csrf, type: :rails_request, with_ee: %i[text_assistant],
+                                                           with_flag: { ai_text_transform_actions: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
 
@@ -47,6 +47,22 @@ RSpec.describe "Admin text transform actions", :skip_csrf,
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Fix grammar")
       expect(response.body).to include("Enable text transform actions")
+      expect(page).to have_no_test_selector("op-enterprise-banner")
+    end
+
+    context "without an enterprise token", with_ee: false do
+      it "renders the enterprise banner instead of the list" do
+        get admin_text_transform_actions_path
+
+        expect(response).to have_http_status(:ok)
+        expect(page).to have_test_selector("op-enterprise-banner")
+        expect(page).to have_css(".op-enterprise-banner h2", text: I18n.t("ee.upsell.text_actions.title"))
+        expect(page).to have_text(I18n.t("ee.upsell.text_actions.description"))
+        expect(page).to have_text(/Available starting with the .*Professional/)
+        expect(page).to have_no_test_selector("text-transform-actions-list")
+        expect(page).to have_css("[data-name='text_transform_actions'] .upsell-colored")
+        expect(response.body).not_to include("Fix grammar")
+      end
     end
   end
 
@@ -66,6 +82,24 @@ RSpec.describe "Admin text transform actions", :skip_csrf,
 
       expect(label[:for]).to eq(button[:id])
       expect(button[:"aria-describedby"]).to be_present
+    end
+  end
+
+  context "without an enterprise token", with_ee: false do
+    it "redirects the form action new to the index" do
+      get new_admin_text_transform_action_path
+
+      expect(response).to redirect_to(admin_text_transform_actions_path)
+    end
+
+    it "redirects the write action create to the index without creating" do
+      expect do
+        post admin_text_transform_actions_path,
+             params: { ai_text_transform_action: { label: "Translate", prompt: "Translate the text.",
+                                                   usage_scope: "all_work_package_types" } }
+      end.not_to change(AI::TextTransformAction, :count)
+
+      expect(response).to redirect_to(admin_text_transform_actions_path)
     end
   end
 

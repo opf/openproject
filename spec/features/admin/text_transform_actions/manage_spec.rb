@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Managing text transform actions", :js, with_flag: { ai_text_transform_actions: true } do
+RSpec.describe "Managing text transform actions", :js, with_ee: %i[text_assistant], with_flag: { ai_text_transform_actions: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type_bug) { create(:type, name: "Bug") }
   shared_let(:type_task) { create(:type, name: "Task") }

@@ -37,6 +37,11 @@ module Admin
 
     before_action :require_admin
     before_action :require_ai_text_transform_actions_feature
+
+    guard_enterprise_feature(ENTERPRISE_FEATURE, except: :index) do
+      redirect_to action: :index
+    end
+
     before_action :find_text_transform_action, only: %i[edit update deletion_dialog destroy toggle drop]
 
     menu_item :text_transform_actions
