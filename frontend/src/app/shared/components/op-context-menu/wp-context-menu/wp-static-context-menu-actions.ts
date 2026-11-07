@@ -28,11 +28,46 @@
 import {
   WorkPackageAction,
 } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { formatWorkPackageId, isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
+
+const COPY_ID_LABELS:Record<string, string> = {
+  copy_alphanumeric_id_to_clipboard: 'js.button_copy_id',
+  copy_numeric_id_to_clipboard: 'js.button_copy_internal_id',
+};
+
+export function isCopyIdAction(key:string):boolean {
+  return key in COPY_ID_LABELS;
+}
+
+// Copying the numeric ID is only useful in semantic mode, where the
+// displayed identifier (e.g. "PROJ-42") is not the numeric ID itself.
+export function isActionVisibleFor(workPackage:WorkPackageResource, key:string):boolean {
+  return key !== 'copy_numeric_id_to_clipboard' || isSemanticWorkPackageId(workPackage.displayId);
+}
+
+export function copyIdValue(workPackage:WorkPackageResource, key:string):string {
+  return key === 'copy_numeric_id_to_clipboard' ? workPackage.id!.toString() : workPackage.displayId;
+}
+
+export function copyIdActionLabel(workPackage:WorkPackageResource, key:string):string {
+  return I18n.t(COPY_ID_LABELS[key], { id: formatWorkPackageId(copyIdValue(workPackage, key)) });
+}
 
 export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   {
     key: 'copy_link_to_clipboard',
     icon: 'icon-clipboard',
+    link: 'id',
+  },
+  {
+    key: 'copy_alphanumeric_id_to_clipboard',
+    icon: 'icon-code-tag',
+    link: 'id',
+  },
+  {
+    key: 'copy_numeric_id_to_clipboard',
+    icon: 'icon-code-tag',
     link: 'id',
   },
   {
@@ -58,11 +93,6 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   {
     key: 'delete',
     link: 'delete',
-  },
-  {
-    key: 'copy_numeric_id_to_clipboard',
-    icon: 'icon-code-tag',
-    link: 'id',
   },
   {
     key: 'generate_pdf',

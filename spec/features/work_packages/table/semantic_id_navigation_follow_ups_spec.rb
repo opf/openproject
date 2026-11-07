@@ -119,7 +119,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     end
   end
 
-  describe "right-click context menu 'Copy numeric ID to clipboard' item" do
+  describe "right-click context menu 'Copy internal ID' item" do
     it "copies the numeric id and does not navigate away (regression: used to 404)" do
       numeric_id = work_package.id.to_s
       semantic_id = work_package.reload.identifier
@@ -135,7 +135,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       JS
 
       context_menu.open_for(work_package)
-      context_menu.choose("Copy numeric ID to clipboard")
+      context_menu.choose("Copy internal ID (##{numeric_id})")
 
       copied = nil
       retry_block do
@@ -157,10 +157,11 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     # format, so the uppercase semantic identifier used above is invalid here.
     let(:project) { create(:project, identifier: "navfollow") }
 
-    describe "right-click context menu 'Copy numeric ID to clipboard' item" do
-      it "is not offered (the displayed id is already the numeric id)" do
+    describe "right-click context menu 'Copy ID' items" do
+      it "offers only 'Copy ID' (the displayed id is already the numeric id)" do
         context_menu.open_for(work_package)
-        context_menu.expect_no_options("Copy numeric ID to clipboard")
+        context_menu.expect_options("Copy ID (##{work_package.id})")
+        context_menu.expect_no_options("Copy internal ID")
       end
     end
   end

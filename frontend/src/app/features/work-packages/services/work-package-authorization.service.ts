@@ -30,6 +30,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { WorkPackageAction } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { copyIdValue } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 
 export class WorkPackageAuthorization {
   public project:ProjectResource;
@@ -52,7 +53,8 @@ export class WorkPackageAuthorization {
         link = this.shortLink({ format: 'md' });
         break;
       case 'copy_numeric_id_to_clipboard':
-        link = this.workPackage.id!.toString();
+      case 'copy_alphanumeric_id_to_clipboard':
+        link = copyIdValue(this.workPackage, action.key);
         break;
       case 'copy_to_other_project':
         link = this.bulkCopyLink();
