@@ -33,6 +33,7 @@ import { cloneDeep } from 'lodash-es';
 
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalSource } from 'core-app/features/hal/interfaces';
 import { ChangeMap, Changeset } from 'core-app/shared/components/fields/changeset/changeset';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
@@ -419,13 +420,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
         return;
       }
 
-      const fieldSchema:IFieldSchema|null = this.schema.ofProperty(key);
-      // Override in _links if it is a linked property
-      if (fieldSchema && reference._links[key]) {
-        plainPayload._links[key] = this.getLinkedValue(val.to, fieldSchema);
-      } else {
-        plainPayload[key] = val.to;
-      }
+      this.applyChange(plainPayload, reference, key, val.to);
     });
 
     // Validate all custom fields if the flag is set
@@ -435,6 +430,16 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
     }
 
     return plainPayload;
+  }
+
+  protected applyChange(payload:ChangesetPayload, reference:HalSource, key:string, value:unknown):void {
+    const fieldSchema:IFieldSchema|null = this.schema.ofProperty(key);
+
+    if (fieldSchema && reference._links[key]) {
+      payload._links[key] = this.getLinkedValue(value, fieldSchema);
+    } else {
+      payload[key] = value;
+    }
   }
 
   /**
