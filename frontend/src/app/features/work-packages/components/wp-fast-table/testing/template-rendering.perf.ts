@@ -81,6 +81,11 @@ for (const rowCount of [100, 500]) {
         resources.forEach((resource) => states.workPackages.get(resource.id!).putValue(resource));
         querySpace.results.putValue({ elements: [], offset: 1, pageSize: rowCount, count: 0, total: 0 } as unknown as WorkPackageCollectionResource);
         const timings = { initial: [] as number[], redraw: [] as number[], refresh: [] as number[] };
+        const stages = {
+          initial: { buildRows: [] as number[], angular: [] as number[] },
+          redraw: { buildRows: [] as number[], angular: [] as number[] },
+          refresh: { buildRows: [] as number[], angular: [] as number[] },
+        };
 
         for (let sample = 0; sample < warmups + samples; sample++) {
           querySpace.tableRendered.clear();
@@ -98,6 +103,26 @@ for (const rowCount of [100, 500]) {
             root.querySelector('.work-packages-tabletimeline--timeline-side')!.appendChild(timelineBody);
             fixture.componentInstance.registerTimeline({} as WorkPackageTimelineTableController, timelineBody);
             const table = fixture.componentInstance.workPackageTable;
+            let stage = { buildRows: 0, angular: 0 };
+            const builder = table.rowBuilder;
+            const buildRows = builder.buildRows.bind(builder);
+            vi.spyOn(builder, 'buildRows').mockImplementation((options) => {
+              const start = performance.now();
+              try { return buildRows(options); } finally { stage.buildRows += performance.now() - start; }
+            });
+            const component = fixture.componentInstance;
+            const renderRows = component.renderRows.bind(component);
+            vi.spyOn(component, 'renderRows').mockImplementation((rows, view) => {
+              const start = performance.now();
+              try { renderRows(rows, view); } finally { stage.angular += performance.now() - start; }
+            });
+            const recordStage = (operation:keyof typeof stages) => {
+              if (sample >= warmups) {
+                stages[operation].buildRows.push(stage.buildRows);
+                stages[operation].angular.push(stage.angular);
+              }
+              stage = { buildRows: 0, angular: 0 };
+            };
             const committedDuration = async (run:() => void) => {
               querySpace.tableRendered.clear();
               const start = performance.now();
@@ -109,14 +134,17 @@ for (const rowCount of [100, 500]) {
               querySpace.results.putValue({ elements: resources, offset: 1, pageSize: rowCount, count: rowCount, total: rowCount } as unknown as WorkPackageCollectionResource);
               querySpace.initialized.putValue(null);
             });
+            recordStage('initial');
             expect(root.querySelectorAll('.work-package--results-tbody > tr')).toHaveLength(rowCount);
             expect(root.querySelectorAll('tr[opwptablerow]')).toHaveLength(templates ? rowCount : 0);
             const firstRow = root.querySelector('.work-package--results-tbody > tr');
             const redraw = await committedDuration(() => table.redrawTable());
+            recordStage('redraw');
             if (templates) expect(root.querySelector('.work-package--results-tbody > tr')).toBe(firstRow);
             const refreshStart = performance.now();
             table.refreshRows(buildWorkPackage({ id: '1', subject: `Updated ${sample}` }));
             const refresh = performance.now() - refreshStart;
+            recordStage('refresh');
             expect(root.querySelector('.work-package--results-tbody > tr')).toHaveTextContent(`Updated ${sample}`);
             if (sample >= warmups) {
               timings.initial.push(initial);
@@ -133,6 +161,9 @@ for (const rowCount of [100, 500]) {
           renderer: templates ? 'Angular' : 'legacy', rowCount, columns, warmups, samples,
           initialMs: median(timings.initial), redrawMs: median(timings.redraw), refreshMs: median(timings.refresh),
           timings,
+          stages: Object.fromEntries(Object.entries(stages).map(([operation, values]) => [operation, {
+            buildRowsMs: median(values.buildRows), angularMs: median(values.angular), samples: values,
+          }])),
         }));
       }, 120_000);
     });
