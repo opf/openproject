@@ -27,10 +27,16 @@
 
 import { circleSlashIconData, graphIconData, starIconData, SVGData, xIconData } from '@openproject/octicons-angular';
 
-export const ICON_MAP:Record<string, SVGData> = {
+export const ICON_MAP = {
   x: xIconData,
   star: starIconData,
   'circle-slash': circleSlashIconData,
   graph: graphIconData,
   // TODO add more icons
-};
+} satisfies Record<string, SVGData>;
+
+export type DynamicIconName = keyof typeof ICON_MAP;
+
+export function isDynamicIconName(name:string):name is DynamicIconName {
+  return Object.hasOwn(ICON_MAP, name);
+}
