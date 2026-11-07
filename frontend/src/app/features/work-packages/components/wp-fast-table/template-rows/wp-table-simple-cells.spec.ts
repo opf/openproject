@@ -33,6 +33,7 @@ import { within } from '@testing-library/dom';
 import { buildQuery, FakeDragAndDropService, harnessProviders } from '../testing/table-harness';
 import { buildWorkPackage } from '../testing/work-package-fixture';
 import { beginTemplateCellEdit, endTemplateCellEdit } from './template-cell-editing';
+import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { IdCellPresenter } from './id-cell-presenter';
 import { TemplateRowView, TemplateWorkPackageRow } from './template-row';
 import { TextCellPresentation } from './text-cell-presentation';
@@ -189,6 +190,25 @@ describe.each(['id', 'subject'] as const)('template simple cells with %s as row 
     expect(subjectCell.querySelector('.inline-edit--display-field')).toBe(display);
     expect(display).toHaveTextContent('After');
     expect(subjectCell).toHaveAttribute('data-row-header-name', 'After');
+  });
+
+  it('keeps editor and semantic classes across new views and column reorder', () => {
+    const slot = beginTemplateCellEdit(subjectCell, 'subject')!;
+    slot.innerHTML = '<input aria-label="Subject" value="Unsaved">';
+    const input = within(subjectCell).getByRole('textbox', { name: 'Subject' });
+    subjectCell.classList.add(editModeClassName, '-pressed');
+
+    setColumns('id', 'subject');
+    expect(row.cells[1]).toBe(subjectCell);
+    expect(subjectCell).toHaveClass('subject', '-max', editModeClassName, '-pressed');
+    expect(within(subjectCell).getByRole('textbox', { name: 'Subject' })).toBe(input);
+
+    setColumns('subject', 'id');
+    expect(row.cells[0]).toBe(subjectCell);
+    expect(subjectCell).toHaveClass('subject', '-max', editModeClassName, '-pressed');
+    expect(within(subjectCell).getByRole('textbox', { name: 'Subject' })).toBe(input);
+    expect(input).toHaveValue('Unsaved');
+    endTemplateCellEdit(subjectCell, 'subject');
   });
 
   it('updates owned editability and required classes on the retained display', () => {

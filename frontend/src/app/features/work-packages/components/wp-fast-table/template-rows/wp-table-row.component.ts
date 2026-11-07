@@ -40,6 +40,16 @@ import { hierarchyRootClass } from '../helpers/wp-table-hierarchy-helpers';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
 import { ancestorOccurrenceKey } from '../rendered-occurrence-ledger';
 
+const textCellBaseClasses = 'wp-table--cell-td wp-table--navigable-cell';
+const sizedTextCellClasses:ReadonlyMap<string, string> = new Map([
+  ['subject', `${textCellBaseClasses} subject -max`],
+  ['startDate', `${textCellBaseClasses} startDate -no-ellipsis`],
+  ['dueDate', `${textCellBaseClasses} dueDate -no-ellipsis`],
+  ['duration', `${textCellBaseClasses} duration -no-ellipsis`],
+  ['estimatedTime', `${textCellBaseClasses} estimatedTime -min-200`],
+  ['remainingTime', `${textCellBaseClasses} remainingTime -min-200`],
+]);
+
 /**
  * A work package result row. Binds only the row's identity; row state
  * (roles, levels, selection, positions) stays with the row-state painter.
@@ -76,6 +86,11 @@ export class WorkPackageTableRowComponent implements OnDestroy {
   readonly sortColumnId = internalSortColumn.id;
 
   readonly isRelationColumn = isRelationColumn;
+
+  textCellClasses(columnId:string):string {
+    // The column ID is the cell's tracking key. Keeping this value stable preserves classes added by editing.
+    return sizedTextCellClasses.get(columnId) ?? `${textCellBaseClasses} ${columnId}`;
+  }
 
   readonly workPackageRow = computed(() => {
     const row = this.row();

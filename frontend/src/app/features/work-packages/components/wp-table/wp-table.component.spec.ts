@@ -47,6 +47,7 @@ import { WorkPackageInlineCreateComponent } from 'core-app/features/work-package
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
@@ -1526,7 +1527,9 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       fireEvent.input(input, { target: { value: 'Unsaved' } });
       expect(cell.querySelector('.inline-edit--display-field')).toBeNull();
 
+      expect(cell).toHaveClass(editModeClassName);
       table.refreshRows(workPackage);
+      expect(cell).toHaveClass(editModeClassName);
 
       expect(within(cell).getByRole('textbox')).toBe(input);
       expect(input).toHaveValue('Unsaved');
@@ -1539,6 +1542,50 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(within(cell).getByRole('textbox')).not.toBe(input);
       reopened!.deactivate(false);
       expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Original');
+    });
+
+    it('assigns native text cell layout classes by column ID', async () => {
+      const layouts = new Map([
+        ['id', 'id'],
+        ['subject', 'subject -max'],
+        ['startDate', 'startDate -no-ellipsis'],
+        ['dueDate', 'dueDate -no-ellipsis'],
+        ['duration', 'duration -no-ellipsis'],
+        ['estimatedTime', 'estimatedTime -min-200'],
+        ['remainingTime', 'remainingTime -min-200'],
+        ['status', 'status'],
+        ['customField1', 'customField1'],
+      ]);
+      const columns = [...layouts.keys()];
+      const textFieldAliases = new Map([['startDate', 'plannedStart'], ['dueDate', 'plannedFinish']]);
+      const cache = TestBed.inject(SchemaCacheService);
+      const original = cache.of.bind(cache);
+      vi.spyOn(cache, 'of').mockImplementation((resource) => {
+        const schema = original(resource);
+        const ofProperty = schema.ofProperty.bind(schema);
+        const mappedName = schema.mappedName.bind(schema);
+        return Object.assign(schema, {
+          ofProperty: (name:string) => ofProperty(name) ?? { type: 'String', name, writable: false, hasDefault: false },
+          mappedName: (name:string) => textFieldAliases.get(name) ?? mappedName(name),
+        });
+      });
+      TestBed.inject(WorkPackageViewColumnsService).update(buildQuery(columns, null, false, false).columns);
+      await mount({}, [{ id: '1' }]);
+
+      const row = resultRow('1')!;
+      expect(row.querySelector('th[opwptabletextcell]')).toHaveClass('subject', '-max');
+      layouts.forEach((classes, column) => {
+        if (column === 'id' || column === 'subject') return;
+
+        const cell = row.querySelector(`td[opwptabletextcell].${column}`);
+        expect(cell, `Native ${column} cell`).toHaveClass(...classes.split(' '), 'wp-table--cell-td', 'wp-table--navigable-cell');
+      });
+      ['status', 'customField1'].forEach((column) => {
+        const cell = row.querySelector(`td.${column}`);
+        expect(cell).not.toHaveClass('-max');
+        expect(cell).not.toHaveClass('-min-200');
+        expect(cell).not.toHaveClass('-no-ellipsis');
+      });
     });
 
     it('applies ID fields for retained rows through one presenter per view', async () => {

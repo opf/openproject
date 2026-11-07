@@ -64,11 +64,7 @@
           </span>
         </td>
       } @else if (presentation && isRowHeader) {
-        <th scope="row" opWpTableTextCell class="wp-table--cell-td wp-table--navigable-cell"
-          [class]="presentation.attribute"
-          [class.-no-ellipsis]="['startDate', 'dueDate', 'duration'].includes(presentation.attribute)"
-          [class.-min-200]="['estimatedTime', 'remainingTime'].includes(presentation.attribute)"
-          [class.-max]="presentation.attribute === 'subject'"
+        <th scope="row" opWpTableTextCell [attr.class]="textCellClasses(column.id)"
           [attr.data-row-header-name]="presentation.attribute === 'subject' ? presentation.text : null">
           @if (editing?.has(column.id)) {
             <span class="wp-table--cell-container inline-edit--container"
@@ -85,11 +81,7 @@
           }
         </th>
       } @else if (presentation) {
-        <td opWpTableTextCell class="wp-table--cell-td wp-table--navigable-cell"
-          [class]="presentation.attribute"
-          [class.-no-ellipsis]="['startDate', 'dueDate', 'duration'].includes(presentation.attribute)"
-          [class.-min-200]="['estimatedTime', 'remainingTime'].includes(presentation.attribute)"
-          [class.-max]="presentation.attribute === 'subject'"
+        <td opWpTableTextCell [attr.class]="textCellClasses(column.id)"
           [attr.data-row-header-name]="presentation.attribute === 'subject' ? presentation.text : null">
           @if (editing?.has(column.id)) {
             <span class="wp-table--cell-container inline-edit--container"
