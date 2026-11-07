@@ -40,7 +40,7 @@ RSpec.describe Settings::UserCustomFieldSections::ShowComponent, type: :componen
       # state, which the fields' after_create_commit callback updates via a
       # separate `section` instance in the association chain, so this
       # `let`-bound object must be reloaded to see it.
-      render_inline(described_class.new(user_custom_field_section: section.reload))
+      render_inline(described_class.new(user_custom_field_section: section.reload, sections: [section]))
     end
   end
 
