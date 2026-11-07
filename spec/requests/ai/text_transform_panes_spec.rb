@@ -30,12 +30,11 @@
 require "spec_helper"
 
 RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
-                                                      with_flag: { ai_text_transform_actions: true },
-                                                      with_settings: { ai_text_transform_actions_enabled: true } do
+                                                      with_flag: { ai_text_actions: true } do
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:work_package) { create(:work_package, project:, type:) }
-  shared_let(:action) { create(:ai_text_transform_action, label: "Fix grammar") }
+  shared_let(:action) { create(:ai_text_action, label: "Fix grammar") }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages add_work_packages] })
   end
@@ -117,7 +116,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
     end
 
     it "renders the pane as failed when the action is not available" do
-      inactive = create(:ai_text_transform_action, label: "Inactive", active: false)
+      inactive = create(:ai_text_action, label: "Inactive", active: false)
 
       post ai_text_transform_panes_path, params: start_params.merge(action_id: inactive.id), headers: stream
 
@@ -173,7 +172,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
     end
   end
 
-  context "with the feature flag inactive", with_flag: { ai_text_transform_actions: false } do
+  context "with the feature flag inactive", with_flag: { ai_text_actions: false } do
     let(:run) { run_with_events(:succeeded, ["completed", { "text" => "Done." }]) }
 
     it "is not found for create" do
