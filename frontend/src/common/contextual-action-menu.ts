@@ -42,6 +42,13 @@ interface OverlayState {
   align:string|null;
   side:string|null;
   alignmentOffset:string|null;
+  allowOutOfBounds:boolean;
+}
+
+interface PointerTarget {
+  clientX:number;
+  clientY:number;
+  anchor:HTMLElement;
 }
 
 function restoreAttribute(element:Element, name:string, value:string|null):void {
@@ -80,8 +87,10 @@ function clearAnchorOffset(overlay:AnchoredPositionElement):void {
  */
 export class ContextualActionMenu {
   private savedState?:OverlayState;
+  private pointer?:PointerTarget;
   private returnFocusTo?:HTMLElement;
   private closeListener?:(event:Event) => void;
+  private refit?:AbortController;
 
   constructor(private readonly menu:ActionMenuElement) {}
 
@@ -100,8 +109,11 @@ export class ContextualActionMenu {
     }
 
     this.saveOverlayState(overlay);
+    this.pointer = { clientX, clientY, anchor: invoker };
     this.anchorAtPoint(overlay, invoker, clientX, clientY);
     this.show(overlay, popover, invoker);
+    this.fitToPointer(overlay);
+    this.refitOnResize(overlay);
   }
 
   /**
@@ -211,11 +223,60 @@ export class ContextualActionMenu {
     overlay.removeAttribute('anchor');
     overlay.setAttribute('align', CONTEXTUAL_ALIGN);
     overlay.setAttribute('side', CONTEXTUAL_SIDE);
+    // The offsets only mean "the pointer" for this one side/align pair. When
+    // the menu does not fit, Primer's `getAnchoredPosition` would walk to its
+    // alternate sides and apply the same offsets on the other axis (a menu
+    // opening to the right of the row with its top clamped). Opting out of
+    // that walk leaves fitting the pointer to `fitToPointer`.
+    overlay.setAttribute('allow-out-of-bounds', '');
     overlay.setAttribute('alignment-offset', `${clientX - anchorRect.left}`);
     setAnchorOffset(overlay, clientY - anchorRect.bottom);
     // Setting anchorElement is a property write, so it does not run the
     // element's attributeChangedCallback; ask for a reposition explicitly.
     overlay.update();
+  }
+
+  /**
+   * Moves the target point so the menu stays in the viewport: at the pointer
+   * when it fits, above or to the left of it when that fits instead, pinned to
+   * the viewport edge when neither does. Needs the popover shown, so that it
+   * has a size; the position itself is written by Primer a frame later.
+   */
+  private fitToPointer(overlay:AnchoredPositionElement):void {
+    const pointer = this.pointer;
+    if (!pointer) {
+      return;
+    }
+
+    const { clientX, clientY, anchor } = pointer;
+    const { width, height } = overlay.getBoundingClientRect();
+    const view = overlay.ownerDocument.defaultView ?? window;
+    const anchorRect = anchor.getBoundingClientRect();
+
+    let left = clientX;
+    if (clientX + width > view.innerWidth) {
+      left = Math.max(0, clientX - width);
+    }
+
+    let top = clientY;
+    if (clientY + height > view.innerHeight) {
+      top = clientY - height >= 0 ? clientY - height : Math.max(0, view.innerHeight - height);
+    }
+
+    overlay.setAttribute('alignment-offset', `${left - anchorRect.left}`);
+    setAnchorOffset(overlay, top - anchorRect.bottom);
+    overlay.update();
+  }
+
+  private refitOnResize(overlay:AnchoredPositionElement):void {
+    this.refit?.abort();
+    this.refit = new AbortController();
+    const { signal } = this.refit;
+    const refit = () => this.fitToPointer(overlay);
+    const observer = new ResizeObserver(refit);
+    observer.observe(overlay);
+    signal.addEventListener('abort', () => observer.disconnect(), { once: true });
+    (overlay.ownerDocument.defaultView ?? window).addEventListener('resize', refit, { signal });
   }
 
   private saveOverlayState(overlay:AnchoredPositionElement):void {
@@ -228,6 +289,7 @@ export class ContextualActionMenu {
       align: overlay.getAttribute('align'),
       side: overlay.getAttribute('side'),
       alignmentOffset: overlay.getAttribute('alignment-offset'),
+      allowOutOfBounds: overlay.hasAttribute('allow-out-of-bounds'),
     };
   }
 
@@ -235,6 +297,9 @@ export class ContextualActionMenu {
   private restoreOverlayState(overlay:AnchoredPositionElement):boolean {
     const state = this.savedState;
     this.savedState = undefined;
+    this.pointer = undefined;
+    this.refit?.abort();
+    this.refit = undefined;
     if (!state) {
       return false;
     }
@@ -250,6 +315,7 @@ export class ContextualActionMenu {
     restoreAttribute(overlay, 'align', state.align);
     restoreAttribute(overlay, 'side', state.side);
     restoreAttribute(overlay, 'alignment-offset', state.alignmentOffset);
+    overlay.toggleAttribute('allow-out-of-bounds', state.allowOutOfBounds);
 
     return true;
   }
