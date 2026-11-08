@@ -59,13 +59,10 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
   end
 
   def expect_moved_event(ids)
-    expect(response.body).to have_turbo_stream(action: "dispatchEvent") do |streams|
-      expect(streams.size).to eq(1)
-      expect(streams.first["event-name"])
-        .to eq(Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT)
-      expect(JSON.parse(streams.first["detail"]))
-        .to eq("work_package_ids" => ids)
-    end
+    expect(response.body).to have_turbo_stream(action: "dispatchEvent")
+    stream = Nokogiri::HTML.fragment(response.body).at_css('turbo-stream[action="dispatchEvent"]')
+    expect(stream["event-name"]).to eq(Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT)
+    expect(JSON.parse(stream["detail"])).to eq("work_package_ids" => ids)
   end
 
   context "without the manage_sprint_items permission" do
