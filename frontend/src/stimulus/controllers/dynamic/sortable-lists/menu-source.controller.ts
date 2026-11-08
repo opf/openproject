@@ -56,7 +56,7 @@ export default class MenuSourceController extends Controller<HTMLElement> {
     }
 
     const src = this.menuSrc(itemElement, root.selectForAction(itemElement).items);
-    if (src && menu.getAttribute('src') !== src) {
+    if (src) {
       menu.setAttribute('src', src);
     }
   };

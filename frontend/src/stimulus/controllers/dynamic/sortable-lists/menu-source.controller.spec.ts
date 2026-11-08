@@ -209,7 +209,7 @@ describe('Sortable lists menu source controller', () => {
     expect(menuOf(items[1])).toHaveAttribute('src', `${menuUrl}?ids%5B%5D=2&invoker_id=2`);
   });
 
-  it('writes the server-rendered src for a one-card scope', async () => {
+  it('writes the server-rendered src again for a one-card scope', async () => {
     const { items } = await renderRoot();
     const serverSrc = menuOf(items[0]).getAttribute('src')!;
     const setAttribute = vi.spyOn(menuOf(items[0]), 'setAttribute');
@@ -217,21 +217,22 @@ describe('Sortable lists menu source controller', () => {
     openMenu(items[0]);
 
     expect(menuOf(items[0])).toHaveAttribute('src', serverSrc);
-    expect(setAttribute).not.toHaveBeenCalled();
+    expect(setAttribute).toHaveBeenCalledExactlyOnceWith('src', serverSrc);
   });
 
-  it('writes an identical src for an unchanged selection', async () => {
+  it('writes an identical src again for an unchanged selection', async () => {
     const { items } = await renderRoot();
     click(items[0], { ctrlKey: true });
     click(items[1], { ctrlKey: true });
     openMenu(items[1]);
+    const batchSrc = `${menuUrl}?ids%5B%5D=1&ids%5B%5D=2&invoker_id=2`;
     const setAttribute = vi.spyOn(menuOf(items[1]), 'setAttribute');
 
     openMenu(items[1], 'closed');
     openMenu(items[1]);
 
-    expect(menuOf(items[1])).toHaveAttribute('src', `${menuUrl}?ids%5B%5D=1&ids%5B%5D=2&invoker_id=2`);
-    expect(setAttribute).not.toHaveBeenCalled();
+    expect(menuOf(items[1])).toHaveAttribute('src', batchSrc);
+    expect(setAttribute).toHaveBeenCalledExactlyOnceWith('src', batchSrc);
   });
 
   it('replaces src when reopened on another card', async () => {

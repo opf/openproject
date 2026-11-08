@@ -101,6 +101,29 @@ RSpec.describe "Backlogs batch destination menus",
         items: [destination_story, bucket_story, sprint_story]
       )
     end
+
+    it "reuses a loaded batch menu when reopened for the same selection" do
+      backlogs_page.visit!
+      backlogs_page.select_cards(sprint_story, bucket_story)
+
+      backlogs_page.expect_work_package_actions(sprint_story, present: ["Move to sprint"])
+      requests_after_first_open = menu_request_count
+
+      backlogs_page.within_work_package_menu(sprint_story) do |menu|
+        expect(menu).to have_selector(:menuitem, text: "Move to sprint", exact_text: true)
+        expect(menu).to have_no_css("include-fragment", visible: :all)
+      end
+
+      expect(menu_request_count).to eq(requests_after_first_open)
+      expect(backlogs_page.work_package_menu_src(sprint_story)).to include("ids%5B%5D=#{bucket_story.id}")
+    end
+  end
+
+  def menu_request_count
+    page.evaluate_script(<<~JS)
+      performance.getEntriesByType("resource")
+        .filter((entry) => entry.name.includes("/backlogs/work_packages/menu")).length
+    JS
   end
 
   context "with an unselected invoker" do
