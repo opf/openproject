@@ -416,13 +416,18 @@ module Backlogs
     # After a move the work package might no longer be visible: the page's active
     # sprint/bucket filters (the move dialogs offer every destination, filtered or
     # not) can hide the destination list, and for backlog destinations the project
-    # settings for excluded types and statuses apply on top.
+    # settings for excluded types and statuses apply on top, as in
+    # WorkPackages::Scopes::InBacklogFor.
     def work_package_invisible_after_move?(work_package)
       return true if work_package_hidden_by_filters?(work_package)
       return false if work_package.sprint_id?
 
       @project.backlog_excluded_type_ids.include?(work_package.type_id) ||
-        @project.done_status_ids.include?(work_package.status_id)
+        closed_status_ids.include?(work_package.status_id)
+    end
+
+    def closed_status_ids
+      @closed_status_ids ||= @project.statuses_considered_closed.pluck(:id)
     end
 
     def work_package_hidden_by_filters?(work_package)

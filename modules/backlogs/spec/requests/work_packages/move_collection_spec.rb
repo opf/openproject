@@ -398,6 +398,25 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
       end
     end
 
+    context "when a later moved member has a globally closed status the project did not mark done" do
+      let(:closed_status) { create(:status, is_closed: true) }
+      let!(:closed_member) { create(:work_package, sprint:, position: 2, status: closed_status, type:, project:) }
+
+      it "flashes the singular invisible-after-move notice instead of an impossible range" do
+        expect(project.done_status_ids).not_to include(closed_status.id)
+
+        move_collection(ids: [sprint_wp1.id, closed_member.id], list_type: "backlog_bucket", list_id: bucket.id,
+                        prev_id: bucket_wp2.id)
+
+        expect(response).to have_http_status(:ok)
+        expect(closed_member.reload.backlog_bucket).to eq(bucket)
+        expect(response.body).to include(
+          ERB::Util.html_escape(I18n.t(:notice_work_package_invisible_after_move, count: 1, backlog: bucket.name))
+        )
+        expect(response.body).not_to have_turbo_stream(action: "liveRegion")
+      end
+    end
+
     context "when every moved member stays visible" do
       let!(:visible_member) { create(:work_package, sprint:, position: 2, type:, project:) }
 
