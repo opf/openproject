@@ -461,6 +461,8 @@ function analyzeBlockRows(itemElements:HTMLElement[], rowsContainer:Element) {
   }), selectedRows);
 }
 
+const NO_DIRECTION:MoveAvailability = { top: false, up: false, down: false, bottom: false };
+
 export function resolveBlockMoveAvailability({
   itemElements,
   rowsContainer,
@@ -469,9 +471,11 @@ export function resolveBlockMoveAvailability({
   rowsContainer:Element;
 }):MoveAvailability {
   const analysis = analyzeBlockRows(itemElements, rowsContainer);
-  return analysis ? analyzedMoveAvailability(analysis) : { top: false, up: false, down: false, bottom: false };
+  return analysis ? analyzedMoveAvailability(analysis) : NO_DIRECTION;
 }
 
+// Null means the item has no row in this container yet; an item whose row
+// the analysis rejects is in the list but may not move.
 export function resolveMoveAvailability({
   itemElement,
   rowsContainer,
@@ -479,6 +483,8 @@ export function resolveMoveAvailability({
   itemElement:HTMLElement;
   rowsContainer:Element;
 }):MoveAvailability|null {
+  if (!rowOf(rowsContainer, itemElement)) return null;
+
   const analysis = analyzeBlockRows([itemElement], rowsContainer);
-  return analysis ? analyzedMoveAvailability(analysis) : null;
+  return analysis ? analyzedMoveAvailability(analysis) : NO_DIRECTION;
 }

@@ -543,6 +543,16 @@ describe('directional move helpers', () => {
     expect(resolveMoveAvailability({ itemElement: stray, rowsContainer: ul })).toBeNull();
   });
 
+  it('reports no direction for an item in the container whose row belongs to another item', () => {
+    const ul = container(['1', '2']);
+    const nested = document.createElement('li');
+    nested.setAttribute('data-sortable-lists--item-id-value', '3');
+    itemAt(ul, 0).append(nested);
+
+    expect(resolveMoveAvailability({ itemElement: nested, rowsContainer: ul }))
+      .toEqual({ top: false, up: false, down: false, bottom: false });
+  });
+
   it('maps each direction to a previous item id', () => {
     const ul = container(['1', '2', '3', '4']);
     const at = (i:number) => ({ itemElement: itemAt(ul, i), rowsContainer: ul });
