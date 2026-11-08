@@ -33,6 +33,7 @@ module Backlogs
   class WorkPackageCardMenuComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include CommonHelper
+    include SortableLists::MoveMenu
 
     attr_reader :invoker, :work_packages, :destinations, :project, :current_user
 
@@ -88,10 +89,6 @@ module Backlogs
 
     def show_move_submenu?
       show_move_items? || show_move_to_sprint? || show_move_to_inbox? || show_move_to_backlog_bucket?
-    end
-
-    def move_menu_items
-      SortableLists::MoveMenuItems.new(dom_key: invoker)
     end
 
     def inbox_list_type

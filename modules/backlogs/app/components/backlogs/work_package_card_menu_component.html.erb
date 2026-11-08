@@ -109,17 +109,7 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       if show_move_items?
-        list.with_item(
-          component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
-          label: t(".action_menu.move_menu"),
-          select_variant: :none,
-          form_arguments: {},
-          data: { sortable_lists__item_target: "moveMenu" }
-        ) do |move_menu|
-          move_menu.with_leading_visual_icon(icon: :"op-arrow-in")
-
-          move_menu_items.render_into(move_menu)
-        end
+        with_move_submenu(list, dom_key: invoker, label: t(".action_menu.move_menu"), form_arguments: {})
       end
     end
   end
