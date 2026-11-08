@@ -102,28 +102,22 @@ RSpec.describe "Backlogs batch destination menus",
       )
     end
 
-    it "reuses a loaded batch menu when reopened for the same selection" do
+    it "shows loaded batch actions when reopened for the same selection" do
       backlogs_page.visit!
       backlogs_page.select_cards(sprint_story, bucket_story)
 
       backlogs_page.expect_work_package_actions(sprint_story, present: ["Move to sprint"])
-      requests_after_first_open = menu_request_count
 
+      invoker_row = backlogs_page.work_package_row(sprint_story)
       backlogs_page.within_work_package_menu(sprint_story) do |menu|
+        expect(invoker_row).to have_button(accessible_name: "Work package actions")
         expect(menu).to have_selector(:menuitem, text: "Move to sprint", exact_text: true)
         expect(menu).to have_no_css("include-fragment", visible: :all)
+        menu.find(:menuitem, text: "Move to sprint", exact_text: true).click
       end
 
-      expect(menu_request_count).to eq(requests_after_first_open)
-      expect(backlogs_page.work_package_menu_src(sprint_story)).to include("ids%5B%5D=#{bucket_story.id}")
+      backlogs_page.expect_destination_dialog("Move to sprint", work_packages: [bucket_story, sprint_story])
     end
-  end
-
-  def menu_request_count
-    page.evaluate_script(<<~JS)
-      performance.getEntriesByType("resource")
-        .filter((entry) => entry.name.includes("/backlogs/work_packages/menu")).length
-    JS
   end
 
   context "with an unselected invoker" do

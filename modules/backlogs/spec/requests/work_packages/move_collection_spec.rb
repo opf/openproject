@@ -59,7 +59,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
   end
 
   def expect_moved_event(ids)
-    expect(response.body).to have_turbo_stream(action: "dispatchEvent")
+    expect(response.body).to have_turbo_stream(action: "dispatchEvent", count: 1)
     stream = Nokogiri::HTML.fragment(response.body).at_css('turbo-stream[action="dispatchEvent"]')
     expect(stream["event-name"]).to eq(Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT)
     expect(JSON.parse(stream["detail"])).to eq("work_package_ids" => ids)
