@@ -765,7 +765,7 @@ module Pages
       wait_for { selected_card_ids }.to be_empty
     end
 
-    def move_selected_cards(invoker:, action:, wait: false)
+    def move_selected_cards(invoker:, action:, wait: true)
       click_in_work_package_move_submenu(invoker, action, wait:)
     end
 
