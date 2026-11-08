@@ -708,6 +708,26 @@ describe('DragAndDropTransformer row moves', () => {
     });
   });
 
+  it('keeps moves available when the same query rendered while a failed refresh was pending', async () => {
+    const mover = await renderTable();
+    const refreshStarted = deferred();
+    const refresh = deferred();
+    stubRefresh(() => {
+      refreshStarted.resolve();
+      return refresh.promise;
+    });
+
+    mover.move(['1'], 'down');
+    await refreshStarted.promise;
+    await harness.render([{ id: '2' }, { id: '1' }, { id: '3' }]);
+    refresh.reject(new Error('refresh failed'));
+
+    await vi.waitFor(() => {
+      expect(mover.movableDirections(['1'])).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+      expect(pickup('1')).toBe(true);
+    });
+  });
+
   it('releases the guard at once when a move is abandoned before saving', async () => {
     const mover = await renderTable();
     const notification = harness.injector.get(HalResourceNotificationService);

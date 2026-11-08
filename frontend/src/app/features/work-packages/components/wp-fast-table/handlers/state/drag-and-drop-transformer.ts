@@ -366,10 +366,11 @@ export class DragAndDropTransformer implements RowMover {
     let recoverIfCurrent:() => void = () => undefined;
     let refresh:Promise<boolean>|null = null;
     let renderedOrderIsStale = false;
+    let stagedPass:PrimaryRenderPass|null = null;
     const settleRefresh = async ():Promise<boolean> => {
       if (!refresh) return false;
       if (!(await refresh)) {
-        renderedOrderIsStale = isCurrent();
+        renderedOrderIsStale = isCurrent() && table.lastRenderPass === stagedPass;
         return false;
       }
       await table.whenRendered();
@@ -442,6 +443,7 @@ export class DragAndDropTransformer implements RowMover {
           return 'abandoned';
         }
         // Only preparation observes the staged neighbors. Persistence captures no row.
+        stagedPass = renderPass;
         table.mutate('positions', () => {
           if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
           else table.tbody.appendChild(source);
