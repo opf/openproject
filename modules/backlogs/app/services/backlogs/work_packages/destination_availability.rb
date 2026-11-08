@@ -51,6 +51,8 @@ class Backlogs::WorkPackages::DestinationAvailability
   end
 
   def candidate?(target)
+    return true if target == Backlogs::Target::InboxId
+
     candidate_targets.include?(target)
   end
 

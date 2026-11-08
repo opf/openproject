@@ -173,6 +173,15 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
   describe "authoritative candidates" do
     let(:work_package) { create(:work_package, project:, type:) }
 
+    it "recognizes the inbox without loading sprint or bucket candidates" do
+      result = availability([work_package])
+      recorder = ActiveRecord::QueryRecorder.new do
+        expect(result.candidate?(Backlogs::Target::InboxId)).to be true
+      end
+
+      expect(recorder.log.grep(/FROM "(?:sprints|backlog_buckets)"/)).to be_empty
+    end
+
     it "rejects completed or otherwise unassignable sprints" do
       result = availability([work_package])
 
