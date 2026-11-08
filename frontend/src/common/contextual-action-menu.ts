@@ -51,6 +51,8 @@ interface PointerTarget {
   clientX:number;
   clientY:number;
   anchor:HTMLElement;
+  /** Where `fitToPointer` put the menu, relative to the anchor's left and bottom edges. */
+  fitted?:{ left:number; top:number };
 }
 
 function restoreAttribute(element:Element, name:string, value:string|null):void {
@@ -115,7 +117,7 @@ export class ContextualActionMenu {
     this.anchorAtPoint(overlay, invoker, clientX, clientY);
     this.show(overlay, popover, invoker);
     this.fitToPointer(overlay);
-    this.refitOnResize(overlay);
+    this.keepInViewport(overlay);
   }
 
   /**
@@ -155,6 +157,7 @@ export class ContextualActionMenu {
       return;
     }
 
+    this.stopFittingPointer();
     this.saveOverlayState(overlay);
     overlay.anchorElement = anchor;
     overlay.removeAttribute('anchor');
@@ -162,6 +165,7 @@ export class ContextualActionMenu {
     overlay.setAttribute('side', CONTEXTUAL_SIDE);
     overlay.removeAttribute('alignment-offset');
     clearAnchorOffset(overlay);
+    overlay.toggleAttribute('allow-out-of-bounds', this.savedState?.allowOutOfBounds ?? false);
     overlay.update();
     this.show(overlay, popover, returnFocusTo);
   }
@@ -257,20 +261,41 @@ export class ContextualActionMenu {
 
     let left = clientX;
     if (clientX + width > view.innerWidth) {
-      left = Math.max(0, clientX - width);
+      left = clientX - width;
     }
 
     let top = clientY;
     if (clientY + height > view.innerHeight) {
-      top = clientY - height >= 0 ? clientY - height : Math.max(0, view.innerHeight - height);
+      top = clientY - height >= 0 ? clientY - height : view.innerHeight - height;
     }
+
+    pointer.fitted = { left: left - anchorRect.left, top: top - anchorRect.bottom };
+    this.placeWithinViewport(overlay);
+  }
+
+  /**
+   * Keeps the fitted menu on its anchor as the page scrolls, as Primer would,
+   * but stops it at the viewport edge: `allow-out-of-bounds` switched off
+   * Primer's own correction.
+   */
+  private placeWithinViewport(overlay:AnchoredPositionElement):void {
+    const fitted = this.pointer?.fitted;
+    if (!fitted || !this.pointer) {
+      return;
+    }
+
+    const { width, height } = overlay.getBoundingClientRect();
+    const view = overlay.ownerDocument.defaultView ?? window;
+    const anchorRect = this.pointer.anchor.getBoundingClientRect();
+    const left = Math.max(0, Math.min(anchorRect.left + fitted.left, view.innerWidth - width));
+    const top = Math.max(0, Math.min(anchorRect.bottom + fitted.top, view.innerHeight - height));
 
     overlay.setAttribute('alignment-offset', `${left - anchorRect.left}`);
     setAnchorOffset(overlay, top - anchorRect.bottom);
     overlay.update();
   }
 
-  private refitOnResize(overlay:AnchoredPositionElement):void {
+  private keepInViewport(overlay:AnchoredPositionElement):void {
     this.refit?.abort();
     this.refit = new AbortController();
     const { signal } = this.refit;
@@ -278,7 +303,15 @@ export class ContextualActionMenu {
     const observer = new ResizeObserver(refit);
     observer.observe(overlay);
     signal.addEventListener('abort', () => observer.disconnect(), { once: true });
-    (overlay.ownerDocument.defaultView ?? window).addEventListener('resize', refit, { signal });
+    const view = overlay.ownerDocument.defaultView ?? window;
+    view.addEventListener('resize', refit, { signal });
+    view.addEventListener('scroll', () => this.placeWithinViewport(overlay), { signal, capture: true, passive: true });
+  }
+
+  private stopFittingPointer():void {
+    this.pointer = undefined;
+    this.refit?.abort();
+    this.refit = undefined;
   }
 
   private saveOverlayState(overlay:AnchoredPositionElement):void {
@@ -299,9 +332,7 @@ export class ContextualActionMenu {
   private restoreOverlayState(overlay:AnchoredPositionElement):boolean {
     const state = this.savedState;
     this.savedState = undefined;
-    this.pointer = undefined;
-    this.refit?.abort();
-    this.refit = undefined;
+    this.stopFittingPointer();
     if (!state) {
       return false;
     }
