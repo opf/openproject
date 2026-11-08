@@ -120,10 +120,6 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
     expect(rendered).to have_no_css(".sr-only", text: "5 story points")
   end
 
-  it "passes the menu source to the common card" do
-    expect(rendered_component).to have_element "action-menu", src: menu_src
-  end
-
   it "puts the menu source on the action menu, where a client can refresh it" do
     expect(rendered_component).to have_element "action-menu", src: menu_src
   end
