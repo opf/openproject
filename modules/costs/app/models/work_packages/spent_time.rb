@@ -56,9 +56,10 @@ module WorkPackages::SpentTime
 
   private
 
+  # Needs to read `hours` from the scope directly.
+  # Especially, `select` & `pluck` need to be avoided.
+  # This is because the visibility check is carried out on the sum aliased as `hours`
   def compute_spent_hours(user)
-    WorkPackage.include_spent_time(user, self)
-      .pluck(Arel.sql("SUM(hours)"))
-      .first
+    WorkPackage.include_spent_time(user, self).first&.hours
   end
 end

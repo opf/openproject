@@ -107,7 +107,7 @@ class WorkPackage
     end
 
     def costs_sum
-      "SUM(#{costs_value})"
+      WorkPackage.sum_over_visible_descendants(user, costs_value)
     end
 
     def costs_value
@@ -134,7 +134,7 @@ class WorkPackage
     def sum_subselect(base_scope)
       base_scope
         .dup
-        .left_join_self_and_descendants(user)
+        .left_join_self_and_descendants
         .except(:select)
         .select("#{costs_sum} AS #{costs_sum_alias}")
         .select(wp_table[:id])
@@ -148,21 +148,17 @@ class WorkPackage
       WorkPackage.arel_table
     end
 
-    def wp_table_descendants
-      # Relies on a table called descendants to exist in the scope
-      # which is provided by left_join_self_and_descendants
-      wp_table.alias "descendants"
-    end
-
     def ce_table
       costs_model.arel_table
     end
 
     def ce_table_join_condition
-      authorization_scope = filter_authorized costs_model.all
-      authorization_where = authorization_scope.arel.ast.cores.last.wheres.last
+      ce_table[:entity_type].eq("WorkPackage").and(ce_table[:entity_id].eq(WorkPackage.wp_descendants_table[:id])
+                                                                       .and(ce_authorization))
+    end
 
-      ce_table[:entity_type].eq("WorkPackage").and(ce_table[:entity_id].eq(wp_table_descendants[:id]).and(authorization_where))
+    def ce_authorization
+      filter_authorized(costs_model.all).arel.ast.cores.last.wheres.last
     end
 
     def projects_table
