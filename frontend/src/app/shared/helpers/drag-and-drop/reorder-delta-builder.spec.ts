@@ -85,6 +85,32 @@ describe('ReorderDeltaBuilder', () => {
 
       expect(reloaded({ ...positions, ...buildMoveDelta(['1', '2', '3', '5'], positions, '5', 3, null) })).toEqual(['1', '2', '3', '5', '4']);
     });
+
+    it('keeps an added work package ahead of densely positioned rows beyond the page', () => {
+      const positions = { '1': 0, '2': 10, '3': 20, '4': 30 };
+
+      expect(reloaded({ ...positions, ...buildMoveDelta(['1', '2', '3', '5'], positions, '5', 3, null) })).toEqual(['1', '2', '3', '5', '4']);
+    });
+
+    it('keeps a move on an unpositioned page after the positioned rows before it', () => {
+      const positions = { '1': 0, '2': 16384, '3': 32768 };
+      const order = ['6', '4', '5'];
+
+      expect(reloaded({ ...positions, ...buildMoveDelta(order, positions, '6', 0, 2) })).toEqual(['1', '2', '3', '6', '4', '5']);
+    });
+
+    it('keeps an addition to an unpositioned page after the positioned rows before it', () => {
+      const positions = { '1': 0, '2': 16384, '3': 32768 };
+      const order = ['4', '5', '6'];
+
+      expect(reloaded({ ...positions, ...buildMoveDelta(order, positions, '6', 2, null) })).toEqual(['1', '2', '3', '4', '5', '6']);
+    });
+
+    it('keeps an added work package ahead of an adjacent row beyond the page', () => {
+      const positions = { '1': 0, '2': 1, '3': 2, '4': 3 };
+
+      expect(reloaded({ ...positions, ...buildMoveDelta(['1', '2', '3', '5'], positions, '5', 3, null) })).toEqual(['1', '2', '3', '5', '4']);
+    });
   });
 
   describe('ranking an order', () => {
@@ -103,6 +129,13 @@ describe('ReorderDeltaBuilder', () => {
       const result:QueryOrder = { ...positions, ...buildOrderDelta(['3', '2', '1'], positions) };
       expect(reloaded(result)).toEqual(['3', '2', '1', '4']);
       expect(Math.min(...Object.values(result))).toBeGreaterThanOrEqual(MIN_ORDER);
+    });
+
+    it('keeps an unpositioned page after the positioned rows before it', () => {
+      const positions = { '1': 0, '2': 16384, '3': 32768 };
+      const order = ['6', '4', '5'];
+
+      expect(reloaded({ ...positions, ...buildOrderDelta(order, positions) })).toEqual(['1', '2', '3', '6', '4', '5']);
     });
 
     it('assigns missing ranks and never emits the API deletion sentinel', () => {
