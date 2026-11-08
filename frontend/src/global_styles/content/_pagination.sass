@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-$pagination--font-size: 0.8125rem
+$pagination--font-size: var(--body-font-size)
 
 .op-pagination
   display: flex
@@ -61,60 +61,74 @@ $pagination--font-size: 0.8125rem
     font-size: $pagination--font-size
 
   &--item
-    min-width: 25px
-    margin: 0 5px 0 0
+    margin-inline-end: var(--base-size-4)
     white-space: nowrap
 
-    &_current
-      background: var(--body-background)
-      border: 1px solid var(--body-background)
-      color: var(--body-font-color)
-      padding: 3px 3px
-      font-style: italic
-      text-align: center
-
     &-link
+      box-sizing: border-box
       margin: 0
       display: inline-flex
-      align-items: baseline
-      min-width: 25px
+      align-items: center
+      min-width: var(--base-size-32)
+      height: var(--base-size-32)
       justify-content: center
-      padding: 3px var(--base-size-4)
-      background: var(--button--background-color)
+      padding: var(--base-size-8) var(--base-size-6)
+      background: transparent
       border-radius: var(--borderRadius-medium)
-      border: 1px solid var(--button-default-borderColor-rest)
-      color: var(--body-font-color)
-      font-weight: normal
+      border: 0
+      color: var(--fgColor-default)
+      font: inherit
+      font-style: normal
+      line-height: 1
       cursor: pointer
       text-decoration: none
+      transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1)
+
       &:hover
-        color: var(--body-font-color)
+        color: var(--fgColor-default)
         text-decoration: none
-        background: var(--button--background-hover-color)
+        background: var(--control-transparent-bgColor-hover)
+        transition-duration: 0.1s
 
-      &_prev
-        padding-left: var(--base-size-6)
-        padding-right: var(--base-size-8)
+      &:focus-visible
+        outline: 2px solid var(--bgColor-accent-emphasis)
+        outline-offset: 2px
 
+      &_prev,
       &_next
-        padding-left: var(--base-size-8)
-        padding-right: var(--base-size-6)
+        color: var(--fgColor-accent)
+
+        &:hover
+          color: var(--fgColor-accent)
+
+      &[aria-current]
+        color: var(--fgColor-onEmphasis)
+        background: var(--bgColor-accent-emphasis)
+        cursor: default
 
     &-link-icon
-      align-self: center
+      width: var(--base-size-16)
+      height: var(--base-size-16)
 
       &_prev
-        margin-right: var(--base-size-4)
+        margin-inline-end: var(--base-size-4)
 
       &_next
-        margin-left: var(--base-size-4)
+        margin-inline-start: var(--base-size-4)
 
   &--space
-    background: var(--body-background)
-    border: 1px solid var(--body-background)
-    font-style: italic
-    padding: 3px 0
-    margin: 0 5px 0 0
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    min-width: var(--base-size-32)
+    height: var(--base-size-32)
+    color: var(--fgColor-disabled)
+    margin-inline-end: var(--base-size-4)
+
+  &--item_number,
+  &--space
+    @media screen and (max-width: $breakpoint-sm)
+      display: none
 
   &--label
     flex: 1
