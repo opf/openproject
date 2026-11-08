@@ -1511,7 +1511,7 @@ da:
             name: Logo til tilstand med høj kontrast
         touch_icon:
           field: Touch-ikon
-          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
+          field_description: Billedet skal være 180x180 px i PNG-format med farvet baggrund for at undgå problemer med kontrasten.
           title: Eget touch-ikon
           title_description: Det er ikonet, der vises, når siden gemmes som bogmærke på startskærmen på tablets og mobiler. Som standard bruges OpenProjects touch-ikon, men hvis du overfører et nyt touch-ikon, skifter temaet automatisk til Tilpasset tema.
       color_groups:
