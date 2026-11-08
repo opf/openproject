@@ -171,6 +171,29 @@ describe('wpTablePagination Directive', () => {
       expect(within(navigation).getByText('(91 - 100/200)')).toBeVisible();
     });
 
+    it('renders the current page between ellipses in a singleton window', async () => {
+      vi.spyOn(TestBed.inject(PaginationService), 'getMaxVisiblePageOptions').mockReturnValue(1);
+      const navigation = await renderPage(10, 200);
+      const current = within(navigation).getByText('10');
+      const ellipses = within(navigation).getAllByText('…');
+
+      expect(current).toBeVisible();
+      expect(current).toHaveAttribute('aria-current', 'page');
+      expect(ellipses).toHaveLength(2);
+      expect(ellipses[0].compareDocumentPosition(current) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
+      expect(current.compareDocumentPosition(ellipses[1]) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
+      expect(within(navigation).queryByText(component.text.no_other_page)).not.toBeInTheDocument();
+    });
+
+    it('suppresses numbered controls for genuinely single-page results', async () => {
+      const navigation = await renderPage(1, 10);
+
+      expect(navigation.querySelector('[aria-current="page"]')).not.toBeInTheDocument();
+      expect(within(navigation).queryAllByRole('button')).toHaveLength(0);
+      expect(within(navigation).queryByText('…')).not.toBeInTheDocument();
+      expect(within(navigation).getByText(component.text.no_other_page)).toBeInTheDocument();
+    });
+
     it('keeps Next usable when the current page ends the visible window', async () => {
       vi.spyOn(TestBed.inject(PaginationService), 'getMaxVisiblePageOptions').mockReturnValue(1);
       const navigation = await renderPage(10, 200);

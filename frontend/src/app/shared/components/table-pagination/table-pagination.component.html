@@ -31,7 +31,7 @@
             <span aria-hidden="true">…</span>
           </li>
         }
-        @if (pageNumbers.length > 1) {
+        @if (pagination.total > pagination.perPage) {
           @for (pageNumber of pageNumbers; track pageNumber) {
             <li
               [ngClass]="{ 'op-pagination--item_current': pageNumber === pagination.page }"
@@ -91,7 +91,7 @@
         </li>
         <li class="op-pagination--range" aria-live="polite">
           {{currentRange}}
-          @if (pageNumbers.length === 1) {
+          @if (showPageSelections && pagination.total <= pagination.perPage) {
             <span
               id="op-pagination-empty-text"
               tabindex="0"
