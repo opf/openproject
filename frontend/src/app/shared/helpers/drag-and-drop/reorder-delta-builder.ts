@@ -443,8 +443,11 @@ export function buildDelta(
  */
 export function buildOrderDelta(order:readonly string[], positions:QueryOrder):QueryOrder {
   const peers = new Set(order);
-  const ids = [...new Set([...Object.keys(positions), ...order])];
-  ids.sort((a, b) => (positions[a] ?? MAX_ORDER + 1) - (positions[b] ?? MAX_ORDER + 1) || Number(a) - Number(b));
+  const ranked = Object.keys(positions).sort((a, b) => positions[a] - positions[b] || Number(a) - Number(b));
+  const lastPeer = ranked.reduce((last, id, index) => (peers.has(id) ? index : last), -1);
+  const unrankedAt = lastPeer === -1 ? ranked.length : lastPeer + 1;
+  const unranked = order.filter((id) => positions[id] === undefined);
+  const ids = [...ranked.slice(0, unrankedAt), ...unranked, ...ranked.slice(unrankedAt)];
 
   let nextPeer = 0;
   let lastRank = DEFAULT_ORDER - ORDER_DISTANCE;
@@ -500,16 +503,18 @@ function reloadsInOrder(order:readonly string[], positions:QueryOrder):boolean {
  */
 function keepsOthersOutside(order:readonly string[], positions:QueryOrder, updated:QueryOrder):boolean {
   const peers = new Set(order);
-  const span = [...peers].sort((a, b) => (sortsBefore(positions, a, b) ? -1 : 1));
+  const span = [...peers]
+    .filter((id) => positions[id] !== undefined)
+    .sort((a, b) => (sortsBefore(positions, a, b) ? -1 : 1));
+  const others = Object.keys(positions).filter((id) => !peers.has(id));
+  if (!span.length) return others.every((id) => sortsBefore(updated, id, order[0]));
   const first = span[0];
   const last = span[span.length - 1];
-  return Object.keys(positions)
-    .filter((id) => !peers.has(id))
-    .every((id) => {
-      if (sortsBefore(positions, id, first)) return sortsBefore(updated, id, order[0]);
-      if (sortsBefore(positions, last, id)) return sortsBefore(updated, order[order.length - 1], id);
-      return true;
-    });
+  return others.every((id) => {
+    if (sortsBefore(positions, id, first)) return sortsBefore(updated, id, order[0]);
+    if (sortsBefore(positions, last, id)) return sortsBefore(updated, order[order.length - 1], id);
+    return true;
+  });
 }
 
 /**
