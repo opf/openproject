@@ -27,6 +27,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import type { RootAwareChild, SortableListsRoot } from './drag-and-drop';
+import { relativeUrl } from './url';
 import { resolveClosestItemElement, resolveItemId } from './list-dom';
 
 export default class MenuSourceController extends Controller<HTMLElement> implements RootAwareChild {
@@ -50,7 +51,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
   }
 
   private readonly onBeforeToggle = (event:Event):void => {
-    if ((event as ToggleEvent).newState !== 'open') {
+    if (!('newState' in event) || event.newState !== 'open') {
       return;
     }
 
@@ -94,7 +95,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     });
     url.searchParams.set('invoker_id', invokerId);
 
-    return `${url.pathname}${url.search}${url.hash}`;
+    return relativeUrl(url);
   }
 
   connectRoot(root:SortableListsRoot):void {

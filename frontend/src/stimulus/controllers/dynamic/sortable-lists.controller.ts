@@ -70,6 +70,7 @@ import {
 } from './sortable-lists/list-dom';
 import { SelectionOrchestrator, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
+import { relativeUrl } from './sortable-lists/url';
 import { DragSession, type DragSessionHost } from './sortable-lists/drag-session';
 
 type CleanupFn = () => void;
@@ -78,12 +79,6 @@ type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 // items is null on the single-item contract, the batch on the collection one.
 interface DropRoute { url:string; items:SelectionItem[]|null }
 interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
-
-// Reduced to a same-origin relative URL: an absolute or foreign-origin
-// template would otherwise be submitted as given.
-function relativeUrl(url:URL):string {
-  return `${url.pathname}${url.search}${url.hash}`;
-}
 
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot, SelectionHost, DragSessionHost {
   static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable', 'sortable-lists--menu-source'];

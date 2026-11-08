@@ -80,7 +80,17 @@ describe('Sortable lists controller', () => {
 
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
-  let fetchMock:Mock;
+  let fetchMock:Mock<typeof fetch>;
+  function moveRequest(call = fetchMock.mock.lastCall) {
+    if (!call) throw new Error('Expected a move request');
+
+    const [url, options] = call;
+    if (typeof url !== 'string') throw new Error('Expected a URL string');
+    if (!(options?.body instanceof FormData)) throw new Error('Expected a FormData body');
+
+    return { url, options: { ...options, body: options.body } };
+  }
+
   let renderStreamMessageMock:Mock;
   // `ReturnType<typeof vi.spyOn>` collapses to a call signature TypeScript
   // cannot resolve `.mock.calls`'s element type from; pin the spied method's
@@ -388,7 +398,7 @@ describe('Sortable lists controller', () => {
     // guard mock their own element stack.
     vi.spyOn(document, 'elementsFromPoint').mockReturnValue([]);
 
-    fetchMock = vi.fn(() => Promise.resolve(new Response('', { status: 200 })));
+    fetchMock = vi.fn<typeof fetch>(() => Promise.resolve(new Response('', { status: 200 })));
     renderStreamMessageMock = vi.fn(() => Promise.resolve());
     vi.stubGlobal('fetch', fetchMock);
     vi.stubGlobal('Turbo', {
@@ -613,7 +623,7 @@ describe('Sortable lists controller', () => {
 
     expect(fetchMock).toHaveBeenCalledOnce();
 
-    const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+    const options = moveRequest().options;
 
     expect(options.body.get('list_type')).toEqual('sprint');
     expect(options.body.get('list_id')).toEqual('2');
@@ -644,7 +654,7 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    const calledUrl = moveRequest().url;
     expect(new URL(calledUrl, 'http://localhost').searchParams.get('optimistic')).toBe('true');
   });
 
@@ -656,7 +666,7 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    const calledUrl = moveRequest().url;
     expect(new URL(calledUrl, 'http://localhost').searchParams.has('optimistic')).toBe(false);
   });
 
@@ -669,7 +679,7 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    const calledUrl = moveRequest().url;
     expect(new URL(calledUrl, 'http://localhost').searchParams.get('optimistic')).toBe('true');
   });
 
@@ -1181,7 +1191,7 @@ describe('Sortable lists controller', () => {
     // '1' started first; moving down puts it after '2'.
     expect(itemIds(sourceList)).toEqual(['2', '1', '3']);
     expect(fetchMock).toHaveBeenCalledOnce();
-    const body = fetchMock.mock.lastCall?.[1] as { body:FormData };
+    const body = moveRequest().options;
     expect(body.body.get('prev_id')).toBe('2');
   });
 
@@ -1368,7 +1378,7 @@ describe('Sortable lists controller', () => {
 
       expect(root).toHaveAttribute(busyAttribute);
       await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
-      const [url, options] = fetchMock.mock.lastCall as [string, { method:string; body:FormData }];
+      const { url, options } = moveRequest();
       expect(url).toBe('/projects/demo/backlogs/work_packages/move?existing=1');
       expect(options.method).toBe('POST');
       expect(options.body.get('_method')).toBe('put');
@@ -1393,7 +1403,7 @@ describe('Sortable lists controller', () => {
       rootController(root).moveToDestination(inboxForm(['1', '2']));
 
       await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
-      const [, options] = fetchMock.mock.lastCall as [string, { body:FormData }];
+      const { options } = moveRequest();
       expect(options.body.getAll('ids[]')).toEqual(['1', '2']);
     });
 
@@ -1533,7 +1543,7 @@ describe('Sortable lists controller', () => {
       // (field) list; the outer section row it lives under is untouched.
       expect(directItemIds(fieldList)).toEqual(['cf2', 'cf1']);
 
-      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      const options = moveRequest().options;
       expect(options.body.get('list_type')).toEqual('custom_field');
       expect(options.body.get('list_id')).toEqual('s1');
     });
@@ -1552,7 +1562,7 @@ describe('Sortable lists controller', () => {
       expect(fetchMock).toHaveBeenCalledOnce();
       expect(directItemIds(sectionList)).toEqual(['s2', 's1']);
 
-      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      const options = moveRequest().options;
       expect(options.body.get('list_type')).toEqual('section');
       expect(options.body.get('list_id')).toEqual('1');
     });
@@ -3097,8 +3107,8 @@ describe('Sortable lists controller', () => {
 
       await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
 
-      const url = fetchMock.mock.calls[0][0] as string;
-      const options = fetchMock.mock.calls[0][1] as { body:FormData };
+      const url = moveRequest(fetchMock.mock.calls[0]).url;
+      const options = moveRequest(fetchMock.mock.calls[0]).options;
       expect(url).toContain('/collection-move-url');
       expect(url).toContain('optimistic=true');
       const body = options.body;
@@ -3133,7 +3143,7 @@ describe('Sortable lists controller', () => {
 
       await simulateDrop({ source: item2, targetList: list2, targetItem: item5, edge: 'bottom' });
 
-      expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['1', '2', '4']);
+      expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['1', '2', '4']);
       expect(rowIdsIn(list2)).toEqual(['5', '1', '2', '4']);
     });
 
@@ -3143,7 +3153,7 @@ describe('Sortable lists controller', () => {
 
       await simulateDrop({ source: item2, targetList: list2, targetItem: null, edge: null });
 
-      expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['2', '3']);
+      expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['2', '3']);
     });
 
     it('moves a reversed range within the same list', async () => {
@@ -3153,7 +3163,7 @@ describe('Sortable lists controller', () => {
 
       await simulateDrop({ source: item1, targetList: list1, targetItem: item3, edge: 'bottom' });
 
-      expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['1', '2']);
+      expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['1', '2']);
       expect(rowIdsIn(list1)).toEqual(['3', '1', '2']);
     });
 
@@ -3184,7 +3194,7 @@ describe('Sortable lists controller', () => {
 
       await simulateDrop({ source: item2, targetList: list2, targetItem: null, edge: null });
 
-      expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['1', '2']);
+      expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['1', '2']);
       expect(selectedRowIds()).toEqual(['1', '2']);
     });
 
@@ -3195,7 +3205,7 @@ describe('Sortable lists controller', () => {
 
       await simulateDrop({ source: item2, targetList: list1, targetItem: item1, edge: 'top' });
 
-      const body = (fetchMock.mock.calls[0][1].body) as FormData;
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
       expect(body.getAll('ids[]')).toEqual(['2']);
     });
 
@@ -3207,7 +3217,7 @@ describe('Sortable lists controller', () => {
 
       await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'top' });
 
-      const body = (fetchMock.mock.calls[0][1].body) as FormData;
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
       expect(body.get('prev_id')).toBe('');
     });
 
@@ -3237,7 +3247,7 @@ describe('Sortable lists controller', () => {
       await simulateCancelledDrop({ source: item1 });
       await simulateDrop({ source: item2, targetList: list1, targetItem: item3, edge: 'bottom' });
 
-      const body = (fetchMock.mock.calls[0][1].body) as FormData;
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
       expect(body.getAll('ids[]')).toEqual(['2']);
     });
 
@@ -3274,7 +3284,7 @@ describe('Sortable lists controller', () => {
 
       // The snapshot was still consumed — a following singular drag is clean:
       await simulateDrop({ source: item2, targetList: list1, targetItem: item1, edge: 'top' });
-      const body = (fetchMock.mock.calls[0][1].body) as FormData;
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
       expect(body.getAll('ids[]')).toEqual(['2']);
     });
 
@@ -3417,7 +3427,7 @@ describe('Sortable lists controller', () => {
 
         await completeDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
 
-        expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['1', '3']);
+        expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['1', '3']);
         expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
       });
     });
@@ -3526,8 +3536,8 @@ describe('Sortable lists controller', () => {
       });
       await flushPromises();
 
-      const url = fetchMock.mock.calls[0][0] as string;
-      const body = fetchMock.mock.calls[0][1].body as FormData;
+      const url = moveRequest(fetchMock.mock.calls[0]).url;
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
       expect(url).toContain('/collection-move-url');
       expect(body.getAll('ids[]')).toEqual(['2']);
       expect(itemIds(sourceList)).toEqual(['2', '1', '3']);

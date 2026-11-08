@@ -117,7 +117,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     // for the menu's primary overlay: tooltips and sub-menus toggle too. Read
     // newState by duck typing rather than `instanceof ToggleEvent` so a browser
     // without the ToggleEvent global cannot throw.
-    if ((event as ToggleEvent).newState === 'open'
+    if ('newState' in event && event.newState === 'open'
       && this.hasMenuElement
       && event.target === this.menuElement.querySelector(':scope > anchored-position')) {
       this.refreshMoveMenuAvailability();
@@ -167,8 +167,10 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   private activatableMenuItem(event:ActionEvent):HTMLElement|null {
     const item = event.currentTarget;
-    return this.hasMenuElement && item instanceof HTMLElement
-      && !this.menuElement.isItemDisabled(item) && !this.menuElement.isItemHidden(item) ? item : null;
+    if (!this.hasMenuElement || !(item instanceof HTMLElement)) return null;
+    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) return null;
+
+    return item;
   }
 
   // The focus host is the consumer's business: Backlogs puts the tab stop on

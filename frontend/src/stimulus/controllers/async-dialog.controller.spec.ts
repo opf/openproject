@@ -152,6 +152,24 @@ describe('Async dialog controller', () => {
     expect([...submitted.entries()]).toEqual([['authenticity_token', 'token'], ['ids[]', '7']]);
   });
 
+  it('submits the action and method updated by a beforeLoad listener', async () => {
+    resolveLikeFetchRequest(turboStreamResponse().response);
+    const { button, form } = await mountPostButton();
+    Reflect.deleteProperty(form, 'action');
+    button.addEventListener('async-dialog:beforeLoad', () => {
+      form.action = '/retargeted-dialog';
+      form.method = 'get';
+    });
+
+    fireEvent.click(button);
+
+    await waitFor(() => expect(FetchRequest).toHaveBeenCalledOnce());
+    expect(FetchRequest).toHaveBeenCalledWith('get', new URL('/retargeted-dialog', window.location.href).href, {
+      body: expect.any(FormData),
+      responseKind: 'turbo-stream',
+    });
+  });
+
   it('makes no request when beforeLoad is canceled', async () => {
     const { button } = await mountPostButton();
     button.addEventListener('async-dialog:beforeLoad', (event) => event.preventDefault());
@@ -167,10 +185,14 @@ describe('Async dialog controller', () => {
     resolveLikeFetchRequest(turboStreamResponse().response);
     const { button, form } = await mountPostButton();
     const controller = ctx.application.getControllerForElementAndIdentifier(button, 'async-dialog') as AsyncDialogControllerType;
+    const beforeLoad = vi.fn();
+    button.addEventListener('async-dialog:beforeLoad', beforeLoad);
     form.removeAttribute('id');
     expect(controller.href).toBeUndefined();
 
     await trigger(controller);
+
+    expect(beforeLoad).not.toHaveBeenCalled();
 
     expect(FetchRequest).not.toHaveBeenCalled();
     expect(showProgressBar).not.toHaveBeenCalled();
@@ -182,7 +204,12 @@ describe('Async dialog controller', () => {
     const { button } = await mountPostButton();
     const controller = ctx.application.getControllerForElementAndIdentifier(button, 'async-dialog') as AsyncDialogControllerType;
 
+    const beforeLoad = vi.fn();
+    button.addEventListener('async-dialog:beforeLoad', beforeLoad);
+
     await trigger(controller, '');
+
+    expect(beforeLoad).not.toHaveBeenCalled();
 
     expect(FetchRequest).not.toHaveBeenCalled();
     expect(showProgressBar).not.toHaveBeenCalled();

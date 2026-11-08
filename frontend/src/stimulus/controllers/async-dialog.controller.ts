@@ -29,7 +29,7 @@ import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
 import { performTurboStreamRequest, withProgressBar } from 'core-stimulus/helpers/request-helpers';
 
-export default class AsyncDialogController extends Controller {
+export default class AsyncDialogController extends Controller<HTMLElement> {
   static values = { disableDuringLoad: { type: Boolean, default: true } };
 
   declare disableDuringLoadValue:boolean;
@@ -67,13 +67,15 @@ export default class AsyncDialogController extends Controller {
     const form = urlOverride
       ? null
       : this.element instanceof HTMLButtonElement ? this.element.form : null;
+    if (!this.resolveUrl(form, urlOverride)) return;
+
     const event = this.dispatch('beforeLoad', { cancelable: true, detail: { form } });
     if (event.defaultPrevented) return;
 
-    const method = form?.method ?? this.method;
-    const url = urlOverride ?? form?.action ?? this.href;
+    const url = this.resolveUrl(form, urlOverride);
     if (!url) return;
 
+    const method = form?.method ?? this.method;
     const body = form ? new FormData(form) : undefined;
 
     this.setLoading(true);
@@ -94,11 +96,15 @@ export default class AsyncDialogController extends Controller {
   }
 
   get href():string|undefined {
-    return (this.element as HTMLLinkElement).href;
+    return this.element instanceof HTMLAnchorElement ? this.element.href : undefined;
   }
 
   get method():string {
-    return (this.element as HTMLLinkElement).dataset.turboMethod ?? 'GET';
+    return this.element.dataset.turboMethod ?? 'GET';
+  }
+
+  private resolveUrl(form:HTMLFormElement|null, urlOverride?:string):string|undefined {
+    return urlOverride ?? form?.action ?? this.href;
   }
 
   private setLoading(loading:boolean):void {
