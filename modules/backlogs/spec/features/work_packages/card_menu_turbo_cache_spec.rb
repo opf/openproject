@@ -54,16 +54,21 @@ RSpec.describe "Backlog card menus restored or morphed by Turbo",
     backlogs_page.visit!
   end
 
-  def install_menu_request_probe
-    page.execute_script(<<~JS)
+  def install_menu_request_probe(fail_next: false)
+    page.execute_script(<<~JS, fail_next)
       window.menuRequests = [];
       window.menuRequestStacks = [];
+      window.failNextMenuRequest = arguments[0];
       const originalFetch = window.fetch;
       window.fetch = function(input, options) {
         const url = new URL(input instanceof Request ? input.url : input.toString(), window.location.href);
         if (url.pathname.endsWith('/backlogs/work_packages/menu')) {
           window.menuRequests.push(url.searchParams.getAll('ids[]'));
           window.menuRequestStacks.push(new Error().stack);
+          if (window.failNextMenuRequest) {
+            window.failNextMenuRequest = false;
+            return Promise.resolve(new Response('Menu failure', { status: 500 }));
+          }
         }
         return originalFetch.call(this, input, options);
       };
@@ -119,6 +124,26 @@ RSpec.describe "Backlog card menus restored or morphed by Turbo",
       backlogs_page.expect_inbox_items_in_order(items: [first_story, second_story])
       expect(first_story.reload.sprint_id).to be_nil
       expect(second_story.reload.sprint_id).to be_nil
+    end
+
+    it "retries a failed unchanged URL once on reopen via #{via}" do
+      install_menu_request_probe(fail_next: true)
+      if via == :more
+        backlogs_page.within_work_package(first_story) { find(:button, accessible_name: "Work package actions").click }
+      else
+        backlogs_page.right_click_work_package_card(first_story)
+      end
+      aggregate_failures do
+        expect(page).to have_css("action-menu include-fragment.is-error", visible: :all)
+        expect_menu_requests([first_story])
+      end
+      backlogs_page.dismiss_card_menu(first_story, via:)
+
+      menu = backlogs_page.open_card_menu(first_story, via:)
+      expect_menu_requests([first_story], [first_story])
+      submit_inbox(menu)
+      backlogs_page.expect_inbox_items_in_order(items: [first_story])
+      backlogs_page.expect_sprint_items_in_order(sprint, items: [second_story])
     end
 
     it "loads and submits only the singleton after restoring a card whose batch menu had loaded via #{via}" do
