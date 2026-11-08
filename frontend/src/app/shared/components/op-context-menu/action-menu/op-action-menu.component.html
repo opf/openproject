@@ -37,7 +37,7 @@
         [attr.aria-labelledby]="labelledBy"
         class="ActionListWrap ActionListWrap--inset"
         data-view-component="true">
-        @for (item of items; track itemKey($index, item)) {
+        @for (item of items; track item.key) {
           @if (item.divider) {
             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
           } @else if (item.isHeader) {

@@ -202,6 +202,19 @@ describe('OpActionMenuComponent', () => {
     expect([...subMenu().children].map((child) => child.getAttribute('role'))).toEqual(['none']);
   });
 
+  it('keeps focus on an item whose label repeats when the items refresh', async () => {
+    const second = { linkText: 'Open', href: '/b', onClick: () => true };
+    fixture.componentRef.setInput('items', [{ linkText: 'Open', href: '/a', onClick: () => true }, second]);
+    await fixture.whenStable();
+    await open();
+    within(menu()).getAllByRole('menuitem', { name: 'Open' })[1].focus();
+
+    fixture.componentRef.setInput('items', [{ ...second }]);
+    await fixture.whenStable();
+
+    expect(document.activeElement).toHaveAttribute('href', '/b');
+  });
+
   it('keeps the overlay anchored to the invoker without an anchor input', async () => {
     await open();
     fixture.detectChanges();
