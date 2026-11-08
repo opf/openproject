@@ -53,13 +53,32 @@ import { OpActionMenuTriggerDirective } from './op-action-menu-trigger.directive
 
 const SUBMENU_OPENING_KEYS = new Set(['ArrowRight', 'Enter', ' ']);
 
-function visible(items:OpContextMenuItem[]):OpContextMenuItem[] {
+type KeyedMenuItem = OpContextMenuItem & { key:string; children?:KeyedMenuItem[] };
+
+function baseKey(item:OpContextMenuItem):string {
+  if (item.divider) {
+    return 'divider';
+  }
+  if (item.linkText === undefined) {
+    return 'item';
+  }
+  return item.href ? `${item.linkText}|${item.href}` : item.linkText;
+}
+
+function visible(items:OpContextMenuItem[]):KeyedMenuItem[] {
   const shown = items
     .filter((item) => !item.hidden)
-    .map((item) => (item.children ? { ...item, children: visible(item.children) } : item))
     .filter((item, index, list) => !item.divider || !list[index - 1]?.divider);
+  const trimmed = shown.filter((item, index) => !item.divider || (index > 0 && index < shown.length - 1));
 
-  return shown.filter((item, index) => !item.divider || (index > 0 && index < shown.length - 1));
+  const repeats = new Map<string, number>();
+  return trimmed.map(({ children, ...item }) => {
+    const base = baseKey(item);
+    const ordinal = repeats.get(base) ?? 0;
+    repeats.set(base, ordinal + 1);
+    const key = `${base}:${ordinal}`;
+    return children ? { ...item, key, children: visible(children) } : { ...item, key };
+  });
 }
 
 /**
@@ -180,10 +199,6 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
     if (popover?.matches(':popover-open')) {
       popover.hidePopover();
     }
-  }
-
-  itemKey(index:number, item:OpContextMenuItem):string {
-    return item.linkText ?? `${item.divider ? 'divider' : 'item'}:${index}`;
   }
 
   subMenuId(prefix:string, index:number):string {
