@@ -44,6 +44,7 @@ import {
   resolveDropIntent,
   singleItemBatch,
   type RootAwareChild,
+  type RegisteredRootAwareChild,
   type SortableListData,
   type SortableListsRoot,
 } from './sortable-lists/drag-and-drop';
@@ -85,7 +86,7 @@ function relativeUrl(url:URL):string {
 }
 
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot, SelectionHost, DragSessionHost {
-  static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable'];
+  static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable', 'sortable-lists--menu-source'];
 
   static values = {
     moveUrlTemplate: String,
@@ -100,8 +101,9 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   };
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
-  declare readonly sortableListsItemOutlets:(RootAwareChild & { focusItem():void })[];
-  declare readonly sortableListsScrollableOutlets:RootAwareChild[];
+  declare readonly sortableListsItemOutlets:(RegisteredRootAwareChild & { focusItem():void })[];
+  declare readonly sortableListsScrollableOutlets:RegisteredRootAwareChild[];
+  declare readonly sortableListsMenuSourceOutlets:RootAwareChild[];
 
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
@@ -353,6 +355,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
         child.reregister();
       });
 
+      this.sortableListsMenuSourceOutlets.forEach((menuSource) => {
+        if (this.element.contains(menuSource.element)) menuSource.connectRoot(this);
+      });
+
       // Once per morph batch, not per disconnect: a morph can replace a row
       // with a fresh element for the same work package, and the disconnect
       // alone would drop a member about to come straight back.
@@ -367,6 +373,14 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       this.dragSession?.remark();
     });
   };
+
+  sortableListsMenuSourceOutletConnected(menuSource:RootAwareChild):void {
+    if (this.element.contains(menuSource.element)) menuSource.connectRoot(this);
+  }
+
+  sortableListsMenuSourceOutletDisconnected(menuSource:RootAwareChild):void {
+    if (this.element.contains(menuSource.element)) menuSource.disconnectRoot();
+  }
 
   sortableListsListOutletConnected(list:RootAwareChild):void {
     list.connectRoot(this);

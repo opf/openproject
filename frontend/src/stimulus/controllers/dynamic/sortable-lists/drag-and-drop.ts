@@ -151,6 +151,9 @@ export interface RootAwareChild {
   readonly element:Element;
   connectRoot(root:SortableListsRoot):void;
   disconnectRoot():void;
+}
+
+export interface RegisteredRootAwareChild extends RootAwareChild {
   reregister():void;
 }
 

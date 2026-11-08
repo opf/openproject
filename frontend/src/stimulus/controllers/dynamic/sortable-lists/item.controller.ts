@@ -48,7 +48,7 @@ import {
   isItemFromRoot,
   sortableDragSourceData,
   sortableItemIdentity,
-  type RootAwareChild,
+  type RegisteredRootAwareChild,
   type SortableDragSourceData,
   type SortableListsRoot,
 } from './drag-and-drop';
@@ -66,7 +66,7 @@ import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
 
-export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
+export default class ItemController extends Controller<HTMLElement> implements RegisteredRootAwareChild {
   static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
   static elements = { menu: 'action-menu' };
 

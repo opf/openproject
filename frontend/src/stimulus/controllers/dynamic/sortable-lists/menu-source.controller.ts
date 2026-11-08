@@ -26,21 +26,27 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import type SortableListsController from '../sortable-lists.controller';
+import type { RootAwareChild, SortableListsRoot } from './drag-and-drop';
 import { resolveClosestItemElement, resolveItemId } from './list-dom';
 
-export default class MenuSourceController extends Controller<HTMLElement> {
+export default class MenuSourceController extends Controller<HTMLElement> implements RootAwareChild {
   static values = { url: String };
 
   declare readonly urlValue:string;
 
+  private root?:SortableListsRoot;
+  private listeners?:AbortController;
+
   connect():void {
+    this.listeners = new AbortController();
     // beforetoggle does not bubble.
-    this.element.addEventListener('beforetoggle', this.onBeforeToggle, true);
+    this.element.addEventListener('beforetoggle', this.onBeforeToggle, { capture: true, signal: this.listeners.signal });
   }
 
   disconnect():void {
-    this.element.removeEventListener('beforetoggle', this.onBeforeToggle, true);
+    this.listeners?.abort();
+    this.listeners = undefined;
+    this.disconnectRoot();
   }
 
   private readonly onBeforeToggle = (event:Event):void => {
@@ -91,7 +97,11 @@ export default class MenuSourceController extends Controller<HTMLElement> {
     return `${url.pathname}${url.search}${url.hash}`;
   }
 
-  private get root():SortableListsController|null {
-    return this.application.getControllerForElementAndIdentifier(this.element, 'sortable-lists') as SortableListsController|null;
+  connectRoot(root:SortableListsRoot):void {
+    this.root = root;
+  }
+
+  disconnectRoot():void {
+    this.root = undefined;
   }
 }

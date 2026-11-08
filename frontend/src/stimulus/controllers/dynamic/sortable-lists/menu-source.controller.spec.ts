@@ -55,6 +55,8 @@ import { fireEvent } from '@testing-library/dom';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { usePlatform } from 'core-common/testing/platform';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import type MenuSourceController from './menu-source.controller';
+import type SortableListsController from '../sortable-lists.controller';
 import { selectionTranslations } from './testing/selection-translations';
 
 const menuUrl = '/projects/demo/backlogs/work_packages/menu';
@@ -109,6 +111,7 @@ describe('Sortable lists menu source controller', () => {
     await ctx.mount(`
       <div id="sortable-root"
            data-controller="sortable-lists sortable-lists--menu-source"
+           data-sortable-lists-sortable-lists--menu-source-outlet="#sortable-root"
            data-sortable-lists-selection-enabled-value="true"
            data-sortable-lists--menu-source-url-value="${menuUrl}"
            data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
@@ -141,6 +144,93 @@ describe('Sortable lists menu source controller', () => {
   const openMenu = (item:HTMLElement, newState:'open'|'closed' = 'open') => {
     toggle(item.querySelector(':scope action-menu > anchored-position')!, newState);
   };
+
+  it('stops settling menu scope when the root revokes its outlet', async () => {
+    const { root, items } = await renderRoot();
+    root.removeAttribute('data-sortable-lists-sortable-lists--menu-source-outlet');
+    await ctx.nextFrame();
+
+    openMenu(items[1]);
+
+    expect(items[1]).not.toHaveAttribute('data-batch-selected');
+    root.setAttribute('data-sortable-lists-sortable-lists--menu-source-outlet', '#sortable-root');
+    await ctx.nextFrame();
+    openMenu(items[1]);
+    expect(items[1]).toHaveAttribute('data-batch-selected');
+  });
+
+  it('repairs the menu source reference after a morph', async () => {
+    const { root, items } = await renderRoot();
+    const menuSource = ctx.getController<MenuSourceController>('sortable-lists--menu-source', root);
+    menuSource.disconnectRoot();
+    openMenu(items[1]);
+    expect(items[1]).not.toHaveAttribute('data-batch-selected');
+
+    fireEvent(root, new CustomEvent('turbo:morph-element', { bubbles: true }));
+    await ctx.nextFrame();
+    openMenu(items[1]);
+
+    expect(items[1]).toHaveAttribute('data-batch-selected');
+  });
+
+  it('does not settle scope without a root controller and recovers when it connects', async () => {
+    const { root, items } = await renderRoot();
+    root.setAttribute('data-controller', 'sortable-lists--menu-source');
+    await ctx.nextFrame();
+    openMenu(items[1]);
+    expect(items[1]).not.toHaveAttribute('data-batch-selected');
+
+    root.setAttribute('data-controller', 'sortable-lists sortable-lists--menu-source');
+    await ctx.nextFrame();
+    openMenu(items[1]);
+
+    expect(items[1]).toHaveAttribute('data-batch-selected');
+  });
+
+  it('removes disconnected listeners and handles each open once after reconnect', async () => {
+    const { root, items } = await renderRoot();
+    const controller = ctx.getController<SortableListsController>('sortable-lists', root);
+    const selectForAction = vi.spyOn(controller, 'selectForAction');
+    root.setAttribute('data-controller', 'sortable-lists');
+    await ctx.nextFrame();
+    openMenu(items[1]);
+    expect(selectForAction).not.toHaveBeenCalled();
+
+    root.setAttribute('data-controller', 'sortable-lists sortable-lists--menu-source');
+    await ctx.nextFrame();
+    openMenu(items[1]);
+
+    expect(selectForAction).toHaveBeenCalledExactlyOnceWith(items[1]);
+    expect(items[1]).toHaveAttribute('data-batch-selected');
+  });
+
+  it('keeps menu scopes and endpoints local to each root across reconnect', async () => {
+    const { root, items } = await renderRoot();
+    const other = root.cloneNode(true) as HTMLElement;
+    other.id = 'other-root';
+    for (const attribute of Array.from(other.attributes)) {
+      if (attribute.name.endsWith('-outlet')) other.setAttribute(attribute.name, attribute.value.replaceAll('#sortable-root', '#other-root'));
+    }
+    other.setAttribute('data-sortable-lists--menu-source-url-value', '/other/menu');
+    other.querySelector('ul')!.innerHTML = [card('4'), card('5')].join('');
+    ctx.container.append(other);
+    await ctx.nextFrame();
+    const otherItems = Array.from(other.querySelectorAll<HTMLElement>('[data-sortable-lists--item-id-value]'));
+    click(items[0]);
+    click(items[1], { ctrlKey: true });
+    click(otherItems[0]);
+    click(otherItems[1], { ctrlKey: true });
+    other.setAttribute('data-controller', 'sortable-lists');
+    await ctx.nextFrame();
+    other.setAttribute('data-controller', 'sortable-lists sortable-lists--menu-source');
+    await ctx.nextFrame();
+
+    openMenu(items[1]);
+    openMenu(otherItems[1]);
+
+    expect(menuOf(items[1])).toHaveAttribute('src', `${menuUrl}?ids%5B%5D=1&ids%5B%5D=2&invoker_id=2`);
+    expect(menuOf(otherItems[1])).toHaveAttribute('src', '/other/menu?ids%5B%5D=4&ids%5B%5D=5&invoker_id=5');
+  });
 
   it('preserves existing endpoint parameters and encodes the settled IDs', async () => {
     const { root, items } = await renderRoot([card('A&B'), card('C/D')]);
