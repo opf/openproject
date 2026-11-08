@@ -171,6 +171,44 @@ describe('wpTablePagination Directive', () => {
       expect(within(navigation).getByText('(91 - 100/200)')).toBeVisible();
     });
 
+    it('preserves navigation while numbered controls hide and return across the mobile breakpoint', async () => {
+      const navigation = await renderPage(10, 200);
+      const current = within(navigation).getByText('10');
+      const first = within(navigation).getByText('1', { selector: 'button' });
+      const last = within(navigation).getByText('20', { selector: 'button' });
+      const ellipses = within(navigation).getAllByText('…');
+      const previous = within(navigation).getByRole('button', { name: component.text.label_previous });
+      const next = within(navigation).getByRole('button', { name: component.text.label_next });
+      const updatePage = vi.spyOn(TestBed.inject(WorkPackageViewPaginationService), 'updateFromObject').mockImplementation(() => {});
+
+      for (const width of [375, 543]) {
+        await browserPage.viewport(width, 800);
+
+        for (const control of [first, current, last, ...ellipses]) {
+          expect(control).not.toBeVisible();
+        }
+        expect(previous).toBeVisible();
+        expect(next).toBeVisible();
+        expect(within(navigation).getByText('(91 - 100/200)')).toBeVisible();
+      }
+
+      previous.click();
+      await fixture.whenStable();
+      expect(updatePage).toHaveBeenLastCalledWith({ page: 9 });
+      next.click();
+      await fixture.whenStable();
+      expect(updatePage).toHaveBeenLastCalledWith({ page: 11 });
+
+      await browserPage.viewport(544, 800);
+
+      for (const control of [first, current, last, ...ellipses]) {
+        expect(control).toBeVisible();
+      }
+      expect(current).toHaveAttribute('aria-current', 'page');
+      expect(previous).toBeVisible();
+      expect(next).toBeVisible();
+    });
+
     it('renders the current page between ellipses in a singleton window', async () => {
       vi.spyOn(TestBed.inject(PaginationService), 'getMaxVisiblePageOptions').mockReturnValue(1);
       const navigation = await renderPage(10, 200);
