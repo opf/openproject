@@ -130,6 +130,29 @@ export class ContextualActionMenu {
   }
 
   /**
+   * Opens the menu anchored on an element other than its own show button, with
+   * the given alignment: a trigger that is a real button, or a focused cell.
+   * The anchoring is borrowed like a pointer open and restored on close.
+   */
+  openAtAnchor(anchor:HTMLElement, options:{ align:'start'|'end' }, returnFocusTo:HTMLElement = anchor):void {
+    const overlay = this.overlay;
+    const popover = this.menu.popoverElement;
+    if (!overlay || !popover) {
+      return;
+    }
+
+    this.saveOverlayState(overlay);
+    overlay.anchorElement = anchor;
+    overlay.removeAttribute('anchor');
+    overlay.setAttribute('align', options.align);
+    overlay.setAttribute('side', CONTEXTUAL_SIDE);
+    overlay.removeAttribute('alignment-offset');
+    clearAnchorOffset(overlay);
+    overlay.update();
+    this.show(overlay, popover, returnFocusTo);
+  }
+
+  /**
    * Drops every contextual mutation, so a morph that removes the card
    * mid-invocation cannot leave a rewritten overlay behind.
    */
@@ -288,5 +311,91 @@ export class ContextualActionMenu {
         returnFocusTo.focus();
       }
     });
+  }
+}
+
+/**
+ * Opens a contextual menu on the pointer release that ends a right-click,
+ * never on the `contextmenu` event itself.
+ *
+ * Chrome light-dismisses a `popover="auto"` opened while the right-click
+ * gesture is still in flight: the trailing pointerup lands outside the freshly
+ * opened popover, counts as an outside click, and closes it again within the
+ * same gesture. A timer does not fix it — Chrome 150 runs a setTimeout(0)
+ * scheduled at contextmenu time several milliseconds *before* it dispatches
+ * the gesture's own pointerup — so the open is keyed off the real release.
+ *
+ * The two platform orderings need opposite treatment, and `pointerIsDown` is
+ * what tells them apart without sniffing the platform:
+ *   * macOS/Chrome fires contextmenu at mousedown time. The release is still
+ *     pending, so the open has to wait for it.
+ *   * Windows/Linux fire contextmenu at mouseup time. The release has already
+ *     landed and no further one is coming, so opening now is both correct and
+ *     necessary — waiting would hang forever.
+ *
+ * Fed by `press()` from `pointerdown` as well as `mousedown` because Chrome
+ * emits no `mousedown` before a long-press contextmenu, and released from the
+ * document in capture phase because a native HTML5 drag ends in `dragend`,
+ * not `mouseup`.
+ */
+export class PointerReleaseGate {
+  private down = false;
+  private pendingOpen?:AbortController;
+
+  constructor(private readonly doc:Document, private readonly signal:AbortSignal) {
+    const release = ():void => { this.down = false; };
+    doc.addEventListener('pointerup', release, { capture: true, signal });
+    doc.addEventListener('mouseup', release, { capture: true, signal });
+    signal.addEventListener('abort', () => this.cancelPendingOpen(), { once: true });
+  }
+
+  get pointerIsDown():boolean {
+    return this.down;
+  }
+
+  /** A press on the gated element: the pointer is now held. */
+  press():void {
+    this.down = true;
+  }
+
+  /**
+   * Runs `openMenu` from the pointer release that ends the current gesture.
+   * A second call while one open waits retires it, so the release opens the
+   * menu once, at the latest invocation's position.
+   */
+  openOnRelease(openMenu:() => void):void {
+    this.cancelPendingOpen();
+    if (this.signal.aborted) {
+      return;
+    }
+
+    const pending = new AbortController();
+    this.pendingOpen = pending;
+    const { signal } = pending;
+
+    const open = ():void => {
+      this.cancelPendingOpen();
+      if (this.signal.aborted) {
+        return;
+      }
+      openMenu();
+    };
+    const cancel = ():void => this.cancelPendingOpen();
+
+    // On the document, capture phase: the release opens the menu wherever it
+    // lands (the pointer may have left the element while the button was held)
+    // and before anything else reacts to it.
+    this.doc.addEventListener('pointerup', open, { capture: true, signal });
+    this.doc.addEventListener('mouseup', open, { capture: true, signal });
+    // Should the release never arrive — pointer left the window, gesture
+    // cancelled — the next gesture's own press retires the pending open, so it
+    // cannot survive into some later, unrelated click.
+    this.doc.addEventListener('pointerdown', cancel, { capture: true, signal });
+    this.doc.addEventListener('pointercancel', cancel, { capture: true, signal });
+  }
+
+  cancelPendingOpen():void {
+    this.pendingOpen?.abort();
+    this.pendingOpen = undefined;
   }
 }

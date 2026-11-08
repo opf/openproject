@@ -36,8 +36,9 @@ import type AnchoredPositionElement from '@openproject/primer-view-components/ap
 // Side-effect import: the type-only import above is elided, and it is loading
 // the module that registers `<anchored-position>`.
 import '@openproject/primer-view-components/app/components/primer/anchored_position';
+import { fireEvent } from '@testing-library/dom';
 import { nextFrame } from 'core-common/testing/timing';
-import { CONTEXTUAL_ALIGN, CONTEXTUAL_SIDE, ContextualActionMenu } from './contextual-action-menu';
+import { CONTEXTUAL_ALIGN, CONTEXTUAL_SIDE, ContextualActionMenu, PointerReleaseGate } from './contextual-action-menu';
 
 // The real <action-menu> custom element is registered by the Primer bundle,
 // which the Vitest browser environment does not load. The presenter only
@@ -342,5 +343,71 @@ describe('ContextualActionMenu', () => {
       expect(overlay.anchorOffset).toBe(8);
       expect(popover.matches(':popover-open')).toBe(true);
     });
+  });
+
+  describe('opening at an anchor', () => {
+    it('anchors on the given element with the requested alignment', () => {
+      presenter.openAtAnchor(card, { align: 'end' });
+
+      expect(overlay.anchorElement).toBe(card);
+      expect(overlay.hasAttribute('anchor')).toBe(false);
+      expect(overlay.getAttribute('align')).toBe('end');
+      expect(overlay.getAttribute('side')).toBe('outside-bottom');
+      expect(overlay.hasAttribute('alignment-offset')).toBe(false);
+      // The overlay's own gap (`anchor-offset="spacious"`) stays in force.
+      expect(overlay.anchorOffset).toBe(8);
+      expect(popover.matches(':popover-open')).toBe(true);
+    });
+
+    it('restores the original anchoring when the menu closes', async () => {
+      presenter.openAtAnchor(card, { align: 'end' });
+
+      await closeMenu();
+
+      expect(overlay.getAttribute('anchor')).toBe('wp-1-menu-button');
+      expect(overlay.getAttribute('align')).toBe('end');
+      expect(overlay.getAttribute('alignment-offset')).toBe('12');
+      expect(overlay.hasAttribute('side')).toBe(false);
+      expect(overlay.anchorElement).toBe(invoker);
+    });
+  });
+});
+
+describe('PointerReleaseGate', () => {
+  let controller:AbortController;
+
+  beforeEach(() => {
+    controller = new AbortController();
+  });
+
+  afterEach(() => {
+    controller.abort();
+  });
+
+  it('runs the open on the release that ends the gesture', () => {
+    const gate = new PointerReleaseGate(document, controller.signal);
+    const open = vi.fn();
+
+    gate.press();
+    gate.openOnRelease(open);
+    expect(open).not.toHaveBeenCalled();
+    expect(gate.pointerIsDown).toBe(true);
+
+    fireEvent.pointerUp(document);
+
+    expect(open).toHaveBeenCalledTimes(1);
+    expect(gate.pointerIsDown).toBe(false);
+  });
+
+  it('drops a pending open on the next press', () => {
+    const gate = new PointerReleaseGate(document, controller.signal);
+    const open = vi.fn();
+
+    gate.press();
+    gate.openOnRelease(open);
+    fireEvent.pointerDown(document);
+    fireEvent.pointerUp(document);
+
+    expect(open).not.toHaveBeenCalled();
   });
 });
