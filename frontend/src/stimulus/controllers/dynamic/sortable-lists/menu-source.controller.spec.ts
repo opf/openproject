@@ -142,6 +142,32 @@ describe('Sortable lists menu source controller', () => {
     toggle(item.querySelector(':scope action-menu > anchored-position')!, newState);
   };
 
+  it('preserves existing endpoint parameters and encodes the settled IDs', async () => {
+    const { root, items } = await renderRoot([card('A&B'), card('C/D')]);
+    root.setAttribute('data-sortable-lists--menu-source-url-value', `${menuUrl}?existing=1`);
+    click(items[0]);
+    click(items[1], { ctrlKey: true });
+
+    openMenu(items[1]);
+
+    const src = new URL(menuOf(items[1]).getAttribute('src')!, window.location.href);
+    expect(src.searchParams.get('existing')).toBe('1');
+    expect(src.searchParams.getAll('ids[]')).toEqual(['A&B', 'C/D']);
+    expect(src.searchParams.get('invoker_id')).toBe('C/D');
+    expect(src.pathname).toBe(menuUrl);
+  });
+
+  it('accepts a duck-typed primary open event', async () => {
+    const { items } = await renderRoot();
+    click(items[0]);
+    click(items[1], { ctrlKey: true });
+    const event = Object.assign(new Event('beforetoggle'), { newState: 'open' });
+    items[1].querySelector(':scope action-menu > anchored-position')!.dispatchEvent(event);
+
+    const src = new URL(menuOf(items[1]).getAttribute('src')!, window.location.href);
+    expect(src.searchParams.getAll('ids[]')).toEqual(['1', '2']);
+  });
+
   it('sets src to the ordered batch when opened on a selected card', async () => {
     const { items } = await renderRoot();
     click(items[2], { ctrlKey: true });

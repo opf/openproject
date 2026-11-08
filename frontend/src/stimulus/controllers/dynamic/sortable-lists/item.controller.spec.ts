@@ -1442,10 +1442,11 @@ describe('Sortable lists item controller', () => {
       // decides whether it still separates anything.
       menuElement.innerHTML = (withDivider ? '<li data-sortable-lists--item-target="moveDivider"></li>' : '')
         + ['top', 'up', 'down', 'bottom'].map((direction) => (
-          `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
+          `<li class="ActionListItem" data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
           + ' data-action="click->sortable-lists--item#move"><button></button></li>'
         )).join('');
       const parent = document.createElement('li');
+      parent.classList.add('ActionListItem');
       parent.setAttribute('data-sortable-lists--item-target', 'moveMenu');
       menuElement.appendChild(parent);
       el.appendChild(menuElement);
@@ -1552,6 +1553,49 @@ describe('Sortable lists item controller', () => {
       expect(divider.hasAttribute('hidden')).toBe(true);
     });
 
+    it('hides the singular divider with a trailing submenu overlay but no visible ActionList item', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      const menu = el.querySelector('action-menu')!;
+      const list = document.createElement('ul');
+      list.setAttribute('role', 'menu');
+      list.append(...menu.children);
+      list.append(document.createElement('anchored-position'));
+      menu.append(list);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      controller.moveItemTargetConnected();
+
+      expect(el.querySelector('[data-sortable-lists--item-target="moveDivider"]')).toHaveAttribute('hidden');
+    });
+
+    it('refreshes only when its primary overlay opens, not for tooltip or submenu toggles', async () => {
+      const { el } = renderItemWithMenu(2);
+      const menu = el.querySelector('action-menu')!;
+      const primary = document.createElement('anchored-position');
+      primary.append(...menu.children);
+      menu.append(primary);
+      const submenu = document.createElement('anchored-position');
+      primary.append(submenu);
+      const tooltip = document.createElement('tool-tip');
+      menu.append(tooltip);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const root = stubRoot(el, { isFirst: false, isLast: false });
+      const availability = vi.spyOn(root, 'moveAvailability');
+      controller.connectRoot(root);
+      availability.mockClear();
+      const open = () => Object.assign(new Event('toggle'), { newState: 'open' });
+
+      tooltip.dispatchEvent(open());
+      submenu.dispatchEvent(open());
+      expect(availability).not.toHaveBeenCalled();
+      primary.dispatchEvent(open());
+      expect(availability).toHaveBeenCalledOnce();
+      primary.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'closed' }));
+      expect(availability).toHaveBeenCalledOnce();
+    });
+
     it('keeps the divider while something below it is still visible', async () => {
       const { el } = renderItemWithMenu(1, true);
       document.body.appendChild(el);
@@ -1637,6 +1681,34 @@ describe('Sortable lists item controller', () => {
       fireEvent.click(within(li).getByRole('button', { name: 'Move to inbox' }));
 
       expect(moveToDestination).not.toHaveBeenCalled();
+    });
+
+    ['move', 'moveToDestination'].forEach((command) => {
+      ['hidden', 'disabled', 'missing menu', 'non-element target'].forEach((state) => {
+        it(`${command} refuses ${state} activation`, async () => {
+          const { el } = renderItemWithMenu(2);
+          const { li } = appendDestinationItem(el);
+          document.body.appendChild(el);
+          const controller = await mountItemController(el);
+          const moveInDirection = vi.fn();
+          const moveToDestination = vi.fn();
+          controller.connectRoot({ ...stubRoot(el, { isFirst: false, isLast: false }, moveInDirection), moveToDestination });
+          if (state === 'hidden') li.hidden = true;
+          if (state === 'disabled') li.classList.add('ActionListItem--disabled');
+          if (state === 'missing menu') {
+            el.querySelector('action-menu')!.remove();
+            await new Promise<void>((resolve) => setTimeout(resolve));
+          }
+          const event = Object.assign(new Event('click'), { params: { direction: 'down' } });
+          Object.defineProperty(event, 'currentTarget', { value: state === 'non-element target' ? document : li });
+
+          if (command === 'move') controller.move(event);
+          else controller.moveToDestination(event);
+
+          expect(moveInDirection).not.toHaveBeenCalled();
+          expect(moveToDestination).not.toHaveBeenCalled();
+        });
+      });
     });
 
     it('does nothing when there is no action-menu (drag-only consumer)', async () => {

@@ -44,7 +44,7 @@ export default class MenuSourceController extends Controller<HTMLElement> {
   }
 
   private readonly onBeforeToggle = (event:Event):void => {
-    if (!(event instanceof ToggleEvent) || event.newState !== 'open') {
+    if ((event as ToggleEvent).newState !== 'open') {
       return;
     }
 
@@ -80,15 +80,15 @@ export default class MenuSourceController extends Controller<HTMLElement> {
     }
 
     const ids = scope.length > 0 ? scope.map(resolveItemId) : [invokerId];
-    const params = new URLSearchParams();
+    const url = new URL(this.urlValue, window.location.href);
     ids.forEach((id) => {
       if (id) {
-        params.append('ids[]', id);
+        url.searchParams.append('ids[]', id);
       }
     });
-    params.append('invoker_id', invokerId);
+    url.searchParams.set('invoker_id', invokerId);
 
-    return `${this.urlValue}?${params.toString()}`;
+    return `${url.pathname}${url.search}${url.hash}`;
   }
 
   private get root():SortableListsController|null {

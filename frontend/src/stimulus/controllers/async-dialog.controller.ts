@@ -72,6 +72,8 @@ export default class AsyncDialogController extends Controller {
 
     const method = form?.method ?? this.method;
     const url = urlOverride ?? form?.action ?? this.href;
+    if (!url) return;
+
     const body = form ? new FormData(form) : undefined;
 
     this.setLoading(true);
@@ -91,7 +93,7 @@ export default class AsyncDialogController extends Controller {
     void this.triggerTurboStream(event.detail.url);
   }
 
-  get href():string {
+  get href():string|undefined {
     return (this.element as HTMLLinkElement).href;
   }
 

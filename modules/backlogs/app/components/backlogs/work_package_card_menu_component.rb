@@ -60,10 +60,10 @@ module Backlogs
 
     # Positional moves reorder within the card's own list, which the server
     # allows even for a read-only work package, so they gate on the page-level
-    # permission alone. Only the cross-container moves below consult the
-    # destinations.
+    # permission alone, not on whether any cross-container destination is
+    # offered.
     def show_move_items?
-      user_allowed?(:manage_sprint_items)
+      destinations.manage_permission?
     end
 
     def show_move_to_inbox?

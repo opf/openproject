@@ -1362,13 +1362,16 @@ describe('Sortable lists controller', () => {
       select(items[0], { ctrlKey: true });
       const settle = pendingFetch();
 
-      rootController(root).moveToDestination(inboxForm(['2', '1']));
+      const form = inboxForm(['2', '1']);
+      form.action += '?existing=1';
+      rootController(root).moveToDestination(form);
 
       expect(root).toHaveAttribute(busyAttribute);
       await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
       const [url, options] = fetchMock.mock.lastCall as [string, { method:string; body:FormData }];
-      expect(url).toBe('/projects/demo/backlogs/work_packages/move');
-      expect(options.method).toBe('PUT');
+      expect(url).toBe('/projects/demo/backlogs/work_packages/move?existing=1');
+      expect(options.method).toBe('POST');
+      expect(options.body.get('_method')).toBe('put');
       expect(options.body.getAll('ids[]')).toEqual(['2', '1']);
       expect(options.body.get('list_type')).toBe('inbox');
       expect(options.body.has('prev_id')).toBe(false);

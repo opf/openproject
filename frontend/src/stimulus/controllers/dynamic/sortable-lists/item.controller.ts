@@ -111,12 +111,15 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private root?:SortableListsRoot;
 
   private readonly onMenuToggle = (event:Event):void => {
-    // The toggle event does not bubble, so listen in capture phase; recompute
-    // availability whenever the card menu opens, since a reorder can have
-    // shifted siblings meanwhile. Read newState by duck typing rather than
-    // `instanceof ToggleEvent` so a browser without the ToggleEvent global
-    // cannot throw.
-    if ((event as ToggleEvent).newState === 'open') {
+    // An optimistic in-list drag leaves the server-rendered direction
+    // availability stale, so it is recomputed when the card's own menu opens.
+    // The toggle event does not bubble, so listen in capture phase, and only
+    // for the menu's primary overlay: tooltips and sub-menus toggle too. Read
+    // newState by duck typing rather than `instanceof ToggleEvent` so a browser
+    // without the ToggleEvent global cannot throw.
+    if ((event as ToggleEvent).newState === 'open'
+      && this.hasMenuElement
+      && event.target === this.menuElement.querySelector(':scope > anchored-position')) {
       this.refreshMoveMenuAvailability();
     }
   };
@@ -145,14 +148,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   move(event:ActionEvent):void {
-    const item = event.currentTarget;
-    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
-      return;
-    }
-
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
-      return;
-    }
+    const item = this.activatableMenuItem(event);
+    if (!item || !isOrderableItem(this.element)) return;
 
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
@@ -161,19 +158,17 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   moveToDestination(event:ActionEvent):void {
-    const item = event.currentTarget;
-    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
-      return;
-    }
-
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
-      return;
-    }
-
-    const form = item.querySelector('form');
+    const item = this.activatableMenuItem(event);
+    const form = item?.querySelector('form');
     if (form) {
       this.root?.moveToDestination(form);
     }
+  }
+
+  private activatableMenuItem(event:ActionEvent):HTMLElement|null {
+    const item = event.currentTarget;
+    return this.hasMenuElement && item instanceof HTMLElement
+      && !this.menuElement.isItemDisabled(item) && !this.menuElement.isItemHidden(item) ? item : null;
   }
 
   // The focus host is the consumer's business: Backlogs puts the tab stop on
@@ -542,7 +537,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     let sibling = divider.nextElementSibling;
 
     while (sibling) {
-      if (!sibling.hasAttribute('hidden')) {
+      if (sibling.matches('li.ActionListItem:not([hidden])')) {
         divider.removeAttribute('hidden');
         return;
       }

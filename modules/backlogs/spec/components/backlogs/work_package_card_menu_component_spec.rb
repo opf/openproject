@@ -442,6 +442,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
 
       form = destination_form(:move_to_inbox)
       expect(form[:action]).to eq(move_project_backlogs_work_packages_path(project))
+      expect(form[:method]).to eq("post")
       expect(form).to have_field("_method", type: :hidden, with: "put")
       expect(form).to have_field("list_type", type: :hidden, with: Backlogs::Target::InboxId.list_type)
       expect(form).to have_no_field("prev_id", type: :hidden)

@@ -43,7 +43,7 @@ module Backlogs
       contract = Backlogs::WorkPackages::MenuParamsContract.new(@project, current_user, params: menu_params)
       return head(:unprocessable_entity) unless contract.valid?
 
-      invoker = WorkPackage.visible.where(project: @project).find(menu_params[:invoker_id])
+      invoker = @project.work_packages.visible.find(menu_params[:invoker_id])
       work_packages = find_collection_work_packages(menu_params[:ids]) || [invoker]
 
       render(card_menu_component(invoker, work_packages), layout: false)
