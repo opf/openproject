@@ -395,21 +395,9 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
     end
 
     it "keeps the source row visible as a placeholder and collapses multi-selection" do
-      # Multi-select rows 1 and 2 via ctrl-click on the ID cells (established pattern).
-      # loading_indicator_saveguard between the two clicks mirrors
-      # select_work_package_row_spec's helpers: without it, the second
-      # click can race the first selection's render and replace it
-      # instead of adding to it.
-      first_target = find(".work-package-table--container tr:nth-of-type(1) .wp-table--cell-td.id")
-      loading_indicator_saveguard
-      first_target.click
-      loading_indicator_saveguard
-      # :meta (not :control) mirrors select_work_package_row_spec's helper: the
-      # click handler accepts either modifier, but :control replaces the
-      # selection on macOS drivers instead of extending it.
-      ctrl_target = find(".work-package-table--container tr:nth-of-type(2) .wp-table--cell-td.id")
-      page.driver.browser.action.key_down(:meta).click(ctrl_target.native).key_up(:meta).perform
-      expect(page).to have_css(".wp-table--row.-checked", count: 2)
+      wp_table.row(work_package1).send_keys(%i[shift space], %i[shift arrow_down])
+      wp_table.expect_selected_rows(work_package1, work_package2,
+                                    among: [work_package1, work_package2, work_package3, work_package4])
 
       # Probe: records mid-drag state; the Selenium chain itself is atomic.
       # A reference to the source row is captured the first time it matches so that
