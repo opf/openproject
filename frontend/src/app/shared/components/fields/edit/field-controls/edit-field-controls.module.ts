@@ -29,6 +29,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditFieldControlsComponent } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.component';
 import { OpSharedModule } from 'core-app/shared/shared.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { OpSharedModule } from 'core-app/shared/shared.module';
   imports: [
     CommonModule,
     OpSharedModule,
+    OpTooltipDirective,
   ],
   exports: [
     EditFieldControlsComponent,

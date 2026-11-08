@@ -75,6 +75,7 @@ import {
 import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { isInsideDisabledControl } from 'core-common/interactive-element-helper';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -120,7 +121,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
-  @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
+  @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent|KeyboardEvent }>();
 
   @Output() cardDblClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
 
@@ -219,6 +220,14 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,
     };
+  }
+
+  public activateCard(event:MouseEvent|KeyboardEvent):void {
+    if (event.target instanceof Element && isInsideDisabledControl(event.target)) {
+      return;
+    }
+
+    this.cardClicked.emit({ workPackageId: this.workPackage.id!, event });
   }
 
   cardTitle():string {

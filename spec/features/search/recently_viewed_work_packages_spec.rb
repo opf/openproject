@@ -34,6 +34,8 @@ RSpec.describe "Recently viewed work packages",
                with_settings: { login_required: false } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
+  include_context "with axe on Cuprite"
+
   let(:global_search) { Components::GlobalSearch.new }
 
   def recently_viewed_header_text
@@ -47,6 +49,13 @@ RSpec.describe "Recently viewed work packages",
       global_search.click_input
       expect(global_search.dropdown).to be_visible
       expect(global_search.dropdown).to have_no_text(recently_viewed_header_text)
+    end
+
+    it "names the search button" do
+      visit home_path
+
+      expect(page).to have_button(accessible_name: "Search", exact: true)
+      expect(page).to be_axe_clean.within("#top-menu-search-button")
     end
   end
 

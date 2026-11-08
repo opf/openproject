@@ -81,7 +81,7 @@ module Pages
       scroll_to_element(element)
 
       # The offset is needed to ensure that the resizer does not catch the click, instead of the info icon
-      element.hover.find('[data-test-selector="op-wp-single-card--details-button"]').click(x: -5, y: 0)
+      element.hover.find(:test_id, "op-wp-single-card--details-button").click(x: -5, y: 0)
 
       ::Pages::PrimerizedSplitWorkPackage.new(work_package, project)
     end
@@ -97,7 +97,7 @@ module Pages
     def click_info_icon(work_package)
       card_element = card(work_package)
       card_element.hover
-      card_element.find('[data-test-selector="op-wp-single-card--details-button"]').click
+      card_element.find(:test_id, "op-wp-single-card--details-button").click
     end
 
     def click_id_link(work_package)
