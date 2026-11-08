@@ -121,8 +121,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   it "passes the menu source to the common card" do
-    expect(rendered_component).to have_element "include-fragment",
-                                               src: menu_src
+    expect(rendered_component).to have_element "action-menu", src: menu_src
   end
 
   it "forwards extra system arguments to the common card root" do
@@ -145,7 +144,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
       "work_package_#{work_package.id}_menu-button",
       accessible_name: "Backlogs card actions"
     )
-    expect(rendered).to have_no_element "include-fragment"
+    expect(rendered).to have_no_css "action-menu[src]"
     expect(rendered).to have_css("span", text: "5", aria: { hidden: true })
     expect(rendered).to have_css(".sr-only", text: "5 story points")
   end
