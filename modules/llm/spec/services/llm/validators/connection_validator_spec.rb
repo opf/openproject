@@ -246,7 +246,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
       it "leaves it to the active Semantic Index instead of asking for a model" do
         result = result_for(:features, :bindings_resolvable)
 
-        expect(result.context[:features]).to eq("Description assistant")
+        expect(result.context[:features]).to eq("Text assistant")
       end
     end
 
