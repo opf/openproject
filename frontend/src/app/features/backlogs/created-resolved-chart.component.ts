@@ -40,9 +40,6 @@ type SeriesKey = 'created'|'resolved';
 //
 // Which of the two leads is the whole question the chart answers, so the band between them is
 // red while work is arriving faster than it is finished and green while it is not.
-//
-// The non-working days are not rendered for this chart as a lot of gray bars on the longer
-// time span are confusing.
 const SERIES_STYLE:Record<SeriesKey, SeriesStyle<SeriesKey>> = {
   created: {
     swatch: 'rect',
