@@ -90,43 +90,32 @@ describe("fetchResource", () => {
       expect(output).not.toContain("__valid_oauth_token");
       log.mockRestore();
     });
-  });
-});
 
-describe("describeErrorResponse", () => {
-  const resourceUrl = "https://test.openproject.com/api/v3/documents/42";
+    test("logs the response body of a failed request", async () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      const resourceUrl = "https://test.openproject.com/api/v3/documents/42";
+      const body = JSON.stringify({ _type: "Error", message: "You are not authorized to access this resource." });
+      server.use(http.get(resourceUrl, () => new HttpResponse(body, { status: 403 })));
+      const { fetchResource } = await import("../../src/services/resourceService");
 
-  async function errorResponse(body: string) {
-    server.use(http.get(resourceUrl, () => new HttpResponse(body, { status: 500 })));
-    return fetch(resourceUrl);
-  }
+      const response = await fetchResource(resourceUrl, "__valid_oauth_token");
 
-  test("logs error bodies on a single line", async () => {
-    const { describeErrorResponse } = await import("../../src/services/resourceService");
-    const response = await errorResponse(JSON.stringify({
-      _type: "Error",
-      errorIdentifier: "urn:openproject-org:api:v3:errors:MissingPermission",
-      message: "You are not authorized to access this resource.",
-    }, null, 2));
-
-    const description = await describeErrorResponse(response);
-
-    expect(description).toEqual('{ "_type": "Error", "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission", "message": "You are not authorized to access this resource." }');
-    expect(await response.json()).toMatchObject({ _type: "Error" });
-  });
-});
-
-describe("describeFetchError", () => {
-  test("includes the underlying cause of a failed fetch", async () => {
-    const { describeFetchError } = await import("../../src/services/resourceService");
-    const cause = Object.assign(new Error("connect ECONNREFUSED 127.0.0.1:3000"), {
-      code: "ECONNREFUSED",
-      syscall: "connect",
-      address: "127.0.0.1",
-      port: 3000,
+      expect(warn).toHaveBeenCalledWith(expect.anything(), expect.anything(), expect.stringMatching(/-> 403/), body);
+      expect(await response.json()).toMatchObject({ _type: "Error" });
+      warn.mockRestore();
     });
 
-    expect(describeFetchError(new TypeError("fetch failed", { cause })))
-      .toEqual("fetch failed (connect ECONNREFUSED 127.0.0.1:3000)");
+    test("logs and rethrows the error of a request that cannot be sent", async () => {
+      const error = vi.spyOn(console, "error").mockImplementation(() => {});
+      const resourceUrl = "https://test.openproject.com/api/v3/documents/42";
+      server.use(http.get(resourceUrl, () => HttpResponse.error()));
+      const { fetchResource } = await import("../../src/services/resourceService");
+
+      const failure = await fetchResource(resourceUrl, "__valid_oauth_token").catch((e: unknown) => e);
+
+      expect(failure).toBeInstanceOf(TypeError);
+      expect(error).toHaveBeenCalledWith(expect.anything(), expect.anything(), expect.stringMatching(/failed after/), failure);
+      error.mockRestore();
+    });
   });
 });

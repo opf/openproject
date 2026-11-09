@@ -46,8 +46,6 @@ if (OPENPROJECT_HTTPS) {
   logger.log(`using OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}`);
 }
 
-const ERROR_BODY_MAX_LENGTH = 2_000;
-
 /**
  * Fetches an OpenProject resource while automatically adjusting request URL and host header
  * based on the value of OPENPROJECT_URL in the environment.
@@ -85,48 +83,16 @@ export async function fetchResource(
     if (response.ok) {
       logger.log(`${target} -> ${response.status} (${elapsed()}ms)`);
     } else {
-      logger.warn(`${target} -> ${response.status} (${elapsed()}ms) ${await describeErrorResponse(response)}`);
+      logger.warn(`${target} -> ${response.status} (${elapsed()}ms)`, await response.clone().text());
     }
     return response;
   } catch (error) {
-    logger.error(`${target} failed after ${elapsed()}ms: ${describeFetchError(error)}`);
+    logger.error(`${target} failed after ${elapsed()}ms`, error);
     logger.error(OPENPROJECT_URL
       ? `Hint: OpenProject is not reachable under OPENPROJECT_URL (${OPENPROJECT_URL}). Check that it is correct (see README).`
       : "Hint: if OpenProject is not reachable from hocuspocus under this URL, configure OPENPROJECT_URL (see README).");
     throw error;
   }
-}
-
-export async function describeErrorResponse(response: Response): Promise<string> {
-  try {
-    const body = (await response.clone().text()).replace(/\s+/g, " ").trim();
-    return body ? truncate(body, ERROR_BODY_MAX_LENGTH) : "(empty body)";
-  } catch {
-    return "(unreadable body)";
-  }
-}
-
-function truncate(text: string, maxLength: number): string {
-  return text.length > maxLength ? `${text.slice(0, maxLength)}…` : text;
-}
-
-export function describeFetchError(error: unknown): string {
-  if (!(error instanceof Error)) {
-    return String(error);
-  }
-
-  const cause = error.cause as (NodeJS.ErrnoException & { address?: string, port?: number }) | undefined;
-  if (!(cause instanceof Error)) {
-    return `${error.name}: ${error.message}`;
-  }
-
-  const details = [
-    cause.code,
-    cause.syscall,
-    cause.address && `${cause.address}:${cause.port}`,
-  ].filter((detail) => detail && !cause.message.includes(detail));
-
-  return `${error.message} (${cause.message}${details.length ? `; ${details.join(" ")}` : ""})`;
 }
 
 /**
