@@ -187,6 +187,22 @@ RSpec.describe ITSM::InboundEmail do
       end
     end
 
+    context "with styling and active content in an HTML version" do
+      let(:raw) do
+        "From: jane@customer.example\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" \
+          "<html><head><link rel=\"stylesheet\" href=\"https://styles.example/mail.css\"></head><body>" \
+          "<p style=\"color: red; background: url(https://tracker.example/pixel.gif)\" onclick=\"alert(1)\">Hello</p>" \
+          "<img src=\"https://tracker.example/pixel.gif\" onerror=\"alert(1)\">" \
+          "<iframe src=\"https://frame.example\">frame</iframe><object>object</object>" \
+          "<!-- hidden comment --><svg><style>p { display: none }</style></svg>" \
+          "</body></html>"
+      end
+
+      it "keeps only the visible text" do
+        expect(text).to eq("Hello")
+      end
+    end
+
     context "with links in an HTML version" do
       let(:raw) do
         "From: jane@customer.example\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" \
@@ -217,6 +233,90 @@ RSpec.describe ITSM::InboundEmail do
 
       it "reads the body, not the attachment" do
         expect(text).to eq("See the attached notes.")
+      end
+    end
+
+    context "with the body nested in related and mixed parts" do
+      let(:plain_version) do
+        <<~MIME
+          --alternative
+          Content-Type: text/plain; charset=UTF-8
+
+          The plain version.
+        MIME
+      end
+      let(:raw) do
+        <<~MIME.gsub("\n", "\r\n")
+          From: jane@customer.example
+          Content-Type: multipart/mixed; boundary="mixed"
+
+          --mixed
+          Content-Type: multipart/related; boundary="related"
+
+          --related
+          Content-Type: multipart/alternative; boundary="alternative"
+
+          #{plain_version}--alternative
+          Content-Type: text/html; charset=UTF-8
+
+          <p>The HTML version.</p><img src="cid:logo">
+          --alternative--
+          --related
+          Content-Type: image/png
+          Content-Disposition: inline; filename="logo.png"
+          Content-ID: <logo>
+          Content-Transfer-Encoding: base64
+
+          iVBORw0KGgo=
+          --related--
+          --mixed
+          Content-Type: text/plain; charset=UTF-8
+          Content-Disposition: attachment; filename="notes.txt"
+
+          Attached notes
+          --mixed--
+        MIME
+      end
+
+      it "reads the plain text version" do
+        expect(text).to eq("The plain version.")
+      end
+
+      context "without a plain text version" do
+        let(:plain_version) { "" }
+
+        it "reads the HTML version, not the inline image or the attachment" do
+          expect(text).to eq("The HTML version.")
+        end
+      end
+    end
+
+    context "with the text split around an inline image" do
+      let(:raw) do
+        <<~MIME.gsub("\n", "\r\n")
+          From: jane@customer.example
+          Content-Type: multipart/mixed; boundary="mixed"
+
+          --mixed
+          Content-Type: text/plain; charset=UTF-8
+
+          Before the image.
+          --mixed
+          Content-Type: image/png
+          Content-Disposition: inline; filename="screenshot.png"
+          Content-Transfer-Encoding: base64
+
+          iVBORw0KGgo=
+          --mixed
+          Content-Type: text/plain; charset=UTF-8
+
+          After the image.
+          --mixed--
+        MIME
+      end
+
+      it "reads all parts of the text" do
+        expect(text).to eq("Before the image.\n\nAfter the image.")
       end
     end
 

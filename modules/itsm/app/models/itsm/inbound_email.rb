@@ -49,7 +49,7 @@ module ITSM
     end
 
     def text
-      @text ||= valid_utf8(body_text).gsub(/\r\n?/, "\n").strip
+      @text ||= body_text.gsub(/\r\n?/, "\n").strip
     end
 
     private
@@ -77,11 +77,18 @@ module ITSM
     end
 
     def body_text
-      part = mail.multipart? ? mail.text_part || mail.html_part : mail
+      return part_text(mail) unless mail.multipart?
 
-      case part&.mime_type
-      when nil, "text/plain" then part&.decoded.to_s
-      when "text/html" then html_to_text(part.decoded)
+      parts = body_parts("text/plain").presence || body_parts("text/html")
+      parts.map { part_text(it).strip }.compact_blank.join("\n\n")
+    end
+
+    def body_parts(mime_type) = mail.all_parts.select { it.mime_type == mime_type && !it.attachment? }
+
+    def part_text(part)
+      case part.mime_type
+      when nil, "text/plain" then valid_utf8(part.decoded.to_s)
+      when "text/html" then html_to_text(valid_utf8(part.decoded))
       else ""
       end
     end
