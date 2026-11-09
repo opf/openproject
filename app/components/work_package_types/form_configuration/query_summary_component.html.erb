@@ -1,9 +1,8 @@
-<%= render(OpPrimer::DefinitionListComponent.new(classes: "type-form-configuration-query-summary")) do |list| %>
+<%= render(OpPrimer::AttributesGroupComponent.new(scheme: :tabular, label_color: :muted, mt: 2)) do |group| %>
   <% @rows.each do |row| %>
-    <% list.with_item(classes: "type-form-configuration-query-summary--item") do |item| %>
-      <% item.with_term(classes: "type-form-configuration-query-summary--term") { row.fetch(:label) } %>
+    <% group.with_attribute(key: row.fetch(:label)) do |attribute| %>
       <% row.fetch(:values).each do |value| %>
-        <% item.with_description(classes: "type-form-configuration-query-summary--description") { value } %>
+        <% attribute.with_value { value } %>
       <% end %>
     <% end %>
   <% end %>
