@@ -316,7 +316,7 @@ export class UrlParamsHelperService {
       queryData.filters = JSON.stringify(filters);
     }
 
-    // Sortation
+    // Sorting
     if (properties.t) {
       queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort) => sort.split(':')));
     }
@@ -371,7 +371,7 @@ export class UrlParamsHelperService {
     // Filters
     queryData.filters = this.buildV3GetFiltersAsJson(query.filters, contextual);
 
-    // Sortation
+    // Sorting
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
     queryData.timestamps = query.timestamps.join(',');
 

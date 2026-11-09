@@ -83,13 +83,13 @@ pl:
         dependencies: Zależności
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Aktywny
-        injects_type_template: Wstaw szablon typu pakietu roboczego
-        label: Etykieta
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
         prompt: Prompt
-        types: Typy pakietów roboczych
-        usage_scope: Zakres
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Działanie
         cancel_requested: Zażądano anulowania
@@ -1092,11 +1092,11 @@ pl:
         few: Działania
         many: Działania
         other: Działania
-      ai/text_transform_action:
-        one: Działanie przekształcania tekstu
-        few: Działania przekształcania tekstu
-        many: Działania przekształcania tekstu
-        other: Działania przekształcania tekstu
+      ai/text_action:
+        one: Text action
+        few: Text actions
+        many: Text actions
+        other: Text actions
       ai/text_transform_run:
         one: Wykonanie przekształcania tekstu
         few: Wykonania przekształcania tekstu
@@ -2434,43 +2434,44 @@ pl:
         page_header:
           description: Wybierz pomiędzy klasycznymi numerycznymi identyfikatorami pakietów roboczych albo semantycznymi identyfikatorami specyficznymi dla projektu, które dodają identyfikator projektu do identyfikatora pakietu roboczego.
         success_banner: Pomyślnie zaktualizowano format identyfikatora pakietu roboczego.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Użytkownicy nie będą już mogli wykonać tego działania w edytorze tekstu sformatowanego.
-        heading: Czy na pewno chcesz usunąć działanie „%{label}”?
-        title: Usuń działanie przekształcania tekstu
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: W przypadku zaznaczenia tej opcji szablon opisu typu pakietu roboczego zostanie automatycznie dodany do promptu. Prompt powinien zawierać instrukcje dotyczące sposobu postępowania z tym szablonem.
-        label_caption: Jest to nazwa, która będzie widoczna dla użytkowników w edytorze.
-        select_types: Wybierz typy
-        types_caption: Dodaj typy pakietów roboczych, dla których to działanie ma być dostępne. Wszystkie dostępne warianty zostaną uwzględnione automatycznie.
-        usage_scope_caption: 'Można ograniczyć widoczność tego działania: wszędzie (w tym w komentarzach, stronach wiki i polach niestandardowych), dla wszystkich typów pakietów roboczych lub dla określonych typów pakietów roboczych.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Działanie
-        label_aria_add_action: Dodaj działanie przekształcania tekstu
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Dodaj działanie, aby wyświetlić je tutaj
-          title: Nie skonfigurowano jeszcze żadnych działań przekształcania tekstu
-        disabled_warning: Działania przekształcania tekstu są wyłączone. Poniższe działania nie będą nigdzie dostępne.
-        label_disable_all: Wyłącz wszystkie
-        label_enable_all: Włącz wszystkie
-        title: Działania
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Nowe działanie przekształcania tekstu
+        title: New text action
       row_component:
-        label_actions: Menu działań
-        label_toggle: Przełącz %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} typ pakietu roboczego"
-          few: "%{count} typy pakietu roboczego"
-          many: "%{count} typów pakietu roboczego"
-          other: "%{count} typu pakietu roboczego"
+          one: "%{count} work package type"
+          few: "%{count} work package types"
+          many: "%{count} work package types"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Wszystkie typy pakietów roboczych
-        everywhere: Wszędzie
-        specific_work_package_types: Określone typy pakietów roboczych
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Dodaj statusy, aby rozpocząć konfigurowanie przepływów pracy dla tej roli
@@ -2528,7 +2529,7 @@ pl:
       errors:
         connection_failed: Nie można osiągnąć usługi AI.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: Asystent AI jest niedostępny.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Usługa AI nie odpowiedziała na czas.
         upstream_error: Usługa AI zwróciła błąd.
@@ -2572,6 +2573,8 @@ pl:
         emoji_reactions_activity_type_not_supported: Ten typ działań nie obsługuje reakcji emoji.
         invalid_link: Link pod kluczem „%{key}” jest nieprawidłowy.
         links_not_an_object: _links musi być obiektem JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Nieprawidłowe żądanie: %{message}'
       code_401: Musisz być uwierzytelniony, aby otrzymać dostęp do tego zasobu.
       code_401_wrong_credentials: Nie wprowadziłeś prawidłowych danych uwierzytelniania.
@@ -3475,6 +3478,7 @@ pl:
       scim_api: Interfejs API serwera SCIM
       sso_auth_providers: Logowanie jednokrotne
       team_planner_view: Widok planisty zespołu
+      text_assistant: Text assistant
       virus_scanning: Skanowanie antywirusowe
       weighted_item_lists: Listy ważone pozycji
       work_package_query_relation_columns: Kolumny relacji zapytań dotyczących pakietów roboczych
@@ -3587,6 +3591,9 @@ pl:
       sso_auth_providers:
         description: Umożliw użytkownikom logowanie się za pośrednictwem zewnętrznych dostawców SSO przy użyciu SAML lub OpenID Connect, aby zapewnić bezproblemowy dostęp i integrację z istniejącymi systemami sprawdzania tożsamości.
         title: Logowanie jednokrotne (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Dodatek wersji Enterprise
       trial_text: Funkcja ta jest dostępna w ramach aktywnej wersji próbnej Enterprise.
       unlimited: Bez ograniczeń
@@ -5379,7 +5386,7 @@ pl:
       mail_notification: Powiadomienia e-mail
       mails_and_notifications: Wiadomości e-mail i powiadomienia
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Działania przekształcania tekstu
+      text_actions: Text assistant
     quick_add:
       label: Dodaj…
   more_actions: Więcej funkcji
@@ -6449,6 +6456,22 @@ pl:
         automatic:
           description: Ustaw kolejność %{plural} według jednego lub więcej kryteriów sortowania. Poprzednie sortowanie zostanie utracone.
           heading: Automatycznie
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6655,7 +6678,6 @@ pl:
   setting_after_login_default_redirect_url_example_html: 'Ustaw domyślną ścieżkę przekierowania użytkowników po zalogowaniu, jeśli nie zapewniono linku do powrotu. Jeśli nie jest ustawiona, przekierowuje na stronę główną. <br/> Przykład: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Włącz działania przekształcania tekstu
   setting_allowed_link_protocols: Dozwolone protokoły linków
   setting_allowed_link_protocols_text_html: Zezwalaj na renderowanie tych protokołów jako linków w opisach pakietów roboczych, długich polach tekstowych i komentarzach. Na przykład %{tel_code} lub %{element_code}. Wprowadź każdy protokół w jednym wierszu. <br/> Protokoły %{http_code}, %{https_code} i %{mailto_code} są zawsze dozwolone.
   setting_antivirus_scan_action: Działanie wobec zainfekowanego pliku
@@ -7403,6 +7425,9 @@ pl:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: do
     show: Pokaż ramy czasowe
@@ -7633,6 +7658,11 @@ pl:
         no_inactive_attributes: Brak nieaktywnych atrybutów
         not_found: Nie można znaleźć żądanego elementu formularza.
         query_group_label: Tabela powiązanych pakietów roboczych
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Usuń z sekcji
         rename_group: Zmień nazwę sekcji
         required:
@@ -7694,8 +7724,6 @@ pl:
           no_results: Brak pasujących projektów.
           title: Not used in any project yet
         enable_all: Włącz dla wszystkich projektów
-        select_projects: Wybierz projekty
-        select_projects_description: Wybierz projekty, w których chcesz używać tego typu.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

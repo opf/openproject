@@ -93,6 +93,10 @@ module CostQuery::CustomFieldMixin
     @custom_field.name
   end
 
+  def underscore_name
+    @custom_field.column_name
+  end
+
   def prepare(field, class_name)
     @custom_field = field
     @class_name = class_name

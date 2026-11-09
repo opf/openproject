@@ -71,7 +71,7 @@ ro:
           name: Manager de personal și de proiecte
         item_1:
           name: Rol global standard
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
           label: Fix grammar
         item_1:

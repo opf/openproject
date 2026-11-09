@@ -30,6 +30,7 @@
 module WorkPackageTypes
   module FormConfiguration
     class GroupQueryRowComponent < ApplicationComponent
+      include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
       def initialize(group:, ee_available:, readonly: false, exclusions: nil)
@@ -38,6 +39,10 @@ module WorkPackageTypes
         @ee_available = ee_available
         @readonly = readonly
         @exclusions = exclusions
+      end
+
+      def wrapper_uniq_by
+        @group[:key]
       end
 
       def readonly?

@@ -438,7 +438,6 @@ sl:
     label_assignee: Prevzemnik
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Priponka
-    label_author: 'Avtor: %{user}'
     label_avatar: Avatar
     label_between: med
     label_board: Board
@@ -1154,7 +1153,6 @@ sl:
           '
         display_settings: Prikaži nastavitve
         display_sums_hint: Prikažite vsote vseh atributov, ki seštevajo v vrstici pod rezultati tabele.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Vsi rezultati filtrirane tabele bodo dopolnjeni s svojimi predniki. Hierarhijo je mogoče razširiti in strniti.
         hierarchy_mode: Hierarhija
         highlighting: Poudarjanje

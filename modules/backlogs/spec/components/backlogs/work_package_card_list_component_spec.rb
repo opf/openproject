@@ -132,7 +132,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
         text: "3 story points"
       )
       expect(rendered_component).to have_element(
-        "include-fragment",
+        "action-menu",
         src: menu_project_backlogs_work_package_path(project, work_package)
       )
     end

@@ -30,12 +30,11 @@
 require "spec_helper"
 
 RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
-                                                      with_flag: { ai_text_transform_actions: true },
-                                                      with_settings: { ai_text_transform_actions_enabled: true } do
+                                                      with_flag: { ai_text_actions: true } do
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:work_package) { create(:work_package, project:, type:) }
-  shared_let(:action) { create(:ai_text_transform_action, label: "Fix grammar") }
+  shared_let(:action) { create(:ai_text_action, label: "Fix grammar") }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages add_work_packages] })
   end
@@ -117,7 +116,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
     end
 
     it "renders the pane as failed when the action is not available" do
-      inactive = create(:ai_text_transform_action, label: "Inactive", active: false)
+      inactive = create(:ai_text_action, label: "Inactive", active: false)
 
       post ai_text_transform_panes_path, params: start_params.merge(action_id: inactive.id), headers: stream
 
@@ -173,7 +172,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
     end
   end
 
-  context "with the feature flag inactive", with_flag: { ai_text_transform_actions: false } do
+  context "with the feature flag inactive", with_flag: { ai_text_actions: false } do
     let(:run) { run_with_events(:succeeded, ["completed", { "text" => "Done." }]) }
 
     it "is not found for create" do
@@ -248,17 +247,54 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       get ai_text_transform_pane_path(run.uuid, **pane_params, after: 0), headers: stream
 
-      expect(response.body).to include("<strong>done</strong>", "<template>**done**</template>", "Replace",
+      expect(response.body).to include("<strong>done</strong>", 'value="**done**"', "Replace",
                                        'data-state="done"', apply_ai_text_transform_pane_path(run.uuid))
     end
 
-    it "keeps markup in the raw text inside its template" do
+    it "copies the text the preview shows, with its markup escaped" do
       run = run_with_events(:succeeded, ["completed", { "text" => %(a < b "quoted" </template><img src=x>) }])
 
       get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
 
-      expect(response.body).to include("a &lt; b &quot;quoted&quot; &lt;/template&gt;&lt;img src=x&gt;")
+      expect(response.body)
+        .to include('value="a &lt; b &quot;quoted&quot; &lt;/template&gt;&lt;a href=&quot;x&quot;&gt;Image: x&lt;/a&gt;"')
       expect(response.body).not_to include("<img src=x>")
+    end
+
+    context "with mentions the input did not have" do
+      let(:group) { create(:group, lastname: "Devs") }
+      let(:text) { %(Ask group##{group.id} and <mention data-type="group" data-id="#{group.id}">@Devs</mention>.) }
+
+      it "shows and copies them as plain text and says so once the response is complete" do
+        run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+        get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+        body = Nokogiri::HTML5.fragment(response.body)
+        expect(body.css("a.user-mention")).to be_empty
+        expect(body.text).to include("Ask group #{group.id} and @Devs.")
+        expect(body.at_css("clipboard-copy")["value"]).to eq("Ask group #{group.id} and @Devs.")
+        expect(response.body).to include("were turned into plain text so no one is notified")
+      end
+
+      it "does not say so while generating" do
+        run = run_with_events(:running, ["text_delta", { "delta" => text }])
+
+        get ai_text_transform_pane_path(run.uuid, **pane_params, after: 0), headers: stream
+
+        expect(response.body).to include("Ask group #{group.id}")
+        expect(response.body).not_to include("were turned into plain text so no one is notified")
+      end
+
+      it "keeps the mentions the input had and says nothing" do
+        run = run_with_events(:succeeded, ["completed", { "text" => text }])
+        run.update_columns(input: "Hi group##{group.id}")
+
+        get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+        expect(Nokogiri::HTML5.fragment(response.body).at_css("clipboard-copy")["value"]).to eq(text)
+        expect(response.body).not_to include("were turned into plain text so no one is notified")
+      end
     end
 
     it "shows the stopped state for a blocked response" do
@@ -355,6 +391,25 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(response.body).to include('action="dispatchEvent"', "op-dispatched:ai-text-transform:accepted")
       detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
       expect(detail).to eq("requestId" => request_id, "scope" => "selection", "text" => text)
+    end
+
+    it "hands over only what the preview shows" do
+      text = %(Fixed <macro class="toc"></macro> ![chart](https://example.com/a.png))
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to eq("Fixed  [Image: chart](https://example.com/a.png)")
+    end
+
+    it "hands over new mentions only as plain text" do
+      run = run_with_events(:succeeded, ["completed", { "text" => %(Ask group#3 and user:"ann".) }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to eq(%(Ask group 3 and user: "ann".))
     end
 
     context "without the permission to edit the work package any more" do

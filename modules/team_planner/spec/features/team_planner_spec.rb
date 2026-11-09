@@ -42,7 +42,7 @@ RSpec.describe "Team planner",
       click_link "Team planners"
     end
 
-    expect(page).to have_content "There is currently nothing to display."
+    expect(page).to have_text "There is currently nothing to display."
     page.find_test_selector("add-team-planner-button").click
 
     expect_angular_frontend_initialized

@@ -1,7 +1,8 @@
 <button
     (click)="update()"
     class="custom-action--button button -narrow hide-when-print"
-    [title]="title"
+    opTooltip
+    [description]="description"
     [disabled]="change.inFlight"
     >
   {{action.name}}

@@ -32,6 +32,7 @@ class DemoDataSeeder < CompositeSeeder
     [
       DemoData::GroupSeeder,
       DemoData::GlobalQuerySeeder,
+      DemoData::LabelSeeder,
       DemoData::ProjectsSeeder,
       DemoData::OverviewSeeder
     ]

@@ -83,7 +83,7 @@ hy:
         dependencies: Կախվածություններ
   activerecord:
     attributes:
-      ai/text_transform_action:
+      ai/text_action:
         active: Active
         injects_type_template: Insert work package type template
         label: Label
@@ -1084,9 +1084,9 @@ hy:
       action:
         one: Action
         other: Actions
-      ai/text_transform_action:
-        one: Text transform action
-        other: Text transform actions
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Text transform run
         other: Text transform runs
@@ -2188,11 +2188,11 @@ hy:
         page_header:
           description: Ընտրեք դասական թվային աշխատանքային փաթեթների ID-ների և իմաստային, նախագծին հատուկ ID-ների միջև, որոնք աշխատանքային փաթեթի ID-ից առաջ ավելացնում են նախագծի նույնացուցիչը։
         success_banner: Աշխատանքային փաթեթի նույնացուցիչի ձևաչափը հաջողությամբ թարմացվել է։
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
         description: Users will no longer be able to run this action in the rich text editor.
         heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete text transform action
+        title: Delete action
       form:
         injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
         label_caption: This is the name that will be visible to users in the editor.
@@ -2200,19 +2200,20 @@ hy:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
         label_add_action: Action
-        label_aria_add_action: Add text transform action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
           description: Add an action to see it here
-          title: No text transform actions configured yet
-        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
         label_disable_all: Disable all
         label_enable_all: Enable all
-        title: Actions
+        title: Action
       new:
-        title: New text transform action
+        title: New text action
       row_component:
         label_actions: Action menu
         label_toggle: Toggle %{label}
@@ -2276,7 +2277,7 @@ hy:
       errors:
         connection_failed: The AI service could not be reached.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: The AI assistant is not available.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
@@ -2320,6 +2321,8 @@ hy:
         emoji_reactions_activity_type_not_supported: Գործունեության այս տեսակը չի աջակցում էմոջի արձագանքներին։
         invalid_link: "'%{key}' բանալու տակ գտնվող հղումը վավեր չէ։"
         links_not_an_object: _links-ը պետք է լինի JSON օբյեկտ։
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: Սխալ հարցում՝ %{message}
       code_401: Այս ռեսուրսին մուտք գործելու համար պետք է նույնականացված լինեք։
       code_401_wrong_credentials: Դուք չեք տրամադրել ճիշտ մուտքի տվյալները։
@@ -3185,6 +3188,7 @@ hy:
       scim_api: SCIM սերվերի API
       sso_auth_providers: Single Sign-On
       team_planner_view: Թիմային պլանավորիչի տեսք
+      text_assistant: Text assistant
       virus_scanning: Հակավիրուսային սկանավորում
       weighted_item_lists: Կշռված տարրերի ցանկեր
       work_package_query_relation_columns: Աշխատանքային փաթեթների հարցման կապերի սյունակներ
@@ -3295,6 +3299,9 @@ hy:
       sso_auth_providers:
         description: Հնարավորություն տվեք օգտատերերին մտնել արտաքին SSO մատակարարների միջոցով՝ օգտագործելով SAML կամ OpenID Connect և ապահովելով անխափան հասանելիություն ու ինտեգրում առկա ինքնության համակարգերի հետ։
         title: Single Sign-On (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise հավելում
       trial_text: Այս հնարավորությունը ներառված է Ձեր ակտիվ Enterprise փորձաշրջանում։
       unlimited: Անսահմանափակ
@@ -5044,7 +5051,7 @@ hy:
       mail_notification: Էլ. փոստի ծանուցումներ
       mails_and_notifications: Էլ. նամակներ և ծանուցումներ
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Text transform actions
+      text_actions: Text assistant
     quick_add:
       label: Ավելացնել…
   more_actions: Այլ գործառույթներ
@@ -6094,6 +6101,22 @@ hy:
         automatic:
           description: Դասավորեք %{plural}-ը մեկ կամ մի քանի դասավորման չափանիշով։ Դուք կկորցնեք նախորդ դասավորումը։
           heading: Ինքնաշխատ
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6298,7 +6321,6 @@ hy:
   setting_after_login_default_redirect_url_example_html: 'Նշեք կանխադրված ուղի՝ մուտքից հետո օգտատերերին վերահղելու համար, եթե հետդարձի հղում տրված չէ։ Եթե սահմանված չէ, վերահղում է գլխավոր էջ։ <br/> Օրինակ՝ %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Թույլատրելի հղումների պրոտոկոլներ
   setting_allowed_link_protocols_text_html: Թույլատրեք այս պրոտոկոլների ցուցադրումը որպես հղումներ աշխատանքային փաթեթների նկարագրություններում, երկար տեքստային դաշտերում և մեկնաբանություններում։ Օրինակ՝ %{tel_code} կամ %{element_code}։ Մուտքագրեք մեկ պրոտոկոլ յուրաքանչյուր տողում։ <br/> %{http_code}, %{https_code} և %{mailto_code} պրոտոկոլները միշտ թույլատրված են։
   setting_antivirus_scan_action: Վարակված նիշքի հետ գործողություն
@@ -7042,6 +7064,9 @@ hy:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: ԿՀ
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: մինչև
     show: Ցուցադրել ժամանակահատվածը
@@ -7270,6 +7295,11 @@ hy:
         no_inactive_attributes: Ոչ ակտիվ հատկանիշներ չկան
         not_found: The requested form item could not be found.
         query_group_label: Կապակցված աշխատանքային փաթեթների աղյուսակ
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Հեռացնել բաժնից
         rename_group: Վերանվանել բաժինը
         required:
@@ -7331,8 +7361,6 @@ hy:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: Միացնել բոլոր նախագծերի համար
-        select_projects: Ընտրել նախագծերը
-        select_projects_description: Ընտրեք նախագծերը, որոնցում ցանկանում եք օգտագործել այս տեսակը։
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?

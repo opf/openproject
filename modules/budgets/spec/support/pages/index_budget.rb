@@ -37,7 +37,7 @@ module Pages
 
     def expect_budget_not_listed(budget_name)
       expect(page)
-        .to have_no_content(budget_name)
+        .to have_no_text(budget_name)
     end
 
     def path

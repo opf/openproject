@@ -98,11 +98,7 @@ export class KeyboardSelection {
     }
 
     const select = () => this.selection.selectAll(rows, this.occurrenceAt(position));
-    if (this.table.selectionFeedback) {
-      this.table.selectionFeedback.selectAll(select);
-    } else {
-      select();
-    }
+    this.table.selectionFeedback.selectAll(select);
     return true;
   }
 }

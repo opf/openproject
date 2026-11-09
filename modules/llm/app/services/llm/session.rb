@@ -32,14 +32,8 @@ module Llm
   #
   # Every inference request in OpenProject goes through here, so that the
   # administrator's stored settings (endpoint, credential, custom headers) are
-  # applied in exactly one place.
-  #
-  # Note that RubyLLM builds its own Faraday connection over net_http and so
-  # does *not* pass through OpenProject.httpx and its SSRF filter. Inference
-  # traffic to an administrator-supplied base URL is therefore not SSRF
-  # filtered; routing it through the filter is tracked in AI-145
-  # (https://community.openproject.org/wp/AI-145). Model discovery stays on
-  # Llm::Client, which is filtered.
+  # applied in exactly one place, and that every request passes the SSRF filter
+  # through Llm::SsrfFilteredAdapter.
   class Session
     # RubyLLM exposes a single Faraday timeout rather than Llm::Client's
     # connect/read/request triple, so those three values collapse to one.
@@ -132,6 +126,7 @@ module Llm
     end
 
     def apply_request_options(config)
+      config.faraday_adapter = Llm::SsrfFilteredAdapter
       config.request_timeout = timeout
       # RubyLLM retries POSTs three times by default, so one completion can be
       # billed four times. Callers state what they are willing to pay for.

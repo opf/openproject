@@ -54,7 +54,7 @@ RSpec.describe Primer::OpenProject::Forms::HtmlContent, type: :forms do
     end
 
     it "renders the text" do
-      expect(rendered_form).to have_content "Hallo Welt"
+      expect(rendered_form).to have_text "Hallo Welt"
     end
   end
 
