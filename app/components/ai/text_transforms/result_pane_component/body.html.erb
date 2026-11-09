@@ -34,6 +34,11 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Alpha::Banner.new(scheme: banner_scheme, description: banner_description)) { banner_title }
         end
       end
+      if mentions_converted?
+        body.with_row(mb: 3, test_selector: "ai-text-transform-pane-mentions-converted") do
+          render(Primer::Alpha::Banner.new(scheme: :warning)) { label(:mentions_converted) }
+        end
+      end
       if pane.run
         body.with_row(mb: 3, hidden: true, test_selector: "ai-text-transform-pane-error", data: target(:error)) do
           render(Primer::Alpha::Banner.new(scheme: :danger)) do

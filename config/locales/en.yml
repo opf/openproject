@@ -2321,6 +2321,10 @@ en:
         editor_gone: "The editor is no longer open, so the text cannot be replaced. You can still copy it."
         failed_title: "Generation failed"
         generating: "Generating…"
+        mentions_converted: >-
+          The response mentions people or groups that the original text did not mention. These mentions were
+          turned into plain text so that saving does not notify anyone unintentionally. After Replace, mention
+          them again in the editor if needed.
         replace: "Replace"
         request_failed: "The request failed. Close the result and try again."
         selection_gone: "The selected text is no longer there, so it cannot be replaced. You can still copy it."

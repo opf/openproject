@@ -46,8 +46,10 @@ RSpec.describe "Editor Assistant result pane",
   let(:description) { TextEditorField.new(work_package_page, "description") }
   let(:comment_form) { page.find_test_selector("op-work-package-journal-form-element") }
 
+  let(:deltas) { ["Login page ", "does **not** work."] }
+
   before do
-    gateway = AI::TextTransforms::FakeGateway.new(deltas: ["Login page ", "does **not** work."])
+    gateway = AI::TextTransforms::FakeGateway.new(deltas:)
     allow(AI::TextTransforms::Gateway).to receive(:build).and_return(gateway)
 
     login_as(user)
@@ -156,6 +158,30 @@ RSpec.describe "Editor Assistant result pane",
       description.ckeditor.expect_value("Login page dont work.")
       expect(description.field_container).to have_css(".ck-content strong", text: "dont")
       expect(description.field_container).to have_no_css(".ck-content strong", text: "not")
+    end
+  end
+
+  context "with a mention the description did not have" do
+    shared_let(:group) { create(:group, lastname: "Devs") }
+    let(:deltas) do
+      ["Login page does not work. ",
+       %(<mention class="mention" data-id="#{group.id}" data-type="group" data-text="@Devs">@Devs</mention>)]
+    end
+
+    it "inserts it as plain text and tells the user why" do
+      description.activate!
+      run_assistant(within: description.field_container)
+
+      finish_run
+      page.within_test_selector("ai-text-transform-result") do
+        expect(page).to have_test_selector("ai-text-transform-pane-mentions-converted",
+                                           text: "These mentions were turned into plain text")
+        click_button "Replace"
+      end
+      expect(page).not_to have_test_selector("ai-text-transform-result")
+
+      description.ckeditor.expect_value("Login page does not work. @Devs")
+      expect(description.field_container).to have_no_css(".ck-content .mention")
     end
   end
 
