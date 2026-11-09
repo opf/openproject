@@ -164,7 +164,7 @@ ro:
     button_start_timer: Pornește cronometrul
     button_stop_timer: Oprește cronometrul
     button_uncheck_all: Deselectează tot
-    button_update: Actualizează
+    button_update: Actualizare
     button_view_markdown: View Markdown
     caption_rate_history: Istoric cotă
     card:
@@ -438,6 +438,7 @@ ro:
     label_assignee: Executant
     label_assignee_alt_text: Acest pachet de lucru este atribuit %{name}
     label_attachments: Atașamente
+    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: între
     label_board: Tablă

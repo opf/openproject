@@ -438,6 +438,7 @@ cs:
     label_assignee: Řešitel
     label_assignee_alt_text: Tento pracovní balíček je přiřazen %{name}
     label_attachments: Přílohy
+    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: mezi
     label_board: Tabule

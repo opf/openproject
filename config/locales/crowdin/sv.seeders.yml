@@ -71,15 +71,15 @@ sv:
           name: Personal- och projekthanterare
         item_1:
           name: Global standardroll
-      ai_text_actions:
+      ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Korrigera grammatiken
         item_1:
-          label: Make concise
+          label: Gör kortfattad
         item_2:
-          label: Translate to English
+          label: Översätt till engelska
         item_3:
-          label: Sort into template
+          label: Sortera in i mall
     standard:
       project_phases:
         item_0:

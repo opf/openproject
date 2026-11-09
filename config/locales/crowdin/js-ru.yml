@@ -164,7 +164,7 @@ ru:
     button_start_timer: Запустить таймер
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
-    button_update: Обновить
+    button_update: Обновление
     button_view_markdown: View Markdown
     caption_rate_history: История оценок
     card:
@@ -438,6 +438,7 @@ ru:
     label_assignee: Исполнитель
     label_assignee_alt_text: Этот пакет работ назначен %{name}
     label_attachments: Вложения
+    label_author: 'Автор: %{user}'
     label_avatar: 'Аватар
 
       '
