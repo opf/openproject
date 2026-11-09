@@ -148,6 +148,45 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
+    context "when filtering by id with semantic identifiers" do
+      let(:aliased_work_package) { create(:work_package, project:) }
+      let(:numeric_work_package) { create(:work_package, project:) }
+      let(:work_packages) { [work_package, aliased_work_package, numeric_work_package, other_work_package] }
+
+      let(:filters) do
+        [{ id: { operator: "=", values: ["TEST-42", "OLD-7", numeric_work_package.id.to_s] } }]
+      end
+      let(:path) { api_v3_paths.path_for :work_packages, filters:, sort_by: [%w[id asc]] }
+
+      before do
+        create(:work_package_semantic_alias, work_package:, identifier: "TEST-42")
+        create(:work_package_semantic_alias, work_package: aliased_work_package, identifier: "OLD-7")
+
+        get path
+      end
+
+      it_behaves_like "API V3 collection response", 3, 3, "WorkPackage", "WorkPackageCollection" do
+        let(:elements) { [work_package, aliased_work_package, numeric_work_package] }
+      end
+
+      context "with an identifier of a work package the user cannot see" do
+        let(:filters) { [{ id: { operator: "=", values: ["TEST-42", "INVISIBLE-1"] } }] }
+
+        before do
+          create(:work_package_semantic_alias, work_package: other_work_package, identifier: "INVISIBLE-1")
+
+          get path
+        end
+
+        it "rejects the filter" do
+          expect(last_response).to have_http_status(:bad_request)
+          expect(last_response.body)
+            .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
+            .at_path("errorIdentifier")
+        end
+      end
+    end
+
     context "when filtering by typeahead with a number beyond the 64-bit integer range and sorting by exact_match" do
       let(:filters) do
         [
@@ -498,8 +537,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      context "when the labels changed and the last timestamp is historic",
-              with_flag: { work_package_labels: true } do
+      context "when the labels changed and the last timestamp is historic" do
         let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
         let(:label_a) { create(:label) }
         let(:label_b) { create(:label) }

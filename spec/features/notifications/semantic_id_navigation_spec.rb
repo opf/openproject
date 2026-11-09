@@ -33,6 +33,8 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
                :js,
                :with_cuprite,
                with_settings: { work_packages_identifier: "semantic" } do
+  include_context "with axe on Cuprite"
+
   # Classic mode is a behavioral no-op: the URL helpers and the
   # resolveRoutingId bridge both collapse to the numeric id when semantic
   # mode is off. Covering semantic-only where the bug actually manifests.
@@ -82,5 +84,13 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
 
     expect(link[:href]).to include("/work_packages/#{semantic_id}")
     expect(link[:href]).not_to include("/work_packages/#{work_package.id}")
+  end
+
+  it "names the work package link by its identifier" do
+    semantic_id = work_package.reload.identifier
+    visit notifications_path
+
+    expect(page).to have_link(semantic_id, exact: true)
+    expect(page).to be_axe_clean.within(".op-ian-item--top-line")
   end
 end

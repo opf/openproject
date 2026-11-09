@@ -56,12 +56,8 @@ OpenProject::FeatureDecisions.add :sprint_reports,
                                   description: "Enables sprint reporting within the backlogs module. " \
                                                "It shows a dashboard with various widgets regarding the sprint progress."
 
-OpenProject::FeatureDecisions.add :ai_text_transform_actions,
-                                  description: "Enables the admin UI to manage AI text transform actions."
-
-OpenProject::FeatureDecisions.add :work_package_labels,
-                                  description: "Enables labels on work packages, the labels API and the labels administration. " \
-                                               "See FND-5 for details."
+OpenProject::FeatureDecisions.add :ai_text_actions,
+                                  description: "Enables the admin UI to manage AI text actions."
 
 OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
                                   description: "Enables project settings for the unit of velocity, effort and capacity. " \

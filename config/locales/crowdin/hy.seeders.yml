@@ -71,7 +71,7 @@ hy:
           name: Աշխատակազմի և նախագծերի կառավարիչ
         item_1:
           name: Ստանդարտ գլոբալ դեր
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
           label: Fix grammar
         item_1:

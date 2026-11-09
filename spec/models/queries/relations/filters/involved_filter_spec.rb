@@ -53,6 +53,12 @@ RSpec.describe Queries::Relations::Filters::InvolvedFilter do
     end
   end
 
+  describe "#available_operators" do
+    it "only allows operators that check visibility" do
+      expect(instance.available_operators).to eq [Queries::Operators::Equals, Queries::Operators::NotEquals]
+    end
+  end
+
   describe "#apply_to" do
     before do
       login_as(current_user)

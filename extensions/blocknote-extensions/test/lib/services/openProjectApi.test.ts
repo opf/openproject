@@ -3,11 +3,14 @@ import {
   canCreateWorkPackages,
   createWorkPackage,
   fetchAllowedValues,
+  fetchConfiguration,
+  fetchNonWorkingDays,
   fetchStatuses,
   fetchTypes,
   fetchWorkPackage,
   fetchWorkPackages,
   fetchWorkPackageCreateForm,
+  fetchWeekdays,
   probeCreateWorkPackagePermission,
   initOpenProjectApi,
   linkToNewWorkPackage,
@@ -890,6 +893,54 @@ describe('openProjectApi', () => {
       } finally {
         fetchSpy.mockRestore();
         consoleSpy.mockRestore();
+      }
+    });
+  });
+
+  describe('what the date pickers are set up with', () => {
+    async function requested(call:() => Promise<unknown>, body:unknown = {}):Promise<string> {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => body,
+      }));
+
+      try {
+        await call();
+        return calledUrl(fetchSpy.mock.calls);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    }
+
+    it('reads the formats and time zone of the user from the configuration', async () => {
+      expect(await requested(fetchConfiguration)).toBe('http://localhost:3000/api/v3/configuration');
+    });
+
+    it('reads which days of the week are worked', async () => {
+      expect(await requested(fetchWeekdays)).toBe('http://localhost:3000/api/v3/days/week');
+    });
+
+    it('asks for the non working days of one whole year', async () => {
+      const url = new URL(await requested(() => fetchNonWorkingDays(2026)));
+
+      expect(url.pathname).toBe('/api/v3/days/non_working');
+      expect(JSON.parse(url.searchParams.get('filters')!)).toEqual([
+        { date: { operator: '<>d', values: ['2026-01-01', '2026-12-31'] } },
+      ]);
+    });
+
+    it('answers with the dates of the non working days', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [{ date: '2026-12-25', name: 'Christmas' }] } }),
+      }));
+
+      try {
+        expect(await fetchNonWorkingDays(2026)).toEqual(['2026-12-25']);
+      } finally {
+        fetchSpy.mockRestore();
       }
     });
   });

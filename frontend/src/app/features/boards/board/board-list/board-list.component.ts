@@ -116,6 +116,10 @@ export interface DisabledButtonPlaceholder {
   standalone: false,
 })
 export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
+  override readonly role:string|null = null;
+
+  override readonly ariaLabelledBy:string|null = null;
+
   readonly apiv3Service = inject(ApiV3Service);
   readonly cdRef = inject(ChangeDetectorRef);
   readonly boardFilters = inject(BoardFiltersService);
@@ -316,7 +320,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public deleteList(query?:QueryResource) {
-    query = query || this.query;
+    query = query ?? this.query;
 
     if (!window.confirm(this.text.areYouSure)) {
       return;
@@ -498,7 +502,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private setQueryProps(filters:ApiV3Filter[]) {
-    const existingFilters = (this.resource.options.filters || []) as ApiV3Filter[];
+    const existingFilters = (this.resource.options.filters ?? []) as ApiV3Filter[];
 
     const newFilters = existingFilters.concat(filters);
     const newColumnsQueryProps:HTTPClientParamMap = {

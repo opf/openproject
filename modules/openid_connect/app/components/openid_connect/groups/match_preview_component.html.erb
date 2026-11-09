@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper(tag: "turbo-frame") do %>
-  <%= render(OpPrimer::InsetBoxComponent.new) do |box| %>
+  <%= render(Primer::OpenProject::InsetBox.new) do |box| %>
     <% box.with_title { t(".title") } %>
 
     <% if model.any? %>

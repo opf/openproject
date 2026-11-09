@@ -51,7 +51,7 @@ get:
                 count: 1
                 total: 1
           schema:
-            "$ref": "../components/schemas/list_workspaces_by_version_model.yml"
+            $ref: "../components/schemas/list_workspaces_by_version_model.yml"
       description: OK
       headers: {}
     '404':

@@ -99,8 +99,10 @@ RSpec.describe "Configuring the variants a project owns",
     end
 
     it "leaves the form itself to administration" do
-      put drop_form_configuration_row_path(ours.form_configuration, row_key: "assignee"),
-          params: { target_id: "inactive", position: 1 },
+      form_attribute = create(:form_configuration_attribute, form_configuration: ours.form_configuration)
+
+      put move_form_configuration_attribute_path(ours.form_configuration, form_attribute),
+          params: { list_type: "inactive_attribute" },
           as: :turbo_stream
 
       expect(response).to have_http_status(:forbidden)
@@ -376,9 +378,9 @@ RSpec.describe "Configuring the variants a project owns",
     end
 
     # Advancing has to skip the step the variant does not have, or the wizard walks the user
-    # straight into a 404 on the step after workflows.
-    it "advances past the workflows step to the one after projects" do
-      patch project_type_variant_creation_wizard_path(**ours_in_project, step: "workflows")
+    # straight into a 404 on the step after project attributes.
+    it "advances past the project attributes step to the one after projects" do
+      patch project_type_variant_creation_wizard_path(**ours_in_project, step: "project_attributes")
 
       expect(response).to redirect_to(project_type_variant_creation_wizard_path(**ours_in_project, step: "pdf"))
     end

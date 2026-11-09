@@ -28,26 +28,66 @@
 #++
 
 module WorkPackage::PDFExport::Templates
+  extend self
+
   def built_in_templates
     [
       {
         id: "attributes",
         label: I18n.t("pdf_generator.template_attributes.label"),
         caption: I18n.t("pdf_generator.template_attributes.caption"),
-        settings_component: WorkPackages::Exports::Generate::Templates::AttributesSettingsComponent
+        settings_component: WorkPackages::Exports::Generate::Templates::AttributesSettingsComponent,
+        exporter: WorkPackage::PDFExport::WorkPackageToPdf,
+        defaults: attributes_defaults
       },
       {
         id: "contract",
         label: I18n.t("pdf_generator.template_contract.label"),
         caption: I18n.t("pdf_generator.template_contract.caption"),
-        settings_component: WorkPackages::Exports::Generate::Templates::ContractSettingsComponent
+        settings_component: WorkPackages::Exports::Generate::Templates::ContractSettingsComponent,
+        exporter: WorkPackage::PDFExport::DocumentGenerator,
+        defaults: contract_defaults
       },
       {
         id: "artefact",
         label: I18n.t("pdf_generator.template_artefact.label"),
         caption: I18n.t("pdf_generator.template_artefact.caption"),
-        settings_component: WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent
+        settings_component: WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent,
+        exporter: WorkPackage::PDFExport::Artefact,
+        defaults: artefact_defaults
       }
     ]
+  end
+
+  private
+
+  def attributes_defaults
+    ->(work_package) {
+      { footer_text: work_package.project.name, page_orientation: "portrait" }.merge(hyphenation_defaults)
+    }
+  end
+
+  def contract_defaults
+    ->(work_package) { { footer_text_center: work_package.subject }.merge(hyphenation_defaults) }
+  end
+
+  def artefact_defaults
+    ->(_work_package) {
+      {
+        toc: WorkPackage::PDFExport::Artefact::DEFAULT_TOC,
+        include_lifecycle: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE,
+        include_budget: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET
+      }.merge(hyphenation_defaults)
+    }
+  end
+
+  def hyphenation_defaults
+    { hyphenation: false, hyphenation_language: default_hyphenation_language }
+  end
+
+  def default_hyphenation_language
+    locale = I18n.locale.to_s
+
+    ::Exports::PDF::Common::Common::HYPHENATION_LANGUAGES.key?(locale) ? locale : ""
   end
 end

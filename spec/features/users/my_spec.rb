@@ -43,8 +43,8 @@ RSpec.describe "my", :js do
   ##
   # Expectations for a successful account change
   def expect_changed!
-    expect(page).to have_content I18n.t(:notice_account_updated)
-    expect(page).to have_content I18n.t(:notice_account_other_session_expired)
+    expect(page).to have_text I18n.t(:notice_account_updated)
+    expect(page).to have_text I18n.t(:notice_account_other_session_expired)
 
     # expect session to be removed
     expect(Sessions::UserSession.for_user(user).where(session_id: "other").count).to eq 0
@@ -306,7 +306,7 @@ RSpec.describe "my", :js do
         fill_in "Hobbies", with: "Ruby, DCS"
         click_on "Update profile"
 
-        expect(page).to have_content I18n.t(:notice_account_updated)
+        expect(page).to have_text I18n.t(:notice_account_updated)
 
         user.reload
         expect(user.custom_values.find_by(custom_field_id: string_cf).value).to eql "Ruby, DCS"

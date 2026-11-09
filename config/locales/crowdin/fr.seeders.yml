@@ -71,15 +71,15 @@ fr:
           name: Personnel et gestionnaire de projets
         item_1:
           name: Rôle global standard
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: Corriger la grammaire
+          label: Fix grammar
         item_1:
-          label: Rendre plus concis
+          label: Make concise
         item_2:
-          label: Traduire en anglais
+          label: Translate to English
         item_3:
-          label: Organiser selon un modèle
+          label: Sort into template
     standard:
       project_phases:
         item_0:

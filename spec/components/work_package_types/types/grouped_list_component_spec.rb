@@ -201,6 +201,12 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       expect(rendered_component).to have_no_element(:li, "data-controller": "sortable-lists--item")
     end
 
+    it "identifies each type group by its record" do
+      page_two.each do |type|
+        expect(rendered_component).to have_sortable_item(type, type: "type", label: type.name, count: 1)
+      end
+    end
+
     it "gives each type group a single drag handle as its item handle" do
       expect(rendered_component).to have_button(accessible_name: "Drag to reorder", count: 2) do |handle|
         handle["data-sortable-lists--item-target"] == "handle"
@@ -221,7 +227,7 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
 
     it "carries page context into the lazy menus" do
       expect(rendered_component)
-        .to have_element(:"include-fragment", src: menu_type_path(expanded, page: 2, per_page: 2, expand: expanded.id))
+        .to have_element(:"action-menu", src: menu_type_path(expanded, page: 2, per_page: 2, expand: expanded.id))
     end
   end
 

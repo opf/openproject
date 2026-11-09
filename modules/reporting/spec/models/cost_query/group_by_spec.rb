@@ -73,6 +73,20 @@ RSpec.describe CostQuery, :reporting_query_helper do
   minimal_query
 
   describe CostQuery::GroupBy do
+    describe ".named" do
+      it "finds a registered group by" do
+        expect(described_class.named("project_id")).to eq(CostQuery::GroupBy::ProjectId)
+      end
+
+      it "finds a group by that is not selectable" do
+        expect(described_class.named("tweek")).to eq(CostQuery::GroupBy::Tweek)
+      end
+
+      it "does not resolve constants outside the registered group bys" do
+        expect(described_class.named("::Object")).to be_nil
+      end
+    end
+
     it "does not fail when grouping by a non-existent column" do
       expect { query.group_by(:non_existent_column).result }.not_to raise_error
     end

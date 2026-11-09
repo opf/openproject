@@ -71,7 +71,7 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
 
         it "must have generated option checked and pattern input filled" do
           expect(page.find("input[type=radio][value=generated]")).to be_checked
-          expect(page.find(hidden_input_field_selector, visible: false).value).to eq("Created by {{assignee}}")
+          expect(page.find(hidden_input_field_selector, visible: :all).value).to eq("Created by {{assignee}}")
         end
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
 
         it "must have generated option checked and pattern input filled" do
           expect(page.find("input[type=radio][value=generated]")).to be_checked
-          expect(page.find(hidden_input_field_selector, visible: false).value).to eq("Created by {{assignee}}")
+          expect(page.find(hidden_input_field_selector, visible: :all).value).to eq("Created by {{assignee}}")
         end
       end
     end
@@ -166,7 +166,7 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
     it "shows the subject pattern of the linked source" do
       render_readonly
 
-      expect(page.find(hidden_input_field_selector, visible: false).value).to eq("Created by {{assignee}}")
+      expect(page.find(hidden_input_field_selector, visible: :all).value).to eq("Created by {{assignee}}")
     end
 
     context "and when subjects are manually editable" do

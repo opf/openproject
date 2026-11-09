@@ -41,7 +41,7 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
   @LazyInject() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
   public get EVENT():EventType[] {
-    return ['click', 'keydown'];
+    return ['click'];
   }
 
   public get SELECTOR() {

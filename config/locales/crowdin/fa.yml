@@ -83,13 +83,13 @@ fa:
         dependencies: وابستگی‌ها
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: فعال
-        injects_type_template: درج الگوی نوع بسته کاری
-        label: برچسب
-        prompt: پرامپت
-        types: انواع بسته کاری
-        usage_scope: دامنه
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: عملیات
         cancel_requested: درخواست لغو
@@ -812,7 +812,7 @@ fa:
           attributes:
             base:
               archive_permission_missing_on_subprojects: مجوز لازم برای بایگانی‌کردن همه زیرپروژه‌ها را ندارید. لطفاً با مدیر تماس بگیرید.
-              project_initiation_request_disabled: درخواست آغاز پروژه غیرفعال است. برای ایجاد بسته کاری آرتیفکت باید فعال شود.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: با توجه به وابستگی %{module} به افزونه %{dependency}، این افزونه نیز بایستی فعال شود.
               format: "%{message}"
@@ -826,7 +826,7 @@ fa:
               switch_target_blank: گونه‌ای را که می‌خواهید به آن تغییر دهید انتخاب کنید
               switch_target_identical: نوع هدف باید با نوعی که پروژه اکنون استفاده می‌کند متفاوت باشد
               switch_target_not_in_family: فقط می‌توان به نوع دیگری از همان خانواده تغییر داد
-          cannot_be_assigned_to_artifact_work_package: کاربر انتخاب‌شده اجازه تخصیص به بسته‌های کاری را ندارد.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: بسته‌های کاری در پروژه‌های غیرِفرزند به نسخه‌های این پروژه یا فرزندان آن ارجاع می‌دهند.
         project/phase:
           attributes:
@@ -952,8 +952,6 @@ fa:
               invalid_tokens: یک یا چند ویژگی داخل فیلد معتبر نیستند. لطفاً پیش از ذخیره آن‌ها را اصلاح کنید.
             variant:
               must_belong_to_the_type: باید گونه‌ای از این نوع باشد.
-            workflow:
-              not_available_to_this_variant: باید گردش کاری‌ای باشد که این پروژه بتواند از آن استفاده کند.
         user:
           attributes:
             base:
@@ -1084,9 +1082,9 @@ fa:
       action:
         one: اقدام
         other: اقدام‌ها
-      ai/text_transform_action:
-        one: عملیات تبدیل متن
-        other: عملیات تبدیل متن
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: اجرای تبدیل متن
         other: اجراهای تبدیل متن
@@ -1639,6 +1637,10 @@ fa:
         button_delete_personal_access_token: Delete PAT
         button_save: ذخیره پیکربندی
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1650,6 +1652,7 @@ fa:
           personal_access_token: Personal access token (PAT)
           url: نشانی Jira Server/Data Center
         label_testing: در حال آزمایش پیکربندی...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1667,18 +1670,24 @@ fa:
         jobs:
           JiraCreateCustomFieldsJob:
             title: ایجاد فیلدهای سفارشی
+          JiraCreateLabelsJob:
+            title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: ایجاد پروژه «%{jira_project_name}»
           JiraCreateProjectRoleJob:
             title: ایجاد نقش پروژه «JiraMember»
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: ایجاد نسخه‌ها برای «%{jira_project_name}»
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: دریافت پیوست‌های بسته‌های کاری «%{jira_project_name}»
           JiraCreateProjectWorkPackagesJob:
             title: ایجاد بسته‌های کاری «%{jira_project_name}»
           JiraCreateUsersJob:
             title: ایجاد کاربران
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: دریافت فیلدهای سفارشی
           JiraFetchIssueTypesJob:
@@ -1701,6 +1710,9 @@ fa:
             title: دریافت فراداده پروژه‌های انتخاب‌شده
           JiraRevertImportJob:
             title: بازگرداندن تغییرات این اجرای واردسازی از Jira
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'در حال واردکردن پروژه‌ای با شناسه از قبل استفاده‌شده هستید: %{taken_identifier}. لطفاً شناسه پروژه را در Jira به‌روزرسانی کرده و سپس روی تلاش مجدد کلیک کنید.'
         remove_error: اجرای Import از Jira در حال اجرا قابل حذف نیست
         side_panel:
@@ -1762,6 +1774,9 @@ fa:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1791,6 +1806,7 @@ fa:
               label_available_data: داده‌هایی که وارد می‌شوند
               label_import_data: در حال Import
               label_progress: Import در حال انجام است...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: کاربران درگیر در پروژه‌های انتخاب‌شده، همراه با عضویت گروه‌ها
               title: واردکردن داده‌ها
             fetch_data:
@@ -1829,7 +1845,7 @@ fa:
                   subtitle: درگیر در پروژه‌های واردشده
                 work_packages:
                   label: بسته‌های کاری
-                  subtitle: همراه با پیوست‌ها
+                  subtitle: With attachments and logged time
               title: نتایج اجرای Import
             import_scope:
               button_continue: ادامه
@@ -1846,6 +1862,7 @@ fa:
                 issue_details: توضیحات Issue، تاریخچه، دیدگاه‌ها و پیوست‌ها
                 issue_ids: شناسه‌های Issue
                 issues: Issueها
+                logged_time: Logged time
                 permissions: مجوزها
                 project_ids: شناسه‌های پروژه
                 project_versions: نسخه‌های پروژه
@@ -1878,6 +1895,12 @@ fa:
             '1':
               rest_line_text: ''
               title: دریافت پیکربندی Jira
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: در حال دریافت مسائل و نسخه‌های %{projects_number} پروژه دیگر
               title: دریافت مسائل و نسخه‌های پروژه‌ها
@@ -1900,8 +1923,8 @@ fa:
               rest_line_text: در حال ایجاد بسته‌های کاری برای %{projects_number} پروژه دیگر
               title: ایجاد بسته‌های کاری
             '9':
-              rest_line_text: در حال دریافت پیوست‌های %{projects_number} پروژه دیگر
-              title: دریافت پیوست‌ها
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
@@ -1910,10 +1933,12 @@ fa:
         error: هنگام آزمایش اتصال یک خطای غیرمنتظره رخ داد
         failed: 'اتصال ناموفق بود: دریافت اطلاعات سرور ممکن نیست'
         invalid_url: لطفاً یک نشانی معتبر وارد کنید
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: تجزیه پاسخ سرور ناموفق بود. ممکن است سرور یک نمونه معتبر Jira نباشد.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: اتصال به %{server} با موفقیت برقرار شد (نسخه %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: مهاجرت‌دهنده Jira
       user:
         unknown_name: نامشخص
@@ -2163,41 +2188,42 @@ fa:
         page_header:
           description: بین شناسه‌های عددی کلاسیک بسته کاری یا شناسه‌های معنایی ویژه هر پروژه که شناسه پروژه را به ابتدای شناسه بسته کاری اضافه می‌کنند انتخاب کنید.
         success_banner: قالب شناسه بسته کاری با موفقیت به‌روزرسانی شد.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: کاربران دیگر نمی‌توانند این عملیات را در ویرایشگر متن غنی اجرا کنند.
-        heading: آیا مطمئن هستید که می‌خواهید عملیات «%{label}» را حذف کنید؟
-        title: حذف عملیات تبدیل متن
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: اگر فعال باشد، الگوی توضیحات نوع بسته کاری به‌طور خودکار به پرامپت افزوده می‌شود. پرامپت باید شامل دستورهایی درباره نحوه استفاده از الگو باشد.
-        label_caption: این نامی است که کاربران در ویرایشگر خواهند دید.
-        select_types: انتخاب انواع
-        types_caption: انواع بسته کاری‌ای را اضافه کنید که این عملیات باید برای آن‌ها در دسترس باشد. همه گونه‌های موجود به‌طور خودکار شامل خواهند شد.
-        usage_scope_caption: 'می‌توانید محل نمایش این عملیات را محدود کنید: همه‌جا (از جمله دیدگاه‌ها، ویکی‌ها و فیلدهای سفارشی)، برای همه انواع بسته کاری، یا فقط برای انواع مشخصی از بسته کاری.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: عملیات
-        label_aria_add_action: افزودن عملیات تبدیل متن
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: برای نمایش در اینجا یک عملیات اضافه کنید
-          title: هنوز هیچ عملیات تبدیل متنی پیکربندی نشده است
-        disabled_warning: عملیات تبدیل متن غیرفعال هستند. عملیات زیر در هیچ‌جا در دسترس نخواهند بود.
-        label_disable_all: غیرفعال‌کردن همه
-        label_enable_all: فعال‌کردن همه
-        title: عملیات
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: عملیات جدید تبدیل متن
+        title: New text action
       row_component:
-        label_actions: منوی عملیات
-        label_toggle: تغییر وضعیت %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} نوع بسته کاری"
-          other: "%{count} نوع بسته کاری"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: همه انواع بسته کاری
-        everywhere: همه‌جا
-        specific_work_package_types: انواع مشخص بسته کاری
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: برای شروع پیکربندی گردش‌کارهای این نقش، وضعیت‌ها را اضافه کنید
@@ -2250,7 +2276,9 @@ fa:
     text_transform:
       errors:
         connection_failed: دسترسی به سرویس هوش مصنوعی ممکن نشد.
-        not_available: دستیار هوش مصنوعی در دسترس نیست.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
+        not_available: The text assistant is not available.
+        rate_limited: The AI service is busy. Try again in a moment.
         timeout: سرویس هوش مصنوعی در زمان مقرر پاسخ نداد.
         upstream_error: سرویس هوش مصنوعی خطایی بازگرداند.
       pane:
@@ -2293,6 +2321,8 @@ fa:
         emoji_reactions_activity_type_not_supported: این نوع فعالیت از واکنش Emoji پشتیبانی نمی‌کند.
         invalid_link: پیوند زیر کلید '%{key}' معتبر نیست.
         links_not_an_object: _links باید یک شیء JSON باشد.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'درخواست نامعتبر: %{message}'
       code_401: لازم است برای دسترسی به این منبع تأیید اعتبار شوید.
       code_401_wrong_credentials: اطلاعات اعتبارسنجی درستی ارایه نکرده اید.
@@ -2342,6 +2372,7 @@ fa:
       schema: شِما
     undisclosed:
       ancestor: نمایش‌داده‌نشده - جد به‌دلیل نبود مجوز قابل مشاهده نیست.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: نمایش‌داده‌نشده - پروژه به‌دلیل نبود مجوز قابل مشاهده نیست.
       definingWorkspace: نمایش‌داده‌نشده - فضای کاری به‌دلیل نبود مجوز قابل مشاهده نیست.
       parent: نمایش‌داده‌نشده - والد به‌دلیل نبود مجوز قابل مشاهده نیست.
@@ -2368,7 +2399,7 @@ fa:
     body: بدنه
     category: دسته‌بندی
     color: رنگ
-    comment: نظر
+    comment: دیدگاه
     comments: دیدگاه
     content: محتوا
     created_at: ایجادشده در
@@ -2641,6 +2672,22 @@ fa:
       missing_value: ویژگی «%{custom_field_name}» برای این مقدار محاسبه‌شده لازم است، اما خالی است.
       unknown: یک خطای ناشناخته رخ داد. لطفاً فرمول این مقدار محاسبه‌شده را بازبینی کنید.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: ویرایش رنگ
     form:
@@ -3139,6 +3186,7 @@ fa:
       scim_api: SCIM Server API
       sso_auth_providers: ورود یکپارچه
       team_planner_view: نمای برنامه‌ریز تیم
+      text_assistant: Text assistant
       virus_scanning: اسکن آنتی‌ویروس
       weighted_item_lists: فهرست آیتم‌های وزن‌دار
       work_package_query_relation_columns: ستون‌های رابطه Query بسته کاری
@@ -3251,6 +3299,9 @@ fa:
       sso_auth_providers:
         description: با استفاده از SAML یا OpenID Connect به کاربران اجازه دهید از طریق ارائه‌دهندگان خارجی SSO وارد شوند تا دسترسی یکپارچه و اتصال با سیستم‌های هویتی موجود فراهم شود.
         title: ورود یکپارچه (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: افزونه Enterprise
       trial_text: این قابلیت در دوره آزمایشی Enterprise فعال شما گنجانده شده است.
       unlimited: نامحدود
@@ -3810,6 +3861,9 @@ fa:
         header: تغییرات توسط %{author}
         migrated: از جیرا
         set_with_diff: "%{field} تنظیم شد (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(لغوشده)"
       meeting_deleted: "(حذف‌شده)"
       meeting_series_backlog_html: بک‌لاگ برای مجموعه جلسات %{link}
@@ -3834,6 +3888,7 @@ fa:
       total_percent_complete_mode_changed_to_work_weighted_average: بسته‌های کاری فرزند بدون کار نادیده گرفته می‌شوند.
       unaccessable_work_package_changed: به‌دلیل تغییرات یک بسته کاری مرتبط
       work_package_children_changed_times: به‌دلیل تغییرات فرزند %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: وضعیت به‌طور خودکار توسط بسته کاری تکثیرشده %{link} به‌روزرسانی شد
       work_package_parent_changed_times: به‌دلیل تغییرات والد %{link}
       work_package_parent_deleted: زیرا بسته کاری والد حذف شد
@@ -3849,10 +3904,13 @@ fa:
           working: "%{day} اکنون کاری است"
     caused_changes:
       budget_deleted: بودجه حذف شده است
+      comment_retracted: Comment retracted
       dates_changed: تاریخ‌ها تغییر کردند
       default_attribute_written: ویژگی‌های فقط‌خواندنی نوشته شدند
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: واردشده
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>به جلسه اضافه شد</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>اضافه شد به</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>در جلسه بررسی شد</strong> %{meeting_title_information}"
@@ -3866,6 +3924,7 @@ fa:
       system_update: 'به‌روزرسانی سیستم OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: محاسبه مجموع ٪ تکمیل اکنون براساس میانگین ساده فقط مقادیر ٪ تکمیل انجام می‌شود.
       total_percent_complete_mode_changed_to_work_weighted_average: محاسبه مجموع ٪ تکمیل اکنون براساس کار وزن‌دهی می‌شود.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'بسته کاری تکثیرشده به‌روزرسانی شد:'
       work_package_parent_deleted: والد حذف شد
     changes_retracted: تغییرات پس گرفته شدند.
@@ -4990,7 +5049,7 @@ fa:
       mail_notification: اعلان‌های ایمیلی
       mails_and_notifications: ایمیل‌ها و اعلان‌ها
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: عملیات تبدیل متن
+      text_actions: Text assistant
     quick_add:
       label: افزودن…
   more_actions: قابلیت‌های بیشتر
@@ -5552,8 +5611,8 @@ fa:
         label: فهرست مطالب
     page_nr_footer: صفحه %{page} از %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: همه ویژگی‌های موجود در فرم فعلی با استفاده از الگوی پیش‌فرض.
       label: ویژگی‌ها و توضیحات
@@ -5866,11 +5925,11 @@ fa:
           no_status_when_submitted: فعال‌سازی درخواست آغاز پروژه ناموفق بود، زیرا نوع بسته کاری %{type} حداقل به یک وضعیت مرتبط نیاز دارد. لطفاً حداقل یک گردش‌کار وضعیت برای این نوع بسته کاری فعال کنید.
           no_work_package_type: فعال‌سازی درخواست آغاز پروژه ناموفق بود، زیرا حداقل به یک نوع بسته کاری فعال نیاز دارد و این پروژه هیچ نوعی ندارد. لطفاً حداقل یک نوع بسته کاری به این پروژه اضافه کنید.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: انتخاب کنید کدام‌یک از Storageهای خارجی پیکربندی‌شده استفاده شود.
           external_file_storage: Storage فایل خارجی
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: ذخیره به‌عنوان پیوست فایل بسته کاری
           label_file_link_export: بارگذاری فایل در Storage خارجی و افزودن پیوند فایل به بسته کاری
           pdf_file_storage: Storage فایل PDF
@@ -6009,14 +6068,14 @@ fa:
     status:
       button_edit: ویرایش وضعیت
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: این پروژه هیچ ویژگی پروژه‌ای فعالی برای جادوگر ندارد. لطفاً دست‌کم یکی را در <a href="%{link}">تنظیمات پروژه</a> فعال کنید.
       no_help_text: برای این ویژگی متن راهنمایی تعریف نشده است.
       progress_label: "%{current} از %{total}"
       sections: بخش‌ها
       sidebar_content_title: محتوا
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: درخواست آغاز پروژه
   pwa:
     offline:
@@ -6042,6 +6101,22 @@ fa:
         automatic:
           description: "%{plural} را بر اساس یک یا چند معیار مرتب‌سازی مرتب کنید. مرتب‌سازی قبلی از دست خواهد رفت."
           heading: خودکار
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6246,7 +6321,6 @@ fa:
   setting_after_login_default_redirect_url_example_html: 'اگر Back Link ارائه نشده باشد، مسیر پیش‌فرضی برای Redirect کاربران پس از ورود تنظیم کنید. اگر تنظیم نشود به صفحه خانه هدایت می‌شود. <br/> نمونه: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: فعال‌کردن عملیات تبدیل متن
   setting_allowed_link_protocols: پروتکل‌های پیوند مجاز
   setting_allowed_link_protocols_text_html: اجازه دهید این پروتکل‌ها به‌صورت پیوند در توضیحات بسته کاری، فیلدهای متن بلند و دیدگاه‌ها Render شوند. برای مثال %{tel_code} یا %{element_code}. در هر خط یک پروتکل وارد کنید. <br/> پروتکل‌های %{http_code}، %{https_code} و %{mailto_code} همیشه مجاز هستند.
   setting_antivirus_scan_action: اقدام برای فایل آلوده
@@ -6600,12 +6674,12 @@ fa:
         confirmation_message: Wizard درخواست آغاز پروژه دیگر برای پروژه‌های جدید مبتنی بر این الگو در دسترس نخواهد بود. مدیران و مالکان پروژه باید اطلاعات مربوط را در نمای کلی پروژه به‌صورت دستی پیکربندی و تکمیل کنند.
         heading: این درخواست آغاز پروژه غیرفعال شود؟
         title: غیرفعال‌کردن درخواست آغاز پروژه
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Wizard ایجاد پروژه
           project_initiation_request: درخواست آغاز پروژه
@@ -6625,8 +6699,8 @@ fa:
           شما یک درخواست آغاز پروژه برای **%{project_name}** ارسال کردید. این درخواست اکنون منتظر بازبینی است.
           برای دسترسی به بسته کاری درخواست خود، روی پیوند زیر کلیک کنید.
         confirmation_email_text: متن ایمیل تأیید
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: ارسال ایمیل تأیید به کاربری که درخواست آغاز پروژه را ارسال کرده است
         status_when_submitted: وضعیت هنگام ارسال
         status_when_submitted_caption: وضعیتی که بسته کاری تولیدشده پس از ارسال درخواست به آن منتقل می‌شود.
@@ -6634,7 +6708,7 @@ fa:
         work_package_comment_caption: مسئول انجام انتخاب‌شده بالا به‌طور خودکار در دیدگاه با @ اشاره خواهد شد.
         work_package_comment_default: یک درخواست آغاز پروژه برای **%{project_name}** ارسال شده و منتظر بازبینی است.
         work_package_type: نوع بسته کاری
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: بازکردن Wizard ایجاد پروژه
         project_initiation_request: بازکردن درخواست آغاز پروژه
@@ -6803,6 +6877,10 @@ fa:
         هیچ ویژگی‌ای به‌جز وضعیت قابل تغییر نخواهد بود.
         <br>
         <strong>توجه</strong>: مقادیر به‌ارث‌رسیده (برای مثال از فرزندان یا روابط) همچنان اعمال می‌شوند.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: جابه‌جایی وضعیت ممکن نشد.
       headers:
@@ -6812,6 +6890,9 @@ fa:
       no_results_content_text: افزودن وضعیت جدید
       no_results_title_text: در حال حاضر هیچ وضعیت بسته کاری وجود ندارد.
       status_actions: عملیات وضعیت
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: و
@@ -6985,6 +7066,9 @@ fa:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: ب.ظ
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: تا
     show: نمایش بازه زمانی
@@ -7160,13 +7244,13 @@ fa:
           file_link:
             caption: PDF تولیدشده در Storage مدیریت‌شده خودکار Nextcloud مربوط به پروژه بارگذاری و از بسته کاری به آن پیوند داده می‌شود. بسته‌های کاری پروژه‌های بدون چنین Storageای نادیده گرفته می‌شوند.
             label: بارگذاری فایل در Storage خارجی و افزودن پیوند فایل به بسته کاری
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: هیچ PDFای به‌طور خودکار تولید نمی‌شود.
             label: خاموش
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: در دسترس نیست؛ Storage مدیریت‌شده خودکار Nextcloud پیکربندی نشده است
         pdf_export_templates:
           actions:
@@ -7209,9 +7293,15 @@ fa:
         invalid_attribute_groups: داده فرم نامعتبر است.
         invalid_query: پیکربندی Query توکار نامعتبر است.
         label_group: بخش
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: ویژگی غیرفعالی وجود ندارد
         not_found: مورد درخواستی فرم پیدا نشد.
         query_group_label: جدول بسته‌های کاری مرتبط
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: حذف از بخش
         rename_group: تغییر نام بخش
         required:
@@ -7228,6 +7318,7 @@ fa:
         reset_title: بازنشانی فرم
         reset_to_defaults: بازنشانی فرم
         row_actions: اقدام‌های ردیف
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: فرم
         untitled_group: گروه بدون عنوان
       overview:
@@ -7272,8 +7363,6 @@ fa:
           no_results: پروژه منطبقی وجود ندارد.
           title: Not used in any project yet
         enable_all: فعال‌کردن برای همه پروژه‌ها
-        select_projects: انتخاب پروژه‌ها
-        select_projects_description: پروژه‌هایی را که می‌خواهید از این نوع استفاده کنند انتخاب کنید.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?
@@ -7374,9 +7463,6 @@ fa:
       convert_to_global_dialog:
         confirm: تبدیل
         text: 'با این کار، این گونه ویژه پروژه به یک گونه سراسری تبدیل می‌شود که برای همه پروژه‌ها در دسترس است. مدیر پروژه دیگر نمی‌تواند آن را ویرایش کند.
-
-          '
-        workflow_text: 'گردش کاری «%{name}» متعلق به این پروژه است و آن نیز سراسری خواهد شد.
 
           '
       convert_to_global_notice: "%{name} اکنون یک گونه سراسری است."
@@ -7710,9 +7796,6 @@ fa:
       note_placeholder: چرا این یادآوری را تنظیم می‌کنید؟
       success_deletion_message: یادآوری با موفقیت حذف شد.
       success_update_message: یادآوری با موفقیت به‌روزرسانی شد.
-    updated_automatically_by_child_changes: '_به‌طور خودکار با تغییر مقادیر در بسته کاری فرزند %{child} به‌روزرسانی شد_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: برای ایجاد پیوند، روابطی با بسته‌های کاری دیگر اضافه کنید.

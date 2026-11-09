@@ -107,8 +107,8 @@ module Components
         expect(page).to have_no_selector(selector)
       end
 
-      def expect_disabled_tab(name)
-        expect(page).to have_css("#{selector} [data-qa-tab-disabled]", text: name.upcase, wait: 10)
+      def expect_no_tab(name)
+        expect(page).to have_no_css("#{selector} .op-tab-row--link", text: name.upcase)
       end
 
       def selected_tab(name)

@@ -2,14 +2,14 @@
 ---
 type: object
 required:
-- id
-- name
-- color
-- position
-- isDefault
-- isMilestone
-- createdAt
-- updatedAt
+  - id
+  - name
+  - color
+  - position
+  - isDefault
+  - isMilestone
+  - createdAt
+  - updatedAt
 properties:
   id:
     type: integer
@@ -22,8 +22,8 @@ properties:
     readOnly: true
   color:
     type:
-    - "string"
-    - "null"
+      - "string"
+      - "null"
     description: The color used to represent this type
     readOnly: true
   position:
@@ -50,26 +50,26 @@ properties:
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This type
+          - $ref: "./link.yml"
+          - description: |-
+              This type
 
-            **Resource**: Type
-          readOnly: true
-example:
-  _links:
-    self:
-      href: "/api/v3/types/1"
-  _type: Type
-  id: 1
-  name: Bug
-  color: "#ff0000"
-  position: 1
-  isDefault: true
-  isMilestone: false
-  createdAt: '2014-05-21T08:51:20.624Z'
-  updatedAt: '2014-05-21T08:51:20.624Z'
+              **Resource**: Type
+            readOnly: true
+examples:
+  - _links:
+      self:
+        href: "/api/v3/types/1"
+    _type: Type
+    id: 1
+    name: Bug
+    color: "#ff0000"
+    position: 1
+    isDefault: true
+    isMilestone: false
+    createdAt: '2014-05-21T08:51:20.624Z'
+    updatedAt: '2014-05-21T08:51:20.624Z'

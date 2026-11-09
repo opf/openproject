@@ -14,9 +14,9 @@ get:
         JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
         endpoint. Currently supported filters are:
-        
+
         + id: The schema's id
-        
+
         Schema id has the form `project_id-work_package_type_id`.
       in: query
       required: true
@@ -48,7 +48,7 @@ get:
                 count: 2
                 total: 5
     '400':
-      $ref: "../components/responses/invalid_request_body.yml"
+      $ref: "../components/responses/invalid_query.yml"
     '403':
       content:
         application/hal+json:
@@ -64,4 +64,4 @@ get:
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** View work packages in any project.
-      headers: { }
+      headers: {}

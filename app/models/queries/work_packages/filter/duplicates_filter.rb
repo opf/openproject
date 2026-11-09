@@ -44,7 +44,7 @@ class Queries::WorkPackages::Filter::DuplicatesFilter <
   private
 
   def relation_filter
-    { to_id: values }
+    { to_id: work_package_ids }
   end
 
   def relation_select

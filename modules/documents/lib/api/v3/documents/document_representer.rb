@@ -39,6 +39,10 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
         cached_representer key_parts: %i(project),
+                           dependencies: -> {
+                             [Setting.real_time_text_collaboration_enabled?,
+                              OpenProject::FeatureDecisions.documents_collaboration_token_api_active?]
+                           },
                            disabled: false
 
         self_link title_getter: ->(*) { represented.title }
@@ -48,6 +52,17 @@ module API
           {
             href: api_v3_paths.document(represented.id),
             method: :patch
+          }
+        end
+
+        link :createCollaborationToken,
+             cache_if: -> { current_user.allowed_in_project?(:view_documents, represented.project) } do
+          next unless OpenProject::FeatureDecisions.documents_collaboration_token_api_active?
+          next unless represented.real_time_collaboration_available?
+
+          {
+            href: api_v3_paths.document_collaboration_token(represented.id),
+            method: :post
           }
         end
 

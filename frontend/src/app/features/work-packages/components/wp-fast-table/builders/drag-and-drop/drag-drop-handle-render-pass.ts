@@ -64,8 +64,9 @@ public readonly injector:Injector,
     const query = this.table.querySpace.query.value!;
     const { occurrences } = this.tablePass.draft;
     void this.wpTableOrder.positionsFor(query).then((positions:QueryOrder) => {
-      if (this.table.destroyed || this.table.querySpace.query.value !== query) return;
-      occurrences.forEach(({ workPackage, renderType, element }) => {
+      if (this.table.destroyed || this.table.querySpace.query.value !== query || !this.table.isCurrentPass(this.tablePass)) return;
+      const replacements = new Map<string, { element:HTMLTableRowElement, handle:HTMLElement }>();
+      occurrences.forEach(({ key, workPackage, renderType, element }) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
         if (!workPackage || renderType !== 'primary') {
           return;
@@ -75,9 +76,17 @@ public readonly injector:Injector,
         const handle = this.dragDropHandleBuilder.build(latestWorkPackage, positions[workPackage.id!]);
 
         if (handle && element) {
-          element.replaceChild(handle, element.firstElementChild!);
+          replacements.set(key, { element, handle });
         }
       });
+      if (replacements.size === 0) return;
+      const swap = () => replacements.forEach(({ element, handle }) => element.replaceChild(handle, element.firstElementChild!));
+      const committed = this.table.lastRenderPass === this.tablePass;
+      if (committed) {
+        this.table.mutate(new Set(replacements.keys()), swap);
+      } else {
+        swap();
+      }
     }).catch((error:unknown) => notification.handleRawError(error));
   }
 }

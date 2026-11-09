@@ -59,6 +59,10 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     this.element.addEventListener('click', (evt) => {
       evt.preventDefault();
 
+      if (this.isAriaDisabled) {
+        return;
+      }
+
       // When clicking the same trigger twice, close the element instead.
       if (this.opContextMenu.isActive(this)) {
         this.opContextMenu.close();
@@ -69,7 +73,9 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
 
     // Open with keyboard combination as well
     Mousetrap(this.element).bind('shift+alt+f10', (evt) => {
-      this.open(evt);
+      if (!this.isAriaDisabled) {
+        this.open(evt);
+      }
     });
   }
 
@@ -81,5 +87,9 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
         shift({ padding: 10 }),
       ],
     });
+  }
+
+  private get isAriaDisabled():boolean {
+    return this.element.getAttribute('aria-disabled') === 'true';
   }
 }

@@ -46,6 +46,7 @@ import {
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
+const cancelLinkHostClassName = 'wp-table--cancel-create-host';
 
 export class InlineCreateRowBuilder extends SingleRowBuilder {
   // Injections
@@ -68,6 +69,10 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
+  protected override get rowHeaderColumn():'subject'|'id'|null {
+    return null;
+  }
+
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null {
     switch (column.id) {
       case internalContextMenuColumn.id:
@@ -82,6 +87,52 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     const [row, hidden] = this.buildEmpty(workPackage);
 
     return [row, hidden];
+  }
+
+  public buildEmpty(workPackage:WorkPackageResource):[HTMLTableRowElement, boolean] {
+    const [row, hidden] = super.buildEmpty(workPackage);
+    this.placeCancelLink(row);
+
+    return [row, hidden];
+  }
+
+  public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
+    const refreshed = super.refreshRow(workPackage, row);
+    this.placeCancelLink(refreshed);
+
+    return refreshed;
+  }
+
+  private placeCancelLink(row:HTMLTableRowElement):void {
+    const host = this.cancelLinkHost(row);
+
+    row.querySelectorAll<HTMLTableCellElement>(`td.${cancelLinkHostClassName}`).forEach((cell) => {
+      if (cell !== host) {
+        cell.classList.remove(cancelLinkHostClassName);
+        cell.querySelector(`.${inlineCreateCancelClassName}`)?.remove();
+      }
+    });
+    if (host) {
+      this.appendCancelLink(host);
+    }
+  }
+
+  private cancelLinkHost(row:HTMLTableRowElement):HTMLTableCellElement|null {
+    if (this.augmentedColumns.includes(internalContextMenuColumn)) {
+      return null;
+    }
+
+    const lastColumn = this.augmentedColumns.at(-1)!;
+    return row.querySelector<HTMLTableCellElement>(`td.${lastColumn.id}`);
+  }
+
+  private appendCancelLink(cell:HTMLTableCellElement) {
+    if (cell.querySelector(`.${inlineCreateCancelClassName}`)) {
+      return;
+    }
+
+    cell.classList.add(cancelLinkHostClassName);
+    cell.insertAdjacentHTML('beforeend', this.cancelLinkHtml());
   }
 
   /**
@@ -108,14 +159,18 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     const td = document.createElement('td');
     td.classList.add(tdClassName, 'wp-table--cancel-create-td');
 
-    td.innerHTML = `
+    td.innerHTML = this.cancelLinkHtml();
+
+    return td;
+  }
+
+  private cancelLinkHtml():string {
+    return `
     <a
        href="#"
        class="${inlineCreateCancelClassName} icon icon-cancel"
        aria-label="${this.text.cancelButton}">
     </a>
    `;
-
-    return td;
   }
 }

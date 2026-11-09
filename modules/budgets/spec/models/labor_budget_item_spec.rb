@@ -34,7 +34,7 @@ RSpec.describe LaborBudgetItem do
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:rate) do
-    create(:hourly_rate, user:,
+    create(:hourly_rate, principal: user,
                          valid_from: Date.today - 4.days,
                          rate: 400.0,
                          project:)
@@ -54,7 +54,7 @@ RSpec.describe LaborBudgetItem do
 
     describe "WHEN no user is associated" do
       before do
-        item.user = nil
+        item.principal = nil
       end
 
       it { expect(item.calculated_costs).to eq(default_costs) }
@@ -72,7 +72,7 @@ RSpec.describe LaborBudgetItem do
       before do
         project.save!
         item.hours = 5.0
-        item.user = user
+        item.principal = user
         rate.rate = 400.0
         rate.save!
       end
@@ -102,7 +102,7 @@ RSpec.describe LaborBudgetItem do
       before do
         project.save!
         item.hours = 5.0
-        item.user = user
+        item.principal = user
         rate.rate = 400.0
         rate.save!
 
@@ -122,7 +122,7 @@ RSpec.describe LaborBudgetItem do
         item.reload
       end
 
-      it { expect(item.user).to eq(user) }
+      it { expect(item.principal).to eq(user) }
     end
 
     describe "WHEN a group is provided" do
@@ -148,7 +148,7 @@ RSpec.describe LaborBudgetItem do
         item.reload
       end
 
-      it { expect(item.user).to eq(DeletedUser.first) }
+      it { expect(item.principal).to eq(DeletedUser.first) }
       it { expect(item.user_id).to eq(user.id) }
     end
   end
@@ -195,7 +195,7 @@ RSpec.describe LaborBudgetItem do
 
     describe "WHEN no user is provided" do
       before do
-        item.user = nil
+        item.principal = nil
       end
 
       it "is not valid" do
@@ -290,7 +290,7 @@ RSpec.describe LaborBudgetItem do
       before do
         is_member(project, user, [:view_own_hourly_rate])
 
-        item.user = user
+        item.principal = user
       end
 
       it { expect(item.costs_visible_by?(user)).to be_truthy }
@@ -301,7 +301,7 @@ RSpec.describe LaborBudgetItem do
       before do
         is_member(project, user, [])
 
-        item.user = user
+        item.principal = user
       end
 
       it { expect(item.costs_visible_by?(user)).to be_falsey }
@@ -312,7 +312,7 @@ RSpec.describe LaborBudgetItem do
       before do
         is_member(project, user2, [:view_hourly_rates])
 
-        item.user = user
+        item.principal = user
       end
 
       it { expect(item.costs_visible_by?(user2)).to be_truthy }
@@ -323,7 +323,7 @@ RSpec.describe LaborBudgetItem do
       before do
         is_member(project2, user2, [:view_hourly_rates])
 
-        item.user = user
+        item.principal = user
       end
 
       it { expect(item.costs_visible_by?(user2)).to be_falsey }

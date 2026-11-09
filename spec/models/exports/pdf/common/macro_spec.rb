@@ -337,6 +337,24 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
+    describe "with an attribute the user may not view" do
+      let(:markdown) { "workPackageValue:spentTime" }
+
+      before { create(:time_entry, entity: work_package, project:, user:, hours: 2) }
+
+      it "outputs a blank value" do
+        expect(formatted).to be_blank
+      end
+
+      context "when the user may view time entries" do
+        let(:additional_permissions) { %i[view_time_entries] }
+
+        it "outputs the attribute value" do
+          expect(formatted).to eq("2h")
+        end
+      end
+    end
+
     describe "with multi select custom field and layout argument" do
       shared_let(:multi_list_custom_field) do
         create(
@@ -671,6 +689,16 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
+    describe "with another work package id and a method name instead of an attribute" do
+      let(:markdown) { "workPackageValue:#{other_work_package.id}:destroy" }
+
+      it "does not call the method on the work package" do
+        formatted
+
+        expect(WorkPackage).to exist(other_work_package.id)
+      end
+    end
+
     describe "with two macros in a single line" do
       let(:markdown) { 'workPackageValue:"Custom Field 1" workPackageValue:subject' }
 
@@ -930,6 +958,16 @@ RSpec.describe Exports::PDF::Common::Macro do
 
       it "outputs an empty value" do
         expect(formatted).to eq(" ")
+      end
+    end
+
+    describe "with other project ID and a method name instead of an attribute" do
+      let(:markdown) { "projectValue:#{other_project.id}:destroy" }
+
+      it "does not call the method on the project" do
+        formatted
+
+        expect(Project).to exist(other_project.id)
       end
     end
 

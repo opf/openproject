@@ -58,12 +58,8 @@ module Admin
     # Clears the credential and switches the AI features off, keeping the endpoint
     # and the catalogue. Deliberately not a destroy.
     def disconnect
-      cleared = clear_api_key_unless_configured_from_env do
-        Setting.llm_features_enabled = false if Setting.llm_features_enabled_writable?
-      end
-      return redirect_with_error(t(".configured_from_env")) unless cleared
-
-      Llm::HealthCheckJob.toggle_cron_job
+      result = ::LlmConnections::DisconnectService.new(@connection).call
+      return redirect_with_error(t(".configured_from_env")) if result.failure?
 
       redirect_with_notice(t(".success"))
     end

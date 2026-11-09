@@ -11,7 +11,7 @@ get:
         type: integer
     - description: |-
         JSON specifying filter conditions.
-        
+
         Accepts the same format and filters as returned by the [sprints](https://www.openproject.org/docs/api/endpoints/sprints/) endpoint.
 
       example: '[{ "definingWorkspace": { "operator": "=", "values": ["1"] } }]'
@@ -40,7 +40,7 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/sprint_collection_model.yml"
+            $ref: "../components/schemas/sprint_collection_model.yml"
           examples:
             response:
               $ref: "../components/examples/sprint_collection.yml"
@@ -50,7 +50,7 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/sprint_collection_model.yml"
+            $ref: "../components/schemas/sprint_collection_model.yml"
           examples:
             response:
               $ref: "../components/examples/sprint_collection.yml"

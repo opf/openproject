@@ -39,7 +39,7 @@ describe('Inline chip - copy/paste independence', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     const statusBadges = page.getByText('In Progress');
     expect((await statusBadges.all()).length).toBe(1);
@@ -60,7 +60,7 @@ describe('Inline chip - copy/paste independence', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     const statusBadges = page.getByText('In Progress');
     expect((await statusBadges.all()).length).toBe(1);

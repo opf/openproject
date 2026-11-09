@@ -116,19 +116,13 @@ export default class extends Controller {
   }
 
   private appendStableKeySystemArguments(e:FormDataEvent):void {
-    const result:Record<string, unknown> = {};
     document.querySelectorAll<HTMLElement>('[data-inplace-edit-stable-key][data-inplace-edit-system-arguments]').forEach((el) => {
       const key = el.dataset.inplaceEditStableKey;
-      const raw = el.dataset.inplaceEditSystemArguments;
-      if (key && raw) {
-        try {
-          result[key] = JSON.parse(raw);
-        } catch {
-          // ignore malformed JSON
-        }
+      const token = el.dataset.inplaceEditSystemArguments;
+      if (key && token) {
+        e.formData.set(`stable_key_system_arguments[${key}]`, token);
       }
     });
-    e.formData.set('stable_key_system_arguments', JSON.stringify(result));
   }
 
   // A double click always selects the word under the cursor,

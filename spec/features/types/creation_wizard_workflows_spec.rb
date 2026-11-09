@@ -61,7 +61,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
   def name_workflow_and_continue(name)
     click_on I18n.t(:button_continue)
 
-    within_dialog I18n.t("workflows.form.edit_title") do
+    within_dialog I18n.t("workflows.form.save_title") do
       fill_in "Workflow name", with: name
       click_on I18n.t(:button_save)
     end
@@ -78,7 +78,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
     expect(page).to have_no_button "Save"
     name_workflow_and_continue("Bug flow")
 
-    expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
+    expect(page).to have_current_path(type_creation_wizard_path(type, step: :project_attributes))
     expect(workflows_for(type, role).count).to be 2
     expect(type.default_variant.reload.workflow.name).to eq("Bug flow")
   end
@@ -88,7 +88,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
       visit_workflow_wizard(roles: [role])
       click_on I18n.t(:button_continue)
 
-      within_dialog I18n.t("workflows.form.edit_title") do
+      within_dialog I18n.t("workflows.form.save_title") do
         expect(page).to have_field("Workflow name", with: "#{type.name} workflow")
       end
     end
@@ -100,7 +100,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
       name_workflow_and_continue("Taken flow")
 
       expect(page).to have_text("Name has already been taken")
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_current_query_params("step" => "workflows", "role_ids" => [role.id.to_s])
     end
 
     it "asks for no name when the workflow belongs to another type as well" do
@@ -110,9 +110,20 @@ RSpec.describe "Type creation wizard workflows step", :js do
       visit_workflow_wizard(roles: [role])
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
+      expect(page).to have_current_path(type_creation_wizard_path(type, step: :project_attributes))
       expect(other.default_variant.reload.workflow.name).to be_present
     end
+  end
+
+  it "keeps the first role's transitions when continuing from another role's empty tab" do
+    visit_workflow_wizard(roles: [role2])
+
+    expect(page).to have_heading "No status transitions configured"
+
+    name_workflow_and_continue("Empty tab flow")
+
+    expect(page).to have_current_path(type_creation_wizard_path(type, step: :project_attributes))
+    expect(workflows_for(type, role).count).to be 1
   end
 
   context "when switching tabs" do
@@ -148,7 +159,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
       end
 
       expect(page).to have_css "#workflow_form_author"
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_current_query_params("step" => "workflows", "role_ids" => [role.id.to_s], "tab" => "author")
 
       expect_transition(role, 1, 0, exist: true)
     end

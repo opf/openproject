@@ -65,6 +65,25 @@ RSpec.describe Queries::WorkPackages::Filter::FilterForWpMixin do
         expect(query_scope).to have_received(:relatable).with(work_package, Relation::TYPE_BLOCKS)
       end
     end
+
+    context "with a semantic identifier as value" do
+      subject(:filter) do
+        Queries::WorkPackages::Filter::RelatableFilter.create!(name: :relatable, operator: Relation::TYPE_BLOCKS,
+                                                               values: ["PROJ-1"])
+      end
+
+      before do
+        allow(WorkPackage).to receive(:ids_by_display_id).with(["PROJ-1"]).and_return("PROJ-1" => work_package.id)
+      end
+
+      it "resolves the work package" do
+        allow(query_scope).to receive(:relatable)
+
+        filter.apply_to(query_scope)
+
+        expect(query_scope).to have_received(:relatable).with(work_package, Relation::TYPE_BLOCKS)
+      end
+    end
   end
 
   describe "#autocomplete_options" do

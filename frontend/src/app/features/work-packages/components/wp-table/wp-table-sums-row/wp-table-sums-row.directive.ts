@@ -26,7 +26,7 @@
 //++
 
 import { AfterViewInit, Directive, DestroyRef, ElementRef, Injector, Input, inject } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
@@ -38,7 +38,6 @@ import { combineLatest, ReplaySubject } from 'rxjs';
 import { GroupSumsBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
 
@@ -98,6 +97,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
     this.tables
       .pipe(
+        tap((table) => this.reconcileSemantics(table)),
         switchMap((table) => combineLatest([
           this.wpTableColumns.live$(),
           this.wpTableSums.live$(),
@@ -112,32 +112,32 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
         if (sum && resource.sumsSchema) {
           void this.schemaCache
             .ensureLoaded(resource.sumsSchema.href!)
-            .then((schema:SchemaResource) => {
-              if (table.destroyed || this.destroyRef.destroyed || this.workPackageTable !== table) return;
-              table.keyboardNavigation?.captureOwnership();
-              this.refresh(columns, resource, schema);
-              table.notifyRowsRefreshed(totalsRowKey);
+            .then(() => {
+              if (table.destroyed || this.destroyRef.destroyed || this.workPackageTable !== table || !this.wpTableSums.isEnabled) return;
+              table.mutate(new Set([totalsRowKey]), () => this.refresh(columns, resource));
             });
         } else if (this.element.hasChildNodes()) {
-          table.keyboardNavigation?.captureOwnership();
-          this.clear();
-          table.notifyRowsRefreshed(totalsRowKey);
+          table.mutate(new Set([totalsRowKey]), () => this.clear());
         }
       });
+  }
+
+  private reconcileSemantics(table:WorkPackageTable) {
+    table.mutate(new Set([totalsRowKey]), () => undefined);
   }
 
   private clear() {
     this.element.innerHTML = '';
   }
 
-  private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
+  private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource) {
     this.clear();
-    this.render(columns, resource, schema);
+    this.render(columns, resource);
   }
 
-  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, _schema:SchemaResource) {
+  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource) {
     this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
     this.groupSumsBuilder.text = this.text;
-    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element);
+    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element, 'total');
   }
 }

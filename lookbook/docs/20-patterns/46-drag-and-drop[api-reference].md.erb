@@ -44,6 +44,12 @@ controller with a double underscore and the rest with single ones:
 | `sortable-lists--item` | yes | every row under this root |
 | `sortable-lists--scrollable` | when declared | every auto-scrolling container under this root |
 
+#### Events
+
+| Event | Cancelable | Detail | Meaning |
+| --- | --- | --- | --- |
+| `sortable-lists:before-move` | yes | `items` (`type`, `id` pairs), `listType`, `listId`, `previousItemId` | dispatched on the root before a drag or menu move changes the DOM; `preventDefault()` abandons the move without a request |
+
 ### `sortable-lists--list`
 
 #### Values
@@ -166,7 +172,7 @@ directives; new server-rendered surfaces use the Stimulus suite.
 
 ## Used in
 
-* Text transform actions (`Admin::TextTransformActions`): one list.
+* Text actions (`Admin::TextActions`): one list.
 * Backlogs (`modules/backlogs`): sibling lists, scrollable columns,
   optimistic placement, confined rows, external drag data.
 * Project Attributes (`Settings::ProjectCustomFieldSections`): nested lists

@@ -1,6 +1,6 @@
 :root body {
-  --pf-v5-global--primary-color--100: #1A67A3;
-  --pf-v5-global--primary-color--200: #1c77bd;
+  --pf-v5-global--primary-color--100: #0F41B5;
+  --pf-v5-global--primary-color--200: #114ACF;
 }
 
 body {
@@ -10,5 +10,5 @@ body {
 .pf-v5-c-brand {
   font-size: 2rem;
   font-weight: bold;
-  color: #1A67A3;
+  color: #0F41B5;
 }

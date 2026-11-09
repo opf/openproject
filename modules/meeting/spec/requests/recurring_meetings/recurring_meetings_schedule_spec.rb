@@ -145,6 +145,21 @@ RSpec.describe "Recurring meetings schedule text",
         end
       end
 
+      context "when the interval is zero" do
+        let(:frequency) { "weekly" }
+        let(:interval) { "0" }
+        let(:params) do
+          { meeting: { start_time_hour:, start_date:, frequency:, interval:,
+                       end_after: "never", time_zone: "null" } }
+        end
+
+        it "returns the schedule update without failing" do
+          expect(subject).to have_http_status(:ok)
+          expect(subject.body).to include("target=\"recurring-meetings-human-schedule-component\"")
+          expect(subject.body).not_to include("Every 0 weeks")
+        end
+      end
+
       context "when requesting with turbo" do
         it "returns an update turbo stream" do
           expect(subject).to have_http_status(:ok)

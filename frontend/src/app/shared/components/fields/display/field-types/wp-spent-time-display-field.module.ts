@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -55,7 +56,6 @@ export class WorkPackageSpentTimeDisplayField extends WorkDisplayField {
 
     const link = document.createElement('a');
     link.textContent = displayText;
-    link.setAttribute('title', this.text.linkTitle);
 
     if (displayText === this.placeholder) {
       link.setAttribute(
@@ -88,7 +88,7 @@ export class WorkPackageSpentTimeDisplayField extends WorkDisplayField {
     }
 
     element.innerHTML = '';
-    element.appendChild(link);
+    element.appendChild(withTooltip(link, this.text.linkTitle, 'description'));
 
     this.appendTimelogLink(element);
   }
@@ -101,9 +101,8 @@ export class WorkPackageSpentTimeDisplayField extends WorkDisplayField {
       timelogElement.setAttribute('class', 'icon icon-time');
       timelogElement.setAttribute('href', url);
       timelogElement.dataset.turboStream = 'true';
-      timelogElement.setAttribute('title', this.text.logTime);
 
-      element.appendChild(timelogElement);
+      element.appendChild(withTooltip(timelogElement, this.text.logTime, 'label'));
 
       timelogElement.addEventListener(
         'click',

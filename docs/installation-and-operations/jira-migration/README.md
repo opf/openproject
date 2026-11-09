@@ -34,7 +34,7 @@ The Jira Migrator is currently in beta and supports the following data:
 - Project versions
 - Issues
 - Issue identifiers
-- Issue descriptions, history, comments, and attachments
+- Issue descriptions, history, watchers, comments, and attachments
 - Logged work (worklogs) as time entries
 - A subset of custom fields (see [Custom fields migration](./custom-fields/))
 - Involved users and groups
