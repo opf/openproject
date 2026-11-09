@@ -104,7 +104,7 @@ RSpec.describe "Work package generate PDF dialog, wiki pages", :js do
 
   # The sentinel is what lets an emptied list clear the stored setting; it never survives
   # WikiPagesResolver.
-  def submitted_refs = submitted - [""]
+  let(:submitted_refs) { submitted - [""] }
 
   it "prefills the configured pages in the configured order" do
     expect_listed("Arcanos: Legal information", "Arcanos: Data privacy")
