@@ -55,7 +55,12 @@ Rails.application.routes.draw do
 
       resources :squashtm, only: %i[] do
         collection do
-          resources :tab, only: %i[index], controller: "work_package_squashtm_tab", as: "squashtm_tab"
+          resources :tab, only: %i[index], controller: "work_package_squashtm_tab", as: "squashtm_tab" do
+            collection do
+              get :requirement
+              get :requirement_options
+            end
+          end
         end
       end
     end

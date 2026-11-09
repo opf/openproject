@@ -44,8 +44,9 @@ module SquashTMIntegration
       if result.success?
         redirect_to_tab
       else
-        tab_state = WorkPackageTabState.new(work_package: @work_package, user: current_user, work_package_link: result.result)
-        replace_via_turbo_stream(component: WorkPackageSquashTMTabComponent.new(tab_state), status: :unprocessable_entity)
+        view_model = WorkPackageSquashTMTabViewModel.new(work_package: @work_package, user: current_user,
+                                                         work_package_link: result.result)
+        replace_via_turbo_stream(component: WorkPackageSquashTMTabComponent.new(view_model), status: :unprocessable_entity)
         respond_with_turbo_streams
       end
     end

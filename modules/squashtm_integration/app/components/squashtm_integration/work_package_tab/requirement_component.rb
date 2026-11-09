@@ -39,9 +39,14 @@ module SquashTMIntegration
         "OBSOLETE" => :secondary
       }.freeze
 
-      alias_method :tab_state, :model
+      delegate :server, :work_package_link, :work_package, :project, :can_manage_links?, to: :model
 
-      delegate :server, :work_package_link, :requirement, :work_package, :project, :can_manage_links?, to: :tab_state
+      attr_reader :requirement
+
+      def initialize(view_model, requirement:)
+        super(view_model)
+        @requirement = requirement
+      end
 
       def requirement_id
         work_package_link.stored_squashtm_requirement_id

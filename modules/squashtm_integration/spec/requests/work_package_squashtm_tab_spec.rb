@@ -52,8 +52,11 @@ RSpec.describe "Work package SquashTM tab",
     }
   end
 
+  let(:tab_path) { "/projects/#{project.id}/work_packages/#{work_package.id}/squashtm/tab" }
+  let(:path) { tab_path }
+
   subject do
-    get "/projects/#{project.id}/work_packages/#{work_package.id}/squashtm/tab"
+    get path
     response
   end
 
@@ -103,14 +106,49 @@ RSpec.describe "Work package SquashTM tab",
       context "for a user allowed to manage links" do
         let(:permissions) { %i[view_work_packages view_squashtm manage_squashtm_requirements] }
 
-        it "offers the requirements to link" do
-          expect(subject.body).to include("Link requirement", "Users can sign in")
+        it "loads the requirements to link lazily without calling SquashTM" do
+          expect(subject.body).to include("squashtm/tab/requirement_options")
+          expect(subject.body).not_to include("Link requirement")
+          expect(client).not_to have_received(:all_requirements)
+        end
+
+        context "when requesting the requirement options" do
+          let(:path) { "#{tab_path}/requirement_options" }
+
+          it "offers the requirements to link" do
+            expect(subject).to have_http_status(:ok)
+            expect(subject.body).to include("Link requirement", "Users can sign in")
+          end
+
+          it "explains when SquashTM is not reachable" do
+            allow(client).to receive(:all_requirements).and_raise(SquashTMIntegration::Client::TimeoutError)
+
+            expect(subject.body).to include("The SquashTM requirements could not be loaded")
+          end
         end
       end
 
+      context "when requesting the requirement options without permission to manage links" do
+        let(:path) { "#{tab_path}/requirement_options" }
+
+        it { is_expected.to have_http_status(:forbidden) }
+      end
+
       context "and a linked requirement" do
+        let(:path) { "#{tab_path}/requirement" }
+
         before do
           create(:squashtm_work_package_link, work_package:, squashtm_requirement_id: 11)
+        end
+
+        context "when requesting the tab" do
+          let(:path) { tab_path }
+
+          it "lazy-loads the requirement without calling SquashTM" do
+            expect(subject.body).to include("squashtm/tab/requirement\"")
+            expect(subject.body).not_to include("Valid login")
+            expect(client).not_to have_received(:requirement)
+          end
         end
 
         it "lists the test cases with their latest execution status" do
@@ -174,6 +212,14 @@ RSpec.describe "Work package SquashTM tab",
         end
       end
     end
+  end
+
+  context "when requesting the requirement of a work package without a linked requirement" do
+    let(:path) { "#{tab_path}/requirement" }
+
+    before { create(:squashtm_server) }
+
+    it { is_expected.to have_http_status(:not_found) }
   end
 
   context "without the permission to view SquashTM test results" do

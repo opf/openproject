@@ -26,7 +26,7 @@
 
 require "spec_helper"
 
-RSpec.describe SquashTMIntegration::WorkPackageTabState do
+RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabViewModel do
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking squashtm]) }
   shared_let(:work_package) { create(:work_package, project:) }
 
@@ -71,78 +71,6 @@ RSpec.describe SquashTMIntegration::WorkPackageTabState do
       let(:permissions) { %i[view_work_packages manage_squashtm_requirements] }
 
       it { is_expected.to be_can_manage_links }
-    end
-  end
-
-  describe "#requirement" do
-    let(:client) { instance_double(SquashTMIntegration::Client) }
-    let(:coverage) { instance_double(SquashTMIntegration::RequirementCoverage) }
-    let(:work_package_link) { create(:squashtm_work_package_link, work_package:, squashtm_requirement_id: 11) }
-
-    subject(:state) { described_class.new(work_package:, user:, work_package_link:) }
-
-    before do
-      create(:squashtm_server)
-      allow(SquashTMIntegration::Client).to receive(:for).and_return(client)
-      allow(SquashTMIntegration::RequirementCoverage).to receive(:new).with(client).and_return(coverage)
-    end
-
-    it "loads the requirement with its test cases" do
-      requirement = instance_double(SquashTMIntegration::RequirementCoverage::Requirement)
-      allow(coverage).to receive(:call).with(11).and_return(requirement)
-
-      expect(state.requirement).to eq(requirement)
-      expect(state.requirement_error).to be_nil
-    end
-
-    it "reports :not_found when the requirement no longer exists" do
-      allow(coverage).to receive(:call).and_raise(SquashTMIntegration::Client::NotFoundError.new(404))
-
-      expect(state.requirement).to be_nil
-      expect(state.requirement_error).to eq(:not_found)
-    end
-
-    it "reports :unavailable when SquashTM cannot be reached" do
-      allow(coverage).to receive(:call).and_raise(SquashTMIntegration::Client::TimeoutError)
-
-      expect(state.requirement).to be_nil
-      expect(state.requirement_error).to eq(:unavailable)
-    end
-  end
-
-  describe "#requirement_options" do
-    let(:client) { instance_double(SquashTMIntegration::Client) }
-
-    before do
-      create(:squashtm_server)
-      create(:squashtm_project_link, project:, squashtm_project_id: 3)
-      allow(SquashTMIntegration::Client).to receive(:for).and_return(client)
-    end
-
-    it "lists the requirements of the linked SquashTM project with their references" do
-      allow(client).to receive(:all_requirements).with(3).and_return(
-        [{ "id" => 2, "name" => "Sign in", "extra" => 1, "current_version" => { "reference" => "REQ-002" } }]
-      )
-
-      expect(state.requirement_options).to eq([{ id: 2, name: "Sign in", reference: "REQ-002" }])
-    end
-
-    it "sorts by reference numerically and lists requirements without a reference last by name" do
-      allow(client).to receive(:all_requirements).with(3).and_return(
-        [{ "id" => 1, "name" => "b no reference", "current_version" => { "reference" => "" } },
-         { "id" => 2, "name" => "Ten", "current_version" => { "reference" => "REQ-10" } },
-         { "id" => 3, "name" => "a no reference" },
-         { "id" => 4, "name" => "Two", "current_version" => { "reference" => "REQ-2" } },
-         { "id" => 5, "name" => "One", "current_version" => { "reference" => "REQ-001" } }]
-      )
-
-      expect(state.requirement_options.pluck(:id)).to eq([5, 4, 2, 3, 1])
-    end
-
-    it "is nil when SquashTM cannot be reached" do
-      allow(client).to receive(:all_requirements).and_raise(SquashTMIntegration::Client::TimeoutError)
-
-      expect(state.requirement_options).to be_nil
     end
   end
 

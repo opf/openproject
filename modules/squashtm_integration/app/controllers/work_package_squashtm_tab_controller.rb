@@ -33,10 +33,10 @@ class WorkPackageSquashTMTabController < ApplicationController
   load_and_authorize_with_permission_in_project :view_squashtm
 
   before_action :set_work_package
+  before_action :set_view_model
 
   def index
-    tab_state = SquashTMIntegration::WorkPackageTabState.new(work_package: @work_package, user: current_user)
-    tab_component = SquashTMIntegration::WorkPackageSquashTMTabComponent.new(tab_state)
+    tab_component = SquashTMIntegration::WorkPackageSquashTMTabComponent.new(@view_model)
     replace_via_turbo_stream(component: tab_component)
 
     respond_to_with_turbo_streams do |format|
@@ -46,9 +46,34 @@ class WorkPackageSquashTMTabController < ApplicationController
     end
   end
 
+  def requirement
+    return render_404 unless @view_model.status == :linked
+
+    linked_requirement = requirement_loader.load_linked_requirement(@view_model.work_package_link.stored_squashtm_requirement_id)
+    render(SquashTMIntegration::WorkPackageTab::LinkedRequirementComponent.new(@view_model, linked_requirement:),
+           layout: false)
+  end
+
+  def requirement_options
+    return render_404 unless @view_model.status == :not_linked
+    return render_403 unless @view_model.can_manage_links?
+
+    requirement_options = requirement_loader.load_project_requirements(@view_model.project_link.squashtm_project_id)
+    render(SquashTMIntegration::WorkPackageTab::RequirementLinkFormComponent.new(@view_model, requirement_options:),
+           layout: false)
+  end
+
   private
 
   def set_work_package
     @work_package = @project.work_packages.visible.find(params.expect(:work_package_id))
+  end
+
+  def set_view_model
+    @view_model = SquashTMIntegration::WorkPackageSquashTMTabViewModel.new(work_package: @work_package, user: current_user)
+  end
+
+  def requirement_loader
+    SquashTMIntegration::RequirementLoader.new(SquashTMIntegration::Client.for(@view_model.server))
   end
 end

@@ -85,7 +85,7 @@ module OpenProject::SquashTMIntegration
 
       project_module(:squashtm, dependencies: :work_package_tracking) do
         permission :view_squashtm,
-                   { work_package_squashtm_tab: %i[index] },
+                   { work_package_squashtm_tab: %i[index requirement requirement_options] },
                    permissible_on: :project,
                    dependencies: :view_work_packages
 

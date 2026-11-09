@@ -1,0 +1,63 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  flex_layout do |container|
+    container.with_row(mb: 3) do
+      render(
+        OpPrimer::BorderBoxListComponent.new(
+          container: :squashtm_requirement,
+          padding: :condensed,
+          test_selector: "squashtm--requirement-not-linked"
+        )
+      ) do |list|
+        list.with_header(title: t(".requirement"))
+        list.with_empty_state(title: t(".blankslate.heading"), description: t(".blankslate.description"), icon: :"op-logo-squashtm")
+      end
+    end
+
+    if work_package_link.errors[:base].any?
+      container.with_row(mb: 3) do
+        render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop)) do
+          work_package_link.errors.full_messages_for(:base).to_sentence
+        end
+      end
+    end
+
+    if can_manage_links?
+      container.with_row do
+        render(
+          SquashTMIntegration::WorkPackageTab::LazyFrameComponent.new(
+            id: SquashTMIntegration::WorkPackageTab::RequirementLinkFormComponent::TURBO_FRAME_ID,
+            src: requirement_options_project_work_package_squashtm_tab_index_path(project, work_package)
+          )
+        )
+      end
+    end
+  end
+%>

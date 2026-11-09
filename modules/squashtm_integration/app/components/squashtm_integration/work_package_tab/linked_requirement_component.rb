@@ -32,9 +32,19 @@ module SquashTMIntegration
     class LinkedRequirementComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      alias_method :tab_state, :model
+      TURBO_FRAME_ID = "work-package-squashtm-requirement-content"
 
-      delegate :work_package, :project, :server, :requirement, :requirement_error, :can_manage_links?, to: :tab_state
+      delegate :server, to: :model
+      delegate :requirement, :error, to: :linked_requirement
+
+      def initialize(view_model, linked_requirement:)
+        super(view_model)
+        @linked_requirement = linked_requirement
+      end
+
+      private
+
+      attr_reader :linked_requirement
     end
   end
 end

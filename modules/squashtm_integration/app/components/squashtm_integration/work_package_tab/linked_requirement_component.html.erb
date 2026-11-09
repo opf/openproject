@@ -27,48 +27,50 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  flex_layout(test_selector: "squashtm--linked-requirement") do |container|
-    case requirement_error
-    when :not_found
-      container.with_row(mb: 3) do
-        render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, test_selector: "squashtm--requirement-missing")) do
-          t(".requirement_missing")
+  content_tag("turbo-frame", id: TURBO_FRAME_ID, target: SquashTMIntegration::WorkPackageSquashTMTabComponent::TURBO_FRAME_ID) do
+    flex_layout(test_selector: "squashtm--linked-requirement") do |container|
+      case error
+      when :not_found
+        container.with_row(mb: 3) do
+          render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, test_selector: "squashtm--requirement-missing")) do
+            t(".requirement_missing")
+          end
+        end
+      when :unavailable
+        container.with_row(mb: 3) do
+          render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, test_selector: "squashtm--test-cases-unavailable")) do
+            t(".unavailable")
+          end
         end
       end
-    when :unavailable
+
       container.with_row(mb: 3) do
-        render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, test_selector: "squashtm--test-cases-unavailable")) do
-          t(".unavailable")
+        render(OpPrimer::BorderBoxListComponent.new(container: :squashtm_requirement, padding: :condensed)) do |list|
+          list.with_header(title: t(".requirement"))
+
+          list.with_item do
+            render(SquashTMIntegration::WorkPackageTab::RequirementComponent.new(model, requirement:))
+          end
         end
       end
-    end
 
-    container.with_row(mb: 3) do
-      render(OpPrimer::BorderBoxListComponent.new(container: :squashtm_requirement, padding: :condensed)) do |list|
-        list.with_header(title: t(".requirement"))
+      if requirement
+        container.with_row(mb: 3) do
+          render(
+            OpPrimer::BorderBoxListComponent.new(
+              container: :squashtm_test_cases,
+              collapsible: true,
+              padding: :condensed,
+              test_selector: "squashtm--test-cases"
+            )
+          ) do |list|
+            list.with_header(title: t(".test_cases"), count: requirement.test_cases.size)
+            list.with_empty_state(title: t(".no_test_cases.title"), description: t(".no_test_cases.description"), icon: :"op-logo-squashtm")
 
-        list.with_item do
-          render(SquashTMIntegration::WorkPackageTab::RequirementComponent.new(tab_state))
-        end
-      end
-    end
-
-    if requirement
-      container.with_row(mb: 3) do
-        render(
-          OpPrimer::BorderBoxListComponent.new(
-            container: :squashtm_test_cases,
-            collapsible: true,
-            padding: :condensed,
-            test_selector: "squashtm--test-cases"
-          )
-        ) do |list|
-          list.with_header(title: t(".test_cases"), count: requirement.test_cases.size)
-          list.with_empty_state(title: t(".no_test_cases.title"), description: t(".no_test_cases.description"), icon: :"op-logo-squashtm")
-
-          requirement.test_cases.each do |test_case|
-            list.with_item do
-              render(SquashTMIntegration::WorkPackageTab::TestCaseComponent.new(test_case, server:))
+            requirement.test_cases.each do |test_case|
+              list.with_item do
+                render(SquashTMIntegration::WorkPackageTab::TestCaseComponent.new(test_case, server:))
+              end
             end
           end
         end

@@ -28,7 +28,8 @@
 #++
 
 module SquashTMIntegration
-  class RequirementCoverage
+  class RequirementLoader
+    LinkedRequirement = Data.define(:requirement, :error)
     Requirement = Data.define(:id, :name, :reference, :status, :test_cases)
     TestCase = Data.define(:id, :name, :reference, :description, :execution_status, :last_executed_on, :last_executed_by) do
       def executed? = !last_executed_on.nil?
@@ -38,8 +39,30 @@ module SquashTMIntegration
       @client = client
     end
 
-    def call(requirement_id)
-      requirement = client.requirement(requirement_id)
+    def load_linked_requirement(squashtm_requirement_id)
+      LinkedRequirement.new(requirement: fetch_requirement(squashtm_requirement_id), error: nil)
+    rescue Client::NotFoundError
+      LinkedRequirement.new(requirement: nil, error: :not_found)
+    rescue Client::Error => e
+      log_failure("requirement #{squashtm_requirement_id}", e)
+      LinkedRequirement.new(requirement: nil, error: :unavailable)
+    end
+
+    def load_project_requirements(squashtm_project_id)
+      client.all_requirements(squashtm_project_id)
+            .map { project_requirement(it) }
+            .sort_by { sort_key(it) }
+    rescue Client::Error => e
+      log_failure("requirements of project #{squashtm_project_id}", e)
+      nil
+    end
+
+    private
+
+    attr_reader :client
+
+    def fetch_requirement(squashtm_requirement_id)
+      requirement = client.requirement(squashtm_requirement_id)
       version = requirement["current_version"] || {}
 
       Requirement.new(
@@ -50,10 +73,6 @@ module SquashTMIntegration
         test_cases: Array(version["verifying_test_cases"]).map { build_test_case(it.fetch("id")) }
       )
     end
-
-    private
-
-    attr_reader :client
 
     def build_test_case(test_case_id)
       test_case = client.test_case(test_case_id)
@@ -74,6 +93,25 @@ module SquashTMIntegration
       client.test_case_executions(test_case_id)
             .select { it["last_executed_on"].present? }
             .max_by { Time.zone.parse(it["last_executed_on"]) }
+    end
+
+    def project_requirement(requirement)
+      {
+        id: requirement["id"],
+        name: requirement["name"],
+        reference: requirement.dig("current_version", "reference").presence
+      }
+    end
+
+    # Compares the numbers inside references numerically, so that REQ-2 comes before REQ-10.
+    def sort_key(option)
+      reference_parts = option[:reference].to_s.downcase.split(/(\d+)/).map { it.match?(/\A\d+\z/) ? [1, it.to_i] : [0, it] }
+
+      [option[:reference] ? 0 : 1, reference_parts, option[:name].to_s.downcase]
+    end
+
+    def log_failure(subject, error)
+      Rails.logger.warn("SquashTM #{subject} could not be loaded: #{error.class}: #{error.message}")
     end
   end
 end

@@ -28,7 +28,7 @@
 #++
 
 module SquashTMIntegration
-  class WorkPackageTabState
+  class WorkPackageSquashTMTabViewModel
     attr_reader :work_package, :user, :work_package_link
 
     delegate :project, to: :work_package
@@ -69,66 +69,6 @@ module SquashTMIntegration
 
     def can_manage_project_link?
       user.allowed_in_project?(:manage_squashtm_integration, project)
-    end
-
-    def requirement
-      load_requirement unless defined?(@requirement)
-      @requirement
-    end
-
-    def requirement_error
-      requirement
-      @requirement_error
-    end
-
-    def requirement_options
-      load_requirement_options unless defined?(@requirement_options)
-      @requirement_options
-    end
-
-    private
-
-    def client
-      @client ||= Client.for(server)
-    end
-
-    def load_requirement
-      @requirement = RequirementCoverage.new(client).call(work_package_link.stored_squashtm_requirement_id)
-    rescue Client::NotFoundError
-      @requirement = nil
-      @requirement_error = :not_found
-    rescue Client::Error => e
-      log_error("SquashTM requirement #{work_package_link.stored_squashtm_requirement_id} could not be loaded", e)
-      @requirement = nil
-      @requirement_error = :unavailable
-    end
-
-    def load_requirement_options
-      @requirement_options = client.all_requirements(project_link.squashtm_project_id)
-                                   .map { requirement_option(it) }
-                                   .sort_by { requirement_sort_key(it) }
-    rescue Client::Error => e
-      log_error("SquashTM requirements of project #{project_link.squashtm_project_id} could not be loaded", e)
-      @requirement_options = nil
-    end
-
-    def requirement_option(requirement)
-      {
-        id: requirement["id"],
-        name: requirement["name"],
-        reference: requirement.dig("current_version", "reference").presence
-      }
-    end
-
-    # Compares the numbers inside references numerically, so that REQ-2 comes before REQ-10.
-    def requirement_sort_key(option)
-      reference_parts = option[:reference].to_s.downcase.split(/(\d+)/).map { it.match?(/\A\d+\z/) ? [1, it.to_i] : [0, it] }
-
-      [option[:reference] ? 0 : 1, reference_parts, option[:name].to_s.downcase]
-    end
-
-    def log_error(message, error)
-      Rails.logger.warn("#{message}: #{error.class}: #{error.message}")
     end
   end
 end

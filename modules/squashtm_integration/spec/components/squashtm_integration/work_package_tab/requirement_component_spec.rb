@@ -33,18 +33,18 @@ RSpec.describe SquashTMIntegration::WorkPackageTab::RequirementComponent, type: 
   let(:work_package) { build_stubbed(:work_package) }
   let(:work_package_link) { build_stubbed(:squashtm_work_package_link, work_package:) }
   let(:requirement) do
-    SquashTMIntegration::RequirementCoverage::Requirement.new(
+    SquashTMIntegration::RequirementLoader::Requirement.new(
       id: 11, name: "Users can sign in", reference: "REQ-001", status:, test_cases: []
     )
   end
-  let(:tab_state) do
-    instance_double(SquashTMIntegration::WorkPackageTabState,
-                    server: build_stubbed(:squashtm_server), work_package_link:, requirement:,
+  let(:view_model) do
+    instance_double(SquashTMIntegration::WorkPackageSquashTMTabViewModel,
+                    server: build_stubbed(:squashtm_server), work_package_link:,
                     work_package:, project: work_package.project, can_manage_links?: false)
   end
   let(:status) { "APPROVED" }
 
-  subject(:rendered) { render_inline(described_class.new(tab_state)) }
+  subject(:rendered) { render_inline(described_class.new(view_model, requirement:)) }
 
   {
     "WORK_IN_PROGRESS" => ["Work in progress", "attention"],
