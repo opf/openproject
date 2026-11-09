@@ -46,14 +46,14 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     additionalPositionArgs:PositionArgs,
     protected table:WorkPackageTable) {
     super(injector, workPackageId, element, additionalPositionArgs, true);
-    this.origin = table.keyboardNavigation?.originForControl(element) ?? table.keyboardNavigation?.positionOfCell(element) ?? null;
+    this.origin = table.keyboardNavigation.originForControl(element);
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
     forgetKeyboardMenuOpen(this.table);
 
     if (this.origin && (reason === 'escape' || reason === 'action')) {
-      this.table.keyboardNavigation?.returnFocusFromMenu(this.origin);
+      this.table.keyboardNavigation.returnFocusFromMenu(this.origin);
       return;
     }
 

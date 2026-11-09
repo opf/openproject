@@ -56,6 +56,22 @@ RSpec.describe OpPrimer::InplaceEditFields::TextInputComponent,
     expect(rendered_content).to include("change-&gt;inplace-edit#submitForm")
   end
 
+  it "passes the system arguments as a signed token in the reset url" do
+    component_class = described_class
+    render_in_view_context(project) do |model|
+      primer_form_with(url: "/foo", model:) do |f|
+        render_inline_form(f) do |form|
+          render component_class.new(form:, model:, attribute: :name, label: "Name")
+        end
+      end
+    end
+
+    reset_url = page.find_field("project[name]")["data-inplace-edit-url-value"]
+    token = Rack::Utils.parse_query(URI(reset_url).query)["system_arguments"]
+
+    expect(OpenProject::InplaceEdit::SystemArguments.verify(token)).to include(label: "Name")
+  end
+
   it "does not add a submit-on-change Stimulus action when show_action_buttons is false" do
     component_class = described_class
     render_in_view_context(project) do |model|

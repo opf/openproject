@@ -438,7 +438,6 @@ de:
     label_assignee: Zugewiesen an
     label_assignee_alt_text: Dieses Arbeitspaket wird %{name} zugewiesen
     label_attachments: Anhänge
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: zwischen
     label_board: Board

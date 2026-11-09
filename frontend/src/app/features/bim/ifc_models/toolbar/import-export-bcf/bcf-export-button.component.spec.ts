@@ -25,11 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { screen } from '@testing-library/dom';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
@@ -43,7 +45,8 @@ describe('BcfExportButtonComponent', () => {
   beforeEach(async () => {
     await TestBed
       .configureTestingModule({
-        declarations: [BcfExportButtonComponent],
+        imports: [OpTooltipDirective],
+        declarations: [BcfExportButtonComponent, OpIconComponent],
         providers: [
           { provide: I18nService, useValue: { t: (key:string) => key } },
           { provide: CurrentProjectService, useValue: { identifier: 'demo' } },
@@ -54,7 +57,6 @@ describe('BcfExportButtonComponent', () => {
           { provide: HttpClient, useValue: {} },
           { provide: ToastService, useValue: {} },
         ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
       .compileComponents();
 

@@ -374,7 +374,7 @@ RSpec.describe "Work package sharing",
         # false positives on the button not being rendered because
         # its request is still pending.
         wait_for_network_idle(timeout: 10)
-        expect(page).to have_no_button("Share")
+        expect(page).to have_no_button(accessible_name: "Share")
       end
     end
   end

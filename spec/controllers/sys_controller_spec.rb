@@ -321,6 +321,61 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
 
           expect(response.code).to eq("403")
         end
+
+        it "responds 403 not allowed for write (push) with a query string" do
+          post "repo_auth", params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: "POST",
+                                      git_smart_http: "1",
+                                      uri: "/git/#{project.identifier}/git-receive-pack?bypass=1",
+                                      location: "/git" }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it "responds 403 not allowed for write (push) with a percent-encoded path" do
+          post "repo_auth", params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: "POST",
+                                      git_smart_http: "1",
+                                      uri: "/git/#{project.identifier}/git-receive%2Dpack",
+                                      location: "/git" }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it "responds 403 not allowed for the push advertisement with additional query parameters" do
+          post "repo_auth", params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git/#{project.identifier}/info/refs?service=git-receive-pack&foo=bar",
+                                      location: "/git" }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it "responds 200 okay dokay for the fetch advertisement" do
+          post "repo_auth", params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: "GET",
+                                      git_smart_http: "1",
+                                      uri: "/git/#{project.identifier}/info/refs?service=git-upload-pack",
+                                      location: "/git" }
+
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "responds 200 okay dokay for fetch" do
+          post "repo_auth", params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: "POST",
+                                      git_smart_http: "1",
+                                      uri: "/git/#{project.identifier}/git-upload-pack",
+                                      location: "/git" }
+
+          expect(response).to have_http_status(:ok)
+        end
       end
 
       context "for valid login and user has rw permission (role developer) for project" do

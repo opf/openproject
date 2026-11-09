@@ -94,6 +94,36 @@ RSpec.describe ProjectMailer do
       end
     end
 
+    context "with HTML-significant characters in the notification text" do
+      before do
+        allow(Setting).to receive(:new_project_notification_text).and_return(%(Tom's R&D "plan"))
+      end
+
+      it "keeps them as plain text in the text part" do
+        expect(mail.text_part.body.decoded)
+          .to include(%(Tom's R&D "plan"))
+      end
+    end
+
+    context "with custom notification text calling a method on another project" do
+      shared_let(:persisted_project) { create(:project) }
+      shared_let(:persisted_user) { create(:admin) }
+      shared_let(:other_project) { create(:project) }
+
+      subject(:mail) { described_class.project_created(persisted_project, user: persisted_user) }
+
+      before do
+        allow(Setting).to receive(:new_project_notification_text)
+          .and_return("projectValue:#{other_project.id}:destroy")
+      end
+
+      it "does not call the method on the project" do
+        User.execute_as(persisted_user) { mail.html_part.body.encoded }
+
+        expect(Project).to exist(other_project.id)
+      end
+    end
+
     context "with the creation wizard enabled" do
       before do
         allow(project).to receive_messages(

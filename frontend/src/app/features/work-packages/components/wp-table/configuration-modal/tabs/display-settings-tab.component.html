@@ -8,7 +8,7 @@
             [(ngModel)]="displayMode"
             value="default"
             name="display_mode_switch">
-          <svg op-no-hierarchy-icon size="small" [attr.icon-title]="text.display_mode.default"></svg>
+          <svg op-no-hierarchy-icon size="small"></svg>
           <span [textContent]="text.display_mode.default"></span>
           <span class="form--inline-instructions" [textContent]="text.default"></span>
         </label>
@@ -21,7 +21,7 @@
             [(ngModel)]="displayMode"
             value="hierarchy"
             name="display_mode_switch">
-          <svg op-hierarchy-icon size="small"[attr.icon-title]="text.display_mode.hierarchy"></svg>
+          <svg op-hierarchy-icon size="small"></svg>
           <span [textContent]="text.display_mode.hierarchy"></span>
           @if (displayMode === 'hierarchy') {
             <span
@@ -38,7 +38,7 @@
             [(ngModel)]="displayMode"
             value="grouped"
             name="display_mode_switch">
-          <svg op-group-icon size="small" [attr.icon-title]="text.label_group_by"></svg>
+          <svg op-group-icon size="small"></svg>
           <span [textContent]="text.label_group_by"></span>
           <select (change)="updateGroup($event.target.value)"
             id="selected_grouping"

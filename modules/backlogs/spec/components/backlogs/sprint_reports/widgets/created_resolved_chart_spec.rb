@@ -41,8 +41,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
   shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
 
   let(:monday) { Date.new(2026, 10, 12) }
-  let(:saturday) { Date.new(2026, 10, 17) }
-  let(:sunday) { Date.new(2026, 10, 18) }
   let(:second_friday) { Date.new(2026, 10, 23) }
   let(:sprint_start) { monday.in_time_zone + 9.hours }
   let(:work_added) { sprint_start + 1.day }
@@ -109,9 +107,21 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
       expect(chart_data["series"].first["data"].last["x"]).to eq now.utc.iso8601(3)
     end
 
-    it "sends the non working days of the charted range" do
-      expect(chart_data["nonWorkingIntervals"])
-        .to eq([{ "from" => saturday.iso8601, "to" => sunday.iso8601 }])
+    # Over a span of several sprints they are too dense to read as anything but hatching.
+    it "leaves the non working days out" do
+      expect(chart_data).not_to have_key "nonWorkingIntervals"
+    end
+
+    context "with sprints preceding this one" do
+      let!(:earlier_sprint) do
+        create(:sprint, project:, start_date: monday - 42.days, finish_date: monday - 32.days,
+                        started_at: (monday - 42.days).in_time_zone + 9.hours)
+      end
+
+      it "opens the window with the earliest of them and samples by day over the longer span" do
+        expect(chart_data["range"]["from"]).to eq earlier_sprint.started_at.utc.iso8601(3)
+        expect(chart_data["step"]).to eq "day"
+      end
     end
 
     context "when the sprint has not started yet" do

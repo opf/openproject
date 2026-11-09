@@ -83,13 +83,13 @@ fa:
         dependencies: وابستگی‌ها
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: فعال
-        injects_type_template: درج الگوی نوع بسته کاری
-        label: برچسب
-        prompt: پرامپت
-        types: انواع بسته کاری
-        usage_scope: دامنه
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: عملیات
         cancel_requested: درخواست لغو
@@ -1082,9 +1082,9 @@ fa:
       action:
         one: اقدام
         other: اقدام‌ها
-      ai/text_transform_action:
-        one: عملیات تبدیل متن
-        other: عملیات تبدیل متن
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: اجرای تبدیل متن
         other: اجراهای تبدیل متن
@@ -2188,41 +2188,42 @@ fa:
         page_header:
           description: بین شناسه‌های عددی کلاسیک بسته کاری یا شناسه‌های معنایی ویژه هر پروژه که شناسه پروژه را به ابتدای شناسه بسته کاری اضافه می‌کنند انتخاب کنید.
         success_banner: قالب شناسه بسته کاری با موفقیت به‌روزرسانی شد.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: کاربران دیگر نمی‌توانند این عملیات را در ویرایشگر متن غنی اجرا کنند.
-        heading: آیا مطمئن هستید که می‌خواهید عملیات «%{label}» را حذف کنید؟
-        title: حذف عملیات تبدیل متن
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: اگر فعال باشد، الگوی توضیحات نوع بسته کاری به‌طور خودکار به پرامپت افزوده می‌شود. پرامپت باید شامل دستورهایی درباره نحوه استفاده از الگو باشد.
-        label_caption: این نامی است که کاربران در ویرایشگر خواهند دید.
-        select_types: انتخاب انواع
-        types_caption: انواع بسته کاری‌ای را اضافه کنید که این عملیات باید برای آن‌ها در دسترس باشد. همه گونه‌های موجود به‌طور خودکار شامل خواهند شد.
-        usage_scope_caption: 'می‌توانید محل نمایش این عملیات را محدود کنید: همه‌جا (از جمله دیدگاه‌ها، ویکی‌ها و فیلدهای سفارشی)، برای همه انواع بسته کاری، یا فقط برای انواع مشخصی از بسته کاری.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: عملیات
-        label_aria_add_action: افزودن عملیات تبدیل متن
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: برای نمایش در اینجا یک عملیات اضافه کنید
-          title: هنوز هیچ عملیات تبدیل متنی پیکربندی نشده است
-        disabled_warning: عملیات تبدیل متن غیرفعال هستند. عملیات زیر در هیچ‌جا در دسترس نخواهند بود.
-        label_disable_all: غیرفعال‌کردن همه
-        label_enable_all: فعال‌کردن همه
-        title: عملیات
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: عملیات جدید تبدیل متن
+        title: New text action
       row_component:
-        label_actions: منوی عملیات
-        label_toggle: تغییر وضعیت %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} نوع بسته کاری"
-          other: "%{count} نوع بسته کاری"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: همه انواع بسته کاری
-        everywhere: همه‌جا
-        specific_work_package_types: انواع مشخص بسته کاری
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: برای شروع پیکربندی گردش‌کارهای این نقش، وضعیت‌ها را اضافه کنید
@@ -2276,7 +2277,7 @@ fa:
       errors:
         connection_failed: دسترسی به سرویس هوش مصنوعی ممکن نشد.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: دستیار هوش مصنوعی در دسترس نیست.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: سرویس هوش مصنوعی در زمان مقرر پاسخ نداد.
         upstream_error: سرویس هوش مصنوعی خطایی بازگرداند.
@@ -3185,6 +3186,7 @@ fa:
       scim_api: SCIM Server API
       sso_auth_providers: ورود یکپارچه
       team_planner_view: نمای برنامه‌ریز تیم
+      text_assistant: Text assistant
       virus_scanning: اسکن آنتی‌ویروس
       weighted_item_lists: فهرست آیتم‌های وزن‌دار
       work_package_query_relation_columns: ستون‌های رابطه Query بسته کاری
@@ -3297,6 +3299,9 @@ fa:
       sso_auth_providers:
         description: با استفاده از SAML یا OpenID Connect به کاربران اجازه دهید از طریق ارائه‌دهندگان خارجی SSO وارد شوند تا دسترسی یکپارچه و اتصال با سیستم‌های هویتی موجود فراهم شود.
         title: ورود یکپارچه (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: افزونه Enterprise
       trial_text: این قابلیت در دوره آزمایشی Enterprise فعال شما گنجانده شده است.
       unlimited: نامحدود
@@ -5044,7 +5049,7 @@ fa:
       mail_notification: اعلان‌های ایمیلی
       mails_and_notifications: ایمیل‌ها و اعلان‌ها
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: عملیات تبدیل متن
+      text_actions: Text assistant
     quick_add:
       label: افزودن…
   more_actions: قابلیت‌های بیشتر
@@ -6316,7 +6321,6 @@ fa:
   setting_after_login_default_redirect_url_example_html: 'اگر Back Link ارائه نشده باشد، مسیر پیش‌فرضی برای Redirect کاربران پس از ورود تنظیم کنید. اگر تنظیم نشود به صفحه خانه هدایت می‌شود. <br/> نمونه: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: فعال‌کردن عملیات تبدیل متن
   setting_allowed_link_protocols: پروتکل‌های پیوند مجاز
   setting_allowed_link_protocols_text_html: اجازه دهید این پروتکل‌ها به‌صورت پیوند در توضیحات بسته کاری، فیلدهای متن بلند و دیدگاه‌ها Render شوند. برای مثال %{tel_code} یا %{element_code}. در هر خط یک پروتکل وارد کنید. <br/> پروتکل‌های %{http_code}، %{https_code} و %{mailto_code} همیشه مجاز هستند.
   setting_antivirus_scan_action: اقدام برای فایل آلوده

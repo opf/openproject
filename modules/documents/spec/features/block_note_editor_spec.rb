@@ -156,7 +156,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     end
   end
 
-  describe "with op-blocknote-extensions" do
+  describe "with blocknote-extensions" do
     it "renders the BlockNote editor with custom menu entries for work package linking" do
       visit document_path(document)
 

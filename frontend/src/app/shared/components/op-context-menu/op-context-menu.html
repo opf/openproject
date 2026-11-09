@@ -31,7 +31,8 @@
               data-turbo="false"
               [attr.aria-disabled]="item.disabled"
               [attr.aria-label]="item.ariaLabel || item.linkText"
-              [attr.title]="item.title || undefined"
+              opTooltip
+              [description]="item.title || undefined"
               (click)="handleClick(item, $event)"
               >
               @if (item.icon) {
@@ -39,8 +40,7 @@
               }
               <span [textContent]="item.linkText"></span>
               @if (item.postIcon) {
-                <op-icon [icon-title]="item.postIconTitle || ''"
-                icon-classes="icon-action-menu-post {{ item.postIcon }}" />
+                <op-icon icon-classes="icon-action-menu-post {{ item.postIcon }}" />
               }
             </a>
           }
@@ -52,7 +52,8 @@
               [class.inactive]="item.disabled"
               [attr.aria-disabled]="item.disabled"
               [attr.aria-label]="item.ariaLabel || item.linkText"
-              [attr.title]="item.title || undefined"
+              opTooltip
+              [description]="item.title || undefined"
               (click)="handleClick(item, $event)"
               >
               @if (item.icon) {
@@ -60,8 +61,7 @@
               }
               <span [textContent]="item.linkText"></span>
               @if (item.postIcon) {
-                <op-icon [icon-title]="item.postIconTitle || ''"
-                icon-classes="icon-action-menu-post {{ item.postIcon }}" />
+                <op-icon icon-classes="icon-action-menu-post {{ item.postIcon }}" />
               }
             </button>
           }

@@ -71,15 +71,15 @@ pt-PT:
           name: Equipa e gestor de projetos
         item_1:
           name: Função global padrão
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: Corrigir a gramática
+          label: Fix grammar
         item_1:
-          label: Tornar conciso
+          label: Make concise
         item_2:
-          label: Traduzir para inglês
+          label: Translate to English
         item_3:
-          label: Organizar num modelo
+          label: Sort into template
     standard:
       project_phases:
         item_0:

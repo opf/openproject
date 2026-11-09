@@ -13,10 +13,10 @@ As an OpenProject Enterprise add-on you can replace the default OpenProject logo
 
 Navigate to _Administration_ → _Design_ in order to customize your OpenProject theme and logo.
 
-The design page provides several options to customize your OpenProject Enterprise edition, grouped in five tabs, **Interface, Branding, Default colors, PDF export styles and PDF export font**. 
+The design page provides several options to customize your OpenProject Enterprise edition, grouped in four tabs, **Interface, Branding, Default colors, and PDF export styles**. 
 You can [choose a color theme](#choose-a-color-theme) in the first two tabs. 
 
-Under **Interface** you can also choose [custom colors](#interface-colors) for elements of the interface, such as the primary button color, accent color, the background of the top navigation header and the main menu.
+Under **Interface** you can also choose [custom interface colors](#interface-colors) for elements of the interface, such as the primary button color, accent color, the background of the top navigation header and the main menu.
 
 ![Design interface settings in OpenProject administration](openproject_system_guide_design_interface.png)
 
@@ -24,28 +24,25 @@ Under the **Branding** tab you can also [upload a custom desktop and/or mobile l
 
 ![Branding settings in OpenProject administration](openproject_system_guide_design_branding.png)
 
-![More branding settings in OpenProject administration](openproject_system_guide_design_branding_additional.png)
-
 Under **Default colors** you can configure a set of predefined colors which you can use e.g. to [set colors for work package types](../manage-work-packages/work-package-types) or for attribute highlighting, e.g. for [status](../manage-work-packages/work-package-status).
 
 ![Default colors settings in OpenProject administration](openproject_system_guide_design_default_colors.png)
 
-Under **PDF export settings** you can set the preferences for e.g. [exporting work packages in a PDF format](../../user-guide/work-packages/exporting/#pdf-export), meetings, timesheets… 
+Under **PDF export styles** you can set the preferences for e.g. [exporting work packages in a PDF format](../../user-guide/work-packages/exporting/#pdf-export), meetings, timesheets… You can upload a font family to be used in all PDF exports (e.g. Work packages report, Gantt, Meetings, Timesheet).
+
+The font files must be in the TrueType Font (TTF) format. Maximum font file size is 40 MB.
 
 ![PDF export styles settings in OpenProject administration](openproject_system_guide_design_pdf_export_styles.png)
 
-Under **PDF export font** tab you can upload a font family to be used in all PDF exports (e.g. Work packages report, Gantt, Meetings, Timesheet).
-The font files must be in the TrueType Font (TTF) format. Maximum font file size is 40 MB.
+To edit the cover color for your background, click the pen symbol. Enter or paste a color code from the selection displayed under the **Default colors** tab, then click **Save**.
+
+![Edit text color for cover background](openproject_system_guide_design_pdf_export_styles_custom_font_color.png)
 
 > [!TIP]
 > You can generate a demo PDF to see a preview of your settings. Click the **Generate Demo PDF** button.
 
 > [!IMPORTANT]
 > Only the regular style of a font family is required. Italic and bold text will be formatted in regular style of the uploaded font if these font files are omitted.
-
-![PDF export settings in openproject administration](openproject_system_guide_design_pdf_export_font.png)
-
-![More PDF export settings in openproject administration](openproject_system_guide_design_pdf_export_font_additional.png)
 
 ## Choose a color theme
 
@@ -55,7 +52,7 @@ You can choose between the three default color themes for OpenProject:
 - OpenProject Gray (previously called OpenProject Light)
 - OpenProject Navy Blue (previously called OpenProject Dark)
 
-Press the Save button to apply your changes. The theme will then be changed.
+The theme will then be changed.
 
 ![Change color theme in OpenProject administration settings](openproject_system_guide_design_color_theme_navy_blue.png)
 
@@ -67,13 +64,15 @@ In the Administration → Design area, you can replace the standard OpenProject 
 
 This field to upload the version of your logo that should appear on larger screens. The logo you upload will automatically scale to fit the header. For best results, we recommend uploading a white logo on a transparent 130×47px image. You can add as much spacing inside that image as you like. 
 
-Select the _Browse_ button and select the file from your hard drive to upload it.
+Click on a preferred *logo mode*: Light mode, High contrast mode, or Dark mode.
 
-Click the _Upload_ button to confirm and upload your logo.
+Select the file from your hard drive to upload it.
 
 ![Upload custom logo in OpenProject administration settings](openproject_system_guide_design_upload_custom_logo.png)
 
 ![Custom logo updated in OpenProject administration](openproject_system_guide_design_custom_logo_uploaded.png)
+
+Click the **More** (...) menu to *replace* or *delete* the logo.
 
 ### Custom logo mobile
 
