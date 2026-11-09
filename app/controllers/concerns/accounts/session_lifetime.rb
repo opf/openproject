@@ -69,7 +69,7 @@ module Accounts::SessionLifetime
   end
 
   def session_expired?
-    !api_request? && current_user.logged? && session_ttl_expired?
+    current_user.logged? && session_ttl_expired?
   end
 
   # Only write to the session if we really need to, to prevent a session write
