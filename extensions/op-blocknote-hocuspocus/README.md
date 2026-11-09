@@ -95,6 +95,15 @@ npm run test
 npm run lint
 ```
 
+### Logs
+
+Note that log lines starting with `OP` come from the OpenProject integration (this repo); all other lines come from Hocuspocus itself.
+
+```
+[<timestamp>] Some log message # this is hocuspocus
+OP [<timestamp>] Some other log message # this message is from this repository
+```
+
 ## Links
 
 - [OpenProject](https://www.openproject.org/)
