@@ -131,11 +131,24 @@ RSpec.describe InplaceEditFieldsController do
           id: model.id,
           attribute:,
           project: { description: "New description" },
-          system_arguments_json: { wrapper_id: }.to_json
+          system_arguments: OpenProject::InplaceEdit::SystemArguments.sign(wrapper_id:)
         }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("my-inplace-dialog")
+      end
+
+      it "ignores unsigned system arguments" do
+        patch :update, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          project: { description: "New description" },
+          system_arguments: { wrapper_id: }.to_json
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).not_to include("my-inplace-dialog")
       end
     end
 
@@ -175,6 +188,89 @@ RSpec.describe InplaceEditFieldsController do
           id: model.id,
           attribute:,
           project: { custom_field_values: ["{\"value\":\"42\"}", ""] }
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context "when updating a custom field with calculated dependents" do
+      let(:handler) { double(call: true) }
+      let(:custom_field) { create(:integer_project_custom_field, projects: [model]) }
+      let(:attribute) { custom_field.attribute_name.to_sym }
+      let!(:calculated_field) do
+        create(
+          :calculated_value_project_custom_field,
+          :skip_validations,
+          formula: "{{cf_#{custom_field.id}}} * 2",
+          projects: [model]
+        )
+      end
+
+      before do
+        allow(ProjectCustomField).to receive(:visible).and_return(ProjectCustomField.all)
+      end
+
+      it "refreshes dependent fields when stable-key arguments are omitted" do
+        patch :update, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          project: { custom_field_values: { custom_field.id.to_s => "42" } }
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        stream_targets = Nokogiri::HTML.fragment(response.body).css("turbo-stream").pluck("targets")
+        expect(stream_targets)
+          .to include("[data-inplace-edit-stable-key='project_#{model.id}_#{calculated_field.attribute_name}']")
+      end
+
+      context "with stable-key arguments of the dependent field" do
+        let(:stable_key) { "project_#{model.id}_#{calculated_field.attribute_name}" }
+
+        before do
+          patch :update, params: {
+            model: model_param,
+            id: model.id,
+            attribute:,
+            project: { custom_field_values: { custom_field.id.to_s => "42" } },
+            stable_key_system_arguments: { stable_key => stable_key_arguments }
+          }, format: :turbo_stream
+        end
+
+        context "when they are signed" do
+          let(:stable_key_arguments) { OpenProject::InplaceEdit::SystemArguments.sign(test_selector: "calculated-field") }
+
+          it "renders the dependent field with them" do
+            expect(response.body).to include('data-test-selector="calculated-field"')
+          end
+        end
+
+        context "when they are unsigned" do
+          let(:stable_key_arguments) { { test_selector: "calculated-field" }.to_json }
+
+          it "renders the dependent field without them" do
+            expect(response.body).not_to include('data-test-selector="calculated-field"')
+          end
+        end
+
+        context "when they are nested parameters" do
+          let(:stable_key_arguments) { { test_selector: "calculated-field" } }
+
+          it "renders the dependent field without them", :aggregate_failures do
+            expect(response).to have_http_status(:ok)
+            expect(response.body).not_to include('data-test-selector="calculated-field"')
+          end
+        end
+      end
+
+      it "renders the dependent fields when the stable-key arguments are not a hash" do
+        patch :update, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          project: { custom_field_values: { custom_field.id.to_s => "42" } },
+          stable_key_system_arguments: "not a hash"
         }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
@@ -306,7 +402,7 @@ RSpec.describe InplaceEditFieldsController do
           model: model_param,
           id: model.id,
           attribute:,
-          system_arguments_json: { attribute: "destroy" }.to_json
+          system_arguments: { attribute: "destroy" }.to_json
         }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
@@ -335,8 +431,8 @@ RSpec.describe InplaceEditFieldsController do
           attribute:,
           project: { custom_field_values: { custom_field.id.to_s => "42" } },
           stable_key_system_arguments: {
-            "project_#{model.id}_#{calculated_field.attribute_name}" => { attribute: "destroy" }
-          }.to_json
+            "project_#{model.id}_#{calculated_field.attribute_name}" => { attribute: "destroy" }.to_json
+          }
         }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
