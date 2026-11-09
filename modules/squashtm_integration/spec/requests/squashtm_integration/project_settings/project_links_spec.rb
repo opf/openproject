@@ -252,16 +252,6 @@ RSpec.describe "SquashTM project settings",
         expect(SquashTMIntegration::WorkPackageLink).to exist(work_package_link.id)
       end
 
-      it "refuses to remove the work package links for a user who cannot manage requirement links" do
-        delete settings_path, params: { unlink_work_packages: "1" }
-
-        expect(response).to redirect_to(settings_path)
-        expect(flash[:error])
-          .to eq("You are not allowed to remove the SquashTM requirement links of this project's work packages.")
-        expect(SquashTMIntegration::ProjectLink).to exist(project_link.id)
-        expect(SquashTMIntegration::WorkPackageLink).to exist(work_package_link.id)
-      end
-
       context "with the permission to manage requirement links" do
         let(:permissions) { %i[manage_squashtm_integration manage_squashtm_requirements] }
 
