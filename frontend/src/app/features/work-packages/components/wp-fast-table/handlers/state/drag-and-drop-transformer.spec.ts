@@ -510,6 +510,19 @@ describe('DragAndDropTransformer row moves', () => {
       expect(harness.rowIds()).toEqual(['1', '2', '3', '4', '5']);
     });
 
+    it('stays silent when the user left the query during a single-row move', async () => {
+      const mover = await renderTable();
+      const prepareMove = renderDuringEveryPrepare(() => {
+        harness.querySpace.query.putValue({ ...harness.querySpace.query.value } as QueryResource);
+      });
+
+      mover.move(['1'], 'down');
+
+      await vi.waitFor(() => expect(prepareMove).toHaveBeenCalledOnce());
+      await harness.table.whenRendered();
+      expect(announce).not.toHaveBeenCalled();
+    });
+
     it('stays silent once the user moved on to another query', async () => {
       const mover = await renderTable({ workPackages: groupedWorkPackages, groups });
       const prepareMove = renderDuringEveryPrepare(() => {
@@ -836,7 +849,12 @@ describe('DragAndDropTransformer row moves', () => {
     expect(announce).not.toHaveBeenCalled();
   });
 
-  it('announces nothing when the move is abandoned before persisting', async () => {
+  it('announces a failed move when a render overtakes it before persisting', async () => {
+    window.I18n.store({
+      en: { js: { sortable_lists: { announcements: {
+        move_failed_check_position: 'Move failed. Check the item\'s current position.',
+      } } } },
+    });
     const mover = await renderTable();
     const service = orderService();
     const original = service.prepareMove.bind(service);
@@ -851,7 +869,7 @@ describe('DragAndDropTransformer row moves', () => {
 
     await vi.waitFor(() => expect(mover.movableDirections(['1'])).toEqual(new Set(['top', 'up', 'down', 'bottom'])));
     expect(persist).not.toHaveBeenCalled();
-    expect(announce).not.toHaveBeenCalled();
+    expect(announce).toHaveBeenCalledExactlyOnceWith('Move failed. Check the item\'s current position.', { politeness: 'assertive' });
     expect(harness.rowIds()).toEqual(['3', '1', '2']);
   });
 });

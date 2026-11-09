@@ -61,7 +61,8 @@ import { announce } from '@primer/live-region-element';
 
 const maxPrepareAttempts = 5;
 
-type MoveOutcome = 'moved'|'unchanged'|'abandoned';
+/** `abandoned`: given up before saving; `failed`: an error the notification service already reported. */
+type MoveOutcome = 'moved'|'unchanged'|'abandoned'|'failed';
 
 export class DragAndDropTransformer implements RowMover {
   @LazyInject() private readonly states:States;
@@ -197,7 +198,11 @@ export class DragAndDropTransformer implements RowMover {
     if (!intent) return;
 
     void this.performMove(intent, () => undefined).then((outcome) => {
-      if (outcome === 'moved') this.announceMove(workPackageId, query);
+      if (outcome === 'moved') {
+        this.announceMove(workPackageId, query);
+      } else if (outcome === 'abandoned' && !this.table.destroyed && this.querySpace.query.value === query) {
+        this.announceMoveFailed(1);
+      }
     });
   }
 
@@ -502,13 +507,13 @@ export class DragAndDropTransformer implements RowMover {
         }
         complete(true);
         recoverIfCurrent();
-        return await settleRefresh() ? 'moved' : 'abandoned';
+        return await settleRefresh() ? 'moved' : 'failed';
       } catch (error:unknown) {
         recoverIfCurrent();
         notification.handleRawError(error, workPackage);
         complete(false);
         await settleRefresh();
-        return 'abandoned';
+        return 'failed';
       } finally {
         if (renderedOrderIsStale) this.releaseMovesAfterNextRender();
         else this.moveInFlight = false;
