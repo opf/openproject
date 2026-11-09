@@ -36,7 +36,7 @@ class Queries::CostReports::Filters::CustomFieldFilter < Queries::CostReports::F
   end
 
   def self.all_for(context = nil)
-    available_custom_fields.map { |cf| create!(name: :"cf_#{cf.id}", context:) }
+    available_custom_fields.map { |cf| create!(name: cf.column_name.to_sym, context:) }
   end
 
   # Only the formats the engine can generate a join for have a matching

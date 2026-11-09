@@ -237,6 +237,64 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
     end
   end
 
+  describe "saving a report with a custom field", :skip_csrf do
+    shared_let(:custom_field) { create(:string_wp_custom_field) }
+
+    let(:cf_attribute) { custom_field.column_name }
+    let(:report) do
+      CostReport.create!(name: "Saved", principal: user, public: false, query: CostReportQuery.new)
+    end
+
+    it "saves the custom field group by the report page offers" do
+      get reporting_cost_report_path(report)
+      offered = response.parsed_body.at_css(%(#group-by--add-columns option[data-label="#{custom_field.name}"]))["value"]
+
+      post reporting_cost_report_path(report),
+           params: { query_name: report.name,
+                     save_query: 1,
+                     filters: 'spent_on <>d ["2026-10-01","2026-10-31"] & user_id = "me"',
+                     columns: "work_package_id,#{offered},activity_id",
+                     rows: "spent_on",
+                     unit: -1 }
+
+      expect(response).to redirect_to(reporting_cost_report_path(report))
+      expect(report.reload.pivot_columns).to eq(["work_package_id", cf_attribute, "activity_id"])
+    end
+
+    it "updates a report grouped and filtered by it" do
+      post reporting_cost_report_path(report),
+           params: { filters: %(#{cf_attribute} = "a"), columns: cf_attribute, rows: "spent_on", save_query: 1 }
+
+      expect(response).to redirect_to(reporting_cost_report_path(report))
+      report.reload
+      expect(report.pivot_columns).to eq([cf_attribute])
+      expect(report.query.filters.map(&:name)).to eq([cf_attribute.to_sym])
+    end
+
+    it "creates a report grouped by it" do
+      expect do
+        post save_as_reporting_cost_reports_path, params: { query_name: "New", rows: cf_attribute }
+      end.to change(CostReport, :count).by(1)
+
+      expect(CostReport.last.pivot_rows).to eq([cf_attribute])
+    end
+
+    it "translates the custom_field<id> names of urls created before" do
+      post reporting_cost_report_path(report),
+           params: { filters: %(custom_field#{custom_field.id} = "a"), columns: "custom_field#{custom_field.id}" }
+
+      report.reload
+      expect(report.pivot_columns).to eq([cf_attribute])
+      expect(report.query.filters.map(&:name)).to eq([cf_attribute.to_sym])
+    end
+
+    it "groups the rendered report by it" do
+      post reporting_cost_report_path(report), params: { columns: cf_attribute }
+
+      expect(report.reload.group_bys.map { |group_by| group_by.class.underscore_name }).to include(cf_attribute)
+    end
+  end
+
   describe "the export links" do
     shared_let(:export_project) { create(:project, enabled_module_names: %i[costs work_package_tracking]) }
     shared_let(:exporting_user) do

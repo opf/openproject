@@ -66,9 +66,8 @@ module AI
     def apply
       return head(:unprocessable_entity) unless run.succeeded?
 
-      dispatch_event_via_turbo_stream(ACCEPTED_EVENT, detail: { requestId: request_id,
-                                                                scope: pane_params[:scope],
-                                                                text: pane_for(run).text })
+      text = pane_for(run).applicable_text
+      dispatch_event_via_turbo_stream(ACCEPTED_EVENT, detail: { requestId: request_id, scope: pane_params[:scope], text: })
 
       respond_with_turbo_streams
     end

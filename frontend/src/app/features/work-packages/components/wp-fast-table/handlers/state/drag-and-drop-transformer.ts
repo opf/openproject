@@ -41,7 +41,8 @@ import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { isInsideCollapsedGroup, locateTableRow } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
+import type { SelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
+import { locateTableRow } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageTable } from '../../wp-fast-table';
@@ -113,7 +114,9 @@ export class DragAndDropTransformer {
           return false;
         }
 
-        const wpId:string = row.dataset.workPackageId!;
+        const wpId = row.dataset.workPackageId;
+        if (!wpId) return false;
+
         const workPackage = this.states.workPackages.get(wpId).value;
         return !!workPackage && this.actionService.canPickup(workPackage);
       },
@@ -121,8 +124,8 @@ export class DragAndDropTransformer {
       // selection background along with it, so the preview is built fresh.
       renderPreview: (row, preview) => {
         if (table.destroyed) return;
-        const wpId:string = row.dataset.workPackageId!;
-        const workPackage = this.states.workPackages.get(wpId).value;
+        const wpId = row.dataset.workPackageId;
+        const workPackage = wpId ? this.states.workPackages.get(wpId).value : undefined;
         if (!workPackage) {
           return;
         }
@@ -178,7 +181,8 @@ export class DragAndDropTransformer {
           complete(false);
           return;
         }
-        workPackage = await firstValueFrom(api.work_packages.id(wpId).get());
+        const loaded = await firstValueFrom(api.work_packages.id(wpId).get());
+        workPackage = loaded;
         if (!isCurrent()) {
           complete(false);
           return;
@@ -204,7 +208,7 @@ export class DragAndDropTransformer {
           && (!target || target.parentNode === table.tbody)
           && this.currentOrder.length === order.length
           && this.currentOrder.every((id, index) => id === order[index])
-          && actionService.canPickup(workPackage!);
+          && actionService.canPickup(loaded);
         recoverIfCurrent = () => {
           if (!isCurrent() || table.lastRenderPass !== renderPass || source.parentNode !== parentNode) return;
           table.mutate('positions', () => {
@@ -294,17 +298,21 @@ export class DragAndDropTransformer {
   private resolveEffectiveTarget(intent:DragIntent):{ targetId:string|null; edge:Edge|null } {
     const siblingId = this.siblingIdFor(intent);
     const siblingRow = siblingId ? locateTableRow(siblingId, this.table.tableAndTimelineContainer) : null;
+    const lastMemberId = siblingRow ? this.lastCollapsedGroupMemberId(siblingRow) : undefined;
 
-    if (!isInsideCollapsedGroup(siblingRow)) {
-      return { targetId: intent.targetId, edge: intent.edge };
-    }
+    return lastMemberId
+      ? { targetId: lastMemberId, edge: 'bottom' }
+      : { targetId: intent.targetId, edge: intent.edge };
+  }
 
-    const collapsedGroupCssClass = Array.from(siblingRow!.classList).find((cls) => cls.includes(collapsedGroupClass()))!;
+  private lastCollapsedGroupMemberId(row:HTMLElement):string|undefined {
+    const collapsedGroupCssClass = Array.from(row.classList).find((cls) => cls.includes(collapsedGroupClass()));
+    if (!collapsedGroupCssClass) return undefined;
+
     const collapsedGroupId = collapsedGroupCssClass.replace(collapsedGroupClass(), '');
     const groupMembers = this.table.tbody.getElementsByClassName(collapsedGroupClass(collapsedGroupId));
-    const lastMember = groupMembers[groupMembers.length - 1] as HTMLElement;
-
-    return { targetId: lastMember.dataset.workPackageId!, edge: 'bottom' };
+    const lastMember = groupMembers.item(groupMembers.length - 1);
+    return lastMember instanceof HTMLElement ? lastMember.dataset.workPackageId : undefined;
   }
 
   /** The id that would immediately follow the source row once dropped, before collapsed-group redirection. */
@@ -339,10 +347,10 @@ export class DragAndDropTransformer {
   protected get currentOrder():string[] {
     return this
       .currentRenderedOrder
-      .map((row) => row.workPackageId!);
+      .map((row) => row.workPackageId);
   }
 
-  protected get currentRenderedOrder():RenderedWorkPackage[] {
+  protected get currentRenderedOrder():SelectableOccurrence[] {
     return this
       .querySpace
       .renderedWorkPackages

@@ -40,7 +40,7 @@ import { WpTableConfigurationModalComponent } from 'core-app/features/work-packa
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { computePosition, ComputePositionReturn, flip, shift } from '@floating-ui/dom';
-import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
+import { FocusPosition, samePosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Directive({
@@ -77,13 +77,13 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       return;
     }
     this.buildItems();
-    this.origin = this.table.keyboardNavigation?.positionOfCell(this.element) ?? null;
+    this.origin = this.table.keyboardNavigation.positionOfCell(this.element);
     this.opContextMenu.show(this, evt);
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
     if (this.origin && (reason === 'escape' || reason === 'action')) {
-      this.table.keyboardNavigation?.returnFocusFromMenu(this.origin);
+      this.table.keyboardNavigation.returnFocusFromMenu(this.origin);
       return;
     }
 
@@ -117,9 +117,9 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
 
   private followColumn(header:HTMLElement|null):void {
     const navigation = this.table.keyboardNavigation;
-    const current = navigation?.position;
-    const position = header && navigation?.positionOfCell(header);
-    if (!navigation || !this.origin || !position || current?.key !== this.origin.key || current.cell !== this.origin.cell) {
+    const current = navigation.position;
+    const position = header && navigation.positionOfCell(header);
+    if (!this.origin || !position || !samePosition(current, this.origin)) {
       return;
     }
 

@@ -30,6 +30,10 @@
 module OpenProject::TextFormatting
   module Filters
     class UntrustedSourceFilter < HTML::Pipeline::Filter
+      def self.image_link_text(alt, source)
+        I18n.t("text_formatting.image_link", name: alt.presence || source)
+      end
+
       def call
         return doc unless context[:untrusted_source]
 
@@ -43,7 +47,7 @@ module OpenProject::TextFormatting
 
       def replacement_for(image)
         source = image["src"].presence
-        text = I18n.t("text_formatting.image_link", name: image["alt"].presence || source)
+        text = self.class.image_link_text(image["alt"], source)
         return doc.document.create_text_node(text) unless source
 
         doc.document.create_element("a", text, href: source, rel: "noopener noreferrer nofollow")

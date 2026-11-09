@@ -41,15 +41,17 @@
 
 import type { SelectionAnchor } from 'core-common/batch-selection';
 
+export type SelectableOccurrence<T extends Pick<RenderedWorkPackage, 'workPackageId'> = RenderedWorkPackage> = T & { workPackageId:string };
+
 export function sameOccurrence(a:RenderedWorkPackage, b:RenderedWorkPackage):boolean {
   return a.workPackageId === b.workPackageId && a.classIdentifier === b.classIdentifier;
 }
 
-export function isSelectableOccurrence<T extends Pick<RenderedWorkPackage, 'workPackageId'>>(row:T):row is T & { workPackageId:string } {
+export function isSelectableOccurrence<T extends Pick<RenderedWorkPackage, 'workPackageId'>>(row:T):row is SelectableOccurrence<T> {
   return row.workPackageId !== null;
 }
 
-export function selectableOccurrences(rows:readonly RenderedWorkPackage[]):RenderedWorkPackage[] {
+export function selectableOccurrences<T extends RenderedWorkPackage>(rows:readonly T[]):SelectableOccurrence<T>[] {
   return rows.filter(isSelectableOccurrence);
 }
 
@@ -85,13 +87,13 @@ export function occurrenceRangeIds(
   }
 
   return selectableOccurrences(rows.slice(Math.min(start, end), Math.max(start, end) + 1))
-    .map((candidate) => candidate.workPackageId!);
+    .map((candidate) => candidate.workPackageId);
 }
 
-export function selectAllAnchor(
-  selectable:readonly RenderedWorkPackage[],
+export function selectAllAnchor<T extends RenderedWorkPackage>(
+  selectable:readonly T[],
   requested?:RenderedWorkPackage,
-):RenderedWorkPackage|undefined {
+):T|undefined {
   if (requested === undefined) {
     return selectable[0];
   }

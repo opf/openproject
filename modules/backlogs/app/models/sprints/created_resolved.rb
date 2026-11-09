@@ -30,7 +30,9 @@
 
 # How much work the project took on over a sprint's window and how much of it was finished, as
 # two series of ChartPoints counted from the work package journals at every tick the window
-# samples. While the time span is the sprint's, the work packages in scope are those of the whole project.
+# samples. The work packages in scope are those of the whole project, over a span reaching back
+# across the sprints preceding this one -- far enough for a trend to be read rather than a single
+# sprint's worth of noise.
 #
 # - +created+ -- every work package the project held at that tick, whatever its status.
 # - +resolved+ -- those of them in a status the project counts as closed, according to the project's backlogs settings.
@@ -43,6 +45,8 @@
 # Both are counted at the same ticks.
 module Sprints
   class CreatedResolved
+    PRECEDING_SPRINT_COUNT = 6
+
     def initialize(sprint:, project:, user: User.current)
       @sprint = sprint
       @project = project
@@ -57,14 +61,20 @@ module Sprints
       @resolved ||= rebased(series.counts(project_journals.where(status_id: project.statuses_considered_closed)))
     end
 
-    delegate :step, :too_long_to_chart?, :non_working_intervals, :charted_range, to: :window
+    delegate :step, :too_long_to_chart?, :charted_range, to: :window
 
     private
 
     attr_reader :sprint, :project, :user
 
     def window
-      @window ||= ChartWindow.new(sprint, zone: user.time_zone)
+      @window ||= ChartWindow.spanning(charted_sprints, zone: user.time_zone)
+    end
+
+    def charted_sprints
+      preceding = Sprint.for_project(project).visible(user).preceding(sprint, limit: PRECEDING_SPRINT_COUNT)
+
+      [*preceding, sprint]
     end
 
     def series
