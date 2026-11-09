@@ -25,15 +25,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export function printLog(message: string) {
-  console.log(`[${new Date().toISOString()}] ${message}`);
+function create(prefix?: string) {
+  const tag = prefix ? [`[${prefix}]`] : [];
+  const head = () => [new Date().toISOString(), ...tag];
+
+  return {
+    log: (...data: unknown[]) => console.log(...head(), ...data),
+    warn: (...data: unknown[]) => console.warn(...head(), ...data),
+    error: (...data: unknown[]) => console.error(...head(), ...data),
+    withPrefix: create,
+  };
 }
 
-export function loggableUrl(url: string): string {
-  if (!URL.canParse(url)) {
-    return url;
-  }
-
-  const { origin, pathname } = new URL(url);
-  return `${origin}${pathname}`;
-}
+export const Logger = create();

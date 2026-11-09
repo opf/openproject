@@ -26,7 +26,9 @@
 //++
 
 import { randomUUID } from "node:crypto";
-import { loggableUrl, printLog } from "../logger";
+import { Logger } from "../logger";
+
+const logger = Logger.withPrefix("resourceService");
 
 const OPENPROJECT_URL = process.env.OPENPROJECT_URL?.trim() || null;
 const OPENPROJECT_HTTPS = process.env.OPENPROJECT_HTTPS?.trim() === 'true';
@@ -37,11 +39,11 @@ if (OPENPROJECT_URL) {
     throw new Error(`Invalid OPENPROJECT_DIRECT_URL: ${OPENPROJECT_URL}`);
   }
 
-  console.log(`using OPENPROJECT_URL: ${OPENPROJECT_URL}`);
+  logger.log(`using OPENPROJECT_URL: ${OPENPROJECT_URL}`);
 }
 
 if (OPENPROJECT_HTTPS) {
-  console.log(`using OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}`);
+  logger.log(`using OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}`);
 }
 
 const UNREACHABLE_HINT =
@@ -76,18 +78,21 @@ export async function fetchResource(
     ...override
   }
 
-  const target = `${init.method} ${loggableUrl(url)} request_id=${requestId}`;
+  const target = `${init.method} ${url} request_id=${requestId}`;
   const startedAt = performance.now();
   const elapsed = () => Math.round(performance.now() - startedAt);
 
   try {
     const response = await fetch(url, init);
-    const errorDetails = response.ok ? "" : ` ${await describeErrorResponse(response)}`;
-    printLog(`${target} -> ${response.status} (${elapsed()}ms)${errorDetails}`);
+    if (response.ok) {
+      logger.log(`${target} -> ${response.status} (${elapsed()}ms)`);
+    } else {
+      logger.warn(`${target} -> ${response.status} (${elapsed()}ms) ${await describeErrorResponse(response)}`);
+    }
     return response;
   } catch (error) {
-    printLog(`${target} failed after ${elapsed()}ms: ${describeFetchError(error)}`);
-    printLog(UNREACHABLE_HINT);
+    logger.error(`${target} failed after ${elapsed()}ms: ${describeFetchError(error)}`);
+    logger.error(UNREACHABLE_HINT);
     throw error;
   }
 }

@@ -85,8 +85,8 @@ describe("fetchResource", () => {
 
       await fetchResource("https://test.openproject.com/api/v3/documents/42", "__valid_oauth_token");
 
-      const output = log.mock.calls.flat().join("\n");
-      expect(output).toMatch(/\] GET https:\/\/test\.openproject\.com\/api\/v3\/documents\/42 request_id=\S+ -> 200 \(\d+ms\)/);
+      const output = log.mock.calls.map((call) => call.join(" ")).join("\n");
+      expect(output).toMatch(/\[resourceService\] GET https:\/\/test\.openproject\.com\/api\/v3\/documents\/42 request_id=\S+ -> 200 \(\d+ms\)/);
       expect(output).not.toContain("__valid_oauth_token");
       log.mockRestore();
     });
