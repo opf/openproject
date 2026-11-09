@@ -68,7 +68,7 @@ module Meetings
       end
 
       def model_attributes(meeting_data)
-        start_time = (Time.current.next_weekday + 10.hours).change(usec: 0)
+        start_time = (Time.current.next_weekday + 10.hours).change(sec: 0)
 
         {
           title: meeting_data["title"],
