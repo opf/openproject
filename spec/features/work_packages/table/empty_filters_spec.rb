@@ -30,6 +30,8 @@
 require "spec_helper"
 
 RSpec.describe "Empty query filters", :js do
+  include_context "with axe on Cuprite"
+
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package) }
   let(:wp_table) { Pages::WorkPackagesTable.new }
@@ -47,6 +49,7 @@ RSpec.describe "Empty query filters", :js do
     # Open filter menu
     filters.expect_filter_count(1)
     filters.open
+    expect(page).to be_axe_clean.within("#filter_status")
 
     # Remove only filter
     filters.remove_filter(:status)

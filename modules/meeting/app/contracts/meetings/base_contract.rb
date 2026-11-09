@@ -35,7 +35,6 @@ module Meetings
 
     attribute :title
     attribute :agenda_sorting_mode
-    attribute :project_id
     attribute :location
     attribute :duration
     attribute :state

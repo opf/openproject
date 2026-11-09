@@ -438,7 +438,6 @@ ka:
     label_assignee: დასაქმებული
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: მიმაგრებული ფაილები
-    label_author: 'Author: %{user}'
     label_avatar: ავატარი
     label_between: მითითებულ დროის შუალედში
     label_board: დაფა

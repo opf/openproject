@@ -132,7 +132,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     expect_chosen("new")
 
     click_on I18n.t(:button_continue)
-    within_dialog I18n.t("form_configurations.form.edit_title") do
+    within_dialog I18n.t("form_configurations.form.save_title") do
       expect(page).to have_field("Form name", with: "Incident form")
       fill_in "Form name", with: "Incident intake"
       fill_in "Description", with: "Used by the support team"
@@ -140,7 +140,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     end
 
     expect(page).to have_current_query_params(
-      "step" => "project_attributes",
+      "step" => "workflows",
       "started_form_configuration_id" => type.default_variant.reload.form_configuration_id.to_s
     )
     form = type.default_variant.reload.form_configuration
@@ -161,7 +161,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     expect_chosen("new")
 
     click_on I18n.t(:button_continue)
-    within_dialog I18n.t("form_configurations.form.edit_title") do
+    within_dialog I18n.t("form_configurations.form.save_title") do
       fill_in "Form name", with: ""
       click_on I18n.t(:button_save)
 
@@ -181,7 +181,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
 
     click_on I18n.t(:button_continue)
 
-    expect(page).to have_current_query_params("step" => "project_attributes")
+    expect(page).to have_current_query_params("step" => "workflows")
     expect(page).to have_no_css("dialog[open]")
     expect(existing.reload.name).to eq("Standard form")
   end
@@ -221,12 +221,10 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       find_test_selector("form_configuration-selector").click
 
       within_test_selector("form_configuration-panel") do
-        expect(page).to have_css(".ActionListItem", text: "Company form") { |item|
-          item.has_css?(".ActionListItem-visual--trailing", text: I18n.t("form_configurations.selector.default"))
-        }
-        expect(page).to have_css(".ActionListItem", text: "Standard form") { |item|
-          item.has_no_css?(".ActionListItem-visual--trailing")
-        }
+        expect(page).to have_css(".ActionListItem-label",
+                                 text: "Company form #{I18n.t('form_configurations.selector.default')}")
+        expect(page).to have_no_css(".ActionListItem-visual--trailing")
+        expect(page).to have_css(".ActionListItem-label", text: "Standard form", exact_text: true)
       end
     end
 
