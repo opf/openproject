@@ -1481,8 +1481,13 @@ describe('Sortable lists item controller', () => {
       position:{ isFirst:boolean; isLast:boolean },
       moveInDirection = vi.fn(),
       availability = availabilityFromPosition(position),
+      scope:HTMLElement[] = [el],
     ) => ({
-      element: el, busy: false, moveAvailability: () => availability, moveInDirection,
+      element: el,
+      busy: false,
+      moveAvailability: () => availability,
+      actionScopeFor: ():ActionScope => ({ kind: 'batch', items: scope }),
+      moveInDirection,
     } as unknown as SortableListsRoot);
 
     it('hides up/top for a first item and shows the rest', async () => {
@@ -1622,6 +1627,89 @@ describe('Sortable lists item controller', () => {
       expect(divider.hasAttribute('hidden')).toBe(false);
     });
 
+    describe('for a multi-card block', () => {
+      const unavailable = {
+        top: false, up: false, down: false, bottom: false,
+      };
+      const moveMenuOf = (el:HTMLElement) => el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
+      const dividerOf = (el:HTMLElement) => el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+
+      // Primer renders the directions inside the submenu, so the submenu is
+      // the divider's only sibling once no destination is offered.
+      function nestDirectionsInSubmenu(el:HTMLElement):void {
+        const submenu = document.createElement('ul');
+        submenu.append(...el.querySelectorAll('li[data-sortable-lists--item-target="moveItem"]'));
+        moveMenuOf(el).appendChild(submenu);
+      }
+
+      async function mountDisabling(el:HTMLElement) {
+        el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'false');
+        document.body.appendChild(el);
+        return mountItemController(el);
+      }
+
+      it('hides Move to position for a sparse same-list block', async () => {
+        const { el, menu } = renderItemWithMenu(1, true);
+        nestDirectionsInSubmenu(el);
+        const controller = await mountDisabling(el);
+        const other = document.createElement('li');
+        controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, other]));
+        controller.moveItemTargetConnected();
+
+        expect(moveMenuOf(el)).toHaveAttribute('hidden');
+        expect(menu.disableItem).not.toHaveBeenCalledWith(moveMenuOf(el));
+        expect(dividerOf(el)).toHaveAttribute('hidden');
+      });
+
+      it('shows Move to position again once the block can move', async () => {
+        const { el, menu } = renderItemWithMenu(1, true);
+        nestDirectionsInSubmenu(el);
+        const controller = await mountDisabling(el);
+        const availability = { ...unavailable };
+        controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
+        controller.moveItemTargetConnected();
+
+        Object.assign(availability, { up: true });
+        controller.moveItemTargetConnected();
+
+        expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
+        expect(menu.enableItem).toHaveBeenCalledWith(moveMenuOf(el));
+        expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'up'));
+        expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'down'));
+        expect(dividerOf(el)).not.toHaveAttribute('hidden');
+      });
+
+      it('keeps single-card availability unchanged', async () => {
+        const { el, menu } = renderItemWithMenu(1, true);
+        nestDirectionsInSubmenu(el);
+        const controller = await mountDisabling(el);
+        controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable));
+        controller.moveItemTargetConnected();
+
+        expect(menu.disableItem).toHaveBeenCalledWith(moveMenuOf(el));
+        expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
+        expect(dividerOf(el)).not.toHaveAttribute('hidden');
+      });
+    });
+
+    // The menu is loaded for the settled scope, so its position items
+    // connect after the root is already in place.
+    it('gates the position items a deferred menu fragment connects', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      const moveItems = [...el.querySelectorAll('li[data-sortable-lists--item-target="moveItem"]')];
+      moveItems.forEach((item) => item.remove());
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
+
+      el.querySelector('action-menu')!.prepend(...moveItems);
+      await menuCtx!.nextFrame();
+
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'up'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'down'));
+    });
+
     it('delegates an enabled click to the root and no-ops a disabled one', async () => {
       const { el } = renderItemWithMenu(2);
       document.body.appendChild(el);
@@ -1631,12 +1719,33 @@ describe('Sortable lists item controller', () => {
       controller.moveItemTargetConnected();
 
       liFor(el, 'down').click();
-      expect(moveInDirection).toHaveBeenCalledWith(el, 'down');
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', null);
 
       liFor(el, 'up').classList.add('ActionListItem--disabled'); // menu.isItemDisabled now returns true for it
       moveInDirection.mockClear();
       liFor(el, 'up').click();
       expect(moveInDirection).not.toHaveBeenCalled();
+    });
+
+    it('passes the primary scope owner when activating a positional submenu item', async () => {
+      const { el } = renderItemWithMenu(2);
+      const menu = el.querySelector('action-menu')!;
+      const scopeOwner = document.createElement('ul');
+      scopeOwner.setAttribute('data-sortable-lists-scope-count', '1');
+      scopeOwner.setAttribute('data-sortable-lists-scope-ids', '["2"]');
+      const submenu = document.createElement('ul');
+      submenu.append(...menu.children);
+      scopeOwner.append(submenu);
+      menu.append(scopeOwner);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const moveInDirection = vi.fn();
+      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
+      controller.moveItemTargetConnected();
+
+      liFor(el, 'down').click();
+
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', scopeOwner);
     });
 
     function appendDestinationItem(el:HTMLElement):{ li:HTMLElement; form:HTMLFormElement } {

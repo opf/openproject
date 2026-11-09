@@ -30,6 +30,7 @@
 module SortableLists
   module MoveMenu
     include OpPrimer::AttributesHelper
+    include ActionView::RecordIdentifier
 
     Direction = Data.define(:label, :direction, :icon) do
       def item_data
@@ -50,7 +51,7 @@ module SortableLists
 
     private
 
-    def with_move_submenu(menu, **system_arguments)
+    def with_move_submenu(menu, dom_key: nil, label: I18n.t(:button_move), **system_arguments)
       system_arguments[:data] = merge_data(
         system_arguments,
         data: { sortable_lists__item_target: "moveMenu" }
@@ -58,22 +59,23 @@ module SortableLists
 
       menu.with_item(
         component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
-        label: I18n.t(:button_move),
+        label:,
         select_variant: :none,
         **system_arguments
       ) do |submenu|
         submenu.with_leading_visual_icon(icon: :"op-arrow-in")
 
-        with_move_items(submenu)
+        with_move_items(submenu, dom_key:)
       end
     end
 
     # The `data:` hash must live on the item level so Primer renders it on the ActionList
     # `<li>`, which is what the item controller targets to compute availability and to
     # handle the bubbled click.
-    def with_move_items(menu)
+    def with_move_items(menu, dom_key: nil)
       DIRECTIONS.each do |move|
-        menu.with_item(label: I18n.t(move.label), tag: :button, data: move.item_data) do |item|
+        menu.with_item(**(dom_key ? { id: dom_target(dom_key, :menu, move.direction) } : {}),
+                       label: I18n.t(move.label), tag: :button, data: move.item_data) do |item|
           item.with_leading_visual_icon(icon: move.icon)
         end
       end

@@ -127,7 +127,7 @@ export interface SortableListsRoot {
   // Submits a destination form as the menu rendered it: its ids are the
   // scope settled when the menu loaded.
   moveToDestination(form:HTMLFormElement):void;
-  moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
+  moveInDirection(itemElement:HTMLElement, direction:MoveDirection, scopeOwner:HTMLElement|null):void;
   // A snapshot for menu gating; the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
   // The rows container of the item's innermost owning list, or null when the

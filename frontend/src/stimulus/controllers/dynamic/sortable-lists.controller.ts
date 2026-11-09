@@ -53,6 +53,8 @@ import {
   captureRowPositions,
   isOrderableItem,
   reorderRows,
+  resolveBlockMove,
+  resolveBlockMoveAvailability,
   resolveDirectionalPreviousItemId,
   resolveItemElement,
   resolveItemId,
@@ -64,6 +66,8 @@ import {
   rowOf,
   rowsRemainAt,
   sortableListsBusyAttribute,
+  sortableScopeCountAttribute,
+  sortableScopeIdsAttribute,
   type DestinationIdentity,
   type MoveAvailability,
   type MoveDirection,
@@ -79,6 +83,17 @@ type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 // items is null on the single-item contract, the batch on the collection one.
 interface DropRoute { url:string; items:SelectionItem[]|null }
 interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
+
+function parseScopeIds(raw:string|null):string[]|null {
+  if (!raw) return null;
+
+  try {
+    const parsed:unknown = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.every((entry):entry is string => typeof entry === 'string') ? parsed : null;
+  } catch {
+    return null;
+  }
+}
 
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot, SelectionHost, DragSessionHost {
   static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable', 'sortable-lists--menu-source'];
@@ -427,7 +442,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // A direction is offered exactly when the move resolver can produce a
   // target for it, and never for an item moveInDirection would refuse below.
   // Null means the item is not in an owned list yet. A snapshot for menu
-  // gating; the click path re-resolves the live DOM.
+  // gating over the scope the menu was opened for; the click path
+  // re-resolves the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
     if (!isOrderableItem(itemElement)) {
       return {
@@ -436,8 +452,15 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
 
     const list = this.ownerListOf(itemElement);
+    if (!list) {
+      return null;
+    }
 
-    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+    const { items } = this.actionScopeFor(itemElement);
+
+    return items.length > 1
+      ? resolveBlockMoveAvailability({ itemElements: items, rowsContainer: list.rowsContainer })
+      : resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer });
   }
 
   moveToDestination(form:HTMLFormElement):void {
@@ -448,11 +471,21 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     void this.submitDestinationMove(form);
   }
 
-  moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
+  moveInDirection(itemElement:HTMLElement, direction:MoveDirection, scopeOwner:HTMLElement|null = null):void {
     // The menu is rendered server-side from a permission check that does not
     // know about per-work-package movability, so a stale or over-permissive
     // menu must not execute a move the server will refuse.
     if (this.busy || !isOrderableItem(itemElement)) {
+      return;
+    }
+
+    const { items: scopeItems } = this.actionScopeFor(itemElement);
+    if (!this.menuScopeMatches(scopeOwner, scopeItems)) {
+      void announce(I18n.t(`${this.moveAnnouncementScopeValue}.menu_scope_changed`), { politeness: 'assertive' });
+      return;
+    }
+    if (scopeItems.length > 1) {
+      this.moveBlockInDirection(itemElement, scopeItems, direction);
       return;
     }
 
@@ -485,6 +518,48 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       previousItemId,
       moveUrl,
       collapseSelectionOnto: itemElement,
+    });
+  }
+
+  private menuScopeMatches(scopeOwner:HTMLElement|null, items:HTMLElement[]):boolean {
+    if (!scopeOwner?.hasAttribute(sortableScopeCountAttribute)) return true;
+
+    const rendered = parseScopeIds(scopeOwner.getAttribute(sortableScopeIdsAttribute));
+    if (!rendered || rendered.length === 0 || new Set(rendered).size !== rendered.length) return false;
+
+    const live = [...items]
+      .sort((left, right) => (left.compareDocumentPosition(right) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
+      .map((item) => resolveItemId(item));
+    return rendered.length === live.length && rendered.every((id, index) => id !== '' && id === live[index]);
+  }
+
+  private moveBlockInDirection(itemElement:HTMLElement, scopeItems:HTMLElement[], direction:MoveDirection):void {
+    const list = this.ownerListOf(itemElement);
+    const moveUrl = this.resolveCollectionMoveUrl();
+    if (!list || !moveUrl) {
+      return;
+    }
+
+    const resolution = resolveBlockMove({ itemElements: scopeItems, direction, rowsContainer: list.rowsContainer });
+    if (!resolution.available) {
+      return;
+    }
+
+    const items = resolution.rows
+      .map((row) => resolveItemElement(row, list.rowsContainer))
+      .map((element) => element ? itemIdentity(element) : null)
+      .filter((item):item is SelectionItem => item !== null);
+    if (items.length !== resolution.rows.length) {
+      return;
+    }
+
+    void this.performMove({
+      rows: resolution.rows,
+      items,
+      rowsContainer: list.rowsContainer,
+      listData: list.listData,
+      previousItemId: resolution.previousItemId,
+      moveUrl,
     });
   }
 
@@ -686,8 +761,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   }
 
-  // Shared by drag drops, single or batch, and by the menu moves that pass
-  // no items.
+  // Shared by drag drops and menu moves, single or batch.
   private async performMove({
     rows,
     items,
