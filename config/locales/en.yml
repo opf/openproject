@@ -2322,9 +2322,8 @@ en:
         failed_title: "Generation failed"
         generating: "Generating…"
         mentions_converted: >-
-          The response mentions people or groups that the original text did not mention. These mentions were
-          turned into plain text so that saving does not notify anyone unintentionally. After Replace, mention
-          them again in the editor if needed.
+          New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally.
+          After Replace, you can mention them again in the editor.
         replace: "Replace"
         request_failed: "The request failed. Close the result and try again."
         selection_gone: "The selected text is no longer there, so it cannot be replaced. You can still copy it."
