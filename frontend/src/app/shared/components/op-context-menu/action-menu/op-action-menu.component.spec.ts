@@ -28,7 +28,7 @@
 import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { fireEvent, screen, within } from '@testing-library/dom';
+import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
 import { settlePopover } from 'core-common/testing/timing';
 import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
@@ -395,11 +395,17 @@ describe('OpActionMenuComponent with a projected trigger', () => {
   const menu = () => screen.getByRole('menu', { name: 'Subject menu', hidden: true });
   const secondMenu = () => screen.getByRole('menu', { name: 'Status menu', hidden: true });
   const menuElement = () => (fixture.nativeElement as HTMLElement).querySelector<ActionMenuElement>('action-menu')!;
-  const openWithClick = async () => { fireEvent.click(trigger()); await settle(); };
+  const subMenu = () => within(menu()).getByRole('menu', { name: 'Move', hidden: true });
+  // Primer focuses the first item a frame after the toggle task, which Firefox
+  // may run after a settle; a key sent before then lands on the wrong item.
+  const openWithClick = async () => {
+    fireEvent.click(trigger());
+    await waitFor(() => expect(menu()).toContainElement(document.activeElement as HTMLElement));
+  };
   const openSubMenu = async () => {
     within(menu()).getByRole('menuitem', { name: 'Move' }).focus();
     await userEvent.keyboard('{ArrowRight}');
-    await settle();
+    await waitFor(() => expect(within(subMenu()).getByRole('menuitem', { name: 'Move up', hidden: true })).toHaveFocus());
   };
 
   beforeEach(async () => {
@@ -483,8 +489,8 @@ describe('OpActionMenuComponent with a projected trigger', () => {
     await openWithClick();
     await openSubMenu();
 
-    fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
-    await settle();
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(subMenu().closest('anchored-position')!.matches(':popover-open')).toBe(false));
     expect(host.reasons).toEqual([]);
 
     await userEvent.click(screen.getByRole('button', { name: 'Elsewhere' }));
