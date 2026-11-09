@@ -33,7 +33,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:project) { create(:project, types: [type_feature]) }
 
-  let(:menu_src) { "/backlogs/work_packages/#{work_package.id}/menu" }
+  let(:menu_src) { "/backlogs/work_packages/menu?ids%5B%5D=#{work_package.id}&invoker_id=#{work_package.id}" }
   let(:work_package) do
     create(:work_package,
            project:,
@@ -120,7 +120,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
     expect(rendered).to have_no_css(".sr-only", text: "5 story points")
   end
 
-  it "passes the menu source to the common card" do
+  it "puts the menu source on the action menu, where a client can refresh it" do
     expect(rendered_component).to have_element "action-menu", src: menu_src
   end
 

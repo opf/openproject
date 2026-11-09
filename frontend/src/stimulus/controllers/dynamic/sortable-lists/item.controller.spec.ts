@@ -54,10 +54,12 @@ import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clos
 import type { draggable as draggableFn, dropTargetForElements as dropTargetForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { setCustomNativeDragPreview as setCustomNativeDragPreviewFn } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
+import { fireEvent, within } from '@testing-library/dom';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
+import type { ActionScope } from './selection-orchestrator';
 import type { DestinationIdentity } from './list-dom';
 import { type SelectionItem } from 'core-common/batch-selection';
 import { DragSession, type DragSessionHost } from './drag-session';
@@ -145,6 +147,9 @@ describe('Sortable lists item controller', () => {
     return {
       element,
       busy,
+      actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      moveToDestination: vi.fn(),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(ownerRowsContainer),
@@ -1437,10 +1442,11 @@ describe('Sortable lists item controller', () => {
       // decides whether it still separates anything.
       menuElement.innerHTML = (withDivider ? '<li data-sortable-lists--item-target="moveDivider"></li>' : '')
         + ['top', 'up', 'down', 'bottom'].map((direction) => (
-          `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
+          `<li class="ActionListItem" data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
           + ' data-action="click->sortable-lists--item#move"><button></button></li>'
         )).join('');
       const parent = document.createElement('li');
+      parent.classList.add('ActionListItem');
       parent.setAttribute('data-sortable-lists--item-target', 'moveMenu');
       menuElement.appendChild(parent);
       el.appendChild(menuElement);
@@ -1547,6 +1553,49 @@ describe('Sortable lists item controller', () => {
       expect(divider.hasAttribute('hidden')).toBe(true);
     });
 
+    it('hides the singular divider with a trailing submenu overlay but no visible ActionList item', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      const menu = el.querySelector('action-menu')!;
+      const list = document.createElement('ul');
+      list.setAttribute('role', 'menu');
+      list.append(...menu.children);
+      list.append(document.createElement('anchored-position'));
+      menu.append(list);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      controller.moveItemTargetConnected();
+
+      expect(el.querySelector('[data-sortable-lists--item-target="moveDivider"]')).toHaveAttribute('hidden');
+    });
+
+    it('refreshes only when its primary overlay opens, not for tooltip or submenu toggles', async () => {
+      const { el } = renderItemWithMenu(2);
+      const menu = el.querySelector('action-menu')!;
+      const primary = document.createElement('anchored-position');
+      primary.append(...menu.children);
+      menu.append(primary);
+      const submenu = document.createElement('anchored-position');
+      primary.append(submenu);
+      const tooltip = document.createElement('tool-tip');
+      menu.append(tooltip);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const root = stubRoot(el, { isFirst: false, isLast: false });
+      const availability = vi.spyOn(root, 'moveAvailability');
+      controller.connectRoot(root);
+      availability.mockClear();
+      const open = () => Object.assign(new Event('toggle'), { newState: 'open' });
+
+      tooltip.dispatchEvent(open());
+      submenu.dispatchEvent(open());
+      expect(availability).not.toHaveBeenCalled();
+      primary.dispatchEvent(open());
+      expect(availability).toHaveBeenCalledOnce();
+      primary.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'closed' }));
+      expect(availability).toHaveBeenCalledOnce();
+    });
+
     it('keeps the divider while something below it is still visible', async () => {
       const { el } = renderItemWithMenu(1, true);
       document.body.appendChild(el);
@@ -1588,6 +1637,78 @@ describe('Sortable lists item controller', () => {
       moveInDirection.mockClear();
       liFor(el, 'up').click();
       expect(moveInDirection).not.toHaveBeenCalled();
+    });
+
+    function appendDestinationItem(el:HTMLElement):{ li:HTMLElement; form:HTMLFormElement } {
+      const li = document.createElement('li');
+      li.setAttribute('data-action', 'click->sortable-lists--item#moveToDestination:prevent');
+      li.innerHTML = `
+        <form action="/collection/move" method="post">
+          <input type="hidden" name="ids[]" value="7">
+          <input type="hidden" name="ids[]" value="3">
+          <button type="submit">Move to inbox</button>
+        </form>
+      `;
+      el.querySelector('action-menu')!.appendChild(li);
+      return { li, form: li.querySelector('form')! };
+    }
+
+    it('hands the rendered destination form to the root without submitting it', async () => {
+      const { el } = renderItemWithMenu(2);
+      const { li, form } = appendDestinationItem(el);
+      document.body.appendChild(el);
+      const moveToDestination = vi.fn();
+      const submit = vi.fn((event:Event) => event.preventDefault());
+      form.addEventListener('submit', submit);
+      const controller = await mountItemController(el);
+      controller.connectRoot({ element: el, busy: false, moveToDestination } as unknown as SortableListsRoot);
+
+      fireEvent.click(within(li).getByRole('button', { name: 'Move to inbox' }));
+
+      expect(moveToDestination).toHaveBeenCalledExactlyOnceWith(form);
+      expect(submit).not.toHaveBeenCalled();
+    });
+
+    it('ignores a disabled destination item', async () => {
+      const { el } = renderItemWithMenu(2);
+      const { li } = appendDestinationItem(el);
+      li.classList.add('ActionListItem--disabled');
+      document.body.appendChild(el);
+      const moveToDestination = vi.fn();
+      const controller = await mountItemController(el);
+      controller.connectRoot({ element: el, busy: false, moveToDestination } as unknown as SortableListsRoot);
+
+      fireEvent.click(within(li).getByRole('button', { name: 'Move to inbox' }));
+
+      expect(moveToDestination).not.toHaveBeenCalled();
+    });
+
+    ['move', 'moveToDestination'].forEach((command) => {
+      ['hidden', 'disabled', 'missing menu', 'non-element target'].forEach((state) => {
+        it(`${command} refuses ${state} activation`, async () => {
+          const { el } = renderItemWithMenu(2);
+          const { li } = appendDestinationItem(el);
+          document.body.appendChild(el);
+          const controller = await mountItemController(el);
+          const moveInDirection = vi.fn();
+          const moveToDestination = vi.fn();
+          controller.connectRoot({ ...stubRoot(el, { isFirst: false, isLast: false }, moveInDirection), moveToDestination });
+          if (state === 'hidden') li.hidden = true;
+          if (state === 'disabled') li.classList.add('ActionListItem--disabled');
+          if (state === 'missing menu') {
+            el.querySelector('action-menu')!.remove();
+            await new Promise<void>((resolve) => setTimeout(resolve));
+          }
+          const event = Object.assign(new Event('click'), { params: { direction: 'down' } });
+          Object.defineProperty(event, 'currentTarget', { value: state === 'non-element target' ? document : li });
+
+          if (command === 'move') controller.move(event);
+          else controller.moveToDestination(event);
+
+          expect(moveInDirection).not.toHaveBeenCalled();
+          expect(moveToDestination).not.toHaveBeenCalled();
+        });
+      });
     });
 
     it('does nothing when there is no action-menu (drag-only consumer)', async () => {

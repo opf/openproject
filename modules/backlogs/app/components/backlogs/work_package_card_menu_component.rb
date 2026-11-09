@@ -33,43 +33,53 @@ module Backlogs
   class WorkPackageCardMenuComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include CommonHelper
-    include Concerns::WorkPackageMovability
 
-    attr_reader :work_package, :project, :open_sprints_exist, :other_buckets_exist, :current_user
+    attr_reader :invoker, :work_packages, :destinations, :project, :current_user
 
-    def initialize(work_package:, project:, open_sprints_exist:, other_buckets_exist:, current_user: User.current)
+    # @param invoker [WorkPackage] the card the menu opened on; it names the
+    #   menu and carries its singular actions.
+    # @param work_packages [Array<WorkPackage>] the ordered selection the
+    #   destination actions apply to, including the invoker.
+    # @param destinations [Backlogs::WorkPackages::DestinationAvailability]
+    #   the destinations every member of `work_packages` may move to.
+    def initialize(project:, invoker:, work_packages:, destinations:, current_user: User.current)
       super()
 
-      @work_package = work_package
       @project = project
-      @open_sprints_exist = open_sprints_exist
-      @other_buckets_exist = other_buckets_exist
+      @invoker = invoker
+      @work_packages = work_packages
+      @destinations = destinations
       @current_user = current_user
     end
 
     def menu_id
-      dom_target(work_package, :menu)
+      dom_target(invoker, :menu)
     end
 
     private
 
     # Positional moves reorder within the card's own list, which the server
     # allows even for a read-only work package, so they gate on the page-level
-    # permission alone. Only the cross-container moves below require movable?.
+    # permission alone, not on whether any cross-container destination is
+    # offered.
     def show_move_items?
-      sortable?
+      destinations.manage_permission?
     end
 
     def show_move_to_inbox?
-      movable? && (work_package.sprint_id? || work_package.backlog_bucket_id?)
+      destinations.inbox?
     end
 
     def show_move_to_backlog_bucket?
-      movable? && other_buckets_exist
+      destinations.buckets.any?
     end
 
     def show_move_to_sprint?
-      movable? && open_sprints_exist
+      destinations.sprints.any?
+    end
+
+    def id_inputs
+      work_packages.map { |work_package| { name: "ids[]", value: work_package.id } }
     end
 
     def show_move_submenu?
@@ -89,7 +99,7 @@ module Backlogs
       # action-menu API's `disableItem`/`enableItem` both address that element,
       # and the click action rides it via the bubbled button click.
       menu.with_item(
-        id: dom_target(work_package, :menu, label),
+        id: dom_target(invoker, :menu, label),
         label: I18n.t(label),
         tag: :button,
         data: {

@@ -35,6 +35,7 @@ import { announce } from '@primer/live-region-element';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { OPToastEvent } from 'core-app/shared/components/toaster/toast-event';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
+import { performTurboStreamRequest, withProgressBar } from 'core-stimulus/helpers/request-helpers';
 import { parseTemplate } from 'url-template';
 import {
   buildMoveFormData,
@@ -43,6 +44,7 @@ import {
   resolveDropIntent,
   singleItemBatch,
   type RootAwareChild,
+  type RegisteredRootAwareChild,
   type SortableListData,
   type SortableListsRoot,
 } from './sortable-lists/drag-and-drop';
@@ -66,8 +68,9 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
-import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
+import { SelectionOrchestrator, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
+import { relativeUrl } from './sortable-lists/url';
 import { DragSession, type DragSessionHost } from './sortable-lists/drag-session';
 
 type CleanupFn = () => void;
@@ -77,14 +80,8 @@ type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 interface DropRoute { url:string; items:SelectionItem[]|null }
 interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
 
-// Reduced to a same-origin relative URL: an absolute or foreign-origin
-// template would otherwise be submitted as given.
-function relativeUrl(url:URL):string {
-  return `${url.pathname}${url.search}${url.hash}`;
-}
-
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot, SelectionHost, DragSessionHost {
-  static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable'];
+  static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable', 'sortable-lists--menu-source'];
 
   static values = {
     moveUrlTemplate: String,
@@ -99,8 +96,9 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   };
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
-  declare readonly sortableListsItemOutlets:(RootAwareChild & { focusItem():void })[];
-  declare readonly sortableListsScrollableOutlets:RootAwareChild[];
+  declare readonly sortableListsItemOutlets:(RegisteredRootAwareChild & { focusItem():void })[];
+  declare readonly sortableListsScrollableOutlets:RegisteredRootAwareChild[];
+  declare readonly sortableListsMenuSourceOutlets:RootAwareChild[];
 
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
@@ -120,8 +118,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
   private reconcileScheduled = false;
+  private inFlightMoveRequests = 0;
 
   connect():void {
+    // A root restored from the Turbo cache can carry a stale busy marker.
+    this.syncBusyState();
     this.monitorCleanupFn = monitorForElements({
       canMonitor: ({ source }) => !this.busy
         && isItemFromRoot(this.element, source.data),
@@ -238,6 +239,24 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
+  actionScopeFor(itemElement:HTMLElement):ActionScope {
+    return this.selection?.actionScopeFor(itemElement) ?? { kind: 'refused', items: [] };
+  }
+
+  selectForAction(itemElement:HTMLElement):ActionScope {
+    if (this.busy) {
+      return this.actionScopeFor(itemElement);
+    }
+
+    return this.selection?.selectForAction(itemElement) ?? { kind: 'refused', items: [] };
+  }
+
+  // The move dialogs submit outside this root; the server's moved event
+  // is the only success signal it gets.
+  clearSelectionAfterMove():void {
+    this.selection?.clearSilently();
+  }
+
   // The drag in flight, or the prospective session of a press that did not
   // become one (Pragmatic checks the drag handle after canDrag).
   dragSession:DragSession|null = null;
@@ -331,6 +350,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
         child.reregister();
       });
 
+      this.sortableListsMenuSourceOutlets.forEach((menuSource) => {
+        if (this.element.contains(menuSource.element)) menuSource.connectRoot(this);
+      });
+
       // Once per morph batch, not per disconnect: a morph can replace a row
       // with a fresh element for the same work package, and the disconnect
       // alone would drop a member about to come straight back.
@@ -345,6 +368,14 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       this.dragSession?.remark();
     });
   };
+
+  sortableListsMenuSourceOutletConnected(menuSource:RootAwareChild):void {
+    if (this.element.contains(menuSource.element)) menuSource.connectRoot(this);
+  }
+
+  sortableListsMenuSourceOutletDisconnected(menuSource:RootAwareChild):void {
+    if (this.element.contains(menuSource.element)) menuSource.disconnectRoot();
+  }
 
   sortableListsListOutletConnected(list:RootAwareChild):void {
     list.connectRoot(this);
@@ -407,6 +438,14 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     const list = this.ownerListOf(itemElement);
 
     return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+  }
+
+  moveToDestination(form:HTMLFormElement):void {
+    if (this.busy) {
+      return;
+    }
+
+    void this.submitDestinationMove(form);
   }
 
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
@@ -567,6 +606,26 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
 
     return relativeUrl(url);
+  }
+
+  private async submitDestinationMove(form:HTMLFormElement):Promise<void> {
+    const moveUrl = relativeUrl(new URL(form.action, window.location.href));
+    const request = new FetchRequest(form.method, moveUrl, { body: new FormData(form), responseKind: 'turbo-stream' });
+
+    this.startMoveRequest();
+    try {
+      const response = await withProgressBar(performTurboStreamRequest(request));
+      if (response.ok) {
+        this.selection?.clearSilently();
+      }
+    } catch (error) {
+      // A rejection streams its own flash; only a request that never
+      // produced a stream lands here.
+      debugLog('Failed to move sortable list items to destination', error);
+      this.dispatchErrorToast();
+    } finally {
+      this.finishMoveRequest();
+    }
   }
 
   // Refused whole when a row is missing: a member that vanished mid-drag
@@ -767,7 +826,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       },
     );
 
-    this.setBusy(true);
+    this.startMoveRequest();
     try {
       const response = await request.perform();
 
@@ -782,7 +841,26 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       debugLog('Failed to move sortable list item due to request error', error);
       return { ok: false, showToast: true };
     } finally {
-      this.setBusy(false);
+      this.finishMoveRequest();
+    }
+  }
+
+  private startMoveRequest():void {
+    this.inFlightMoveRequests += 1;
+    this.syncBusyState();
+  }
+
+  private finishMoveRequest():void {
+    this.inFlightMoveRequests = Math.max(0, this.inFlightMoveRequests - 1);
+    this.syncBusyState();
+  }
+
+  // A successful frame stream may already have replaced this root; a
+  // detached element is left alone and connect() projects the count if it
+  // is restored.
+  private syncBusyState():void {
+    if (this.element.isConnected) {
+      this.setBusy(this.inFlightMoveRequests > 0);
     }
   }
 

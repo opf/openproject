@@ -48,7 +48,7 @@ import {
   isItemFromRoot,
   sortableDragSourceData,
   sortableItemIdentity,
-  type RootAwareChild,
+  type RegisteredRootAwareChild,
   type SortableDragSourceData,
   type SortableListsRoot,
 } from './drag-and-drop';
@@ -66,7 +66,7 @@ import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
 
-export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
+export default class ItemController extends Controller<HTMLElement> implements RegisteredRootAwareChild {
   static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
   static elements = { menu: 'action-menu' };
 
@@ -111,12 +111,15 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private root?:SortableListsRoot;
 
   private readonly onMenuToggle = (event:Event):void => {
-    // The toggle event does not bubble, so listen in capture phase; recompute
-    // availability whenever the card menu opens, since a reorder can have
-    // shifted siblings meanwhile. Read newState by duck typing rather than
-    // `instanceof ToggleEvent` so a browser without the ToggleEvent global
-    // cannot throw.
-    if ((event as ToggleEvent).newState === 'open') {
+    // An optimistic in-list drag leaves the server-rendered direction
+    // availability stale, so it is recomputed when the card's own menu opens.
+    // The toggle event does not bubble, so listen in capture phase, and only
+    // for the menu's primary overlay: tooltips and sub-menus toggle too. Read
+    // newState by duck typing rather than `instanceof ToggleEvent` so a browser
+    // without the ToggleEvent global cannot throw.
+    if ('newState' in event && event.newState === 'open'
+      && this.hasMenuElement
+      && event.target === this.menuElement.querySelector(':scope > anchored-position')) {
       this.refreshMoveMenuAvailability();
     }
   };
@@ -138,31 +141,36 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.disconnectRoot();
   }
 
-  // A move item entering the DOM (inline or via a deferred fragment) triggers
-  // an availability refresh here, but `this.root` is usually still unset at
-  // this point (the outlet's connectRoot callback runs later), so this call
-  // typically no-ops. The menu-open toggle handler is what actually
-  // establishes correct availability, refreshing on every open once the root
-  // is connected and after any reorder has shifted siblings. No
-  // include-fragment knowledge, so both hooks work for any menu.
+  // Gates move items that arrive in a deferred menu fragment, after the
+  // open toggle has already refreshed availability.
   moveItemTargetConnected():void {
     this.refreshMoveMenuAvailability();
   }
 
   move(event:ActionEvent):void {
-    const item = event.currentTarget;
-    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
-      return;
-    }
-
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
-      return;
-    }
+    const item = this.activatableMenuItem(event);
+    if (!item || !isOrderableItem(this.element)) return;
 
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
       this.root?.moveInDirection(this.element, direction);
     }
+  }
+
+  moveToDestination(event:ActionEvent):void {
+    const item = this.activatableMenuItem(event);
+    const form = item?.querySelector('form');
+    if (form) {
+      this.root?.moveToDestination(form);
+    }
+  }
+
+  private activatableMenuItem(event:ActionEvent):HTMLElement|null {
+    const item = event.currentTarget;
+    if (!this.hasMenuElement || !(item instanceof HTMLElement)) return null;
+    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) return null;
+
+    return item;
   }
 
   // The focus host is the consumer's business: Backlogs puts the tab stop on
@@ -531,7 +539,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     let sibling = divider.nextElementSibling;
 
     while (sibling) {
-      if (!sibling.hasAttribute('hidden')) {
+      if (sibling.matches('li.ActionListItem:not([hidden])')) {
         divider.removeAttribute('hidden');
         return;
       }
