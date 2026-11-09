@@ -438,7 +438,6 @@ ms:
     label_assignee: Penerima tugasan
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Lampiran
-    label_author: 'Pengarang: %{user}'
     label_avatar: Avatar
     label_between: antara
     label_board: Board
@@ -1116,7 +1115,6 @@ ms:
         default_mode: Senarai datar
         display_settings: Tetapan paparan
         display_sums_hint: Paparkan jumlah semua atribut yang boleh dijumlahkan dalam baris di bawah hasil jadual.
-        embedded_tab_disabled: Tab konfigurasi ini tidak tersedia untuk paparan tersemat yang anda sedang edit.
         hierarchy_hint: Semua hasil jadual tersaring akan ditambah bersama leluhur mereka. Hierarki boleh dikembang dan ditutup.
         hierarchy_mode: Hierarki
         highlighting: Menyorotkan

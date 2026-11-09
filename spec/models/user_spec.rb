@@ -427,6 +427,56 @@ RSpec.describe User do
     end
   end
 
+  describe "#log_failed_login", with_settings: { brute_force_block_minutes: 30 } do
+    let!(:user) { create(:user, failed_login_count: 2, last_failed_login_on: 1.minute.ago) }
+
+    it "increments the count and updates the timestamp" do
+      user.log_failed_login
+
+      user.reload
+      expect(user.failed_login_count).to eq 3
+      expect(user.last_failed_login_on).to be_within(1.second).of(Time.zone.now)
+    end
+
+    it "counts failures logged through stale instances" do
+      first = described_class.find(user.id)
+      second = described_class.find(user.id)
+
+      first.log_failed_login
+      second.log_failed_login
+
+      expect(user.reload.failed_login_count).to eq 4
+    end
+
+    it "counts failures for users that fail validation" do
+      user.update_column(:mail, "not-an-email")
+
+      user.log_failed_login
+
+      expect(user.reload.failed_login_count).to eq 3
+    end
+
+    context "when the last failure is outside the block time" do
+      let!(:user) { create(:user, failed_login_count: 2, last_failed_login_on: 31.minutes.ago) }
+
+      it "restarts the count" do
+        user.log_failed_login
+
+        expect(user.reload.failed_login_count).to eq 1
+      end
+    end
+
+    context "when there was no failure before" do
+      let!(:user) { create(:user, failed_login_count: 0, last_failed_login_on: nil) }
+
+      it "starts the count" do
+        user.log_failed_login
+
+        expect(user.reload.failed_login_count).to eq 1
+      end
+    end
+  end
+
   describe "#change_password_allowed?" do
     let(:user) { build(:user) }
 

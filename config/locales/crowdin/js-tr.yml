@@ -438,7 +438,6 @@ tr:
     label_assignee: Atanan
     label_assignee_alt_text: Bu iş paketi %{name} ne atanmıştır.
     label_attachments: Ekler
-    label_author: 'Yazar: %{user}'
     label_avatar: Avatar
     label_between: arasında
     label_board: Pano
@@ -1124,7 +1123,6 @@ tr:
         default_mode: Düz liste
         display_settings: Görünüm ayarları
         display_sums_hint: Tüm toplanabilir özelliklerin toplamlarını, tablonun sonuçlarının altındaki bir satırda görüntüleyin.
-        embedded_tab_disabled: Bu yapılandırma sekmesi, düzenlemekte olduğunuz gömülü görünüm için kullanılamaz.
         hierarchy_hint: Filtrelenen tüm tablo sonuçları atalarıyla artırılacaktır. Hiyerarşiler genişletilebilir ve daraltılabilir.
         hierarchy_mode: Hiyerarşi
         highlighting: Vurgulama

@@ -27,6 +27,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { screen } from '@testing-library/dom';
 import { DebugElement } from '@angular/core';
 import { OpIconComponent } from './icon.component';
 
@@ -80,6 +81,14 @@ describe('opIcon Directive', () => {
 
       expect(span.nativeElement.tagName.toLowerCase()).toEqual('span');
       expect(span.nativeElement.textContent).toEqual('blabla');
+    });
+
+    it('exposes icon-title as hidden text only', () => {
+      fixture.componentRef.setInput('icon-title', 'Read only');
+      fixture.detectChanges();
+
+      expect(screen.getByText('Read only')).toHaveClass('sr-only');
+      expect(element.query(By.css('i')).nativeElement).not.toHaveAttribute('title');
     });
   });
 });

@@ -438,7 +438,6 @@ fil:
     label_assignee: Naitalaga
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Mga kalakip
-    label_author: 'May-Akda: %{user}'
     label_avatar: Avatar
     label_between: sa pagitan ng
     label_board: Board
@@ -1124,7 +1123,6 @@ fil:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarchy
         highlighting: Highlighting

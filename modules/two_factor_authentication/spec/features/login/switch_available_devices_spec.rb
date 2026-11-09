@@ -52,7 +52,7 @@ RSpec.describe "Login by switching 2FA device",
     it "requests a 2FA and allows switching" do
       first_login_step
 
-      expect(page).to have_css("input#otp")
+      expect(page).to have_field("otp")
 
       # Toggle device to TOTP
       find_by_id("toggle_resend_form").click
@@ -60,7 +60,7 @@ RSpec.describe "Login by switching 2FA device",
       find(".button--link[value='#{device2.redacted_identifier}']").click
       wait_for_network_idle
 
-      expect(page).to have_css("input#otp")
+      expect(page).to have_field("otp")
       expect(page).to have_css("#submit_otp p", text: device2.redacted_identifier)
 
       two_factor_step(device2.totp.now)

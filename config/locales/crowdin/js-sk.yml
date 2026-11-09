@@ -438,7 +438,6 @@ sk:
     label_assignee: Priradené
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Prílohy
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: medzi
     label_board: Nástenka
@@ -1140,7 +1139,6 @@ sk:
         default_mode: Plochý zoznam
         display_settings: Zobraziť nastavenia
         display_sums_hint: Zobraziť súčty všetkých sčitateľných atribútov v riadku pod tabuľkou výsledkov.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Všetky filtrované výsledky z tabuľky budú rozšírené o ich predkov. Hierarchie je možné rozbaliť a zbaliť.
         hierarchy_mode: Hierarchia
         highlighting: Zvýraznenie

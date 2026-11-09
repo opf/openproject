@@ -32,7 +32,7 @@ require "rails_helper"
 RSpec.describe InplaceEditFieldsController do
   let(:user) { create(:user) }
   let(:model) { create(:project) }
-  let(:attribute) { :name }
+  let(:attribute) { :description }
   let(:model_param) { "project" }
 
   let(:update_registry) do
@@ -93,7 +93,7 @@ RSpec.describe InplaceEditFieldsController do
           id: model.id,
           attribute:,
           project: {
-            name: "New project"
+            description: "New description"
           }
         }, format: :turbo_stream
 
@@ -111,7 +111,7 @@ RSpec.describe InplaceEditFieldsController do
           id: model.id,
           attribute:,
           project: {
-            name: ""
+            description: ""
           }
         }, format: :turbo_stream
 
@@ -129,12 +129,25 @@ RSpec.describe InplaceEditFieldsController do
           model: model_param,
           id: model.id,
           attribute:,
-          project: { name: "New project" },
-          system_arguments_json: { wrapper_id: }.to_json
+          project: { description: "New description" },
+          system_arguments: OpenProject::InplaceEdit::SystemArguments.sign(wrapper_id:)
         }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("my-inplace-dialog")
+      end
+
+      it "ignores unsigned system arguments" do
+        patch :update, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          project: { description: "New description" },
+          system_arguments: { wrapper_id: }.to_json
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).not_to include("my-inplace-dialog")
       end
     end
 
@@ -210,6 +223,57 @@ RSpec.describe InplaceEditFieldsController do
         expect(stream_targets)
           .to include("[data-inplace-edit-stable-key='project_#{model.id}_#{calculated_field.attribute_name}']")
       end
+
+      context "with stable-key arguments of the dependent field" do
+        let(:stable_key) { "project_#{model.id}_#{calculated_field.attribute_name}" }
+
+        before do
+          patch :update, params: {
+            model: model_param,
+            id: model.id,
+            attribute:,
+            project: { custom_field_values: { custom_field.id.to_s => "42" } },
+            stable_key_system_arguments: { stable_key => stable_key_arguments }
+          }, format: :turbo_stream
+        end
+
+        context "when they are signed" do
+          let(:stable_key_arguments) { OpenProject::InplaceEdit::SystemArguments.sign(test_selector: "calculated-field") }
+
+          it "renders the dependent field with them" do
+            expect(response.body).to include('data-test-selector="calculated-field"')
+          end
+        end
+
+        context "when they are unsigned" do
+          let(:stable_key_arguments) { { test_selector: "calculated-field" }.to_json }
+
+          it "renders the dependent field without them" do
+            expect(response.body).not_to include('data-test-selector="calculated-field"')
+          end
+        end
+
+        context "when they are nested parameters" do
+          let(:stable_key_arguments) { { test_selector: "calculated-field" } }
+
+          it "renders the dependent field without them", :aggregate_failures do
+            expect(response).to have_http_status(:ok)
+            expect(response.body).not_to include('data-test-selector="calculated-field"')
+          end
+        end
+      end
+
+      it "renders the dependent fields when the stable-key arguments are not a hash" do
+        patch :update, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          project: { custom_field_values: { custom_field.id.to_s => "42" } },
+          stable_key_system_arguments: "not a hash"
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+      end
     end
 
     context "when no update handler is registered" do
@@ -220,7 +284,7 @@ RSpec.describe InplaceEditFieldsController do
           model: model_param,
           id: model.id,
           attribute:,
-          project: { name: "Foo" }
+          project: { description: "Foo" }
         }, format: :turbo_stream
 
         expect(response).to have_http_status(:not_found)
@@ -292,6 +356,86 @@ RSpec.describe InplaceEditFieldsController do
         }, format: :turbo_stream
 
         expect(response).not_to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe "attribute allowlist" do
+    let(:handler) { double(call: true) }
+    let(:attribute) { :destroy }
+
+    it "returns 404 on edit and keeps the project", :aggregate_failures do
+      get :edit, params: { model: model_param, id: model.id, attribute: }, format: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(Project).to exist(model.id)
+    end
+
+    it "returns 404 on dialog and keeps the project", :aggregate_failures do
+      get :dialog, params: { model: model_param, id: model.id, attribute: }, format: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(Project).to exist(model.id)
+    end
+
+    it "returns 404 on reset and keeps the project", :aggregate_failures do
+      get :reset, params: { model: model_param, id: model.id, attribute: }, format: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(Project).to exist(model.id)
+    end
+
+    it "returns 404 on update and keeps the project", :aggregate_failures do
+      patch :update, params: { model: model_param, id: model.id, attribute:, project: { destroy: "1" } },
+                     format: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(Project).to exist(model.id)
+    end
+
+    context "when the system arguments override a registered attribute" do
+      let(:attribute) { :description }
+
+      it "renders the registered attribute and keeps the project", :aggregate_failures do
+        get :reset, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          system_arguments: { attribute: "destroy" }.to_json
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(Project).to exist(model.id)
+      end
+    end
+
+    context "when the system arguments of a calculated dependent override its attribute" do
+      let(:custom_field) { create(:integer_project_custom_field, projects: [model]) }
+      let(:attribute) { custom_field.attribute_name.to_sym }
+      let!(:calculated_field) do
+        create(:calculated_value_project_custom_field,
+               :skip_validations,
+               formula: "{{cf_#{custom_field.id}}} * 2",
+               projects: [model])
+      end
+
+      before do
+        allow(ProjectCustomField).to receive(:visible).and_return(ProjectCustomField.all)
+      end
+
+      it "renders the dependent field and keeps the project", :aggregate_failures do
+        patch :update, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          project: { custom_field_values: { custom_field.id.to_s => "42" } },
+          stable_key_system_arguments: {
+            "project_#{model.id}_#{calculated_field.attribute_name}" => { attribute: "destroy" }.to_json
+          }
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(Project).to exist(model.id)
       end
     end
   end

@@ -438,7 +438,6 @@ ro:
     label_assignee: Executant
     label_assignee_alt_text: Acest pachet de lucru este atribuit %{name}
     label_attachments: Atașamente
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: între
     label_board: Tablă
@@ -1132,7 +1131,6 @@ ro:
         default_mode: Listă
         display_settings: Setări afișare
         display_sums_hint: Afișarea sumelor tuturor atributelor însumabile pe un rând sub rezultatele tabelului.
-        embedded_tab_disabled: Această filă de configurare nu este disponibilă pentru vizualizarea încorporată pe care o editezi.
         hierarchy_hint: Toate rezultatele tabelelor filtrate vor fi completate cu strămoșii lor. Ierarhiile pot fi extinse și restrânse.
         hierarchy_mode: Ierarhie
         highlighting: Evidențiere
