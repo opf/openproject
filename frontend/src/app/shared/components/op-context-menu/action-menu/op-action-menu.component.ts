@@ -89,8 +89,8 @@ function visible(items:OpContextMenuItem[]):KeyedMenuItem[] {
  * submenu toggling.
  *
  * A button projected with `opActionMenuTrigger` becomes the menu's show
- * button; without one, a visually hidden button stands in so the menu can be
- * opened programmatically.
+ * button; without one, a button hidden from view and from assistive technology
+ * stands in so the menu can be opened programmatically.
  */
 @Component({
   selector: 'op-action-menu',
