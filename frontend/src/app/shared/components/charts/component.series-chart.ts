@@ -40,6 +40,7 @@ import {
   Chart, ChartData, ChartDataset, ChartOptions, LegendItem, PointStyle, TooltipItem,
 } from 'chart.js';
 import 'chartjs-adapter-luxon';
+import moment from 'moment-timezone';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
@@ -74,6 +75,12 @@ export interface SeriesChartData<Key extends string> {
   range:ChartedRange;
   series:ChartSeries<Key>[];
   nonWorkingIntervals:NonWorkingInterval[];
+}
+
+export interface DayDescriptionKeys {
+  summary:string;
+  day:string;
+  value:string;
 }
 
 export interface SeriesColor {
@@ -220,6 +227,28 @@ export abstract class SeriesChartComponent<Key extends string> {
     };
   });
 
+  // Spoken a day at a time, however finely the series are sampled. Each one is reported by the
+  // value it closed at, so an hourly series says what the day ended on rather than reading out
+  // two dozen numbers, and a series sampled daily already has only that one.
+  protected describedByDay(keys:DayDescriptionKeys):string {
+    const closing = this.closingValuesPerDay();
+    const days = [...new Set(closing.flatMap(({ byDay }) => [...byDay.keys()]))].sort();
+
+    const described = days.map((day, index) => {
+      const values = closing.flatMap(({ label, byDay }) => {
+        const value = byDay.get(day);
+
+        return value === undefined
+          ? []
+          : this.i18n.t(keys.value, { label, value: this.formatValue(value) });
+      });
+
+      return this.i18n.t(keys.day, { day: index + 1, values: values.join(', ') });
+    });
+
+    return this.i18n.t(keys.summary, { days: described.join('; ') });
+  }
+
   protected tooltipTitle(items:TooltipItem<'line'>[]):string {
     const dated = items.at(0);
 
@@ -240,6 +269,24 @@ export abstract class SeriesChartComponent<Key extends string> {
 
   protected seriesId(datasetIndex:number|undefined):Key|NonWorkingKey|undefined {
     return datasetIndex === undefined ? undefined : this.series()[datasetIndex]?.id;
+  }
+
+  private closingValuesPerDay():{ label:string, byDay:Map<string, number> }[] {
+    const zone = this.timezoneService.userTimezone();
+
+    return this.series()
+      .filter((series) => series.data.length > 0)
+      .map((series) => {
+        const byDay = new Map<string, number>();
+
+        series.data.forEach((point) => byDay.set(moment.tz(point.x, zone).format('YYYY-MM-DD'), point.y));
+
+        return { label: series.label, byDay };
+      });
+  }
+
+  private formatValue(value:number):string {
+    return new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 2 }).format(value);
   }
 
   // Everything the style holds but the swatch, which belongs to the legend, is already a dataset
