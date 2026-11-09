@@ -35,6 +35,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import {
   buildTable, FakeDragAndDropService, TableHarness, TableHarnessOptions,
@@ -455,6 +456,88 @@ describe('DragAndDropTransformer row moves', () => {
 
     await vi.waitFor(() => expect(harness.rowIds()).toEqual(['2', '1', '3', '4']));
     expect(prepareMove).toHaveBeenCalledTimes(3);
+  });
+
+  describe('on a later page', () => {
+    const laterPage = { offset: 2, pageSize: 3, total: 6 };
+    const pageTwo = [{ id: '4' }, { id: '5' }, { id: '6' }];
+    const unrankedPageTwo = { '1': 0, '2': 1, '3': 2 };
+    const rankedPageTwo = { '4': 0, '5': 16384, '6': 32768 };
+    const query = () => harness.querySpace.query.value!;
+    const renderPageTwo = async (positions:QueryOrder) => {
+      const mover = await renderTable({ workPackages: pageTwo, pagination: laterPage });
+      query().orderedWorkPackages = positions;
+      return mover;
+    };
+
+    beforeEach(() => {
+      window.I18n.store({
+        en: { js: { sortable_lists: { announcements: {
+          move_failed_check_position: 'Move failed. Check the item\'s current position.',
+          move_failed_check_positions_batch: { other: 'Move failed. Check the %{count} items\' current positions.' },
+        } } } },
+      });
+    });
+
+    it('offers no moves when the page starts with a result that has no position', async () => {
+      const mover = await renderPageTwo(unrankedPageTwo);
+
+      expect(mover.movableDirections(['5'])).toBeNull();
+    });
+
+    it('offers moves when the page starts with a positioned result', async () => {
+      const mover = await renderPageTwo(rankedPageTwo);
+
+      expect(mover.movableDirections(['5'])).toEqual(new Set(['top', 'up', 'down', 'bottom']));
+    });
+
+    it('offers no moves in a grouped table', async () => {
+      const mover = await renderTable({ workPackages: groupedWorkPackages, groups, pagination: { offset: 2, pageSize: 4, total: 8 } });
+      query().orderedWorkPackages = { '1': 0, '2': 1, '3': 2, '4': 3 };
+
+      expect(mover.movableDirections(['2'])).toBeNull();
+    });
+
+    it('leaves nothing for a save to persist after a refused move', async () => {
+      const mover = await renderPageTwo({});
+      const prepareBlockMove = vi.spyOn(orderService(), 'prepareBlockMove');
+
+      mover.move(['5', '6'], 'top');
+      await harness.table.whenRendered();
+
+      expect(prepareBlockMove).not.toHaveBeenCalled();
+      expect(query().orderedWorkPackages).toEqual({});
+    });
+
+    it('announces a failed move when the page start lost its position while preparing', async () => {
+      const mover = await renderPageTwo(rankedPageTwo);
+      vi.spyOn(orderService(), 'positionsFor').mockResolvedValue({ '5': 16384, '6': 32768 });
+
+      mover.move(['6'], 'up');
+
+      await vi.waitFor(() => expect(announce).toHaveBeenCalledExactlyOnceWith('Move failed. Check the item\'s current position.', { politeness: 'assertive' }));
+      expect(query().orderedWorkPackages).toEqual(rankedPageTwo);
+    });
+
+    it('announces a failed move of several work packages when the page start lost its position', async () => {
+      const mover = await renderPageTwo(rankedPageTwo);
+      vi.spyOn(orderService(), 'positionsFor').mockResolvedValue({ '5': 16384, '6': 32768 });
+
+      mover.move(['5', '6'], 'top');
+
+      await vi.waitFor(() => expect(announce).toHaveBeenCalledExactlyOnceWith('Move failed. Check the 2 items\' current positions.', { politeness: 'assertive' }));
+      expect(query().orderedWorkPackages).toEqual(rankedPageTwo);
+    });
+
+    it('still saves a row dropped with the pointer', async () => {
+      await renderPageTwo(unrankedPageTwo);
+      const rendered = harness.nextRender();
+
+      await harness.drop('4', '6', 'bottom');
+      await rendered;
+
+      expect(query().orderedWorkPackages).toHaveProperty('4');
+    });
   });
 
   describe('when every preparation is overtaken by a render', () => {

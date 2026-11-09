@@ -42,6 +42,8 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QUERY_SORT_BY_ASC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { PreparedQueryOrder, WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { knowsResultsBeforePage } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -175,6 +177,7 @@ export class DragAndDropTransformer implements RowMover {
     const query = this.querySpace.query.value;
     if (!query || !this.canMoveRows(query)) return null;
     if (!ids.length) return null;
+    if (!this.knowsPage(query, this.wpTableOrder.cachedPositions(query))) return null;
     const order = this.menuOrder(ids[0], ids.length > 1);
     const positions = ids.map((id) => order.indexOf(id));
     if (positions.includes(-1)) return null;
@@ -196,7 +199,7 @@ export class DragAndDropTransformer implements RowMover {
     const intent = this.intentFor(workPackageId, direction);
     if (!intent) return;
 
-    void this.performMove(intent, () => undefined).then((outcome) => {
+    void this.performMove(intent, () => undefined, { fromMenu: true }).then((outcome) => {
       if (outcome === 'moved') this.announceMove(workPackageId, query);
     });
   }
@@ -241,6 +244,10 @@ export class DragAndDropTransformer implements RowMover {
       }
       if (!attempt || !isCurrent() || !this.canMoveRows(query)) return;
       const { prepared, block } = attempt;
+      if (!this.knowsPage(query, prepared.positions)) {
+        this.announceMoveFailed(block.length);
+        return;
+      }
       await prepared.persist();
       if (!isCurrent()) return;
       await table.whenRendered();
@@ -338,6 +345,25 @@ export class DragAndDropTransformer implements RowMover {
     );
   }
 
+  /**
+   * Whether ranks for a page keep it in place after a reload. The order
+   * endpoint knows nothing of unranked results, so a later page can only be
+   * ranked when it starts with a ranked result (OP-20740). In grouped and
+   * hierarchy tables the page's first row says nothing about the moved rows'
+   * peers, so only their first page counts.
+   */
+  private knowsPage(query:QueryResource, positions:QueryOrder|undefined):boolean {
+    const results = this.querySpace.results.value;
+    const offset = results?.offset ?? 1;
+    if (offset <= 1) return true;
+    if (this.wpTableGroupBy.isEnabled || this.wpTableHierarchies.isEnabled) return false;
+    if (!positions) {
+      void this.wpTableOrder.positionsFor(query).catch(() => undefined);
+      return false;
+    }
+    return knowsResultsBeforePage({ offset, firstId: results?.elements[0]?.id ?? undefined }, positions);
+  }
+
   private canMoveRows(query:QueryResource):boolean {
     return this.table.configuration.dragAndDropEnabled
       && this.wpTableSortBy.isManualSortingMode
@@ -356,7 +382,7 @@ export class DragAndDropTransformer implements RowMover {
   }
 
   /** Prepare against the live view, then finish every accepted persistence phase and the refreshed render. */
-  private performMove(intent:DragIntent, complete:(success:boolean) => void):Promise<MoveOutcome> {
+  private performMove(intent:DragIntent, complete:(success:boolean) => void, { fromMenu = false } = {}):Promise<MoveOutcome> {
     const table = this.table;
     if (table.destroyed || this.moveInFlight) {
       complete(false);
@@ -450,6 +476,11 @@ export class DragAndDropTransformer implements RowMover {
           : undefined;
         const preparedOrder = await orderService.prepareMove(originalQuery, order, wpId, newOrder.indexOf(wpId), isCurrent);
         if (!stillEligible()) {
+          complete(false);
+          return 'abandoned';
+        }
+        if (fromMenu && !this.knowsPage(originalQuery, preparedOrder.positions)) {
+          this.announceMoveFailed(1);
           complete(false);
           return 'abandoned';
         }

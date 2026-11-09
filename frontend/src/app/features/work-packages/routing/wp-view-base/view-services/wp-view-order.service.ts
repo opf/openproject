@@ -43,6 +43,8 @@ import { firstValueFrom } from 'rxjs';
 
 export interface PreparedQueryOrder {
   readonly order:readonly string[];
+  /** The positions the delta was built from. */
+  readonly positions:QueryOrder;
   persist():Promise<void>;
 }
 
@@ -182,6 +184,15 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     return firstValueFrom(this.positions.values$());
   }
 
+  /** The positions known without loading them; undefined while a saved query's have not loaded. */
+  public cachedPositions(query:QueryResource):QueryOrder|undefined {
+    const current = this.querySpace.query.value === query ? this.positions.value : undefined;
+    if (!isPersistedResource(query)) {
+      return { ...query.orderedWorkPackages as QueryOrder, ...current };
+    }
+    return current && { ...current };
+  }
+
   public positionsFor(query:QueryResource):Promise<QueryOrder> {
     const positionsState = this.positions;
     const isCurrent = this.querySpace.query.value === query;
@@ -291,6 +302,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     const updatedPositions = { ...positions, ...delta };
     return {
       order: reordered,
+      positions,
       persist: async () => {
         if (savedEndpoint) {
           query.updatedAt = await savedEndpoint.order.update(delta);

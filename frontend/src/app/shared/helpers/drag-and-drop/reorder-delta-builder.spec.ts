@@ -32,6 +32,7 @@ import {
   buildDelta,
   buildMoveDelta,
   buildOrderDelta,
+  knowsResultsBeforePage,
 } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 
@@ -135,6 +136,28 @@ describe('ReorderDeltaBuilder', () => {
       const positions = { '1': 0, '2': 1, '3': 2, '4': 3 };
 
       expect(reloaded({ ...positions, ...buildMoveDelta(['1', '2', '3', '5'], positions, '5', 3, null) })).toEqual(['1', '2', '3', '5', '4']);
+    });
+  });
+
+  describe('knowing the results before a page', () => {
+    it('knows the first page', () => {
+      expect(knowsResultsBeforePage({ offset: 1, firstId: '1' }, {})).toBe(true);
+    });
+
+    it('knows a later page that starts with a ranked result', () => {
+      expect(knowsResultsBeforePage({ offset: 2, firstId: '4' }, { '4': 0 })).toBe(true);
+    });
+
+    it('does not count ranks of results outside the page as knowledge', () => {
+      expect(knowsResultsBeforePage({ offset: 2, firstId: '4' }, { '1': 0, '2': 1, '3': 2 })).toBe(false);
+    });
+
+    it('does not count a cached deletion as a rank', () => {
+      expect(knowsResultsBeforePage({ offset: 2, firstId: '4' }, { '4': -1 })).toBe(false);
+    });
+
+    it('does not know an empty later page', () => {
+      expect(knowsResultsBeforePage({ offset: 2, firstId: undefined }, { '4': 0 })).toBe(false);
     });
   });
 

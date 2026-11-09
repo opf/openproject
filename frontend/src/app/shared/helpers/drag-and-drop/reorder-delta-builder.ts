@@ -486,6 +486,18 @@ function withoutDeletions(positions:QueryOrder):QueryOrder {
   return Object.fromEntries(Object.entries(positions).filter(([, position]) => position !== -1));
 }
 
+/**
+ * Whether every result before a page of a manually sorted query is known by
+ * its rank. Ranked results sort before unranked ones, so a page that starts
+ * with a ranked result has only ranked results before it, and the positions
+ * hold every rank of the query. Other ranks prove nothing: the positions also
+ * hold results that the query's filters leave out.
+ */
+export function knowsResultsBeforePage(page:{ offset:number; firstId:string|undefined }, positions:QueryOrder):boolean {
+  if (page.offset <= 1) return true;
+  return page.firstId !== undefined && withoutDeletions(positions)[page.firstId] !== undefined;
+}
+
 function inRange(delta:QueryOrder):boolean {
   return Object.values(delta).every((position) => position >= MIN_ORDER && position <= MAX_ORDER);
 }
