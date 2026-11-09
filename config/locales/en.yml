@@ -3645,6 +3645,7 @@ en:
         caption: "The new form starts with a copy of that form's attribute groups."
         label: "Copy from"
         placeholder: "Select a form…"
+      copy_title: "Copy form %{name}"
       description:
         caption: "Add a short description about where and how will this form be used."
         label: "Description"
@@ -3652,7 +3653,7 @@ en:
       name:
         caption: "Pick a name that will let you identify this form later in other places."
         label: "Form name"
-      new_title: "Create form"
+      save_title: "Save form"
     index:
       actions:
         edit: "Edit form"
@@ -7491,7 +7492,6 @@ en:
         tab: "Generate PDF"
         templates:
           readonly_error: "Cannot be changed while linked to a source type."
-          section_title: "PDF export templates"
           settings:
             edit_link: "Edit settings"
             reset_to_default: "Reset to default"
@@ -7513,7 +7513,6 @@ en:
         empty_group_hint: "Drag attributes here"
         exclusions:
           attribute_label: "Inherit %{attribute}"
-          excluded: "Hidden"
           section_label: "Inherit section %{section}"
         filter_inactive: "Filter attributes"
         group_actions: "Section actions"
@@ -7571,7 +7570,6 @@ en:
           manual:
             description: "Once you [create project attributes](administration_url), they will be visible here and can be added to a type."
             title: "No project attributes available"
-        disabled: "Disabled"
         exclusions:
           attribute_label: "Inherit %{attribute}"
         filter: "Search by section or name"
@@ -7649,14 +7647,14 @@ en:
           mode_label: "Configure this page manually"
           modes:
             copy:
-              caption: "Start with a one-time copy of the settings that this configuration inherits now."
-              label: "Copy inherited settings"
+              caption: "Start with a one-time copy of the settings of the parent type."
+              label: "Copy existing settings"
             default:
               caption: "Use the default settings for new types."
               label: "Default settings"
             empty:
               caption: "Set everything up from scratch, beginning from a blank configuration."
-              label: "Empty"
+              label: "Start from scratch"
           success: "The configuration mode was switched."
           title: "Manual configuration"
         parent_suffix: " (parent)"
@@ -7709,8 +7707,9 @@ en:
           other: "The type will be removed from %{count} projects:"
         title: "Delete type"
       description: >
-        Each configuration area inside types and variants can be independently configured, limited
-        from another type, or fully linked to a source.
+        Create and configure different work package types. Each type has its own default template and a set of
+        custom fields, a workflow and other settings. If you need project-specific configurations, you can also
+        create slightly different variants for each type according to the needs of each project.
       duplicate_name: "Copy of %{name}"
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: "Active in new projects"
@@ -8469,8 +8468,6 @@ en:
           notice:
             one: "Successfully copied workflow to '%{role_name}' role."
             other: "Successfully copied workflow to %{count} roles."
-      new:
-        dialog_title: 'Copy workflow of "%{source}"'
     delete:
       body_in_use:
         one: "This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with."
@@ -8488,6 +8485,7 @@ en:
         caption: "The new workflow starts with a copy of that workflow's status transitions."
         label: "Copy from"
         placeholder: "Select a workflow…"
+      copy_title: "Copy workflow %{name}"
       description:
         caption: "Add a short description about where and how will this workflow be used."
         label: "Description"
@@ -8503,7 +8501,7 @@ en:
       name:
         caption: "Pick a name that will let you identify this workflow later in other places."
         label: "Workflow name"
-      new_title: "Create workflow"
+      save_title: "Save workflow"
     index:
       actions:
         create: "Workflow"
