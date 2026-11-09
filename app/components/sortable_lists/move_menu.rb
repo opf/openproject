@@ -74,7 +74,7 @@ module SortableLists
     # handle the bubbled click.
     def with_move_items(menu, dom_key: nil)
       DIRECTIONS.each do |move|
-        menu.with_item(id: dom_key && dom_target(dom_key, :menu, move.direction),
+        menu.with_item(**(dom_key ? { id: dom_target(dom_key, :menu, move.direction) } : {}),
                        label: I18n.t(move.label), tag: :button, data: move.item_data) do |item|
           item.with_leading_visual_icon(icon: move.icon)
         end

@@ -84,6 +84,14 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
       end
     end
 
+    it "keeps Primer's generated ids on the direction buttons", :aggregate_failures do
+      directions.each_key do |direction|
+        expect(page).to have_element(:li, "data-sortable-lists--item-direction-param": direction) do |item|
+          expect(item).to have_css("button[id^='item-']")
+        end
+      end
+    end
+
     context "with a dom_key" do
       let(:harness_class) { harness_class_calling(:with_move_items, system_arguments: { dom_key: :story }) }
 
