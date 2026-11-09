@@ -851,6 +851,16 @@ describe('Context menu focus return', () => {
       expect(cellOf('2', 1)).toHaveFocus();
     });
 
+    it('a scroll-away close returns to the cell origin without scrolling it back into view', async () => {
+      await openOnCell('2', 1);
+      const scrollIntoView = vi.spyOn(Element.prototype, 'scrollIntoView');
+
+      menu.close('scroll');
+
+      expect(cellOf('2', 1)).toHaveFocus();
+      expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+
     it('Escape immediately after opening closes the menu, returns focus and keeps the selection', async () => {
       harness.click('2');
       harness.table.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
