@@ -28,6 +28,7 @@
 import type { Plugin } from 'esbuild';
 import * as fs from 'fs';
 import * as path from 'node:path';
+import { useLocalOpBlockNoteExtensions } from './op-blocknote-extensions';
 
 const customConfigPlugin:Plugin = {
   name: 'custom-config',
@@ -105,4 +106,8 @@ if (hadPreviousDollar) {
   },
 };
 
-export default [customConfigPlugin, jqueryInjectionPlugin];
+export default async (_options:unknown, target?:{ target:string }) => {
+  await useLocalOpBlockNoteExtensions(target?.target === 'serve');
+
+  return [customConfigPlugin, jqueryInjectionPlugin];
+};
