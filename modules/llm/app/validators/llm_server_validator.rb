@@ -75,11 +75,6 @@ class LlmServerValidator < ActiveModel::EachValidator
     contract.model.changed_attributes.keys.intersect?(CONNECTION_ATTRIBUTES)
   end
 
-  # The only SSRF guard a registry-backed connection gets: RubyLLM's Faraday
-  # stack carries chat and embeddings, and is not filtered the way
-  # OpenProject.httpx is. For the live-discovery formats it is also a pre-flight
-  # check, so the administrator gets a message naming the environment variable
-  # rather than a bare connection failure from the transport-level filter.
   def host_allowed?(contract, attribute, value)
     host = URI.parse(value).hostname
     return false if host.blank?

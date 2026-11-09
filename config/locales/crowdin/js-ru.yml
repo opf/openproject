@@ -438,7 +438,6 @@ ru:
     label_assignee: Исполнитель
     label_assignee_alt_text: Этот пакет работ назначен %{name}
     label_attachments: Вложения
-    label_author: 'Автор: %{user}'
     label_avatar: 'Аватар
 
       '
@@ -1142,7 +1141,6 @@ ru:
         default_mode: Простой список
         display_settings: Настройки отображения
         display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под таблицей результатов.
-        embedded_tab_disabled: Эта вкладка конфигурации недоступна для редактируемого вами вида.
         hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их предками. Иерархии можно разворачивать и сворачивать.
         hierarchy_mode: Иерархия
         highlighting: Выделение

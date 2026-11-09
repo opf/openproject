@@ -81,7 +81,7 @@ module Pages
         "2-week" => :resourceTimelineTwoWeeks
       }[text]
 
-      expect(page).to have_current_path(/cview=#{param}/)
+      expect(page).to have_current_query_params(a_hash_including("cview" => param.to_s))
     end
 
     def switch_view_mode(text)

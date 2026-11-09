@@ -227,7 +227,7 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
 
     it "carries page context into the lazy menus" do
       expect(rendered_component)
-        .to have_element(:"include-fragment", src: menu_type_path(expanded, page: 2, per_page: 2, expand: expanded.id))
+        .to have_element(:"action-menu", src: menu_type_path(expanded, page: 2, per_page: 2, expand: expanded.id))
     end
   end
 

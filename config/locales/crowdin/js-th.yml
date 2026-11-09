@@ -438,7 +438,6 @@ th:
     label_assignee: ผู้ได้รับมอบหมาย
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: ไฟล์แนบ
-    label_author: 'Author: %{user}'
     label_avatar: รูปโปรไฟล์
     label_between: between
     label_board: Board
@@ -1116,7 +1115,6 @@ th:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarchy
         highlighting: Highlighting

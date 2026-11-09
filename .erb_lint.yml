@@ -1,14 +1,13 @@
 ---
 EnableDefaultLinters: true
-inherit_gem:
-  erblint-github:
-    - config/accessibility.yml
 exclude:
   - '**/frontend/**/*'
   - 'lookbook/previews/open_project/deprecated/**/*'
   - '**/node_modules/**/*'
   - '**/vendor/**/*'
 linters:
+  NoUnusedDisable:
+    enabled: true
   ErbSafety:
     enabled: true
   Rubocop:

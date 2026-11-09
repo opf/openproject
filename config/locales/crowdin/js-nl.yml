@@ -438,7 +438,6 @@ nl:
     label_assignee: Toegewezene
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Bijlagen
-    label_author: 'Auteur: %{user}'
     label_avatar: Avatar
     label_between: tussen
     label_board: Bord
@@ -1124,7 +1123,6 @@ nl:
         default_mode: Platte lijst
         display_settings: Weergave-instellingen
         display_sums_hint: Waarden van alle optelbare attributen in een rij onder de tabel resultaten weergeven.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
         hierarchy_mode: Hiërarchie
         highlighting: Markering

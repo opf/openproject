@@ -178,9 +178,7 @@ RSpec.describe "Version action board",
       board_page.expect_card("Open version", "Foo", present: false)
       board_page.expect_card("A second version", "Task 1", present: true)
 
-      # Expect query props to be present
-      url = URI.parse(page.current_url).query
-      expect(url).to include("query_props=")
+      expect(page).to have_current_query_params("query_props" => be_present)
 
       # Save that filter
       board_page.save
@@ -238,11 +236,11 @@ RSpec.describe "Version action board",
       board_page.expect_list "Completely new version"
 
       visit project_settings_versions_path(project)
-      expect(page).to have_content "Completely new version"
+      expect(page).to have_text "Completely new version"
 
       wait_for_turbo { click_on I18n.t("versions.filter_status_labels.closed") }
 
-      expect(page).to have_content "Closed version"
+      expect(page).to have_text "Closed version"
 
       board_page.visit!
 

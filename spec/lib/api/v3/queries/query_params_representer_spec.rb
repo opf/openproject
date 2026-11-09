@@ -40,8 +40,11 @@ RSpec.describe API::V3::Queries::QueryParamsRepresenter do
       group_by: "project",
       group_by?: true,
       has_default_columns?: true,
+      highlighting_mode: :none,
+      historic?: false,
       include_subprojects: true,
       ordered?: false,
+      read_attribute: "none",
       show_hierarchies: true
     )
   end
@@ -53,5 +56,72 @@ RSpec.describe API::V3::Queries::QueryParamsRepresenter do
       showSums: true,
       groupBy: "project"
     )
+  end
+
+  it "preserves highlighting when the query is serialized for editing" do
+    expect(params).to include(highlightingMode: "none")
+  end
+
+  it "omits timestamps for a query at the current time" do
+    expect(params).not_to have_key(:timestamps)
+  end
+
+  context "with a baseline" do
+    it "keeps relative timestamps so the editor reopens on the saved option" do
+      query = Query.new(timestamps: %w[P-1D PT0S])
+
+      expect(described_class.new(query).to_h).to include(timestamps: "P-1D,PT0S")
+    end
+  end
+
+  context "with inline highlighting of selected attributes" do
+    let(:query) { Query.new(highlighting_mode: :inline, highlighted_attributes: %i[priority]) }
+
+    it "keeps the selected attributes as column links" do
+      expect(described_class.new(query).to_h)
+        .to include(highlightedAttributes: ["/api/v3/queries/columns/priority"])
+    end
+
+    it "keys them as an array for the editor" do
+      expect(JSON.parse(described_class.new(query).to_json))
+        .to include("highlightedAttributes[]" => ["/api/v3/queries/columns/priority"])
+    end
+  end
+
+  context "with inline highlighting inherited from the instance default" do
+    it "omits highlighted attributes" do
+      expect(described_class.new(Query.new(highlighting_mode: :inline)).to_h).not_to have_key(:highlightedAttributes)
+    end
+  end
+
+  context "with stored highlighted attributes and the inline mode inherited from the instance default",
+          with_settings: { work_package_list_default_highlighting_mode: "inline" } do
+    let(:query) { Query.new(highlighted_attributes: %i[priority]) }
+
+    it "keeps the stored attributes" do
+      expect(described_class.new(query).to_h).to include(highlightedAttributes: ["/api/v3/queries/columns/priority"])
+    end
+
+    it "still omits the inherited mode" do
+      expect(described_class.new(query).to_h).not_to have_key(:highlightingMode)
+    end
+  end
+
+  context "with stored highlighted attributes under a stored non-inline mode" do
+    let(:query) { Query.new(highlighting_mode: :status, highlighted_attributes: %i[priority]) }
+
+    it "omits them" do
+      expect(described_class.new(query).to_h).not_to have_key(:highlightedAttributes)
+    end
+  end
+
+  context "with a non-inline instance default", with_settings: { work_package_list_default_highlighting_mode: "status" } do
+    it "omits a highlighting mode inherited from the setting" do
+      expect(described_class.new(Query.new).to_h).not_to have_key(:highlightingMode)
+    end
+
+    it "keeps an explicitly stored mode" do
+      expect(described_class.new(Query.new(highlighting_mode: :inline)).to_h).to include(highlightingMode: "inline")
+    end
   end
 end
