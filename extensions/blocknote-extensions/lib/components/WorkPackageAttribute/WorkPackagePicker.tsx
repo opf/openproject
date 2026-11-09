@@ -87,7 +87,7 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDe
 
   const toggle = (next:boolean) => toggleList(next, {
     open: openLastSearch,
-    close: () => setIsDropdownOpen(false),
+    close: () => (selected ? restore() : setIsDropdownOpen(false)),
     field: inputEl,
   });
 

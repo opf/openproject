@@ -412,6 +412,19 @@ describe('Insert work package attribute', () => {
       await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-654MilestonePublic beta');
     });
 
+    it('keeps the chosen work package when its results are opened and closed again', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+      await userEvent.click(toggle());
+      await expect.element(resultList()).toBeVisible();
+      await userEvent.click(toggle());
+
+      await expect.element(resultList()).not.toBeInTheDocument();
+      await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
+      await expect.element(workPackageField()).toHaveValue('');
+    });
+
     it('reopens the results of the last search with the down key, from the chosen one', async () => {
       await openWorkPackageAttributeDialog();
       await pickWorkPackage('Redesign', 'Redesign onboarding flow');
