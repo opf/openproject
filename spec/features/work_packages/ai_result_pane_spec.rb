@@ -122,7 +122,7 @@ RSpec.describe "Editor Assistant result pane",
       finish_run
       page.within_test_selector("ai-text-transform-result") do
         expect(page).to have_test_selector("ai-text-transform-pane-mentions-converted",
-                                           text: "These mentions were turned into plain text")
+                                           text: "were turned into plain text so no one is notified")
         click_button "Replace"
       end
       expect(page).not_to have_test_selector("ai-text-transform-result")
