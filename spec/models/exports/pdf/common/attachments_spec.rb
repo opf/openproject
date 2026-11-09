@@ -130,8 +130,8 @@ RSpec.describe Exports::PDF::Common::Attachments do
     end
 
     it "runs ImageMagick with the project policy applied" do
-      expect(MiniMagick.cli_env["MAGICK_CONFIGURE_PATH"])
-        .to eq(Rails.root.join("config/imagemagick").to_s)
+      expect(MiniMagick.cli_env["MAGICK_CONFIGURE_PATH"].split(File::PATH_SEPARATOR))
+        .to include(Rails.root.join("config/imagemagick").to_s)
     end
   end
 
