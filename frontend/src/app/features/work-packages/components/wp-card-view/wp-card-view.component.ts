@@ -41,7 +41,6 @@ import {
   map,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
@@ -77,6 +76,7 @@ export interface WorkPackageAddedResult {
    * package persistence for membership.
    */
   membershipPersisted:boolean;
+  needsQueryRefresh?:() => boolean;
 }
 
 @Component({
@@ -97,7 +97,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   readonly notificationService = inject(WorkPackageNotificationService);
   readonly halEvents = inject(HalEventsService);
   readonly authorisationService = inject(AuthorisationService);
-  readonly causedUpdates = inject(CausedUpdatesService);
   readonly cdRef = inject(ChangeDetectorRef);
   readonly pathHelper = inject(PathHelperService);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
@@ -125,6 +124,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
    */
   @Input() public orderIsMembership = false;
 
+  @Input() public retainsCard?:(wp:WorkPackageResource) => boolean;
+
   @Input() public showStatusButton = true;
 
   @Input() public showInfoButton = false;
@@ -145,6 +146,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onMoved = new EventEmitter<void>();
+
+  @Output() public queryRefreshRequested = new EventEmitter<void>();
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
@@ -314,8 +317,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe(async (wp:WorkPackageResource) => {
-        this.onCardSaved(wp);
+      .subscribe((wp:WorkPackageResource) => {
+        void this.onCardSaved(wp);
       });
   }
 }

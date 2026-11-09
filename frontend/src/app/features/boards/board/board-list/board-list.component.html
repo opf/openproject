@@ -52,12 +52,14 @@
         [dragInto]="canDragInto"
         [listId]="listId"
         [workPackageAddedHandler]="workPackageAddedHandler"
+        [retainsCard]="retainsCard"
         [orderIsMembership]="board.isFree"
         [cardsRemovable]="board.isFree && canDragOutOf"
         [showInfoButton]="true"
         [highlightingMode]="board.highlightingMode"
         [showStatusButton]="showCardStatusButton()"
         (itemClicked)="openFullViewOnDoubleClick($event)"
+        (queryRefreshRequested)="updateQuery(true)"
         (stateLinkClicked)="openStateLink($event)" />
     </div>
   }

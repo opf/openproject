@@ -28,10 +28,24 @@
 import {
   WorkPackageAction,
 } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+
+export function isCopyIdAction(key:string):boolean {
+  return key === 'copy_alphanumeric_id_to_clipboard';
+}
+
+export function copyIdActionLabel(workPackage:WorkPackageResource):string {
+  return I18n.t('js.button_copy_id', { id: workPackage.displayId });
+}
 
 export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   {
     key: 'copy_link_to_clipboard',
+    icon: 'icon-clipboard',
+    link: 'id',
+  },
+  {
+    key: 'copy_alphanumeric_id_to_clipboard',
     icon: 'icon-clipboard',
     link: 'id',
   },
@@ -58,11 +72,6 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   {
     key: 'delete',
     link: 'delete',
-  },
-  {
-    key: 'copy_numeric_id_to_clipboard',
-    icon: 'icon-code-tag',
-    link: 'id',
   },
   {
     key: 'generate_pdf',

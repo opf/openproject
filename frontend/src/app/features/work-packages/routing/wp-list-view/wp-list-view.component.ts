@@ -35,7 +35,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import {
   WorkPackageViewDisplayRepresentationService,
@@ -75,7 +74,6 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,
-    CausedUpdatesService,
   ],
   standalone: false,
 })
