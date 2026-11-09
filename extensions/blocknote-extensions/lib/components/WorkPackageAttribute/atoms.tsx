@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
+import { colorDotStyles, defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
 import { FieldLabel, PickerControl } from '../CreateWorkPackage/atoms';
 
 // Drawn inward, so that it adds nothing to the height.
@@ -244,13 +244,10 @@ export const Unbroken = styled.span`
 `;
 
 export const ValueDot = styled.span.attrs({ className: 'op-bn-wp-attribute--dot' })<{ $color:string }>`
+  ${colorDotStyles('0.5em')}
   display: inline-block;
-  width: 0.5em;
-  height: 0.5em;
   margin-right: 0.25em;
-  border-radius: 50%;
   vertical-align: middle;
-  background: ${({ $color }) => $color};
 `;
 
 export const Avatar = styled.span.attrs({ className: 'op-bn-wp-attribute--avatar', 'aria-hidden': true })<{ $color:string }>`

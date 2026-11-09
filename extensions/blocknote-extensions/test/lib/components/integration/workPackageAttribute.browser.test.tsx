@@ -138,14 +138,14 @@ describe('Values of work package attributes', () => {
     renderAttribute('status', 'value');
 
     await vi.waitFor(() => expect(chip().textContent).toBe('In progress'));
-    await vi.waitFor(() => expect(getComputedStyle(chip().querySelector('.op-bn-wp-attribute--dot')!).backgroundColor).toBe('rgb(149, 165, 166)'));
+    await vi.waitFor(() => expect(getComputedStyle(chip().querySelector('.op-bn-wp-attribute--dot')!).backgroundColor).toBe('rgb(112, 133, 134)'));
   });
 
   it('puts a dot in the color of the priority before it', async () => {
     renderAttribute('priority', 'both');
 
     await vi.waitFor(() => expect(chip().textContent).toBe('Priority: High'));
-    await vi.waitFor(() => expect(getComputedStyle(chip().querySelector('.op-bn-wp-attribute--dot')!).backgroundColor).toBe('rgb(231, 76, 60)'));
+    await vi.waitFor(() => expect(getComputedStyle(chip().querySelector('.op-bn-wp-attribute--dot')!).backgroundColor).toBe('rgb(202, 43, 25)'));
   });
 
   it('writes the type in capitals, as work packages show it', async () => {
