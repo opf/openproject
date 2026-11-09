@@ -39,7 +39,7 @@ class Report::Filter
   end
 
   def self.named(name)
-    all.detect { |filter| filter.underscore_name == name.to_s }
+    all.detect { |filter| filter.underscore_name == name.to_s.underscore }
   end
 
   def self.from_hash

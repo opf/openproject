@@ -58,6 +58,10 @@ RSpec.describe CostQuery, :reporting_query_helper do
         expect(described_class.named("tweek")).to eq(CostQuery::Filter::Tweek)
       end
 
+      it "finds the permission filter by the class name it registers itself with" do
+        expect(described_class.named(:PermissionFilter)).to eq(CostQuery::Filter::PermissionFilter)
+      end
+
       it "does not resolve constants outside the registered filters" do
         expect(described_class.named("::Object")).to be_nil
       end
