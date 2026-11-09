@@ -40,7 +40,7 @@ class CostQuery::Operator < Report::Operator
     def modify(query, field, *_values)
       raise "wrong field" if field.to_s.split(".").last != "status_id"
 
-      query.where "(#{Status.table_name}.category != 'closed')"
+      query.where "(#{Status.table_name}.category IS DISTINCT FROM 'closed')"
       query
     end
   end

@@ -100,7 +100,7 @@ class WorkPackage < ApplicationRecord
   }
 
   scope :with_status_open, -> {
-    joins(:status).merge(Status.where(category: %w[to_do in_progress]))
+    joins(:status).where("#{Status.table_name}.category IS DISTINCT FROM 'closed'")
   }
 
   scope :with_status_to_do, -> {
@@ -428,7 +428,7 @@ class WorkPackage < ApplicationRecord
     # counted under each of them.
     sql = sanitize_sql_array(
       ["SELECT s.id AS status_id,
-               (s.category = 'closed') AS closed,
+               COALESCE(s.category = 'closed', false) AS closed,
                wpv.version_id AS version_id,
                COUNT(i.id) AS total
           FROM #{WorkPackage.table_name} i
@@ -477,7 +477,7 @@ class WorkPackage < ApplicationRecord
 
     ActiveRecord::Base.connection.select_all(
       "select    s.id as status_id,
-        (s.category = 'closed') as closed,
+        COALESCE(s.category = 'closed', false) as closed,
         i.project_id as project_id,
         count(i.id) as total
       from
@@ -715,7 +715,7 @@ class WorkPackage < ApplicationRecord
 
     ActiveRecord::Base.connection.select_all(
       "SELECT s.id AS status_id,
-        (s.category = 'closed') AS closed,
+        COALESCE(s.category = 'closed', false) AS closed,
         j.id AS #{select_field},
         count(i.id) AS total
       FROM

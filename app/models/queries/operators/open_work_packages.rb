@@ -34,7 +34,7 @@ module Queries::Operators
     require_value false
 
     def self.sql_for_field(_values, _db_table, _db_field)
-      "#{Status.table_name}.category IN ('to_do', 'in_progress')"
+      "#{Status.table_name}.category IS DISTINCT FROM 'closed'"
     end
   end
 end
