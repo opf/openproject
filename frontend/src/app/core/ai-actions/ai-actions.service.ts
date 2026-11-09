@@ -35,6 +35,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import type { Marker, ModelRange } from '@ckeditor/ckeditor5-engine';
 import type { ICKEditorInstance } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -57,10 +58,18 @@ interface IEditorContextResource {
 
 export type IAiActionsEditor = Pick<ICKEditorInstance, 'getData'|'data'|'model'|'config'|'state'|'on'|'off'>;
 
+type IScope = 'document'|'selection';
+
 interface IPendingRequest {
   requestId:string;
   editor:IAiActionsEditor;
+  scope:IScope;
   stopWatching:() => void;
+}
+
+interface IRequestInput {
+  scope:IScope;
+  input:string;
 }
 
 type IDescriptionContext = { workPackageId:string }|{ projectId:string, typeId:string };
@@ -72,6 +81,7 @@ interface IAcceptedDetail {
 
 const FEATURE_FLAG = 'aiTextActions';
 const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
+const SELECTION_MARKER_PREFIX = 'ai-text-transform:selection:';
 const START_REQUEST_ID = 'ai-text-transform-pane';
 export const AI_TEXT_TRANSFORM_ACCEPTED_EVENT = 'op-dispatched:ai-text-transform:accepted';
 export const AI_TEXT_TRANSFORM_CLOSED_EVENT = 'op-dispatched:ai-text-transform:closed';
@@ -141,13 +151,16 @@ export class AiActionsService {
 
     const requestId = uuidv4();
     this.latestRequestId = requestId;
+    // An action that injects the type template rewrites the whole description.
+    const { scope, input } = (action.injectsTypeTemplate ? null : this.markSelection(editor, requestId))
+      ?? { scope: 'document', input: editor.getData() };
 
     const body = new FormData();
     Object.entries({
       request_id: requestId,
       action_id: String(action.id),
-      scope: 'document',
-      input: editor.getData(),
+      scope,
+      input,
       ...this.paneContext(resource, editor.config.get('openProject.context.field') as string|undefined),
     }).forEach(([name, value]) => body.set(name, value));
 
@@ -160,40 +173,109 @@ export class AiActionsService {
         START_REQUEST_ID,
       );
     } catch (error) {
+      this.removeMarker(editor, requestId);
       if (!(error instanceof DOMException && error.name === 'AbortError')) {
         this.toast.addError(this.I18n.t('js.editor.ai_actions.start_failed'));
       }
       return;
     }
 
-    if (this.latestRequestId === requestId) {
-      this.pending?.stopWatching();
-      this.pending = { requestId, editor, stopWatching: this.watch(requestId, editor) };
+    if (this.latestRequestId !== requestId) {
+      this.removeMarker(editor, requestId);
+      return;
     }
+
+    if (this.pending) {
+      this.forget(this.pending.requestId);
+    }
+    this.pending = { requestId, editor, scope, stopWatching: this.watch(requestId, editor) };
   }
 
   // The accepted event arrives through a turbo stream, so only requests started here may write into an editor.
   // A destroyed editor gets no answer, so the pane tells the user it is gone.
   private apply({ requestId, text }:IAcceptedDetail):void {
-    const editor = this.pending?.requestId === requestId ? this.pending.editor : null;
-    this.forget(requestId);
-    if (!editor || editor.state === 'destroyed') {
+    const request = this.pending;
+    if (request?.requestId !== requestId) {
       return;
     }
 
-    const { model, data } = editor;
-    model.change(() => {
-      model.insertContent(data.parse(text), model.createRangeIn(model.document.getRoot()!));
+    // The marker holds the range to replace, so it is removed only below.
+    request.stopWatching();
+    this.pending = null;
+    if (request.editor.state === 'destroyed') {
+      return;
+    }
+
+    const { model, data } = request.editor;
+    const marker = model.markers.get(this.markerName(requestId));
+    const range = request.scope === 'document'
+      ? model.createRangeIn(model.document.getRoot()!)
+      : this.markedRange(request.editor, marker);
+    const ok = range !== null;
+
+    model.change((writer) => {
+      if (range) {
+        model.insertContent(data.parse(text), range);
+      }
+      if (marker) {
+        writer.removeMarker(marker);
+      }
     });
 
-    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok: true } }));
+    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail: { requestId, ok } }));
   }
 
   private forget(requestId:string):void {
     if (this.pending?.requestId === requestId) {
       this.pending.stopWatching();
+      if (this.pending.scope === 'selection') {
+        this.removeMarker(this.pending.editor, requestId);
+      }
       this.pending = null;
     }
+  }
+
+  // The marker follows edits elsewhere while the run streams. A selection of several ranges, such as
+  // table cells, cannot be replaced as one range, so it runs on the whole document.
+  private markSelection(editor:IAiActionsEditor, requestId:string):IRequestInput|null {
+    const { model, data } = editor;
+    const { selection } = model.document;
+    const range = selection.getFirstRange();
+    if (selection.isCollapsed || selection.rangeCount !== 1 || !range) {
+      return null;
+    }
+
+    const markdown = data.stringify(model.getSelectedContent(selection));
+    if (markdown.trim() === '') {
+      return null;
+    }
+
+    model.change((writer) => {
+      writer.addMarker(this.markerName(requestId), { range, usingOperation: false });
+    });
+
+    return { scope: 'selection', input: markdown };
+  }
+
+  // Deleting the marked text moves the marker into the graveyard, or collapses it when blocks merge.
+  private markedRange(editor:IAiActionsEditor, marker:Marker|null):ModelRange|null {
+    const range = marker?.getRange();
+    if (!range || range.isCollapsed || range.root === editor.model.document.graveyard) {
+      return null;
+    }
+
+    return range;
+  }
+
+  private removeMarker(editor:IAiActionsEditor, requestId:string):void {
+    const marker = editor.state === 'destroyed' ? null : editor.model.markers.get(this.markerName(requestId));
+    if (marker) {
+      editor.model.change((writer) => writer.removeMarker(marker));
+    }
+  }
+
+  private markerName(requestId:string):string {
+    return `${SELECTION_MARKER_PREFIX}${requestId}`;
   }
 
   // Replacing the whole content (a reset comment draft, quoting) or switching to the source mode, whose

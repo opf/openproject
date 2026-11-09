@@ -73,6 +73,26 @@ RSpec.describe "Editor Assistant result pane",
     expect(page).not_to have_test_selector("ai-text-transform-result")
   end
 
+  def in_ckeditor(container, script, *)
+    page.execute_script(<<~JS, container.find(".ck-content").native, *)
+      const editor = arguments[0].ckeditorInstance;
+      const root = editor.model.document.getRoot();
+      #{script}
+    JS
+  end
+
+  def select_paragraph(container, index:)
+    in_ckeditor(container, <<~JS, index)
+      editor.model.change((writer) => writer.setSelection(root.getChild(arguments[1]), "in"));
+    JS
+  end
+
+  def delete_paragraph(container, index:)
+    in_ckeditor(container, <<~JS, index)
+      editor.model.change((writer) => writer.remove(root.getChild(arguments[1])));
+    JS
+  end
+
   it "replaces the whole description with the generated text" do
     description.activate!
     run_assistant(within: description.field_container)
@@ -85,6 +105,39 @@ RSpec.describe "Editor Assistant result pane",
     description.save!
     work_package_page.expect_and_dismiss_toaster(message: "Successful update.")
     expect(work_package.reload.description).to eq("Login page does **not** work.")
+  end
+
+  it "replaces only the selected paragraph" do
+    description.activate!
+    description.ckeditor.set_markdown("Keep this intro.\n\nLogin page dont work.")
+    select_paragraph(description.field_container, index: 1)
+    run_assistant(within: description.field_container)
+    expect(AI::TextTransformRun.sole.input).to eq("Login page dont work.")
+
+    finish_run
+    replace
+
+    description.ckeditor.expect_value("Keep this intro.\nLogin page does not work.")
+    description.save!
+    work_package_page.expect_and_dismiss_toaster(message: "Successful update.")
+    expect(work_package.reload.description).to eq("Keep this intro.\n\nLogin page does **not** work.")
+  end
+
+  it "keeps the editor unchanged when the selected text was deleted meanwhile" do
+    description.activate!
+    description.ckeditor.set_markdown("Keep this intro.\n\nLogin page dont work.")
+    select_paragraph(description.field_container, index: 1)
+    run_assistant(within: description.field_container)
+
+    delete_paragraph(description.field_container, index: 1)
+    finish_run
+    page.within_test_selector("ai-text-transform-result") do
+      expect(page).to have_css("strong", text: "not")
+      click_button "Replace"
+      expect(page).to have_text("The selected text is no longer there")
+    end
+
+    description.ckeditor.expect_value("Keep this intro.")
   end
 
   context "with formatted text" do

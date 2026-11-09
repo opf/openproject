@@ -70,6 +70,12 @@ const newWorkPackage = { ...existingWorkPackage, id: 'new' };
 
 const fixGrammar = { id: 1, label: 'Fix grammar', position: 1, injectsTypeTemplate: false };
 const makeConcise = { id: 2, label: 'Make concise', position: 2, injectsTypeTemplate: false };
+const sortIntoTemplate = { id: 3, label: 'Sort into template', position: 3, injectsTypeTemplate: true };
+
+interface IFakeMarker {
+  name:string;
+  getRange():unknown;
+}
 
 function fakeEmitter() {
   const listeners = new Map<string, Set<() => void>>();
@@ -88,32 +94,59 @@ function fakeEmitter() {
 
 function fakeEditor(field?:string, data = 'Login page dont work.') {
   const root = { name: '$root' };
-  const range = { rangeIn: root };
+  const graveyard = { name: '$graveyard' };
+  const range = { root, rangeIn: root };
+  const selectedRange = { root, isCollapsed: false, selected: true };
+  const selectedContent = { fragment: true };
   const parsed = { parsed: true };
+  const markers = new Map<string, IFakeMarker>();
+  const writer = {
+    addMarker: vi.fn((name:string, { range: markedRange }:{ range:unknown }) => {
+      markers.set(name, { name, getRange: () => markedRange });
+    }),
+    removeMarker: vi.fn((marker:IFakeMarker) => markers.delete(marker.name)),
+  };
   const model = {
-    document: { getRoot: vi.fn(() => root) },
+    document: {
+      getRoot: vi.fn(() => root),
+      graveyard,
+      selection: { isCollapsed: true, rangeCount: 1, getFirstRange: vi.fn(() => selectedRange) },
+    },
+    markers: { get: (name:string) => markers.get(name) ?? null },
     createRangeIn: vi.fn(() => range),
+    getSelectedContent: vi.fn(() => selectedContent),
     insertContent: vi.fn(),
-    change: vi.fn((callback:() => void) => callback()),
+    change: vi.fn((callback:(changeWriter:typeof writer) => void) => callback(writer)),
   };
   const events = fakeEmitter();
   const dataEvents = fakeEmitter();
   const editor = {
     state: 'ready',
     getData: vi.fn(() => data),
-    data: { parse: vi.fn(() => parsed), on: dataEvents.on, off: dataEvents.off },
+    data: { parse: vi.fn(() => parsed), stringify: vi.fn(() => ''), on: dataEvents.on, off: dataEvents.off },
     model,
     config: { get: vi.fn((name:string) => (name === 'openProject.context.field' ? field : undefined)) },
     on: events.on,
     off: events.off,
   };
 
+  const select = (markdown:string) => {
+    model.document.selection.isCollapsed = false;
+    editor.data.stringify.mockReturnValue(markdown);
+  };
+
   return {
     editor,
     asEditor: editor as unknown as IAiActionsEditor,
     model,
+    writer,
+    markers,
+    graveyard,
     range,
+    selectedRange,
+    selectedContent,
     parsed,
+    select,
     events,
     dataEvents,
     listenerCount: () => events.count() + dataEvents.count(),
@@ -460,6 +493,158 @@ describe('AiActionsService', () => {
       accept(requestIdOf());
 
       expect(model.insertContent).not.toHaveBeenCalled();
+    });
+
+    describe('with selected text', () => {
+      const markerNames = (markers:Map<string, IFakeMarker>) => [...markers.keys()];
+
+      it('requests the result pane for the selected text only and marks it', async () => {
+        const { asEditor, editor, model, markers, selectedRange, selectedContent, select } = fakeEditor('description');
+        select('Login page dont work.');
+
+        await service.run(fixGrammar, asEditor, existingWorkPackage);
+
+        expect(editor.data.stringify).toHaveBeenCalledWith(selectedContent);
+        expect(model.getSelectedContent).toHaveBeenCalledWith(model.document.selection);
+        expect(requestBody()).toMatchObject({ scope: 'selection', input: 'Login page dont work.', work_package_id: '123' });
+        expect(markerNames(markers)).toEqual([`ai-text-transform:selection:${requestIdOf()}`]);
+        expect(markers.get(markerNames(markers)[0])!.getRange()).toBe(selectedRange);
+      });
+
+      it('runs on the whole document when the selected text is blank', async () => {
+        const { asEditor, markers, select } = fakeEditor();
+        select(' \n');
+
+        await service.run(fixGrammar, asEditor);
+
+        expect(requestBody()).toMatchObject({ scope: 'document', input: 'Login page dont work.' });
+        expect(markers.size).toBe(0);
+      });
+
+      it('runs on the whole document when several ranges are selected', async () => {
+        const { asEditor, model, markers, select } = fakeEditor();
+        select('| Login | page |');
+        model.document.selection.rangeCount = 2;
+
+        await service.run(fixGrammar, asEditor);
+
+        expect(requestBody()).toMatchObject({ scope: 'document', input: 'Login page dont work.' });
+        expect(markers.size).toBe(0);
+      });
+
+      it('runs an action that injects the type template on the whole document', async () => {
+        const { asEditor, editor, markers, select } = fakeEditor('description');
+        select('Login page dont work.');
+
+        await service.run(sortIntoTemplate, asEditor, existingWorkPackage);
+
+        expect(requestBody()).toMatchObject({ scope: 'document', input: 'Login page dont work.' });
+        expect(editor.data.stringify).not.toHaveBeenCalled();
+        expect(markers.size).toBe(0);
+      });
+
+      it('replaces only the selected text as one undoable change and reports it', async () => {
+        const { asEditor, model, writer, markers, parsed, selectedRange, select } = fakeEditor();
+        const applied = vi.fn();
+        window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+        model.change.mockClear();
+
+        accept(requestIdOf());
+        window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+
+        expect(model.change).toHaveBeenCalledTimes(1);
+        expect(model.insertContent).toHaveBeenCalledWith(parsed, selectedRange);
+        expect(writer.removeMarker).toHaveBeenCalledTimes(1);
+        expect(markers.size).toBe(0);
+        expect((applied.mock.calls[0][0] as CustomEvent).detail).toEqual({ requestId: requestIdOf(), ok: true });
+      });
+
+      it('applies each request only once', async () => {
+        const { asEditor, model, select } = fakeEditor();
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+
+        accept(requestIdOf());
+        accept(requestIdOf());
+
+        expect(model.insertContent).toHaveBeenCalledTimes(1);
+      });
+
+      it.each([
+        ['was deleted meanwhile', (markers:Map<string, IFakeMarker>, graveyard:unknown) => {
+          markers.forEach((marker) => { marker.getRange = () => ({ root: graveyard, isCollapsed: false }); });
+        }],
+        ['collapsed when its blocks merged', (markers:Map<string, IFakeMarker>) => {
+          markers.forEach((marker) => { marker.getRange = () => ({ isCollapsed: true }); });
+        }],
+        ['lost its marker', (markers:Map<string, IFakeMarker>) => markers.clear()],
+      ])('changes nothing and reports it when the selected text %s', async (_, loseSelection) => {
+        const { asEditor, model, markers, graveyard, select } = fakeEditor();
+        const applied = vi.fn();
+        window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+
+        loseSelection(markers, graveyard);
+        accept(requestIdOf());
+        window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, applied);
+
+        expect(model.insertContent).not.toHaveBeenCalled();
+        expect(markers.size).toBe(0);
+        expect((applied.mock.calls[0][0] as CustomEvent).detail).toEqual({ requestId: requestIdOf(), ok: false });
+      });
+
+      it('unmarks the text once its pane was closed', async () => {
+        const { asEditor, markers, select } = fakeEditor();
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+
+        document.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_CLOSED_EVENT, { detail: { requestId: requestIdOf() } }));
+
+        expect(markers.size).toBe(0);
+      });
+
+      it('unmarks the text of the older request once a new pane replaced its pane', async () => {
+        const { asEditor, markers, select } = fakeEditor();
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+        await service.run(makeConcise, asEditor);
+
+        expect(markerNames(markers)).toEqual([`ai-text-transform:selection:${requestIdOf(1)}`]);
+      });
+
+      it('unmarks only its own text when the pane could not be requested', async () => {
+        const { asEditor, markers, select } = fakeEditor();
+        select('Login page dont work.');
+        await service.run(fixGrammar, asEditor);
+        turboRequests.request.mockRejectedValueOnce(new Error('403'));
+        await service.run(makeConcise, asEditor);
+
+        expect(markerNames(markers)).toEqual([`ai-text-transform:selection:${requestIdOf(0)}`]);
+      });
+
+      it.each([
+        ['is aborted', (settle:() => void, fail:(error:unknown) => void) => fail(new DOMException('Aborted', 'AbortError'))],
+        ['answers last', (settle:() => void) => settle()],
+      ])('unmarks the text of an older start that %s', async (_, finish) => {
+        const { asEditor, markers, select } = fakeEditor();
+        select('Login page dont work.');
+        let resolveFirst:() => void = () => undefined;
+        let rejectFirst:(error:unknown) => void = () => undefined;
+        turboRequests.request.mockImplementationOnce(() => new Promise((resolve, reject) => {
+          resolveFirst = () => resolve({ html: '', headers: new Headers() });
+          rejectFirst = reject;
+        }));
+
+        const firstRun = service.run(fixGrammar, asEditor);
+        await service.run(makeConcise, asEditor);
+        finish(resolveFirst, rejectFirst);
+        await firstRun;
+
+        expect(markerNames(markers)).toEqual([`ai-text-transform:selection:${requestIdOf(1)}`]);
+      });
     });
 
     it('tells the user when the pane could not be requested', async () => {
