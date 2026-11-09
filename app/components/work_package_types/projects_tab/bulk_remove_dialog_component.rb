@@ -49,7 +49,13 @@ module WorkPackageTypes
 
       attr_reader :variant, :projects
 
-      def title = t("types.edit.projects.bulk_remove.title", type: variant.type.name)
+      def title = t("types.edit.projects.bulk_remove.title", type: variant.type.name, count:)
+
+      def description = t("types.edit.projects.bulk_remove.description", count:)
+
+      def confirmation = t("types.edit.projects.bulk_remove.confirmation", count:)
+
+      def count = projects.size
 
       def form_arguments
         {

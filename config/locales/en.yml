@@ -7711,7 +7711,6 @@ en:
       project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
-          confirm_remove: "Remove the type %{type} from %{project}?"
           remove_from_project: "Remove type from this project"
           remove_from_projects: "Remove type from these projects"
           switch_variant: "Switch variant"
@@ -7719,10 +7718,16 @@ en:
           no_projects_selected: "Please select at least one project."
           search_placeholder: "Search projects"
         bulk_remove:
-          confirmation: "I understand that this type will no longer be available in the selected projects"
-          description: "This type will no longer be available in the following projects. Projects that still have work packages of this type keep it."
+          confirmation:
+            one: "I understand that this type will no longer be available in this project"
+            other: "I understand that this type will no longer be available in the selected projects"
+          description:
+            one: "This type will no longer be available in the following project, unless it still has work packages of this type."
+            other: "This type will no longer be available in the following projects. Projects that still have work packages of this type keep it."
           submit: "Remove"
-          title: "Remove type '%{type}' from these projects?"
+          title:
+            one: "Remove type '%{type}' from this project?"
+            other: "Remove type '%{type}' from these projects?"
         bulk_switch:
           confirm_description: "Switching type variants will result in loss of information from custom fields that are not included in the new variant. The following projects will be affected by this bulk action:"
           confirm_submit: "Switch"
