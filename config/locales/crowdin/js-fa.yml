@@ -438,7 +438,6 @@ fa:
     label_assignee: مسئول انجام
     label_assignee_alt_text: این بسته کاری به %{name} تخصیص یافته است
     label_attachments: پیوست‌ها
-    label_author: 'ایجادکننده: %{user}'
     label_avatar: آواتار
     label_between: بین
     label_board: برد

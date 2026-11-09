@@ -835,7 +835,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
-  onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+  onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent|KeyboardEvent }):void {
     this.workPackagesCalendar.onCardClicked({ workPackageId, event });
   }
 

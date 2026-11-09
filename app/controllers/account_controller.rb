@@ -118,7 +118,7 @@ class AccountController < ApplicationController
 
     unless actual_user
       # user not found in db
-      Rails.logger.error "Lost password unknown email input: #{mail}"
+      Rails.logger.error "Lost password unknown email input: #{mail.inspect}"
       redirect_to action: :lost_password, status: :see_other
       return
     end

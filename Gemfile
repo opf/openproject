@@ -370,7 +370,6 @@ group :development, :test do
 
   # erb linting
   gem "erb_lint", require: false
-  gem "erblint-github", require: false
 
   # Brakeman scanner
   gem "brakeman", "~> 8.1.0"
