@@ -412,12 +412,12 @@ RSpec.describe Import::JiraClient do
       expect(client.board_sprints(board_id: 3)).to eq(body)
     end
 
-    it "raises BoardWithoutSprintsError for a Kanban board" do
+    it "raises ApiError with Jira's reason for a Kanban board" do
       stub_request(:get, sprints_url).with(query: hash_including({}))
-        .to_return(status: 400, body: { "errorMessages" => ["The board does not support sprints"] }.to_json)
+        .to_return(status: 400, body: { "errorMessages" => ["The board doesn't support sprints."] }.to_json)
 
       expect { client.board_sprints(board_id: 3) }
-        .to raise_error(Import::JiraClient::BoardWithoutSprintsError, /board 3/)
+        .to raise_error(Import::JiraClient::ApiError, /The board doesn't support sprints/)
     end
 
     it "raises UnsupportedEndpointError when Jira has no Agile API" do
@@ -436,6 +436,86 @@ RSpec.describe Import::JiraClient do
       stub_request(:get, sprints_url).with(query: hash_including({})).to_return(status: 500)
 
       expect { client.board_sprints(board_id: 3) }.to raise_error(Import::JiraClient::ApiError)
+    end
+  end
+
+  describe "#board_pages", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:boards_url) { "#{url}/rest/agile/1.0/board" }
+
+    def stub_page(start_at, ids, is_last:)
+      stub_request(:get, boards_url)
+        .with(query: { "projectKeyOrId" => "DEMO", "startAt" => start_at.to_s, "maxResults" => "50" })
+        .to_return(status: 200, headers: { "Content-Type" => "application/json" },
+                   body: { "isLast" => is_last, "values" => ids.map { { "id" => it } } }.to_json)
+    end
+
+    def ids_and_next_start_at(pages)
+      pages.map { |values, _response, next_start_at| [values.pluck("id"), next_start_at] }
+    end
+
+    it "requests each page from where the previous one ended until Jira reports the last page" do
+      stub_page(0, [1, 2], is_last: false)
+      stub_page(2, [3], is_last: true)
+
+      expect(ids_and_next_start_at(client.board_pages(project_id_or_key: "DEMO"))).to eq([[[1, 2], 2], [[3], 3]])
+    end
+
+    it "starts at the given position" do
+      stub_page(50, [51], is_last: true)
+
+      expect(ids_and_next_start_at(client.board_pages(project_id_or_key: "DEMO", start_at: 50))).to eq([[[51], 51]])
+    end
+
+    it "stops at an empty page" do
+      stub_page(0, [], is_last: false)
+
+      expect(client.board_pages(project_id_or_key: "DEMO").to_a).to be_empty
+    end
+
+    it "stops after the page limit when Jira ignores startAt and never reports the last page" do
+      stub_const("#{described_class}::AGILE_PAGE_LIMIT", 3)
+      stub_request(:get, boards_url).with(query: hash_including({}))
+        .to_return(status: 200, headers: { "Content-Type" => "application/json" },
+                   body: { "isLast" => false, "values" => [{ "id" => 1 }] }.to_json)
+      allow(Rails.logger).to receive(:warn)
+
+      expect(client.board_pages(project_id_or_key: "DEMO").count).to eq(3)
+      expect(Rails.logger).to have_received(:warn).with(/after 3 pages/)
+    end
+
+    it "raises UnsupportedEndpointError when Jira has no Agile API" do
+      stub_request(:get, boards_url).with(query: hash_including({})).to_return(status: 403)
+
+      expect { client.board_pages(project_id_or_key: "DEMO").to_a }.to raise_error(Import::JiraClient::UnsupportedEndpointError)
+    end
+  end
+
+  describe "#board_sprint_pages", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:sprints_url) { "#{url}/rest/agile/1.0/board/3/sprint" }
+
+    def stub_page(start_at, ids, is_last:)
+      stub_request(:get, sprints_url)
+        .with(query: { "state" => "future,active,closed", "startAt" => start_at.to_s, "maxResults" => "50" })
+        .to_return(status: 200, headers: { "Content-Type" => "application/json" },
+                   body: { "isLast" => is_last, "values" => ids.map { { "id" => it } } }.to_json)
+    end
+
+    it "returns the sprints of every page of the board" do
+      stub_page(0, [2, 1], is_last: false)
+      stub_page(2, [3], is_last: true)
+
+      expect(client.board_sprint_pages(board_id: 3).flat_map { |values, _response, _next_start_at| values.pluck("id") })
+        .to eq([2, 1, 3])
+    end
+
+    it "raises ApiError for a Kanban board" do
+      stub_request(:get, sprints_url).with(query: hash_including({})).to_return(status: 400)
+
+      expect { client.board_sprint_pages(board_id: 3).to_a }.to raise_error(Import::JiraClient::ApiError)
     end
   end
 

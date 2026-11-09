@@ -88,9 +88,6 @@ module Import
     # can fall back to another route instead of failing the import.
     class UnsupportedEndpointError < Error; end
 
-    # Kanban boards have no sprints, and Jira answers their sprint listing with 400.
-    class BoardWithoutSprintsError < Error; end
-
     CONNECTION_ERRORS = [SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH,
                          OpenSSL::SSL::SSLError, Timeout::Error].freeze
 
@@ -102,6 +99,10 @@ module Import
     UNSUPPORTED_ENDPOINT_STATUSES = [404, 405].freeze
     # Jira answers every Agile route with 403 when the Jira Software license is missing or expired.
     AGILE_UNSUPPORTED_ENDPOINT_STATUSES = [403, 404, 405].freeze
+
+    # Jira caps every Agile API page at 50 values, whatever maxResults asks for.
+    AGILE_PAGE_SIZE = 50
+    AGILE_PAGE_LIMIT = 1_000
 
     CUSTOM_FIELD_OPTIONS_PAGE_SIZE = 10_000
     CUSTOM_FIELD_OPTIONS_PAGE_LIMIT = 100
@@ -333,7 +334,7 @@ module Import
         })
     end
 
-    def boards(project_id_or_key:, start_at: 0, max_results: 50)
+    def boards(project_id_or_key:, start_at: 0, max_results: AGILE_PAGE_SIZE)
       get_supported("/rest/agile/1.0/board",
                     params: {
                       projectKeyOrId: project_id_or_key,
@@ -343,14 +344,18 @@ module Import
                     unsupported_statuses: AGILE_UNSUPPORTED_ENDPOINT_STATUSES)
     end
 
-    def board_sprints(board_id:, state: "future,active,closed", start_at: 0, max_results: 50)
-      path = "/rest/agile/1.0/board/#{board_id}/sprint"
-      response = get_response(path, params: { state:, startAt: start_at, maxResults: max_results })
-      if response.code.to_i == 400
-        raise BoardWithoutSprintsError, I18n.t("admin.jira.client.board_without_sprints", board_id:)
-      end
+    def board_sprints(board_id:, state: "future,active,closed", start_at: 0, max_results: AGILE_PAGE_SIZE)
+      get_supported("/rest/agile/1.0/board/#{board_id}/sprint",
+                    params: { state:, startAt: start_at, maxResults: max_results },
+                    unsupported_statuses: AGILE_UNSUPPORTED_ENDPOINT_STATUSES)
+    end
 
-      handle_supported_response(path, response, AGILE_UNSUPPORTED_ENDPOINT_STATUSES)
+    def board_pages(project_id_or_key:, start_at: 0)
+      agile_pages(start_at:) { |page_start_at| boards(project_id_or_key:, start_at: page_start_at) }
+    end
+
+    def board_sprint_pages(board_id:)
+      agile_pages { |start_at| board_sprints(board_id:, start_at:) }
     end
 
     def sprint(sprint_id)
@@ -380,6 +385,21 @@ module Import
     end
 
     private
+
+    def agile_pages(start_at: 0)
+      Enumerator.new do |pages|
+        limit_reached = AGILE_PAGE_LIMIT.times do
+          response = yield(start_at)
+          values = Array(response["values"])
+          break if values.empty?
+
+          start_at += values.size
+          pages << [values, response, start_at]
+          break if response["isLast"]
+        end
+        Rails.logger.warn "Stopped paging the Jira Agile API after #{AGILE_PAGE_LIMIT} pages" if limit_reached
+      end
+    end
 
     def write_attachment(content_url, tempfile)
       OpenProject::SsrfProtection.get(content_url, headers: @headers, http_options: HTTP_OPTIONS, max_redirects: 0) do |response|
@@ -449,10 +469,7 @@ module Import
     end
 
     def get_supported(path, params: {}, unsupported_statuses: UNSUPPORTED_ENDPOINT_STATUSES)
-      handle_supported_response(path, get_response(path, params:), unsupported_statuses)
-    end
-
-    def handle_supported_response(path, response, unsupported_statuses = UNSUPPORTED_ENDPOINT_STATUSES)
+      response = get_response(path, params:)
       status = response.code.to_i
       if unsupported_statuses.include?(status)
         raise UnsupportedEndpointError, I18n.t("admin.jira.client.unsupported_endpoint", path:, status:)

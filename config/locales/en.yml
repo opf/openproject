@@ -1622,7 +1622,6 @@ en:
         401_error: "Jira API returned a 401 error. Your authentication token may have expired or lack the required permissions. Please ensure the token belongs to a Jira administrator."
         429_error: "Jira API returned a 429 error. It means token owner has been rate limited by the Jira instance. Please disable rate limiting for this user."
         api_error: "Jira API returned error status %{status}"
-        board_without_sprints: "Jira board %{board_id} does not support sprints"
         connection_error: "Failed to connect to Jira server: %{message}"
         connection_timeout: "Connection to Jira server timed out: %{message}"
         parse_error: "Failed to parse Jira API response: %{message}"
@@ -1720,12 +1719,16 @@ en:
             title: "Fetch issue types"
           JiraFetchPrioritiesJob:
             title: "Fetch priorities"
+          JiraFetchProjectBoardsJob:
+            title: "Fetch boards for project '%{jira_project_name}'"
           JiraFetchProjectIssuesJob:
             title: "Fetch issues for project '%{jira_project_name}'"
           JiraFetchProjectVersionsJob:
             title: "Fetch versions for project '%{jira_project_name}'"
           JiraFetchProjectsJob:
             title: "Fetch projects"
+          JiraFetchSprintsJob:
+            title: "Fetch sprints"
           JiraFetchStatusesJob:
             title: "Fetch statuses"
           JiraFetchUsersJob:
