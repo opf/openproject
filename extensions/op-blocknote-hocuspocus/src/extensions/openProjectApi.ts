@@ -38,7 +38,7 @@ import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
 import { decryptAndValidateToken } from "../services/tokenValidationService";
 import type { ApiResponseDocument } from "../types";
 import { fetchResource } from "../services/resourceService";
-import { Logger } from "../logger";
+import { createLogger } from "../logger";
 
 export const editorSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
@@ -49,8 +49,8 @@ export const editorSchema = BlockNoteSchema.create().extend({
   },
 });
 
-const AuthLogger = Logger.withPrefix("Auth");
-const DocumentLogger = Logger.withPrefix("Document");
+const authLogger = createLogger("Auth");
+const documentLogger = createLogger("Document");
 
 export function createEditor() {
   return ServerBlockNoteEditor.create({ schema: editorSchema });
@@ -61,6 +61,16 @@ export class OpenProjectApi implements Extension {
    * Authenticate the user by validating the token and document access
    */
   async onAuthenticate(data: onAuthenticatePayload) {
+    try {
+      await this.authenticate(data);
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : "Authentication failed";
+      authLogger.error(`Authentication failed for ${data.documentName}: ${reason}`);
+      throw error;
+    }
+  }
+
+  private async authenticate(data: onAuthenticatePayload) {
     const { token, documentName } = data;
     const resourceUrl = documentName;
 
@@ -95,12 +105,12 @@ export class OpenProjectApi implements Extension {
     const { tokenExpiresAt } = data.context;
 
     if (!tokenExpiresAt) {
-      AuthLogger.warn("Missing tokenExpiresAt, closing connection");
+      authLogger.warn("Missing tokenExpiresAt, closing connection");
       throw TokenExpiryMissing;
     }
 
     if (tokenExpiresAt <= new Date()) {
-      AuthLogger.warn("Token expired, closing connection");
+      authLogger.warn("Token expired, closing connection");
       throw TokenExpired;
     }
   }
@@ -113,7 +123,6 @@ export class OpenProjectApi implements Extension {
     const response = await fetchResource(resourceUrl, data.context.token);
 
     if (response.status != 200) {
-      DocumentLogger.warn(`Error fetching ${resourceUrl} (${response.status}: ${response.statusText})`);
       return;
     }
 
@@ -133,11 +142,11 @@ export class OpenProjectApi implements Extension {
     const { resourceUrl, readonly } = data.lastContext;
 
     if (!resourceUrl) {
-      DocumentLogger.warn("Missing parameters in context. Skipping store.");
+      documentLogger.warn("Missing parameters in context. Skipping store.");
       return;
     }
     if (readonly) {
-      DocumentLogger.warn(`Readonly user cannot store ${resourceUrl}`);
+      documentLogger.warn(`Readonly user cannot store ${resourceUrl}`);
       return;
     }
 
@@ -160,7 +169,6 @@ export class OpenProjectApi implements Extension {
     });
 
     if (response.status != 200) {
-      DocumentLogger.error(`Error storing ${resourceUrl} (${response.status}: ${response.statusText})`);
       return;
     }
 
@@ -201,11 +209,11 @@ export class OpenProjectApi implements Extension {
         connection.context.readonly = isReadOnly;
       }
 
-      AuthLogger.log(`Token synced for ${resourceUrl} readonly=${result.readonly}`);
+      authLogger.log(`Token synced for ${resourceUrl} readonly=${result.readonly}`);
     } catch (error) {
       // Explicitly close connection on validation failure
       const reason = error instanceof Error ? error.message : "Token sync failed";
-      AuthLogger.error(`Token sync failed: ${reason}`);
+      authLogger.error(`Token sync failed: ${reason}`);
       connection.close(unauthorized(reason));
     }
   }

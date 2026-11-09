@@ -26,9 +26,11 @@
 //++
 
 import { randomUUID } from "node:crypto";
-import { Logger } from "../logger";
+import { createLogger } from "../logger";
 
-const logger = Logger.withPrefix("resourceService");
+const logger = createLogger("Resource");
+
+const ERROR_BODY_MAX_LENGTH = 2000;
 
 const OPENPROJECT_URL = process.env.OPENPROJECT_URL?.trim() || null;
 const OPENPROJECT_HTTPS = process.env.OPENPROJECT_HTTPS?.trim() === 'true';
@@ -78,14 +80,9 @@ export async function fetchResource(
   const startedAt = performance.now();
   const elapsed = () => Math.round(performance.now() - startedAt);
 
+  let response: Response;
   try {
-    const response = await fetch(url, init);
-    if (response.ok) {
-      logger.log(`${target} -> ${response.status} (${elapsed()}ms)`);
-    } else {
-      logger.warn(`${target} -> ${response.status} (${elapsed()}ms)`, await response.clone().text());
-    }
-    return response;
+    response = await fetch(url, init);
   } catch (error) {
     logger.error(`${target} failed after ${elapsed()}ms`, error);
     logger.error(OPENPROJECT_URL
@@ -93,12 +90,21 @@ export async function fetchResource(
       : "Hint: if OpenProject is not reachable from hocuspocus under this URL, configure OPENPROJECT_URL (see README).");
     throw error;
   }
+
+  if (response.ok) {
+    logger.log(`${target} -> ${response.status} (${elapsed()}ms)`);
+  } else {
+    const body = await response.clone().text();
+    logger.warn(`${target} -> ${response.status} (${elapsed()}ms)`, body.slice(0, ERROR_BODY_MAX_LENGTH));
+  }
+
+  return response;
 }
 
 /**
  * Get the effective OpenProject resource URL considering the value of
  * OPENPROJECT_URL in the environment.
- * 
+ *
  * @param resourceUrl URL of OpenProject resource
  * @returns Either the given resource URL if no override has been configured, or the adjusted URL.
  */

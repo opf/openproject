@@ -25,16 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-function create(prefix?: string) {
-  const tag = prefix ? [`[${prefix}]`] : [];
-  const head = () => [new Date().toISOString(), ...tag];
+export function createLogger(prefix: string) {
+  const head = () => [new Date().toISOString(), `[${prefix}]`];
 
   return {
     log: (...data: unknown[]) => console.log(...head(), ...data),
     warn: (...data: unknown[]) => console.warn(...head(), ...data),
     error: (...data: unknown[]) => console.error(...head(), ...data),
-    withPrefix: create,
   };
 }
-
-export const Logger = create();

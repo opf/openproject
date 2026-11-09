@@ -38,6 +38,7 @@ describe("fetchResource", () => {
 
   afterEach(() => {
     vi.unstubAllEnvs();
+    vi.restoreAllMocks();
   });
 
   describe("with default configuration (no env vars set)", () => {
@@ -79,16 +80,16 @@ describe("fetchResource", () => {
   });
 
   describe("logging", () => {
+    const output = (spy: { mock: { calls: unknown[][] } }) => spy.mock.calls.map((call) => call.join(" ")).join("\n");
+
     test("logs method, URL and status, but never the token", async () => {
       const log = vi.spyOn(console, "log").mockImplementation(() => {});
       const { fetchResource } = await import("../../src/services/resourceService");
 
       await fetchResource("https://test.openproject.com/api/v3/documents/42", "__valid_oauth_token");
 
-      const output = log.mock.calls.map((call) => call.join(" ")).join("\n");
-      expect(output).toMatch(/\[resourceService\] GET https:\/\/test\.openproject\.com\/api\/v3\/documents\/42 request_id=\S+ -> 200 \(\d+ms\)/);
-      expect(output).not.toContain("__valid_oauth_token");
-      log.mockRestore();
+      expect(output(log)).toMatch(/\[Resource\] GET https:\/\/test\.openproject\.com\/api\/v3\/documents\/42 request_id=\S+ -> 200 \(\d+ms\)/);
+      expect(output(log)).not.toContain("__valid_oauth_token");
     });
 
     test("logs the response body of a failed request", async () => {
@@ -100,9 +101,20 @@ describe("fetchResource", () => {
 
       const response = await fetchResource(resourceUrl, "__valid_oauth_token");
 
-      expect(warn).toHaveBeenCalledWith(expect.anything(), expect.anything(), expect.stringMatching(/-> 403/), body);
+      expect(output(warn)).toMatch(/-> 403 \(\d+ms\) .*not authorized/);
       expect(await response.json()).toMatchObject({ _type: "Error" });
-      warn.mockRestore();
+    });
+
+    test("truncates a long response body", async () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      const resourceUrl = "https://test.openproject.com/api/v3/documents/42";
+      server.use(http.get(resourceUrl, () => new HttpResponse("x".repeat(5000), { status: 502 })));
+      const { fetchResource } = await import("../../src/services/resourceService");
+
+      await fetchResource(resourceUrl, "__valid_oauth_token");
+
+      expect(output(warn)).toContain("x".repeat(2000));
+      expect(output(warn)).not.toContain("x".repeat(2001));
     });
 
     test("logs and rethrows the error of a request that cannot be sent", async () => {
@@ -114,8 +126,8 @@ describe("fetchResource", () => {
       const failure = await fetchResource(resourceUrl, "__valid_oauth_token").catch((e: unknown) => e);
 
       expect(failure).toBeInstanceOf(TypeError);
-      expect(error).toHaveBeenCalledWith(expect.anything(), expect.anything(), expect.stringMatching(/failed after/), failure);
-      error.mockRestore();
+      expect(output(error)).toMatch(/failed after \d+ms/);
+      expect(error.mock.calls.some((call) => call.includes(failure))).toBe(true);
     });
   });
 });

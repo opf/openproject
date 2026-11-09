@@ -51,6 +51,7 @@ export function decryptToken(encrypted:string):PackedParams {
   try {
     return JSON.parse(decrypted.toString());
   } catch {
+    // hide the original error to avoid accidentally exposing decrypted information
     throw new Error("Unauthorized: Decrypted token is not valid JSON");
   }
 }
