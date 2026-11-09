@@ -85,6 +85,7 @@ module OpenProject
 
         def warning(failure)
           <<~MESSAGE
+
             ---------------------------------------------------
             PGVECTOR NOT AVAILABLE
             #{failure_explanation(failure)}
@@ -95,6 +96,7 @@ module OpenProject
 
             Read more at #{DOCS_URL}
             ---------------------------------------------------
+
           MESSAGE
         end
 
