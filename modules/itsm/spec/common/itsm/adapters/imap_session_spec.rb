@@ -160,8 +160,8 @@ RSpec.describe ITSM::Adapters::ImapSession do
     context "when the inbox cannot be opened" do
       before { allow(imap).to receive(:select).and_raise(Net::IMAP::NoResponseError.new(imap_rejection)) }
 
-      it "reports a server error" do
-        expect(imap_session.connect.failure.code).to eq(:server_error)
+      it "reports a server error with the server's response" do
+        expect(imap_session.connect.failure).to have_attributes(code: :server_error, payload: "Rejected")
       end
     end
 
