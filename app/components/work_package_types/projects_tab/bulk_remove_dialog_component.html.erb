@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |dialog| %>
   <% dialog.with_confirmation_message do |message| %>
     <% message.with_heading(tag: :h2) { title } %>
-    <% message.with_description { t("types.edit.projects.bulk_remove.description") } %>
+    <% message.with_description { description } %>
   <% end %>
 
   <% dialog.with_additional_details(display: :block) do %>
@@ -48,5 +48,5 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <% dialog.with_confirmation_check_box_content(t("types.edit.projects.bulk_remove.confirmation")) %>
+  <% dialog.with_confirmation_check_box_content(confirmation) %>
 <% end %>

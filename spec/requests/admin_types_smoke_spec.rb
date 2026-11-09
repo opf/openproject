@@ -93,11 +93,10 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request do
   it "asks for confirmation before removing a project" do
     project = create(:project, name: "Bookshop", types: [variant])
 
-    get edit_type_projects_path(type_id: type.id)
+    get new_type_projects_link_deletion_path(type_id: type.id, project_ids: [project.id]), as: :turbo_stream
 
-    confirmation = I18n.t("types.edit.projects.actions.confirm_remove", project: project.name, type: type.name)
-
-    expect(response.body).to include(CGI.escapeHTML(confirmation))
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include(CGI.escapeHTML("Remove type '#{type.name}' from this project?"))
   end
 
   it "renders the add projects dialog" do

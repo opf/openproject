@@ -35,8 +35,10 @@ RSpec.describe WorkPackageTypes::ProjectsTab::BulkRemoveDialogComponent, type: :
   shared_let(:bookshop) { create(:project, name: "Bookshop", types: [bug]) }
   shared_let(:foundry) { create(:project, name: "Foundry", types: [hardware]) }
 
+  let(:projects) { Project.where(id: [bookshop, foundry]) }
+
   before do
-    render_inline(described_class.new(variant: bug.default_variant, projects: Project.where(id: [bookshop, foundry])))
+    render_inline(described_class.new(variant: bug.default_variant, projects:))
   end
 
   it "asks whether to remove the type from these projects" do
@@ -64,5 +66,17 @@ RSpec.describe WorkPackageTypes::ProjectsTab::BulkRemoveDialogComponent, type: :
   it "submits every listed project" do
     expect(page).to have_field("project_ids[]", type: :hidden, with: bookshop.id.to_s)
     expect(page).to have_field("project_ids[]", type: :hidden, with: foundry.id.to_s)
+  end
+
+  context "with a single project" do
+    let(:projects) { Project.where(id: foundry) }
+
+    it "names the project and speaks of it alone" do
+      expect(page).to have_css("h2", text: "Remove type 'Bug' from this project?")
+      expect(page).to have_text("This type will no longer be available in the following project, " \
+                                "unless it still has work packages of this type.")
+      expect(page).to have_field("I understand that this type will no longer be available in this project",
+                                 type: :checkbox)
+    end
   end
 end

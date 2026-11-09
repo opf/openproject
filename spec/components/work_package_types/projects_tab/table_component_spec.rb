@@ -110,6 +110,14 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
     expect(base_row).to have_css(".ActionListItem", text: "Remove type from this project")
   end
 
+  it "confirms the row's own removal in the removal dialog" do
+    remove = base_row.find("a", text: "Remove type from this project", visible: :all)
+
+    expect(remove[:href]).to eq(new_type_projects_link_deletion_path(type_id: type.id, project_ids: [on_base.id]))
+    expect(remove["data-controller"]).to eq("async-dialog")
+    expect(remove["data-turbo-confirm"]).to be_nil
+  end
+
   it "points the selection's menu actions at the bulk dialogs" do
     table = page.find_by_id("project-table")
 

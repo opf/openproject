@@ -108,11 +108,8 @@ module WorkPackageTypes
           label: I18n.t("types.edit.projects.actions.remove_from_project"),
           scheme: :danger,
           tag: :a,
-          href: variant_projects_link_path(table_variant,
-                                           project_ids: [project.id],
-                                           page: table.rows.current_page,
-                                           **wizard_params),
-          content_arguments: { data: { turbo_method: :delete, turbo_confirm: confirm_removal } },
+          href: new_variant_projects_link_deletion_path(table_variant, project_ids: [project.id], **wizard_params),
+          content_arguments: { data: { controller: "async-dialog" } },
           data: { type_projects_selection_scope: "single" }
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)
@@ -145,10 +142,6 @@ module WorkPackageTypes
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end
-      end
-
-      def confirm_removal
-        I18n.t("types.edit.projects.actions.confirm_remove", project: project.name, type: table_variant.type.name)
       end
     end
   end
