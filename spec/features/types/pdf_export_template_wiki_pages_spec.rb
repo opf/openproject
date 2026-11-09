@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "artifact PDF export wiki pages", :js do
+RSpec.describe "Artefact PDF export wiki pages", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:provider) { create(:internal_wiki_provider) }
   shared_let(:project) { create(:project, name: "Arcanos") }
