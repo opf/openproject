@@ -275,7 +275,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
         expect(body.css("a.user-mention")).to be_empty
         expect(body.text).to include("Ask group #{group.id} and @Devs.")
         expect(body.at_css("clipboard-copy")["value"]).to eq("Ask group #{group.id} and @Devs.")
-        expect(response.body).to include("These mentions were turned into plain text")
+        expect(response.body).to include("were turned into plain text so no one is notified")
       end
 
       it "does not say so while generating" do
@@ -284,7 +284,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
         get ai_text_transform_pane_path(run.uuid, **pane_params, after: 0), headers: stream
 
         expect(response.body).to include("Ask group #{group.id}")
-        expect(response.body).not_to include("These mentions were turned into plain text")
+        expect(response.body).not_to include("were turned into plain text so no one is notified")
       end
 
       it "keeps the mentions the input had and says nothing" do
@@ -294,7 +294,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
         get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
 
         expect(Nokogiri::HTML5.fragment(response.body).at_css("clipboard-copy")["value"]).to eq(text)
-        expect(response.body).not_to include("These mentions were turned into plain text")
+        expect(response.body).not_to include("were turned into plain text so no one is notified")
       end
     end
 
