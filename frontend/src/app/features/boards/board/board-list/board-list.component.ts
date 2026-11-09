@@ -106,11 +106,12 @@ export function listNeedsReload(
   change:ChangeItem,
   requiresQuery = false,
 ):boolean {
-  if (!actionHref) {
+  if (actionHref === undefined) {
     return false;
   }
 
-  const hrefsOf = (value:unknown) => [value].flat().map((resource) => (resource as HalResource|undefined)?.href);
+  // The Unassigned list's action resource has a null href, matching a cleared value.
+  const hrefsOf = (value:unknown) => [value].flat().map((resource) => (resource as HalResource|null|undefined)?.href ?? null);
   const belongsHere = hrefsOf(change.to).includes(actionHref);
   const affected = belongsHere || hrefsOf(change.from).includes(actionHref);
 

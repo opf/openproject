@@ -94,6 +94,20 @@ describe('listNeedsReload', () => {
     expect(listNeedsReload(undefined, cards('1'), '42', toInProgress)).toBe(false);
   });
 
+  it('treats the Unassigned list as the source of an assignment', () => {
+    const toAlice:ChangeItem = { from: null, to: { href: '/api/v3/users/5' } };
+
+    expect(listNeedsReload(null, cards('1'), '42', toAlice)).toBe(false);
+    expect(listNeedsReload(null, cards('1'), '42', toAlice, true)).toBe(true);
+  });
+
+  it('treats the Unassigned list as the target of an unassignment', () => {
+    const unassign:ChangeItem = { from: { href: '/api/v3/users/5' }, to: null };
+
+    expect(listNeedsReload(null, cards('1'), '42', unassign)).toBe(true);
+    expect(listNeedsReload(null, cards('1', '42'), '42', unassign)).toBe(false);
+  });
+
   it('handles multi value attributes', () => {
     const versions:ChangeItem = { from: [], to: [{ href: '/api/v3/versions/1' }, { href: '/api/v3/versions/2' }] };
 
