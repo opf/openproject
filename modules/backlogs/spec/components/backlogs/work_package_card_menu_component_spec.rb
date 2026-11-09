@@ -75,14 +75,34 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
            backlog_bucket: bucket)
   end
 
-  def render_component(work_package: self.work_package, work_packages: [work_package])
+  def render_component(work_package: self.work_package, work_packages: [work_package], **arguments)
     render_inline(described_class.new(
                     project:,
                     invoker: work_package,
                     work_packages:,
                     destinations: Backlogs::WorkPackages::DestinationAvailability.new(project:, user:, work_packages:),
-                    current_user: user
+                    current_user: user,
+                    **arguments
                   ))
+  end
+
+  describe "a stale scope" do
+    before { stub_const("Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE", 2) }
+
+    it "renders only invoker navigation, copy actions and the stale explanation", :aggregate_failures do
+      render_component(work_packages: [first_story, work_package, third_story], stale_scope: true)
+
+      expect(page).to have_css("[role='menuitem']", count: 5)
+      expect(page).to have_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+      expect(page).to have_element(:a, id: "work_package_#{work_package.id}_menu_open_fullscreen")
+      expect(page).to have_css("clipboard-copy", count: 2)
+      expect(page).to have_selector(:menuitem,
+                                    text: "The selection has changed. Refresh it before moving work packages.",
+                                    disabled: true)
+      expect(page).to have_css("[data-sortable-lists-scope-count='1']")
+      expect(page).to have_no_css("form, [data-sortable-lists--item-target]", visible: :all)
+      expect(page).to have_no_css(".ActionList-sectionDivider")
+    end
   end
 
   describe "standard items" do
@@ -395,14 +415,123 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
     end
   end
 
+  describe "menu name" do
+    let(:inbox_story) { create(:work_package, project:, type: type_feature, status: default_status) }
+
+    def menu_list_scoped_to(scope_count)
+      have_element(:ul,
+                   id: "work_package_#{work_package.id}_menu-list",
+                   "data-sortable-lists--menu-source-target": "menu",
+                   "data-sortable-lists-scope-count": scope_count.to_s)
+    end
+
+    it "names the menu of one card in the singular" do
+      render_component
+
+      expect(page).to menu_list_scoped_to(1)
+    end
+
+    it "names the batch menu with the size of the scope" do
+      render_component(work_packages: [work_package, inbox_story])
+
+      expect(page).to menu_list_scoped_to(2)
+    end
+
+    it "binds the primary list to the effective ordered scope ids" do
+      render_component(work_packages: [third_story, work_package, first_story])
+
+      list = page.find("[data-sortable-lists-scope-count]")
+      expect(JSON.parse(list["data-sortable-lists-scope-ids"]))
+        .to eq [third_story.id.to_s, work_package.id.to_s, first_story.id.to_s]
+    end
+
+    it "binds a stale scope to the invoker alone" do
+      render_component(work_packages: [first_story, work_package, third_story], stale_scope: true)
+
+      list = page.find("[data-sortable-lists-scope-count]")
+      expect(JSON.parse(list["data-sortable-lists-scope-ids"])).to eq [work_package.id.to_s]
+    end
+
+    context "with a scope above the batch cap" do
+      before { stub_const("Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE", 2) }
+
+      it "names the batch menu with the real size of the scope" do
+        render_component(work_packages: [work_package, first_story, third_story])
+
+        expect(page).to menu_list_scoped_to(3)
+      end
+    end
+
+    it "names a singular menu exactly as the card's own tooltip does" do
+      expect(I18n.t("js.backlogs.action_menu.menu_label", count: 1))
+        .to eq(I18n.t(:"op_primer.work_package_card_component.menu.label_actions"))
+    end
+  end
+
   describe "a selection of several work packages" do
     let(:inbox_story) { create(:work_package, project:, type: type_feature, status: default_status) }
 
-    it "names the menu and its singular actions after the invoker", :aggregate_failures do
+    it "names the batch menu after the invoker and leaves out its singular actions", :aggregate_failures do
       render_component(work_packages: [work_package, inbox_story])
 
       expect(page).to have_element(:ul, id: "work_package_#{work_package.id}_menu-list")
-      expect(page).to have_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+      expect(page).to have_no_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+      expect(page).to have_no_element(:"clipboard-copy", id: "work_package_#{work_package.id}_menu_copy_work_package_id")
+    end
+
+    it "opens the batch menu with its first action, without a divider" do
+      render_component(work_packages: [work_package, inbox_story])
+
+      expect(page).to have_no_css(".ActionList-sectionDivider")
+    end
+
+    context "with a scope above the batch cap" do
+      before { stub_const("Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE", 2) }
+
+      let(:work_packages) { [work_package, first_story, third_story] }
+
+      it "explains the cap once, as a disabled item", :aggregate_failures do
+        render_component(work_packages:)
+
+        explanation = "Cannot move 3 work packages at once. Select no more than 2."
+        expect(page).to have_text(explanation, count: 1)
+        expect(page).to have_selector(:menuitem, text: explanation, disabled: true)
+      end
+
+      it "renders the destinations disabled and without their move wiring", :aggregate_failures do
+        render_component(work_packages:)
+
+        %i[move_to_inbox move_to_sprint move_to_backlog_bucket].each do |item|
+          expect(page).to have_element(:button, id: "work_package_#{work_package.id}_menu_#{item}", "aria-disabled": "true")
+        end
+        expect(page).to have_no_css("form")
+        expect(page).to have_no_css("[data-controller='async-dialog']")
+        expect(page).to have_no_css("[data-action*='moveToDestination']")
+      end
+
+      it "locks Move to position and its items against client gating", :aggregate_failures do
+        render_component(work_packages:)
+
+        expect(page).to have_css("li[data-sortable-lists--item-target='moveMenu'][data-sortable-lists-locked]")
+        expect(page).to have_css("li[data-sortable-lists--item-target='moveItem'][data-sortable-lists-locked]", count: 4)
+        expect(page).to have_selector(:menuitem, text: "Move to position", disabled: true)
+      end
+
+      context "when Move to position is the only batch action", with_ee: %i[readonly_work_packages] do
+        let(:work_package) { readonly_story }
+        let(:work_packages) do
+          [readonly_story] + Array.new(2) do
+            create(:work_package, project:, type: type_feature, status: readonly_status, sprint:)
+          end
+        end
+
+        it "renders no singular fallback for the locked menu", :aggregate_failures do
+          render_component(work_packages:)
+
+          expect(page).to have_selector(:menuitem, text: "Move to position", disabled: true)
+          expect(page).to have_no_css("[data-sortable-lists--item-target='moveFallback']", visible: :all)
+        end
+      end
     end
 
     def destination_form(item)

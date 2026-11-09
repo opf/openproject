@@ -218,6 +218,12 @@ export class SelectionOrchestrator {
       return candidate;
     }
 
+    // A menu rendered inside the card belongs to the menu, even where a
+    // disabled item does not count as interactive.
+    if (target.closest('[role="menu"]')) {
+      return null;
+    }
+
     const boundary = candidate.focusHost.contains(target) ? candidate.focusHost : candidate.itemElement;
     const interactive = closestInteractiveElement(target, boundary);
 

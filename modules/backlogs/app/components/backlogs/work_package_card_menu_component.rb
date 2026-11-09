@@ -35,15 +35,18 @@ module Backlogs
     include CommonHelper
     include SortableLists::MoveMenu
 
-    attr_reader :invoker, :work_packages, :destinations, :project, :current_user
+    attr_reader :invoker, :work_packages, :destinations, :project, :current_user, :stale_scope
 
+    # A scope of several cards gets a batch menu of move actions only. When
+    # none applies, the invoker's singular menu renders instead.
+    #
     # @param invoker [WorkPackage] the card the menu opened on; it names the
     #   menu and carries its singular actions.
     # @param work_packages [Array<WorkPackage>] the ordered selection the
     #   destination actions apply to, including the invoker.
     # @param destinations [Backlogs::WorkPackages::DestinationAvailability]
     #   the destinations every member of `work_packages` may move to.
-    def initialize(project:, invoker:, work_packages:, destinations:, current_user: User.current)
+    def initialize(project:, invoker:, work_packages:, destinations:, current_user: User.current, stale_scope: false)
       super()
 
       @project = project
@@ -51,6 +54,7 @@ module Backlogs
       @work_packages = work_packages
       @destinations = destinations
       @current_user = current_user
+      @stale_scope = stale_scope
     end
 
     def menu_id
@@ -59,12 +63,60 @@ module Backlogs
 
     private
 
+    # The count the client names the menu with. A revealed singular fallback
+    # narrows it back to one on the client.
+    def list_data
+      {
+        sortable_lists__menu_source_target: "menu",
+        sortable_lists_scope_count: batch_menu? ? work_packages.size : 1,
+        sortable_lists_scope_ids: (batch_menu? ? work_packages : [invoker]).map { |wp| wp.id.to_s }.to_json
+      }
+    end
+
+    def batch_menu?
+      !stale_scope && work_packages.many? && (moves_locked? || any_move_action?)
+    end
+
+    # The client hides Move to position for a block that cannot move in any
+    # direction, which only the DOM can tell. When it is the sole batch
+    # action, the singular actions ride along hidden for the client to reveal.
+    def singular_fallback?
+      batch_menu? && !moves_locked? && show_move_items? && !any_destination?
+    end
+
+    def singular_item_arguments
+      return {} unless batch_menu?
+
+      { hidden: true, data: { sortable_lists__item_target: "moveFallback" } }
+    end
+
+    # Above the cap the batch menu still renders, with its actions disabled
+    # and the reason given once.
+    def moves_locked?
+      work_packages.size > Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE
+    end
+
+    def batch_too_large_message
+      t("js.backlogs.announcements.batch_too_large",
+        count: work_packages.size,
+        max: Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE)
+    end
+
+    def destination_item_arguments(key, **wiring)
+      {
+        id: dom_target(invoker, :menu, key),
+        label: t(".action_menu.#{key}"),
+        tag: :button,
+        **(moves_locked? ? { disabled: true } : wiring)
+      }
+    end
+
     # Positional moves reorder within the cards' own list, which the server
     # allows even for a read-only work package, so they gate on the page-level
     # permission and on every member sharing one list, not on whether any
     # cross-container destination is offered.
     def show_move_items?
-      destinations.manage_permission? && one_list?
+      destinations.manage_permission? && (one_list? || moves_locked?)
     end
 
     def one_list?
@@ -87,8 +139,12 @@ module Backlogs
       work_packages.map { |work_package| { name: "ids[]", value: work_package.id } }
     end
 
-    def show_move_submenu?
-      show_move_items? || show_move_to_sprint? || show_move_to_inbox? || show_move_to_backlog_bucket?
+    def any_move_action?
+      !stale_scope && (show_move_items? || any_destination?)
+    end
+
+    def any_destination?
+      show_move_to_sprint? || show_move_to_inbox? || show_move_to_backlog_bucket?
     end
 
     def inbox_list_type

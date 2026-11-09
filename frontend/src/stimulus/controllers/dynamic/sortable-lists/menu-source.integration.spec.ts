@@ -178,6 +178,21 @@ describe('Menu source with Primer deferred loading', () => {
     expect(new URL(request.url).searchParams.getAll('ids[]')).toEqual(['1', '2']);
   });
 
+  it('closes an open menu before Turbo caches the page and leaves focus to Primer', async () => {
+    const { menu, button } = await renderRoot();
+    await userEvent.click(button);
+    await expectLoaded(menu);
+    const popover = menu.querySelector<HTMLElement>('anchored-position')!;
+    expect(popover.matches(':popover-open')).toBe(true);
+
+    fireEvent(document, new CustomEvent('turbo:before-cache'));
+
+    expect(popover.matches(':popover-open')).toBe(false);
+    // Primer refocuses the invoker when the primary menu closes (#552); the
+    // snapshot must not end with focus anywhere else.
+    await waitFor(() => expect(document.activeElement).toBe(button));
+  });
+
   it('retries a failed load when reopened', async () => {
     const { menu, button } = await renderRoot();
     let resolveFailure!:(response:Response) => void;
