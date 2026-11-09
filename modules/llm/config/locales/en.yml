@@ -88,16 +88,6 @@ en:
         success: "The API key has been removed."
         title: "Remove API key"
       disabled_notice: "LLM features are switched off for this instance. Switch them on here first."
-      disconnect:
-        configured_from_env: "This connection is configured through the environment and cannot be changed here."
-        description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
-        heading: "Disconnect from the LLM server?"
-        keeps_bindings: "The model chosen for each feature is kept: %{features}."
-        keeps_models: "The model list, including any models you added manually, is kept."
-        keeps_settings: "The endpoint and API format are kept. Only the stored API key is removed."
-        menu_label: "Disconnect"
-        success: "OpenProject has disconnected from the LLM server."
-        title: "Disconnect"
       form:
         api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
