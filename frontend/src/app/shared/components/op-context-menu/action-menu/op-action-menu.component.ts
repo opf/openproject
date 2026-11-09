@@ -65,10 +65,10 @@ function baseKey(item:OpContextMenuItem):string {
   return item.href ? `${item.linkText}|${item.href}` : item.linkText;
 }
 
-function visible(items:OpContextMenuItem[]):KeyedMenuItem[] {
+export function visibleMenuItems(items:OpContextMenuItem[]):KeyedMenuItem[] {
   const shown = items
     .filter((item) => !item.hidden)
-    .map(({ children, ...item }):Omit<KeyedMenuItem, 'key'> => (children ? { ...item, children: visible(children) } : item))
+    .map(({ children, ...item }):Omit<KeyedMenuItem, 'key'> => (children ? { ...item, children: visibleMenuItems(children) } : item))
     .filter((item) => !item.children || item.children.length > 0)
     .filter((item, index, list) => !item.divider || !list[index - 1]?.divider);
   const trimmed = shown.filter((item, index) => !item.divider || (index > 0 && index < shown.length - 1));
@@ -114,7 +114,7 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
   /** Positions the overlay against this element instead of the invoker. */
   readonly anchor = input<HTMLElement>();
 
-  readonly visibleItems = computed(() => visible(this.items()));
+  readonly visibleItems = computed(() => visibleMenuItems(this.items()));
 
   readonly trigger = contentChild(OpActionMenuTriggerDirective);
 
