@@ -59,8 +59,11 @@ module OpenProject
       @formatter = formatter
     end
 
-    def multi_value_possible?
-      @multi_value_possible
+    def multi_value_possible?(class_name = nil)
+      case @multi_value_possible
+      when Array then @multi_value_possible.include?(class_name)
+      else @multi_value_possible
+      end
     end
 
     def numeric_bounds_possible?
