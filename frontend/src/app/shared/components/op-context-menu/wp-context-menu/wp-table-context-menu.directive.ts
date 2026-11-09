@@ -89,8 +89,8 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
     forgetKeyboardMenuOpen(this.table);
 
-    if (this.origin && (reason === 'escape' || reason === 'action')) {
-      this.table.keyboardNavigation.returnFocusFromMenu(this.origin);
+    if (this.origin && (reason === 'escape' || reason === 'action' || reason === 'scroll')) {
+      this.table.keyboardNavigation.returnFocusFromMenu(this.origin, this.origin, { reveal: reason !== 'scroll' });
       return;
     }
 
