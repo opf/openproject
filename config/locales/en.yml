@@ -3354,8 +3354,6 @@ en:
       internal_comments_inline:
         description: " "
         title: "Write internal comments only a small group can see"
-      mcp_server:
-        description: "Bring OpenProject into your AI workflows with a secure MCP server."
       meeting_templates:
         description: "Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings."
       nextcloud_sso:
