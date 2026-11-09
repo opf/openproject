@@ -212,6 +212,40 @@ describe('WorkPackageViewOrderService', () => {
     expect(queryA.updatedAt).toBe('local-1');
   });
 
+  describe('stale cached positions', () => {
+    const cache = async (positions:QueryOrder) => {
+      endpointA.order.get.mockResolvedValueOnce(positions);
+      await service.positionsFor(queryA);
+    };
+
+    it('does not re-create a work package the server already dropped from the order', async () => {
+      await cache({ '1': 0, '2': 0, '3': 0 });
+      endpointA.order.get.mockResolvedValue({ '2': 0, '3': 0 });
+
+      const prepared = await service.prepareMove(queryA, ['2', '3'], '3', 0, () => true);
+      await prepared.persist();
+
+      expect(endpointA.order.update).toHaveBeenCalledOnce();
+      expect(endpointA.order.update.mock.calls[0][0]).not.toHaveProperty('1');
+    });
+
+    it('keeps the cached positions when the move only ranks the displayed rows', async () => {
+      await cache({ '2': 0, '3': 16384 });
+
+      await service.prepareMove(queryA, ['2', '3'], '3', 0, () => true);
+
+      expect(endpointA.order.get).toHaveBeenCalledOnce();
+    });
+
+    it('persists nothing when refreshing the positions fails', async () => {
+      await cache({ '1': 0, '2': 0, '3': 0 });
+      endpointA.order.get.mockRejectedValue(new Error('offline'));
+
+      await expect(service.prepareMove(queryA, ['2', '3'], '3', 0, () => true)).rejects.toThrow('offline');
+      expect(endpointA.order.update).not.toHaveBeenCalled();
+    });
+  });
+
   describe('captured persistence', () => {
     it('persists a non-contiguous selection in one delta and leaves unrelated positions alone', async () => {
       endpointA.order.get.mockResolvedValue({ '1': 10, '2': 20, '3': 30, '4': 40, '9': 90 });
