@@ -41,11 +41,15 @@ module Projects
       @user = user
     end
 
-    def render?
-      @project.public? || @user.admin? || @user.access_to?(@project)
+    def breadcrumb_items
+        return @breadcrumb_items if defined?(@breadcrumb_items)
+
+      @breadcrumb_items = build_breadcrumb_items
     end
 
-    def breadcrumb_items
+    private
+
+    def build_breadcrumb_items
       ancestors = @project.ancestors.visible.active.reorder(:lft)
       return nil if ancestors.empty?
 

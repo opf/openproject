@@ -28,9 +28,9 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%=
     content_tag :article, aria: { labelledby: "hover-card-heading-#{@id}" } do
-      flex_layout(classes: "op-project-hover-card", data: { test_selector: "project-hover-card-#{@id}" }) do |flex|
+      flex_layout(classes: "op-project-hover-card gap-1", data: { test_selector: "project-hover-card-#{@id}" }) do |flex|
         if breadcrumb_items.present?
-          flex.with_row(mb: 1) do
+          flex.with_row do
             render(Primer::Beta::Breadcrumbs.new(data: { test_selector: "hierarchy-#{@id}" })) do |breadcrumbs|
               breadcrumb_items.each_with_index do |item, i|
                 breadcrumbs.with_item(href: item[:href], font_size: :small, font_weight: i == breadcrumb_items.size - 1 ? :bold : nil) do
@@ -43,17 +43,17 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        flex.with_row(mb: 1) do
+        flex.with_row do
           render(Primer::Beta::Text.new(tag: :h2, font_size: 5, id: "hover-card-heading-#{@id}")) { @name }
         end
 
-        flex.with_row(flex_layout: true, align_items: :center) do |row|
-          row.with_column(mr: 2) do
+        flex.with_row(classes: "gap-2", flex_layout: true, align_items: :center) do |row|
+          row.with_column do
             render(Projects::WorkspaceLabelComponent.new(type: @workspace_type, data: { test_selector: "workspace-label-#{@id}" }))
           end
 
           if @project.archived?
-            row.with_column(mr: 2) do
+            row.with_column do
               render(Primer::Beta::Label.new(scheme: :secondary)) { t("project.archive.archived") }
             end
           end

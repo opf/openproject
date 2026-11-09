@@ -31,7 +31,6 @@ module OpenProject::Projects
   # @logical_path OpenProject/Projects
   class StatusLabelComponentPreview < ViewComponent::Preview
     # @label Playground
-    # @param with_icon [boolean]
     # @param status [Symbol] select [on_track, at_risk, off_track, not_started, finished, discontinued]
     # @param with_icon [boolean]
     def playground(with_icon: false, status: :on_track)
