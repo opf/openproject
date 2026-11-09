@@ -31,6 +31,8 @@ require "spec_helper"
 require "services/base_services/behaves_like_update_service"
 
 RSpec.describe CustomFields::UpdateService, type: :model do
+  using CustomFieldFormulaReferencing
+
   it_behaves_like "BaseServices update service"
 
   describe "#call" do
@@ -119,8 +121,6 @@ RSpec.describe CustomFields::UpdateService, type: :model do
     end
 
     describe "calculated value custom field", with_ee: :calculated_values do
-      using CustomFieldFormulaReferencing
-
       context "when updating not a calculated value" do
         let!(:custom_field) { create(:integer_project_custom_field) }
         let(:attributes) { { name: "foo" } }
@@ -181,23 +181,40 @@ RSpec.describe CustomFields::UpdateService, type: :model do
       end
     end
 
-    describe "weighted_item_lists custom field", with_ee: :weighted_item_lists do
+    describe "weighted_item_lists custom field", with_ee: %i[calculated_values weighted_item_lists] do
       let(:custom_field) { create(:weighted_item_list_project_custom_field) }
       let(:attributes) { { name: "new name" } }
 
-      it "does not eneuque a recalculation job" do
+      it "does not enqueue a recalculation job when changing something" do
         expect { subject }.not_to have_enqueued_job(CustomFields::RecalculateValuesJob)
         expect(subject).to be_success
+      end
+
+      context "when the field is referenced in a calculated value" do
+        before { create(:calculated_value_project_custom_field, formula: "#{custom_field} +2") }
+
+        it "does not enqueue a recalculation job when changing something" do
+          expect { subject }.not_to have_enqueued_job(CustomFields::RecalculateValuesJob)
+          expect(subject).to be_success
+        end
       end
 
       context "when toggling multi_value" do
         let(:attributes) { super().merge(multi_value: true) }
 
-        it "enqueues recalculation job" do
-          expect { subject }
-              .to have_enqueued_job(CustomFields::RecalculateValuesJob)
-          .with(user:, custom_field_id: custom_field.id)
+        it "does not enqueue a recalculation job" do
+          expect { subject }.not_to have_enqueued_job(CustomFields::RecalculateValuesJob)
           expect(subject).to be_success
+        end
+
+        context "when the field is referenced in a calculated value" do
+          before { create(:calculated_value_project_custom_field, formula: "#{custom_field} +2") }
+
+          it "enqueues recalculation job" do
+            expect { subject }.to have_enqueued_job(CustomFields::RecalculateValuesJob)
+            .with(user:, custom_field_id: custom_field.id)
+            expect(subject).to be_success
+          end
         end
       end
     end
