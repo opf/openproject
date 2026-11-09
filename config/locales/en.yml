@@ -6324,7 +6324,7 @@ en:
               one: "%{count} work package will use the new configuration"
               other: "%{count} work packages will use the new configuration"
           success: "The project now uses %{type}."
-          target_label: "Variant"
+          target_label: "New type or variant"
           title: "%{type}: Switch variant"
         type_not_found: "The selected type could not be found."
         use_in_project: "Use in this project"

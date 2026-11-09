@@ -26,7 +26,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: t("types.edit.projects.bulk_switch.title"), size: :medium)) do |dialog| %>
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: DIALOG_ID,
+        title: t("types.edit.projects.bulk_switch.title"),
+        size: :large,
+        classes: "Overlay--size-large-portrait"
+      )
+    ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
 
   <% dialog.with_body do %>

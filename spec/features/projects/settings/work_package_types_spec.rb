@@ -189,7 +189,7 @@ because it's still in use by work packages)
 
     within(settings_page.switch_dialog) do
       expect(page).to have_text("Epic: Switch variant")
-      expect(page).to have_select("Variant", selected: "Epic")
+      expect(page).to have_select("New type or variant", selected: "Epic")
     end
     settings_page.expect_switch_impact("No fields or statuses are affected.")
   end
@@ -203,7 +203,7 @@ because it's still in use by work packages)
 
     within(settings_page.switch_dialog) do
       expect(page).to have_text("The target type must be different from the type the project uses now")
-      expect(page).to have_select("Variant", selected: "Epic: Design")
+      expect(page).to have_select("New type or variant", selected: "Epic: Design")
     end
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(design)
   end
