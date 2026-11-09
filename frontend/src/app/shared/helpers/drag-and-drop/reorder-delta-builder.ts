@@ -441,7 +441,8 @@ export function buildDelta(
  * Ranks the work packages in `order` so that sorting by position, then by
  * numeric ID, reproduces their order. Every other result keeps its rank.
  */
-export function buildOrderDelta(order:readonly string[], positions:QueryOrder):QueryOrder {
+export function buildOrderDelta(order:readonly string[], cached:QueryOrder):QueryOrder {
+  const positions = withoutDeletions(cached);
   const peers = new Set(order);
   const ranked = Object.keys(positions).sort((a, b) => positions[a] - positions[b] || Number(a) - Number(b));
   const lastPeer = ranked.reduce((last, id, index) => (peers.has(id) ? index : last), -1);
@@ -478,6 +479,15 @@ export function buildOrderDelta(order:readonly string[], positions:QueryOrder):Q
     if (next) floor = Number(slot.id) < Number(next.id) ? slot.rank : slot.rank + 1;
   }
   return delta;
+}
+
+// A cached -1 is a deletion still waiting for the next reload.
+function withoutDeletions(positions:QueryOrder):QueryOrder {
+  return Object.fromEntries(Object.entries(positions).filter(([, position]) => position !== -1));
+}
+
+function inRange(delta:QueryOrder):boolean {
+  return Object.values(delta).every((position) => position >= MIN_ORDER && position <= MAX_ORDER);
 }
 
 function sortRank(positions:QueryOrder, id:string):number {
@@ -519,19 +529,21 @@ function keepsOthersOutside(order:readonly string[], positions:QueryOrder, updat
 
 /**
  * Moves one work package with a single new position where its neighbors allow
- * it. Where tied positions would sort it back after a reload, or past results
- * beyond the displayed rows, ranks the whole order instead.
+ * it. Where tied positions would sort it back after a reload, past results
+ * beyond the displayed rows, or out of the integer range, ranks the whole
+ * order instead.
  */
 export function buildMoveDelta(
   order:readonly string[],
-  positions:QueryOrder,
+  cached:QueryOrder,
   wpId:string,
   index:number,
   fromIndex:number|null,
 ):QueryOrder {
+  const positions = withoutDeletions(cached);
   const delta = buildDelta([...order], positions, wpId, index, fromIndex);
   const updated = { ...positions, ...delta };
-  return reloadsInOrder(order, updated) && keepsOthersOutside(order, positions, updated)
+  return inRange(delta) && reloadsInOrder(order, updated) && keepsOthersOutside(order, positions, updated)
     ? delta
     : buildOrderDelta(order, positions);
 }

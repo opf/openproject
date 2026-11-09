@@ -106,6 +106,31 @@ describe('ReorderDeltaBuilder', () => {
       expect(reloaded({ ...positions, ...buildMoveDelta(order, positions, '6', 2, null) })).toEqual(['1', '2', '3', '4', '5', '6']);
     });
 
+    it('ranks the order instead when a move would pass the largest rank', () => {
+      const positions = { '1': 2147456014, '2': 2147444848, '3': 2147481990 };
+      const order = ['1', '3', '2'];
+      const delta = buildMoveDelta(order, positions, '2', 2, 0);
+
+      expect(Math.max(...Object.values(delta))).toBeLessThanOrEqual(MAX_ORDER);
+      expect(reloaded({ ...positions, ...delta })).toEqual(order);
+    });
+
+    it('ranks the order instead when a move would pass the smallest rank', () => {
+      const positions = { '1': MIN_ORDER + 10, '2': MIN_ORDER + 20, '3': MIN_ORDER + 30 };
+      const order = ['3', '1', '2'];
+      const delta = buildMoveDelta(order, positions, '3', 0, 2);
+
+      expect(Math.min(...Object.values(delta))).toBeGreaterThanOrEqual(MIN_ORDER);
+      expect(reloaded({ ...positions, ...delta })).toEqual(order);
+    });
+
+    it('treats a cached deletion as unranked', () => {
+      const delta = buildMoveDelta(['3', '2'], { '1': -1, '2': 0, '3': 0 }, '3', 0, 1);
+
+      expect(delta).not.toHaveProperty('1');
+      expect(Object.values(delta)).not.toContain(-1);
+    });
+
     it('keeps an added work package ahead of an adjacent row beyond the page', () => {
       const positions = { '1': 0, '2': 1, '3': 2, '4': 3 };
 
@@ -114,6 +139,13 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   describe('ranking an order', () => {
+    it('treats a cached deletion as unranked', () => {
+      const delta = buildOrderDelta(['3', '2'], { '1': -1, '2': 0, '3': 0 });
+
+      expect(delta).not.toHaveProperty('1');
+      expect(Object.values(delta)).not.toContain(-1);
+    });
+
     it('keeps a tied page ahead of the first off-page row', () => {
       const positions = { '1': 0, '2': 0, '3': 0, '4': 1 };
       const order = ['3', '1', '2'];
