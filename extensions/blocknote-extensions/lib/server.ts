@@ -1,6 +1,6 @@
-// Server-safe surface of op-blocknote-extensions.
+// Server-safe surface of @openproject/blocknote-extensions.
 //
-// Importing from "op-blocknote-extensions/server" gives consumers (e.g. a
+// Importing from "@openproject/blocknote-extensions/server" gives consumers (e.g. a
 // hocuspocus server using @blocknote/server-util) the pieces they need to
 // reconstruct a BlockNote schema and run markdown export without dragging
 // @blocknote/react / @blocknote/mantine into the Node import graph.
