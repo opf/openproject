@@ -74,7 +74,7 @@ jobs:
         edition: [standard, bim]
     services:
       postgres:
-        image: postgres:16
+        image: pgvector/pgvector:pg18-bookworm
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -96,7 +96,12 @@ jobs:
           persist-credentials: false
 
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y libpq-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-common libpq-dev
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y postgresql-client-18
+          echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0

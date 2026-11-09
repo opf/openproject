@@ -7,6 +7,10 @@ sidebar_navigation:
 # Install OpenProject with DEB/RPM packages
 
 > [!IMPORTANT]
+> New managed databases use PostgreSQL 18 and pgvector. Existing configured installations retain their PostgreSQL major. See the [PostgreSQL 18 migration guide](../../misc/migration-to-postgresql18/) for upgrade and extension activation instructions.
+
+
+> [!IMPORTANT]
 > We will not build packages for new Linux versions, such as Ubuntu 24.04. We will, however, keep releasing new package versions for the currently supported Linux versions until their EOL (end of life).
 > If your distribution has reached EOL and packages are no longer available, migrate to Docker Compose using the [packaged → Docker Compose migration guide](../../misc/packaged-docker-migration/).
 
