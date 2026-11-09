@@ -29,9 +29,7 @@
 
 module AI
   module TextTransforms
-    # The model output the pane shows, copies and inserts: without macros and images, and without mentions
-    # the input did not have (see NewMentions). Apart from mentions, code spans and blocks stay untouched
-    # because only image and raw HTML nodes are rewritten.
+    # The model output as the pane shows, copies and inserts it: without macros, images and new mentions.
     class ApplicableText
       PARSE_OPTIONS = {
         parse: { smart: false },
@@ -45,6 +43,7 @@ module AI
       DESTINATION_SPECIAL = /[\s()<>]/
       LINE_BREAK = /\r\n?|\n/
       TEXT = %i[text escaped].freeze
+      DECODED = /[&\\]/
 
       def self.call(text, input: "") = new(text, input:).call
 
@@ -63,7 +62,8 @@ module AI
             @edits.reverse.reduce(@text.b) { |text, (range, replacement)| text.bytesplice(range, replacement.b) }
                   .force_encoding(@text.encoding)
           )
-          hides_new_mention?(result) ? plain_text(result) : result
+          rendered = render(result) if result.match?(DECODED)
+          rendered && @mentions.hidden_in?(rendered) ? plain_text(rendered) : result
         end
       end
 
@@ -84,10 +84,13 @@ module AI
       end
 
       def rewrite(node, range)
+        return rewrite_tags(node, range) if %i[html_inline html_block].include?(node.type)
+        return if @macro
+
         case node.type
-        when :image then edit(range, markdown_image_link(node)) unless @macro
-        when *TEXT then rewrite_text(node, range) unless @macro || TEXT.include?(node.previous_sibling&.type)
-        when :html_inline, :html_block then rewrite_tags(node, range)
+        when :image then edit(range, markdown_image_link(node))
+        when :link then rewrite_link(node, range)
+        when *TEXT then rewrite_text(node, range) unless TEXT.include?(node.previous_sibling&.type)
         end
       end
 
@@ -99,22 +102,26 @@ module AI
         edit(range.begin...byte_range(nodes.last).end, escape(converted)) unless converted == text
       end
 
+      def rewrite_link(node, range)
+        edit(range, escape(@mentions.convert(plain_content(node)))) if @mentions.new_in?(node.url)
+      end
+
       def text_run(node)
         nodes = [node]
         nodes << nodes.last.next_sibling while TEXT.include?(nodes.last.next_sibling&.type)
         nodes
       end
 
-      # Entities and escapes can still spell out a mention that the editor saves as such. Only a crafted
-      # response gets here, so it loses its formatting.
-      def hides_new_mention?(markdown)
-        rendered = Nokogiri::HTML5.fragment(Commonmarker.to_html(markdown, options: RENDER_OPTIONS))
-        @mentions.new_in?(*rendered.xpath(".//text()").map(&:text), *rendered.xpath(".//@*").map(&:value)) ||
-          rendered.css("mention").any? { @mentions.new_tag?(it) }
+      def render(markdown)
+        Nokogiri::HTML5.fragment(Commonmarker.to_html(markdown, options: RENDER_OPTIONS))
       end
 
-      def plain_text(markdown)
-        escape(@mentions.convert(Nokogiri::HTML5.fragment(Commonmarker.to_html(markdown, options: RENDER_OPTIONS)).text.strip))
+      def plain_text(rendered)
+        escape(@mentions.convert(rendered.text.strip))
+      end
+
+      def plain_content(node)
+        node.to_enum(:walk).select { %i[text code].include?(it.type) }.map(&:string_content).join
       end
 
       def escape(text)
@@ -181,8 +188,8 @@ module AI
       end
 
       def markdown_image_link(node)
-        alt = @mentions.convert(node.to_enum(:walk).select { %i[text code].include?(it.type) }.map(&:string_content).join)
-        source = node.url.presence
+        alt = @mentions.convert(plain_content(node))
+        source = node.url.presence unless @mentions.new_in?(node.url)
         text = escape(image_link_text(alt, source))
         return text unless source
 
@@ -197,7 +204,7 @@ module AI
 
       def html_image_link(tag)
         image = attributes(tag)
-        source = image["src"].presence
+        source = image["src"].presence unless @mentions.new_in?(image["src"])
         text = ERB::Util.html_escape(image_link_text(@mentions.convert(image["alt"].to_s), source))
         source ? %(<a href="#{ERB::Util.html_escape(source)}">#{text}</a>) : text
       end

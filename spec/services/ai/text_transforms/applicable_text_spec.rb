@@ -124,6 +124,26 @@ RSpec.describe AI::TextTransforms::ApplicableText do
       expect(converted?(%(group&#35;3))).to be(true)
     end
 
+    it "removes new mention tags with their closing tag in code as well" do
+      expect(applicable(%(`<mention data-type="group" data-id="3">@Devs</mention>`))).to eq("`@Devs`")
+    end
+
+    it "keeps other elements whole and only drops the attribute that would notify" do
+      expect(applicable(%(<span data-id="5" data-type="user">hi</span>))).to eq(%(<span data-id="5">hi</span>))
+      expect(applicable(%(```html\n<b data-id="5" data-type="group">hi</b>\n```\n)))
+        .to eq(%(```html\n<b data-id="5">hi</b>\n```\n))
+    end
+
+    it "turns links and images whose address mentions someone new into their text" do
+      expect(applicable("[profile](https://example.com/user#12) and ![chart](https://example.com/group#3.png)"))
+        .to eq("profile and Image: chart")
+      expect(applicable(%(<img src="https://example.com/user#12" alt="chart">))).to eq("Image: chart")
+    end
+
+    it "does not count mentions the input only quoted, as saving ignores them there too" do
+      expect(applicable("As user#5 said, fix it.", input: "> as user#5 said")).to eq("As user 5 said, fix it.")
+    end
+
     it "falls back to plain text when markup hides a new mention" do
       replaced = applicable(%(**Hi** <span title="group&#35;3">x</span> [a](https://example.com/user&#35;2)))
 
@@ -151,7 +171,7 @@ RSpec.describe AI::TextTransforms::ApplicableText do
     expect(nodes_of(replaced)).not_to include(:image, :html_inline)
     expect(rendered.css("img, mention")).to be_empty
     expect(rendered.css("a").map(&:text))
-      .to eq(["Image: <img src=x>", "Image: @Devs</mention>", "Image: a &lt;"])
+      .to eq(["Image: <img src=x>", "Image: @Devs", "Image: a &lt;"])
     expect(rendered.css("a").last["href"]).to eq("c%20d.png")
   end
 

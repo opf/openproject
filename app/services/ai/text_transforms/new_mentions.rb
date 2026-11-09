@@ -33,18 +33,21 @@ module AI
     # and groups the input already mentioned. The others become plain text the user can mention again.
     class NewMentions
       PATTERN = Notifications::CreateFromModelService::MENTION_PATTERN
-      TAG = /<mention\b(?:[^>"']|"[^"]*"|'[^']*')*>?/i
+      QUOTED_LINES = Notifications::CreateFromModelService::QUOTED_LINES_PATTERN
+      TAG = %r{<(/?)mention\b(?:[^>"']|"[^"]*"|'[^']*')*>?}i
+      PRINCIPAL_TYPE = /\s*data-type="(?:user|group)"/
       PRINCIPAL_TYPES = %w[user group].freeze
 
       def initialize(input)
         @input = input.to_s
         @found = false
+        @user_ids = Hash.new { |ids, login| ids[login] = User.where(login:).pick(:id) }
       end
 
       def found? = @found
 
       def new_in?(*texts)
-        found_unless(texts.none? { |text| text.scan(PATTERN).any? { !known?(*target(it).first(2)) } })
+        found_unless(texts.compact.none? { |text| text.scan(PATTERN).any? { !known?(*target(it).first(2)) } })
       end
 
       def new_tag?(attributes)
@@ -54,7 +57,11 @@ module AI
         found_unless(known?(type.to_sym, attributes["data-id"].to_i))
       end
 
-      # Finds every mention the notification service would, code and markup included.
+      def hidden_in?(fragment)
+        new_in?(*fragment.xpath(".//text()").map(&:text), *fragment.xpath(".//@*").map(&:value)) ||
+          fragment.css("mention").any? { new_tag?(it) }
+      end
+
       def convert(text)
         without_new_tags(text).gsub(PATTERN) do
           mention = Regexp.last_match
@@ -62,15 +69,23 @@ module AI
           next mention[0] if known?(type, key)
 
           @found = true
-          tag ? "" : plain_text(type, mention[0])
+          tag ? mention[0].sub(PRINCIPAL_TYPE, "") : plain_text(type, mention[0])
         end
       end
 
       private
 
-      # The service's pattern ends some tags before their closing bracket, so whole tags go first.
       def without_new_tags(text)
-        text.gsub(TAG) { |tag| new_tag?(Nokogiri::HTML5.fragment(tag).element_children.first || {}) ? "" : tag }
+        open_tags = []
+        text.gsub(TAG) do |tag|
+          closing = Regexp.last_match[1].present?
+          removed = closing ? open_tags.pop : open_tags.push(new_tag?(attributes(tag))).last
+          removed ? "" : tag
+        end
+      end
+
+      def attributes(tag)
+        Nokogiri::HTML5.fragment(tag).element_children.first || {}
       end
 
       def found_unless(known)
@@ -78,40 +93,33 @@ module AI
         !known
       end
 
-      # The pattern captures a user's tag ids and hash id, then a login, then a group's tag ids and hash id.
       def target(captures)
-        user_ids = captures[0, 3]
         login = captures[3]
-        group_ids = captures[4, 3]
         return [:login, login, false] if login
 
-        type, ids = user_ids.any? ? [:user, user_ids] : [:group, group_ids]
+        user_ids = captures[0, 3]
+        type, ids = user_ids.any? ? [:user, user_ids] : [:group, captures[4, 3]]
         [type, ids.compact.first.to_i, ids.last.nil?]
       end
 
-      # A tag only loses itself and keeps the text after it. Without its hash an id does not become a
-      # work package link either.
+      # Without its hash, an id does not turn into a work package link either.
       def plain_text(type, mention)
         type == :login ? mention.sub(":", ": ") : mention.sub("#", " ")
       end
 
       def known?(type, key)
         case type
-        when :login then input_mentions[:logins].include?(key) || input_mentions[:users].include?(user_id(key))
+        when :login then input_mentions[:logins].include?(key) || input_mentions[:users].include?(@user_ids[key])
         when :user then input_mentions[:users].include?(key)
         else input_mentions[:groups].include?(key)
         end
       end
 
-      def user_id(login)
-        User.where(login:).pick(:id)
-      end
-
       def input_mentions
         @input_mentions ||= begin
-          targets = @input.scan(PATTERN).map { target(it) }
+          targets = @input.gsub(QUOTED_LINES, "").scan(PATTERN).map { target(it) }
           keys = ->(wanted) { targets.filter_map { |type, key| key if type == wanted } }
-          { logins: keys[:login], users: keys[:user] + User.where(login: keys[:login]).pluck(:id), groups: keys[:group] }
+          { logins: keys[:login], users: keys[:user] + keys[:login].filter_map { @user_ids[it] }, groups: keys[:group] }
         end
       end
     end
