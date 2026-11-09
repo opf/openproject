@@ -14,7 +14,8 @@ jobs:
   build:
     if: github.repository == 'opf/openproject'
     name: ${{ matrix.target }}
-    runs-on: ubuntu-latest
+    runs-on:
+      labels: "runs-on=${{ github.run_id }}/ssh=false/runner=4cpu-linux-x64/image=ubuntu24-full-x64"
     permissions:
       contents: read
     services:
