@@ -77,7 +77,7 @@ module Pages
           open_type_menu(variant)
           click_on "Use in this project"
 
-          expect(switch_dialog).to have_select("Variant")
+          expect(switch_dialog).to have_select("New type or variant")
         end
 
         # The type's own menu, not one of the variant rows below it: both live inside the group.
@@ -86,7 +86,7 @@ module Pages
         end
 
         def choose_switch_target(target)
-          wait_for_turbo_stream { within(switch_dialog) { select target, from: "Variant" } }
+          wait_for_turbo_stream { within(switch_dialog) { select target, from: "New type or variant" } }
         end
 
         def apply_switch

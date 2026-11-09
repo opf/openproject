@@ -51,7 +51,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchFormComponent,
   it "offers the variants the project may use, in display order" do
     render_form
 
-    expect(page).to have_select("Variant", options: [base, global, ours].map(&:composite_name))
+    expect(page).to have_select("New type or variant", options: [base, global, ours].map(&:composite_name))
   end
 
   it "offers no variant another project owns" do
@@ -63,13 +63,13 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchFormComponent,
   it "opens on the variant it is given" do
     render_form(selected: ours)
 
-    expect(page).to have_select("Variant", selected: ours.composite_name)
+    expect(page).to have_select("New type or variant", selected: ours.composite_name)
   end
 
   it "opens on the variant in force when it is given none" do
     render_form
 
-    expect(page).to have_select("Variant", selected: base.composite_name)
+    expect(page).to have_select("New type or variant", selected: base.composite_name)
   end
 
   context "when the reader may not switch" do
@@ -78,7 +78,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchFormComponent,
     it "offers nothing" do
       render_form
 
-      expect(page).to have_select("Variant", options: [])
+      expect(page).to have_select("New type or variant", options: [])
     end
   end
 end
