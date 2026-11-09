@@ -103,6 +103,12 @@ display-field
       .-derived-value
         @include wp-table--time-values
 
+    &.op-table-baseline--old-field
+      .-actual-value,
+      .-derived-value
+        // text-decoration doesn't propagate into inline-blocks
+        text-decoration: inherit
+
     .-actual-value
       @include wp-table--actual-time-values
 
