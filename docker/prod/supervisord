@@ -22,7 +22,7 @@ if { [ -z "$DATABASE_URL" ] || [ "$dbhost" = "127.0.0.1" ]; } && [ -f "$PGDATA/P
 	EXISTING_PGVERSION="$(cat "$PGDATA/PG_VERSION")"
 	if [ "$PGVERSION" != "$EXISTING_PGVERSION" ]; then
 		echo "ERROR: Configured PostgreSQL $PGVERSION cannot use PostgreSQL $EXISTING_PGVERSION data in $PGDATA."
-		echo "Set PGVERSION=$EXISTING_PGVERSION to keep using this cluster, or upgrade the database first."
+		echo "To keep this cluster, use an OpenProject image that bundles PostgreSQL $EXISTING_PGVERSION with PGVERSION=$EXISTING_PGVERSION."
 		echo "Migration guide: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql18/"
 		exit 2
 	fi

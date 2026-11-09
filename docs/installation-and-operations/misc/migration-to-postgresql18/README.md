@@ -15,7 +15,7 @@ Before starting, [back up your installation](../../operation/backing-up/), inclu
 
 ### AIO
 
-Set `PGVERSION=17` when starting an AIO container with PostgreSQL 17 data. For another bundled major, use the version recorded in the data directory's `PG_VERSION` file.
+Set `PGVERSION=17` when starting an AIO container with PostgreSQL 17 data. OpenProject 18 bundles PostgreSQL 17 and 18. For PostgreSQL 13 or 15, keep your previous OpenProject image until you migrate using dump/restore.
 
 AIO now exits with an error if its configured PostgreSQL version differs from the existing data. It no longer selects the older version automatically. External databases are unaffected.
 
@@ -43,11 +43,9 @@ Existing configured installations retain their current database server. Running 
 
 ### Helm
 
-The Helm database replacement is a separate prerequisite. Do not substitute a `pgvector/pgvector` image into the existing Bitnami subchart: its startup scripts, paths, and environment variables differ.
+Do not substitute a `pgvector/pgvector` image into the existing Bitnami subchart: its startup scripts, paths, and environment variables differ.
 
 Before updating a chart, pin `postgresql.image.repository` and `postgresql.image.tag` to the image you currently use. For PostgreSQL 17, pin the complete PostgreSQL 17 tag from your deployment, rather than assuming the tag is simply `17`. The current legacy chart defaults to PostgreSQL 15; those installations must retain their actual PostgreSQL 15 image until migrated.
-
-The replacement chart's release notes must provide its PostgreSQL 17 pin and migration instructions before its PostgreSQL 18 default ships. HA deployments should use an externally managed database.
 
 ## Docker Compose upgrade
 

@@ -59,7 +59,7 @@ services:
       - backend
     volumes:
       - "postgres_data:/var/lib/postgresql"
-      - "../postgres/init-vector.sh:/docker-entrypoint-initdb.d/vector.sh:ro"
+      - "../postgres/init-vector.sql:/docker-entrypoint-initdb.d/vector.sql:ro"
     expose:
       - "5432"
     healthcheck:
