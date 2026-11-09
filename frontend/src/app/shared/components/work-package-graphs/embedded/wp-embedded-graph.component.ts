@@ -36,6 +36,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 import PrimerColorsPlugin from './../plugin.primer-colors';
 import { chartTypeLocaleKey } from './../chart-type';
+import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -54,7 +55,8 @@ interface ChartDataSet {
   styleUrls: ['./wp-embedded-graph.component.sass'],
   standalone: true,
   imports: [
-    BaseChartDirective
+    BaseChartDirective,
+    NoResultsComponent,
   ],
   providers: [
     provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),

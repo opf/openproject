@@ -28,10 +28,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, screen } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { OpBasicRangeDatePickerComponent } from './basic-range-date-picker.component';
 
 describe('OpBasicRangeDatePickerComponent', () => {
@@ -48,7 +49,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
   const configure = (isMobile:boolean) => TestBed
     .configureTestingModule({
       declarations: [OpBasicRangeDatePickerComponent],
-      imports: [FormsModule],
+      imports: [FormsModule, OpTooltipDirective],
       providers: [
         { provide: I18nService, useValue: { t: (key:string) => key } },
         { provide: TimezoneService, useValue: {} },
@@ -250,6 +251,27 @@ describe('OpBasicRangeDatePickerComponent', () => {
       expect(component.value).toEqual(['2025-01-07', '2025-01-08']);
       expect(valueChange).toHaveBeenCalledTimes(3);
       expect(valueChange).toHaveBeenLastCalledWith(['2025-01-07', '2025-01-08']);
+    });
+
+    describe('with a clear button', () => {
+      beforeEach(async () => {
+        await render(['2026-10-01', '2026-10-07']);
+        fixture.componentRef.setInput('showClearButton', true);
+        fixture.detectChanges();
+      });
+
+      it('labels the icon-only clear button with a tooltip', () => {
+        expect(screen.getByRole('button', { name: 'js.button_clear' })).toBeInTheDocument();
+        expect(fixture.nativeElement.querySelectorAll('tool-tip')).toHaveLength(1);
+      });
+
+      it('removes the clear button and its tooltip once the value is cleared', () => {
+        fireEvent.click(screen.getByRole('button', { name: 'js.button_clear' }));
+        fixture.detectChanges();
+
+        expect(screen.queryByRole('button', { name: 'js.button_clear' })).not.toBeInTheDocument();
+        expect(fixture.nativeElement.querySelectorAll('tool-tip')).toHaveLength(0);
+      });
     });
   });
 });

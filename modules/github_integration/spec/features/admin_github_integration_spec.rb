@@ -39,7 +39,7 @@ RSpec.describe "Admin GitHub Integration settings", :js do
     it "renders the page" do
       visit deploy_targets_path
 
-      expect(page).to have_content("GitHub Integration")
+      expect(page).to have_text("GitHub Integration")
     end
   end
 
@@ -59,7 +59,7 @@ RSpec.describe "Admin GitHub Integration settings", :js do
       fill_in I18n.t(:label_github_webhook_secret), with: "my-super-secret"
       click_button I18n.t(:button_save)
 
-      expect(page).to have_content(I18n.t(:notice_successful_update))
+      expect(page).to have_text(I18n.t(:notice_successful_update))
 
       Setting.clear_cache
       expect(Setting.plugin_openproject_github_integration["webhook_secret"]).to eq("my-super-secret")
@@ -82,7 +82,7 @@ RSpec.describe "Admin GitHub Integration settings", :js do
 
       click_button I18n.t(:button_save)
 
-      expect(page).to have_content(I18n.t(:notice_successful_update))
+      expect(page).to have_text(I18n.t(:notice_successful_update))
 
       Setting.clear_cache
       expect(Setting.plugin_openproject_github_integration["github_user_id"]).to eq(github_actor.id.to_s)

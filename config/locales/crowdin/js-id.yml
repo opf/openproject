@@ -438,7 +438,6 @@ id:
     label_assignee: Pelimpahan
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Lampiran
-    label_author: 'Author: %{user}'
     label_avatar: Avatar
     label_between: antara
     label_board: Papan
@@ -1116,7 +1115,6 @@ id:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarchy
         highlighting: Highlighting

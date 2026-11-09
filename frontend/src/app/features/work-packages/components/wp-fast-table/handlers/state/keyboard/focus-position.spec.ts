@@ -102,11 +102,11 @@ describe('focus position model', () => {
   });
 
   it('ArrowRight on a collapsed parent returns expand', () => {
-    expect(computeNextPosition(buildRows(), row('C'), 'ArrowRight', 5)).toEqual({ type: 'expand', key: 'C' });
+    expect(computeNextPosition(buildRows(), row('C'), 'ArrowRight', 5)).toEqual({ type: 'expand', row: expect.objectContaining({ key: 'C' }) });
   });
 
   it('ArrowLeft on an expanded group header returns collapse', () => {
-    expect(computeNextPosition(buildRows(), row('0:header'), 'ArrowLeft', 5)).toEqual({ type: 'collapse', key: '0:header' });
+    expect(computeNextPosition(buildRows(), row('0:header'), 'ArrowLeft', 5)).toEqual({ type: 'collapse', row: expect.objectContaining({ key: '0:header' }) });
   });
 
   it('ArrowLeft on a non-expanded row is none', () => {

@@ -26,6 +26,7 @@
 //++
 
 import { TestBed } from '@angular/core/testing';
+import { within } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   WorkPackageEmbeddedGraphComponent,
@@ -69,6 +70,7 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
       providers: [
         { provide: I18nService, useValue: i18nStub },
       ],
+      errorOnUnknownElements: true,
     }).compileComponents();
   });
 
@@ -124,5 +126,13 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
 
     expect(element.querySelector('canvas')).toBeNull();
     expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
+  });
+
+  it('renders the no-results message after an empty dataset refresh', () => {
+    const { fixture, element } = renderGraph([]);
+    fixture.componentRef.setInput('datasets', []);
+    fixture.detectChanges();
+
+    expect(within(element).getByRole('heading', { name: 'No results' })).toBeInTheDocument();
   });
 });

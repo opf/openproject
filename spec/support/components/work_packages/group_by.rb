@@ -73,7 +73,7 @@ module Components
         open_table_column_context_menu(name)
 
         within_column_context_menu do
-          expect(page).to have_content("Group by")
+          expect(page).to have_text("Group by")
         end
       end
 

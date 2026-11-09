@@ -42,7 +42,7 @@ import {
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   useHashWpMenu,
-} from '@openproject/op-blocknote-extensions';
+} from '@openproject/blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';

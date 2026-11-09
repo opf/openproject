@@ -100,7 +100,7 @@ RSpec.describe OpPrimer::WorkPackageCardComponent, type: :component do
   end
 
   it "uses the provided menu src" do
-    expect(rendered_component).to have_element "include-fragment", src: menu_src
+    expect(rendered_component).to have_element "action-menu", src: menu_src
   end
 
   it "supports inline menu items through the menu slot" do
@@ -112,7 +112,7 @@ RSpec.describe OpPrimer::WorkPackageCardComponent, type: :component do
 
     expect(rendered).to have_link "Open", href: "/work_packages/#{work_package.id}"
     expect(rendered).to have_button(menu_button_id, accessible_name: "Card actions")
-    expect(rendered).to have_no_element "include-fragment"
+    expect(rendered).to have_no_css "action-menu[src]"
   end
 
   it "supports deferred menu loading through the menu slot" do
@@ -120,7 +120,7 @@ RSpec.describe OpPrimer::WorkPackageCardComponent, type: :component do
       card.with_menu(src: menu_src)
     end
 
-    expect(rendered).to have_element "include-fragment", src: menu_src
+    expect(rendered).to have_element "action-menu", src: menu_src
   end
 
   it "uses the menu slot before the initializer menu source" do
@@ -128,8 +128,8 @@ RSpec.describe OpPrimer::WorkPackageCardComponent, type: :component do
       card.with_menu(src: "/slot-menu")
     end
 
-    expect(rendered).to have_element "include-fragment", src: "/slot-menu"
-    expect(rendered).to have_no_element "include-fragment", src: menu_src
+    expect(rendered).to have_element "action-menu", src: "/slot-menu"
+    expect(rendered).to have_no_element "action-menu", src: menu_src
   end
 
   describe "parent display" do

@@ -63,7 +63,7 @@ RSpec.describe "Invite user modal subprojects", :js do
 
       assignee_field.activate!
 
-      find(".ng-dropdown-footer button", text: "Invite", wait: 10).click
+      find(".ng-dropdown-footer", wait: 10).click_button("Invite")
 
       modal.expect_open
       modal.within_modal do

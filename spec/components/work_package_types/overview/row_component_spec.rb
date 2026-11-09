@@ -111,4 +111,34 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
       end
     end
   end
+
+  describe "linking form and workflow references" do
+    shared_let(:project) { create(:project) }
+
+    let(:variant_scope_project) { project }
+    let(:aspect) { nil }
+    let(:tab) { { name: "form_configuration", path: "/forms", label: "Form", aspect: } }
+
+    context "for an admin viewing it inside a project" do
+      current_user { create(:admin) }
+
+      it "links the referenced form to its administration page" do
+        render_inline(row)
+
+        expect(page).to have_link(variant.form_configuration.name,
+                                  href: edit_form_configuration_path(variant.form_configuration))
+      end
+    end
+
+    context "for a non-admin viewing it inside a project" do
+      current_user { create(:user) }
+
+      it "names the form without a link, since the page is out of reach" do
+        render_inline(row)
+
+        expect(page).to have_text("Using form")
+        expect(page).to have_no_link(variant.form_configuration.name)
+      end
+    end
+  end
 end

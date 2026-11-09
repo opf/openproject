@@ -27,6 +27,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { within } from '@testing-library/dom';
 import { of } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { QUERY_SORT_BY_ASC, QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
@@ -95,5 +96,14 @@ describe('WpTableConfigurationSortByTabComponent', () => {
     expect(component.allColumns.map((column) => column.name)).toEqual(['id', 'subject']);
     expect(component.sortingMode).toBe('automatic');
     expect(manualRadio(element)).toBeNull();
+  });
+
+  it('labels each sort criterion select with its own position', async () => {
+    const { element } = await createComponent([sortBy('subject')]);
+
+    const [first, second, third] = within(element).getAllByRole('combobox');
+    expect(first).toHaveAccessibleName('js.filter.sorting.criteria.one');
+    expect(second).toHaveAccessibleName('js.filter.sorting.criteria.two');
+    expect(third).toHaveAccessibleName('js.filter.sorting.criteria.three');
   });
 });

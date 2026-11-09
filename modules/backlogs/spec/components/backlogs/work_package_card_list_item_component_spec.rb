@@ -280,10 +280,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
 
     context "with a sprint container" do
       it "uses the work package menu source" do
-        expect(rendered_card).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package)
-        )
+        expect(rendered_card).to have_element "action-menu", src: menu_project_backlogs_work_package_path(project, work_package)
       end
     end
 
@@ -291,10 +288,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       let(:container) { "inbox_project_#{project.id}" }
 
       it "uses the work package menu source" do
-        expect(rendered_card).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package)
-        )
+        expect(rendered_card).to have_element "action-menu", src: menu_project_backlogs_work_package_path(project, work_package)
       end
     end
 
@@ -302,10 +296,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       let(:container) { backlog_bucket }
 
       it "uses the work package menu source" do
-        expect(rendered_card).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package)
-        )
+        expect(rendered_card).to have_element "action-menu", src: menu_project_backlogs_work_package_path(project, work_package)
       end
     end
   end

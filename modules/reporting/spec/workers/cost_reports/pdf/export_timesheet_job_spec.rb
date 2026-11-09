@@ -53,7 +53,7 @@ RSpec.describe CostReports::PDF::ExportTimesheetJob do
   #
   # @param extra_filters [Hash] A hash of attribute names and operator/value
   # pairs to add to the filter.
-  # Example: `{ custom_field_17: ["=", "value"], user_id: ["=", "me"]}`
+  # Example: `{ cf_17: ["=", "value"], user_id: ["=", "me"]}`
   def perform_cost_export(extra_filters: {})
     query = initial_filter_params.deep_dup
     extra_filters.each do |attribute_name, operator_and_value|

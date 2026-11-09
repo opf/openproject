@@ -45,11 +45,12 @@ RSpec.describe "Work package single context menu", :js do
 
     expect(page).to have_css("h2", text: I18n.t(:button_duplicate))
     expect(page).to have_css("a.work_package", text: "##{work_package.id}")
-    expect(page).to have_current_path /work_packages\/move\/new\?copy=true&ids\[\]=#{work_package.id}/
+    expect(page).to have_current_path(%r{/work_packages/move/new\z}, ignore_query: true)
+    expect(page).to have_current_query_params("copy" => "true", "ids" => [work_package.id.to_s])
   end
 
   it "successfully copies the short url of the work package" do
-    wp_view.select_from_context_menu("Copy link to clipboard")
+    wp_view.select_from_context_menu("Copy link")
 
     # We cannot access the navigator.clipboard from a headless browser.
     # This test makes sure the copy to clipboard logic is working,
@@ -58,21 +59,21 @@ RSpec.describe "Work package single context menu", :js do
     expect(page).to have_message_copied_to_clipboard("/wp/#{work_package.id}")
   end
 
-  describe "'Copy numeric ID to clipboard' item" do
+  describe "'Copy ID' item" do
     context "in classic (numeric) mode", with_settings: { work_packages_identifier: "classic" } do
-      it "is not offered (the displayed id is already the numeric id)" do
+      it "shows the numeric id" do
         find("button[wpsinglecontextmenu]").click
         within(".op-context-menu--overlay") do
-          expect(page).to have_no_css(".menu-item", text: "Copy numeric ID to clipboard")
+          expect(page).to have_css(".menu-item", text: "Copy ID (\"#{work_package.id}\")")
         end
       end
     end
 
     context "in semantic mode", with_settings: { work_packages_identifier: "semantic" } do
-      it "is offered" do
+      it "shows the semantic id" do
         find("button[wpsinglecontextmenu]").click
         within(".op-context-menu--overlay") do
-          expect(page).to have_css(".menu-item", text: "Copy numeric ID to clipboard")
+          expect(page).to have_css(".menu-item", text: "Copy ID (\"#{work_package.reload.identifier}\")")
         end
       end
     end

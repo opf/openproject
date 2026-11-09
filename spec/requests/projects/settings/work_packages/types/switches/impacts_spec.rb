@@ -59,14 +59,14 @@ RSpec.describe "Type variant switch impact",
     request_impact(delivery)
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Fields that will no longer be shown")
+    expect(response.body).to include("Fields that will be removed")
   end
 
   it "reports nothing for the variant the project already applies" do
     request_impact(epic.default_variant)
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).not_to include("Fields that will no longer be shown")
+    expect(response.body).not_to include("Fields that will be removed")
   end
 
   # The select only offers members of this type, so this is only reachable by forging the
@@ -76,6 +76,6 @@ RSpec.describe "Type variant switch impact",
     request_impact(bug_variant)
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).not_to include("Fields that will no longer be shown")
+    expect(response.body).not_to include("Fields that will be removed")
   end
 end

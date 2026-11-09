@@ -65,7 +65,7 @@ describe('WorkPackageStateLinksHandler', () => {
     const { table, link } = await mount();
     const clicked = vi.fn();
     table.outputs.stateLinkClicked.subscribe(clicked);
-    table.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    table.table.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
     await userEvent.tab();
     expect(link).toHaveFocus();
 
@@ -81,7 +81,7 @@ describe('WorkPackageStateLinksHandler', () => {
     const otherCell = navigableCells(table.row('2'))[0];
     const other = stateLink('2');
     otherCell.append(other);
-    table.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    table.table.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
     await userEvent.tab();
     expect(link).toHaveFocus();
     other.focus();

@@ -438,7 +438,6 @@ fi:
     label_assignee: Työn suorittaja
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Liitteet
-    label_author: 'Tekijä: %{user}'
     label_avatar: Kuva
     label_between: välillä
     label_board: Taulu
@@ -1124,7 +1123,6 @@ fi:
         default_mode: Listanäkymä
         display_settings: Näyttöasetukset
         display_sums_hint: Näytä kokonaismäärät taulukon alapuolella.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Kaikki suoratetut tulokset näytetään taulukossa ylätehtävän kera. Hierarkioita voidaan avata ja sulkea.
         hierarchy_mode: Hierarkia
         highlighting: Korostus

@@ -81,11 +81,11 @@ OpenProject 17.9 further extends the capabilities of the [MCP Server](../../syst
 
 OpenProject 17.9 brings several improvements to PDF exports, providing more complete project information and making it easier to create consistent exports.
 
-- **More comprehensive [PMflex artifact exports](../../user-guide/work-packages/exporting/work-package-pdf/):** Project lifecycle information and **project budgets** can now optionally be included in the PDF. Budgets are presented as a cost breakdown, including unit and labor costs and their subtotals. This provides a more complete view of project planning, progress, and costs in a single artifact.
+- **More comprehensive [PMflex artefact exports](../../user-guide/work-packages/exporting/work-package-pdf/):** Project lifecycle information and **project budgets** can now optionally be included in the PDF. Budgets are presented as a cost breakdown, including unit and labor costs and their subtotals. This provides a more complete view of project planning, progress, and costs in a single artefact.
 
-  ![Project lifecycle and budget information in a PMflex artifact PDF export](openproject_release_notes_17.9_pmflex_pdf_export.png)
+  ![Project lifecycle and budget information in a PMflex artefact PDF export](openproject_release_notes_17.9_pmflex_pdf_export.png)
 
-- **[Default PDF export settings per work package type](../../system-admin-guide/manage-work-packages/work-package-types/pdf-export/):** Administrators can now define default settings for **Attributes, Contract, and PMflex artifact exports** for each work package type. Depending on the template, defaults can include options such as footer text, page orientation, table of contents, and hyphenation. These defaults are automatically applied when starting an export, reducing repetitive configuration and helping teams create more consistent PDFs.
+- **[Default PDF export settings per work package type](../../system-admin-guide/manage-work-packages/work-package-types/pdf-export/):** Administrators can now define default settings for **Attributes, Contract, and PMflex artefact exports** for each work package type. Depending on the template, defaults can include options such as footer text, page orientation, table of contents, and hyphenation. These defaults are automatically applied when starting an export, reducing repetitive configuration and helping teams create more consistent PDFs.
 
 ![Default PDF export settings for a work package type](openproject_release_notes_17.9_pdf_export_defaults.png)
 
@@ -242,7 +242,7 @@ For more information, please see the [GitHub advisory #GHSA-r374-cr8p-hmp9](http
 - Feature: Give users the choice to not include descendants when deleting work packages \[[#77999](https://community.openproject.org/wp/77999)\]
 - Feature: Global default settings for PDF exports by type \[[#78333](https://community.openproject.org/wp/78333)\]
 - Feature:     Allow planned labor to be entered in hours, days, weeks, or months \[[#78544](https://community.openproject.org/wp/78544)\]
-- Feature: PMflex Artifact PDF: Include project phases and budgets \[[#78561](https://community.openproject.org/wp/78561)\]
+- Feature: PMflex Artefact PDF: Include project phases and budgets \[[#78561](https://community.openproject.org/wp/78561)\]
 - Feature: Allow differing time stamps between SAML IdP and SP (OpenProject) within margin (allowed\_clock\_drift) \[[#79019](https://community.openproject.org/wp/79019)\]
 - Feature: Allow restricting password login for SSO authenticated users \[[#79300](https://community.openproject.org/wp/79300)\]
 - Feature: For number custom fields, replace min and max length with minimum and maximum values \[[#79759](https://community.openproject.org/wp/79759)\]
