@@ -139,6 +139,8 @@ en:
         description: "The test cases of this requirement will no longer be shown on this work package."
         heading: "Unlink the SquashTM requirement %{name}?"
         title: "Unlink SquashTM requirement"
+      lazy_frame_component:
+        loading: "Loading from SquashTM…"
       linked_requirement_component:
         no_test_cases:
           description: "No test case in SquashTM verifies this requirement yet."
@@ -147,8 +149,6 @@ en:
         requirement_missing: "The linked SquashTM requirement is no longer visible in SquashTM. It may have been deleted, or the SquashTM account used by OpenProject may have lost access to it."
         test_cases: "Test cases"
         unavailable: "The test cases could not be loaded because the SquashTM server is not reachable. Please try again later."
-      lazy_frame_component:
-        loading: "Loading from SquashTM…"
       no_server_component:
         admin_description: "No SquashTM server is configured for this OpenProject instance. Configure one in the administration to show SquashTM test results here."
         configure: "Configure SquashTM"
@@ -166,11 +166,11 @@ en:
         manager_description: "Link this project to a SquashTM project to link its requirements to work packages."
       requirement_component:
         unlink: "Unlink"
-      requirement_link_form_component:
-        requirements_unavailable: "The SquashTM requirements could not be loaded because the SquashTM server is not reachable. Please try again later."
       requirement_link_form:
         prompt: "Select a SquashTM requirement"
         submit: "Link requirement"
+      requirement_link_form_component:
+        requirements_unavailable: "The SquashTM requirements could not be loaded because the SquashTM server is not reachable. Please try again later."
       test_case_component:
         last_execution: "Last executed by %{user} on %{date_time}"
         not_executed: "Not executed yet"
