@@ -56,6 +56,7 @@ module McpTools
     output_filter McpOutputFilters::RemoveLinks.new(%w[self validate previewMarkup commit configureForm])
     output_filter McpOutputFilters::RemoveEmbeddedAllowedValues.new
     output_filter McpOutputFilters::RemoveReadOnlySchemaProperties.new
+    output_filter McpOutputFilters::RemoveDeprecatedSchemaProperties.new
     output_filter McpOutputFilters::RemoveInactiveWorkPackageFormFields.new
     output_filter McpOutputFilters::RemoveKeys.new(%w[_attributeGroups _dependencies validationErrors])
 

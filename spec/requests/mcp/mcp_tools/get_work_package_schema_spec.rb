@@ -183,7 +183,8 @@ RSpec.describe McpTools::GetWorkPackageSchema do
       it "omits fields that are not placed in the form" do
         mcp_request
 
-        expect(schema.keys).not_to include("labels", "category", "assignee", "responsible", "startDate", "dueDate")
+        expect(schema.keys).not_to include("labels", "category", "assignee", "responsible", "startDate", "dueDate",
+                                           "duration", "scheduleManually", "ignoreNonWorkingDays")
       end
 
       it "keeps the fields placed in the form and those edited together with them" do
@@ -203,11 +204,36 @@ RSpec.describe McpTools::GetWorkPackageSchema do
     context "when the form configuration of the type contains the date" do
       let(:type) { create(:type, attribute_groups: [["Details", ["date"]]]) }
 
-      it "keeps start and finish date but not the progress fields" do
+      it "keeps the scheduling fields but not the progress fields" do
         mcp_request
 
-        expect(schema.keys).to include("startDate", "dueDate")
+        expect(schema.keys).to include("startDate", "dueDate", "duration", "scheduleManually", "ignoreNonWorkingDays")
         expect(schema.keys).not_to include("estimatedTime", "remainingTime", "percentageDone")
+      end
+    end
+
+    context "when multiple versions are disabled", with_settings: { work_package_multiple_versions: false } do
+      let(:role) { create(:project_role, permissions: %i[view_work_packages add_work_packages assign_versions]) }
+
+      context "and the form configuration of the type does not contain the target versions" do
+        let(:type) { create(:type, attribute_groups: [["Details", ["priority"]]]) }
+
+        it "offers no version field" do
+          mcp_request
+
+          expect(schema.keys).not_to include("version", "targetVersions")
+        end
+      end
+
+      context "and the form configuration of the type contains the target versions" do
+        let(:type) { create(:type, attribute_groups: [["Details", ["target_versions"]]]) }
+
+        it "offers the target versions but not the deprecated version field" do
+          mcp_request
+
+          expect(schema.keys).to include("targetVersions")
+          expect(schema.keys).not_to include("version")
+        end
       end
     end
 

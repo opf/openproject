@@ -32,7 +32,7 @@ module McpOutputFilters
     # The date picker and the progress dialog edit these fields together, so placing
     # one of them in the form configuration makes all of them editable.
     FIELDS_EDITED_TOGETHER = [
-      %w[date startDate dueDate],
+      %w[date startDate dueDate duration scheduleManually ignoreNonWorkingDays],
       %w[estimatedTime remainingTime percentageDone]
     ].freeze
 
@@ -42,9 +42,13 @@ module McpOutputFilters
       attribute_groups = hash["_attributeGroups"]
       return true unless attribute_groups.is_a?(Array)
 
-      hash.except!(*(configurable_fields - fields_in_form(attribute_groups)))
+      hash.except!(*(removable_fields - fields_in_form(attribute_groups)))
 
       false
+    end
+
+    def removable_fields
+      configurable_fields | FIELDS_EDITED_TOGETHER.flatten
     end
 
     def fields_in_form(attribute_groups)
