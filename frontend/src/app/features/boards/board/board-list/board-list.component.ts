@@ -205,6 +205,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   private queryPending = false;
 
+  /** Revisions the cards already reflect, including this list's own acknowledged order writes */
+  private readonly knownRevisions = new Set<string>();
+
   public columnsQueryProps:HTTPClientParamMap;
 
   public get text() {
@@ -332,6 +335,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       .subscribe(async (query) => {
         this.query = query;
+        this.rememberRevision(query);
         this.canDragOutOf = !!this.query.updateOrderedWorkPackages;
         await this.loadActionAttribute(query);
         this.cdRef.detectChanges();
@@ -421,10 +425,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public refreshQueryIfOutdated(query:QueryResource, visibly = true) {
+    this.rememberRevision(this.query);
     // A pending response can still contain cards from before the acknowledged move.
-    if (this.queryPending || !query.updatedAt || this.query?.updatedAt !== query.updatedAt) {
+    if (this.queryPending || !query.updatedAt || !this.knownRevisions.has(query.updatedAt)) {
       debugLog(`Refreshing ${query.name} visibly due to external changes`);
       this.updateQuery(visibly);
+    }
+  }
+
+  private rememberRevision(query:QueryResource|undefined) {
+    if (query?.updatedAt) {
+      this.knownRevisions.add(query.updatedAt);
     }
   }
 
@@ -531,6 +542,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
           }
 
           this.queryPending = false;
+          this.knownRevisions.clear();
           this.wpStatesInitialization.updateQuerySpace(query, query.results);
         },
         (error) => {

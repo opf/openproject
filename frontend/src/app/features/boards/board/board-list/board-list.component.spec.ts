@@ -109,6 +109,7 @@ describe('board list reconciliation after work package saves', () => {
 
   async function list(action:string, listValue = from) {
     const events = new Subject<HalEvent>();
+    const queries = new Subject<QueryResource>();
     const filters:ApiV3Filter[] = [];
     const results = { count: 2, total: 2, pageSize: 500 };
     const cards = [{ id: 'card', ancestorIds: [] as string[] }];
@@ -117,7 +118,7 @@ describe('board list reconciliation after work package saves', () => {
       BoardStatusActionService,
       BoardSubprojectActionService,
       { provide: HalEventsService, useValue: { events$: events } },
-      { provide: IsolatedQuerySpace, useValue: { results: { value: results }, query: { values$: () => NEVER } } },
+      { provide: IsolatedQuerySpace, useValue: { results: { value: results }, query: { values$: () => queries } } },
       { provide: WorkPackageStatesInitializationService, useValue: { updateQuerySpace: vi.fn() } },
       { provide: WorkPackageCardDragAndDropService, useValue: { workPackages: cards } },
       { provide: BoardFiltersService, useValue: { filters: { values$: () => NEVER }, current: filters } },
@@ -133,8 +134,8 @@ describe('board list reconciliation after work package saves', () => {
       } },
       { provide: I18nService, useValue: { t: (key:string) => key } },
       { provide: BoardActionsRegistryService, useValue: registry },
+      { provide: ChangeDetectorRef, useValue: { detectChanges: vi.fn() } },
       ...[
-        ChangeDetectorRef,
         ToastService,
         HalResourceNotificationService,
         WorkPackageViewFocusService,
@@ -169,7 +170,7 @@ describe('board list reconciliation after work package saves', () => {
         } as unknown as ResourceChangesetCommit,
       });
     }
-    return { move, reload, results, cards, filters, component, actionService };
+    return { move, reload, results, cards, filters, component, actionService, queries };
   }
 
   it('skips an ordinary source reload but backfills a truncated source', async () => {
@@ -181,14 +182,63 @@ describe('board list reconciliation after work package saves', () => {
     expect(reload).toHaveBeenCalledOnce();
   });
 
-  it('reloads only when the poll differs from the revision represented by the cards', async () => {
+  it('reloads only when the poll revision is not reflected by the cards', async () => {
     const { component, reload } = await list('status');
-    component.query = { updatedAt: 'known' } as QueryResource;
-    component.refreshQueryIfOutdated({ updatedAt: 'known' } as QueryResource, false);
+    component.query = { updatedAt: '2026-11-06T10:00:00.000Z' } as QueryResource;
+    component.refreshQueryIfOutdated({ updatedAt: '2026-11-06T10:00:00.000Z' } as QueryResource, false);
     expect(reload).not.toHaveBeenCalled();
 
-    component.refreshQueryIfOutdated({ updatedAt: 'newer' } as QueryResource, false);
+    component.refreshQueryIfOutdated({ updatedAt: '2026-11-06T10:00:01.000Z' } as QueryResource, false);
     expect(reload).toHaveBeenCalledExactlyOnceWith(false);
+  });
+
+  it('ignores a delayed poll from between two acknowledged local writes', async () => {
+    const { component, reload, queries } = await list('status');
+    queries.next({ updatedAt: '2026-11-06T10:00:01.000Z', filters: [] } as unknown as QueryResource);
+
+    component.query.updatedAt = '2026-11-06T10:00:02.000Z';
+    component.refreshQueryIfOutdated({ updatedAt: '2026-11-06T10:00:01.000Z' } as QueryResource, false);
+
+    expect(reload).not.toHaveBeenCalled();
+  });
+
+  it('reloads for an external revision timestamped before the local write', async () => {
+    const { component, reload } = await list('status');
+    component.query = { updatedAt: '2026-11-06T10:00:02.000Z' } as QueryResource;
+
+    component.refreshQueryIfOutdated({ updatedAt: '2026-11-06T10:00:01.000Z' } as QueryResource, false);
+
+    expect(reload).toHaveBeenCalledExactlyOnceWith(false);
+  });
+
+  it('reloads when a stale response replaces cards after a local write was acknowledged', async () => {
+    const { component, reload, queries } = await list('status');
+    const pending = new Subject<QueryResource>();
+    vi.spyOn(component.apiv3Service.queries, 'find').mockReturnValueOnce(pending);
+    vi.spyOn(component.wpStatesInitialization, 'updateQuerySpace').mockImplementation((query) => queries.next(query));
+    queries.next({ updatedAt: '2026-11-06T10:00:01.000Z', filters: [] } as unknown as QueryResource);
+    reload.mockRestore();
+    component.updateQuery(false);
+    const refresh = vi.spyOn(component, 'updateQuery').mockImplementation(() => {});
+
+    component.query.updatedAt = '2026-11-06T10:00:02.000Z';
+    queries.next(component.query);
+    pending.next({ updatedAt: '2026-11-06T10:00:01.000Z', filters: [], results: { elements: [] } } as unknown as QueryResource);
+    component.refreshQueryIfOutdated({ updatedAt: '2026-11-06T10:00:02.000Z' } as QueryResource, false);
+
+    expect(refresh).toHaveBeenCalledExactlyOnceWith(false);
+  });
+
+  it('refreshes a pending list even when the poll revision is known', async () => {
+    const { component, reload } = await list('status');
+    component.query = { updatedAt: '2026-11-06T10:00:02.000Z' } as QueryResource;
+    reload.mockRestore();
+    component.updateQuery(false);
+    const refresh = vi.spyOn(component, 'updateQuery').mockImplementation(() => {});
+
+    component.refreshQueryIfOutdated({ updatedAt: '2026-11-06T10:00:02.000Z' } as QueryResource, false);
+
+    expect(refresh).toHaveBeenCalledExactlyOnceWith(false);
   });
 
   it('keeps a moved card out of the source when a pre-drag response arrives after the poll', async () => {
