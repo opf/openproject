@@ -338,10 +338,130 @@ RSpec.describe Import::JiraClient do
         .to raise_error(Import::JiraClient::UnsupportedEndpointError, /customFields\/10264\/options/)
     end
 
+    it "raises ApiError when access is forbidden" do
+      stub_request(:get, options_url).with(query: hash_including({})).to_return(status: 403)
+
+      expect { client.custom_field_options(10264) }.to raise_error(Import::JiraClient::ApiError)
+    end
+
     it "raises ApiError for any other error status" do
       stub_request(:get, options_url).with(query: hash_including({})).to_return(status: 500)
 
       expect { client.custom_field_options(10264) }.to raise_error(Import::JiraClient::ApiError)
+    end
+  end
+
+  describe "#boards", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:boards_url) { "#{url}/rest/agile/1.0/board" }
+    let(:body) do
+      {
+        "maxResults" => 50, "startAt" => 0, "isLast" => true,
+        "values" => [{ "id" => 3, "name" => "OP board", "type" => "scrum",
+                       "location" => { "projectId" => 10000, "projectKey" => "OP" } }]
+      }
+    end
+
+    it "returns a page of the boards of the given project" do
+      stub_request(:get, boards_url)
+        .with(query: { "projectKeyOrId" => "OP", "startAt" => "50", "maxResults" => "25" })
+        .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
+
+      expect(client.boards(project_id_or_key: "OP", start_at: 50, max_results: 25)).to eq(body)
+    end
+
+    it "raises UnsupportedEndpointError when Jira has no Agile API" do
+      stub_request(:get, boards_url).with(query: hash_including({})).to_return(status: 404)
+
+      expect { client.boards(project_id_or_key: "OP") }
+        .to raise_error(Import::JiraClient::UnsupportedEndpointError, %r{rest/agile/1\.0/board})
+    end
+
+    it "raises UnsupportedEndpointError when the Jira Software license is missing or expired" do
+      body = { "errorMessages" => ["You currently don't have access to perform this operation."] }
+      stub_request(:get, boards_url).with(query: hash_including({})).to_return(status: 403, body: body.to_json)
+
+      expect { client.boards(project_id_or_key: "OP") }
+        .to raise_error(Import::JiraClient::UnsupportedEndpointError, /status 403/)
+    end
+
+    it "raises ApiError for any other error status" do
+      stub_request(:get, boards_url).with(query: hash_including({})).to_return(status: 500)
+
+      expect { client.boards(project_id_or_key: "OP") }.to raise_error(Import::JiraClient::ApiError)
+    end
+  end
+
+  describe "#board_sprints", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:sprints_url) { "#{url}/rest/agile/1.0/board/3/sprint" }
+    let(:body) do
+      {
+        "maxResults" => 50, "startAt" => 0, "isLast" => true,
+        "values" => [{ "id" => 5, "name" => "Sprint 1", "state" => "active", "originBoardId" => 3 }]
+      }
+    end
+
+    it "returns a page of the sprints of the given board in every state" do
+      stub_request(:get, sprints_url)
+        .with(query: { "state" => "future,active,closed", "startAt" => "0", "maxResults" => "50" })
+        .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
+
+      expect(client.board_sprints(board_id: 3)).to eq(body)
+    end
+
+    it "raises BoardWithoutSprintsError for a Kanban board" do
+      stub_request(:get, sprints_url).with(query: hash_including({}))
+        .to_return(status: 400, body: { "errorMessages" => ["The board does not support sprints"] }.to_json)
+
+      expect { client.board_sprints(board_id: 3) }
+        .to raise_error(Import::JiraClient::BoardWithoutSprintsError, /board 3/)
+    end
+
+    it "raises UnsupportedEndpointError when Jira has no Agile API" do
+      stub_request(:get, sprints_url).with(query: hash_including({})).to_return(status: 404)
+
+      expect { client.board_sprints(board_id: 3) }.to raise_error(Import::JiraClient::UnsupportedEndpointError)
+    end
+
+    it "raises UnsupportedEndpointError when the Jira Software license is missing or expired" do
+      stub_request(:get, sprints_url).with(query: hash_including({})).to_return(status: 403)
+
+      expect { client.board_sprints(board_id: 3) }.to raise_error(Import::JiraClient::UnsupportedEndpointError)
+    end
+
+    it "raises ApiError for any other error status" do
+      stub_request(:get, sprints_url).with(query: hash_including({})).to_return(status: 500)
+
+      expect { client.board_sprints(board_id: 3) }.to raise_error(Import::JiraClient::ApiError)
+    end
+  end
+
+  describe "#sprint", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:sprint_url) { "#{url}/rest/agile/1.0/sprint/5" }
+    let(:body) { { "id" => 5, "name" => "Sprint 1", "state" => "closed", "goal" => "Ship it" } }
+
+    it "returns the given sprint" do
+      stub_request(:get, sprint_url)
+        .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
+
+      expect(client.sprint(5)).to eq(body)
+    end
+
+    it "raises UnsupportedEndpointError when Jira has no Agile API" do
+      stub_request(:get, sprint_url).to_return(status: 404)
+
+      expect { client.sprint(5) }.to raise_error(Import::JiraClient::UnsupportedEndpointError)
+    end
+
+    it "raises UnsupportedEndpointError when the Jira Software license is missing or expired" do
+      stub_request(:get, sprint_url).to_return(status: 403)
+
+      expect { client.sprint(5) }.to raise_error(Import::JiraClient::UnsupportedEndpointError)
     end
   end
 

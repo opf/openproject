@@ -88,6 +88,9 @@ module Import
     # can fall back to another route instead of failing the import.
     class UnsupportedEndpointError < Error; end
 
+    # Kanban boards have no sprints, and Jira answers their sprint listing with 400.
+    class BoardWithoutSprintsError < Error; end
+
     CONNECTION_ERRORS = [SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH,
                          OpenSSL::SSL::SSLError, Timeout::Error].freeze
 
@@ -97,6 +100,8 @@ module Import
     }.freeze
 
     UNSUPPORTED_ENDPOINT_STATUSES = [404, 405].freeze
+    # Jira answers every Agile route with 403 when the Jira Software license is missing or expired.
+    AGILE_UNSUPPORTED_ENDPOINT_STATUSES = [403, 404, 405].freeze
 
     CUSTOM_FIELD_OPTIONS_PAGE_SIZE = 10_000
     CUSTOM_FIELD_OPTIONS_PAGE_LIMIT = 100
@@ -328,6 +333,30 @@ module Import
         })
     end
 
+    def boards(project_id_or_key:, start_at: 0, max_results: 50)
+      get_supported("/rest/agile/1.0/board",
+                    params: {
+                      projectKeyOrId: project_id_or_key,
+                      startAt: start_at,
+                      maxResults: max_results
+                    },
+                    unsupported_statuses: AGILE_UNSUPPORTED_ENDPOINT_STATUSES)
+    end
+
+    def board_sprints(board_id:, state: "future,active,closed", start_at: 0, max_results: 50)
+      path = "/rest/agile/1.0/board/#{board_id}/sprint"
+      response = get_response(path, params: { state:, startAt: start_at, maxResults: max_results })
+      if response.code.to_i == 400
+        raise BoardWithoutSprintsError, I18n.t("admin.jira.client.board_without_sprints", board_id:)
+      end
+
+      handle_supported_response(path, response, AGILE_UNSUPPORTED_ENDPOINT_STATUSES)
+    end
+
+    def sprint(sprint_id)
+      get_supported("/rest/agile/1.0/sprint/#{sprint_id}", unsupported_statuses: AGILE_UNSUPPORTED_ENDPOINT_STATUSES)
+    end
+
     ##
     # Downloads a file from the given URL and saves it to a temporary file.
     #
@@ -392,14 +421,8 @@ module Import
     end
 
     def custom_field_options_request(custom_field_id, project_ids:, issue_type_ids:, max_results: nil, page: nil)
-      path = "/rest/api/2/customFields/#{custom_field_id}/options"
-      response = get_response(path, params: custom_field_options_params(project_ids:, issue_type_ids:, max_results:, page:))
-      status = response.code.to_i
-      if UNSUPPORTED_ENDPOINT_STATUSES.include?(status)
-        raise UnsupportedEndpointError, I18n.t("admin.jira.client.unsupported_endpoint", path:, status:)
-      end
-
-      handle_response(response)
+      get_supported("/rest/api/2/customFields/#{custom_field_id}/options",
+                    params: custom_field_options_params(project_ids:, issue_type_ids:, max_results:, page:))
     end
 
     def custom_field_options_params(project_ids:, issue_type_ids:, max_results:, page:)
@@ -422,6 +445,19 @@ module Import
 
     def get(path, params: {})
       response = get_response(path, params:)
+      handle_response(response)
+    end
+
+    def get_supported(path, params: {}, unsupported_statuses: UNSUPPORTED_ENDPOINT_STATUSES)
+      handle_supported_response(path, get_response(path, params:), unsupported_statuses)
+    end
+
+    def handle_supported_response(path, response, unsupported_statuses = UNSUPPORTED_ENDPOINT_STATUSES)
+      status = response.code.to_i
+      if unsupported_statuses.include?(status)
+        raise UnsupportedEndpointError, I18n.t("admin.jira.client.unsupported_endpoint", path:, status:)
+      end
+
       handle_response(response)
     end
 
