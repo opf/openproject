@@ -111,8 +111,8 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
             ] }.to_json)))
         end
 
-        it "re-renders the projects table" do
-          expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
+        it "reloads the projects listing" do
+          expect(response.body).to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
         end
       end
 

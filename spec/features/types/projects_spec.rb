@@ -65,6 +65,20 @@ RSpec.describe "Work package type projects tab", :js do
     within("[data-controller='quick-filter--select-panel']") { click_link_or_button I18n.t(:button_apply) }
   end
 
+  def row(project) = find_test_selector("type-projects-row-#{project.id}")
+
+  def toggle(project)
+    row(project).click(BrowserPlatform.multi_select_modifier(page), x: 6, y: 6, offset: :position)
+  end
+
+  def open_menu_of(project)
+    row(project).right_click(x: 6, y: 6, offset: :position)
+  end
+
+  def choose_menu_item(label)
+    find("[role='menuitem']", text: label, visible: :visible).click
+  end
+
   def expect_listed(*projects)
     within "#project-table" do
       projects.each { |project| expect(page).to have_text(project.name) }
@@ -315,20 +329,6 @@ RSpec.describe "Work package type projects tab", :js do
   end
 
   describe "acting on several projects at once" do
-    def row(project) = find_test_selector("type-projects-row-#{project.id}")
-
-    def toggle(project)
-      row(project).click(BrowserPlatform.multi_select_modifier(page), x: 6, y: 6, offset: :position)
-    end
-
-    def open_menu_of(project)
-      row(project).right_click(x: 6, y: 6, offset: :position)
-    end
-
-    def choose_menu_item(label)
-      find("[role='menuitem']", text: label, visible: :visible).click
-    end
-
     it "acts on the selection from a selected row's kebab, and on the row alone once it left the selection" do
       visit edit_type_projects_path(type_id: type.id)
 
@@ -392,6 +392,31 @@ RSpec.describe "Work package type projects tab", :js do
         expect(page).to have_no_css("[data-batch-selected]")
       end
       expect(page).to have_css(".op-primer-flash--item", text: "Bookshop")
+    end
+  end
+
+  describe "the listing after a change", with_settings: { per_page_options: "1, 100" } do
+    shared_let(:mill) { create(:project, name: "Mill", types: [hardware]) }
+
+    it "keeps its filter and page once a project on that page has been removed" do
+      visit edit_type_projects_path(type_id: type.id, per_page: 1, page: 2,
+                                    filters: %(type_variant_id = "#{hardware.id}"))
+      expect_listed(on_hardware)
+
+      open_menu_of(on_hardware)
+      choose_menu_item("Remove type from this project")
+      wait_for_size_animation_completion("#type-projects-bulk-remove-dialog")
+      within "#type-projects-bulk-remove-dialog" do
+        check "I understand that this type will no longer be available in this project"
+        click_button "Remove"
+      end
+
+      within "#project-table" do
+        expect(page).to have_text("Mill")
+        expect(page).to have_no_text("Foundry")
+        expect(page).to have_no_text("Bookshop")
+      end
+      expect(page).to have_current_path(/page=2/)
     end
   end
 end

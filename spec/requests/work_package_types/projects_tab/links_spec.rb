@@ -326,10 +326,10 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
         expect(response.body).to include("dialog").and include("closeDialog")
       end
 
-      it "repaints the project list anyway" do
+      it "reloads the project list anyway" do
         subject
 
-        expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
+        expect(response.body).to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
       end
 
       it "reports the refusal" do
@@ -356,11 +356,11 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
       expect(uses_type?(foundry)).to be(false)
     end
 
-    it "closes the confirmation and repaints the project list" do
+    it "closes the confirmation and reloads the project list" do
       subject
 
       expect(response.body).to include("closeDialog").and include("type-projects-bulk-remove-dialog")
-      expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
+      expect(response.body).to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
     end
 
     context "when one project still has work packages of the type" do

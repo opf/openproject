@@ -31,6 +31,12 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
 <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: @variant, aspect: :projects)) %>
-<%= render(sub_header_component) %>
+<%= render(
+      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+        reload_url: edit_variant_projects_path(@variant), reload_from_location: true, target: "_top"
+      )
+    ) do %>
+  <%= render(sub_header_component) %>
 
-<%= render(projects_table_component) %>
+  <%= render(projects_table_component) %>
+<% end %>
