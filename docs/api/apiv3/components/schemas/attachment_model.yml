@@ -94,7 +94,8 @@ properties:
         allOf:
         - $ref: "./link.yml"
         - description: |-
-            Direct download link to the attachment
+            Download link to the attachment through OpenProject's content endpoint, which checks
+            download access before serving the file or redirecting to external storage.
 
             **Resource**: -
 example:
@@ -109,7 +110,7 @@ example:
     staticDownloadLocation:
       href: "/api/v3/attachments/1/content"
     downloadLocation:
-      href: "/some/remote/aws/url/image.png"
+      href: "/api/v3/attachments/1/content"
   id: 1
   fileName: cat.png
   filesize: 24
