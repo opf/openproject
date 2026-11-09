@@ -155,6 +155,21 @@ describe('OpActionMenuComponent', () => {
     expect(unchecked).toHaveAttribute('aria-checked', 'false');
   });
 
+  it('leaves out a submenu whose items are all hidden, with its divider', async () => {
+    fixture.componentRef.setInput('items', [
+      { linkText: 'First', onClick: () => true },
+      { divider: true },
+      {
+        linkText: 'Move',
+        children: [{ linkText: 'Hidden', hidden: true, onClick: () => true }],
+      },
+    ]);
+    await fixture.whenStable();
+
+    expect(within(menu()).queryByRole('menuitem', { name: 'Move', hidden: true })).toBeNull();
+    expect([...menu().children].map((child) => child.getAttribute('role'))).toEqual(['none']);
+  });
+
   it('collapses dividers at the edges and around hidden items', async () => {
     fixture.componentRef.setInput('items', [
       { divider: true },
