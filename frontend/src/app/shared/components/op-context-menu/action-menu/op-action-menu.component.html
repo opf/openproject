@@ -41,10 +41,6 @@
         @for (item of items; track item.key) {
           @if (item.divider) {
             <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
-          } @else if (item.isHeader) {
-            <li class="ActionList-sectionDivider" role="presentation">
-              <h3 class="ActionList-sectionDivider-title">{{ item.linkText }}</h3>
-            </li>
           } @else if (item.children) {
             <li role="none" class="ActionListItem" [class]="item.class" [class.ActionListItem--disabled]="item.disabled">
               <button type="button"
