@@ -78,8 +78,8 @@ module Backlogs
           points.map { { x: it.at.utc.iso8601(3), y: it.value.round(3) } }
         end
 
-        # Could also use the timespan covered by the data, but this way is simpler.
-        # The goal is for all time-based charts to cover the same timespan.
+        # Not the span the data covers: the guideline reaches the planned finish while the
+        # measured series stop at the present moment.
         def charted_range
           { from: burndown.charted_range.first.utc.iso8601(3),
             to: burndown.charted_range.last.utc.iso8601(3) }
