@@ -33,7 +33,7 @@ RSpec.describe "SquashTM project settings", :js do
   let(:user) do
     create(:user, member_with_permissions: { project => permissions }, preferences: { warn_on_leaving_unsaved: false })
   end
-  let(:client) { instance_double(SquashTMIntegration::Client) }
+  let(:client) { SquashTMIntegration::Client.new(base_url: "https://squashtm.example.com/squash", api_token: "token") }
   let(:squashtm_projects) { [{ "id" => 2, "name" => "Webshop" }, { "id" => 1, "name" => "Integration Sandbox" }] }
 
   before do

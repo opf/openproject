@@ -46,7 +46,7 @@ RSpec.describe SquashTMIntegration::ProjectSettings::LinkedProjectComponent, typ
     end
 
     it "links to the stored SquashTM project, not the unsaved one" do
-      expect(rendered).to have_link("Sandbox", href: server.project_url(7))
+      expect(rendered).to have_link("Sandbox", href: SquashTMIntegration::Client.for(server).project_url(7))
       expect(rendered).to have_no_text("Rejected")
     end
 
@@ -64,7 +64,7 @@ RSpec.describe SquashTMIntegration::ProjectSettings::LinkedProjectComponent, typ
     let(:project_link) { build(:squashtm_project_link, project:, squashtm_project_id: 7, squashtm_project_name: "Sandbox") }
 
     it "shows the name of the SquashTM project" do
-      expect(rendered).to have_link("Sandbox", href: server.project_url(7))
+      expect(rendered).to have_link("Sandbox", href: SquashTMIntegration::Client.for(server).project_url(7))
     end
   end
 end

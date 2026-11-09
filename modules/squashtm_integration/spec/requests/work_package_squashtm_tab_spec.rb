@@ -37,7 +37,7 @@ RSpec.describe "Work package SquashTM tab",
 
   let(:permissions) { %i[view_work_packages view_squashtm] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
-  let(:client) { instance_double(SquashTMIntegration::Client) }
+  let(:client) { SquashTMIntegration::Client.new(base_url: "https://squashtm.example.com/squash", api_token: "token") }
   let(:requirement) do
     {
       "id" => 11,

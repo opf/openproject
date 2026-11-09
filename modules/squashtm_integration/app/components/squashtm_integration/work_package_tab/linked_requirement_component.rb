@@ -34,7 +34,6 @@ module SquashTMIntegration
 
       TURBO_FRAME_ID = "work-package-squashtm-requirement-content"
 
-      delegate :server, to: :model
       delegate :requirement, :error, to: :linked_requirement
 
       def initialize(view_model, linked_requirement:)

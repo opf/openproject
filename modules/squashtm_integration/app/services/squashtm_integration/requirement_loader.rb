@@ -31,7 +31,8 @@ module SquashTMIntegration
   class RequirementLoader
     LinkedRequirement = Data.define(:requirement, :error)
     Requirement = Data.define(:id, :name, :reference, :status, :test_cases)
-    TestCase = Data.define(:id, :name, :reference, :description, :execution_status, :last_executed_on, :last_executed_by) do
+    TestCase = Data.define(:id, :name, :reference, :description, :execution_status, :last_executed_on, :last_executed_by,
+                           :url) do
       def executed? = !last_executed_on.nil?
     end
 
@@ -85,7 +86,8 @@ module SquashTMIntegration
         description: test_case["description"].presence,
         execution_status: latest&.fetch("execution_status", nil),
         last_executed_on: latest && Time.zone.parse(latest["last_executed_on"]),
-        last_executed_by: latest&.fetch("last_executed_by", nil)
+        last_executed_by: latest&.fetch("last_executed_by", nil),
+        url: client.test_case_url(test_case_id)
       )
     end
 

@@ -97,9 +97,25 @@ module SquashTMIntegration
       collection("test-cases/#{Integer(test_case_id)}/executions", "executions")
     end
 
+    def project_url(project_id)
+      web_url("administration-workspace/projects/#{Integer(project_id)}/content", anchor: "information")
+    end
+
+    def test_case_url(test_case_id)
+      web_url("test-case-workspace/test-case/#{Integer(test_case_id)}/content", anchor: "information")
+    end
+
+    def requirement_url(requirement_id)
+      web_url("requirement-workspace/requirement-library/#{Integer(requirement_id)}/content", anchor: "dashboard")
+    end
+
     private
 
     attr_reader :base_url, :api_token
+
+    def web_url(path, anchor:)
+      "#{base_url}/#{path}?#{{ anchor: }.to_query}"
+    end
 
     def collection(path, embedded_key, **query)
       (0..).each_with_object([]) do |page, collected|

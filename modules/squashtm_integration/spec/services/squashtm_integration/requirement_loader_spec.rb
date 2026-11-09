@@ -34,6 +34,8 @@ RSpec.describe SquashTMIntegration::RequirementLoader do
 
   subject(:loader) { described_class.new(client) }
 
+  before { allow(client).to receive(:test_case_url) { "https://squashtm.example.com/test-case/#{it}" } }
+
   describe "#load_linked_requirement" do
     let(:requirement) do
       {
@@ -73,6 +75,10 @@ RSpec.describe SquashTMIntegration::RequirementLoader do
       it "returns the requirement with its verifying test cases" do
         expect(requirement_result).to have_attributes(id: 11, name: "Users can sign in", reference: "REQ-001", status: "APPROVED")
         expect(requirement_result.test_cases.map(&:id)).to eq([21, 22])
+      end
+
+      it "links each test case to SquashTM" do
+        expect(requirement_result.test_cases.first.url).to eq("https://squashtm.example.com/test-case/21")
       end
 
       it "includes the reference and description of each test case" do

@@ -35,14 +35,7 @@ module SquashTMIntegration
 
       alias_method :test_case, :model
 
-      def initialize(test_case, server:)
-        super(test_case)
-        @server = server
-      end
-
-      def url
-        @server.test_case_url(test_case.id)
-      end
+      delegate :url, to: :test_case
 
       def description
         helpers.sanitize(test_case.description)

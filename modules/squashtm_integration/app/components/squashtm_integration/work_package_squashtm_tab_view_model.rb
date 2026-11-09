@@ -53,6 +53,10 @@ module SquashTMIntegration
       @server = Server.first
     end
 
+    def client
+      @client ||= Client.for(server)
+    end
+
     def project_link
       return @project_link if defined?(@project_link)
 

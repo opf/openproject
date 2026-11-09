@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
 
             requirement.test_cases.each do |test_case|
               list.with_item do
-                render(SquashTMIntegration::WorkPackageTab::TestCaseComponent.new(test_case, server:))
+                render(SquashTMIntegration::WorkPackageTab::TestCaseComponent.new(test_case))
               end
             end
           end

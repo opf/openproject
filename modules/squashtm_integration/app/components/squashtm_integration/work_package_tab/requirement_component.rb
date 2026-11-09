@@ -39,7 +39,7 @@ module SquashTMIntegration
         "OBSOLETE" => :secondary
       }.freeze
 
-      delegate :server, :work_package_link, :work_package, :project, :can_manage_links?, to: :model
+      delegate :client, :work_package_link, :work_package, :project, :can_manage_links?, to: :model
 
       attr_reader :requirement
 
@@ -57,7 +57,7 @@ module SquashTMIntegration
       end
 
       def url
-        server.requirement_url(requirement_id)
+        client.requirement_url(requirement_id)
       end
 
       def status_scheme

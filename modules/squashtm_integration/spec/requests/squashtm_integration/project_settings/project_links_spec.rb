@@ -37,7 +37,7 @@ RSpec.describe "SquashTM project settings",
   let(:permissions) { %i[manage_squashtm_integration] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:settings_path) { "/projects/#{project.identifier}/settings/squashtm" }
-  let(:client) { instance_double(SquashTMIntegration::Client) }
+  let(:client) { SquashTMIntegration::Client.new(base_url: "https://squashtm.example.com/squash", api_token: "token") }
   let(:squashtm_projects) { [{ "id" => 1, "name" => "Integration Sandbox" }, { "id" => 2, "name" => "Another project" }] }
 
   before do

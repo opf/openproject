@@ -40,7 +40,7 @@ RSpec.describe SquashTMIntegration::WorkPackageTab::LinkedRequirementComponent, 
   let(:error) { nil }
   let(:view_model) do
     instance_double(SquashTMIntegration::WorkPackageSquashTMTabViewModel,
-                    work_package:, project:, work_package_link:, server: build_stubbed(:squashtm_server),
+                    work_package:, project:, work_package_link:, client: SquashTMIntegration::Client.for(build_stubbed(:squashtm_server)),
                     can_manage_links?: can_manage_links)
   end
   let(:linked_requirement) do
@@ -50,11 +50,13 @@ RSpec.describe SquashTMIntegration::WorkPackageTab::LinkedRequirementComponent, 
     [
       SquashTMIntegration::RequirementLoader::TestCase.new(
         id: 21, name: "Valid login", reference: "TC-001", description: nil, execution_status: "SUCCESS",
-        last_executed_on: Time.zone.parse("2026-10-24 10:00"), last_executed_by: "bob"
+        last_executed_on: Time.zone.parse("2026-10-24 10:00"), last_executed_by: "bob",
+        url: "https://squashtm.example.com/squash/test-case-workspace/test-case/21/content"
       ),
       SquashTMIntegration::RequirementLoader::TestCase.new(
         id: 22, name: "Wrong password", reference: nil, description: nil, execution_status: nil,
-        last_executed_on: nil, last_executed_by: nil
+        last_executed_on: nil, last_executed_by: nil,
+        url: "https://squashtm.example.com/squash/test-case-workspace/test-case/22/content"
       )
     ]
   end

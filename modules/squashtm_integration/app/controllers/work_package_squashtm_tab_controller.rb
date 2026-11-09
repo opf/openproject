@@ -74,6 +74,6 @@ class WorkPackageSquashTMTabController < ApplicationController
   end
 
   def requirement_loader
-    SquashTMIntegration::RequirementLoader.new(SquashTMIntegration::Client.for(@view_model.server))
+    SquashTMIntegration::RequirementLoader.new(@view_model.client)
   end
 end

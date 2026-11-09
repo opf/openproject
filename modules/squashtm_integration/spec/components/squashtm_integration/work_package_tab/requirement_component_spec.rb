@@ -39,7 +39,7 @@ RSpec.describe SquashTMIntegration::WorkPackageTab::RequirementComponent, type: 
   end
   let(:view_model) do
     instance_double(SquashTMIntegration::WorkPackageSquashTMTabViewModel,
-                    server: build_stubbed(:squashtm_server), work_package_link:,
+                    client: SquashTMIntegration::Client.for(build_stubbed(:squashtm_server)), work_package_link:,
                     work_package:, project: work_package.project, can_manage_links?: false)
   end
   let(:status) { "APPROVED" }

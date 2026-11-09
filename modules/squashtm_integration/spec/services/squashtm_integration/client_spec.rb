@@ -34,6 +34,23 @@ RSpec.describe SquashTMIntegration::Client, :webmock do
 
   let(:projects_url) { "https://squashtm.example.com/squash/api/rest/latest/projects?page=0&size=20" }
 
+  describe "SquashTM web links" do
+    it "links a SquashTM project to its information page" do
+      expect(client.project_url(7))
+        .to eq("https://squashtm.example.com/squash/administration-workspace/projects/7/content?anchor=information")
+    end
+
+    it "links a test case to its information page" do
+      expect(client.test_case_url(21))
+        .to eq("https://squashtm.example.com/squash/test-case-workspace/test-case/21/content?anchor=information")
+    end
+
+    it "links a requirement to its dashboard" do
+      expect(client.requirement_url(11))
+        .to eq("https://squashtm.example.com/squash/requirement-workspace/requirement-library/11/content?anchor=dashboard")
+    end
+  end
+
   describe "#projects" do
     it "returns the parsed response and authenticates with the token" do
       stub_request(:get, projects_url).to_return(status: 200, body: { page: { totalElements: 1 } }.to_json)

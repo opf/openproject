@@ -35,7 +35,7 @@ RSpec.describe "SquashTM tab on work packages", :js do
     create(:user, member_with_permissions: { project => permissions }, preferences: { warn_on_leaving_unsaved: false })
   end
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:client) { instance_double(SquashTMIntegration::Client) }
+  let(:client) { SquashTMIntegration::Client.new(base_url: "https://squashtm.example.com/squash", api_token: "token") }
   let(:requirement) do
     {
       "id" => 11,
