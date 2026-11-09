@@ -46,7 +46,7 @@ const PORT = 9678;
 // and validates they match. createTestToken() defaults to this URL.
 const DOC_NAME = "https://test.api/api/v3/documents/1";
 
-// setup.ts runs msw with onUnhandledRequest:'error', which also patches the global
+// setup.ts runs msw with onUnhandledFrame:'error', which also patches the global
 // WebSocket. Passthrough the connection to the in-process server so the real client
 // transport is exercised; Rails calls to test.api stay mocked by the default handlers.
 const socketLink = ws.link(`ws://127.0.0.1:${PORT}`);
