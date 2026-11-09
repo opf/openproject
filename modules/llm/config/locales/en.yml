@@ -104,7 +104,7 @@ en:
       box:
         empty_description: "Create a new semantic index to make work packages findable by meaning."
         empty_title: "No semantic index yet"
-        new: "New semantic index"
+        new: "Semantic index"
         title: "Semantic indexes"
       destroy:
         description: "The semantic index and its settings will be removed. This cannot be undone."
