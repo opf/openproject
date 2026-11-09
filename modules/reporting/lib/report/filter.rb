@@ -39,7 +39,7 @@ class Report::Filter
   end
 
   def self.named(name)
-    all.detect { |filter| filter.name.demodulize == name.to_s.camelcase }
+    all.detect { |filter| filter.underscore_name == name.to_s }
   end
 
   def self.from_hash
