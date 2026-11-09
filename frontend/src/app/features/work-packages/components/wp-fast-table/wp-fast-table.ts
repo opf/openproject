@@ -48,7 +48,8 @@ import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurre
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
-import type { TableSelectionFeedback } from './handlers/state/selection-feedback';
+import { TableSelectionFeedback } from './handlers/state/selection-feedback';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import type { RowPositionEvidence } from './semantics/table-row-positions';
 import { RowStatePainter, type RowReplacement } from './semantics/row-state-painter';
 import { RowClassifier } from './semantics/row-classifier';
@@ -104,16 +105,25 @@ export class WorkPackageTable {
 
   public readonly ledger = new RenderedOccurrenceLedger();
 
-  public keyboardNavigation:KeyboardNavigation|null = null;
+  private navigation:KeyboardNavigation|null = null;
 
-  public selectionFeedback:TableSelectionFeedback|null = null;
+  public get keyboardNavigation():KeyboardNavigation {
+    if (!this.navigation) throw new Error('Keyboard navigation is not attached to this table');
+    return this.navigation;
+  }
+
+  public attachKeyboardNavigation(navigation:KeyboardNavigation):void {
+    this.navigation = navigation;
+  }
+
+  public readonly selectionFeedback = new TableSelectionFeedback(this.injector.get(WorkPackageViewSelectionService), this.destroyRef);
 
   public readonly rows = new RowClassifier(this);
 
   public readonly painter = new RowStatePainter(this);
 
   private readonly mutations = new RowMutations({
-    enter: (accumulate) => this.keyboardNavigation?.captureOwnership(accumulate),
+    enter: (accumulate) => this.navigation?.captureOwnership(accumulate),
     exit: (exit) => this.settle(exit),
   }, () => this.hasPendingRender);
 
@@ -262,7 +272,7 @@ export class WorkPackageTable {
   private settle({ scope, rendered }:MutationExit):void {
     if (this.destroyed) return;
     this.painter.paint(scope);
-    this.keyboardNavigation?.rowsChanged({ scope, rendered });
+    this.navigation?.rowsChanged({ scope, rendered });
     this.committedRowsState.update(({ generation }) => ({ generation: generation + 1, scope }));
   }
 
@@ -330,7 +340,7 @@ export class WorkPackageTable {
   }
 
   private performRenderPass({ timeline }:RenderPassOptions):void {
-    this.keyboardNavigation?.captureOwnership(this.mutations.depth > 0 || this.hasPendingRender);
+    this.navigation?.captureOwnership(this.mutations.depth > 0 || this.hasPendingRender);
     this.schedulingRender = true;
     try {
       this.editing.reset();
@@ -374,7 +384,8 @@ export class WorkPackageTable {
     const t0 = performance.now();
     this.mutate('all', () => {
       this.querySpace.collapsedGroups.putValue(newState);
-      const updates = this.groupedRowsBuilder.refreshExpansionState();
+      // Until this table commits a render, the rows in its tbody belong to a previous table over the same DOM.
+      const updates = this.ledger.generation > 0 ? this.groupedRowsBuilder.refreshExpansionState() : new Map<OccurrenceKey, boolean>();
       this.rebuildPendingRender();
       if (updates.size > 0) this.ledger.setHidden(updates);
     });

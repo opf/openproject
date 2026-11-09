@@ -31,6 +31,8 @@ jobs:
     name: I18n inconsistency check
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      I18N_TASKS_GEM_VERSION: 1.1.2
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -42,7 +44,7 @@ jobs:
 
       - name: Setup i18n-tasks
         run: |
-          gem install i18n-tasks
+          gem install i18n-tasks -v "${I18N_TASKS_GEM_VERSION}"
 
       - name: Run inconsistent translations check
         run: |

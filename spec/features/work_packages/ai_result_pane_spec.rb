@@ -33,12 +33,11 @@ require "support/edit_fields/text_editor_field"
 
 RSpec.describe "Editor Assistant result pane",
                :js,
-               with_flag: { ai_text_transform_actions: true },
-               with_settings: { ai_text_transform_actions_enabled: true } do
+               with_flag: { ai_text_actions: true } do
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:work_package) { create(:work_package, project:, type:, description: "Login page dont work.") }
-  shared_let(:fix_grammar) { create(:ai_text_transform_action, label: "Fix grammar") }
+  shared_let(:fix_grammar) { create(:ai_text_action, label: "Fix grammar") }
   shared_let(:user) { create(:admin) }
 
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package, project) }

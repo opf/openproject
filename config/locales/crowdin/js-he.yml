@@ -438,7 +438,6 @@ he:
     label_assignee: משויך אל
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: קבצים מצורפים
-    label_author: 'Author: %{user}'
     label_avatar: אווטר
     label_between: between
     label_board: לוח

@@ -37,7 +37,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
-import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
+import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { buildTable, TableHarness } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
 import { OpColumnsContextMenu } from './op-columns-context-menu.directive';
@@ -152,7 +152,7 @@ describe('OpColumnsContextMenu keyboard focus', () => {
 
   const openMenu = async () => {
     mountMenu();
-    harness.table.keyboardNavigation!.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
+    harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
     fireEvent.click(subjectHeader());
     await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
     return within(document.querySelector<HTMLElement>('.op-context-menu--overlay')!);
@@ -190,7 +190,7 @@ describe('OpColumnsContextMenu keyboard focus', () => {
 
   it('Escape immediately after opening closes the menu and returns focus to the header cell', async () => {
     mountMenu();
-    harness.table.keyboardNavigation!.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
+    harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
     fireEvent.click(subjectHeader());
 
     fireEvent.keyDown(subjectHeader(), { key: 'Escape' });

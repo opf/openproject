@@ -44,6 +44,7 @@ import { States } from 'core-app/core/states/states.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { TableUiWork } from './table-ui-work';
+import { navigableCells } from './handlers/state/keyboard/roving-tabindex';
 import { buildDom, buildTable, TableHarness, TableHarnessOptions } from './testing/table-harness';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -127,7 +128,8 @@ describe('WorkPackageTable lifecycle', () => {
     const secondOwner = second.table.editing.ownerId;
     const secondRoving = second.row('1');
     secondRoving.focus();
-    const removeListener = vi.spyOn(document, 'removeEventListener');
+    const firstRow = first.row('1');
+    const firstCell = navigableCells(firstRow)[0];
 
     first.table.destroy();
 
@@ -136,8 +138,9 @@ describe('WorkPackageTable lifecycle', () => {
     expect(secondOverlay.dataset.wpTableEditor).toBe(secondOwner);
     expect(secondRoving).toHaveAttribute('tabindex', '0');
     expect(secondRoving).toHaveFocus();
-    expect(removeListener).toHaveBeenCalledWith('focusin', expect.any(Function));
-    expect(removeListener).toHaveBeenCalledWith('keydown', expect.any(Function));
+    firstCell.focus();
+    expect(firstCell).toHaveAttribute('tabindex', '-1');
+    expect(firstRow).toHaveAttribute('tabindex', '0');
     firstOverlay.remove();
     secondOverlay.remove();
   });
@@ -546,7 +549,7 @@ describe('WorkPackageTable lifecycle', () => {
         const harness = await mount({ workPackages: [{ id: '1' }] });
         const frames = harness.holdFrames();
         const exits:boolean[] = [];
-        vi.spyOn(harness.table.keyboardNavigation!, 'rowsChanged').mockImplementation(({ rendered }) => { exits.push(rendered); });
+        vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged').mockImplementation(({ rendered }) => { exits.push(rendered); });
         const paint = vi.spyOn(harness.table.painter, 'paint');
         const subscription = harness.querySpace.tableRendered.values$().pipe(skip(1))
           .subscribe(() => harness.table.mutate('positions', () => undefined));

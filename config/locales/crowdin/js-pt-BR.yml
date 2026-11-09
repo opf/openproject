@@ -438,7 +438,6 @@ pt-BR:
     label_assignee: Atribuído para
     label_assignee_alt_text: Este pacote de trabalho está atribuído a %{name}
     label_attachments: Anexos
-    label_author: 'Autor: %{user}'
     label_avatar: Imagem do perfil
     label_between: entre
     label_board: Quadro

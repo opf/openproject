@@ -438,7 +438,6 @@ si:
     label_assignee: අස්ගිනී
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: ඇමුණුම්
-    label_author: 'කර්තෘ: %{user}'
     label_avatar: අවතාර්
     label_between: අතර
     label_board: මණ්ඩලය

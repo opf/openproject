@@ -438,7 +438,6 @@ ja:
     label_assignee: 担当者
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: 添付ファイル
-    label_author: '作者: %{user}'
     label_avatar: アバター
     label_between: 次の範囲内
     label_board: ボード

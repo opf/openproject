@@ -70,6 +70,10 @@ RSpec.describe "Meetings participants",
            lastname: "Fifth",
            member_with_permissions: { project => %i[view_meetings] })
   end
+  shared_let(:invited_non_member) do
+    create(:invited_user,
+           lastname: "Sixth")
+  end
 
   shared_let(:meeting) do
     create(:meeting,
@@ -139,10 +143,24 @@ RSpec.describe "Meetings participants",
     end
   end
 
-  it "does not show invited users in the autocompleter (Bug #70127)" do
+  it "adds an invited project member as a participant" do
     show_page.open_participant_form
     show_page.in_participant_form do
-      show_page.expect_no_participant(invited_user)
+      show_page.select_participant(invited_user)
+
+      show_page.expect_participant(invited_user)
+      expect(page).to have_no_text("is not a valid participant")
+    end
+
+    expect(page).to have_css("#meetings-side-panel-participants-component", text: 2)
+    expect(meeting.reload.participants.map(&:user_id)).to include(invited_user.id)
+  end
+
+  it "does not offer users who are not members of the project, whether active or invited" do
+    show_page.open_participant_form
+    show_page.in_participant_form do
+      show_page.expect_no_participant(no_member_user)
+      show_page.expect_no_participant(invited_non_member)
     end
   end
 end

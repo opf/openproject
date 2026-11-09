@@ -165,10 +165,10 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
   public selectAll(rows:RenderedWorkPackage[], requestedAnchor?:RenderedWorkPackage|null):void {
     const selectable = selectableOccurrences(rows);
     if (selectable.length === 0) return;
-    const anchor = requestedAnchor === null ? null : selectAllAnchor(selectable, requestedAnchor)!;
+    const anchor = requestedAnchor === null ? null : selectAllAnchor(selectable, requestedAnchor) ?? null;
     this.model.selectAll(
-      selectable.map((candidate) => this.item(candidate.workPackageId!)),
-      anchor && { ...this.item(anchor.workPackageId!), listKey: 'view', occurrenceKey: anchor.classIdentifier },
+      selectable.map((candidate) => this.item(candidate.workPackageId)),
+      anchor && { ...this.item(anchor.workPackageId), listKey: 'view', occurrenceKey: anchor.classIdentifier },
     );
     this.publish();
     this.opContextMenu.close();
@@ -183,7 +183,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
    * it has committed; the card view and Boards never do.
    */
   public retainRendered(rows:readonly RenderedWorkPackage[]):void {
-    const live = new Set(selectableOccurrences(rows).map((row) => selectionKey(this.item(row.workPackageId!))));
+    const live = new Set(selectableOccurrences(rows).map((row) => selectionKey(this.item(row.workPackageId))));
     if (this.model.prune(live)) {
       this.publish();
     }

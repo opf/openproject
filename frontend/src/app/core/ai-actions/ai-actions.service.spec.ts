@@ -49,12 +49,12 @@ const halCollection = (elements:unknown[]) => ({
 });
 
 const halAction = (id:number, label:string, position:number) => ({
-  _type: 'AITextTransformAction',
+  _type: 'AITextAction',
   id,
   label,
   position,
   injectsTypeTemplate: false,
-  _links: { self: { href: `/api/v3/ai_text_transform_actions/${id}`, title: label } },
+  _links: { self: { href: `/api/v3/ai_text_actions/${id}`, title: label } },
 });
 
 const existingWorkPackage = {
@@ -128,7 +128,7 @@ describe('AiActionsService', () => {
   let toast:{ addError:ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
-    activeFeatureFlags = ['aiTextTransformActions'];
+    activeFeatureFlags = ['aiTextActions'];
     turboRequests = { request: vi.fn<TurboRequestsService['request']>().mockResolvedValue({ html: '', headers: new Headers() }) };
     toast = { addError: vi.fn() };
     TestBed.configureTestingModule({
@@ -161,7 +161,7 @@ describe('AiActionsService', () => {
     it('lists the actions of an existing work package ordered by position', async () => {
       const promise = service.actionsFor(existingWorkPackage, 'description');
 
-      const request = httpMock.expectOne('/api/v3/work_packages/123/ai_text_transform_actions');
+      const request = httpMock.expectOne('/api/v3/work_packages/123/ai_text_actions');
       expect(request.request.method).toBe('GET');
       request.flush(halCollection([
         halAction(2, 'Summarize', 2),
@@ -177,7 +177,7 @@ describe('AiActionsService', () => {
       const promise = service.actionsFor(newWorkPackage, 'description');
 
       httpMock
-        .expectOne('/api/v3/projects/7/ai_text_transform_actions?typeId=45')
+        .expectOne('/api/v3/projects/7/ai_text_actions?typeId=45')
         .flush(halCollection([halAction(3, 'Sort into template', 1)]));
 
       expect((await promise).map((action) => action.id)).toEqual([3]);
@@ -199,7 +199,7 @@ describe('AiActionsService', () => {
       const promise = service.actionsFor(resource, field);
 
       httpMock
-        .expectOne('/api/v3/ai_text_transform_actions')
+        .expectOne('/api/v3/ai_text_actions')
         .flush(halCollection([halAction(2, 'Summarize', 2), halAction(1, 'Fix grammar', 1)]));
 
       expect((await promise).map((action) => action.id)).toEqual([1, 2]);
@@ -209,7 +209,7 @@ describe('AiActionsService', () => {
       const promise = service.actionsFor(existingWorkPackage, 'description');
 
       httpMock
-        .expectOne('/api/v3/work_packages/123/ai_text_transform_actions')
+        .expectOne('/api/v3/work_packages/123/ai_text_actions')
         .flush({ message: 'nope' }, { status: 403, statusText: 'Forbidden' });
 
       expect(await promise).toEqual([]);
@@ -219,7 +219,7 @@ describe('AiActionsService', () => {
       const promise = service.actionsFor(undefined, undefined);
 
       httpMock
-        .expectOne('/api/v3/ai_text_transform_actions')
+        .expectOne('/api/v3/ai_text_actions')
         .flush({ message: 'nope' }, { status: 401, statusText: 'Unauthorized' });
 
       expect(await promise).toEqual([]);

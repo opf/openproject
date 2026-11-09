@@ -35,6 +35,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpBasicRangeDatePickerComponent } from './basic-range-date-picker/basic-range-date-picker.component';
 import { OpBasicSingleDatePickerComponent } from './basic-single-date-picker/basic-single-date-picker.component';
 import { OpBasicSingleDatetimePickerComponent } from './basic-single-datetime-picker/basic-single-datetime-picker.component';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { OpBasicSingleDatetimePickerComponent } from './basic-single-datetime-pi
     ReactiveFormsModule,
     CommonModule,
     XIconComponent,
+    OpTooltipDirective,
   ],
 
   providers: [

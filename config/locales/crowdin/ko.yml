@@ -83,13 +83,13 @@ ko:
         dependencies: 종속성
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: 활성
-        injects_type_template: 작업 패키지 유형 템플릿 삽입
-        label: 레이블
-        prompt: 프롬프트
-        types: 작업 패키지 유형
-        usage_scope: 범위
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: 작업
         cancel_requested: 취소 요청됨
@@ -1080,8 +1080,8 @@ ko:
     models:
       action:
         other: 작업
-      ai/text_transform_action:
-        other: 텍스트 변환 작업
+      ai/text_action:
+        other: Text actions
       ai/text_transform_run:
         other: 텍스트 변환 실행
       ai/text_transform_run_event:
@@ -2066,40 +2066,41 @@ ko:
         page_header:
           description: 클래식 숫자 작업 패키지 ID 또는 작업 패키지 ID 앞에 프로젝트 식별자를 붙이는 프로젝트별 시맨틱 ID 중에서 선택합니다.
         success_banner: 작업 패키지 식별자 형식을 업데이트했습니다.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: 사용자는 서식 있는 텍스트 편집기에서 더 이상 이 작업을 실행할 수 없게 됩니다.
-        heading: '"%{label}" 작업을 삭제하시겠습니까?'
-        title: 텍스트 변환 작업 삭제
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: 이 옵션을 선택하면 작업 패키지 유형의 설명 템플릿이 프롬프트에 자동으로 추가됩니다. 프롬프트에는 해당 템플릿을 어떻게 사용하는지에 대한 지침이 포함되어야 합니다.
-        label_caption: 편집기에서 사용자에게 표시되는 이름입니다.
-        select_types: 유형 선택
-        types_caption: 이 작업이 사용 가능해야 하는 작업 패키지 유형을 추가하세요. 사용 가능한 모든 변형이 자동으로 포함됩니다.
-        usage_scope_caption: '이 작업이 표시되는 위치를 제한할 수 있습니다: 모든 위치(코멘트, 위키 및 사용자 지정 필드 포함), 모든 작업 패키지 유형 또는 특정 작업 패키지 유형에 대한 위치.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: 작업
-        label_aria_add_action: 텍스트 변환 작업 추가
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: 여기에 표시되도록 작업을 추가하세요
-          title: 텍스트 변환 작업이 아직 구성되지 않음
-        disabled_warning: 텍스트 변환 작업이 비활성화되었습니다. 다음 작업은 어디에서도 사용할 수 없게 됩니다.
-        label_disable_all: 모두 비활성화
-        label_enable_all: 모두 활성화
-        title: 작업
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: 새로운 텍스트 변환 작업
+        title: New text action
       row_component:
-        label_actions: 작업 메뉴
-        label_toggle: "%{label} 토글"
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          other: "%{count}개 작업 패키지 유형"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: 모든 작업 패키지 유형
-        everywhere: 모든 위치
-        specific_work_package_types: 특정 작업 패키지 유형
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: 상태를 추가하여 이 역할에 대한 워크플로 구성을 시작합니다
@@ -2151,7 +2152,7 @@ ko:
       errors:
         connection_failed: AI 서비스에 연결할 수 없습니다.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: AI 어시스턴트를 사용할 수 없습니다.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: AI 서비스가 제때 응답하지 않았습니다.
         upstream_error: AI 서비스가 오류를 반환했습니다.
@@ -3044,6 +3045,7 @@ ko:
       scim_api: SCIM 서버 API
       sso_auth_providers: Single Sign-On
       team_planner_view: 팀 플래너 보기
+      text_assistant: Text assistant
       virus_scanning: 바이러스 백신 검사
       weighted_item_lists: 가중치가 적용된 항목 목록
       work_package_query_relation_columns: 작업 패키지 쿼리 관계 열
@@ -3155,6 +3157,9 @@ ko:
       sso_auth_providers:
         description: 기존 ID 시스템에서 원활하게 액세스하고 통합할 수 있도록 SAML 또는 OpenID Connect를 사용하여 외부 SSO 공급자를 통해 사용자가 로그인할 수 있게 합니다.
         title: SSO(Single Sign-On)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise 추가 기능
       trial_text: 이 기능은 활성 Enterprise 평가판에 포함되어 있습니다.
       unlimited: 무제한
@@ -4878,7 +4883,7 @@ ko:
       mail_notification: 이메일 알림
       mails_and_notifications: 이메일 및 알림
       mcp_configurations: 모델 컨텍스트 프로토콜(MCP)
-      text_transform_actions: 텍스트 변환 작업
+      text_actions: Text assistant
     quick_add:
       label: 추가…
   more_actions: 추가 기능
@@ -6131,7 +6136,6 @@ ko:
   setting_after_login_default_redirect_url_example_html: '로그인 후 백링크가 제공되지 않은 경우 사용자를 리디렉션할 기본 경로를 설정합니다. 설정되지 않은 경우 홈 페이지로 리디렉션합니다. <br/> 예제: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: 텍스트 변환 작업 활성화
   setting_allowed_link_protocols: 허용된 링크 프로토콜
   setting_allowed_link_protocols_text_html: '이러한 프로토콜이 작업 패키지 설명, 긴 텍스트 필드 및 코멘트에서 링크로 렌더링되도록 허용합니다. 예: %{tel_code} 또는 %{element_code}. 라인별로 하나의 프로토콜을 입력합니다. <br/> %{http_code}, %{https_code} 및 %{mailto_code} 프로토콜은 항상 허용됩니다.'
   setting_antivirus_scan_action: 감염된 파일 작업

@@ -436,7 +436,6 @@ es:
     label_assignee: Asignado a
     label_assignee_alt_text: Este paquete de trabajo está asignado a %{name}
     label_attachments: Archivos adjuntos
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: entre
     label_board: Tablero

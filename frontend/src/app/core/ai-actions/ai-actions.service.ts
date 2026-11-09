@@ -39,7 +39,7 @@ import type { ICKEditorInstance } from 'core-app/shared/components/editor/compon
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
-export interface IAiTextTransformAction {
+export interface IAiTextAction {
   id:number;
   label:string;
   position:number;
@@ -70,7 +70,7 @@ interface IAcceptedDetail {
   text:string;
 }
 
-const FEATURE_FLAG = 'aiTextTransformActions';
+const FEATURE_FLAG = 'aiTextActions';
 const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
 const START_REQUEST_ID = 'ai-text-transform-pane';
 export const AI_TEXT_TRANSFORM_ACCEPTED_EVENT = 'op-dispatched:ai-text-transform:accepted';
@@ -109,7 +109,7 @@ export class AiActionsService {
     });
   }
 
-  async actionsFor(resource:IEditorContextResource|undefined, field:string|undefined):Promise<IAiTextTransformAction[]> {
+  async actionsFor(resource:IEditorContextResource|undefined, field:string|undefined):Promise<IAiTextAction[]> {
     if (!this.configuration.activeFeatureFlags.includes(FEATURE_FLAG)) {
       return [];
     }
@@ -121,7 +121,7 @@ export class AiActionsService {
     }
 
     try {
-      const collection = await firstValueFrom(this.http.get<IHALCollection<IAiTextTransformAction>>(path));
+      const collection = await firstValueFrom(this.http.get<IHALCollection<IAiTextAction>>(path));
       return collection._embedded.elements
         .map(({ id, label, position, injectsTypeTemplate }) => ({ id, label, position, injectsTypeTemplate }))
         .sort((a, b) => a.position - b.position);
@@ -130,13 +130,13 @@ export class AiActionsService {
     }
   }
 
-  defaultAction(actions:IAiTextTransformAction[]):IAiTextTransformAction|undefined {
+  defaultAction(actions:IAiTextAction[]):IAiTextAction|undefined {
     const lastActionId = this.lastActionId();
 
     return actions.find((action) => action.id === lastActionId) ?? actions[0];
   }
 
-  async run(action:IAiTextTransformAction, editor:IAiActionsEditor, resource?:IEditorContextResource):Promise<void> {
+  async run(action:IAiTextAction, editor:IAiActionsEditor, resource?:IEditorContextResource):Promise<void> {
     this.rememberAction(action);
 
     const requestId = uuidv4();
@@ -220,7 +220,7 @@ export class AiActionsService {
       : { project_id: context.projectId, type_id: context.typeId };
   }
 
-  private rememberAction(action:IAiTextTransformAction):void {
+  private rememberAction(action:IAiTextAction):void {
     this.withStorage((storage) => storage.setItem(LAST_ACTION_STORAGE_KEY, String(action.id)));
   }
 
@@ -243,15 +243,15 @@ export class AiActionsService {
     const context = this.descriptionContext(resource, field);
 
     if (context === undefined) {
-      return paths.aiTextTransformActions();
+      return paths.aiTextActions();
     }
     if (context === null) {
       return null;
     }
 
     return 'workPackageId' in context
-      ? paths.aiTextTransformActionsByWorkPackage(context.workPackageId)
-      : paths.aiTextTransformActionsByProject(context.projectId, context.typeId);
+      ? paths.aiTextActionsByWorkPackage(context.workPackageId)
+      : paths.aiTextActionsByProject(context.projectId, context.typeId);
   }
 
   // undefined for any editor but a work package description, null for a new work package without project or type.

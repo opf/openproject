@@ -39,7 +39,6 @@ module WorkPackageTypes
           element_key:,
           label:,
           aspect: ASPECT,
-          off_label: I18n.t("types.edit.form_configuration.exclusions.excluded"),
           test_selector: "toggle-form-config-exclusion-#{element_key}"
         )
       end
