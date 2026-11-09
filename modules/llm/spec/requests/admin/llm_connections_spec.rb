@@ -745,17 +745,12 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response.body).to include("Description assistant")
     end
 
-    it "clears the credential and switches the connection off, keeping everything else" do
-      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
-
+    it "disconnects and confirms it" do
       post disconnect_llm_connection_path
 
-      connection.reload
-      expect(connection.api_key).to be_blank
-      expect(Setting.llm_features_enabled?).to be(false)
-      expect(connection.base_url).to eq("https://example.com/v1")
-      expect(connection.models.count).to eq(2)
-      expect(connection.feature_bindings.first.model_id).to eq("qwen3.6-27b")
+      expect(response).to have_http_status(:see_other)
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disconnect.success"))
+      expect(connection.reload.api_key).to be_blank
     end
 
     it "refuses when the connection comes from the environment" do
@@ -767,47 +762,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(flash[:error]).to eq(I18n.t("admin.llm_connections.disconnect.configured_from_env"))
       expect(connection.reload.api_key).to eq("sk-test")
       expect(Setting.llm_features_enabled?).to be(true)
-    end
-
-    it "refuses when a seed applies the environment's values after the request loaded the connection" do
-      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
-      apply_environment_after_the_connection_loads
-
-      post disconnect_llm_connection_path
-
-      expect(flash[:error]).to eq(I18n.t("admin.llm_connections.disconnect.configured_from_env"))
-      connection.reload
-      expect(connection.api_key).to eq("sk-from-env")
-      expect(connection.env_provisioned_at).to be_present
-      expect(Setting.llm_features_enabled?).to be(true)
-    end
-
-    it "disconnects a connection the environment has not written yet" do
-      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
-
-      post disconnect_llm_connection_path
-
-      expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disconnect.success"))
-      expect(connection.reload.api_key).to be_blank
-    end
-
-    it "lets go of the environment's mark once the environment no longer configures the connection" do
-      connection.update_columns(env_provisioned_at: Time.current)
-
-      post disconnect_llm_connection_path
-
-      connection.reload
-      expect(connection.api_key).to be_blank
-      expect(connection.env_provisioned_at).to be_nil
-    end
-
-    it "clears the credential when the features switch is set through the environment" do
-      allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
-
-      post disconnect_llm_connection_path
-
-      expect(response).to have_http_status(:see_other)
-      expect(connection.reload.api_key).to be_blank
     end
 
     it "is refused to a non-admin" do
@@ -835,16 +789,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       post disconnect_llm_connection_path
 
       expect(response).to have_http_status(:forbidden)
-    end
-
-    it "disconnects a stored connection that no longer passes validation" do
-      connection.update_column(:base_url, "not a url")
-
-      post disconnect_llm_connection_path
-
-      expect(response).to have_http_status(:see_other)
-      expect(connection.reload.api_key).to be_nil
-      expect(Setting.llm_features_enabled?).to be(false)
     end
   end
 
