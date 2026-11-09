@@ -24,7 +24,13 @@ en:
         model: "Model"
       llm_model:
         admin_context_window: "Context window"
+        capability_function_calling: "Tool calling"
+        capability_reasoning: "Reasoning"
+        capability_structured_output: "Structured output"
+        capability_vision: "Vision"
         display_name: "Display name"
+        manual: "Entered by hand"
+        raw_metadata: "Metadata"
         # human_attribute_name strips the _id suffix, so the key omits it.
         external: "Model name"
     errors:
@@ -66,6 +72,9 @@ en:
               not_available: "is not offered by the configured LLM server."
         llm_model:
           attributes:
+            base:
+              configured_from_env: "The environment configures this model as a default, so it cannot be removed or renamed here."
+              discovered: "Only models entered by hand can be removed. The LLM server manages the models it reports."
             external_id:
               conflicting_capabilities: "has capability assertions stored under it that conflict with those of this model."
   admin:
