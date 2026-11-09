@@ -784,7 +784,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Description assistant")
+        expect(response.body).to include("Text assistant")
       end
     end
 

@@ -763,7 +763,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Disconnect from the LLM server?")
-      expect(response.body).to include("Description assistant")
+      expect(response.body).to include("Text assistant")
     end
 
     it "clears the credential and switches the connection off, keeping everything else" do
