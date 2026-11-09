@@ -213,26 +213,59 @@ describe('Pasting work package attribute macros from CKEditor', () => {
     await vi.waitFor(() => expect(text(editor())).toBe(`See [openProjectWorkPackageInline] and [${ATTRIBUTE}]`));
   });
 
-  it('leaves the macros in tables alone', async () => {
-    let editor:Editor | undefined;
-    renderEditor({
-      initialContent: [
-        { type: 'table', content: { type: 'tableContent', rows: [{ cells: ['workPackageValue:321:status', ''] }] } },
-        { type: 'paragraph' },
-      ],
-      onEditor: (instance) => { editor = instance; },
+  describe('in tables', () => {
+    const cells = () => [...document.querySelectorAll('td')];
+    const cellTexts = () => cells().map((cell) => cell.textContent);
+    const attributeCells = () => cells().map((cell) => cell.querySelector('.op-bn-wp-attribute') !== null);
+
+    function pasteTableFromCKEditor(rows:string[][]) {
+      const editable = document.querySelector('.bn-editor');
+      if (!(editable instanceof HTMLElement)) throw new Error('No [contenteditable] to paste into');
+      const html = `<table><tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      const data = new DataTransfer();
+      data.setData('text/html', html);
+      data.setData('text/plain', rows.map((row) => row.join('\t')).join('\n'));
+      editable.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }));
+    }
+
+    function renderTable(cellsOfRow:string[]) {
+      renderEditor({
+        initialContent: [
+          { type: 'table', content: { type: 'tableContent', rows: [{ cells: cellsOfRow }] } },
+          { type: 'paragraph' },
+        ],
+      });
+    }
+
+    it('converts the macros of a pasted table', async () => {
+      await renderEmptyEditor();
+
+      pasteTableFromCKEditor([['workPackageValue:321:status', 'Owner workPackageValue:321:assignee']]);
+
+      await vi.waitFor(() => expect(attributeCells()).toEqual([true, true]));
+      expect(cellTexts()).toEqual(['In progress', 'Owner Mira Hofmann']);
     });
-    const cells = () => [...document.querySelectorAll('td')].map((cell) => cell.textContent);
 
-    await expect.element(page.getByText('workPackageValue:321:status')).toBeVisible();
-    await userEvent.click(document.querySelectorAll('td')[1]);
-    pasteFromCKEditor('workPackageValue:321:assignee');
-    await vi.waitFor(() => expect(cells()).toEqual(['workPackageValue:321:status', 'workPackageValue:321:assignee']));
+    it('converts a macro pasted into a cell, leaving the other cells alone', async () => {
+      renderTable(['workPackageValue:321:status', '']);
+      await expect.element(page.getByText('workPackageValue:321:status')).toBeVisible();
 
-    await userEvent.click(document.querySelector('.bn-block-outer:last-of-type [data-content-type="paragraph"]')!);
-    pasteFromCKEditor('workPackageValue:321:assignee');
+      await userEvent.click(cells()[1]);
+      pasteFromCKEditor('workPackageValue:321:assignee');
 
-    await vi.waitFor(() => expect(attributes(editor!)).toHaveLength(1));
-    expect(cells()).toEqual(['workPackageValue:321:status', 'workPackageValue:321:assignee']);
+      await vi.waitFor(() => expect(attributeCells()).toEqual([false, true]));
+      expect(cellTexts()[0]).toBe('workPackageValue:321:status');
+    });
+
+    it('leaves a long text macro in a cell as text, since a cell cannot hold a block', async () => {
+      renderTable(['', '']);
+      await expect.element(page.getByRole('textbox')).toBeVisible();
+
+      await userEvent.click(cells()[0]);
+      pasteFromCKEditor('workPackageValue:321:description workPackageValue:321:status');
+
+      await vi.waitFor(() => expect(cells()[0].querySelectorAll('.op-bn-wp-attribute')).toHaveLength(1));
+      expect(cellTexts()[0]).toBe('workPackageValue:321:description In progress');
+    });
   });
 });

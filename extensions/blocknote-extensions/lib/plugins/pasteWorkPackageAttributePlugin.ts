@@ -12,12 +12,6 @@ interface MacroOccurrence { macro:AttributeMacro; from:number; to:number }
 
 export const pasteWorkPackageAttributePluginKey = new PluginKey<PastedRange | null>('pasteWorkPackageAttribute');
 
-/**
- * Turns attribute macros pasted from CKEditor (`workPackageValue:58:assignee`)
- * into work package attributes. The paste lands as text, and its macros turn
- * into attributes in place once their work packages have loaded. Macros that
- * cannot be resolved stay text.
- */
 export function pasteWorkPackageAttributePlugin(editor:AnyEditor):Plugin<PastedRange | null> {
   return new Plugin<PastedRange | null>({
     key: pasteWorkPackageAttributePluginKey,
@@ -39,8 +33,8 @@ export function pasteWorkPackageAttributePlugin(editor:AnyEditor):Plugin<PastedR
         const pasted = pasteWorkPackageAttributePluginKey.getState(view.state);
         if (!pasted || pasted === pasteWorkPackageAttributePluginKey.getState(previousState)) return;
 
-        const blockIds = blocksWithMacros(view.state.doc, pasted);
-        if (blockIds.size > 0) void convertMacros(editor, blockIds);
+        const hostKeys = hostsWithMacros(view.state.doc, pasted);
+        if (hostKeys.size > 0) void convertMacros(editor, hostKeys);
       },
     }),
   });
@@ -59,50 +53,69 @@ function changedRange(tr:Transaction):PastedRange | null {
   return from <= to ? { from, to } : null;
 }
 
+interface MacroHost { key:string; node:Node; position:number }
+
 function isMacroHost(node:Node):boolean {
   return node.isTextblock && !node.type.spec.code;
 }
 
-// Table cells have no id of their own, so the macros in tables are left alone.
-function blockIdOf(container:Node | null):string | undefined {
-  const id = container?.attrs.id as unknown;
+function blockIdOf(node:Node):string | undefined {
+  const id = node.attrs.id as unknown;
   return typeof id === 'string' ? id : undefined;
 }
 
-function blocksWithMacros(doc:Node, { from, to }:PastedRange):Set<string> {
-  const ids = new Set<string>();
-  doc.nodesBetween(from, to, (node, _position, container) => {
-    if (!isMacroHost(node)) return true;
-    const id = blockIdOf(container);
-    if (id && findAttributeMacros(node.textContent).length > 0) ids.add(id);
-    return false;
+// Positions do not survive collaboration updates, which replace the whole
+// document, so a line is known by its block and its place in it: a table
+// cell has no id of its own.
+function forEachMacroHost(doc:Node, visit:(host:MacroHost) => void):void {
+  doc.descendants((node, position) => {
+    const id = blockIdOf(node);
+    const content = node.firstChild;
+    if (!id || !content) return true;
+
+    const contentStart = position + 1;
+    if (isMacroHost(content)) {
+      visit({ key: `${id}:0`, node: content, position: contentStart });
+      return true;
+    }
+
+    let line = 0;
+    content.descendants((child, offset) => {
+      if (!isMacroHost(child)) return true;
+      visit({ key: `${id}:${line}`, node: child, position: contentStart + 1 + offset });
+      line += 1;
+      return false;
+    });
+    return true;
   });
-  return ids;
 }
 
-// Positions do not survive collaboration updates, which replace the whole
-// document, so the pasted blocks are looked up again by their ids.
-function macrosInBlocks(doc:Node, blockIds:Set<string>):MacroOccurrence[] {
-  const occurrences:MacroOccurrence[] = [];
-  doc.descendants((node, position, container) => {
-    if (!isMacroHost(node)) return true;
-    const id = blockIdOf(container);
-    if (!id || !blockIds.has(id)) return false;
+function hostsWithMacros(doc:Node, { from, to }:PastedRange):Set<string> {
+  const keys = new Set<string>();
+  forEachMacroHost(doc, ({ key, node, position }) => {
+    const overlaps = position < to && position + node.nodeSize > from;
+    if (overlaps && findAttributeMacros(node.textContent).length > 0) keys.add(key);
+  });
+  return keys;
+}
 
+function macrosInHosts(doc:Node, keys:Set<string>):MacroOccurrence[] {
+  const occurrences:MacroOccurrence[] = [];
+  forEachMacroHost(doc, ({ key, node, position }) => {
+    if (!keys.has(key)) return;
     node.forEach((child, offset) => {
       for (const macro of findAttributeMacros(child.text ?? '')) {
         const from = position + 1 + offset + macro.start;
         occurrences.push({ macro, from, to: from + macro.end - macro.start });
       }
     });
-    return false;
   });
   return occurrences;
 }
 
-async function convertMacros(editor:AnyEditor, blockIds:Set<string>):Promise<void> {
+async function convertMacros(editor:AnyEditor, hostKeys:Set<string>):Promise<void> {
   const resolving = new Map<string, Promise<ResolvedReference | null>>();
-  for (const { macro } of macrosInBlocks(editor.prosemirrorState.doc, blockIds)) {
+  for (const { macro } of macrosInHosts(editor.prosemirrorState.doc, hostKeys)) {
     const key = referenceKey(macro);
     if (!resolving.has(key)) resolving.set(key, resolveReference(macro));
   }
@@ -112,14 +125,14 @@ async function convertMacros(editor:AnyEditor, blockIds:Set<string>):Promise<voi
 
   editor.transact((tr) => {
     // Backwards, so that each replacement leaves the positions before it intact.
-    for (const { macro, from, to } of macrosInBlocks(tr.doc, blockIds).reverse()) {
+    for (const { macro, from, to } of macrosInHosts(tr.doc, hostKeys).reverse()) {
       const reference = resolved.get(referenceKey(macro));
       if (!reference) continue;
 
       const { kind, ...props } = reference;
       const choice:AttributeChoice = { ...props, display: macro.display };
-      if (kind === 'block') replaceWithBlock(tr, from, to, choice);
-      else replaceWithInline(tr, from, to, choice);
+      if (kind === 'inline') replaceWithInline(tr, from, to, choice);
+      else if (canHoldBlock(tr, from)) replaceWithBlock(tr, from, to, choice);
     }
   });
 }
@@ -129,8 +142,11 @@ function replaceWithInline(tr:Transaction, from:number, to:number, choice:Attrib
   if (type) tr.replaceWith(from, to, type.create(choice));
 }
 
+function canHoldBlock(tr:Transaction, position:number):boolean {
+  return blockIdOf(tr.doc.resolve(position).node(-1)) !== undefined;
+}
+
 // A long text cannot sit inside a line, so the line is split around it.
-// Splitting keeps the positions of the text around it, and with them the caret.
 function replaceWithBlock(tr:Transaction, from:number, to:number, choice:AttributeChoice):void {
   const $from = tr.doc.resolve(from);
   const line = $from.parent;
