@@ -94,7 +94,7 @@ RSpec.describe "work package generate PDF dialog, wiki pages", :js do
 
     login_as(user)
     Pages::FullWorkPackage.new(work_package).visit!
-    click_link_or_button "More"
+    click_on accessible_name: "More", exact: true
     click_link_or_button "Generate PDF"
     wait_for_size_animation_completion("##{WorkPackages::Exports::Generate::ModalDialogComponent::MODAL_ID}")
     select I18n.t("pdf_generator.template_artefact.label"), from: "template"
