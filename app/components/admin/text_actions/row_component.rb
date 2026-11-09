@@ -35,8 +35,6 @@ module Admin
       include OpTurbo::Streamable
       include SortableLists::MoveMenu
 
-      options toggles_enabled: true
-
       alias_method :text_action, :model
 
       def wrapper_uniq_by

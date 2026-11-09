@@ -41,20 +41,23 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <%=
-  render(Primer::OpenProject::SubHeader.new) do |subheader|
-    subheader.with_action_button(
-      scheme: :primary,
-      leading_icon: :plus,
-      label: t(".label_aria_add_action"),
-      tag: :a,
-      href: new_admin_text_action_path,
-      test_selector: "add-text-action-button"
-    ) do
-      t(".label_add_action")
+  render(Primer::Beta::Subhead.new) do |subhead|
+    subhead.with_heading(tag: :h2, size: :medium) { t(".section_title") }
+    subhead.with_actions do
+      render(
+        Primer::Beta::Button.new(
+          scheme: :primary,
+          tag: :a,
+          href: new_admin_text_action_path,
+          aria: { label: t(".label_aria_add_action") },
+          test_selector: "add-text-action-button"
+        )
+      ) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t(".label_add_action")
+      end
     end
   end
 %>
-
-<%= render(Admin::TextActions::SettingToggleComponent.new) %>
 
 <%= render(Admin::TextActions::IndexComponent.new(text_actions: @text_actions)) %>

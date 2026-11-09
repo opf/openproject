@@ -31,8 +31,7 @@ require "spec_helper"
 require "rack/test"
 
 RSpec.describe API::V3::AI::TextActionsByProjectAPI,
-               with_flag: { ai_text_actions: true },
-               with_settings: { ai_text_actions_enabled: true } do
+               with_flag: { ai_text_actions: true } do
   include API::V3::Utilities::PathHelper
 
   shared_let(:type) { create(:type) }
@@ -77,10 +76,6 @@ RSpec.describe API::V3::AI::TextActionsByProjectAPI,
     end
 
     context "when the feature flag is off", with_flag: { ai_text_actions: false } do
-      it_behaves_like "API V3 collection response", 0, 0, "AITextAction"
-    end
-
-    context "when the assistant setting is off", with_settings: { ai_text_actions_enabled: false } do
       it_behaves_like "API V3 collection response", 0, 0, "AITextAction"
     end
 
