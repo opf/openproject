@@ -56,19 +56,12 @@ export function decryptToken(encrypted:string):PackedParams {
 }
 
 function decrypt(encrypted:string):Buffer {
-  try {
-    const [token, iv, authTag] = encrypted.split('--').map((part:string) => Buffer.from(part, 'base64'));
-    const decipher = createDecipheriv(ALGORITHM, SECRET, iv);
-    decipher.setAuthTag(authTag);
+  const [token, iv, authTag] = encrypted.split('--').map((part:string) => Buffer.from(part, 'base64'));
+  const decipher = createDecipheriv(ALGORITHM, SECRET, iv);
+  decipher.setAuthTag(authTag);
 
-    return Buffer.concat([
-      decipher.update(token),
-      decipher.final()
-    ]);
-  } catch {
-    throw new Error(
-      "Unauthorized: Could not decrypt token. " +
-      "Check that SECRET matches OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET of OpenProject."
-    );
-  }
+  return Buffer.concat([
+    decipher.update(token),
+    decipher.final()
+  ]);
 }
