@@ -25,10 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { randomUUID } from "node:crypto";
 import { createLogger } from "../logger";
 
-const logger = createLogger("Resource");
+const logger = createLogger();
 
 const ERROR_BODY_MAX_LENGTH = 2000;
 
@@ -62,11 +61,9 @@ export async function fetchResource(
   oauthToken: string,
   override?: RequestInit
 ): Promise<Response> {
-  const requestId = randomUUID();
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${oauthToken}`,
-    "X-Request-Id": requestId,
     ...(OPENPROJECT_URL && OPENPROJECT_HTTPS && { "X-Forwarded-Proto": "https" })
   };
   const url = overrideUrl(resourceUrl);
@@ -76,7 +73,7 @@ export async function fetchResource(
     ...override
   }
 
-  const target = `${init.method} ${url} request_id=${requestId}`;
+  const target = `${init.method} ${url}`;
   const startedAt = performance.now();
   const elapsed = () => Math.round(performance.now() - startedAt);
 

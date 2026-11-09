@@ -25,8 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export function createLogger(prefix: string) {
-  const head = () => [new Date().toISOString(), `[${prefix}]`];
+export function createLogger(prefix?: string) {
+  const tag = prefix ? [`[${prefix}]`] : [];
+  const head = () => [`OP [${new Date().toISOString()}]`, ...tag];
 
   return {
     log: (...data: unknown[]) => console.log(...head(), ...data),

@@ -88,7 +88,7 @@ describe("fetchResource", () => {
 
       await fetchResource("https://test.openproject.com/api/v3/documents/42", "__valid_oauth_token");
 
-      expect(output(log)).toMatch(/\[Resource\] GET https:\/\/test\.openproject\.com\/api\/v3\/documents\/42 request_id=\S+ -> 200 \(\d+ms\)/);
+      expect(output(log)).toMatch(/^OP \[\S+\] GET https:\/\/test\.openproject\.com\/api\/v3\/documents\/42 -> 200 \(\d+ms\)/m);
       expect(output(log)).not.toContain("__valid_oauth_token");
     });
 
