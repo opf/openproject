@@ -139,6 +139,7 @@ export class OpActionMenuService {
         opened.presenter.openAtAnchor(invoker, { align: options.align ?? 'start' }, invoker);
       }
       this.exposeOpenMenu(opened, menu.querySelector('[role="menu"]')?.id);
+      this.closeWhenInvokerLeavesView(opened);
     };
 
     if (event instanceof MouseEvent && event.type === 'contextmenu' && (event.buttons & 2) !== 0) {
@@ -166,6 +167,23 @@ export class OpActionMenuService {
     // on the body and the handler alone decides where it goes.
     this.dispose(opened);
     opened.handler.onClose(false, reason);
+  }
+
+  // Primer keeps the overlay on its anchor while the page scrolls, so a menu
+  // whose row scrolled away would sit off screen with its actions out of reach.
+  // An invoker that was never in view, such as a row clipped by an unsized
+  // scroll container, does not count as scrolled away.
+  private closeWhenInvokerLeavesView(opened:OpenMenu):void {
+    let seen = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        seen = true;
+      } else if (seen && this.current === opened) {
+        this.close('scroll');
+      }
+    });
+    observer.observe(opened.invoker);
+    opened.listeners.signal.addEventListener('abort', () => observer.disconnect(), { once: true });
   }
 
   private dispose({ ref, root }:OpenMenu):void {

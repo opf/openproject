@@ -27,10 +27,10 @@
 
 import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
 import { TestBed } from '@angular/core/testing';
-import { createEvent, fireEvent, within } from '@testing-library/dom';
+import { createEvent, fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
-import { settlePopover } from 'core-common/testing/timing';
+import { nextTask, settlePopover } from 'core-common/testing/timing';
 import {
   OpActionMenuHost,
   OpContextMenuCloseReason,
@@ -101,6 +101,61 @@ describe('OpActionMenuService', () => {
 
     expect(anchor).toHaveAttribute('aria-expanded', 'false');
     expect(anchor).not.toHaveAttribute('aria-controls');
+  });
+
+  describe('in a scrolling container', () => {
+    let scroller:HTMLElement;
+
+    beforeEach(() => {
+      scroller = document.createElement('div');
+      scroller.style.cssText = 'position:fixed;top:0;left:0;width:400px;height:200px;overflow:auto';
+      const spacer = document.createElement('div');
+      spacer.style.height = '2000px';
+      scroller.append(anchor, spacer);
+      document.body.append(scroller);
+    });
+
+    afterEach(() => scroller.remove());
+
+    // An IntersectionObserver reports in a task of its own after a frame.
+    const openOnAnchor = async (handler:RecordingHandler) => {
+      anchor.focus({ preventScroll: true });
+      service.show(handler, createEvent.click(anchor), { anchor });
+      await settle();
+      await nextTask();
+    };
+
+    it('closes once its row scrolls out of view, leaving the scroll position alone', async () => {
+      const handler = new RecordingHandler(items());
+      await openOnAnchor(handler);
+      expect(menu()).toContainElement(document.activeElement as HTMLElement);
+
+      scroller.scrollTop = 500;
+
+      await waitFor(() => expect(service.active).toBeNull());
+      await settle();
+      expect(handler.closeReasons).toEqual(['scroll']);
+      expect(scroller.scrollTop).toBeCloseTo(500, 0);
+    });
+
+    it('stays open while its row is still partly in view', async () => {
+      const handler = new RecordingHandler(items());
+      await openOnAnchor(handler);
+
+      scroller.scrollTop = anchor.offsetHeight / 2;
+      await settle();
+      await nextTask();
+
+      expect(service.active).toBe(handler);
+    });
+
+    it('stays open when its row was never in view', async () => {
+      scroller.append(anchor);
+      const handler = new RecordingHandler(items());
+      await openOnAnchor(handler);
+
+      expect(service.active).toBe(handler);
+    });
   });
 
   it('opens a right-click menu on the pointer release, not before it', async () => {
