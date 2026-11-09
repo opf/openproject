@@ -40,7 +40,7 @@ import {
   OpActionMenuOptions,
   OpContextMenuCloseReason,
 } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
-import { OpActionMenuComponent } from './op-action-menu.component';
+import { OpActionMenuComponent, visibleMenuItems } from './op-action-menu.component';
 
 interface OpenMenu {
   handler:OpActionMenuHost;
@@ -77,7 +77,7 @@ export class OpActionMenuService {
     const { items } = handler.locals;
     const target = event.target instanceof Element ? event.target.closest(':not(svg, svg *)') : null;
     const invoker = options.anchor ?? target;
-    if (!items.some((item) => !item.hidden) || !(invoker instanceof HTMLElement)) {
+    if (!visibleMenuItems(items).length || !(invoker instanceof HTMLElement)) {
       return;
     }
 

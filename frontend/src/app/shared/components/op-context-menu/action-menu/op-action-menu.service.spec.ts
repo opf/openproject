@@ -158,6 +158,19 @@ describe('OpActionMenuService', () => {
     });
   });
 
+  it('opens nothing when every visible item is an empty submenu or a divider', async () => {
+    const handler = new RecordingHandler([
+      { divider: true },
+      { linkText: 'Move', children: [{ linkText: 'Move up', hidden: true, onClick: () => true }] },
+    ]);
+
+    service.show(handler, createEvent.click(anchor), { anchor });
+    await settle();
+
+    expect(service.active).toBeNull();
+    expect(within(document.body).queryByRole('menu', { hidden: true })).toBeNull();
+  });
+
   it('opens a right-click menu on the pointer release, not before it', async () => {
     anchor.addEventListener('contextmenu', (event) => service.show(new RecordingHandler(items()), event), { once: true });
     fireEvent.contextMenu(anchor, { clientX: 40, clientY: 20, buttons: 2 });
