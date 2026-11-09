@@ -34,7 +34,6 @@ module API
       class QueryRepresenter < ::API::Decorators::Single
         self_link
 
-        include API::Decorators::LinkedResource
         include API::V3::Workspaces::LinkedResource
         include API::Decorators::DateProperty
 

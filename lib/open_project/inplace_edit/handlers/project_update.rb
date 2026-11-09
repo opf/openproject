@@ -42,7 +42,7 @@ module OpenProject
         end
 
         def self.project_attributes_only?(params)
-          params.keys.all? { |k| k.to_s.start_with?("custom_field_", "custom_comment") }
+          params.keys.all? { |k| CustomField.custom_field_attribute?(k) || k.to_s.start_with?("custom_comment") }
         end
         private_class_method :project_attributes_only?
       end
