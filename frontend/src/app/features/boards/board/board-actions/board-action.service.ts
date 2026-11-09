@@ -272,9 +272,10 @@ export abstract class BoardActionService {
     return Promise.resolve(true);
   }
 
-  /**
-   * Determine whether the given work package can be moved
-   */
+  affectsOtherCards(_workPackage:WorkPackageResource, _cards:WorkPackageResource[]):boolean {
+    return false;
+  }
+
   canMove(workPackage:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(workPackage);
     const fieldSchema = schema[this.attributeName] as IFieldSchema;
