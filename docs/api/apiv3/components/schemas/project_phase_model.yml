@@ -21,6 +21,18 @@ properties:
     type: string
   active:
     type: boolean
+  startDate:
+    type:
+      - "string"
+      - "null"
+    format: date
+    description: The date the phase starts.
+  finishDate:
+    type:
+      - "string"
+      - "null"
+    format: date
+    description: The date the phase ends.
   createdAt:
     type: string
     format: date-time
@@ -62,6 +74,8 @@ examples:
     id: 1337
     name: 'Initiating'
     active: true
+    startDate: '2023-02-01'
+    finishDate: '2023-03-31'
     createdAt: '2023-01-20T14:30:00.368Z'
     updatedAt: '2023-05-23T11:57:48.618Z'
     _links:
