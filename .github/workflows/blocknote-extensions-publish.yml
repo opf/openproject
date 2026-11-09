@@ -3,7 +3,7 @@ name: "BlockNote extensions / Publish to npm"
 on:
   push:
     branches:
-      - release-op-blocknote-extensions
+      - release-blocknote-extensions
     paths:
       - 'extensions/blocknote-extensions/package.json'
 

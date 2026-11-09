@@ -25,7 +25,7 @@ coverage/
 *.sw?
 
 # build things
-op-blocknote-extensions-*
+openproject-blocknote-extensions-*.tgz
 
 .env
 !.env.*
