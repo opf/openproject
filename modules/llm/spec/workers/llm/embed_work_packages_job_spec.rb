@@ -32,6 +32,7 @@ require_module_spec_helper
 
 RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } do
   let(:work_package) { create(:work_package) }
+  let(:other_work_package) { create(:work_package) }
   let(:semantic_index) { create(:semantic_index, state: "indexing") }
 
   before { allow(Llm::WorkPackages::EmbedService).to receive(:new).and_call_original }
@@ -67,5 +68,22 @@ RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } d
     described_class.perform_now(semantic_index.id, [work_package.id])
 
     expect(Llm::WorkPackages::EmbedService).not_to have_received(:new)
+  end
+
+  it "retries when rate limited" do
+    service_double = instance_double(Llm::WorkPackages::EmbedService, call: nil)
+    allow(Llm::WorkPackages::EmbedService).to receive(:new).and_return(service_double)
+    allow(service_double).to receive(:call).and_raise(Llm::Errors::RateLimitedError.new("slow down", status: 429))
+
+    expect { described_class.perform_now(semantic_index.id, [work_package.id]) }
+      .to have_enqueued_job(described_class).with(semantic_index.id, [work_package.id])
+  end
+
+  it "enqueues one embed job per individual work package when failing" do
+    service_double = instance_double(Llm::WorkPackages::EmbedService, call: nil)
+    allow(service_double).to receive(:call).and_raise(Llm::Errors::ContextLengthError.new("too long", status: 400))
+    expect { described_class.perform_now(semantic_index.id, [work_package.id, other_work_package.id]) }
+      .to have_enqueued_job(described_class).with(semantic_index.id, [work_package.id])
+      .and have_enqueued_job(described_class).with(semantic_index.id, [other_work_package.id])
   end
 end
