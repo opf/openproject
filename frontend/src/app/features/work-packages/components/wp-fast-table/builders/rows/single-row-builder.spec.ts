@@ -367,7 +367,7 @@ describe('SingleRowBuilder refresh with an active editor', () => {
       harness.relationRow('3', '2', 'children').querySelector(':scope > .wp-table--cell-td.subject'),
     ];
 
-    const navigation = harness.table.keyboardNavigation!;
+    const navigation = harness.table.keyboardNavigation;
     navigation.focusPosition(navigation.positionOfCell(origin)!);
     fireEvent.keyDown(origin, { key: 'Enter' });
     const input = await waitFor(() => within(origin).getByRole<HTMLInputElement>('textbox'));

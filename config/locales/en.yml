@@ -2361,7 +2361,11 @@ en:
         editor_gone: "The editor is no longer open, so the text cannot be replaced. You can still copy it."
         failed_title: "Generation failed"
         generating: "Generating…"
+        mentions_converted: >-
+          New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally.
+          After Replace, you can mention them again in the editor.
         replace: "Replace"
+        request_failed: "The request failed. Close the result and try again."
         selection_gone: "The selected text is no longer there, so it cannot be replaced. You can still copy it."
         stopped_description: "The response was blocked before it finished, so the partial text was discarded."
         stopped_title: "Generation stopped"

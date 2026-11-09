@@ -393,7 +393,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     nextRender,
     nextMutation() {
       return new Promise<MutationExit>((resolve) => {
-        const navigation = table.keyboardNavigation!;
+        const navigation = table.keyboardNavigation;
         const original = navigation.rowsChanged.bind(navigation);
         const spy = vi.spyOn(navigation, 'rowsChanged').mockImplementation((exit) => {
           spy.mockRestore();

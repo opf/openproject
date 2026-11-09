@@ -39,7 +39,7 @@ import { GroupSumsBuilder } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
+import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
