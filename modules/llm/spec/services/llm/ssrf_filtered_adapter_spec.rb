@@ -51,6 +51,13 @@ RSpec.describe Llm::SsrfFilteredAdapter do
     end
   end
 
+  def connection_attempted?
+    server.accept_nonblock.close
+    true
+  rescue IO::WaitReadable
+    false
+  end
+
   def read_request(client)
     head = +""
     while (line = client.gets) && line != "\r\n"
@@ -84,21 +91,21 @@ RSpec.describe Llm::SsrfFilteredAdapter do
   end
 
   context "without an allowlist entry for the private address" do
-    it "refuses a chat completion before anything reaches the server" do
+    it "refuses a chat completion before connecting to the server" do
       expect { session.chat("qwen3.6-27b").ask("ping") }.to raise_error(Llm::Errors::SsrfError)
-      expect(requests).to be_empty
+      expect(connection_attempted?).to be(false)
     end
 
-    it "refuses an embedding request" do
+    it "refuses an embedding request before connecting" do
       expect { session.embed("hello", model: "bge-m3") }.to raise_error(Llm::Errors::SsrfError)
-      expect(requests).to be_empty
+      expect(connection_attempted?).to be(false)
     end
 
-    it "refuses a hostname that resolves to the private address" do
+    it "refuses a hostname that resolves to the private address before connecting" do
       connection.update_column(:base_url, "http://localhost:#{server.addr[1]}/v1")
 
       expect { session.chat("qwen3.6-27b").ask("ping") }.to raise_error(Llm::Errors::SsrfError)
-      expect(requests).to be_empty
+      expect(connection_attempted?).to be(false)
     end
   end
 
