@@ -46,7 +46,7 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   },
   {
     key: 'copy_alphanumeric_id_to_clipboard',
-    icon: 'icon-code-tag',
+    icon: 'icon-clipboard',
     link: 'id',
   },
   {
