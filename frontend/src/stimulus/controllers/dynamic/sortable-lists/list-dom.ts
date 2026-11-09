@@ -27,7 +27,9 @@
 
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { reindexAriaRowsAfter } from './aria-row-indices';
-import { analyzeMoveRows, analyzedMoveAvailability, resolveAnalyzedMove, type BlockMoveResult } from './move-analysis';
+import {
+  analyzeMoveRows, analyzedMoveAvailability, resolveAnalyzedMove, type BlockMoveResult, type MoveAnalysis,
+} from './move-analysis';
 
 export type { BlockMoveResult } from './move-analysis';
 
@@ -49,6 +51,8 @@ export const sortableListSelector = '[data-controller~="sortable-lists--list"]';
 export const sortablePreviousItemIdAttribute = 'data-sortable-lists-prev-item-id';
 export const sortableOmittedCountAttribute = 'data-sortable-lists-omitted-count';
 export const sortableItemMobilityAttribute = 'data-sortable-lists--item-mobility-value';
+export const sortableScopeCountAttribute = 'data-sortable-lists-scope-count';
+export const sortableScopeIdsAttribute = 'data-sortable-lists-scope-ids';
 
 /**
  * What ordering an item takes part in.
@@ -441,7 +445,7 @@ export function resolveBlockMove({
   return analysis ? resolveAnalyzedMove(analysis, direction) : { available: false };
 }
 
-function analyzeBlockRows(itemElements:HTMLElement[], rowsContainer:Element) {
+function analyzeBlockRows(itemElements:readonly HTMLElement[], rowsContainer:Element):MoveAnalysis|null {
   const rows = listRows(rowsContainer);
   const selectedRows:HTMLElement[] = [];
   for (const item of itemElements) {

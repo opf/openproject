@@ -47,7 +47,7 @@ export type BlockMoveResult = {
   previousItemId:string|null;
 }|{ available:false };
 
-export function analyzeMoveRows(rows:MoveRow[], selectedRows:HTMLElement[]):MoveAnalysis|null {
+export function analyzeMoveRows(rows:readonly MoveRow[], selectedRows:readonly HTMLElement[]):MoveAnalysis|null {
   const selected = new Set(selectedRows);
   if (selected.size === 0 || selected.size !== selectedRows.length) return null;
 
