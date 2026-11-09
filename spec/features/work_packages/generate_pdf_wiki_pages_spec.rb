@@ -29,7 +29,7 @@
 require "spec_helper"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "work package generate PDF dialog, wiki pages", :js do
+RSpec.describe "Work package generate PDF dialog, wiki pages", :js do
   shared_let(:user) { create(:admin) }
   shared_let(:download_list) { DownloadList.new }
   shared_let(:provider) { create(:internal_wiki_provider) }
