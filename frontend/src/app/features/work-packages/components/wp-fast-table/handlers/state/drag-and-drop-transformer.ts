@@ -235,7 +235,11 @@ export class DragAndDropTransformer implements RowMover {
         await table.whenRendered();
         attempt = isCurrent() ? await this.preparePeerMove(ids, direction, query, isCurrent) : null;
       }
-      if (!attempt || !isCurrent() || this.renderedSince(attempt.renderPass) || !this.canMoveRows(query)) return;
+      if (attempt && isCurrent() && this.renderedSince(attempt.renderPass)) {
+        this.announceMoveFailed(new Set(ids).size);
+        return;
+      }
+      if (!attempt || !isCurrent() || !this.canMoveRows(query)) return;
       const { prepared, block } = attempt;
       await prepared.persist();
       if (!isCurrent()) return;
@@ -309,6 +313,13 @@ export class DragAndDropTransformer implements RowMover {
     };
     const [targetId, edge] = targets[direction];
     return index === -1 || targetId === undefined ? null : { sourceId: workPackageId, targetId, edge };
+  }
+
+  private announceMoveFailed(count:number):void {
+    const message = count > 1
+      ? I18n.t('js.sortable_lists.announcements.move_failed_check_positions_batch', { count })
+      : I18n.t('js.sortable_lists.announcements.move_failed_check_position');
+    void announce(message, { politeness: 'assertive' });
   }
 
   private announceMove(workPackageId:string, query:QueryResource|undefined):void {
