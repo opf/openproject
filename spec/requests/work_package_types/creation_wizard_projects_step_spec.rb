@@ -69,16 +69,6 @@ RSpec.describe "Projects step of the type creation wizard", :skip_csrf, type: :r
     expect(response.media_type).to eq("text/html")
   end
 
-  it "routes the tab's actions back to the wizard" do
-    get type_creation_wizard_path(type, step: :projects)
-
-    %w[type-projects-add-button type-projects-enable-all].each do |selector|
-      hrefs = page.all(:test_id, selector).pluck(:href)
-
-      expect(hrefs).to be_present.and(all(satisfy { |href| query_of(href)["wizard"] == "true" }))
-    end
-  end
-
   it "lets links in the step leave the wizard's frame" do
     get type_creation_wizard_path(type, step: :projects)
 

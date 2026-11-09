@@ -33,24 +33,22 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
-      include WizardFlag
 
       DIALOG_ID = "work-package-type-add-projects-dialog"
       FORM_ID = "work-package-type-add-projects-form"
       FIELD_NAME = "project_ids"
 
-      def initialize(variant:, wizard: false, validation_message: nil)
+      def initialize(variant:, validation_message: nil)
         super()
 
         @variant = variant
-        @wizard = wizard
         @validation_message = validation_message
       end
 
       def form_arguments
         {
           id: FORM_ID,
-          url: variant_projects_link_path(variant, **wizard_params),
+          url: variant_projects_link_path(variant),
           method: :post,
           data: { turbo: true }
         }

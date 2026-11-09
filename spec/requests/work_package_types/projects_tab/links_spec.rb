@@ -52,26 +52,14 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
 
   describe "GET link/new" do
     subject do
-      get new_type_projects_link_path(type_id: bug.id, **wizard_flag), as: :turbo_stream
+      get new_type_projects_link_path(type_id: bug.id), as: :turbo_stream
     end
-
-    let(:wizard_flag) { {} }
 
     it "opens the add projects dialog" do
       subject
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID)
-    end
-
-    context "when opened from the creation wizard" do
-      let(:wizard_flag) { { wizard: true } }
-
-      it "submits the picked projects back to the wizard" do
-        subject
-
-        expect(response.body).to include(%(action="#{type_projects_link_path(type_id: bug.id, wizard: true)}"))
-      end
     end
   end
 
@@ -222,30 +210,6 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
           subject
 
           expect(laboratory.project_types.where(type_id: bug.id).count).to eq(1)
-        end
-      end
-    end
-
-    context "when submitted from the creation wizard" do
-      let(:path) { type_variant_projects_link_path(type_id: bug.id, variant_id: hardware.id, wizard: true) }
-
-      context "with an empty selection" do
-        let(:project_ids) { [] }
-
-        it "keeps the refused form in the wizard" do
-          subject
-
-          expect(response.body).to include(%(action="#{path}"))
-        end
-      end
-
-      context "when a project is on another variant of the type" do
-        let(:projects) { [laboratory, depot] }
-
-        it "keeps the confirmation in the wizard" do
-          subject
-
-          expect(response.body).to include(switch_dialog_id).and include(%(action="#{path}"))
         end
       end
     end
@@ -437,12 +401,10 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
 
   describe "GET link/deletion/new" do
     subject do
-      get new_type_projects_link_deletion_path(type_id: bug.id, **wizard_flag),
+      get new_type_projects_link_deletion_path(type_id: bug.id),
           params: { project_ids: [bookshop.id, foundry.id] },
           as: :turbo_stream
     end
-
-    let(:wizard_flag) { {} }
 
     it "asks to confirm the removal, listing the projects with their variants" do
       subject
@@ -450,16 +412,6 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Remove type &#39;Bug&#39; from these projects?")
         .and include("Bookshop").and include("Foundry").and include("Hardware")
-    end
-
-    context "when opened from the creation wizard" do
-      let(:wizard_flag) { { wizard: true } }
-
-      it "removes the type from within the wizard" do
-        subject
-
-        expect(response.body).to include(%(action="#{type_projects_link_path(type_id: bug.id, wizard: true)}"))
-      end
     end
 
     context "without admin access" do

@@ -33,7 +33,6 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
-      include WizardFlag
 
       def initialize(type:, variant:, query:, wizard: false)
         super()
@@ -84,10 +83,12 @@ module WorkPackageTypes
 
       attr_reader :type, :variant, :query
 
-      def add_path = new_variant_projects_link_path(variant, **wizard_params)
+      def wizard? = @wizard
+
+      def add_path = new_variant_projects_link_path(variant)
 
       def toggle_all_path
-        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1", **wizard_params)
+        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1")
       end
 
       def toggle_all_label

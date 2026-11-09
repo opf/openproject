@@ -44,13 +44,12 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
 
   describe "GET switch/new" do
     subject do
-      get new_type_projects_switch_path(type_id: bug.id, **wizard_flag),
+      get new_type_projects_switch_path(type_id: bug.id),
           params: { project_ids: projects.map(&:id) },
           as: :turbo_stream
     end
 
     let(:projects) { [foundry] }
-    let(:wizard_flag) { {} }
 
     it "opens the switch dialog with the project's impact preview" do
       subject
@@ -59,17 +58,6 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       expect(response.body)
         .to include(Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID)
         .and include("project-types-switch-impact")
-    end
-
-    context "when opened from the creation wizard" do
-      let(:wizard_flag) { { wizard: true } }
-
-      it "switches the project from within the wizard" do
-        subject
-
-        expect(response.body)
-          .to include(CGI.escapeHTML(type_projects_switch_path(type_id: bug.id, project_ids: [foundry.id], wizard: true)))
-      end
     end
 
     context "with several projects" do
@@ -83,16 +71,6 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
         expect(response.body).to include("Bulk switch type or variant")
           .and include("Hardware").and include("Firmware")
         expect(response.body).not_to include("Prototype")
-      end
-
-      context "when opened from the creation wizard" do
-        let(:wizard_flag) { { wizard: true } }
-
-        it "carries the wizard on to the confirmation" do
-          subject
-
-          expect(response.body).to include(%(name="wizard" value="true"))
-        end
       end
     end
 
@@ -109,12 +87,10 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
 
   describe "GET switch/confirmation/new" do
     subject do
-      get new_type_projects_switch_confirmation_path(type_id: bug.id, **wizard_flag),
+      get new_type_projects_switch_confirmation_path(type_id: bug.id),
           params: { project_ids: [bookshop.id, smithy.id], target_id: firmware.id },
           as: :turbo_stream
     end
-
-    let(:wizard_flag) { {} }
 
     it "asks to confirm, listing every project including one already on the target" do
       subject
@@ -122,16 +98,6 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("closeDialog").and include("type-projects-bulk-switch-dialog")
       expect(response.body).to include("Switch type variant?").and include("Bookshop").and include("Smithy")
-    end
-
-    context "when opened from the creation wizard" do
-      let(:wizard_flag) { { wizard: true } }
-
-      it "switches the projects from within the wizard" do
-        subject
-
-        expect(response.body).to include(%(action="#{type_projects_switch_path(type_id: bug.id, wizard: true)}"))
-      end
     end
   end
 
