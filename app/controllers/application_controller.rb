@@ -420,7 +420,7 @@ class ApplicationController < ActionController::Base
   end
 
   def session_expired?
-    !api_request? && current_user.logged? && session_ttl_expired?
+    current_user.logged? && session_ttl_expired?
   end
 
   def login_back_url_params
