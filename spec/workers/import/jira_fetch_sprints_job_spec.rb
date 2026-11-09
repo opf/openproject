@@ -219,6 +219,18 @@ RSpec.describe Import::JiraFetchSprintsJob do
           expect(jira_client).to have_received(:sprint).twice
         end
 
+        it "asks Jira once for a sprint it no longer has, however many batches reference it" do
+          stage_issue(2)
+          stage_issue(2, 11)
+          allow(jira_client).to receive(:sprint).with("2")
+            .and_raise(Import::JiraClient::UnsupportedEndpointError, "no endpoint (status 404)")
+
+          perform
+
+          expect(staged_sprints).to eq(%w[11])
+          expect(jira_client).to have_received(:sprint).with("2").once
+        end
+
         it "resumes after the last batch of issues scanned before an interruption" do
           stage_issue(2)
           scanned = stage_issue(11)

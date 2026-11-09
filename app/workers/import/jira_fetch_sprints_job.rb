@@ -33,7 +33,7 @@ module Import
 
     BOARDS_PHASE = "boards"
     ISSUES_PHASE = "issues"
-    ISSUE_BATCH_SIZE = 500
+    ISSUE_BATCH_SIZE = 50
 
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
@@ -101,7 +101,7 @@ module Import
     def fetch_unstaged_sprints_of_issues(start_id)
       sprint_ids = sprint_ids_of(issues.where(id: start_id..).limit(ISSUE_BATCH_SIZE))
       staged = Import::JiraSprint.where(jira_import_id: @jira_import.id, origin_id: sprint_ids).pluck(:origin_id)
-      (sprint_ids - staged).each { |sprint_id| fetch_sprint(sprint_id) }
+      (sprint_ids - staged - unavailable_sprint_ids.to_a).each { |sprint_id| fetch_sprint(sprint_id) }
     end
 
     def sprint_ids_of(batch)
@@ -128,7 +128,12 @@ module Import
     def fetch_sprint(origin_id)
       upsert_sprints([@jira_client.sprint(origin_id)])
     rescue Import::JiraClient::UnsupportedEndpointError => e
+      unavailable_sprint_ids << origin_id
       log(origin_id) { Rails.logger.warn "Skipping sprint: #{e.message}" }
+    end
+
+    def unavailable_sprint_ids
+      @unavailable_sprint_ids ||= Set.new
     end
 
     def upsert_sprints(sprints)
