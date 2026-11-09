@@ -83,13 +83,13 @@ zh-CN:
         dependencies: 依赖项
   activerecord:
     attributes:
-      ai/text_action:
-        active: Active
-        injects_type_template: Insert work package type template
-        label: Label
-        prompt: Prompt
-        types: Work package types
-        usage_scope: Scope
+      ai/text_transform_action:
+        active: 有效
+        injects_type_template: 插入工作包类型模板
+        label: 标签
+        prompt: 提示
+        types: 工作包类型
+        usage_scope: 范围
       ai/text_transform_run:
         action: 操作
         cancel_requested: 已请求取消
@@ -207,7 +207,7 @@ zh-CN:
         column_count: 列数
         page: 页
         row_count: 行数
-        widgets: 微件
+        widgets: 小部件
       group:
         avatar_color: Fallback color
         avatar_text: Avatar text
@@ -342,6 +342,10 @@ zh-CN:
         custom_field_section: 单元
       project_type:
         variant: 变体
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: 子级工作包
         column_names: 列
@@ -846,6 +850,10 @@ zh-CN:
             variant:
               must_be_owned_by_the_project: 不得是另一个项目拥有的变体。
               must_belong_to_the_type: 必须是该项目所用类型的变体。
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1080,8 +1088,8 @@ zh-CN:
     models:
       action:
         other: 操作
-      ai/text_action:
-        other: Text actions
+      ai/text_transform_action:
+        other: 文本转换操作
       ai/text_transform_run:
         other: 文本转换运行
       ai/text_transform_run_event:
@@ -1393,7 +1401,7 @@ zh-CN:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -1453,7 +1461,7 @@ zh-CN:
         title: 删除企业令牌
       enterprise_link: 如需了解详细信息，请单击此处。
       get_quote: 获取报价
-      order: 订购本地部署版的 Enterprise edition
+      order: 订购本地部署的 Enterprise edition
       paste: 粘贴您企业版的支持令牌
       replace_token: 替换您当前的支持令牌
       required_for_feature: 此功能仅限具激活的企业版支持令牌的订阅者使用。
@@ -1987,6 +1995,37 @@ zh-CN:
           error: 此分区无法重新排序。
         move:
           error: 此分区无法重新排序。
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: 此分区无法删除。
@@ -2066,41 +2105,40 @@ zh-CN:
         page_header:
           description: 可以选择经典的数字工作包 ID，或者将项目标识符作为工作包 ID 前缀的语义化项目特定工作包 ID。
         success_banner: 已成功更新工作包标识符格式。
-    text_actions:
+    text_transform_actions:
       delete_dialog_component:
-        description: Users will no longer be able to run this action in the rich text editor.
-        heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete action
+        description: 用户将无法再在富文本编辑器中运行此操作。
+        heading: 确定要删除操作“%{label}”吗？
+        title: 删除文本转换操作
       form:
-        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
-        label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
-        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
-        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+        injects_type_template_caption: 如果选中此项，工作包类型的描述模板将自动添加到提示词中。提示词应包含有关模板使用方法的说明。
+        label_caption: 这是将在编辑器中向用户显示的名称。
+        select_types: 选择类型
+        types_caption: 添加应当可以使用此操作的工作包类型。所有可用的变体将自动包含在内。
+        usage_scope_caption: 您可以限制此操作的可见范围： 所有位置（包括评论、Wiki 和自定义字段）、适用于所有工作包类型，或适用于某些工作包类型。
       index:
-        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
-        label_add_action: Action
-        label_aria_add_action: Add action
-        section_title: Actions
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: 操作
+        label_aria_add_action: 添加文本转换操作
       index_component:
         blank_slate:
-          description: Add an action to see it here
-          title: No actions configured yet
-        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
-        label_disable_all: Disable all
-        label_enable_all: Enable all
-        title: Action
+          description: 添加操作以在此处查看
+          title: 尚未配置文本转换操作
+        disabled_warning: 文本转换操作已禁用。以下操作在任何位置均不可用。
+        label_disable_all: 全部禁用
+        label_enable_all: 全部启用
+        title: 操作
       new:
-        title: New text action
+        title: 新建文本转换操作
       row_component:
-        label_actions: Action menu
-        label_toggle: Toggle %{label}
+        label_actions: 操作菜单
+        label_toggle: 切换 %{label}
         scope_specific_work_package_types:
           other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: All work package types
-        everywhere: Everywhere
-        specific_work_package_types: Specific work package types
+        all_work_package_types: 所有工作包类型
+        everywhere: 任何位置
+        specific_work_package_types: 特定的工作包类型
     workflows:
       blankslate:
         description: 添加状态，以开始为此角色配置工作流
@@ -2152,7 +2190,7 @@ zh-CN:
       errors:
         connection_failed: 无法访问 AI 服务。
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: The text assistant is not available.
+        not_available: AI 助手不可用。
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: AI 服务未及时响应。
         upstream_error: AI 服务返回错误。
@@ -3041,7 +3079,6 @@ zh-CN:
       scim_api: SCIM 服务器 API
       sso_auth_providers: 单点登录
       team_planner_view: 工作组规划器视图
-      text_assistant: Text assistant
       virus_scanning: 反病毒扫描
       weighted_item_lists: 加权项目列表
       work_package_query_relation_columns: 工作包查询关系列
@@ -3153,9 +3190,6 @@ zh-CN:
       sso_auth_providers:
         description: 允许用户使用 SAML 或 OpenID Connect 通过外部 SSO 提供商登录，以实现无缝访问，并与现有身份系统集成。
         title: 单点登录（SSO）
-      text_actions:
-        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
-        title: Text assistant
       title: 企业附加组件
       trial_text: 此功能包含在您的有效 Enterprise 试用版中。
       unlimited: 无限制
@@ -4349,7 +4383,7 @@ zh-CN:
   label_revision_plural: 修订
   label_roadmap: 路线图
   label_roadmap_due_in: "%{value} 到期"
-  label_roadmap_edit: 编辑路线图%{name}
+  label_roadmap_edit: 编辑路线图 %{name}
   label_roadmap_no_work_packages: 该版本没有工作包。
   label_roadmap_overdue: "%{value} 超时"
   label_role_and_permissions: 角色和权限
@@ -4877,7 +4911,8 @@ zh-CN:
       mail_notification: 电子邮件通知
       mails_and_notifications: 电子邮件和通知
       mcp_configurations: Model Context Protocol (MCP)
-      text_actions: Text assistant
+      push_notifications: Browser notifications
+      text_transform_actions: 文本转换操作
     quick_add:
       label: 添加…
   more_actions: 更多功能
@@ -6048,7 +6083,7 @@ zh-CN:
       setup_documentation_details: 如果您在配置新文件存储方面需要帮助，请查看文档：
       setup_documentation_details_link_text: 文件存储设置
       show_warning_details: 要使用此文件存储，请记得在每个所需项目的项目设置中激活模块和特定存储。
-      update_timeout: 在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
+      update_timeout: 在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
     subversion:
       existing_introduction: 如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。
       existing_title: 现有的 Subversion 存储库
@@ -6127,6 +6162,7 @@ zh-CN:
   setting_after_login_default_redirect_url_example_html: '设置一个默认路径，用于在没有提供返回链接的情况下登录后重定向用户。如果没有设置，则重定向到首页。<br/>示例：%{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: 启用文本转换操作
   setting_allowed_link_protocols: 允许的链接协议
   setting_allowed_link_protocols_text_html: 允许这些协议在工作包描述、长文本字段和评论中显示为链接。例如，%{tel_code} 或 %{element_code}。每行输入一个协议。<br/> 协议 %{http_code}、%{https_code} 和 %{mailto_code} 始终允许。
   setting_antivirus_scan_action: 受感染文件的操作
@@ -6323,7 +6359,7 @@ zh-CN:
   setting_smtp_user_name: SMTP 用户名
   setting_start_of_week: 一周起始日
   setting_sys_api_description: 存储库管理网页服务提供了集成的，用户授权的存储库访问。
-  setting_sys_api_enabled: 启用存储库管理网页服务
+  setting_sys_api_enabled: 启用版本库管理 web 服务
   setting_sys_api_key: API key
   setting_time_format: 时间
   setting_total_percent_complete_mode: 计算 完成% 层次结构总数
@@ -6337,6 +6373,12 @@ zh-CN:
   setting_user_format: 用户名格式
   setting_users_deletable_by_admins: 可由管理员删除用户帐户
   setting_users_deletable_by_self: 允许用户删除其帐户
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_welcome_text: 欢迎块文本
   setting_welcome_title: 欢迎块标题
@@ -7533,7 +7575,7 @@ zh-CN:
   warning_user_limit_reached_admin_html: '添加额外的用户将超出当前限值。请[升级您的方案](upgrade_url)，以确保外部用户能够访问此实例。
 
     '
-  warning_user_limit_reached_instructions: '您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+  warning_user_limit_reached_instructions: '您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
 
     '
   wiki:

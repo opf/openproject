@@ -164,7 +164,7 @@
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Avmerk alle
-    button_update: Oppdater
+    button_update: Oppdatèr
     button_view_markdown: View Markdown
     caption_rate_history: Satshistorikk
     card:
@@ -438,6 +438,7 @@
     label_assignee: Deltaker
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Vedlegg
+    label_author: 'Forfatter: %{user}'
     label_avatar: Profilbilde
     label_between: mellom
     label_board: Tavle

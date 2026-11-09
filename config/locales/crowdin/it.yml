@@ -83,13 +83,13 @@ it:
         dependencies: Dipendenze
   activerecord:
     attributes:
-      ai/text_action:
-        active: Active
-        injects_type_template: Insert work package type template
-        label: Label
+      ai/text_transform_action:
+        active: Attivo
+        injects_type_template: Inserisci il modello del tipo di macro-attività
+        label: Etichetta
         prompt: Prompt
-        types: Work package types
-        usage_scope: Scope
+        types: Tipi di macro-attività
+        usage_scope: Ambito
       ai/text_transform_run:
         action: Azione
         cancel_requested: Annullamento richiesto
@@ -342,6 +342,10 @@ it:
         custom_field_section: Sezione
       project_type:
         variant: Variante
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: Macro-attività figlia
         column_names: Colonne
@@ -847,6 +851,10 @@ it:
             variant:
               must_be_owned_by_the_project: non deve essere una variante appartenente a un altro progetto.
               must_belong_to_the_type: deve essere una variante del tipo utilizzato dal progetto.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1084,9 +1092,9 @@ it:
       action:
         one: Azione
         other: Azioni
-      ai/text_action:
-        one: Text action
-        other: Text actions
+      ai/text_transform_action:
+        one: Azione di trasformazione del testo
+        other: Azioni di trasformazione del testo
       ai/text_transform_run:
         one: Esecuzione della trasformazione del testo
         other: Esecuzioni della trasformazione del testo
@@ -1503,7 +1511,7 @@ it:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2108,6 +2116,37 @@ it:
           error: Impossibile riordinare la sezione.
         move:
           error: Impossibile riordinare la sezione.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: Impossibile eliminare la sezione.
@@ -2190,42 +2229,41 @@ it:
         page_header:
           description: Scegli tra ID numerici classici delle macro-attività oppure ID semantici specifici del progetto che antepongono l'identificatore del progetto all'ID della macro-attività.
         success_banner: Formato degli identificatori delle macro-attività aggiornato correttamente.
-    text_actions:
+    text_transform_actions:
       delete_dialog_component:
-        description: Users will no longer be able to run this action in the rich text editor.
-        heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete action
+        description: Gli utenti non potranno più eseguire questa azione nell'editor di testo RTF.
+        heading: Vuoi eliminare l'azione "%{label}"?
+        title: Elimina azione di trasformazione del testo
       form:
-        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
-        label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
-        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
-        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+        injects_type_template_caption: Se selezionato, il modello di descrizione del tipo di macro-attività viene aggiunto automaticamente al prompt. Il prompt deve contenere istruzioni su cosa fare con il modello.
+        label_caption: Questo è il nome che sarà visibile agli utenti nell'editor.
+        select_types: Seleziona tipi
+        types_caption: Aggiungi i tipi di macro-attività per i quali questa azione deve essere disponibile. Tutte le varianti disponibili verranno incluse automaticamente.
+        usage_scope_caption: 'Puoi limitare dove è visibile questa azione: ovunque (inclusi commenti, wiki e campi personalizzati), per tutti i tipi di macro-attività o per determinati tipi di macro-attività.'
       index:
-        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
-        label_add_action: Action
-        label_aria_add_action: Add action
-        section_title: Actions
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Azione
+        label_aria_add_action: Aggiungi azione di trasformazione del testo
       index_component:
         blank_slate:
-          description: Add an action to see it here
-          title: No actions configured yet
-        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
-        label_disable_all: Disable all
-        label_enable_all: Enable all
-        title: Action
+          description: Aggiungi un'azione per visualizzarla qui
+          title: Non è stata ancora configurata alcuna azione di trasformazione del testo
+        disabled_warning: Le azioni di trasformazione del testo sono disabilitate. Le seguenti azioni non saranno disponibili in alcun punto.
+        label_disable_all: Disabilita tutto
+        label_enable_all: Abilita tutto
+        title: Azioni
       new:
-        title: New text action
+        title: Nuova azione di trasformazione del testo
       row_component:
-        label_actions: Action menu
-        label_toggle: Toggle %{label}
+        label_actions: Menu azioni
+        label_toggle: Attiva/disattiva %{label}
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} tipo di macro-attività"
+          other: "%{count} tipi di macro-attività"
       usage_scopes:
-        all_work_package_types: All work package types
-        everywhere: Everywhere
-        specific_work_package_types: Specific work package types
+        all_work_package_types: Tutti i tipi di macro-attività
+        everywhere: Ovunque
+        specific_work_package_types: Tipi di macro-attività specifici
     workflows:
       blankslate:
         description: Aggiungi stati per iniziare a configurare i flussi di lavoro per questo ruolo
@@ -2279,7 +2317,7 @@ it:
       errors:
         connection_failed: Non è stato possibile raggiungere il servizio IA.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: The text assistant is not available.
+        not_available: L'assistente IA non è disponibile.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Il servizio IA non ha risposto in tempo.
         upstream_error: Il servizio IA ha restituito un errore.
@@ -3190,7 +3228,6 @@ it:
       scim_api: API server SCIM
       sso_auth_providers: Single Sign-On
       team_planner_view: Vista del Pianificatore di team
-      text_assistant: Text assistant
       virus_scanning: Scansione antivirus
       weighted_item_lists: Elenchi ponderati
       work_package_query_relation_columns: Colonne di relazione delle query della macro-attività
@@ -3303,9 +3340,6 @@ it:
       sso_auth_providers:
         description: Consenti agli utenti di accedere tramite provider SSO esterni utilizzando SAML o OpenID Connect, per un accesso fluido e un'integrazione con i sistemi di identità esistenti.
         title: Single Sign-On (SSO)
-      text_actions:
-        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
-        title: Text assistant
       title: Componente aggiuntivo Enterprise
       trial_text: Questa funzionalità è inclusa nella tua prova Enterprise attiva.
       unlimited: Illimitato
@@ -5052,7 +5086,8 @@ it:
       mail_notification: Notifiche email
       mails_and_notifications: Email e notifiche
       mcp_configurations: Modello di protocollo contestuale (MCP - Model Context Protocol)
-      text_actions: Text assistant
+      push_notifications: Browser notifications
+      text_transform_actions: Azioni di trasformazione del testo
     quick_add:
       label: Aggiungi…
   more_actions: Altre funzioni
@@ -6322,6 +6357,7 @@ it:
   setting_after_login_default_redirect_url_example_html: 'Imposta un percorso predefinito per reindirizzare gli utenti dopo l''accesso, se non è stato fornito alcun link di ritorno. Reindirizza alla home page se non impostato. <br/> Esempio: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Abilita azioni di trasformazione del testo
   setting_allowed_link_protocols: Protocolli di collegamento consentiti
   setting_allowed_link_protocols_text_html: Consenti che questi protocolli vengano visualizzati come link nelle descrizioni delle macro-attività, nei campi di testo lunghi e nei commenti. Ad esempio, %{tel_code} o %{element_code}. Inserisci un protocollo per riga. <br/> I protocolli %{http_code}, %{https_code} e %{mailto_code} sono sempre consentiti.
   setting_antivirus_scan_action: Azione sul file infetto
@@ -6532,6 +6568,12 @@ it:
   setting_user_format: Formato del nome utente
   setting_users_deletable_by_admins: Account degli utenti eliminabili dagli amministratori
   setting_users_deletable_by_self: Gli utenti possono eliminare il proprio account
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Mostra il blocco testo di benvenuto nella pagina home
   setting_welcome_text: Blocco di testo di benvenuto
   setting_welcome_title: Blocco di testo del titolo

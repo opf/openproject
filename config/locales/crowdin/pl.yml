@@ -83,13 +83,13 @@ pl:
         dependencies: Zależności
   activerecord:
     attributes:
-      ai/text_action:
-        active: Active
-        injects_type_template: Insert work package type template
-        label: Label
+      ai/text_transform_action:
+        active: Aktywny
+        injects_type_template: Wstaw szablon typu pakietu roboczego
+        label: Etykieta
         prompt: Prompt
-        types: Work package types
-        usage_scope: Scope
+        types: Typy pakietów roboczych
+        usage_scope: Zakres
       ai/text_transform_run:
         action: Działanie
         cancel_requested: Zażądano anulowania
@@ -342,6 +342,10 @@ pl:
         custom_field_section: Sekcja
       project_type:
         variant: Wariant
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: Podrzędne pakiety robocze
         column_names: Kolumny
@@ -849,6 +853,10 @@ pl:
             variant:
               must_be_owned_by_the_project: nie może być wariantem należącym do innego projektu.
               must_belong_to_the_type: musi być wariantem typu używanego w projekcie.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1092,11 +1100,11 @@ pl:
         few: Działania
         many: Działania
         other: Działania
-      ai/text_action:
-        one: Text action
-        few: Text actions
-        many: Text actions
-        other: Text actions
+      ai/text_transform_action:
+        one: Działanie przekształcania tekstu
+        few: Działania przekształcania tekstu
+        many: Działania przekształcania tekstu
+        other: Działania przekształcania tekstu
       ai/text_transform_run:
         one: Wykonanie przekształcania tekstu
         few: Wykonania przekształcania tekstu
@@ -1723,7 +1731,7 @@ pl:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2350,6 +2358,37 @@ pl:
           error: Nie można zmienić kolejności sekcji.
         move:
           error: Nie można zmienić kolejności sekcji.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: Nie można usunąć sekcji.
@@ -2434,44 +2473,43 @@ pl:
         page_header:
           description: Wybierz pomiędzy klasycznymi numerycznymi identyfikatorami pakietów roboczych albo semantycznymi identyfikatorami specyficznymi dla projektu, które dodają identyfikator projektu do identyfikatora pakietu roboczego.
         success_banner: Pomyślnie zaktualizowano format identyfikatora pakietu roboczego.
-    text_actions:
+    text_transform_actions:
       delete_dialog_component:
-        description: Users will no longer be able to run this action in the rich text editor.
-        heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete action
+        description: Użytkownicy nie będą już mogli wykonać tego działania w edytorze tekstu sformatowanego.
+        heading: Czy na pewno chcesz usunąć działanie „%{label}”?
+        title: Usuń działanie przekształcania tekstu
       form:
-        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
-        label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
-        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
-        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+        injects_type_template_caption: W przypadku zaznaczenia tej opcji szablon opisu typu pakietu roboczego zostanie automatycznie dodany do promptu. Prompt powinien zawierać instrukcje dotyczące sposobu postępowania z tym szablonem.
+        label_caption: Jest to nazwa, która będzie widoczna dla użytkowników w edytorze.
+        select_types: Wybierz typy
+        types_caption: Dodaj typy pakietów roboczych, dla których to działanie ma być dostępne. Wszystkie dostępne warianty zostaną uwzględnione automatycznie.
+        usage_scope_caption: 'Można ograniczyć widoczność tego działania: wszędzie (w tym w komentarzach, stronach wiki i polach niestandardowych), dla wszystkich typów pakietów roboczych lub dla określonych typów pakietów roboczych.'
       index:
-        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
-        label_add_action: Action
-        label_aria_add_action: Add action
-        section_title: Actions
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Działanie
+        label_aria_add_action: Dodaj działanie przekształcania tekstu
       index_component:
         blank_slate:
-          description: Add an action to see it here
-          title: No actions configured yet
-        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
-        label_disable_all: Disable all
-        label_enable_all: Enable all
-        title: Action
+          description: Dodaj działanie, aby wyświetlić je tutaj
+          title: Nie skonfigurowano jeszcze żadnych działań przekształcania tekstu
+        disabled_warning: Działania przekształcania tekstu są wyłączone. Poniższe działania nie będą nigdzie dostępne.
+        label_disable_all: Wyłącz wszystkie
+        label_enable_all: Włącz wszystkie
+        title: Działania
       new:
-        title: New text action
+        title: Nowe działanie przekształcania tekstu
       row_component:
-        label_actions: Action menu
-        label_toggle: Toggle %{label}
+        label_actions: Menu działań
+        label_toggle: Przełącz %{label}
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          few: "%{count} work package types"
-          many: "%{count} work package types"
-          other: "%{count} work package types"
+          one: "%{count} typ pakietu roboczego"
+          few: "%{count} typy pakietu roboczego"
+          many: "%{count} typów pakietu roboczego"
+          other: "%{count} typu pakietu roboczego"
       usage_scopes:
-        all_work_package_types: All work package types
-        everywhere: Everywhere
-        specific_work_package_types: Specific work package types
+        all_work_package_types: Wszystkie typy pakietów roboczych
+        everywhere: Wszędzie
+        specific_work_package_types: Określone typy pakietów roboczych
     workflows:
       blankslate:
         description: Dodaj statusy, aby rozpocząć konfigurowanie przepływów pracy dla tej roli
@@ -2529,7 +2567,7 @@ pl:
       errors:
         connection_failed: Nie można osiągnąć usługi AI.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: The text assistant is not available.
+        not_available: Asystent AI jest niedostępny.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Usługa AI nie odpowiedziała na czas.
         upstream_error: Usługa AI zwróciła błąd.
@@ -3478,7 +3516,6 @@ pl:
       scim_api: Interfejs API serwera SCIM
       sso_auth_providers: Logowanie jednokrotne
       team_planner_view: Widok planisty zespołu
-      text_assistant: Text assistant
       virus_scanning: Skanowanie antywirusowe
       weighted_item_lists: Listy ważone pozycji
       work_package_query_relation_columns: Kolumny relacji zapytań dotyczących pakietów roboczych
@@ -3591,9 +3628,6 @@ pl:
       sso_auth_providers:
         description: Umożliw użytkownikom logowanie się za pośrednictwem zewnętrznych dostawców SSO przy użyciu SAML lub OpenID Connect, aby zapewnić bezproblemowy dostęp i integrację z istniejącymi systemami sprawdzania tożsamości.
         title: Logowanie jednokrotne (SSO)
-      text_actions:
-        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
-        title: Text assistant
       title: Dodatek wersji Enterprise
       trial_text: Funkcja ta jest dostępna w ramach aktywnej wersji próbnej Enterprise.
       unlimited: Bez ograniczeń
@@ -5386,7 +5420,8 @@ pl:
       mail_notification: Powiadomienia e-mail
       mails_and_notifications: Wiadomości e-mail i powiadomienia
       mcp_configurations: Model Context Protocol (MCP)
-      text_actions: Text assistant
+      push_notifications: Browser notifications
+      text_transform_actions: Działania przekształcania tekstu
     quick_add:
       label: Dodaj…
   more_actions: Więcej funkcji
@@ -6678,6 +6713,7 @@ pl:
   setting_after_login_default_redirect_url_example_html: 'Ustaw domyślną ścieżkę przekierowania użytkowników po zalogowaniu, jeśli nie zapewniono linku do powrotu. Jeśli nie jest ustawiona, przekierowuje na stronę główną. <br/> Przykład: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Włącz działania przekształcania tekstu
   setting_allowed_link_protocols: Dozwolone protokoły linków
   setting_allowed_link_protocols_text_html: Zezwalaj na renderowanie tych protokołów jako linków w opisach pakietów roboczych, długich polach tekstowych i komentarzach. Na przykład %{tel_code} lub %{element_code}. Wprowadź każdy protokół w jednym wierszu. <br/> Protokoły %{http_code}, %{https_code} i %{mailto_code} są zawsze dozwolone.
   setting_antivirus_scan_action: Działanie wobec zainfekowanego pliku
@@ -6888,6 +6924,12 @@ pl:
   setting_user_format: Format nazw użytkowników
   setting_users_deletable_by_admins: Konta użytkowników mogą być usuwane przez administratorów
   setting_users_deletable_by_self: Użytkownicy mogą usuwać swoje konta
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Wyświetl wiadomość powitalną na ekranie głównym
   setting_welcome_text: Tekst bloku powitalnego
   setting_welcome_title: Tytuł bloku powitalnego

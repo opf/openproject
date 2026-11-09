@@ -83,13 +83,13 @@ fa:
         dependencies: وابستگی‌ها
   activerecord:
     attributes:
-      ai/text_action:
-        active: Active
-        injects_type_template: Insert work package type template
-        label: Label
-        prompt: Prompt
-        types: Work package types
-        usage_scope: Scope
+      ai/text_transform_action:
+        active: فعال
+        injects_type_template: درج الگوی نوع بسته کاری
+        label: برچسب
+        prompt: پرامپت
+        types: انواع بسته کاری
+        usage_scope: دامنه
       ai/text_transform_run:
         action: عملیات
         cancel_requested: درخواست لغو
@@ -342,6 +342,10 @@ fa:
         custom_field_section: بخش
       project_type:
         variant: گونه
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: بسته‌های کاری فرزند
         column_names: ستون‌ها
@@ -845,6 +849,10 @@ fa:
             variant:
               must_be_owned_by_the_project: نباید گونه‌ای باشد که متعلق به پروژه دیگری است.
               must_belong_to_the_type: باید گونه‌ای از نوع مورد استفاده پروژه باشد.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1082,9 +1090,9 @@ fa:
       action:
         one: اقدام
         other: اقدام‌ها
-      ai/text_action:
-        one: Text action
-        other: Text actions
+      ai/text_transform_action:
+        one: عملیات تبدیل متن
+        other: عملیات تبدیل متن
       ai/text_transform_run:
         one: اجرای تبدیل متن
         other: اجراهای تبدیل متن
@@ -1501,7 +1509,7 @@ fa:
             name: لوگوی حالت کنتراست بالا
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2106,6 +2114,37 @@ fa:
           error: ترتیب بخش تغییر نکرد.
         move:
           error: ترتیب بخش تغییر نکرد.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: بخش حذف نشد.
@@ -2188,42 +2227,41 @@ fa:
         page_header:
           description: بین شناسه‌های عددی کلاسیک بسته کاری یا شناسه‌های معنایی ویژه هر پروژه که شناسه پروژه را به ابتدای شناسه بسته کاری اضافه می‌کنند انتخاب کنید.
         success_banner: قالب شناسه بسته کاری با موفقیت به‌روزرسانی شد.
-    text_actions:
+    text_transform_actions:
       delete_dialog_component:
-        description: Users will no longer be able to run this action in the rich text editor.
-        heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete action
+        description: کاربران دیگر نمی‌توانند این عملیات را در ویرایشگر متن غنی اجرا کنند.
+        heading: آیا مطمئن هستید که می‌خواهید عملیات «%{label}» را حذف کنید؟
+        title: حذف عملیات تبدیل متن
       form:
-        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
-        label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
-        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
-        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+        injects_type_template_caption: اگر فعال باشد، الگوی توضیحات نوع بسته کاری به‌طور خودکار به پرامپت افزوده می‌شود. پرامپت باید شامل دستورهایی درباره نحوه استفاده از الگو باشد.
+        label_caption: این نامی است که کاربران در ویرایشگر خواهند دید.
+        select_types: انتخاب انواع
+        types_caption: انواع بسته کاری‌ای را اضافه کنید که این عملیات باید برای آن‌ها در دسترس باشد. همه گونه‌های موجود به‌طور خودکار شامل خواهند شد.
+        usage_scope_caption: 'می‌توانید محل نمایش این عملیات را محدود کنید: همه‌جا (از جمله دیدگاه‌ها، ویکی‌ها و فیلدهای سفارشی)، برای همه انواع بسته کاری، یا فقط برای انواع مشخصی از بسته کاری.'
       index:
-        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
-        label_add_action: Action
-        label_aria_add_action: Add action
-        section_title: Actions
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: عملیات
+        label_aria_add_action: افزودن عملیات تبدیل متن
       index_component:
         blank_slate:
-          description: Add an action to see it here
-          title: No actions configured yet
-        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
-        label_disable_all: Disable all
-        label_enable_all: Enable all
-        title: Action
+          description: برای نمایش در اینجا یک عملیات اضافه کنید
+          title: هنوز هیچ عملیات تبدیل متنی پیکربندی نشده است
+        disabled_warning: عملیات تبدیل متن غیرفعال هستند. عملیات زیر در هیچ‌جا در دسترس نخواهند بود.
+        label_disable_all: غیرفعال‌کردن همه
+        label_enable_all: فعال‌کردن همه
+        title: عملیات
       new:
-        title: New text action
+        title: عملیات جدید تبدیل متن
       row_component:
-        label_actions: Action menu
-        label_toggle: Toggle %{label}
+        label_actions: منوی عملیات
+        label_toggle: تغییر وضعیت %{label}
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} نوع بسته کاری"
+          other: "%{count} نوع بسته کاری"
       usage_scopes:
-        all_work_package_types: All work package types
-        everywhere: Everywhere
-        specific_work_package_types: Specific work package types
+        all_work_package_types: همه انواع بسته کاری
+        everywhere: همه‌جا
+        specific_work_package_types: انواع مشخص بسته کاری
     workflows:
       blankslate:
         description: برای شروع پیکربندی گردش‌کارهای این نقش، وضعیت‌ها را اضافه کنید
@@ -2277,7 +2315,7 @@ fa:
       errors:
         connection_failed: دسترسی به سرویس هوش مصنوعی ممکن نشد.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: The text assistant is not available.
+        not_available: دستیار هوش مصنوعی در دسترس نیست.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: سرویس هوش مصنوعی در زمان مقرر پاسخ نداد.
         upstream_error: سرویس هوش مصنوعی خطایی بازگرداند.
@@ -2399,7 +2437,7 @@ fa:
     body: بدنه
     category: دسته‌بندی
     color: رنگ
-    comment: دیدگاه
+    comment: نظر
     comments: دیدگاه
     content: محتوا
     created_at: ایجادشده در
@@ -3186,7 +3224,6 @@ fa:
       scim_api: SCIM Server API
       sso_auth_providers: ورود یکپارچه
       team_planner_view: نمای برنامه‌ریز تیم
-      text_assistant: Text assistant
       virus_scanning: اسکن آنتی‌ویروس
       weighted_item_lists: فهرست آیتم‌های وزن‌دار
       work_package_query_relation_columns: ستون‌های رابطه Query بسته کاری
@@ -3299,9 +3336,6 @@ fa:
       sso_auth_providers:
         description: با استفاده از SAML یا OpenID Connect به کاربران اجازه دهید از طریق ارائه‌دهندگان خارجی SSO وارد شوند تا دسترسی یکپارچه و اتصال با سیستم‌های هویتی موجود فراهم شود.
         title: ورود یکپارچه (SSO)
-      text_actions:
-        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
-        title: Text assistant
       title: افزونه Enterprise
       trial_text: این قابلیت در دوره آزمایشی Enterprise فعال شما گنجانده شده است.
       unlimited: نامحدود
@@ -5049,7 +5083,8 @@ fa:
       mail_notification: اعلان‌های ایمیلی
       mails_and_notifications: ایمیل‌ها و اعلان‌ها
       mcp_configurations: Model Context Protocol (MCP)
-      text_actions: Text assistant
+      push_notifications: Browser notifications
+      text_transform_actions: عملیات تبدیل متن
     quick_add:
       label: افزودن…
   more_actions: قابلیت‌های بیشتر
@@ -6321,6 +6356,7 @@ fa:
   setting_after_login_default_redirect_url_example_html: 'اگر Back Link ارائه نشده باشد، مسیر پیش‌فرضی برای Redirect کاربران پس از ورود تنظیم کنید. اگر تنظیم نشود به صفحه خانه هدایت می‌شود. <br/> نمونه: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: فعال‌کردن عملیات تبدیل متن
   setting_allowed_link_protocols: پروتکل‌های پیوند مجاز
   setting_allowed_link_protocols_text_html: اجازه دهید این پروتکل‌ها به‌صورت پیوند در توضیحات بسته کاری، فیلدهای متن بلند و دیدگاه‌ها Render شوند. برای مثال %{tel_code} یا %{element_code}. در هر خط یک پروتکل وارد کنید. <br/> پروتکل‌های %{http_code}، %{https_code} و %{mailto_code} همیشه مجاز هستند.
   setting_antivirus_scan_action: اقدام برای فایل آلوده
@@ -6531,6 +6567,12 @@ fa:
   setting_user_format: قالب نام کاربران
   setting_users_deletable_by_admins: امکان حذف حساب کاربران توسط مدیران
   setting_users_deletable_by_self: اجازه کاربران برای حذف حساب خود
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: نمایش بلوک خوش‌آمدگویی در صفحه خانه
   setting_welcome_text: متن بلوک خوش‌آمدگویی
   setting_welcome_title: عنوان بلوک خوش‌آمدگویی

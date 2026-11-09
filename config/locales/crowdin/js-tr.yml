@@ -438,6 +438,7 @@ tr:
     label_assignee: Atanan
     label_assignee_alt_text: Bu iş paketi %{name} ne atanmıştır.
     label_attachments: Ekler
+    label_author: 'Yazar: %{user}'
     label_avatar: Avatar
     label_between: arasında
     label_board: Pano

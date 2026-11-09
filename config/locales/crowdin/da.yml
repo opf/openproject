@@ -83,13 +83,13 @@ da:
         dependencies: Afhængigheder
   activerecord:
     attributes:
-      ai/text_action:
-        active: Active
-        injects_type_template: Insert work package type template
-        label: Label
+      ai/text_transform_action:
+        active: Aktiv
+        injects_type_template: Indsæt skabelon for arbejdspakketypen
+        label: Betegnelse
         prompt: Prompt
-        types: Work package types
-        usage_scope: Scope
+        types: Arbejdspakketyper
+        usage_scope: Omfang
       ai/text_transform_run:
         action: Handling
         cancel_requested: Annullering ønsket
@@ -342,6 +342,10 @@ da:
         custom_field_section: Afsnit
       project_type:
         variant: Variant
+      push_subscription:
+        created_at: Tilføjet
+        endpoint: Endepunkt
+        session_id: Session
       query:
         child_work_packages: Underordnede arbejdspakker
         column_names: Kolonner
@@ -847,6 +851,10 @@ da:
             variant:
               must_be_owned_by_the_project: må ikke være en variant, som et andet projekt ejer.
               must_belong_to_the_type: skal være en variant af den type, projektet bruger.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Kun %{count} enheder kan få browsernotifikationer på samme tid.
         queries/filters/base:
           attributes:
             values:
@@ -1084,9 +1092,9 @@ da:
       action:
         one: Handling
         other: Handlinger
-      ai/text_action:
-        one: Text action
-        other: Text actions
+      ai/text_transform_action:
+        one: Handling til tekstomskrivning
+        other: Handlinger til tekstomskrivning
       ai/text_transform_run:
         one: Kørsel af tekstomskrivning
         other: Kørsler af tekstomskrivning
@@ -2108,6 +2116,37 @@ da:
           error: Afsnittets placering kunne ikke ændres.
         move:
           error: Afsnittets placering kunne ikke ændres.
+      push_notifications:
+        checking: Tjekker …
+        description: Brugerne kan vælge at installere OpenProject som en progressiv webapp (PWA) i moderne browsere. Gør de det, kan de også få notifikationer fra styresystemet om aktivitet i OpenProject.
+        hosts_intro: 'OpenProject sender push til den push-tjeneste, som den enkelte brugers browser abonnerer via. Tjekket nedenfor kontakter de store browseres push-tjenester og alle tjenester, som et eksisterende abonnement bruger:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: Push-signeringsnøglen angives med miljøvariablen OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY. Skift variablen for at forny nøglen.
+        key_renewed: Push-signeringsnøglen er fornyet. Alle enheder skal slå browsernotifikationer til igen.
+        key_unreadable: Push-signeringsnøglen kunne ikke læses. Forny den for at få browsernotifikationerne tilbage. Derefter skal alle enheder slå browsernotifikationer til igen.
+        reachable: Kan nås
+        reasons:
+          connection: Forbindelsen mislykkedes
+          filtered: Anmodningen blev blokeret af SSRF-beskyttelsen
+          invalid_host: Værtsnavnet er ugyldigt
+          private_address: Værten peger på en privat adresse
+          sample_unresolved: Eksempelværten kunne ikke slås op; resultatet er ikke entydigt
+          timeout: Intet svar inden for %{seconds} sekunder
+          tls: TLS-handshake mislykkedes
+          unresolved: Værtsnavnet kunne ikke slås op
+        renew_key: Forny nøgler
+        renew_key_dialog:
+          confirm_button: Forny nøglen
+          confirmation: Jeg forstår, at alle enheder skal slå browsernotifikationer til igen.
+          description:
+            one: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: det ene eksisterende abonnement slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            other: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: %{count} abonnementer slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            zero: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: der findes endnu ingen abonnementer, men alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+          heading: Vil du forny push-signeringsnøglen?
+          title: Forny nøgler
+        unreachable: Kan ikke nås
+        verify_reachability: Tjek, om tjenesterne kan nås
+        verify_reachability_description: For at tjekke for notifikationer sender OpenProject en push uden indhold, der vækker appen. Den installerede PWA henter derefter antallet af ulæste over brugerens session. Følgende push-tjenester ser abonnementets endepunkt, denne installations adresse og offentlige nøgle samt tidspunktet for hver push.
       user_custom_field_sections:
         destroy:
           error: Afsnittet kunne ikke slettes.
@@ -2190,42 +2229,41 @@ da:
         page_header:
           description: Vælg mellem klassiske numeriske id'er for arbejdspakker eller semantiske, projektspecifikke id'er, hvor projektets id sættes foran arbejdspakkens id.
         success_banner: Formatet for arbejdspakkers id'er er opdateret.
-    text_actions:
+    text_transform_actions:
       delete_dialog_component:
-        description: Users will no longer be able to run this action in the rich text editor.
-        heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete action
+        description: Brugerne kan ikke længere køre handlingen i editoren til formateret tekst.
+        heading: Er du sikker på, at du vil slette handlingen "%{label}"?
+        title: Slet handling til tekstomskrivning
       form:
-        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
-        label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
-        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
-        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+        injects_type_template_caption: Når feltet er markeret, føjes arbejdspakketypens skabelon for beskrivelsen automatisk til prompten. Prompten bør indeholde instruktioner om, hvad der skal ske med skabelonen.
+        label_caption: Det er det navn, som brugerne ser i editoren.
+        select_types: Vælg typer
+        types_caption: Tilføj de arbejdspakketyper, som handlingen skal være tilgængelig for. Alle tilgængelige varianter medtages automatisk.
+        usage_scope_caption: 'Du kan begrænse, hvor handlingen er synlig: overalt (også i kommentarer, wikier og brugerdefinerede felter), for alle arbejdspakketyper eller for bestemte arbejdspakketyper.'
       index:
-        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
-        label_add_action: Action
-        label_aria_add_action: Add action
-        section_title: Actions
+        description: Handlinger til tekstomskrivning giver brugerne LLM-baserede handlinger til at skrive, ordne og gennemse tekst overalt, hvor editoren til formateret tekst bruges, fx i beskrivelser af arbejdspakker, kommentarer og wiki-sider. Du opretter nye handlinger med dine egne prompts og instruktioner.
+        label_add_action: Handling
+        label_aria_add_action: Tilføj handling til tekstomskrivning
       index_component:
         blank_slate:
-          description: Add an action to see it here
-          title: No actions configured yet
-        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
-        label_disable_all: Disable all
-        label_enable_all: Enable all
-        title: Action
+          description: Tilføj en handling for at se den her
+          title: Der er endnu ikke konfigureret nogen handlinger til tekstomskrivning
+        disabled_warning: Handlinger til tekstomskrivning er deaktiveret. Følgende handlinger er ikke tilgængelige nogen steder.
+        label_disable_all: Deaktiver alle
+        label_enable_all: Aktivér alle
+        title: Handlinger
       new:
-        title: New text action
+        title: Ny handling til tekstomskrivning
       row_component:
-        label_actions: Action menu
-        label_toggle: Toggle %{label}
+        label_actions: Handlingsmenu
+        label_toggle: Slå %{label} til eller fra
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} arbejdspakketype"
+          other: "%{count} arbejdspakketyper"
       usage_scopes:
-        all_work_package_types: All work package types
-        everywhere: Everywhere
-        specific_work_package_types: Specific work package types
+        all_work_package_types: Alle arbejdspakketyper
+        everywhere: Overalt
+        specific_work_package_types: Bestemte arbejdspakketyper
     workflows:
       blankslate:
         description: Tilføj statusser for at begynde at konfigurere arbejdsgange for rollen
@@ -2279,7 +2317,7 @@ da:
       errors:
         connection_failed: AI-tjenesten kunne ikke nås.
         context_too_long: Teksten er for lang til AI-modellen. Forkort den, og prøv igen.
-        not_available: The text assistant is not available.
+        not_available: AI-assistenten er ikke tilgængelig.
         rate_limited: AI-tjenesten er optaget. Prøv igen om et øjeblik.
         timeout: AI-tjenesten svarede ikke i tide.
         upstream_error: AI-tjenesten returnerede en fejl.
@@ -3190,7 +3228,6 @@ da:
       scim_api: SCIM-server-API
       sso_auth_providers: Single sign-on
       team_planner_view: Teamplanlægger
-      text_assistant: Text assistant
       virus_scanning: Antivirusscanning
       weighted_item_lists: Vægtede lister
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
@@ -3303,9 +3340,6 @@ da:
       sso_auth_providers:
         description: Lad brugerne logge ind via eksterne SSO-udbydere med SAML eller OpenID Connect, så de får nem adgang, og løsningen spiller sammen med eksisterende identitetssystemer.
         title: Single sign-on (SSO)
-      text_actions:
-        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
-        title: Text assistant
       title: Enterprise-tilføjelse
       trial_text: Funktionen er med i din aktive Enterprise-prøveperiode.
       unlimited: Ubegrænset
@@ -4138,7 +4172,7 @@ da:
   label_duplicate: dublet
   label_duplicated_by: dubleret af
   label_duplicates: dublerer
-  label_edit: Rediger
+  label_edit: Redigér
   label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
   label_enable_multi_select: Slå flervalg til/fra
@@ -5054,7 +5088,8 @@ da:
       mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
-      text_actions: Text assistant
+      push_notifications: Browsernotifikationer
+      text_transform_actions: Handlinger til tekstomskrivning
     quick_add:
       label: Tilføj …
   more_actions: Flere funktioner
@@ -6318,6 +6353,7 @@ da:
   setting_after_login_default_redirect_url_example_html: 'Angiv en standardsti, som brugerne omdirigeres til efter login, hvis der ikke er angivet et link tilbage. Er den ikke angivet, omdirigeres de til startsiden. <br/> Eksempel: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Aktivér handlinger til tekstomskrivning
   setting_allowed_link_protocols: Tilladte link-protokoller
   setting_allowed_link_protocols_text_html: Tillad, at disse protokoller vises som links i arbejdspakkers beskrivelser, lange tekstfelter og kommentarer. Fx %{tel_code} eller %{element_code}. Angiv én protokol pr. linje. <br/> Protokollerne %{http_code}, %{https_code} og %{mailto_code} er altid tilladt.
   setting_antivirus_scan_action: Handling ved inficeret fil
@@ -6528,6 +6564,12 @@ da:
   setting_user_format: Format for brugernavne
   setting_users_deletable_by_admins: Brugerens konti kan slettes af administratorer
   setting_users_deletable_by_self: Brugererne kan selv slette deres konti
+  setting_web_push_enabled: Browsernotifikationer
+  setting_web_push_enabled_caption: Lader brugere, der har installeret OpenProject som en progressiv webapp, få notifikationer fra styresystemet, når de har ulæste notifikationer i OpenProject.
+  setting_web_push_enabled_false: Tillad ikke browsernotifikationer
+  setting_web_push_enabled_false_caption: Brugerne kan ikke slå browsernotifikationer til i deres kontoindstillinger, heller ikke hvis de har installeret PWA'en
+  setting_web_push_enabled_true: Tillad browsernotifikationer
+  setting_web_push_enabled_true_caption: Brugerne kan slå browsernotifikationer til i deres kontoindstillinger, hvis de har installeret PWA'en
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel

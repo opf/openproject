@@ -71,15 +71,15 @@ da:
           name: Personale- og projektadministrator
         item_1:
           name: Global standardrolle
-      ai_text_actions:
+      ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Ret grammatik
         item_1:
-          label: Make concise
+          label: Gør kortere
         item_2:
-          label: Translate to English
+          label: Oversæt til engelsk
         item_3:
-          label: Sort into template
+          label: Sortér efter skabelon
     standard:
       project_phases:
         item_0:
