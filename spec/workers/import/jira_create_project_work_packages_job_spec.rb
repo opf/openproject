@@ -82,6 +82,16 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         expect(work_package.updated_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["updated"]))
       end
 
+      it "sets the origin fields for the imported work package" do
+        create_work_packages
+
+        work_package = WorkPackage.find("DPPP-6")
+        expect(work_package.origin_source).to eq("jira_data_center")
+        expect(work_package.origin_id).to eq(jira_issue.origin_id)
+        expect(work_package.origin_host).to eq(jira.url)
+        expect(work_package.origin_url).to eq("#{jira.url}/browse/DPPP-6")
+      end
+
       # rubocop:disable Layout/LineLength
       # rubocop:disable-next RSpec/ExampleLength
       it "creates appropriate comments on the work package" do
