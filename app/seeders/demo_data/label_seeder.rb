@@ -40,7 +40,11 @@ module DemoData
     private
 
     def find_or_create_label(name)
-      Label.named(name).first || Label.create!(name:, author: admin_user)
+      Labels::FindOrCreateService
+        .new(user: admin_user)
+        .call(name:)
+        .on_failure { |call| raise "Failed to seed label #{name.inspect}: #{call.message}" }
+        .result
     end
   end
 end
