@@ -22,3 +22,7 @@ Automatic installation is supported for OpenProject's Debian 11/12, Ubuntu 22.04
 
     sudo -E INSTALLER_DEBUG=no WIZ_RECONFIGURE=no DATABASE=/tmp/test1 ./bin/configure
     sudo -E INSTALLER_DEBUG=no WIZ_RECONFIGURE=no DATABASE=/tmp/test1 ./bin/preinstall
+
+## Tests
+
+See [the test instructions](tests/README.md) for provisioning and Debian package installation checks.
