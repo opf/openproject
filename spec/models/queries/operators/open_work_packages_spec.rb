@@ -50,8 +50,8 @@ RSpec.describe Queries::Operators::OpenWorkPackages do
   end
 
   describe ".sql_for_field" do
-    it "returns SQL condition for to_do and in_progress status categories" do
-      expected_sql = "#{Status.table_name}.category IN ('to_do', 'in_progress')"
+    it "returns SQL condition for non-closed status categories" do
+      expected_sql = "#{Status.table_name}.category IS DISTINCT FROM 'closed'"
 
       expect(described_class.sql_for_field([], nil, nil))
         .to eq(expected_sql)

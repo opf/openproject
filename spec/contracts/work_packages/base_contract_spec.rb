@@ -1701,7 +1701,7 @@ RSpec.describe WorkPackages::BaseContract do
       it "removes closed statuses if blocked" do
         allow(work_package).to receive(:blocked?).and_return(true)
 
-        expected = base_scope.where.not(category: "closed").order_by_position
+        expected = base_scope.not_closed.order_by_position
 
         expect(contract.assignable_statuses.to_sql).to eql expected.to_sql
       end
