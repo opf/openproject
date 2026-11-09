@@ -39,7 +39,7 @@ module WorkPackageTypes
       before_action :load_query, only: %i[create destroy]
 
       def new
-        respond_with_dialog AddDialogComponent.new(variant: @variant, wizard: wizard?)
+        respond_with_dialog AddDialogComponent.new(variant: @variant)
       end
 
       def create
@@ -48,7 +48,7 @@ module WorkPackageTypes
 
         switching = switching_project_types(projects)
         if unconfirmed_switch?(switching)
-          return ask_to_switch(switching, url: variant_projects_link_path(@variant, **wizard_params), project_ids: projects.ids)
+          return ask_to_switch(switching, url: variant_projects_link_path(@variant), project_ids: projects.ids)
         end
 
         respond_with_outcome(project_assignments.apply(projects), dialog_id: AddFormComponent::DIALOG_ID)
@@ -80,7 +80,6 @@ module WorkPackageTypes
         update_via_turbo_stream(
           component: AddFormComponent.new(
             variant: @variant,
-            wizard: wizard?,
             validation_message: I18n.t("types.edit.projects.add_dialog.no_projects_selected")
           ),
           status: :bad_request

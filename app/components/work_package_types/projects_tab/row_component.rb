@@ -31,7 +31,6 @@ module WorkPackageTypes
   module ProjectsTab
     class RowComponent < OpPrimer::BorderBoxRowComponent
       include WorkPackageTypes::VariantRoutes
-      include WizardFlag
 
       SELECTION_TYPE = "type_project"
 
@@ -65,8 +64,6 @@ module WorkPackageTypes
 
       def table_variant = table.variant
 
-      def wizard? = table.wizard?
-
       def applied_variant = @applied_variant ||= project.type_variant(table_variant.type)
 
       def variant_caption
@@ -95,7 +92,7 @@ module WorkPackageTypes
         menu.with_item(
           label: I18n.t("types.edit.projects.actions.switch_variant"),
           tag: :a,
-          href: new_variant_projects_switch_path(table_variant, project_ids: [project.id], **wizard_params),
+          href: new_variant_projects_switch_path(table_variant, project_ids: [project.id]),
           content_arguments: { data: { controller: "async-dialog" } },
           data: { type_projects_selection_scope: "single" }
         ) do |item|
@@ -108,7 +105,7 @@ module WorkPackageTypes
           label: I18n.t("types.edit.projects.actions.remove_from_project"),
           scheme: :danger,
           tag: :a,
-          href: new_variant_projects_link_deletion_path(table_variant, project_ids: [project.id], **wizard_params),
+          href: new_variant_projects_link_deletion_path(table_variant, project_ids: [project.id]),
           content_arguments: { data: { controller: "async-dialog" } },
           data: { type_projects_selection_scope: "single" }
         ) do |item|

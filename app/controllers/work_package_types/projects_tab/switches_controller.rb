@@ -56,7 +56,7 @@ module WorkPackageTypes
       end
 
       def bulk_dialog
-        BulkSwitchDialogComponent.new(variant: @variant, projects: selected_projects, wizard: wizard?)
+        BulkSwitchDialogComponent.new(variant: @variant, projects: selected_projects)
       end
 
       def switch_project(project)
@@ -98,7 +98,7 @@ module WorkPackageTypes
 
       def applied_variant(project) = project.type_variant(@type)
 
-      def switch_path(project) = variant_projects_switch_path(@variant, project_ids: [project.id], **wizard_params)
+      def switch_path(project) = variant_projects_switch_path(@variant, project_ids: [project.id])
 
       def on_switched(dialog_id:, message:)
         close_dialog_via_turbo_stream(dialog_id)

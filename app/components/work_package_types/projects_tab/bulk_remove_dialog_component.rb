@@ -33,16 +33,14 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
-      include WizardFlag
 
       DIALOG_ID = "type-projects-bulk-remove-dialog"
 
-      def initialize(variant:, projects:, wizard: false)
+      def initialize(variant:, projects:)
         super()
 
         @variant = variant
         @projects = projects
-        @wizard = wizard
       end
 
       private
@@ -59,7 +57,7 @@ module WorkPackageTypes
 
       def form_arguments
         {
-          action: variant_projects_link_path(variant, **wizard_params),
+          action: variant_projects_link_path(variant),
           method: :delete,
           data: { turbo: true, turbo_stream: true }
         }

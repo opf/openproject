@@ -41,9 +41,6 @@ See COPYRIGHT and LICENSE files for more details.
       <% projects.each do |project| %>
         <%= hidden_field_tag("project_ids[]", project.id, id: nil) %>
       <% end %>
-      <% if wizard? %>
-        <%= hidden_field_tag(:wizard, true, id: nil) %>
-      <% end %>
       <%= render(
             Primer::Alpha::Select.new(
               name: :target_id,

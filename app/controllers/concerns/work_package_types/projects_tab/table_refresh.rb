@@ -32,7 +32,6 @@ module WorkPackageTypes
     module TableRefresh
       extend ActiveSupport::Concern
       include PaginationHelper
-      include WizardFlag::FromParams
 
       VARIANT_FILTER_KEY = ::Queries::Projects::Filters::TypeVariantFilter.key.to_s
       NAME_FILTER_KEY = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
@@ -102,6 +101,8 @@ module WorkPackageTypes
         ProjectsTab::TableComponent.new(rows: paginated_projects, variant: @variant, filtered: requested_filters.any?,
                                         wizard: wizard?)
       end
+
+      def wizard? = false
 
       def paginated_projects
         projects = @query.results.includes(project_types: :variant)

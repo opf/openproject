@@ -33,17 +33,15 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
-      include WizardFlag
 
       DIALOG_ID = "type-projects-bulk-switch-dialog"
       FORM_ID = "type-projects-bulk-switch-form"
 
-      def initialize(variant:, projects:, wizard: false)
+      def initialize(variant:, projects:)
         super()
 
         @variant = variant
         @projects = projects
-        @wizard = wizard
       end
 
       private

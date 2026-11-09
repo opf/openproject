@@ -33,17 +33,15 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
-      include WizardFlag
 
       DIALOG_ID = "type-projects-bulk-switch-confirm-dialog"
 
-      def initialize(variant:, target:, projects:, wizard: false)
+      def initialize(variant:, target:, projects:)
         super()
 
         @variant = variant
         @target = target
         @projects = projects
-        @wizard = wizard
       end
 
       private
@@ -52,7 +50,7 @@ module WorkPackageTypes
 
       def form_arguments
         {
-          action: variant_projects_switch_path(variant, **wizard_params),
+          action: variant_projects_switch_path(variant),
           method: :post,
           data: { turbo: true, turbo_stream: true }
         }
