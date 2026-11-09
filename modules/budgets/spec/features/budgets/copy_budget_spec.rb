@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,7 +47,7 @@ RSpec.describe "Copying a budget", :js do
     create(:cost_type, name: "Post-war", unit: "cap", unit_plural: "caps")
   end
   let!(:cost_type_rate) { create(:cost_rate, cost_type:, rate: 50.0) }
-  let!(:default_hourly_rate) { create(:default_hourly_rate, user: original_author, rate: 25.0) }
+  let!(:default_hourly_rate) { create(:default_hourly_rate, principal: original_author, rate: 25.0) }
   let!(:material_budget_item) do
     create(:material_budget_item,
            units: 3,
@@ -66,7 +65,7 @@ RSpec.describe "Copying a budget", :js do
   let!(:labor_budget_item) do
     create(:labor_budget_item,
            hours: 5,
-           user: original_author,
+           principal: original_author,
            budget:)
   end
   let(:budget_page) { Pages::EditBudget.new budget.id }

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,19 +55,27 @@ module ResourcePlannerViews
         allocation.filter_based?
       end
 
+      def deleted_user?
+        allocation.principal.is_a?(DeletedUser)
+      end
+
       def principal_visible?
         return false unless allocation.user_assigned?
-        return true if visible_principal_ids.nil?
+        return true if visible_principal_ids.nil? || deleted_user?
 
         visible_principal_ids.include?(allocation.principal_id)
       end
 
       def placeholder_label
         if filter_based?
-          allocation.filter_name
+          allocation.placeholder_user.name
         else
           t("resource_management.work_package_allocations_dialog.hidden_user")
         end
+      end
+
+      def job_title
+        allocation.principal&.job_title
       end
 
       def candidate_badge?
@@ -81,6 +88,18 @@ module ResourcePlannerViews
 
       def candidate_tooltip_id
         "wp-timeline-candidates-#{allocation.id}"
+      end
+
+      def label_tooltip_id
+        "wp-timeline-bar-#{allocation.id}"
+      end
+
+      # The bar is often too narrow to show the name and job title, so the full
+      # text is reachable by hovering anywhere on it.
+      def label_tooltip
+        return placeholder_label unless principal_visible?
+
+        [allocation.principal.name, job_title].compact_blank.join(" - ")
       end
     end
   end

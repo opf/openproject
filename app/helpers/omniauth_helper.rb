@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,17 +42,25 @@ module OmniauthHelper
     end
   end
 
-  def omniauth_provider_button(name, display_name: nil, icon: false)
-    classes = ["auth-provider", "auth-provider-#{name}", "button"]
-    classes << "auth-provider--imaged" if icon
+  def omniauth_provider_button(name, display_name: nil, icon: nil)
+    render(Primer::Beta::Button.new(tag: :a,
+                                    href: omniauth_login_path(name, omniauth_login_path_options),
+                                    block: true,
+                                    classes: "auth-provider auth-provider-#{name}",
+                                    data: { turbo: false })) do
+      label = tag.span(provider_button_label(name, display_name), class: "auth-provider-name")
 
-    link_to(
-      omniauth_login_path(name, omniauth_login_path_options),
-      class: classes.join(" "),
-      data: { turbo: false }
-    ) do
-      tag.span(display_name.presence || name, class: "auth-provider-name")
+      safe_join([provider_icon_tag(name, icon), label].compact)
     end
+  end
+
+  def provider_icon_tag(name, icon)
+    return if icon.blank?
+
+    image_tag(icon, alt: "", class: "auth-provider-icon")
+  rescue Sprockets::Rails::Helper::AssetNotFound
+    Rails.logger.warn { "Skipping unresolvable icon #{icon.inspect} of omniauth provider #{name}." }
+    nil
   end
 
   ##
@@ -68,6 +75,20 @@ module OmniauthHelper
   # with a temporary form in between so that we can ensure we only POST to the provider (CVE-2015-9284).
   def direct_login_provider
     Setting.omniauth_direct_login_provider.presence
+  end
+
+  def provider_button_label(name, display_name)
+    I18n.t("account.continue_with_provider", name: display_name.presence || name)
+  end
+
+  # Returns nil unless the hook produced actual provider markup. In development
+  # Rails annotates every rendered partial with HTML comments, so a hook that
+  # rendered nothing still comes back non-blank.
+  def auth_provider_html
+    html = call_hook :view_account_login_auth_provider
+    content = Rails.env.development? ? html.gsub(/<!--.*?-->/m, "") : html
+
+    html if content.present?
   end
 
   # Uses the controller-assigned flag so /login/internal can still render the

@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require_relative "../spec_helper"
 
 RSpec.describe "My Account 2FA configuration",
@@ -60,7 +87,7 @@ RSpec.describe "My Account 2FA configuration",
     click_button I18n.t(:button_continue)
 
     expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.confirm_device"))
-    expect(page).to have_css("input#otp")
+    expect(page).to have_field("otp")
 
     expect_flash(type: :error, message: I18n.t("two_factor_authentication.devices.registration_failed_token_invalid"))
 
@@ -92,7 +119,7 @@ RSpec.describe "My Account 2FA configuration",
 
     # Confirm token
     expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.confirm_device"))
-    expect(page).to have_css("input#otp")
+    expect(page).to have_field("otp")
 
     device = user.otp_devices.order(:id).last
     expect(device.identifier).to eq "custom identifier"
@@ -168,7 +195,7 @@ RSpec.describe "My Account 2FA configuration",
     it "loads the page correctly (Regression #41719)" do
       visit my_security_path
 
-      expect(page).to have_content device.identifier
+      expect(page).to have_text device.identifier
     end
   end
 end

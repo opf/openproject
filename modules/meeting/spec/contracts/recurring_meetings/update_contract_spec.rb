@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,39 +53,19 @@ RSpec.describe RecurringMeetings::UpdateContract do
 
   context "when moving to another project" do
     let(:target_project) { create(:project) }
+    let(:user) do
+      create(:user,
+             member_with_permissions: {
+               project => [:edit_meetings],
+               target_project => [:edit_meetings]
+             })
+    end
 
     before do
       meeting.project_id = target_project.id
-      meeting.title = "Moved Recurring Meeting Title"
     end
 
-    context "when only authorized in target project" do
-      let(:user) do
-        create(:user, member_with_permissions: { target_project => [:edit_meetings] })
-      end
-
-      it_behaves_like "contract is invalid", base: :error_unauthorized
-    end
-
-    context "when only authorized in source project" do
-      let(:user) do
-        create(:user, member_with_permissions: { project => [:edit_meetings] })
-      end
-
-      it_behaves_like "contract is invalid", base: :error_unauthorized
-    end
-
-    context "when authorized in both projects" do
-      let(:user) do
-        create(:user,
-               member_with_permissions: {
-                 project => [:edit_meetings],
-                 target_project => [:edit_meetings]
-               })
-      end
-
-      it_behaves_like "contract is valid"
-    end
+    it_behaves_like "contract is invalid", project_id: :error_readonly
   end
 
   include_examples "contract reuses the model errors" do

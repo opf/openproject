@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,11 +38,27 @@ describe('ActualCostsComponent', () => {
   let fixture:ComponentFixture<ActualCostsComponent>;
   let element:HTMLElement;
 
+  const i18nStub = {
+    locale: 'en',
+    t(key:string, options:Record<string, string> = {}) {
+      const translations:Record<string, string> = {
+        'js.costs.widgets.actual_costs.chart_label': 'Actual costs by month chart',
+        'js.costs.widgets.actual_costs.chart_month': `${options.month}: ${options.values}`,
+        'js.costs.widgets.actual_costs.chart_summary': `Actual costs by month: ${options.months}.`,
+        'js.costs.widgets.actual_costs.chart_value': `${options.label}: ${options.value}`,
+      };
+
+      return translations[key] ?? key;
+    },
+  };
+
   beforeEach(async () => {
+    i18nStub.locale = 'en';
+
     await TestBed.configureTestingModule({
       imports: [ActualCostsComponent],
       providers: [
-        { provide: I18nService, useValue: {} },
+        { provide: I18nService, useValue: i18nStub },
         provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
       ],
     }).compileComponents();
@@ -52,8 +67,8 @@ describe('ActualCostsComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (datasets:unknown[]) => {
-    fixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labour'], datasets }));
+  const renderWith = (datasets:unknown[], labels = ['2026-01-01']) => {
+    fixture.componentRef.setInput('chartData', JSON.stringify({ labels, datasets }));
     fixture.detectChanges();
   };
 
@@ -63,46 +78,105 @@ describe('ActualCostsComponent', () => {
       opacity,
       caretX: 50,
       caretY: 40,
-      dataPoints: [{ parsed: { x: 0, y: 10 }, dataset: { label: 'Labour' }, element: { getProps: () => ({ x: 50, y: 20, base: 120, width: 30 }) } }],
+      dataPoints: [{ parsed: { x: 0, y: 10 }, dataset: { label: 'Labor' }, element: { getProps: () => ({ x: 50, y: 20, base: 120, width: 30 }) } }],
       labelColors: [{ backgroundColor: '#123456' }],
     },
   } as unknown as BarTooltipContext);
 
   it('renders the chart with a tooltip host beside the canvas', () => {
-    renderWith([{ label: 'Labour', data: [10] }]);
+    renderWith([{ label: 'Labor', data: [10] }]);
 
     const canvas = element.querySelector('canvas')!;
-    expect(canvas).not.toBeNull();
+    expect(canvas).toBeInTheDocument();
     expect(canvas.nextElementSibling?.tagName).toBe('DIV');
+  });
+
+  it('provides a translated name and month-by-month description for the chart', () => {
+    fixture.componentRef.setInput('currency', 'EUR');
+    renderWith(
+      [
+        { label: 'Labor', data: [1_000, 1_200] },
+        { label: 'Materials', data: [500, 0] },
+      ],
+      ['2026-01-01', '2026-02-01'],
+    );
+
+    const canvas = element.querySelector('canvas')!;
+    const descriptionId = canvas.getAttribute('aria-describedby')!;
+    const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
+
+    expect(canvas).toHaveAttribute('role', 'img');
+    expect(canvas).toHaveAccessibleName('Actual costs by month chart');
+    expect(description).not.toBeVisible();
+    expect(description).toHaveTextContent(
+      'Actual costs by month: January 2026: Labor: €1,000, Materials: €500; February 2026: Labor: €1,200, Materials: €0.',
+    );
+    expect(canvas).toHaveTextContent(description.textContent.trim());
+  });
+
+  it('formats description values using the selected locale', () => {
+    i18nStub.locale = 'de';
+    fixture.componentRef.setInput('currency', 'EUR');
+    renderWith([{ label: 'Labor', data: [1_000] }]);
+
+    const descriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby')!;
+    const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
+    const formattedValue = new Intl.NumberFormat('de', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0,
+    }).format(1_000);
+
+    expect(description.textContent).toContain(`Labor: ${formattedValue}`);
+  });
+
+  it('uses a unique description ID for each chart', () => {
+    renderWith([{ label: 'Labor', data: [10] }]);
+    const secondFixture = TestBed.createComponent(ActualCostsComponent);
+    const secondElement = secondFixture.nativeElement as HTMLElement;
+
+    secondFixture.componentRef.setInput('chartData', JSON.stringify({
+      labels: ['2026-01-01'],
+      datasets: [{ label: 'Labor', data: [20] }],
+    }));
+    secondFixture.detectChanges();
+
+    const firstDescriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby');
+    const secondDescriptionId = secondElement.querySelector('canvas')!.getAttribute('aria-describedby');
+
+    expect(firstDescriptionId).toEqual(fixture.componentInstance.chartDescriptionId);
+    expect(secondDescriptionId).toEqual(secondFixture.componentInstance.chartDescriptionId);
+    expect(firstDescriptionId).not.toEqual(secondDescriptionId);
   });
 
   it('renders nothing without data', () => {
     renderWith([]);
     expect(element.querySelector('canvas')).toBeNull();
+    expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
   });
 
   it('drops the tooltip renderer together with its host', () => {
-    renderWith([{ label: 'Labour', data: [10] }]);
+    renderWith([{ label: 'Labor', data: [10] }]);
     const removeListener = vi.spyOn(document, 'removeEventListener');
 
     renderWith([]);
     expect(removeListener).toHaveBeenCalledWith('scroll', expect.any(Function), expect.anything());
 
     removeListener.mockClear();
-    renderWith([{ label: 'Labour', data: [10] }]);
+    renderWith([{ label: 'Labor', data: [10] }]);
     fixture.destroy();
     expect(removeListener).toHaveBeenCalledWith('scroll', expect.any(Function), expect.anything());
   });
 
   it('opens the tooltip inside its host from the Chart.js callback', () => {
-    renderWith([{ label: 'Labour', data: [10] }]);
+    renderWith([{ label: 'Labor', data: [10] }]);
     const external = fixture.componentInstance.barChartOptions()!.plugins!.tooltip!.external as (context:BarTooltipContext) => void;
 
     external(tooltipContext(1));
 
     const popover = element.querySelector<HTMLElement>('anchored-position')!;
     expect(popover.matches(':popover-open')).toBe(true);
-    expect(within(popover).getByText('Labour')).toBeInTheDocument();
+    expect(within(popover).getByText('Labor')).toBeInTheDocument();
     expect(document.body.querySelector(':scope > anchored-position')).toBeNull();
   });
 });

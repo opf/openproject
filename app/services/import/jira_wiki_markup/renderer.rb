@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,13 @@
 module Import
   module JiraWikiMarkup
     class Renderer
+      include ActionView::Helpers::TagHelper
+
       N = Nodes
+
+      JIRA_THUMBNAIL_STYLE = "width:200px"
+
+      LONE_HTML_IMAGE = /\A[ \t]*<img [^>]*>[ \t]*$/
 
       EMOTICON_MAP = {
         ":)" => "\u{1F642}",
@@ -59,8 +64,9 @@ module Import
         "(flagoff)" => "\u{1F3F3}\u{FE0F}"
       }.freeze
 
-      def initialize(document)
+      def initialize(document, attachment_paths_by_name:)
         @document = document
+        @attachment_paths_by_name = attachment_paths_by_name
       end
 
       def render
@@ -68,13 +74,19 @@ module Import
         parts = []
         blocks.each_with_index do |block, i|
           rendered = render_block(block)
-          parts[-1] = "#{parts[-1]}\n" if i > 0 && block.is_a?(N::Paragraph) && blocks[i - 1].is_a?(N::Paragraph)
+          parts[-1] = "#{parts[-1]}\n" if i > 0 && blank_line_between?(blocks[i - 1], parts[-1], block)
           parts << rendered
         end
         parts.join("\n")
       end
 
       private
+
+      # CommonMark requires a blank line between an HTML block and Markdown.
+      def blank_line_between?(previous_block, previous_markdown, next_block)
+        (previous_block.is_a?(N::Paragraph) && next_block.is_a?(N::Paragraph)) ||
+          previous_markdown.match?(LONE_HTML_IMAGE)
+      end
 
       def render_block(node)
         case node
@@ -94,10 +106,8 @@ module Import
           render_block_quote(node)
         when N::MultiLineBlockQuote
           render_multi_line_block_quote(node)
-        when N::TableHeaderRow
-          render_table_header_row(node)
-        when N::TableDataRow
-          node.raw
+        when N::Table
+          render_table(node)
         when N::Panel
           render_panel(node)
         when N::BlankLine
@@ -137,21 +147,39 @@ module Import
         "#{rendered.map { |line| "> #{line}" }.join("\n")}\n"
       end
 
-      def render_table_header_row(node)
-        return "" if node.cells.empty?
+      # Emitted as HTML rather than a Markdown table: Markdown has no headerless
+      # table, and BemCssFilter decorates plain table markup on render. Kept on a
+      # single line, since a blank line would end the CommonMark HTML block.
+      def render_table(node)
+        head = node.header ? "<thead>#{render_table_row(node.header)}</thead>" : ""
+        body = node.rows.any? ? "<tbody>#{node.rows.map { |row| render_table_row(row) }.join}</tbody>" : ""
 
-        header = "| #{node.cells.join(' | ')} |"
-        separator = "| #{node.cells.map { '---' }.join(' | ')} |"
-        "#{header}\n#{separator}"
+        # Trailing newline closes the CommonMark HTML block, so Markdown on the
+        # following line is still formatted rather than swallowed as raw HTML.
+        "<table>#{head}#{body}</table>\n"
       end
 
+      def render_table_row(cells)
+        "<tr>#{cells.map { |cell| render_table_cell(cell) }.join}</tr>"
+      end
+
+      def render_table_cell(cell)
+        tag = cell.header ? "th" : "td"
+        "<#{tag}>#{cell_renderer.render_cell(cell.children)}</#{tag}>"
+      end
+
+      def cell_renderer
+        @cell_renderer ||= HtmlCellRenderer.new(@document, attachment_paths_by_name: @attachment_paths_by_name)
+      end
+
+      # Markdown has no panel, so it becomes its title above its content. Jira does
+      # not parse the title as wiki markup, so it is emphasized as a plain label.
       def render_panel(node)
+        content = render_inline(node.children)
         title = node.params["title"]
-        if title.present?
-          "**#{title}**\n#{node.content}"
-        else
-          node.content
-        end
+        return content if title.blank?
+
+        "**#{title}**\n#{content}"
       end
 
       def render_list(list, depth)
@@ -181,6 +209,9 @@ module Import
         {
           N::Text => :render_text,
           N::BlockQuote => :render_inline_block_quote,
+          N::CodeBlock => :render_code_block,
+          N::NoformatBlock => :render_noformat_block,
+          N::Panel => :render_panel,
           N::Bold => :render_bold,
           N::Italic => :render_italic,
           N::Strikethrough => :render_strikethrough,
@@ -251,9 +282,70 @@ module Import
       end
 
       def render_image(node)
-        # TODO get work package attachment and use OP image syntax (HTML <img> tag with data attributes)
+        size_style = image_size_style(node.params)
+
+        if size_style
+          html_image(node, size_style)
+        else
+          markdown_image(node)
+        end
+      end
+
+      def markdown_image(node)
         alt = node.params["alt"] || ""
-        "![#{alt}](#{node.url})"
+        "![#{alt}](#{markdown_destination(image_source(node.url))})"
+      end
+
+      def html_image(node, size_style)
+        tag.img(src: image_source(node.url), alt: node.params["alt"] || "", style: size_style)
+      end
+
+      def image_size_style(params)
+        if params["thumbnail"]
+          JIRA_THUMBNAIL_STYLE
+        else
+          width_or_height_style(params)
+        end
+      end
+
+      # Keep only one dimension because OpenProject's editor resizes an image by its width alone.
+      def width_or_height_style(params)
+        width = css_pixels(params["width"])
+        height = css_pixels(params["height"])
+
+        if width
+          "width:#{width}"
+        elsif height
+          "height:#{height}"
+        end
+      end
+
+      def css_pixels(value)
+        case value
+        when /\A\d+\z/ then "#{value}px"
+        when /\A\d+px\z/ then value
+        end
+      end
+
+      def image_source(url)
+        @attachment_paths_by_name[url] || attachment_reference(url)
+      end
+
+      # A name matching none of the issue's attachments is written the way an
+      # attachment of that name would be stored: CarrierWave sanitizes the name, and
+      # AttachmentFilter resolves an image by matching src against it, so a reference
+      # to "My Shot.png" has to become "My_Shot.png". Reusing the uploader's own
+      # expression keeps the two from drifting apart.
+      def attachment_reference(url)
+        return url if url.match?(%r{\A(\w+://|//|/|www\.)}i)
+
+        url.gsub(CarrierWave::SanitizedFile.sanitize_regexp, "_")
+      end
+
+      # A remote URL may still carry spaces, which CommonMark only accepts in a
+      # destination wrapped in angle brackets.
+      def markdown_destination(url)
+        url.match?(/\s/) ? "<#{url}>" : url
       end
 
       def render_mention(node)

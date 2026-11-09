@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,6 +31,7 @@ import {
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -46,7 +46,7 @@ import { States } from 'core-app/core/states/states.service';
 import { debugLog } from '../../../../helpers/debug_output';
 import { hasSelectionWithin } from '../../../../helpers/selection-helpers';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 @Component({
   selector: 'op-editable-attribute-field',
@@ -64,6 +64,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   protected editForm = inject(EditFormComponent, { optional: true });
   protected cdRef = inject(ChangeDetectorRef);
   protected I18n = inject(I18nService);
+  protected configurationService = inject(ConfigurationService);
 
   @Input() public fieldName:string;
 
@@ -150,14 +151,24 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     }
   }
 
+  private get activationEvent():'click'|'dblclick' {
+    return this.configurationService.requireDoubleClickForInlineEdit() ? 'dblclick' : 'click';
+  }
+
   public get isEditable():boolean {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return !!(this.editForm && this.schema.isAttributeEditable(this.fieldName));
   }
 
   public activateIfEditable(event:MouseEvent|KeyboardEvent):boolean {
-    // Ignore selections
-    if (hasSelectionWithin(event.target as HTMLElement)) {
+    if (event instanceof MouseEvent && event.type !== this.activationEvent) {
+      return true;
+    }
+
+    // Selecting text shall not activate editing. However, a double click always selects the word under the cursor.
+    // Hence we need to ignore text selection if activation happened through a double click.
+    if (event.type === 'dblclick') {
+      window.getSelection()?.removeAllRanges();
+    } else if (hasSelectionWithin(event.target as HTMLElement)) {
       debugLog(`Not activating ${this.fieldName} because of active selection within`);
       return true;
     }
@@ -199,9 +210,9 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     let positionOffset = 0;
 
     // This can be both a direct click as well as a "click" via keyboard, e.g. the <Enter> key.
-    if (evt?.type === 'click') {
+    if (evt instanceof MouseEvent) {
       // Get the position where the user clicked.
-      positionOffset = getPosition(evt as MouseEvent);
+      positionOffset = getPosition(evt);
     }
 
     void this.activateOnForm()
@@ -246,7 +257,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
   private get schema() {
     if (this.halEditing.typedState(this.resource).hasValue()) {
-      const val = this.halEditing.typedState(this.resource).value as { schema:SchemaResource };
+      const val = this.halEditing.typedState(this.resource).value as { schema:ISchemaProxy };
       return val.schema;
     }
 

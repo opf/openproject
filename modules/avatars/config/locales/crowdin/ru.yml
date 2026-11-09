@@ -3,18 +3,39 @@ ru:
   are_you_sure_delete_avatar: Вы уверены, что хотите удалить свой аватар?
   avatar_deleted: Аватар успешно удален.
   avatars:
-    label_avatar: Аватар
+    background_color_hint: Leave blank for an automatic color.
+    delete_image: Delete image
+    edit_avatar: Edit avatar
+    image_hint: Choose a JPG, PNG, or GIF. Your image is saved when you select Save.
+    image_required: Choose an image, or select a different avatar option.
+    label_avatar_text: Avatar text
+    label_background_color: Background color
     label_gravatar: 'Gravatar
 
       '
     label_local_avatar: Пользовательский аватар
+    label_option: Avatar option
+    manage_gravatar: Manage your image on Gravatar
+    message_avatar_updated: Avatar changed successfully.
+    preview: Preview
+    randomize_color: Randomize color
     settings:
       enable_gravatars: Использовать Gravatar
       enable_local_avatars: Включить пользовательские аватары
       gravatar_default: Gravatar по умолчанию
-    text_avatar_gravatar_html: OpenProject использует ваш Gravatar если вы зарегистрировали его на %{gravatar_url}, или изображение или значок по умолчанию, если таковой существует.
-    text_avatar_local: Вы также можете загрузить пользовательский аватар, который переопределяет Gravatar нажав на изображение. Мы рекомендуем изображение 128 на 128 пикселей.
-    text_avatar_local_only: Вы можете загрузить свой аватар, нажав на изображение. Мы рекомендуем изображение размером 128 на 128 пикселей.
+    text_avatar_text: Enter up to two characters. Leave blank to use your name's initials.
+    text_invalid_error: Use only visible characters.
+    text_length_error: Enter up to two characters.
+    types:
+      gravatar:
+        description: The image registered for your email address on Gravatar
+        label: Gravatar
+      image:
+        description: A custom image you can upload to this instance
+        label: Image
+      initials:
+        description: Use your name's initials or override them with up to two characters.
+        label: Initials
   empty_file_error: Пожалуйста, загрузите корректное изображение (jpg, png, gif)
   error_image_size: Изображение слишком большое.
   error_image_upload: Ошибка сохранения изображения.

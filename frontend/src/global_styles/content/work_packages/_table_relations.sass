@@ -9,9 +9,11 @@ body
 
 // Show the correct icon for the current expansion state
 .wp-table--relation-indicator
+  @include unset-button-styles
   @include icon-common
   @extend .icon-arrow-down1
   font-size: 0.6rem
+  color: inherit
   cursor: pointer
 
   .wp-table--relation-cell-td.-expanded &
@@ -44,3 +46,14 @@ body
 // Reduce padding of relations icon in relation columns
 .relations-header--icon:before
   padding: 0 2px 0 0
+
+.generic-table--sort-header > .relations-header--button
+  @include unset-button-styles
+  @include text-shortener
+  flex: 1 1
+  width: 100%
+  font-weight: var(--base-text-weight-bold)
+  color: var(--body-font-color)
+  text-transform: inherit
+  letter-spacing: inherit
+  cursor: auto

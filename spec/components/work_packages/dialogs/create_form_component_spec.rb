@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "rails_helper"
 
@@ -42,7 +41,7 @@ RSpec.describe WorkPackages::Dialogs::CreateFormComponent, type: :component do
 
   it "enables the subject input" do
     render_component
-    expect(page.find('input[name="work_package[subject]"]')).not_to be_disabled
+    expect(page).to have_field(name: "work_package[subject]", disabled: false)
   end
 
   context "when the user has no edit permissions" do
@@ -50,7 +49,7 @@ RSpec.describe WorkPackages::Dialogs::CreateFormComponent, type: :component do
 
     it "disables the subject input" do
       render_component
-      expect(page.find('input[name="work_package[subject]"]')).to be_disabled
+      expect(page).to have_field(name: "work_package[subject]", disabled: true)
     end
   end
 
@@ -60,7 +59,7 @@ RSpec.describe WorkPackages::Dialogs::CreateFormComponent, type: :component do
 
     it "disables the subject input" do
       render_component
-      expect(page.find('input[name="work_package[subject]"]')).to be_disabled
+      expect(page).to have_field(name: "work_package[subject]", disabled: true)
     end
   end
 end

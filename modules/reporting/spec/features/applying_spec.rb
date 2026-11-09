@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,7 @@ RSpec.describe "Cost report page apply", :js do
 
   before do
     login_as user
-    visit cost_reports_path(project)
+    visit project_reporting_cost_reports_path(project)
     report_page.save as: "Testreport"
   end
 

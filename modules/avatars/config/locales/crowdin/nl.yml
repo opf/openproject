@@ -3,16 +3,37 @@ nl:
   are_you_sure_delete_avatar: Weet je zeker dat je je avatar wilt verwijderen?
   avatar_deleted: Avatar succesvol verwijderd.
   avatars:
-    label_avatar: Avatar
+    background_color_hint: Leave blank for an automatic color.
+    delete_image: Delete image
+    edit_avatar: Edit avatar
+    image_hint: Choose a JPG, PNG, or GIF. Your image is saved when you select Save.
+    image_required: Choose an image, or select a different avatar option.
+    label_avatar_text: Avatar text
+    label_background_color: Background color
     label_gravatar: Gravatar
     label_local_avatar: Aangepaste avatar
+    label_option: Avatar option
+    manage_gravatar: Manage your image on Gravatar
+    message_avatar_updated: Avatar changed successfully.
+    preview: Preview
+    randomize_color: Kleur willekeurig kiezen
     settings:
       enable_gravatars: Aangepaste avatars inschakelen
       enable_local_avatars: Aangepaste avatars inschakelen
       gravatar_default: Standaard Gravatarafbeelding
-    text_avatar_gravatar_html: OpenProject gebruikt je Gravatar als je er een bij %{gravatar_url} hebt geregistreerd, of een standaard afbeelding of pictogram als deze bestaat.
-    text_avatar_local: Je kunt ook een eigen avatar uploaden die de Gravatar overschrijft door op de afbeelding te klikken. We raden een afbeelding van 128 bij 128 pixels aan.
-    text_avatar_local_only: Je kunt ook een eigen avatar uploaden die de Gravatar overschrijft door op de afbeelding te klikken. We raden een afbeelding van 128 bij 128 pixels aan.
+    text_avatar_text: Enter up to two characters. Leave blank to use your name's initials.
+    text_invalid_error: Use only visible characters.
+    text_length_error: Enter up to two characters.
+    types:
+      gravatar:
+        description: The image registered for your email address on Gravatar
+        label: Gravatar
+      image:
+        description: Een aangepaste afbeelding die je naar deze instantie kan uploaden
+        label: Afbeelding
+      initials:
+        description: Use your name's initials or override them with up to two characters.
+        label: Initialen
   empty_file_error: Upload een geldige afbeelding (jpg, png, gif)
   error_image_size: De afbeelding is te groot.
   error_image_upload: Fout bij het opslaan van de afbeelding

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,7 @@ module ResourcePlannerViews
   class EditDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include ResourceManagement::PlannerRoutes
 
     DIALOG_ID = "edit-resource-planner-view-dialog"
     FORM_ID = "edit-resource-planner-view-form"
@@ -52,7 +52,7 @@ module ResourcePlannerViews
     end
 
     def form_url
-      project_resource_planner_view_path(@project, @resource_planner, @view)
+      planner_view_path(@resource_planner, @view)
     end
   end
 end

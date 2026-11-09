@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,7 +69,7 @@ RSpec.describe RecurringMeetings::DeleteDialogComponent, type: :component do
   context "with a meeting series that has an occurrence" do
     it "shows a confirmation message mentioning one remaining meeting" do
       allow(recurring_meeting).to receive(:instantiated_meetings).and_return([meeting])
-      expect(subject).to have_text "will also delete one occurrence in this series"
+      expect(subject).to have_text "will also delete 1 occurrence in this series"
     end
   end
 end

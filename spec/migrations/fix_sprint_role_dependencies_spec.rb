@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,7 @@ RSpec.describe FixSprintRoleDependencies, type: :model do
 
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) } }
 
-  describe "completing depencencies for view_sprints permission" do
+  describe "completing dependencies for view_sprints permission" do
     context "when view_work_packages is missing" do
       let(:permissions) { [:view_sprints] }
 

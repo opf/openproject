@@ -20,13 +20,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -36,16 +34,17 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { States } from 'core-app/core/states/states.service';
 import { resolveNumericId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Injectable()
 export class WorkPackageService {
   private readonly http = inject(HttpClient);
-  private readonly $state = inject(StateService);
   private readonly PathHelper = inject(PathHelperService);
   private readonly UrlParamsHelper = inject(UrlParamsHelperService);
   private readonly toastService = inject(ToastService);
   private readonly I18n = inject(I18nService);
   private readonly halEvents = inject(HalEventsService);
+  private readonly urlParams = inject(UrlParamsService);
 
   private text = {
     successful_delete: this.I18n.t('js.work_packages.message_successful_bulk_delete'),
@@ -71,12 +70,12 @@ export class WorkPackageService {
 
           ids.forEach((id) => this.halEvents.push({ _type: 'WorkPackage', id }, { eventType: 'deleted' }));
 
-          const routeWpId = this.$state.params.workPackageId as string;
-          const numericId = resolveNumericId(this.states, routeWpId);
-          if (numericId
-            && this.$state.includes('**.list.details.**')
-            && ids.includes(numericId)) {
-            this.$state.go('work-packages.partitioned.list', this.$state.params);
+          const routeWpId = this.urlParams.currentDetailsRouteParams()?.routingId;
+          const numericId = routeWpId ? resolveNumericId(this.states, routeWpId) : undefined;
+
+          if (numericId && ids.includes(numericId)) {
+            const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+            Turbo.visit(basePath + window.location.search, { frame: 'content-bodyRight', action: 'replace' });
           }
         })
         .catch(() => {

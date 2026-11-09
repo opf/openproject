@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTable } from '../../../wp-fast-table';
 import { RowsBuilder } from '../rows-builder';
+import type { RenderPassOptions } from '../../primary-render-pass';
 import { HierarchyRenderPass } from './hierarchy-render-pass';
 import { SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
@@ -59,8 +59,8 @@ export class HierarchyRowsBuilder extends RowsBuilder {
   /**
    * Rebuild the entire grouped tbody from the given table
    */
-  public buildRows():HierarchyRenderPass {
+  public buildRows(options:RenderPassOptions):HierarchyRenderPass {
     const builder = new SingleHierarchyRowBuilder(this.injector, this.workPackageTable);
-    return new HierarchyRenderPass(this.injector, this.workPackageTable, builder).render();
+    return new HierarchyRenderPass(this.injector, this.workPackageTable, builder).render(options);
   }
 }

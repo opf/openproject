@@ -16,15 +16,51 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
 da:
   js:
-    burndown:
-      day: Dag
-      points: Point
+    backlogs:
+      announcements:
+        batch_too_large: "%{count} arbejdspakker kan ikke flyttes på én gang. Vælg højst %{max}."
+        fallback_item_label: Arbejdspakke
+        fallback_list_name: en anden liste
+        move_failed_check_position: Flytningen mislykkedes. Tjek arbejdspakkens nuværende placering.
+        move_failed_check_positions_batch:
+          other: Flytningen mislykkedes. Tjek arbejdspakkernes nuværende placeringer.
+        move_failed_rolled_back: Flytningen mislykkedes. %{label} er sat tilbage på sin tidligere placering.
+        move_failed_rolled_back_batch:
+          other: Flytningen mislykkedes. %{count} arbejdspakker er sat tilbage på deres tidligere placeringer.
+        moved: "%{label} er flyttet til placering %{position} af %{total}"
+        moved_batch:
+          other: "%{count} arbejdspakker er flyttet til placering %{first} til %{last} af %{total}"
+        moved_batch_to_list:
+          other: "%{count} arbejdspakker er flyttet til %{list}, placering %{first} til %{last} af %{total}"
+        moved_to_list: "%{label} er flyttet til %{list}, placering %{position} af %{total}"
+      selection:
+        card_state: Valgt
+        cleared: Markeringen er ryddet.
+        not_selectable: Markeringen er uændret. Arbejdspakken indgår ikke i listens rækkefølge.
+        range_blocked: Markeringen er uændret. Området indeholder en arbejdspakke, der ikke indgår i listens rækkefølge.
+        range_restarted:
+          one: Området kunne ikke udvides. %{count} arbejdspakke valgt.
+          other: Området kunne ikke udvides. %{count} arbejdspakker valgt.
+        range_unavailable: Markeringen er uændret. Fold listen ud for at vælge området.
+        selected:
+          one: "%{count} arbejdspakke valgt."
+          other: "%{count} arbejdspakker valgt."
+    burndown_chart:
+      chart_day: 'Dag %{day}: %{values}'
+      chart_label: Burndown-diagram
+      chart_summary: 'Data i burndown-diagrammet: %{days}.'
+      chart_value: "%{label}: %{value}"
+      story_points: Story points
+    created_resolved_chart:
+      work_packages: Arbejdspakker
+    sprint_charts:
+      non_working_day: Arbejdsfri dag
     work_packages:
       properties:
         storyPoints: Story points

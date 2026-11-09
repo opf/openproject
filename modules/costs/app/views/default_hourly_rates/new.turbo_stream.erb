@@ -1,0 +1,3 @@
+<%= turbo_stream.dialog do
+      render(HourlyRates::RateDialogComponent.new(rate: @rate, form_url: default_hourly_rates_path))
+    end %>

@@ -135,7 +135,7 @@ fa:
     error_invalid_backup_code: کد پشتیبان 2FA نامعتبر است
     error_is_enforced_not_active: 'خطای پیکربندی: احراز هویت دومرحله‌ای اجباری شده، اما هیچ راهبرد فعالی وجود ندارد.'
     error_no_device: با وجود اجباری‌بودن، هیچ دستگاه 2FA ثبت‌شده‌ای برای این کاربر پیدا نشد.
-    error_no_matching_strategy: هیچ راهبرد 2FA منطبقی برای این کاربر در دسترس نیست. لطفاً با مدیر تماس بگیرید.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: مدیر احراز هویت دومرحله‌ای را برای این نمونه اجباری کرده است. برای ورود، یک روش احراز هویت دومرحله‌ای اضافه کنید.
     label_2fa_disabled: احراز هویت دومرحله‌ای فعال نیست

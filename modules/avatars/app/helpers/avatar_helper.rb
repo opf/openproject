@@ -20,11 +20,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "gravatar_image_tag"
 
 module AvatarHelper
@@ -53,12 +53,13 @@ module AvatarHelper
   end
 
   def avatar_url(user, options = {})
-    if local_avatar? user
-      user_avatar_url(user.id)
-    elsif avatar_manager.gravatar_enabled?
+    avatar_type = avatar_manager.avatar_type_for(user)
+    if avatar_type == "gravatar"
       build_gravatar_image_url user, options
-    else
-      nil
+    elsif avatar_type == "image" && local_avatar?(user)
+      user_avatar_url(user.id)
+    elsif user.is_a?(User)
+      "#{API::V3::Utilities::PathHelper::ApiV3Path.url_for(:user, user.id)}/avatar"
     end
   rescue StandardError => e
     Rails.logger.error "Failed to create avatar url for #{user}: #{e}"
@@ -67,7 +68,7 @@ module AvatarHelper
 
   def local_avatar?(user)
     return false unless avatar_manager.local_avatars_enabled?
-    return false unless user.is_a?(User)
+    return false unless user.respond_to?(:local_avatar_attachment)
 
     user.local_avatar_attachment
   end
@@ -154,6 +155,12 @@ module AvatarHelper
     }.tap do |inputs|
       if tag_options.key?(:avatar_image_alt_text)
         inputs[:avatarImageAltText] = tag_options[:avatar_image_alt_text]
+      end
+      if tag_options[:avatar_image_url]
+        inputs[:avatarImageUrl] = tag_options[:avatar_image_url]
+      end
+      if tag_options[:avatar_fallback_image_url]
+        inputs[:avatarFallbackImageUrl] = tag_options[:avatar_fallback_image_url]
       end
     end
   end

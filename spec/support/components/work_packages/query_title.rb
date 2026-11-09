@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,13 +35,13 @@ module Components
       include RSpec::Matchers
 
       def expect_changed
-        expect(page).to have_css ".editable-toolbar-title--save"
-        expect(page).to have_css ".editable-toolbar-title--input.-changed"
+        expect(page).to have_css ".editable-toolbar-title--save", wait: 20
+        expect(page).to have_css ".editable-toolbar-title--input.-changed", wait: 20
       end
 
       def expect_not_changed
-        expect(page).to have_no_css ".editable-toolbar-title--save"
-        expect(page).to have_no_css ".editable-toolbar-title--input.-changed"
+        expect(page).to have_no_css ".editable-toolbar-title--save", wait: 20
+        expect(page).to have_no_css ".editable-toolbar-title--input.-changed", wait: 20
       end
 
       def input_field
@@ -50,7 +49,7 @@ module Components
       end
 
       def expect_title(name)
-        expect(page).to have_field("editable-toolbar-title", with: name)
+        expect(page).to have_field("editable-toolbar-title", with: name, wait: 20)
       end
 
       def press_save_button

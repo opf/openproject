@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,6 +42,8 @@ class Settings::UpdateService < BaseServices::BaseContracted
 
   def persist(call)
     params.each do |name, value|
+      next if unchanged_secret?(name, value)
+
       set_setting_value(name, value)
     rescue Setting::NotWritableError
       i18n_name = I18n.t("setting_#{name}", default: name)
@@ -56,6 +57,10 @@ class Settings::UpdateService < BaseServices::BaseContracted
   end
 
   private
+
+  def unchanged_secret?(name, value)
+    Settings::Definition[name].secret? && value == Settings::Definition::SECRET_PLACEHOLDER
+  end
 
   def set_setting_value(name, value)
     old_value = Setting[name]

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,7 +58,7 @@ RSpec.describe "project export", :js do
   let(:current_user) { user }
 
   before do
-    @download_list = DownloadList.new
+    @download_list = DownloadList.new(pattern: "*.csv")
 
     login_as(current_user)
 
@@ -77,8 +76,7 @@ RSpec.describe "project export", :js do
     click_on export_type
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content I18n.t("job_status_dialog.generic_messages.in_queue"),
-                                 wait: 10
+    expect(page).to have_text I18n.t("job_status_dialog.generic_messages.in_queue"), wait: 10
 
     begin
       perform_enqueued_jobs
@@ -189,14 +187,20 @@ RSpec.describe "project export", :js do
   describe "PDF export" do
     let(:export_type) { "PDF" }
 
-    it "exports the PDF and opens it in a new tab" do
-      new_window = window_opened_by do
-        export!
-      end
+    it "exports the PDF and offers it in a new tab" do
+      page.execute_script(<<~JS)
+        const originalClick = HTMLAnchorElement.prototype.click;
+        HTMLAnchorElement.prototype.click = function() {
+          if (this.matches("[data-job-status-polling-target='download']")) { return; }
+          return originalClick.call(this);
+        };
+      JS
 
-      within_window new_window do
-        expect_current_url_to_be_pdf
-      end
+      export!
+      download_link = page.find("[data-job-status-polling-target='download']", wait: 20)
+      expect(download_link["target"]).to eq("_blank")
+      expect(download_link["type"]).to eq("application/pdf")
+      expect(Attachment.find(download_link["href"].split("/").second_to_last).content_type).to eq("application/pdf")
     end
   end
 end

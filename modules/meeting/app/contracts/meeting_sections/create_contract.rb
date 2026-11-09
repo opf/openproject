@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,7 +62,7 @@ module MeetingSections
     def validate_meeting_existence
       # when creating a meeting agenda item from the work package tab and not selecting a meeting
       # the meeting and therefore the project is not set
-      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading not existance error
+      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading not existence error
       # the error is added by the models presence validation
       return if model.meeting.nil?
 

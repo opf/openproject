@@ -20,18 +20,37 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 Rails.application.routes.draw do
-  scope "projects/:project_id" do
+  scope "projects/:project_id", as: "project" do
+    namespace :reporting do
+      resources :cost_reports, except: :create do
+        collection do
+          match :index, via: %i[get post]
+          match :available_values, via: %i[get post]
+          get "menu" => "cost_reports/menus#show", as: :menu
+        end
+
+        member do
+          post :update
+          post :rename
+          delete :destroy
+        end
+      end
+    end
+  end
+
+  namespace :reporting do
     resources :cost_reports, except: :create do
       collection do
-        match :index, via: %i[get post]
-        get "menu" => "cost_reports/menus#show", as: :menu_project
+        match :index, via: %i[get post], as: :global
+        match :available_values, via: %i[get post]
+        post :save_as, action: :create
+        get "menu" => "cost_reports/menus#show", as: :menu
       end
 
       member do
@@ -42,22 +61,14 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :cost_reports do
-    resource :menu, only: %[show]
+  # Reports saved before the move to CostReport are addressed by their old id.
+  scope "projects/:project_id" do
+    resources :cost_reports, only: %i[index show]
   end
 
-  resources :cost_reports, except: :create do
+  resources :cost_reports, only: %i[index show] do
     collection do
-      match :index, via: %i[get post], as: :global
-      post :save_as, action: :create
-      get :drill_down
-      match :available_values, via: %i[get post]
-    end
-
-    member do
-      post :update
-      post :rename
-      delete :destroy
+      get :index, as: :global
     end
   end
 end

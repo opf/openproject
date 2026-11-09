@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,20 +43,7 @@ module ResourcePlanners
     private
 
     def user_allowed_to_manage
-      return if model.project.nil?
-      return if user_is_owner_with_view_permission? || user_can_manage_public?
-
-      errors.add :base, :error_unauthorized
-    end
-
-    def user_is_owner_with_view_permission?
-      model.principal == user &&
-        user.allowed_in_project?(:view_resource_planners, model.project)
-    end
-
-    def user_can_manage_public?
-      model.public? &&
-        user.allowed_in_project?(:manage_public_resource_planners, model.project)
+      errors.add :base, :error_unauthorized unless model.manageable_by?(user)
     end
   end
 end

@@ -1,14 +1,16 @@
 <div class="wp-create-button">
   <button
     class="button -primary add-work-package"
-    [disabled]="disabled"
-    [attr.aria-label]="text.explanation"
+    type="button"
+    [disabled]="createPaneOpen"
+    [attr.aria-disabled]="allowed === false || null"
+    opTooltip
+    [label]="text.explanation"
+    tooltipWhenTruncated=".button--text"
     opTypesCreateDropdown
     [projectIdentifier]="projectIdentifier"
-    [stateName]="stateName$ | async"
     [dropdownActive]="allowed"
-    [title]="text.title"
-    [routedFromAngular]="routedFromAngular"
+    [fullView]="fullView"
   >
     <svg plus-icon size="small"/>
     <span class="button--text"

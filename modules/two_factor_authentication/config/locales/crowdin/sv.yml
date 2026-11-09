@@ -135,7 +135,7 @@ sv:
     error_invalid_backup_code: Ogiltig 2FA reservkod
     error_is_enforced_not_active: 'Konfigurationsfel: tvåfaktorsautentisering har verkställts, men inga aktiva strategier finns.'
     error_no_device: Ingen registrerad 2FA enhet hittades för den här användaren, trots att det krävs för den här instansen.
-    error_no_matching_strategy: Ingen matchande 2FA strategi tillgänglig för den här användaren. Vänligen kontakta din administratör.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: Administratören har gjort tvåfaktorsautentisering obligatorisk för den här instansen. Lägg till en metod för tvåfaktorsautentisering för att logga in.
     label_2fa_disabled: Tvåfaktorsautentisering är inaktiverad

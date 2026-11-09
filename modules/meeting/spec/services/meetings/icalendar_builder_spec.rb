@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -245,7 +244,7 @@ RSpec.describe Meetings::IcalendarBuilder,
              state: :cancelled)
     end
 
-    let!(:third_occurence) do
+    let!(:third_occurrence) do
       # Third occurrence instantiated and moved by +10 minutes
       base_start = recurring_meeting.start_time + 2.weeks
 
@@ -298,12 +297,12 @@ RSpec.describe Meetings::IcalendarBuilder,
         parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
         overrides = parsed_calendar.events.select { |e| e.recurrence_id.present? }
 
-        # third_occurence is a past occurrence that still belongs to the current
+        # third_occurrence is a past occurrence that still belongs to the current
         # schedule, so it must be emitted (unlike previous-schedule occurrences).
         expect(overrides.size).to eq(1)
         override = overrides.first
-        expect(override.recurrence_id).to eq(third_occurence.recurrence_start_time)
-        expect(override.dtstart).to eq(third_occurence.start_time)
+        expect(override.recurrence_id).to eq(third_occurrence.recurrence_start_time)
+        expect(override.dtstart).to eq(third_occurrence.start_time)
         expect(override.rrule).to be_empty
       end
     end
@@ -323,8 +322,8 @@ RSpec.describe Meetings::IcalendarBuilder,
 
         expect(overrides.size).to eq(1)
         override = overrides.first
-        expect(override.recurrence_id).to eq(third_occurence.recurrence_start_time)
-        expect(override.dtstart).to eq(third_occurence.start_time)
+        expect(override.recurrence_id).to eq(third_occurrence.recurrence_start_time)
+        expect(override.dtstart).to eq(third_occurrence.start_time)
         expect(override.rrule).to be_empty
       end
 
@@ -336,7 +335,7 @@ RSpec.describe Meetings::IcalendarBuilder,
         )
 
         expect(builder.instance_variable_get(:@instantiated_occurrences_cache)).to eq(
-          recurring_meeting.id => [third_occurence]
+          recurring_meeting.id => [third_occurrence]
         )
 
         expect(builder.instance_variable_get(:@series_cache_loaded)).to be true
@@ -416,7 +415,7 @@ RSpec.describe Meetings::IcalendarBuilder,
         # Check override event timestamps
         overrides.each do |override_event|
           # Find the corresponding meeting occurrence for this override
-          meeting_occurrence = [second_occurrence, third_occurence].find do |m|
+          meeting_occurrence = [second_occurrence, third_occurrence].find do |m|
             override_event.recurrence_id.to_time.utc.to_i == m.recurrence_start_time.utc.to_i
           end
 
@@ -487,7 +486,7 @@ RSpec.describe Meetings::IcalendarBuilder,
         # Check override event timestamps
         overrides.each do |override_event|
           # Find the corresponding meeting occurrence for this override
-          meeting_occurrence = [second_occurrence, third_occurence].find do |m|
+          meeting_occurrence = [second_occurrence, third_occurrence].find do |m|
             override_event.recurrence_id.to_time.utc.to_i == m.recurrence_start_time.utc.to_i
           end
 

@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,9 +41,7 @@ module OpenProject::JobStatus
       mount ::API::V3::JobStatus::JobStatusAPI
     end
 
-    add_api_path :job_status do |uuid|
-      "#{root}/job_statuses/#{uuid}"
-    end
+    add_api_resource_paths :job_status, only: :show
 
     add_cron_jobs do
       {
@@ -57,7 +54,7 @@ module OpenProject::JobStatus
 
     config.to_prepare do
       # Extends the ActiveJob adapter in use (DelayedJob) by a Status which lives
-      # indenpendently from the job itself (which is deleted once successful or after max attempts).
+      # independently from the job itself (which is deleted once successful or after max attempts).
       # That way, the result of a background job is available even after the original job is gone.
       EventListener.register!
     end

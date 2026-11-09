@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -116,6 +115,16 @@ RSpec.describe Backlogs::Sprints::FinishService do
         expect(result).to be_success
         expect(sprint.reload).to be_completed
         expect(open_wp.reload).to have_attributes(sprint: target_sprint)
+      end
+
+      # The burndown measures the sprint up to completed_at. Were that stamped once the moves are
+      # done, the work would already have left and every finished sprint would report nothing
+      # remaining, whatever it actually finished with. Deliberately not frozen in time: the
+      # ordering is what is under test.
+      it "records the completion before the work leaves the sprint" do
+        expect(result).to be_success
+
+        expect(sprint.reload.completed_at).to be < open_wp.reload.journals.last.created_at
       end
     end
 
@@ -265,13 +274,70 @@ RSpec.describe Backlogs::Sprints::FinishService do
         expect(open_wp4_target_sprint.reload).to have_attributes(sprint: target_sprint, position: 2, project:)
 
         # In the project's sprint
-        # Position should be 1 but it is 2
-        expect(closed_wp.reload).to have_attributes(sprint:, position: 2, project:)
+        expect(closed_wp.reload).to have_attributes(sprint:, position: 1, project:)
 
         # In the other project's backlog
         expect(open_wp3_other_project_backlog.reload).to have_attributes(sprint: nil, position: 1, project: other_project)
         expect(open_wp1_other_project.reload).to have_attributes(sprint: nil, position: 2, project: other_project)
         expect(open_wp2_other_project.reload).to have_attributes(sprint: nil, position: 3, project: other_project)
+      end
+    end
+  end
+
+  context "when the unfinished work packages are positioned below a closed one" do
+    let!(:closed_wp) do
+      create(:work_package, project:, sprint:, status: closed_status)
+    end
+    let!(:open_wp1) do
+      create(:work_package, project:, sprint:, status: open_status)
+    end
+    let!(:open_wp2) do
+      create(:work_package, project:, sprint:, status: open_status)
+    end
+    let!(:backlog_wp) do
+      create(:work_package, project:, sprint: nil, status: open_status)
+    end
+
+    context "when moving to the bottom of the backlog" do
+      let(:call_params) { { unfinished_action: "move_to_bottom_of_backlog" } }
+
+      it "appends them to the backlog with distinct positions", :aggregate_failures do
+        expect(result).to be_success
+
+        expect(backlog_wp.reload).to have_attributes(sprint: nil, position: 1)
+        expect(open_wp1.reload).to have_attributes(sprint: nil, position: 2)
+        expect(open_wp2.reload).to have_attributes(sprint: nil, position: 3)
+        expect(closed_wp.reload).to have_attributes(sprint:, position: 1)
+      end
+    end
+
+    context "when moving to the top of the backlog" do
+      let(:call_params) { { unfinished_action: "move_to_top_of_backlog" } }
+
+      it "prepends them to the backlog with distinct positions", :aggregate_failures do
+        expect(result).to be_success
+
+        expect(open_wp1.reload).to have_attributes(sprint: nil, position: 1)
+        expect(open_wp2.reload).to have_attributes(sprint: nil, position: 2)
+        expect(backlog_wp.reload).to have_attributes(sprint: nil, position: 3)
+        expect(closed_wp.reload).to have_attributes(sprint:, position: 1)
+      end
+    end
+
+    context "when moving to another sprint" do
+      let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
+      let!(:target_sprint_wp) do
+        create(:work_package, project:, sprint: target_sprint, status: open_status)
+      end
+      let(:call_params) { { unfinished_action: "move_to_sprint", move_to_sprint_id: target_sprint.id } }
+
+      it "prepends them to the target sprint with distinct positions", :aggregate_failures do
+        expect(result).to be_success
+
+        expect(open_wp1.reload).to have_attributes(sprint: target_sprint, position: 1)
+        expect(open_wp2.reload).to have_attributes(sprint: target_sprint, position: 2)
+        expect(target_sprint_wp.reload).to have_attributes(sprint: target_sprint, position: 3)
+        expect(closed_wp.reload).to have_attributes(sprint:, position: 1)
       end
     end
   end

@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,8 +58,7 @@ RSpec.describe "Upload attachment to budget", :js do
 
     expect_and_dismiss_flash(message: "Successful creation.")
 
-    expect(page).to have_css("#content img", count: 1)
-    expect(page).to have_content("Image uploaded on creation")
+    expect(page).to have_text("Image uploaded on creation")
     attachments_list.expect_attached("image.png")
 
     page.find_test_selector("budget-edit-button").click
@@ -71,9 +69,8 @@ RSpec.describe "Upload attachment to budget", :js do
 
     click_on "Submit"
 
-    expect(page).to have_css("#content img", count: 2)
-    expect(page).to have_content("Image uploaded on creation")
-    expect(page).to have_content("Image uploaded the second time")
+    expect(page).to have_text("Image uploaded on creation")
+    expect(page).to have_text("Image uploaded the second time")
     attachments_list.expect_attached("image.png", count: 2)
   end
 

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,7 +30,6 @@ import { TurboHelpers } from './helpers';
 
 describe('TurboHelpers.showProgressBar / hideProgressBar', () => {
   const progressBar = (Turbo.session.adapter as Turbo.BrowserAdapter).progressBar;
-  /* eslint-disable @typescript-eslint/no-empty-function */
   let setValueSpy:ReturnType<typeof vi.spyOn>;
   let showSpy:ReturnType<typeof vi.spyOn>;
   let hideSpy:ReturnType<typeof vi.spyOn>;
@@ -45,7 +43,6 @@ describe('TurboHelpers.showProgressBar / hideProgressBar', () => {
     savedDelay = Turbo.config.drive.progressBarDelay;
     Turbo.config.drive.progressBarDelay = 200;
   });
-  /* eslint-enable @typescript-eslint/no-empty-function */
 
   afterEach(() => {
     TurboHelpers.hideProgressBar();

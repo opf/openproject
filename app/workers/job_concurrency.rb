@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,8 +37,7 @@ module JobConcurrency
   ##
   # Run the concurrency check of good_job without actually trying to enqueue it
   # Will call the provided block in case the job would be cancelled
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
   def check_concurrency
     enqueue_limit = self.class.good_job_concurrency_config[:enqueue_limit]
     enqueue_limit = instance_exec(&enqueue_limit) if enqueue_limit.respond_to?(:call)
@@ -61,6 +59,4 @@ module JobConcurrency
 
     yield if limit.present? && enqueued_jobs + 1 > limit
   end
-  # rubocop:enable Metrics/PerceivedComplexity
-  # rubocop:enable Metrics/AbcSize
 end

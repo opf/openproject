@@ -61,7 +61,7 @@ fa:
         item_2:
           name: مدیران BIM
         item_3:
-          name: شکل‌دهندگان BIM
+          name: BIM Modelers
         item_4:
           name: هماهنگ کنندگان ارشد BIM
         item_5:
@@ -513,17 +513,17 @@ fa:
               description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
               children:
                 item_0:
-                  subject: مدل‌سازی مدل اولیهٔ BIM
+                  subject: Modeling initial BIM model
                   description: |-
-                    # هدف
+                    # Goal
 
-                    *   مدل‌سازی مدل اولیهٔ BIM
-                    *   ایجاد مدل BIM برای کل تیم پروژه
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # توضیحات
+                    # Description
 
-                    *   بر اساس داده‌های جمع‌آوری‌شده از مشتری، مدل اولیه ساخته خواهد شد
-                    *   مدل باید مطابق ماتریس‌های LOD ساخته شود و اطلاعات موردنیاز را در بر داشته باشد
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: بازبینی و اصلاح داخلی مدل اولیه
@@ -540,23 +540,23 @@ fa:
                   subject: تحویل مدل اولیهٔ BIM
                   description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_4:
-              subject: مدل‌سازی، چرخهٔ اول
+              subject: Modeling, first cycle
               description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
               children:
                 item_0:
                   subject: ارجاع به مدل‌های BIM خارجی
                   description: |-
-                    # هدف
+                    # Goal
 
-                    *   ایجاد پایه‌ای برای توسعهٔ مدل داخلی / ارائهٔ پاسخ‌ها
-                    *   استفاده از مدل خارجی برای توسعهٔ مدل داخلی
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # توضیحات
+                    # Description
 
-                    *   مدل خارجی در پلتفرم BIM مرجع قرار می‌گیرد و برای مدل‌سازی مدل داخلی استفاده می‌شود
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: مدل‌سازی مدل BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # هدف
 
@@ -604,7 +604,7 @@ fa:
                   subject: پایان هماهنگی، چرخهٔ اول
                   description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_6:
-              subject: مدل‌سازی و هماهنگی، چرخهٔ دوم
+              subject: Modeling & coordinating, second cycle
               description: |-
                 ## هدف
 
@@ -614,10 +614,10 @@ fa:
 
                 * \  ...
             item_7:
-              subject: مدل‌سازی و هماهنگی، چرخهٔ ...
+              subject: Modeling & coordinating, ... cycle
               description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_8:
-              subject: مدل‌سازی و هماهنگی، چرخهٔ (n-1)
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: |-
                 ## هدف
 
@@ -627,10 +627,10 @@ fa:
 
                 * \  ...
             item_9:
-              subject: مدل‌سازی و هماهنگی، چرخهٔ nام
+              subject: Modeling & coordinating n-th cycle
               description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_10:
-              subject: پایان مدل‌سازی و هماهنگی، چرخهٔ nام
+              subject: Finishing modeling & coordinating, n-th cycle
               description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_11:
               subject: استفاده از مدل در مرحلهٔ ساخت

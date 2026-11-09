@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2023 Ben Tey
@@ -40,6 +42,8 @@ module OpenProject::GitlabIntegration
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    # TODO: webhook_secret should be marked as `secret: true`, but that is only supported
+    # for string settings, not for keys inside this plugin settings hash.
     def self.settings
       {
         default: {
@@ -77,7 +81,9 @@ module OpenProject::GitlabIntegration
            skip_permissions_check: true,
            badge: ->(work_package:, **) {
              work_package.gitlab_merge_requests.count +
-               work_package.gitlab_issues.count
+               work_package.gitlab_issues.count +
+               work_package.gitlab_branches.count +
+               work_package.gitlab_commits.count
            },
            before: :watchers,
            caption: :project_module_github
@@ -91,19 +97,25 @@ module OpenProject::GitlabIntegration
       end
     end
 
+    initializer "gitlab.resource_colors" do
+      Rails.application.reloader.to_prepare do
+        ::Highlighting::Registry.register_static(key: "gitlab_issue_status",
+                                                 values: ::GitlabIntegration::IssueStatuses::AVAILABLE)
+        ::Highlighting::Registry.register_static(key: "gitlab_merge_request_status",
+                                                 values: ::GitlabIntegration::MergeRequestStatuses::AVAILABLE)
+        ::Highlighting::Registry.register_static(key: "gitlab_pipeline_status",
+                                                 values: ::GitlabIntegration::PipelineStatuses::AVAILABLE)
+      end
+    end
+
     initializer "gitlab.subscribe_to_notifications" do
-      ::OpenProject::Notifications.subscribe("gitlab.merge_request_hook",
-                                             &NotificationHandlers.method(:merge_request_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.note_hook",
-                                             &NotificationHandlers.method(:note_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.issue_hook",
-                                             &NotificationHandlers.method(:issue_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.push_hook",
-                                             &NotificationHandlers.method(:push_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.pipeline_hook",
-                                             &NotificationHandlers.method(:pipeline_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.system_hook",
-                                             &NotificationHandlers.method(:system_hook))
+      ::OpenProject::Notifications.subscribe("gitlab.merge_request_hook") do |payload|
+        NotificationHandlers.merge_request_hook(payload)
+      end
+      ::OpenProject::Notifications.subscribe("gitlab.note_hook") { |payload| NotificationHandlers.note_hook(payload) }
+      ::OpenProject::Notifications.subscribe("gitlab.issue_hook") { |payload| NotificationHandlers.issue_hook(payload) }
+      ::OpenProject::Notifications.subscribe("gitlab.push_hook") { |payload| NotificationHandlers.push_hook(payload) }
+      ::OpenProject::Notifications.subscribe("gitlab.pipeline_hook") { |payload| NotificationHandlers.pipeline_hook(payload) }
     end
 
     extend_api_response(:v3, :work_packages, :work_package,

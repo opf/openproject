@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -85,6 +84,9 @@ import {
 import {
   WorkPackageSpentTimeDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/wp-spent-time-display-field.module';
+import {
+  LabelsDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/labels-display-field.module';
 import { LinkDisplayField } from 'core-app/shared/components/fields/display/field-types/link-display-field.module';
 import {
   ProjectPhaseDisplayField,
@@ -115,6 +117,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(ProjectPhaseDisplayField, 'projectPhase', ['ProjectPhase'])
       .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomOption', '[]CustomField::Hierarchy::Item'])
       .addFieldType(ResourcesDisplayField, 'resources', ['[]Version'])
+      .addFieldType(LabelsDisplayField, 'labels', ['[]Label'])
       .addFieldType(MultipleUserFieldModule, 'users', ['[]User'])
       .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
       .addFieldType(DaysDurationDisplayField, 'duration', ['duration'])

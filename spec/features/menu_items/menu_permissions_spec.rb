@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,7 +54,7 @@ RSpec.describe "menu permissions", :js do
 
     specify "the parent node directs to the general settings page" do
       # The settings menu item exists
-      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: false)
+      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: :all)
 
       # Clicking the menu parent item leads to the version page
       find(".main-menu--parent-node", text: "Project settings").click
@@ -79,7 +78,7 @@ RSpec.describe "menu permissions", :js do
 
     specify "the parent node directs to the only visible children page" do
       # The settings menu item exists
-      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: false)
+      expect(page).to have_css("#menu-sidebar .main-item-wrapper", text: "Project settings", visible: :all)
 
       # Clicking the menu parent item leads to the version page
       find(".main-menu--parent-node", text: "Project settings").click

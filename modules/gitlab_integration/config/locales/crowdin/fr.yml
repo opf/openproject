@@ -24,10 +24,18 @@
 fr:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: Projet GitLab
+        namespace: Espace de noms GitLab
+        project_html_url: URL du projet GitLab
       gitlab_merge_request:
         labels: Étiquettes
       gitlab_pipeline:
         ci_details: Détails CI
+      gitlab_user:
+        avatar_url: URL de l'avatar
+        name: Nom
+        username: Nom d'utilisateur
     errors:
       models:
         gitlab_issue:
@@ -39,6 +47,9 @@ fr:
             labels:
               invalid_schema: 'doit être un tableau de hachages avec les clés : color, title'
     models:
+      gitlab_branch:
+        one: Branche GitLab
+        other: Branches GitLab
       gitlab_issue:
         one: Ticket GitLab
         other: Tickets GitLab
@@ -54,19 +65,61 @@ fr:
   attributes:
     commit: Commit
     gitlab: Identifiant GitLab
-    gitlab_avatar_url: URL de l'avatar
-    gitlab_email: E-mail GitLab
     gitlab_html_url: URL HTML GitLab
     gitlab_merge_request: Requête de fusion
-    gitlab_name: Nom GitLab
     gitlab_updated_at: Mise à jour à
     gitlab_user_avatar_url: URL d'avatar GitLab
-    gitlab_username: Nom d'utilisateur GitLab
   gitlab_integration:
+    branch_component:
+      copy_name: Copier le nom de la branche
+      create_merge_request: Créer une requête de fusion
+      updated_at: Mis à jour le %{date_time}.
+      updated_by: Dernière mise à jour par %{name}.
+    commit_component:
+      authored_at: Publié sur %{date_time}.
+      copy_sha: Copier l'URL dans le presse-papiers
+      created_by: Créé par %{name}.
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: Nom de la branche
+      commit_message: Message de commit
+      copy_branch_name: Copier le nom de la branche
+      copy_commit_message: Copier le message de commit
+      copy_create_branch_command: Copier la commande pour créer une branche avec un commit vide
+      create_branch_with_empty_commit: Créer une branche avec un commit vide
+      title: Extraits de code Git rapides
     issue_closed_referenced_comment: "**Ticket fermé :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été fermé par [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_component:
+      states:
+        closed: Fermé
+        opened: Ouvert
+      updated_at: Mis à jour le %{date_time}.
+      updated_by: Dernière mise à jour par %{name}.
     issue_opened_referenced_comment: "**Ticket ouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été ouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Ticket rouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été rouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**MR fermée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fermée par [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_component:
+      pipeline_statuses:
+        canceled: Annulé
+        canceling: Annulation
+        created: Créé
+        failed: Échoué
+        manual: Manuel
+        pending: En attente
+        preparing: Préparation
+        running: En cours
+        scheduled: Planifié
+        skipped: Manqué
+        success: Réussi
+        waiting_for_callback: En attente de rappel
+        waiting_for_resource: En attente de ressources
+      states:
+        closed: Fermé
+        locked: Bloqué
+        merged: Fusionné
+        opened: Ouvrir
+      updated_at: Mis à jour le %{date_time}.
+      updated_by: Dernière mise à jour par %{name}.
     merge_request_merged_comment: "**MR fusionnée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fusionnée par [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**MR ouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été ouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**MR rouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été rouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
@@ -79,6 +132,27 @@ fr:
     push_multiple_commits_comment: "**Push en MR :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de plusieurs commits [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}\n"
     push_single_commit_comment: "**Push en MR :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}\n"
     push_single_commit_comment_with_ref: "**Push dans %{reference} :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}\n"
+    work_package_gitlab_tab_component:
+      blank_slates:
+        branches:
+          description_html: Pour créer un lien vers une branche, nommez-la de manière à ce qu'elle commence par « %{code} » ou uniquement par « %{identifier}».
+          title: Aucune branche
+        commits:
+          description_html: Pour créer un lien vers un commit, ajoutez le code %{code} ou le %{url} dans le message du commit.
+          title: Aucun commit
+        issues:
+          description_html: Pour créer un lien vers un ticket, ajoutez le code %{code} au titre ou à la description.
+          title: Aucun ticket
+        merge_requests:
+          description_html: Pour créer une requête de fusion, ajoutez le code %{code} au titre ou à la description.
+          title: Aucune requête de fusion
+      branches: Branches
+      commits: Actes accomplis
+      description_html: Pour créer un élément GitLab existant, ajoutez le code %{code} au titre ou à la description.
+      git_snippets: Extraits de code Git
+      issues: Tickets
+      merge_requests: Requêtes de fusion
+      snippets_button_label: Extraits de code Git
   label_gitlab_actor: Acteur GitLab
   label_gitlab_integration: Intégration de GitLab
   label_gitlab_webhook_secret: Secret du webhook

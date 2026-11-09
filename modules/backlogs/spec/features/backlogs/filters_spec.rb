@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -115,6 +114,30 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
     backlogs_page.expect_inbox_items(items: status_b_inbox_wp)
     backlogs_page.expect_no_inbox_items(items: [matching_inbox_wp, excluded_inbox_wp])
     backlogs_page.expect_inbox_work_package_count(1)
+  end
+
+  context "with shared with user filtering" do
+    shared_let(:other_project) { create(:project) }
+    shared_let(:work_package_role) { create(:work_package_role, permissions: %i[view_work_packages]) }
+    shared_let(:non_member) do
+      create(:user,
+             firstname: "Nonny",
+             lastname: "Member",
+             member_with_permissions: { other_project => %i[view_work_packages] })
+    end
+    before_all do
+      create(:member, project:, user: non_member, entity: keep_last_bucket_wp, roles: [work_package_role])
+    end
+
+    it "offers users that are not members of the project and narrows the listings to their shares" do
+      backlogs_page.expect_shared_with_user_option(non_member)
+
+      backlogs_page.apply_shared_with_user_filter(non_member)
+
+      backlogs_page.expect_bucket_items(bucket, items: keep_last_bucket_wp)
+      backlogs_page.expect_no_bucket_items(bucket, items: [matching_bucket_wp, excluded_bucket_wp])
+      backlogs_page.expect_backlog_bucket_work_package_count(bucket, 1)
+    end
   end
 
   context "with version filtering" do
@@ -312,7 +335,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.clear_subject_filter
       backlogs_page.expect_inbox_items(items: matching_inbox_wp)
       backlogs_page.expect_inbox_show_more
-      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+      expect(page).to have_no_current_query_params(a_hash_including("all"))
 
       backlogs_page.click_inbox_show_more
       backlogs_page.expect_no_inbox_show_more
@@ -320,7 +343,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.apply_status_filter(status_a)
       backlogs_page.expect_no_inbox_items(items: status_b_inbox_wp)
       backlogs_page.expect_inbox_show_more
-      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+      expect(page).to have_no_current_query_params(a_hash_including("all"))
     end
   end
 end

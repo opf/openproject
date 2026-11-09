@@ -111,9 +111,9 @@ You can now configure webhook secrets for GitHub and GitLab integrations. This i
 
 ### CVE-2026-46386 - Docker Container starts with SECRET_KEY_BASE default value
 
-When an attacker knew the secret key base that the application used to derive internal keys from, they could construct encrypted cookies that on the server side were decoded using [Object Marshalling](https://docs.ruby-lang.org/en/4.0/Marshal.html) which allowed the attacker to execute almost arbitrary ruby code within the container, up to a complete remote code execution. This was especially present in Docker containers that shipped with a default value as the secret key base, when it was not manually overwritten, as mentioned in the documentation.
+When an attacker knew the secret key base that the application used to derive internal keys from, they could construct encrypted cookies that on the server side were decoded using [Object Marshaling](https://docs.ruby-lang.org/en/4.0/Marshal.html) which allowed the attacker to execute almost arbitrary ruby code within the container, up to a complete remote code execution. This was especially present in Docker containers that shipped with a default value as the secret key base, when it was not manually overwritten, as mentioned in the documentation.
 
-As a fix, the docker containers now validate that a proper `SECRET_KEY_BASE` environment variable is set. Otherwise the application aborts the boot process with an error message. The documentation has been updated to make it even clearer that the `SECRET_KEY_BASE` env variable must be set. And the decoding of the encrypted cookies has been updated to use JSON encoding instead of Object Marshalling.&nbsp;
+As a fix, the docker containers now validate that a proper `SECRET_KEY_BASE` environment variable is set. Otherwise the application aborts the boot process with an error message. The documentation has been updated to make it even clearer that the `SECRET_KEY_BASE` env variable must be set. And the decoding of the encrypted cookies has been updated to use JSON encoding instead of Object Marshaling.
 
 **Administrators that have not set a** `**SECRET_KEY_BASE**` **environment before need to set one now. Otherwise the application will not boot.**
 

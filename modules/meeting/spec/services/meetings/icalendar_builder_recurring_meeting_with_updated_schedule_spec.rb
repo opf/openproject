@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -158,7 +157,7 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
       # the previous-schedule occurrence is no longer represented as an RDATE
       expect(Array(master_event.rdate)).to be_empty
 
-      # the second occurence is emitted as an override already using the new starting times
+      # the second occurrence is emitted as an override already using the new starting times
       second_occurrence_event = parsed_calendar.events.find { |e| e.recurrence_id.present? }
       expect(second_occurrence_event.dtstart).to eq new_start_time
       expect(second_occurrence_event.rrule).to be_empty
@@ -207,7 +206,7 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
       # the previous-schedule occurrence is no longer represented as an RDATE
       expect(Array(master_event.rdate)).to be_empty
 
-      # the second occurence is emitted as an override already using the new starting times
+      # the second occurrence is emitted as an override already using the new starting times
       second_occurrence_event = parsed_calendar.events.find { |e| e.recurrence_id.present? }
       expect(second_occurrence_event.dtstart).to eq new_start_time
       expect(second_occurrence_event.rrule).to be_empty

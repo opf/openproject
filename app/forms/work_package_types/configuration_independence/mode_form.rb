@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,7 @@ module WorkPackageTypes
       end
 
       form do |mode_form|
-        mode_form.advanced_radio_button_group(name: :mode) do |group|
+        mode_form.radio_button_group(name: :mode) do |group|
           available_modes.each_with_index do |mode, index|
             group.radio_button(
               value: mode,

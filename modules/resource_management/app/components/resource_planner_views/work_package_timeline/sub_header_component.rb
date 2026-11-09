@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,7 +43,7 @@ module ResourcePlannerViews::WorkPackageTimeline
 
     def add_entity_item(menu)
       menu.with_item(label: t("resource_management.work_package_timeline.subheader.add_work_package"), tag: :a,
-                     href: new_work_package_project_resource_planner_view_path(@project, @resource_planner, @view),
+                     href: new_planner_view_work_package_path(@resource_planner, @view),
                      content_arguments: { data: { controller: "async-dialog" } }) do |item|
         item.with_leading_visual_icon(icon: :"op-relations")
       end

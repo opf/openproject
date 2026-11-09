@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -40,6 +39,7 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 class ChangesetStates extends StatesGroup {
   name = 'Changesets';
@@ -88,7 +88,7 @@ export class ResourceChangesetCommit<T extends HalResource = HalResource> {
   }
 }
 
-export type ResourceChangesetClass = new(...args:any[]) => ResourceChangeset;
+export type ResourceChangesetClass = new(...args:ConstructorParameters<typeof ResourceChangeset>) => ResourceChangeset;
 
 @Injectable()
 export class HalResourceEditingService extends StateCacheService<ResourceChangeset> {
@@ -106,7 +106,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   public async save<V extends HalResource, T extends ResourceChangeset<V>>(change:T):Promise<ResourceChangesetCommit<V>> {
     // Form the payload we're going to save
     const payload = await change.buildRequestPayload();
-    const savedResource = await change.pristineResource.$links.updateImmediately(payload);
+    const savedResource = await (change.pristineResource.$links.updateImmediately as CallableHalLink)(payload) as V;
 
     // Initialize any potentially new HAL values
     savedResource.retainFrom(change.pristineResource);
@@ -198,7 +198,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
       return this.edit<V, T>(resource);
     }
 
-    if (resource.hasOwnProperty('lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
+    if (Object.hasOwn(resource, 'lockVersion') && (changeset.pristineResource.lockVersion as number) < (resource.lockVersion as number)) {
       return this.edit<V, T>(resource);
     }
 

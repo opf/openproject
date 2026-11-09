@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,8 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create(:project) }
+  shared_let(:type) { create(:type) }
+  shared_let(:project) { create(:project, types: [type]) }
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -57,13 +57,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
     end
 
     describe "WorkPackageCustomField" do
-      shared_let(:custom_field) do
-        cf = create(:list_wp_custom_field)
-
-        project.work_package_custom_fields << cf
-
-        cf
-      end
+      shared_let(:custom_field) { create(:list_wp_custom_field, types: [type]) }
       shared_let(:custom_option) do
         create(:custom_option,
                custom_field:)
@@ -90,7 +84,17 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
         end
       end
 
-      context "when lacking permission" do
+      context "when the user cannot see any project the field applies to" do
+        let(:user) { create(:user) }
+
+        it "is 404" do
+          expect(subject.status)
+            .to be(404)
+        end
+      end
+
+      # The option values belong to work package data, so seeing the project is not enough.
+      context "when the user may see the project but not its work packages" do
         let(:permissions) { [] }
 
         it "is 404" do
@@ -99,14 +103,9 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
         end
       end
 
-      context "when custom option not in project" do
+      context "when the field is on no type" do
         let(:permissions) { [:view_work_packages] }
-        let(:modification) do
-          -> do
-            project.work_package_custom_fields = []
-            project.save!
-          end
-        end
+        let(:modification) { -> { custom_field.form_configurations.each { it.custom_field_ids -= [custom_field.id] } } }
 
         it "is 404" do
           expect(subject.status)

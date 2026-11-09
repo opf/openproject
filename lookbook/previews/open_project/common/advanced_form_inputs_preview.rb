@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,7 +48,7 @@ module OpenProject
       # and the previous value is silently preserved.
       #
       # Pass `include_hidden: true` to emit a hidden sentinel field before the
-      # checkboxes. This mirrors the behaviour of Rails' own `check_box` helper
+      # checkboxes. This mirrors the behavior of Rails' own `check_box` helper
       # and ensures the key is always present in params — as an empty array when
       # nothing is checked — so the server can save the empty selection correctly.
       def check_box_group_with_include_hidden
@@ -78,6 +77,42 @@ module OpenProject
       # values are `"t"` (yes) and `"f"` (no).
       def segmented_control_input_boolean
         render_with_template
+      end
+
+      # **FileFieldInput**
+      #
+      # A full-width, dashed-border drop zone replacing the browser-native file
+      # input button. Clicking it, or dropping a file onto it, opens/accepts the
+      # native file picker; the chosen file's name then replaces the label text.
+      # Toggle the field's options freely, including `auto_submit` (submits the
+      # form as soon as a file is chosen) and whether a preview image is present.
+      #
+      # `invalid_file_message` and `max_size`/`file_too_large_message` are both opt-in: a
+      # mismatched or oversized file is always rejected (cleared, nothing submitted), but the
+      # inline message only appears once a message is configured. Leave either message blank to
+      # see the silent rejection; fill it in to see the feedback.
+      #
+      # Please note, the uploading and deleting do not work in the preview.
+      # @param label text
+      # @param description text
+      # @param caption text
+      # @param accept text
+      # @param auto_submit toggle
+      # @param with_preview toggle
+      # @param disabled toggle
+      # @param invalid_file_message text
+      # @param max_size number
+      # @param file_too_large_message text
+      def file_field(label: "Upload a file", description: "PDF, DOCX up to 10 MB", caption: "Shown below the field",
+                     accept: ".pdf,.docx", auto_submit: false, with_preview: false, disabled: false,
+                     invalid_file_message: I18n.t(:label_invalid_file_type), max_size: 0,
+                     file_too_large_message: "This file is larger than the limit this instance accepts.")
+        preview_url = ActionController::Base.helpers.asset_path("icon_logo.svg") if with_preview
+
+        render_with_template(
+          locals: { label:, description:, caption:, accept:, auto_submit:, disabled:, preview_url:,
+                    invalid_file_message:, max_size:, file_too_large_message: }
+        )
       end
     end
   end

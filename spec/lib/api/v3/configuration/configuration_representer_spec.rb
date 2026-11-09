@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,9 +37,10 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
     build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:preference)
-        .and_return(build_stubbed(:user_preference))
+        .and_return(build_stubbed(:user_preference, settings: preferences))
     end
   end
+  let(:preferences) { {} }
   let(:embed_links) { false }
   let(:representer) do
     described_class.new(represented, current_user:, embed_links:)
@@ -92,7 +92,7 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
       context "with time format", with_settings: { time_format: "%I:%M %p" } do
         it "indicates the timeFormat" do
           expect(subject)
-            .to be_json_eql("hh:mm a".to_json)
+            .to be_json_eql("hh:mm A".to_json)
             .at_path("timeFormat")
         end
       end
@@ -109,6 +109,16 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
         it "indicates the timeFormat" do
           expect(subject)
             .to be_json_eql(nil.to_json)
+            .at_path("timeFormat")
+        end
+      end
+
+      context "with a user preference", with_settings: { time_format: "%H:%M" } do
+        let(:preferences) { { "time_format" => "%I:%M %p" } }
+
+        it "indicates the user's timeFormat" do
+          expect(subject)
+            .to be_json_eql("hh:mm A".to_json)
             .at_path("timeFormat")
         end
       end
@@ -183,6 +193,16 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
         it "indicates the dateFormat" do
           expect(subject)
             .to be_json_eql("MMMM DD, YYYY".to_json)
+            .at_path("dateFormat")
+        end
+      end
+
+      context "with a user preference", with_settings: { date_format: "%Y-%m-%d" } do
+        let(:preferences) { { "date_format" => "%d.%m.%Y" } }
+
+        it "indicates the user's dateFormat" do
+          expect(subject)
+            .to be_json_eql("DD.MM.YYYY".to_json)
             .at_path("dateFormat")
         end
       end
@@ -272,7 +292,7 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
       context "if embedding" do
         let(:embed_links) { true }
 
-        it "embedds the user preferences" do
+        it "embeds the user preferences" do
           expect(subject)
             .to be_json_eql("UserPreferences".to_json)
             .at_path("_embedded/userPreferences/_type")
@@ -280,7 +300,7 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
       end
 
       context "if not embedding" do
-        it "embedds the user preferences" do
+        it "embeds the user preferences" do
           expect(subject)
             .not_to have_json_path("_embedded/userPreferences/_type")
         end

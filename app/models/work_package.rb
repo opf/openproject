@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,21 +35,21 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::AskBeforeDestruction
   include WorkPackage::TimeEntriesCleaner
   include WorkPackage::Ancestors
-  include WorkPackage::CustomActioned
+  include WorkPackage::Automatable
   include WorkPackage::Hooks
   # Must stay above WorkPackage::Journalized: its after_save persists the
   # version rows that the journal snapshot then reads.
   include WorkPackage::Versions
   include WorkPackages::DerivedDates
-  include WorkPackages::SpentTime
-  include WorkPackages::Costs
   include WorkPackages::Relations
   include ::Scopes::Scoped
   include HasMembers
   include Remindable
+  include Labelable
 
   include OpenProject::Journal::AttachmentHelper
 
+  AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX = "work_package_custom_fields_"
   DONE_RATIO_OPTIONS = %w[field status].freeze
   TOTAL_PERCENT_COMPLETE_MODE_OPTIONS = %w[work_weighted_average simple_average].freeze
 
@@ -129,9 +128,9 @@ class WorkPackage < ApplicationRecord
 
   scopes :covering_dates_or_days_of_week,
          :allowed_to,
+         :allowed_to_via_share_only,
          :for_scheduling,
          :include_derived_dates,
-         :include_spent_time,
          :involving_user,
          :left_join_self_and_descendants,
          :relatable,
@@ -143,9 +142,6 @@ class WorkPackage < ApplicationRecord
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
   before_save :close_duplicates, :update_done_ratio_from_status
   before_create :default_assign
-  # By using prepend: true, the callback will be performed before the meeting_agenda_items are nullified,
-  # thus the associated agenda items will be available at the time the callback method is performed.
-  around_destroy :save_agenda_item_journals, prepend: true, if: -> { meeting_agenda_items.any? }
 
   acts_as_customizable validate_on: :saving_custom_fields
 
@@ -175,7 +171,7 @@ class WorkPackage < ApplicationRecord
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
 
-  # makes virtual modal WorkPackageHierarchy available
+  # makes virtual model WorkPackageHierarchy available
   has_closure_tree
 
   # Add on_destroy paper trail
@@ -248,11 +244,6 @@ class WorkPackage < ApplicationRecord
   def blocked?
     blockers
       .exists?
-  end
-
-  def add_time_entry(attributes = {})
-    attributes.reverse_merge!(project:, entity: self)
-    time_entries.build(attributes)
   end
 
   def to_s = to_fs
@@ -409,6 +400,10 @@ class WorkPackage < ApplicationRecord
     Project.allowed_to(user, :move_work_packages)
   end
 
+  def self.allowed_target_projects_on_copy(user)
+    Project.allowed_to(user, :copy_work_packages)
+  end
+
   # Returns a scope for the projects
   # the user is create a work package in
   def self.allowed_target_projects_on_create(user)
@@ -520,12 +515,15 @@ class WorkPackage < ApplicationRecord
     end
   end
 
+  def self.clear_available_custom_fields_cache
+    RequestStore.store.delete_if { |key, _| key.to_s.start_with?(AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX) }
+  end
+
   def self.preload_available_custom_fields(work_packages)
     type_variant_ids = type_variant_ids_by_pair(work_packages)
 
     custom_fields = available_custom_fields_from_db(work_packages)
-                    .select("array_agg(projects.id) available_project_ids",
-                            "array_agg(wp_variants.own_id) available_type_ids",
+                    .select("array_agg(wp_variants.own_id) available_type_ids",
                             "custom_fields.*")
                     .group("custom_fields.id")
 
@@ -533,15 +531,9 @@ class WorkPackage < ApplicationRecord
       type_variant_id = type_variant_ids[custom_field_pair(work_package)]
 
       RequestStore.store[available_custom_field_key(work_package)] =
-        custom_fields.select { |cf| available_for?(cf, work_package, type_variant_id) }
+        custom_fields.select { |cf| cf.available_type_ids.include?(type_variant_id) }
     end
   end
-
-  def self.available_for?(custom_field, work_package, type_variant_id)
-    (custom_field.available_project_ids.include?(work_package.project_id) || custom_field.is_for_all?) &&
-      custom_field.available_type_ids.include?(type_variant_id)
-  end
-  private_class_method :available_for?
 
   # A work package stores its type, while its project may apply a variant resulting in a different
   # form configuration. The fields available therefore depend on the (project, type) pair
@@ -574,11 +566,8 @@ class WorkPackage < ApplicationRecord
     type_ids = type_variant_ids_by_pair(work_packages).values.compact.uniq
     return WorkPackageCustomField.none if type_ids.empty?
 
-    project_ids = work_packages.map(&:project_id).uniq
-    type_join = form_configuration_custom_fields_join(type_ids)
-
-    custom_fields_activated_in(type_join, project_ids)
-      .or(custom_fields_for_all(type_join))
+    WorkPackageCustomField
+      .joins(form_configuration_custom_fields_join(type_ids))
       .distinct
   end
   private_class_method :available_custom_fields_from_db
@@ -603,24 +592,41 @@ class WorkPackage < ApplicationRecord
   # Match custom fields on the variant that owns the form configuration,
   # excluding fields that are hidden somewhere in the source
   def self.form_configuration_custom_fields_join(variant_ids)
-    source_table, source_variant_id, excluded = TypeVariant::FormConfigurationSql.source_table(variant_ids)
+    values = variant_ids.map { |id| "(#{id})" }.join(", ")
+    driving_table = "JOIN (VALUES #{values}) AS wp_variants(own_id) ON TRUE"
+    join, form_configuration_id, excluded = TypeVariant.form_configuration_join("wp_variants.own_id")
     exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
 
-    "#{source_table} " \
-      "JOIN custom_fields_types cft " \
-      "ON cft.custom_field_id = custom_fields.id AND cft.type_variant_id = #{source_variant_id} " \
-      "AND #{exclusion}"
+    "#{driving_table} #{join} " \
+      "JOIN form_configuration_attributes fca " \
+      "ON fca.custom_field_id = custom_fields.id AND fca.form_configuration_id = #{form_configuration_id} " \
+      "AND fca.form_configuration_group_id IS NOT NULL AND #{exclusion}"
   end
   private_class_method :form_configuration_custom_fields_join
 
   def self.available_custom_field_key(work_package)
-    :"work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
+    :"#{AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX}#{work_package.project_id}_#{work_package.type_id}"
   end
 
   private_class_method :available_custom_field_key
 
   def custom_field_cache_key
     [project_id, type_id]
+  end
+
+  ##
+  # Check whether the custom field is either required globally
+  # or in the active type/variant form configuration
+  def custom_field_required?(custom_field)
+    super || required_custom_field_ids.include?(custom_field.id)
+  end
+
+  def required_custom_field_ids
+    return [] unless project_id && type_id
+
+    RequestStore.fetch(:"work_package_required_custom_fields_#{project_id}_#{type_id}") do
+      type_variant&.required_custom_field_ids || []
+    end
   end
 
   protected
@@ -631,17 +637,12 @@ class WorkPackage < ApplicationRecord
 
   private
 
-  def derived_progress_hints
-    @derived_progress_hints ||= {}
+  def default_custom_field_value(custom_field)
+    custom_field.keep_usable_values(super, project)
   end
 
-  def add_time_entry_for(user, attributes)
-    return if time_entry_blank?(attributes)
-
-    attributes.reverse_merge!(user:,
-                              spent_on: Time.zone.today)
-
-    time_entries.build(attributes)
+  def derived_progress_hints
+    @derived_progress_hints ||= {}
   end
 
   def convert_duration_to_hours(value)
@@ -660,24 +661,6 @@ class WorkPackage < ApplicationRecord
       value = PercentageConverter.parse(value)
     end
     value
-  end
-
-  ##
-  # Checks if the time entry defined by the given attributes is blank.
-  # A time entry counts as blank despite a selected activity if that activity
-  # is simply the default activity and all other attributes are blank.
-  def time_entry_blank?(attributes)
-    return true if attributes.nil?
-
-    key = "activity_id"
-    id = attributes[key]
-    default_id = if id.present?
-                   Enumeration.exists? id:, is_default: true, type: "TimeEntryActivity"
-                 else
-                   true
-                 end
-
-    default_id && attributes.except(key).values.all?(&:blank?)
   end
 
   # Default assignment based on category
@@ -746,15 +729,5 @@ class WorkPackage < ApplicationRecord
     if invalid_attachment = attachments.detect(&:invalid?)
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
-  end
-
-  def save_agenda_item_journals
-    ##
-    # Meetings are stored before they become dissociated from the work package,
-    # but the meeting journals are saved only after the agenda items are dissociated (nullified).
-    # By saving the meeting journals, the agenda item journals are also saved.
-    stored_meetings = meetings.to_a
-    yield
-    stored_meetings.each(&:touch_and_save_journals)
   end
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,12 +37,7 @@ module OpenProject
     #
     # Most importantly it does work for the '#{model}_path|url' helpers, though.
     module UrlHelpers
-      extend ActiveSupport::Concern
-
-      included do
-        # See https://github.com/rails/rails/pull/50403
-        include Rails.application.routes.url_helpers
-
+      module DefaultUrlOptions
         def default_url_options
           options = ActionMailer::Base.default_url_options.clone
 
@@ -59,6 +53,17 @@ module OpenProject
 
           options
         end
+      end
+
+      extend ActiveSupport::Concern
+
+      included do
+        # See https://github.com/rails/rails/pull/50403
+        include Rails.application.routes.url_helpers
+
+        # using prepend, as url_helpers defines default_url_options on the class
+        # itself, so an include cannot override it
+        prepend DefaultUrlOptions
       end
 
       def self.host

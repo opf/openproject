@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -258,6 +257,84 @@ RSpec.shared_examples "work package contract" do
         end
 
         it_behaves_like "contract is invalid", target_versions: :error_readonly
+      end
+    end
+
+    describe "labels" do
+      let(:label) { create(:label) }
+
+      after do
+        work_package.label_id_replacements = nil
+        work_package.label_name_replacements = nil
+      end
+
+      before do
+        work_package.label_id_replacements = [label.id]
+      end
+
+      it_behaves_like "contract is valid"
+
+      context "with a new label name the user may create" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          work_package.label_name_replacements = ["Brand new"]
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "with a new label name that is too long" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          work_package.label_name_replacements = ["x" * 300]
+        end
+
+        it_behaves_like "contract is invalid", labels: :too_long
+
+        it "renders the length limit in the message" do
+          contract.validate
+
+          expect(contract.errors.full_messages_for(:labels))
+            .to contain_exactly("Labels is too long (maximum is 255 characters).")
+        end
+      end
+
+      context "with more label names than allowed" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          work_package.label_name_replacements = Array.new(Labelable::MAX_LABEL_NAMES_PER_SAVE + 1) { "Label #{it}" }
+        end
+
+        it_behaves_like "contract is invalid", labels: :too_many
+      end
+
+      context "with several new label names the user may create" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          work_package.label_name_replacements = ["First", "Second", "Third"]
+          allow(Labels::CreateContract).to receive(:new).and_call_original
+        end
+
+        it "checks the permission to create labels once" do
+          contract.validate
+
+          expect(Labels::CreateContract).to have_received(:new).once
+        end
+      end
+
+      context "with a label name that already exists in different casing" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          create(:label, name: "Existing")
+          work_package.label_name_replacements = ["EXISTING"]
+        end
+
+        it_behaves_like "contract is valid"
       end
     end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,7 +44,8 @@ module WorkPackageTypes
           pattern: values[:pattern],
           default_work_package_description: variant.default_work_package_description,
           suggestions: suggestions_for(variant),
-          validation_errors: variant.errors
+          validation_errors: variant.errors,
+          named_variant: variant.is_a?(TypeVariant) && !variant.is_default_variant?
         )
       end
 
@@ -102,8 +102,10 @@ module WorkPackageTypes
         {
           key: token.key,
           label: token.label,
+          context: token.context,
           label_with_context: token.label_with_context,
-          enabled:
+          enabled:,
+          available_formats: token.formatter.available_formats
         }
       end
       private_class_method :token_to_hash
@@ -117,13 +119,17 @@ module WorkPackageTypes
         }
       end
 
-      def initialize(subject_configuration:, pattern:, suggestions:, default_work_package_description: nil, validation_errors: {})
+      def initialize(subject_configuration:, pattern:, suggestions:, default_work_package_description: nil, validation_errors: {},
+                     named_variant: false)
         @subject_configuration = subject_configuration
         @pattern = pattern
         @default_work_package_description = default_work_package_description
         @suggestions = suggestions
         @validation_errors = validation_errors
+        @named_variant = named_variant
       end
+
+      def named_variant? = @named_variant
     end
   end
 end

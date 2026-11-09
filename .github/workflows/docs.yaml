@@ -16,6 +16,7 @@ jobs:
   docs-links-check:
     name: Check internal links in documentation
     runs-on: [ubuntu-latest]
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -27,6 +28,7 @@ jobs:
   docs-readme-case-check:
     name: Check README.md case in documentation
     runs-on: [ubuntu-latest]
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -35,6 +37,7 @@ jobs:
   docs-readme-yaml-header-syntax-check:
     name: Check README.md YAML header syntax in documentation
     runs-on: [ubuntu-latest]
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

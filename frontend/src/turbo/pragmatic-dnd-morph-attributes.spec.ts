@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -92,8 +91,8 @@ describe('Pragmatic DnD morph attribute preservation', () => {
     });
   });
 
-  it('preserves the split view selection markers during Turbo morphs', () => {
-    ['data-selected', 'aria-current'].forEach((attributeName) => {
+  it('preserves the batch selection and current-work-package markers during Turbo morphs', () => {
+    ['data-batch-selected', 'aria-current'].forEach((attributeName) => {
       const element = appendSortableRow();
       const event = beforeMorphAttributeEvent(attributeName);
 

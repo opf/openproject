@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module DeployTargets
-  class RowComponent < ::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class RowComponent < ::OpPrimer::BorderBoxRowComponent
     property :host, :type
 
     def deploy_target
@@ -45,10 +44,18 @@ module DeployTargets
     end
 
     def delete_link
-      link_to I18n.t(:button_delete),
-              deploy_target_path(deploy_target),
-              data: { turbo_method: :delete },
-              class: "icon icon-delete"
+      render(Primer::Beta::IconButton.new(
+               icon: :trash,
+               scheme: :danger,
+               tag: :a,
+               size: :small,
+               href: deploy_target_path(deploy_target),
+               "aria-label": t(:button_delete),
+               tooltip_direction: :w,
+               data: {
+                 turbo_method: :delete
+               }
+             ))
     end
   end
 end

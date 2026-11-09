@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -127,6 +126,7 @@ import {
   WorkPackageViewCollapsedGroupsService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageService } from 'core-app/features/work-packages/services/work-package.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import {
   WorkPackageViewBaselineService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
@@ -162,6 +162,7 @@ import {
     WorkPackageViewFiltersService,
     WorkPackageViewTimelineService,
     WorkPackageViewSelectionService,
+    WorkPackageViewSelectionGesturesService,
     WorkPackageViewSumService,
     WorkPackageViewAdditionalElementsService,
     WorkPackageViewFocusService,

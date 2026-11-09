@@ -17,8 +17,8 @@
       <strong>{{ text.tracking_time }}: {{ elapsed$ | async }}</strong>
       <br/>
       <!-- Closing the modal on click would disconnect this anchor mid-dispatch and cancel the navigation. -->
-      <a [href]="PathHelper.workPackagePath(active.entity.id!)">
-        {{ entityName }}
+      <a [href]="PathHelper.workPackagePath(active.entityId)">
+        {{ active.entityName }}
       </a>
     </p>
 

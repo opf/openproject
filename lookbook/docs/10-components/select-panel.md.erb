@@ -1,0 +1,65 @@
+A `SelectPanel` is used when the user needs to select one or more items from a list. It combines a trigger button with a dropdown panel containing searchable, selectable items.
+The ability to search for items is what mainly separates this from the `ActionMenu` in our usage.
+
+For details on the component, please see the [Primer documentation](https://primer.style/product/components/select-panel/).
+
+## With footer button
+
+When selections need to be explicitly confirmed before taking effect, add a footer with an action button.
+The button should ideally be named "Apply".
+
+<%= embed Patterns::SelectPanelPreview, :footer_buttons, panels: %i[source] %>
+
+## With grouped items
+
+Use groups when the items fall into a small number of categories that help the user decide.
+An example is the role selector of the workflow editor. It shows the roles that have transitions first, and the roles without transitions after them.
+
+Each group starts with a divider that has a short label. Put the most relevant group first.
+
+<%= embed Patterns::SelectPanelPreview, :grouped_items, panels: %i[source] %>
+
+### Add dividers
+
+`Primer::Alpha::SelectPanel` does not expose `with_divider`, but its inner `ActionList` supports it.
+Use a subclass that delegates `with_divider` to the list, such as `Workflows::RoleSelectPanelComponent`:
+
+```ruby
+class RoleSelectPanelComponent < Primer::Alpha::SelectPanel
+  delegate :with_divider, to: :@list
+end
+```
+
+Add each divider, then the items of its group. Do not add a divider for an empty group.
+
+### Filter the items
+
+The local filter of the panel matches the text content of an item. Set `data-filter-string` on each item, so that the filter matches the label only.
+
+The panel does not hide a divider when the filter hides all items of its group.
+To hide the empty groups, mark each divider and each item with the same group key,
+and listen to the `input` event of the panel:
+
+```ruby
+panel.with_divider(data: { "admin--workflow-role-select-target": "groupHeading", role_group: index }) { label }
+panel.with_item(label: role.name, item_id: role.id, data: { filter_string: role.name, role_group: index })
+```
+
+```typescript
+filterGroups() {
+  queueMicrotask(() => {
+    const panel = this.element as SelectPanelElement;
+    const visibleGroups = new Set(panel.visibleItems.map((item) => item.dataset.roleGroup));
+    this.groupHeadingTargets.forEach((heading) => {
+      heading.style.display = visibleGroups.has(heading.dataset.roleGroup) ? 'flex' : 'none';
+    });
+  });
+}
+```
+
+The `queueMicrotask` call makes sure that the panel has updated its visible items before the controller reads them.
+The preview above uses the `admin--workflow-role-select` controller. Type "read" in the filter to see the "With transitions" group disappear.
+
+## Examples
+
+For detailed examples have a look at the other [preview examples](/lookbook/inspect/primer/alpha/select_panel/default) of the component.

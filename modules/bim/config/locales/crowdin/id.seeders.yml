@@ -61,7 +61,7 @@ id:
         item_2:
           name: Manajer BIM
         item_3:
-          name: Pembangun Model BIM
+          name: BIM Modelers
         item_4:
           name: Koordinator Utama BIM
         item_5:
@@ -511,17 +511,17 @@ id:
               description: Jenis ini secara hierarkis merupakan induk dari jenis &quot;Clash&quot; dan &quot;Request&quot;, sehingga mewakili catatan umum.
               children:
                 item_0:
-                  subject: Penyusunan model awal BIM
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Tujuan
+                    # Goal
 
-                    *   Membuat model awal BIM
-                    *   Membuat model BIM untuk seluruh tim proyek
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Deskripsi
+                    # Description
 
-                    *   Berdasarkan data yang dikumpulkan dari pelanggan, model awal akan dibuat
-                    *   Model tersebut akan dibuat sesuai dengan Matriks LOD dan mengandung informasi yang diperlukan
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: Pemeriksaan model internal awal dan revisi
@@ -538,23 +538,23 @@ id:
                   subject: Pengajuan model awal BIM
                   description: Jenis ini secara hierarkis merupakan induk dari jenis &quot;Clash&quot; dan &quot;Request&quot;, sehingga mewakili catatan umum.
             item_4:
-              subject: Penyusunan, siklus pertama
+              subject: Modeling, first cycle
               description: Jenis ini secara hierarkis merupakan induk dari jenis &quot;Clash&quot; dan &quot;Request&quot;, sehingga mewakili catatan umum.
               children:
                 item_0:
                   subject: Pengacuan pada model BIM eksternal
                   description: |-
-                    # Tujuan
+                    # Goal
 
-                    *   Memiliki dasar untuk mengembangkan model internal/memberikan jawaban
-                    *   Menggunakan model eksternal untuk mengembangkan model internal
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Deskripsi
+                    # Description
 
-                    *   Model eksternal akan dirujuk dalam platform BIM, sehingga digunakan untuk memodelkan model internal
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: Penyusunan model BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # Tujuan
 
@@ -602,19 +602,19 @@ id:
                   subject: Koordinasi penyelesaian, siklus pertama
                   description: Jenis ini secara hierarkis merupakan induk dari jenis &quot;Clash&quot; dan &quot;Request&quot;, sehingga mewakili catatan umum.
             item_6:
-              subject: Modelling & koordinasi, siklus kedua
+              subject: Modeling & coordinating, second cycle
               description: "## Tujuan\r\n\r\n*   ...\r\n\r\n## Deskripsi\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelling & koordinasi, siklus ...
+              subject: Modeling & coordinating, ... cycle
               description: Jenis ini secara hierarkis merupakan induk dari jenis &quot;Clash&quot; dan &quot;Request&quot;, sehingga mewakili catatan umum.
             item_8:
-              subject: Modelling & koordinasi, siklus (n kurang 1)
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Tujuan\r\n\r\n*   ...\r\n\r\n## Deskripsi\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & koordinasi, siklus n-th
+              subject: Modeling & coordinating n-th cycle
               description: Jenis ini secara hierarkis merupakan induk dari jenis &quot;Clash&quot; dan &quot;Request&quot;, sehingga mewakili catatan umum.
             item_10:
-              subject: Penyelesaian pemodelan & koordinasi, siklus ke-n
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Jenis ini secara hierarkis merupakan induk dari jenis &quot;Clash&quot; dan &quot;Request&quot;, sehingga mewakili catatan umum.
             item_11:
               subject: Gunakan model untuk fase konstruksi

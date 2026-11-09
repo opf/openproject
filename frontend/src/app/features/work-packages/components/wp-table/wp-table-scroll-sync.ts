@@ -20,17 +20,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { target } from 'core-app/shared/helpers/event-helpers';
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 
 export const selectorTableSide = '.work-packages-tabletimeline--table-side';
 export const selectorTimelineSide = '.work-packages-tabletimeline--timeline-side';
-const scrollSyncEventNamespace = '.scroll-sync';
 const scrollStep = 15;
 
 function getXandYScrollDeltas(ev:WheelEvent):[number, number] {
@@ -45,7 +43,7 @@ function getXandYScrollDeltas(ev:WheelEvent):[number, number] {
   return [x, y];
 }
 
-function getPlattformAgnosticScrollAmount(originalValue:number) {
+function getPlatformAgnosticScrollAmount(originalValue:number) {
   if (originalValue === 0) {
     return originalValue;
   }
@@ -61,17 +59,19 @@ function getPlattformAgnosticScrollAmount(originalValue:number) {
   return delta;
 }
 
-function syncWheelEvent(ev:WheelEvent, elementTable:HTMLElement, elementTimeline:HTMLElement) {
+function syncWheelEvent(
+  ev:WheelEvent, elementTable:HTMLElement, elementTimeline:HTMLElement, schedule:(callback:() => void) => void,
+) {
   const scrollTarget = ev.target as HTMLElement;
   let [deltaX, deltaY] = getXandYScrollDeltas(ev);
   if (deltaY === 0) {
     return;
   }
 
-  deltaX = getPlattformAgnosticScrollAmount(deltaX); // apply only in target div
-  deltaY = getPlattformAgnosticScrollAmount(deltaY); // apply in both divs
+  deltaX = getPlatformAgnosticScrollAmount(deltaX); // apply only in target div
+  deltaY = getPlatformAgnosticScrollAmount(deltaY); // apply in both divs
 
-  window.requestAnimationFrame(() => {
+  schedule(() => {
     elementTable.scrollTop = elementTable.scrollTop + deltaY;
     elementTimeline.scrollTop = elementTable.scrollTop + deltaY;
 
@@ -79,26 +79,55 @@ function syncWheelEvent(ev:WheelEvent, elementTable:HTMLElement, elementTimeline
   });
 }
 
-/**
- * Activate or deactivate the scroll-sync between the table and timeline view.
- *
- * @param element true if the timeline is visible, false otherwise.
- */
-export function createScrollSync(element:HTMLElement) {
+export interface ScrollSync {
+  update(visible:boolean):void;
+  destroy():void;
+}
+
+export function createScrollSync(element:HTMLElement):ScrollSync {
   const elTable = element.querySelector<HTMLElement>(selectorTableSide)!;
   const elTimeline = element.querySelector<HTMLElement>(selectorTimelineSide)!;
+  const registrations:[HTMLElement, 'wheel'|'scroll', EventListener][] = [];
+  let enabled = false;
+  let destroyed = false;
+  const frames = new Set<number>();
+  const disable = () => {
+    enabled = false;
+    registrations.forEach(([node, type, callback]) => runCleanup(() => node.removeEventListener(type, callback)));
+    registrations.length = 0;
+    frames.forEach((id) => runCleanup(() => cancelAnimationFrame(id)));
+    frames.clear();
+  };
+  const listen = (node:HTMLElement, type:'wheel'|'scroll', callback:EventListener) => {
+    const ownedCallback:EventListener = (event) => {
+      if (enabled && !destroyed) callback(event);
+    };
+    node.addEventListener(type, ownedCallback);
+    registrations.push([node, type, ownedCallback]);
+  };
+  const schedule = (callback:() => void) => {
+    const id = requestAnimationFrame(() => {
+      frames.delete(id);
+      if (enabled && !destroyed) callback();
+    });
+    frames.add(id);
+  };
 
-  return (timelineVisible:boolean) => {
-    // state vars
-    let syncedLeft = false;
-    let syncedRight = false;
+  return {
+    update(timelineVisible:boolean) {
+      if (!timelineVisible) {
+        disable();
+        return;
+      }
+      if (enabled || destroyed) return;
+      enabled = true;
+      let syncedLeft = false;
+      let syncedRight = false;
 
-    if (timelineVisible) {
-      // setup event listener for table
-      target(elTable).on(`wheel${scrollSyncEventNamespace}`, (ev:WheelEvent) => {
-        syncWheelEvent(ev, elTable, elTimeline);
+      listen(elTable, 'wheel', (ev) => {
+        syncWheelEvent(ev as WheelEvent, elTable, elTimeline, schedule);
       });
-      target(elTable).on(`scroll${scrollSyncEventNamespace}`, (ev:Event) => {
+      listen(elTable, 'scroll', (ev) => {
         if (syncedRight) {
           syncedRight = false;
         } else {
@@ -107,11 +136,10 @@ export function createScrollSync(element:HTMLElement) {
         }
       });
 
-      // setup event listener for timeline
-      target(elTimeline).on(`wheel${scrollSyncEventNamespace}`, (ev:WheelEvent) => {
-        syncWheelEvent(ev, elTable, elTimeline);
+      listen(elTimeline, 'wheel', (ev) => {
+        syncWheelEvent(ev as WheelEvent, elTable, elTimeline, schedule);
       });
-      target(elTimeline).on(`scroll${scrollSyncEventNamespace}`, (ev:Event) => {
+      listen(elTimeline, 'scroll', (ev) => {
         if (syncedLeft) {
           syncedLeft = false;
         } else {
@@ -119,8 +147,10 @@ export function createScrollSync(element:HTMLElement) {
           elTable.scrollTop = (ev.target as HTMLElement).scrollTop;
         }
       });
-    } else {
-      target(elTable).off(scrollSyncEventNamespace);
-    }
+    },
+    destroy() {
+      destroyed = true;
+      disable();
+    },
   };
 }

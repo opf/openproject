@@ -22,13 +22,26 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module AdminHelper
+  extend self
+
+  def ai_landing_path
+    routes = Rails.application.routes.url_helpers
+
+    if OpenProject::FeatureDecisions.llm_connection_active?
+      routes.llm_connection_path
+    elsif OpenProject::FeatureDecisions.ai_text_actions_active?
+      routes.admin_text_actions_path
+    else
+      routes.mcp_configurations_path
+    end
+  end
+
   def project_status_options_for_select(selected)
     options_for_select([[I18n.t(:label_all), ""],
                         [I18n.t(:status_active), 1]], selected)

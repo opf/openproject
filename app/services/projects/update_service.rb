@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -104,7 +103,7 @@ module Projects
       # edits a custom field which is used by an admin only calculated value
       # field. Without this unscoping, admin only value and all fields
       # referencing it (recursively) will not be recalculated and there will
-      # even be no place for that recalculatin to be triggered unless an admin
+      # even be no place for that recalculation to be triggered unless an admin
       # edits same value again.
       #
       # This may need to be handled differently to make it work for other custom

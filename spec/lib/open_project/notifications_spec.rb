@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,7 +48,7 @@ RSpec.describe OpenProject::Notifications do
 
       expect(probe).to have_received(:call) do |call_payload|
         # Don't check for object identity for the payload as it might be
-        # marshalled and unmarshalled before being delivered in the future.
+        # marshaled and unmarshaled before being delivered in the future.
         expect(call_payload).to eql(payload)
       end
     end

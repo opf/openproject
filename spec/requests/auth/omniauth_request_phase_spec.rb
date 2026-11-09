@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,6 +44,18 @@ RSpec.describe "OmniAuth request phase", type: :rails_request do
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(signin_path)
+    end
+  end
+
+  describe "POST /auth/developer with the authenticity token from the login page" do
+    it "starts the developer request phase" do
+      get signin_path
+      token = response.parsed_body.at_css("meta[name=csrf-token]")["content"]
+
+      post "/auth/developer", params: { authenticity_token: token }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("first_name")
     end
   end
 

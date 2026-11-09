@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,11 +52,10 @@ RSpec.describe API::Decorators::Formattable do
     subject { described_class.new(represented, object:) }
 
     it "passes that to format_text" do
-      # rubocop:disable RSpec/SubjectStub RSpec/MessageSpies
+      # rubocop:disable-next RSpec/SubjectStub, RSpec/MessageSpies
       expect(subject)
         .to receive(:format_text).with(anything, format: :markdown, object:)
         .and_call_original
-      # rubocop:enable RSpec/SubjectStub RSpec/MessageSpies
 
       expect(subject.to_json)
         .to be_json_eql('<p class="op-uc-p">A <strong>raw</strong> string!</p>'.to_json).at_path("html")

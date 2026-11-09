@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,7 +63,7 @@ RSpec.describe "Project copy with sprints and buckets", :js,
     general_settings_page.visit!
     general_settings_page.click_copy_action
 
-    expect(page).to have_heading "Copy project \"#{project.name}\""
+    expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
     fill_in "Name", with: "Copied project"
     click_on "Copy"

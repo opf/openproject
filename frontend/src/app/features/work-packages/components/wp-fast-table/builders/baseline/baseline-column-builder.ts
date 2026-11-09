@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -44,6 +43,25 @@ import {
 } from '@openproject/octicons-angular';
 
 export const baselineCellName = 'op-table-baseline--column-cell';
+export const baselineStatusName = 'op-table-baseline--status';
+
+const baselineChanges = {
+  added: {
+    icon: opArrowInIconData,
+    className: 'op-table-baseline--icon-added',
+    label: 'js.work_packages.baseline.addition_label',
+  },
+  removed: {
+    icon: replyIconData,
+    className: 'op-table-baseline--icon-removed',
+    label: 'js.work_packages.baseline.removal_label',
+  },
+  updated: {
+    icon: opTriangleDeltaIconData,
+    className: 'op-table-baseline--icon-changed',
+    label: 'js.work_packages.baseline.modification_label',
+  },
+};
 
 export class BaselineColumnBuilder {
   @LazyInject() states:States;
@@ -69,40 +87,20 @@ export class BaselineColumnBuilder {
       return td;
     }
 
-    // Check if added
-    const icon = this.changeIcon(workPackage);
-    if (icon) {
-      td.appendChild(icon);
+    const state = getBaselineState(workPackage, this.schemaCache);
+    if (!state) {
+      return td;
     }
+
+    const { icon, className, label } = baselineChanges[state];
+    const text = this.I18n.t(label);
+    td.appendChild(octiconElement(icon, 'small', className, text));
+
+    const status = document.createElement('span');
+    status.classList.add('sr-only', baselineStatusName);
+    status.textContent = text;
+    td.appendChild(status);
 
     return td;
-  }
-
-  private changeIcon(
-    workPackage:WorkPackageResource,
-  ):HTMLElement|null {
-    const state = getBaselineState(workPackage, this.schemaCache);
-    if (state === 'added') {
-      return octiconElement(opArrowInIconData,
-        'small',
-        'op-table-baseline--icon-added',
-        this.I18n.t('js.work_packages.baseline.addition_label'));
-    }
-
-    if (state === 'removed') {
-      return octiconElement(replyIconData,
-        'small',
-        'op-table-baseline--icon-removed',
-        this.I18n.t('js.work_packages.baseline.removal_label'));
-    }
-
-    if (state === 'updated') {
-      return octiconElement(opTriangleDeltaIconData,
-        'small',
-        'op-table-baseline--icon-changed',
-        this.I18n.t('js.work_packages.baseline.modification_label'));
-    }
-
-    return null;
   }
 }

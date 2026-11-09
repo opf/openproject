@@ -21,7 +21,8 @@
             scope: :custom_field,
             id: "custom_field_form",
             url: form_url,
-            method: form_method
+            method: form_method,
+            data: { controller: "show-when-value-selected" }
           ) { |form| render CustomFields::DetailsForm.new(form) }
         end
       end

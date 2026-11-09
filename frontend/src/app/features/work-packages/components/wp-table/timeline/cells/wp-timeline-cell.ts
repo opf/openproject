@@ -20,12 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { Injector } from '@angular/core';
@@ -55,6 +55,8 @@ export class WorkPackageTimelineCell {
   @LazyInject() loadingIndicator:LoadingIndicatorService;
 
   @LazyInject() schemaCache:SchemaCacheService;
+
+  private unregisterMouseHandler:() => void = () => undefined;
 
   private wpElement:HTMLDivElement|null = null;
 
@@ -100,6 +102,8 @@ export class WorkPackageTimelineCell {
   }
 
   public clear() {
+    runCleanup(this.unregisterMouseHandler);
+    this.unregisterMouseHandler = () => undefined;
     if (this.cellElement) {
       this.cellElement.innerHTML = '';
     }
@@ -130,6 +134,9 @@ export class WorkPackageTimelineCell {
       return Promise.resolve();
     }
 
+    runCleanup(this.unregisterMouseHandler);
+    this.unregisterMouseHandler = () => undefined;
+
     // Remove the element first if we're redrawing
     if (!renderInfo.isDuplicatedCell) {
       this.clear();
@@ -147,7 +154,7 @@ export class WorkPackageTimelineCell {
     if (renderer.canMoveDates(renderInfo.workPackage)) {
       this.wpElement.classList.add('-editable');
 
-      registerWorkPackageMouseHandler(
+      this.unregisterMouseHandler = registerWorkPackageMouseHandler(
         this.injector,
         () => this.latestRenderInfo,
         this.workPackageTimeline,
@@ -175,6 +182,10 @@ export class WorkPackageTimelineCell {
   }
 
   public refreshView(renderInfo:RenderInfo) {
+    const table = this.workPackageTimeline.workPackageTable;
+    const alive = () => !this.workPackageTimeline.destroyRef.destroyed && !table.destroyed
+      && this.workPackageTimeline.workPackageTable === table;
+    if (!alive()) return;
     this.latestRenderInfo = renderInfo;
 
     const renderer = this.cellRenderer(renderInfo.workPackage);
@@ -182,9 +193,10 @@ export class WorkPackageTimelineCell {
     // Render initial element if necessary
     this.lazyInit(renderer, renderInfo)
       .then(() => {
+        if (!alive() || !this.wpElement) return;
         // Render the upgrade from renderInfo
         const shouldBeDisplayed = renderer.update(
-          this.wpElement!,
+          this.wpElement,
           this.labels,
           renderInfo,
         );

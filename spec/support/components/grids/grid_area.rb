@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module Components
   module Grids
     class GridArea
@@ -32,15 +59,17 @@ module Components
       end
 
       def resize_to(rows, cols)
-        area.hover
+        page.document.synchronize do
+          current_area = area
+          current_area.hover
 
-        # rows/cols are the desired SIZE of the widget in logical grid units,
-        # e.g. resize_to(1, 2) → 1 row tall, 2 columns wide.
-        target_row = logical_start_row + rows - 1
-        target_col = logical_start_col + cols - 1
+          target_row = (grid_value_for(current_area, "grid-row-start") / CSS_LINES_PER_LOGICAL_UNIT) + rows - 1
+          target_col = (grid_value_for(current_area, "grid-column-start") / CSS_LINES_PER_LOGICAL_UNIT) + cols - 1
+          target = self.class.of(target_row * CSS_LINES_PER_LOGICAL_UNIT,
+                                 target_col * CSS_LINES_PER_LOGICAL_UNIT)
 
-        area.find(".grid--resizer").drag_to self.class.of(target_row * CSS_LINES_PER_LOGICAL_UNIT,
-                                                          target_col * CSS_LINES_PER_LOGICAL_UNIT).area
+          current_area.find(".grid--resizer").drag_to target.area
+        end
       end
 
       def open_menu
@@ -102,16 +131,22 @@ module Components
           .to have_selector(*area_selector)
       end
 
-      def expect_to_span(startRow, startColumn, endRow, endColumn)
-        expect_to_exist
-        [["grid-row-start", startRow * 2],
-         ["grid-column-start", startColumn * 2],
-         ["grid-row-end", (endRow * 2) - 1],
-         ["grid-column-end", (endColumn * 2) - 1]].each do |style, expected|
-          actual = area.style(style)
+      def expect_to_span(start_row, start_column, end_row, end_column)
+        errors = page.driver.invalid_element_errors + [
+          Capybara::ElementNotFound,
+          RSpec::Expectations::ExpectationNotMetError
+        ]
+        page.document.synchronize(errors:) do
+          current_area = area
+          [["grid-row-start", start_row * 2],
+           ["grid-column-start", start_column * 2],
+           ["grid-row-end", (end_row * 2) - 1],
+           ["grid-column-end", (end_column * 2) - 1]].each do |style, expected|
+            actual = current_area.style(style)
 
-          expect(actual).to eql({ style => expected.to_s }),
-                            "expected #{style} to be #{expected} but it is #{actual}"
+            expect(actual).to eql({ style => expected.to_s }),
+                              "expected #{style} to be #{expected} but it is #{actual}"
+          end
         end
       end
 
@@ -149,6 +184,10 @@ module Components
 
       def area
         page.find(*area_selector)
+      end
+
+      def grid_value_for(element, style_name)
+        element.style(style_name)[style_name].to_i
       end
 
       def drag_handle

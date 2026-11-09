@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,10 +62,11 @@ class MeetingMailer < UserMailer
     end
   end
 
-  def cancelled(meeting, user, actor)
+  def cancelled(meeting, user, actor, reason: nil)
     @actor = actor
     @user = user
     @meeting = meeting
+    @cancellation_reason = reason
 
     open_project_headers "Project" => @meeting.project.identifier,
                          "Meeting-Id" => @meeting.id
@@ -78,10 +78,11 @@ class MeetingMailer < UserMailer
     end
   end
 
-  def cancelled_series(series, user, actor)
+  def cancelled_series(series, user, actor, reason: nil)
     @actor = actor
     @user = user
     @series = series
+    @cancellation_reason = reason
 
     open_project_headers "Project" => @series.project.identifier,
                          "Meeting-Id" => @series.id

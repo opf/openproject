@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,6 +40,14 @@ RSpec.describe "GET work package show", type: :rails_request do
       expect(response).to have_http_status(:ok)
       expected_path = "/projects/#{project.identifier}/work_packages/#{work_package.display_id}/#{tab}"
       expect(response.body).to include(%(<link rel="canonical" href="http://test.host#{expected_path}">))
+    end
+
+    it "advertises the markdown version" do
+      href = "http://test.host/work_packages/#{work_package.to_param}.md"
+      expect(response.body).to include(
+        %(<link rel="alternate" type="text/markdown" title="Markdown version" href="#{href}" />)
+      )
+      expect(response.body).not_to match(%r{text/markdown[^>]*key=})
     end
   end
 

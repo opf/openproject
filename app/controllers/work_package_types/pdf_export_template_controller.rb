@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,15 +31,19 @@ module WorkPackageTypes
   class PdfExportTemplateController < ApplicationController
     include AddressesVariant
     include ::WorkPackageTypes::ConfiguredInScope
+    include ::WorkPackageTypes::VariantRoutes
     include OpTurbo::ComponentStream
+    include SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: ::Type::PdfExportTemplates::SORTABLE_LIST_TYPE, list_id_scoped: false
 
     before_action :find_type,
-                  only: %i[edit toggle drop enable_all disable_all update_artefact_export edit_settings
+                  only: %i[edit toggle move enable_all disable_all update_artefact_export edit_settings
                            update_settings]
     before_action :find_variant,
-                  only: %i[edit toggle drop enable_all disable_all update_artefact_export edit_settings
+                  only: %i[edit toggle move enable_all disable_all update_artefact_export edit_settings
                            update_settings]
-    before_action :find_template, only: %i[toggle drop edit_settings update_settings]
+    before_action :find_template, only: %i[toggle move edit_settings update_settings]
 
     rescue_from Type::PdfExportTemplates::ReadonlyError, with: :render_readonly_error
 
@@ -66,7 +69,7 @@ module WorkPackageTypes
         save_settings!
       end
 
-      redirect_to edit_type_pdf_export_template_index_path(**@variant.path_args),
+      redirect_to edit_variant_pdf_export_template_index_path(variant_scope_project, @variant),
                   notice: I18n.t(:notice_successful_update)
     end
 
@@ -109,12 +112,21 @@ module WorkPackageTypes
       respond_with_turbo_streams
     end
 
-    def drop
+    def move
       return render_404_turbo_stream if @template.nil?
 
-      @variant.pdf_export_templates.move(@template.id, params[:position].to_i - 1) # drop index starts at 1
-      @variant.save!
-      respond_to_with_turbo_streams
+      moved = move_after_anchor
+
+      if moved
+        update_template_list_via_turbo_stream
+        render_success_flash_message_via_turbo_stream(
+          message: I18n.t(:"types.edit.export_configuration.pdf_export_templates.order_changed")
+        )
+      else
+        render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
+      end
+
+      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
     end
 
     protected
@@ -138,14 +150,28 @@ module WorkPackageTypes
     end
 
     def respond_section_with_turbo_streams
-      replace_via_turbo_stream(
-        component: ::WorkPackageTypes::ExportTemplateListComponent.new(variant: @variant)
-      )
+      update_template_list_via_turbo_stream
       respond_to_with_turbo_streams
+    end
+
+    def update_template_list_via_turbo_stream
+      replace_via_turbo_stream(
+        component: ::WorkPackageTypes::ExportTemplateListComponent.new(variant: @variant),
+        method: "morph"
+      )
+    end
+
+    def move_after_anchor
+      return false unless valid_drop_request?
+
+      moved = @variant.pdf_export_templates.move_after_anchor(@template.id, drop_params[:prev_id])
+      @variant.save! if moved
+      moved
     end
 
     def render_404_turbo_stream
       render_error_flash_message_via_turbo_stream(message: t(:notice_file_not_found))
+      respond_with_turbo_streams(status: :not_found)
     end
 
     def render_readonly_error
@@ -155,7 +181,7 @@ module WorkPackageTypes
         render_error_flash_message_via_turbo_stream(message:)
         respond_with_turbo_streams(status: :forbidden)
       else
-        redirect_to edit_type_pdf_export_template_index_path(**@variant.path_args), alert: message
+        redirect_to edit_variant_pdf_export_template_index_path(variant_scope_project, @variant), alert: message
       end
     end
 

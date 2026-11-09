@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,6 @@ require_relative "../../support/pages/ifc_models/show_default"
 
 RSpec.describe "Switching work package view",
                :js,
-               :selenium,
                with_config: { edition: "bim" } do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
@@ -76,7 +74,7 @@ RSpec.describe "Switching work package view",
 
     it "saves the representation in the query" do
       # After refresh the WP are still displayed as cards
-      page.driver.browser.navigate.refresh
+      page.refresh
       cards.expect_work_package_listed wp_1, wp_2
     end
   end

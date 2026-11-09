@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,7 +40,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::InUseMarkerComponent, ty
     expect(rendered_component).to have_css(".octicon-check-circle-fill")
   end
 
-  it "sets the words in the colour that means so" do
+  it "sets the words in the color that means so" do
     expect(rendered_component).to have_css(".color-fg-success", text: "Variant in this project")
   end
 

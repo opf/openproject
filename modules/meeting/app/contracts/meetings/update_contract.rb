@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,10 +30,8 @@
 module Meetings
   class UpdateContract < BaseContract
     include Redmine::I18n
-    include UnchangedProject
 
-    validate :user_allowed_to_edit_in_source_project
-    validate :user_allowed_to_edit_in_destination_project
+    validate :user_allowed_to_edit
     validate :meeting_is_editable
     validate :valid_rescheduling_date, if: -> { check_reschedule? }
 
@@ -44,18 +41,8 @@ module Meetings
       end
     end
 
-    def user_allowed_to_edit_in_source_project
-      with_unchanged_project_id do
-        errors.add :base, :error_unauthorized unless user.allowed_in_project?(:edit_meetings, model.project)
-      end
-    end
-
-    def user_allowed_to_edit_in_destination_project
-      return unless model.project_id_changed?
-
-      unless user.allowed_in_project?(:edit_meetings, model.project)
-        errors.add :base, :error_unauthorized
-      end
+    def user_allowed_to_edit
+      errors.add :base, :error_unauthorized unless user.allowed_in_project?(:edit_meetings, model.project)
     end
 
     def meeting_is_editable

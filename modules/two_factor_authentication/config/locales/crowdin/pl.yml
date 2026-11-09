@@ -145,7 +145,7 @@ pl:
     error_invalid_backup_code: Nieprawidłowy kod kopii zapasowej 2FA
     error_is_enforced_not_active: 'Błąd konfiguracji: Wymuszono uwierzytelnianie dwuskładnikowe, ale nie istnieją żadne aktywne strategie.'
     error_no_device: Nie znaleziono zarejestrowanego urządzenia 2FA dla tego użytkownika, mimo że jest ono wymagane dla tego wystąpienia.
-    error_no_matching_strategy: Dla tego użytkownika nie jest dostępna żadna zgodna strategia 2FA. Skontaktuj się z administratorem.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: Administrator wymusza uwierzytelnianie dwuskładnikowe w tym wystąpieniu. Aby się zalogować, dodaj metodę uwierzytelniania dwuskładnikowego.
     label_2fa_disabled: Uwierzytelnianie dwuskładnikowe nie jest aktywne

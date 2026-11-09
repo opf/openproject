@@ -4,7 +4,13 @@
       <table
         class="keyboard-accessible-list generic-table work-package-table"
         data-controller="table-highlighting"
+        [attr.id]="workPackageTable?.domId ?? null"
         [class.op-table-baseline]="baselineEnabled"
+        role="treegrid"
+        aria-multiselectable="true"
+        [attr.aria-label]="configuration.labelledBy ? null : text.tableName"
+        [attr.aria-labelledby]="configuration.labelledBy"
+        [attr.aria-describedby]="sortDescription ? sortDescriptionId : null"
         >
           <colgroup>
             @if (configuration.dragAndDropEnabled) {
@@ -20,20 +26,19 @@
             @if (configuration.columnMenuEnabled) {
               <col>
             }
-            @if (!configuration.columnMenuEnabled) {
+            @if (!configuration.columnMenuEnabled && trailingColumnRendered) {
               <col data-highlight="false">
             }
           </colgroup>
           <caption class="sr-only">
-            <span>{{text.tableSummary}}</span>
-            <span id="wp-table-sort-summary"></span>
-            <span>{{text.tableSummaryHints}}</span>
+            <span [attr.id]="sortDescriptionId">{{sortDescription}}</span>
           </caption>
           <thead class="-sticky">
             <tr>
               @if (configuration.dragAndDropEnabled) {
                 <th class="wp-table--manual-sort-th -short hide-when-print">
                   <div class="generic-table--empty-header">
+                    <span class="sr-only">{{text.sorting}}</span>
                     @if (manualSortEnabled) {
                       <op-icon icon-classes="icon-sort-by" />
                     }
@@ -41,7 +46,8 @@
                 </th>
               }
               @if (baselineEnabled) {
-                <th class="wp-table--baseline-th -short hide-when-print">
+                <th class="wp-table--baseline-th -short hide-when-print"
+                  [attr.aria-label]="text.baselineHeader">
                   <div class="generic-table--empty-header op-table-baseline--column-header">
                     <svg op-baseline-icon size="small" />
                   </div>
@@ -51,7 +57,8 @@
                 <th
                   [attr.aria-label]="column.name"
                   [ngClass]="{'-max': column.id === 'subject', '-min-200': ['estimatedTime', 'remainingTime'].includes(column.id) }"
-                  class="wp-table--table-header">
+                  class="wp-table--table-header wp-table--navigable-cell"
+                  [attr.aria-sort]="ariaSort(column)">
                   <sortHeader [headerColumn]="column"
                     [locale]="column.custom_field && column.custom_field.name_locale || locale"
                     [table]="workPackageTable"
@@ -61,12 +68,14 @@
                 </th>
               }
               @if (configuration.columnMenuEnabled || configuration.actionsColumnEnabled) {
-                <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
-                  >
+                <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th wp-table--navigable-cell -short hide-when-print"
+                  [attr.aria-label]="configuration.columnMenuEnabled ? text.configurationHeader : null">
                   @if (configuration.columnMenuEnabled) {
                     <div class="generic-table--sort-header-outer">
                       <wp-table-config-menu />
                     </div>
+                  } @else {
+                    <span class="sr-only">{{text.actionsHeader}}</span>
                   }
                 </th>
               }

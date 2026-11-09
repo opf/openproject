@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -370,7 +369,7 @@ RSpec.describe OmniAuthLoginController, :skip_2fa_stage do
               expect(OpenProject::OmniAuth::Authorization).not_to have_received(:after_login!).with(user, any_args)
             end
 
-            context "with other provider availabe" do
+            context "with other provider available" do
               let(:other_provider_slug) { "some other" }
 
               before do
@@ -408,7 +407,7 @@ RSpec.describe OmniAuthLoginController, :skip_2fa_stage do
         end
       end
 
-      context "with a registered and not activated accout",
+      context "with a registered and not activated account",
               with_settings: { self_registration: Setting::SelfRegistration.by_email } do
         before do
           user.registered!

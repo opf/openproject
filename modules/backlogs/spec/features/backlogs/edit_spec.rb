@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,6 +77,13 @@ RSpec.describe "Edit", :js do
     login_as(user)
 
     planning_page.visit!
+  end
+
+  context "as an accessible page", :selenium do
+    it "is AXe clean" do
+      planning_page.expect_sprint_names_in_order(first_sprint.name, second_sprint.name)
+      expect(page).to be_axe_clean
+    end
   end
 
   it "lists all open sprints" do

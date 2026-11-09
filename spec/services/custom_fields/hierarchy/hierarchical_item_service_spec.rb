@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -196,7 +195,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
           end
 
           let!(:custom_field) do
-            create(:hierarchy_wp_custom_field, projects: [project], types: [wp_type], hierarchy_root: nil).tap do |cf|
+            create(:hierarchy_wp_custom_field, types: [wp_type], hierarchy_root: nil).tap do |cf|
               service.generate_root(cf).value!
               cf.reload
             end

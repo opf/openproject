@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -30,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= flex_layout(align_items: :center, justify_content: :space_between) do |row| %>
   <% row.with_column(display: :inline_flex, align_items: :center) do %>
     <% if linked? %>
-      <%= render(Primer::Beta::Link.new(href: variant_path, font_weight: :bold)) { variant.variant_name } %>
+      <%= render(Primer::Beta::Link.new(href: settings_path, font_weight: :bold)) { variant.variant_name } %>
     <% else %>
       <%= render(Primer::Beta::Text.new(font_weight: :bold)) { variant.variant_name } %>
     <% end %>
@@ -42,9 +41,15 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <% if status_label? %>
+  <% if status_labels.any? %>
     <% row.with_column(mr: 3) do %>
-      <%= status_label %>
+      <%= flex_layout(align_items: :center, classes: "gap-2") do |labels| %>
+        <% status_labels.each do |label| %>
+          <% labels.with_column do %>
+            <%= label %>
+          <% end %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe OpenIDConnect::JwtParser do
@@ -175,7 +175,7 @@ RSpec.describe OpenIDConnect::JwtParser do
 
     it { is_expected.to be_failure }
 
-    it "indicates the problem that occured" do
+    it "indicates the problem that occurred" do
       expect(parse.failure).to match(/Unable to validate issuer signature/)
     end
 

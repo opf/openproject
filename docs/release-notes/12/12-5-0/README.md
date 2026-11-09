@@ -183,7 +183,7 @@ With OpenProject 12.5, we are happy to announce that another Enterprise add-on w
 - Fixed: English language displayed multiple times in available languages \[[#46067](https://community.openproject.org/wp/46067)\]
 - Fixed: Adding new type to lot of projects with custom fields times out \[[#46118](https://community.openproject.org/wp/46118)\]
 - Fixed: Bottom round corners on the modal are not rounded \[[#46144](https://community.openproject.org/wp/46144)\]
-- Fixed: Loading animation not centred on mobile \[[#46148](https://community.openproject.org/wp/46148)\]
+- Fixed: Loading animation not centered on mobile \[[#46148](https://community.openproject.org/wp/46148)\]
 - Fixed: Standard date picker small regression issues \[[#46156](https://community.openproject.org/wp/46156)\]
 - Fixed: Date picker on Non-working days: not enough spacing between the date field and the calendar + arrows \[[#46159](https://community.openproject.org/wp/46159)\]
 - Fixed: White space added to page when datepicker opens to bottom \[[#46164](https://community.openproject.org/wp/46164)\]

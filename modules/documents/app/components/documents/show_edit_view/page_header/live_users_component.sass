@@ -1,0 +1,15 @@
+// Primer's narrow-screen bottom-sheet insets would otherwise apply to this absolutely positioned popover
+.Popover.op-live-users--popover
+  @media screen and (max-width: $breakpoint-md)
+    top: 100% !important
+    bottom: auto !important
+    right: auto !important
+
+    // The containing block is the narrow trigger, so the message would otherwise shrink to its width
+    .Popover-message
+      width: max-content !important
+      min-width: var(--overlay-width-xsmall)
+      max-width: calc(100vw - 2 * var(--base-size-16))
+
+.op-live-users--name
+  overflow-wrap: anywhere

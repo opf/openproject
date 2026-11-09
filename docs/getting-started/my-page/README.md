@@ -48,7 +48,7 @@ Press the plus icon and choose from a number of different widgets that can be in
 
 ![A list of available widgets in a popover form on My page in OpenProject](openproject_getting_started_my_page_widget_list.png)
 
-For a **detailed explanation of the widgets**, visit ths page on [project widgets](../../user-guide/projects/project-home/project-widgets/).
+For a **detailed explanation of the widgets**, visit this page on [project widgets](../../user-guide/projects/project-home/project-widgets/).
 
 ### Change position of the widgets
 
@@ -89,7 +89,7 @@ To delete a widget from the dashboard, click on the three dots in the upper righ
 
 > [!NOTE]
 >
-> Please note that this widget will be deprecated in an upcoming release. Instead of using it, we recommend logging time via [My time tracking module](../../user-guide/time-and-costs/my-time-tracking/). 
+> Please note that this widget will be deprecated in an upcoming release. Instead of using it, we recommend logging time via [My work module](../../user-guide/time-and-costs/my-work/). 
 
 To track spent time, [add the **My spent time** widget](#add-widgets) in the My page.
 

@@ -1,0 +1,53 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      model: rate,
+      scope: :rate,
+      url: form_url,
+      method: form_method,
+      id: FORM_ID,
+      data: { turbo: true },
+      html: { autocomplete: "off" }
+    ) do |form|
+      component_collection do |collection|
+        collection.with_component(Primer::Alpha::Dialog::Body.new) do
+          flex_layout do |body|
+            if base_errors.present?
+              body.with_row(mb: 3) do
+                render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop)) { base_errors.to_sentence }
+              end
+            end
+
+            body.with_row(mb: 3) do
+              render(Primer::Alpha::Banner.new(scheme: :warning)) { t(:text_hourly_rate_recalculation) }
+            end
+
+            body.with_row do
+              render(HourlyRates::RateForm.new(form))
+            end
+          end
+        end
+
+        collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+          component_collection do |footer|
+            footer.with_component(
+              Primer::Beta::Button.new(data: { "close-dialog-id": HourlyRates::RateDialogComponent::DIALOG_ID })
+            ) do
+              t(:button_cancel)
+            end
+
+            footer.with_component(
+              Primer::Beta::Button.new(
+                scheme: :primary,
+                type: :submit,
+                test_selector: "create-rate-button"
+              )
+            ) do
+              submit_label
+            end
+          end
+        end
+      end
+    end
+  end
+%>

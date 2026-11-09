@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,4 +49,7 @@ Rails.application.reloader.to_prepare do
   ActionDispatch::Session::ActiveRecordStore.session_class = Sessions::SqlBypass
   # Continue to use marshal serialization to retain symbols and whatnot
   ActiveRecord::SessionStore::Session.serializer = :marshal
+
+  # The OmniAuth request phase checks the CSRF token with the configuration of ActionController::Base.
+  ActionController::Base.csrf_token_storage_strategy = Sessions::CsrfTokenCookieStore.new
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,7 +48,7 @@ module WorkPackage::TimeEntriesCleaner
         # nothing to do
       when "nullify"
         work_packages = Array(work_packages)
-        WorkPackage.update_time_entries(work_packages, "work_package_id = NULL")
+        WorkPackage.update_time_entries(work_packages, "entity_type = NULL, entity_id = NULL")
       when "reassign"
         reassign_time_entries_before_destruction_of(work_packages, user, to_do[:reassign_to_id])
       else

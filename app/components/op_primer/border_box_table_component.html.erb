@@ -1,4 +1,4 @@
-<%# -- copyright
+<%#-- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -20,34 +20,36 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++#%>
 
+<%= component_wrapper do %>
 <%=
   render(
     OpPrimer::BorderBoxTableComponent::InternalBoxComponent.new(
       id: container_id,
-      classes: container_class,
+      classes: container_classes,
       role: :table,
-      aria: { label: mobile_title, colcount: column_count },
+      aria: { label: mobile_title, colcount: column_count, rowcount: row_count },
       data: container_data,
-      list_arguments: { tag: :div, role: :rowgroup, classes: rows_container_class },
+      style: container_style,
+      list_arguments: { tag: :div, role: :rowgroup, classes: [rowgroup_class, rows_container_class] },
       test_selector:
     )
   ) do |component|
 %>
-  <% component.with_header(role: :rowgroup) do %>
+  <% component.with_header(role: :rowgroup, classes: rowgroup_class) do %>
     <%=
       render(
         Primer::BaseComponent.new(
           tag: :div,
           color: :muted,
           classes: [grid_class, "#{grid_class}--has-mobile-header"],
-          role: :row
+          role: :row,
+          aria: { rowindex: 1 }
         )
       ) do
         render(
@@ -65,8 +67,9 @@ See COPYRIGHT and LICENSE files for more details.
         Primer::BaseComponent.new(
           tag: :div,
           color: :muted,
-          classes: [grid_class, "#{grid_class}--has-headers"],
-          role: :row
+          classes: class_names(grid_class, "#{grid_class}--has-headers", actions_grid_class),
+          role: :row,
+          aria: { rowindex: 1 }
         )
       ) do
     %>
@@ -103,7 +106,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if rows.empty? %>
     <%
-      component.with_row(scheme: :default, tag: :div, role: :row) do
+      component.with_row(scheme: :default, tag: :div, role: :row, aria: { rowindex: 2 }) do
         render(Primer::BaseComponent.new(tag: :div, role: :cell, aria: { colspan: column_count })) do
           render_blank_slate
         end
@@ -111,15 +114,16 @@ See COPYRIGHT and LICENSE files for more details.
     %>
   <% else %>
     <%
-      rows.each do |row|
-        row_instance = row_class.new(row: row, table: self)
+      rows.each.with_index do |row, index|
+        row_instance = row_class_for(row).new(row: row, table: self)
         component.with_row(
           scheme: row_instance.scheme,
           tag: :div,
           id: row_instance.row_css_id,
-          classes: [grid_class, row_instance.row_css_class],
+          classes: class_names(grid_class, actions_grid_class, row_instance.row_css_class),
           data: row_instance.row_data,
-          role: :row
+          role: :row,
+          aria: { rowindex: row_index(index) }
         ) do
           render(row_instance)
         end
@@ -129,8 +133,10 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% if has_footer? %>
       <%
-        component.with_footer(role: :rowgroup) do
-          render(Primer::BaseComponent.new(tag: :div, color: :muted, classes: grid_class, role: :row)) do
+        component.with_footer(role: :rowgroup, classes: rowgroup_class) do
+          render(
+            Primer::BaseComponent.new(tag: :div, color: :muted, classes: grid_class, role: :row, aria: { rowindex: row_count })
+          ) do
             render(Primer::BaseComponent.new(tag: :div, role: :cell, aria: { colspan: column_count })) do
               footer
             end
@@ -142,4 +148,5 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if paginated? %>
   <%= helpers.pagination_links_full rows, **pagination_params %>
+<% end %>
 <% end %>

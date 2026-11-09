@@ -61,7 +61,7 @@ ro:
         item_2:
           name: Manageri BIM
         item_3:
-          name: Modelatori BIM
+          name: BIM Modelers
         item_4:
           name: Coordonatori BIM principali
         item_5:
@@ -511,18 +511,18 @@ ro:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Realizare modelului BIM inițial
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Obiectiv
+                    # Goal
 
-                    * Realizarea modelului BIM inițial
-                    * Crearea unui model BIM pentru întreaga echipă de proiect
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Descriere
+                    # Description
 
-                    *  Modelul inițial va fi realizat conform datelor colectate de la client
-                    * Modelul va fi realizat în conformitate cu matricele LOD și va conține informațiile necesare
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Initial, internal model check and revising
                   description: |-
@@ -538,7 +538,7 @@ ro:
                   subject: Trimiterea modelului BIM inițial
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
-              subject: Modelling, first cycle
+              subject: Modeling, first cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -551,10 +551,10 @@ ro:
 
                     # Description
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: Realizare modelului BIM inițial
+                  subject: Modeling the BIM model
                   description: |-
                     # Obiectiv
 
@@ -602,19 +602,19 @@ ro:
                   subject: Finishing coordination, first cycle
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_6:
-              subject: Modelling & coordinating, second cycle
+              subject: Modeling & coordinating, second cycle
               description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
+              subject: Modeling & coordinating, ... cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
+              subject: Modeling & coordinating n-th cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
+              subject: Finishing modeling & coordinating, n-th cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_11:
               subject: Utilizează model pentru faza construcție

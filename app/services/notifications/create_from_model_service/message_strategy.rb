@@ -22,19 +22,27 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Notifications::CreateFromModelService::MessageStrategy
   def self.reasons
-    %i(watched subscribed)
+    %i(mentioned watched subscribed)
   end
 
   def self.permission(*)
     :view_messages
+  end
+
+  # view_messages is public, so User.allowed also grants it through work package shares,
+  # which do not open a private project's forums.
+  def self.mentionable_users(users, journal)
+    project = journal.data.project
+    return users if project.public?
+
+    users.where(id: Member.of_project(project).select(:user_id))
   end
 
   def self.supports_ian?(_reason)

@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -227,7 +226,7 @@ RSpec.describe "Calendar sharing via ical", :js do
 
         # modal is still shown and error message is shown
         expect(page).to have_css(".spot-modal--header", text: "Subscribe to calendar")
-        expect(page).to have_content("Name is mandatory")
+        expect(page).to have_text("Name is mandatory")
       end
 
       it "validates the uniqueness of a name" do
@@ -254,7 +253,7 @@ RSpec.describe "Calendar sharing via ical", :js do
 
         # modal is still shown and error message is shown
         expect(page).to have_css(".spot-modal--header", text: "Subscribe to calendar")
-        expect(page).to have_content("Name is already in use")
+        expect(page).to have_text("Name is already in use")
       end
     end
   end
@@ -279,7 +278,7 @@ RSpec.describe "Calendar sharing via ical", :js do
       click_button "Save"
 
       expect(page)
-        .to have_content "Successful update."
+        .to have_text "Successful update."
 
       expect(page)
         .to have_field("Enable iCalendar subscriptions", checked: false)

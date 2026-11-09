@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,7 +45,6 @@ RSpec.describe WorkPackage do
 
   let(:stub_work_package) { build_stubbed(:work_package) }
   let(:stub_version) { build_stubbed(:version) }
-  let(:stub_project) { build_stubbed(:project) }
   let(:user) { user1 }
 
   let(:work_package) do
@@ -217,7 +215,7 @@ RSpec.describe WorkPackage do
     it { is_expected.to eq(category.assigned_to) }
   end
 
-  describe "#type_variant", with_flag: { type_variants: true } do
+  describe "#type_variant" do
     shared_let(:type) { create(:type, name: "Bug") }
     shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
 
@@ -381,7 +379,7 @@ RSpec.describe WorkPackage do
     end
 
     describe "time entries" do
-      subject { TimeEntry.find_by(work_package_id: work_package.id) }
+      subject { TimeEntry.find_by(entity: work_package) }
 
       it { is_expected.to be_nil }
     end
@@ -733,26 +731,6 @@ RSpec.describe WorkPackage do
     end
   end
 
-  describe "#add_time_entry" do
-    it "returns a new time entry" do
-      expect(stub_work_package.add_time_entry).to be_a TimeEntry
-    end
-
-    it "has already the project assigned" do
-      stub_work_package.project = stub_project
-
-      expect(stub_work_package.add_time_entry.project).to eq(stub_project)
-    end
-
-    it "has already the work_package assigned" do
-      expect(stub_work_package.add_time_entry.entity).to eq(stub_work_package)
-    end
-
-    it "returns an unsaved entry" do
-      expect(stub_work_package.add_time_entry).to be_new_record
-    end
-  end
-
   describe ".allowed_target_project_on_move" do
     let(:permissions) { [:move_work_packages] }
     let(:user) do
@@ -771,6 +749,29 @@ RSpec.describe WorkPackage do
 
       it "does not return the project" do
         expect(described_class.allowed_target_projects_on_move(user))
+          .to be_empty
+      end
+    end
+  end
+
+  describe ".allowed_target_projects_on_copy" do
+    let(:permissions) { [:copy_work_packages] }
+    let(:user) do
+      create(:user, member_with_permissions: { project => permissions })
+    end
+
+    context "when having the copy_work_packages permission" do
+      it "returns the project" do
+        expect(described_class.allowed_target_projects_on_copy(user))
+          .to contain_exactly(project)
+      end
+    end
+
+    context "when lacking the copy_work_packages permission" do
+      let(:permissions) { [:move_work_packages] }
+
+      it "does not return the project" do
+        expect(described_class.allowed_target_projects_on_copy(user))
           .to be_empty
       end
     end
@@ -869,60 +870,6 @@ RSpec.describe WorkPackage do
         expect(described_class.new.ignore_non_working_days)
           .to be false
       end
-    end
-  end
-
-  context "when destroying with agenda items" do
-    shared_let(:work_package) do
-      create(:work_package, project:, type:, status:, priority:)
-    end
-
-    shared_let(:meeting_agenda_items) { create_list(:meeting_agenda_item, 3, work_package:) }
-    shared_let(:other_agenda_item) { create(:meeting_agenda_item, work_package_id: create(:work_package).id) }
-    shared_let(:other_meeting) { other_agenda_item.meeting }
-    let(:latest_journals) do
-      Journal
-        .select("DISTINCT ON (journable_id) *")
-        .where(journable_type: "Meeting", journable_id: meeting_agenda_items.pluck(:meeting_id))
-        .order("journable_id, updated_at DESC")
-    end
-
-    subject { work_package.destroy }
-
-    before do
-      work_package.save
-      Meeting.find_each(&:save_journals)
-    end
-
-    it "dissociates the agenda items" do
-      expect { subject }
-        .to change { MeetingAgendaItem.find(meeting_agenda_items).pluck(:work_package_id) }
-              .from(Array.new(3, work_package.id))
-              .to(Array.new(3, nil))
-    end
-
-    it "does not affect other agenda items" do
-      expect { subject }.not_to change(other_agenda_item, :reload)
-    end
-
-    it "updates the agenda item journal" do
-      expect { subject }
-        .to change {
-          Journal::MeetingAgendaItemJournal
-            .where(agenda_item: meeting_agenda_items)
-            .pluck(:work_package_id)
-        }
-              .from(Array.new(3, work_package.id))
-              .to(Array.new(3, nil))
-    end
-
-    it "does not affect the agenda item journal" do
-      expect { subject }
-        .not_to change {
-          Journal::MeetingAgendaItemJournal
-            .find_by(agenda_item: other_agenda_item)
-            .work_package_id
-        }
     end
   end
 

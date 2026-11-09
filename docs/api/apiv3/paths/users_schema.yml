@@ -126,11 +126,11 @@ get:
                   type: DateTime
                   writable: false
           schema:
-            "$ref": "../components/schemas/view_user_schema_model.yml"
+            $ref: "../components/schemas/view_user_schema_model.yml"
       description: OK
       headers: {}
   tags:
-  - Users
+    - Users
   description: The schema response use two exemplary custom fields that extend the
     schema response. Depending on your instance and custom field configuration, the
     response will look somewhat different.

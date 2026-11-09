@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,6 +38,7 @@ import { AddAssigneeComponent } from 'core-app/features/team-planner/team-planne
 import { TeamPlannerPageComponent } from 'core-app/features/team-planner/team-planner/page/team-planner-page.component';
 import { TeamPlannerEntryComponent } from 'core-app/features/team-planner/team-planner/team-planner-entry.component';
 import { OpSharedModule } from 'core-app/shared/shared.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { AddExistingPaneComponent } from './add-work-packages/add-existing-pane.component';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { TeamPlannerViewSelectMenuDirective } from 'core-app/features/team-planner/team-planner/view-select/view-select-menu.directive';
@@ -63,6 +63,7 @@ import { TeamPlannerViewSelectMenuDirective } from 'core-app/features/team-plann
     // Autocompleters
     OpenprojectAutocompleterModule,
     OpenprojectContentLoaderModule,
+    OpTooltipDirective,
   ],
 })
 export class TeamPlannerModule {}

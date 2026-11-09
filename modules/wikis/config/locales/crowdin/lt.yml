@@ -196,7 +196,7 @@ lt:
         all: All wiki pages
         main: Main wiki pages
       sub_pages_count:
-        one: 1 sub-page
+        one: "%{count} sub-page"
         few: "%{count} sub-pages"
         many: "%{count} sub-pages"
         other: "%{count} sub-pages"

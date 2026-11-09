@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 require "spec_helper"
 
@@ -41,6 +41,14 @@ RSpec.describe CustomFields::Inputs::SingleVersionSelectList, type: :forms do
     it "sets correct autocompleter inputs" do
       expect(autocompleter["data-items"]).to have_json_size(1)
       expect(autocompleter["data-model"]).to be_json_eql(%{{"name": "Version 26"}}).excluding("group_by", "selected", "disabled")
+    end
+  end
+
+  context "with a blank stored value" do
+    before { model.custom_field_values.first.value = nil }
+
+    it "renders no selected version" do
+      expect(rendered_form.find("opce-autocompleter")["data-model"]).to be_json_eql("null")
     end
   end
 end

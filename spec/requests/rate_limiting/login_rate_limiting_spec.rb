@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,9 +32,7 @@ require "spec_helper"
 # Use a small burst_limit (3) so tests stay fast, and a large burst_period so
 # the time-bucketed cache key never rolls over mid-test on a slow CI machine.
 RSpec.describe "Rate limiting login",
-               :with_rack_attack,
-               with_config: { rate_limiting: { login: { burst_limit: 3, burst_period: 3600 } } },
-               type: :rails_request do
+               :with_rack_attack, type: :rails_request, with_config: { rate_limiting: { login: { burst_limit: 3, burst_period: 3600 } } } do
   before do
     allow_any_instance_of(ActionController::Base) # rubocop:disable RSpec/AnyInstance
       .to(receive(:protect_against_forgery?))

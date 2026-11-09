@@ -190,9 +190,9 @@ ro:
         all: Toate paginile wiki
         main: Pagini wiki principale
       sub_pages_count:
-        one: 1 subpagină
-        few: "%{count} subpagini"
-        other: "%{count} subpagini"
+        one: "%{count} sub-page"
+        few: "%{count} sub-pages"
+        other: "%{count} sub-pages"
     inline_wiki_page_dialog:
       title_add: Adaugă o pagină wiki existentă
       title_create: Creează o pagină wiki nouă

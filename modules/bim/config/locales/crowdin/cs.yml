@@ -114,7 +114,7 @@ cs:
     not_recommended: nedoporučeno
     recommended: doporučeno
     x_bcf_issues:
-      one: Jeden problém s BCFF
+      one: "%{count} BCF issue"
       other: "%{count} Problémy s BCF"
       zero: Žádné problémy s BCF
   bim:
@@ -152,8 +152,10 @@ cs:
       processing_default: Následující standardní modely IFC jsou stále zpracovávány, a proto nejsou dosud k dispozici.
   oauth:
     scopes:
-      bcf_v2_1: Plný přístup k BCF v2.1 API
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Aplikace získá plný přístup ke čtení a zápisu do OpenProject API, aby mohla provádět akce vaším jménem.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Odstranit problémy  BCF
   permission_manage_bcf: Importovat a spravovat problémy s BCF.
   permission_manage_bcf_explanation: |

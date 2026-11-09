@@ -20,20 +20,19 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
-import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { randomString } from 'core-app/shared/helpers/random-string';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-subject',
   templateUrl: './wp-subject.html',
   standalone: false,
@@ -43,7 +42,6 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageSubjectComponent extends UntilDestroyedMixin {
-  protected uiRouterGlobals = inject(UIRouterGlobals);
   protected apiV3Service = inject(ApiV3Service);
 
   @Input() workPackage:WorkPackageResource;

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,7 +53,7 @@ RSpec.describe "User custom fields edit", :js do
     new_cf_page.expect_and_dismiss_flash(message: "Successful creation.")
 
     cf = CustomField.last
-    expect(page).to have_current_path(edit_custom_field_path(cf))
+    expect(page).to have_current_path(edit_admin_settings_work_package_custom_field_path(cf))
 
     # Edit again
     expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")

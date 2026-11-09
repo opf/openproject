@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, HostBinding, Injector, Input, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, debounced, effect, ElementRef, forwardRef, HostBinding, Injector, Input, OnInit, output, Resource, signal, untracked, ViewChild, ViewEncapsulation, WritableSignal, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ControlValueAccessor,
@@ -41,7 +40,6 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
-import { debounce } from 'lodash-es';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 export const rangeSeparator = '-';
@@ -84,18 +82,18 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     return this.showClearButton && !this.mobile;
   }
 
-  @Output() valueChange = new EventEmitter();
+  readonly valueChange = output<string[]>();
 
   private _value:string[] = [];
 
   @Input() set value(newValue:string|string[]) {
-    if (typeof newValue === 'string') {
-      this._value = newValue.split(/\s-\s/);
-    } else {
-      this._value = newValue;
+    const dates = (typeof newValue === 'string') ? newValue.split(/\s-\s/) : newValue;
+
+    if (this.resolveDateArrayToString(dates) !== this.stringValue) {
+      this.cancelPendingInput();
     }
 
-    this.stringValue = this.resolveDateArrayToString(this._value);
+    this.assignValue(dates);
   }
 
   get value() {
@@ -144,6 +142,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
   constructor() {
     populateInputsFromDataset(this);
+    this.commitWhenSettled(this.desktopDates, this.settledDesktopDates);
+    this.commitWhenSettled(this.mobileDraft, this.settledMobileDraft);
   }
 
   ngOnInit() {
@@ -165,14 +165,44 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     }
   }
 
-  changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
+  private readonly desktopDates = signal<string[]|null>(null);
+
+  private readonly settledDesktopDates = debounced(this.desktopDates, 16);
+
+  changeValueFromInputDebounced(value:string):void {
+    this.desktopDates.set(this.resolveDateStringToArray(value));
+  }
+
+  private readonly mobileDraft = signal<string[]|null>(null);
+
+  private readonly settledMobileDraft = debounced(this.mobileDraft, 16);
+
+  changeMobileDateFromInput(index:0|1, date:string):void {
+    const draft = [...(this.mobileDraft() ?? [this.value[0] || '', this.value[1] || ''])];
+    draft[index] = date;
+    this.mobileDraft.set(draft);
+  }
+
+  // Only the edit that is still pending may commit: a settled value can be
+  // superseded or cancelled before this effect runs.
+  private commitWhenSettled(pending:WritableSignal<string[]|null>, settled:Resource<string[]|null>):void {
+    effect(() => {
+      const dates = settled.value();
+      if (dates !== null && dates === untracked(pending)) {
+        untracked(() => {
+          pending.set(null);
+          this.changeValueFromInput(dates);
+        });
+      }
+    });
+  }
 
   changeValueFromInput(value:string|string[]) {
     const newDates = (typeof value === 'string') ? this.resolveDateStringToArray(value) : value;
 
     this.onChange(newDates);
     this.onTouched(newDates);
-    this.writeValue(newDates);
+    this.assignValue(newDates);
     this.cdRef.detectChanges();
 
     if (newDates.find((el) => !validDate(el))) {
@@ -192,8 +222,19 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   // Flatpickr keeps its own selection, so it has to be reset alongside the value
   // or it would restore the cleared dates the next time the calendar is opened.
   clearValue():void {
+    this.cancelPendingInput();
     this.datePickerInstance?.clear();
     this.changeValueFromInput([]);
+  }
+
+  private cancelPendingInput():void {
+    this.desktopDates.set(null);
+    this.mobileDraft.set(null);
+  }
+
+  private assignValue(dates:string[]):void {
+    this._value = dates;
+    this.stringValue = this.resolveDateArrayToString(dates);
   }
 
   private initializeDatePicker() {
@@ -242,10 +283,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   }
 
   // No-ops until the ControlValueAccessor registers the real callbacks below.
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (_:string[]):void => {};
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = (_:string[]):void => {};
 
   registerOnChange(fn:(_:string[]) => void):void {

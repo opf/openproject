@@ -18,6 +18,7 @@ jobs:
     if: github.repository == 'opf/openproject'
     name: Prepare
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     outputs:
       locales: ${{ steps.list.outputs.locales }}
       ref: ${{ steps.use_input_or_find_latest_release.outputs.ref }}

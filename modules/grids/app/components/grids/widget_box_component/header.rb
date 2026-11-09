@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,14 @@ module Grids
         }
       }
 
+      renders_one :counter, ->(**system_arguments) do
+        system_arguments[:ml] ||= 2
+        system_arguments[:scheme] ||= :primary
+        system_arguments[:round] = true unless system_arguments.key?(:round)
+
+        Primer::Beta::Counter.new(**system_arguments)
+      end
+
       # @param attribute_label [Hash, nil] Optional args for AttributeLabelComponent (model:, attribute:, current_user:)
       # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
       def initialize(title:, attribute_label: nil, **system_arguments)
@@ -56,14 +63,13 @@ module Grids
         @title = title
         @attribute_label_args = attribute_label
         @system_arguments = system_arguments
+        @id = @system_arguments.delete(:id) || self.class.generate_id
         @system_arguments[:tag] = :header
-        @system_arguments[:id] ||= self.class.generate_id
         @system_arguments[:test_selector] = "op-widget-box--header"
         @system_arguments[:classes] = class_names(
           @system_arguments[:classes],
           "op-widget-box--header"
         )
-        @id = @system_arguments[:id]
       end
 
       def render?

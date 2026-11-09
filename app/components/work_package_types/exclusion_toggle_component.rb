@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,14 +33,15 @@ module WorkPackageTypes
   # +element_key+ the attribute or query key ("assignee", "custom_field_3", "query_7");
   # +label+ Readable attribute label for the aria-label of the toggle
   class ExclusionToggleComponent < ApplicationComponent
-    def initialize(exclusions:, element_key:, label:, aspect:, off_label:, test_selector:)
+    include WorkPackageTypes::VariantRoutes
+
+    def initialize(exclusions:, element_key:, label:, aspect:, test_selector:)
       super()
 
       @exclusions = exclusions
       @element_key = element_key
       @label = label
       @aspect = aspect
-      @off_label = off_label
       @test_selector = test_selector
     end
 
@@ -60,8 +60,6 @@ module WorkPackageTypes
         src: toggle_path,
         csrf_token: helpers.form_authenticity_token,
         checked: !excluded?,
-        on_label: "",
-        off_label: @off_label,
         size: :small,
         status_label_position: :start,
         aria: { label: @label },
@@ -75,12 +73,8 @@ module WorkPackageTypes
     end
 
     def toggle_path
-      type_excluded_element_toggle_path(
-        type_id: @exclusions.variant.type_id,
-        variant_id: @exclusions.variant.id,
-        aspect: @aspect,
-        element: @element_key
-      )
+      variant_excluded_element_toggle_path(helpers.variant_scope_project, @exclusions.variant, @aspect,
+                                           element: @element_key)
     end
   end
 end

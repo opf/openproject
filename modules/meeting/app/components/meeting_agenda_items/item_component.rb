@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,9 @@ module MeetingAgendaItems
       display_notes_input: nil,
       first_and_last: [],
       current_occurrence: nil,
-      presentation_mode: false
+      presentation_mode: false,
+      slide: nil,
+      started_at: nil
     )
       super
 
@@ -54,6 +55,8 @@ module MeetingAgendaItems
       @first_and_last = first_and_last
       @current_occurrence = current_occurrence
       @presentation_mode = presentation_mode
+      @slide = slide
+      @started_at = started_at
     end
 
     ##
@@ -83,7 +86,9 @@ module MeetingAgendaItems
         meeting_agenda_item: @meeting_agenda_item,
         display_notes_input: (@display_notes_input if @state == :edit),
         current_occurrence: @current_occurrence,
-        presentation_mode: @presentation_mode
+        presentation_mode: @presentation_mode,
+        slide: @slide,
+        started_at: @started_at
       }.compact
     end
 
@@ -98,13 +103,22 @@ module MeetingAgendaItems
         classes: "op-meeting-agenda-item-wrapper",
         data: {
           id: @meeting_agenda_item.id,
-          "draggable-id": @meeting_agenda_item.id,
-          "draggable-type": "agenda-item",
-          "drop-url": drop_project_meeting_agenda_item_path(@meeting_agenda_item.meeting.project,
-                                                            @meeting_agenda_item.meeting,
-                                                            @meeting_agenda_item,
-                                                            current_occurrence: @current_occurrence)
-        }
+        }.merge(draggable_arguments)
+      }
+    end
+
+    def draggable_arguments
+      return {} if @meeting_agenda_item.vote_based_ordering?
+
+      {
+        "draggable-id": @meeting_agenda_item.id,
+        "draggable-type": "agenda-item",
+        "drop-url": drop_project_meeting_agenda_item_path(
+          @meeting_agenda_item.meeting.project,
+          @meeting_agenda_item.meeting,
+          @meeting_agenda_item,
+          current_occurrence: @current_occurrence
+        )
       }
     end
   end

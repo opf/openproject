@@ -14,6 +14,7 @@ jobs:
       contents: none
     if: github.repository == 'opf/openproject' && github.ref_type == 'branch'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Trigger Flavours workflow
         env:

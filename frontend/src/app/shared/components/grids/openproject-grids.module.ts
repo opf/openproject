@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -73,17 +72,12 @@ import {
 } from 'core-app/shared/components/grids/widgets/project-status/project-status.component';
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 import {
-  WidgetTimeEntriesCurrentUserMenuComponent,
-} from 'core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component';
-import {
-  TimeEntriesCurrentUserConfigurationModalComponent,
-} from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
-import {
   WidgetFavoriteProjectsComponent,
 } from 'core-app/shared/components/grids/widgets/favorite-projects/widget-favorite-projects.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
 import { ErrorBlankSlateComponent } from './widgets/error-blankslate/error-blankslate.component';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 
 @NgModule({
   imports: [
@@ -107,6 +101,7 @@ import { ErrorBlankSlateComponent } from './widgets/error-blankslate/error-blank
     IconModule,
 
     ErrorBlankSlateComponent,
+    OpTooltipDirective,
   ],
   providers: [
     GridWidgetsService,
@@ -136,8 +131,6 @@ import { ErrorBlankSlateComponent } from './widgets/error-blankslate/error-blank
     WidgetMenuComponent,
     WidgetWpTableMenuComponent,
     WidgetWpGraphMenuComponent,
-    WidgetTimeEntriesCurrentUserMenuComponent,
-    TimeEntriesCurrentUserConfigurationModalComponent,
 
     AddGridWidgetModalComponent,
 

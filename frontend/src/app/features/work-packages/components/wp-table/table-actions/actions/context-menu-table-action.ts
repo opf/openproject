@@ -20,12 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import {
   contextColumnIcon,
   contextMenuLinkClassName,
@@ -44,9 +44,9 @@ export class OpContextMenuTableAction extends OpTableAction {
     const contextMenu = document.createElement('a');
     contextMenu.href = '#';
     contextMenu.classList.add(contextMenuLinkClassName, contextColumnIcon);
-    contextMenu.title = this.text.linkTitle;
+
     contextMenu.appendChild(opIconElement('icon', 'icon-show-more-horizontal'));
 
-    return contextMenu;
+    return withTooltip(contextMenu, this.text.linkTitle, 'label');
   }
 }

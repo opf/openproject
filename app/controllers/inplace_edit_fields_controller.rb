@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,7 +60,7 @@ class InplaceEditFieldsController < ApplicationController
 
   def dialog
     respond_with_dialog(
-      OpenProject::Common::InplaceEditFieldDialogComponent.new(
+      OpPrimer::InplaceEditFieldDialogComponent.new(
         model: @model,
         attribute: @attribute,
         system_arguments:
@@ -209,7 +208,7 @@ class InplaceEditFieldsController < ApplicationController
     args[:id] = args.delete(:page_component_id) if args[:page_component_id]
     args = args.except(:wrapper_id, :form_id)
 
-    OpenProject::Common::InplaceEditFieldComponent.new(
+    OpPrimer::InplaceEditFieldComponent.new(
       model: @model,
       attribute: @attribute,
       enforce_edit_mode:,
@@ -225,7 +224,7 @@ class InplaceEditFieldsController < ApplicationController
   # Stream targets the correct wrapper inside the dialog, and preserves
   # :wrapper_id / :form_id so the re-rendered form still submits via the dialog.
   def dialog_field_component
-    OpenProject::Common::InplaceEditFieldComponent.new(
+    OpPrimer::InplaceEditFieldComponent.new(
       model: @model,
       attribute: @attribute,
       enforce_edit_mode: true,
@@ -265,7 +264,7 @@ class InplaceEditFieldsController < ApplicationController
                    .verify(stable_key_system_arguments_token(stable_key))
                    .except(:id) # exclude UUID so the component generates a fresh one
 
-    comp = OpenProject::Common::InplaceEditFieldComponent.new(
+    comp = OpPrimer::InplaceEditFieldComponent.new(
       model: @model,
       attribute:,
       update_registry:,

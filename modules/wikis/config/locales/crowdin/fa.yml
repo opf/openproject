@@ -184,8 +184,8 @@ fa:
         all: همهٔ صفحه‌های ویکی
         main: صفحه‌های اصلی ویکی
       sub_pages_count:
-        one: ۱ زیرصفحه
-        other: "%{count} زیرصفحه"
+        one: "%{count} sub-page"
+        other: "%{count} sub-pages"
     inline_wiki_page_dialog:
       title_add: افزودن صفحهٔ ویکی موجود
       title_create: ایجاد صفحه Wiki جدید

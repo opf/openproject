@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,28 +30,37 @@
 module Import
   class JiraCreateProjectRoleJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
+    include Import::JiraJobUtils
 
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
-      jira_import = Import::JiraImport.find(jira_import_id)
-      service_call = Roles::CreateService.new(user: User.system).call(
-        name: "JiraMember",
-        permissions: %i[add_work_packages
-                        view_work_packages
-                        add_work_package_comments
-                        add_work_package_attachments
-                        work_package_assigned]
-      )
-      if service_call.success?
-        create_reference!(op_leg: service_call.result,
-                          jira_leg: nil,
-                          jira_import:,
-                          uses_existing: false)
-      elsif service_call.errors.find { |error| error.type == :taken }.blank?
-        raise service_call.message
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_object_type:projectRole") do
+        Rails.logger.debug "Creating project role started"
+        jira_import = Import::JiraImport.find(jira_import_id)
+        service_call = Roles::CreateService.new(user: User.system).call(
+          name: "JiraMember",
+          permissions: %i[add_work_packages
+                          view_work_packages
+                          add_work_package_comments
+                          add_work_package_attachments
+                          work_package_assigned
+                          view_time_entries]
+        )
+        if service_call.success?
+          create_reference!(op_leg: service_call.result,
+                            jira_leg: nil,
+                            jira_import:,
+                            uses_existing: false)
+        elsif service_call.errors.find { |error| error.type == :taken }.blank?
+          Rails.logger.error service_call.message
+          raise service_call.message
+        end
+        Rails.logger.debug "Creating project role finished"
       end
     end
   end

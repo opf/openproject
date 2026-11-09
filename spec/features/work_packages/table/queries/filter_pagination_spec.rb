@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,7 +63,7 @@ RSpec.describe "Filter updates pagination", :js do
 
     # Go to second page
     within(".op-pagination--pages") do
-      find(".op-pagination--item button", text: "2").click
+      click_button "2"
     end
 
     wp_table.expect_work_package_listed work_package_2

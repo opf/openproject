@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Workflows
   class StatusRemovalDangerDialogComponent < ApplicationComponent
@@ -44,7 +43,7 @@ module Workflows
 
     attr_reader :context
 
-    delegate :variant, :tab, :roles, :requested_status_ids, :removed_displayed_status_ids, to: :context
+    delegate :tab, :wizard?, :roles, :requested_status_ids, :removed_displayed_status_ids, to: :context
 
     def removed_count = removed_displayed_status_ids.size
   end

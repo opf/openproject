@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,9 +38,23 @@ module MessagesHelper
     project_forum_topic_url(
       message.forum.project,
       message.forum,
-      message.root,
+      message.parent_id || message.id,
       r: message.id,
       anchor: "message-#{message.id}"
     )
+  end
+
+  def message_anchor_path(message)
+    project_forum_topic_path(
+      message.forum.project,
+      message.forum,
+      message.parent_id || message.id,
+      r: message.id,
+      anchor: "message-#{message.id}"
+    )
+  end
+
+  def message_byline(message)
+    [message.author&.name, format_time(message.created_at)].compact.join(" · ")
   end
 end

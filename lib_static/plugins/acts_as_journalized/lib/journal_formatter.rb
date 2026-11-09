@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -117,11 +116,25 @@ module JournalFormatter
     formatter = formatter_instance(config[:formatter_key])
     return if formatter.nil?
 
-    formatter_options = options.merge(view_permission: config[:view_permission])
+    if formatter.permission_granted?(config[:view_permission], key: field)
+      # OG: html_safe after I18n interpolates already-escaped content_tag values.
+      formatter.render(field, values, options)&.html_safe # rubocop:disable Rails/OutputSafety
+    else
+      render_permission_denied_message(options)
+    end
+  end
 
-    formatter
-      .render(field, values, formatter_options)
-      &.html_safe # rubocop:disable Rails/OutputSafety
+  # The message is the same regardless of which formatter denied access, so
+  # unlike #permission_granted? this needs no per-formatter dispatch.
+  def render_permission_denied_message(options)
+    message = I18n.t(:text_journal_permission_denied)
+    helpers = ActionController::Base.helpers
+
+    if options[:html]
+      helpers.content_tag("em", message)
+    else
+      "_#{message}_"
+    end
   end
 
   def formatter_instance(formatter_key)

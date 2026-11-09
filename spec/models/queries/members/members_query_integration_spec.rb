@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@ RSpec.describe Queries::Members::MemberQuery, "Integration" do
   context "with two groups in a project" do
     let(:project) { create(:project) }
     let(:user) { create(:user) }
-    let(:role) { create(:project_role, permissions: %i[view_members manage_members]) }
+    let(:role) { create(:project_role, permissions: %i[view_members]) }
     let!(:group1) { create(:group, name: "A", member_with_roles: { project => role }, members: [user]) }
     let!(:group2) { create(:group, name: "B", member_with_roles: { project => role }, members: [user]) }
 
@@ -57,7 +56,7 @@ RSpec.describe Queries::Members::MemberQuery, "Integration" do
     let(:project) { create(:project) }
     let(:work_package) { create(:work_package, project:) }
     let(:user) { create(:user) }
-    let(:role) { create(:project_role, permissions: %i[manage_members view_shared_work_packages]) }
+    let(:role) { create(:project_role, permissions: %i[view_members view_shared_work_packages]) }
     let(:wp_role) { create(:view_work_package_role) }
     let!(:project_membership) { create(:member, principal: user, project:, roles: [role]) }
     let!(:wp_membership) { create(:member, principal: user, project:, entity: work_package, roles: [wp_role]) }

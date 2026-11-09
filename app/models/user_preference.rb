@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -119,11 +118,20 @@ class UserPreference < ApplicationRecord
     settings[:warn_on_leaving_unsaved] = to_boolean(value)
   end
 
+  def require_double_click_for_inline_edit?
+    settings.fetch(:require_double_click_for_inline_edit, false)
+  end
+
+  def require_double_click_for_inline_edit=(value)
+    settings[:require_double_click_for_inline_edit] = to_boolean(value)
+  end
+
   # Provide an alias to form builders
   alias :comments_in_reverse_order :comments_in_reverse_order?
   alias :warn_on_leaving_unsaved :warn_on_leaving_unsaved?
   alias :auto_hide_popups :auto_hide_popups?
   alias :disable_keyboard_shortcuts :disable_keyboard_shortcuts?
+  alias :require_double_click_for_inline_edit :require_double_click_for_inline_edit?
 
   def comments_in_reverse_order=(value)
     settings[:comments_sorting] = to_boolean(value) ? "desc" : "asc"
@@ -167,6 +175,14 @@ class UserPreference < ApplicationRecord
 
   def time_zone?
     settings["time_zone"].present?
+  end
+
+  def avatar_color=(value)
+    settings["avatar_color"] = value.present? ? ::Colors::HexColor::Normalizer.call(value) : nil
+  end
+
+  def avatar_text=(value)
+    settings["avatar_text"] = AvatarTextValidator.normalize(value)
   end
 
   def daily_reminders
@@ -224,6 +240,22 @@ class UserPreference < ApplicationRecord
 
   def dismiss_banner(feature)
     dismissed_enterprise_banners[feature.to_s] = Time.zone.now.utc
+  end
+
+  def whats_new_read_keys(version_key)
+    whats_new_read_items.fetch(version_key.to_s, [])
+  end
+
+  def mark_whats_new_read(version_key, key)
+    self.whats_new_read_items = { version_key.to_s => whats_new_read_keys(version_key) | [key.to_s] }
+  end
+
+  def mark_whats_new_seen(version_key)
+    return if whats_new_seen_version == version_key.to_s
+
+    self.whats_new_seen_version = version_key.to_s
+    self.whats_new_seen_at = Time.current
+    self.whats_new_read_items = whats_new_read_items.slice(version_key.to_s)
   end
 
   def supported_settings_method?(method_name)

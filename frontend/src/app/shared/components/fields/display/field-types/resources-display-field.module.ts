@@ -20,27 +20,31 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { take } from 'lodash-es';
 import { cssClassCustomOption, DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  isUndisclosed,
+  undisclosedValueNode,
+} from 'core-app/shared/components/fields/display/field-types/undisclosed-value';
 
 export class ResourcesDisplayField extends DisplayField {
   public isEmpty():boolean {
-    return this.value == null || (Array.isArray(this.value) ? this.value.length === 0 : Object.keys(this.value as Record<string, unknown>).length === 0);
+    return this.value == null || (Array.isArray(this.value) ? this.value.length === 0 : Object.keys(this.value).length === 0);
   }
 
   public get stringValue():string[] {
-    const cf = this.resource[this.name];
+    const cf = this.resource[this.name] as { elements?:HalResource[], map?:HalResource[]['map'], name?:string }|null|undefined;
     if (this.schema && cf) {
       if (cf.elements) {
-        return cf.elements.map((e:any) => e.name);
+        return cf.elements.map((e) => e.name);
       } if (cf.map) {
-        return cf.map((e:any) => e.name);
+        return cf.map((e) => e.name);
       } if (cf.name) {
         return [cf.name];
       }
@@ -50,7 +54,11 @@ export class ResourcesDisplayField extends DisplayField {
     return [];
   }
 
-  public render(element:HTMLElement, displayText:string):void {
+  public get valueString():string {
+    return this.stringValue.join(', ');
+  }
+
+  public render(element:HTMLElement, _displayText:string):void {
     const values = this.stringValue;
     element.innerHTML = '';
     element.setAttribute('title', values.join(', '));
@@ -66,11 +74,10 @@ export class ResourcesDisplayField extends DisplayField {
    * Renders at most the first two values, followed by a badge indicating
    * the total count.
    */
-  protected renderValues(values:any[], element:HTMLElement) {
+  protected renderValues(values:unknown[], element:HTMLElement) {
     const content = document.createDocumentFragment();
-    const abridged = this.optionDiv(this.valueAbridged(values));
 
-    content.appendChild(abridged);
+    content.appendChild(this.abridgedDiv());
 
     if (values.length > 2) {
       const badge = this.optionDiv(values.length.toString(), 'badge');
@@ -96,15 +103,37 @@ export class ResourcesDisplayField extends DisplayField {
   }
 
   /**
-   * Return the first two joined values, if any.
+   * Build a .custom-option div with the first two values, if any.
    */
-  protected valueAbridged(values:any[]) {
-    const valueForDisplay = take(values, 2);
+  protected abridgedDiv() {
+    const div = this.optionDiv('');
+    const span = div.firstElementChild as HTMLSpanElement;
+    const { resources } = this;
 
-    if (values.length > 2) {
-      valueForDisplay.push('... ');
+    take(resources, 2).forEach((resource, index) => {
+      if (index > 0) {
+        span.append(', ');
+      }
+      span.append(isUndisclosed(resource) ? undisclosedValueNode(resource.name) : resource.name);
+    });
+
+    if (resources.length > 2) {
+      span.append(', ... ');
     }
 
-    return valueForDisplay.join(', ');
+    return div;
+  }
+
+  protected get resources():HalResource[] {
+    const cf = this.resource[this.name] as { elements?:HalResource[] }|HalResource[]|null|undefined;
+
+    if (!this.schema || !cf) {
+      return [];
+    }
+    if (Array.isArray(cf)) {
+      return cf;
+    }
+
+    return cf.elements ?? [cf as HalResource];
   }
 }

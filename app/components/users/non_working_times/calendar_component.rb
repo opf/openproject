@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -114,12 +113,8 @@ module Users
         end
       end
 
-      # Maps Setting.start_of_week to FullCalendar's firstDay convention.
-      # Setting: nil=locale default, 1=Monday, 6=Saturday, 7=Sunday
-      # FullCalendar firstDay: 0=Sunday, 1=Monday, ..., 6=Saturday
-      # Nil defaults to 1 (Monday) to match Rails/OpenProject convention.
       def first_day_of_week
-        (Setting.start_of_week || 1) % 7
+        OpenProject::Internationalization::Date.first_day_of_week_index
       end
     end
   end

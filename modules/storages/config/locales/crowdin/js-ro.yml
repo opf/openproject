@@ -26,14 +26,13 @@ ro:
         select: Selectează fișiere
         select_all: Selectează tot
         selection:
-          zero: Selectaţi fişierele pentru a conecta
-          one: Link 1 fișier
-          few: Link %{count} fișiere
-          other: Link %{count} fișiere
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: A creat cu succes 1 legătură de fișier.
-          few: A creat cu succes %{count} legături de fișiere.
-          other: A creat cu succes %{count} de legături de fișiere.
+          one: Successfully created %{count} file link.
+          few: Successfully created %{count} file links.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: This file cannot be found.
           not_logged_in: Please log in to the storage to access this file.

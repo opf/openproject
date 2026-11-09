@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,7 +50,7 @@ export class OPContextMenuComponent {
 
   constructor() {
     this.items = this.locals.items.filter((item) => !item?.hidden);
-    this.service = this.locals.service;
+    this.service = this.locals.service!;
   }
 
   public handleClick(item:OpContextMenuItem, event:MouseEvent) {
@@ -60,7 +59,7 @@ export class OPContextMenuComponent {
     }
 
     if (item.onClick!(event)) {
-      this.locals.service.close();
+      this.locals.service!.close(false, 'action');
       event.preventDefault();
       event.stopPropagation();
       return false;

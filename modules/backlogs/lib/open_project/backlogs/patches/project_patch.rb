@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,5 +46,15 @@ module OpenProject::Backlogs::Patches::ProjectPatch
 
   def many_active_sprints?
     sprints.active.many?
+  end
+
+  # Globally closed statuses always count as done, so that an empty or corrupt project
+  # configuration still treats finished work as finished.
+  def statuses_considered_closed
+    ::Status.where(id: done_statuses.reorder(nil)).or(::Status.where(is_closed: true))
+  end
+
+  def statuses_considered_open
+    ::Status.where.not(id: statuses_considered_closed)
   end
 end

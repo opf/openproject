@@ -4,11 +4,14 @@ on:
   pull_request:
     paths-ignore:
       - "docs/**"
+      - "extensions/blocknote-extensions/**"
+      - "extensions/op-blocknote-hocuspocus/**"
 
 jobs:
   rubocop:
     name: RuboCop
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
       checks: write

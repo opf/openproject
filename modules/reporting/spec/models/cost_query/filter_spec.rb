@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,6 +47,20 @@ RSpec.describe CostQuery, :reporting_query_helper do
   describe CostQuery::Filter do
     def create_work_package_with_time_entry(work_package_params = {}, entry_params = {})
       create_work_package_with_entry(:time_entry, work_package_params, entry_params)
+    end
+
+    describe ".named" do
+      it "finds a registered filter" do
+        expect(described_class.named("project_id")).to eq(CostQuery::Filter::ProjectId)
+      end
+
+      it "finds a filter that is not selectable" do
+        expect(described_class.named("tweek")).to eq(CostQuery::Filter::Tweek)
+      end
+
+      it "does not resolve constants outside the registered filters" do
+        expect(described_class.named("::Object")).to be_nil
+      end
     end
 
     it "shows all entries when no filter is applied" do

@@ -29,7 +29,7 @@ zh-TW:
         title: 成員
         view_all_members: 檢視成員
         x_more:
-          other: 和 %{count} 更多的成員。
+          other: and %{count} more members.
       news:
         no_results: 沒有新消息要報告。
       not_available: 此小工具無法使用。

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -53,6 +52,7 @@ describe('GlobalEditFormChangesTrackerService', () => {
   beforeEach(() => {
     originalOpenProject = window.OpenProject;
     window.OpenProject = new OpenProject();
+    vi.spyOn(window, 'confirm').mockReturnValue(false);
     TestBed.configureTestingModule({});
     service = TestBed.inject(GlobalEditFormChangesTrackerService);
   });
@@ -61,6 +61,7 @@ describe('GlobalEditFormChangesTrackerService', () => {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     service['abortController'].abort();
     window.OpenProject = originalOpenProject;
+    vi.restoreAllMocks();
   });
 
   it('should be created', () => {

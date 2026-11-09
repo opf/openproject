@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -159,6 +158,50 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_u
       job.perform(pending_attachment.id)
 
       expect(staged_direct_upload(pending_attachment)).to be_nil
+    end
+
+    it "deletes the staged upload only after the transaction is committed" do
+      baseline_transactions = ActiveRecord::Base.connection.open_transactions
+      transactions_at_deletion = nil
+      stored_content_at_deletion = nil
+      allow(DirectFogUploader).to receive(:delete_staged_upload).and_wrap_original do |original, attachment|
+        transactions_at_deletion = ActiveRecord::Base.connection.open_transactions
+        stored_content_at_deletion = stored_content
+        original.call(attachment)
+      end
+
+      job.perform(pending_attachment.id)
+
+      expect(transactions_at_deletion).to eq baseline_transactions
+      expect(stored_content_at_deletion).to eq "test content"
+    end
+
+    context "when storing the final file fails" do
+      before do
+        pending_scope = instance_double(ActiveRecord::Relation, find_by: pending_attachment)
+        allow(Attachment).to receive(:pending_direct_upload).and_return(pending_scope)
+        allow(pending_attachment).to receive(:store_file!).and_raise("storage failure")
+      end
+
+      it "keeps the staged upload and the prepared attachment" do
+        expect { job.perform(pending_attachment.id) }.to raise_error("storage failure")
+
+        expect(Attachment.find(pending_attachment.id)).to be_prepared
+        expect(staged_direct_upload(pending_attachment)).not_to be_nil
+      end
+    end
+
+    context "with an isolated upload cache" do
+      let(:cache_dir) { Dir.mktmpdir }
+
+      before { allow(FogFileUploader).to receive(:cache_dir).and_return(cache_dir) }
+      after { FileUtils.rm_rf(cache_dir) }
+
+      it "leaves no copy of the upload in the cache" do
+        Rails.application.executor.wrap { job.perform(pending_attachment.id) }
+
+        expect(Dir.children(cache_dir)).to be_empty
+      end
     end
 
     context "without a staged upload" do

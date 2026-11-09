@@ -24,13 +24,14 @@ da:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sortering
         duration: Varighed
         end_time: Sluttidspunkt
         location: Placering
         notes: Noter
         notify: Send notifikationer
         participant:
-          one: 1 deltager
+          one: "%{count} deltager"
           other: "%{count} deltagere"
         participants: Deltagere
         participants_added: 'Deltagere tilføjet:'
@@ -88,14 +89,18 @@ da:
         invalid_time_format: 'er ikke et gyldigt klokkeslæt. Påkrævet format: TT:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: Mødet er lukket. Dets dagsordenspunkter kan ikke længere flyttes.
+          meeting_is_template: Dagsordenspunkter i en skabelon kan ikke flyttes til næste møde.
+          not_in_recurring_series: Dagsordenspunktet hører ikke til et tilbagevendende møde.
           section_not_belong_to_meeting: Afsnittet hører ikke til det samme møde.
           user_invalid: er ikke en gyldig deltager.
+          vote_based_sorting_required: Afstemning kræver, at dagsordenen sorteres efter stemmer.
         meeting_participant:
           user_invalid: er ikke en gyldig deltager.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: Der er ét åbent møde i serien, som ikke er med i den nye tidsplan. Tilpas tidsplanen, så alle eksisterende møder er med.
+            one: Der er %{count} åbent møde i serien, som ikke er med i den nye tidsplan. Tilpas tidsplanen, så alle eksisterende møder er med.
             other: Der er %{count} åbne møder i serien, som ikke er med i den nye tidsplan. Tilpas tidsplanen, så alle eksisterende møder er med.
         recurring_meeting_interim_response:
           not_an_occurrence: er ikke et gyldigt tidspunkt for en forekomst af det tilbagevendende møde
@@ -152,6 +157,10 @@ da:
     meeting_agenda_opened: Mødedagsorden er påbegyndt
     meeting_minutes: Mødereferat er ændret
     meeting_minutes_created: Mødereferat er udfærdiget
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Mødets historik er automatisk synkroniseret med mødets nuværende tilstand. Dagsordenens afsnit og resultater indgår fra nu af i historikken.
   label_add_work_package_to_meeting_dialog_button: Føj til møde
   label_add_work_package_to_meeting_dialog_title: Vælg møde
   label_add_work_package_to_meeting_section_label: Afsnit
@@ -160,6 +169,8 @@ da:
   label_agenda_backlog_clear_title: Vil du rydde backloggen for dagsordenen?
   label_agenda_item_actions: Handlinger for dagsordenspunkter
   label_agenda_item_add: Tilføj dagsordenspunkt
+  label_agenda_item_add_above: Tilføj punkt ovenfor
+  label_agenda_item_add_below: Tilføj punkt nedenfor
   label_agenda_item_add_notes: Tilføj noter
   label_agenda_item_add_outcome: Tilføj resultat
   label_agenda_item_convert_to_work_package: Konvertér til arbejdspakke
@@ -167,6 +178,7 @@ da:
   label_agenda_item_duplicate: Dupliker
   label_agenda_item_duplicate_in_next: Dupliker i næste møde
   label_agenda_item_duplicate_in_next_title: Vil du duplikere i næste møde?
+  label_agenda_item_include_outcomes: Medtag resultater
   label_agenda_item_move: Flyt
   label_agenda_item_move_down: Flyt ned
   label_agenda_item_move_to_backlog: Flyt til backlog
@@ -230,7 +242,7 @@ da:
   label_meeting_last_updated: Senest opdateret
   label_meeting_minutes: Referat
   label_meeting_more:
-    one: Der er ét møde mere.
+    one: Der er %{count} møde mere.
     other: Der er %{count} møder mere.
   label_meeting_new: Nyt møde
   label_meeting_new_dynamic: Nyt enkeltstående møde
@@ -276,10 +288,10 @@ da:
   label_recurring_meeting_delete: Slet forekomst
   label_recurring_meeting_duplicate: Dupliker som enkeltstående møde
   label_recurring_meeting_more:
-    one: Der er ét planlagt møde mere (%{schedule}).
+    one: Der er %{count} planlagt møde mere (%{schedule}).
     other: Der er %{count} planlagte møder mere (%{schedule}).
   label_recurring_meeting_more_past:
-    one: Der er ét tidligere møde mere.
+    one: Der er %{count} tidligere møde mere.
     other: Der er %{count} tidligere møder mere.
   label_recurring_meeting_new: Nyt tilbagevendende møde
   label_recurring_meeting_next_occurrence: Næste forekomst
@@ -310,6 +322,25 @@ da:
   label_view_meeting_series: Vis mødeserie
   label_write_outcome: Skriv resultat
   meeting:
+    agenda_sorting:
+      change: Skift sortering
+      current_mode: 'Sortering lige nu: %{mode}'
+      invalid_reaction: Kun stemmer op og ned er tilladt på dagsordenspunkter.
+      manual: Manuel
+      manual_description: Du kan selv placere dagsordenspunkterne i den rækkefølge, du vil, ved at trække dem op eller ned.
+      manual_order_disabled: Dagsordenspunkterne er sorteret efter stemmer. Skift til manuel sortering for at ændre rækkefølgen.
+      remove_thumbs_down: Fjern stemme ned
+      remove_thumbs_up: Fjern stemme op
+      sidebar_title: Sortering af dagsorden
+      sorted_by_votes: Dagsordenen er sorteret efter stemmer.
+      thumbs_down: Stem ned
+      thumbs_up: Stem op
+      title: Sortering
+      vote_based: Efter stemmer
+      vote_based_description: 'Deltagerne kan stemme dagsordenspunkter op eller ned. Punkterne med flest stemmer kommer øverst i hvert afsnit. Afsnittene sorteres fortsat manuelt.
+
+        '
+      votes: 'Stemmer: %{count}'
     attachments:
       onetime_template: De vedhæftede filer kommer med i alle fremtidige møder, der bruger skabelonen.
       series_template: De vedhæftede filer kommer med i alle fremtidige møder i serien.
@@ -317,6 +348,9 @@ da:
     blankslate:
       desc: Du kan oprette et nyt møde eller ændre filterkriterierne
       title: Der er ingen møder at vise
+    cancel:
+      reason_caption: Teksten kommer med i den e-mail om aflysning, som sendes til deltagerne, når notifikationer er slået til.
+      reason_label: Årsag til aflysning
     copied: 'Kopieret fra møde #%{id}'
     copy:
       agenda: Kopiér dagsorden
@@ -360,6 +394,7 @@ da:
         header: 'Aflyst: Mødet ''%{title}'''
         header_occurrence: 'Aflyst: Forekomsten af mødet ''%{title}'''
         header_series: 'Aflyst: Mødeserien ''%{title}'''
+        reason: Årsag til aflysning
         summary: "'%{title}' er aflyst af %{actor}, eller du er fjernet som deltager"
         summary_occurrence: En forekomst af '%{title}' er aflyst af %{actor}, eller du er fjernet som deltager
         summary_series: Mødeserien '%{title}' er aflyst af %{actor}, eller du er fjernet som deltager
@@ -484,6 +519,7 @@ da:
       no_items: Ingen dagsordenspunkter
       no_items_flash: Der er ingen dagsordenspunkter at præsentere.
       previous: Forrige
+      slide_progress: Slide %{current}/%{total}
       title: Præsentationstilstand
       total_items: "%{current} af %{total}"
     types:
@@ -560,13 +596,13 @@ da:
     caption:
       ends_on: Det giver en serie, der slutter den %{date}
       occurrences:
-        one: Det giver 1 kommende forekomst
+        one: Det giver %{count} kommende forekomst
         other: Det giver %{count} kommende forekomster
       occurrences_capped: Det giver mere end %{count} kommende forekomster
     day_of_month_skipping_info: Måneder med færre end %{monthly_day} dage springes over
     delete_dialog:
       confirmation_message_html:
-        one: 'Hvis du sletter <strong>%{title}</strong>, slettes også én forekomst i serien. Handlingen kan ikke fortrydes. Fortsæt med forsigtighed.
+        one: 'Hvis du sletter <strong>%{title}</strong>, slettes også %{count} forekomst i serien. Handlingen kan ikke fortrydes. Fortsæt med forsigtighed.
 
           '
         other: 'Hvis du sletter <strong>%{title}</strong>, slettes alle %{count} forekomster i serien. Handlingen kan ikke fortrydes. Fortsæt med forsigtighed.
@@ -693,9 +729,10 @@ da:
   text_agenda_item_dialog_skipping_closed_many: "%{count} lukkede møder"
   text_agenda_item_dialog_skipping_closed_one: lukket møde den %{date}
   text_agenda_item_dialog_skipping_note: 'Bemærk: Springer %{details} over.'
-  text_agenda_item_duplicate_in_next_meeting: Er du sikker på, at du vil føje en kopi af dagsordenspunktet til næste møde den %{date} kl. %{time}? Resultater duplikeres ikke.
+  text_agenda_item_duplicate_in_next_meeting: Er du sikker på, at du vil føje en kopi af dagsordenspunktet til næste møde den %{date} kl. %{time}?
   text_agenda_item_duplicated_in_next_meeting: Dagsordenspunktet er duplikeret i næste møde den %{date}
   text_agenda_item_move_next_meeting: Punktet flyttes til næste møde den %{date} kl. %{time}.
+  text_agenda_item_moved_to_backlog: Dagsordenspunktet er flyttet til backloggen
   text_agenda_item_moved_to_next_meeting: Dagsordenspunktet er flyttet til næste møde den %{date}
   text_agenda_item_no_available_occurrence: Der er ingen kommende forekomster.
   text_agenda_item_no_notes: Ingen noter

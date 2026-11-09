@@ -61,7 +61,7 @@ zh-CN:
         item_2:
           name: BIM管理器
         item_3:
-          name: BIM 模式器
+          name: BIM Modelers
         item_4:
           name: 导入BIM协调器
         item_5:
@@ -519,18 +519,18 @@ zh-CN:
               description: 此类型在层次结构上是“冲突”和“请求”类型的父项，因此表示一般注释。
               children:
                 item_0:
-                  subject: 对初始 BIM 模型建模
+                  subject: Modeling initial BIM model
                   description: |-
-                    # 目标
+                    # Goal
 
-                    *   对初始 BIM 模型建模
-                    *   为整个项目团队创建 BIM 模型
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # 说明
+                    # Description
 
-                    *   根据向客户收集的数据，将对初始模型进行建模
-                    *   模型应根据 LOD 矩阵进行建模，并包含所需信息
-                    *   …
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: 初始、内部模型检查和修改
                   description: |-
@@ -546,23 +546,23 @@ zh-CN:
                   subject: 提交初始 BIM 模型
                   description: 此类型在层次结构上是“冲突”和“请求”类型的父项，因此表示一般注释。
             item_4:
-              subject: 建模，第一轮
+              subject: Modeling, first cycle
               description: 此类型在层次结构上是“冲突”和“请求”类型的父项，因此表示一般注释。
               children:
                 item_0:
                   subject: 引用外部 BIM 模型
                   description: |-
-                    # 目标
+                    # Goal
 
-                    *   拥有开发内部模型的基础/提供答案
-                    *   使用外部模型开发内部模型
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # 说明
+                    # Description
 
-                    *   将在 BIM 平台中引用该外部模型，进而使用它对内部模型进行建模
-                    *   …
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: 对 BIM 模型建模
+                  subject: Modeling the BIM model
                   description: |-
                     # 目标
 
@@ -610,19 +610,19 @@ zh-CN:
                   subject: 完成协调，第一轮
                   description: 此类型在层次结构上是“冲突”和“请求”类型的父项，因此表示一般注释。
             item_6:
-              subject: 建模和协调，第二轮
+              subject: Modeling & coordinating, second cycle
               description: "## 目标\r\n\r\n*   …\r\n\r\n## 说明\r\n\r\n* \\  …"
             item_7:
-              subject: 建模和协调，第…轮
+              subject: Modeling & coordinating, ... cycle
               description: 此类型在层次结构上是“冲突”和“请求”类型的父项，因此表示一般注释。
             item_8:
-              subject: 建模和协调，第 (n-1) 轮
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## 目标\r\n\r\n*   …\r\n\r\n## 说明\r\n\r\n* \\  …"
             item_9:
-              subject: 第 n 轮建模和协调
+              subject: Modeling & coordinating n-th cycle
               description: 此类型在层次结构上是“冲突”和“请求”类型的父项，因此表示一般注释。
             item_10:
-              subject: 完成建模和协调，第 n 轮
+              subject: Finishing modeling & coordinating, n-th cycle
               description: 此类型在层次结构上是“冲突”和“请求”类型的父项，因此表示一般注释。
             item_11:
               subject: 在施工阶段使用模型

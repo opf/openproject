@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,17 +22,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
+
 module Queries
   class ParamsParser
     class APIV3FiltersParser
       class << self
         def parse(filters_string)
           filters = JSON.parse(filters_string)
+          raise MalformedParameterError.new("filters") unless valid_structure?(filters)
 
           filters.map do |filter|
             attribute = filter.keys.first # there should only be one attribute per filter
@@ -42,6 +43,15 @@ module Queries
               values: filter[attribute]["values"]
             }
           end
+        rescue JSON::ParserError, TypeError
+          raise MalformedParameterError.new("filters")
+        end
+
+        private
+
+        def valid_structure?(filters)
+          filters.is_a?(Array) &&
+            filters.all? { |filter| filter.is_a?(Hash) && filter.values.first.is_a?(Hash) }
         end
       end
     end

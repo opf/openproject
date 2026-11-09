@@ -1,27 +1,18 @@
-<op-basic-single-date-picker (valueChange)="parseBegin($event)"
-  [value]="isoDateFormatter(begin)"
+<op-basic-single-datetime-picker (valueChange)="begin = $event"
+  [value]="begin"
   [opAutofocus]="shouldFocus"
   required="true"
   [id]="'values-' + filter.id + '-begin'"
   [name]="'v[' + filter.id + ']-begin'"
-  classes="advanced-filters--date-field"
+  class="advanced-filters--date-field"
  />
 
 <span class="advanced-filters--affix" [textContent]="text.spacer">
 </span>
 
-<op-basic-single-date-picker (valueChange)="parseEnd($event)"
-  [value]="isoDateFormatter(end)"
+<op-basic-single-datetime-picker (valueChange)="end = $event"
+  [value]="end"
   [id]="'values-' + filter.id + '-end'"
   [name]="'v[' + filter.id + ']-end'"
-  classes="advanced-filters--date-field"
+  class="advanced-filters--date-field"
  />
-
-@if (isTimeZoneDifferent) {
-  <span
-    class="advanced-filters--tooltip-trigger -multiline"
-    [attr.data-tooltip]="timeZoneText"
-    >
-    <svg alert-icon size="small" />
-  </span>
-}

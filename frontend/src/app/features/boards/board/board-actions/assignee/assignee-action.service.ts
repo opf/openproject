@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -59,17 +58,17 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
 
   image = imagePath('board_creation_modal/assignees.svg');
 
-  readonly unassignedUser:any = {
+  readonly unassignedUser = {
     id: null,
     href: null,
     name: this.I18n.t('js.filter.noneElement'),
-  };
+  } as unknown as HalResource;
 
   /**
    * Add a single action query
    */
   addColumnWithActionAttribute(board:Board, value:HalResource):Promise<Board> {
-    const params:any = {
+    const params = {
       name: value.name,
     };
 
@@ -148,7 +147,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       .available_assignees
       .get()
       .pipe(
-        map((collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements) as HalResource[]),
+        map((collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements)),
       );
   }
 }

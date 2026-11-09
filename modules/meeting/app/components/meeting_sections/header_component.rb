@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -107,6 +106,8 @@ module MeetingSections
     end
 
     def edit_action_item(menu)
+      return unless editable?
+
       menu.with_item(label: t("label_section_rename"),
                      href: edit_project_meeting_section_path(@meeting_section.meeting.project,
                                                              @meeting_section.meeting,
@@ -115,6 +116,17 @@ module MeetingSections
                        data: { "turbo-stream": true, "test-selector": "meeting-section-edit" }
                      }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def copy_action_item(menu)
+      url = project_meeting_url(@meeting_section.meeting.project,
+                                @meeting_section.meeting,
+                                anchor: MeetingSections::ShowComponent.component_id(@meeting_section))
+      menu.with_item(label: t("meeting.copy.to_clipboard"),
+                     tag: :"clipboard-copy",
+                     content_arguments: { value: url }) do |item|
+        item.with_leading_visual_icon(icon: :paste)
       end
     end
 

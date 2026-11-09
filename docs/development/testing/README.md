@@ -8,6 +8,7 @@ OpenProject uses automated tests throughout the stack. Tests that are executed i
 | [Continuous testing workflow](continuous-testing-workflow/) | Overview of our CI and Continuous testing pipelines and how to debug them |
 | [Running tests locally](running-tests-locally/)             | Guides on how to run tests on your machine or on Docker      |
 | [Handling flaky tests](handling-flaky-tests/)               | Guides to identify, debug, and fix tests that intermittently pass or fail |
+| [Browser drivers](browser-drivers/)                         | Why feature specs use Cuprite, when to use Selenium, and how to write specs for Cuprite |
 
 ## Testing Architecture
 

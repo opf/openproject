@@ -22,8 +22,17 @@
 ---
 lt:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        few: Cost reports
+        many: Cost reports
+        other: Cost reports
+      cost_report:
         one: Cost report
         few: Cost reports
         many: Cost reports
@@ -101,7 +110,6 @@ lt:
   plugin_openproject_reporting:
     description: Šis priedas leidžia kurti savo kaštų ataskaitas su OpenProject laiko ir kašto priedo sukurtu filtravimu ir grupavimu.
     name: OpenProject ataskaitos
-  project_module_reporting_module: Kaštų ataskaitos
   reporting:
     group_by:
       selected_columns: Pasirinkti stulpeliai

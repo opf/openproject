@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -85,7 +84,7 @@ export class TimelineViewParameters {
 
   settings:TimelineViewParametersSettings = new TimelineViewParametersSettings();
 
-  activeSelectionMode:null | ((wp:WorkPackageResource) => any) = null;
+  activeSelectionMode:null | ((wp:WorkPackageResource) => void) = null;
 
   selectionModeStart:null | string = null;
 
@@ -175,7 +174,7 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
 
 export function calculateDaySpan(visibleWorkPackages:RenderedWorkPackage[],
   loadedWorkPackages:MultiInputState<WorkPackageResource>,
-  viewParameters:TimelineViewParameters):number {
+  _viewParameters:TimelineViewParameters):number {
   let earliest:Moment = moment();
   let latest:Moment = moment();
 

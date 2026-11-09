@@ -19,4 +19,5 @@ description: |-
   | timeZone               | Current selected time zone                                                      | String              |             | READ / WRITE         |
   | commentSortDescending  | Sort comments in descending order                                               | Boolean             |             | READ / WRITE         |
   | warnOnLeavingUnsaved   | Issue warning when leaving a page with unsaved text                             | Boolean             |             | READ / WRITE         |
+  | requireDoubleClickForInlineEdit | Only activate inline editing of fields on double click                 | Boolean             |             | READ / WRITE         |
 name: UserPreferences

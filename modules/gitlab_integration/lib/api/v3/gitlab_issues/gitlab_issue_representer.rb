@@ -73,7 +73,7 @@ module API
 
         associated_resource :gitlab_user,
                             representer: ::API::V3::GitlabIssues::GitlabUserRepresenter,
-                            link_title_attribute: :gitlab_name
+                            link_title_attribute: :name
 
         date_time_property :created_at
 

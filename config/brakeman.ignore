@@ -141,6 +141,26 @@
       "note": "Never called with user input"
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "3ab049e778792fe078e5e6405a5a8f561823ddc421d7486229891f128e2f16ac",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/custom_field/project_specific_values.rb",
+      "line": 104,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "project_specific_value_restrictions.where(:restriction => project_specific_value_restriction).where(\"#{CustomField::ProjectSpecificValueRestriction.table_name}.project_id = reach.id AND #{CustomField::ProjectSpecificValueRestriction.table_name}.#{value_column} = #{value_expression}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CustomField::ProjectSpecificValues",
+        "method": "listed_in_reach"
+      },
+      "user_input": "value_column",
+      "confidence": "Weak",
+      "note": "static SQL string: table name, column and correlated expression are internal constants; the restriction is bound through where"
+    },
+    {
       "warning_type": "Remote Code Execution",
       "warning_code": 24,
       "fingerprint": "3d0ae98ed047bde3475cd8a4afa84dbc2de8845bef18ca9abf5e25c8673057a9",
@@ -159,6 +179,26 @@
       "user_input": "AttributeHelpText.available_types.find",
       "confidence": "Medium",
       "note": "const_get is only used from whitelisted set of types"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "76af62d5e429feb6c4ae9cdda2e1b4d18e1b5c47f147d5b01d7ae59614d87f3a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/custom_field/project_specific_values.rb",
+      "line": 89,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "restrictable_values.where(\"EXISTS (\\n  SELECT 1 FROM (#{reach_sql}) reach\\n  WHERE #{list? ? (usable_option_condition) : (usable_item_condition)}\\n)\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CustomField::ProjectSpecificValues",
+        "method": "usable_values_in_reach"
+      },
+      "user_input": "reach_sql",
+      "confidence": "Weak",
+      "note": "static SQL string: the reach is either the to_sql of an ActiveRecord relation or the work package project subquery of CustomField::OrderStatements, and the conditions are built from constants inside the concern"
     },
     {
       "warning_type": "Dynamic Render Path",
@@ -190,6 +230,26 @@
       "user_input": "params[:id]",
       "confidence": "Weak",
       "note": "partial variable is from static plugin definition"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "8e0d2763735b6666937dc76b8bbdaa705a171f15233979964fcbd09ce228f582",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib_static/plugins/acts_as_searchable/lib/acts_as_searchable.rb",
+      "line": 195,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "CustomValue.select(\"1\").joins(\"LEFT JOIN custom_options\\nON custom_options.custom_field_id = custom_values.custom_field_id\\nAND custom_options.id::VARCHAR = custom_values.value\\nAND #{usable_custom_option_condition(custom_field_ids)}\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Acts::Searchable::InstanceMethods::AddClassMethods",
+        "method": "build_custom_field_condition"
+      },
+      "user_input": "usable_custom_option_condition(custom_field_ids)",
+      "confidence": "Medium",
+      "note": "static SQL string: the condition is built from custom field ids, the quoted table name and CustomField#usable_value_condition, which only uses constants and bound values"
     },
     {
       "warning_type": "SQL Injection",

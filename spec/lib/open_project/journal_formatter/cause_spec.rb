@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -281,6 +280,75 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change was caused by retracting a comment" do
+    subject(:cause) do
+      {
+        "type" => "comment_retracted"
+      }
+    end
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.comment_retracted')}</strong>"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant(I18n.t("journals.caused_changes.comment_retracted"))
+    end
+  end
+
+  context "when the change was caused by changing values within a child" do
+    subject(:cause) do
+      {
+        "type" => "work_package_children_changed_values",
+        "work_package_id" => work_package.id
+      }
+    end
+
+    context "when the user is able to access the related work package" do
+      before do
+        allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+      end
+
+      it do
+        link = work_package_html_link
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.work_package_children_changed_values')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.work_package_children_changed_values', link:)}"
+        )
+      end
+
+      it do
+        link = work_package_raw_link
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.work_package_children_changed_values')} " \
+          "#{I18n.t('journals.cause_descriptions.work_package_children_changed_values', link:)}"
+        )
+      end
+    end
+
+    context "when the user is not able to access the related work package" do
+      before do
+        allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
+      end
+
+      it do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.work_package_children_changed_values')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.unaccessable_work_package_changed')}"
+        )
+      end
+
+      it do
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.work_package_children_changed_values')} " \
+          "#{I18n.t('journals.cause_descriptions.unaccessable_work_package_changed')}"
+        )
+      end
+    end
+  end
+
   context "when the change was caused by the deletion of the parent" do
     subject(:cause) do
       {
@@ -325,8 +393,8 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       changes = [
         I18n.t("journals.cause_descriptions.working_days_changed.days.non_working", day: WeekDay.find_by!(day: 2).name),
         I18n.t("journals.cause_descriptions.working_days_changed.days.working", day: WeekDay.find_by!(day: 6).name),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: I18n.l(Date.new(2023, 1, 1))),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: I18n.l(Date.new(2023, 12, 24)))
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: format_date(Date.new(2023, 1, 1))),
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: format_date(Date.new(2023, 12, 24)))
       ].join(", ")
       expect(cause).to render_html_variant(
         "<strong>#{I18n.t('journals.caused_changes.dates_changed')}</strong> " \
@@ -338,13 +406,22 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       changes = [
         I18n.t("journals.cause_descriptions.working_days_changed.days.non_working", day: WeekDay.find_by!(day: 2).name),
         I18n.t("journals.cause_descriptions.working_days_changed.days.working", day: WeekDay.find_by!(day: 6).name),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: I18n.l(Date.new(2023, 1, 1))),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: I18n.l(Date.new(2023, 12, 24)))
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: format_date(Date.new(2023, 1, 1))),
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: format_date(Date.new(2023, 12, 24)))
       ].join(", ")
       expect(cause).to render_raw_variant(
         "#{I18n.t('journals.caused_changes.dates_changed')} " \
         "#{I18n.t('journals.cause_descriptions.working_days_changed.changed', changes:)}"
       )
+    end
+
+    context "with a date format preference" do
+      current_user { build_stubbed(:user, preferences: { date_format: "%d.%m.%Y" }) }
+
+      it "formats the dates according to the preference" do
+        expect(render(cause, html: false))
+          .to include("01.01.2023", "24.12.2023")
+      end
     end
   end
 
@@ -637,6 +714,50 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change was caused by the deletion of a label" do
+    subject(:cause) { Journal::CausedByLabelDeletion.new(label_ids: [42], label_names: ["Foo"]).to_hash }
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>Label removed:</strong> 'Foo' was deleted"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant("Label removed: 'Foo' was deleted")
+    end
+
+    context "when several labels were deleted" do
+      subject(:cause) do
+        Journal::CausedByLabelDeletion.new(
+          label_ids: [1, 2, 3], label_names: %w[Frontend Backend Middleware]
+        ).to_hash
+      end
+
+      it "lists every label name and pluralizes the verb" do
+        expect(cause).to render_html_variant(
+          "<strong>Label removed:</strong> 'Frontend', 'Backend', 'Middleware' were deleted"
+        )
+      end
+    end
+
+    context "when the label name contains HTML (XSS prevention)" do
+      subject(:cause) do
+        Journal::CausedByLabelDeletion.new(label_ids: [42], label_names: ["<script>alert('x')</script>"]).to_hash
+      end
+
+      it "escapes the label name in HTML output" do
+        expect(cause).to render_html_variant(
+          a_string_including("&lt;script&gt;alert(&#39;x&#39;)&lt;/script&gt;")
+        )
+      end
+
+      it "does not escape the label name in raw text output" do
+        expect(cause).to render_raw_variant(a_string_including("<script>alert('x')</script>"))
+      end
+    end
+  end
+
   context "when the change was caused by an import" do
     subject(:cause) do
       {
@@ -862,6 +983,25 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
+    context "when the work package came from a CSV import" do
+      subject(:cause) do
+        { "type" => "import", "csv" => true }
+      end
+
+      it "renders the CSV import message in HTML" do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.import')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.import.csv')}"
+        )
+      end
+
+      it "renders the CSV import message in plain text" do
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.import')} #{I18n.t('journals.cause_descriptions.import.csv')}"
+        )
+      end
+    end
+
     context "when import_history is empty" do
       subject(:cause) do
         {
@@ -992,6 +1132,78 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
             a_string_including("&lt;script&gt;evil()&lt;/script&gt;")
           )
         end
+      end
+    end
+  end
+
+  context "when the work package was created from a forum message" do
+    shared_let(:forum) { create(:forum) }
+    shared_let(:topic) { create(:message, forum:, subject: "Release planning") }
+    shared_let(:reply) { create(:message, forum:, parent: topic) }
+
+    subject(:cause) { { "type" => "forum_message", "message_id" => reply.id } }
+
+    let(:reply_path) do
+      "/projects/#{forum.project.identifier}/forums/#{forum.id}/topics/#{topic.id}?r=#{reply.id}#message-#{reply.id}"
+    end
+
+    context "when the user can see the message" do
+      current_user { create(:user, member_with_permissions: { forum.project => %i[view_messages] }) }
+
+      it do
+        expect(cause).to render_html_variant(
+          "<strong>Created from forum message</strong> #{link_to('Release planning', reply_path)}"
+        )
+      end
+
+      it { expect(cause).to render_raw_variant("Created from forum message Release planning") }
+
+      it "escapes a malicious topic subject when rendering HTML", :aggregate_failures do
+        topic.update_column(:subject, "<script>alert('xss')</script>")
+
+        expect(cause).to render_html_variant(a_string_including("&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;"))
+        expect(cause).not_to render_html_variant(a_string_including("<script>"))
+      end
+    end
+
+    context "when the user cannot see the message" do
+      current_user { create(:user) }
+
+      it "says where the work package came from without naming the topic", :aggregate_failures do
+        expect(cause).to render_html_variant("<strong>Created from forum message</strong> ")
+        expect(cause).to render_raw_variant("Created from forum message")
+      end
+    end
+
+    context "when the message has been deleted" do
+      subject(:cause) { { "type" => "forum_message", "message_id" => 0 } }
+
+      it "marks it deleted", :aggregate_failures do
+        expect(cause).to render_html_variant("<strong>Created from forum message</strong> (deleted)")
+        expect(cause).to render_raw_variant("Created from forum message (deleted)")
+      end
+    end
+  end
+
+  context "when the change came in by email" do
+    subject(:cause) { { "type" => "email", "sender_address" => "jane@customer.example" } }
+
+    it { expect(cause).to render_html_variant("<strong>Via email</strong> from jane@customer.example") }
+    it { expect(cause).to render_raw_variant("Via email from jane@customer.example") }
+
+    context "with an apostrophe in the sender address" do
+      subject(:cause) { { "type" => "email", "sender_address" => "o'brien@customer.example" } }
+
+      it { expect(cause).to render_html_variant("<strong>Via email</strong> from o&#39;brien@customer.example") }
+      it { expect(cause).to render_raw_variant("Via email from o'brien@customer.example") }
+    end
+
+    context "with markup in the sender address" do
+      subject(:cause) { { "type" => "email", "sender_address" => "<script>alert('xss')</script>@customer.example" } }
+
+      it "escapes it when rendering HTML", :aggregate_failures do
+        expect(cause).to render_html_variant(a_string_including("&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;"))
+        expect(cause).not_to render_html_variant(a_string_including("<script>"))
       end
     end
   end

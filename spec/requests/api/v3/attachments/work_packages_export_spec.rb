@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,8 @@ RSpec.describe "#{WorkPackages::Export} attachments" do
     let(:update_permission) { :export_work_packages }
 
     let(:export) { create(:work_packages_export) }
+
+    let(:text_disposition) { "attachment" }
 
     let(:missing_permissions_user) { create(:user) }
     let(:other_user) { create(:user) }

@@ -26,5 +26,5 @@ allOf:
               - $ref: './link.yml'
               - description: |-
                   The link to this meeting collection resource
-                  
+
                   **Resource**: MeetingCollection

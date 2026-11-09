@@ -20,15 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { computePosition, ComputePositionReturn, flip, Placement, shift } from '@floating-ui/dom';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 /**
@@ -50,8 +49,9 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    * Called when the service closes this context menu
    *
    * @param focus Focus on the trigger again
+   * @param _reason Why the service closed the menu
    */
-  public onClose(focus = true) {
+  public onClose(focus = true, _reason?:OpContextMenuCloseReason) {
     if (focus) {
       this.afterFocusOn.focus();
     }

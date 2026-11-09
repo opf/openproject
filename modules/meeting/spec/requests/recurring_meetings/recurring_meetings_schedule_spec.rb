@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -142,6 +142,21 @@ RSpec.describe "Recurring meetings schedule text",
           expect(subject).to have_http_status(:ok)
           expect(subject.body).to include("turbo-stream")
           expect(subject.body).to include("Every day at 10:00 AM")
+        end
+      end
+
+      context "when the interval is zero" do
+        let(:frequency) { "weekly" }
+        let(:interval) { "0" }
+        let(:params) do
+          { meeting: { start_time_hour:, start_date:, frequency:, interval:,
+                       end_after: "never", time_zone: "null" } }
+        end
+
+        it "returns the schedule update without failing" do
+          expect(subject).to have_http_status(:ok)
+          expect(subject.body).to include("target=\"recurring-meetings-human-schedule-component\"")
+          expect(subject.body).not_to include("Every 0 weeks")
         end
       end
 

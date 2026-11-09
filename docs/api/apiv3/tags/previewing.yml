@@ -1,9 +1,0 @@
----
-description: |-
-  Throughout OpenProject user input for many properties can be formatted using *Markdown*.
-  Using the appropriate rendering endpoint it is possible to render custom formatted inputs into HTML and thus
-  receive a preview of the rendered text.
-
-  The request to a rendering endpoint must always have a MIME-Type of `text/plain`.
-  The request body is the actual string that shall be rendered as HTML string.
-name: Previewing

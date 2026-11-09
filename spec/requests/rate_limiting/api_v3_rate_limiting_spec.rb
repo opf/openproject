@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,8 @@ RSpec.describe "Rate limiting APIv3",
   shared_let(:project) { create(:project) }
   current_user { create(:admin) }
 
-  context "when enabled", with_config: { rate_limiting: { api_v3: true } } do
+  context "when enabled",
+          with_config: { rate_limiting: { api_v3: { enabled: true, limit: 6, period: 1.hour } } } do
     it "blocks post request to any form" do
       # Need to reload rules again after config change
       OpenProject::RateLimiting.set_defaults!

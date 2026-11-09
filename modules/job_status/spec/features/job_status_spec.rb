@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ RSpec.describe "Job status", :js do
     visit "/job_statuses/something-that-does-not-exist"
 
     expect(page).to have_css(".octicon-x-circle", wait: 10)
-    expect(page).to have_content I18n.t("job_status_dialog.generic_messages.not_found")
+    expect(page).to have_text I18n.t("job_status_dialog.generic_messages.not_found")
   end
 
   describe "with a status that has an additional errors payload" do
@@ -53,9 +52,9 @@ RSpec.describe "Job status", :js do
       visit "/job_statuses/#{status.job_id}"
 
       expect(page).to have_css(".octicon-x-circle", wait: 10)
-      expect(page).to have_content I18n.t("job_status_dialog.errors")
-      expect(page).to have_content "Some error"
-      expect(page).to have_content "Another error"
+      expect(page).to have_text I18n.t("job_status_dialog.errors")
+      expect(page).to have_text "Some error"
+      expect(page).to have_text "Another error"
     end
   end
 
@@ -101,8 +100,8 @@ RSpec.describe "Job status", :js do
       visit "/job_statuses/#{status.job_id}"
 
       expect(page).to have_css(".octicon-x-circle", wait: 10)
-      expect(page).to have_content I18n.t("job_status_dialog.errors")
-      expect(page).to have_content "Some error"
+      expect(page).to have_text I18n.t("job_status_dialog.errors")
+      expect(page).to have_text "Some error"
       expect(page).to have_css("a[href='#{home_url}']", text: "Please click here to continue")
     end
 

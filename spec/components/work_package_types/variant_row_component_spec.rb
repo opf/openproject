@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,11 +39,11 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
 
   it "links the variant to its settings page" do
     expect(rendered_component)
-      .to have_link("Hardware", href: type_settings_path(type_id: type.id, variant_id: variant.id))
+      .to have_link("Hardware", href: type_variant_settings_path(type_id: type.id, variant_id: variant.id))
   end
 
   it "names no project for a variant every project may use" do
-    expect(rendered_component).to have_no_link("Hardware", href: /in-project/)
+    expect(rendered_component).to have_no_link("Hardware", href: %r{/projects/})
   end
 
   it "leaves out the caption unless one is given" do

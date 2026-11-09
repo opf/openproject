@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,7 +35,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import {
   SearchableProjectListService,
 } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
-import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -110,16 +108,5 @@ export class OpProjectIncludeListComponent {
     }
 
     return SpotDropAlignmentOption.TopLeft;
-  }
-
-  extendedProjectUrl(projectId:string):string {
-    const currentMenuItem = getMetaContent('current_menu_item');
-    const url = this.pathHelper.projectPath(projectId);
-
-    if (!currentMenuItem) {
-      return url;
-    }
-
-    return `${url}?jump=${encodeURIComponent(currentMenuItem)}`;
   }
 }

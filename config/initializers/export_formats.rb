@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,29 +34,37 @@ Rails.application.configure do |application|
       list WorkPackage, WorkPackage::PDFExport::WorkPackageListToPdf
 
       single WorkPackage, WorkPackage::PDFExport::WorkPackageToPdf
+      single WorkPackage, WorkPackage::Exports::Markdown
 
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Markdown::Date
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Markdown::DateTime
+      formatter WorkPackage, Exports::Formatters::CustomFieldMarkdown
+      formatter WorkPackage, Exports::Formatters::XLS::CustomField
       formatter WorkPackage, Exports::Formatters::CustomField
-      formatter WorkPackage, Exports::Formatters::CustomFieldPdf
+      formatter WorkPackage, Exports::Formatters::PDF::CustomField
       formatter WorkPackage, Exports::Formatters::CustomComment
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundDoneRatio
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundHours
-      formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Costs
+      formatter WorkPackage, WorkPackage::Exports::Formatters::CSV::DoneRatio
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Hours
-      formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Currency
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Date
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Days
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::DoneRatio
+      formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Duration
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Hours
       formatter WorkPackage, WorkPackage::Exports::Formatters::Id
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Labels
+      formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Id
       formatter WorkPackage, WorkPackage::Exports::Formatters::ProjectPhase
-      formatter WorkPackage, WorkPackage::Exports::Formatters::SpentUnits
       formatter WorkPackage, WorkPackage::Exports::Formatters::TargetVersions
       formatter WorkPackage, WorkPackage::Exports::Formatters::ObservedInVersions
+      formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::TypedAttribute
 
       list Project, Projects::Exports::CSV
       list Project, Projects::Exports::PDF
+      formatter Project, Exports::Formatters::XLS::CustomField
       formatter Project, Exports::Formatters::CustomField
-      formatter Project, Exports::Formatters::CustomFieldPdf
+      formatter Project, Exports::Formatters::PDF::CustomField
       formatter Project, Exports::Formatters::CustomComment
       formatter Project, Projects::Exports::Formatters::Status
       formatter Project, Projects::Exports::Formatters::Description
@@ -66,6 +73,16 @@ Rails.application.configure do |application|
       formatter Project, Projects::Exports::Formatters::PDF::Favorited
       formatter Project, Projects::Exports::Formatters::PDF::RequiredDiskSpace
       formatter Project, Projects::Exports::Formatters::ProjectPhase
+      formatter Project, Projects::Exports::Formatters::XLS::TypedAttribute
+    end
+
+    WorkPackage::Exports::Attributes.add_attribute_visibility_check(:project_phase) do |work_package|
+      User.current.allowed_in_project?(:view_project_phases, work_package.project) &&
+        work_package.project.phases.active.any?
+    end
+
+    WorkPackage::Exports::Attributes.add_attribute_visibility_check(:parent) do |work_package|
+      work_package.parent.nil? || work_package.parent.visible?(User.current)
     end
   end
 end

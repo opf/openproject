@@ -1,6 +1,0 @@
-# Schema: MarkdownModel
----
-type: string
-format: html
-example: <p>Hello world! <a href="http://example.com">This</a> <strong>is</strong>
-  markdown!</p>

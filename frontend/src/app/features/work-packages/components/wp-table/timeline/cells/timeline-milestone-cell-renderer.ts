@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,6 +50,7 @@ import {
   MouseDirection,
 } from './timeline-cell-renderer';
 import { WorkPackageCellLabels } from './wp-timeline-cell-labels';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public get type():string {
@@ -64,7 +64,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
   public canMoveDates(wp:WorkPackageResource) {
     const schema = this.schemaCache.of(wp);
-    return schema.date.writable && schema.isAttributeEditable('date');
+    return (schema.date as IOPFieldSchema).writable && schema.isAttributeEditable('date');
   }
 
   public displayPlaceholderUnderCursor(ev:MouseEvent, renderInfo:RenderInfo):HTMLElement {
@@ -96,8 +96,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    */
   public assignDateValues(change:WorkPackageChangeset,
     labels:WorkPackageCellLabels,
-    dates:any):void {
-    this.assignDate(change, 'date', dates.date);
+    dates:CellDateMovement):void {
+    this.assignDate(change, 'date', dates.date!);
     this.updateLabels(true, labels, change);
   }
 
@@ -190,7 +190,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return (renderInfo.viewParams.pixelPerDay / 2) - 1;
   }
 
-  getPaddingRightForOutgoingRelationLines(renderInfo:RenderInfo):number {
+  getPaddingRightForOutgoingRelationLines(_renderInfo:RenderInfo):number {
     return (15 / 2);
   }
 
@@ -198,7 +198,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * Render a milestone element, a single day event with no resize, but
    * move functionality.
    */
-  public render(renderInfo:RenderInfo):HTMLDivElement {
+  public render(_renderInfo:RenderInfo):HTMLDivElement {
     const element = document.createElement('div');
     element.className = `${timelineElementCssClass} ${this.type}`;
 

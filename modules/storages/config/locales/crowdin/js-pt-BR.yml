@@ -26,12 +26,12 @@ pt-BR:
         select: Selecionar arquivos
         select_all: Selecionar tudo
         selection:
-          zero: Selecione arquivos para vincular
-          one: Vincular 1 arquivo
-          other: Vincular %{count} arquivos
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: Criou com sucesso 1 vínculo do arquivo.
-          other: Criou com sucesso %{count} vínculos do arquivo.
+          one: Successfully created %{count} file link.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Não foi possível encontrar este pedido
           not_logged_in: Faça o login no armazenamento para acessar este arquivo

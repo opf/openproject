@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -88,7 +87,7 @@ RSpec.describe "Top menu items", :js do
 
       it "visits the reporting page" do
         click_link_in_open_menu(reporting_item)
-        expect(page).to have_current_path(url_for(controller: "/cost_reports", action: "index", project_id: nil, only_path: true))
+        expect(page).to have_current_path(reporting_cost_reports_path)
       end
     end
 

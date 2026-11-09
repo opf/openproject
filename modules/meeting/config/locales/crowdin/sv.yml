@@ -24,14 +24,15 @@ sv:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Varaktighet
         end_time: Sluttid
         location: Plats
         notes: Anteckningar
         notify: Skicka aviseringar
         participant:
-          one: 1 deltagare
-          other: "%{count} deltagare"
+          one: "%{count} Participant"
+          other: "%{count} Participants"
         participants: Deltagare
         participants_added: 'Deltagare tillagda:'
         participants_attended: Deltagare
@@ -88,14 +89,18 @@ sv:
         invalid_time_format: är inte en giltig tid. Använd formatet HH:MM
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Avsnittet tillhör inte samma möte.
           user_invalid: är inte en giltig deltagare.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: är inte en giltig deltagare.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: Det finns ett öppet möte i serien som inte omfattas av det nya schemat. Justera schemat för att inkludera alla befintliga möten.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: Det finns %{count} öppna möten i serien som inte omfattas av det nya schemat. Justera schemat för att inkludera alla befintliga möten.
         recurring_meeting_interim_response:
           not_an_occurrence: är inte en giltig förekomsttid för det här återkommande mötet
@@ -152,6 +157,10 @@ sv:
     meeting_agenda_opened: Mötets agenda öppnat
     meeting_minutes: Mötesprotokoll redigerat
     meeting_minutes_created: Mötesprotokoll skapat
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Lägg till i möte
   label_add_work_package_to_meeting_dialog_title: Välj möte
   label_add_work_package_to_meeting_section_label: Sektion
@@ -160,6 +169,8 @@ sv:
   label_agenda_backlog_clear_title: Rensa dagordningens backlog?
   label_agenda_item_actions: Åtgärder enligt dagordningspunkter
   label_agenda_item_add: Lägg till punkt på dagordningen
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Lägg till anteckningar
   label_agenda_item_add_outcome: Lägg till resultat
   label_agenda_item_convert_to_work_package: Konvertera till arbetspaket
@@ -167,6 +178,7 @@ sv:
   label_agenda_item_duplicate: Duplicera
   label_agenda_item_duplicate_in_next: Duplicera i nästa möte
   label_agenda_item_duplicate_in_next_title: Duplicera i nästa möte?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Flytta
   label_agenda_item_move_down: Flytta ned
   label_agenda_item_move_to_backlog: Flytta till backlog
@@ -230,8 +242,8 @@ sv:
   label_meeting_last_updated: Senast uppdaterad
   label_meeting_minutes: Protokoll
   label_meeting_more:
-    one: Det finns ytterligare ett möte.
-    other: Det finns %{count} fler möten.
+    one: There is %{count} more meeting.
+    other: There are %{count} more meetings.
   label_meeting_new: Nytt möte
   label_meeting_new_dynamic: Nytt engångsmöte
   label_meeting_new_recurring: Nytt återkommande möte
@@ -276,11 +288,11 @@ sv:
   label_recurring_meeting_delete: Ta bort förekomst
   label_recurring_meeting_duplicate: Duplicera som ett engångsmöte
   label_recurring_meeting_more:
-    one: Det finns ytterligare ett schemalagt möte (%{schedule}).
-    other: Det finns %{count} fler inplanerade möten (%{schedule}).
+    one: There is %{count} more scheduled meeting (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: Det finns ytterligare ett tidigare möte.
-    other: Det finns %{count} fler tidigare möten.
+    one: There is %{count} more past meeting.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: Nytt återkommande möte
   label_recurring_meeting_next_occurrence: Nästa förekomst
   label_recurring_meeting_no_end_date: Det finns fler schemalagda möten (%{schedule}).
@@ -310,6 +322,25 @@ sv:
   label_view_meeting_series: Visa mötesserier
   label_write_outcome: Skriv resultat
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sidebar_title: Agenda sorting
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: Dessa bifogade filer kommer att ingå i alla framtida möten som använder denna mall.
       series_template: Dessa bifogade filer kommer att ingå i alla framtida möten i serien.
@@ -317,6 +348,9 @@ sv:
     blankslate:
       desc: Du kan skapa ett nytt möte eller ändra filtervillkoren
       title: Det finns inga möten att visa
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Kopierat från möte #%{id}'
     copy:
       agenda: Kopiera agenda
@@ -360,6 +394,7 @@ sv:
         header: 'Inställt: Möte ''%{title}'''
         header_occurrence: 'Inställt: Mötesförekomst ''%{title}'''
         header_series: 'Inställt: Mötesserie ''%{title}'''
+        reason: Reason for cancellation
         summary: '"%{title}" har ställts in av %{actor}, eller så har du tagits bort som deltagare'
         summary_occurrence: En förekomst av "%{title}" har ställts in av %{actor}, eller så har du tagits bort som deltagare
         summary_series: Mötesserien "%{title}" har ställts in av %{actor}, eller så har du tagits bort som deltagare
@@ -484,6 +519,7 @@ sv:
       no_items: Inga punkter på dagordningen
       no_items_flash: Det finns inga punkter på dagordningen att presentera.
       previous: Föregående
+      slide_progress: Bild %{current}/%{total}
       title: Presentationsläge
       total_items: "%{current} av %{total}"
     types:
@@ -560,13 +596,13 @@ sv:
     caption:
       ends_on: Detta resulterar i en serie som avslutas %{date}
       occurrences:
-        one: Detta resulterar i 1 kommande förekomst
-        other: Detta resulterar i %{count} kommande förekomster
+        one: This results in %{count} upcoming occurrence
+        other: This results in %{count} upcoming occurrences
       occurrences_capped: Detta resulterar i fler än %{count} kommande förekomster
     day_of_month_skipping_info: Månader med färre än %{monthly_day} dagar hoppas över
     delete_dialog:
       confirmation_message_html:
-        one: 'Borttagning av <strong>%{title}</strong> kommer också att ta bort en förekomst i denna serie. Denna åtgärd är inte reversibel. Vänligen fortsätt med försiktighet.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Borttagning av <strong>%{title}</strong> kommer att ta bort alla %{count} förekomster i denna serie. Denna åtgärd är inte reversibel. Vänligen fortsätt med försiktighet.
@@ -631,7 +667,7 @@ sv:
       error_no_next: Det finns ingen nästa händelse för detta möte.
       error_template_draft: Mötesseriesmallen är fortfarande i utkastläge.
       first_already_exists: Den första förekomsten av denna mötesserie är existerar redan.
-      first_created: 'Det första mötet har skapats från mallen. Alla framtida möten kommer att skapas automatiskt vid tiden för den föregående händelsen.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Mötet ingår i en återkommande mötesserie.
@@ -693,9 +729,10 @@ sv:
   text_agenda_item_dialog_skipping_closed_many: "%{count} stängda möten"
   text_agenda_item_dialog_skipping_closed_one: stängt möte den %{date}
   text_agenda_item_dialog_skipping_note: Obs! Hoppar över %{details}.
-  text_agenda_item_duplicate_in_next_meeting: Är du säker på att du vill lägga till en kopia av den här dagordningspunkten till nästa möte den %{date} kl. %{time}? Resultat dupliceras inte.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Dagordningspunkten duplicerades till nästa möte den %{date}
   text_agenda_item_move_next_meeting: Detta objekt kommer att flyttas till nästa möte på %{date} på %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Dagordningspunkten flyttad till nästa möte, på %{date}
   text_agenda_item_no_available_occurrence: Det finns inga kommande förekomster tillgängliga.
   text_agenda_item_no_notes: Inga anteckningar tillhandahållna

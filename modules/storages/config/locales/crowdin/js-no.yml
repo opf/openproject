@@ -26,12 +26,12 @@
         select: Velg filer
         select_all: Velg alle
         selection:
-          zero: Velg filer som skal kobles
-          one: Koble 1 fil
-          other: Koble %{count} filer
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: Opprettet én fillenke
-          other: "%{count} fil-linker ble opprettet."
+          one: Successfully created %{count} file link.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Denne filen ble ikke funnet.
           not_logged_in: Vennligst logg inn på lagringen for tilgang til denne filen.

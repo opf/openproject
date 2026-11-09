@@ -184,7 +184,7 @@ uz:
         all: All wiki pages
         main: Main wiki pages
       sub_pages_count:
-        one: 1 sub-page
+        one: "%{count} sub-page"
         other: "%{count} sub-pages"
     inline_wiki_page_dialog:
       title_add: Add existing wiki page
