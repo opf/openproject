@@ -12,12 +12,12 @@
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
-    <div data-<%= controller_identifier %>-target="treeContainer">
+    <%= tag.div(data: { "#{controller_identifier}-target": "treeContainer" }) do %>
       <%= render(tree_view) %>
-    </div>
-    <template data-<%= controller_identifier %>-target="treeTemplate">
+    <% end %>
+    <%= tag.template(data: { "#{controller_identifier}-target": "treeTemplate" }) do %>
       <%= render(tree_view) %>
-    </template>
+    <% end %>
   <% end %>
   <% dialog.with_footer do %>
     <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { I18n.t(:button_cancel) } %>
