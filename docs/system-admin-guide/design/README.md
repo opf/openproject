@@ -16,15 +16,13 @@ Navigate to _Administration_ → _Design_ in order to customize your OpenProject
 The design page provides several options to customize your OpenProject Enterprise edition, grouped in four tabs, **Interface, Branding, Default colors, and PDF export styles**. 
 You can [choose a color theme](#choose-a-color-theme) in the first two tabs. 
 
-Under **Interface** you can also choose [custom colors](#interface-colors) for elements of the interface, such as the primary button color, accent color, the background of the top navigation header and the main menu.
+Under **Interface** you can also choose [custom interface colors](#interface-colors) for elements of the interface, such as the primary button color, accent color, the background of the top navigation header and the main menu.
 
 ![Design interface settings in OpenProject administration](openproject_system_guide_design_interface.png)
 
 Under the **Branding** tab you can also [upload a custom desktop and/or mobile logos](#upload-a-custom-logo) to replace the default OpenProject logo, [set a custom favicon](#set-a-custom-favicon), which is shown as an icon in your browser window/tab, and [upload a custom touch icon](#set-a-custom-touch-icon), which is shown on your smartphone or tablet when you bookmark OpenProject on your home screen.
 
 ![Branding settings in OpenProject administration](openproject_system_guide_design_branding.png)
-
-![More branding settings in OpenProject administration](openproject_system_guide_design_branding_additional.png)
 
 Under **Default colors** you can configure a set of predefined colors which you can use e.g. to [set colors for work package types](../manage-work-packages/work-package-types) or for attribute highlighting, e.g. for [status](../manage-work-packages/work-package-status).
 
