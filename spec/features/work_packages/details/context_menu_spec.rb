@@ -49,7 +49,7 @@ RSpec.describe "Work package single context menu", :js do
   end
 
   it "successfully copies the short url of the work package" do
-    wp_view.select_from_context_menu("Copy link to clipboard")
+    wp_view.select_from_context_menu("Copy link")
 
     # We cannot access the navigator.clipboard from a headless browser.
     # This test makes sure the copy to clipboard logic is working,

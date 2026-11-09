@@ -90,7 +90,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     end
   end
 
-  describe "right-click context menu 'Copy link to clipboard' item" do
+  describe "right-click context menu 'Copy link' item" do
     it "copies a URL containing the semantic identifier" do
       semantic_id = work_package.reload.identifier
 
@@ -106,7 +106,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       JS
 
       context_menu.open_for(work_package)
-      context_menu.choose("Copy link to clipboard")
+      context_menu.choose("Copy link")
 
       copied = nil
       retry_block do
@@ -124,7 +124,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       semantic_id = work_package.reload.identifier
 
       # Spy directly on navigator.clipboard.writeText (see the sibling
-      # 'Copy link to clipboard' example for why the flash matcher won't do).
+      # 'Copy link' example for why the flash matcher won't do).
       page.execute_script(<<~JS)
         window.__lastCopiedText = null;
         navigator.clipboard.writeText = function(text) {

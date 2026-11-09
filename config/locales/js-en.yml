@@ -153,7 +153,7 @@ en:
     button_continue: "Continue"
     button_copy: "Copy"
     button_copy_id: "Copy ID (\"%{id}\")"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Copy link"
     button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Duplicate in another project"
     button_create: "Create"
