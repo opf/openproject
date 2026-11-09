@@ -20,7 +20,7 @@ jobs:
       contents: read
     services:
       postgres:
-        image: pgvector/pgvector:pg16-trixie
+        image: pgvector/pgvector:pg18-bookworm
         env:
           POSTGRES_DB: app
           POSTGRES_USER: app

@@ -6,7 +6,7 @@ ENV NODE_VERSION="24.22.1"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BUNDLE_WITHOUT="development:production:docker"
 
-ENV PGVERSION=17
+ENV PGVERSION=18
 RUN apt-get update -qq && \
   apt-get install -y wget gnupg lsb-release curl && \
   wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgrsql.gpg - && \
