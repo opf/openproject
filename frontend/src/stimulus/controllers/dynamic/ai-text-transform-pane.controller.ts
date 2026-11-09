@@ -172,6 +172,8 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     } else if (success === false) {
       this.setButtonsDisabled(form.id, false);
       this.showError(this.requestFailedValue);
+    } else if (success) {
+      this.setButtonsDisabled(form.id, true);
     }
   }
 

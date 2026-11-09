@@ -352,8 +352,11 @@ describe('AiTextTransformPaneController', () => {
     let poll:Mock<(url:URL) => Promise<Response>>;
     let fetchSpy:MockInstance<typeof window.fetch>;
 
+    // Firefox reads a real body in a later task, which the fake timers do not wait for.
     function answer(html = '', status = 200):Promise<Response> {
-      return Promise.resolve(new Response(html, { status }));
+      const response = new Response(null, { status });
+      vi.spyOn(response, 'text').mockResolvedValue(html);
+      return Promise.resolve(response);
     }
 
     function appendStream(id:string):string {
@@ -557,6 +560,8 @@ describe('AiTextTransformPaneController', () => {
         submit('turbo:submit-start', APPLY_FORM_ID);
         expect(button('Replace')).toBeDisabled();
 
+        // Turbo enables its submitter again right before the end event.
+        (button('Replace') as HTMLButtonElement).disabled = false;
         submit('turbo:submit-end', APPLY_FORM_ID, { success: true });
         expect(button('Replace')).toBeDisabled();
       });
