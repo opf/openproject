@@ -9,9 +9,8 @@ sidebar_navigation:
 | Topic                                                        |
 | ------------------------------------------------------------ |
 | [Migrating your packaged OpenProject installation to Docker Compose](./packaged-docker-migration) |
-| [Migrating your OpenProject installation to PostgreSQL 13](./migration-to-postgresql13) |
-| [Migrating your OpenProject installation to PostgreSQL 18](./migration-to-postgresql18) |
 | [Migrating your OpenProject installation to PostgreSQL 17](./migration-to-postgresql17) |
+| [Migrating your OpenProject installation to PostgreSQL 18](./migration-to-postgresql18) |
 | [Migrating your packaged OpenProject installation to another environment](./migration) |
 | [Migrating your packaged OpenProject database to PostgreSQL](./packaged-postgresql-migration) |
 | [Migrating your Docker OpenProject database to PostgreSQL](./docker-postgresql-migration) |
