@@ -63,6 +63,125 @@ RSpec.describe CustomField do
     it "is false for a custom comment attribute name" do
       expect(described_class.custom_field_attribute?("custom_comment_12")).to be(false)
     end
+
+    it "is false for nil" do
+      expect(described_class.custom_field_attribute?(nil)).to be(false)
+    end
+  end
+
+  describe ".id_from_attribute_name" do
+    it "returns the id for a custom field attribute name" do
+      expect(described_class.id_from_attribute_name("custom_field_12")).to eq(12)
+    end
+
+    it "returns the id for a custom field attribute name given as a symbol" do
+      expect(described_class.id_from_attribute_name(:custom_field_12)).to eq(12)
+    end
+
+    it "returns nil for a name with a suffix after the id" do
+      expect(described_class.id_from_attribute_name("custom_field_12_comment")).to be_nil
+    end
+
+    it "returns nil for a custom comment attribute name" do
+      expect(described_class.id_from_attribute_name("custom_comment_12")).to be_nil
+    end
+
+    it "returns nil for a non custom field attribute name" do
+      expect(described_class.id_from_attribute_name("subject")).to be_nil
+    end
+
+    it "returns nil for nil" do
+      expect(described_class.id_from_attribute_name(nil)).to be_nil
+    end
+  end
+
+  describe ".column_name?" do
+    it "is true for a custom field column name" do
+      expect(described_class.column_name?("cf_12")).to be(true)
+    end
+
+    it "is true for a custom field column name given as a symbol" do
+      expect(described_class.column_name?(:cf_12)).to be(true)
+    end
+
+    it "is false for a name with a suffix after the id" do
+      expect(described_class.column_name?("cf_12x")).to be(false)
+    end
+
+    it "is false for a name with a prefix before cf" do
+      expect(described_class.column_name?("xcf_12")).to be(false)
+    end
+
+    it "is false for a custom comment column name" do
+      expect(described_class.column_name?("cfc_12")).to be(false)
+    end
+
+    it "is false for nil" do
+      expect(described_class.column_name?(nil)).to be(false)
+    end
+  end
+
+  describe ".id_from_column_name" do
+    it "returns the id for a custom field column name" do
+      expect(described_class.id_from_column_name("cf_12")).to eq(12)
+    end
+
+    it "returns the id for a custom field column name given as a symbol" do
+      expect(described_class.id_from_column_name(:cf_12)).to eq(12)
+    end
+
+    it "returns nil for a name with a suffix after the id" do
+      expect(described_class.id_from_column_name("cf_12x")).to be_nil
+    end
+
+    it "returns nil for a custom comment column name" do
+      expect(described_class.id_from_column_name("cfc_12")).to be_nil
+    end
+
+    it "returns nil for a custom field attribute name" do
+      expect(described_class.id_from_column_name("custom_field_12")).to be_nil
+    end
+
+    it "returns nil for nil" do
+      expect(described_class.id_from_column_name(nil)).to be_nil
+    end
+  end
+
+  describe ".column_name_pattern_for" do
+    subject(:pattern) { described_class.column_name_pattern_for([4, 12]) }
+
+    it "matches the column names of the given ids" do
+      expect(pattern).to match("cf_4")
+      expect(pattern).to match("cf_12")
+    end
+
+    it "does not match the column name of another id" do
+      expect(pattern).not_to match("cf_1")
+    end
+
+    context "with non-numeric ids" do
+      subject(:pattern) { described_class.column_name_pattern_for([".*"]) }
+
+      it "does not interpolate them into the pattern" do
+        expect(pattern).not_to match("cf_12")
+      end
+    end
+
+    it "does not match a column name that only starts with a given id" do
+      expect(pattern).not_to match("cf_123")
+    end
+
+    it "captures the id" do
+      expect(pattern.match("cf_12")[:id]).to eq("12")
+    end
+
+    context "without ids" do
+      subject(:pattern) { described_class.column_name_pattern_for([]) }
+
+      it "does not match any custom field column name" do
+        expect(pattern).not_to match("cf_4")
+      end
+    end
   end
 
   describe "#name" do
