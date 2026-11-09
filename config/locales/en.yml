@@ -5215,7 +5215,7 @@ en:
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
       push_notifications: "Browser notifications"
-      text_transform_actions: "Text transform actions"
+      text_actions: "Text assistant"
     quick_add:
       label: "Add…"
 
