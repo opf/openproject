@@ -99,6 +99,12 @@ export function visibleMenuItems(items:OpContextMenuItem[]):KeyedMenuItem[] {
     .ActionListItem-visual--leading
       inline-size: var(--base-size-16)
       justify-content: center
+
+    // Primer follows scrolling only while the show button is in view.
+    .op-action-menu--stand-in
+      position: fixed
+      inset-block-start: 0
+      inset-inline-start: 0
   `],
   imports: [NgTemplateOutlet, IconModule, DynamicIconDirective],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

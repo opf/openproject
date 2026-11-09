@@ -158,6 +158,22 @@ describe('OpActionMenuService', () => {
     });
   });
 
+  it('keeps the stand-in show button in view below a page taller than the viewport', async () => {
+    const page = document.createElement('div');
+    page.style.height = `${window.innerHeight * 2}px`;
+    document.body.prepend(page);
+    onTestFinished(() => page.remove());
+
+    service.show(new RecordingHandler(items()), createEvent.click(anchor), { anchor });
+    await settle();
+
+    const standIn = overlay().closest('action-menu')!.querySelector<HTMLElement>(':scope > button')!;
+    const { top, left } = standIn.getBoundingClientRect();
+    expect(top).toBeGreaterThanOrEqual(0);
+    expect(top).toBeLessThan(window.innerHeight);
+    expect(left).toBeGreaterThanOrEqual(0);
+  });
+
   it('opens nothing when every visible item is an empty submenu or a divider', async () => {
     const handler = new RecordingHandler([
       { divider: true },
