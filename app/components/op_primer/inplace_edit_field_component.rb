@@ -138,10 +138,11 @@ module OpPrimer
         model: model.class.name,
         id: model.id,
         attribute:,
-        system_arguments_json: @system_arguments
-          .except(:id)
-          .merge(page_component_id: @system_arguments[:id], writable: writable?)
-          .to_json
+        system_arguments: OpenProject::InplaceEdit::SystemArguments.sign(
+          @system_arguments
+            .except(:id)
+            .merge(page_component_id: @system_arguments[:id], writable: writable?)
+        )
       )
     end
 

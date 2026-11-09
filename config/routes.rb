@@ -1203,7 +1203,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :text_transform_actions, except: :show do
+    resources :text_actions, except: :show do
       member do
         get :deletion_dialog
         post :toggle
@@ -1213,7 +1213,6 @@ Rails.application.routes.draw do
       collection do
         put :enable_all
         put :disable_all
-        post :toggle_setting
       end
     end
 

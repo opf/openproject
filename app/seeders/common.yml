@@ -410,7 +410,7 @@ global_roles:
     position: 7
     builtin: :standard_global
     permissions: []
-ai_text_transform_actions:
+ai_text_actions:
   - reference: :default_ai_action_fix_grammar
     t_label: Fix grammar
     usage_scope: everywhere

@@ -106,7 +106,7 @@ RSpec.describe "Configuring a project's own variant in the creation wizard", :js
       end
     end
 
-    it "switches to another workflow and finishes the wizard", :aggregate_failures do
+    it "switches to another workflow and advances to the next step", :aggregate_failures do
       visit_step(:workflows, role_ids: [role.id])
 
       switch_workflow_to "Bookshop flow"
@@ -116,7 +116,7 @@ RSpec.describe "Configuring a project's own variant in the creation wizard", :js
 
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_current_query_params("step" => "pdf")
+      expect(page).to have_current_query_params("step" => "project_attributes")
       expect(variant.reload.workflow).to eq(bookshop_flow)
     end
   end

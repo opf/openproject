@@ -39,7 +39,7 @@ gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activerecord-import", "~> 3.0.1"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
-gem "rails", "~> 8.1.3", ">= 8.1.3.1"
+gem "rails", "~> 8.1.4", ">= 8.1.4.1"
 gem "responders", "~> 3.2"
 
 gem "ffi", "~> 1.17"
@@ -205,7 +205,7 @@ gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.233"
 
-gem "openproject-token", "~> 8.15.0"
+gem "openproject-token", "~> 8.16.0"
 
 gem "plaintext", "~> 0.4.0"
 
@@ -371,7 +371,6 @@ group :development, :test do
 
   # erb linting
   gem "erb_lint", require: false
-  gem "erblint-github", require: false
 
   # Brakeman scanner
   gem "brakeman", "~> 8.1.0"

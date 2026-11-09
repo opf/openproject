@@ -27,6 +27,10 @@
     margin-bottom: var(--base-size-4)
     margin-left: 8px
 
+  // Set by the controller; FullCalendar's own 1.5em stays the lower bound.
+  td.fc-timegrid-slot
+    height: max(1.5em, var(--te-stack-min-slot-height, 0px))
+
   .fc-timegrid-slot.fc-timegrid-slot-minor
     border-top: 0
 
@@ -50,5 +54,13 @@
 
   .fc-timegrid-event-short
     +te-entry-card-condensed
+
+    .te-entry-card
+      height: auto
+      align-items: flex-start
+      padding-top: 8px
+
+    .te-entry-card--icon
+      align-self: flex-start
 
   +fc-day-total

@@ -72,6 +72,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% if show_decoration %>
     <header class="op-app-header<%= " op-app-header_development" if OpenProject::Configuration.development_highlight_enabled? %>">
       <div class="op-app-header--start">
+        <%# skip-navigation-link is revealed on focus in frontend/src/global_styles/content/_links.sass. %>
+        <%# herb:disable a11y-no-visually-hidden-interactive-elements 1 %>
         <a href="#content" class="sr-only skip-navigation-link"
            id="skip-navigation--content"
            aria-label="<%= I18n.t("js.work_packages.jump_marks.label_content") %>">

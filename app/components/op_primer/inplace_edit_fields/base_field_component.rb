@@ -87,7 +87,7 @@ module OpPrimer
           model: model.class.name,
           id: model.id,
           attribute:,
-          system_arguments_json: @system_arguments.to_json
+          system_arguments: OpenProject::InplaceEdit::SystemArguments.sign(@system_arguments)
         )
       end
 

@@ -47,6 +47,7 @@ import {
   renderAllocationCard,
   type ResourceAllocationEvent,
 } from 'core-stimulus/helpers/resource-allocation-event';
+import { largestFittingMinBarHours, stackedBarHeights } from 'core-stimulus/helpers/stacked-bar-heights';
 
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
 const ALLOCATION_CLASS_NAME = 'te-stack--allocation';
@@ -56,11 +57,16 @@ const ALLOCATION_CLASS_NAME = 'te-stack--allocation';
 const MIN_HOUR = 1;
 const MAX_HOUR = 12;
 const LABEL_INTERVAL_HOURS = 2;
+const SLOT_MINUTES = 30;
 const MS_PER_HOUR = 60 * 60 * 1000;
 
-// A bar thinner than this leaves no room for its own duration once the card is padded.
-// Applied after the scale ratio, so that it stays a constant height on screen.
-const MIN_BAR_HOURS = 0.75;
+// A bar thinner than this leaves no room for a single row of the condensed card, its top
+// border and the gap to the bar below.
+const MIN_BAR_HEIGHT_PX = 40;
+// Keeps a light week from stretching its few hours over the whole height.
+const MIN_AXIS_HOURS = 8;
+
+type StackedBar = TimeEntryEvent|ResourceAllocationEvent;
 
 export default class MyTimeManagementStackController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
@@ -102,8 +108,12 @@ export default class MyTimeManagementStackController extends Controller {
   private calendar:Calendar;
   private entryMenus = new EntryMenus(this.element);
   private scaleRatio = 1;
+  private axisHours = MAX_HOUR;
+  private minHourHeight = 0;
+  private minBarHours = 0;
   private resizeObserver:ResizeObserver;
   private lastWidth = 0;
+  private lastHeight = 0;
   private boundListener = this.dialogCloseListener.bind(this);
   private reloadView = () => reloadMyTimeManagementView(this.element);
 
@@ -139,21 +149,42 @@ export default class MyTimeManagementStackController extends Controller {
   private observeResize():void {
     this.resizeObserver = new ResizeObserver(() => {
       const width = this.stackTarget.clientWidth;
+      const height = this.stackTarget.clientHeight;
 
-      if (width === this.lastWidth) {
+      if (width === this.lastWidth && height === this.lastHeight) {
         return;
       }
 
       this.lastWidth = width;
+      this.lastHeight = height;
       this.calendar.updateSize();
       this.addTotalFooter();
+      this.updateMinBarHours();
     });
 
     this.resizeObserver.observe(this.stackTarget);
   }
 
+  // The minimum bar height is fixed on screen, so the hours it covers depend on how tall
+  // the rendered axis turned out. Below the height that the busiest day needs to fit its
+  // bars into its total, the slots stop shrinking and the grid body scrolls.
+  private updateMinBarHours():void {
+    const slotsHeight = this.stackTarget.querySelector<HTMLElement>('.fc-timegrid-slots')?.offsetHeight ?? 0;
+    const minBarHours = slotsHeight > 0 ? MIN_BAR_HEIGHT_PX / (slotsHeight / this.axisHours) : 0;
+
+    if (minBarHours === this.minBarHours) {
+      return;
+    }
+
+    this.minBarHours = minBarHours;
+    this.calendar.refetchEvents();
+  }
+
   initializeStack() {
-    this.setRatio();
+    this.fitAxis();
+    // FullCalendar measures the slots only on its own layout passes, so the minimum
+    // height has to be in place before the first render.
+    this.stackTarget.style.setProperty('--te-stack-min-slot-height', `${this.minHourHeight * (SLOT_MINUTES / 60)}px`);
 
     this.calendar = new Calendar(this.stackTarget, {
       plugins: [timeGridPlugin, interactionPlugin],
@@ -172,7 +203,8 @@ export default class MyTimeManagementStackController extends Controller {
       displayEventTime: false,
       slotEventOverlap: false,
       eventShortHeight: 80,
-      slotMinTime: `${MIN_HOUR - 1}:00:00`,
+      slotDuration: `00:${SLOT_MINUTES}:00`,
+      slotMinTime: `${MAX_HOUR - this.axisHours}:00:00`,
       slotMaxTime: `${MAX_HOUR}:00:00`,
       slotLabelInterval: `${LABEL_INTERVAL_HOURS}:00:00`,
       slotLabelFormat: (info:VerboseFormattingArg) => displayDuration((MAX_HOUR - info.date.hour) / this.scaleRatio),
@@ -190,31 +222,54 @@ export default class MyTimeManagementStackController extends Controller {
   }
 
   private buildEvents():EventInput[] {
+    const timeEntries = this.stackOrder();
+    const allocations = this.remainingAllocations();
+    const barHeights = this.barHeights([...timeEntries, ...allocations]);
+
     const stackTops:Record<string, number> = {};
-    const stack = (day:string, entryHours:number):[number, number] => {
+    const stack = (day:string, bar:StackedBar):[number, number] => {
       const endHour = stackTops[day] ?? MAX_HOUR;
-      const hours = Math.max(entryHours * this.scaleRatio, MIN_BAR_HOURS);
       // A day made up of many tiny entries can outgrow the axis once they are floored.
-      const startHour = Math.max(endHour - hours, 0);
+      const startHour = Math.max(endHour - barHeights.get(bar)!, MAX_HOUR - this.axisHours);
 
       stackTops[day] = startHour;
 
       return [startHour, endHour];
     };
 
-    const timeEntries = this.stackOrder().map((entry) => {
+    const timeEntryEvents = timeEntries.map((entry) => {
       const day = this.dayOf(entry);
 
-      return this.timeEntryEvent(entry, day, ...stack(day, entry.hours));
+      return this.timeEntryEvent(entry, day, ...stack(day, entry));
     });
 
-    const allocations = this.remainingAllocations().map((allocation) => {
+    const allocationEvents = allocations.map((allocation) => {
       const day = this.dayOf(allocation);
 
-      return this.allocationEvent(allocation, day, ...stack(day, allocation.hours));
+      return this.allocationEvent(allocation, day, ...stack(day, allocation));
     });
 
-    return [...timeEntries, ...allocations];
+    return [...timeEntryEvents, ...allocationEvents];
+  }
+
+  private barHeights(bars:StackedBar[]):Map<StackedBar, number> {
+    const heightsByBar = new Map<StackedBar, number>();
+    this.barsByDay(bars).forEach((dayBars) => {
+      const heights = stackedBarHeights(dayBars.map((bar) => bar.hours * this.scaleRatio), this.minBarHours);
+      dayBars.forEach((bar, index) => heightsByBar.set(bar, heights[index]));
+    });
+
+    return heightsByBar;
+  }
+
+  private barsByDay(bars:StackedBar[]):Map<string, StackedBar[]> {
+    const barsByDay = new Map<string, StackedBar[]>();
+    bars.forEach((bar) => {
+      const day = this.dayOf(bar);
+      barsByDay.set(day, [...(barsByDay.get(day) ?? []), bar]);
+    });
+
+    return barsByDay;
   }
 
   private remainingAllocations():ResourceAllocationEvent[] {
@@ -348,8 +403,9 @@ export default class MyTimeManagementStackController extends Controller {
     return sums;
   }
 
-  private setRatio():void {
-    const stacked = this.calculateDateSums([...this.timeEntriesValue, ...this.remainingAllocations()]);
+  private fitAxis():void {
+    const bars = [...this.timeEntriesValue, ...this.remainingAllocations()];
+    const stacked = this.calculateDateSums(bars);
     const maxHours = Math.max(...Object.values(stacked), 0);
 
     if (maxHours > MAX_HOUR - MIN_HOUR) {
@@ -357,6 +413,15 @@ export default class MyTimeManagementStackController extends Controller {
     } else {
       this.scaleRatio = 1;
     }
+
+    const neededHours = Math.max((maxHours * this.scaleRatio) + MIN_HOUR, MIN_AXIS_HOURS);
+    this.axisHours = Math.min(Math.ceil(neededHours / LABEL_INTERVAL_HOURS) * LABEL_INTERVAL_HOURS, MAX_HOUR);
+
+    const neededHourHeights = [...this.barsByDay(bars).values()]
+      .map((dayBars) => dayBars.map((bar) => bar.hours * this.scaleRatio))
+      .filter((scaledHours) => scaledHours.some((hours) => hours > 0))
+      .map((scaledHours) => MIN_BAR_HEIGHT_PX / largestFittingMinBarHours(scaledHours));
+    this.minHourHeight = Math.max(...neededHourHeights, 0);
   }
 
   private smallerSuitableRatio(value:number):number {

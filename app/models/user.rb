@@ -211,7 +211,7 @@ class User < Principal
   end
 
   def password_expired?
-    current_password.expired?
+    current_password.present? && current_password.expired?
   end
 
   # create new password if password was set
@@ -443,9 +443,18 @@ class User < Principal
   end
 
   def log_failed_login
-    log_failed_login_count
-    log_failed_login_timestamp
-    save
+    now = Time.zone.now
+    block_start = now - Setting.brute_force_block_minutes.to_i.minutes
+
+    User.where(id:).update_all(
+      [
+        "failed_login_count = CASE WHEN last_failed_login_on > :block_start THEN failed_login_count + 1 ELSE 1 END, " \
+        "last_failed_login_on = :now",
+        { block_start:, now: }
+      ]
+    )
+
+    reload
   end
 
   def log_successful_login
@@ -851,18 +860,6 @@ class User < Principal
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
     last_failed_login_on and
       Time.zone.now - last_failed_login_on < block_duration
-  end
-
-  def log_failed_login_count
-    if last_failed_login_within_block_time?
-      self.failed_login_count += 1
-    else
-      self.failed_login_count = 1
-    end
-  end
-
-  def log_failed_login_timestamp
-    self.last_failed_login_on = Time.zone.now
   end
 
   def self.default_admin_account_changed?
