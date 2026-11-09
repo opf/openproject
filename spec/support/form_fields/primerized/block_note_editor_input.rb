@@ -53,8 +53,25 @@ module FormFields
       end
 
       def open_create_work_package_dialog
-        send_keys_to_editor("/create")
-        send_keys(:enter)
+        choose_slash_menu_item("create", "Create new work package")
+      end
+
+      def open_insert_attribute_dialog
+        choose_slash_menu_item("attribute", "Work package attribute")
+      end
+
+      # The slash menu filters asynchronously, so an early Enter would still pick its first item.
+      # It also leaves out entries whose permission the editor is still checking right after
+      # loading, and keeps them out for a query typed in the meantime, so it is typed again.
+      def choose_slash_menu_item(query, title)
+        typed = "/#{query}"
+        page.document.synchronize do
+          send_keys_to_editor(typed)
+          shadow_root.find("[role='option']", text: title, wait: 1).click
+        rescue Capybara::ElementNotFound
+          typed.length.times { send_keys_to_editor(:backspace) }
+          raise
+        end
       end
 
       def click_formatting_toolbar_button(label)
@@ -95,12 +112,6 @@ module FormFields
 
       def create_work_package_form
         page.find("[data-testid='create-wp-modal']")
-      end
-
-      # The slash menu filters asynchronously, so an early Enter would still pick its first item.
-      def open_insert_attribute_dialog
-        send_keys_to_editor("/attribute")
-        shadow_root.find("[role='option']", text: "Work package attribute").click
       end
 
       # Portalled out of the editor like the create form, so it is in the light DOM.
