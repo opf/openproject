@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe AI::TextTransforms::ApplicableText do
-  def applicable(text) = described_class.call(text)
+  def applicable(text, input: "") = described_class.call(text, input:)
 
   it "keeps plain markdown byte for byte" do
     text = "# Title\n\n- a < b & c\n- [link](https://example.com)\n\n```\ncode\n```\n"
@@ -75,17 +75,60 @@ RSpec.describe AI::TextTransforms::ApplicableText do
     expect(applicable(text)).to eq(text)
   end
 
-  it "turns group mentions into their text and keeps user and work package mentions" do
-    user = %(<mention class="mention" data-id="2" data-type="user" data-text="@Ann">@Ann</mention>)
-    group = %(<mention class="mention" data-id="3" data-type="group" data-text="@Devs">@Devs</mention>)
-    work_package = %(<mention class="mention" data-id="4" data-type="work_package" data-text="#4">#4</mention>)
+  describe "mentions" do
+    shared_let(:user) { create(:user, login: "ann") }
+    let(:ann) { %(<mention class="mention" data-id="#{user.id}" data-type="user" data-text="@Ann">@Ann</mention>) }
+    let(:devs) { %(<mention class="mention" data-id="3" data-type="group" data-text="@Devs">@Devs</mention>) }
+    let(:work_package) { %(<mention class="mention" data-id="4" data-type="work_package" data-text="#4">#4</mention>) }
 
-    expect(applicable("#{user} #{group} #{work_package}")).to eq("#{user} @Devs #{work_package}")
-  end
+    def converted?(text, input: "")
+      described_class.new(text, input:).mentions_converted?
+    end
 
-  it "recognizes group mentions regardless of attribute quoting" do
-    expect(applicable(%(Hi <MENTION data-type='group' data-id=3>@Devs</MENTION> and <mention data-type=group>@Ops</mention>)))
-      .to eq("Hi @Devs and @Ops")
+    def notified_by(text)
+      text.scan(Notifications::CreateFromModelService::MENTION_PATTERN)
+    end
+
+    it "keeps the users and groups the input mentioned, in any form" do
+      text = %(#{ann} #{devs} user##{user.id} group#3 user:"ann")
+      input = %(Hi user:"ann" and #{devs})
+
+      expect(applicable(text, input:)).to eq(text)
+      expect(converted?(text, input:)).to be(false)
+    end
+
+    it "turns new user and group mentions into plain text that notifies nobody, and keeps work packages" do
+      text = %(#{ann} #{devs} #{work_package} user#2 group#3 user:"ann")
+
+      replaced = applicable(text, input: "Hi #{work_package}")
+
+      expect(replaced).to eq(%(@Ann @Devs #{work_package} user 2 group 3 user: "ann"))
+      expect(notified_by(replaced)).to be_empty
+      expect(converted?(text, input: "Hi")).to be(true)
+    end
+
+    it "recognizes new mention tags regardless of attribute quoting" do
+      expect(applicable(%(Hi <MENTION data-type='group' data-id=3>@Devs</MENTION> and <mention data-type=user>@Ann</mention>)))
+        .to eq("Hi @Devs and @Ann")
+    end
+
+    it "converts new mentions in code and alt text as well, since saving finds them there too" do
+      expect(applicable("`user#2` and\n\n```\ngroup#3\n```\n")).to eq("`user 2` and\n\n```\ngroup 3\n```\n")
+      expect(applicable("![group#3](a.png)")).to eq("[Image: group 3](a.png)")
+    end
+
+    it "converts new mentions that escapes or entities spell out" do
+      replaced = applicable(%(group\\#3, group&#35;3, us&#101;r#2 and &lt;mention data-type="group" data-id="3"&gt;x))
+
+      expect(notified_by(Commonmarker.to_html(replaced).then { Nokogiri::HTML5.fragment(it).text })).to be_empty
+      expect(converted?(%(group&#35;3))).to be(true)
+    end
+
+    it "falls back to plain text when markup hides a new mention" do
+      replaced = applicable(%(**Hi** <span title="group&#35;3">x</span> [a](https://example.com/user&#35;2)))
+
+      expect(replaced).to eq("Hi x a")
+    end
   end
 
   it "turns markdown images into links" do
@@ -108,7 +151,7 @@ RSpec.describe AI::TextTransforms::ApplicableText do
     expect(nodes_of(replaced)).not_to include(:image, :html_inline)
     expect(rendered.css("img, mention")).to be_empty
     expect(rendered.css("a").map(&:text))
-      .to eq(["Image: <img src=x>", %(Image: <mention data-type="group" data-id="3">@Devs</mention>), "Image: a &lt;"])
+      .to eq(["Image: <img src=x>", "Image: @Devs</mention>", "Image: a &lt;"])
     expect(rendered.css("a").last["href"]).to eq("c%20d.png")
   end
 

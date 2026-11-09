@@ -252,13 +252,50 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
                                        'data-state="done"', apply_ai_text_transform_pane_path(run.uuid))
     end
 
-    it "keeps markup in the raw text of the copy button" do
+    it "copies the text the preview shows, with its markup escaped" do
       run = run_with_events(:succeeded, ["completed", { "text" => %(a < b "quoted" </template><img src=x>) }])
 
       get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
 
-      expect(response.body).to include('value="a &lt; b &quot;quoted&quot; &lt;/template&gt;&lt;img src=x&gt;"')
+      expect(response.body)
+        .to include('value="a &lt; b &quot;quoted&quot; &lt;/template&gt;&lt;a href=&quot;x&quot;&gt;Image: x&lt;/a&gt;"')
       expect(response.body).not_to include("<img src=x>")
+    end
+
+    context "with mentions the input did not have" do
+      let(:group) { create(:group, lastname: "Devs") }
+      let(:text) { %(Ask group##{group.id} and <mention data-type="group" data-id="#{group.id}">@Devs</mention>.) }
+
+      it "shows and copies them as plain text and says so once the response is complete" do
+        run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+        get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+        body = Nokogiri::HTML5.fragment(response.body)
+        expect(body.css("a.user-mention")).to be_empty
+        expect(body.text).to include("Ask group #{group.id} and @Devs.")
+        expect(body.at_css("clipboard-copy")["value"]).to eq("Ask group #{group.id} and @Devs.")
+        expect(response.body).to include("These mentions were turned into plain text")
+      end
+
+      it "does not say so while generating" do
+        run = run_with_events(:running, ["text_delta", { "delta" => text }])
+
+        get ai_text_transform_pane_path(run.uuid, **pane_params, after: 0), headers: stream
+
+        expect(response.body).to include("Ask group #{group.id}")
+        expect(response.body).not_to include("These mentions were turned into plain text")
+      end
+
+      it "keeps the mentions the input had and says nothing" do
+        run = run_with_events(:succeeded, ["completed", { "text" => text }])
+        run.update_columns(input: "Hi group##{group.id}")
+
+        get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+        expect(Nokogiri::HTML5.fragment(response.body).at_css("clipboard-copy")["value"]).to eq(text)
+        expect(response.body).not_to include("These mentions were turned into plain text")
+      end
     end
 
     it "shows the stopped state for a blocked response" do
@@ -365,6 +402,15 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
       expect(detail["text"]).to eq("Fixed  [Image: chart](https://example.com/a.png)")
+    end
+
+    it "hands over new mentions only as plain text" do
+      run = run_with_events(:succeeded, ["completed", { "text" => %(Ask group#3 and user:"ann".) }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to eq(%(Ask group 3 and user: "ann".))
     end
 
     context "without the permission to edit the work package any more" do
