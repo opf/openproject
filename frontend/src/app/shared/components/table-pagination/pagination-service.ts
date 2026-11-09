@@ -59,7 +59,7 @@ export class PaginationService {
     const value = this.localStoragePerPage;
     const initialLength = initialPageOptions?.length || 0;
 
-    if (value !== null && value > 0 && (initialLength === 0 || initialPageOptions?.indexOf(value) !== -1)) {
+    if (value !== null && value > 0 && (initialLength === 0 || initialPageOptions?.includes(value))) {
       return value;
     }
 

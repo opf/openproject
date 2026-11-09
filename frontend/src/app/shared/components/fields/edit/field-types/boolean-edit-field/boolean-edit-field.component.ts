@@ -48,6 +48,6 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
 export class BooleanEditFieldComponent extends EditFieldComponent {
   public updateValue(newValue:boolean) {
     this.value = newValue;
-    this.handler.handleUserSubmit();
+    void this.handler.handleUserSubmit();
   }
 }

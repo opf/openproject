@@ -72,7 +72,7 @@ export abstract class ApiV3Collection<
    * Update a single resource
    */
   protected touch(resource:T):void {
-    this.cache.updateFor(resource);
+    void this.cache.updateFor(resource);
   }
 
   /**

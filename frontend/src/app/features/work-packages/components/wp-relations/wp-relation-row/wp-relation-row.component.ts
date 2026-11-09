@@ -163,7 +163,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   }
 
   public saveDescription() {
-    this.wpRelations.updateRelation(
+    void this.wpRelations.updateRelation(
       this.relation,
       { description: this.userInputs.newRelationText },
     )
@@ -221,7 +221,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
           relationType: this.relation.normalizedType(this.workPackage),
         });
 
-        this
+        void this
           .apiV3Service
           .work_packages
           .cache

@@ -34,7 +34,7 @@ export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
 
     // Update the form for fields that may alter the form itself
     if (key === 'workPackage') {
-      this.updateForm();
+      void this.updateForm();
     }
   }
 

@@ -139,8 +139,8 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
       .then(() => {
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been added
-        this.wpWatchersService.require(this.workPackage, true);
-        this
+        void this.wpWatchersService.require(this.workPackage, true);
+        void this
           .apiV3Service
           .work_packages
           .id(this.workPackage)
@@ -160,8 +160,8 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
 
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed
-        this.wpWatchersService.require(this.workPackage, true);
-        this
+        void this.wpWatchersService.require(this.workPackage, true);
+        void this
           .apiV3Service
           .work_packages
           .id(this.workPackage)

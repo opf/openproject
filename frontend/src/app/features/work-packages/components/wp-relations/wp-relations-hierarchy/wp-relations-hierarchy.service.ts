@@ -64,7 +64,7 @@ export class WorkPackageRelationsHierarchyService {
     return workPackage
       .changeParent(payload)
       .then((wp:WorkPackageResource) => {
-        this
+        void this
           .apiV3Service
           .work_packages
           .cache
@@ -98,7 +98,7 @@ export class WorkPackageRelationsHierarchyService {
       .then((wpToBecomeChild:WorkPackageResource|undefined) => this.changeParent(wpToBecomeChild!, workPackage.id)
         .then((wp) => {
           // Reload work package
-          this
+          void this
             .apiV3Service
             .work_packages
             .id(workPackage)
@@ -126,7 +126,7 @@ export class WorkPackageRelationsHierarchyService {
         lockVersion: childWorkPackage.lockVersion,
       }).then((wp) => {
         if (parentWorkPackage) {
-          this
+          void this
             .apiV3Service
             .work_packages
             .id(parentWorkPackage)
@@ -140,7 +140,7 @@ export class WorkPackageRelationsHierarchyService {
             });
         }
 
-        this
+        void this
           .apiV3Service
           .work_packages
           .cache

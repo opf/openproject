@@ -71,7 +71,7 @@ export class WorkPackageRelationsCreateComponent {
   public onSelected(workPackage?:WorkPackageResource) {
     if (workPackage) {
       this.selectedWpId = workPackage.id!;
-      this.createCommonRelation();
+      void this.createCommonRelation();
     }
   }
 

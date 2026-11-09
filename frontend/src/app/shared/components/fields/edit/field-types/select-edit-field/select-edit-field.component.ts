@@ -216,7 +216,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public onCreate(newElement:HalResource) {
     this.addValue(newElement);
     this.selectedOption = { name: newElement.name, href: newElement.href };
-    this.handler.handleUserSubmit();
+    void this.handler.handleUserSubmit();
   }
 
   public onOpen() {
@@ -232,7 +232,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public onChange(value:HalResource|undefined|null) {
     if (value) {
       this.selectedOption = value;
-      this.handler.handleUserSubmit();
+      void this.handler.handleUserSubmit();
       return;
     }
 
@@ -240,7 +240,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
     if (emptyOption) {
       this.selectedOption = emptyOption;
-      this.handler.handleUserSubmit();
+      void this.handler.handleUserSubmit();
     }
   }
 

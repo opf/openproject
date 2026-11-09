@@ -170,7 +170,7 @@ export class WorkPackageStatesInitializationService {
   }
 
   public updateChecksum(query:QueryResource, results:WorkPackageCollectionResource) {
-    this.wpListChecksumService.updateIfDifferent(this.querySpace.query.value!, this.wpTablePagination.current);
+    void this.wpListChecksumService.updateIfDifferent(this.querySpace.query.value!, this.wpTablePagination.current);
     this.authorisationService.initModelAuth('work_packages', results.$links);
   }
 

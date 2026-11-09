@@ -61,7 +61,7 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
   }
 
   public updateGraph():void {
-    this.graphConfiguration.persistAndReload()
+    void this.graphConfiguration.persistAndReload()
       .then(() => {
         this.repaint();
 
@@ -92,7 +92,7 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
   }
 
   protected loadQueriesInitially() {
-    this.graphConfiguration.ensureQueryAndLoad()
+    void this.graphConfiguration.ensureQueryAndLoad()
       .then(() => {
         if (!this.resource.options.queryId) {
           const changeset = this.setChangesetOptions({ queryId: this.graphConfiguration.queryParams[0].id });

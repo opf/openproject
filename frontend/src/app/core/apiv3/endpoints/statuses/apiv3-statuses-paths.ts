@@ -49,7 +49,7 @@ export class ApiV3StatusesPaths extends ApiV3ResourceCollection<StatusResource, 
       .pipe(
         tap((collection) => {
           collection.elements.forEach((resource) => {
-            this.id(resource.id!).cache.updateValue(resource.id!, resource);
+            void this.id(resource.id!).cache.updateValue(resource.id!, resource);
           });
         }),
       );

@@ -1,0 +1,527 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [],
+  "categories": {
+    "correctness": "off"
+  },
+  "options": {
+    "typeAware": true
+  },
+  "env": {
+    "builtin": true
+  },
+  "ignorePatterns": [
+    "**/.eslintrc.js",
+    ".angular/",
+    "coverage/",
+    "src/locales/",
+    "**/vendor",
+    "src/app/features/plugins/linked/openproject-gitlab_integration/**"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.{js,mjs,cjs,ts,tsx,mts,cts}"
+      ],
+      "rules": {
+        "headers/header-format": [
+          "error",
+          {
+            "source": "string",
+            "content": "-- copyright\n OpenProject is an open source project management software.\n Copyright (C) the OpenProject GmbH\n\n This program is free software; you can redistribute it and/or\n modify it under the terms of the GNU General Public License version 3.\n\n OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:\n Copyright (C) 2006-2013 Jean-Philippe Lang\n Copyright (C) 2010-2013 the ChiliProject Team\n\n This program is free software; you can redistribute it and/or\n modify it under the terms of the GNU General Public License\n as published by the Free Software Foundation; either version 2\n of the License, or (at your option) any later version.\n\n This program is distributed in the hope that it will be useful,\n but WITHOUT ANY WARRANTY; without even the implied warranty of\n MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n GNU General Public License for more details.\n\n You should have received a copy of the GNU General Public License\n along with this program. If not, see <https://www.gnu.org/licenses/>.\n\n See COPYRIGHT and LICENSE files for more details.\n++",
+            "style": "line",
+            "linePrefix": "",
+            "trailingNewlines": 2
+          }
+        ]
+      },
+      "jsPlugins": [
+        "./oxlint-plugins/headers.mjs"
+      ]
+    },
+    {
+      "files": [
+        "**/*.{js,mjs,cjs}"
+      ],
+      "rules": {
+        "constructor-super": "error",
+        "for-direction": "error",
+        "getter-return": "error",
+        "no-async-promise-executor": "error",
+        "no-case-declarations": "error",
+        "no-class-assign": "error",
+        "no-compare-neg-zero": "error",
+        "no-cond-assign": "error",
+        "no-const-assign": "error",
+        "no-constant-binary-expression": "error",
+        "no-constant-condition": "error",
+        "no-control-regex": "error",
+        "no-debugger": "error",
+        "no-delete-var": "error",
+        "no-dupe-class-members": "error",
+        "no-dupe-else-if": "error",
+        "no-dupe-keys": "error",
+        "no-duplicate-case": "error",
+        "no-empty": "error",
+        "no-empty-character-class": "error",
+        "no-empty-pattern": "error",
+        "no-empty-static-block": "error",
+        "no-ex-assign": "error",
+        "no-extra-boolean-cast": "error",
+        "no-fallthrough": "error",
+        "no-func-assign": "error",
+        "no-global-assign": "error",
+        "no-import-assign": "error",
+        "no-invalid-regexp": "error",
+        "no-irregular-whitespace": "error",
+        "no-loss-of-precision": "error",
+        "no-misleading-character-class": "error",
+        "no-new-native-nonconstructor": "error",
+        "no-nonoctal-decimal-escape": "error",
+        "no-obj-calls": "error",
+        "no-prototype-builtins": "error",
+        "no-redeclare": "error",
+        "no-regex-spaces": "error",
+        "no-self-assign": "error",
+        "no-setter-return": "error",
+        "no-shadow-restricted-names": "error",
+        "no-sparse-arrays": "error",
+        "no-this-before-super": "error",
+        "no-unassigned-vars": "error",
+        "no-unexpected-multiline": "error",
+        "no-unreachable": "error",
+        "no-unsafe-finally": "error",
+        "no-unsafe-negation": "error",
+        "no-unsafe-optional-chaining": "error",
+        "no-unused-labels": "error",
+        "no-unused-private-class-members": "error",
+        "no-unused-vars": "error",
+        "no-useless-backreference": "error",
+        "no-useless-catch": "error",
+        "no-useless-escape": "error",
+        "no-with": "error",
+        "preserve-caught-error": "error",
+        "require-yield": "error",
+        "use-isnan": "error",
+        "valid-typeof": "error"
+      },
+      "env": {
+        "es2026": true,
+        "browser": true,
+        "node": true
+      }
+    },
+    {
+      "files": [
+        "**/*.{ts,tsx}"
+      ],
+      "rules": {
+        "constructor-super": "off",
+        "for-direction": "error",
+        "getter-return": "off",
+        "no-async-promise-executor": "error",
+        "no-case-declarations": "error",
+        "no-class-assign": "off",
+        "no-compare-neg-zero": "error",
+        "no-cond-assign": "error",
+        "no-const-assign": "off",
+        "no-constant-binary-expression": "error",
+        "no-constant-condition": "error",
+        "no-control-regex": "error",
+        "no-debugger": "error",
+        "no-delete-var": "error",
+        "no-dupe-class-members": "off",
+        "no-dupe-else-if": "error",
+        "no-dupe-keys": "off",
+        "no-duplicate-case": "error",
+        "no-empty": "error",
+        "no-empty-character-class": "error",
+        "no-empty-pattern": "error",
+        "no-empty-static-block": "error",
+        "no-ex-assign": "error",
+        "no-extra-boolean-cast": "error",
+        "no-fallthrough": "error",
+        "no-func-assign": "off",
+        "no-global-assign": "error",
+        "no-import-assign": "off",
+        "no-invalid-regexp": "error",
+        "no-irregular-whitespace": "error",
+        "no-loss-of-precision": "error",
+        "no-misleading-character-class": "error",
+        "no-new-native-nonconstructor": "off",
+        "no-nonoctal-decimal-escape": "error",
+        "no-obj-calls": "off",
+        "no-prototype-builtins": "error",
+        "no-redeclare": "off",
+        "no-regex-spaces": "error",
+        "no-self-assign": "error",
+        "no-setter-return": "off",
+        "no-shadow-restricted-names": "error",
+        "no-sparse-arrays": "error",
+        "no-this-before-super": "off",
+        "no-unassigned-vars": "error",
+        "no-unexpected-multiline": "error",
+        "no-unreachable": "off",
+        "no-unsafe-finally": "error",
+        "no-unsafe-negation": "off",
+        "no-unsafe-optional-chaining": "error",
+        "no-unused-labels": "error",
+        "no-unused-private-class-members": "error",
+        "no-unused-vars": [
+          "error",
+          {
+            "varsIgnorePattern": "^_",
+            "argsIgnorePattern": "^_"
+          }
+        ],
+        "no-useless-backreference": "error",
+        "no-useless-catch": "error",
+        "no-useless-escape": "error",
+        "no-with": "off",
+        "preserve-caught-error": "error",
+        "require-yield": "error",
+        "use-isnan": "error",
+        "valid-typeof": "error",
+        "no-array-constructor": "error",
+        "no-implied-eval": "off",
+        "no-unused-expressions": [
+          "error",
+          {
+            "allowShortCircuit": true
+          }
+        ],
+        "no-throw-literal": "off",
+        "prefer-promise-reject-errors": "off",
+        "require-await": "off",
+        "typescript/await-thenable": "error",
+        "typescript/ban-ts-comment": "error",
+        "typescript/no-array-delete": "error",
+        "typescript/no-base-to-string": [
+          "error",
+          {
+            "ignoredTypeNames": [
+              "URI",
+              "Error",
+              "RegExp",
+              "URL",
+              "URLSearchParams"
+            ]
+          }
+        ],
+        "typescript/no-duplicate-enum-values": "error",
+        "typescript/no-duplicate-type-constituents": "error",
+        "typescript/no-empty-object-type": [
+          "warn",
+          {
+            "allowInterfaces": "always"
+          }
+        ],
+        "typescript/no-explicit-any": "error",
+        "typescript/no-extra-non-null-assertion": "error",
+        "typescript/no-floating-promises": "error",
+        "typescript/no-for-in-array": "error",
+        "typescript/no-implied-eval": "error",
+        "typescript/no-misused-new": "error",
+        "typescript/no-misused-promises": "error",
+        "typescript/no-namespace": "off",
+        "typescript/no-non-null-asserted-optional-chain": "error",
+        "typescript/no-redundant-type-constituents": "error",
+        "typescript/no-require-imports": "error",
+        "typescript/no-this-alias": "error",
+        "typescript/no-unnecessary-type-assertion": "error",
+        "typescript/no-unnecessary-type-constraint": "error",
+        "typescript/no-unsafe-argument": "error",
+        "typescript/no-unsafe-assignment": "error",
+        "typescript/no-unsafe-call": "error",
+        "typescript/no-unsafe-declaration-merging": "error",
+        "typescript/no-unsafe-enum-comparison": "error",
+        "typescript/no-unsafe-function-type": "error",
+        "typescript/no-unsafe-member-access": "error",
+        "typescript/no-unsafe-return": "error",
+        "typescript/no-unsafe-unary-minus": "error",
+        "typescript/no-wrapper-object-types": "error",
+        "typescript/only-throw-error": "error",
+        "typescript/prefer-as-const": "error",
+        "typescript/prefer-namespace-keyword": "error",
+        "typescript/prefer-promise-reject-errors": "error",
+        "typescript/require-await": "error",
+        "typescript/restrict-plus-operands": "error",
+        "typescript/restrict-template-expressions": "error",
+        "typescript/triple-slash-reference": "error",
+        "typescript/unbound-method": "error",
+        "no-empty-function": "off",
+        "typescript/adjacent-overload-signatures": "error",
+        "typescript/array-type": "error",
+        "typescript/ban-tslint-comment": "error",
+        "typescript/class-literal-property-style": "error",
+        "typescript/consistent-generic-constructors": "error",
+        "typescript/consistent-indexed-object-style": "error",
+        "typescript/consistent-type-assertions": "error",
+        "typescript/consistent-type-definitions": "error",
+        "typescript/dot-notation": "error",
+        "typescript/no-confusing-non-null-assertion": "error",
+        "typescript/no-inferrable-types": "error",
+        "typescript/non-nullable-type-assertion-style": "error",
+        "typescript/prefer-find": "error",
+        "typescript/prefer-for-of": "error",
+        "typescript/prefer-function-type": "error",
+        "typescript/prefer-includes": "error",
+        "typescript/prefer-nullish-coalescing": "error",
+        "typescript/prefer-regexp-exec": "error",
+        "typescript/prefer-string-starts-ends-with": "error",
+        "@angular-eslint/contextual-lifecycle": "error",
+        "@angular-eslint/no-empty-lifecycle-method": "error",
+        "@angular-eslint/no-input-rename": "error",
+        "@angular-eslint/no-inputs-metadata-property": "error",
+        "@angular-eslint/no-output-native": "error",
+        "@angular-eslint/no-output-on-prefix": "error",
+        "@angular-eslint/no-output-rename": "error",
+        "@angular-eslint/no-outputs-metadata-property": "error",
+        "@angular-eslint/prefer-inject": "error",
+        "@angular-eslint/prefer-on-push-component-change-detection": "error",
+        "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/use-pipe-transform-interface": "error",
+        "@angular-eslint/use-lifecycle-interface": "warn",
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": [
+              "op",
+              "opce"
+            ],
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": [
+              "op",
+              "opce"
+            ],
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/component-class-suffix": [
+          "error",
+          {
+            "suffixes": [
+              "Component",
+              "Example"
+            ]
+          }
+        ],
+        "no-console": [
+          "error",
+          {
+            "allow": [
+              "warn",
+              "error"
+            ]
+          }
+        ],
+        "no-continue": "off",
+        "no-param-reassign": "off",
+        "prefer-destructuring": "off",
+        "arrow-body-style": "off",
+        "no-void": [
+          "error",
+          {
+            "allowAsStatement": true
+          }
+        ],
+        "no-use-before-define": [
+          "error",
+          {
+            "functions": false,
+            "classes": false
+          }
+        ],
+        "import/prefer-default-export": "off",
+        "import/no-cycle": "off",
+        "no-underscore-dangle": [
+          "warn",
+          {
+            "allow": [
+              "_links",
+              "_embedded",
+              "_meta",
+              "_type",
+              "_destroy",
+              "__initialized_at"
+            ],
+            "allowAfterThis": true,
+            "allowAfterSuper": false,
+            "allowAfterThisConstructor": false,
+            "enforceInMethodNames": true,
+            "allowFunctionParams": true
+          }
+        ],
+        "no-return-assign": [
+          "error",
+          "except-parens"
+        ],
+        "class-methods-use-this": "off",
+        "no-undef": "off",
+        "no-var": "error",
+        "prefer-const": "error",
+        "prefer-rest-params": "error",
+        "prefer-spread": "error"
+      },
+      "plugins": [
+        "typescript",
+        "import"
+      ],
+      "jsPlugins": [
+        "@angular-eslint/eslint-plugin"
+      ],
+      "env": {
+        "browser": true,
+        "node": true
+      }
+    },
+    {
+      "files": [
+        "**/*.d.ts"
+      ],
+      "rules": {
+        "typescript/triple-slash-reference": "off"
+      },
+      "plugins": [
+        "typescript"
+      ]
+    },
+    {
+      "files": [
+        "**/*.spec.ts"
+      ],
+      "rules": {
+        "vitest/expect-expect": [
+          "error",
+          {
+            "assertFunctionNames": [
+              "expect",
+              "*.expect*"
+            ]
+          }
+        ],
+        "vitest/no-commented-out-tests": "error",
+        "vitest/no-conditional-expect": "error",
+        "vitest/no-disabled-tests": "warn",
+        "vitest/no-focused-tests": "error",
+        "vitest/no-identical-title": "error",
+        "vitest/no-import-node-test": "error",
+        "vitest/no-interpolation-in-snapshots": "error",
+        "vitest/no-mocks-import": "error",
+        "vitest/no-standalone-expect": "error",
+        "vitest/no-unneeded-async-expect-function": "error",
+        "vitest/prefer-called-exactly-once-with": "error",
+        "vitest/require-local-test-context-for-concurrent-snapshots": "error",
+        "vitest/valid-describe-callback": "error",
+        "vitest/valid-expect": "error",
+        "vitest/valid-expect-in-promise": "error",
+        "vitest/valid-title": "error",
+        "max-classes-per-file": "off"
+      },
+      "plugins": [
+        "vitest"
+      ]
+    },
+    {
+      "files": [
+        "**/*.spec.ts",
+        "**/testing/**/*.ts",
+        "src/stimulus/test-helpers.ts",
+        "src/test-*.ts"
+      ],
+      "rules": {
+        "typescript/no-explicit-any": "off",
+        "typescript/no-unsafe-argument": "off",
+        "typescript/no-unsafe-assignment": "off",
+        "typescript/no-unsafe-call": "off",
+        "typescript/no-unsafe-member-access": "off",
+        "typescript/no-unsafe-return": "off"
+      },
+      "plugins": [
+        "typescript"
+      ]
+    },
+    {
+      "files": [
+        "src/**/*.{ts,tsx}"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "regex": "(^|/)testing/|(^|/)test-helpers$",
+                "message": "Test helpers may only be imported from specs and other test helpers."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "**/*.spec.ts",
+        "**/testing/**",
+        "src/stimulus/test-helpers.ts",
+        "src/test-*.ts"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
+      ],
+      "rules": {
+        "@stylistic/semi": [
+          "error",
+          "always"
+        ],
+        "@stylistic/max-len": "off",
+        "@stylistic/object-curly-newline": "off",
+        "@stylistic/quotes": [
+          "error",
+          "single",
+          {
+            "avoidEscape": true
+          }
+        ],
+        "@stylistic/implicit-arrow-linebreak": "off",
+        "@stylistic/lines-between-class-members": [
+          "error",
+          "always",
+          {
+            "exceptAfterSingleLine": true
+          }
+        ],
+        "@stylistic/indent": "off",
+        "@stylistic/type-annotation-spacing": [
+          "error",
+          {
+            "before": true,
+            "after": true,
+            "overrides": {
+              "colon": {
+                "before": false,
+                "after": false
+              }
+            }
+          }
+        ],
+        "@stylistic/spaced-comment": "off"
+      },
+      "jsPlugins": [
+        "@stylistic/eslint-plugin"
+      ]
+    }
+  ]
+}
