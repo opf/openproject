@@ -28,33 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Patches
-    # Upstream fix: https://github.com/rails/rails/pull/57429 (merged, not yet released)
-    #
-    # Rails registers ActiveSupport::SafeBuffer as MessagePack ext type 18 with
-    # packer: :to_s, unpacker: :new. Ext payload bytes are always BINARY, so
-    # SafeBuffer.new(payload) reconstructs with ASCII-8BIT encoding, causing
-    # Encoding::CompatibilityError when cached HTML is later concatenated into a
-    # UTF-8 output buffer.
-    #
-    # The upstream fix switches to recursive: true with nested packer.write /
-    # unpacker.read so the MessagePack string codec preserves the original
-    # encoding across the round-trip.
-    module MessagePackSafeBufferFix
-      def register_type(type_id, klass = nil, **options, &)
-        if klass == ActiveSupport::SafeBuffer
-          options[:packer] = ->(buffer, packer) { packer.write(buffer.to_str) }
-          options[:unpacker] = ->(unpacker) { ActiveSupport::SafeBuffer.new(unpacker.read) }
-          options[:recursive] = true
-        end
+require "spec_helper"
 
-        super
-      end
+RSpec.describe "Date picker focused field", type: :rails_request do
+  let(:project) { create(:project) }
+  let!(:work_package) do
+    create(:work_package, project:, start_date: nil, due_date: Date.current, schedule_manually: true)
+  end
+
+  let(:viewer) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+  current_user { viewer }
+
+  subject(:request) do
+    get work_package_date_picker_path(work_package, focused_field:)
+  end
+
+  context "when focusing a method name instead of a date field" do
+    let(:focused_field) { "destroy" }
+
+    it "does not call the method on the work package" do
+      request
+
+      expect(WorkPackage).to exist(work_package.id)
     end
   end
-end
 
-OpenProject::Patches.patch_gem_version "activesupport", "8.1.3.1" do
-  MessagePack::Factory.prepend OpenProject::Patches::MessagePackSafeBufferFix
+  context "when focusing a date field" do
+    let(:focused_field) { "due_date" }
+
+    it "renders the date picker" do
+      request
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end
