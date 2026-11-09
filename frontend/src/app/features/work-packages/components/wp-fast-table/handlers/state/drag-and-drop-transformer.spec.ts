@@ -457,6 +457,75 @@ describe('DragAndDropTransformer row moves', () => {
     expect(prepareMove).toHaveBeenCalledTimes(3);
   });
 
+  describe('when every preparation is overtaken by a render', () => {
+    const renderDuringEveryPrepare = (onPrepare:() => void = () => undefined) => {
+      const service = orderService();
+      const original = service.prepareMove.bind(service);
+      return vi.spyOn(service, 'prepareMove').mockImplementation(async (...args) => {
+        const prepared = await original(...args);
+        onPrepare();
+        harness.table.redrawTableAndTimeline();
+        return prepared;
+      });
+    };
+
+    const renderDuringEveryBlockPrepare = () => {
+      const service = orderService();
+      const original = service.prepareBlockMove.bind(service);
+      return vi.spyOn(service, 'prepareBlockMove').mockImplementation(async (...args) => {
+        const prepared = await original(...args);
+        harness.table.redrawTableAndTimeline();
+        return prepared;
+      });
+    };
+
+    beforeEach(() => {
+      window.I18n.store({
+        en: { js: { sortable_lists: { announcements: {
+          move_failed_check_position: 'Move failed. Check the item\'s current position.',
+          move_failed_check_positions_batch: { other: 'Move failed. Check the %{count} items\' current positions.' },
+        } } } },
+      });
+    });
+
+    it('announces that the move failed', async () => {
+      const mover = await renderTable({ workPackages: groupedWorkPackages, groups });
+      const prepareMove = renderDuringEveryPrepare();
+
+      mover.move(['1'], 'down');
+
+      await vi.waitFor(() => expect(announce).toHaveBeenCalledExactlyOnceWith('Move failed. Check the item\'s current position.', { politeness: 'assertive' }));
+      expect(prepareMove).toHaveBeenCalledTimes(5);
+      expect(harness.rowIds()).toEqual(['1', '2', '3', '4']);
+    });
+
+    it('announces that a move of several work packages failed', async () => {
+      const mover = await renderTable({ workPackages: ['1', '2', '3', '4', '5'].map((id) => ({ id })) });
+      const prepareBlockMove = renderDuringEveryBlockPrepare();
+
+      mover.move(['4', '2'], 'down');
+
+      await vi.waitFor(() => expect(announce).toHaveBeenCalledExactlyOnceWith('Move failed. Check the 2 items\' current positions.', { politeness: 'assertive' }));
+      expect(prepareBlockMove).toHaveBeenCalledTimes(5);
+      expect(harness.rowIds()).toEqual(['1', '2', '3', '4', '5']);
+    });
+
+    it('stays silent once the user moved on to another query', async () => {
+      const mover = await renderTable({ workPackages: groupedWorkPackages, groups });
+      const prepareMove = renderDuringEveryPrepare(() => {
+        if (prepareMove.mock.calls.length === 3) {
+          harness.querySpace.query.putValue({ ...harness.querySpace.query.value } as QueryResource);
+        }
+      });
+
+      mover.move(['1'], 'down');
+
+      await vi.waitFor(() => expect(prepareMove).toHaveBeenCalledTimes(3));
+      await harness.table.whenRendered();
+      expect(announce).not.toHaveBeenCalled();
+    });
+  });
+
   it('applies an accepted move after another render of the same view', async () => {
     const mover = await renderTable({ workPackages: groupedWorkPackages, groups });
     const { started, release } = holdPersist();
