@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Notifications
   priority: 590
-description: An over view of how in-app notifications work in OpenProject and how to manage them.
+description: An overview of how in-app notifications work in OpenProject and how to manage them.
 keywords: notifications, alert, activity, updates
 ---
 # Notifications
@@ -31,7 +31,7 @@ To view the notifications, click the bell icon at the top right of the header.  
 
 ![A screenshot of the Notification center with a number of unread notifications](openproject-notification-center-inbox.png)
 
-Each row in Notification center is a work package that has generated a notification. It is possible that you have received multiple notifications for the same work package (if, for example, the date of a work package you are watching was changed by one person and then the status later change by another, that would generate two notifications). A blue badge on the right edge of each row displays the number of unread notifications concerning that particular work package.
+Each row in Notification center is a work package that has generated a notification. It is possible that you have received multiple notifications for the same work package (if, for example, the date of a work package you are watching was changed by one person and then the status was later changed by another, that would generate two notifications). A blue badge on the right edge of each row displays the number of unread notifications concerning that particular work package.
 
 The work packages are listed in order of freshness. The work packages on top of the list have the "newest" notifications. This means if there is a new update to a work package that was further down in your notification list, it will be moved to the top since that is now the newest notification.
 
@@ -39,23 +39,23 @@ The work packages are listed in order of freshness. The work packages on top of 
 >
 > If multiple notifications exist for a single work package, the [work package reminder](../work-packages/edit-work-package/#work-package-reminders) will take precedence, showing the reminder note at the bottom of the page if one exists. 
 >
-> In case a work package has both a reminder and a date alert notification set up, then the date alert is combined with the reminder note such that that both are visible in the last line. If there are additional reasons for the notification (watcher, mentioned, assignee), those will continue to be displayed in first line of the notification.
+> In case a work package has both a reminder and a date alert notification set up, then the date alert is combined with the reminder note so that both are visible in the last line. If there are additional reasons for the notification (watcher, mentioned, assignee), those will continue to be displayed in the first line of the notification.
 
 ## Manage notifications
 
 Click on a notification to open the Activity tab of this work package in split screen. If you double click on a notification, it will open the full view of a work package. 
 
 > [!TIP]
-> You can adjust the split screen by moving the resizer on the left side of the split screen, it will be stored locally and used for other split screen layouts.
+> You can adjust the split screen by moving the resizer on its left side. The selected width is stored locally and used for other split-screen layouts.
 
-The Activity tab will auto-scroll to the last event that generated a notification. Badges next to the tabs  indicate number of content, e.g. number 1 next to the tab _Relations_ indicates that current work package is related to one more work package. 
+The Activity tab will auto-scroll to the last event that generated a notification. Badges next to the tabs indicate the amount of related content. For example, the number 1 next to the _Relations_ tab indicates that the current work package has one relation. 
 
 > [!TIP]
-> Not all work package activity generate notifications. For example, if you received a notification because you were mentioned, there might be other activities on that work package after that, even though the _Activity_ tab will auto-scroll to highlight the mention when you click on the notification, since the mention was originally what triggered the notification.
+> Not all work package activity generates notifications. For example, if you received a notification because you were mentioned, there might be other activities on that work package after that, even though the _Activity_ tab will auto-scroll to highlight the mention when you click on the notification, since the mention was originally what triggered the notification.
 
 ![OpenProject notification center split screen view explained](openproject_user_guide_notification_center_split_screen.png)
 
-You can filter or group notifications by using the two sets of predefined filters on the left-hand menu:
+You can filter, group and manage notifications using the controls in the left-hand menu:
 
 (Area 1) You can filter by the **reason** you were notified: because you were mentioned (_@mention_), because you are either the assignee or accountable for that work package, because it concerns a work package you are watching or because you have an active reminder or a date alert.
 
@@ -63,17 +63,17 @@ You can filter or group notifications by using the two sets of predefined filter
 
 (Area 3) You can also affect which notifications are visible on the screen:
 
-- You can also choose to view either only **Unread** notification or **All**, which will also display notifications previously marked as read.
+- You can also choose to view either only **Unread** notifications or **All** notifications, which will also display notifications previously marked as read.
 - You can also **Mark all as read** if you want to clean your notification inbox in one click.
 
 > [!TIP]
 > The **Mark all as read** button clears all _visible_ notification rows. If you have a very large number unread notifications, the oldest ones might not be visible on the page. In this case, you might have to click the button multiple times to clear your inbox completely.
 
-(Area 4) If you would like to view your current notification preferences or modify them, click on the [Notification settings](./notification-settings) button. You can also access your settings via your Avatar in the top right corner > _Account settings_> _Notification settings_.
+(Area 4) If you would like to view your current notification preferences or modify them, click on the [Notification settings](./notification-settings) button. You can also access your settings via your Avatar in the top right corner > _Account settings_ > _Notification settings_.
 
 (Area 5) The split screen view lets you not only view work package activity as previously described, but also lets you access all other work package tabs, including overview, files, relations and watchers.
 
-In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To learn more about Email reminders, [click here](../../user-guide/notifications/notification-settings/#email-reminders).
+Depending on your email reminder settings, OpenProject can also send notification summaries by email. See [Email reminders](./notification-settings/#email-reminders) for details.
 
 ## Mark notifications as read
 
@@ -87,7 +87,7 @@ Additionally, you can mark notifications as read in the work package full screen
 
 ## Notifications outside of Notification Center
 
-In-app notifications are also visible directly on work packages, in both full screen and in split-screen views. If there are unread notifications related to the currently-open work package, a small blue badge next to the Activity tab will display indicate this, along with the number of unread notifications.
+In-app notifications are also visible directly on work packages, in both full-screen and split-screen views. If there are unread notifications related to the currently-open work package, a small blue badge next to the Activity tab will indicate this, along with the number of unread notifications.
 
 ![Notifications in the activity tab of work package in OpenProject](openproject_user_guide_notification_activity_tab.png)
 
