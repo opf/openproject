@@ -352,8 +352,11 @@ describe('AiTextTransformPaneController', () => {
     let poll:Mock<(url:URL) => Promise<Response>>;
     let fetchSpy:MockInstance<typeof window.fetch>;
 
+    // Firefox reads a real body in a later task, which the fake timers do not wait for.
     function answer(html = '', status = 200):Promise<Response> {
-      return Promise.resolve(new Response(html, { status }));
+      const response = new Response(null, { status });
+      vi.spyOn(response, 'text').mockResolvedValue(html);
+      return Promise.resolve(response);
     }
 
     function appendStream(id:string):string {
