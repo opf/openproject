@@ -54,11 +54,12 @@ module Backlogs
 
         def chart_data
           {
+            unit:,
             labels: velocity.sprints.map(&:name),
             datasets:,
-            average: velocity.average&.round(1),
+            average: velocity.average&.round(estimation_unit_time? ? 2 : 1),
             averageLabel: t(".average_legend"),
-            yAxisTitle: t(".y_axis_title"),
+            yAxisTitle: t(".y_axis_title.#{unit}"),
             summary:,
             sprintColumnTitle: Sprint.model_name.human
           }.to_json
@@ -77,14 +78,26 @@ module Backlogs
         end
 
         def formatted_velocity
-          story_points(velocity.velocity.round)
+          if estimation_unit_time?
+            DurationConverter.output(velocity.velocity)
+          else
+            story_points(velocity.velocity.round)
+          end
         end
 
         def formatted_average
-          story_points(helpers.number_with_precision(velocity.average, precision: 1, strip_insignificant_zeros: true))
+          if estimation_unit_time?
+            DurationConverter.output(velocity.average)
+          else
+            story_points(helpers.number_with_precision(velocity.average, precision: 1, strip_insignificant_zeros: true))
+          end
         end
 
         private
+
+        def estimation_unit_time? = project.estimation_unit_time?
+
+        def unit = estimation_unit_time? ? :time : :story_points
 
         def velocity
           @velocity ||= ::Sprints::Velocity.new(sprint, project)
@@ -92,13 +105,17 @@ module Backlogs
 
         def datasets
           [
-            { label: t(".committed"), data: velocity.committed.map(&:round) },
-            { label: t(".completed"), data: velocity.completed.map(&:round) }
+            { label: t(".committed"), data: velocity.committed.map { round(it) } },
+            { label: t(".completed"), data: velocity.completed.map { round(it) } }
           ]
         end
 
+        def round(value)
+          estimation_unit_time? ? value.round(2) : value.round
+        end
+
         def summary
-          chart = t(".summary", count: velocity.sprints.size)
+          chart = t(".summary.#{unit}", count: velocity.sprints.size)
           average? ? "#{chart} #{t('.summary_average', average: formatted_average)}" : chart
         end
 

@@ -41,7 +41,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
     instance_double(Sprints::Velocity,
                     sprints: [previous_sprint, sprint],
                     preceding_sprints: [previous_sprint],
-                    committed: [21.4, 13.0],
+                    committed: [21.456, 13.0],
                     completed: [20.0, 8.6],
                     velocity: 8.6,
                     average: 14.31)
@@ -59,6 +59,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
 
   it "renders the widget title" do
     expect(rendered_component).to have_text("Velocity chart")
+  end
+
+  it "passes the unit" do
+    expect(chart_data["unit"]).to eq "story_points"
   end
 
   it "labels the bars with the sprint names" do
@@ -206,6 +210,42 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
       it "renders nothing" do
         expect(rendered_component.to_s).to be_empty
       end
+    end
+  end
+
+  context "when estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+    before { project.estimation_unit = "time" }
+
+    it "passes the unit" do
+      expect(chart_data["unit"]).to eq "time"
+    end
+
+    it "passes committed and completed hours rounded to two decimals" do
+      expect(chart_data["datasets"]).to eq [
+        { "label" => "Committed", "data" => [21.46, 13.0] },
+        { "label" => "Completed", "data" => [20.0, 8.6] }
+      ]
+    end
+
+    it "passes the average rounded to two decimals" do
+      expect(chart_data["average"]).to eq 14.31
+    end
+
+    it "passes the axis title" do
+      expect(chart_data["yAxisTitle"]).to eq "Estimated time"
+    end
+
+    it "passes an accessible summary of the chart" do
+      expect(chart_data["summary"])
+        .to eq "Bar chart of committed and completed estimated time of the last 2 sprints. Average velocity: 14.31h."
+    end
+
+    it "summarizes the velocity of the viewed sprint" do
+      expect(rendered_component).to have_text("Sprint 2: 8.6h", normalize_ws: true)
+    end
+
+    it "summarizes the average with the number of preceding sprints" do
+      expect(rendered_component).to have_text("Average of previous sprint: 14.31h", normalize_ws: true)
     end
   end
 end
