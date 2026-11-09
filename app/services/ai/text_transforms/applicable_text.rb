@@ -37,7 +37,9 @@ module AI
         parse: { smart: false },
         extension: { table: true, strikethrough: true, tagfilter: false, autolink: false, tasklist: false, shortcodes: false }
       }.freeze
-      TAG = %r{<(/?)(macro|img|mention)\b(?:[^>"']|"[^"]*"|'[^']*')*>}i
+      # Comments and declarations hide the tags in them, and attribute values belong to their tag.
+      HTML_TOKEN = %r{<!--.*?(?:-->|\z)|<[!?][^>]*>?|<(/?)([a-z][^\s/>]*)(?:[^>"']|"[^"]*(?:"|\z)|'[^']*(?:'|\z))*>?}im
+      REWRITTEN_TAGS = %w[macro img mention].freeze
       MARKDOWN_SPECIAL = /[\\`*_{}\[\]<>()#+!|~&]/
       DESTINATION_SPECIAL = /[\s()<>]/
       LINE_BREAK = /\r\n?|\n/
@@ -76,8 +78,10 @@ module AI
       end
 
       def rewrite_tags(node, range)
-        @text.byteslice(range).scan(TAG) do
+        @text.byteslice(range).scan(HTML_TOKEN) do
           match = Regexp.last_match
+          next unless REWRITTEN_TAGS.include?(match[2]&.downcase)
+
           first, last = match.byteoffset(0)
           rewrite_tag(match, (range.begin + first)...(range.begin + last), node)
         end

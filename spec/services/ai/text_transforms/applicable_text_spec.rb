@@ -60,6 +60,15 @@ RSpec.describe AI::TextTransforms::ApplicableText do
     expect(applicable(%(x\n\n<macro class="toc">\n\ny\n\nz))).to eq("x\n\n")
   end
 
+  it "ignores macro tags in comments and attribute values, like the preview's HTML parser" do
+    commented = "<!-- <macro> -->\n\nVisible answer"
+    in_attribute = %(Intro <span title="<macro>">x</span> kept?\n\nNext paragraph)
+
+    expect(applicable(commented)).to eq(commented)
+    expect(applicable(in_attribute)).to eq(in_attribute)
+    expect(applicable("<macro>\n<!-- </macro> -->\nHIDDEN\n</macro>\n\nshown")).to eq("\n\nshown")
+  end
+
   it "keeps code spans and blocks untouched" do
     text = %(`![x](y.png)` and `<macro class="toc"></macro>`\n\n```html\n<img src="logo.png" alt="logo">\n```\n)
 
