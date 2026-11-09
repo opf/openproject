@@ -280,8 +280,14 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     const causedUpdates = this.causedUpdates;
     const querySpace = this.querySpace;
     const positionsState = this.positions;
-    const positions = await this.positionsFor(query);
-    const delta = deltaFor(positions);
+    let positions = await this.positionsFor(query);
+    let delta = deltaFor(positions);
+    const ranksOthers = Object.keys(delta).some((id) => !reordered.includes(id));
+    if (savedEndpoint && ranksOthers) {
+      positions = await savedEndpoint.order.get();
+      if (isCurrent() && querySpace.query.value === query) positionsState.putValue({ ...positions });
+      delta = deltaFor(positions);
+    }
     const updatedPositions = { ...positions, ...delta };
     return {
       order: reordered,
