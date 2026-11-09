@@ -113,12 +113,10 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       return;
     }
 
-    if (isCopyIdAction(key)) {
-      this.copyToClipboardService.copy(this.workPackage.displayId);
-      return;
-    }
-
     switch (key) {
+      case 'copy_alphanumeric_id_to_clipboard':
+        this.copyToClipboardService.copy(this.workPackage.displayId);
+        break;
       case 'copy_to_other_project':
         window.location.href = `${this.PathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${this.workPackage.id!}`;
         break;

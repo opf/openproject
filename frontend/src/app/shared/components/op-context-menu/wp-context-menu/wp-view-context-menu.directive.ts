@@ -124,12 +124,11 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       return;
     }
 
-    if (isCopyIdAction(action.key)) {
-      this.copyToClipboardService.copy(this.workPackage.displayId);
-      return;
-    }
-
     switch (action.key) {
+      case 'copy_alphanumeric_id_to_clipboard':
+        this.copyToClipboardService.copy(this.workPackage.displayId);
+        break;
+
       case 'delete':
         this.deleteSelectedWorkPackages();
         break;
