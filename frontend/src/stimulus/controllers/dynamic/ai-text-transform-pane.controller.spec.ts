@@ -560,6 +560,8 @@ describe('AiTextTransformPaneController', () => {
         submit('turbo:submit-start', APPLY_FORM_ID);
         expect(button('Replace')).toBeDisabled();
 
+        // Turbo enables its submitter again right before the end event.
+        (button('Replace') as HTMLButtonElement).disabled = false;
         submit('turbo:submit-end', APPLY_FORM_ID, { success: true });
         expect(button('Replace')).toBeDisabled();
       });
