@@ -48,6 +48,11 @@ module API
         return "MCP server is not available."
       end
 
+      unless User.current.allowed_globally?(:use_mcp_server)
+        status 403
+        return "You are not authorized to access the MCP server."
+      end
+
       server = MCP::Server.new(
         name: "openproject_mcp",
         title: server_config.title,

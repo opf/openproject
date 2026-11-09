@@ -103,6 +103,24 @@ RSpec.describe "MCP tools/list" do
       end
     end
 
+    context "when the current user lacks the use_mcp_server permission" do
+      let(:access_token) { create(:oauth_access_token, scopes: "mcp", resource_owner: user) }
+      let(:user) { create(:user) }
+
+      it "responds in a 403" do
+        subject
+        expect(last_response).to have_http_status(403)
+      end
+    end
+
+    context "when the current user has the use_mcp_server permission via a global role" do
+      let(:access_token) { create(:oauth_access_token, scopes: "mcp", resource_owner: user) }
+      let(:user) { create(:user, global_roles: [global_role]) }
+      let(:global_role) { create(:global_role, permissions: %i[use_mcp_server]) }
+
+      it_behaves_like "MCP result response"
+    end
+
     context "when the search_projects tool is disabled" do
       let(:tool_config) { create(:mcp_configuration, identifier: McpTools::SearchProjects.qualified_name, enabled: false) }
 
