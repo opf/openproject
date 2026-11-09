@@ -230,7 +230,12 @@ describe('DraggableAutocompleteComponent', () => {
     }
 
     it('hides the autocompleter input but keeps the drag area', () => {
-      component.inputHidden = true;
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('ng-select'))).not.toBeNull();
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo']);
+
+      fixture.componentRef.setInput('inputHidden', true);
       fixture.detectChanges();
 
       expect(fixture.debugElement.query(By.css('ng-select'))).toBeNull();
@@ -240,6 +245,8 @@ describe('DraggableAutocompleteComponent', () => {
     it('appends options received through the add event', () => {
       fixture.detectChanges();
 
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo']);
+
       dispatchAdd([c]);
 
       expect(chipTexts()).toEqual(['Alpha', 'Bravo', 'Charlie']);
@@ -247,6 +254,8 @@ describe('DraggableAutocompleteComponent', () => {
 
     it('ignores options it already holds, keeping their position', () => {
       fixture.detectChanges();
+
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo']);
 
       dispatchAdd([a, c]);
 
@@ -257,6 +266,8 @@ describe('DraggableAutocompleteComponent', () => {
       const emitted:DraggableOption[][] = [];
       component.onChange.subscribe((value:DraggableOption[]) => emitted.push(value));
       fixture.detectChanges();
+
+      expect(emitted).toEqual([]);
 
       dispatchAdd([c]);
 
