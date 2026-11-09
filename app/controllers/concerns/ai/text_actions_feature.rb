@@ -31,6 +31,8 @@ module AI
   module TextActionsFeature
     extend ActiveSupport::Concern
 
+    ENTERPRISE_FEATURE = :text_assistant
+
     private
 
     def require_ai_text_actions_feature

@@ -40,24 +40,31 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%=
-  render(Primer::Beta::Subhead.new) do |subhead|
-    subhead.with_heading(tag: :h2, size: :medium) { t(".section_title") }
-    subhead.with_actions do
-      render(
-        Primer::Beta::Button.new(
-          scheme: :primary,
-          tag: :a,
-          href: new_admin_text_action_path,
-          aria: { label: t(".label_aria_add_action") },
-          test_selector: "add-text-action-button"
-        )
-      ) do |button|
-        button.with_leading_visual_icon(icon: :plus)
-        t(".label_add_action")
+<%= with_enterprise_banner_guard(
+      AI::TextActionsFeature::ENTERPRISE_FEATURE,
+      i18n_scope: "ee.upsell.text_actions",
+      variant: :large,
+      video: "enterprise/text_assistant.mp4"
+    ) do %>
+  <%=
+    render(Primer::Beta::Subhead.new) do |subhead|
+      subhead.with_heading(tag: :h2, size: :medium) { t(".section_title") }
+      subhead.with_actions do
+        render(
+          Primer::Beta::Button.new(
+            scheme: :primary,
+            tag: :a,
+            href: new_admin_text_action_path,
+            aria: { label: t(".label_aria_add_action") },
+            test_selector: "add-text-action-button"
+          )
+        ) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          t(".label_add_action")
+        end
       end
     end
-  end
-%>
+  %>
 
-<%= render(Admin::TextActions::IndexComponent.new(text_actions: @text_actions)) %>
+  <%= render(Admin::TextActions::IndexComponent.new(text_actions: @text_actions)) %>
+<% end %>
