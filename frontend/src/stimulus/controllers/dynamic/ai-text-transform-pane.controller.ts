@@ -26,14 +26,35 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { renderStreamMessage } from '@hotwired/turbo';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
+import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 
 const EDGE_MARGIN = 8;
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 240;
 const GEOMETRY_PROPERTIES = ['left', 'top', 'right', 'bottom', 'width', 'height', 'maxWidth', 'maxHeight'] as const;
+const POLL_MIN = 400;
+const POLL_MAX = 1000;
+const POLL_BACKOFF = 1.5;
+const POLL_HIDDEN = 5000;
+const POLL_RETRIES = 5;
+const RETRY_MIN = 1000;
+const APPLY_TIMEOUT = 300;
 
 type Geometry = Partial<Record<typeof GEOMETRY_PROPERTIES[number], string>>;
+
+interface RequestDetail {
+  requestId?:string;
+}
+
+interface AppliedDetail extends RequestDetail {
+  ok?:boolean;
+}
+
+interface SubmitEndDetail {
+  success?:boolean;
+}
 
 interface ResizeStart {
   x:number;
@@ -51,18 +72,39 @@ let rememberedGeometry:Geometry|null = null;
 const clamp = (value:number, min:number, max:number) => Math.min(Math.max(min, value), max);
 
 export default class AiTextTransformPaneController extends Controller<HTMLElement> {
-  static targets = ['pane'];
+  static targets = ['pane', 'state', 'error', 'errorMessage'];
 
   static values = {
     closeForm: String,
+    editorGone: String,
+    selectionGone: String,
+    requestFailed: String,
   };
 
+
   declare readonly paneTarget:HTMLElement;
+  declare readonly errorTarget:HTMLElement;
+  declare readonly errorMessageTarget:HTMLElement;
+  declare readonly hasErrorTarget:boolean;
   declare readonly closeFormValue:string;
+  declare readonly editorGoneValue:string;
+  declare readonly selectionGoneValue:string;
+  declare readonly requestFailedValue:string;
 
   private dragOffset:{ x:number; y:number }|null = null;
   private resizeStart:ResizeStart|null = null;
   private pointerListeners:AbortController|null = null;
+
+  private run = { state: '', seq: '0', requestId: '', pollUrl: '' };
+  private pollTimer:ReturnType<typeof setTimeout>|null = null;
+  private pollInFlight = false;
+  private pollDelay = POLL_MIN;
+  private pollFailures = 0;
+  private applyTimer:ReturnType<typeof setTimeout>|null = null;
+  private applyAnswered = false;
+  private closing = false;
+  private abandoned = false;
+  private focusToRestore:{ form:string }|null = null;
 
   connect():void {
     if (rememberedGeometry) {
@@ -74,7 +116,109 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
   disconnect():void {
     this.endPointerAction();
+    this.stopPolling();
+    this.clearApplyTimer();
     rememberedGeometry = this.pinned ? this.geometry() : null;
+    if (!this.element.isConnected) {
+      this.abandon();
+    }
+  }
+
+  // The footer, and with it the state element, is replaced on every poll that brings news.
+  stateTargetConnected(element:HTMLElement):void {
+    const { state = '', seq = '0', requestId = '', pollUrl = '' } = element.dataset;
+    this.run = { state, seq, requestId, pollUrl };
+    this.restoreFocus();
+
+    if (state === 'generating') {
+      this.schedulePoll();
+    } else {
+      this.stopPolling();
+    }
+  }
+
+  rememberFocus(event:Event):void {
+    const target = (event.target as Element).getAttribute('target');
+    const focused = document.activeElement;
+    if (!target || !this.element.querySelector(`#${CSS.escape(target)}`)) {
+      return;
+    }
+
+    if (!this.focusToRestore && focused && focused !== this.paneTarget && this.element.contains(focused)) {
+      this.focusToRestore = { form: focused.getAttribute('form') ?? '' };
+    }
+  }
+
+  submitStarted(event:Event):void {
+    const form = event.target as HTMLFormElement;
+    if (form.id === this.closeFormValue) {
+      this.closing = true;
+      return;
+    }
+
+    this.hideError();
+    this.setButtonsDisabled(form.id, true);
+  }
+
+  submitEnded(event:CustomEvent<SubmitEndDetail>):void {
+    const form = event.target as HTMLFormElement;
+    const { success } = event.detail;
+
+    if (form.id === this.closeFormValue) {
+      this.closing = success === true;
+      if (success === false) {
+        this.element.remove();
+      }
+    } else if (success === false) {
+      this.setButtonsDisabled(form.id, false);
+      this.showError(this.requestFailedValue);
+    } else if (success) {
+      this.setButtonsDisabled(form.id, true);
+    }
+  }
+
+  // Whoever owns the editor answers right away; without an answer the editor is gone.
+  accepted(event:CustomEvent<RequestDetail>):void {
+    if (!this.isOwnRequest(event.detail) || this.applyAnswered || this.applyTimer) {
+      return;
+    }
+
+    this.applyTimer = setTimeout(() => {
+      this.applyTimer = null;
+      this.showError(this.editorGoneValue);
+    }, APPLY_TIMEOUT);
+  }
+
+  applied(event:CustomEvent<AppliedDetail>):void {
+    if (!this.isOwnRequest(event.detail)) {
+      return;
+    }
+
+    this.applyAnswered = true;
+    this.clearApplyTimer();
+    if (event.detail.ok) {
+      this.element.remove();
+    } else {
+      this.showError(this.selectionGoneValue);
+    }
+  }
+
+  abandon(event?:PageTransitionEvent):void {
+    if (event?.persisted) {
+      return;
+    }
+    if (this.run.state !== 'generating' || this.closing || this.abandoned || !this.run.pollUrl) {
+      return;
+    }
+
+    this.abandoned = true;
+    const { pathname } = new URL(this.run.pollUrl, window.location.origin);
+    void fetch(`${pathname}/cancel`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      keepalive: true,
+      headers: { 'X-CSRF-Token': getMetaContent('csrf-token') },
+    }).catch(() => undefined);
   }
 
   beginDrag(event:PointerEvent):void {
@@ -125,14 +269,108 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
   }
 
-  closeSubmitted(event:CustomEvent<{ success?:boolean }>):void {
-    if ((event.target as Element).id === this.closeFormValue && event.detail.success === false) {
-      this.element.remove();
+  private get pinned():boolean {
+    return this.paneTarget.style.left !== '';
+  }
+
+  private schedulePoll():void {
+    if (this.pollTimer || this.pollInFlight) {
+      return;
+    }
+
+    this.pollTimer = setTimeout(() => { void this.poll(); }, document.hidden ? POLL_HIDDEN : this.pollDelay);
+  }
+
+  private stopPolling():void {
+    if (this.pollTimer) {
+      clearTimeout(this.pollTimer);
+      this.pollTimer = null;
     }
   }
 
-  private get pinned():boolean {
-    return this.paneTarget.style.left !== '';
+  private async poll():Promise<void> {
+    this.pollTimer = null;
+    this.pollInFlight = true;
+    const url = new URL(this.run.pollUrl, window.location.origin);
+    url.searchParams.set('after', this.run.seq);
+    url.searchParams.set('state', this.run.state);
+
+    const response = await fetch(url, { headers: { Accept: 'text/vnd.turbo-stream.html' }, credentials: 'same-origin' })
+      .catch(() => null);
+    const html = response?.ok ? await response.text().catch(() => null) : null;
+    this.pollInFlight = false;
+
+    // A new run replaces this pane under the same element ids, so a late answer must not render into it.
+    if (!this.element.isConnected) {
+      return;
+    }
+
+    if (html === null) {
+      this.pollFailed(response);
+      return;
+    }
+
+    this.pollFailures = 0;
+    this.pollDelay = html.trim() === '' ? Math.min(POLL_MAX, this.pollDelay * POLL_BACKOFF) : POLL_MIN;
+    renderStreamMessage(html);
+    if (this.run.state === 'generating') {
+      this.schedulePoll();
+    }
+  }
+
+  private pollFailed(response:Response|null):void {
+    const transient = !response || response.ok || response.status >= 500;
+    this.pollFailures += 1;
+    if (!transient || this.pollFailures > POLL_RETRIES) {
+      this.showError(this.requestFailedValue);
+      return;
+    }
+
+    this.pollDelay = Math.min(POLL_HIDDEN, RETRY_MIN * 2 ** (this.pollFailures - 1));
+    this.schedulePoll();
+  }
+
+  private restoreFocus():void {
+    const restore = this.focusToRestore;
+    this.focusToRestore = null;
+    if (!restore || this.element.contains(document.activeElement)) {
+      return;
+    }
+
+    const button = restore.form ? this.buttonsOf(restore.form).find((candidate) => !candidate.disabled) : undefined;
+    (button ?? this.paneTarget).focus({ preventScroll: true });
+  }
+
+  private isOwnRequest(detail:RequestDetail|undefined):boolean {
+    return !!this.run.requestId && detail?.requestId === this.run.requestId;
+  }
+
+  private buttonsOf(formId:string):HTMLButtonElement[] {
+    return Array.from(this.element.querySelectorAll<HTMLButtonElement>(`button[form="${formId}"]`));
+  }
+
+  private setButtonsDisabled(formId:string, disabled:boolean):void {
+    this.buttonsOf(formId).forEach((button) => { button.disabled = disabled; });
+  }
+
+  private showError(message:string):void {
+    if (this.hasErrorTarget) {
+      this.errorMessageTarget.textContent = message;
+      this.errorTarget.hidden = false;
+    }
+  }
+
+  private hideError():void {
+    if (this.hasErrorTarget) {
+      this.errorTarget.hidden = true;
+    }
+  }
+
+  private clearApplyTimer():void {
+    if (this.applyTimer) {
+      clearTimeout(this.applyTimer);
+      this.applyTimer = null;
+    }
   }
 
   private drag(event:PointerEvent):void {
