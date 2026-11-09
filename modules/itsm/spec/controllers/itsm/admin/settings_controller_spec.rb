@@ -43,6 +43,19 @@ RSpec.describe ITSM::Admin::SettingsController, with_flag: { helpdesk: true } do
         expect { enable }.to change(ServiceAccount, :count).by(1)
         expect(Setting.helpdesk_enabled?).to be(true)
       end
+
+      context "when the help desk role cannot be created" do
+        before { create(:project_role, name: "Help desk") }
+
+        it "keeps the help desk off and shows why", :aggregate_failures do
+          expect { enable }.not_to change(ServiceAccount, :count)
+          expect(Setting.helpdesk_enabled?).to be(false)
+          expect(response).to have_http_status(:ok)
+          expect(response).to have_turbo_stream(action: "update", target: "itsm-admin-helpdesk-toggle-component")
+          expect(response).to have_turbo_stream(action: "flash")
+          expect(response.body).to include("its role or user could not be created: Name has already been taken.")
+        end
+      end
     end
 
     context "when disabling the help desk" do

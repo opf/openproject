@@ -57,6 +57,7 @@ en:
       Enables the functionality to create work packages by sending emails using an IMAP server and reply to those
       using an SMTP server.
     enable_helpdesk: Enable Helpdesk in this instance
+    helpdesk_not_enabled: "The help desk could not be turned on, because its role or user could not be created: %{reason}"
     helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
   label_helpdesk: Help desk
   label_helpdesk_role: Help desk
