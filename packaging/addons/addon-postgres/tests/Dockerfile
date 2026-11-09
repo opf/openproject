@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,28 +25,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-set -euo pipefail
-export APP_NAME=pg18-package-test APP_SAFE_NAME=openproject INSTALLER_DIR=/tmp/installer
-mkdir -p "$INSTALLER_DIR"
-cat > "$INSTALLER_DIR/wizard" <<'WIZARD'
-wiz_get() {
-  case "$1" in
-    postgres/autoinstall) echo install ;;
-    postgres/db_host) echo 127.0.0.1 ;;
-    postgres/db_port) echo 45432 ;;
-    postgres/db_name|postgres/db_username|postgres/db_password) echo openproject ;;
-    *) return 1 ;;
-  esac
-}
-wiz_fact() {
-  case "$1" in
-    osfamily) echo debian ;;
-    osversion) echo 12 ;;
-  esac
-}
-wiz_check_package() { dpkg-query -W "$1" >/dev/null 2>&1; }
-wiz_set() { :; }
-WIZARD
-/source/packaging/addons/addon-postgres/bin/preinstall
-PGPASSWORD=openproject psql -h 127.0.0.1 -p 45432 -U openproject -d openproject -v ON_ERROR_STOP=1 -c "SHOW server_version; SELECT '[1,2,3]'::vector <-> '[1,2,3]'::vector;"
-echo 'PASS: clean Debian 12 packaged installation'
+FROM pgvector/pgvector:pg18-bookworm
+RUN apt-get update -qq && apt-get install -y --no-install-recommends postgresql-17 && rm -rf /var/lib/apt/lists/*
+ENTRYPOINT ["bash"]
