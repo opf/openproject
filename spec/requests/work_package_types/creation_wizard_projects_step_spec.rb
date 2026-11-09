@@ -79,19 +79,18 @@ RSpec.describe "Projects step of the type creation wizard", :skip_csrf, type: :r
     end
   end
 
-  describe "a change made through the tab from the wizard" do
-    it "reloads the wizard step instead of streaming in the tab's table" do
-      delete type_projects_link_path(type_id: type.id, project_ids: [plant.id], wizard: true), as: :turbo_stream
+  it "lets links in the step leave the wizard's frame" do
+    get type_creation_wizard_path(type, step: :projects)
 
-      expect(response.body).to include("dispatchEvent")
-      expect(response.body).not_to include("project-table")
-    end
+    expect(page.find("turbo-frame#type-configuration-frame")[:target]).to eq("_top")
+  end
 
-    it "keeps the tab streaming its own table" do
+  describe "a change made through the tab's actions" do
+    it "reloads the listing where it is shown rather than streaming in a table" do
       delete type_projects_link_path(type_id: type.id, project_ids: [plant.id]), as: :turbo_stream
 
-      expect(response.body).to include("project-table")
-      expect(response.body).not_to include("dispatchEvent")
+      expect(response.body).to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
+      expect(response.body).not_to include("project-table")
     end
   end
 end

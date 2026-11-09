@@ -88,11 +88,9 @@ module WorkPackageTypes
         @requested_filters = []
       end
 
+      # The listing reloads from the address bar, which holds its filters and page, wherever it is shown.
       def refresh_projects
-        return reload_wizard_step if wizard?
-
-        update_via_turbo_stream(component: projects_table_component)
-        replace_via_turbo_stream(component: sub_header_component)
+        dispatch_event_via_turbo_stream(ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME, detail: { type_id: @type.id })
       end
 
       # Built in one place so the first render and every stream that replaces it cannot drift.
@@ -106,15 +104,11 @@ module WorkPackageTypes
       end
 
       def paginated_projects
-        @query.results
-              .includes(project_types: :variant)
-              .paginate(page: page_param, per_page: per_page_param)
-      end
+        projects = @query.results.includes(project_types: :variant)
+        paginated = projects.paginate(page: page_param, per_page: per_page_param)
+        return paginated unless paginated.out_of_bounds? && paginated.total_pages.positive?
 
-      # The wizard's projects step lists the same projects with its own URLs, so a change made from
-      # there reloads that step rather than streaming in the tab's table.
-      def reload_wizard_step
-        dispatch_event_via_turbo_stream(ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME, detail: { type_id: @type.id })
+        projects.paginate(page: paginated.total_pages, per_page: per_page_param)
       end
     end
   end
