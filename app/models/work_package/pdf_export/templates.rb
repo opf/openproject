@@ -76,7 +76,8 @@ module WorkPackage::PDFExport::Templates
       {
         toc: WorkPackage::PDFExport::Artefact::DEFAULT_TOC,
         include_lifecycle: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE,
-        include_budget: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET
+        include_budget: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET,
+        wiki_pages: []
       }.merge(hyphenation_defaults)
     }
   end

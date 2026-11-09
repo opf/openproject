@@ -54,4 +54,13 @@
           )
         )
       end
+      fields.with_row(mt: 4) do
+        render(
+          WorkPackages::Exports::Generate::Templates::WikiPagesFieldsComponent.new(
+            refs: wiki_page_refs,
+            disabled: disabled,
+            context: context
+          )
+        )
+      end
     end %>

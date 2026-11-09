@@ -453,6 +453,7 @@ RSpec.describe Type do
           .to eq(toc: WorkPackage::PDFExport::Artefact::DEFAULT_TOC,
                  include_lifecycle: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE,
                  include_budget: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET,
+                 wiki_pages: [],
                  hyphenation: false,
                  hyphenation_language: "en")
       end
