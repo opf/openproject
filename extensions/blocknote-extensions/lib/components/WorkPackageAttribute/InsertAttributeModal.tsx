@@ -8,7 +8,7 @@ import { cachedWorkPackageSchema } from '../../services/workPackageLoader';
 import { formatWorkPackageId } from '../../utils/id';
 import { FullPagePortal, keepFocusInside, usePageScrollLock } from '../Shared/modal';
 import { Button } from '../Shared/Button';
-import { AllowedValuesSelect } from '../CreateWorkPackage/AllowedValuesSelect';
+import { AllowedValuesSelect } from '../Shared/AllowedValuesSelect';
 import {
   Body,
   BodyContent,
@@ -22,7 +22,7 @@ import {
   Overlay,
   Panel,
   RequiredMark,
-} from '../CreateWorkPackage/atoms';
+} from '../Shared/atoms';
 import { findAttribute, formatAttributeValue, listAttributes, type WorkPackageAttribute } from './attributes';
 import type { AttributeNodeKind } from './externalHtml';
 import { ATTRIBUTE_DISPLAYS, type AttributeDisplay } from './display';

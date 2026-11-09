@@ -6,16 +6,16 @@ import { useWorkPackageSearchDropdown } from '../../hooks/useWorkPackageSearchDr
 import { typeColor } from '../../services/colors';
 import { formatWorkPackageId } from '../../utils/id';
 import { WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
-import { Suggestions, usePickerMotion } from '../CreateWorkPackage/Suggestions';
+import { Suggestions, usePickerMotion } from '../Shared/Suggestions';
 import {
   ACTION_ICON_SIZE,
   PickerControl,
   TrailingActions,
   TrailingButton,
   TypeaheadWrapper,
-} from '../CreateWorkPackage/atoms';
-import type { ListedValue } from '../CreateWorkPackage/formSchema';
-import { PickerToggle, toggleList } from '../CreateWorkPackage/PickerToggle';
+} from '../Shared/atoms';
+import type { ListedValue } from '../Shared/options';
+import { PickerToggle, toggleList } from '../Shared/PickerToggle';
 import { SelectedSubject, SelectedText, SelectedWorkPackage, WorkPackageReference } from './atoms';
 
 const BLUR_DELAY = 150;

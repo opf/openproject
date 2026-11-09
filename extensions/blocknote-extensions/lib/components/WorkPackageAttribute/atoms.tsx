@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { colorDotStyles, defaultWpVariables, nonSelectableStyles, WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
-import { FieldLabel, PickerControl, roomForActions } from '../CreateWorkPackage/atoms';
+import { FieldLabel, PickerControl, roomForActions } from '../Shared/atoms';
 
 // Drawn inward, so that it adds nothing to the height.
 const ATTRIBUTE_BORDER = 'inset 0 0 0 1px var(--borderColor-default, #d1d9e0)';
