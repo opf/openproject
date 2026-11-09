@@ -32,6 +32,7 @@
 # which is restricted to a set of specific values.
 class CustomOption < ApplicationRecord
   belongs_to :custom_field, touch: true
+  belongs_to :project, optional: true
 
   validates :value, presence: true, length: { maximum: 255 }
 
