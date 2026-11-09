@@ -46,8 +46,6 @@ if (OPENPROJECT_HTTPS) {
   logger.log(`using OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}`);
 }
 
-const UNREACHABLE_HINT =
-  "Hint: if OpenProject is not reachable from hocuspocus under this URL, configure OPENPROJECT_URL (see README).";
 const ERROR_BODY_MAX_LENGTH = 2_000;
 
 /**
@@ -92,7 +90,9 @@ export async function fetchResource(
     return response;
   } catch (error) {
     logger.error(`${target} failed after ${elapsed()}ms: ${describeFetchError(error)}`);
-    logger.error(UNREACHABLE_HINT);
+    logger.error(OPENPROJECT_URL
+      ? `Hint: OpenProject is not reachable under OPENPROJECT_URL (${OPENPROJECT_URL}). Check that it is correct (see README).`
+      : "Hint: if OpenProject is not reachable from hocuspocus under this URL, configure OPENPROJECT_URL (see README).");
     throw error;
   }
 }
