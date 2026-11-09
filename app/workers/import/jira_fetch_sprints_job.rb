@@ -99,22 +99,13 @@ module Import
 
     # Sprints on issues that no reachable scrum board covers, e.g. of projects without boards.
     def fetch_unstaged_sprints_of_issues(start_id)
-      sprint_ids = sprint_ids_of(issues.where(id: start_id..).limit(ISSUE_BATCH_SIZE))
+      sprint_ids = sprint_field.sprint_ids(issues.where(id: start_id..).limit(ISSUE_BATCH_SIZE))
       staged = Import::JiraSprint.where(jira_import_id: @jira_import.id, origin_id: sprint_ids).pluck(:origin_id)
       (sprint_ids - staged - unavailable_sprint_ids.to_a).each { |sprint_id| fetch_sprint(sprint_id) }
     end
 
-    def sprint_ids_of(batch)
-      sprint_field_keys.flat_map do |key|
-        batch.pluck(Arel.sql(Import::JiraIssue.sanitize_sql(["payload -> 'fields' -> ?", key])))
-             .flat_map { |field_value| Import::JiraSprintValueParser.sprint_ids(field_value) }
-      end.uniq
-    end
-
-    def sprint_field_keys
-      @sprint_field_keys ||= @jira_client.fields
-        .select { |field| field.dig("schema", "custom") == Import::JiraSprintValueParser::SPRINT_FIELD_SCHEMA }
-        .pluck("id")
+    def sprint_field
+      @sprint_field ||= Import::JiraIssueSprintField.new(@jira_client)
     end
 
     def fetch_board_sprints(board)

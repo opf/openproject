@@ -1709,6 +1709,8 @@ en:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
             title: "Create work packages for '%{jira_project_name}'"
+          JiraCreateSprintsJob:
+            title: "Create sprints"
           JiraCreateUsersJob:
             title: "Create users"
           JiraDownloadProjectWorkPackageAttachmentsJob:
