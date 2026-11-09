@@ -2775,7 +2775,7 @@ en:
     failure_message: Consent failed, cannot proceed.
     not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
-    title: User Consent
+    title: User consent
     update_consent_last_time: "Last update of consent: %{update_time}"
     user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
 
@@ -4167,7 +4167,7 @@ en:
   label_completed: Completed
   label_configuration: configuration
   label_confirmation: "Confirmation"
-  label_consent_settings: "User Consent"
+  label_consent_settings: "User consent"
   label_constant_plural: "Constants"
   label_contains: "contains"
   label_content: "Content"
