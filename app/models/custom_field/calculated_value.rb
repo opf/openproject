@@ -48,23 +48,22 @@ module CustomField::CalculatedValue
   # Functions allowed in a formula.
   # AND and OR can be used both as operators and functions.
   FORMULA_FUNCTIONS = %w[
-    IF AND OR XOR NOT SWITCH
-    ROUND ROUNDDOWN ROUNDUP ABS
+    ABS AND IF NOT OR ROUND ROUNDDOWN ROUNDUP SWITCH XOR
   ].freeze
 
   # Functions accepting list and single values as input.
   FORMULA_AGGREGATE_FUNCTIONS = %w[
-    MIN MAX SUM MUL COUNT AVG
+    AVG COUNT MAX MIN MUL SUM
   ].freeze
 
   # Keywords allowed in a formula.
   FORMULA_KEYWORDS = %w[
-    CASE WHEN THEN ELSE END
+    CASE ELSE END THEN WHEN
   ].freeze
 
   # Boolean literals allowed in a formula.
   FORMULA_CONSTANTS = %w[
-    TRUE FALSE
+    FALSE TRUE
   ].freeze
 
   # Longer alternatives must come first, otherwise matching ROUND breaks matching ROUNDUP.
