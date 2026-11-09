@@ -261,6 +261,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     const results = this.querySpace.results.value;
     return this.queryPending
       || this.board.actionAttribute === 'subproject'
+      || this.board.actionAttribute === 'subtasks'
       || this.boardFilters.current.length > 0
       || !!(results && (results.total > results.count || (this.cardDragDrop.workPackages?.length ?? 0) >= results.pageSize));
   }

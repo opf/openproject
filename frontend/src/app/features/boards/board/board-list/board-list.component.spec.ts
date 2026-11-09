@@ -37,6 +37,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { States } from 'core-app/core/states/states.service';
 import { Board } from 'core-app/features/boards/board/board';
+import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
@@ -61,6 +62,7 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { BoardStatusActionService } from '../board-actions/status/status-action.service';
 import { BoardSubprojectActionService } from '../board-actions/subproject/subproject-action.service';
+import { BoardSubtasksActionService } from '../board-actions/subtasks/board-subtasks-action.service';
 import { BoardListComponent, listNeedsReload } from './board-list.component';
 import { BoardListsService } from './board-lists.service';
 
@@ -131,6 +133,7 @@ describe('board list reconciliation after work package saves', () => {
     TestBed.configureTestingModule({ providers: [
       BoardStatusActionService,
       BoardSubprojectActionService,
+      BoardSubtasksActionService,
       { provide: HalEventsService, useValue: { events$: events } },
       { provide: IsolatedQuerySpace, useValue: { results: { value: results }, query: { values$: () => queries } } },
       { provide: WorkPackageStatesInitializationService, useValue: { updateQuerySpace: vi.fn() } },
@@ -166,7 +169,7 @@ describe('board list reconciliation after work package saves', () => {
     ] });
     const statusService = TestBed.inject(BoardStatusActionService);
     await firstValueFrom(statusService.loadAvailable(new Set(), ''));
-    const actionService = action === 'status' ? statusService : TestBed.inject(BoardSubprojectActionService);
+    const actionService = action === 'status' ? statusService : TestBed.inject<BoardActionService>(action === 'subtasks' ? BoardSubtasksActionService : BoardSubprojectActionService);
     registry.get.mockReturnValue(actionService);
     const component = TestBed.runInInjectionContext(() => new BoardListComponent());
     component.board = { actionAttribute: action, isAction: true } as Board;
@@ -175,7 +178,7 @@ describe('board list reconciliation after work package saves', () => {
     const reload = vi.spyOn(component, 'updateQuery').mockImplementation(() => {});
     component.ngOnInit();
     function move(destination = to) {
-      const attribute = action === 'status' ? 'status' : 'project';
+      const attribute = ({ status: 'status', subproject: 'project', subtasks: 'parent' } as Record<string, string>)[action];
       events.next({
         id: '42', resourceType: 'WorkPackage', eventType: 'updated',
         commit: {
@@ -316,6 +319,12 @@ describe('board list reconciliation after work package saves', () => {
     move();
     expect(reload).not.toHaveBeenCalled();
     move(closed);
+    expect(reload).toHaveBeenCalledOnce();
+  });
+
+  it('reconciles the source list of a subtasks move', async () => {
+    const { move, reload } = await list('subtasks');
+    move();
     expect(reload).toHaveBeenCalledOnce();
   });
 
