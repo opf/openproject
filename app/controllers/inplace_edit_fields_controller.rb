@@ -31,6 +31,12 @@
 class InplaceEditFieldsController < ApplicationController
   include OpTurbo::ComponentStream
 
+  # Keyword arguments the controller sets on the field component itself. The client
+  # echoes system arguments back as JSON, so these keys are removed to prevent a request
+  # from overriding them, e.g. the allowlisted attribute. Later versions replace this
+  # by signing the system arguments with a message verifier.
+  SERVER_SIDE_ARGUMENTS = %w[attribute model update_registry].freeze
+
   before_action :find_model
   before_action :set_attribute
   before_action :authorize_project_custom_field_visibility!, if: :custom_field_attribute?
@@ -123,6 +129,8 @@ class InplaceEditFieldsController < ApplicationController
   end
 
   def set_attribute
+    return head :not_found unless OpenProject::InplaceEdit::FieldRegistry.editable?(params[:attribute])
+
     @attribute = params[:attribute].to_sym
   end
 
@@ -144,7 +152,7 @@ class InplaceEditFieldsController < ApplicationController
   end
 
   def custom_field_attribute?
-    @attribute.to_s.start_with?("custom_field_")
+    CustomField.custom_field_attribute?(@attribute)
   end
 
   def custom_field_via_fields_for?
@@ -263,6 +271,7 @@ class InplaceEditFieldsController < ApplicationController
     # Fall back to an empty hash if not present (e.g. in tests or non-JS contexts).
     field_args = stable_key_system_arguments
                    .fetch(stable_key, {})
+                   .except(*SERVER_SIDE_ARGUMENTS)
                    .symbolize_keys
                    .except(:id) # exclude UUID so the component generates a fresh one
 
@@ -303,6 +312,6 @@ class InplaceEditFieldsController < ApplicationController
                                     .filter_map { |v| v["system_arguments_json"] }
                                     .first
 
-    arguments.nil? ? {} : JSON.parse(arguments)
+    arguments.nil? ? {} : JSON.parse(arguments).except(*SERVER_SIDE_ARGUMENTS)
   end
 end
