@@ -183,9 +183,13 @@ RSpec.describe Sprints::Burnup do
     before { story_pointed(sprint_start => { story_points: 10 }) }
 
     it "holds the current scope from now to the end of the planned finish date" do
-      expect(burnup.scope_projection.map(&:value)).to eq [10.0, 10.0]
+      expect(burnup.scope_projection.map(&:value).uniq).to eq [10.0]
       expect(burnup.scope_projection.first.at).to eq now
       expect(burnup.scope_projection.last.at).to eq second_friday.in_time_zone.end_of_day
+    end
+
+    it "is sampled on the same days as the guideline" do
+      expect(burnup.scope_projection.drop(1).map(&:at)).to eq(burnup.guideline.map(&:at).select { it > now })
     end
 
     context "when the sprint has not started" do

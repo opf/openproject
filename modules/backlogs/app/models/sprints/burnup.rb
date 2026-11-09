@@ -47,7 +47,7 @@ module Sprints
     def scope_projection
       return [] unless projecting?
 
-      @scope_projection ||= [scope.last, ChartPoint.new(at: charted_until, value: scope.last.value)]
+      @scope_projection ||= line.from(scope.last, to: scope.last.value)
     end
 
     # A constant rise from what was completed at the start to the scope the chart ends
@@ -56,7 +56,7 @@ module Sprints
     def guideline
       return [] if completed.empty?
 
-      @guideline ||= WorkingDayLine.new(window:, finish: charted_until).from(completed.first, to: scope.last.value)
+      @guideline ||= line.from(completed.first, to: scope.last.value)
     end
 
     delegate :step, :too_long_to_chart?, :non_working_intervals, :charted_range, to: :window
@@ -77,6 +77,10 @@ module Sprints
 
     def sprint_journals
       Journal::WorkPackageJournal.where(project_id: project.id, sprint_id: sprint.id)
+    end
+
+    def line
+      @line ||= WorkingDayLine.new(window:, finish: charted_until)
     end
 
     def projecting?
