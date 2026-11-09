@@ -131,5 +131,24 @@ RSpec.describe OpPrimer::InplaceEditFieldComponent, type: :component do
 
       expect(rendered_content).to include("click-&gt;inplace-edit#openDialog")
     end
+
+    it "passes the system arguments as a signed token in the dialog url" do
+      render_inline(
+        described_class.new(
+          model: project,
+          attribute: :description,
+          open_in_dialog: true,
+          label: "Project description",
+          id: "description-field",
+          update_registry:
+        )
+      )
+
+      dialog_url = page.find("[data-inplace-edit-dialog-url-value]")["data-inplace-edit-dialog-url-value"]
+      token = Rack::Utils.parse_query(URI(dialog_url).query)["system_arguments"]
+
+      expect(OpenProject::InplaceEdit::SystemArguments.verify(token))
+        .to include(label: "Project description", page_component_id: "description-field", writable: true)
+    end
   end
 end

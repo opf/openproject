@@ -39,7 +39,7 @@ gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activerecord-import", "~> 3.0.0"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
-gem "rails", "~> 8.1.3", ">= 8.1.3.1"
+gem "rails", "~> 8.1.4", ">= 8.1.4.1"
 gem "responders", "~> 3.2"
 
 gem "ffi", "~> 1.17"
