@@ -317,8 +317,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe(async (wp:WorkPackageResource) => {
-        this.onCardSaved(wp);
+      .subscribe((wp:WorkPackageResource) => {
+        void this.onCardSaved(wp);
       });
   }
 }

@@ -149,6 +149,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   /**
    * Update the order state
    */
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   public async update(delta:QueryOrder, query = this.currentQuery) {
     if (this.currentQuery === query && (!isPersistedResource(query) || this.positionsOwner === query)) {
       const current = this.positions.getValueOr({});
@@ -309,7 +310,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     const positions = this.positions.value!;
     return sortBy(upstreamOrder, (wp) => {
       const pos = positions[wp.id!];
-      return pos !== undefined ? pos : MAX_ORDER;
+      return pos ?? MAX_ORDER;
     });
   }
 

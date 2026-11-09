@@ -53,7 +53,7 @@ export class ApiV3QueryOrder extends SimpleResource {
       this.path,
     )
       .toPromise()
-      .then((result) => result || {});
+      .then((result) => result ?? {});
   }
 
   public update(delta:QueryOrder):Promise<QueryOrderUpdate> {

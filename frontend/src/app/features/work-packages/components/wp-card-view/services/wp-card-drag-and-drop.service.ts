@@ -349,11 +349,11 @@ export class WorkPackageCardDragAndDropService {
    * Inline create a new card
    */
   public addNewCard() {
-    this.wpCreate
+    void this.wpCreate
       .createOrContinueWorkPackage(this.currentProject.identifier)
       .then((changeset:WorkPackageChangeset) => {
         this.activeInlineCreateWp = changeset.projectedResource;
-        this.workPackages = this.workPackages;
+        this.workPackages = [...this.workPackages];
         this.cardView.cdRef.detectChanges();
       });
   }
