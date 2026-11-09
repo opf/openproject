@@ -71,7 +71,7 @@ RSpec.describe Import::JiraFetchProjectBoardsJob do
     end
 
     it "stages a board shared with an already fetched project only once" do
-      Import::JiraBoard.create!(jira_import:, origin_id: "653", payload: board(653))
+      create(:jira_board, jira_import:, origin_id: "653")
       allow(jira_client).to receive(:board_pages).and_return(pages([board(1), board(653)]).each)
 
       perform

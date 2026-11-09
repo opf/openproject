@@ -66,7 +66,7 @@ RSpec.describe Import::JiraFetchSprintsJob do
   end
 
   def stage_board(id, type = "scrum")
-    Import::JiraBoard.create!(jira_import:, origin_id: id.to_s, payload: { "id" => id, "name" => "Board #{id}", "type" => type })
+    create(:jira_board, jira_import:, origin_id: id.to_s, type:)
   end
 
   def stage_issue(*sprint_ids)

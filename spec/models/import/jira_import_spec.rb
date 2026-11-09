@@ -111,7 +111,7 @@ RSpec.describe Import::JiraImport do
     let!(:jira_user) { create(:jira_user, jira_import:) }
     let!(:jira_attachment) { create(:jira_attachment, jira_import:, jira_project:, jira_issue:) }
     let!(:jira_version) { create(:jira_version, jira_import:, jira_project:) }
-    let!(:jira_board) { Import::JiraBoard.create!(jira_import:, origin_id: "1") }
+    let!(:jira_board) { create(:jira_board, jira_import:) }
     let!(:jira_sprint) { Import::JiraSprint.create!(jira_import:, origin_id: "1") }
 
     it "destroys all associated jira objects" do
