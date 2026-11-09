@@ -33,7 +33,7 @@ module Llm
       def self.available?
         return false unless runtime.ready?
 
-        active_semantic_index&.ready? || false
+        active_semantic_index&.searchable? || false
       end
 
       # Memoized per request: availability check and embedding share one resolution.

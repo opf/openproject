@@ -60,20 +60,21 @@ RSpec.describe Llm::WorkPackages::SemanticSearch,
       end
     end
 
-    it "is false while the active Semantic Index is not ready" do
+    it "is false while the active semantic index has never been indexed" do
       semantic_index = activate_semantic_index
+      semantic_index.update_columns(state: "not_indexed")
 
-      %w[not_indexed indexing failed].each do |state|
-        semantic_index.update_columns(state:)
-
-        expect(described_class).not_to be_available, "expected to be unavailable while #{state}"
-      end
+      expect(described_class).not_to be_available
     end
 
-    it "is true with a ready active Semantic Index" do
-      activate_semantic_index
+    it "is true while the active semantic index is indexing, ready or has failed" do
+      semantic_index = activate_semantic_index
 
-      expect(described_class).to be_available
+      %w[indexing ready failed].each do |state|
+        semantic_index.update_columns(state:)
+
+        expect(described_class).to be_available, "expected to be available while #{state}"
+      end
     end
 
     it "is false when the index model is no longer offered by the server" do
@@ -108,15 +109,15 @@ RSpec.describe Llm::WorkPackages::SemanticSearch,
       expect(session_double).not_to have_received(:embed)
     end
 
-    it "returns nothing while the active Semantic Index is not ready" do
+    it "returns nothing while the active semantic index has never been indexed" do
       semantic_index = activate_semantic_index
-      semantic_index.update_columns(state: "indexing")
+      semantic_index.update_columns(state: "not_indexed")
 
       expect(described_class.query_vector("some query")).to be_nil
       expect(session_double).not_to have_received(:embed)
     end
 
-    context "with a ready active Semantic Index" do
+    context "with a searchable active semantic index" do
       before { activate_semantic_index }
 
       it "embeds the query with the index's model and dimensions" do
