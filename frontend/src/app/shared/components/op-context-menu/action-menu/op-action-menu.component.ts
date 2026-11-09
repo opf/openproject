@@ -68,16 +68,17 @@ function baseKey(item:OpContextMenuItem):string {
 function visible(items:OpContextMenuItem[]):KeyedMenuItem[] {
   const shown = items
     .filter((item) => !item.hidden)
+    .map(({ children, ...item }):Omit<KeyedMenuItem, 'key'> => (children ? { ...item, children: visible(children) } : item))
+    .filter((item) => !item.children || item.children.length > 0)
     .filter((item, index, list) => !item.divider || !list[index - 1]?.divider);
   const trimmed = shown.filter((item, index) => !item.divider || (index > 0 && index < shown.length - 1));
 
   const repeats = new Map<string, number>();
-  return trimmed.map(({ children, ...item }) => {
+  return trimmed.map((item) => {
     const base = baseKey(item);
     const ordinal = repeats.get(base) ?? 0;
     repeats.set(base, ordinal + 1);
-    const key = `${base}:${ordinal}`;
-    return children ? { ...item, key, children: visible(children) } : { ...item, key };
+    return { ...item, key: `${base}:${ordinal}` };
   });
 }
 
