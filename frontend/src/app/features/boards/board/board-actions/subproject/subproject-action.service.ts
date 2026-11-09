@@ -59,6 +59,10 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
     return SubprojectBoardHeaderComponent;
   }
 
+  override affectsOtherCards(workPackage:WorkPackageResource, cards:WorkPackageResource[]):boolean {
+    return cards.some((card) => card.ancestorIds.includes(workPackage.id!));
+  }
+
   canMove(workPackage:WorkPackageResource):boolean {
     // We can only move the work package
     // if the `move` (move between projects) is allowed.

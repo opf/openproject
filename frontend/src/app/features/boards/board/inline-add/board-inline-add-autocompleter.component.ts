@@ -80,12 +80,13 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     }
 
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
-    const results = this.querySpace.results.value;
+    // The rendered cards, as a drag and drop does not refresh the query results
+    const renderedIds = this.wpCardDragDrop.currentOrder;
 
     filters.add('typeahead', '**', [searchString]);
 
-    if (results && results.elements.length > 0) {
-      filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
+    if (renderedIds.length > 0) {
+      filters.add('id', '!', renderedIds);
     }
     // Add the subproject filter, if any
     const query = this.querySpace.query.value;
