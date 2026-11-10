@@ -10,6 +10,8 @@ export function useWorkPackage(wpid:number|undefined) {
   const [loading, setLoading] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // A failed load leaves the loader, so another attempt asks the server again.
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -44,7 +46,7 @@ export function useWorkPackage(wpid:number|undefined) {
       });
 
     return () => { superseded = true; };
-  }, [wpid]);
+  }, [wpid, attempt]);
 
-  return { workPackage, loading, unauthorized, error };
+  return { workPackage, loading, unauthorized, error, retry: () => setAttempt((count) => count + 1) };
 }

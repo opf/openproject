@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { WorkPackageStateLinkEvent } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -119,7 +120,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
-  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
+  @Output() stateLinkClicked = new EventEmitter<WorkPackageStateLinkEvent>();
 
   @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent|KeyboardEvent }>();
 
@@ -222,12 +223,24 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     };
   }
 
-  public activateCard(event:MouseEvent|KeyboardEvent):void {
+  public activateCard(event:Event):void {
+    if (this.workPackage.id === null || !(event instanceof MouseEvent || event instanceof KeyboardEvent)) {
+      return;
+    }
+
     if (event.target instanceof Element && isInsideDisabledControl(event.target)) {
       return;
     }
 
-    this.cardClicked.emit({ workPackageId: this.workPackage.id!, event });
+    this.cardClicked.emit({ workPackageId: this.workPackage.id, event });
+  }
+
+  public emitPointerEvent(output:EventEmitter<{ workPackageId:string, event:MouseEvent }>, event:MouseEvent):void {
+    if (this.workPackage.id === null) {
+      return;
+    }
+
+    output.emit({ workPackageId: this.workPackage.id, event });
   }
 
   cardTitle():string {

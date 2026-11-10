@@ -2,7 +2,7 @@
 ---
 post:
   summary: Meeting create form
-  operationId: meeting_create_form
+  operationId: validate_meeting_create_form
   tags:
     - Meetings
   description: ''

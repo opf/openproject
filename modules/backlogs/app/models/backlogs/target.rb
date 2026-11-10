@@ -46,7 +46,10 @@ module Backlogs
     end
 
     SprintId = Data.define(:id) do
-      def list_type = "sprint"
+      def self.list_type = "sprint"
+      delegate :list_type, to: :class
+
+      def lock_record = Sprint.find_by(id:)
 
       def list_id = id
 
@@ -62,7 +65,10 @@ module Backlogs
     end
 
     BucketId = Data.define(:id) do
-      def list_type = "backlog_bucket"
+      def self.list_type = "backlog_bucket"
+      delegate :list_type, to: :class
+
+      def lock_record = BacklogBucket.find_by(id:)
 
       def list_id = id
 
@@ -79,6 +85,8 @@ module Backlogs
 
     InboxId = Data.define do
       def list_type = "inbox"
+
+      def lock_record = nil
 
       def list_id = nil
 

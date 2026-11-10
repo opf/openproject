@@ -130,7 +130,7 @@ RSpec.describe McpTools::UpdateTimeEntry do
 
       it "responds with an error" do
         mcp_request
-        expect(result_item.fetch("error")).to eq("may not be accessed.")
+        expect(result_item.fetch("error")).to eq("You don't have permissions to edit this time entry.")
       end
 
       it "does not update the time entry" do

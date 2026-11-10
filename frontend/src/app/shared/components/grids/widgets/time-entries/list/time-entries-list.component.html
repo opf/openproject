@@ -9,7 +9,7 @@
 
 <div class="op-widget-box--body">
   @if (noEntries) {
-    <op-no-results [title]="text.noResults" />
+    <op-no-results icon="clock" [headingLevel]="4" [title]="text.noResults" />
   }
 
   @if (!noEntries) {

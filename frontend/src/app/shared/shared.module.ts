@@ -61,7 +61,7 @@ import { ToastComponent } from './components/toaster/toast.component';
 import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
 import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
-import { NoResultsComponent } from './components/no-results/no-results.component';
+import { NoResultsComponent } from './components/blankslate/no-results.component';
 import { EditableToolbarTitleComponent } from './components/editable-toolbar-title/editable-toolbar-title.component';
 import { PersistentToggleComponent } from './components/persistent-toggle/persistent-toggle.component';
 import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/remote-field-updater.component';
@@ -83,6 +83,9 @@ import { OpBreadcrumbsComponent } from './components/breadcrumbs/op-breadcrumbs.
 import { PrimerCounterComponent } from './components/primer/counter.component';
 import { PrimerIconButtonComponent } from './components/primer/icon-button.component';
 import { OpTooltipDirective } from './components/primer/tooltip.directive';
+import { OpActionMenuComponent } from './components/op-context-menu/action-menu/op-action-menu.component';
+import { OpActionMenuTriggerDirective } from './components/op-context-menu/action-menu/op-action-menu-trigger.directive';
+import { DynamicIconDirective } from './components/primer/dynamic-icon.directive';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -120,9 +123,13 @@ export function bootstrapModule(injector:Injector):void {
     FullCalendarModule,
     OpDatePickerModule,
 
+    NoResultsComponent,
     PrimerCounterComponent,
     PrimerIconButtonComponent,
     OpTooltipDirective,
+    OpActionMenuComponent,
+    OpActionMenuTriggerDirective,
+    DynamicIconDirective,
   ],
   exports: [
     // Re-export all commonly used
@@ -199,7 +206,6 @@ export function bootstrapModule(injector:Injector):void {
     // Zen mode button
     ZenModeButtonComponent,
 
-    NoResultsComponent,
     OpBreadcrumbsComponent,
 
     EditableToolbarTitleComponent,

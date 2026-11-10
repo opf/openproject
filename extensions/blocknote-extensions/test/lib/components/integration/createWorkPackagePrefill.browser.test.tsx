@@ -12,7 +12,7 @@ import {
   selectOptionNamed,
 } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
-import { rememberSelection } from '../../../../lib/components/CreateWorkPackage/lastSelection';
+import { rememberChoice } from '../../../../lib/components/CreateWorkPackage/lastChoice';
 import { initEditorContext } from '../../../../lib/services/editorContext';
 import { initializeOpBlockNoteExtensions } from '../../../../lib';
 
@@ -21,8 +21,8 @@ afterEach(() => {
   initEditorContext({});
 });
 
-function remember(selection:Record<string, { href:string; label:string }>) {
-  rememberSelection(selection);
+function remember(choice:Record<string, { href:string; label:string }>) {
+  rememberChoice(choice);
 }
 
 function heldFormLoad():() => void {
@@ -58,7 +58,7 @@ async function createBugAssignedToElif(subject:string) {
   await expect.element(page.getByTestId('block-card')).toBeVisible();
 }
 
-describe('Create work package - prefilled from previous selections', () => {
+describe('Create work package - prefilled from previous choices', () => {
   it('opens the type the project defaults to and asks for what it brings', async () => {
     renderEditor();
     await openCreateModal();

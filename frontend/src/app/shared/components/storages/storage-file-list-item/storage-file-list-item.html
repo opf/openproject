@@ -16,7 +16,7 @@
     >
     @if (!!content.checkbox) {
       <spot-checkbox [checked]="content.disabled || content.checkbox.selected"
-        (checkedChange)="content.checkbox.changeSelection()"
+        (checkedChange)="content.checkbox.changeSelection?.()"
         [disabled]="content.disabled"
        />
     }

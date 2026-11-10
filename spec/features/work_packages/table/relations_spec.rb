@@ -120,17 +120,17 @@ RSpec.describe "Work Package table child relations",
 
     columns.add("Children")
 
-    header_button = find_button(accessible_name: /\Achildren\z/i)
-    expect(page).to be_axe_clean.within(".wp-table--table-header:has(.relations-header--button)")
+    expect(page).to have_button(accessible_name: /\Achildren\z/i)
+    expect(page).to be_axe_clean.within(".wp-table--table-header:has(.relations-header--icon)")
 
-    header_button.send_keys(:enter)
-    within("#column-context-menu") do
+    find(:columnheader, "Children").send_keys(:enter)
+    within(:menu, "Children") do
       expect(page).to have_selector(:menuitem, focused: true)
       expect(page).to have_selector(:menuitem, text: "Insert columns")
     end
 
     page.send_keys(:escape)
-    expect(page).to have_no_css("#column-context-menu")
+    expect(page).to have_no_menu("Children")
     wp_table.expect_focus_on_column_header("Children")
   end
 end

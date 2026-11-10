@@ -44,5 +44,5 @@ get:
   tags:
     - Custom Options
   description: ''
-  operationId: View_Custom_Option
+  operationId: get_custom_option
   summary: View Custom Option

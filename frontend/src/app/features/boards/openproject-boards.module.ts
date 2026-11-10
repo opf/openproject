@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
@@ -64,6 +64,7 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
     // Dynamic Module for actions
     DynamicModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     BoardPartitionedPageComponent,
     BoardListContainerComponent,

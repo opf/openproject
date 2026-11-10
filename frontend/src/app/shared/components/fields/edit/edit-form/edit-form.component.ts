@@ -53,7 +53,7 @@ import { firstValueFrom } from 'rxjs';
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class EditFormComponent extends EditForm<HalResource> implements OnInit, OnDestroy {
+export class EditFormComponent<T extends HalResource = HalResource> extends EditForm<T> implements OnInit, OnDestroy {
   readonly injector:Injector;
   protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private appRef = inject(ApplicationRef);
@@ -62,7 +62,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   protected readonly I18n = inject(I18nService);
   private globalEditFormChangesTrackerService = inject(GlobalEditFormChangesTrackerService);
 
-  @Input() resource:HalResource;
+  @Input() resource:T;
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('inEditMode') initializeEditMode = false;
@@ -70,7 +70,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   @Input() skippedFields:string[] = [];
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix, @angular-eslint/no-output-rename
-  @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
+  @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:T, isInitial:boolean }>();
 
   public fields:Record<string, EditableAttributeFieldComponent> = {};
 
@@ -117,7 +117,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     ctrl.deactivate(focus);
   }
 
-  public onSaved(commit:ResourceChangesetCommit) {
+  public onSaved(commit:ResourceChangesetCommit<T>) {
     this.cancel(false);
     this.onSavedEmitter.emit({ savedResource: commit.resource, isInitial: commit.wasNew });
   }
