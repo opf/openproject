@@ -107,7 +107,8 @@ describe('Create work package from a text selection', () => {
   it('takes a selection that spans lines as a single line of subject', async () => {
     renderEditor();
     await openEditorAndType('Redesign the landing page{Enter}and the footer');
-    await userEvent.keyboard('{Control>}a{/Control}');
+    // The first press selects the current block, the second the whole document.
+    await userEvent.keyboard('{Control>}aa{/Control}');
 
     await openCreateModalFromToolbar();
     await expect.element(page.getByLabelText('Subject *'))

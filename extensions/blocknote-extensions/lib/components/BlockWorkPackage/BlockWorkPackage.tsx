@@ -1,4 +1,5 @@
-import type { BlockNoteEditor, SideMenuExtension } from '@blocknote/core';
+import type { BlockNoteEditor } from '@blocknote/core';
+import type { SideMenuExtension } from '@blocknote/core/extensions';
 import { useSelectedBlocks } from '@blocknote/react';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';

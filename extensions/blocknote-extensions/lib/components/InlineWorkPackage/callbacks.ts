@@ -1,5 +1,6 @@
 import type { PendingMode } from '../WorkPackage/types';
 import type { WorkPackage } from '../../openProjectTypes';
+import { uniqueId } from '../../utils/id';
 
 // Global registry that bridges the slash-menu insertion flow with the
 // pending-chip React component.
@@ -29,11 +30,7 @@ const registry = new Map<string, PendingCallbacks>();
 // callbacks are keyed by the pending chip's own wpid prop rather than a
 // separate instanceId — the chip node needs no extra identifying attribute.
 export function makePendingWpid():string {
-  const token =
-    typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-      ? crypto.randomUUID()
-      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  return `${PENDING_PREFIX}${token}`;
+  return `${PENDING_PREFIX}${uniqueId()}`;
 }
 
 // Returns callbacks if wpid is a pending placeholder, undefined otherwise.
