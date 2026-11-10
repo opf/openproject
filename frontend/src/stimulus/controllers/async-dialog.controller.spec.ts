@@ -29,6 +29,7 @@ import type { FetchResponse } from '@rails/request.js';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
+import type { IToast } from 'core-app/shared/components/toaster/toast.service';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import { TurboHelpers } from 'core-turbo/helpers';
 import type AsyncDialogControllerType from './async-dialog.controller';
@@ -49,6 +50,8 @@ describe('Async dialog controller', () => {
   let AsyncDialogController:typeof AsyncDialogControllerType;
   let showProgressBar:Mock;
   let hideProgressBar:Mock;
+  let toasts:IToast[];
+  const onToast = (event:Event) => toasts.push((event as CustomEvent<IToast>).detail);
 
   beforeAll(async () => {
     ({ default: AsyncDialogController } = await import('./async-dialog.controller'));
@@ -57,6 +60,8 @@ describe('Async dialog controller', () => {
   beforeEach(async () => {
     FetchRequest.mockClear();
     perform.mockReset();
+    toasts = [];
+    window.addEventListener('op:toasters:add', onToast);
     showProgressBar = vi.spyOn(TurboHelpers, 'showProgressBar').mockImplementation(() => undefined);
     hideProgressBar = vi.spyOn(TurboHelpers, 'hideProgressBar').mockImplementation(() => undefined);
 
@@ -66,6 +71,7 @@ describe('Async dialog controller', () => {
   });
 
   afterEach(() => {
+    window.removeEventListener('op:toasters:add', onToast);
     ctx.dispose();
     vi.restoreAllMocks();
   });
@@ -268,29 +274,31 @@ describe('Async dialog controller', () => {
     await waitFor(() => expect(renderTurboStream).toHaveBeenCalledOnce());
     expect(button).not.toHaveAttribute('aria-disabled');
     expect(hideProgressBar).toHaveBeenCalledOnce();
+    expect(toasts).toEqual([]);
   });
 
-  it('rejects a 200 non-Turbo response without rendering and clears loading state', async () => {
+  it('shows an error toast for a 200 non-Turbo response and clears loading state', async () => {
     const { response, renderTurboStream } = nonTurboResponse();
     resolveLikeFetchRequest(response);
     const { button } = await mountPostButton();
     const controller = ctx.getController<AsyncDialogControllerType>('async-dialog', button);
 
-    await expect(trigger(controller)).rejects.toThrow('Response is not a Turbo Stream');
+    await trigger(controller);
 
+    expect(toasts).toEqual([{ type: 'error', message: I18n.t('js.error.internal') }]);
     expect(renderTurboStream).not.toHaveBeenCalled();
     expect(button).not.toHaveAttribute('aria-disabled');
     expect(hideProgressBar).toHaveBeenCalledOnce();
   });
 
-  it('clears loading state when the request rejects', async () => {
-    const error = new Error('network failed');
-    perform.mockRejectedValue(error);
+  it('shows an error toast and clears loading state when the request rejects', async () => {
+    perform.mockRejectedValue(new Error('network failed'));
     const { button } = await mountPostButton();
     const controller = ctx.getController<AsyncDialogControllerType>('async-dialog', button);
 
-    await expect(trigger(controller)).rejects.toBe(error);
+    await trigger(controller);
 
+    expect(toasts).toEqual([{ type: 'error', message: I18n.t('js.error.internal') }]);
     expect(button).not.toHaveAttribute('aria-disabled');
     expect(hideProgressBar).toHaveBeenCalledOnce();
   });

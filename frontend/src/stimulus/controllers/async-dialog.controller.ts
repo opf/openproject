@@ -27,7 +27,9 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { performTurboStreamRequest, withProgressBar } from 'core-stimulus/helpers/request-helpers';
+import { showErrorToast } from 'core-stimulus/helpers/toast-helpers';
 
 export default class AsyncDialogController extends Controller<HTMLElement> {
   static values = { disableDuringLoad: { type: Boolean, default: true } };
@@ -85,6 +87,11 @@ export default class AsyncDialogController extends Controller<HTMLElement> {
         body,
         responseKind: 'turbo-stream',
       })));
+    } catch (error) {
+      // A rejection streams its own flash; only a request that never
+      // produced a stream lands here.
+      debugLog('Failed to load async dialog', error);
+      showErrorToast();
     } finally {
       this.setLoading(false);
     }
