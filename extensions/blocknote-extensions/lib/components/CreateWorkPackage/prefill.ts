@@ -3,7 +3,8 @@ import { fetchAllowedValueById, fetchAllowedValues } from '../../services/openPr
 import { contextProjectId } from '../../services/editorContext';
 import { projectIdFromHref } from '../../utils/id';
 import { allowedValueOf, toAllowedValues } from './formSchema';
-import type { AllowedValue, FieldLabels, FieldValues, FormField } from './formSchema';
+import type { AllowedValue } from '../Shared/options';
+import type { FieldLabels, FieldValues, FormField } from './formSchema';
 import { lastChoice } from './lastChoice';
 import type { FormChoice } from './lastChoice';
 

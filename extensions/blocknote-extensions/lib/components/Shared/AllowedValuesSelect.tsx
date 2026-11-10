@@ -3,7 +3,7 @@ import type { KeyboardEvent, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PickerToggle, toggleList } from './PickerToggle';
 import { Suggestions, usePickerMotion } from './Suggestions';
-import type { AllowedValue, ListedValue } from './formSchema';
+import type { AllowedValue, ListedValue } from './options';
 import {
   OptionColorDot,
   PickerControl,

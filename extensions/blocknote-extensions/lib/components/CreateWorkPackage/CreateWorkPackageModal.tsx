@@ -15,17 +15,19 @@ import { Button } from '../Shared/Button';
 import {
   Body,
   BodyContent,
-  Divider,
   Footer,
-  FooterStatus,
-  Form,
   Header,
   HeaderTitle,
   IconButton,
   Notice,
-  NoticeLink,
   Overlay,
   Panel,
+} from '../Shared/atoms';
+import {
+  Divider,
+  FooterStatus,
+  Form,
+  NoticeLink,
   Spinner,
 } from './atoms';
 

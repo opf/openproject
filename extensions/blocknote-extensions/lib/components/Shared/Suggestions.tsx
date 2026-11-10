@@ -10,7 +10,7 @@ import {
 import { wantsMotion } from '../../utils/motion';
 import { useAnchoredPopover } from '../WorkPackage/anchoredPopover';
 import { useActiveOptionInView } from '../../hooks/useActiveOptionInView';
-import type { AllowedValue, ListedValue } from './formSchema';
+import type { AllowedValue, ListedValue } from './options';
 import {
   ACTION_ICON_SIZE,
   FavoredMark,

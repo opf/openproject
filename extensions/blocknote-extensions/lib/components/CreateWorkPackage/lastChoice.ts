@@ -1,4 +1,4 @@
-import type { AllowedValue } from './formSchema';
+import type { AllowedValue } from '../Shared/options';
 import { createDocumentMemory } from '../../utils/documentMemory';
 
 export type FormChoice = Record<string, AllowedValue>;
