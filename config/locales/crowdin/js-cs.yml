@@ -131,8 +131,8 @@ cs:
     button_confirm: Potvrdit
     button_continue: Pokračovat
     button_copy: Kopírovat
-    button_copy_link_to_clipboard: Kopírovat odkaz do schránky
-    button_copy_numeric_id_to_clipboard: Kopírovat numerické ID do schránky
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopírovat do schránky
     button_copy_to_other_project: Duplikovat v jiném projektu
     button_create: Vytvořit
@@ -207,6 +207,7 @@ cs:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Došlo k chybě v CKEditoru
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uložení dokumentu se nezdařilo s následující chybou: %{error}'
@@ -438,7 +439,6 @@ cs:
     label_assignee: Řešitel
     label_assignee_alt_text: Tento pracovní balíček je přiřazen %{name}
     label_attachments: Přílohy
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: mezi
     label_board: Tabule
@@ -1144,7 +1144,6 @@ cs:
         default_mode: Plochý seznam
         display_settings: Nastavení zobrazení
         display_sums_hint: Zobrazit součty všech sčitatelných atributů v řádku pod tabulkou výsledků.
-        embedded_tab_disabled: Tato karta konfigurace není k dispozici pro embedded zobrazení, které upravujete.
         hierarchy_hint: Všechny filtrované výsledky z tabulky budou rozšířeny o jejich předky. Hierarchii lze rozbalit a sbalit.
         hierarchy_mode: Hierarchie
         highlighting: Zvýraznění

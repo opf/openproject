@@ -152,8 +152,8 @@ cs:
         blankslate_title: Nedostupná data pro Burndown
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -239,6 +239,15 @@ cs:
       widgets:
         burndown_chart:
           title: Burndown chart
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
         created_resolved_chart:
           title: Created vs resolved work packages
         epic_progress:

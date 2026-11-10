@@ -147,7 +147,7 @@ describe('roving tabindex', () => {
     it('takes the header sort link out of the Tab order', async () => {
       const table = await mountConsumer();
 
-      expect(table.headerCells()[0].querySelector('a')).toHaveAttribute('tabindex', '-1');
+      expect(table.headerCells()[0].querySelector('button')).toHaveAttribute('tabindex', '-1');
     });
 
     it('marks the data cells navigable', async () => {

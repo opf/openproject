@@ -131,8 +131,8 @@ ro:
     button_confirm: Confirmă
     button_continue: Continuă
     button_copy: Copiază
-    button_copy_link_to_clipboard: Copiază link-ul în clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copiză în clipboard
     button_copy_to_other_project: Copiază în alt proiect
     button_create: Creează
@@ -207,6 +207,7 @@ ro:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: A apărut o eroare în cadrul CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Salvarea documentului a eșuat cu următoarea eroare: %{error}'
@@ -438,7 +439,6 @@ ro:
     label_assignee: Executant
     label_assignee_alt_text: Acest pachet de lucru este atribuit %{name}
     label_attachments: Atașamente
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: între
     label_board: Tablă
@@ -1132,7 +1132,6 @@ ro:
         default_mode: Listă
         display_settings: Setări afișare
         display_sums_hint: Afișarea sumelor tuturor atributelor însumabile pe un rând sub rezultatele tabelului.
-        embedded_tab_disabled: Această filă de configurare nu este disponibilă pentru vizualizarea încorporată pe care o editezi.
         hierarchy_hint: Toate rezultatele tabelelor filtrate vor fi completate cu strămoșii lor. Ierarhiile pot fi extinse și restrânse.
         hierarchy_mode: Ierarhie
         highlighting: Evidențiere

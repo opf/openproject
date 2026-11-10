@@ -73,7 +73,6 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       get "/projects/#{project.identifier}/backlogs/backlog"
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('data-controller="backlogs--list-refresh backlogs--split-view-sync sortable-lists"')
       expect(response.body).to include(
         %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
       )
@@ -94,6 +93,20 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       expect(response.body).to include(
         "data-sortable-lists-sortable-lists--scrollable-outlet=" \
         "\"#backlogs_container [data-controller~=&#39;sortable-lists--scrollable&#39;]\""
+      )
+    end
+
+    it "points the card menu source at the menu endpoint on the backlogs turbo frame" do
+      get "/projects/#{project.identifier}/backlogs/backlog"
+
+      expect(response.body).to include(
+        'data-controller="backlogs--list-refresh backlogs--split-view-sync sortable-lists sortable-lists--menu-source"'
+      )
+      expect(response.body).to include(
+        %(data-sortable-lists--menu-source-url-value="/projects/#{project.identifier}/backlogs/work_packages/menu")
+      )
+      expect(response.body).to include(
+        'data-sortable-lists--menu-source-menu-label-key-value="js.backlogs.action_menu.menu_label"'
       )
     end
 

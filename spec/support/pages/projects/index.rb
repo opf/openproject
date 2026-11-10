@@ -136,12 +136,12 @@ module Pages
           end
 
           if current_page > 1
-            previous_link = find("a[rel='prev']", visible: true)
+            previous_link = find("a[rel='prev']", visible: :visible)
             previous_uri = URI.parse(previous_link["href"])
             expect(previous_uri.path).to eq(path(model))
             expect(previous_uri.query).to include("page=#{current_page - 1}")
           else
-            next_link = find("a[rel='next']", visible: true)
+            next_link = find("a[rel='next']", visible: :visible)
             next_uri = URI.parse(next_link["href"])
             expect(next_uri.path).to eq(path(model))
             expect(next_uri.query).to include("page=#{current_page + 1}")

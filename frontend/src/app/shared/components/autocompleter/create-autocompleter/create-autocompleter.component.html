@@ -8,7 +8,7 @@
            [required]="required"
            [clearable]="!required"
            [disabled]="disabled"
-           [typeahead]="typeahead"
+           [typeahead]="typeahead ?? localSearch"
            [clearOnBackspace]="false"
            [clearSearchOnAdd]="false"
            [appendTo]="appendTo"
@@ -25,7 +25,7 @@
   </ng-template>
 
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-    <span [ngOptionHighlight]="search"
+    <span
           [textContent]="item.name"
           [ngStyle]="{'padding-left.px': item.depth * 16}"
           class="ng-option-label ellipsis">

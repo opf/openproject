@@ -42,6 +42,7 @@ jobs:
       version: ${{ steps.lockfile.outputs.version }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 2
         with:
           sparse-checkout: frontend/package-lock.json
           sparse-checkout-cone-mode: false
@@ -57,6 +58,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
         with:
           persist-credentials: false
 
@@ -66,6 +68,7 @@ jobs:
           package-manager-cache: false
 
       - name: Install Dependencies
+        timeout-minutes: 5
         run: npm ci
 
       - name: Register plugins
@@ -86,7 +89,9 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v${{ needs.playwright-version.outputs.version }}-noble
       options: --ipc=host
-    timeout-minutes: 15
+    timeout-minutes: 20
+    env:
+      SHARDS: 3
     strategy:
       fail-fast: false
       matrix:
@@ -94,8 +99,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        timeout-minutes: 5
         with:
-          fetch-depth: 0
           persist-credentials: false
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -104,10 +109,17 @@ jobs:
           package-manager-cache: false
 
       - name: Install Dependencies
+        timeout-minutes: 5
         run: npm ci
 
       - name: Register plugins
         run: npm run ci:plugins:register_frontend
+
+      - name: Stub locales
+        # init-locale.ts imports translations from src/locales, which only
+        # Rails fills. Specs stub the loader, but esbuild still warns about
+        # an empty glob without at least one file.
+        run: echo '{}' > src/locales/en.json
 
       - name: Take ownership of HOME
         # Actions points HOME at /github/home, owned by the image's pwuser, and
@@ -115,4 +127,32 @@ jobs:
         run: chown root:root "$HOME"
 
       - name: Test
-        run: npm test -- --browsers ${{ matrix.browser }} --reporters dot --reporters github-actions
+        timeout-minutes: 12
+        # WebKit keeps the memory of every spec iframe until it exits, so one
+        # run over the whole suite exhausts the runner. Each shard starts a
+        # fresh browser.
+        # The shards annotate failures but leave the job summary to the Report
+        # step, which merges their blob reports into one.
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          status=0
+          for shard in $(seq 1 "$SHARDS"); do
+            echo "::group::Shard $shard/$SHARDS"
+            GITHUB_STEP_SUMMARY='' VITEST_SHARD="$shard/$SHARDS" npm test -- --browsers "$BROWSER" --reporters dot --reporters github-actions --reporters blob || status=1
+            echo "::endgroup::"
+          done
+          exit "$status"
+
+      - name: Report
+        if: ${{ !cancelled() }}
+        run: |
+          for shard in $(seq 1 "$SHARDS"); do
+            if [ ! -f ".vitest/blob/blob-$shard-$SHARDS.json" ]; then
+              echo "::error::Shard $shard/$SHARDS left no report, so its specs are missing from the summary."
+              printf '> [!CAUTION]\n> Shard %s/%s crashed before reporting. Its specs are missing below.\n\n' "$shard" "$SHARDS" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+          if ls .vitest/blob/*.json > /dev/null 2>&1; then
+            npx vitest --merge-reports .vitest/blob --reporter=github-actions || true
+          fi

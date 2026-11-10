@@ -31,11 +31,15 @@
 module ITSM
   module Admin
     class HelpdeskSettingsComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(enabled:)
+      attr_reader :wizard
+
+      def initialize(enabled:, wizard:)
         super
         @helpdesk_enabled = enabled
+        @wizard = wizard
       end
 
       def helpdesk_enabled?

@@ -67,7 +67,8 @@ export class GroupSumsBuilder extends SingleRowBuilder {
       if (navigable) {
         td.classList.add(navigableCellClassName);
       }
-      const div = this.renderContent(sums, column.id, this.sumsSchema[column.id] as IFieldSchema);
+      const fieldSchema = this.sumsSchema[column.id] as IFieldSchema|undefined;
+      const div = this.renderContent(sums, column.id, fieldSchema);
 
       if (navigable && div.hasChildNodes()) {
         td.setAttribute('aria-describedby', labelId);
@@ -98,7 +99,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
     return this.schemaCache.state(href).value!;
   }
 
-  private renderContent(sums:GroupObject['sums'], name:string, fieldSchema:IFieldSchema) {
+  private renderContent(sums:GroupObject['sums'], name:string, fieldSchema:IFieldSchema|undefined) {
     const div = document.createElement('div');
     div.classList.add('wp-table--sum-container', name);
 

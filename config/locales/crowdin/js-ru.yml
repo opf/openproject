@@ -131,8 +131,8 @@ ru:
     button_confirm: Подтвердить
     button_continue: Продолжить
     button_copy: Копировать
-    button_copy_link_to_clipboard: Копировать ссылку в буфер обмена
-    button_copy_numeric_id_to_clipboard: Скопировать числовой идентификатор в буфер обмена
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Копировать в буфер обмена
     button_copy_to_other_project: Дублировать в другой проект
     button_create: Создать
@@ -207,6 +207,7 @@ ru:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Произошла ошибка в CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Не удалось сохранить документ по следующей причине: %{error}'
@@ -438,7 +439,6 @@ ru:
     label_assignee: Исполнитель
     label_assignee_alt_text: Этот пакет работ назначен %{name}
     label_attachments: Вложения
-    label_author: 'Автор: %{user}'
     label_avatar: 'Аватар
 
       '
@@ -1142,7 +1142,6 @@ ru:
         default_mode: Простой список
         display_settings: Настройки отображения
         display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под таблицей результатов.
-        embedded_tab_disabled: Эта вкладка конфигурации недоступна для редактируемого вами вида.
         hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их предками. Иерархии можно разворачивать и сворачивать.
         hierarchy_mode: Иерархия
         highlighting: Выделение

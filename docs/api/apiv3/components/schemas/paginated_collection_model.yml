@@ -26,12 +26,12 @@ allOf:
               - $ref: './link.yml'
               - description: |-
                   Templated link to another page offset.
-                  
+
                   **Resource**: Collection
           changeSize:
             allOf:
               - $ref: './link.yml'
               - description: |-
                   Templated link for another page size.
-                  
+
                   **Resource**: Collection

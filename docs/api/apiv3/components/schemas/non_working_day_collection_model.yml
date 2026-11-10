@@ -31,30 +31,30 @@ allOf:
             items:
               $ref: './non_working_day_model.yml'
 
-example:
-  _type: Collection
-  total: 2
-  count: 2
-  _links:
-    self:
-      href: '/api/v3/non_working?filters=[{"interval":{"operator":"<>d","values":["2022-04-29","2022-12-24"]}}]'
-  _embedded:
-    elements:
-      - _type: NonWorkingDay
-        date: '2022-12-24'
-        name: 'Christmas Evening'
-        _links:
-          self:
-            href: /api/v3/days/non_working/2022-04-24
-          weekday:
-            href: /api/v3/days/week/6
-            title: Saturday
-      - _type: NonWorkingDay
-        date: '2022-05-01'
-        name: 'Labor day'
-        _links:
-          self:
-            href: /api/v3/days/non_working/2022-05-01
-          weekday:
-            href: /api/v3/days/week/7
-            title: Sunday
+examples:
+  - _type: Collection
+    total: 2
+    count: 2
+    _links:
+      self:
+        href: '/api/v3/non_working?filters=[{"interval":{"operator":"<>d","values":["2022-04-29","2022-12-24"]}}]'
+    _embedded:
+      elements:
+        - _type: NonWorkingDay
+          date: '2022-12-24'
+          name: 'Christmas Evening'
+          _links:
+            self:
+              href: /api/v3/days/non_working/2022-04-24
+            weekday:
+              href: /api/v3/days/week/6
+              title: Saturday
+        - _type: NonWorkingDay
+          date: '2022-05-01'
+          name: 'Labor day'
+          _links:
+            self:
+              href: /api/v3/days/non_working/2022-05-01
+            weekday:
+              href: /api/v3/days/week/7
+              title: Sunday

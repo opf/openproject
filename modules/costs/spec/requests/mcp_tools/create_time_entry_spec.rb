@@ -115,7 +115,7 @@ RSpec.describe McpTools::CreateTimeEntry do
     end
 
     context "when passing a user" do
-      let(:assigned_user) { create(:user, member_with_permissions: { work_package.project => %i[view_work_package] }) }
+      let(:assigned_user) { create(:user, member_with_permissions: { work_package.project => %i[view_work_packages] }) }
       let(:call_args) do
         {
           data: {

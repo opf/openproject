@@ -74,12 +74,13 @@ module LlmConnections
           disabled: read_only?
         )
 
-        fg.group(layout: :horizontal) do |row|
-          row.text_field(
+        if stored_api_key_shown?
+          fg.html_content { stored_api_key_row }
+        else
+          fg.text_field(
             name: :api_key,
             label: LlmConnection.human_attribute_name(:api_key),
             caption: api_key_caption,
-            placeholder: api_key_placeholder,
             # Never a value, the way Rails' own password_field defaults to
             # render_value: false. Echoing a typed key back put the plaintext in
             # the response body of every failed save, where a proxy, an APM or a
@@ -93,19 +94,6 @@ module LlmConnections
             disabled: read_only?,
             data: { "llm--connection-form-target": "secretInput" }
           )
-
-          if model.api_key_stored? && !read_only?
-            row.button(
-              name: :remove_api_key,
-              tag: :a,
-              label: I18n.t("admin.llm_connections.form.api_key_remove"),
-              scheme: :danger,
-              mt: 4,
-              href: url_helpers.delete_api_key_dialog_llm_connection_path,
-              data: { controller: "async-dialog" },
-              test_selector: "llm-connection--remove-api-key"
-            )
-          end
         end
       end
 
@@ -168,15 +156,53 @@ module LlmConnections
                          visibility_class: "d-none") }
     end
 
+    def stored_api_key_shown?
+      model.api_key_stored? && !read_only?
+    end
+
+    def stored_api_key_row
+      render(Primer::BaseComponent.new(tag: :div, classes: "FormControl")) do
+        render(
+          Primer::OpenProject::FlexLayout.new(
+            align_items: :flex_end,
+            classes: "FormControl-input-wrap FormControl-input-width--large"
+          )
+        ) do |flex|
+          flex.with_column(flex: 1) { render(masked_api_key_field) }
+          flex.with_column(ml: 2) { render(remove_api_key_button) }
+        end
+      end
+    end
+
+    def masked_api_key_field
+      Primer::Alpha::TextField.new(
+        name: :saved_api_key,
+        label: LlmConnection.human_attribute_name(:api_key),
+        input_width: :large,
+        disabled: true,
+        value: "*********",
+        validation_message: model.errors.full_messages_for(:api_key).first
+      )
+    end
+
+    def remove_api_key_button
+      Primer::Beta::IconButton.new(
+        icon: :trash,
+        scheme: :danger,
+        size: :medium,
+        tag: :a,
+        href: url_helpers.delete_api_key_dialog_llm_connection_path,
+        "aria-label": I18n.t("admin.llm_connections.form.api_key_remove"),
+        data: { controller: "async-dialog" },
+        test_selector: "llm-connection--remove-api-key"
+      )
+    end
+
     def api_key_caption
       return I18n.t("admin.llm_connections.form.api_key_caption_env") if read_only?
       return I18n.t("admin.llm_connections.form.api_key_caption_discarded") if model.api_key_changed?
 
-      I18n.t("admin.llm_connections.form.api_key_caption#{'_stored' if model.api_key_stored?}")
-    end
-
-    def api_key_placeholder
-      I18n.t("admin.llm_connections.form.api_key_placeholder_stored") if model.api_key_stored?
+      I18n.t("admin.llm_connections.form.api_key_caption")
     end
   end
 end

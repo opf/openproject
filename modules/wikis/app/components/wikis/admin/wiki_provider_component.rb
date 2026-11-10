@@ -33,5 +33,9 @@ module Wikis::Admin
     include OpTurbo::Streamable
 
     alias_method :wiki_provider, :model
+
+    def initialize(model:, **)
+      super(model, **)
+    end
   end
 end

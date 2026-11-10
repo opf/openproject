@@ -129,8 +129,8 @@ es:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copiar enlace al portapapeles
-    button_copy_numeric_id_to_clipboard: Copiar ID numérico al portapapeles
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copiar en el portapapeles
     button_copy_to_other_project: Duplicar en otro proyecto
     button_create: Crear
@@ -205,6 +205,7 @@ es:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Se ha producido un error dentro de CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
@@ -436,7 +437,6 @@ es:
     label_assignee: Asignado a
     label_assignee_alt_text: Este paquete de trabajo está asignado a %{name}
     label_attachments: Archivos adjuntos
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: entre
     label_board: Tablero
@@ -1122,7 +1122,6 @@ es:
         default_mode: Lista plana
         display_settings: Configuración de visualización
         display_sums_hint: Muestra las sumas de todos los atributos que pueden sumarse en una fila debajo de los resultados de la tabla.
-        embedded_tab_disabled: Esta pestaña de configuración no está disponible para la vista insertada que está editando.
         hierarchy_hint: A todos los resultados de la tabla filtrada se le añadirán sus antecesores. Las jerarquías se pueden expandir y contraer.
         hierarchy_mode: Jerarquía
         highlighting: Resaltado

@@ -143,6 +143,72 @@ RSpec.describe Import::JiraClient do
     end
   end
 
+  describe "#resolutions", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:body) { [{ "id" => "10000", "name" => "Done" }, { "id" => "10001", "name" => "Won't Do" }] }
+
+    it "returns all resolutions of the instance" do
+      stub_request(:get, "#{url}/rest/api/2/resolution")
+        .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
+
+      expect(client.resolutions).to eq(body)
+    end
+  end
+
+  describe "#resolutions_count", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:headers) { { "Content-Type" => "application/json" } }
+
+    it "returns the total of the paged resolutions" do
+      stub_request(:get, "#{url}/rest/api/2/resolution/page")
+        .with(query: { maxResults: 0 })
+        .to_return(status: 200, body: { "total" => 7, "values" => [] }.to_json, headers:)
+
+      expect(client.resolutions_count).to eq(7)
+    end
+
+    context "when the paged resolutions are not supported" do
+      it "counts all resolutions of the instance" do
+        stub_request(:get, "#{url}/rest/api/2/resolution/page")
+          .with(query: { maxResults: 0 })
+          .to_return(status: 404, body: { "errorMessages" => [] }.to_json, headers:)
+        stub_request(:get, "#{url}/rest/api/2/resolution")
+          .to_return(status: 200, body: [{ "id" => "10000" }, { "id" => "10001" }].to_json, headers:)
+
+        expect(client.resolutions_count).to eq(2)
+      end
+    end
+  end
+
+  describe "#administrator?", :webmock do
+    include_context "with ssrf stubs"
+
+    before do
+      stub_request(:get, "#{url}/rest/api/2/mypermissions")
+        .to_return(status: 200, body: mypermissions.to_json, headers: { "Content-Type" => "application/json" })
+    end
+
+    context "when the credentials hold the ADMINISTER permission" do
+      let(:mypermissions) { { "permissions" => { "ADMINISTER" => { "havePermission" => true } } } }
+
+      it { expect(client).to be_administrator }
+    end
+
+    context "when the credentials lack the ADMINISTER permission" do
+      let(:mypermissions) { { "permissions" => { "ADMINISTER" => { "havePermission" => false } } } }
+
+      it { expect(client).not_to be_administrator }
+    end
+
+    context "when Jira does not report the ADMINISTER permission" do
+      let(:mypermissions) { { "permissions" => {} } }
+
+      it { expect(client).not_to be_administrator }
+    end
+  end
+
   describe "#custom_field_options", :webmock do
     include_context "with ssrf stubs"
 

@@ -120,7 +120,8 @@ RSpec.describe "baseline rendering",
                            priority: default_priority,
                            subject: "Old subject",
                            start_date: "2023-05-01",
-                           due_date: "2023-05-02")
+                           due_date: "2023-05-02",
+                           estimated_hours: 5)
       work_package.target_version_ids_replacements = [version_a.id]
       work_package.save!
       work_package
@@ -136,7 +137,8 @@ RSpec.describe "baseline rendering",
           assigned_to: user,
           responsible: user,
           priority: high_priority,
-          target_version_ids: [version_b.id]
+          target_version_ids: [version_b.id],
+          estimated_hours: 8
         )
         .on_failure { |result| raise result.message }
         .result
@@ -264,7 +266,7 @@ RSpec.describe "baseline rendering",
     query.timestamps = ["P-2d", "PT0S"]
     query.add_filter("type_id", "=", [type_task.id, type_milestone.id])
     query.column_names =
-      %w[id subject status type start_date due_date version priority assigned_to responsible] +
+      %w[id subject status type start_date due_date version priority assigned_to responsible estimated_hours] +
         CustomField.pluck(:id).map { |id| "cf_#{id}" }
 
     query
@@ -309,7 +311,8 @@ RSpec.describe "baseline rendering",
                                          version: ["Version A", "Version B"],
                                          priority: ["Default", "High priority"],
                                          assignee: ["Assigned User", "Itsa Me"],
-                                         responsible: ["Assigned User", "Itsa Me"]
+                                         responsible: ["Assigned User", "Itsa Me"],
+                                         estimatedTime: %w[5h 8h]
 
       changed_header = wp_table.row(wp_task_changed).find(:element, :th, scope: "row", role: "rowheader",
                                                                          accessible_name: "New subject", exact: true)

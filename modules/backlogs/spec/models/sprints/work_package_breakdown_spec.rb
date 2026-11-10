@@ -280,6 +280,83 @@ RSpec.describe Sprints::WorkPackageBreakdown do
         expect(result.removed_estimated_hours).to eq(11)
       end
     end
+
+    context "when work packages staying in the sprint were re-estimated" do
+      let(:before_start) { sprint.start_date - 1.day }
+      let(:during_sprint) { sprint.start_date + 2.days }
+
+      let!(:increased_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                              story_points: 8, estimated_hours: 6.5,
+                              journals: {
+                                before_start => { story_points: 3, estimated_hours: 4.25 },
+                                during_sprint => {}
+                              })
+      end
+
+      let!(:decreased_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_closed,
+                              story_points: 5, estimated_hours: 7,
+                              journals: {
+                                before_start => { story_points: 8, estimated_hours: 10 },
+                                during_sprint => {}
+                              })
+      end
+
+      let!(:newly_estimated_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                              story_points: 1, estimated_hours: 2,
+                              journals: {
+                                before_start => { story_points: nil, estimated_hours: nil },
+                                during_sprint => {}
+                              })
+      end
+
+      let!(:unestimated_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                              story_points: nil, estimated_hours: nil,
+                              journals: {
+                                before_start => { story_points: 2, estimated_hours: 1.5 },
+                                during_sprint => {}
+                              })
+      end
+
+      let!(:added_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                              story_points: 2, estimated_hours: 3,
+                              journals: { during_sprint => {} })
+      end
+
+      let!(:removed_work_package) do
+        create(:work_package, project:, type: type_feature, status: issue_open,
+                              story_points: 4, estimated_hours: 6,
+                              journals: {
+                                before_start => { sprint_id: sprint.id },
+                                during_sprint => {}
+                              })
+      end
+
+      it "counts increases as added and decreases as removed, ignoring the unchanged stable work package" do
+        expect(breakdown.changed_after_start).to have_attributes(
+          added_count: 1,
+          removed_count: 1,
+          added_story_points: 2 + (8 - 3) + 1,
+          removed_story_points: 4 + (8 - 5) + 2,
+          added_estimated_hours: be_within(0.001).of(3 + (6.5 - 4.25) + 2),
+          removed_estimated_hours: be_within(0.001).of(6 + (10 - 7) + 1.5)
+        )
+      end
+
+      it "reconciles the initially planned scope and its change with the completed and unfinished work" do
+        change = breakdown.changed_after_start
+        finished = [breakdown.completed, breakdown.unfinished]
+
+        expect(breakdown.initially_planned.story_points + change.added_story_points - change.removed_story_points)
+          .to eq(finished.sum(&:story_points))
+        expect(breakdown.initially_planned.estimated_hours + change.added_estimated_hours - change.removed_estimated_hours)
+          .to be_within(0.001).of(finished.sum(&:estimated_hours))
+      end
+    end
   end
 
   describe "#added_after_start_ids and #removed_after_start_ids" do
@@ -326,6 +403,35 @@ RSpec.describe Sprints::WorkPackageBreakdown do
 
     it "returns the ids of the work packages that left the sprint" do
       expect(breakdown.removed_after_start_ids).to contain_exactly(removed_work_package.id)
+    end
+  end
+
+  describe "a running sprint while the clock moves on" do
+    let(:sprint) do
+      create(:sprint, project:, status: "active",
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
+    end
+
+    let!(:closed_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_closed, story_points: 3,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+        .tap { backdate_creation_journal(it) }
+    end
+
+    before do
+      # Each call to `Time.zone.now` will advance one second on top of the original time => Simulate a timing issue
+      # that happens when start and finish instants are not memoized properly and reference_finish is called
+      # twice in a row.
+      # If that happens close to a full second, the time might have moved on and the two timestamps won't match.
+      # This spec provokes this behavior, so it fails every time if the memoization is removed from the implementation.
+      seconds = 0
+      allow(Time.zone).to(receive(:now).and_wrap_original { |original| original.call + (seconds += 1).seconds })
+    end
+
+    it "samples and reads the finish at the same instant" do
+      expect(breakdown.completed).to have_attributes(work_package_count: 1, story_points: 3)
     end
   end
 end

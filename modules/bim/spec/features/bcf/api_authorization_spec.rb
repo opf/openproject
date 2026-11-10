@@ -124,7 +124,7 @@ RSpec.describe "authorization for BCF api",
     # While being logged in, the api can be accessed with the session
     visit("/api/bcf/2.1/projects/#{project.id}")
     expect(page)
-      .to have_content(JSON.dump({ project_id: project.id, name: project.name }))
+      .to have_text(JSON.dump({ project_id: project.id, name: project.name }))
 
     logout
 
@@ -135,7 +135,7 @@ RSpec.describe "authorization for BCF api",
 
     # Cancel button of basic auth should have been chosen now
     expect(page)
-      .to have_content(JSON.dump({ message: "You need to be authenticated to access this resource." }))
+      .to have_text(JSON.dump({ message: "You need to be authenticated to access this resource." }))
 
     ## Without the access token, access is denied
     api_session = ActionDispatch::Integration::Session.new(Rails.application)

@@ -51,6 +51,7 @@ module Import
         jira_import = Import::JiraImport.find(jira_import_id)
         jira = jira_import.jira
         @client = jira.client
+        ensure_administrator_credentials!(jira)
         jira_import.update!(available: collect_metadata)
         jira_import.transition_to!(:instance_meta_done)
         Rails.logger.info "Fetching instance meta data finished"
@@ -62,9 +63,16 @@ module Import
       jira_import&.transition_to!(:instance_meta_error, error: e.message, error_backtrace: e.backtrace)
     end
 
+    def ensure_administrator_credentials!(jira)
+      return if @client.administrator?
+
+      raise I18n.t(:"admin.jira.run.not_administrator_error.#{jira.auth_method}")
+    end
+
     def collect_metadata
       issue_types_count = @client.issue_types_count
       statuses_count = @client.statuses_count
+      resolutions_count = @client.resolutions_count
       issues_count = @client.issues_count
       users_count = @client.applicationrole.inject(0) do |users_count, application|
         users_count + application["userCount"]
@@ -75,6 +83,7 @@ module Import
         "projects" => projects,
         "total_issues" => issues_count,
         "total_statuses" => statuses_count,
+        "total_resolutions" => resolutions_count,
         "total_issue_types" => issue_types_count,
         "total_users" => users_count,
         "server_info" => server_info

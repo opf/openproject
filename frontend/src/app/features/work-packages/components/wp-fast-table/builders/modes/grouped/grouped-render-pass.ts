@@ -95,7 +95,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    * Find a matching group for the given work package.
    * The API sadly doesn't provide us with the information which group a WP belongs to.
    */
-  private matchingGroup(workPackage:WorkPackageResource) {
+  private matchingGroup(workPackage:WorkPackageResource):GroupObject|null {
     return this.groups.find((group:GroupObject) => {
       let property = workPackage[groupByProperty(group)];
       // explicitly check for undefined as `false` (bool) is a valid value.
@@ -127,7 +127,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       // Values provided by the API are always string
       // so avoid triple equal here
       return value == property;
-    })!;
+    }) ?? null;
   }
 
   private hasHref(value:unknown):value is { href:string } {

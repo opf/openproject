@@ -1,0 +1,27 @@
+.type-form-configuration-query-summary
+  display: grid
+  grid-template-columns: fit-content(40%) minmax(0, 1fr)
+  column-gap: var(--base-size-16)
+  row-gap: var(--base-size-8)
+  margin: var(--base-size-8) 0 0
+
+  &--item
+    display: grid
+    grid-column: 1 / -1
+    grid-template-columns: subgrid
+    row-gap: var(--base-size-4)
+
+  &--term,
+  &--description
+    min-width: 0
+    overflow-wrap: anywhere
+
+  &--term
+    grid-column: 1
+    grid-row: 1
+    font-weight: normal
+    color: var(--fgColor-muted)
+
+  &--description
+    grid-column: 2
+    margin: 0
