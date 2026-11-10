@@ -35,6 +35,7 @@ RSpec.describe "Show burndown chart", :js do
 
   shared_let(:project) { create(:project, enabled_module_names: %w(backlogs)) }
   shared_let(:sprint) { create(:sprint, status: "active", project:, start_date: 1.week.ago, finish_date: 1.week.from_now) }
+  shared_let(:work_package) { create(:work_package, project:, sprint:, story_points: 3) }
 
   let(:planning_page) { Pages::Backlog.new(project) }
   let(:role) do
