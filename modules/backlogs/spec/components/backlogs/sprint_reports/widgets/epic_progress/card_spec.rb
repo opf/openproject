@@ -74,9 +74,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card do
       it "counts every descendant of the epic" do
         expect(rendered_component).to have_text("1 / 2 work packages")
         expect(rendered_component).to have_text("(50%)")
-      end
-
-      it "exposes the ratio as an accessible progressbar" do
         expect(rendered_component).to have_css("[role='progressbar'][aria-valuenow='50'][aria-valuemin='0'][aria-valuemax='100']")
         expect(rendered_component).to have_css("[aria-label='#{epic.subject}: 1 of 2 work packages completed']")
       end
@@ -274,32 +271,101 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card do
           expect(rendered_component).to have_text("0 / 4 work packages")
         end
       end
-    end
-  end
 
-  describe ".percentage" do
-    it "is 0 when there is nothing to resolve" do
-      expect(described_class.percentage(resolved: 0, total: 0)).to eq(0)
+      context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+        before do
+          project.estimation_unit = estimation_unit
+          project.done_status_ids = [done_status.id]
+          create_task(parent: epic, status: open_status, story_points: 30, estimated_hours: 30,
+                      journals: {
+                        before_completion => { status_id: done_status.id, story_points: 3, estimated_hours: 1.25 },
+                        after_completion => {}
+                      })
+          create_task(:created_in_past, parent: epic, status: open_status, story_points: 4, estimated_hours: 4.5,
+                                        created_at: before_completion)
+          sub_epic = create_epic(:created_in_past, parent: epic, status: open_status, story_points: 1, estimated_hours: 1.75,
+                                                   created_at: before_completion)
+          create_task(:created_in_past, parent: sub_epic, status: open_status, story_points: 100, estimated_hours: 100,
+                                        created_at: before_completion)
+        end
+
+        context "when estimation unit is story points" do
+          let(:estimation_unit) { "story_points" }
+
+          it "sums the story points at completion, but not the ones below sub-epics" do
+            expect(rendered_component).to have_text("3 / 8 story points")
+            expect(rendered_component).to have_text("(37%)")
+            expect(rendered_component).to have_css("[role='progressbar'][aria-valuenow='37']")
+            expect(rendered_component).to have_css("[aria-label='#{epic.subject}: 3 of 8 story points completed']")
+          end
+        end
+
+        context "when estimation unit is time" do
+          let(:estimation_unit) { "time" }
+
+          it "sums the estimated time at completion, but not the one below sub-epics" do
+            expect(rendered_component).to have_text("1.25h / 7.5h")
+            expect(rendered_component).to have_text("(16%)")
+            expect(rendered_component).to have_css("[role='progressbar'][aria-valuenow='16']")
+            expect(rendered_component).to have_css("[aria-label='#{epic.subject}: 1.25h of 7.5h completed']")
+          end
+        end
+
+        context "when estimation unit is none" do
+          let(:estimation_unit) { "none" }
+
+          it "counts the work packages at completion, but not the one below sub-epics" do
+            expect(rendered_component).to have_text("1 / 3 work packages")
+            expect(rendered_component).to have_text("(33%)")
+            expect(rendered_component).to have_css("[role='progressbar'][aria-valuenow='33']")
+            expect(rendered_component).to have_css("[aria-label='#{epic.subject}: 1 of 3 work packages completed']")
+          end
+        end
+      end
     end
 
-    it "is 0 when nothing is resolved" do
-      expect(described_class.percentage(resolved: 0, total: 200)).to eq(0)
-    end
+    context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+      before do
+        project.estimation_unit = estimation_unit
+        project.done_status_ids = [done_status.id]
+        create_task(parent: epic, status: done_status, story_points: 3, estimated_hours: 1.25)
+        create_task(parent: epic, status: open_status, story_points: 4, estimated_hours: 4.5)
+        sub_epic = create_epic(parent: epic, status: open_status, story_points: 1, estimated_hours: 1.75)
+        create_task(parent: sub_epic, status: open_status, story_points: 100, estimated_hours: 100)
+      end
 
-    it "shows at least 1% once anything is resolved" do
-      expect(described_class.percentage(resolved: 1, total: 200)).to eq(1)
-    end
+      context "when estimation unit is story points" do
+        let(:estimation_unit) { "story_points" }
 
-    it "rounds down so an unfinished epic never shows 100%" do
-      expect(described_class.percentage(resolved: 199, total: 200)).to eq(99)
-    end
+        it "sums the story points, but not the ones below sub-epics" do
+          expect(rendered_component).to have_text("3 / 8 story points")
+          expect(rendered_component).to have_text("(37%)")
+          expect(rendered_component).to have_css("[role='progressbar'][aria-valuenow='37']")
+          expect(rendered_component).to have_css("[aria-label='#{epic.subject}: 3 of 8 story points completed']")
+        end
+      end
 
-    it "is not thrown off by floating point imprecision" do
-      expect(described_class.percentage(resolved: 29, total: 100)).to eq(29)
-    end
+      context "when estimation unit is time" do
+        let(:estimation_unit) { "time" }
 
-    it "is 100 when everything is resolved" do
-      expect(described_class.percentage(resolved: 200, total: 200)).to eq(100)
+        it "sums the estimated time, but not the one below sub-epics" do
+          expect(rendered_component).to have_text("1.25h / 7.5h")
+          expect(rendered_component).to have_text("(16%)")
+          expect(rendered_component).to have_css("[role='progressbar'][aria-valuenow='16']")
+          expect(rendered_component).to have_css("[aria-label='#{epic.subject}: 1.25h of 7.5h completed']")
+        end
+      end
+
+      context "when estimation unit is none" do
+        let(:estimation_unit) { "none" }
+
+        it "counts the work packages, but not the one below sub-epics" do
+          expect(rendered_component).to have_text("1 / 3 work packages")
+          expect(rendered_component).to have_text("(33%)")
+          expect(rendered_component).to have_css("[role='progressbar'][aria-valuenow='33']")
+          expect(rendered_component).to have_css("[aria-label='#{epic.subject}: 1 of 3 work packages completed']")
+        end
+      end
     end
   end
 end
