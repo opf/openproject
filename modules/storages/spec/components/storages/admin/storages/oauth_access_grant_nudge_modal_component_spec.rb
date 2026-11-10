@@ -45,7 +45,7 @@ RSpec.describe Storages::Admin::Storages::OAuthAccessGrantNudgeModalComponent, t
     )
 
     expect(page).to have_button("Close")
-    expect(page).to have_button("Nextcloud log in", aria: { label: "Login to #{storage.name}" })
+    expect(page).to have_button("Nextcloud log in", aria: { label: "Nextcloud log in to #{storage.name}" })
   end
 
   context "with no storage" do
