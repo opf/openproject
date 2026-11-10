@@ -54,7 +54,9 @@ RSpec.describe CustomFields::UpdateContract do
                     content_right_to_left: custom_field_right_to_left,
                     custom_field_section_id: custom_field_custom_field_section_id,
                     allow_non_open_versions: custom_field_allow_non_open_versions,
-                    project_specific_value_restriction: custom_field_project_specific_value_restriction)
+                    project_specific_value_restriction: custom_field_project_specific_value_restriction,
+                    allow_additional_project_values: custom_field_allow_additional_project_values,
+                    project_level_value_management: custom_field_project_level_value_management)
     end
 
     subject(:contract) { described_class.new(custom_field, current_user) }

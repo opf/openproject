@@ -513,6 +513,8 @@ class PermittedParams
           :user_self_editable,
           :visible_on_user_card,
           :project_specific_value_restriction,
+          :allow_additional_project_values,
+          :project_level_value_management,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
