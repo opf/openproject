@@ -38,6 +38,7 @@ log/*.log
 /tmp
 frontend/.angular/cache
 frontend/node_modules
+packages/service-worker/node_modules
 node_modules
 # travis
 vendor/bundle

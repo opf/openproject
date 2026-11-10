@@ -74,8 +74,8 @@ namespace :assets do
     end
 
     puts "Building service worker"
-    Dir.chdir Rails.root.join("frontend") do
-      sh("npm run build:service-worker") do |ok, res|
+    Dir.chdir Rails.root.join("packages/service-worker") do
+      sh("npm run build") do |ok, res|
         raise "Failed to build the service worker: #{res.exitstatus}" if !ok
       end
     end

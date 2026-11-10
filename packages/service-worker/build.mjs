@@ -30,7 +30,9 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const frontendDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const packageDir = path.dirname(fileURLToPath(import.meta.url));
+const devOutdir = path.resolve(packageDir, '../../frontend/tmp/service-worker');
+const releaseOutdir = path.resolve(packageDir, '../../public/assets/frontend');
 const args = process.argv.slice(2);
 const dev = args.includes('--dev');
 const watch = args.includes('--watch');
@@ -45,8 +47,8 @@ const unhashed = dev || outdirArg !== undefined;
 const outdir = outdirArg
   ? path.resolve(process.cwd(), outdirArg)
   : dev
-    ? path.join(frontendDir, 'tmp/service-worker')
-    : path.resolve(frontendDir, '../public/assets/frontend');
+    ? devOutdir
+    : releaseOutdir;
 
 if (!dev && !outdirArg && !existsSync(outdir)) {
   console.error(`${outdir} does not exist. Run the Angular build (ng build) before building the service worker.`);
@@ -54,12 +56,12 @@ if (!dev && !outdirArg && !existsSync(outdir)) {
 }
 
 const options = {
-  entryPoints: [path.join(frontendDir, 'src/service-worker/main.ts')],
+  entryPoints: [path.join(packageDir, 'src/main.ts')],
   bundle: true,
   format: 'iife',
   platform: 'browser',
   target: 'es2022',
-  tsconfig: path.join(frontendDir, 'tsconfig.sw.json'),
+  tsconfig: path.join(packageDir, 'tsconfig.json'),
   outdir,
   entryNames: unhashed ? 'service-worker' : 'service-worker-[hash]',
   minify: !dev,

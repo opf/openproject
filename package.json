@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "herb:lint": "herb-lint",
-    "postinstall": "npm -C frontend install",
+    "postinstall": "npm -C frontend install && npm -C packages/service-worker install",
     "test": "npm -C frontend test",
     "serve": "npm -C frontend run serve",
     "serve:public": "npm -C frontend exec -- ng serve --host 0.0.0.0"

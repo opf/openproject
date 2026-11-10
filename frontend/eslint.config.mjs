@@ -238,18 +238,6 @@ export default defineConfig([
     },
   },
   {
-    // Keeps the plan free of worker globals and config so unit specs can run it under the DOM lib.
-    files: ['src/service-worker/notification-plan.ts'],
-    rules: {
-      'no-restricted-imports': ['error', {
-        patterns: [{
-          regex: '^(?!\\./constants$)',
-          message: 'The notification plan must stay pure: import only ./constants.',
-        }],
-      }],
-    },
-  },
-  {
     files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
     plugins: { '@stylistic': stylistic },
     rules: {

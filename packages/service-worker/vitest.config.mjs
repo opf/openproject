@@ -25,22 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-// Specs compile against the DOM lib, so the worker types their imports need are declared here.
-// They are written by hand because adding the WebWorker lib to the spec compile would expose
-// every worker global to every app spec. The worker build checks the same code against the real lib.
-interface WindowClient {
-  readonly url:string;
-  readonly focused:boolean;
-  readonly visibilityState:DocumentVisibilityState;
-  focus():Promise<WindowClient>;
-  navigate(url:string):Promise<WindowClient|null>;
-}
+import { defineConfig } from 'vitest/config';
 
-interface ServiceWorkerGlobalScope {
-  readonly location:Location;
-  readonly registration:ServiceWorkerRegistration;
-  readonly clients:{
-    matchAll(options?:{ type?:'window'; includeUncontrolled?:boolean }):Promise<WindowClient[]>;
-    openWindow(url:string):Promise<WindowClient|null>;
-  };
-}
+export default defineConfig({
+  test: {
+    globals: true,
+    setupFiles: ['./vitest.setup.ts'],
+    include: ['src/**/*.spec.ts'],
+  },
+});
