@@ -40,6 +40,9 @@ module API
 
         property :name
 
+        property :description,
+                 render_nil: true
+
         property :color,
                  getter: ->(*) { color&.hexcode },
                  render_nil: true

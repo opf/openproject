@@ -164,6 +164,13 @@ module WorkPackageTypes
       def sortable_list_type
         ::Type.model_name.param_key
       end
+
+      def header_classes(type)
+        class_names(
+          "op-type-group-header",
+          "op-type-group-header_with-description" => type.description.present?
+        )
+      end
     end
   end
 end

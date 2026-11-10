@@ -36,6 +36,7 @@ module WorkPackageTypes
     def self.model = TypeVariant
 
     attribute :variant_name
+    attribute :description
 
     # The owner an :error_unauthorized is raised over, so it has to be writable for the rule in
     # AuthorizesVariantAuthoring to be the one that decides.
