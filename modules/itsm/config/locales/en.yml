@@ -40,10 +40,13 @@ en:
       models:
         itsm/email_message:
           delivery_failed: The email could not be sent.
+          delivery_rejected: The SMTP server rejected the email.
           not_delivered: The email was not sent because all recipients are blocked or the email limit is reached.
         itsm/email_thread:
           address_not_allowed: The SMTP server address is not allowed.
           no_outgoing_mailbox: The project has no outgoing mailbox.
+          too_many_confirmations: Too many confirmations were sent to the requester recently.
+          unreachable: The SMTP server could not be reached.
     models:
       itsm/email_message:
         one: Email message
