@@ -187,39 +187,6 @@ RSpec.describe ITSM::InboundEmail do
       end
     end
 
-    context "with styling and active content in an HTML version" do
-      let(:raw) do
-        "From: jane@customer.example\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" \
-          "<html><head><link rel=\"stylesheet\" href=\"https://styles.example/mail.css\"></head><body>" \
-          "<p style=\"color: red; background: url(https://tracker.example/pixel.gif)\" onclick=\"alert(1)\">Hello</p>" \
-          "<img src=\"https://tracker.example/pixel.gif\" onerror=\"alert(1)\">" \
-          "<iframe src=\"https://frame.example\">frame</iframe><object>object</object>" \
-          "<!-- hidden comment --><svg><style>p { display: none }</style></svg>" \
-          "</body></html>"
-      end
-
-      it "keeps only the visible text" do
-        expect(text).to eq("Hello")
-      end
-    end
-
-    context "with links in an HTML version" do
-      let(:raw) do
-        "From: jane@customer.example\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" \
-          "<p>See <a href=\"https://shop.example/orders/123\">my order</a>, " \
-          "<a href=\"https://shop.example\">https://shop.example</a>, " \
-          "<a href=\"mailto:jane@customer.example\">Jane</a>, " \
-          "<a href=\"mailto:joe@customer.example\">joe@customer.example</a>, " \
-          "<a href=\"#top\">top</a> and " \
-          "<a href=\"javascript:alert(1)\">this</a>.</p>"
-      end
-
-      it "keeps web and email addresses, but not anchors or unsafe targets" do
-        expect(text).to eq("See my order (https://shop.example/orders/123), https://shop.example, " \
-                           "Jane (jane@customer.example), joe@customer.example, top and this.")
-      end
-    end
-
     context "with an attached text file and an HTML body" do
       let(:raw) do
         Mail.new do

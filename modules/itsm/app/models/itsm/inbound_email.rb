@@ -31,7 +31,6 @@ module ITSM
   class InboundEmail
     Headers = Data.define(:message_id, :in_reply_to, :references, :from_address, :from_name,
                           :to_addresses, :cc_addresses, :subject)
-    LINK_TARGET = /\A(https?|mailto):/i
 
     def initialize(raw)
       @raw = raw
@@ -88,23 +87,9 @@ module ITSM
     def part_text(part)
       case part.mime_type
       when nil, "text/plain" then valid_utf8(part.decoded.to_s)
-      when "text/html" then html_to_text(valid_utf8(part.decoded))
+      when "text/html" then HtmlToText.call(valid_utf8(part.decoded))
       else ""
       end
-    end
-
-    def html_to_text(html)
-      document = Loofah.html5_document(html).scrub!(:prune)
-      document.css("a[href]").each { |link| link.replace(document.create_text_node(link_text(link))) }
-      document.to_text(encode_special_chars: false)
-    end
-
-    def link_text(link)
-      text = link.text.strip
-      return text unless link["href"].match?(LINK_TARGET)
-
-      target = link["href"].delete_prefix("mailto:")
-      text.empty? || text == target ? target : "#{text} (#{target})"
     end
 
     def email_addresses(addresses) = addresses.select { EmailValidator.valid?(it) }
