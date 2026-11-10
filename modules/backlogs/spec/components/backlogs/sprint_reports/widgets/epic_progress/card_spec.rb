@@ -32,8 +32,12 @@ require "rails_helper"
 
 RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card do
   describe "component", type: :component do
-    let!(:epic_type) { create(:type, name: "Epic") }
-    let(:task_type) { create(:type_task) }
+    shared_let(:epic_type) { create(:type, name: "Epic") }
+    shared_let(:task_type) { create(:type_task) }
+    shared_let(:done_status) { create(:status) }
+    shared_let(:open_status) { create(:status) }
+    shared_let(:closed_status) { create(:closed_status) }
+
     let(:project) { create(:project, types: [epic_type, task_type].compact) }
     let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
     let(:sprint) { create(:sprint, project:) }
@@ -61,9 +65,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card do
     end
 
     context "when computing progress counts" do
-      let(:done_status) { create(:status) }
-      let(:open_status) { create(:status) }
-
       before do
         project.done_status_ids = [done_status.id]
         create_task(parent: epic, status: done_status)
@@ -82,9 +83,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card do
     end
 
     context "when the resolved ratio is not a whole percentage" do
-      let(:done_status) { create(:status) }
-      let(:open_status) { create(:status) }
-
       before do
         project.done_status_ids = [done_status.id]
         create_task(parent: epic, status: done_status)
@@ -98,9 +96,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card do
     end
 
     context "when a descendant has a globally closed status the project has not added to done_status_ids" do
-      let(:closed_status) { create(:closed_status) }
-      let(:open_status) { create(:status) }
-
       before do
         project.done_status_ids = []
         create_task(parent: epic, status: closed_status)
@@ -215,8 +210,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card do
       let!(:epic) { create_epic(:created_in_past, created_at: before_completion - 1.day) }
 
       context "when computing progress counts" do
-        let(:done_status) { create(:status) }
-
         before do
           project.done_status_ids = [done_status.id]
           create_task(:created_in_past, parent: epic, status: done_status, created_at: before_completion)
