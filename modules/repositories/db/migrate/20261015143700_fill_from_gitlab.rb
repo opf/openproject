@@ -33,7 +33,7 @@ require Rails.root.join("db/migrate/migration_utils/utils")
 class FillFromGitlab < ActiveRecord::Migration[8.1]
   include Migration::Utils
 
-  # rubocop:disable-next Metrics/AbcSize, Layout/LineLength
+  # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity, Layout/LineLength
   def up
     return if !table_exists?(:gitlab_merge_requests) || !table_exists?(:gitlab_issues)
 
