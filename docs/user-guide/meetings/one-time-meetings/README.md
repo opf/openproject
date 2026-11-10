@@ -268,7 +268,7 @@ Each user can have one vote per item. Clicking your selected vote again removes 
 >
 > Votes stay with an item when it is moved between sections of the same meeting. Moving an item to another meeting resets its votes.
 
-### Agenda backlog
+### Agenda backlogs
 
 An **agenda backlog** is a special pre-existing section below the actual meeting agenda where additional agenda items can be listed before being added to that particular meeting. This allows users to propose topics that are then picked up by the meeting organizer either before or during the actual meeting. 
 
@@ -548,7 +548,7 @@ When a meeting is closed, you can still copy a link to a specific agenda item or
 
 ### Re-open a meeting
 
-Once a meeting has been closed, it can no longer be edited. Project  members with the permission to edit and close meetings will, however,  see a **Re-open meeting** option. Clicking on this re-opens a meeting and allows further editing.
+Once a meeting has been closed, it can no longer be edited. Project  members with the permission to edit and close meetings will, however,  see a **Reopen meeting** option. Clicking on this re-opens a meeting and allows further editing.
 
 ![Re-open a meeting in OpenProject](openproject_userguide_meetings_reopen_meeting.png)
 
