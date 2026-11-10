@@ -88,8 +88,8 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
   target.addEventListener('turbo:render', runOnRenderAndLoad, { signal });
   target.addEventListener('DOMContentLoaded', runOnRenderAndLoad, { signal });
 
-  // The loading indicator could get stuck after navigating back if the snapshot stored
-  // the visible loading indicator of an in-flight request.
+  // Keeps an in-flight request's loading indicator out of Turbo Drive snapshots, which would
+  // otherwise restore it visible on Back.
   target.addEventListener('turbo:before-cache', () => {
     const indicator = target.querySelector<HTMLElement>('#global-loading-indicator');
     if (indicator) hideElement(indicator);
