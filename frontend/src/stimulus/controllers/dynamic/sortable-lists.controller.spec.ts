@@ -1336,15 +1336,144 @@ describe('Sortable lists controller', () => {
       await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
     });
 
-    it('clears the selection after a successful collection move', async () => {
-      const { root, items } = renderBatchMenuFixture();
-      await ctx.nextFrame();
-      selectItems(items[1], items[2]);
+    describe('selection after the move', () => {
+      const movedEvent = 'sortable-lists:test-move-completed';
+      const reportMove = () => fireEvent(document, new CustomEvent(movedEvent));
+      const settled = (root:HTMLElement) => waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
 
-      controllerFor(root).moveInDirection(items[1], 'down');
+      function streamResponse(status = 200):Response {
+        return new Response('<turbo-stream></turbo-stream>', {
+          status,
+          headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+        });
+      }
 
-      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
-      expect(selectedIds(root)).toEqual([]);
+      async function renderSelectedBatch() {
+        const elements = renderBatchMenuFixture();
+        elements.root.setAttribute('data-action', `${movedEvent}@document->sortable-lists#clearSelectionAfterMove`);
+        await ctx.nextFrame();
+        selectItems(elements.items[1], elements.items[2]);
+
+        return elements;
+      }
+
+      it('keeps the selection and anchor after a same-list batch move succeeds', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        reportMove();
+
+        expect(selectedIds(root)).toEqual(['2', '3']);
+        fireEvent.click(items[3], { shiftKey: true });
+        expect(selectedIds(root)).toEqual(['4', '2', '3']);
+      });
+
+      it('clears on a foreign moved event while a batch move is pending, even if that move then fails', async () => {
+        let resolveMove!:(response:Response) => void;
+        fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+          resolveMove = resolve;
+        }));
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        reportMove();
+        expect(selectedIds(root)).toEqual([]);
+        resolveMove(streamResponse(422));
+        await settled(root);
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('forgets an expected moved event when the root disconnects', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = await renderSelectedBatch();
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+
+        root.remove();
+        await ctx.nextFrame();
+        fixture.append(root);
+        await ctx.nextFrame();
+        selectItems(items[1], items[2]);
+        reportMove();
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('keeps the selection across two quick same-list batch moves', async () => {
+        fetchMock.mockImplementation(() => Promise.resolve(streamResponse()));
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        controllerFor(root).moveInDirection(items[1], 'up');
+        await settled(root);
+        reportMove();
+        reportMove();
+
+        expect(fetchMock).toHaveBeenCalledTimes(2);
+        expect(selectedIds(root)).toEqual(['2', '3']);
+      });
+
+      it('clears on a moved event the root did not cause', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        reportMove();
+        reportMove();
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('does not swallow a later moved event after a failed batch move', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse(422));
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        expect(selectedIds(root)).toEqual(['2', '3']);
+        reportMove();
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('does not swallow a later moved event after a 200 non-Turbo response', async () => {
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        reportMove();
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('sends the retained batch as the next menu scope', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = await renderSelectedBatch();
+        items[0].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        reportMove();
+
+        expect(controllerFor(root).selectForAction(items[1]).items).toEqual([items[1], items[2]]);
+      });
+
+      it('clears the selection after a single-card move', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = renderBatchMenuFixture();
+        await ctx.nextFrame();
+        selectItems(items[1]);
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+
+        expect(selectedIds(root)).toEqual([]);
+      });
     });
 
     it('rolls a rejected collection move back and preserves the selection', async () => {
@@ -3573,7 +3702,7 @@ describe('Sortable lists controller', () => {
       expect(rowIdsIn(list1)).toEqual(['3', '1', '2']);
     });
 
-    it('clears same-list presentation and the range anchor after optimistic success', async () => {
+    it('keeps same-list presentation and the range anchor after optimistic success', async () => {
       root.setAttribute('data-sortable-lists-selection-description-id-value', 'selected-description');
       item1.setAttribute('aria-describedby', 'own-description');
       await ctx.nextFrame();
@@ -3584,11 +3713,10 @@ describe('Sortable lists controller', () => {
       await simulateDrop({ source: item1, targetList: list1, targetItem: item3, edge: 'bottom' });
 
       expect(list1.contains(item1)).toBe(true);
-      expect(selectedRowIds()).toEqual([]);
-      expect(item1.getAttribute('aria-describedby')).toBe('own-description');
-      expect(item2.hasAttribute('aria-describedby')).toBe(false);
+      expect(selectedRowIds()).toEqual(['1', '2']);
+      expect(item1.getAttribute('aria-describedby')).toBe('own-description selected-description');
       click(item3, { shiftKey: true });
-      expect(selectedRowIds()).toEqual(['3']);
+      expect(selectedRowIds()).toEqual(['3', '1']);
     });
 
     it('retains a Shift-built range after cancellation and a failed retry', async () => {
@@ -3657,11 +3785,18 @@ describe('Sortable lists controller', () => {
       expect(body.getAll('ids[]')).toEqual(['2']);
     });
 
-    it('clears the selection after a successful move', async () => {
-      // select 1 and 3, successful batch drop:
+    it('keeps the selection after a successful move within the list', async () => {
       selectItems(item1, item3);
 
       await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+      expect(selectedRowIds()).toEqual(['1', '3']);
+    });
+
+    it('clears the selection after a successful move to another list', async () => {
+      selectItems(item1, item3);
+
+      await simulateDrop({ source: item1, targetList: list2, targetItem: null, edge: null });
 
       expect(selectedRowIds()).toEqual([]);
     });

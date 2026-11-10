@@ -133,6 +133,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   private monitorCleanupFn?:CleanupFn;
   private healScheduled = false;
   private reconcileScheduled = false;
+  private ownMovedEventsExpected = 0;
   private inFlightMoveRequests = 0;
 
   connect():void {
@@ -163,6 +164,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   disconnect():void {
     this.element.removeEventListener('turbo:morph-element', this.scheduleRegistrationHeal);
     this.teardownSelection();
+    this.ownMovedEventsExpected = 0;
     this.monitorCleanupFn?.();
     this.monitorCleanupFn = undefined;
     // A drag in flight when the controller disconnects would otherwise leave
@@ -267,9 +269,23 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   // The move dialogs submit outside this root; the server's moved event
-  // is the only success signal it gets.
+  // is the only success signal it gets. A move this root requested settles
+  // its own selection, and its event arrives a frame after the response.
   clearSelectionAfterMove():void {
+    if (this.ownMovedEventsExpected > 0) {
+      this.ownMovedEventsExpected -= 1;
+      return;
+    }
+
     this.selection?.clearSilently();
+  }
+
+  // Turbo dispatches the response's moved event after the next repaint; a
+  // disconnected root would never hear it.
+  private expectOwnMovedEvent():void {
+    if (this.element.isConnected) {
+      this.ownMovedEventsExpected += 1;
+    }
   }
 
   // The drag in flight, or the prospective session of a press that did not
@@ -691,6 +707,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     try {
       const response = await withProgressBar(performTurboStreamRequest(request));
       if (response.ok) {
+        this.expectOwnMovedEvent();
         this.selection?.clearSilently();
       }
     } catch (error) {
@@ -795,6 +812,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       listName: listData.name,
       crossList: rows.some((row) => row.parentElement !== rowsContainer),
     };
+    const retainSelection = rows.length > 1 && !announcementContext.crossList;
     const rollback = captureRowPositions(rows);
     reorderRows({ rows, rowsContainer, previousItemId });
 
@@ -814,9 +832,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     const result = await this.moveItem({ listData, previousItemId, moveUrl, items });
 
     if (result.ok) {
-      // Movement clears selection and anchor; failure preserves both for a
-      // retry. performMove is the shared boundary for the menu path too.
-      this.selection?.clearSilently();
+      // A batch reordered within its list stays selected, anchor included,
+      // so it can be moved again; any other movement clears both. Failure
+      // preserves them for a retry.
+      if (!retainSelection) {
+        this.selection?.clearSilently();
+      }
       return;
     }
 
@@ -906,6 +927,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
       if (!response.ok) {
         debugLog(`Failed to move sortable list item: ${response.statusCode}`);
+      } else if (response.isTurboStream) {
+        this.expectOwnMovedEvent();
       }
 
       return response.ok

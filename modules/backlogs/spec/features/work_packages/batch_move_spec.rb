@@ -140,6 +140,7 @@ RSpec.describe "Backlogs batch move", :js, :selenium, :settings_reset do
     backlogs_page.expect_backlogs_container_not_reloaded
     wait_for { sprint.work_packages_for(project).pluck(:id) }
       .to eq [sprint_wp3.id, sprint_wp1.id, sprint_wp2.id]
+    expect(backlogs_page.selected_card_ids).to eq([sprint_wp1, sprint_wp2].map { it.id.to_s })
   end
 
   it "moves a batch into an empty list" do

@@ -71,10 +71,9 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
       items: [stories[2], stories[3], stories[0], stories[1], stories[4], stories[5]]
     )
     live_region.expect_announcement("2 work packages moved to positions 1 through 2 of 6")
-    backlogs_page.expect_no_selected_cards
+    backlogs_page.expect_selected_cards_in_order(stories[2], stories[3])
     backlogs_page.expect_backlogs_axe_clean
 
-    backlogs_page.select_contiguous_cards(stories[2], stories[3])
     backlogs_page.move_selected_cards(invoker: stories[3], action: "Move down")
 
     backlogs_page.expect_sprint_items_in_order(
@@ -101,9 +100,8 @@ RSpec.describe "Move selected backlog cards to a position via their menu",
       sprint,
       items: [stories[0], stories[1], stories[4], stories[5], stories[2], stories[3]]
     )
-    backlogs_page.expect_no_selected_cards
+    backlogs_page.expect_selected_cards_in_order(stories[2], stories[3])
 
-    backlogs_page.select_contiguous_cards(stories[2], stories[3])
     backlogs_page.move_selected_cards(invoker: stories[2], action: "Move up")
 
     backlogs_page.expect_sprint_items_in_order(
