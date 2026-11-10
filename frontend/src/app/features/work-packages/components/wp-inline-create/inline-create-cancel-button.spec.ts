@@ -42,39 +42,39 @@ describe('InlineCreateCancelButton', () => {
     TestBed.resetTestingModule();
   });
 
-  it('renders an invisible icon button named by its label', () => {
+  it('renders an invisible icon button named by its label', async () => {
     const cancelButton = mount();
 
-    const button = screen.getByRole('button', { name: 'Cancel' });
+    const button = await screen.findByRole('button', { name: 'Cancel' });
     expect(button).toHaveClass('Button--invisible', 'Button--iconOnly');
     expect(cancelButton.element).toHaveClass(inlineCreateCancelClassName);
   });
 
-  it('cancels on click', () => {
+  it('cancels on click', async () => {
     const onCancel = vi.fn();
     mount(onCancel);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Cancel' }));
 
     expect(onCancel).toHaveBeenCalledOnce();
   });
 
-  it('keeps working after its element moves to another cell', () => {
+  it('keeps working after its element moves to another cell', async () => {
     const onCancel = vi.fn();
     const cancelButton = mount(onCancel);
     const cell = document.createElement('td');
     document.body.append(cell);
 
     cell.append(cancelButton.element);
-    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Cancel' }));
 
     expect(onCancel).toHaveBeenCalledOnce();
   });
 
-  it('leaves the DOM and stops responding once destroyed', () => {
+  it('leaves the DOM and stops responding once destroyed', async () => {
     const onCancel = vi.fn();
     const cancelButton = mount(onCancel);
-    const button = screen.getByRole('button', { name: 'Cancel' });
+    const button = await screen.findByRole('button', { name: 'Cancel' });
 
     cancelButton.destroy();
     fireEvent.click(button);

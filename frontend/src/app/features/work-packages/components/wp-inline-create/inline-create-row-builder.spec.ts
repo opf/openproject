@@ -53,11 +53,11 @@ describe('InlineCreateRowBuilder', () => {
 
   const cancelButtons = (row:HTMLElement) => row.querySelectorAll(`.${inlineCreateCancelClassName}`);
 
-  const expectCancelBesideField = (row:HTMLTableRowElement) => {
+  const expectCancelBesideField = async (row:HTMLTableRowElement) => {
     const cell = row.lastElementChild as HTMLTableCellElement;
     const cellBox = cell.getBoundingClientRect();
     const fieldBox = cell.querySelector('.wp-table--cell-container')!.getBoundingClientRect();
-    const buttonBox = within(cell).getByRole('button', { name: 'Cancel' }).getBoundingClientRect();
+    const buttonBox = (await within(cell).findByRole('button', { name: 'Cancel' })).getBoundingClientRect();
 
     expect(getComputedStyle(cell).display).toBe('table-cell');
     expect(cellBox.height).toBe(row.getBoundingClientRect().height);
@@ -88,7 +88,7 @@ describe('InlineCreateRowBuilder', () => {
       const row = table.addInlineCreateRow();
 
       expect(cancelButtons(row)).toHaveLength(1);
-      expect(within(row.lastElementChild as HTMLElement).getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+      expect(await within(row.lastElementChild as HTMLElement).findByRole('button', { name: 'Cancel' })).toBeInTheDocument();
       expect(row.querySelectorAll('td.wp-table--cancel-create-td')).toHaveLength(0);
     });
 
@@ -97,7 +97,7 @@ describe('InlineCreateRowBuilder', () => {
 
       const row = table.addInlineCreateRow();
 
-      const button = within(row.lastElementChild as HTMLElement).getByRole('button', { name: 'Cancel' });
+      const button = await within(row.lastElementChild as HTMLElement).findByRole('button', { name: 'Cancel' });
       expect(button).toHaveAttribute('type', 'button');
       expect(button.closest(`.${inlineCreateCancelClassName}`)).not.toBeNull();
     });
@@ -108,7 +108,7 @@ describe('InlineCreateRowBuilder', () => {
       const row = table.addInlineCreateRow();
 
       expect(cancelButtons(row)).toHaveLength(1);
-      expectCancelBesideField(row);
+      await expectCancelBesideField(row);
     });
 
     it('keeps the Cancel button beside the field in a right-to-left table', async () => {
@@ -119,9 +119,9 @@ describe('InlineCreateRowBuilder', () => {
 
       const cell = row.lastElementChild as HTMLTableCellElement;
       const field = cell.querySelector('.wp-table--cell-container')!;
-      expect(within(cell).getByRole('button', { name: 'Cancel' }).getBoundingClientRect().right)
+      expect((await within(cell).findByRole('button', { name: 'Cancel' })).getBoundingClientRect().right)
         .toBeLessThanOrEqual(field.getBoundingClientRect().left);
-      expectCancelBesideField(row);
+      await expectCancelBesideField(row);
     });
 
     it('keeps the Cancel button beside an effort field', async () => {
@@ -132,7 +132,7 @@ describe('InlineCreateRowBuilder', () => {
       const row = table.addInlineCreateRow();
 
       expect(row.lastElementChild).toHaveClass('estimatedTime');
-      expectCancelBesideField(row);
+      await expectCancelBesideField(row);
     });
 
     it('keeps the cell count and button after refreshRow', async () => {
@@ -161,7 +161,7 @@ describe('InlineCreateRowBuilder', () => {
       expect(Array.from(row.cells).every((cell) => cell.tagName === 'TD')).toBe(true);
       expect(within(row).queryAllByRole('rowheader')).toEqual([]);
       expect(row).not.toHaveAttribute('aria-labelledby');
-      expect(within(row.lastElementChild as HTMLElement).getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+      expect(await within(row.lastElementChild as HTMLElement).findByRole('button', { name: 'Cancel' })).toBeInTheDocument();
     }
   });
 
@@ -188,7 +188,7 @@ describe('InlineCreateRowBuilder', () => {
       await waitFor(() => expect(editedCell.querySelector('input.inline-edit--field')).toHaveFocus());
 
       expect(row.lastElementChild).toBe(editedCell);
-      expectCancelBesideField(row);
+      await expectCancelBesideField(row);
     });
 
     it('keeps the cell count and button while the last column is being edited', async () => {
@@ -248,7 +248,7 @@ describe('InlineCreateRowBuilder', () => {
 
       expect(row.lastElementChild).toBe(editedCell);
       expect(cancelButtons(row)).toHaveLength(1);
-      expect(within(editedCell).getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+      expect(await within(editedCell).findByRole('button', { name: 'Cancel' })).toBeInTheDocument();
       expect(editedCell).toHaveClass('wp-table--cancel-create-host');
     });
   });
