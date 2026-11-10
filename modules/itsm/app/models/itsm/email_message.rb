@@ -29,8 +29,17 @@
 
 module ITSM
   class EmailMessage < ApplicationRecord
+    # RFC 5322 limits a header line to 998 bytes, which also fits the indexes on the Message-ID.
+    MESSAGE_ID_MAX_BYTES = 998
+    STATUSES = {
+      "inbound" => %w[received processed ignored failed],
+      "outbound" => %w[queued sent failed]
+    }.freeze
+
     belongs_to :thread, class_name: "ITSM::EmailThread", inverse_of: :messages, optional: false
     belongs_to :journal, optional: true
+
+    scope :in_project, ->(project) { joins(thread: :work_package).where(work_packages: { project_id: project.id }) }
 
     enum :direction, { inbound: "inbound", outbound: "outbound" }, validate: true
     enum :status,
@@ -47,7 +56,17 @@ module ITSM
     normalizes :from_address, with: EmailAddress::NORMALIZE
     normalizes :to_addresses, :cc_addresses, with: EmailAddress::NORMALIZE_ALL
 
-    validates :message_id, presence: true, length: { maximum: 255 }, uniqueness: { scope: :thread_id }
+    validates :message_id, presence: true, uniqueness: { scope: :thread_id }
+    validate :message_id_fits_a_header_line
+    validates :status, inclusion: { in: ->(message) { STATUSES.fetch(message.direction, []) } }
     validates :from_address, presence: true
+
+    private
+
+    def message_id_fits_a_header_line
+      return if message_id.to_s.bytesize <= MESSAGE_ID_MAX_BYTES
+
+      errors.add(:message_id, :too_long, count: MESSAGE_ID_MAX_BYTES)
+    end
   end
 end

@@ -31,5 +31,9 @@ module ITSM
   module EmailAddress
     NORMALIZE = ->(address) { address.strip.downcase }
     NORMALIZE_ALL = ->(addresses) { addresses.compact.map(&NORMALIZE).compact_blank.uniq }
+
+    def self.helpdesk_addresses
+      IncomingMailbox.pluck(:email, :aliases).flatten + OutgoingMailbox.pluck(:sender_email)
+    end
   end
 end
