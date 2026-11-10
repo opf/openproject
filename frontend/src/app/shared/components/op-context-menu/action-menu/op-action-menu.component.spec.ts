@@ -357,6 +357,7 @@ describe('OpActionMenuComponent', () => {
 @Component({
   imports: [OpActionMenuComponent, OpActionMenuTriggerDirective],
   template: `
+    <input aria-label="Elsewhere field">
     <op-action-menu [items]="items" label="Subject menu" align="end" (opening)="opened = opened + 1" (closed)="reasons.push($event)">
       <button opActionMenuTrigger>Subject</button>
     </op-action-menu>
@@ -468,11 +469,11 @@ describe('OpActionMenuComponent with a projected trigger', () => {
   it('keeps focus on an outside control clicked while open (real pointer)', async () => {
     await openWithClick();
 
-    await userEvent.click(screen.getByRole('button', { name: 'Elsewhere' }));
+    await userEvent.click(screen.getByRole('textbox', { name: 'Elsewhere field' }));
     await settle();
 
     expect(host.reasons).toEqual(['outside']);
-    expect(screen.getByRole('button', { name: 'Elsewhere' })).toHaveFocus();
+    expect(screen.getByRole('textbox', { name: 'Elsewhere field' })).toHaveFocus();
   });
 
   it('keeps focus where Tab moved it (real keyboard)', async () => {
