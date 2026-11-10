@@ -15,7 +15,7 @@ export interface WorkPackageAttributeProps {
 
 // Long text attributes are blocks, everything else sits inline. A block wraps
 // its macro in a paragraph, so the markdown export keeps it apart from its
-// neighbours while the paragraph parser leaves the block itself alone.
+// neighbors while the paragraph parser leaves the block itself alone.
 export type AttributeNodeKind = 'inline' | 'block';
 
 const NODES = {
