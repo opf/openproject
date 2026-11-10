@@ -42,6 +42,18 @@ RSpec.describe Import::JiraImport do
     it { is_expected.to have_many(:transitions).class_name("Import::JiraImportTransition").dependent(:destroy) }
   end
 
+  describe "#server_version" do
+    it "reads the version from the fetched server info" do
+      jira_import.update!(available: { "server_info" => { "version" => "10.3.11" } })
+
+      expect(jira_import.server_version.to_s).to eq("10.3.11")
+    end
+
+    it "is unknown before the instance meta data is fetched" do
+      expect(jira_import.server_version.status).to eq(:unknown)
+    end
+  end
+
   describe "#state_machine" do
     it "returns an instance of JiraImportStateMachine" do
       expect(jira_import.state_machine).to be_a(Import::JiraImportStateMachine)

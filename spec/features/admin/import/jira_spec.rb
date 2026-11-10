@@ -51,6 +51,26 @@ RSpec.describe "Jira instance configuration", :js do
       expect(page).to have_current_path(admin_import_jira_index_path)
     end
 
+    context "when testing a personal access token against Jira 8" do
+      let(:jira_client) do
+        instance_double(Import::JiraClient, server_info: { "serverTitle" => "Jira", "version" => "8.20.30" })
+      end
+
+      before do
+        allow(Import::JiraClient).to receive(:new).and_return(jira_client)
+      end
+
+      it "selects basic auth and disables the personal access token" do
+        fill_in "Jira Server/Data Center URL", with: "https://jira.example.com"
+        fill_in "Personal access token (PAT)", with: "secret_token"
+        click_on "Test Connection"
+
+        expect(page).to have_text("Jira 8.20.30 requires basic auth")
+        expect(page).to have_checked_field("Basic auth")
+        expect(page).to have_field("Personal access token (PAT)", type: "radio", disabled: true)
+      end
+    end
+
     it "does not restore form values when navigating back after a successful creation" do
       expect(page).to have_unchecked_field("Exclude resolution fields for this configuration")
 

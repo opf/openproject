@@ -107,6 +107,10 @@ module Import
       (projects || []).pluck("id")
     end
 
+    def server_version
+      Import::JiraServerVersion.from_server_info(available["server_info"])
+    end
+
     # rubocop:disable-next Metrics/AbcSize
     def destroy_jira_objects
       Import::JiraAttachment.where(jira_import_id: id).destroy_all

@@ -82,7 +82,7 @@ module Admin::Import
       redirect_to(edit_admin_import_jira_path(@jira), status: :see_other)
     end
 
-    # rubocop:disable-next Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def test_connection
       url = params["url"]
 
@@ -101,6 +101,9 @@ module Admin::Import
                                            basic_auth_password:)
 
       server_info = jira_client.server_info
+      server_version = Import::JiraServerVersion.from_server_info(server_info)
+
+      return require_basic_auth(server_version) unless server_version.supports_auth_method?(params["auth_method"])
 
       unless jira_client.administrator?
         return render_error_flash_message_via_turbo_stream(
@@ -108,7 +111,7 @@ module Admin::Import
         )
       end
 
-      render_test_result(server_info)
+      render_test_result(server_info, server_version)
     rescue StandardError => e
       handle_test_error(e)
     ensure
@@ -180,14 +183,27 @@ module Admin::Import
       "#{t(:"admin.jira.test.error")}: #{error.message}"
     end
 
-    def render_test_result(response)
+    def require_basic_auth(server_version)
+      render_error_flash_message_via_turbo_stream(
+        message: t(:"admin.jira.test.basic_auth_required", version: server_version)
+      )
+      dispatch_event_via_turbo_stream(Admin::Import::Jira::FormComponent::BASIC_AUTH_REQUIRED_EVENT)
+    end
+
+    def render_test_result(response, server_version)
       if response.is_a?(Hash)
         server = response["serverTitle"] || Import::Jira.model_name
-        version = response["version"] || "?"
+        version = server_version.to_s.presence || "?"
         render_success_flash_message_via_turbo_stream(message: t(:"admin.jira.test.success", server:, version:))
+        warn_about_server_version(server_version)
       else
         render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.failed"))
       end
+    end
+
+    def warn_about_server_version(server_version)
+      render_flash_message_via_turbo_stream(message: server_version.warning, scheme: :warning, icon: :alert,
+                                            unique_key: "jira-server-version-warning")
     end
   end
 end
