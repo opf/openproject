@@ -39,11 +39,11 @@ module McpTools
 
     input_schema(
       additionalProperties: false,
-      required: %i[project type_id],
+      required: %i[project_id type_id],
       properties: {
-        project: {
-          type: %w[string number],
-          description: "The ID or identifier of the project the work package will be created in."
+        project_id: {
+          type: "number",
+          description: "The ID of the project the work package will be created in."
         },
         type_id: {
           type: "number",
@@ -60,8 +60,8 @@ module McpTools
     output_filter McpOutputFilters::RemoveInactiveWorkPackageFormFields.new
     output_filter McpOutputFilters::RemoveKeys.new(%w[_attributeGroups _dependencies validationErrors])
 
-    def call(project:, type_id:)
-      project = find_project(project)
+    def call(project_id:, type_id:)
+      project = Project.visible(current_user).find_by(id: project_id)
       return Failure("The given project could not be found.") if project.nil?
       return Failure("You are not allowed to create work packages in this project.") unless can_add_work_packages?(project)
 
@@ -72,12 +72,6 @@ module McpTools
     end
 
     private
-
-    def find_project(id_or_identifier)
-      Project.visible(current_user).find(id_or_identifier)
-    rescue ActiveRecord::RecordNotFound
-      nil
-    end
 
     def can_add_work_packages?(project)
       current_user.allowed_in_project?(:add_work_packages, project)
