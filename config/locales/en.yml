@@ -554,6 +554,11 @@ en:
         labels: "Labels"
         notify: "Notify" # used in custom actions
         observed_in_versions: "Observed in versions"
+        origin: "Origin"
+        origin_host: "Origin host"
+        origin_id: "Origin ID"
+        origin_source: "Origin source"
+        origin_url: "Origin URL"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -575,11 +580,6 @@ en:
         type: "Type"
         version: "Version"
         watcher: "Watcher"
-        origin: "Origin"
-        origin_source: "Origin source"
-        origin_id: "Origin ID"
-        origin_url: "Origin URL"
-        origin_host: "Origin host"
       work_package_semantic_alias:
         identifier: "Identifier"
         work_package: "Work package"

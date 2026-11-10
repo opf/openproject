@@ -323,7 +323,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     if (source === 'jira_data_center') {
       return this.text.origin.jiraDataCenter;
     }
-    return source || '';
+    return source ?? '';
   }
 
   public get switchToProjectPath():string {
