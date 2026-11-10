@@ -129,7 +129,7 @@ describe('GroupedRenderPass group matching', () => {
     ...overrides,
   });
 
-  const renderedUnder = (workPackage:WorkPackageResource, group:GroupObject) => {
+  const renderedUnder = (workPackage:WorkPackageResource, group:GroupObject):boolean => {
     const pass = buildRenderPass([buildTableRow(workPackage)], [group]);
     pass.renderRows();
     const rows = Array.from(pass.tableBody.children);
@@ -143,14 +143,15 @@ describe('GroupedRenderPass group matching', () => {
   });
 
   it('does not match a multi-value property with a different number of values', () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    const group = groupedBy('customField16', { href: { 0: { href: '/api/v3/custom_options/9' } } as unknown as GroupObject['href'] });
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = groupedBy('customField16', { href: [{ href: '/api/v3/custom_options/9' }] });
     const workPackage = {
       id: '1',
       customField16: [{ href: '/api/v3/custom_options/9' }, { href: '/api/v3/custom_options/10' }],
     } as unknown as WorkPackageResource;
 
     expect(renderedUnder(workPackage, group)).toBe(false);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('should have a group'), expect.anything());
   });
 
   it('matches a progress value shown with a percent sign', () => {
@@ -174,8 +175,8 @@ describe('GroupedRenderPass levels', () => {
   it('highlights member rows but not the group header', async () => {
     const status = { id: '11', href: '/api/v3/statuses/11' };
     harness = buildTable({
-      workPackages: [{ id: '1', attributes: { status } }],
-      groups: [{ value: 'New', href: status.href, count: 1 }],
+      workPackages: [{ id: '1', attributes: { status } }, { id: '2', attributes: { status } }],
+      groups: [{ value: 'New', href: status.href, count: 2 }],
       highlightingMode: 'status',
     });
 
@@ -183,6 +184,7 @@ describe('GroupedRenderPass levels', () => {
 
     const highlighted = (row:Element) => Array.from(row.classList).some((name) => name.startsWith('__hl_'));
     expect(highlighted(harness.row('1'))).toBe(true);
+    expect(highlighted(harness.row('2'))).toBe(true);
     expect(highlighted(harness.groupHeader(0))).toBe(false);
   });
 
