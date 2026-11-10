@@ -59,6 +59,10 @@ module Backlogs
             EnterpriseToken.allows_to?(:sprint_report_pro_widgets)
         end
 
+        def chart_available?
+          [created_resolved.created, created_resolved.resolved].any? { |points| points.any? { !it.value.zero? } }
+        end
+
         private
 
         def created_resolved

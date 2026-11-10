@@ -64,9 +64,14 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
   end
 
   context "when the sprint has no relevant epics" do
-    it "still renders the widget, with no epic cards" do
+    it "renders a blankslate instead of epic cards" do
       expect(rendered_component).to have_text("Epic progress")
       expect(rendered_component).to have_no_css(".op-work-package-card")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
+      )
     end
   end
 

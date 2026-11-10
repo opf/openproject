@@ -136,11 +136,26 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
       end
       let(:now) { monday.in_time_zone - 7.days }
 
-      # Nothing has been created in a sprint that has not begun, and a flat zero would invite the
-      # reader to believe that was measured. The frontend turns the empty payload into a blankslate.
-      it "leaves out both series rather than sending a measured zero" do
-        expect(chart_data["series"]).to be_empty
+      it "renders a blankslate instead of the chart" do
+        expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
+        expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       end
+    end
+  end
+
+  context "when nothing was created or resolved within the charted window" do
+    before do
+      create(:work_package, project:, sprint:, status: open_status,
+                            journals: { sprint_start - 1.day => { subject: "Created before" } })
+    end
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The created vs resolved chart will appear here once a work package has been created or resolved within the sprint."
+      )
     end
   end
 

@@ -49,17 +49,29 @@ module Backlogs
         def call
           widget_wrapper do |widget|
             widget.with_body do
-              helpers.angular_component_tag(
-                "opce-wp-overview-graph",
-                "global-scope": false,
-                "initial-filters": graph_filters.to_json,
-                "show-group-by-options": false
-              )
+              sprint.received_work_packages?(project) ? graph : blankslate
             end
           end
         end
 
         private
+
+        def graph
+          helpers.angular_component_tag(
+            "opce-wp-overview-graph",
+            "global-scope": false,
+            "initial-filters": graph_filters.to_json,
+            "show-group-by-options": false
+          )
+        end
+
+        def blankslate
+          render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
+            blankslate.with_visual_icon(icon: :graph)
+            blankslate.with_heading(tag: :h3).with_content(t(".blankslate.heading"))
+            blankslate.with_description_content(t(".blankslate.description"))
+          end
+        end
 
         def graph_filters
           [

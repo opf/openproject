@@ -97,6 +97,10 @@ class Sprint < ApplicationRecord
     work_packages.where(project:).order_by_position
   end
 
+  def received_work_packages?(project)
+    Journal::WorkPackageJournal.exists?(project_id: project.id, sprint_id: id)
+  end
+
   def owned_by?(project)
     project_id == project.id
   end

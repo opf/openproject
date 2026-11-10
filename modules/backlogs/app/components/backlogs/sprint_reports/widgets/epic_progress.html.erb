@@ -29,19 +29,29 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   widget_wrapper(classes: "op-sprint-reports--epic-progress-widget") do |container|
-    container.with_body(padding: :none) do
-      render(
-        OpPrimer::BorderBoxListComponent.new(
-          container: "op-sprint-reports--epic-progress",
-          classes: "op-sprint-reports--epic-progress",
-          scheme: :transparent,
-          border: false
-        )
-      ) do |list|
-        relevant_epics.each do |epic|
-          list.with_item(classes: "epic-progress--row") do
-            render(Backlogs::SprintReports::Widgets::EpicProgress::Card.new(epic:, sprint:, project:, current_user:))
+    if relevant_epics.any?
+      container.with_body(padding: :none) do
+        render(
+          OpPrimer::BorderBoxListComponent.new(
+            container: "op-sprint-reports--epic-progress",
+            classes: "op-sprint-reports--epic-progress",
+            scheme: :transparent,
+            border: false
+          )
+        ) do |list|
+          relevant_epics.each do |epic|
+            list.with_item(classes: "epic-progress--row") do
+              render(Backlogs::SprintReports::Widgets::EpicProgress::Card.new(epic:, sprint:, project:, current_user:))
+            end
           end
+        end
+      end
+    else
+      container.with_body do
+        render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
+          blankslate.with_visual_icon(icon: :graph)
+          blankslate.with_heading(tag: :h3).with_content(t(".blankslate.heading"))
+          blankslate.with_description_content(t(".blankslate.description"))
         end
       end
     end

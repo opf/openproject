@@ -276,8 +276,14 @@ en:
             scope: "Total work scope"
           title: "Burnup chart"
         created_resolved_chart:
+          blankslate:
+            description: "The created vs resolved chart will appear here once a work package has been created or resolved within the sprint."
+            heading: "No work to display"
           title: "Created vs resolved work packages"
         epic_progress:
+          blankslate:
+            description: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
+            heading: "No work to display"
           card:
             progress_label:
               one: "%{epic}: %{completed} of %{count} work package completed"
@@ -303,6 +309,9 @@ en:
           velocity: "%{sprint}:"
           y_axis_title: "Story points"
         work_package_graph:
+          blankslate:
+            description: "The work package graph will appear here once the sprint has received a work package."
+            heading: "No work to display"
           title: "Work packages graph"
         work_package_overview:
           blocks:

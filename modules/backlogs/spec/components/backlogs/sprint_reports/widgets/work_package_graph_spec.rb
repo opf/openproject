@@ -30,9 +30,10 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :component do
-  let(:project) { build_stubbed(:project) }
-  let(:sprint) { build_stubbed(:sprint, project:) }
+  let(:project) { create(:project) }
+  let(:sprint) { create(:sprint, project:) }
   let(:user) { build_stubbed(:user) }
+  let!(:work_package) { create(:work_package, project:, sprint:) }
 
   subject(:rendered_component) { render_inline(described_class.new(sprint, project, current_user: user)) }
 
@@ -57,6 +58,19 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
       { "sprint" => { "operator" => "=", "values" => [sprint.id] } },
       { "project" => { "operator" => "=", "values" => [project.id] } }
     )
+  end
+
+  context "when the sprint never received a work package" do
+    let!(:work_package) { nil }
+
+    it "renders a blankslate instead of the graph" do
+      expect(rendered_component).to have_no_element(:"opce-wp-overview-graph")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The work package graph will appear here once the sprint has received a work package."
+      )
+    end
   end
 
   context "when the user lacks view_sprints" do

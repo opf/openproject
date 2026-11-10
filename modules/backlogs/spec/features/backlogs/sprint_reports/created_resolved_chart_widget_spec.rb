@@ -55,6 +55,7 @@ RSpec.describe "Created vs resolved chart widget", :js, with_ee: %i[sprint_repor
              finish_date: Date.tomorrow,
              status: :active)
     end
+    shared_let(:work_package) { create(:work_package, project:, sprint:) }
 
     it "renders the created vs resolved chart" do
       visit_sprint_report(sprint)
