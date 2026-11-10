@@ -103,12 +103,12 @@ module Import
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
 
               attachment_ids, attachment_paths_by_name = prepare_attachments(jira_issue, @project)
-              create_work_package(jira_issue,
-                                  @project,
-                                  type,
-                                  status,
-                                  priority,
-                                  @custom_field_registry,
+              create_work_package(jira_issue:,
+                                  project: @project,
+                                  type:,
+                                  status:,
+                                  priority:,
+                                  custom_field_registry: @custom_field_registry,
                                   attachment_ids:,
                                   attachment_paths_by_name:)
               # Jira attachments cannot be replaced, so both timestamps take the date the file was attached
@@ -321,12 +321,12 @@ module Import
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
-    def create_work_package(jira_issue,
-                            project,
-                            type,
-                            status,
-                            priority,
-                            custom_field_registry,
+    def create_work_package(jira_issue:,
+                            project:,
+                            type:,
+                            status:,
+                            priority:,
+                            custom_field_registry:,
                             attachment_ids:,
                             attachment_paths_by_name:)
       Rails.logger.debug "Creating work package"

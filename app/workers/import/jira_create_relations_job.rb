@@ -34,7 +34,7 @@ module Import
     # Maps Jira link type name to OpenProject relation types.
     # For outward: current issue -> linked issue (e.g., "DPPP-6 blocks ZBA2-1")
     # For inward: linked issue -> current issue (e.g., "ZBA2-1 is blocked by DPPP-6")
-    JIRA_TO_OP_TYPE_MAPPING = {
+    JIRA_TO_OP_RELATIONS_MAPPING = {
       "Blocks" => { outward: Relation::TYPE_BLOCKS, inward: Relation::TYPE_BLOCKED },
       "Duplicate" => { outward: Relation::TYPE_DUPLICATES, inward: Relation::TYPE_DUPLICATED }
     }.freeze
@@ -172,15 +172,15 @@ module Import
     end
 
     def map_link_type(type_name, direction)
-      if JIRA_TO_OP_TYPE_MAPPING.key?(type_name)
-        JIRA_TO_OP_TYPE_MAPPING[type_name][direction]
+      if JIRA_TO_OP_RELATIONS_MAPPING.key?(type_name)
+        JIRA_TO_OP_RELATIONS_MAPPING[type_name][direction]
       else
         Relation::TYPE_RELATES
       end
     end
 
     def build_description(type_name, jira_link_type, direction)
-      return nil if JIRA_TO_OP_TYPE_MAPPING.key?(type_name)
+      return nil if JIRA_TO_OP_RELATIONS_MAPPING.key?(type_name)
 
       direction_label = direction == :outward ? jira_link_type["outward"] : jira_link_type["inward"]
       "#{type_name}: #{direction_label}"

@@ -37,17 +37,5 @@ module WorkPackage::Origin
     validates :origin_id, presence: { if: -> { origin_source.present? } }
     validates :origin_url, presence: { if: -> { origin_source.present? } }
     validates :origin_host, presence: { if: -> { origin_source.present? } }
-
-    scope :imported, -> { where.not(origin_source: nil) }
-    scope :from_source, ->(source) { where(origin_source: source) }
-    scope :from_host, ->(host) { where(origin_host: host) }
-  end
-
-  def imported?
-    origin_source.present?
-  end
-
-  def origin_link_available?
-    origin_url.present?
   end
 end
