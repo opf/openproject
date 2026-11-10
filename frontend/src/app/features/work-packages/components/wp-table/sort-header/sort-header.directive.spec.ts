@@ -419,10 +419,9 @@ describe('SortHeaderDirective relation columns in several tables', () => {
     const second = screen.getAllByRole('button', { name: 'Bug' })[1];
 
     fireEvent.click(second);
-    await settlePopover();
     const menu = within(second.closest('op-action-menu')!).getByRole('menu', { name: 'Relations to Bug', hidden: true });
+    await waitFor(() => expect(menu).toContainElement(document.activeElement as HTMLElement));
     expect(menu.closest('anchored-position')!.matches(':popover-open')).toBe(true);
-    expect(menu).toContainElement(document.activeElement as HTMLElement);
 
     fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
     await settlePopover();
@@ -455,9 +454,11 @@ describe('SortHeaderDirective column menu', () => {
   const overlay = (name:string) => menu(name).closest<HTMLElement>('anchored-position')!;
   const indicator = (index:number) => header(index).querySelector<SVGElement>('.wp-table--column-menu-indicator')!;
   const focusHeader = (index:number) => harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: index, desiredColumn: index });
+  // Primer focuses the first item a frame after the toggle task, which Firefox
+  // may run after a settle; a key sent before then never reaches the menu.
   const open = async (name:string) => {
     fireEvent.click(button(name));
-    await settle();
+    await waitFor(() => expect(menu(name)).toContainElement(document.activeElement as HTMLElement));
     return within(menu(name));
   };
 
