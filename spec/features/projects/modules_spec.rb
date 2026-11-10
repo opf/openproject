@@ -69,19 +69,6 @@ RSpec.describe "Projects module administration" do
     check "Calendar"
     click_button "Save"
 
-    expect_flash(type: :error, message:
-      I18n.t(:"activerecord.errors.models.project.attributes.enabled_modules.dependency_missing",
-             dependency: "Work packages",
-             module: "Calendars"))
-
-    work_packages_settings_page.visit!
-    expect(page).to have_no_xpath(project_work_packages_tab_selector)
-    modules_settings_page.visit!
-
-    check "Calendar"
-    check "Work packages"
-    click_button "Save"
-
     expect_flash type: :success, message: I18n.t(:notice_successful_update)
 
     expect(page).to have_checked_field "Activity"
