@@ -16,9 +16,9 @@ properties:
     readOnly: true
   description:
     allOf:
-    - $ref: "./formattable.yml"
-    - description: Description of the merge request
-      readOnly: true
+      - $ref: "./formattable.yml"
+      - description: Description of the merge request
+        readOnly: true
   state:
     type: string
     description: State of the merge request as reported by the provider, e.g. `opened`
@@ -47,8 +47,8 @@ properties:
   author:
     description: The user on the provider who created the resource. Null if unknown.
     oneOf:
-    - $ref: "./repository_user_model.yml"
-    - type: "null"
+      - $ref: "./repository_user_model.yml"
+      - type: "null"
   externalUpdatedAt:
     type: string
     format: date-time
@@ -67,33 +67,33 @@ properties:
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This merge request
+          - "$ref": "./link.yml"
+          - description: |-
+              This merge request
 
-            **Resource**: RepositoryMergeRequest
-          readOnly: true
+              **Resource**: RepositoryMergeRequest
+            readOnly: true
       pipelines:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            All of the CI pipelines that ran for this merge request
+          - "$ref": "./link.yml"
+          - description: |-
+              All of the CI pipelines that ran for this merge request
 
-            **Resource**: RepositoryPipelineCollectionModel
-          readOnly: true
+              **Resource**: RepositoryPipelineCollectionModel
+            readOnly: true
       latestPipeline:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The CI pipeline that started last. A pipeline that has not started yet counts as the latest one.
-            Omitted if the merge request has no pipelines.
+          - "$ref": "./link.yml"
+          - description: |-
+              The CI pipeline that started last. A pipeline that has not started yet counts as the latest one.
+              Omitted if the merge request has no pipelines.
 
-            **Resource**: RepositoryPipeline
-          readOnly: true
+              **Resource**: RepositoryPipeline
+            readOnly: true
 examples:
   - _type: RepositoryMergeRequest
     _links:

@@ -4,17 +4,17 @@ get:
   summary: View repository pipeline
   operationId: get_repository_pipeline
   tags:
-  - Repositories
+    - Repositories
   description: |-
     Returns the repository pipeline with the given id.
   parameters:
-  - name: id
-    description: Repository pipeline id
-    in: path
-    required: true
-    schema:
-      type: integer
-    example: 1
+    - name: id
+      description: Repository pipeline id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1
   responses:
     '200':
       description: OK

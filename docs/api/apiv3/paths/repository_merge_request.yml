@@ -4,17 +4,17 @@ get:
   summary: View repository merge request
   operationId: get_repository_merge_request
   tags:
-  - Repositories
+    - Repositories
   description: |-
     Returns the repository merge request with the given id.
   parameters:
-  - name: id
-    description: Repository merge request id
-    in: path
-    required: true
-    schema:
-      type: integer
-    example: 1
+    - name: id
+      description: Repository merge request id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1
   responses:
     '200':
       description: OK

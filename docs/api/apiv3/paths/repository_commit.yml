@@ -4,17 +4,17 @@ get:
   summary: View repository commit
   operationId: get_repository_commit
   tags:
-  - Repositories
+    - Repositories
   description: |-
     Returns the repository commit with the given id.
   parameters:
-  - name: id
-    description: Repository commit id
-    in: path
-    required: true
-    schema:
-      type: integer
-    example: 1
+    - name: id
+      description: Repository commit id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1
   responses:
     '200':
       description: OK

@@ -12,9 +12,9 @@ properties:
     readOnly: true
   message:
     allOf:
-    - $ref: "./formattable.yml"
-    - description: Commit message
-      readOnly: true
+      - $ref: "./formattable.yml"
+      - description: Commit message
+        readOnly: true
   authorName:
     type: string
     description: Author name as recorded in the commit
@@ -36,8 +36,8 @@ properties:
   author:
     description: The user on the provider who created the resource. Null if unknown.
     oneOf:
-    - $ref: "./repository_user_model.yml"
-    - type: "null"
+      - $ref: "./repository_user_model.yml"
+      - type: "null"
   createdAt:
     type: string
     format: date-time
@@ -51,16 +51,16 @@ properties:
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This commit
+          - "$ref": "./link.yml"
+          - description: |-
+              This commit
 
-            **Resource**: RepositoryCommit
-          readOnly: true
+              **Resource**: RepositoryCommit
+            readOnly: true
 examples:
   - _type: RepositoryCommit
     _links:

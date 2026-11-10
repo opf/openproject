@@ -17,27 +17,27 @@ properties:
     readOnly: true
   detailsUrl:
     type:
-    - "string"
-    - "null"
+      - "string"
+      - "null"
     format: uri
     description: URL of the pipeline's details (e.g. its jobs) on the provider's website
     readOnly: true
   author:
     description: The user on the provider who triggered the pipeline. Null if unknown.
     oneOf:
-    - $ref: "./repository_user_model.yml"
-    - type: "null"
+      - $ref: "./repository_user_model.yml"
+      - type: "null"
   startedAt:
     type:
-    - "string"
-    - "null"
+      - "string"
+      - "null"
     format: date-time
     description: Time the pipeline started. Null if it has not started yet.
     readOnly: true
   completedAt:
     type:
-    - "string"
-    - "null"
+      - "string"
+      - "null"
     format: date-time
     description: Time the pipeline completed. Null if it has not completed yet.
     readOnly: true
@@ -54,25 +54,25 @@ properties:
   _links:
     type: object
     required:
-    - self
-    - mergeRequest
+      - self
+      - mergeRequest
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This pipeline
+          - "$ref": "./link.yml"
+          - description: |-
+              This pipeline
 
-            **Resource**: RepositoryPipeline
-          readOnly: true
+              **Resource**: RepositoryPipeline
+            readOnly: true
       mergeRequest:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The merge request the pipeline was run for
+          - "$ref": "./link.yml"
+          - description: |-
+              The merge request the pipeline was run for
 
-            **Resource**: RepositoryMergeRequest
-          readOnly: true
+              **Resource**: RepositoryMergeRequest
+            readOnly: true
 examples:
   - _type: RepositoryPipeline
     _links:

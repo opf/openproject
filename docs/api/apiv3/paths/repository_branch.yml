@@ -4,17 +4,17 @@ get:
   summary: View repository branch
   operationId: get_repository_branch
   tags:
-  - Repositories
+    - Repositories
   description: |-
     Returns the repository branch with the given id.
   parameters:
-  - name: id
-    description: Repository branch id
-    in: path
-    required: true
-    schema:
-      type: integer
-    example: 1
+    - name: id
+      description: Repository branch id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1
   responses:
     '200':
       description: OK
