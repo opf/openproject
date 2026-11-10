@@ -43,7 +43,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { Observable } from 'rxjs';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, queryFilterValueId } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -156,7 +156,7 @@ export abstract class BoardActionService {
       return getHref ? value.href! : value.id!;
     }
 
-    const id = typeof value === 'object' ? value[getHref ? 'href' : 'id'] : value;
+    const id = getHref && typeof value === 'object' ? value.href : queryFilterValueId(value);
     return typeof id === 'string' || typeof id === 'number' ? String(id) : undefined;
   }
 
