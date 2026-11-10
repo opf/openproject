@@ -61,7 +61,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
     add_work_package_item(menu)
     add_named_item(menu, :new_project)
     add_named_item(menu, :new_board)
-    add_named_item(menu, :new_meeting)
+    add_meeting_item(menu)
     add_named_item(menu, :new_document)
   end
 
@@ -99,6 +99,46 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def quick_add_menu_items
     @quick_add_menu_items ||= first_level_menu_items_for(:quick_add_menu, @project).index_by(&:name)
+  end
+
+  def add_meeting_item(menu)
+    item = quick_add_menu_items[:new_meeting]
+    return unless item
+
+    menu.with_sub_menu_item(
+      label_arguments: { id: id_for_name(item.caption) },
+      label: item.caption,
+      test_selector: "op-menu--item-action",
+      size: :medium
+    ) do |sub_menu_item|
+      sub_menu_item.with_leading_visual_icon(icon: item.icon)
+
+      meeting_type_items.each { |type_item| add_meeting_type_item(sub_menu_item, type_item) }
+    end
+  end
+
+  def meeting_type_items
+    [
+      { type: nil, caption: I18n.t("meeting.types.one_time"), description: I18n.t("meeting.types.structured_text") },
+      { type: :recurring, caption: I18n.t("meeting.types.recurring"), description: I18n.t("meeting.types.recurring_text") }
+    ]
+  end
+
+  def add_meeting_type_item(sub_menu_item, type_item)
+    sub_menu_item.with_item(
+      href: polymorphic_path([:new_dialog, @project, :meetings], **(type_item[:type] ? { type: type_item[:type] } : {})),
+      label: type_item[:caption],
+      content_arguments: {
+        target: "_top",
+        data: { controller: "async-dialog" },
+        aria: { labelledby: id_for_name(type_item[:caption]) },
+        test_selector: "quick-add-menu-item"
+      },
+      label_arguments: { id: id_for_name(type_item[:caption]) },
+      test_selector: "op-menu--item-action"
+    ) do |menu_item|
+      menu_item.with_description.with_content(type_item[:description])
+    end
   end
 
   def add_work_package_item(menu)
