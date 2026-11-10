@@ -131,11 +131,12 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
                               payload: { "id" => "10012", "key" => "DPPP", "name" => "Demo project" })
       end
 
-      it "enqueues one fetch issues job and one fetch versions job per selected project" do
+      it "enqueues one fetch issues, versions and boards job per selected project" do
         run_callback
 
         expect(GoodJob::Job.where(job_class: "Import::JiraFetchProjectIssuesJob").count).to eq(1)
         expect(GoodJob::Job.where(job_class: "Import::JiraFetchProjectVersionsJob").count).to eq(1)
+        expect(GoodJob::Job.where(job_class: "Import::JiraFetchProjectBoardsJob").count).to eq(1)
       end
 
       it "labels enqueued jobs with stage_2" do
@@ -143,6 +144,7 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
 
         expect(GoodJob::Job.where(job_class: "Import::JiraFetchProjectIssuesJob").last.labels).to include("stage_2")
         expect(GoodJob::Job.where(job_class: "Import::JiraFetchProjectVersionsJob").last.labels).to include("stage_2")
+        expect(GoodJob::Job.where(job_class: "Import::JiraFetchProjectBoardsJob").last.labels).to include("stage_2")
       end
 
       context "with multiple selected projects" do
@@ -183,11 +185,12 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
     describe "stage 2" do
       let(:stage) { 2 }
 
-      it "enqueues fetch users and custom fields jobs" do
+      it "enqueues fetch users, custom fields and sprints jobs" do
         run_callback
 
         expect(GoodJob::Job.where(job_class: "Import::JiraFetchUsersJob").count).to eq(1)
         expect(GoodJob::Job.where(job_class: "Import::JiraFetchCustomFieldJob").count).to eq(1)
+        expect(GoodJob::Job.where(job_class: "Import::JiraFetchSprintsJob").count).to eq(1)
       end
 
       it "labels enqueued jobs with stage_3" do
@@ -195,6 +198,7 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
 
         expect(GoodJob::Job.where(job_class: "Import::JiraFetchUsersJob").last.labels).to include("stage_3")
         expect(GoodJob::Job.where(job_class: "Import::JiraFetchCustomFieldJob").last.labels).to include("stage_3")
+        expect(GoodJob::Job.where(job_class: "Import::JiraFetchSprintsJob").last.labels).to include("stage_3")
       end
     end
 
@@ -261,16 +265,18 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
                               payload: { "id" => "10012", "key" => "DPPP", "name" => "Demo project" })
       end
 
-      it "enqueues one create versions job per selected project" do
+      it "enqueues one create versions job per selected project and one create sprints job" do
         run_callback
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectVersionsJob").count).to eq(1)
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateSprintsJob").count).to eq(1)
       end
 
       it "labels enqueued jobs with stage_7" do
         run_callback
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectVersionsJob").last.labels).to include("stage_7")
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateSprintsJob").last.labels).to include("stage_7")
       end
     end
 
