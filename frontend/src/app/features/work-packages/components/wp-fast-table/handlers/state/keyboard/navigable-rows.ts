@@ -25,62 +25,37 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import type { RenderedOccurrence } from '../../../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../../../wp-fast-table';
-import { NavigableRow, RowKind } from './focus-position';
+import type { RowRecord, RowRecordKind } from '../../../semantics/row-classifier';
+import { NavigableRow, ROW_KINDS, RowKind } from './focus-position';
 import { navigableCells } from './roving-tabindex';
-import { expansionStateOf, rowKindOf } from '../../../helpers/row-expansion';
 import { headerRowOf, totalsRowOf } from '../../../helpers/structural-rows';
 
-export const headerRowKey = 'header';
-export const totalsRowKey = 'totals';
+export { headerRowKey, totalsRowKey } from '../../../row-keys';
 
 export { headerRowOf, totalsRowOf };
 
-function occurrenceRow(
-  table:WorkPackageTable,
-  hierarchies:WorkPackageViewHierarchiesService,
-  occurrence:RenderedOccurrence,
-):NavigableRow|null {
-  const kind = rowKindOf(occurrence);
-  if (kind === null || !occurrence.element) {
-    return null;
-  }
+const navigableKinds:ReadonlySet<RowRecordKind> = new Set(ROW_KINDS);
 
-  const row:NavigableRow = {
-    key: occurrence.key,
-    kind,
-    hidden: occurrence.hidden,
-    cellCount: navigableCells(occurrence.element).length,
-    expanded: expansionStateOf(table, hierarchies, occurrence, kind),
-  };
-
-  return occurrence.groupIdentifier === undefined ? row : { ...row, groupIdentifier: occurrence.groupIdentifier };
+function isNavigableKind(kind:RowRecordKind):kind is RowKind {
+  return navigableKinds.has(kind);
 }
 
-function edgeRow(key:string, kind:RowKind, element:HTMLTableRowElement|null):NavigableRow[] {
-  if (!element) {
-    return [];
-  }
-
-  const cellCount = navigableCells(element).length;
-  return [{
-    key, kind, hidden: kind === 'totals' && cellCount === 0, cellCount, expanded: null,
-  }];
+function navigableRow({ element, occurrence, state }:RowRecord, key:string, kind:RowKind):NavigableRow {
+  const row:NavigableRow = {
+    key,
+    kind,
+    hidden: state.hidden,
+    cellCount: navigableCells(element).length,
+    expanded: state.expanded,
+  };
+  return occurrence?.groupIdentifier === undefined ? row : { ...row, groupIdentifier: occurrence.groupIdentifier };
 }
 
 /** The rows keyboard navigation walks, in visual order: header, rendered occurrences, totals. */
 export function buildNavigableRows(table:WorkPackageTable):NavigableRow[] {
-  const { ledger } = table;
-  const hierarchies = table.injector.get(WorkPackageViewHierarchiesService);
-  const body = Array.from({ length: ledger.size }, (_, index) => ledger.byKey(ledger.keyAt(index)!)!)
-    .map((occurrence) => occurrenceRow(table, hierarchies, occurrence))
-    .filter((row):row is NavigableRow => row !== null);
-
-  return [
-    ...edgeRow(headerRowKey, 'header', headerRowOf(table)),
-    ...body,
-    ...edgeRow(totalsRowKey, 'totals', totalsRowOf(table)),
-  ];
+  return table.rows.rows().flatMap((record) => {
+    const { key, state: { kind } } = record;
+    return key !== null && isNavigableKind(kind) ? [navigableRow(record, key, kind)] : [];
+  });
 }

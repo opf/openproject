@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Wiki page identifier
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Wiki page identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -35,7 +35,7 @@ get:
                 id: 72
                 title: A wiki page with a name
           schema:
-            "$ref": "../components/schemas/wiki_page_model.yml"
+            $ref: "../components/schemas/wiki_page_model.yml"
       description: OK
       headers: {}
     '404':
@@ -55,7 +55,7 @@ get:
         **Required permission:** view wiki page in the page's project
       headers: {}
   tags:
-  - Wiki Pages
+    - Wiki Pages
   description: Retrieve an individual wiki page as identified by the id parameter
   operationId: View_Wiki_Page
   summary: View Wiki Page

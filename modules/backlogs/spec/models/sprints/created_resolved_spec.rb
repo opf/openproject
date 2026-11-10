@@ -45,6 +45,7 @@ RSpec.describe Sprints::CreatedResolved do
   let(:second_friday) { Date.new(2026, 10, 23) }
 
   let(:sprint_start) { at_hour(first_monday, 9) }
+  let(:before_sprint) { at_hour(first_monday - 3.days, 12) }
   let(:now) { at_hour(first_wednesday, 12) }
 
   let(:started_at) { sprint_start }
@@ -60,10 +61,16 @@ RSpec.describe Sprints::CreatedResolved do
     date.in_time_zone + hour.hours
   end
 
-  # In the sprint from +from+ onwards. Anything journalled, such as a status_id, rides along.
+  # In the project from +from+ onwards. Anything journalled, such as a status_id, rides along.
   def counted(from, **journal)
-    create(:work_package, project:, sprint:, status: open_status,
-                          journals: { from => { subject: "Counted", **journal } })
+    journalled({ from => journal })
+  end
+
+  # A work package whose history is spelled out instant by instant, for the cases where what
+  # happened later is the point: a status reopened, a move to another project.
+  def journalled(journals)
+    create(:work_package, project:, status: open_status,
+                          journals: journals.transform_values { { subject: "Counted", **it } })
   end
 
   def values_at(series, instant)
@@ -77,11 +84,20 @@ RSpec.describe Sprints::CreatedResolved do
   end
 
   describe "#created" do
-    it "counts every work package the sprint held, whatever its status" do
-      counted(sprint_start)
-      counted(sprint_start, status_id: closed_status.id)
+    it "counts every work package the project gained, whatever its status" do
+      counted(at_hour(first_tuesday, 15))
+      counted(at_hour(first_tuesday, 15), status_id: closed_status.id)
 
-      expect(created_resolved.created.first.value).to eq 2.0
+      expect(created_resolved.created.last.value).to eq 2.0
+    end
+
+    # The scope is the project, which is what makes the chart answer whether the team is keeping
+    # up with the work arriving rather than only with what was planned into the sprint.
+    it "counts a work package that never was in the sprint" do
+      counted(at_hour(first_tuesday, 15), sprint_id: sprint.id)
+      counted(at_hour(first_tuesday, 15))
+
+      expect(created_resolved.created.last.value).to eq 2.0
     end
 
     it "stops at the current time rather than the sprint's finish date" do
@@ -90,13 +106,27 @@ RSpec.describe Sprints::CreatedResolved do
       expect(created_resolved.created.last.at).to eq now
     end
 
-    # Membership is historic: the journals carry the sprint the work package was in at the time.
-    it "picks a work package up from the moment it joined the sprint" do
-      counted(sprint_start)
+    # Membership is historic: the journals carry the project the work package was in at the time.
+    it "picks a work package up from the moment it joined the project" do
       counted(at_hour(first_tuesday, 15))
 
-      expect(values_at(created_resolved.created, sprint_start)).to eq 1.0
-      expect(created_resolved.created.last.value).to eq 2.0
+      expect(values_at(created_resolved.created, sprint_start)).to eq 0.0
+      expect(created_resolved.created.last.value).to eq 1.0
+    end
+
+    it "starts from zero however much the project already held" do
+      counted(before_sprint)
+      counted(at_hour(first_tuesday, 15))
+
+      expect(created_resolved.created.first.value).to eq 0.0
+      expect(created_resolved.created.last.value).to eq 1.0
+    end
+
+    it "falls below zero when the project loses more than it gains" do
+      journalled(before_sprint => {},
+                 at_hour(first_tuesday, 15) => { project_id: create(:project).id })
+
+      expect(created_resolved.created.last.value).to eq(-1.0)
     end
 
     context "when the sprint has not started yet" do
@@ -109,27 +139,33 @@ RSpec.describe Sprints::CreatedResolved do
 
   describe "#resolved" do
     it "counts only what the project considers done" do
-      counted(sprint_start)
-      counted(sprint_start, status_id: closed_status.id)
+      counted(at_hour(first_tuesday, 15))
+      counted(at_hour(first_tuesday, 15), status_id: closed_status.id)
 
-      expect(created_resolved.resolved.first.value).to eq 1.0
+      expect(created_resolved.resolved.last.value).to eq 1.0
     end
 
     # A status the project nominated counts even though it is not closed globally.
     it "counts a status the project configured as done" do
       project.done_statuses << done_status
-      counted(sprint_start, status_id: done_status.id)
+      counted(at_hour(first_tuesday, 15), status_id: done_status.id)
 
-      expect(created_resolved.resolved.first.value).to eq 1.0
+      expect(created_resolved.resolved.last.value).to eq 1.0
     end
 
-    it "never exceeds created" do
-      counted(sprint_start)
-      counted(sprint_start, status_id: closed_status.id)
+    it "starts from zero however much the project had already closed" do
+      counted(before_sprint, status_id: closed_status.id)
+      counted(at_hour(first_tuesday, 15), status_id: closed_status.id)
 
-      pairs = created_resolved.created.zip(created_resolved.resolved)
+      expect(created_resolved.resolved.first.value).to eq 0.0
+      expect(created_resolved.resolved.last.value).to eq 1.0
+    end
 
-      expect(pairs).to all(satisfy { |created, resolved| resolved.value <= created.value })
+    it "falls below zero when more is reopened than resolved" do
+      journalled(before_sprint => { status_id: closed_status.id },
+                 at_hour(first_tuesday, 15) => { status_id: open_status.id })
+
+      expect(created_resolved.resolved.last.value).to eq(-1.0)
     end
 
     context "when the sprint has not started yet" do
@@ -181,7 +217,7 @@ RSpec.describe Sprints::CreatedResolved do
 
     # The count follows the user it was given rather than whoever happens to be current.
     it "leaves out work the given user may not see" do
-      counted(sprint_start)
+      counted(at_hour(first_tuesday, 15))
 
       expect(created_resolved.created.map(&:value).uniq).to eq [0.0]
     end

@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -28,7 +28,7 @@ get:
                   - 100
                 enabledInternalComments: true
           schema:
-            "$ref": "../components/schemas/project_configuration_model.yml"
+            $ref: "../components/schemas/project_configuration_model.yml"
       description: OK
       headers: {}
     '404':

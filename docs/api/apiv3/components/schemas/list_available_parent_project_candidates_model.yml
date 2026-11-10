@@ -14,7 +14,7 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": ./link.yml
+              - $ref: ./link.yml
               - description: |-
                   The project collection
 
@@ -28,7 +28,7 @@ allOf:
             readOnly: true
             items:
               allOf:
-                - "$ref": ./project_model.yml
-                - "$ref": ./program_model.yml
-                - "$ref": ./portfolio_model.yml
+                - $ref: ./project_model.yml
+                - $ref: ./program_model.yml
+                - $ref: ./portfolio_model.yml
             description: Collection of projects

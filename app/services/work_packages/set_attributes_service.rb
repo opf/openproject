@@ -549,8 +549,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def set_cause_for_readonly_attributes
     return unless work_package.changes.keys.intersect?(%w(created_at updated_at author))
 
-    work_package.journal_cause = {
-      "type" => "default_attribute_written"
-    }
+    work_package.journal_cause = Journal::CausedByDefaultAttributeWritten.new
   end
 end

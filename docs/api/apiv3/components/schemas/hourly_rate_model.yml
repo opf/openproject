@@ -54,17 +54,17 @@ properties:
 
               **Resource**: Project
 
-example:
-  _type: HourlyRate
-  id: 1
-  validFrom: "2025-01-01"
-  rate: 50.0
-  _links:
-    self:
-      href: /api/v3/principals/42/hourly_rates/1
-    principal:
-      href: /api/v3/users/42
-      title: Jane Doe
-    project:
-      href: /api/v3/projects/7
-      title: Customer Portal
+examples:
+  - _type: HourlyRate
+    id: 1
+    validFrom: "2025-01-01"
+    rate: 50.0
+    _links:
+      self:
+        href: /api/v3/principals/42/hourly_rates/1
+      principal:
+        href: /api/v3/users/42
+        title: Jane Doe
+      project:
+        href: /api/v3/projects/7
+        title: Customer Portal

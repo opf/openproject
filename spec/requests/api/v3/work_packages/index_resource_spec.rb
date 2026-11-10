@@ -498,8 +498,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      context "when the labels changed and the last timestamp is historic",
-              with_flag: { work_package_labels: true } do
+      context "when the labels changed and the last timestamp is historic" do
         let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
         let(:label_a) { create(:label) }
         let(:label_b) { create(:label) }

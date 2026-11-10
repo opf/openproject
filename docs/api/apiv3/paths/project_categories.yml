@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: ID of the project whose categories will be listed
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: ID of the project whose categories will be listed
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -18,27 +18,27 @@ get:
               value:
                 _embedded:
                   elements:
-                  - _links:
-                      defaultAssignee:
-                        href: "/api/v3/users/42"
-                        title: John Sheppard
-                      project:
-                        href: "/api/v3/projects/11"
-                        title: Example project
-                      self:
-                        href: "/api/v3/categories/10"
-                        title: Category with assignee
-                    _type: Category
-                    id: 10
-                    name: Foo
-                  - _links:
-                      project:
-                        href: "/api/v3/projects/11"
-                      self:
-                        href: "/api/v3/categories/11"
-                    _type: Category
-                    id: 11
-                    name: Bar
+                    - _links:
+                        defaultAssignee:
+                          href: "/api/v3/users/42"
+                          title: John Sheppard
+                        project:
+                          href: "/api/v3/projects/11"
+                          title: Example project
+                        self:
+                          href: "/api/v3/categories/10"
+                          title: Category with assignee
+                      _type: Category
+                      id: 10
+                      name: Foo
+                    - _links:
+                        project:
+                          href: "/api/v3/projects/11"
+                        self:
+                          href: "/api/v3/categories/11"
+                      _type: Category
+                      id: 11
+                      name: Bar
                 _links:
                   self:
                     href: "/api/v3/projects/11/categories"
@@ -46,7 +46,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/categories_by_workspace_model.yml"
+            $ref: "../components/schemas/categories_by_workspace_model.yml"
       description: OK
       headers: {}
     '404':
@@ -70,7 +70,7 @@ get:
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
   tags:
-  - Categories
+    - Categories
   description: 'List all categories of a project
 
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/categories`](https://www.openproject.org/docs/api/endpoints/categories/#list-categories-of-a-workspace)

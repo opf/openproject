@@ -32,6 +32,7 @@ module ITSM
     class FetchService < ::BaseServices::BaseCallable
       include Dry::Monads[:result]
       include Dry::Monads::Do.for(:process_all)
+      include ServiceFailure
 
       BATCH_SIZE = 50
 
@@ -43,13 +44,9 @@ module ITSM
       protected
 
       def perform
-        return service_failure(:inactive) unless fetchable?
+        return service_failure(:inactive, result: mailbox) unless fetchable?
 
-        OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0) do
-          Rails.logger.tagged("ITSM", "mailbox #{mailbox.id}") do
-            fetch_emails.either(method(:fetch_succeeded), method(:fetch_failed))
-          end
-        end || service_failure(:fetch_in_progress)
+        fetch_exclusively || service_failure(:fetch_in_progress, result: mailbox)
       end
 
       private
@@ -57,6 +54,14 @@ module ITSM
       attr_reader :mailbox
 
       def fetchable? = ITSM.helpdesk_available? && IncomingMailbox.fetchable.exists?(mailbox.id)
+
+      def fetch_exclusively
+        OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0) do
+          Rails.logger.tagged("ITSM", "mailbox #{mailbox.id}") do
+            fetch_emails.either(method(:fetch_succeeded), method(:fetch_failed))
+          end
+        end
+      end
 
       def fetch_emails
         Adapters::ImapSession.open(mail_server: mailbox.mail_server, auth_strategy:) do |session|
@@ -85,13 +90,13 @@ module ITSM
         ServiceResult.success(result: mailbox)
       end
 
-      def fetch_failed(error)
-        Rails.logger.warn { "Fetching failed (#{error.code})" }
-        mailbox.fetch_failed!(error.code)
-        service_failure(error.code)
-      end
+      def server_address = "#{mailbox.mail_server.host}:#{mailbox.mail_server.port}"
 
-      def service_failure(code) = ServiceResult.failure(result: mailbox).tap { it.errors.add(:base, code) }
+      def fetch_failed(error)
+        Rails.logger.warn { ["Fetching from #{server_address} failed (#{error.code})", error.payload].compact.join(": ") }
+        mailbox.fetch_failed!(error.code)
+        service_failure(error.code, result: mailbox)
+      end
     end
   end
 end

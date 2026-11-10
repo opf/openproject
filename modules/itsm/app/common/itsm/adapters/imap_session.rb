@@ -37,8 +37,7 @@ module ITSM
       OPEN_TIMEOUT = 10
       SESSION_TIMEOUT = 5.minutes
       FOLDER = "INBOX"
-
-      class GreetingTimeout < StandardError; end
+      TLS_OPTIONS = { min_version: OpenSSL::SSL::TLS1_2_VERSION }.freeze
 
       def self.open(mail_server:, auth_strategy:)
         session = new(mail_server:, auth_strategy:)
@@ -56,8 +55,8 @@ module ITSM
         close
         start_deadline
 
-        verify_host
-          .bind { imap_request { open_connection } }
+        checked_addresses
+          .bind { |addresses| open_connection(addresses) }
           # The strategy returns its own Result, which imap_request wraps once more.
           .bind { imap_request { auth_strategy.call(imap) }.flatten }
           .bind { imap_request { imap.select(FOLDER) } }
@@ -79,27 +78,26 @@ module ITSM
 
       def instance_variables_to_inspect = %i[@mail_server]
 
-      def verify_host
-        addresses = OpenProject::SsrfProtection.resolver.call(mail_server.host)
+      def checked_addresses = CheckedAddresses.call(mail_server.host)
 
-        return failure(code: :unreachable) if addresses.empty?
-        return failure(code: :address_not_allowed) unless addresses.all? { OpenProject::SsrfProtection.safe_ip?(it) }
-
-        Success()
+      def open_connection(addresses)
+        imap_request do
+          @imap = new_connection(addresses)
+          imap.starttls(**TLS_OPTIONS) if mail_server.starttls?
+        end
       end
 
-      # Net::IMAP.new waits for the server greeting without a time limit, and the session timeout
-      # cannot disconnect a connection that is still being opened.
-      def open_connection
-        @imap = Timeout.timeout(OPEN_TIMEOUT, GreetingTimeout) do
-          Net::IMAP.new(mail_server.host, port: mail_server.port, ssl: mail_server.tls?, open_timeout: OPEN_TIMEOUT)
-        end
-        imap.starttls if mail_server.starttls?
+      def new_connection(addresses)
+        ImapConnection.new(mail_server.host,
+                           addresses:,
+                           port: mail_server.port,
+                           ssl: mail_server.tls? && TLS_OPTIONS,
+                           open_timeout: OPEN_TIMEOUT)
       end
 
       def imap_request(source: self.class)
         Success(yield)
-      rescue GreetingTimeout
+      rescue IO::TimeoutError
         failure(code: :timeout, source:)
       rescue OpenSSL::SSL::SSLError => e
         failure(code: :tls_failed, payload: e.message, source:)

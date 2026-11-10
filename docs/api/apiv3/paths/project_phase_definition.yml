@@ -7,7 +7,7 @@ get:
     - Project Phase Definitions
   description: |-
     Gets a project phase definition resource. This resource is part of the abstract definition of a project life
-    cycle shaping the phases of a project. 
+    cycle shaping the phases of a project.
   parameters:
     - name: id
       description: Project phase definition id
