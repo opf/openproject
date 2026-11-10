@@ -75,6 +75,10 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
     expect(imap).to have_received(:logout)
   end
 
+  it "does not schedule another check" do
+    expect { result }.not_to have_enqueued_job(ITSM::Mailboxes::FetchJob)
+  end
+
   it "records the successful check", freeze_time: Time.current.change(usec: 0) do
     result
 
@@ -111,6 +115,10 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
       result
 
       expect(process_email_service).to have_received(:call).once.with(uid: 1)
+    end
+
+    it "checks the mailbox again right away" do
+      expect { result }.to have_enqueued_job(ITSM::Mailboxes::FetchJob).with(mailbox)
     end
   end
 
@@ -151,6 +159,21 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
                                                 last_error: "unreachable",
                                                 next_fetch_at: 30.minutes.from_now,
                                                 last_fetched_at: nil)
+    end
+  end
+
+  context "when no work package can be created from an email" do
+    before do
+      stub_const("#{described_class}::BATCH_SIZE", 2)
+      allow(process_email_service).to receive(:call).with(uid: 1)
+        .and_return(ServiceResult.failure(result: mailbox).tap { it.errors.add(:base, :work_package_not_created) })
+    end
+
+    it "stops, so the email and the ones after it are tried again later" do
+      expect { result }.not_to have_enqueued_job(ITSM::Mailboxes::FetchJob)
+      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(mailbox.reload).to have_attributes(last_error: "work_package_not_created", consecutive_failures: 1)
+      expect(process_email_service).not_to have_received(:call).with(uid: 2)
     end
   end
 

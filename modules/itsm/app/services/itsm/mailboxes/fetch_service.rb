@@ -46,12 +46,14 @@ module ITSM
       def perform
         return service_failure(:inactive, result: mailbox) unless fetchable?
 
-        fetch_exclusively || service_failure(:fetch_in_progress, result: mailbox)
+        result = fetch_exclusively || service_failure(:fetch_in_progress, result: mailbox)
+        FetchJob.perform_later(mailbox) if more_emails
+        result
       end
 
       private
 
-      attr_reader :mailbox
+      attr_reader :mailbox, :more_emails
 
       def fetchable? = ITSM.helpdesk_available? && IncomingMailbox.fetchable.exists?(mailbox.id)
 
@@ -86,6 +88,7 @@ module ITSM
 
       def fetch_succeeded(uids)
         Rails.logger.info { "Processed #{uids.size} unseen emails" }
+        @more_emails = uids.size == BATCH_SIZE
         mailbox.fetch_succeeded!
         ServiceResult.success(result: mailbox)
       end

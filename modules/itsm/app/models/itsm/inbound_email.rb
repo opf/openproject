@@ -53,6 +53,10 @@ module ITSM
 
     def header_value(name) = valid_utf8(Array(mail.header[name]).first&.value)
 
+    def delivery_addresses
+      email_addresses(%w[Delivered-To X-Original-To].filter_map { header_value(it)&.delete("<>") })
+    end
+
     def delivery_report?
       mail.mime_type == "multipart/report" && mail.content_type_parameters["report-type"]&.casecmp?("delivery-status")
     end
@@ -105,7 +109,7 @@ module ITSM
     def valid_utf8(value)
       case value
       when Array then value.map { valid_utf8(it) }
-      when String then value.dup.force_encoding(Encoding::UTF_8).scrub
+      when String then value.dup.force_encoding(Encoding::UTF_8).scrub.delete("\u0000")
       else value
       end
     end

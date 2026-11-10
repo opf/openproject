@@ -170,6 +170,14 @@ RSpec.describe ITSM::InboundEmail do
       end
     end
 
+    context "with null bytes" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nPrinter\u0000 broken" }
+
+      it "removes them, as the database cannot store them" do
+        expect(text).to eq("Printer broken")
+      end
+    end
+
     context "with a plain text and an HTML version" do
       let(:raw) do
         Mail.new do
@@ -318,6 +326,23 @@ RSpec.describe ITSM::InboundEmail do
       expect(email.header_value("Auto-Submitted")).to eq("auto-replied")
       expect(email.header_value("X-Bad")).to eq("�value")
       expect(email.header_value("Precedence")).to be_nil
+    end
+  end
+
+  describe "#delivery_addresses" do
+    let(:raw) do
+      "Delivered-To: <Inbox@mail.example>\r\nX-Original-To: support@company.example\r\n" \
+        "Delivered-To: jane@customer.example\r\nFrom: jane@customer.example\r\n\r\nHello"
+    end
+
+    it "returns the addresses the mail server delivered the email to last" do
+      expect(email.delivery_addresses).to eq(%w[inbox@mail.example support@company.example])
+    end
+
+    context "without delivery headers" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nHello" }
+
+      it { expect(email.delivery_addresses).to be_empty }
     end
   end
 
