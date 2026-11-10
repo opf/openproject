@@ -257,8 +257,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     this.workPackageTable.colspan = this.numTableColumns;
 
     this.tbody = tbody;
-    controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this);
+    controller.workPackageTable = this.workPackageTable;
 
     // Locate table and timeline elements
     const tableAndTimeline = this.getTableAndTimelineElement();

@@ -37,8 +37,7 @@ module Projects
         class SwitchFieldsComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
 
-          # The impact starts empty and arrives by turbo stream: the dialog opens on the member
-          # in force, which has nothing to report.
+          # Nil while the selection is the member in force, which has nothing to report.
           def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
             super()
 

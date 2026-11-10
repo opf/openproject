@@ -2291,7 +2291,9 @@ sv:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2715,7 +2717,7 @@ sv:
     failure_message: Samtycke misslyckades, kan inte fortsätta.
     not_yet_consented: Användaren har ännu inte samtyckt till den [konfigurerade informationstexten om samtycke](consent_settings). Användaren påminns nästa gång hen loggar in.
     text_update_consent_time: Kryssa i den här rutan för att tvinga användare att ge sitt samtycke igen. Aktivera när du har ändrat den juridiska aspekten av samtyckesinformationen ovan.
-    title: Användarsamtycken
+    title: User consent
     update_consent_last_time: 'Senaste uppdatering av samtycke: %{update_time}'
     user_has_consented: Användaren har samtyckt till den [konfigurerade informationstexten om samtycke](consent_settings).
   copy_project:
@@ -3560,6 +3562,7 @@ sv:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3567,7 +3570,7 @@ sv:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -4052,7 +4055,7 @@ sv:
   label_completed: Slutförd
   label_configuration: konfiguration
   label_confirmation: Bekräftelse
-  label_consent_settings: Användarsamtycken
+  label_consent_settings: User consent
   label_constant_plural: Konstanter
   label_contains: innehåller
   label_content: Innehåll
@@ -5609,6 +5612,15 @@ sv:
       toc:
         caption: Lägg till en innehållsförteckningssida som indexerar avsnittsrubrikerna.
         label: Innehållsförteckning
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Sida %{page} av %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -6035,10 +6047,12 @@ sv:
         switch:
           apply: Tilldela
           impact:
-            hidden_heading: Fält som inte längre kommer att visas
-            missing_statuses_description: Arbetsflödet som du byter till har ingen övergång från dessa statusar, så ingen kommer att kunna flytta dessa arbetspaket vidare.
-            missing_statuses_heading: Arbetspaket som fastnar
-            new_heading: Fält som blir tillgängliga
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: Inga fält eller statusar påverkas.
             status_count:
               one: "%{count} work package"
@@ -7246,7 +7260,6 @@ sv:
         tab: Generera PDF
         templates:
           readonly_error: Kan inte ändras när den är länkad till en källtyp.
-          section_title: Mallar för PDF-export
           settings:
             edit_link: Redigera inställningar
             reset_to_default: Återställ till standard
@@ -7268,7 +7281,6 @@ sv:
         empty_group_hint: Dra attribut hit
         exclusions:
           attribute_label: Ärv %{attribute}
-          excluded: Dold
           section_label: Ärv avsnittet %{section}
         filter_inactive: Filtrera attribut
         group_actions: Avsnittsåtgärder
@@ -7327,7 +7339,6 @@ sv:
           manual:
             description: När du har [skapat projektattribut](administration_url) visas de här och kan läggas till i en typ.
             title: Inga projektattribut tillgängliga
-        disabled: Inaktiverad
         exclusions:
           attribute_label: Ärv %{attribute}
         filter: Sök efter avsnitt eller namn
@@ -7405,14 +7416,14 @@ sv:
           mode_label: Konfigurera den här sidan manuellt
           modes:
             copy:
-              caption: Börja med en engångskopia av de inställningar som den här konfigurationen ärver nu.
-              label: Kopiera ärvda inställningar
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Använd standardinställningarna för nya typer.
               label: Standardinställningar
             empty:
               caption: Konfigurera allt från grunden med en tom konfiguration.
-              label: Tom
+              label: Start from scratch
           success: Konfigurationsläget har bytts.
           title: Manuell konfiguration
         parent_suffix: "(överordnad)"
@@ -7463,7 +7474,7 @@ sv:
           one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Ta bort typ
-      description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Kopia av %{name}
@@ -8160,8 +8171,6 @@ sv:
           notice:
             one: Arbetsflödet kopierades till rollen "%{role_name}".
             other: Arbetsflödet kopierades till %{count} roller.
-      new:
-        dialog_title: Kopiera arbetsflödet för ”%{source}”
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8179,6 +8188,7 @@ sv:
         caption: Det nya arbetsflödet börjar som en kopia av det valda arbetsflödets statusövergångar.
         label: Kopiera från
         placeholder: Välj ett arbetsflöde…
+      copy_title: Copy workflow %{name}
       description:
         caption: Lägg till en kort beskrivning av var och hur arbetsflödet ska användas.
         label: Beskrivning
@@ -8194,7 +8204,7 @@ sv:
       name:
         caption: Välj ett namn som gör det lätt att känna igen arbetsflödet på andra ställen senare.
         label: Arbetsflödets namn
-      new_title: Skapa arbetsflöde
+      save_title: Save workflow
     index:
       actions:
         create: Arbetsflöde

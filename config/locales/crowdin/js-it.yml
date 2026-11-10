@@ -131,8 +131,8 @@ it:
     button_confirm: Conferma
     button_continue: Continua
     button_copy: Copia
-    button_copy_link_to_clipboard: Copia link negli appunti
-    button_copy_numeric_id_to_clipboard: Copia l'ID numerico negli appunti
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copia negli appunti
     button_copy_to_other_project: Duplica in un altro progetto
     button_create: Crea
@@ -207,6 +207,7 @@ it:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Si è verificato un errore all'interno di CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'

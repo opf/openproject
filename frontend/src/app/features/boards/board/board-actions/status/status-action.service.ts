@@ -26,6 +26,7 @@
 //++
 
 import { Injectable } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { StatusBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/status/status-board-header.component';
@@ -50,6 +51,12 @@ export class BoardStatusActionService extends CachedBoardActionService {
   image = imagePath('board_creation_modal/status.svg');
 
   localizedName = this.I18n.t('js.work_packages.properties.status');
+
+  override affectsOtherCards(workPackage:WorkPackageResource):boolean {
+    // Closing an original can close duplicates in any status column.
+    const status = this.cache.value?.find((value) => value.href === workPackage.status.href);
+    return status?.isClosed !== false;
+  }
 
   headerComponent() {
     return StatusBoardHeaderComponent;

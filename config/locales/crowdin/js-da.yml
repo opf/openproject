@@ -131,8 +131,8 @@ da:
     button_confirm: Bekræft
     button_continue: Fortsæt
     button_copy: Kopiér
-    button_copy_link_to_clipboard: Kopiér link til udklipsholderen
-    button_copy_numeric_id_to_clipboard: Kopiér numerisk id til udklipsholderen
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopiér til udklipsholderen
     button_copy_to_other_project: Dupliker i et andet projekt
     button_create: Opret
@@ -207,6 +207,7 @@ da:
     editor:
       ai_actions:
         caption: Assistent
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Der opstod en fejl i CKEditor
       ckeditor_error_reload: Editoren holdt op med at virke. Din tekst er her stadig, men du kan ikke ændre den. Kopiér den tekst, som du vil beholde, og genindlæs derefter siden.
       error_saving_failed: 'Dokumentet kunne ikke gemmes på grund af følgende fejl: %{error}'

@@ -418,7 +418,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
 
         check_cache
 
-        query.group_by custom_field2.attribute_name
+        query.group_by custom_field2.column_name
         footprint = query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
         expect(footprint).to eq([[8, 8]])
       end

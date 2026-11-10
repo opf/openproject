@@ -57,6 +57,7 @@ class Sprint < ApplicationRecord
          :not_completed,
          :order_by_activity,
          :order_by_date,
+         :preceding,
          :receiving_projects,
          :visible,
          :native_to_sprint_source

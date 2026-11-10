@@ -2545,7 +2545,9 @@ uk:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2969,7 +2971,7 @@ uk:
     failure_message: Згода не отримана, продовження неможливе.
     not_yet_consented: Користувач ще не надав згоду на [налаштований текст інформації про згоду] (consent_settings). Він отримає нагадування під час наступного входу.
     text_update_consent_time: Установіть цей прапорець, щоб примусити користувачів знову погодитися. Увімкнути, коли ви змінили юридичний аспект інформації про згоду вище.
-    title: Згода користувача
+    title: User consent
     update_consent_last_time: 'Останнє оновлення згоди: %{update_time}'
     user_has_consented: Користувач надав згоду на [налаштований текст інформації про згоду](consent_settings).
   copy_project:
@@ -3862,6 +3864,7 @@ uk:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3869,7 +3872,7 @@ uk:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -4376,7 +4379,7 @@ uk:
   label_completed: Завершено
   label_configuration: конфігурація
   label_confirmation: Підтвердження
-  label_consent_settings: Згода користувача
+  label_consent_settings: User consent
   label_constant_plural: Константи
   label_contains: містить
   label_content: Контент
@@ -5960,6 +5963,15 @@ uk:
       toc:
         caption: Можна додати сторінку зі змістом, на якій наводяться заголовки розділів.
         label: Зміст
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Сторінка %{page} з %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -6388,10 +6400,12 @@ uk:
         switch:
           apply: Застосувати
           impact:
-            hidden_heading: Поля, які більше не показуватимуться
-            missing_statuses_description: У робочому процесі, на який ви перемикаєтеся, немає переходів із цих статусів, тому ніхто не зможе перевести пакети робіт на наступні етапи.
-            missing_statuses_heading: Робочі пакети застрягнуть
-            new_heading: Поля, які стають доступними
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: Це не впливає на поля чи статуси.
             status_count:
               one: "%{count} work package"
@@ -7638,7 +7652,6 @@ uk:
         tab: Згенерувати PDF
         templates:
           readonly_error: Не можна змінити, поки пов'язано з типом джерела.
-          section_title: Шаблони експорту PDF
           settings:
             edit_link: Редагувати налаштування
             reset_to_default: Відновити налаштування за промовчанням
@@ -7660,7 +7673,6 @@ uk:
         empty_group_hint: Перетягніть атрибути сюди
         exclusions:
           attribute_label: Успадкувати %{attribute}
-          excluded: Приховано
           section_label: Успадковувати розділ «%{section}»
         filter_inactive: Фільтрувати атрибути
         group_actions: Дії з розділом
@@ -7719,7 +7731,6 @@ uk:
           manual:
             description: Коли ви [створите атрибути проєкту](administration_url), вони з’являться тут і їх можна буде додати в тип.
             title: Немає доступних атрибутів проєкту
-        disabled: Вимкнено
         exclusions:
           attribute_label: Успадкувати %{attribute}
         filter: Пошук за розділом або назвою
@@ -7797,14 +7808,14 @@ uk:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Почніть з одноразового копіювання налаштувань, які ця конфігурація зараз успадковує.
-              label: Скопіювати успадковані налаштування
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Використовувати налаштування за промовчанням для нових типів.
               label: Налаштування за промовчанням
             empty:
               caption: Почніть із порожньої конфігурації і налаштуйте все з нуля.
-              label: Пусто
+              label: Start from scratch
           success: Режим конфігурації змінено.
           title: Ручна конфігурація
         parent_suffix: " (батьківський об’єкт)"
@@ -7857,7 +7868,7 @@ uk:
           many: 'The type will be removed from %{count} projects:'
           other: 'The type will be removed from %{count} projects:'
         title: Видалити тип
-      description: 'Кожну область конфігурації на рівні типів і варіантів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Копія обʼєкта «%{name}»
@@ -8592,8 +8603,6 @@ uk:
             few: Робочий процес успішно скопійовано в %{count} ролі.
             many: Робочий процес успішно скопійовано в %{count} ролей.
             other: Робочий процес успішно скопійовано в %{count} ролі.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8613,6 +8622,7 @@ uk:
         caption: Новий робочий процес починається з копії переходів статусу цього робочого процесу.
         label: Скопіювати із
         placeholder: Виберіть робочий процес…
+      copy_title: Copy workflow %{name}
       description:
         caption: Додайте короткий опис того, де та як використовуватиметься цей робочий процес.
         label: Опис
@@ -8628,7 +8638,7 @@ uk:
       name:
         caption: Виберіть назву, яка допоможе вам пізніше впізнати цей робочий процес в інших місцях.
         label: Назва робочого процесу
-      new_title: Створити робочий процес
+      save_title: Save workflow
     index:
       actions:
         create: Робочий процес
