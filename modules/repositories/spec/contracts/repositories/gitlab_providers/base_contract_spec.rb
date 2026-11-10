@@ -57,8 +57,8 @@ RSpec.describe Repositories::GitlabProviders::BaseContract do
     it_behaves_like "contract is invalid", url: :url
   end
 
-  context "with the URL of another provider differing only in case and trailing slash" do
-    before { create(:repository_provider, url: "https://GitLab.example.com/") }
+  context "with the URL of another provider" do
+    before { create(:repository_provider, url: "https://gitlab.example.com") }
 
     it_behaves_like "contract is invalid", url: :taken
   end

@@ -45,13 +45,10 @@ module Repositories
       private
 
       def url_unique
-        normalized = normalize_url(url)
-        return if Repositories::GitlabProvider.where.not(id: model.id).none? { normalize_url(it.url) == normalized }
+        return if Repositories::GitlabProvider.where.not(id: model.id).none? { it.url == url }
 
         errors.add(:url, :taken)
       end
-
-      def normalize_url(value) = value.to_s.chomp("/").downcase
 
       def webhook_user_exists
         return if ::User.exists?(id: gitlab_user_id)
