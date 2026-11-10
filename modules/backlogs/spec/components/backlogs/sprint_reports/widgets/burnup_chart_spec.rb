@@ -118,6 +118,40 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurnupChart, type: :component d
     end
   end
 
+  context "when the current date is before the sprint's start date" do
+    let(:now) { monday.in_time_zone - 2.hours }
+    let(:sprint) { create(:sprint, project:, start_date: monday, finish_date: second_friday) }
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-burnup-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The burnup chart will appear here after the sprint start date, once the sprint has received a work package."
+      )
+    end
+
+    context "when the sprint was started early" do
+      let(:sprint) do
+        create(:sprint, project:, start_date: monday, finish_date: second_friday, started_at: now - 1.hour)
+      end
+
+      it "renders the chart" do
+        expect(rendered_component).to have_element(:"opce-burnup-chart")
+      end
+    end
+
+    context "with a viewer for whom the start date has already begun" do
+      current_user do
+        create(:user, member_with_roles: { project => role }, preferences: { time_zone: "Asia/Tokyo" })
+      end
+
+      it "renders the chart" do
+        expect(rendered_component).to have_element(:"opce-burnup-chart")
+      end
+    end
+  end
+
   context "when the sprint has no date range set" do
     let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
 

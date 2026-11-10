@@ -55,6 +55,8 @@ module Backlogs
           sprint.date_range_set? && !project.estimation_unit_none?
         end
 
+        def chart_available? = sprint.started_at? || current_user.today >= sprint.start_date
+
         private
 
         def burndown

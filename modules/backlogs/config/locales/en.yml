@@ -261,8 +261,14 @@ en:
           heading: "Missing sprint dates"
       widgets:
         burndown_chart:
+          blankslate:
+            description: "The burndown chart will appear here after the sprint start date, once the sprint has received a work package."
+            heading: "No work to display"
           title: "Burndown chart"
         burnup_chart:
+          blankslate:
+            description: "The burnup chart will appear here after the sprint start date, once the sprint has received a work package."
+            heading: "No work to display"
           series:
             completed: "Completed work"
             guideline: "Guideline"
