@@ -31,6 +31,8 @@ module Backlogs
   module SprintReports
     module Widgets
       class BurndownChart < Grids::WidgetComponent
+        include ChartBlankslate
+
         param :sprint
         param :project
 
@@ -55,9 +57,15 @@ module Backlogs
           sprint.date_range_set? && !project.estimation_unit_none?
         end
 
-        def chart_available? = start_reached? && sprint.received_work_packages?(project)
-
         private
+
+        def blankslate_reason
+          if burndown.too_long_to_chart?
+            :too_long
+          elsif !start_reached? || !sprint.received_work_packages?(project)
+            :no_work
+          end
+        end
 
         def start_reached? = sprint.started_at? || current_user.today >= sprint.start_date
 

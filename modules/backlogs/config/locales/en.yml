@@ -262,13 +262,21 @@ en:
       widgets:
         burndown_chart:
           blankslate:
-            description: "The burndown chart will appear here after the sprint start date, once the sprint has received a work package."
-            heading: "No work to display"
+            no_work:
+              description: "The burndown chart will appear here after the sprint start date, once the sprint has received a work package."
+              heading: "No work to display"
+            too_long:
+              description: "The sprint duration exceeded the 1-year limit of the burndown chart's timespan."
+              heading: "No chart to display"
           title: "Burndown chart"
         burnup_chart:
           blankslate:
-            description: "The burnup chart will appear here after the sprint start date, once the sprint has received a work package."
-            heading: "No work to display"
+            no_work:
+              description: "The burnup chart will appear here after the sprint start date, once the sprint has received a work package."
+              heading: "No work to display"
+            too_long:
+              description: "The sprint duration exceeded the 1-year limit of the burnup chart's timespan."
+              heading: "No chart to display"
           series:
             completed: "Completed work"
             guideline: "Guideline"
@@ -277,8 +285,12 @@ en:
           title: "Burnup chart"
         created_resolved_chart:
           blankslate:
-            description: "The created vs resolved chart will appear here once a work package has been created or resolved within the sprint."
-            heading: "No work to display"
+            no_work:
+              description: "The created vs resolved chart will appear here once a work package has been created or resolved within the sprint."
+              heading: "No work to display"
+            too_long:
+              description: "The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan."
+              heading: "No chart to display"
           title: "Created vs resolved work packages"
         epic_progress:
           blankslate:

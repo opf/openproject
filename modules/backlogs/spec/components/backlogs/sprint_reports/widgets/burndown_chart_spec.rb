@@ -169,6 +169,23 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
     end
   end
 
+  context "when the sprint takes more than a year" do
+    let(:sprint) do
+      create(:sprint, project:, start_date: monday, finish_date: monday + 13.months, started_at: monday.in_time_zone + 9.hours)
+    end
+
+    before { create(:work_package, project:, sprint:) }
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No chart to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The sprint duration exceeded the 1-year limit of the burndown chart's timespan."
+      )
+    end
+  end
+
   context "when the sprint has no date range set" do
     let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
 
