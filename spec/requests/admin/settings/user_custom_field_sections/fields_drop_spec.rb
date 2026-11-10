@@ -43,6 +43,21 @@ RSpec.describe "User custom field section fields drop", :skip_csrf, type: :rails
   context "as admin" do
     current_user { create(:admin) }
 
+    it_behaves_like "a sortable list drop endpoint", list_id_scoped: true do
+      let(:dragged_id) { cf1.id }
+      let(:valid_drop_params) do
+        { list_type: "user_field", list_id: section_a.id.to_s, prev_id: cf2.id.to_s }
+      end
+
+      def send_drop(params) = drop(dragged_id.to_s, params)
+
+      def expect_unmoved
+        expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
+        expect(section_b.reload.attribute_order).to eq(%w[firstname])
+        expect(cf1.reload.custom_field_section_id).to eq(section_a.id)
+      end
+    end
+
     it "reorders a custom field after another custom field" do
       drop(cf1.id.to_s, { list_type: "user_field", list_id: section_a.id.to_s, prev_id: cf2.id.to_s })
       expect(response).to have_http_status(:ok)
@@ -90,32 +105,15 @@ RSpec.describe "User custom field section fields drop", :skip_csrf, type: :rails
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
     end
 
-    it "422s without mutation for a self prev_id" do
+    it "422s without mutation for a built-in anchoring itself" do
       drop("login", { list_type: "user_field", list_id: section_a.id.to_s, prev_id: "login" })
+
       expect(response).to have_http_status(:unprocessable_entity)
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
     end
 
     it "422s without mutation for an anchor from another section" do
       drop(cf1.id.to_s, { list_type: "user_field", list_id: section_a.id.to_s, prev_id: "firstname" })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
-    end
-
-    it "422s for a wrong list_type" do
-      drop(cf1.id.to_s, { list_type: "section", list_id: section_a.id.to_s, prev_id: "" })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
-    end
-
-    it "422s for a blank list_id" do
-      drop(cf1.id.to_s, { list_type: "user_field", list_id: "", prev_id: "" })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
-    end
-
-    it "422s when prev_id is omitted entirely" do
-      drop(cf1.id.to_s, { list_type: "user_field", list_id: section_a.id.to_s })
       expect(response).to have_http_status(:unprocessable_entity)
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
     end

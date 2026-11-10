@@ -30,11 +30,11 @@
 require "rails_helper"
 
 RSpec.describe Settings::UserCustomFieldSections::ShowComponent, type: :component do
-  let(:section) { create(:user_custom_field_section, attribute_order: ["login"]) }
+  let(:section) { create(:user_custom_field_section, name: "Contact", attribute_order: ["login"]) }
   let(:field_a) { create(:user_custom_field, user_custom_field_section: section) }
   let(:field_b) { create(:user_custom_field, user_custom_field_section: section) }
 
-  subject do
+  subject(:rendered_component) do
     with_request_url "/admin/settings/user_custom_fields" do
       # custom_fields_by_key/attribute_order read the section's in-memory
       # state, which the fields' after_create_commit callback updates via a
@@ -49,65 +49,42 @@ RSpec.describe Settings::UserCustomFieldSections::ShowComponent, type: :componen
     field_b
   end
 
-  it "wires the BorderBox as a sortable-lists list of type user_field scoped to the section" do
-    subject
+  it_behaves_like "a sortable-lists list", list_type: "user_field", name: "Contact"
 
-    expect(page).to have_css(
-      "[data-controller~='sortable-lists--list']" \
-      "[data-sortable-lists--list-type-value='user_field']" \
-      "[data-sortable-lists--list-accepted-type-value='user_field']" \
-      "[data-sortable-lists--list-id-value='#{section.id}']" \
-      "[data-sortable-lists--list-name-value='#{section.name}']"
-    )
+  it_behaves_like "a Border Box sortable list", row_count: 3
+
+  it_behaves_like "sortable-lists items", list_type: "user_field" do
+    let(:sortable_records) { [field_a, field_b] }
+  end
+
+  it_behaves_like "no legacy drag-and-drop wiring"
+
+  it "scopes the field list to the section, so drops address it by id" do
+    expect(rendered_component).to have_css("[data-sortable-lists--list-id-value='#{section.id}']")
   end
 
   it "wires the BorderBox as the section item's drag preview target" do
-    subject
-
-    expect(page).to have_css(
+    expect(rendered_component).to have_css(
       "[data-sortable-lists--list-type-value='user_field']" \
       "[data-sortable-lists--item-target='preview']"
     )
   end
 
   it "wires the section-header drag handle as the sortable-lists item handle target" do
-    subject
-
-    expect(page).to have_css(
+    expect(rendered_component).to have_css(
       ".Box-header .handle[data-sortable-lists--item-target='handle']",
       count: 1
     )
   end
 
-  it "wires each custom field row as a sortable-lists item of type user_field, keyed by its id" do
-    subject
-
-    [field_a, field_b].each do |field|
-      expect(page).to have_css(
-        "[data-controller~='sortable-lists--item']" \
-        "[data-sortable-lists--item-id-value='#{field.id}']" \
-        "[data-sortable-lists--item-type-value='user_field']" \
-        "[data-sortable-lists--item-label-value='#{field.name}']"
-      )
-    end
-  end
-
-  it "wires the built-in attribute row as a sortable-lists item of type user_field, keyed by its attribute name" do
-    subject
-
-    expect(page).to have_css(
+  # Not the shared items contract: a built-in attribute owns no record, so the
+  # row is keyed by its attribute name and labelled from the User model.
+  it "wires the built-in attribute row as a sortable-lists item of type user_field" do
+    expect(rendered_component).to have_css(
       "[data-controller~='sortable-lists--item']" \
       "[data-sortable-lists--item-id-value='login']" \
       "[data-sortable-lists--item-type-value='user_field']" \
       "[data-sortable-lists--item-label-value='#{User.human_attribute_name(:login)}']"
-    )
-  end
-
-  it "has no generic-drag-and-drop remnants" do
-    subject
-
-    expect(page.native.to_html).not_to match(
-      /generic-drag-and-drop|target-container-accessor|target-allowed-drag-type|draggable-type|drop-url/
     )
   end
 end

@@ -75,22 +75,27 @@ RSpec.describe "User custom field sections drop", :skip_csrf, type: :rails_reque
     expect(field_b.reload.custom_field_section_id).to eq(section_b.id)
   end
 
-  {
-    "an unknown anchor" => -> { { prev_id: "999999" } },
-    "a self-referencing anchor" => -> { { prev_id: section_a.id.to_s } },
-    "an anchor outside the user section scope" => -> { { prev_id: create(:project_custom_field_section).id.to_s } },
-    "prev_id omitted entirely" => -> { {} },
-    "a wrong list_type" => -> { { list_type: "custom_field", prev_id: "" } },
-    "a nonblank list_id" => -> { { list_id: section_b.id.to_s, prev_id: "" } },
-    "a collection-valued prev_id" => -> { { prev_id: [section_b.id.to_s] } },
-    "an empty collection prev_id" => -> { { prev_id: [""] } },
-    "a collection-valued list_id" => -> { { list_id: [""], prev_id: "" } }
-  }.each do |description, params|
-    it "422s without mutation for #{description}" do
-      drop(section_a, **instance_exec(&params))
-      expect(response).to have_http_status(:unprocessable_entity)
+  it_behaves_like "a sortable list drop endpoint", list_id_scoped: false do
+    let(:dragged_id) { section_a.id }
+    let(:valid_drop_params) do
+      { list_type: "user_custom_field_section", list_id: "", prev_id: section_b.id.to_s }
+    end
+
+    def send_drop(params)
+      put drop_admin_settings_user_custom_field_section_path(dragged_id),
+          params:, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    end
+
+    def expect_unmoved
       expect(UserCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
     end
+  end
+
+  it "422s without mutation for an anchor outside the user section scope" do
+    drop(section_a, prev_id: create(:project_custom_field_section).id.to_s)
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(UserCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
   end
 
   it "is forbidden for a non-admin" do
