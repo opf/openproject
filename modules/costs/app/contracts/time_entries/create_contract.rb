@@ -28,7 +28,6 @@
 module TimeEntries
   class CreateContract < BaseContract
     validate :user_allowed_to_add
-    validate :user_is_project_member
 
     private
 
@@ -37,15 +36,7 @@ module TimeEntries
       return if allowed_to_log_for_others?
       return if allowed_to_log_to_himself?
 
-      errors.add :entity, :cannot_log_for_this_work_package
-      errors.add :base, :error_unauthorized
-    end
-
-    def user_is_project_member
-      return unless model.project && model.user
-      return if model.user.member_of?(model.project)
-
-      errors.add :base, :error_unauthorized
+      errors.add :base, :error_unauthorized, message: :cannot_log_for_this_work_package
     end
 
     def allowed_to_log_for_others?
