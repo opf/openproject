@@ -66,7 +66,7 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       max_value: ->(model) { %w[int float].include?(model.field_format) },
       regexp: ->(model) { %w[string int float text link].include?(model.field_format) },
       default_value: ->(model) { %w[string int float text link bool].include?(model.field_format) },
-      multi_value: ->(model) { %w[list user version hierarchy].include?(model.field_format) },
+      multi_value: ->(model) { %w[list user version hierarchy weighted_item_list].include?(model.field_format) },
       is_required: ->(model) { %w[calculated_value bool].exclude?(model.field_format) },
       formula: ->(model) { model.field_format == "calculated_value" },
       allow_non_open_versions: ->(model) { model.field_format == "version" }

@@ -103,6 +103,7 @@ OpenProject::CustomFieldFormat.tap do |formats|
                    label: :label_weighted_item_list,
                    only: %w(Project WorkPackage),
                    order: 14,
+                   multi_value_possible: true,
                    enterprise_feature: :weighted_item_lists,
                    formatter: "CustomValue::HierarchyStrategy")
 

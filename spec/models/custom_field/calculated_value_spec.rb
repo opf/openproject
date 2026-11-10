@@ -711,6 +711,8 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       "MIN(1, 2, 3, 4)",
       "MAX(1, 2, 3, 4)",
       "SUM(1, 2, 3, 4)",
+      "MUL(1, 2, 3, 4)",
+      "COUNT(1, 2, 3, 4)",
       "AVG(1, 2, 3, 4)",
       "ROUND(1.5)",
       "ROUNDUP(1.5)",
