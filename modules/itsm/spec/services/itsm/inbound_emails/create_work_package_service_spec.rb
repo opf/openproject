@@ -129,7 +129,7 @@ RSpec.describe ITSM::InboundEmails::CreateWorkPackageService do
   end
 
   context "when the email cannot be stored" do
-    let(:message_id) { "#{'a' * 300}@customer.example" }
+    let(:message_id) { "#{'a' * 1000}@customer.example" }
 
     it "fails without keeping the work package" do
       expect(result.errors.symbols_for(:message_id)).to eq([:too_long])
