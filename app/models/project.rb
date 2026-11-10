@@ -232,7 +232,7 @@ class Project < ApplicationRecord
   end
 
   def internal_comments_enabled?
-    EnterpriseToken.allows_to?(:internal_comments) && !!enabled_internal_comments
+    EnterpriseToken.allows_to?(:internal_comments) && enabled_internal_comments.present?
   end
 
   def archived?

@@ -34,11 +34,7 @@ RSpec.describe Query::Results, "Comment filter integration", with_ee: %i[interna
   let(:project) { create(:project, enabled_internal_comments: true) }
   let!(:public_comment_wp) { create(:work_package, project:) }
   let!(:internal_comment_wp) { create(:work_package, project:) }
-  let(:query) do
-    build(:query, user:, project:, show_hierarchies: false).tap do |q|
-      q.filters.clear
-    end
-  end
+  let(:query) { Query.new(user:, project:, include_subprojects: false) }
 
   subject(:work_packages) { described_class.new(query).work_packages }
 
