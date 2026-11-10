@@ -61,13 +61,23 @@ RSpec.describe CustomOption do
       expect(build(:custom_option, custom_field:, project:, default_value: false)).to be_valid
     end
 
-    describe "value uniqueness between global and project options" do
+    describe "value uniqueness" do
       let(:other_project) { create(:project) }
 
       before { create(:custom_option, custom_field:, value: "QA", project:) }
 
-      it "allows a global option to share the value of another global option" do
-        expect(build(:custom_option, custom_field:, value: "some value")).to be_valid
+      it "does not allow a global option to share the value of another global option" do
+        option = build(:custom_option, custom_field:, value: "some value")
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a project option to share the value of an option of the same project" do
+        option = build(:custom_option, custom_field:, value: "QA", project:)
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
       end
 
       it "does not allow a global option to share the value of a project option" do
