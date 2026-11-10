@@ -44,6 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= content_tag :body,
                 class: "#{body_css_classes}  __overflowing_element_container __overflowing_body",
                 data: body_data_attributes(local_assigns) do %>
+<%= render "layouts/theme_bootstrap" %>
 <%= render partial: "warning_bar/warning_bar" %>
 <noscript>
   <div class="top-shelf">
