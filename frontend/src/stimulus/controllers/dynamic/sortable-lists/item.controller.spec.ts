@@ -1431,6 +1431,12 @@ describe('Sortable lists item controller', () => {
       isItemHidden:ReturnType<typeof vi.fn>;
     }
 
+    // The refresh is coalesced into one microtask per menu fragment.
+    async function refreshMoveItems(controller:{ moveItemTargetConnected():void }):Promise<void> {
+      controller.moveItemTargetConnected();
+      await Promise.resolve();
+    }
+
     function renderItemWithMenu(idNumber:number, withDivider = false):{ el:HTMLElement; menu:FakeActionMenu } {
       const el = document.createElement('div');
       el.dataset.controller = 'sortable-lists--item';
@@ -1495,7 +1501,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'top'));
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'up'));
@@ -1511,7 +1517,7 @@ describe('Sortable lists item controller', () => {
       // unavailable because it would cross a hidden block.
       const gappedAvailability = { top: true, up: true, down: false, bottom: true };
       controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), gappedAvailability));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'down'));
       expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'up'));
@@ -1523,7 +1529,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'top'));
       expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'up'));
@@ -1538,7 +1544,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       const parent = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
       expect(menu.hideItem).toHaveBeenCalledWith(parent);
@@ -1552,7 +1558,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(divider.hasAttribute('hidden')).toBe(true);
@@ -1569,7 +1575,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       expect(el.querySelector('[data-sortable-lists--item-target="moveDivider"]')).toHaveAttribute('hidden');
     });
@@ -1602,12 +1608,30 @@ describe('Sortable lists item controller', () => {
       expect(availability).toHaveBeenCalledOnce();
     });
 
+    it('refreshes move availability once when a deferred menu brings four move items', async () => {
+      const { el } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const root = stubRoot(el, { isFirst: false, isLast: false });
+      controller.connectRoot(root);
+      await Promise.resolve();
+      const availability = vi.spyOn(root, 'moveAvailability');
+
+      controller.moveItemTargetConnected();
+      controller.moveItemTargetConnected();
+      controller.moveItemTargetConnected();
+      controller.moveItemTargetConnected();
+      await Promise.resolve();
+
+      expect(availability).toHaveBeenCalledOnce();
+    });
+
     it('keeps the divider while something below it is still visible', async () => {
       const { el } = renderItemWithMenu(1, true);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(divider.hasAttribute('hidden')).toBe(false);
@@ -1622,7 +1646,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(divider.hasAttribute('hidden')).toBe(false);
@@ -1655,7 +1679,7 @@ describe('Sortable lists item controller', () => {
         const controller = await mountDisabling(el);
         const other = document.createElement('li');
         controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, other]));
-        controller.moveItemTargetConnected();
+        await refreshMoveItems(controller);
 
         expect(moveMenuOf(el)).toHaveAttribute('hidden');
         expect(menu.disableItem).not.toHaveBeenCalledWith(moveMenuOf(el));
@@ -1668,10 +1692,10 @@ describe('Sortable lists item controller', () => {
         const controller = await mountDisabling(el);
         const availability = { ...unavailable };
         controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
-        controller.moveItemTargetConnected();
+        await refreshMoveItems(controller);
 
         Object.assign(availability, { up: true });
-        controller.moveItemTargetConnected();
+        await refreshMoveItems(controller);
 
         expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
         expect(menu.enableItem).toHaveBeenCalledWith(moveMenuOf(el));
@@ -1685,7 +1709,7 @@ describe('Sortable lists item controller', () => {
         nestDirectionsInSubmenu(el);
         const controller = await mountDisabling(el);
         controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable));
-        controller.moveItemTargetConnected();
+        await refreshMoveItems(controller);
 
         expect(menu.disableItem).toHaveBeenCalledWith(moveMenuOf(el));
         expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
@@ -1716,7 +1740,7 @@ describe('Sortable lists item controller', () => {
           const { el } = renderBatchMenuWithExplanation();
           const controller = await mountItemController(el);
           controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
-          controller.moveItemTargetConnected();
+          await refreshMoveItems(controller);
 
           expect(moveMenuOf(el)).toHaveAttribute('hidden');
           expect(explanationOf(el)).not.toHaveAttribute('hidden');
@@ -1732,7 +1756,7 @@ describe('Sortable lists item controller', () => {
           controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
           within(list).getByRole('menuitem', { name: 'Move to position' }).focus();
 
-          controller.moveItemTargetConnected();
+          await refreshMoveItems(controller);
 
           expect(moveMenu).toHaveAttribute('hidden');
           expect(within(explanationOf(el)).getByRole('menuitem')).toHaveFocus();
@@ -1778,10 +1802,10 @@ describe('Sortable lists item controller', () => {
           const controller = await mountItemController(el);
           const availability = { ...unavailable };
           controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
-          controller.moveItemTargetConnected();
+          await refreshMoveItems(controller);
 
           Object.assign(availability, { down: true });
-          controller.moveItemTargetConnected();
+          await refreshMoveItems(controller);
 
           expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
           expect(explanationOf(el)).toHaveAttribute('hidden');
@@ -1791,7 +1815,7 @@ describe('Sortable lists item controller', () => {
           const { el } = renderBatchMenuWithExplanation();
           const controller = await mountItemController(el);
           controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), undefined, [el, document.createElement('li')]));
-          controller.moveItemTargetConnected();
+          await refreshMoveItems(controller);
 
           expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
           expect(explanationOf(el)).toHaveAttribute('hidden');
@@ -1803,7 +1827,7 @@ describe('Sortable lists item controller', () => {
           document.body.appendChild(el);
           const controller = await mountItemController(el);
           controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
-          controller.moveItemTargetConnected();
+          await refreshMoveItems(controller);
 
           expect(moveMenuOf(el)).toHaveAttribute('hidden');
           expect(menu.showItem).not.toHaveBeenCalled();
@@ -1837,7 +1861,7 @@ describe('Sortable lists item controller', () => {
           const controller = await mountItemController(el);
           const moveInDirection = vi.fn();
           controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection, someAvailable, [el, document.createElement('li')]));
-          controller.moveItemTargetConnected();
+          await refreshMoveItems(controller);
 
           for (const li of [moveMenuOf(el), ...['top', 'up', 'down', 'bottom'].map((direction) => liFor(el, direction))]) {
             expect(li).toHaveClass('ActionListItem--disabled');
@@ -1874,7 +1898,7 @@ describe('Sortable lists item controller', () => {
       const moveInDirection = vi.fn();
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       liFor(el, 'down').click();
       expect(moveInDirection).toHaveBeenCalledWith(el, 'down', null);
@@ -1899,7 +1923,7 @@ describe('Sortable lists item controller', () => {
       const controller = await mountItemController(el);
       const moveInDirection = vi.fn();
       controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       liFor(el, 'down').click();
 

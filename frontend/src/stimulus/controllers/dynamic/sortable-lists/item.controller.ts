@@ -117,6 +117,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
+  private moveRefreshScheduled = false;
 
   private readonly onMenuToggle = (event:Event):void => {
     // An optimistic in-list drag leaves the server-rendered direction
@@ -150,9 +151,18 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   // Gates move items that arrive in a deferred menu fragment, after the
-  // open toggle has already refreshed availability.
+  // open toggle has already refreshed availability. The callback fires for
+  // every item of the fragment, so the refresh waits for the last one.
   moveItemTargetConnected():void {
-    this.refreshMoveMenuAvailability();
+    if (this.moveRefreshScheduled) {
+      return;
+    }
+
+    this.moveRefreshScheduled = true;
+    queueMicrotask(() => {
+      this.moveRefreshScheduled = false;
+      this.refreshMoveMenuAvailability();
+    });
   }
 
   move(event:ActionEvent):void {
