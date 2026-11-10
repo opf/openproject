@@ -156,6 +156,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.media_type).to eq("text/javascript")
       expect(response.body).to include("openproject-offline-", "unregister")
       expect(response.body).to include(%(const CACHE_PREFIX = "#{ApplicationController.helpers.pwa_cache_prefix}";))
+      expect(response.body.scan("const CACHE_PREFIX").size).to eq(1)
       expect(response.body).not_to include("importScripts", "OP_SW")
     end
 

@@ -30,8 +30,6 @@ const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
   self.OP_SW = <%== pwa_service_worker_config.to_json %>;
   importScripts(<%== raw_variable_asset_path("service-worker.js").to_json %>);
 <% else %>
-  const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
-
   self.addEventListener("install", (event) => {
     event.waitUntil(self.skipWaiting());
   });
