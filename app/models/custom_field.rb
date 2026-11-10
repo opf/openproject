@@ -443,7 +443,7 @@ class CustomField < ApplicationRecord
   end
 
   def multi_value_possible?
-    format_definition&.multi_value_possible?
+    format_definition&.multi_value_possible?(self.class.customized_class&.name)
   end
 
   def numeric_bounds_possible?

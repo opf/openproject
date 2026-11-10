@@ -2,7 +2,7 @@
 ---
 post:
   summary: Form for editing a Work Package
-  operationId: form_edit_work_package
+  operationId: validate_work_package_update_form
   tags:
     - Work Packages
   description: |-

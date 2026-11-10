@@ -45,7 +45,8 @@ RSpec.describe "API v3 Time Entries resource",
     create(:user, member_with_permissions: { project => permissions }, preferences: { time_zone: "Europe/Berlin" })
   end
   let(:japanese_user) do
-    create(:user, member_with_permissions: { project => [:view_project] }, preferences: { time_zone: "Asia/Tokyo" })
+    create(:user, member_with_permissions: { project => %i[view_project view_work_packages] },
+                  preferences: { time_zone: "Asia/Tokyo" })
   end
 
   let(:path) { api_v3_paths.time_entries }

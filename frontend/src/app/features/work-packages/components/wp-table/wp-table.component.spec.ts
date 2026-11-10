@@ -25,9 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { CommonModule } from '@angular/common';
 import { headerRowKey, inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import type { PaintScope } from 'core-app/features/work-packages/components/wp-fast-table/row-mutations';
-import { Component, Injector, NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { Component, Injector, NgModule, NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
@@ -55,6 +57,7 @@ import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
+import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
   buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
@@ -90,9 +93,9 @@ describe('WorkPackagesTableComponent lifecycle', () => {
   let previousHandler:typeof config.onUnhandledError;
 
   beforeEach(async () => {
+    configureTableModule();
     await TestBed.configureTestingModule({
-      declarations: [WorkPackagesTableComponent, ListViewStandInComponent],
-      schemas: [NO_ERRORS_SCHEMA],
+      imports: [TableStandInModule],
       providers: [
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
         WorkPackageViewSumService,
@@ -125,6 +128,7 @@ describe('WorkPackagesTableComponent lifecycle', () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     config.onUnhandledError = previousHandler;
     (fixture.nativeElement as HTMLElement).remove();
   });
@@ -314,14 +318,15 @@ describe('WorkPackagesTableComponent physical columns', () => {
   let mounted:HTMLElement|undefined;
 
   afterEach(() => {
+    vi.restoreAllMocks();
     mounted?.remove();
     mounted = undefined;
   });
 
   async function mount(configuration:Record<string, boolean>, baseline:boolean) {
+    configureTableModule();
     await TestBed.configureTestingModule({
-      declarations: [WorkPackagesTableComponent, ListViewStandInComponent],
-      schemas: [NO_ERRORS_SCHEMA],
+      imports: [TableStandInModule],
       providers: [
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
         WorkPackageViewSumService,
@@ -400,6 +405,25 @@ class TwoTablesStandInComponent {
   configurations = [{ ...new ListViewStandInComponent().configuration }, { ...new ListViewStandInComponent().configuration }];
 }
 
+@NgModule({
+  declarations: [ListViewStandInComponent, TwoTablesStandInComponent],
+  imports: [OpenprojectWorkPackagesModule],
+})
+class TableStandInModule {}
+
+function configureTableModule():void {
+  vi.spyOn(OpenprojectWorkPackagesModule, 'bootstrapAttributeGroups').mockImplementation(() => undefined);
+  TestBed.overrideModule(OpenprojectWorkPackagesModule, {
+    set: {
+      imports: [CommonModule, NoResultsComponent],
+      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent],
+      exports: [WorkPackagesTableComponent],
+      providers: [],
+      schemas: [NO_ERRORS_SCHEMA],
+    },
+  });
+}
+
 describe('WorkPackagesTableComponent treegrid structure', () => {
   const translations = {
     'js.label_work_package_plural': 'Work packages',
@@ -429,9 +453,9 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     canReference = new BehaviorSubject(false);
     created = new Subject();
     newWorkPackage = Object.assign(buildWorkPackage({ id: HAL_NEW_RESOURCE_ID, subject: '' }), { __initialized_at: 1 });
+    configureTableModule();
     await TestBed.configureTestingModule({
-      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, ListViewStandInComponent, TwoTablesStandInComponent],
-      schemas: [NO_ERRORS_SCHEMA],
+      imports: [TableStandInModule],
       providers: [
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], translations, editing: {} }),
         WorkPackageViewSumService,
@@ -484,6 +508,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     (fixture?.nativeElement as HTMLElement|undefined)?.remove();
   });
 
@@ -760,6 +785,14 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await render([{ id: '1' }]);
       expectPopulated();
       expect(within(resultsSection()).getByRole('row')).toHaveAttribute('aria-level', '1');
+    });
+
+    it('shows a Blankslate in the message row', async () => {
+      await mount({}, []);
+
+      const cell = within(emptySection()!).getByRole('gridcell');
+      expect(within(cell).getByRole('heading', { name: 'js.work_packages.no_results.title' })).toBeInTheDocument();
+      expect(within(cell).getByText('js.work_packages.no_results.description')).toHaveClass('blankslate-description');
     });
   });
 

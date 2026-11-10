@@ -38,5 +38,5 @@ post:
   tags:
     - Versions
   description: ''
-  operationId: Version_update_form
+  operationId: validate_version_update_form
   summary: Version update form

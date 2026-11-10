@@ -33,7 +33,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import { MAX_ORDER, buildDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
+import { MAX_ORDER, buildDelta, buildMoveDelta, buildOrderDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3QueryOrder, QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
@@ -230,7 +230,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     const reordered = [...order];
     reordered.splice(fromIndex, 1);
     reordered.splice(toIndex, 0, wpId);
-    return this.preparePosition(query, reordered, wpId, toIndex, isCurrent, fromIndex);
+    return this.prepareOrder(query, reordered, isCurrent, (positions) => buildMoveDelta(reordered, positions, wpId, toIndex, fromIndex));
   }
 
   private validateMove(order:readonly string[], wpId:string, toIndex:number):number {
@@ -257,22 +257,43 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     }
     const reordered = [...order];
     reordered.splice(index, 0, wpId);
-    return this.preparePosition(query, reordered, wpId, index, isCurrent);
+    return this.prepareOrder(query, reordered, isCurrent, (positions) => buildMoveDelta(reordered, positions, wpId, index, null));
   }
 
-  private async preparePosition(
+  public async prepareBlockMove(
+    query:QueryResource,
+    order:readonly string[],
+    block:readonly string[],
+    target:number,
+    isCurrent:() => boolean,
+  ):Promise<PreparedQueryOrder> {
+    const selected = new Set(block);
+    const members = order.filter((id) => selected.has(id));
+    const reordered = order.filter((id) => !selected.has(id));
+    if (members.length < 2 || members.length !== block.length || !Number.isInteger(target) || target < 0 || target > reordered.length) {
+      throw new Error('Invalid selection or target for a block move.');
+    }
+    reordered.splice(target, 0, ...members);
+    return this.prepareOrder(query, reordered, isCurrent, (positions) => buildOrderDelta(reordered, positions));
+  }
+
+  private async prepareOrder(
     query:QueryResource,
     reordered:string[],
-    wpId:string,
-    toIndex:number,
     isCurrent:() => boolean,
-    fromIndex:number|null = null,
+    deltaFor:(positions:QueryOrder) => QueryOrder,
   ):Promise<PreparedQueryOrder> {
     const endpoint = isPersistedResource(query) ? this.apiV3Service.queries.id(query).order : undefined;
     const querySpace = this.querySpace;
     const positionsState = this.positions;
-    const positions = await this.positionsFor(query);
-    const delta = buildDelta(reordered, positions, wpId, toIndex, fromIndex);
+    let positions = await this.positionsFor(query);
+    let delta = deltaFor(positions);
+    const ranksOthers = Object.keys(delta).some((id) => !reordered.includes(id));
+    if (endpoint && ranksOthers) {
+      positions = await endpoint.get();
+      if (isCurrent() && querySpace.query.value === query) positionsState.putValue({ ...positions });
+      delta = deltaFor(positions);
+    }
     const updatedPositions = { ...positions, ...delta };
     return {
       order: reordered,

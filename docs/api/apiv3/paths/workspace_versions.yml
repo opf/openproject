@@ -104,5 +104,5 @@ get:
   description: |-
     This endpoint lists the versions that are *available* in a given workspace.
     Note that due to sharing this might be more than the versions *defined* by that workspace.
-  operationId: List_versions_available_in_a_workspace
+  operationId: list_versions_available_in_a_workspace
   summary: List versions available in a workspace

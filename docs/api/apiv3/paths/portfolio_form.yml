@@ -49,5 +49,5 @@ post:
   tags:
     - Portfolios
   description: ''
-  operationId: Portfolio_update_form
+  operationId: validate_portfolio_update_form
   summary: Portfolio update form

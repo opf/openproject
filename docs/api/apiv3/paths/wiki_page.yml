@@ -57,5 +57,5 @@ get:
   tags:
     - Wiki Pages
   description: Retrieve an individual wiki page as identified by the id parameter
-  operationId: View_Wiki_Page
+  operationId: get_wiki_page
   summary: View Wiki Page

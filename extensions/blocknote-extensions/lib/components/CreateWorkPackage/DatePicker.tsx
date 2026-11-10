@@ -3,7 +3,8 @@ import { flushSync } from 'react-dom';
 import flatpickr from 'flatpickr';
 import type { DayElement, Instance } from 'flatpickr/dist/types/instance';
 import { useAnchoredPopover } from '../WorkPackage/anchoredPopover';
-import { CalendarStyles, TextControl } from './atoms';
+import { CalendarStyles } from './atoms';
+import { TextControl } from '../Shared/atoms';
 import {
   calendarLocaleOf,
   formatDateTime,

@@ -65,6 +65,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseActive
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDates
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDefinition
+  register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseStatus
   register_journal_formatter OpenProject::JournalFormatter::ProjectStatusCode
   register_journal_formatter OpenProject::JournalFormatter::PublicNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::ScheduleManually

@@ -66,5 +66,5 @@ get:
   tags:
     - Revisions
   description: ''
-  operationId: View_revision
+  operationId: get_revision
   summary: View revision
