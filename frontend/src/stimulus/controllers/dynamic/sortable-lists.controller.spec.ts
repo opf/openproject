@@ -59,6 +59,7 @@ import type { monitorForElements as monitorForElementsFn } from '@atlaskit/pragm
 import { usePlatform } from 'core-common/testing/platform';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { type Mock, type MockInstance } from 'vitest';
+import type { IToast } from 'core-app/shared/components/toaster/toast.service';
 import { TurboHelpers } from 'core-turbo/helpers';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
@@ -3056,7 +3057,7 @@ describe('Sortable lists controller', () => {
   });
 
   describe('batch cap', () => {
-    it('refuses a drag whose batch exceeds the cap and announces it', async () => {
+    async function renderOversizedBatch() {
       const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
       root.setAttribute('data-sortable-lists-max-batch-size-value', '2');
       await ctx.nextFrame();
@@ -3064,9 +3065,38 @@ describe('Sortable lists controller', () => {
       click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
       announceSpy.mockClear();
 
+      return { controller, items };
+    }
+
+    function collectToasts():{ toasts:IToast[]; stop:() => void } {
+      const toasts:IToast[] = [];
+      const onToast = (event:Event) => toasts.push((event as CustomEvent<IToast>).detail);
+      window.addEventListener('op:toasters:add', onToast);
+
+      return { toasts, stop: () => window.removeEventListener('op:toasters:add', onToast) };
+    }
+
+    it('refuses a drag whose batch exceeds the cap and shows the cap as an error toast', async () => {
+      const { controller, items } = await renderOversizedBatch();
+      const { toasts, stop } = collectToasts();
+
       expect(controller.beginDrag(items[0]).refused).toBe(true);
-      expect(announceSpy).toHaveBeenCalledWith('[batch_too_large:3:2]', { politeness: 'assertive' });
       expect(controller.beginDrag(items[4]).refused).toBe(false);
+      stop();
+
+      expect(toasts).toEqual([{ type: 'error', message: '[batch_too_large:3:2]' }]);
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+
+    it('shows the cap toast again when the same oversized batch is dragged again', async () => {
+      const { controller, items } = await renderOversizedBatch();
+      const { toasts, stop } = collectToasts();
+
+      controller.beginDrag(items[0]);
+      controller.beginDrag(items[0]);
+      stop();
+
+      expect(toasts).toHaveLength(2);
     });
 
     it('keeps no refused session and ends the one it replaces', async () => {

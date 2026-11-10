@@ -1177,6 +1177,12 @@ module Pages
       retry
     end
 
+    # Attempts a drag the client refuses before it starts, so no request and
+    # no stream follow for drag_work_package to wait on.
+    def drag_work_package_expecting_refusal(moved, after:)
+      drag_backlogs_item(source: find(work_package_selector(moved)), target: find(work_package_selector(after)), edge: :bottom)
+    end
+
     # Drags expecting a rejection: drag_work_package waits on the frame
     # reload a successful cross-list move causes, while a rejected move only
     # streams an error flash, so this settles on the stream render instead.

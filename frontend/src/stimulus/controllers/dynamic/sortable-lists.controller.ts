@@ -33,9 +33,9 @@ import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
 import { announce } from '@primer/live-region-element';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { OPToastEvent } from 'core-app/shared/components/toaster/toast-event';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
 import { performTurboStreamRequest, withProgressBar } from 'core-stimulus/helpers/request-helpers';
+import { showErrorToast } from 'core-stimulus/helpers/toast-helpers';
 import { parseTemplate } from 'url-template';
 import {
   buildMoveFormData,
@@ -298,12 +298,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     this.endDrag();
     const session = new DragSession(this, itemElement);
 
-    // Announced from canDrag, the earliest point a drag can be stopped, so
-    // an oversized batch is told before any preview or drop feedback appears.
+    // Told from canDrag, the earliest point a drag can be stopped, so an
+    // oversized batch hears before any preview or drop feedback appears.
     if (session.refused) {
-      void announce(
+      showErrorToast(
         I18n.t(`${this.moveAnnouncementScopeValue}.batch_too_large`, { count: session.size, max: this.maxBatchSizeValue }),
-        { politeness: 'assertive' },
       );
       return session;
     }
@@ -714,7 +713,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       // A rejection streams its own flash; only a request that never
       // produced a stream lands here.
       debugLog('Failed to move sortable list items to destination', error);
-      this.dispatchErrorToast();
+      showErrorToast();
     } finally {
       this.finishMoveRequest();
     }
@@ -857,7 +856,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
 
     if (result.showToast) {
-      this.dispatchErrorToast();
+      showErrorToast();
     }
     // A 422 streams its own flash, which knows nothing about the client's
     // rollback: without this, a rejection plus a concurrent morph would leave
@@ -967,15 +966,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     } else {
       this.element.removeAttribute(sortableListsBusyAttribute);
     }
-  }
-
-  private dispatchErrorToast():void {
-    window.dispatchEvent(new CustomEvent(OPToastEvent, {
-      detail: {
-        message: I18n.t('js.error.internal'),
-        type: 'error',
-      },
-    }));
   }
 
   // The one meaningful message for the whole optimistic move; spoken from the
