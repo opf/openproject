@@ -810,7 +810,7 @@ describe('KeyboardNavigationTransformer', () => {
     expect(table.groupHeader(1)).toHaveFocus();
   });
 
-  it('Enter on a group sums row is not consumed', async () => {
+  it('leaves Enter on a group sums row to the browser', async () => {
     const table = await mount({
       ...grouped,
       groups: grouped.groups!.map((group) => ({ ...group, sums: { estimatedTime: 'PT1H' } as never })),
@@ -857,7 +857,7 @@ describe('KeyboardNavigationTransformer', () => {
     expect(container).toHaveFocus();
   });
 
-  it('returnFocus treats an unlisted grid row as at rest', async () => {
+  it('returnFocus takes focus back from a row the table did not render', async () => {
     const table = await mount();
     const origin = { key: wpOccurrenceKey('2'), cell: null, desiredColumn: null };
     navigation(table).focusPosition(origin);

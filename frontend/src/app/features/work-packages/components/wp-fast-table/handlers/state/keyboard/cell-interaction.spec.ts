@@ -823,7 +823,7 @@ describe('CellInteraction', () => {
     expect(table.selection.getSelectedWorkPackageIds()).toEqual(selection);
   });
 
-  it('keeps Tab between controls inside an editor native', async () => {
+  it('leaves Tab before the editor\'s last control to the browser and parks nothing', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
     table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
