@@ -71,7 +71,7 @@ ms:
           name: Kakitangan dan pengurus projek
         item_1:
           name: Peranan global standard
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
           label: Fix grammar
         item_1:

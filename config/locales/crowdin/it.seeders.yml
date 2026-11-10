@@ -71,15 +71,15 @@ it:
           name: Staff e gestore dei progetti
         item_1:
           name: Ruolo globale standard
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: Correggi la grammatica
+          label: Fix grammar
         item_1:
-          label: Rendi conciso
+          label: Make concise
         item_2:
-          label: Traduci in inglese
+          label: Translate to English
         item_3:
-          label: Organizza nel modello
+          label: Sort into template
     standard:
       project_phases:
         item_0:

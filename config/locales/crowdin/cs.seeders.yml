@@ -71,7 +71,7 @@ cs:
           name: Manažer zaměstnanců a projektů
         item_1:
           name: Standardní globální role
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
           label: Fix grammar
         item_1:

@@ -61,7 +61,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
   def name_workflow_and_continue(name)
     click_on I18n.t(:button_continue)
 
-    within_dialog I18n.t("workflows.form.edit_title") do
+    within_dialog I18n.t("workflows.form.save_title") do
       fill_in "Workflow name", with: name
       click_on I18n.t(:button_save)
     end
@@ -78,7 +78,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
     expect(page).to have_no_button "Save"
     name_workflow_and_continue("Bug flow")
 
-    expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
+    expect(page).to have_current_path(type_creation_wizard_path(type, step: :project_attributes))
     expect(workflows_for(type, role).count).to be 2
     expect(type.default_variant.reload.workflow.name).to eq("Bug flow")
   end
@@ -88,7 +88,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
       visit_workflow_wizard(roles: [role])
       click_on I18n.t(:button_continue)
 
-      within_dialog I18n.t("workflows.form.edit_title") do
+      within_dialog I18n.t("workflows.form.save_title") do
         expect(page).to have_field("Workflow name", with: "#{type.name} workflow")
       end
     end
@@ -110,7 +110,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
       visit_workflow_wizard(roles: [role])
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
+      expect(page).to have_current_path(type_creation_wizard_path(type, step: :project_attributes))
       expect(other.default_variant.reload.workflow.name).to be_present
     end
   end
@@ -122,7 +122,7 @@ RSpec.describe "Type creation wizard workflows step", :js do
 
     name_workflow_and_continue("Empty tab flow")
 
-    expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
+    expect(page).to have_current_path(type_creation_wizard_path(type, step: :project_attributes))
     expect(workflows_for(type, role).count).to be 1
   end
 

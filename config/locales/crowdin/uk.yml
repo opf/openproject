@@ -83,13 +83,13 @@ uk:
         dependencies: Залежності
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Триває
-        injects_type_template: Вставити шаблон для типу пакета робіт
-        label: Мітка
-        prompt: Запит
-        types: Типи пакетів робіт
-        usage_scope: Область
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Дія
         cancel_requested: Запит на скасування
@@ -1096,11 +1096,11 @@ uk:
         few: Дії
         many: Дії
         other: Дії
-      ai/text_transform_action:
-        one: Дія з перетворення тексту
-        few: Дії з перетворення тексту
-        many: Дії з перетворення тексту
-        other: Дії з перетворення тексту
+      ai/text_action:
+        one: Text action
+        few: Text actions
+        many: Text actions
+        other: Text actions
       ai/text_transform_run:
         one: Запуск перетворення тексту
         few: Запуски перетворення тексту
@@ -2438,43 +2438,44 @@ uk:
         page_header:
           description: Виберіть класичні числові ідентифікатори пакетів робіт або семантичні із зазначенням проєкту (до ідентифікатора пакета робіт додається префікс з ідентифікатором проєкту).
         success_banner: Формат ідентифікаторів пакетів робіт успішно оновлено.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Користувачі більше не зможуть виконувати цю дію в редакторі форматованого тексту.
-        heading: Справді видалити дію «%{label}»?
-        title: Видалити дію перетворення тексту
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Якщо цей прапорець встановлено, шаблон опису типу пакета робіт автоматично додається до підказки. Підказка має містити інструкції щодо того, як працювати з цим шаблоном.
-        label_caption: Це назва, яку бачитимуть користувачі в редакторі.
-        select_types: Виберіть типи
-        types_caption: Додайте типи пакетів робіт, для яких ця дія має бути доступною. Усі наявні варіанти будуть включені автоматично.
-        usage_scope_caption: 'Ви можете вибрати, де буде доступна ця дія: усюди (зокрема в коментарях, вікі-сторінках і користувацьких полях), для всіх типів пакетів робіт або лише для певних типів.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Дія
-        label_aria_add_action: Додати дію з перетворення тексту
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Додайте дію, щоб побачити її тут
-          title: Наразі не налаштовано жодних дій з перетворення тексту
-        disabled_warning: Дії з перетворення тексту вимкнені. Наведені нижче дії будуть недоступні скрізь.
-        label_disable_all: Вимкнути все
-        label_enable_all: Увімкнути все
-        title: Дії
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Нова дія з перетворення тексту
+        title: New text action
       row_component:
-        label_actions: Меню дій
-        label_toggle: Перемикач %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} тип пакетів робіт"
-          few: "%{count} типи пакетів робіт"
-          many: "%{count} типів пакетів робіт"
-          other: "%{count} типа пакетів робіт"
+          one: "%{count} work package type"
+          few: "%{count} work package types"
+          many: "%{count} work package types"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Усі типи пакетів робіт
-        everywhere: Скрізь
-        specific_work_package_types: Конкретні типи пакетів робіт
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Додайте статуси, щоб почати налаштовувати робочі процеси для цієї ролі
@@ -2532,7 +2533,7 @@ uk:
       errors:
         connection_failed: Не вдалося встановити з’єднання зі службою ШІ.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: ШІ-асистент недоступний.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Служба ШІ не відповіла вчасно.
         upstream_error: Сервіс ШІ повернув помилку.
@@ -3483,6 +3484,7 @@ uk:
       scim_api: API сервера SCIM
       sso_auth_providers: Single Sign-On
       team_planner_view: Подання командного планувальника
+      text_assistant: Text assistant
       virus_scanning: Пошук вірусів
       weighted_item_lists: Списки зважених елементів
       work_package_query_relation_columns: Стовпці зв’язків запиту пакета робіт
@@ -3597,6 +3599,9 @@ uk:
       sso_auth_providers:
         description: Дайте користувачам змогу входити через зовнішніх постачальників SSO за допомогою SAML або OpenID Connect для безперешкодного доступу й інтеграції з наявними ідентифікаційними системами.
         title: Єдиний вхід (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Доповнення версії Enterprise
       trial_text: Ця функція є у вашій активній пробній версії Enterprise.
       unlimited: Без обмежень
@@ -5389,7 +5394,7 @@ uk:
       mail_notification: Email сповіщення
       mails_and_notifications: Електронні листи й сповіщення
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Дії з перетворення тексту
+      text_actions: Text assistant
     quick_add:
       label: Додати…
   more_actions: Додаткові функції
@@ -6689,7 +6694,6 @@ uk:
   setting_after_login_default_redirect_url_example_html: 'Налаштуйте шлях, який за замовчуванням використовуватиметься для переспрямування користувачів після входу, якщо зворотне посилання не надано. Якщо не налаштувати його, користувачі переспрямовуватимуться на головну сторінку. <br/>Приклад: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Увімкнути дії з перетворення тексту
   setting_allowed_link_protocols: Дозволені протоколи для посилань
   setting_allowed_link_protocols_text_html: Дозвольте відображення цих протоколів у вигляді посилань в описах пакетів робіт, довгих текстових полях і коментарях. Наприклад, %{tel_code} або %{element_code}. Вводьте по одному протоколу в рядок. <br/> Протоколи %{http_code}, %{https_code} і %{mailto_code} завжди дозволені.
   setting_antivirus_scan_action: Дія із зараженим файлом

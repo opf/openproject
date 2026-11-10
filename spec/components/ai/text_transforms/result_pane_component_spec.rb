@@ -30,7 +30,7 @@
 require "rails_helper"
 
 RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
-  let(:run) { build(:ai_text_transform_run, :succeeded, action: build(:ai_text_transform_action, label: "Fix grammar")) }
+  let(:run) { build(:ai_text_transform_run, :succeeded, action: build(:ai_text_action, label: "Fix grammar")) }
   let(:pane) { AI::TextTransforms::ResultPaneState.new(run:, scope: "document", request_id: SecureRandom.uuid) }
 
   subject do

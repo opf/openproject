@@ -30,13 +30,13 @@
 module AI
   class TextTransformPanesController < ApplicationController
     include OpTurbo::ComponentStream
-    include AI::TextTransformActionsFeature
+    include AI::TextActionsFeature
 
     ACCEPTED_EVENT = "op-dispatched:ai-text-transform:accepted"
     CLOSED_EVENT = "op-dispatched:ai-text-transform:closed"
 
     before_action :require_login
-    before_action :require_ai_text_transform_actions_feature
+    before_action :require_ai_text_actions_feature
     authorization_checked! :create, :show, :destroy, :apply, :cancel
     before_action :validate_pane_params, except: %i[destroy cancel]
     before_action :find_run, only: %i[show apply cancel]
@@ -146,7 +146,7 @@ module AI
     def run_source
       return [retried_run.action, retried_run.input] if retried_run
 
-      [AI::TextTransformAction.find_by(id: pane_params[:action_id]), pane_params[:input].to_s]
+      [AI::TextAction.find_by(id: pane_params[:action_id]), pane_params[:input].to_s]
     end
 
     def pane_for(pane_run)

@@ -133,7 +133,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
       expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_current_query_params("step" => "projects")
+      expect(page).to have_current_query_params("step" => "project_attributes")
       expect(transitions_of(existing)).to contain_exactly([status_a.id, status_b.id])
     end
 

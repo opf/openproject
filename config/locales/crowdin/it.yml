@@ -83,13 +83,13 @@ it:
         dependencies: Dipendenze
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Attivo
-        injects_type_template: Inserisci il modello del tipo di macro-attività
-        label: Etichetta
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
         prompt: Prompt
-        types: Tipi di macro-attività
-        usage_scope: Ambito
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Azione
         cancel_requested: Annullamento richiesto
@@ -1084,9 +1084,9 @@ it:
       action:
         one: Azione
         other: Azioni
-      ai/text_transform_action:
-        one: Azione di trasformazione del testo
-        other: Azioni di trasformazione del testo
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Esecuzione della trasformazione del testo
         other: Esecuzioni della trasformazione del testo
@@ -2190,41 +2190,42 @@ it:
         page_header:
           description: Scegli tra ID numerici classici delle macro-attività oppure ID semantici specifici del progetto che antepongono l'identificatore del progetto all'ID della macro-attività.
         success_banner: Formato degli identificatori delle macro-attività aggiornato correttamente.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Gli utenti non potranno più eseguire questa azione nell'editor di testo RTF.
-        heading: Vuoi eliminare l'azione "%{label}"?
-        title: Elimina azione di trasformazione del testo
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Se selezionato, il modello di descrizione del tipo di macro-attività viene aggiunto automaticamente al prompt. Il prompt deve contenere istruzioni su cosa fare con il modello.
-        label_caption: Questo è il nome che sarà visibile agli utenti nell'editor.
-        select_types: Seleziona tipi
-        types_caption: Aggiungi i tipi di macro-attività per i quali questa azione deve essere disponibile. Tutte le varianti disponibili verranno incluse automaticamente.
-        usage_scope_caption: 'Puoi limitare dove è visibile questa azione: ovunque (inclusi commenti, wiki e campi personalizzati), per tutti i tipi di macro-attività o per determinati tipi di macro-attività.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Azione
-        label_aria_add_action: Aggiungi azione di trasformazione del testo
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Aggiungi un'azione per visualizzarla qui
-          title: Non è stata ancora configurata alcuna azione di trasformazione del testo
-        disabled_warning: Le azioni di trasformazione del testo sono disabilitate. Le seguenti azioni non saranno disponibili in alcun punto.
-        label_disable_all: Disabilita tutto
-        label_enable_all: Abilita tutto
-        title: Azioni
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Nuova azione di trasformazione del testo
+        title: New text action
       row_component:
-        label_actions: Menu azioni
-        label_toggle: Attiva/disattiva %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} tipo di macro-attività"
-          other: "%{count} tipi di macro-attività"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Tutti i tipi di macro-attività
-        everywhere: Ovunque
-        specific_work_package_types: Tipi di macro-attività specifici
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Aggiungi stati per iniziare a configurare i flussi di lavoro per questo ruolo
@@ -2278,7 +2279,7 @@ it:
       errors:
         connection_failed: Non è stato possibile raggiungere il servizio IA.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: L'assistente IA non è disponibile.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Il servizio IA non ha risposto in tempo.
         upstream_error: Il servizio IA ha restituito un errore.
@@ -3189,6 +3190,7 @@ it:
       scim_api: API server SCIM
       sso_auth_providers: Single Sign-On
       team_planner_view: Vista del Pianificatore di team
+      text_assistant: Text assistant
       virus_scanning: Scansione antivirus
       weighted_item_lists: Elenchi ponderati
       work_package_query_relation_columns: Colonne di relazione delle query della macro-attività
@@ -3301,6 +3303,9 @@ it:
       sso_auth_providers:
         description: Consenti agli utenti di accedere tramite provider SSO esterni utilizzando SAML o OpenID Connect, per un accesso fluido e un'integrazione con i sistemi di identità esistenti.
         title: Single Sign-On (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Componente aggiuntivo Enterprise
       trial_text: Questa funzionalità è inclusa nella tua prova Enterprise attiva.
       unlimited: Illimitato
@@ -5047,7 +5052,7 @@ it:
       mail_notification: Notifiche email
       mails_and_notifications: Email e notifiche
       mcp_configurations: Modello di protocollo contestuale (MCP - Model Context Protocol)
-      text_transform_actions: Azioni di trasformazione del testo
+      text_actions: Text assistant
     quick_add:
       label: Aggiungi…
   more_actions: Altre funzioni
@@ -6317,7 +6322,6 @@ it:
   setting_after_login_default_redirect_url_example_html: 'Imposta un percorso predefinito per reindirizzare gli utenti dopo l''accesso, se non è stato fornito alcun link di ritorno. Reindirizza alla home page se non impostato. <br/> Esempio: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Abilita azioni di trasformazione del testo
   setting_allowed_link_protocols: Protocolli di collegamento consentiti
   setting_allowed_link_protocols_text_html: Consenti che questi protocolli vengano visualizzati come link nelle descrizioni delle macro-attività, nei campi di testo lunghi e nei commenti. Ad esempio, %{tel_code} o %{element_code}. Inserisci un protocollo per riga. <br/> I protocolli %{http_code}, %{https_code} e %{mailto_code} sono sempre consentiti.
   setting_antivirus_scan_action: Azione sul file infetto

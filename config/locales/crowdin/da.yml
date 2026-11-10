@@ -83,13 +83,13 @@ da:
         dependencies: Afhængigheder
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Aktiv
-        injects_type_template: Indsæt skabelon for arbejdspakketypen
-        label: Betegnelse
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
         prompt: Prompt
-        types: Arbejdspakketyper
-        usage_scope: Omfang
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Handling
         cancel_requested: Annullering ønsket
@@ -1084,9 +1084,9 @@ da:
       action:
         one: Handling
         other: Handlinger
-      ai/text_transform_action:
-        one: Handling til tekstomskrivning
-        other: Handlinger til tekstomskrivning
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Kørsel af tekstomskrivning
         other: Kørsler af tekstomskrivning
@@ -2190,41 +2190,42 @@ da:
         page_header:
           description: Vælg mellem klassiske numeriske id'er for arbejdspakker eller semantiske, projektspecifikke id'er, hvor projektets id sættes foran arbejdspakkens id.
         success_banner: Formatet for arbejdspakkers id'er er opdateret.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Brugerne kan ikke længere køre handlingen i editoren til formateret tekst.
-        heading: Er du sikker på, at du vil slette handlingen "%{label}"?
-        title: Slet handling til tekstomskrivning
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Når feltet er markeret, føjes arbejdspakketypens skabelon for beskrivelsen automatisk til prompten. Prompten bør indeholde instruktioner om, hvad der skal ske med skabelonen.
-        label_caption: Det er det navn, som brugerne ser i editoren.
-        select_types: Vælg typer
-        types_caption: Tilføj de arbejdspakketyper, som handlingen skal være tilgængelig for. Alle tilgængelige varianter medtages automatisk.
-        usage_scope_caption: 'Du kan begrænse, hvor handlingen er synlig: overalt (også i kommentarer, wikier og brugerdefinerede felter), for alle arbejdspakketyper eller for bestemte arbejdspakketyper.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Handlinger til tekstomskrivning giver brugerne LLM-baserede handlinger til at skrive, ordne og gennemse tekst overalt, hvor editoren til formateret tekst bruges, fx i beskrivelser af arbejdspakker, kommentarer og wiki-sider. Du opretter nye handlinger med dine egne prompts og instruktioner.
-        label_add_action: Handling
-        label_aria_add_action: Tilføj handling til tekstomskrivning
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Tilføj en handling for at se den her
-          title: Der er endnu ikke konfigureret nogen handlinger til tekstomskrivning
-        disabled_warning: Handlinger til tekstomskrivning er deaktiveret. Følgende handlinger er ikke tilgængelige nogen steder.
-        label_disable_all: Deaktiver alle
-        label_enable_all: Aktivér alle
-        title: Handlinger
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Ny handling til tekstomskrivning
+        title: New text action
       row_component:
-        label_actions: Handlingsmenu
-        label_toggle: Slå %{label} til eller fra
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} arbejdspakketype"
-          other: "%{count} arbejdspakketyper"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Alle arbejdspakketyper
-        everywhere: Overalt
-        specific_work_package_types: Bestemte arbejdspakketyper
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Tilføj statusser for at begynde at konfigurere arbejdsgange for rollen
@@ -2278,7 +2279,7 @@ da:
       errors:
         connection_failed: AI-tjenesten kunne ikke nås.
         context_too_long: Teksten er for lang til AI-modellen. Forkort den, og prøv igen.
-        not_available: AI-assistenten er ikke tilgængelig.
+        not_available: The text assistant is not available.
         rate_limited: AI-tjenesten er optaget. Prøv igen om et øjeblik.
         timeout: AI-tjenesten svarede ikke i tide.
         upstream_error: AI-tjenesten returnerede en fejl.
@@ -3189,6 +3190,7 @@ da:
       scim_api: SCIM-server-API
       sso_auth_providers: Single sign-on
       team_planner_view: Teamplanlægger
+      text_assistant: Text assistant
       virus_scanning: Antivirusscanning
       weighted_item_lists: Vægtede lister
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
@@ -3301,6 +3303,9 @@ da:
       sso_auth_providers:
         description: Lad brugerne logge ind via eksterne SSO-udbydere med SAML eller OpenID Connect, så de får nem adgang, og løsningen spiller sammen med eksisterende identitetssystemer.
         title: Single sign-on (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise-tilføjelse
       trial_text: Funktionen er med i din aktive Enterprise-prøveperiode.
       unlimited: Ubegrænset
@@ -5049,7 +5054,7 @@ da:
       mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Handlinger til tekstomskrivning
+      text_actions: Text assistant
     quick_add:
       label: Tilføj …
   more_actions: Flere funktioner
@@ -6313,7 +6318,6 @@ da:
   setting_after_login_default_redirect_url_example_html: 'Angiv en standardsti, som brugerne omdirigeres til efter login, hvis der ikke er angivet et link tilbage. Er den ikke angivet, omdirigeres de til startsiden. <br/> Eksempel: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Aktivér handlinger til tekstomskrivning
   setting_allowed_link_protocols: Tilladte link-protokoller
   setting_allowed_link_protocols_text_html: Tillad, at disse protokoller vises som links i arbejdspakkers beskrivelser, lange tekstfelter og kommentarer. Fx %{tel_code} eller %{element_code}. Angiv én protokol pr. linje. <br/> Protokollerne %{http_code}, %{https_code} og %{mailto_code} er altid tilladt.
   setting_antivirus_scan_action: Handling ved inficeret fil

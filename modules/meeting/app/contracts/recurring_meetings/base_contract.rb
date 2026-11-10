@@ -34,7 +34,6 @@ module RecurringMeetings
     end
 
     attribute :title
-    attribute :project_id
     attribute :start_time
     attribute :start_date
     attribute :start_time_hour

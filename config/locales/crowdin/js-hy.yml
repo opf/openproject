@@ -438,7 +438,6 @@ hy:
     label_assignee: Պատասխանատու
     label_assignee_alt_text: Այս աշխատանքային փաթեթը նշանակված է %{name}-ին
     label_attachments: Կցորդներ
-    label_author: Հեղինակ՝ %{user}
     label_avatar: Ավատար
     label_between: միջև
     label_board: Տախտակ

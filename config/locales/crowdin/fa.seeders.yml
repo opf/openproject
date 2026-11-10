@@ -71,15 +71,15 @@ fa:
           name: مدیر کارکنان و پروژه‌ها
         item_1:
           name: نقش سراسری استاندارد
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: اصلاح دستور زبان
+          label: Fix grammar
         item_1:
-          label: خلاصه‌تر کردن
+          label: Make concise
         item_2:
-          label: ترجمه به انگلیسی
+          label: Translate to English
         item_3:
-          label: مرتب‌سازی در الگو
+          label: Sort into template
     standard:
       project_phases:
         item_0:

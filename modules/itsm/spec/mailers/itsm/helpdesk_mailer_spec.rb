@@ -77,7 +77,7 @@ RSpec.describe ITSM::HelpdeskMailer do
   end
 
   it "is sent through the mailbox's SMTP server at the given address and reports delivery errors" do
-    expect(mail.delivery_method).to be_a(Mail::SMTP)
+    expect(mail.delivery_method).to be_a(ITSM::SmtpDelivery)
     expect(mail.delivery_method.settings).to include(mailbox.smtp_settings("203.0.113.10"))
     expect(mail.raise_delivery_errors).to be(true)
   end
@@ -91,6 +91,31 @@ RSpec.describe ITSM::HelpdeskMailer do
     it "uses only the given SMTP settings" do
       expect(mail.delivery_method.settings).to include(enable_starttls_auto: nil, ssl: nil, openssl_verify_mode: nil,
                                                        user_name: "relay-user")
+    end
+  end
+
+  it "has no reply address" do
+    expect(mail.reply_to).to be_nil
+  end
+
+  context "when the project receives emails at the sender address" do
+    before do
+      create(:itsm_incoming_mailbox,
+             project: work_package.project,
+             email: "inbox@example.com",
+             aliases: ["support@example.com"])
+    end
+
+    it "has no reply address" do
+      expect(mail.reply_to).to be_nil
+    end
+  end
+
+  context "when the project receives emails at another address only" do
+    before { create(:itsm_incoming_mailbox, project: work_package.project, email: "inbox@example.com") }
+
+    it "lets replies go to that address" do
+      expect(mail.reply_to).to eq(["inbox@example.com"])
     end
   end
 

@@ -83,13 +83,13 @@ zh-CN:
         dependencies: 依赖项
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: 有效
-        injects_type_template: 插入工作包类型模板
-        label: 标签
-        prompt: 提示
-        types: 工作包类型
-        usage_scope: 范围
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: 操作
         cancel_requested: 已请求取消
@@ -1080,8 +1080,8 @@ zh-CN:
     models:
       action:
         other: 操作
-      ai/text_transform_action:
-        other: 文本转换操作
+      ai/text_action:
+        other: Text actions
       ai/text_transform_run:
         other: 文本转换运行
       ai/text_transform_run_event:
@@ -2066,40 +2066,41 @@ zh-CN:
         page_header:
           description: 可以选择经典的数字工作包 ID，或者将项目标识符作为工作包 ID 前缀的语义化项目特定工作包 ID。
         success_banner: 已成功更新工作包标识符格式。
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: 用户将无法再在富文本编辑器中运行此操作。
-        heading: 确定要删除操作“%{label}”吗？
-        title: 删除文本转换操作
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: 如果选中此项，工作包类型的描述模板将自动添加到提示词中。提示词应包含有关模板使用方法的说明。
-        label_caption: 这是将在编辑器中向用户显示的名称。
-        select_types: 选择类型
-        types_caption: 添加应当可以使用此操作的工作包类型。所有可用的变体将自动包含在内。
-        usage_scope_caption: 您可以限制此操作的可见范围： 所有位置（包括评论、Wiki 和自定义字段）、适用于所有工作包类型，或适用于某些工作包类型。
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: 操作
-        label_aria_add_action: 添加文本转换操作
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: 添加操作以在此处查看
-          title: 尚未配置文本转换操作
-        disabled_warning: 文本转换操作已禁用。以下操作在任何位置均不可用。
-        label_disable_all: 全部禁用
-        label_enable_all: 全部启用
-        title: 操作
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: 新建文本转换操作
+        title: New text action
       row_component:
-        label_actions: 操作菜单
-        label_toggle: 切换 %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
           other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: 所有工作包类型
-        everywhere: 任何位置
-        specific_work_package_types: 特定的工作包类型
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: 添加状态，以开始为此角色配置工作流
@@ -2151,7 +2152,7 @@ zh-CN:
       errors:
         connection_failed: 无法访问 AI 服务。
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: AI 助手不可用。
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: AI 服务未及时响应。
         upstream_error: AI 服务返回错误。
@@ -3040,6 +3041,7 @@ zh-CN:
       scim_api: SCIM 服务器 API
       sso_auth_providers: 单点登录
       team_planner_view: 工作组规划器视图
+      text_assistant: Text assistant
       virus_scanning: 反病毒扫描
       weighted_item_lists: 加权项目列表
       work_package_query_relation_columns: 工作包查询关系列
@@ -3151,6 +3153,9 @@ zh-CN:
       sso_auth_providers:
         description: 允许用户使用 SAML 或 OpenID Connect 通过外部 SSO 提供商登录，以实现无缝访问，并与现有身份系统集成。
         title: 单点登录（SSO）
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: 企业附加组件
       trial_text: 此功能包含在您的有效 Enterprise 试用版中。
       unlimited: 无限制
@@ -4872,7 +4877,7 @@ zh-CN:
       mail_notification: 电子邮件通知
       mails_and_notifications: 电子邮件和通知
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: 文本转换操作
+      text_actions: Text assistant
     quick_add:
       label: 添加…
   more_actions: 更多功能
@@ -6122,7 +6127,6 @@ zh-CN:
   setting_after_login_default_redirect_url_example_html: '设置一个默认路径，用于在没有提供返回链接的情况下登录后重定向用户。如果没有设置，则重定向到首页。<br/>示例：%{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: 启用文本转换操作
   setting_allowed_link_protocols: 允许的链接协议
   setting_allowed_link_protocols_text_html: 允许这些协议在工作包描述、长文本字段和评论中显示为链接。例如，%{tel_code} 或 %{element_code}。每行输入一个协议。<br/> 协议 %{http_code}、%{https_code} 和 %{mailto_code} 始终允许。
   setting_antivirus_scan_action: 受感染文件的操作

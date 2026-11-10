@@ -125,13 +125,13 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
 
           patch :update, params: { type_id: type.id, step: :workflows }, format: :turbo_stream
 
-          expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :project_attributes))
         end
 
         it "advances rather than failing when the request cannot carry a dialog" do
           patch :update, params: { type_id: type.id, step: :workflows }
 
-          expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :project_attributes))
         end
 
         it "refuses a matrix submitted without roles" do

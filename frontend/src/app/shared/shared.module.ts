@@ -83,6 +83,7 @@ import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepi
 import { OpBreadcrumbsComponent } from './components/breadcrumbs/op-breadcrumbs.component';
 import { PrimerCounterComponent } from './components/primer/counter.component';
 import { PrimerIconButtonComponent } from './components/primer/icon-button.component';
+import { OpTooltipDirective } from './components/primer/tooltip.directive';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -122,7 +123,8 @@ export function bootstrapModule(injector:Injector):void {
     OpDatePickerModule,
 
     PrimerCounterComponent,
-    PrimerIconButtonComponent
+    PrimerIconButtonComponent,
+    OpTooltipDirective,
   ],
   exports: [
     // Re-export all commonly used

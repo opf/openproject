@@ -83,13 +83,13 @@ fr:
         dependencies: Dépendances
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Actif
-        injects_type_template: Insérer un modèle de type de lot de travaux
-        label: Libellé
-        prompt: Invite
-        types: Types de lots de travaux
-        usage_scope: Périmètre
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Action
         cancel_requested: Annulation demandée
@@ -1084,9 +1084,9 @@ fr:
       action:
         one: Action
         other: Actions
-      ai/text_transform_action:
-        one: Action de transformation de texte
-        other: Actions de transformation de texte
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Exécution de transformation de texte
         other: Exécutions de transformation de texte
@@ -2190,41 +2190,42 @@ fr:
         page_header:
           description: Vous avez le choix entre des identifiants numériques classiques pour les lots de travaux et des identifiants sémantiques spécifiques aux projets, qui ajoutent l'identifiant du projet à l'identifiant du lot de travaux.
         success_banner: Le format de l'identifiant du lot de travaux a été mis à jour.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Les utilisateurs ne pourront plus exécuter cette action dans l'éditeur de texte enrichi.
-        heading: Voulez-vous vraiment supprimer l'action « %{label} » ?
-        title: Supprimer l'action de transformation du texte
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Si cette case est cochée, le modèle de description du type de lot de travaux est automatiquement ajouté à l'invite. L'invite doit contenir des instructions indiquant comment utiliser ce modèle.
-        label_caption: Il s'agit du nom qui apparaîtra aux utilisateurs dans l'éditeur.
-        select_types: Sélectionner les types
-        types_caption: Ajoutez les types de lots de travaux pour lesquels cette action doit être disponible. Toutes les variantes disponibles seront automatiquement incluses.
-        usage_scope_caption: 'Vous pouvez limiter la visibilité de cette action : partout (y compris dans les commentaires, les wikis et les champs personnalisés), pour tous les types de lots de travaux ou pour certains types de lots de travaux.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
         label_add_action: Action
-        label_aria_add_action: Ajouter une action de transformation de texte
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Ajoutez une action pour la voir ici
-          title: Aucune action de transformation de texte n'a encore été configurée
-        disabled_warning: Les actions de transformation de texte sont désactivées. Les actions suivantes ne seront disponibles nulle part.
-        label_disable_all: Désactiver tout
-        label_enable_all: Activer tout
-        title: Actions
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Nouvelle action de transformation de texte
+        title: New text action
       row_component:
-        label_actions: Menu des actions
-        label_toggle: Activer/désactiver %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} type de lot de travaux"
-          other: "%{count} types de lots de travaux"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Tous les types de lots de travaux
-        everywhere: Partout
-        specific_work_package_types: Types spécifiques de lots de travaux
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Ajoutez des statuts pour commencer à configurer les flux de travail pour ce rôle
@@ -2278,7 +2279,7 @@ fr:
       errors:
         connection_failed: Impossible de joindre le service d'IA.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: L'assistant IA n'est pas disponible.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Le service d'IA n'a pas répondu à temps.
         upstream_error: Le service d'IA a renvoyé une erreur.
@@ -3187,6 +3188,7 @@ fr:
       scim_api: API du serveur SCIM
       sso_auth_providers: Authentification unique
       team_planner_view: Vue du planificateur d'équipe
+      text_assistant: Text assistant
       virus_scanning: Analyse antivirus
       weighted_item_lists: Listes d'éléments pondérés
       work_package_query_relation_columns: Colonnes de relations dans les requêtes de lots de travaux
@@ -3299,6 +3301,9 @@ fr:
       sso_auth_providers:
         description: Permettez aux utilisateurs de se connecter via des fournisseurs SSO externes utilisant SAML ou OpenID Connect pour assurer un accès transparent et une intégration fluide avec les systèmes d'identité existants.
         title: Authentification unique (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Module Enterprise
       trial_text: Cette fonction est incluse dans votre version d'essai Enterprise active.
       unlimited: Illimité
@@ -5048,7 +5053,7 @@ fr:
       mail_notification: Notifications par e-mail
       mails_and_notifications: E-mails et notifications
       mcp_configurations: Protocole de contexte de modèle (MCP)
-      text_transform_actions: Actions de transformation de texte
+      text_actions: Text assistant
     quick_add:
       label: Ajouter...
   more_actions: Plus de fonctions
@@ -6318,7 +6323,6 @@ fr:
   setting_after_login_default_redirect_url_example_html: 'Définissez un chemin par défaut pour rediriger les utilisateurs après leur connexion, si aucun lien de retour n''est fourni. Les utilisateurs sont redirigés vers la page d''accueil si ce champ n''est pas défini. <br/> Exemple : %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Activer les actions de transformation de texte
   setting_allowed_link_protocols: Protocoles de lien autorisés
   setting_allowed_link_protocols_text_html: Permettre que ces protocoles soient affichés sous forme de liens dans les descriptions des lots de travaux, les champs de texte long et les commentaires. Par exemple, %{tel_code} ou %{element_code}. Saisissez un protocole par ligne. <br/>Les protocoles %{http_code}, %{https_code} et %{mailto_code} sont toujours autorisés.
   setting_antivirus_scan_action: Action sur le fichier infecté

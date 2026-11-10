@@ -37,7 +37,7 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
   let(:work_package) { create(:work_package, project:, subject: "Printer is broken") }
   let(:thread) { create(:itsm_email_thread, work_package:, recipients: ["colleague@customer.example"]) }
   let(:mail_server) { create(:itsm_mail_server, :smtp) }
-  let(:safe_ip) { IPAddr.new("203.0.113.10") }
+  let(:addresses) { [IPAddr.new("203.0.113.10")] }
   let(:delivered) { ActionMailer::Base.deliveries.last }
   let(:sent_message) { result.result }
 
@@ -47,7 +47,8 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
   end
 
   before do
-    allow(OpenProject::SsrfProtection).to receive(:safe_ip?).with("smtp.example.com").and_return(safe_ip)
+    with_ssrf_ip_allowlist(%w[203.0.113.10 203.0.113.11])
+    allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { addresses })
     allow(ITSM::HelpdeskMailer).to receive(:mailbox_delivery_method).and_return(:test)
   end
 
@@ -92,10 +93,12 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
       create(:itsm_email_message, thread:, direction: "outbound", status: "failed", from_address: "support@example.com")
     end
 
-    it "sends it again" do
+    it "sends the same email again" do
       expect(result).to be_success
-      expect(sent_message).not_to eq(failed_confirmation)
-      expect(ActionMailer::Base.deliveries.size).to eq(1)
+      expect(sent_message).to eq(failed_confirmation)
+      expect(sent_message).to have_attributes(status: "sent", message_id: failed_confirmation.message_id)
+      expect(delivered.message_id).to eq(failed_confirmation.message_id)
+      expect(thread.messages.outbound.count).to eq(1)
     end
   end
 
@@ -139,7 +142,7 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
   end
 
   context "when the SMTP server address is not allowed" do
-    let(:safe_ip) { nil }
+    let(:addresses) { [IPAddr.new("10.0.0.5")] }
 
     it "sends nothing" do
       expect(result).to be_failure
@@ -148,7 +151,94 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
     end
   end
 
-  context "when the email cannot be delivered" do
+  context "when the SMTP server cannot be resolved" do
+    let(:addresses) { [] }
+
+    it "sends nothing" do
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to eq([:unreachable])
+      expect(ITSM::EmailMessage.outbound).to be_empty
+    end
+  end
+
+  context "when the first address of the SMTP server refuses the connection" do
+    let(:addresses) { [IPAddr.new("203.0.113.10"), IPAddr.new("203.0.113.11")] }
+    let(:refusing) { instance_double(ActionMailer::MessageDelivery) }
+
+    before do
+      allow(ITSM::HelpdeskMailer).to receive(:confirmation).and_call_original
+      allow(ITSM::HelpdeskMailer).to receive(:confirmation).with(anything, anything, "203.0.113.10").and_return(refusing)
+      allow(refusing).to receive(:deliver_now).and_raise(Errno::ECONNREFUSED)
+    end
+
+    it "sends through the next one" do
+      expect(result).to be_success
+      expect(delivered.delivery_method.settings).to include(address: "203.0.113.11")
+    end
+  end
+
+  context "when every address of the SMTP server refuses the connection" do
+    let(:addresses) { [IPAddr.new("203.0.113.10"), IPAddr.new("203.0.113.11")] }
+    let(:refusing) { instance_double(ActionMailer::MessageDelivery) }
+
+    before do
+      allow(ITSM::HelpdeskMailer).to receive(:confirmation).and_return(refusing)
+      allow(refusing).to receive(:deliver_now).and_raise(Errno::ECONNREFUSED)
+    end
+
+    it "stores the email as failed, to be sent again" do
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to eq([:delivery_failed])
+      expect(sent_message.reload).to have_attributes(status: "failed", error_message: include("Connection refused"))
+      expect(ITSM::HelpdeskMailer).to have_received(:confirmation).twice
+    end
+  end
+
+  context "when the requester got many confirmations within a day" do
+    before do
+      create_list(:itsm_email_message, described_class::CONFIRMATIONS_PER_REQUESTER,
+                  direction: "outbound", status: "sent", to_addresses: ["requester@customer.example"])
+    end
+
+    it "sends nothing, so that two mail systems cannot answer each other forever" do
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to eq([:too_many_confirmations])
+      expect(ActionMailer::Base.deliveries).to be_empty
+    end
+  end
+
+  context "when the requester got many confirmations before that" do
+    before do
+      create_list(:itsm_email_message, described_class::CONFIRMATIONS_PER_REQUESTER,
+                  direction: "outbound",
+                  status: "sent",
+                  to_addresses: ["requester@customer.example"],
+                  created_at: (described_class::CONFIRMATIONS_PERIOD + 1.hour).ago)
+    end
+
+    it "sends the confirmation" do
+      expect(result).to be_success
+      expect(delivered.to).to eq(["requester@customer.example"])
+    end
+  end
+
+  context "when the SMTP server rejects the email" do
+    let(:smtp_error) { Net::SMTPFatalError.new(Net::SMTP::Response.parse("550 5.7.1 message rejected")) }
+    let(:delivery) { instance_double(ActionMailer::MessageDelivery) }
+
+    before do
+      allow(ITSM::HelpdeskMailer).to receive(:confirmation).and_return(delivery)
+      allow(delivery).to receive(:deliver_now).and_raise(smtp_error)
+    end
+
+    it "stores the email as failed for good" do
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to eq([:delivery_rejected])
+      expect(sent_message.reload).to have_attributes(status: "failed", error_message: include("550"))
+    end
+  end
+
+  context "when the SMTP server does not accept the mailbox credentials" do
     let(:smtp_error) { Net::SMTPAuthenticationError.new(Net::SMTP::Response.parse("535 5.7.8 authentication failed")) }
     let(:delivery) { instance_double(ActionMailer::MessageDelivery) }
 
@@ -157,10 +247,26 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
       allow(delivery).to receive(:deliver_now).and_raise(smtp_error)
     end
 
-    it "stores the email as failed" do
+    it "stores the email as failed, to be sent again once the credentials are fixed" do
       expect(result).to be_failure
       expect(result.errors.symbols_for(:base)).to eq([:delivery_failed])
       expect(sent_message.reload).to have_attributes(status: "failed", error_message: include("535"))
+    end
+  end
+
+  context "when the SMTP server cannot take the email right now" do
+    let(:smtp_error) { Net::SMTPServerBusy.new(Net::SMTP::Response.parse("451 4.3.0 try again later")) }
+    let(:delivery) { instance_double(ActionMailer::MessageDelivery) }
+
+    before do
+      allow(ITSM::HelpdeskMailer).to receive(:confirmation).and_return(delivery)
+      allow(delivery).to receive(:deliver_now).and_raise(smtp_error)
+    end
+
+    it "stores the email as failed, to be sent again" do
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to eq([:delivery_failed])
+      expect(sent_message.reload).to have_attributes(status: "failed", error_message: include("451"))
     end
   end
 

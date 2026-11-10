@@ -438,7 +438,6 @@ ms:
     label_assignee: Penerima tugasan
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Lampiran
-    label_author: 'Pengarang: %{user}'
     label_avatar: Avatar
     label_between: antara
     label_board: Board

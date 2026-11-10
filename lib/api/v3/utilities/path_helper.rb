@@ -113,20 +113,20 @@ module API
           index :activity
           show :activity
 
-          def self.ai_text_transform_action(id)
-            "#{root}/ai_text_transform_actions/#{id}"
+          def self.ai_text_action(id)
+            "#{root}/ai_text_actions/#{id}"
           end
 
-          def self.ai_text_transform_actions
-            "#{root}/ai_text_transform_actions"
+          def self.ai_text_actions
+            "#{root}/ai_text_actions"
           end
 
-          def self.ai_text_transform_actions_by_work_package(id)
-            "#{work_package(id)}/ai_text_transform_actions"
+          def self.ai_text_actions_by_work_package(id)
+            "#{work_package(id)}/ai_text_actions"
           end
 
-          def self.ai_text_transform_actions_by_project(id, type_id:)
-            "#{project(id)}/ai_text_transform_actions?typeId=#{type_id}"
+          def self.ai_text_actions_by_project(id, type_id:)
+            "#{project(id)}/ai_text_actions?typeId=#{type_id}"
           end
 
           index :ai_text_transform_run

@@ -204,7 +204,7 @@ gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.233"
 
-gem "openproject-token", "~> 8.15.0"
+gem "openproject-token", "~> 8.16.0"
 
 gem "plaintext", "~> 0.4.0"
 
@@ -370,7 +370,6 @@ group :development, :test do
 
   # erb linting
   gem "erb_lint", require: false
-  gem "erblint-github", require: false
 
   # Brakeman scanner
   gem "brakeman", "~> 8.1.0"

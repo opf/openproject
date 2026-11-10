@@ -438,7 +438,6 @@ nl:
     label_assignee: Toegewezene
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Bijlagen
-    label_author: 'Auteur: %{user}'
     label_avatar: Avatar
     label_between: tussen
     label_board: Bord

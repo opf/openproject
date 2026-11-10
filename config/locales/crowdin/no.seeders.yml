@@ -71,7 +71,7 @@
           name: Leder for ansatte og prosjekter
         item_1:
           name: Standard global role
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
           label: Fix grammar
         item_1:

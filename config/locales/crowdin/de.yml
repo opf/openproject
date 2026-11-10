@@ -83,12 +83,12 @@ de:
         dependencies: Abhängigkeiten
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Aktiv
-        injects_type_template: Vorlage für Arbeitspaket-Typ einfügen
-        label: Bezeichnung
-        prompt: Eingabe
-        types: Arbeitspaket-Typen
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
         usage_scope: Scope
       ai/text_transform_run:
         action: Aktion
@@ -1084,9 +1084,9 @@ de:
       action:
         one: Aktion
         other: Aktionen
-      ai/text_transform_action:
-        one: Text-Bearbeitung
-        other: Text-Bearbeitungen
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Text-Bearbeitung
         other: Text-Bearbeitungen
@@ -2190,41 +2190,42 @@ de:
         page_header:
           description: Wählen Sie zwischen einfachen numerischen Arbeitspaket- oder projektspezifischen Kennungen, bei denen die Projektkennung der Arbeitspaket-ID vorangestellt wird.
         success_banner: Das Format der Arbeitspaket-Kennung wurde erfolgreich aktualisiert.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Benutzer können diese Aktion im Rich-Text-Editor nicht mehr ausführen.
-        heading: Sind Sie sicher, dass Sie die Aktion %{label} löschen möchten?
-        title: Textumwandlungsaktion löschen
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Bei aktiviertem Kontrollkästchen, wird die Beschreibungsvorlage des Arbeitspaket-Typs automatisch in die Eingabeaufforderung eingefügt. Die Eingabeaufforderung sollte Anweisungen dazu enthalten, wie mit der Vorlage verfahren werden soll.
-        label_caption: Dies ist der Name, der den Benutzern im Editor angezeigt wird.
-        select_types: Typen auswählen
-        types_caption: Fügen Sie Arbeitspakettypen hinzu, für die diese Aktion verfügbar sein soll. Alle verfügbaren Varianten eines Typs werden automatisch hinzugefügt.
-        usage_scope_caption: 'Sie können festlegen, wo diese Aktion sichtbar sein soll: überall (einschließlich Kommentaren, Wikis und benutzerdefinierten Feldern), für alle Arten von Arbeitspaketen oder für bestimmte Arten von Arbeitspaketen.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Aktion
-        label_aria_add_action: Text-Bearbeitungs-Aktion hinzufügen
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Füge hier eine Aktion hinzu, um sie hier zu sehen
-          title: Noch keine Textumwandlungsaktionen konfiguriert
-        disabled_warning: Aktionen zur Textumwandlung sind deaktiviert. Die folgenden Aktionen stehen an keiner Stelle zur Verfügung.
-        label_disable_all: Alles deaktivieren
-        label_enable_all: Alles aktivieren
-        title: Aktionen
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Neue Textumwandlungsaktion
+        title: New text action
       row_component:
-        label_actions: Aktionsmenü
-        label_toggle: "%{label} umschalten"
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} Arbeitspakettyp"
-          other: "%{count} Arbeitspakettypen"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Alle Arbeitspakettypen
-        everywhere: Überall
-        specific_work_package_types: Bestimmte Arbeitspakettypen
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Status hinzufügen, um mit der Konfiguration von Arbeitsabläufen für diese Rolle zu beginnen
@@ -2278,7 +2279,7 @@ de:
       errors:
         connection_failed: Der KI-Dienst konnte nicht erreicht werden.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: Der KI-Assistent ist nicht verfügbar.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Der KI-Dienst hat nicht rechtzeitig geantwortet.
         upstream_error: Der KI-Dienst hat eine Fehlermeldung zurückgegeben.
@@ -3189,6 +3190,7 @@ de:
       scim_api: SCIM-Server-API
       sso_auth_providers: Single-Sign-On
       team_planner_view: Teamplaner
+      text_assistant: Text assistant
       virus_scanning: Antivirus-Überprüfung
       weighted_item_lists: Gewichtete Listen
       work_package_query_relation_columns: Arbeitspaket-Relationsspalten
@@ -3301,6 +3303,9 @@ de:
       sso_auth_providers:
         description: Ermöglichen Sie es Benutzern, sich über externe SSO-Anbieter mit SAML oder OpenID Connect anzumelden, um einen nahtlosen Zugriff und die Integration mit bestehenden Identitätssystemen zu ermöglichen.
         title: Single Sign-On (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise Add-on
       trial_text: Diese Funktion ist in Ihrer aktiven Enterprise-Testversion enthalten.
       unlimited: Unbegrenzt
@@ -5047,7 +5052,7 @@ de:
       mail_notification: Mailbenachrichtigung
       mails_and_notifications: E-Mails und Benachrichtigungen
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Textumwandlungsaktionen
+      text_actions: Text assistant
     quick_add:
       label: Hinzufügen…
   more_actions: Weitere Funktionen
@@ -6321,7 +6326,6 @@ de:
   setting_after_login_default_redirect_url_example_html: 'Legen Sie einen Standardpfad fest, zu dem nach der Anmeldung weitergeleitet wird, wenn kein Back-Link vorhanden ist. Falls nicht gesetzt, wird zur Startseite weitergeleitet. <br/> Beispiel: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Textumwandlungsaktionen aktivieren
   setting_allowed_link_protocols: Erlaubte Link-Protokolle
   setting_allowed_link_protocols_text_html: Erlauben Sie es, diese Protokolle als Links in Arbeitspaket-Beschreibungen, langen Textfeldern und Kommentaren darzustellen. Zum Beispiel %{tel_code} oder %{element_code}. Geben Sie ein Protokoll pro Zeile ein. <br/> Protokolle %{http_code}, %{https_code} und %{mailto_code} sind immer erlaubt.
   setting_antivirus_scan_action: Aktion für infizierte Datei

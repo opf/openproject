@@ -195,6 +195,29 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
       expect(recurring_meeting.reload.title).to eq("Updated Series Title")
     end
 
+    context "when moving to another project" do
+      let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+      let(:current_user) do
+        create(:user, member_with_permissions: { project => permissions, other_project => permissions })
+      end
+      let(:body) do
+        {
+          _links: {
+            project: { href: api_v3_paths.project(other_project.id) }
+          }
+        }.to_json
+      end
+
+      it "rejects the project as read-only and keeps the series and its template in place" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+          .at_path("errorIdentifier")
+        expect(recurring_meeting.reload.project).to eq(project)
+        expect(recurring_meeting.template.project).to eq(project)
+      end
+    end
+
     context "without edit_meetings permission" do
       let(:permissions) { %i[view_meetings] }
 

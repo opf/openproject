@@ -83,13 +83,13 @@ ru:
         dependencies: Связи
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Активно
-        injects_type_template: Вставить шаблон типа пакета работ
-        label: Метка
-        prompt: Промпт
-        types: Типы пакетов работ
-        usage_scope: Объем
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Действие
         cancel_requested: Отмена запрошена
@@ -1092,11 +1092,11 @@ ru:
         few: Actions
         many: Actions
         other: Действия
-      ai/text_transform_action:
-        one: Текстовое преобразование
-        few: Text transform actions
-        many: Text transform actions
-        other: Текстовые преобразования
+      ai/text_action:
+        one: Text action
+        few: Text actions
+        many: Text actions
+        other: Text actions
       ai/text_transform_run:
         one: Запуск преобразования текста
         few: Text transform runs
@@ -2434,43 +2434,44 @@ ru:
         page_header:
           description: Выберите между классическими числовыми идентификаторами пакета работ или семантическими, специфичными для проекта, которые добавляют идентификатор проекта к ID пакета работ.
         success_banner: Формат идентификатора пакета работ успешно обновлен.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Пользователи больше не смогут выполнять это действие в редакторе форматированного текста.
-        heading: Вы уверены, что хотите удалить действие "%{label}"?
-        title: Удалить действие преобразования текста
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Если этот флажок установлен, в подсказку автоматически добавляется шаблон описания типа рабочего пакета. Подсказка должна содержать инструкции о том, как использовать этот шаблон.
-        label_caption: Это имя, которое будет видно пользователям в редакторе.
-        select_types: Выберите типы
-        types_caption: Добавьте типы пакетов работ, для которых должно быть доступно данное действие. Все доступные варианты будут включены автоматически.
-        usage_scope_caption: 'Вы можете ограничить область видимости этого действия: везде (включая комментарии, Вики и настраиваемые поля), для всех типов пакетов работ или для определенных типов пакетов работ.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Действие
-        label_aria_add_action: Добавить действие «Преобразование текста»
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Добавьте действие, чтобы увидеть его здесь
-          title: Действия по преобразованию текста пока не настроены
-        disabled_warning: Действия по преобразованию текста отключены. Следующие действия будут недоступны нигде.
-        label_disable_all: Отключить все
-        label_enable_all: Включить все
-        title: Действия
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Новое действие по преобразованию текста
+        title: New text action
       row_component:
-        label_actions: Меню действий
-        label_toggle: Переключить %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} тип пакетов работ"
+          one: "%{count} work package type"
           few: "%{count} work package types"
           many: "%{count} work package types"
-          other: "%{count} типов пакетов работ"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Все типы пакетов работ
-        everywhere: Везде
-        specific_work_package_types: Конкретные типы пакетов работ
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Добавьте статусы, чтобы начать настройку рабочих процессов для этой роли
@@ -2528,7 +2529,7 @@ ru:
       errors:
         connection_failed: Не удалось установить соединение с сервисом ИИ.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: ИИ-ассистент недоступен.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Сервис ИИ не ответил вовремя.
         upstream_error: Сервис ИИ выдал ошибку.
@@ -3481,6 +3482,7 @@ ru:
       scim_api: API сервера SCIM
       sso_auth_providers: Единый вход
       team_planner_view: Просмотр командных планировщиков
+      text_assistant: Text assistant
       virus_scanning: Антивирусное сканирование
       weighted_item_lists: Списки взвешенных элементов
       work_package_query_relation_columns: Колонки запросов пакета работ
@@ -3595,6 +3597,9 @@ ru:
       sso_auth_providers:
         description: Разрешить пользователям входить через внешние SSO провайдеры, используя SAML или OpenID Connect для бесшовного доступа и интеграции с существующими идентификационными системами.
         title: Единая регистрация (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Корпоративное дополнение
       trial_text: Эта функция включена в Вашу активную пробную версию Enterprise.
       unlimited: Без ограничений
@@ -5387,7 +5392,7 @@ ru:
       mail_notification: Уведомления по электронной почте
       mails_and_notifications: Письма и уведомления
       mcp_configurations: Протокол контекста модели (MCP)
-      text_transform_actions: Текстовые преобразования
+      text_actions: Text assistant
     quick_add:
       label: Добавить…
   more_actions: Больше функций
@@ -6673,7 +6678,6 @@ ru:
   setting_after_login_default_redirect_url_example_html: 'Установите путь по умолчанию для перенаправления пользователей после входа в систему, если обратная ссылка не была предоставлена. Если путь не задан, он перенаправляет на домашнюю страницу. <br/> Пример: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Включить текстовые преобразования
   setting_allowed_link_protocols: Разрешить ссылки на протоколы
   setting_allowed_link_protocols_text_html: Разрешить отображать эти протоколы как ссылки в описаниях пакетов работ, длинных текстовых полях и комментариях. Например, %{tel_code} или %{element_code}. Введите по одному протоколу в строке. <br/>Протоколы %{http_code}, %{https_code} и %{mailto_code} всегда разрешены.
   setting_antivirus_scan_action: Действие с зараженным файлом

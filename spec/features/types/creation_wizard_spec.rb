@@ -103,7 +103,7 @@ RSpec.describe "Type creation wizard", :js do
     expect(page).to have_heading("Form")
     expect(page).to have_css("[data-test-selector='form_configuration-choice-existing']:checked", visible: :all)
     click_on I18n.t(:button_continue)
-    within_dialog I18n.t("form_configurations.form.edit_title") do
+    within_dialog I18n.t("form_configurations.form.save_title") do
       expect(page).to have_field("Form name", with: "Incident form")
       fill_in "Form name", with: "Incident intake"
       click_on I18n.t(:button_save)
@@ -111,19 +111,19 @@ RSpec.describe "Type creation wizard", :js do
 
     expect_step_saved(:form_configuration)
 
-    expect(page).to have_heading("Project attributes")
-    click_on I18n.t(:button_continue)
-    expect_step_saved(:project_attributes)
-
     expect(page).to have_heading("Workflow")
     expect(page).to have_text(I18n.t("admin.workflows.tabs.always"))
     click_on I18n.t(:button_continue)
-    within_dialog I18n.t("workflows.form.edit_title") do
+    within_dialog I18n.t("workflows.form.save_title") do
       fill_in "Workflow name", with: "Incident flow"
       click_on I18n.t(:button_save)
     end
 
     expect_step_saved(:workflows)
+
+    expect(page).to have_heading("Project attributes")
+    click_on I18n.t(:button_continue)
+    expect_step_saved(:project_attributes)
 
     click_on I18n.t(:button_continue)
     expect_step_saved(:projects)

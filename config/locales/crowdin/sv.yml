@@ -83,13 +83,13 @@ sv:
         dependencies: Beroenden
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Aktiv
-        injects_type_template: Infoga mall för arbetspaketstyp
-        label: Etikett
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
         prompt: Prompt
-        types: Arbetspaketstyper
-        usage_scope: Omfattning
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Åtgärd
         cancel_requested: Avbrott har begärts
@@ -1084,9 +1084,9 @@ sv:
       action:
         one: Åtgärd
         other: Åtgärder
-      ai/text_transform_action:
-        one: Åtgärd för textomvandling
-        other: Åtgärder för textomvandling
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Textbearbetningskörning
         other: Textbearbetningskörningar
@@ -2190,41 +2190,42 @@ sv:
         page_header:
           description: Välj mellan klassiska numeriska arbetspakets-ID:n och semantiska projektspecifika identifierare där projektidentifieraren läggs före arbetspakets-ID:t.
         success_banner: Formatet för arbetspaketsidentifierare uppdaterades.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Användarna kommer inte längre att kunna köra den här åtgärden i rich text-redigeraren.
-        heading: Är du säker på att du vill ta bort åtgärden ”%{label}”?
-        title: Ta bort åtgärd för textomvandling
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Om detta markeras läggs beskrivningsmallen för arbetspaketstypen automatiskt till i prompten. Prompten bör innehålla instruktioner om vad som ska göras med mallen.
-        label_caption: Detta är namnet som visas för användarna i redigeraren.
-        select_types: Välj typer
-        types_caption: Lägg till de arbetspaketstyper som åtgärden ska vara tillgänglig för. Alla tillgängliga varianter inkluderas automatiskt.
-        usage_scope_caption: 'Du kan begränsa var åtgärden är synlig: överallt (inklusive kommentarer, wikier och anpassade fält), för alla arbetspaketstyper eller för vissa arbetspaketstyper.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Åtgärd
-        label_aria_add_action: Lägg till åtgärd för textomvandling
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Lägg till en åtgärd för att visa den här
-          title: Inga åtgärder för textomvandling har konfigurerats ännu
-        disabled_warning: Åtgärder för textomvandling är inaktiverade. Följande åtgärder kommer inte att vara tillgängliga någonstans.
-        label_disable_all: Inaktivera alla
-        label_enable_all: Aktivera alla
-        title: Åtgärder
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Ny åtgärd för textomvandling
+        title: New text action
       row_component:
-        label_actions: Åtgärdsmeny
-        label_toggle: Växla %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} arbetspaketstyp"
-          other: "%{count} arbetspaketstyper"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Alla arbetspaketstyper
-        everywhere: Överallt
-        specific_work_package_types: Specifika arbetspaketstyper
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Lägg till statusar för att börja konfigurera arbetsflöden för den här rollen
@@ -2278,7 +2279,7 @@ sv:
       errors:
         connection_failed: Det gick inte att nå AI-tjänsten.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: AI-assistenten är inte tillgänglig.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: AI-tjänsten svarade inte i tid.
         upstream_error: AI-tjänsten returnerade ett fel.
@@ -3187,6 +3188,7 @@ sv:
       scim_api: SCIM server API
       sso_auth_providers: Enkel inloggning
       team_planner_view: Teamplanerarvy
+      text_assistant: Text assistant
       virus_scanning: Antivirusskanning
       weighted_item_lists: Viktade postlistor
       work_package_query_relation_columns: Relationskolumner för arbetspaketsfrågor
@@ -3299,6 +3301,9 @@ sv:
       sso_auth_providers:
         description: Låt användare logga in via externa SSO-leverantörer med SAML eller OpenID Connect för smidig åtkomst och integrering med befintliga identitetssystem.
         title: Enkel inloggning (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise-tillägg
       trial_text: Den här funktionen ingår i din aktiva Enterprise-provperiod.
       unlimited: Obegränsat
@@ -5046,7 +5051,7 @@ sv:
       mail_notification: E-postaviseringar
       mails_and_notifications: E-post och aviseringar
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Åtgärder för textomvandling
+      text_actions: Text assistant
     quick_add:
       label: Lägg till…
   more_actions: Fler funktioner
@@ -6306,7 +6311,6 @@ sv:
   setting_after_login_default_redirect_url_example_html: 'Ange en standardsökväg som användare ska omdirigeras till efter inloggning om ingen bakåtlänk angavs. Omdirigerar till startsidan om den inte anges. <br/> Exempel: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Aktivera åtgärder för textomvandling
   setting_allowed_link_protocols: Tillåtna länkprotokoll
   setting_allowed_link_protocols_text_html: Tillåt att dessa protokoll återges som länkar i beskrivningar av arbetspaket, långa textfält och kommentarer. Till exempel %{tel_code} eller %{element_code}. Ange ett protokoll per rad. <br/> Protokollen %{http_code}, %{https_code} och %{mailto_code} är alltid tillåtna.
   setting_antivirus_scan_action: Åtgärd för infekterad fil

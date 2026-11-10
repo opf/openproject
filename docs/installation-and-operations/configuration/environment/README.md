@@ -128,7 +128,6 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_ADDITIONAL__HOST__NAMES` | `[]` | Additional allowed host names for the application. |
 | `OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL` | `nil` | URL users logging in for the first time will be redirected to (e.g., a help screen) |
 | `OPENPROJECT_AFTER__LOGIN__DEFAULT__REDIRECT__URL` | `nil` | Override URL to which logged in users are redirected instead of the Home page |
-| `OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED` | `false` | Enable AI text transform actions in the rich text editor |
 | `OPENPROJECT_AI__TEXT__TRANSFORM__RUN__RETENTION__SECONDS` | `3600` | How long AI text transform runs and their events are kept before a cron job removes them. Applies to finished runs from their finish time and to unfinished runs from their creation time. |
 | `OPENPROJECT_ALLOW__TRACKING__START__AND__END__TIMES` | `false` | Allow start and finish times |
 | `OPENPROJECT_ALLOWED__LINK__PROTOCOLS` | `[]` | Allowed protocols for links in the WYSIWYG editor and formatted texts |

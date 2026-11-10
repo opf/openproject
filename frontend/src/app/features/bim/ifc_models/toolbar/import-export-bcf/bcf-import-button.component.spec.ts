@@ -25,9 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
@@ -37,13 +39,13 @@ describe('BcfImportButtonComponent', () => {
   beforeEach(async () => {
     await TestBed
       .configureTestingModule({
-        declarations: [BcfImportButtonComponent],
+        imports: [OpTooltipDirective],
+        declarations: [BcfImportButtonComponent, OpIconComponent],
         providers: [
           { provide: I18nService, useValue: { t: (key:string) => key } },
           { provide: CurrentProjectService, useValue: {} },
           { provide: BcfPathHelperService, useValue: {} },
         ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
       .compileComponents();
 

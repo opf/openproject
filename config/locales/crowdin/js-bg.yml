@@ -438,7 +438,6 @@ bg:
     label_assignee: Изпълнител
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Прикачени файлове
-    label_author: 'Автор: %{user}'
     label_avatar: Аватар
     label_between: между
     label_board: Board
