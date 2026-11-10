@@ -32,7 +32,7 @@ import { usePlatform } from 'core-common/testing/platform';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
-import { headerRowKey, totalsRowKey } from './navigable-rows';
+import { headerRowKey, totalsRowKey } from '../../../row-keys';
 import { selectionChord } from './keyboard-selection';
 
 const newStatus = { href: '/api/v3/statuses/1' };
@@ -74,14 +74,14 @@ describe('KeyboardSelection', () => {
     const table = buildTable({
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { ...options.configuration },
     } as TableHarnessOptions);
     harnesses.push(table);
     await table.render();
     return table;
   };
 
-  const navigation = (table:TableHarness) => table.table.keyboardNavigation!;
+  const navigation = (table:TableHarness) => table.table.keyboardNavigation;
 
   const focusKey = (table:TableHarness, key:string) => navigation(table)
     .focusPosition({ key, cell: null, desiredColumn: null });
@@ -172,7 +172,7 @@ describe('KeyboardSelection', () => {
 
     it('on a cell toggles its row', async () => {
       const table = await mount();
-      focusElement(table, table.row('2').querySelector<HTMLElement>('td.subject')!);
+      focusElement(table, table.row('2').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!);
 
       expect(shiftSpace()).toBe(false);
 
@@ -279,7 +279,6 @@ describe('KeyboardSelection', () => {
         workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
         relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
         columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
-        configuration: { keyboardNavigationEnabled: true },
       });
       harnesses.push(table);
       table.expand('1', 'relationsOfTypeFollows');
@@ -464,7 +463,6 @@ describe('KeyboardSelection', () => {
         workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
         relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
         columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
-        configuration: { keyboardNavigationEnabled: true },
       });
       harnesses.push(table);
       table.expand('1', 'relationsOfTypeFollows');

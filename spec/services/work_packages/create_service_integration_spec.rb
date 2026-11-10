@@ -303,7 +303,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     end
   end
 
-  describe "creating labels typed into the work package", with_flag: { work_package_labels: true } do
+  describe "creating labels typed into the work package" do
     let(:role) do
       create(:project_role,
              permissions: %i[view_work_packages add_work_packages edit_work_packages])
@@ -420,7 +420,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     end
   end
 
-  describe "generating the subject from a pattern containing labels", with_flag: { work_package_labels: true } do
+  describe "generating the subject from a pattern containing labels" do
     let(:type) do
       create(:type, patterns: { subject: { blueprint: "Labeled: {{labels}}", enabled: true } })
     end

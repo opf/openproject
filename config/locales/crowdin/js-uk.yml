@@ -47,6 +47,8 @@ uk:
       draggable_hint: 'Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Цей файл перенесено в карантин, оскільки в ньому знайдено вірус. Його не можна завантажити.
     autocomplete_ng_select:
       add_tag: Додати елемент
@@ -129,8 +131,8 @@ uk:
     button_confirm: Підтвердити
     button_continue: Продовжити
     button_copy: Копіювати
-    button_copy_link_to_clipboard: Копіювати посилання в буфер обміну
-    button_copy_numeric_id_to_clipboard: Скопіювати числовий ID у буфер обміну
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Копіювати в буфер обміну
     button_copy_to_other_project: Копіювати в інший проєкт
     button_create: Створити
@@ -205,6 +207,7 @@ uk:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: У CKEditor сталася помилка
       ckeditor_error_reload: Редактор перестав працювати. Ваш текст ще тут, але його не можна змінювати. Скопіюйте будь-який текст, який ви хочете зберегти, і перезавантажте сторінку.
       error_saving_failed: 'Не вдалося зберегти документ із такою помилкою: %{error}'
@@ -436,7 +439,6 @@ uk:
     label_assignee: Виконавець
     label_assignee_alt_text: 'Пакет робіт призначено цьому користувачу: %{name}'
     label_attachments: Вкладення
-    label_author: 'Автор: %{user}'
     label_avatar: Аватар
     label_between: між ними
     label_board: Дошка
@@ -1130,10 +1132,6 @@ uk:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт.
-        text_inline_edit: Більшість секцій цієї таблиці - це кнопки, які активують функціонал інлайн-редагування відповідного атрибуту.
-        text_select_hint: Прапорці можуть бути відкриті використовуючи «ALT» та клавіш зі стрілками.
-        text_sort_hint: За допомогою посилань в заголовках таблиці ви можете сортувати, групувати, перевпорядковувати, видаляти та додавати стовпці таблиці.
       table_configuration:
         button: Налаштуйте цю таблицю робочих пакетів
         choose_display_mode: Display work packages as
@@ -1142,7 +1140,6 @@ uk:
         default_mode: Плоский список
         display_settings: Параметри дисплея
         display_sums_hint: Відображати суми всіх підсумкових атрибутів під таблицею.
-        embedded_tab_disabled: Ця вкладка конфігурації недоступна для вбудованого режиму перегляду, який ви редагуєте.
         hierarchy_hint: Всі відфільтровані результати таблиці будуть доповнені їхніми предками. Ієрархії можуть бути розширені та згорнуті.
         hierarchy_mode: Ієрархія
         highlighting: Підсвічування

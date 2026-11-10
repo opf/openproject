@@ -109,6 +109,7 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def destroy_jira_objects
+      Import::JiraAttachment.where(jira_import_id: id).destroy_all
       Import::JiraField.where(jira_import_id: id).destroy_all
       Import::JiraIssue.where(jira_import_id: id).destroy_all
       Import::JiraIssueType.where(jira_import_id: id).destroy_all

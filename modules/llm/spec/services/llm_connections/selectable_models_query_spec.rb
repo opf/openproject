@@ -100,9 +100,15 @@ RSpec.describe LlmConnections::SelectableModelsQuery do
       record_verdict("qwen3.6-27b", "unsupported")
 
       expect(options).to contain_exactly(
-        described_class::Option.new(model_id: "bge-m3", qualifies: true),
-        described_class::Option.new(model_id: "qwen3.6-27b", qualifies: false)
+        described_class::Option.new(model_id: "bge-m3", name: "bge-m3", qualifies: true),
+        described_class::Option.new(model_id: "qwen3.6-27b", name: "qwen3.6-27b", qualifies: false)
       )
     end
+  end
+
+  it "names each option after the model's display name" do
+    connection.models.find_by!(external_id: "qwen3.6-27b").update!(display_name: "Qwen 3.6")
+
+    expect(options.to_h { [it.model_id, it.name] }).to include("qwen3.6-27b" => "Qwen 3.6", "bge-m3" => "bge-m3")
   end
 end

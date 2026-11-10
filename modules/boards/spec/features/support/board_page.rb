@@ -81,7 +81,7 @@ module Pages
 
     def add_card(list_name, card_title)
       within_list(list_name) do
-        page.find('[data-test-selector="op-board-list--card-dropdown-add-button"]').click
+        click_on accessible_name: "Add card"
       end
 
       # Add item in dropdown
@@ -100,14 +100,14 @@ module Pages
     def remove_card(list_name, card_title, index)
       source = page.all("#{list_selector(list_name)} [data-test-selector='op-wp-single-card']")[index]
       source.hover
-      source.find('[data-test-selector="op-wp-single-card--inline-cancel-button"]').click
+      source.find(:button, accessible_name: I18n.t("js.card.remove_from_list")).click
 
       expect_card(list_name, card_title, present: false)
     end
 
     def reference(list_name, work_package)
       within_list(list_name) do
-        page.find('[data-test-selector="op-board-list--card-dropdown-add-button"]').click
+        click_on accessible_name: "Add card"
       end
 
       page.find(".menu-item", text: "Add existing").click
@@ -122,7 +122,7 @@ module Pages
 
     def expect_not_referencable(list_name, work_package)
       within_list(list_name) do
-        page.find('[data-test-selector="op-board-list--card-dropdown-add-button"]').click
+        click_on accessible_name: "Add card"
       end
 
       page.find(".menu-item", text: "Add existing").click
@@ -141,7 +141,7 @@ module Pages
         # Wait for the card loading to finish. A list can start another reload
         # right after a card was added or moved, so this needs more than the
         # default wait time.
-        expect(page).to have_no_selector(".loading-indicator--background", wait: 10)
+        expect(page).to have_no_css(".loading-indicator--background", wait: 10)
         expect(page).to have_conditional_selector(present,
                                                   '[data-test-selector="op-wp-single-card--content-subject"]',
                                                   text: card_title,
@@ -273,7 +273,7 @@ module Pages
         page.find('[data-test-selector="op-board-list--menu"] a').click
       end
 
-      page.find(".dropdown-menu button", text: action).click
+      page.find(".dropdown-menu").click_button(action)
     end
 
     def card_for(work_package)
@@ -351,7 +351,7 @@ module Pages
     end
 
     def click_dropdown_entry(name)
-      page.find(".board--settings-dropdown").click
+      click_on accessible_name: "More", exact: true
       page.find(".menu-item", text: name).click
     end
 

@@ -16,7 +16,7 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/schema_model.yml"
+            $ref: "../components/schemas/schema_model.yml"
           examples:
             'Values::Property Start date schema':
               $ref: '../components/examples/values_property_start_date_schema.yml'
@@ -51,5 +51,5 @@ get:
   tags:
     - Values::Property
   description: The schema of a `Values` resource.
-  operationId: View_values_schema
+  operationId: get_values_schema
   summary: View Values schema

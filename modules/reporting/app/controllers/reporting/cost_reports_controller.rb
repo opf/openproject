@@ -148,6 +148,7 @@ module Reporting
 
     def find_report
       @report = CostReport.visible(current_user).find(params.expect(:id))
+      return render_404 unless @report.visible?(current_user)
 
       if configured_by_params?
         ::CostReports::ParamsToReport.new(params, project: @project, user: current_user).call(@report)

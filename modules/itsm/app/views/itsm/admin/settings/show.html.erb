@@ -32,4 +32,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(ITSM::Admin::HelpdeskToggleComponent.new) %>
 
-<%= render(ITSM::Admin::HelpdeskSettingsComponent.new(enabled: @helpdesk_enabled)) %>
+<%= render(ITSM::Admin::HelpdeskSettingsComponent.new(enabled: @helpdesk_enabled, wizard: @wizard)) %>

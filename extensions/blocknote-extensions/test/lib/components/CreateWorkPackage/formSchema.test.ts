@@ -98,6 +98,7 @@ const schema:WorkPackageSchema = {
     location: '_links',
     _links: { allowedValues: { href: '/api/v3/principals' } },
   }),
+  customField9: property({ type: 'DateTime', name: 'Go-live' }),
 };
 
 describe('formSchema', () => {
@@ -131,6 +132,7 @@ describe('formSchema', () => {
       expect(fieldFor(schema, 'customField2')?.kind).toBe('checkbox');
       expect(fieldFor(schema, 'customField4')?.kind).toBe('textarea');
       expect(fieldFor(schema, 'customField6')?.kind).toBe('date');
+      expect(fieldFor(schema, 'customField9')?.kind).toBe('datetime');
       expect(fieldFor(schema, 'percentageDone')?.kind).toBe('number');
     });
 
@@ -323,6 +325,7 @@ describe('formSchema', () => {
         'customField6',
         'customField7',
         'customField8',
+        'customField9',
       ]);
     });
 
@@ -651,6 +654,13 @@ describe('formSchema', () => {
           customField7: [],
         },
       });
+    });
+
+    it('submits a date and time as the instant the picker settled on', () => {
+      const goLive = fieldFor(schema, 'customField9')!;
+      const payload = buildCreatePayload(basePayload, [goLive], { customField9: '2026-10-26T09:30:00Z' });
+
+      expect(payload.customField9).toBe('2026-10-26T09:30:00Z');
     });
 
     it('submits every value of a multi select as a link of its own', () => {

@@ -9,5 +9,5 @@ properties:
       - $ref: './link.yml'
       - description: |-
           This collection resource.
-          
+
           **Resource**: Collection

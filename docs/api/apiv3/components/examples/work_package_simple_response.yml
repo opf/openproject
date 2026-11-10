@@ -1,3 +1,4 @@
+---
 description: |-
   A simple response of an example work package.
 value:
@@ -150,5 +151,3 @@ value:
       href: "/api/v3/work_packages/1528/watchers"
     customField3:
       href: api/v3/users/14
-
-

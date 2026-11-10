@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.shared_context "with a sprint report work package table" do
   shared_let(:project) { create(:project) }
-  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints] }) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
 
   let(:start_date) { 7.days.ago }
   let(:finish_date) { 7.days.from_now }
@@ -79,6 +79,7 @@ RSpec.shared_context "with a sprint report work package table" do
 
     it "configures table to hide extra UI elements" do
       expect(table_element["data-configuration"]).to be_json_eql({
+        "projectContext" => false,
         "actionsColumnEnabled" => false,
         "columnMenuEnabled" => false,
         "contextMenuEnabled" => false,
@@ -95,6 +96,24 @@ RSpec.shared_context "with a sprint report work package table" do
         "showHierarchies" => false,
         "includeSubprojects" => false
       }.compact)
+    end
+
+    context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+      let(:common_columns) { %w[id subject type status assigned_to] }
+
+      {
+        "story_points" => "story_points",
+        "time" => "estimated_hours",
+        "none" => nil
+      }.each do |unit, unit_column|
+        context "when the project's estimation unit is #{unit}" do
+          before { project.estimation_unit = unit }
+
+          it "renders #{unit_column || 'no'} extra column" do
+            expect(query_props["columns[]"]).to eq(common_columns + Array(unit_column))
+          end
+        end
+      end
     end
   end
 end

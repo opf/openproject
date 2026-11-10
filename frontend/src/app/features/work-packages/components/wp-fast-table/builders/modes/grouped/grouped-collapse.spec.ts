@@ -141,7 +141,7 @@ describe('Grouped table collapse', () => {
   });
 });
 
-describe('Grouped table collapse on a keyboard-enabled table', () => {
+describe('Grouped table collapse semantics', () => {
   let harness:TableHarness;
 
   afterEach(() => harness.destroy());
@@ -156,7 +156,6 @@ describe('Grouped table collapse on a keyboard-enabled table', () => {
         { value: 'New', href: newStatus.href, count: 1 },
         { value: 'In progress', href: inProgressStatus.href, count: 1 },
       ],
-      configuration: { keyboardNavigationEnabled: true },
     });
     await harness.render();
     expect(harness.groupHeader(0)).toHaveAttribute('aria-expanded', 'true');

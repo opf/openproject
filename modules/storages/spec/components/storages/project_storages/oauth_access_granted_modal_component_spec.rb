@@ -47,8 +47,8 @@ RSpec.describe Storages::ProjectStorages::OAuthAccessGrantedModalComponent, type
       text: "Access granted. You are now ready to use #{storage.name}"
     )
 
-    expect(page).to have_content("Access granted")
-    expect(page).to have_content("You are now ready to use #{storage.name}")
+    expect(page).to have_text("Access granted")
+    expect(page).to have_text("You are now ready to use #{storage.name}")
 
     expect(page).to have_button("Close")
 

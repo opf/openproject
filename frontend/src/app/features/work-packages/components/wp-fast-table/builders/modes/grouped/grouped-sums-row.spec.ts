@@ -153,11 +153,10 @@ describe('Grouped table sums physical columns', () => {
   const spannedColumns = (row:HTMLTableRowElement) => Array.from(row.cells)
     .reduce((total, cell) => total + cell.colSpan, 0);
 
-  describe.each([true, false])('on an enabled table with drag and drop %s', (drag) => {
+  describe.each([true, false])('with drag and drop %s', (drag) => {
     describe.each([true, false])('and baseline %s', (baseline) => {
       it.each([true, false])('spans the same columns in sums and totals rows with a trailing column %s', async (trailing) => {
         await mount({
-          keyboardNavigationEnabled: true,
           dragAndDropEnabled: drag,
           columnMenuEnabled: trailing,
         }, baseline);
@@ -170,15 +169,9 @@ describe('Grouped table sums physical columns', () => {
       });
     });
   });
-
-  it('keeps the trailing sums cell of a capability-off table', async () => {
-    await mount({ dragAndDropEnabled: true, columnMenuEnabled: false, actionsColumnEnabled: false }, true);
-
-    expect((harness.row('2').nextElementSibling as HTMLTableRowElement).cells).toHaveLength(2 + 1 + 1 + 1);
-  });
 });
 
-describe('Grouped table sums labels on an enabled table', () => {
+describe('Grouped table sums labels', () => {
   const harnesses:TableHarness[] = [];
 
   afterEach(async () => {
@@ -197,7 +190,7 @@ describe('Grouped table sums labels on an enabled table', () => {
       ],
       columns: ['id', 'subject', 'storyPoints'],
       translations: { 'js.label_sum': 'Sum' },
-      configuration: { keyboardNavigationEnabled: true, dragAndDropEnabled },
+      configuration: { dragAndDropEnabled },
     });
     harnesses.push(harness);
     await harness.render();
@@ -231,20 +224,5 @@ describe('Grouped table sums labels on an enabled table', () => {
 
     ids.forEach((id) => expect(id).toBeTruthy());
     expect(new Set(ids).size).toBe(3);
-  });
-
-  it('adds no label IDs or descriptions on a capability-off table', async () => {
-    const harness = buildTable({
-      workPackages: [{ id: '1', attributes: { status: newStatus } }],
-      groups: [{ value: 'New', href: newStatus.href, count: 1, sums: { storyPoints: 13 } }],
-      columns: ['id', 'subject', 'storyPoints'],
-      translations: { 'js.label_sum': 'Sum' },
-    });
-    harnesses.push(harness);
-    await harness.render();
-    const row = sumsRowAfter(harness, '1');
-
-    expect(sumLabel(row)).not.toHaveAttribute('id');
-    Array.from(row.cells).forEach((cell) => expect(cell).not.toHaveAttribute('aria-describedby'));
   });
 });

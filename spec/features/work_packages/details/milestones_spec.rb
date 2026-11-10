@@ -71,7 +71,7 @@ RSpec.describe "Milestones full screen v iew", :js do
     end
 
     it "shows the button as correctly disabled" do
-      expect(page).to have_button("Create", class: "add-work-package", disabled: true)
+      expect(page).to have_css(".add-work-package[aria-disabled='true']", text: "Create")
     end
   end
 end

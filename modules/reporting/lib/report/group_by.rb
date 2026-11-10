@@ -41,7 +41,7 @@ class Report::GroupBy
   end
 
   def self.named(name)
-    all.detect { |group_by| group_by.name.demodulize == name.to_s.camelcase }
+    all.detect { |group_by| group_by.underscore_name == name.to_s.underscore }
   end
 
   def self.from_hash

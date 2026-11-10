@@ -58,7 +58,7 @@ RSpec.describe "Upload attachment to budget", :js do
 
     expect_and_dismiss_flash(message: "Successful creation.")
 
-    expect(page).to have_content("Image uploaded on creation")
+    expect(page).to have_text("Image uploaded on creation")
     attachments_list.expect_attached("image.png")
 
     page.find_test_selector("budget-edit-button").click
@@ -69,8 +69,8 @@ RSpec.describe "Upload attachment to budget", :js do
 
     click_on "Submit"
 
-    expect(page).to have_content("Image uploaded on creation")
-    expect(page).to have_content("Image uploaded the second time")
+    expect(page).to have_text("Image uploaded on creation")
+    expect(page).to have_text("Image uploaded the second time")
     attachments_list.expect_attached("image.png", count: 2)
   end
 

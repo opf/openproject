@@ -2,7 +2,7 @@
 ---
 post:
   summary: Form create membership
-  operationId: form_create_membership
+  operationId: validate_membership_create_form
   tags:
     - Memberships
   description: |-

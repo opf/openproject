@@ -42,6 +42,8 @@ module ITSM
 
       def show
         @helpdesk_enabled = Setting.helpdesk_enabled?
+
+        @wizard = wizard
       end
 
       def enable_helpdesk
@@ -52,7 +54,9 @@ module ITSM
           .on_success { Setting.helpdesk_enabled = enabled }
           .on_failure { helpdesk_not_enabled(it) }
 
-        update_via_turbo_stream(component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled: Setting.helpdesk_enabled?))
+        update_via_turbo_stream(
+          component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled: Setting.helpdesk_enabled?, wizard:)
+        )
         respond_with_turbo_streams
       end
 
@@ -64,7 +68,11 @@ module ITSM
 
       def helpdesk_not_enabled(result)
         update_via_turbo_stream(component: ITSM::Admin::HelpdeskToggleComponent.new)
-        render_error_flash_message_via_turbo_stream(message: I18n.t("admin.helpdesk_not_enabled", reason: result.message))
+        render_error_flash_message_via_turbo_stream(message: I18n.t("itsm.admin.helpdesk_not_enabled", reason: result.message))
+      end
+
+      def wizard
+        ITSM::Wizard.new(model: nil)
       end
     end
   end

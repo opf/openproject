@@ -75,6 +75,8 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public typeahead?:Subject<string>;
 
+  protected readonly localSearch = new Subject<string>();
+
   @Input() public hideSelected = false;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix

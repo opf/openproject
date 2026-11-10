@@ -212,11 +212,9 @@ describe('Filters form controller', () => {
     const input = ctx.container.querySelector<HTMLInputElement>('input')!;
     input.value = 'new';
     resolveResponse(new Response('<turbo-stream action="remove" target="filter-result"></turbo-stream>'));
-    await ctx.nextFrame();
-    await ctx.nextFrame();
+    await waitFor(() => expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true));
 
     expect(replaceState).not.toHaveBeenCalled();
-    expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true);
   });
 
   it('sends the original value again after the form returns to it', async () => {
@@ -229,8 +227,7 @@ describe('Filters form controller', () => {
 
     input.value = 'new';
     resolveResponse(new Response('<turbo-stream action="remove" target="filter-result"></turbo-stream>'));
-    await ctx.nextFrame();
-    await ctx.nextFrame();
+    await waitFor(() => expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true));
 
     input.value = 'old';
     controller.sendForm();

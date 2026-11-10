@@ -83,6 +83,42 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
         end
       end
     end
+
+    it "keeps Primer's generated ids on the direction buttons", :aggregate_failures do
+      directions.each_key do |direction|
+        expect(page).to have_element(:li, "data-sortable-lists--item-direction-param": direction) do |item|
+          expect(item).to have_css("button[id^='item-']")
+        end
+      end
+    end
+
+    context "with a dom_key" do
+      let(:harness_class) { harness_class_calling(:with_move_items, system_arguments: { dom_key: :story }) }
+
+      it "preserves the member's button IDs and LI-level wiring", :aggregate_failures do
+        directions.each do |direction, (label, _icon)|
+          expect(page).to have_element(:li, "data-sortable-lists--item-direction-param": direction) do |item|
+            expect(item["data-sortable-lists--item-target"]).to eq("moveItem")
+            expect(item["data-action"]).to eq("click->sortable-lists--item#move")
+            expect(item).to have_element(:button, id: "story_menu_#{direction}", text: label)
+          end
+        end
+        expect(page).to have_no_css("li[data-sortable-lists-locked], [aria-disabled]")
+      end
+    end
+
+    context "with locked items" do
+      let(:harness_class) { harness_class_calling(:with_move_items, system_arguments: { dom_key: :story, disabled: true }) }
+
+      it "disables every direction and locks it against client gating", :aggregate_failures do
+        %w[top up down bottom].each do |direction|
+          item = page.find(:element, :li, "data-sortable-lists--item-direction-param": direction,
+                                          "data-sortable-lists-locked": true)
+          expect(item).to have_selector(:menuitem, disabled: true)
+          expect(item).to have_element(:button, id: "story_menu_#{direction}")
+        end
+      end
+    end
   end
 
   describe "#with_move_submenu" do
@@ -126,6 +162,35 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
           expect(item[:class]).to include("additional-class")
           expect(item).to have_selector(:menuitem, "Move", exact: true)
         end
+      end
+    end
+
+    context "with a dom_key and a custom label" do
+      let(:system_arguments) { { dom_key: :story, label: "Move to position" } }
+
+      it "renders the custom label with keyed, enabled directions", :aggregate_failures do
+        move_item = page.find(:menuitem, "Move to position", exact: true)
+        expect(move_item["aria-disabled"]).to be_nil
+        expect(page).to have_no_css("[data-sortable-lists-locked]")
+
+        expect(page).to have_selector(:menu, id: move_item["aria-controls"]) do |submenu|
+          directions.each do |direction, (label, _icon)|
+            expect(submenu).to have_element(:button, id: "story_menu_#{direction}", text: label)
+          end
+        end
+      end
+    end
+
+    context "with a custom label and disabled state" do
+      let(:system_arguments) { { dom_key: :story, label: "Move to position", disabled: true } }
+
+      it "keeps the custom label and locks both submenu and directions", :aggregate_failures do
+        expect(page).to have_element(:li, "data-sortable-lists--item-target": "moveMenu",
+                                          "data-sortable-lists-locked": true) do |item|
+          expect(item).to have_selector(:menuitem, "Move to position", disabled: true)
+        end
+        expect(page).to have_css("li[data-sortable-lists--item-target=moveItem][data-sortable-lists-locked]", count: 4)
+        expect(page).to have_element(:button, id: "story_menu_top")
       end
     end
   end

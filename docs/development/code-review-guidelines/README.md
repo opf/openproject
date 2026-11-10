@@ -14,6 +14,11 @@ Before committing, please run your new code through [Rubocop](https://github.com
 
 The same is true for eslint. Your editor will likely have support for eslint checks, and allows you to correct them before committing.
 
+For ERB templates, run `bundle exec erb_lint path/to/template.html.erb` and
+`npm run herb:lint -- path/to/template.html.erb`. ERB Lint checks Ruby style and
+template safety; Herb checks accessibility and HTML structure using `.herb.yml`.
+Both run in CI and through Lefthook.
+
 **Lefthook**
 
 For automatically linting your files on committing them, please have a look

@@ -194,9 +194,9 @@ module Pages
     def has_group_membership?(user_name)
       user = find_user(user_name)
 
-      remove_dialog_id = user.find(:link_or_button, "Remove member", visible: false)["data-show-dialog-id"]
-      user.has_selector?(:link_or_button, "Manage roles", visible: false) &&
-        page.find("dialog##{remove_dialog_id}", visible: false).has_no_selector?(:button, "Remove", visible: false)
+      remove_dialog_id = user.find(:link_or_button, "Remove member", visible: :all)["data-show-dialog-id"]
+      user.has_selector?(:link_or_button, "Manage roles", visible: :all) &&
+        page.find("dialog##{remove_dialog_id}", visible: :all).has_no_selector?(:button, "Remove", visible: :all)
     end
 
     def has_roles?(user_name, roles, group: false)

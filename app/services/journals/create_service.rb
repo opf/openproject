@@ -53,6 +53,8 @@ module Journals
     end
 
     def call(notes: "", internal: false, cause: CauseOfChange::NoCause.new)
+      raise CauseOfChange::InvalidCauseError.new(cause) unless cause.is_a?(CauseOfChange::Base)
+
       Journal.transaction do
         journal = create_journal(notes, internal, cause)
 
@@ -70,7 +72,7 @@ module Journals
     #
     # * The journalizing happens within the configured aggregation time
     # * The journalizing is carried out by the same user
-    # * The cause is identical
+    # * The cause is identical or extends the predecessor's cause
     # * ONLY one note exists between the predecessor and the journal to be created
     # * The predecessor and the journal to be created have the same restriction
     #
@@ -84,6 +86,7 @@ module Journals
 
     def create_journal(notes, internal, cause)
       predecessor = aggregatable_predecessor(notes, internal, cause)
+      cause = aggregate_cause(predecessor, cause)
 
       log_journal_creation(predecessor)
 
@@ -576,7 +579,7 @@ module Journals
 
     def cause_sql(cause)
       # Using the same encoder mechanism that ActiveRecord uses for json/jsonb columns
-      ActiveSupport::JSON.encode(cause || {})
+      ActiveSupport::JSON.encode(cause)
     end
 
     # Because we added the journal via bare metal sql, rails does not yet
@@ -611,7 +614,13 @@ module Journals
     end
 
     def only_one_or_same_cause?(predecessor, cause)
-      predecessor.cause.empty? || predecessor.cause == cause
+      predecessor.cause.empty? || predecessor.cause == cause || cause.mergeable_into?(predecessor.cause)
+    end
+
+    def aggregate_cause(predecessor, cause)
+      return cause unless predecessor
+
+      cause.merge_into(predecessor.cause) || cause
     end
 
     def only_one_note?(predecessor, notes)

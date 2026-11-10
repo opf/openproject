@@ -65,7 +65,7 @@ RSpec.describe "Workflow edit with multiple roles", :js do
         expect(page).to have_css("[data-item-id='#{role2.id}'] [aria-selected='true']")
         expect(page).to have_css("[data-item-id='#{unused_role.id}'] [aria-selected='false']")
 
-        find("input[type='search']").set(unused_role.name)
+        find_field(type: "search").set(unused_role.name)
         expect(page).to have_no_css("[data-item-id='#{role.id}']")
         expect(page).to have_no_text("With transitions")
         expect(page).to have_text("Without transitions")

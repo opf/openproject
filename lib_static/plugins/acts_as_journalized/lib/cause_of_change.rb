@@ -48,6 +48,7 @@
 
 require_relative "cause_of_change/base"
 require_relative "cause_of_change/no_cause"
+require_relative "cause_of_change/invalid_cause_error"
 
 module CauseOfChange
 end
