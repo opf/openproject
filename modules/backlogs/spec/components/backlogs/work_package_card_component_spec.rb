@@ -51,6 +51,22 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
     expect(rendered_component).to have_text("##{work_package.id}")
   end
 
+  context "with a visible parent" do
+    let(:parent) { create(:work_package, project:, type: type_feature, subject: "Parent epic") }
+    let(:work_package) do
+      create(:work_package, project:, type: type_feature, subject: "Backlogs card", parent:)
+    end
+
+    before { allow(work_package.parent).to receive(:visible?).and_return(true) }
+
+    it "renders the subject and the parent as text, not links", :aggregate_failures do
+      expect(rendered_component).to have_text("Backlogs card")
+      expect(rendered_component).to have_text("Parent epic")
+      expect(rendered_component).to have_no_element(:a, text: "Backlogs card")
+      expect(rendered_component).to have_no_element(:a, text: "Parent epic")
+    end
+  end
+
   it "renders story points as the card metric" do
     expect(rendered_component).to have_css("span", text: "5", aria: { hidden: true })
     expect(rendered_component).to have_css(".sr-only", text: "5 story points")

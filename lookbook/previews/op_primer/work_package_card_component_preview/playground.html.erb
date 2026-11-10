@@ -5,6 +5,7 @@
       show_drag_handle:,
       show_parent:,
       link_subject:,
+      link_parent:,
       status_scheme: status_scheme.to_sym
     ) do |card|
       card.with_metric { (work_package.try(:story_points) || 5).to_s } if show_metric

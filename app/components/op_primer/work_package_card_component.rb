@@ -44,7 +44,7 @@ module OpPrimer
     renders_one :additional_details, Primer::Content
 
     attr_reader :work_package, :menu_src, :show_drag_handle, :show_assignee, :show_priority,
-                :show_parent, :link_subject, :status_scheme
+                :show_parent, :link_subject, :link_parent, :status_scheme
 
     alias_method :show_drag_handle?, :show_drag_handle
 
@@ -54,14 +54,15 @@ module OpPrimer
     # @param show_drag_handle [Boolean] whether to show a drag handle icon.
     # @param show_assignee [Boolean] whether to show the assignee (icon + name when space allows).
     # @param show_priority [Boolean] whether to show the priority badge.
-    # @param show_parent [Boolean] whether to show a link to the parent work package in row 3.
+    # @param show_parent [Boolean] whether to show the parent work package in row 3.
     #   Only rendered when the work package actually has a parent.
     # @param link_subject [Boolean] whether to link the subject to the WP or render as plain text instead.
+    # @param link_parent [Boolean] whether to link the parent's subject to the parent or render as plain text instead.
     # @param status_scheme [Symbol] status label scheme for the info line. One of :default or :secondary.
     # @param system_arguments [Hash] forwarded to the root card element.
     def initialize(work_package:, menu_src: nil, show_drag_handle: false,
                    show_assignee: false, show_priority: false, show_parent: false, link_subject: true,
-                   status_scheme: :default,
+                   link_parent: true, status_scheme: :default,
                    **system_arguments)
       super()
 
@@ -72,6 +73,7 @@ module OpPrimer
       @show_priority = show_priority
       @show_parent = show_parent
       @link_subject = link_subject
+      @link_parent = link_parent
       @status_scheme = status_scheme
       @system_arguments = system_arguments.except(:tag)
       @system_arguments[:tag] = :article

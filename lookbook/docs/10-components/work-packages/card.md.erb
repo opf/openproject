@@ -15,7 +15,7 @@ Contains the info line (type, ID, status), followed by optional elements: assign
 The work package title, always visible.
 
 **Row 3 — Footer** *(only rendered when content is present)*
-Shows a link to the parent work package (when `show_parent: true` and a parent exists) and/or the `with_additional_details` slot.
+Shows the parent work package (when `show_parent: true` and a parent exists; a link unless `link_parent: false`) and/or the `with_additional_details` slot.
 
 ## Parameters
 
@@ -26,7 +26,9 @@ Shows a link to the parent work package (when `show_parent: true` and a parent e
 | `show_assignee` | `Boolean` | `false` | Show the assignee icon and name |
 | `show_priority` | `Boolean` | `false` | Show a priority badge |
 | `show_drag_handle` | `Boolean` | `false` | Show a drag handle icon |
-| `show_parent` | `Boolean` | `false` | Show a link to the parent work package in row 3. Only rendered when `work_package.parent` is present. |
+| `show_parent` | `Boolean` | `false` | Show the parent work package in row 3. Only rendered when `work_package.parent` is present. |
+| `link_subject` | `Boolean` | `true` | Link the subject to the work package. Rendered as plain text when `false`. |
+| `link_parent` | `Boolean` | `true` | Link the parent's subject to the parent. Rendered as plain text when `false`. |
 | `status_scheme` | `Symbol` | `:default` | Status label style: `:default` (highlighted) or `:secondary` (neutral label) |
 
 ## Slots

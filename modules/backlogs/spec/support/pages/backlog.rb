@@ -451,8 +451,8 @@ module Pages
     end
 
     # Right-clicks near the card's top-left corner: the offset keeps the
-    # pointer off the subject link and the actions menu button, both of which
-    # keep their native context menu on purpose.
+    # pointer off the ID link and the actions menu button, both of which keep
+    # their native context menu on purpose.
     def right_click_work_package_card(work_package)
       work_package_card(work_package).right_click(x: 6, y: 6, offset: :position)
     end
@@ -789,9 +789,9 @@ module Pages
     end
 
     # An unmodified click: narrows the batch to this card and opens its
-    # details pane. Offset near the top-left corner because the card's center
-    # sits on the subject link or the actions menu button, both of which the
-    # selection root ignores as interactive descendants.
+    # details pane. Offset near the top-left corner, clear of the ID link and
+    # the actions menu button, both of which the selection root ignores as
+    # interactive descendants.
     def select_card(work_package)
       work_package_card(work_package).click(x: 6, y: 6, offset: :position)
     end
@@ -1394,10 +1394,9 @@ module Pages
     end
 
     # Node::Element#click takes the held key and positional options, so no
-    # action chain is needed. The offset avoids the card's center, where the
-    # subject link or actions menu button sits: the selection root ignores a
-    # gesture starting on either, and which one lands dead center varies with
-    # the card's content.
+    # action chain is needed. The offset keeps clear of the ID link and the
+    # actions menu button: the selection root ignores a gesture starting on
+    # either, and what lands dead center varies with the card's content.
     def modified_click(work_package, key)
       work_package_card(work_package).click(key, x: 6, y: 6, offset: :position)
     end
