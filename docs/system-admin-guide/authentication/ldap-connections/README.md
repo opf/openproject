@@ -115,7 +115,7 @@ Enable account status synchronization using one of the following [configuration 
 - `ldap_users_sync_status: true`
 - Or the environment variable `OPENPROJECT_LDAP__USERS__SYNC__STATUS=true`
 
-When enabled, OpenProject determines the account status from the result of an LDAP search for each linked user's login, using the connection's **Base DN**, **Login** attribute, and **Filter string**:
+When enabled, OpenProject determines the account status based on the result of an LDAP search for each linked user's login, using the connection's **Base DN**, **Login** attribute, and **Filter string**:
 
 | LDAP search result | Effect on the linked OpenProject account |
 | --- | --- |
@@ -125,11 +125,11 @@ When enabled, OpenProject determines the account status from the result of an LD
 OpenProject does not map an LDAP status attribute directly to the OpenProject account status. **Deactivating or locking a user in your directory only locks their OpenProject account if the LDAP search no longer returns that user.** If the entry still matches the search, the account remains active or is reactivated during synchronization.
 
 > [!NOTE]
-> Status synchronization also reactivates accounts that were manually locked in OpenProject if the user is still found in LDAP and their attributes can be updated. To keep such an account locked, exclude it from the LDAP search as well.
+> Status synchronization also reactivates accounts that were manually locked in OpenProject if the user is still found in LDAP and their attributes can be updated. To keep such an account locked, make sure it's excluded from the LDAP search as well.
 
 ### Exclude inactive users with the LDAP filter
 
-In _Administration -> Authentication -> LDAP connections_, edit the connection's **Filter string** so it returns only users who should have active OpenProject accounts. Include conditions that exclude deactivated or locked accounts according to your directory's schema. Combine these conditions with any existing restrictions, such as group membership, using LDAP filter syntax.
+In _Administration -> Authentication -> LDAP connections_, edit the connection's **Filter string** so that it returns only users who should have active OpenProject accounts. Include conditions that exclude deactivated or locked accounts based on your directory's schema. Combine these conditions with any existing restrictions, such as group membership, using LDAP filter syntax.
 
 For example, if your directory exposes an `accountStatus` attribute with the value `active` for active accounts, you could combine it with a group restriction:
 
