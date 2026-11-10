@@ -73,6 +73,12 @@ RSpec.describe SemanticIndexes::UpdateContract do
     it_behaves_like "contract is invalid", embedding_vector_dimensions: :error_readonly
   end
 
+  context "when changing the batch_size" do
+    before { semantic_index.batch_size = 25 }
+
+    it_behaves_like "contract is valid"
+  end
+
   context "when changing the context_token_length" do
     before { semantic_index.context_token_length = 4096 }
 
