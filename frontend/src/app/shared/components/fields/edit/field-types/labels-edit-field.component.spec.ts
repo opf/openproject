@@ -28,7 +28,7 @@
 import {
   ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, input, output,
 } from '@angular/core';
-import { expectTypeOf } from 'vitest';
+import { expectTypeOf, type Mock } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -90,10 +90,10 @@ describe('LabelsEditFieldComponent', () => {
     htmlId:string;
     inEditMode:boolean;
     inFlight:boolean;
-    handleUserSubmit:ReturnType<typeof vi.fn>;
-    handleUserCancel:ReturnType<typeof vi.fn>;
-    handleUserKeydown:ReturnType<typeof vi.fn>;
-    deactivate:ReturnType<typeof vi.fn>;
+    handleUserSubmit:Mock<() => Promise<void>>;
+    handleUserCancel:Mock<() => void>;
+    handleUserKeydown:Mock<(event:KeyboardEvent, onlyCancel?:boolean) => void>;
+    deactivate:Mock<() => void>;
   };
 
   const schema = {
@@ -224,7 +224,7 @@ describe('LabelsEditFieldComponent', () => {
     });
 
     it('disables Save while the selection is invalid and recovers on a valid one', async () => {
-      autocompleter().change.emit([{ id: '99', name: 99 }]);
+      autocompleter().changed([{ id: '99', name: 99 }]);
       fixture.detectChanges();
 
       expect((saveButton() as HTMLButtonElement).disabled).toBe(true);
@@ -361,10 +361,10 @@ describe('LabelsEditFieldComponent', () => {
     it('clears a further malformed change from the autocompleter', async () => {
       await configure([{ id: '5', name: 5 }]);
 
-      autocompleter().changed([{ id: '99', name: 99 }]);
-      fixture.detectChanges();
+      autocompleter().changed([{ id: '99', name: 'Rejected', href: 7 }]);
+      await fixture.whenStable();
 
-      expect(autocompleter().model).toEqual([]);
+      expect(screen.queryByText('Rejected')).toBeNull();
       expect(screen.getByRole('alert')).toBeTruthy();
     });
   });

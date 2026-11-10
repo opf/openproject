@@ -25,13 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { screen } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -44,6 +44,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { ProjectAutocompleterComponent } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { SelectionErrorComponent } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
 import { FilterProjectComponent } from './filter-project/filter-project.component';
@@ -77,51 +78,52 @@ describe('createQueryFilterSelectionAdapter', () => {
   it('clears the searchable profile with an empty string', () => {
     const adapter = createQueryFilterSelectionAdapter('searchable');
     adapter.bridge.accept('');
-    expect(adapter.state).toEqual({ kind: 'ready', value: [] });
+    expect(adapter.state()).toEqual({ kind: 'ready', value: [] });
   });
 
   it('wraps a searchable scalar', () => {
     const adapter = createQueryFilterSelectionAdapter('searchable');
     adapter.bridge.accept('t');
-    expect(adapter.state).toEqual({ kind: 'ready', value: ['t'] });
+    expect(adapter.state()).toEqual({ kind: 'ready', value: ['t'] });
   });
 
   it('wraps a toggled scalar', () => {
     const adapter = createQueryFilterSelectionAdapter('toggled');
     adapter.bridge.accept('t');
-    expect(adapter.state).toEqual({ kind: 'ready', value: ['t'] });
+    expect(adapter.state()).toEqual({ kind: 'ready', value: ['t'] });
   });
 
   it('keeps the empty string as a toggled value', () => {
     const adapter = createQueryFilterSelectionAdapter('toggled');
     adapter.bridge.accept('');
-    expect(adapter.state).toEqual({ kind: 'ready', value: [''] });
+    expect(adapter.state()).toEqual({ kind: 'ready', value: [''] });
   });
 
   it.each(['searchable', 'toggled'] as const)('clears the %s profile with an empty array', (profile) => {
     const adapter = createQueryFilterSelectionAdapter(profile);
     adapter.bridge.accept([]);
-    expect(adapter.state).toEqual({ kind: 'ready', value: [] });
+    expect(adapter.state()).toEqual({ kind: 'ready', value: [] });
   });
 
   it('accepts an array atomically and keeps its identity', () => {
     const adapter = createQueryFilterSelectionAdapter('toggled');
     const values = [hal, '7', { href: '/api/v3/work_packages/{id}' }];
     adapter.bridge.accept(values);
-    expect(adapter.state.kind === 'ready' && adapter.state.value).toBe(values);
+    const state = adapter.state();
+    expect(state.kind === 'ready' && state.value).toBe(values);
   });
 
   it.each(['searchable', 'toggled'] as const)('rejects an invalid array entry of the %s profile with its index', (profile) => {
     const adapter = createQueryFilterSelectionAdapter(profile);
     adapter.bridge.accept([hal, { name: 'x' }]);
-    expect(adapter.state).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape', index: 1 }, lastAccepted: [] });
+    expect(adapter.state()).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape', index: 1 }, lastAccepted: [] });
     expect(captureMessage).toHaveBeenCalledExactlyOnceWith('selection:invalid-shape');
   });
 
   it('rejects nullish values', () => {
     const adapter = createQueryFilterSelectionAdapter('toggled');
     adapter.bridge.accept(null);
-    expect(adapter.state.kind).toBe('invalid');
+    expect(adapter.state().kind).toBe('invalid');
   });
 });
 
@@ -130,25 +132,25 @@ describe('createProjectFilterSelectionAdapter', () => {
     const adapter = createProjectFilterSelectionAdapter();
     const dto = { id: 3, name: 'Project', href: '/api/v3/projects/3' };
     adapter.bridge.accept([dto, { id: 0 }]);
-    expect(adapter.state).toEqual({ kind: 'ready', value: [dto, { id: 0 }] });
+    expect(adapter.state()).toEqual({ kind: 'ready', value: [dto, { id: 0 }] });
   });
 
   it('rejects an entry that has no resolvable identity with its index', () => {
     const adapter = createProjectFilterSelectionAdapter();
     adapter.bridge.accept([{ id: 3 }, { name: 'x' }]);
-    expect(adapter.state).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape', index: 1 }, lastAccepted: [] });
+    expect(adapter.state()).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape', index: 1 }, lastAccepted: [] });
   });
 
   it('rejects a reference with an href that has no id', () => {
     const adapter = createProjectFilterSelectionAdapter();
     adapter.bridge.accept([{ href: '/api/v3/projects/' }]);
-    expect(adapter.state).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape', index: 0 }, lastAccepted: [] });
+    expect(adapter.state()).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape', index: 0 }, lastAccepted: [] });
   });
 
   it('rejects a non-array', () => {
     const adapter = createProjectFilterSelectionAdapter();
     adapter.bridge.accept({ id: 3 });
-    expect(adapter.state).toEqual({ kind: 'invalid', issue: { code: 'wrong-cardinality' }, lastAccepted: [] });
+    expect(adapter.state()).toEqual({ kind: 'invalid', issue: { code: 'wrong-cardinality' }, lastAccepted: [] });
   });
 });
 
@@ -167,8 +169,7 @@ class TestToggledComponent extends FilterToggledMultiselectValueComponent {}
 class TestSearchableComponent extends FilterSearchableMultiselectValueComponent {}
 
 @Component({
-  imports: [SelectionErrorComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [SelectionErrorComponent, OpenprojectAutocompleterModule],
   templateUrl: './filter-project/filter-project.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -264,20 +265,38 @@ describe('filter selection components', () => {
     expect(filter.values).toEqual(['a']);
     expect(changed).not.toHaveBeenCalled();
     expect(screen.getByRole('alert')).toBeTruthy();
-    expect(fixture.componentInstance.selection.state).toMatchObject({ kind: 'invalid', issue: { index: 1 } });
+    expect(fixture.componentInstance.selection.state()).toMatchObject({ kind: 'invalid', issue: { index: 1 } });
   });
 
-  it.each(multiselects)('resets the %s autocompleter to the current values for an invalid entry', (_, component) => {
-    const filter = filterWith(['a']);
+  it.each(multiselects)('removes an invalid entry from the %s autocompleter', async (_, component) => {
+    const filter = filterWith([]);
     const fixture = render(component, filter);
     const autocompleter = fixture.debugElement.query(By.directive(OpAutocompleterComponent))
       .componentInstance as OpAutocompleterComponent;
 
-    autocompleter.changed([{ name: 'x' }]);
-    fixture.detectChanges();
+    autocompleter.changed([{ name: 'Rejected' }]);
+    await fixture.whenStable();
 
-    expect(autocompleter.model).toEqual(['a']);
-    expect(filter.values).toEqual(['a']);
+    expect(screen.queryByText('Rejected')).toBeNull();
+    expect(filter.values).toEqual([]);
+  });
+
+  it.each(multiselects)('shows and edits a replacement %s filter with the same name', async (_, component) => {
+    const fixture = render(component, filterWith([{ id: 1, name: 'Old', href: '/api/v3/statuses/1' }]));
+    const replacement = filterWith([{ id: 2, name: 'New', href: '/api/v3/statuses/2' }]);
+    const autocompleter = fixture.debugElement.query(By.directive(OpAutocompleterComponent))
+      .componentInstance as OpAutocompleterComponent;
+
+    fixture.componentRef.setInput('filter', replacement);
+    await fixture.whenStable();
+
+    expect(screen.getByText('New')).toBeTruthy();
+    expect(screen.queryByText('Old')).toBeNull();
+
+    const third = { id: 3, name: 'Third', href: '/api/v3/statuses/3' };
+    autocompleter.changed([...(autocompleter.model as unknown[]), third]);
+
+    expect(replacement.values).toEqual([{ id: 2, name: 'New', href: '/api/v3/statuses/2' }, third]);
   });
 
   it('removes the error after a valid change', () => {
@@ -313,6 +332,75 @@ describe('filter selection components', () => {
       const fixture = render(TestProjectComponent, filter);
       await fixture.componentInstance.onChange([]);
       expect(filter.values).toEqual([]);
+      expect(list).not.toHaveBeenCalled();
+    });
+
+    function projectAutocompleter(fixture:ComponentFixture<TestProjectComponent>):ProjectAutocompleterComponent {
+      return fixture.debugElement.query(By.directive(ProjectAutocompleterComponent))
+        .componentInstance as ProjectAutocompleterComponent;
+    }
+
+    it('keeps the chosen projects in the autocompleter while resolving them after an invalid change', async () => {
+      list.mockReturnValue(of({ elements: [createHal()] }).pipe(delay(1000)));
+      const filter = filterWith([{ id: 1, name: 'Old', href: '/api/v3/projects/1' }]);
+      const fixture = render(TestProjectComponent, filter);
+
+      projectAutocompleter(fixture).changed({ id: 3, name: 'Rejected' });
+      await fixture.whenStable();
+      projectAutocompleter(fixture).changed([{ id: 3, name: 'Chosen', href: '/api/v3/projects/3' }]);
+      await fixture.whenStable();
+
+      expect(screen.getByText('Chosen')).toBeTruthy();
+      expect(screen.queryByText('Old')).toBeNull();
+    });
+
+    it('commits only the latest project lookup when responses arrive out of order', async () => {
+      const project = (id:number, name:string) => TestBed.inject(HalResourceService).createHalResource({
+        id: String(id), name, _links: { self: { href: `/api/v3/projects/${id}` } },
+      }, true);
+      const alpha = { id: 1, name: 'Alpha', href: '/api/v3/projects/1' };
+      const beta = { id: 2, name: 'Beta', href: '/api/v3/projects/2' };
+      const firstLookup = new Subject<{ elements:HalResource[] }>();
+      const secondLookup = new Subject<{ elements:HalResource[] }>();
+      list.mockReturnValueOnce(firstLookup).mockReturnValueOnce(secondLookup);
+      const filter = filterWith([]);
+      const fixture = render(TestProjectComponent, filter);
+
+      const alphaOnly = fixture.componentInstance.onChange([alpha]);
+      const alphaAndBeta = fixture.componentInstance.onChange([alpha, beta]);
+      const resolved = [project(1, 'Alpha'), project(2, 'Beta')];
+      secondLookup.next({ elements: resolved });
+      await alphaAndBeta;
+      firstLookup.next({ elements: [project(1, 'Alpha')] });
+      await alphaOnly;
+      await fixture.whenStable();
+
+      expect(filter.values).toEqual(resolved);
+      expect(screen.getByText('Alpha')).toBeTruthy();
+      expect(screen.getByText('Beta')).toBeTruthy();
+    });
+
+    it('shows a replacement project filter with the same name', async () => {
+      const fixture = render(TestProjectComponent, filterWith([{ id: 1, name: 'Old', href: '/api/v3/projects/1' }]));
+
+      fixture.componentRef.setInput('filter', filterWith([{ id: 2, name: 'New', href: '/api/v3/projects/2' }]));
+      await fixture.whenStable();
+
+      expect(screen.getByText('New')).toBeTruthy();
+      expect(screen.queryByText('Old')).toBeNull();
+    });
+
+    it('keeps the current projects in the autocompleter for repeated invalid changes', async () => {
+      const filter = filterWith([{ id: 1, name: 'Old', href: '/api/v3/projects/1' }]);
+      const fixture = render(TestProjectComponent, filter);
+
+      projectAutocompleter(fixture).changed({ id: 3, name: 'Rejected' });
+      await fixture.whenStable();
+      projectAutocompleter(fixture).changed({ id: 4, name: 'Again' });
+      await fixture.whenStable();
+
+      expect(screen.getByText('Old')).toBeTruthy();
+      expect(screen.queryByText('Again')).toBeNull();
       expect(list).not.toHaveBeenCalled();
     });
 

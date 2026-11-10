@@ -179,7 +179,7 @@ describe('createProjectSelectionAdapter', () => {
 
     adapter.bridge.accept({ id: '7', name: 7 });
 
-    expect(adapter.state).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape' }, lastAccepted: null });
+    expect(adapter.state()).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape' }, lastAccepted: null });
     expect(emitted).not.toHaveBeenCalled();
   });
 
@@ -189,7 +189,7 @@ describe('createProjectSelectionAdapter', () => {
 
     adapter.setValue({ kind: 'option', option });
 
-    expect(adapter.bridge.model).toEqual(option);
+    expect(adapter.model()).toEqual(option);
   });
 
   it('compares raw items by href, then ID, never by missing identity', () => {

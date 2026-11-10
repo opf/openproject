@@ -35,7 +35,7 @@ import { SelectionControl } from 'core-app/shared/components/autocompleter/selec
 import { createQueryFilterSelectionAdapter } from '../filter-selection';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 @Component({
@@ -55,7 +55,16 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
   @Input() public shouldFocus = false;
 
-  @Input() public filter:QueryFilterInstanceResource;
+  @Input() public set filter(filter:QueryFilterInstanceResource) {
+    this.currentFilter = filter;
+    this.selection.bridge.load(filter.values);
+  }
+
+  public get filter():QueryFilterInstanceResource {
+    return this.currentFilter;
+  }
+
+  private currentFilter:QueryFilterInstanceResource;
 
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
@@ -72,8 +81,6 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   };
 
   ngOnInit():void {
-    this.selection.bridge.load(this.filter.values);
-
     const values = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);
     this.availableOptions = this.halSorting.sort(values);
   }
@@ -84,16 +91,11 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
     }
   }
 
-  public get value():QueryFilterValue[] {
-    const { state } = this.selection;
-    return state.kind === 'invalid' ? state.lastAccepted ?? this.filter.values : this.filter.values;
-  }
-
   public setValues(val:unknown, control?:SelectionControl):void {
     if (val === undefined) { return; }
 
     this.selection.bridge.accept(val, control);
-    const { state } = this.selection;
+    const state = this.selection.state();
     if (state.kind === 'ready') {
       this.filter.values = state.value;
       this.filterChanged.emit(this.filter);

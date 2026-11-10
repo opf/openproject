@@ -26,7 +26,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { expectTypeOf } from 'vitest';
+import { expectTypeOf, type Mock } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -71,9 +71,9 @@ describe('UserEditFieldComponent', () => {
     fieldName:string;
     htmlId:string;
     inEditMode:boolean;
-    handleUserSubmit:ReturnType<typeof vi.fn>;
-    handleUserCancel:ReturnType<typeof vi.fn>;
-    deactivate:ReturnType<typeof vi.fn>;
+    handleUserSubmit:Mock<() => Promise<void>>;
+    handleUserCancel:Mock<() => void>;
+    deactivate:Mock<() => void>;
   };
 
   const schema = {
@@ -193,7 +193,7 @@ describe('UserEditFieldComponent', () => {
     const autocompleter = fixture.debugElement.query(By.directive(UserAutocompleterComponent))
       .componentInstance as UserAutocompleterComponent;
 
-    autocompleter.change.emit({ id: '99', name: 99 });
+    autocompleter.changed({ id: '99', name: 99 });
     fixture.detectChanges();
 
     expect(screen.getByRole('alert').textContent).toContain('js.autocompleter.invalid_selection');
@@ -205,14 +205,14 @@ describe('UserEditFieldComponent', () => {
     expect(handler.handleUserSubmit).toHaveBeenCalledOnce();
   });
 
-  it('clears a malformed change from the autocompleter when nothing was selected before', () => {
+  it('clears a malformed change from the autocompleter when nothing was selected before', async () => {
     const autocompleter = fixture.debugElement.query(By.directive(UserAutocompleterComponent))
       .componentInstance as UserAutocompleterComponent;
 
-    autocompleter.changed({ id: '99', name: 99 });
-    fixture.detectChanges();
+    autocompleter.changed({ id: {}, name: 'Rejected' });
+    await fixture.whenStable();
 
-    expect(autocompleter.model).toBeNull();
+    expect(screen.queryByText('Rejected')).toBeNull();
     expect(screen.getByRole('alert')).toBeTruthy();
   });
 
@@ -220,7 +220,7 @@ describe('UserEditFieldComponent', () => {
     const autocompleter = fixture.debugElement.query(By.directive(UserAutocompleterComponent))
       .componentInstance as UserAutocompleterComponent;
 
-    autocompleter.change.emit({ id: '7', name: 7 });
+    autocompleter.changed({ id: '7', name: 7 });
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();

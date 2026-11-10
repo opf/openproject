@@ -6,20 +6,20 @@
     class="advanced-filters--ng-select -multi-select"
     [id]="'values-' + filter.id"
     [items]="availableOptions"
-    [classes]="{'-required-highlighting' : value.length === 0}"
+    [classes]="{'-required-highlighting' : filter.values.length === 0}"
     [virtualScroll]="false"
     [closeOnSelect]="false"
     [placeholder]="text.placeholder"
     [hideSelected]="true"
     [multiple]="true"
-    [model]="value"
+    [model]="selection.model()"
     [compareWith]="selection.bridge.compareWith"
     [trackByFn]="itemTracker"
     bindLabel="name"
     (change)="setValues($event, valuesAutocompleter)"
    />
 
-  @if (selection.state.kind === 'invalid') {
+  @if (selection.state().kind === 'invalid') {
     <op-selection-error />
   }
 </div>

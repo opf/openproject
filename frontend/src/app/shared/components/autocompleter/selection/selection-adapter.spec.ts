@@ -66,8 +66,8 @@ describe('SelectionAdapter', () => {
 
     adapter.bridge.load(1);
 
-    expect(adapter.state).toEqual({ kind: 'ready', value: 1 });
-    expect(adapter.bridge.model).toBe(1);
+    expect(adapter.state()).toEqual({ kind: 'ready', value: 1 });
+    expect(adapter.model()).toBe(1);
     expect(emitted).toEqual([]);
   });
 
@@ -79,8 +79,8 @@ describe('SelectionAdapter', () => {
     adapter.bridge.accept(2);
 
     expect(emitted).toEqual([2]);
-    expect(adapter.state).toEqual({ kind: 'ready', value: 2 });
-    expect(adapter.bridge.model).toBe(2);
+    expect(adapter.state()).toEqual({ kind: 'ready', value: 2 });
+    expect(adapter.model()).toBe(2);
   });
 
   it('accept of an invalid value displays the last accepted value and keeps the payload as rejected', () => {
@@ -91,8 +91,8 @@ describe('SelectionAdapter', () => {
 
     adapter.bridge.accept('x');
 
-    expect(adapter.state).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape' }, lastAccepted: 1 });
-    expect(adapter.bridge.model).toBe(1);
+    expect(adapter.state()).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape' }, lastAccepted: 1 });
+    expect(adapter.model()).toBe(1);
     expect(adapter.bridge.rejected).toBe('x');
     expect(emitted).toEqual([]);
   });
@@ -102,7 +102,7 @@ describe('SelectionAdapter', () => {
 
     adapter.bridge.accept('x');
 
-    expect(adapter.bridge.model).toBe('empty');
+    expect(adapter.model()).toBe('empty');
     expect(adapter.bridge.rejected).toBe('x');
   });
 
@@ -129,7 +129,7 @@ describe('SelectionAdapter', () => {
     recover(adapter);
 
     expect(adapter.bridge.rejected).toBeUndefined();
-    expect(adapter.bridge.model).toBe(2);
+    expect(adapter.model()).toBe(2);
   });
 
   it('keeps the last accepted value across consecutive invalid input', () => {
@@ -138,7 +138,7 @@ describe('SelectionAdapter', () => {
     adapter.bridge.accept('x');
     adapter.bridge.accept('y');
 
-    expect(adapter.state).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape' }, lastAccepted: 1 });
+    expect(adapter.state()).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape' }, lastAccepted: 1 });
   });
 
   it('load of invalid initial data is invalid without lastAccepted and uses the empty model', () => {
@@ -146,8 +146,8 @@ describe('SelectionAdapter', () => {
 
     adapter.bridge.load('x');
 
-    expect(adapter.state).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape' } });
-    expect(adapter.bridge.model).toBeNull();
+    expect(adapter.state()).toEqual({ kind: 'invalid', issue: { code: 'invalid-shape' } });
+    expect(adapter.model()).toBeNull();
   });
 
   it('setValue updates state and derives the model via toModel, without emitting', () => {
@@ -157,20 +157,9 @@ describe('SelectionAdapter', () => {
 
     adapter.setValue(5);
 
-    expect(adapter.state).toEqual({ kind: 'ready', value: 5 });
-    expect(adapter.bridge.model).toEqual({ id: 5 });
+    expect(adapter.state()).toEqual({ kind: 'ready', value: 5 });
+    expect(adapter.model()).toEqual({ id: 5 });
     expect(emitted).toEqual([]);
-  });
-
-  it('emits state changes on stateChanges$', () => {
-    const adapter = createAdapter();
-    const states:string[] = [];
-    adapter.stateChanges$.subscribe((state) => states.push(state.kind));
-
-    adapter.bridge.accept(1);
-    adapter.bridge.accept('x');
-
-    expect(states).toEqual(['invalid', 'ready', 'invalid']);
   });
 
   it('keeps bridge callbacks stable and detached from the bridge receiver', () => {

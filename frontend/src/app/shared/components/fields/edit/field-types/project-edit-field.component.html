@@ -1,6 +1,6 @@
 @if (url) {
   <op-project-autocompleter #projectAutocompleter [ngClass]="'inline-edit--field ' + handler.fieldName"
-    [model]="selection.bridge.model"
+    [model]="selection.model()"
     [compareWith]="selection.bridge.compareWith"
     [trackByFn]="selection.bridge.trackBy"
     [url]="url"
@@ -12,7 +12,7 @@
     (change)="selection.bridge.accept($event, projectAutocompleter)"
     (cancel)="handler.handleUserCancel()"
    />
-  @if (selection.state.kind === 'invalid') {
+  @if (selection.state().kind === 'invalid') {
     <op-selection-error />
   }
 } @else {

@@ -25,7 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Signal, WritableSignal, signal } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { EntityReference } from 'core-app/shared/types/entity-reference';
 
 export interface SelectionIssue {
@@ -50,7 +51,6 @@ export interface SelectionControl {
 }
 
 export interface SelectionBridge {
-  readonly model:unknown;
   readonly rejected:unknown;
   load(raw:unknown):void;
   accept(raw:unknown, control?:SelectionControl):void;
@@ -80,13 +80,15 @@ export class SelectionAdapter<S> {
 
   readonly changes$:Observable<S>;
 
-  readonly stateChanges$:Observable<SelectionState<S>>;
+  private readonly stateSignal:WritableSignal<SelectionState<S>>;
 
-  private model:unknown;
+  private readonly modelSignal:WritableSignal<unknown>;
+
+  readonly state:Signal<SelectionState<S>>;
+
+  readonly model:Signal<unknown>;
 
   private rejected:unknown;
-
-  private readonly stateSubject:BehaviorSubject<SelectionState<S>>;
 
   private readonly changesSubject = new Subject<S>();
 
@@ -97,15 +99,14 @@ export class SelectionAdapter<S> {
     compareWith:(a:unknown, b:unknown) => boolean,
     trackBy:(v:unknown) => string|number|undefined,
   ) {
-    this.model = emptyModel;
-    this.stateSubject = new BehaviorSubject<SelectionState<S>>(this.stateFor(this.decode(emptyModel, 'load')));
+    this.modelSignal = signal<unknown>(emptyModel);
+    this.stateSignal = signal<SelectionState<S>>(this.stateFor(this.decode(emptyModel, 'load')));
+    this.model = this.modelSignal.asReadonly();
+    this.state = this.stateSignal.asReadonly();
     this.changes$ = this.changesSubject.asObservable();
-    this.stateChanges$ = this.stateSubject.asObservable();
 
-    const readModel = ():unknown => this.model;
     const readRejected = ():unknown => this.rejected;
     this.bridge = {
-      get model() { return readModel(); },
       get rejected() { return readRejected(); },
       load: (raw) => this.load(raw),
       accept: (raw, control) => this.accept(raw, control),
@@ -114,26 +115,22 @@ export class SelectionAdapter<S> {
     };
   }
 
-  get state():SelectionState<S> {
-    return this.stateSubject.value;
-  }
-
   setValue(value:S):void {
-    this.model = this.toModel(value);
     this.rejected = undefined;
-    this.stateSubject.next({ kind: 'ready', value });
+    this.modelSignal.set(this.toModel(value));
+    this.stateSignal.set({ kind: 'ready', value });
   }
 
   private load(raw:unknown):void {
     const result = this.decode(raw, 'load');
 
     if (result.ok) {
-      this.model = raw;
       this.rejected = undefined;
-      this.stateSubject.next({ kind: 'ready', value: result.value });
+      this.modelSignal.set(raw);
+      this.stateSignal.set({ kind: 'ready', value: result.value });
     } else {
       this.reject(raw, result.issue, this.emptyModel);
-      this.stateSubject.next({ kind: 'invalid', issue: result.issue });
+      this.stateSignal.set({ kind: 'invalid', issue: result.issue });
     }
   }
 
@@ -141,21 +138,21 @@ export class SelectionAdapter<S> {
     const result = this.decode(raw, 'change');
 
     if (result.ok) {
-      this.model = raw;
       this.rejected = undefined;
-      this.stateSubject.next({ kind: 'ready', value: result.value });
+      this.modelSignal.set(raw);
+      this.stateSignal.set({ kind: 'ready', value: result.value });
       this.changesSubject.next(result.value);
     } else {
       const lastAccepted = this.lastAccepted();
       this.reject(raw, result.issue, lastAccepted === undefined ? this.emptyModel : this.toModel(lastAccepted));
-      control?.writeValue(this.model);
-      this.stateSubject.next({ kind: 'invalid', issue: result.issue, lastAccepted });
+      control?.writeValue(this.modelSignal());
+      this.stateSignal.set({ kind: 'invalid', issue: result.issue, lastAccepted });
     }
   }
 
   private reject(raw:unknown, issue:SelectionIssue, model:unknown):void {
-    this.model = model;
     this.rejected = raw;
+    this.modelSignal.set(model);
     window.ErrorReporter.captureMessage(`selection:${issue.code}`);
   }
 
@@ -164,7 +161,7 @@ export class SelectionAdapter<S> {
   }
 
   private lastAccepted():S|undefined {
-    const current = this.state;
+    const current = this.stateSignal();
     return current.kind === 'ready' ? current.value : current.lastAccepted;
   }
 }

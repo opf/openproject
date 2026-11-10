@@ -47,7 +47,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
-import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -71,7 +71,16 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   protected currentUser = inject(CurrentUserService);
   readonly halNotification = inject(HalResourceNotificationService);
 
-  @Input() public filter:QueryFilterInstanceResource;
+  @Input() public set filter(filter:QueryFilterInstanceResource) {
+    this.currentFilter = filter;
+    this.selection.bridge.load(filter.values);
+  }
+
+  public get filter():QueryFilterInstanceResource {
+    return this.currentFilter;
+  }
+
+  private currentFilter:QueryFilterInstanceResource;
 
   @Input() public shouldFocus = false;
 
@@ -106,16 +115,9 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
-  public get value():QueryFilterValue[] {
-    const { state } = this.selection;
-    return state.kind === 'invalid' ? state.lastAccepted ?? this.filter.values : this.filter.values;
-  }
-
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   ngOnInit():void {
-    this.selection.bridge.load(this.filter.values);
-
     if (this.filter.id === 'id' || this.filter.id === 'parent' || this.filter.id === 'ancestor') {
       this.resourceType = 'work_packages';
     }
@@ -205,7 +207,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     if (val === undefined) { return; }
 
     this.selection.bridge.accept(val, control);
-    const { state } = this.selection;
+    const state = this.selection.state();
     if (state.kind === 'ready') {
       this.filter.values = state.value;
       this.filterChanged.emit(this.filter);

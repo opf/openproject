@@ -5,7 +5,7 @@
     [focusDirectly]="!(handler.inEditMode || isNew)"
     [openDirectly]="!(handler.inEditMode || isNew)"
     appendTo="body"
-    [model]="selection.bridge.model"
+    [model]="selection.model()"
     [compareWith]="selection.bridge.compareWith"
     [trackByFn]="selection.bridge.trackBy"
     [id]="handler.htmlId"
@@ -13,7 +13,7 @@
     (cancel)="handler.handleUserCancel()"
     (userInvited)="selection.bridge.accept($event, userAutocompleter)"
    />
-  @if (selection.state.kind === 'invalid') {
+  @if (selection.state().kind === 'invalid') {
     <op-selection-error />
   }
 }

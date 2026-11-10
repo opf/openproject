@@ -26,7 +26,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { expectTypeOf } from 'vitest';
+import { expectTypeOf, type Mock } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -72,9 +72,9 @@ describe('ProjectEditFieldComponent', () => {
     fieldName:string;
     htmlId:string;
     inEditMode:boolean;
-    handleUserSubmit:ReturnType<typeof vi.fn>;
-    handleUserCancel:ReturnType<typeof vi.fn>;
-    deactivate:ReturnType<typeof vi.fn>;
+    handleUserSubmit:Mock<() => Promise<void>>;
+    handleUserCancel:Mock<() => void>;
+    deactivate:Mock<() => void>;
   };
   let schema:{ name:string; allowedValues?:{ $link:{ href:string } } };
 
@@ -209,7 +209,7 @@ describe('ProjectEditFieldComponent', () => {
       const autocompleter = fixture.debugElement.query(By.directive(ProjectAutocompleterComponent))
         .componentInstance as ProjectAutocompleterComponent;
 
-      autocompleter.change.emit({ id: '99', name: 99 });
+      autocompleter.changed({ id: '99', name: 99 });
       fixture.detectChanges();
 
       expect(screen.getByRole('alert').textContent).toContain('js.autocompleter.invalid_selection');
@@ -221,15 +221,14 @@ describe('ProjectEditFieldComponent', () => {
       expect(handler.handleUserSubmit).toHaveBeenCalledOnce();
     });
 
-    it('restores the previous project in the autocompleter after a malformed change', () => {
+    it('clears a malformed change from the autocompleter', async () => {
       const autocompleter = fixture.debugElement.query(By.directive(ProjectAutocompleterComponent))
         .componentInstance as ProjectAutocompleterComponent;
-      const before = autocompleter.model;
 
-      autocompleter.changed({ id: '99', name: 99 });
-      fixture.detectChanges();
+      autocompleter.changed({ id: {}, name: 'Rejected' });
+      await fixture.whenStable();
 
-      expect(autocompleter.model).toEqual(before);
+      expect(screen.queryByText('Rejected')).toBeNull();
       expect(screen.getByRole('alert')).toBeTruthy();
     });
 
@@ -237,7 +236,7 @@ describe('ProjectEditFieldComponent', () => {
       resource.project = { href: null };
       refresh();
 
-      expect(fixture.componentInstance.selection.state).toEqual({ kind: 'ready', value: null });
+      expect(fixture.componentInstance.selection.state()).toEqual({ kind: 'ready', value: null });
       expect(screen.queryByRole('alert')).toBeNull();
     });
 

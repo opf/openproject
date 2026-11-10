@@ -26,7 +26,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, OnInit, inject,
+  ChangeDetectionStrategy, Component, OnInit, computed, inject,
 } from '@angular/core';
 import {
   AutocompleterEditFieldComponent,
@@ -60,7 +60,16 @@ export class LabelsEditFieldComponent extends AutocompleterEditFieldComponent im
 
   url:string;
 
-  displayModel:unknown[] = noLabels;
+  readonly displayModel = computed(():unknown[] => {
+    const model = this.selection.model();
+    if (Array.isArray(model)) {
+      return model;
+    }
+
+    const state = this.selection.state();
+    const selections = state.kind === 'ready' ? state.value : [];
+    return selections.length > 0 ? labelSelectionsToModel(selections) : noLabels;
+  });
 
   private loadedValue:unknown = unloaded;
 
@@ -75,13 +84,6 @@ export class LabelsEditFieldComponent extends AutocompleterEditFieldComponent im
     this.selection.changes$
       .pipe(this.untilDestroyed())
       .subscribe((values) => this.onSelectionChange(values));
-
-    this.selection.stateChanges$
-      .pipe(this.untilDestroyed())
-      .subscribe(() => {
-        this.refreshDisplayModel();
-        this.cdRef.markForCheck();
-      });
 
     super.ngOnInit();
   }
@@ -109,17 +111,5 @@ export class LabelsEditFieldComponent extends AutocompleterEditFieldComponent im
       this.writing = false;
     }
     this.loadedValue = this.value;
-  }
-
-  private refreshDisplayModel():void {
-    const { model } = this.selection.bridge;
-    if (Array.isArray(model)) {
-      this.displayModel = model as unknown[];
-      return;
-    }
-
-    const { state } = this.selection;
-    const selections = state.kind === 'ready' ? state.value : [];
-    this.displayModel = selections.length > 0 ? labelSelectionsToModel(selections) : noLabels;
   }
 }

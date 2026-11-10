@@ -10,7 +10,7 @@
     [focusDirectly]="!(handler.inEditMode || isNew)"
     [openDirectly]="!(handler.inEditMode || isNew)"
     appendTo="body"
-    [model]="displayModel"
+    [model]="displayModel()"
     [compareWith]="selection.bridge.compareWith"
     [trackByFn]="selection.bridge.trackBy"
     [id]="handler.htmlId"
@@ -20,7 +20,7 @@
     (remove)="labelsAutocompleter.repositionDropdown()"
    />
 
-  @if (selection.state.kind === 'invalid') {
+  @if (selection.state().kind === 'invalid') {
     <op-selection-error />
   }
 
@@ -28,7 +28,7 @@
     <edit-field-controls [fieldController]="self"
       (onSave)="handler.handleUserSubmit()"
       (onCancel)="handler.handleUserCancel()"
-      [invalid]="selection.state.kind === 'invalid'"
+      [invalid]="selection.state().kind === 'invalid'"
       [saveTitle]="text.save"
       [cancelTitle]="text.cancel" />
   }

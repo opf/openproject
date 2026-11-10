@@ -206,13 +206,13 @@ describe('createLabelSelectionAdapter', () => {
   it('accepts a scalar on load but rejects it as a change', () => {
     const loaded = createLabelSelectionAdapter();
     loaded.bridge.load('7');
-    expect(loaded.state).toEqual({ kind: 'ready', value: [{ kind: 'reference', reference: { id: '7' } }] });
+    expect(loaded.state()).toEqual({ kind: 'ready', value: [{ kind: 'reference', reference: { id: '7' } }] });
 
     const changed = createLabelSelectionAdapter();
     const emitted = vi.fn();
     changed.changes$.subscribe(emitted);
     changed.bridge.accept('7');
-    expect(changed.state).toEqual({ kind: 'invalid', issue: { code: 'wrong-cardinality' }, lastAccepted: [] });
+    expect(changed.state()).toEqual({ kind: 'invalid', issue: { code: 'wrong-cardinality' }, lastAccepted: [] });
     expect(changed.bridge.rejected).toBe('7');
     expect(emitted).not.toHaveBeenCalled();
   });
@@ -224,8 +224,8 @@ describe('createLabelSelectionAdapter', () => {
 
     adapter.bridge.accept([{ id: '1', name: 1 }]);
 
-    expect(adapter.state).toMatchObject({ kind: 'invalid', issue: { code: 'invalid-shape', index: 0 } });
-    expect(adapter.bridge.model).toEqual([draft]);
+    expect(adapter.state()).toMatchObject({ kind: 'invalid', issue: { code: 'invalid-shape', index: 0 } });
+    expect(adapter.model()).toEqual([draft]);
   });
 
   it('emits typed selections for a valid change', () => {

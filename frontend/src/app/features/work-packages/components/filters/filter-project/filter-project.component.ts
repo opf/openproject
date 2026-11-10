@@ -25,12 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource, queryFilterValueId } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { SelectionControl } from 'core-app/shared/components/autocompleter/selection/selection-adapter';
 import { createProjectFilterSelectionAdapter } from '../filter-selection';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -47,11 +48,21 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
   readonly I18n = inject(I18nService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly currentProjectService = inject(CurrentProjectService);
-  readonly cdRef = inject(ChangeDetectorRef);
 
   @Input() public shouldFocus = false;
 
-  @Input() public filter:QueryFilterInstanceResource;
+  @Input() public set filter(filter:QueryFilterInstanceResource) {
+    this.currentFilter = filter;
+    this.selection.bridge.load(filter.values);
+  }
+
+  public get filter():QueryFilterInstanceResource {
+    return this.currentFilter;
+  }
+
+  private currentFilter:QueryFilterInstanceResource;
+
+  private latestLookup = 0;
 
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this), 0);
 
@@ -60,8 +71,6 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
   additionalProjectApiFilters:IAPIFilter[] = [];
 
   ngOnInit():void {
-    this.selection.bridge.load(this.filter.values);
-
     const projectID = this.currentProjectService.id;
 
     this.additionalProjectApiFilters.push({ name: 'active', operator: '=', values: ['t'] });
@@ -71,22 +80,18 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
     }
   }
 
-  get model():unknown {
-    const { state } = this.selection;
-    return state.kind === 'invalid' ? state.lastAccepted ?? this.filter.values : this.filter.values;
-  }
-
-  async onChange(val:unknown):Promise<void> {
+  async onChange(val:unknown, control?:SelectionControl):Promise<void> {
     if (val === this.filter.values || val === undefined) {
       return;
     }
 
-    this.selection.bridge.accept(val);
-    const { state } = this.selection;
+    this.selection.bridge.accept(val, control);
+    const state = this.selection.state();
     if (state.kind !== 'ready') {
-      this.cdRef.markForCheck();
       return;
     }
+
+    const lookup = ++this.latestLookup;
 
     if (state.value.length === 0) {
       this.filter.values.length = 0;
@@ -104,8 +109,12 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
       }),
     );
 
+    if (lookup !== this.latestLookup) {
+      return;
+    }
+
     this.filter.values = projects.elements;
+    this.selection.bridge.load(projects.elements);
     this.filterChanged.emit(this.filter);
-    this.cdRef.markForCheck();
   }
 }

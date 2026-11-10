@@ -65,10 +65,6 @@ export class UserEditFieldComponent extends AutocompleterEditFieldComponent impl
       .pipe(this.untilDestroyed())
       .subscribe((value) => this.onSelectionChange(value));
 
-    this.selection.stateChanges$
-      .pipe(this.untilDestroyed())
-      .subscribe(() => this.cdRef.markForCheck());
-
     super.ngOnInit();
   }
 
