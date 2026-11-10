@@ -461,6 +461,25 @@ describe('Contextual action menu controller', () => {
     expect(origins).toEqual(['pointer', 'keyboard']);
   });
 
+  it.each([
+    ['a right-click', (card:HTMLElement) => { rightClickPress(card); pointerRelease(); }],
+    ['the Context Menu key', (card:HTMLElement) => { keydown(card, 'ContextMenu'); }],
+    ['Shift+F10', (card:HTMLElement) => { keydown(card, 'F10', { shiftKey: true }); }],
+  ])('announces %s once, before the menu popover begins to open', async (_label, invoke) => {
+    const { card, overlay } = renderCard();
+    await nextFrame();
+
+    const sequence:string[] = [];
+    card.addEventListener('contextual-action-menu:beforeOpen', () => sequence.push('beforeOpen'));
+    overlay.addEventListener('beforetoggle', (event) => {
+      sequence.push(`beforetoggle:${event.newState}`);
+    });
+
+    invoke(card);
+
+    expect(sequence).toEqual(['beforeOpen', 'beforetoggle:open']);
+  });
+
   it('leaves the native context menu alone when the card has no action menu', async () => {
     const { card } = renderCardWithoutMenu();
     await nextFrame();

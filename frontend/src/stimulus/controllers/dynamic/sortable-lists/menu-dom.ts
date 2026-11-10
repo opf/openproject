@@ -25,27 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/**
- * Primer `<action-menu>` with `src` (via `Primer::Alpha::ActionMenu`) lazy loads
- * the menu items via `<include-fragment>`.
- * It registers `include-fragment-replaced` only in `connectedCallback`, while Turbo
- * Idiomorph can leave the same `<action-menu>` host connected while swapping
- * in a new `<include-fragment>`. Since the `<action-menu>` is not replaced, the fragment
- * replaced event is never fired, the component will stay in a loading state after morph.
- *
- * Replacing each affected `<action-menu>` host forces `connectedCallback` and
- * a correct listener. We hook `turbo:morph-element` so this applies to turbo-stream
- * morph, frame morph, and full-page morph alike.
- */
+import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 
-export function registerActionMenuMorphRemount(target:Document = document, signal?:AbortSignal):void {
-  target.addEventListener('turbo:morph-element', (event) => {
-    const currentElement = event.detail?.currentElement;
-    if (!currentElement?.matches('action-menu:has(include-fragment[src])')) {
-      return;
-    }
-
-    const clone = currentElement.cloneNode(true);
-    currentElement.replaceWith(clone);
-  }, { signal });
+// Tooltips and sub-menus inside a menu are popovers too; only the menu's own
+// popover counts.
+export function primaryMenuOf(target:EventTarget|null):ActionMenuElement|null {
+  const menu = target instanceof HTMLElement ? target.closest<ActionMenuElement>('action-menu') : null;
+  return menu?.popoverElement === target ? menu : null;
 }
