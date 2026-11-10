@@ -27,16 +27,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
-
-# Define an application-wide HTTP permissions policy. For further
-# information see: https://developers.google.com/web/updates/2018/06/feature-policy
-
-# Rails.application.config.permissions_policy do |policy|
-#   policy.camera      :none
-#   policy.gyroscope   :none
-#   policy.microphone  :none
-#   policy.usb         :none
-#   policy.fullscreen  :self
-#   policy.payment     :self, "https://secure.example.com"
-# end
+# Rails' permissions_policy API still emits the legacy Feature-Policy header.
+# https://api.rubyonrails.org/classes/ActionDispatch/PermissionsPolicy.html
+Rails.application.config.action_dispatch.default_headers["Permissions-Policy"] = %w(
+  accelerometer=()
+  camera=()
+  gamepad=()
+  geolocation=()
+  gyroscope=()
+  magnetometer=()
+  microphone=()
+  serial=()
+  usb=()
+).join(", ")
