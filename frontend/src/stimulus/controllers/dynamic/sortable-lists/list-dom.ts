@@ -53,6 +53,7 @@ export const sortableOmittedCountAttribute = 'data-sortable-lists-omitted-count'
 export const sortableItemMobilityAttribute = 'data-sortable-lists--item-mobility-value';
 export const sortableScopeCountAttribute = 'data-sortable-lists-scope-count';
 export const sortableScopeIdsAttribute = 'data-sortable-lists-scope-ids';
+export const sortableLockedAttribute = 'data-sortable-lists-locked';
 
 /**
  * What ordering an item takes part in.

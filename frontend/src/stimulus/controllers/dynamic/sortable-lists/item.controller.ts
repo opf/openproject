@@ -59,6 +59,7 @@ import {
   resolveItemExternalUrl,
   resolveItemLabel,
   sortableItemSelector,
+  sortableLockedAttribute,
   sortableScopeCountAttribute,
   type DestinationIdentity,
 } from './list-dom';
@@ -70,7 +71,7 @@ type CleanupFn = () => void;
 
 // The server marks a move item locked when it renders it disabled for a
 // reason direction gating cannot see, such as a scope above the batch cap.
-const isLocked = (item:HTMLElement):boolean => item.hasAttribute('data-sortable-lists-locked');
+const isLocked = (item:HTMLElement):boolean => item.hasAttribute(sortableLockedAttribute);
 
 export default class ItemController extends Controller<HTMLElement> implements RegisteredRootAwareChild {
   static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'moveUnavailable', 'focus'];
