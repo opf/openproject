@@ -47,7 +47,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
            started_at: 12.hours.ago)
   end
   shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
-  shared_let(:work_package) { create(:work_package, project:, sprint:) }
+  shared_let(:work_package) { create(:work_package, project:, sprint:, story_points: 3) }
 
   let(:permissions) { %i[view_sprints view_work_packages show_board_views] }
 

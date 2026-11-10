@@ -62,15 +62,17 @@ module Backlogs
         def blankslate_reason
           return :too_long if burndown.too_long_to_chart?
 
-          received = sprint.received_work_packages?(project)
-          if !start_reached? && !received
-            :not_started_without_work_packages
+          estimated = sprint.received_work_packages?(project, estimated_in: estimate_column)
+          if !start_reached? && !estimated
+            :"not_started_without_#{estimate_column}"
           elsif !start_reached?
             :not_started
-          elsif !received
-            :no_work_packages
+          elsif !estimated
+            :"no_#{estimate_column}"
           end
         end
+
+        def estimate_column = project.estimation_unit_time? ? :estimated_hours : :story_points
 
         def start_reached? = sprint.started_at? || current_user.today >= sprint.start_date
 

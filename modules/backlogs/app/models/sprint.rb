@@ -97,8 +97,11 @@ class Sprint < ApplicationRecord
     work_packages.where(project:).order_by_position
   end
 
-  def received_work_packages?(project)
-    Journal::WorkPackageJournal.exists?(project_id: project.id, sprint_id: id)
+  def received_work_packages?(project, estimated_in: nil)
+    journals = Journal::WorkPackageJournal.where(project_id: project.id, sprint_id: id)
+    journals = journals.where(Journal::WorkPackageJournal.arel_table[estimated_in].gt(0)) if estimated_in
+
+    journals.exists?
   end
 
   def owned_by?(project)

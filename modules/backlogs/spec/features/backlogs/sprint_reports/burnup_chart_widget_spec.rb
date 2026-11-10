@@ -54,7 +54,7 @@ RSpec.describe "Burnup chart widget", :js, with_flag: :sprint_reports do
              finish_date: Date.tomorrow,
              status: :active)
     end
-    shared_let(:work_package) { create(:work_package, project:, sprint:) }
+    shared_let(:work_package) { create(:work_package, project:, sprint:, story_points: 3) }
 
     it "renders the burnup chart" do
       visit_sprint_report(sprint)
