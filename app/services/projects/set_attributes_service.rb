@@ -63,6 +63,8 @@ module Projects
       set_default_module_names(attribute_keys.include?("enabled_module_names"))
       set_default_types(attribute_keys.include?("project_types"))
       set_default_show_work_package_attachments(attribute_keys.include?("deactivate_work_package_attachments"))
+
+      append_module_dependencies
     end
 
     def set_default_public(provided)
@@ -75,6 +77,13 @@ module Projects
 
     def set_default_module_names(provided)
       model.enabled_module_names = Setting.default_projects_modules if !provided && model.enabled_module_names.empty?
+    end
+
+    def append_module_dependencies
+      names = model.enabled_module_names
+      with_dependencies = OpenProject::AccessControl.modules_with_dependencies_appended(names)
+
+      model.enabled_module_names = with_dependencies unless with_dependencies == names
     end
 
     def set_default_show_work_package_attachments(provided)
