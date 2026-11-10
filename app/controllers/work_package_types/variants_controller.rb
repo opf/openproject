@@ -60,7 +60,7 @@ module WorkPackageTypes
         respond_with_dialog migration_deletion_dialog(variant)
       else
         respond_with_dialog Types::UnusedVariantDeletionDialogComponent.new(
-          variant:, url: type_variant_path(type_id: variant.type_id, id: variant.id, back_url: params[:back_url])
+          variant:, url: deletion_path(variant)
         )
       end
     end
@@ -151,8 +151,12 @@ module WorkPackageTypes
 
       Types::VariantDeletionDialogComponent.new(
         variant:, targets:, selected: targets.first, impact: deletion_impact(variant, targets.first),
-        url: type_variant_path(type_id: variant.type_id, id: variant.id)
+        url: deletion_path(variant)
       )
+    end
+
+    def deletion_path(variant)
+      type_variant_path(type_id: variant.type_id, id: variant.id, back_url: params[:back_url])
     end
 
     def chosen_target(variant)
@@ -182,7 +186,7 @@ module WorkPackageTypes
         component: Types::DeletionFormComponent.new(
           variant:, targets: variant.migration_targets.in_display_order, selected: target,
           impact: deletion_impact(variant, target),
-          url: type_variant_path(type_id: variant.type_id, id: variant.id),
+          url: deletion_path(variant),
           validation_message: service_call.errors.full_messages.to_sentence
         )
       )

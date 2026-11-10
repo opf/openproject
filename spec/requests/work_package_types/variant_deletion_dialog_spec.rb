@@ -45,6 +45,17 @@ RSpec.describe "GET /types/:type_id/variants/:id/deletion_dialog", :aggregate_fa
     expect(response).to have_http_status(:ok)
   end
 
+  shared_examples "returning to the page the menu was opened from" do
+    it "returns there once deleted" do
+      open_dialog(back_url: type_variants_path(type_id: bug.id))
+
+      expect(dialog).to have_css(
+        "form[action='#{type_variant_path(type_id: bug.id, id: variant.id,
+                                          back_url: type_variants_path(type_id: bug.id))}']"
+      )
+    end
+  end
+
   context "when no project applies the variant" do
     it "confirms the deletion in a danger dialog" do
       open_dialog
@@ -55,14 +66,7 @@ RSpec.describe "GET /types/:type_id/variants/:id/deletion_dialog", :aggregate_fa
       expect(dialog).to have_css("form[action='#{type_variant_path(type_id: bug.id, id: variant.id)}']")
     end
 
-    it "returns to the page the menu was opened from once deleted" do
-      open_dialog(back_url: type_variants_path(type_id: bug.id))
-
-      expect(dialog).to have_css(
-        "form[action='#{type_variant_path(type_id: bug.id, id: variant.id,
-                                          back_url: type_variants_path(type_id: bug.id))}']"
-      )
-    end
+    it_behaves_like "returning to the page the menu was opened from"
   end
 
   context "when projects apply the variant" do
@@ -77,5 +81,7 @@ RSpec.describe "GET /types/:type_id/variants/:id/deletion_dialog", :aggregate_fa
       expect(dialog).to have_no_test_selector("unused-variant-deletion-dialog")
       expect(dialog).to have_text("The projects using this variant will be switched", normalize_ws: true)
     end
+
+    it_behaves_like "returning to the page the menu was opened from"
   end
 end
