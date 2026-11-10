@@ -294,8 +294,12 @@ en:
           title: "Created vs resolved work packages"
         epic_progress:
           blankslate:
-            description: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
-            heading: "No work to display"
+            no_epics:
+              description: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
+              heading: "No epics to display"
+            no_work:
+              description: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
+              heading: "No work to display"
           card:
             progress_label:
               one: "%{epic}: %{completed} of %{count} work package completed"

@@ -34,6 +34,7 @@ module Backlogs
       class EpicProgress < Grids::WidgetComponent
         include Backlogs::CommonHelper
         include Backlogs::Concerns::TimeConsciousScope
+        include ChartBlankslate
 
         param :sprint
         param :project
@@ -51,6 +52,14 @@ module Backlogs
         end
 
         private
+
+        def blankslate_reason
+          if !sprint.received_work_packages?(project)
+            :no_work
+          elsif relevant_epics.empty?
+            :no_epics
+          end
+        end
 
         def relevant_epics
           @relevant_epics ||= begin

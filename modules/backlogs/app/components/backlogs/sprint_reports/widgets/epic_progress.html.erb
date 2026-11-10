@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   widget_wrapper(classes: "op-sprint-reports--epic-progress-widget") do |container|
-    if relevant_epics.any?
+    if chart_available?
       container.with_body(padding: :none) do
         render(
           OpPrimer::BorderBoxListComponent.new(
@@ -47,13 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
     else
-      container.with_body do
-        render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
-          blankslate.with_visual_icon(icon: :graph)
-          blankslate.with_heading(tag: :h3).with_content(t(".blankslate.heading"))
-          blankslate.with_description_content(t(".blankslate.description"))
-        end
-      end
+      container.with_body { blankslate }
     end
   end
 %>
