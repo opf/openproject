@@ -37,7 +37,7 @@ module OpenProject::Projects
       user = FactoryBot.build_stubbed(:admin)
       project = FactoryBot.build_stubbed(:project, status_code: :on_track, status_explanation: "some explanation",
                                                    active: !archived)
-      render(::Projects::HoverCardComponent.new(project:, user:))
+      render(::Projects::HoverCardComponent.new(project:))
     end
 
     # @param archived [boolean]
@@ -57,7 +57,7 @@ module OpenProject::Projects
         project.define_singleton_method(:ancestors) { ancestors }
       end
 
-      render(::Projects::HoverCardComponent.new(project: leaf, user:))
+      render(::Projects::HoverCardComponent.new(project: leaf))
     end
   end
 end

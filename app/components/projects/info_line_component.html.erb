@@ -30,22 +30,12 @@ See COPYRIGHT and LICENSE files for more details.
   flex_layout(**@system_arguments) do |flex|
     flex.with_column(mr: 2) do
       if @project.archived?
-        render(Primer::Beta::Text.new(
-                font_weight: :bold,
-                data: {
-                  "hover-card-url" => hover_card_project_path(@project),
-                  "hover-card-trigger-target" => "trigger"
-                }
-          )) { @project.name }
+        render(Primer::Beta::Text.new(**name_attributes)) { @project.name }
       else
         render(
           Primer::Beta::Link.new(
             href: project_path(@project),
-            font_weight: :bold,
-            data: {
-              "hover-card-url" => hover_card_project_path(@project),
-              "hover-card-trigger-target" => "trigger"
-            }
+            **name_attributes
           )
         ) { @project.name }
       end

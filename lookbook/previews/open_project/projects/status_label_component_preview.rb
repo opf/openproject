@@ -45,6 +45,8 @@ module OpenProject::Projects
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
 
+    # @!group Status
+
     # @param with_icon [boolean]
     def on_track(with_icon: true)
       project = FactoryBot.build_stubbed(:project, status_code: :on_track, status_explanation: "some explanation")
@@ -86,5 +88,7 @@ module OpenProject::Projects
 
       render(Projects::StatusLabelComponent.new(project:, with_icon:))
     end
+
+    # @!endgroup
   end
 end

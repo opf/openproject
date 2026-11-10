@@ -45,6 +45,7 @@ RSpec.describe Projects::WorkspaceLabelComponent, type: :component do
 
     it "renders the project label" do
       expect(rendered_component).to have_text "Project"
+      expect(rendered_component).to have_octicon :project
     end
   end
 
@@ -53,6 +54,7 @@ RSpec.describe Projects::WorkspaceLabelComponent, type: :component do
 
     it "renders the program label" do
       expect(rendered_component).to have_text "Program"
+      expect(rendered_component).to have_octicon :versions
     end
   end
 
@@ -61,11 +63,8 @@ RSpec.describe Projects::WorkspaceLabelComponent, type: :component do
 
     it "renders the portfolio label" do
       expect(rendered_component).to have_text "Portfolio"
+      expect(rendered_component).to have_octicon :briefcase
     end
-  end
-
-  it "renders an icon" do
-    expect(rendered_component).to have_css "svg.octicon"
   end
 
   context "with system arguments" do

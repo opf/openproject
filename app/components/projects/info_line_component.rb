@@ -40,4 +40,14 @@ class Projects::InfoLineComponent < ApplicationComponent
     @system_arguments[:align_items] ||= :center
     @system_arguments[:flex_wrap] ||= :wrap
   end
+
+  def name_attributes
+    {
+      font_weight: :bold,
+      data: {
+        "hover-card-url" => hover_card_project_path(@project),
+        "hover-card-trigger-target" => "trigger"
+      }
+    }
+  end
 end

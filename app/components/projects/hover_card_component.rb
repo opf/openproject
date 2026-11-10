@@ -31,18 +31,17 @@ module Projects
   class HoverCardComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(project:, user:)
+    def initialize(project:)
       super
 
       @project = project
       @id = project.id
       @name = project.name
       @workspace_type = @project.workspace_type
-      @user = user
     end
 
     def breadcrumb_items
-        return @breadcrumb_items if defined?(@breadcrumb_items)
+      return @breadcrumb_items if defined?(@breadcrumb_items)
 
       @breadcrumb_items = build_breadcrumb_items
     end
