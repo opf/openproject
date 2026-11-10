@@ -1,6 +1,6 @@
 {
   "name": "@openproject/blocknote-extensions",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Extensions for BlockNote for integrating with OpenProject",
   "license": "GPL-3.0-only",
   "repository": {
