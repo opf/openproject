@@ -1503,4 +1503,44 @@ RSpec.describe WorkPackage do
       end
     end
   end
+
+  describe "#last_loaded_visible_journal", with_ee: %i[internal_comments] do
+    let(:project) { create(:project, enabled_internal_comments: true) }
+    let(:work_package) { create(:work_package, project:) }
+
+    subject(:journal) { described_class.includes(:journals).find(work_package.id).last_loaded_visible_journal(user) }
+
+    before do
+      work_package.add_journal(user: create(:admin), notes: "A public comment", internal: false)
+      work_package.save!(validate: false)
+      work_package.add_journal(user: create(:admin), notes: "An internal comment", internal: true)
+      work_package.save!(validate: false)
+    end
+
+    context "when the user is not allowed to see internal comments" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+      it "returns the latest public journal" do
+        expect(journal.notes).to eq("A public comment")
+      end
+    end
+
+    context "when the user is allowed to see internal comments" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages view_internal_comments] }) }
+
+      it "returns the latest internal journal" do
+        expect(journal.notes).to eq("An internal comment")
+      end
+    end
+
+    context "when the journals are not loaded" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages view_internal_comments] }) }
+
+      subject(:journal) { described_class.find(work_package.id).last_loaded_visible_journal(user) }
+
+      it "returns nil" do
+        expect(journal).to be_nil
+      end
+    end
+  end
 end
