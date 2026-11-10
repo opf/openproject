@@ -36,11 +36,11 @@ describe('NotificationClick.sameOriginUrl', () => {
   });
 
   it('resolves a relative path against the worker origin', () => {
-    expect(NotificationClick.sameOriginUrl('/work_packages/7')).toBe(`${location.origin}/work_packages/7`);
+    expect(NotificationClick.sameOriginUrl('/work_packages/7')).toBe('https://openproject.test/work_packages/7');
   });
 
   it('falls back to the home page for a foreign origin', () => {
-    expect(NotificationClick.sameOriginUrl('https://evil.example/phish')).toBe(`${location.origin}/`);
+    expect(NotificationClick.sameOriginUrl('https://evil.example/phish')).toBe('https://openproject.test/');
   });
 });
 
@@ -60,11 +60,11 @@ describe('NotificationClick.open', () => {
     const matchAll = vi.fn().mockResolvedValue([]);
     const openWindow = vi.fn().mockResolvedValue(null);
     vi.stubGlobal('clients', { matchAll, openWindow });
-    vi.stubGlobal('registration', { scope: `${location.origin}/` });
+    vi.stubGlobal('registration', { scope: 'https://openproject.test/' });
 
     await NotificationClick.open('/work_packages/7');
 
-    expect(openWindow).toHaveBeenCalledWith(`${location.origin}/work_packages/7`);
+    expect(openWindow).toHaveBeenCalledWith('https://openproject.test/work_packages/7');
     expect(matchAll).toHaveBeenCalledTimes(1);
     expect(matchAll).not.toHaveBeenCalledWith(expect.objectContaining({ includeUncontrolled: true }));
   });

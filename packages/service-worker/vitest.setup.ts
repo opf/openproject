@@ -25,4 +25,4 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-Object.assign(globalThis, { self: globalThis, location: new URL('http://localhost:3000/') });
+Object.assign(globalThis, { self: globalThis, location: new URL('https://openproject.test/service-worker.js') });
