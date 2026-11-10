@@ -81,7 +81,7 @@ module CalculatedValues
       case error
       when Dentaku::ZeroDivisionError
         ErrorContext.new(custom_field_id:, error_code: "ERROR_MATHEMATICAL")
-      when Dentaku::ArgumentError
+      when Dentaku::ArgumentError, nil
         offending_custom_field_ids = find_missing_values_for_field(custom_field_id)
         if offending_custom_field_ids.present?
           ErrorContext.new(custom_field_id:, error_code: "ERROR_MISSING_VALUE", offending_custom_field_ids:)
@@ -111,7 +111,7 @@ module CalculatedValues
     # Returns a list of all custom field ids that could not compute a value.
     def cf_ids_with_missing_values
       @cf_ids_with_missing_values ||= given_values
-        .filter { |_k, v| v.nil? }
+        .filter { |_k, v| v.nil? || v == [] }
         .merge(calculation_errors)
         .map { |k, _v| to_id(k) }
     end
