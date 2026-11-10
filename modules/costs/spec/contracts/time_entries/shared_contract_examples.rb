@@ -67,6 +67,10 @@ RSpec.shared_examples_for "time entry contract" do
     if time_entry_entity
       allow(time_entry_entity)
         .to receive(:visible?)
+        .and_return(true)
+
+      allow(time_entry_entity)
+        .to receive(:visible?)
         .with(current_user)
         .and_return(entity_visible)
     end
@@ -96,7 +100,7 @@ RSpec.shared_examples_for "time entry contract" do
       .with(time_entry_project)
       .and_return(activities_scope)
 
-    allow(time_entry_user).to receive_messages(visible?: user_visible, member_of?: true)
+    allow(time_entry_user).to receive_messages(visible?: user_visible)
   end
 
   def expect_valid(valid, symbols = {})

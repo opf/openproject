@@ -33,7 +33,7 @@ module TimeEntries
 
     def validate_user_allowed_to_update
       unless user_allowed_to_update?
-        errors.add :base, :error_unauthorized
+        errors.add :base, :error_unauthorized, message: :cannot_edit_time_entry
       end
     end
 
