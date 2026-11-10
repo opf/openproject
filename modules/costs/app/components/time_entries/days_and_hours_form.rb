@@ -109,15 +109,11 @@ module TimeEntries
     end
 
     def start_time_in_local_time
-      return if model.start_timestamp.blank?
-
-      model.start_timestamp.in_time_zone(model.user.time_zone).strftime("%H:%M")
+      model.start_timestamp&.strftime("%H:%M")
     end
 
     def end_time_in_local_time
-      return if model.end_timestamp.blank?
-
-      model.end_timestamp.in_time_zone(model.user.time_zone).strftime("%H:%M")
+      model.end_timestamp&.strftime("%H:%M")
     end
 
     def show_start_and_end_time_fields?

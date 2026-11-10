@@ -122,7 +122,7 @@ Former CoEPM² members who recently moved on to other assignments:
 
 ### B. 1 Requirements management plan
 
-The Requirements Management Plan defines and documents the requirements management approach, process steps and responsibilities, as well as tools, techniques and artifacts that will be used. Note that requirements themselves are documented and managed in separate artifact(s) (e.g. requirements matrix).
+The Requirements Management Plan defines and documents the requirements management approach, process steps and responsibilities, as well as tools, techniques and artefacts that will be used. Note that requirements themselves are documented and managed in separate artefact(s) (e.g. requirements matrix).
 
 Effective requirements management is a critical success factor for projects, as requirements are the starting point for all project work, and principally affect the project risk, duration and budget.
 
@@ -132,8 +132,8 @@ The Requirements Management Plan can be tailored and customized to the project's
 
 | Key participants | Description |
 | :-- | :-- |
-| Project Manager (PM) | Prepares this artifact. |
-| Business Manager (BM) | Consulted for the tailoring and elaboration of this artifact. |
+| Project Manager (PM) | Prepares this artefact. |
+| Business Manager (BM) | Consulted for the tailoring and elaboration of this artefact. |
 
 **Inputs**
 
@@ -150,7 +150,7 @@ The Requirements Management Plan can be tailored and customized to the project's
 5. Define the roles and responsibilities for each process step. Define clearly who is responsible for approving and validating the implementation of new requirements.
 6. Define the tools and techniques that will be used to identify, evaluate, prioritize and manage requirements (e.g. brainstorming sessions, prototyping, MoSCoW, etc.).
 7. Define the possible formats of representation of requirements for the project (e.g. text, use cases, diagrams, user stories, etc.)
-8. Define the artifacts and repositories used for the documentation and management of the requirements (e.g. specification document or requirements traceability matrix).
+8. Define the artefacts and repositories used for the documentation and management of the requirements (e.g. specification document or requirements traceability matrix).
 9. Define the requirements validation process and make sure it is aligned with the overall deliverables acceptance process.
 10. Ensure that the requirements management process is communicated to the project stakeholders.
 
@@ -158,11 +158,11 @@ The Requirements Management Plan can be tailored and customized to the project's
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Requirements Management Plan |  | I | I | A | C | C | I | R | S |
 
-| Related Artifacts | Initiating | Planning |  | Executing |  | Monitor \& Control |  | Closing |
+| Related Artefacts | Initiating | Planning |  | Executing |  | Monitor \& Control |  | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Requirements <br> Management | Project Charter | Project Handbook <br> Requirements <br> Management Plan <br> Deliverables <br> Acceptance Plan |  | Change <br> Requests | Requirements Document(s) <br> Project Work Plan <br> Project Logs |  | Project-End Report |  |
 
-**Artifact** 
+**Artefact** 
 
 - Requirements Management Plan
 
@@ -176,7 +176,7 @@ Project change management brings transparency, accountability and traceability t
 | :-- | :-- |
 | Project Manager (PM) | Prepares the Project Change Management Plan. |
 | Project Owner (PO) | Approves the Project Change Management Plan. |
-| Business Manager (BM) | Consulted for the elaboration of this artifact. |
+| Business Manager (BM) | Consulted for the elaboration of this artefact. |
 
 **Inputs**
 
@@ -190,7 +190,7 @@ Project change management brings transparency, accountability and traceability t
 2. Tailor the Project Change Management Plan to the project's needs (e.g. define different steps depending on the type of change, its urgency or impact). Create it as a standalone document or as a section within the Project Handbook.
 3. Ensure that there is no duplication of information contained in other management plans or the Project Handbook (e.g. the escalation procedure).
 4. Define what is considered to be a change for the project, as well as the possible types of changes.
-5. Define the artifacts and the tools and techniques that will be used to identify and assess changes (e.g. the Change Request Form or the Project Change Log).
+5. Define the artefacts and the tools and techniques that will be used to identify and assess changes (e.g. the Change Request Form or the Project Change Log).
 6. Define who is responsible for approving changes at the various impact levels, and how this decision is communicated to the rest of the team.
 7. Tailor the Change Log (if needed) and customize it to reflect any customizations of the Project Change Management Plan (e.g. scales of urgency, change impact and priority).
 8. Describe the change monitoring and control activities, their frequency and supporting tools and techniques, e.g. review of changes at a predefined frequency based on the Change Log.
@@ -200,11 +200,11 @@ Project change management brings transparency, accountability and traceability t
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Project Change Management Plan |  | I | I | A | C | I | I | R | I |
 
-| Related artifacts | Initiating | Planning | Executing | Monitor \& control | Closing |
+| Related artefacts | Initiating | Planning | Executing | Monitor \& control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Project Change Management | Project <br> Charter | Project Handbook Project Change Management Plan | Project Reports Change Requests | Change Log <br> Project Logs <br> Project Work Plan | Project-End Report |
 
-**Artifact**
+**Artefact**
 
 - Project Change Management Plan
 - Change Log (setup)
@@ -218,7 +218,7 @@ Risk management brings visibility to risks and accountability as to how they are
 | Key Participants | Description |
 | :-- | :-- |
 | Project Manager (PM) | Prepares the Risk Management Plan. |
-| Business Manager (BM) | Consulted for the elaboration of this artifact. |
+| Business Manager (BM) | Consulted for the elaboration of this artefact. |
 | Project Owner (PO) | Approves the Risk Management Plan. |
 
 **Inputs**
@@ -245,11 +245,11 @@ Risk management brings visibility to risks and accountability as to how they are
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Risk Management Plan | I | C | A | C | I | I | R | I |
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Risk Management | Project <br> Charter | Project Handbook Risk Management Plan | Project <br> Reports | Risk Log <br> Project Logs | Project-End Report |
 
-**Artifact**
+**Artefact**
 
 - Risk Management Plan
 - Risk Log
@@ -265,7 +265,7 @@ An Issue Log is used to document the identification, evaluation and assignment o
 | Key participants | Description |
 | :-- | :-- |
 | Project Manager (PM) | Prepares the Issue Management Plan. |
-| Business Manager (BM) | Consulted for the elaboration of this artifact. |
+| Business Manager (BM) | Consulted for the elaboration of this artefact. |
 
 **Inputs**
 
@@ -279,7 +279,7 @@ An Issue Log is used to document the identification, evaluation and assignment o
 2. Tailor the Issue Management Plan to the project's needs. Create it as a standalone document or as a section within the Project Handbook.
 3. Ensure that there is no duplication of information contained in other management plans or the Project Handbook (e.g. the escalation procedure).
 4. Define what will be considered an issue for the project and customize the possible issue categories relevant to the project.
-5. Define all artifacts, tools and techniques that will be used to identify, assess, assign, resolve and monitor issues (e.g. the Issue Log, root cause analysis, etc.).
+5. Define all artefacts, tools and techniques that will be used to identify, assess, assign, resolve and monitor issues (e.g. the Issue Log, root cause analysis, etc.).
 6. Specify how new issues can be identified and their status communicated, and when new and open issues (and pending decisions) can be discussed (e.g. in project Status Meetings).
 7. Customize the Issue Log to reflect any changes to the scales of urgency, impact and priority.
 8. Define which issues (depending on their category, urgency and impact) can be handled at the (Project) Management Layer and which ones need to be escalated.
@@ -292,11 +292,11 @@ An Issue Log is used to document the identification, evaluation and assignment o
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Issue Management Plan | I | I | A | C | C | I | R | C |
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Issue Management | Project <br> Charter | Project Handbook <br> Issue Management Plan | Project <br> Reports | Issue Log <br> Decision Log | Project-End Report |
 
-**Artifact**
+**Artefact**
 
 - Issue Management Plan
 - Issue Log
@@ -308,7 +308,7 @@ The Quality Management Plan defines and documents the project's quality requirem
 
 Planning and executing quality assurance and control activities may be seen as a significant investment of time and effort, and therefore the desired balance between the planned quality, cost, time and risk should be carefully evaluated and considered. Appropriate quality metrics should be defined and later used to evaluate the project management quality. All quality-related activities should be well designed and planned.
 
-A configuration management procedure is also documented in the Quality Management Plan. Configuration management helps project teams handle project artifacts and deliverables effectively (i.e. to ensure that the correct versions are delivered, to prevent unauthorized changes and to provide artifact traceability).
+A configuration management procedure is also documented in the Quality Management Plan. Configuration management helps project teams handle project artefacts and deliverables effectively (i.e. to ensure that the correct versions are delivered, to prevent unauthorized changes and to provide artefact traceability).
 
 | Key Participants | Description |
 | :-- | :-- |
@@ -328,7 +328,7 @@ A configuration management procedure is also documented in the Quality Managemen
 3. Determine the quality management objectives and characteristics by reviewing project deliverables, success criteria, approach and other specific requirements (e.g. security requirements) as described in the Project Charter and Project Handbook.
 4. Ensure that there is no duplication of information contained in other management plans or the Project Handbook (e.g. the escalation procedure).
 5. Define approval criteria for phase exit reviews or for other key project management milestones.
-6. Define all artifacts, and the tools and techniques that will be used for quality planning and quality assurance and control (e.g. the Quality Review Checklist).
+6. Define all artefacts, and the tools and techniques that will be used for quality planning and quality assurance and control (e.g. the Quality Review Checklist).
 7. Determine the quality assurance and control activities and define their frequency and timetable. Additionally, design metrics and acceptance tolerances for evaluating these activities.
 8. Determine if a Project Quality Assurance (PQA) role (or other independent entity) is required to carry out quality assurance activities.
 9. Define the roles and responsibilities for the quality process and ensure that these roles are agreed by and communicated to all stakeholders involved.
@@ -343,12 +343,12 @@ A configuration management procedure is also documented in the Quality Managemen
 **Guidelines (specific for configuration management)** 
 
 - Review the configuration management process set out in the Quality Management Plan and tailor it to the project's needs (e.g. delete or add steps or activities, expand on or change the activities' description, related responsibilities, etc.).
-- Define what will be considered to be a configuration item based on project deliverables and artifacts, and identify the attributes of such items.
+- Define what will be considered to be a configuration item based on project deliverables and artefacts, and identify the attributes of such items.
 - Identify who is responsible for changes to the configuration items and for maintaining and controlling their versions and releases.
-- Define the artifacts and the tools and techniques that will be used to manage the configuration items.
+- Define the artefacts and the tools and techniques that will be used to manage the configuration items.
 - Depending on the project's complexity, a configuration management log can be used to control changes to the configuration items.
 - Describe the naming conventions to be used in project documentation, folders and emails.
-- Define the structure of project folders and the procedures and rights related to reviewing, changing or updating any project artifacts. Ensure that restricted access and confidentiality rules are correctly implemented.
+- Define the structure of project folders and the procedures and rights related to reviewing, changing or updating any project artefacts. Ensure that restricted access and confidentiality rules are correctly implemented.
 - Define any procedures related to creating copies of project data, retention periods, storage devices and sanitisation/deletion of data (if required).
 - Ensure that the configuration management procedure is communicated to the project team.
 - Key information on configuration management may also be summarized in the Project Handbook.
@@ -357,11 +357,11 @@ A configuration management procedure is also documented in the Quality Managemen
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Quality Management Plan |  | I | A | C | C | C | C | R | C |
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Quality Management | Project <br> Charter | Project Handbook <br> Quality <br> Management Plan | Quality Review <br> Reports <br> Audit Reports | Quality Review Checklist Project Logs Phase-exit Review Checklist | Project-End Report <br> Project Acceptance <br> Note |
 
-**Artifact**
+**Artefact**
 
 - Quality Management Plan
 - Quality Review Checklist
@@ -393,7 +393,7 @@ The Communications Management Plan defines and documents communication activitie
 4. Identify project stakeholder groups based on the Project Stakeholder Matrix.
 5. When determining the strategy for each communication activity, consider the interests and influence of both internal and external organizations to the project.
 6. For each target group, determine what information needs to be communicated, and the purpose of the communication.
-7. Define all artifacts (e.g. Project Reports) and other means to collect, analyze and distribute project information and manage stakeholders' expectations.
+7. Define all artefacts (e.g. Project Reports) and other means to collect, analyze and distribute project information and manage stakeholders' expectations.
 8. Determine the frequency of the communication activities, their format and the media to be used for the communications (e.g. reports, presentations, meetings, emails, calls).
 9. Determine who will be responsible for each communication activity and describe the expected results.
 10. Ensure that the communication management plan is communicated to the project stakeholders.
@@ -402,11 +402,11 @@ The Communications Management Plan defines and documents communication activitie
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Communications Management Plan |  | I | I | A | S | C | I | R | C |
 
-| Related artifacts | Initiating | Planning |  | Executing |  | Monitor \& control |  | Closing |
+| Related artefacts | Initiating | Planning |  | Executing |  | Monitor \& control |  | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Communications <br> Management | Project <br> Charter | Project Stakeholder <br> Matrix <br> Communications <br> Management Plan |  | Project <br> Reports |  | Project Logs |  | Project-End <br> Report |
 
-**Artifact**
+**Artefact**
 
 - Communications Management Plan
 
@@ -644,14 +644,14 @@ The Agile extension to PM² incorporates Agile into the overall PM² framework a
 
 - Agile roles \& responsibilities (as an extension to the PM² governance).
 - integration with the overall PM² project lifecycle.
-- a set of suggested Agile PM² Artifacts (as an extension to the PM² Artifacts).
+- a set of suggested Agile PM² Artefacts (as an extension to the PM² Artefacts).
 
 ![Fig D. 2 The positioning of Agile PM² within an organization](d.02.png)
 
 Documenting the work planned and performed by the Agile teams is critical to increasing transparency and coordination between the different layers of the PM² project organization (i.e. between the Directing, Managing and Performing layers).
 
-A set of artifacts supports the use of Agile PM². These artifacts capture and document information related to the management approach, to specific (implementation) activities, milestones, issues and progress reporting. These artifacts are grouped in three categories: Agile-Specific Artifacts, Coordination \& Reporting Artifacts, and Project Governance Artifacts.
-![Fig D. 3 Agile PM² Artifacts Landscape](d.03.png)
+A set of artefacts supports the use of Agile PM². These artefacts capture and document information related to the management approach, to specific (implementation) activities, milestones, issues and progress reporting. These artefacts are grouped in three categories: Agile-Specific Artefacts, Coordination \& Reporting Artefacts, and Project Governance Artefacts.
+![Fig D. 3 Agile PM² Artefacts Landscape](d.03.png)
 
 #### D.1.2 PM² Programme Management (PgM²) 
 
@@ -668,8 +668,8 @@ A programme has a defined start and end during which all programme activities ar
 
 The Executing Phase can also contain several Stages, each one being linked to a major achievement in terms of programme outcomes, which enables the realization of the benefits.
 
-The typical programme management activities performed during each phase go hand-in-hand with a number of programme artifacts.
-![Fig D. 5 The PM² Programme Lifecycle and Artifacts Landscape](d.05.png)
+The typical programme management activities performed during each phase go hand-in-hand with a number of programme artefacts.
+![Fig D. 5 The PM² Programme Lifecycle and Artefacts Landscape](d.05.png)
 
 **Programme Organization**
 
@@ -708,10 +708,10 @@ Is the continuous process in which the authorized programmes and projects are ma
 Is the continuous process of analyzing and interacting with the different stakeholders to ensure their effective involvement in the composition and realization of the portfolio's objectives.
 ![Fig D. 7 PM² Portfolio Management Process Model](d.07.png)
 
-The Portfolio Composition process feeds the continuous processes of Portfolio Realization with new portfolio components (i.e. programmes or projects), the progress and results of which are communicated by executing the Portfolio Communication \& Stakeholder Management process. The characteristics and governance of the portfolio, as well as the activities of the portfolio management processes and the artifacts produced are defined by the Portfolio Framework.
+The Portfolio Composition process feeds the continuous processes of Portfolio Realization with new portfolio components (i.e. programmes or projects), the progress and results of which are communicated by executing the Portfolio Communication \& Stakeholder Management process. The characteristics and governance of the portfolio, as well as the activities of the portfolio management processes and the artefacts produced are defined by the Portfolio Framework.
 
 An overarching view of the organizational management of portfolios, programmes and projects is illustrated in the following diagram.
-![Fig D. 8 High-level representation of the Management Layers, Activities and Artifacts](d.08.png)
+![Fig D. 8 High-level representation of the Management Layers, Activities and Artefacts](d.08.png)
 
 The Governance Structure of the PM² Portfolio Management is shown below.
 ![Fig D. 9 PM² Project Portfolio Governance](d.09.png)
@@ -750,7 +750,7 @@ IT security measures should be tailored to align with the specific threats faced
 
 A security-oriented risk management approach starts in the conceptualization of digital solutions, and subsequently in the Initiating Phase of the relevant projects, and continues until their closing of those projects, but also continues throughout the entire lifecycle of the produced digital solutions. Thus, IT security considerations should be integrated from the outset into the project priorities and workplan.
 
-However, most organizations, project managers and project teams struggle with the complexities of managing IT security and therefore should be educated on the processes, tools and artifacts that will help seamlessly integrate IT security management into project initiation, planning, and execution, fostering a resilient, secure digital environment.
+However, most organizations, project managers and project teams struggle with the complexities of managing IT security and therefore should be educated on the processes, tools and artefacts that will help seamlessly integrate IT security management into project initiation, planning, and execution, fostering a resilient, secure digital environment.
 
 #### D.2.4 UX Considerations in Project Management 
 
@@ -762,7 +762,7 @@ The inclusion of UX considerations (e.g. design thinking) for the Digital soluti
 
 ## Appendix E: Additional Resources 
 
-### E. 1 PM² Artifacts \& Activities Summary Tables and Diagrams
+### E. 1 PM² Artefacts \& Activities Summary Tables and Diagrams
 
 RAM (RASCI)—Responsible, Accountable, Supports, Consulted, Informed
 
@@ -816,13 +816,13 @@ RAM (RASCI)—Responsible, Accountable, Supports, Consulted, Informed
 | PO (Project Owner) |  |  | PM (Project Manager) |  |  |  |  |  |
 | BM (Business Manager) |  |  | PCT (Project Core team) |  |  |  |  |  |
 
-**The PM³ Artifacts Landscape**
+**The PM³ Artefacts Landscape**
 
-![The PM³ Artifacts Landscape](e.01.01.png)
+![The PM³ Artefacts Landscape](e.01.01.png)
 
-**Overview of PM² Activities & Artifacts**
+**Overview of PM² Activities & Artefacts**
 
-![Overview of PM² Activities & Artifacts](e.01.02.png)
+![Overview of PM² Activities & Artefacts](e.01.02.png)
 
 ### E. 2 Getting Started with PM² - Quick Start Tips 
 
@@ -865,7 +865,7 @@ The purpose of this quick start guide is to help you get started with applying P
 
 ### E. 3 Useful Online Resources 
 
-The Centre of Excellence in PM² (CoEPM²) provides a central location for downloading all PM² information, publications, translations, etc. To study PM² in more detail you can download and review the free PM² Methodology Guide and artifact templates, and explore the online resources:
+The Centre of Excellence in PM² (CoEPM²) provides a central location for downloading all PM² information, publications, translations, etc. To study PM² in more detail you can download and review the free PM² Methodology Guide and artefact templates, and explore the online resources:
 
 - PM² Website: https://pm2.europa.eu/
 - EU Bookshop: https://op.europa.eu/en

@@ -228,11 +228,9 @@ describe('Filters form controller', () => {
 
     ctx.container.querySelector<HTMLInputElement>('input')!.value = 'new';
     resolveResponse(streamResponse());
-    await ctx.nextFrame();
-    await ctx.nextFrame();
+    await waitFor(() => expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true));
 
     expect(replaceState).not.toHaveBeenCalled();
-    expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true);
   });
 
   it('sends the original value again after the form returns to it', async () => {
@@ -244,9 +242,9 @@ describe('Filters form controller', () => {
     await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
 
     input.value = 'new';
+
     resolveResponse(streamResponse());
-    await ctx.nextFrame();
-    await ctx.nextFrame();
+    await waitFor(() => expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true));
 
     input.value = 'old';
     controller.sendForm();

@@ -1,7 +1,11 @@
 <%=
   if @readonly || @items.empty?
-    render(Primer::Beta::Button.new(**button_arguments)) do |button|
-      button_content(button)
+    if @button_arguments[:icon_only]
+      render(Primer::Beta::IconButton.new(**button_arguments))
+    else
+      render(Primer::Beta::Button.new(**button_arguments)) do |button|
+        button_content(button)
+      end
     end
   else
     render(Primer::Alpha::ActionMenu.new(**@menu_arguments)) do |menu|

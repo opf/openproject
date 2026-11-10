@@ -47,6 +47,8 @@ ca:
       draggable_hint: 'Arrossega a l''editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l''editor seguiran oberts mentre se segueixi arrossegant.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Afegeix element
@@ -129,8 +131,8 @@ ca:
     button_confirm: Confirmar
     button_continue: Continua
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copiar al porta-retalls
     button_copy_to_other_project: Duplicate in another project
     button_create: Crear
@@ -162,7 +164,7 @@ ca:
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Desmarca-ho tot
-    button_update: Actualitza
+    button_update: Actualitzar
     button_view_markdown: View Markdown
     caption_rate_history: Història d'índex
     card:
@@ -205,6 +207,7 @@ ca:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: S'ha produït un error amb el CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No s''ha pogut guardar el document per culpa del següent error: %{error}'
@@ -436,7 +439,6 @@ ca:
     label_assignee: Assignat a
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Fitxers adjunts
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: entre
     label_board: Taulell
@@ -1114,10 +1116,6 @@ ca:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Taula amb fileres de paquets de treball i columnes amb els atributs dels paquets de treball.
-        text_inline_edit: La majoria de les cel·les d'aquesta taula són botons que activen la funcionalitat d'edició en línia de l'atribut.
-        text_select_hint: Les caixes seleccionades es poden obrir amb la tecla "ALT" i les fletxes.
-        text_sort_hint: Amb els enllaços a les capçaleres de les taules es pot ordenar, agrupar, reordenar, treure i afegir columnes de la taula.
       table_configuration:
         button: Configura aquesta taula de paquets de treball
         choose_display_mode: Mostra els paquets de treball com a
@@ -1126,7 +1124,6 @@ ca:
         default_mode: Llista plana
         display_settings: Configuració de visualització
         display_sums_hint: Mostra les sumes totals dels atributs que es poden sumar en una fila a sota de la taula de resultats.
-        embedded_tab_disabled: Aquesta pestanya de configuració no està disponible per a la vista incrustada que estàs editant.
         hierarchy_hint: A tots els resultats filtrats de la taula se'ls afegirà els seus antecessors. Les jerarquies es poden expandir i col·lapsar.
         hierarchy_mode: Jerarquia
         highlighting: Ressaltar

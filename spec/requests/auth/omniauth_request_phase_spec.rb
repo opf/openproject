@@ -47,6 +47,18 @@ RSpec.describe "OmniAuth request phase", type: :rails_request do
     end
   end
 
+  describe "POST /auth/developer with the authenticity token from the login page" do
+    it "starts the developer request phase" do
+      get signin_path
+      token = response.parsed_body.at_css("meta[name=csrf-token]")["content"]
+
+      post "/auth/developer", params: { authenticity_token: token }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("first_name")
+    end
+  end
+
   describe "POST /auth/developer with an authenticity token", :skip_csrf do
     it "starts the developer request phase" do
       post "/auth/developer"

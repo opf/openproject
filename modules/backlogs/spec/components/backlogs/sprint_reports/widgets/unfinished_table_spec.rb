@@ -41,12 +41,15 @@ RSpec.describe Backlogs::SprintReports::Widgets::UnfinishedTable,
   let(:breakdown_stubs) do
     {
       done_status_ids: [3, 4],
-      unfinished: Sprints::WorkPackageBreakdown::Block.new(work_package_count: unfinished_count, story_points: 0)
+      unfinished: Sprints::WorkPackageBreakdown::Block.new(
+        work_package_count: unfinished_count, story_points: 0, estimated_hours: 0
+      )
     }
   end
 
   let(:expected_filters) do
     [
+      { project: { operator: "=", values: [project.id.to_s] } },
       { sprintId: { operator: "=", values: [sprint.id.to_s] } },
       { status: { operator: "!", values: %w[3 4] } }
     ]

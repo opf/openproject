@@ -2,13 +2,13 @@
 ---
 delete:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '204':
       description: |-
@@ -45,24 +45,24 @@ delete:
 
         **Required permission:** logged in
   tags:
-  - Projects
-  - Favorites
+    - Projects
+    - Favorites
   description: |-
     Removes the project from the current user's favorites.
 
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/favorite`](https://www.openproject.org/docs/api/endpoints/workspaces/#unfavorite-workspace)
-  operationId: Unfavorite_Project
+  operationId: unfavorite_project
   summary: Unfavorite Project
   deprecated: true
 post:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '204':
       description: |-
@@ -99,12 +99,12 @@ post:
 
         **Required permission:** logged in
   tags:
-  - Projects
-  - Favorites
+    - Projects
+    - Favorites
   description: |-
     Adds the project to the current user's favorites.
 
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/favorite`](https://www.openproject.org/docs/api/endpoints/workspaces/#favorite-workspace)
-  operationId: Favorite_Project
+  operationId: favorite_project
   summary: Favorite Project
   deprecated: true

@@ -37,7 +37,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
   let(:status) { create(:status, name: "In progress", is_default: true) }
   let(:project) do
     create(:project,
-           name: "Artifact project",
+           name: "Artefact project",
            types: [type],
            public: true,
            active: true)
@@ -53,7 +53,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
            project:,
            type:,
            status:,
-           subject: "The artifact subject",
+           subject: "The artefact subject",
            description: "A **rich** text description")
   end
   let(:export_time) { DateTime.new(2023, 6, 30, 23, 59) }
@@ -66,7 +66,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
 
   subject(:pdf_strings) do
     content = export_pdf.content
-    # File.binwrite("artifact-test-preview.pdf", content)
+    # File.binwrite("artefact-test-preview.pdf", content)
     PDF::Inspector::Text.analyze(content).strings
   end
 
@@ -93,13 +93,13 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let(:section_b) { create(:project_custom_field_section, name: "Section B") }
     let!(:string_cf) do
       create(:string_project_custom_field,
-             name: "Artifact string field",
+             name: "Artefact string field",
              projects: [project],
              project_custom_field_section: section_a)
     end
     let!(:bool_cf) do
       create(:boolean_project_custom_field,
-             name: "Artifact bool field",
+             name: "Artefact bool field",
              projects: [project],
              project_custom_field_section: section_b)
     end
@@ -114,13 +114,13 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     before do
       type.default_variant.project_custom_fields << string_cf
       type.default_variant.project_custom_fields << bool_cf
-      project.update!(custom_field_values: { string_cf.id => "Artifact value", bool_cf.id => true })
+      project.update!(custom_field_values: { string_cf.id => "Artefact value", bool_cf.id => true })
     end
 
     it "renders the sections and their project attributes grouped by section" do
       joined = pdf_strings.join(" ")
       expect(joined).to include("Section A", "Section B")
-      expect(joined).to include(string_cf.name, "Artifact value")
+      expect(joined).to include(string_cf.name, "Artefact value")
       expect(joined).to include(bool_cf.name, "Yes")
     end
 
@@ -139,7 +139,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
              project:,
              type:,
              status:,
-             subject: "The artifact subject",
+             subject: "The artefact subject",
              description: "A **rich** text description",
              custom_values: { wp_text_cf.id => "The long text value" })
     end
@@ -291,7 +291,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
   describe "project budgets" do
     let(:project) do
       create(:project,
-             name: "Artifact project",
+             name: "Artefact project",
              types: [type],
              public: true,
              active: true,
@@ -463,7 +463,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     context "when the budgets module is disabled" do
       let(:project) do
         create(:project,
-               name: "Artifact project",
+               name: "Artefact project",
                types: [type],
                public: true,
                active: true,
@@ -487,7 +487,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
   describe "work package budget attribute" do
     let(:project) do
       create(:project,
-             name: "Artifact project",
+             name: "Artefact project",
              types: [type],
              public: true,
              active: true,
@@ -499,7 +499,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let(:user) { create(:user, member_with_permissions: { project => permissions }) }
     let(:budget) { create(:budget, project:, subject: "Phase 1 rollout", fixed_date: Date.current) }
     let(:work_package) do
-      create(:work_package, project:, type:, status:, subject: "The artifact subject", budget:)
+      create(:work_package, project:, type:, status:, subject: "The artefact subject", budget:)
     end
     # the budgets section renders the same subject, so it is excluded here
     let(:options) { { include_budget: "false" } }
@@ -577,7 +577,8 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
-        variant.attribute_groups = variant.default_attribute_groups + [["borrowed_group", %w(assignee)]]
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        variant.attribute_groups = default_groups + [["borrowed_group", %w(assignee)]]
         variant.save!
       end
     end
@@ -587,7 +588,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
       end
     end
     let(:project) do
-      create(:project, name: "Artifact project", types: [variant], public: true, active: true)
+      create(:project, name: "Artefact project", types: [variant], public: true, active: true)
     end
 
     it "renders the base's groups for the inheriting variant's work package" do
@@ -602,20 +603,22 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
-        variant.attribute_groups = variant.default_attribute_groups + [["root_group", %w(assignee)]]
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        variant.attribute_groups = default_groups + [["root_group", %w(assignee)]]
         variant.save!
       end
     end
     let(:variant) do
       create(:type_variant, type:, variant_name: "Bug variant").tap do |v|
         unlink_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
-        v.attribute_groups = v.default_attribute_groups + [["variant_group", %w(assignee)]]
+        default_groups = v.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        v.attribute_groups = default_groups + [["variant_group", %w(assignee)]]
         v.save!
       end
     end
     let(:project) do
       create(:project,
-             name: "Artifact project",
+             name: "Artefact project",
              types: [variant],
              public: true,
              active: true)

@@ -33,26 +33,14 @@ RSpec.describe API::Errors::InternalError do
   subject { described_class.new(sensitive_message, exception:) }
 
   let(:sensitive_message) { "This message might contain sensitive information" }
-  let(:exception) { nil }
-  let(:generic_message) { I18n.t("api_v3.errors.code_500") }
 
-  context "when the exception is known to be problematic" do
-    let(:exception) { ActiveRecord::StatementInvalid.new }
+  [ActiveRecord::StatementInvalid, NoMethodError, StandardError].each do |exception_class|
+    context "with a #{exception_class}" do
+      let(:exception) { exception_class.new }
 
-    it "hides the sensitive message" do
-      expect(subject.message).to eq(generic_message)
-    end
-  end
-
-  context "when the exception is something else" do
-    let(:exception) { StandardError.new }
-
-    it "includes the sensitive message" do
-      expect(subject.message).to include(sensitive_message)
-    end
-
-    it "Starts with the generic message" do
-      expect(subject.message).to start_with(generic_message)
+      it "shows only the generic message" do
+        expect(subject.message).to eq(I18n.t("api_v3.errors.code_500"))
+      end
     end
   end
 end

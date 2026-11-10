@@ -11,7 +11,7 @@ keywords: executing kick-off meeting, project coordination, quality assurance, p
 The third phase of a PM² project is the Executing Phase. During this phase, the project deliverables are produced and the requestor organization prepares for their introduction. The Executing Phase begins with a Kick-off Meeting and ends with the acceptance (final or provisional-as per the Deliverables Acceptance Plan) by the requestor side.
 ![Fig 7.1 Executing Phase activities and main outputs](07.01.png)
 
-![Fig 7.2 Executing Phase artifacts](07.02.png)
+![Fig 7.2 Executing Phase artefacts](07.02.png)
 
 ## 7.1 Executing Kick-off Meeting 
 
@@ -135,7 +135,7 @@ Quality Assurance activities are documented in the Quality Management Plan. Thes
 
 ![Fig 7.5 Quality Assurance inputs/outputs and main roles](07.05.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Quality Management | Project Charter | Quality Management Plan | Quality Review Reports<br />Audit Reports | Quality Review Checklist <br> Project Logs <br> Phase-Exit Review Checklist | Project-End Report <br> Project Acceptance Note |
 

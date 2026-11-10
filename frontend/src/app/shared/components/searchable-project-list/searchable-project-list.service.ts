@@ -244,7 +244,8 @@ export class SearchableProjectListService {
     const findPreviousID = (idOfCurrent:ID, projects:IProjectData[], parent?:IProjectData):ID|null => {
       for (let i = 0; i < projects.length; i++) {
         if (projects[i].id === idOfCurrent) {
-          const previous = findLastChild(projects[i - 1]) || projects[i - 1] || parent;
+          const previousSibling = i > 0 ? projects[i - 1] : undefined;
+          const previous = previousSibling ? findLastChild(previousSibling) : parent;
           if (!previous) {
             return null;
           }

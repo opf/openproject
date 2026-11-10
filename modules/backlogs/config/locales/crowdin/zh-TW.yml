@@ -140,8 +140,8 @@ zh-TW:
         blankslate_title: 沒有可用的燃盡圖資料
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -190,9 +190,6 @@ zh-TW:
     rebuild_positions: 重建位置
     remaining_hours: 剩餘工時
     sharing: 共用衝刺
-    show_burndown_chart: 未完成圖
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: 衝刺中的工作包
     sprint_component:
       action_menu:
         add_existing_work_package: 新增現有的工作套件
@@ -222,6 +219,27 @@ zh-TW:
         breadcrumb: 報告
         title: "%{sprint} 報告"
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
         velocity_chart:
           average:
             other: 'Average of previous %{count} sprints:'
@@ -243,9 +261,9 @@ zh-TW:
             heading: 沒有衝刺數據
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: 範圍變更
-              story_points_change: "+%{added} / -%{removed} 故事點數"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: 已完成
             initially_planned:
@@ -255,9 +273,17 @@ zh-TW:
           breakdown_block:
             blocks:
               show_all: 查看全部
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: 已關閉的工作項目
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            other: "%{percentage}% (%{resolved} 佔 %{total} 工作項目)"
+            story_points:
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:
@@ -394,7 +420,7 @@ zh-TW:
   permission_view_sprints: 檢視衝刺
   plugin_openproject_backlogs:
     description: 此模組新增了讓敏捷團隊能夠在 Scrum 專案中使用 OpenProject 的功能。
-    name: OpenProject代辦事項
+    name: OpenProject待辦事項
   project_module_backlogs: 待辦事項
   projects:
     copy:

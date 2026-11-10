@@ -48,6 +48,7 @@ module TimeEntries
     validate :validate_project_is_set
     validate :validate_entity
     validate :validate_user
+    validate :validate_user_can_access_entity
 
     validates :spent_on,
               date: { before_or_equal_to: Proc.new { Date.new(9999, 12, 31) },
@@ -105,6 +106,20 @@ module TimeEntries
       if user_invisible?
         errors.add :user_id, :invalid
       end
+    end
+
+    def validate_user_can_access_entity
+      return unless model.user && model.entity
+      # The acting user's access is already covered by validate_entity
+      return if model.user == user
+      return unless user_or_entity_changed?
+      return if model.entity.visible?(model.user)
+
+      errors.add :user_id, :no_access_to_entity
+    end
+
+    def user_or_entity_changed?
+      model.user_id_changed? || model.entity_id_changed? || model.entity_type_changed?
     end
 
     def validate_hours_are_in_range

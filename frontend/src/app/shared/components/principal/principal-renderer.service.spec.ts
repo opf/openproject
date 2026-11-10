@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { TestBed } from '@angular/core/testing';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -39,7 +40,7 @@ describe('PrincipalRendererService', () => {
       providers: [
         PrincipalRendererService,
         ColorsService,
-        { provide: PathHelperService, useValue: {} },
+        { provide: PathHelperService, useValue: { userPath: (id:string) => `/users/${id}` } },
         {
           provide: ApiV3Service,
           useValue: {
@@ -51,6 +52,52 @@ describe('PrincipalRendererService', () => {
     });
 
     service = TestBed.inject(PrincipalRendererService);
+  });
+
+  describe('name hints', () => {
+    let container:HTMLElement;
+
+    beforeEach(() => { container = document.body.appendChild(document.createElement('div')); });
+
+    afterEach(() => container.remove());
+
+    function renderName(title:string|null, link = true) {
+      service.render(
+        container,
+        { id: '1', name: 'John Doe', href: '/api/v3/users/1' },
+        { hide: false, link },
+        { hide: true, size: 'default' },
+        { isActivated: true, url: '/users/1/hover_card' },
+        title,
+      );
+
+      return container.querySelector<HTMLElement>('.op-principal--name')!;
+    }
+
+    it.each([null, '', 'John Doe'])('omits redundant linked name hints (%s)', (title) => {
+      const name = renderName(title);
+      expect(name).toHaveAccessibleName('John Doe');
+      expect(name).toHaveAccessibleDescription('');
+      expect(name).toHaveAttribute('title', '');
+      expect(container.querySelector('tool-tip')).toBeNull();
+    });
+
+    it('describes a linked name without moving hover-card attributes', () => {
+      const name = renderName('Assigned to this work package');
+      expect(name).toHaveAccessibleName('John Doe');
+      expect(name).toHaveAccessibleDescription('Assigned to this work package');
+      expect(name).toHaveAttribute('href', '/users/1');
+      expect(name).toHaveAttribute('title', '');
+      expect(name).toHaveAttribute('data-hover-card-trigger-target', 'trigger');
+      expect(name).toHaveAttribute('data-hover-card-url', '/users/1/hover_card');
+    });
+
+    it('keeps nonlinked names unchanged', () => {
+      const name = renderName('Assigned to this work package', false);
+      expect(name.tagName).toBe('SPAN');
+      expect(name).toHaveAttribute('title', 'Assigned to this work package');
+      expect(container.querySelector('tool-tip')).toBeNull();
+    });
   });
 
   describe('fallback avatar initials', () => {

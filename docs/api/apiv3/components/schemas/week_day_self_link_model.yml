@@ -12,7 +12,7 @@ properties:
 
           **Resource**: WeekDay
         readOnly: true
-example:
-  self:
-    href: /api/v3/days/week/3
-    title: Wednesday
+examples:
+  - self:
+      href: /api/v3/days/week/3
+      title: Wednesday

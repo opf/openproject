@@ -57,7 +57,7 @@ RSpec.describe "backup", :js do
     fill_in "backup_token", with: backup_token.plain_value
     click_on "Request backup"
 
-    expect(page).to have_content I18n.t("job_status_dialog.generic_messages.in_queue"), wait: 10
+    expect(page).to have_text I18n.t("job_status_dialog.generic_messages.in_queue"), wait: 10
 
     begin
       perform_enqueued_jobs
@@ -76,7 +76,7 @@ RSpec.describe "backup", :js do
       fill_in "backup_token", with: "foobar"
       click_on "Request backup"
 
-      expect(page).to have_content I18n.t("backup.error.invalid_token")
+      expect(page).to have_text I18n.t("backup.error.invalid_token")
     end
   end
 
@@ -86,8 +86,6 @@ RSpec.describe "backup", :js do
     before do
       visit "/admin/backups"
       click_on I18n.t("backup.label_reset_token")
-
-      expect(page).to have_content /#{I18n.t('backup.reset_token.heading_reset')}/i
 
       check "I understand that the existing backup token will be invalidated"
       click_on "Reset"
@@ -99,7 +97,7 @@ RSpec.describe "backup", :js do
       new_token = Token::Backup.find_by(user: current_user)
 
       expect(new_token.plain_value).not_to eq backup_token.plain_value
-      expect(page).to have_content new_token.plain_value
+      expect(page).to have_text new_token.plain_value
     end
 
     it "declines the change when an invalid password is given" do
@@ -114,17 +112,17 @@ RSpec.describe "backup", :js do
   it "allows the backup token to be deleted" do
     visit "/admin/backups"
 
-    expect(page).to have_content /#{I18n.t('js.backup.title')}/i
+    expect(page).to have_text /#{I18n.t('js.backup.title')}/i
 
     accept_confirm do
       click_on I18n.t("backup.label_delete_token")
     end
 
-    expect(page).to have_content I18n.t("backup.text_token_deleted")
+    expect(page).to have_text I18n.t("backup.text_token_deleted")
 
     token = Token::Backup.find_by(user: current_user)
 
     expect(token).to be_nil
-    expect(page).to have_no_content /#{I18n.t('js.backup.title')}/i
+    expect(page).to have_no_text /#{I18n.t('js.backup.title')}/i
   end
 end

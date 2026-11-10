@@ -29,5 +29,37 @@
 
 module Labels
   class DeleteService < ::BaseServices::Delete
+    WORK_PACKAGES_PER_JOB = 1_000
+
+    protected
+
+    def persist(service_result)
+      return service_result unless lock_label
+
+      ids = labeled_work_package_ids
+      super.tap { |result| enqueue_journalization(ids) if result.success? && ids.any? }
+    end
+
+    private
+
+    def lock_label
+      model.lock!
+      true
+    rescue ActiveRecord::RecordNotFound
+      false
+    end
+
+    def labeled_work_package_ids
+      Labeling.where(label_id: model.id, labelable_type: WorkPackage.name).pluck(:labelable_id)
+    end
+
+    def enqueue_journalization(work_package_ids)
+      work_package_ids.each_slice(WORK_PACKAGES_PER_JOB) do |slice|
+        Labels::JournalizeDeletionJob.perform_later(work_package_ids: slice,
+                                                    label_id: model.id,
+                                                    label_name: model.name,
+                                                    user_id: user.id)
+      end
+    end
   end
 end

@@ -160,8 +160,8 @@ ar:
         blankslate_title: لا توجد بيانات متاحة عن معدل انخفاض الكثافة
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -220,9 +220,6 @@ ar:
     rebuild_positions: أعِد بناء المواقع
     remaining_hours: الأعمال المتبقية
     sharing: مشاركة السباق
-    show_burndown_chart: مخطط العمل المتبقي
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
         add_existing_work_package: إضافة حزمة عمل موجودة
@@ -252,6 +249,37 @@ ar:
         breadcrumb: Report
         title: "%{sprint} report"
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              zero: "%{epic}: %{completed} of %{count} work packages completed"
+              one: "%{epic}: %{completed} of %{count} work package completed"
+              two: "%{epic}: %{completed} of %{count} work packages completed"
+              few: "%{epic}: %{completed} of %{count} work packages completed"
+              many: "%{epic}: %{completed} of %{count} work packages completed"
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              zero: "%{completed} / %{count} work packages"
+              one: "%{completed} / %{count} work package"
+              two: "%{completed} / %{count} work packages"
+              few: "%{completed} / %{count} work packages"
+              many: "%{completed} / %{count} work packages"
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
         velocity_chart:
           average:
             zero: 'Average of previous %{count} sprints:'
@@ -283,9 +311,9 @@ ar:
             heading: No sprint data available
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Scope change
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Completed
             initially_planned:
@@ -295,14 +323,27 @@ ar:
           breakdown_block:
             blocks:
               show_all: View all
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: Closed work packages
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            zero: "%{percentage}% (%{resolved} of %{total} work packages)"
-            one: "%{percentage}% (%{resolved} of %{total} work package)"
-            two: "%{percentage}% (%{resolved} of %{total} work packages)"
-            few: "%{percentage}% (%{resolved} of %{total} work packages)"
-            many: "%{percentage}% (%{resolved} of %{total} work packages)"
-            other: "%{percentage}% (%{resolved} of %{total} work packages)"
+            story_points:
+              zero: "%{percentage} (%{resolved} of %{total} story points)"
+              one: "%{percentage} (%{resolved} of %{total} story point)"
+              two: "%{percentage} (%{resolved} of %{total} story points)"
+              few: "%{percentage} (%{resolved} of %{total} story points)"
+              many: "%{percentage} (%{resolved} of %{total} story points)"
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              zero: "%{percentage} (%{resolved} of %{total} work packages)"
+              one: "%{percentage} (%{resolved} of %{total} work package)"
+              two: "%{percentage} (%{resolved} of %{total} work packages)"
+              few: "%{percentage} (%{resolved} of %{total} work packages)"
+              many: "%{percentage} (%{resolved} of %{total} work packages)"
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:

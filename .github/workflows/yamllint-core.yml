@@ -6,6 +6,7 @@ on:
       - '.yamllint.yml'
       - 'config/locales/en.yml'
       - 'config/locales/js-en.yml'
+      - 'docs/api/apiv3'
       - 'modules/*/config/locales/en.yml'
       - 'modules/*/config/locales/js-en.yml'
 
@@ -31,5 +32,6 @@ jobs:
             .yamllint.yml
             config/locales/en.yml
             config/locales/js-en.yml
+            docs/api/apiv3
             modules/*/config/locales/en.yml
             modules/*/config/locales/js-en.yml

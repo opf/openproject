@@ -59,6 +59,6 @@ export class WorkPackageIdDisplayField extends IdDisplayField {
       this.valueString,
     );
 
-    element.appendChild(link);
+    element.appendChild(link.element);
   }
 }

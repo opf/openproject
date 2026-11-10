@@ -35,7 +35,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { TimeEntrySchemaResource } from 'core-app/features/hal/resources/time-entry-schema-resource';
 import {
   firstValueFrom,
   Observable,
@@ -67,7 +67,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
   public entries:TimeEntryResource[] = [];
 
-  public schema:SchemaResource;
+  public schema:TimeEntrySchemaResource;
 
   private entriesLoaded = false;
 
@@ -166,6 +166,9 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
   public deleteIfConfirmed(event:Event, entry:TimeEntryResource):void {
     event.preventDefault();
+    const deleteEntry = entry.delete?.bind(entry);
+    if (!deleteEntry) return;
+
     this.confirmDialog.confirm({
       text: this.text.confirmDelete,
       closeByEscape: true,
@@ -180,7 +183,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       ],
       dangerHighlighting: true,
     }).then(() => {
-      void entry.delete().then(() => {
+      void deleteEntry().then(() => {
         const newEntries = this.entries.filter((anEntry) => entry.id !== anEntry.id);
 
         this.buildEntries(newEntries);
@@ -233,7 +236,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     return !this.entries.length && this.entriesLoaded;
   }
 
-  private loadSchema():Observable<SchemaResource> {
+  private loadSchema():Observable<TimeEntrySchemaResource> {
     return this
       .apiV3Service
       .time_entries

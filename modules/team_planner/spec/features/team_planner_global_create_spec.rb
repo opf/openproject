@@ -48,7 +48,7 @@ RSpec.describe "Team Planner",
 
       it "navigates to the global create form" do
         expect(page).to have_current_path(new_team_planners_path)
-        expect(page).to have_content I18n.t("team_planner.label_new_team_planner")
+        expect(page).to have_text I18n.t("team_planner.label_new_team_planner")
       end
     end
   end

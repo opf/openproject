@@ -28,12 +28,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
-  EditFieldComponent,
-} from 'core-app/shared/components/fields/edit/edit-field.component';
+  AutocompleterEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/autocompleter-edit-field.component';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { IUserAutocompleteItem } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 @Component({
@@ -41,7 +40,7 @@ import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class UserEditFieldComponent extends EditFieldComponent implements OnInit {
+export class UserEditFieldComponent extends AutocompleterEditFieldComponent implements OnInit {
   readonly apiV3Service = inject(ApiV3Service);
   readonly http = inject(HttpClient);
   readonly halResourceService = inject(HalResourceService);
@@ -57,7 +56,8 @@ export class UserEditFieldComponent extends EditFieldComponent implements OnInit
     }
   }
 
-  public onModelChange(user?:IUserAutocompleteItem):unknown {
+  public onModelChange(user:unknown):unknown {
+    if (user !== undefined && (typeof user !== 'object' || Array.isArray(user))) { return; }
     if (user) {
       // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
       // is part of the older HalResource stack

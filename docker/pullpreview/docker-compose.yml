@@ -61,6 +61,19 @@ services:
       - "postgres_data:/var/lib/postgresql/data"
     expose:
       - "5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "app", "-d", "app"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  seeder:
+    <<: *defaults
+    restart: "no"
+    command: "./docker/prod/seeder --set attachment_max_size=262144,host_name=${PULLPREVIEW_PUBLIC_DNS}"
+    depends_on:
+      db:
+        condition: service_healthy
 
   web:
     <<: *defaults
@@ -68,14 +81,15 @@ services:
       - "8080"
     command: "./docker/prod/web"
     depends_on:
-      - db
-      - worker
+      seeder:
+        condition: service_completed_successfully
 
   worker:
     <<: *defaults
-    command: "./docker/prod/worker --seed --set attachment_max_size=262144,host_name=${PULLPREVIEW_PUBLIC_DNS}"
+    command: "./docker/prod/worker"
     depends_on:
-      - db
+      seeder:
+        condition: service_completed_successfully
 
   hocuspocus:
     image: openproject/hocuspocus:latest

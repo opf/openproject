@@ -35,6 +35,10 @@ module Queries
           true
         end
 
+        def available_operators
+          [::Queries::Operators::Equals, ::Queries::Operators::NotEquals]
+        end
+
         def where
           integer_values = values.map(&:to_i)
           visible_sql = WorkPackage.visible(User.current).select(:id).to_sql

@@ -37,7 +37,9 @@ module WorkPackageTypes
         @row_key = row_key
       end
 
-      def perform
+      private
+
+      def perform_locked
         row = find_row(@row_key)
         return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless row
 

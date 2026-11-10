@@ -42,12 +42,77 @@ linter:
   #   - 'app/views/admin/**/*'
 
   rules:
+    # Accessibility checks previously provided by erblint-github.
+    a11y-avoid-generic-link-text:
+      enabled: true
+      severity: error
+      exclude: &accessibility_exclusions
+        - 'lookbook/previews/open_project/deprecated/**/*'
+    a11y-disabled-attribute:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    a11y-nested-interactive-elements:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    a11y-no-aria-label-misuse:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    a11y-no-redundant-image-alt:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    a11y-no-visually-hidden-interactive-elements:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    a11y-svg-has-accessible-text:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    html-aria-label-is-well-formatted:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    html-avoid-both-disabled-and-aria-disabled:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    html-iframe-has-title:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    html-img-require-alt:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    html-navigation-has-label:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    html-no-aria-hidden-on-focusable:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    html-no-positive-tab-index:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+    html-no-title-attribute:
+      enabled: true
+      severity: error
+      exclude: *accessibility_exclusions
+
     # The canonical copyright header opens with `<%#--` and closes with `++#%>`.
     erb-require-whitespace-inside-tags:
       enabled: false
 
     # 0.11 rejects the `href="#"` placeholders of the legacy static markup.
     html-anchor-require-href:
+      enabled: true
+      severity: error
       exclude:
         - 'lookbook/previews/open_project/deprecated/**/*'
         # Legacy `link_to "#"` toggles, to be turned into buttons.

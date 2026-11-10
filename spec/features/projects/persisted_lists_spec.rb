@@ -611,9 +611,9 @@ RSpec.describe "Persisted lists on projects index page",
       visit projects_path(query_id: another_users_projects_list.id)
 
       expect(page)
-        .to have_no_text(another_users_projects_list.name)
-      expect(page)
         .to have_text("You are not authorized to access this page.")
+      expect(page)
+        .to have_no_text(another_users_projects_list.name)
     end
 
     it "can search for a query in the sidebar" do

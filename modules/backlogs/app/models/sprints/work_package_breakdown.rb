@@ -32,9 +32,10 @@
 # sprint_id/status_id/story_points values from work_package_journals.
 module Sprints
   class WorkPackageBreakdown
-    Block = Data.define(:work_package_count, :story_points)
-    ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points)
-    Snapshot = Data.define(:work_package_id, :story_points, :status_id)
+    Block = Data.define(:work_package_count, :story_points, :estimated_hours)
+    ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points,
+                              :added_estimated_hours, :removed_estimated_hours)
+    Snapshot = Data.define(:work_package_id, :story_points, :estimated_hours, :status_id)
 
     def initialize(sprint:, project:, user: User.current)
       @sprint = sprint
@@ -56,14 +57,16 @@ module Sprints
 
     def changed_after_start
       @changed_after_start ||= begin
-        added_ids = added_after_start_ids
-        removed_ids = removed_after_start_ids
+        added_story_points, removed_story_points = estimate_change(:story_points)
+        added_estimated_hours, removed_estimated_hours = estimate_change(:estimated_hours)
 
         ChangeBlock.new(
-          added_count: added_ids.size,
-          removed_count: removed_ids.size,
-          added_story_points: added_ids.sum { |id| finish_points[id] || 0 },
-          removed_story_points: removed_ids.sum { |id| start_points[id] || 0 }
+          added_count: added_after_start_ids.size,
+          removed_count: removed_after_start_ids.size,
+          added_story_points:,
+          removed_story_points:,
+          added_estimated_hours:,
+          removed_estimated_hours:
         )
       end
     end
@@ -79,11 +82,11 @@ module Sprints
     end
 
     def added_after_start_ids
-      finish_points.keys - start_points.keys
+      @added_after_start_ids ||= finish_ids - start_ids
     end
 
     def removed_after_start_ids
-      start_points.keys - finish_points.keys
+      @removed_after_start_ids ||= start_ids - finish_ids
     end
 
     def done_status_ids
@@ -96,35 +99,47 @@ module Sprints
       @timeframe ||= Timeframe.new(@sprint)
     end
 
-    def start_points
-      @start_points ||= points_by_id(start_snapshots)
+    def start_ids
+      @start_ids ||= start_snapshots.map(&:work_package_id)
     end
 
-    def finish_points
-      @finish_points ||= points_by_id(finish_snapshots)
+    def finish_ids
+      @finish_ids ||= finish_snapshots.map(&:work_package_id)
+    end
+
+    def retained_ids
+      @retained_ids ||= start_ids & finish_ids
     end
 
     def start_snapshots
-      snapshots_at(reference_start)
+      snapshots_at(start_time)
     end
 
     def finish_snapshots
-      snapshots_at(reference_finish)
+      snapshots_at(finish_time)
     end
 
-    def snapshots_at(timestamp)
-      snapshots_by_tick.fetch(timestamp.to_time.to_i, [])
+    def snapshots_at(time)
+      snapshots_by_tick.fetch(time.to_i, [])
     end
 
     def ticks
-      [reference_start, reference_finish].map(&:to_time).uniq
+      [start_time, finish_time].uniq
+    end
+
+    def start_time
+      @start_time ||= reference_start.to_time
+    end
+
+    def finish_time
+      @finish_time ||= reference_finish.to_time
     end
 
     def snapshots_by_tick
       @snapshots_by_tick ||= ::WorkPackages::JournalTimeline
                                .new(sprint_journals, ticks:, user: @user)
                                .relation
-                               .pluck(:tick, :work_package_id, :story_points, :status_id)
+                               .pluck(:tick, :work_package_id, :story_points, :estimated_hours, :status_id)
                                .group_by { |tick, *| tick.to_i }
                                .transform_values { |rows| rows.map { |_tick, *attributes| Snapshot.new(*attributes) } }
     end
@@ -134,11 +149,34 @@ module Sprints
     end
 
     def block(snapshots)
-      Block.new(work_package_count: snapshots.size, story_points: snapshots.sum { it.story_points || 0 })
+      Block.new(
+        work_package_count: snapshots.size,
+        story_points: snapshots.sum { it.story_points || 0 },
+        estimated_hours: snapshots.sum { it.estimated_hours || 0 }
+      )
     end
 
-    def points_by_id(snapshots)
-      snapshots.to_h { [it.work_package_id, it.story_points] }
+    def values_by_id(snapshots, attribute)
+      snapshots.to_h { [it.work_package_id, it.public_send(attribute) || 0] }
+    end
+
+    def sum_values(ids, values)
+      values.values_at(*ids).sum
+    end
+
+    def estimate_change(attribute)
+      start_values = values_by_id(start_snapshots, attribute)
+      finish_values = values_by_id(finish_snapshots, attribute)
+      increases, decreases = retained_deltas(start_values, finish_values).partition(&:positive?)
+
+      [
+        sum_values(added_after_start_ids, finish_values) + increases.sum,
+        sum_values(removed_after_start_ids, start_values) - decreases.sum
+      ]
+    end
+
+    def retained_deltas(start_values, finish_values)
+      retained_ids.map { |id| finish_values[id] - start_values[id] }
     end
 
     def done?(snapshot)

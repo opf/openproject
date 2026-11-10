@@ -34,6 +34,7 @@ class RecurringMeeting::Interval < ApplicationForm
       required: true,
       type: :number,
       step: 1,
+      min: 1,
       max: RecurringMeeting::MAX_INTERVAL,
       label: I18n.t("activerecord.attributes.recurring_meeting.interval"),
       data: {

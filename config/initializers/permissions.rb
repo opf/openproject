@@ -135,7 +135,7 @@ Rails.application.reloader.to_prepare do
                        "projects/settings/work_packages/internal_comments": %i[show update],
                        "projects/settings/creation_wizard": %i[show disable_dialog toggle refresh_submission_form
                                                                update_name_settings update_submission_settings
-                                                               update_artifact_export_settings
+                                                               update_artefact_export_settings
                                                                toggle_project_custom_field
                                                                disable_all_of_section enable_all_of_section],
                        "projects/settings/subitems": %i[show update],
@@ -191,7 +191,7 @@ Rails.application.reloader.to_prepare do
                      dependencies: :view_project
 
       map.permission :edit_project_phases,
-                     {},
+                     { "project_phases/status": :update },
                      permissible_on: :project,
                      require: :member,
                      dependencies: :view_project_phases,

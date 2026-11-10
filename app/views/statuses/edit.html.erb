@@ -42,6 +42,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for :status %>
 
+<% workflow_count = @status.workflow_count %>
+<% if workflow_count.positive? %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :default, mb: 3)) do |banner| %>
+    <% banner.with_action_content do %>
+      <%= render(Primer::Beta::Button.new(tag: :a, href: status_workflows_filter_path(@status))) do %>
+        <%= t("statuses.edit.view_workflows_button") %>
+      <% end %>
+    <% end %>
+    <%= t("statuses.edit.used_by_workflows", count: workflow_count) %>
+  <% end %>
+<% end %>
+
 <%=
   settings_primer_form_with(
     model: @status,

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -39,17 +41,15 @@ module API
         # which contains a reference to the columns array as columns[].
         # This will match the Rails +to_query+ output
         def to_json(*_args)
-          to_h(column_key: :"columns[]").to_json
+          to_h(column_key: :"columns[]", highlighted_attributes_key: :"highlightedAttributes[]").to_json
         end
 
-        def to_h(column_key: :columns)
-          p = super
-
-          p[:includeSubprojects] = query.include_subprojects
-          p[:showHierarchies] = query.show_hierarchies
-          p[:showSums] = query.display_sums?
+        def to_h(column_key: :columns, highlighted_attributes_key: :highlightedAttributes)
+          p = super.merge(display_options)
           p[:groupBy] = query.group_by if query.group_by?
           p[column_key] = columns_to_v3 unless query.has_default_columns?
+          highlighted_attributes = highlighted_attributes_to_v3
+          p[highlighted_attributes_key] = highlighted_attributes if highlighted_attributes
 
           p
         end
@@ -64,10 +64,30 @@ module API
 
         private
 
+        def display_options
+          options = {
+            includeSubprojects: query.include_subprojects,
+            showHierarchies: query.show_hierarchies,
+            showSums: query.display_sums?
+          }
+          stored_highlighting_mode = query.read_attribute(:highlighting_mode).presence
+          options[:highlightingMode] = stored_highlighting_mode if stored_highlighting_mode
+          options[:timestamps] = query.timestamps.join(",") if query.historic?
+          options
+        end
+
         def orders_to_v3
           converted = query.sort_criteria.map { |first, last| [convert_to_v3(first), last] }
 
           JSON::dump(converted)
+        end
+
+        def highlighted_attributes_to_v3
+          return unless query.highlighting_mode == :inline
+
+          query.read_attribute(:highlighted_attributes).presence&.map do |name|
+            API::V3::Utilities::PathHelper::ApiV3Path.query_column(convert_to_v3(name))
+          end
         end
 
         def columns_to_v3

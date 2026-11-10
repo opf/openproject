@@ -6,7 +6,7 @@ post:
   tags:
     - AI
   description: |-
-    Starts an AI text transform action on the given content. The server assembles the prompt from
+    Starts an AI text action on the given content. The server assembles the prompt from
     the action and, when the action injects it, the work package type's description template, and
     hands the run to a background job. The response is the run in status `queued`; poll it with
     [`GET /api/v3/ai_text_transform_runs/{id}`](#operation/view_ai_text_transform_run) to receive
@@ -109,8 +109,7 @@ post:
         Returned if the content is blank or too long, or if the action cannot run in this context.
         In the latter case `_embedded.details.reason` carries a stable, untranslated code:
 
-        * `feature_disabled`: the feature flag `ai_text_transform_actions` is off
-        * `assistant_disabled`: the administrative setting is off
+        * `feature_disabled`: the feature flag `ai_text_actions` is off
         * `llm_unavailable`: no LLM connection is ready
         * `unknown_action`: no action with the given id exists
         * `action_inactive`: the action is deactivated

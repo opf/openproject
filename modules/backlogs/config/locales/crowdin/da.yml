@@ -144,8 +144,8 @@ da:
         blankslate_title: Der er ingen data til burndown-diagrammet
     created_resolved_chart:
       series:
-        created: Oprettede arbejdspakker
-        resolved: Løste arbejdspakker
+        created: Oprettede
+        resolved: Løste
       show:
         blankslate_description: Angiv start- og slutdato for sprinten for at danne et diagram over oprettede og løste arbejdspakker.
         blankslate_title: Der er ingen data til diagrammet over oprettede og løste arbejdspakker
@@ -196,9 +196,6 @@ da:
     rebuild_positions: Genopbyg positioner
     remaining_hours: Resterende arbejde
     sharing: Deling af sprints
-    show_burndown_chart: Burndown-diagram
-    show_created_resolved_chart: Oprettede og løste arbejdspakker
-    show_work_package_overview: Arbejdspakker i sprinten
     sprint_component:
       action_menu:
         add_existing_work_package: Tilføj eksisterende arbejdspakke
@@ -228,6 +225,29 @@ da:
         breadcrumb: Rapport
         title: Rapport for %{sprint}
       widgets:
+        burndown_chart:
+          title: Burndown-diagram
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
+        created_resolved_chart:
+          title: Oprettede og løste arbejdspakker
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} af %{count} arbejdspakke er færdig"
+              other: "%{epic}: %{completed} af %{count} arbejdspakker er færdige"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} arbejdspakke"
+              other: "%{completed} / %{count} arbejdspakker"
+          title: Fremdrift for epics
         velocity_chart:
           average:
             one: 'Gennemsnit af den forrige sprint:'
@@ -251,9 +271,9 @@ da:
             heading: Der er ingen data om sprinten
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Ændret omfang
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Færdige
             initially_planned:
@@ -263,10 +283,19 @@ da:
           breakdown_block:
             blocks:
               show_all: Vis alle
+              show_all_label: 'Vis alle: %{heading}'
           closed_work_packages: Lukkede arbejdspakker
+          completed_estimated_time: Anslået tid for færdige arbejdspakker
+          completed_story_points: Færdige story points
           resolved_summary:
-            one: "%{percentage} % (%{resolved} af %{total} arbejdspakke)"
-            other: "%{percentage} % (%{resolved} af %{total} arbejdspakker)"
+            story_points:
+              one: "%{percentage} (%{resolved} af %{total} story point)"
+              other: "%{percentage} (%{resolved} af %{total} story points)"
+            time: "%{percentage} (%{resolved} af %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} af %{total} arbejdspakke)"
+              other: "%{percentage} (%{resolved} af %{total} arbejdspakker)"
+          title: Arbejdspakker i sprinten
         work_package_table:
           added:
             blankslate:

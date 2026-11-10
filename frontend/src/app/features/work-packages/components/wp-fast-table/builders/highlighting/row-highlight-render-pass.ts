@@ -30,6 +30,7 @@ import { PrimaryRenderPass } from 'core-app/features/work-packages/components/wp
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -51,24 +52,25 @@ export class HighlightingRenderPass {
       return;
     }
 
-    const highlightAttribute = this.wpTableHighlighting.current.mode;
-
     this.tablePass.draft.occurrences.forEach((occurrence) => {
-      // We only care for rows that are natural work packages
-      if (!occurrence.workPackage) {
-        return;
-      }
-
-      // Get the loaded attribute of the WP
-      const property = occurrence.workPackage[highlightAttribute] as HalResource;
-
-      // We only color rows that have an active attribute
-      if (!property) {
-        return;
-      }
-
-      occurrence.element?.classList.add(...Highlighting.backgroundClass(highlightAttribute, property.id!).split(' '));
+      if (occurrence.workPackage && occurrence.element) this.paintRow(occurrence.element, occurrence.workPackage);
     });
+  }
+
+  /** Replaces the row's background highlight with the one for the work package's highlighted attribute, if it has one. */
+  public refreshRow(row:HTMLTableRowElement, workPackage:WorkPackageResource):void {
+    if (!this.isApplicable) return;
+    Array.from(row.classList)
+      .filter((name) => name.startsWith('__hl_'))
+      .forEach((name) => row.classList.remove(name));
+    this.paintRow(row, workPackage);
+  }
+
+  private paintRow(row:HTMLTableRowElement, workPackage:WorkPackageResource):void {
+    const highlightAttribute = this.wpTableHighlighting.current.mode;
+    const property = workPackage[highlightAttribute] as HalResource|null|undefined;
+    if (!property) return;
+    row.classList.add(...Highlighting.backgroundClass(highlightAttribute, property.id!).split(' '));
   }
 
   private get isApplicable() {

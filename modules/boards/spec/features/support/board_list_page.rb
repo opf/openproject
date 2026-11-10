@@ -92,7 +92,7 @@ module Pages
 
     def expect_no_boards_listed
       within "#content-wrapper" do
-        expect(page).to have_content I18n.t(:no_results_title_text)
+        expect(page).to have_text I18n.t(:no_results_title_text)
       end
     end
 

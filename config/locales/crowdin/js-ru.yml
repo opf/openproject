@@ -47,6 +47,8 @@ ru:
       draggable_hint: 'Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Этот файл помещен в карантин, так как в нем обнаружен вирус. Он недоступен для загрузки.
     autocomplete_ng_select:
       add_tag: Добавить элемент
@@ -129,8 +131,8 @@ ru:
     button_confirm: Подтвердить
     button_continue: Продолжить
     button_copy: Копировать
-    button_copy_link_to_clipboard: Копировать ссылку в буфер обмена
-    button_copy_numeric_id_to_clipboard: Скопировать числовой идентификатор в буфер обмена
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Копировать в буфер обмена
     button_copy_to_other_project: Дублировать в другой проект
     button_create: Создать
@@ -162,7 +164,7 @@ ru:
     button_start_timer: Запустить таймер
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
-    button_update: Обновление
+    button_update: Обновить
     button_view_markdown: View Markdown
     caption_rate_history: История оценок
     card:
@@ -205,6 +207,7 @@ ru:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Произошла ошибка в CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Не удалось сохранить документ по следующей причине: %{error}'
@@ -436,7 +439,6 @@ ru:
     label_assignee: Исполнитель
     label_assignee_alt_text: Этот пакет работ назначен %{name}
     label_attachments: Вложения
-    label_author: 'Автор: %{user}'
     label_avatar: 'Аватар
 
       '
@@ -1132,10 +1134,6 @@ ru:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах.
-        text_inline_edit: Большинство ячеек этой таблицы являются кнопками, которые активируют встроенную функцию редактирования этого атрибута.
-        text_select_hint: Чек-боксы могут быть открыты с использованием «ALT» и клавиш со стрелками.
-        text_sort_hint: Ссылки в заголовках таблиц позволяют сортировать, группировать, реорганизовывать, удалять и добавлять столбцы.
       table_configuration:
         button: Настроить эту таблицу пакета работ
         choose_display_mode: Отображать пакеты работ как
@@ -1144,7 +1142,6 @@ ru:
         default_mode: Простой список
         display_settings: Настройки отображения
         display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под таблицей результатов.
-        embedded_tab_disabled: Эта вкладка конфигурации недоступна для редактируемого вами вида.
         hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их предками. Иерархии можно разворачивать и сворачивать.
         hierarchy_mode: Иерархия
         highlighting: Выделение

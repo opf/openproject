@@ -31,6 +31,8 @@ require "spec_helper"
 require "features/work_packages/work_packages_page"
 
 RSpec.describe "Work package details toolbar", :js do
+  include_context "with axe on Cuprite"
+
   let(:project) { create(:project_with_types, public: true) }
   let!(:work_package) { create(:work_package, project:) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -45,15 +47,22 @@ RSpec.describe "Work package details toolbar", :js do
 
     it "toggles the watch state" do
       expect(work_package.watcher_users).not_to include(user)
-      expect(page).to have_css(".work-packages--details-toolbar button[title='Watch work package']")
+
       within ".work-packages--details-toolbar" do
-        click_button "Watch"
+        click_on accessible_name: "Watch work package"
+        expect(page).to have_button(accessible_name: "Unwatch work package")
+        expect(work_package.reload.watcher_users).to include(user)
+
+        click_on accessible_name: "Unwatch work package"
+        expect(page).to have_button(accessible_name: "Watch work package")
+        expect(work_package.reload.watcher_users).not_to include(user)
+
+        click_on accessible_name: "Watch work package"
+        expect(page).to have_button(accessible_name: "Unwatch work package")
       end
 
-      expect(page).to have_css(".work-packages--details-toolbar button[title='Unwatch work package']")
-
       expect(work_package.reload.watcher_users).to include(user)
-      expect(page).to have_css(".work-packages--details-toolbar button[title='Unwatch work package']")
+      expect(page).to be_axe_clean.within(".work-packages--details-toolbar")
     end
   end
 end

@@ -40,7 +40,8 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
   subject(:service_call) { instance.call(**call_params) }
 
   let(:instance) { described_class.new(context:) }
-  let(:context) { Workflows::MatrixContext.new(workflow:, role_ids:, tab:) }
+  let(:context) { Workflows::MatrixContext.new(workflow:, role_ids:, tab:, readonly:) }
+  let(:readonly) { false }
   let(:roles) { [role] }
   let(:role_ids) { roles.map(&:id) }
   let(:tab) { "always" }
@@ -146,6 +147,20 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
         expect(service_call).to be_failure
         expect(transitions_for(role)).to contain_exactly([status_b.id, status_c.id])
       end
+    end
+  end
+
+  describe "with a read-only matrix" do
+    let(:readonly) { true }
+
+    before do
+      create(:status_transition, role_id: role.id, workflow_id: workflow.id,
+                                 old_status_id: status_b.id, new_status_id: status_c.id)
+    end
+
+    it "fails and keeps the saved transitions" do
+      expect(service_call).to be_failure
+      expect(transitions_for(role)).to contain_exactly([status_b.id, status_c.id])
     end
   end
 

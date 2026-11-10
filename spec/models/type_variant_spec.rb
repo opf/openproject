@@ -319,4 +319,21 @@ RSpec.describe TypeVariant do
       expect(create(:project_owned_type_variant, type:, project:)).not_to be_configurable_by(user)
     end
   end
+
+  describe "description length" do
+    it "accepts a description up to the maximum length" do
+      variant = build(:type_variant, type: bug, variant_name: "Hardware",
+                                     description: "a" * Type::DESCRIPTION_MAX_LENGTH)
+
+      expect(variant).to be_valid
+    end
+
+    it "rejects a description longer than the maximum length" do
+      variant = build(:type_variant, type: bug, variant_name: "Hardware",
+                                     description: "a" * (Type::DESCRIPTION_MAX_LENGTH + 1))
+
+      expect(variant).not_to be_valid
+      expect(variant.errors[:description]).to be_present
+    end
+  end
 end

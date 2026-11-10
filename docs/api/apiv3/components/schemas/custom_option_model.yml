@@ -13,19 +13,19 @@ properties:
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This custom option.
+          - $ref: "./link.yml"
+          - description: |-
+              This custom option.
 
-            **Resource**: CustomOption
-          readOnly: true
-example:
-  _links:
-    self:
-      href: "/api/v3/custom_options/1"
-  _type: CustomOption
-  value: Foo
+              **Resource**: CustomOption
+            readOnly: true
+examples:
+  - _links:
+      self:
+        href: "/api/v3/custom_options/1"
+    _type: CustomOption
+    value: Foo

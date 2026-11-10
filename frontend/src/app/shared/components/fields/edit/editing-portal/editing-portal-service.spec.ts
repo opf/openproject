@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { CommonModule } from '@angular/common';
 import { ApplicationRef, ComponentRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
@@ -45,6 +46,42 @@ async function flush() {
   for (let turn = 0; turn < 20; turn += 1) await Promise.resolve();
 }
 
+describe('EditingPortalService error state', () => {
+  let harness:TableHarness;
+  let form:TableEditForm;
+
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      declarations: [EditFormPortalComponent],
+      providers: [{ provide: EditFieldService, useValue: { getSpecificClassFor: () => undefined } }],
+    });
+    TestBed.overrideComponent(EditFormPortalComponent, { set: { template: '<input class="inline-edit--field">' } });
+    harness = buildTable({ workPackages: [{ id: '1' }], editing: {}, providers: [EditingPortalService] });
+    await harness.render();
+    const wp = harness.injector.get(States).workPackages.get('1').value!;
+    harness.table.editing.startEditing(wp, harness.row('1').dataset.classIdentifier!);
+    form = harness.table.editing.forms['1'];
+    wp.injector = harness.injector;
+    const change = new ResourceChangeset(wp);
+    vi.spyOn(change, 'getForm').mockResolvedValue(undefined as never);
+    vi.spyOn(harness.injector.get(HalResourceEditingService), 'changeFor').mockReturnValue(change);
+  });
+
+  afterEach(async () => {
+    await harness.destroy();
+    vi.restoreAllMocks();
+  });
+
+  it('marks the input of a field activated with errors as invalid once it renders', async () => {
+    form.errorsPerAttribute = { subject: ['Required'] };
+
+    await form.activate('subject');
+
+    const input = harness.row('1').querySelector('input.inline-edit--field');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+  });
+});
+
 describe('EditingPortalService table ownership', () => {
   let harness:TableHarness;
   let form:TableEditForm;
@@ -52,10 +89,10 @@ describe('EditingPortalService table ownership', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
+      imports: [CommonModule],
       declarations: [EditFormPortalComponent],
       providers: [{ provide: EditFieldService, useValue: { getSpecificClassFor: () => undefined } }],
     });
-    TestBed.overrideComponent(EditFormPortalComponent, { set: { template: '' } });
     harness = buildTable({ workPackages: [{ id: '1' }], editing: {}, providers: [EditingPortalService] });
     await harness.render();
     const wp = harness.injector.get(States).workPackages.get('1').value!;
@@ -116,11 +153,27 @@ describe('EditingPortalService table ownership', () => {
     expect(cleanupReport.mock.calls).toEqual(throwing ? [['UI cleanup failed', blurError]] : []);
   });
 
-  it('still blurs live modal focus outside the field element', async () => {
+  it('renders handler errors through the real edit portal', async () => {
     const handler = await form.activate('subject') as HalResourceEditFieldHandler;
+    handler.setErrors(['Required']);
+    expect(harness.row('1').querySelector('edit-form-portal .inline-edit--active-field')).toHaveClass('-error');
+    handler.setErrors([]);
+    expect(harness.row('1').querySelector('edit-form-portal .inline-edit--active-field')).not.toHaveClass('-error');
+  });
+
+  it('still blurs registered live modal focus outside the field element', async () => {
+    const handler = await form.activate('subject') as HalResourceEditFieldHandler;
+    handler.registerOverlay(external);
     external.focus();
     handler.deactivate(false);
     expect(external).not.toHaveFocus();
+  });
+
+  it('preserves unregistered foreign focus when an editor closes', async () => {
+    const handler = await form.activate('subject') as HalResourceEditFieldHandler;
+    external.focus();
+    handler.deactivate(false);
+    expect(external).toHaveFocus();
   });
 
   it('keeps replacement focus when a retired handler submit finishes', async () => {
@@ -182,10 +235,10 @@ describe('EditingPortalService table ownership', () => {
     expect(form.activeFields).toEqual({});
   });
 
-  it('preserves non-table handler blur after its form closes', () => {
+  it('preserves foreign focus after a non-table handler form closes', () => {
     const handler = new HalResourceEditFieldHandler(harness.injector, form, 'subject', form.change.schema.ofProperty('subject'), form.findContainer('subject')!, harness.injector.get(PathHelperService), []);
     external.focus();
     handler.deactivate(false);
-    expect(external).not.toHaveFocus();
+    expect(external).toHaveFocus();
   });
 });

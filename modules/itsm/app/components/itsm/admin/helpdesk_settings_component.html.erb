@@ -30,9 +30,26 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   component_wrapper do
     if helpdesk_enabled?
-      render(Primer::Beta::BorderBox.new) do |box|
-        box.with_header { "Helpdesk form goes here ..." }
-        box.with_row { "Content goes here ..." }
+      render(border_box_container) do |box|
+        last_section = nil
+        wizard.steps.each do |step_name|
+          if wizard.section_name(step_name) != last_section
+            section_name = wizard.section_name(step_name)
+            box.with_row(scheme: :neutral, color: :muted) do
+              render(Primer::Beta::Text.new(font_weight: :semibold)) { t("itsm.admin.#{section_name}") }
+            end
+            last_section = section_name
+          end
+
+          box.with_row(scheme: :default) do
+            case step_name
+            when :imap_server_configuration
+              render(ITSM::Admin::ImapServerConfigurationComponent.new)
+            when :smtp_server_configuration
+              render(ITSM::Admin::SmtpServerConfigurationComponent.new)
+            end
+          end
+        end
       end
     end
   end

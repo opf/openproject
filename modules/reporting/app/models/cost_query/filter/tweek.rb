@@ -27,6 +27,7 @@
 
 class CostQuery::Filter::Tweek < Report::Filter::Base
   use :integer_operators
+  not_selectable!
 
   def self.label
     I18n.t(:label_week_reporting)

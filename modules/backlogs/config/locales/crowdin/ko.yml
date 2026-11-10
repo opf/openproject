@@ -140,8 +140,8 @@ ko:
         blankslate_title: 사용 가능한 번다운 데이터 없음
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -190,9 +190,6 @@ ko:
     rebuild_positions: 위치 다시 빌드
     remaining_hours: 남은 작업
     sharing: 스프린트 공유
-    show_burndown_chart: 번다운 차트
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: 스프린트 내의 작업 패키지
     sprint_component:
       action_menu:
         add_existing_work_package: 기존 작업 패키지 추가
@@ -222,6 +219,27 @@ ko:
         breadcrumb: 보고서
         title: "%{sprint} 보고서"
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
         velocity_chart:
           average:
             other: 'Average of previous %{count} sprints:'
@@ -243,9 +261,9 @@ ko:
             heading: 사용 가능한 스프린트 데이터 없음
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: 범위 변경
-              story_points_change: "+%{added} / -%{removed} 스토리 포인트"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: 완료
             initially_planned:
@@ -255,9 +273,17 @@ ko:
           breakdown_block:
             blocks:
               show_all: 모두 보기 
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: 마감된 작업 패키지
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            other: "%{percentage}%(%{resolved}/%{total} 작업 패키지)"
+            story_points:
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:

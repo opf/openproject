@@ -15,16 +15,16 @@ post:
         JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
         endpoint. Currently supported filters are:
-        
+
         + id: Filter by primary key
-        
+
         + project: Filter by the project the notification was created in
-        
+
         + reason: Filter by the reason, e.g. 'mentioned' or 'assigned' the notification was created because of
-        
+
         + resourceId: Filter by the id of the resource the notification was created for. Ideally used together with the
           `resourceType` filter.
-        
+
         + resourceType: Filter by the type of the resource the notification was created for. Ideally used together with
           the `resourceId` filter.
       example: '[{ "reason": { "operator": "=", "values": ["mentioned"] } }]'
@@ -43,7 +43,7 @@ post:
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
-            message: 
+            message:
               - Filters Invalid filter does not exist.
     '406':
       $ref: "../components/responses/missing_content_type.yml"

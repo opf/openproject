@@ -749,7 +749,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      describe "labels", with_flag: :work_package_labels do
+      describe "labels" do
         let(:label) { create(:label) }
         let(:label_links) { [{ href: api_v3_paths.label(label.id) }] }
         let(:params) { valid_params.merge(_links: { labels: label_links }) }
@@ -885,18 +885,6 @@ RSpec.describe "API v3 Work package resource",
 
           it "does not create the label" do
             expect(Label.where(name: "Needs triage")).not_to exist
-          end
-        end
-
-        context "with the feature flag off", with_flag: { work_package_labels: false } do
-          let(:label_links) { [{ href: nil, title: "Needs triage" }] }
-
-          include_context "patch request"
-
-          it { expect(response).to have_http_status(:ok) }
-
-          it "creates no label" do
-            expect(Label.count).to eq(0)
           end
         end
 
