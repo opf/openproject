@@ -34,4 +34,4 @@ openproject-blocknote-extensions-*.tgz
 test/lib/components/integration/__screenshots__/*
 
 # test attachments
-.vitest-attachments
+.vitest
