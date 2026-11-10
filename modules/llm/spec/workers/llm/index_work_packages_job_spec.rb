@@ -66,6 +66,16 @@ RSpec.describe Llm::IndexWorkPackagesJob,
         .to contain_exactly([semantic_index.id, match_array(work_packages.map(&:id))])
     end
 
+    it "splits the work packages by the semantic index's embedding batch size" do
+      semantic_index.update!(batch_size: 1)
+
+      job.perform(semantic_index.id)
+
+      expect(embed_jobs.map { it.serialized_params["arguments"] })
+        .to contain_exactly([semantic_index.id, [work_packages.first.id]],
+                            [semantic_index.id, [work_packages.second.id]])
+    end
+
     it "fails the Semantic Index and enqueues nothing without a connection" do
       connection.destroy!
 
