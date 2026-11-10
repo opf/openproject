@@ -56,14 +56,14 @@ export interface StateEntry {
 
 export type PushStateMap = Record<string, StateEntry>;
 
-export type PlanItem =
+export type NotificationAction =
   | { kind:'alert'|'refresh'; group:GroupWithFingerprint }
   | { kind:'more'; more:MoreWithFingerprint }
   | { kind:'fallback' }
   | { kind:'nothingNew' };
 
-export interface PlanResult {
-  show:PlanItem[];
+export interface NotificationDecision {
+  show:NotificationAction[];
   state:PushStateMap;
 }
 
@@ -89,7 +89,7 @@ export interface PlanResult {
  * a push that calls showNotification and drops every subscription of the site after three pushes
  * that did not.
  */
-export class NotificationPlan {
+export class NotificationRules {
   static activityAt(group:SummaryGroup):number {
     return Number(group.revision.split(':')[1]) || 0;
   }
@@ -127,21 +127,21 @@ export class NotificationPlan {
     state:PushStateMap;
   }):PushStateMap {
     const remaining = Object.fromEntries(Object.entries(state).filter(([tag]) => !closeTags.includes(tag)));
-    return more ? { ...remaining, ...NotificationPlan.evictedState(closeTags, state) } : remaining;
+    return more ? { ...remaining, ...NotificationRules.evictedState(closeTags, state) } : remaining;
   }
 
-  static for({ groups, more, openTags, state }:{
+  static decide({ groups, more, openTags, state }:{
     groups:GroupWithFingerprint[];
     more?:MoreWithFingerprint;
     openTags:string[];
     state:PushStateMap;
-  }):PlanResult {
-    const closeTags = NotificationPlan.staleTags({ groups, more, openTags });
+  }):NotificationDecision {
+    const closeTags = NotificationRules.staleTags({ groups, more, openTags });
     const nextState:PushStateMap = {};
-    const show:PlanItem[] = [];
+    const show:NotificationAction[] = [];
 
     if (more) {
-      Object.assign(nextState, NotificationPlan.evictedState(closeTags, state));
+      Object.assign(nextState, NotificationRules.evictedState(closeTags, state));
       nextState[Tags.more] = { fingerprint: more.fingerprint };
       if (state[Tags.more]?.fingerprint !== more.fingerprint || !openTags.includes(Tags.more)) {
         show.push({ kind: 'more', more });
@@ -151,12 +151,12 @@ export class NotificationPlan {
     // Shown oldest first, so the newest ends on top.
     for (const group of [...groups].reverse()) {
       const previous:StateEntry|undefined = state[group.tag];
-      const at = NotificationPlan.activityAt(group);
+      const at = NotificationRules.activityAt(group);
       nextState[group.tag] = { fingerprint: group.fingerprint, at: Math.max(at, previous?.at ?? 0) };
 
-      if (NotificationPlan.isNewActivity(previous, at)) {
+      if (NotificationRules.isNewActivity(previous, at)) {
         show.push({ kind: 'alert', group });
-      } else if (NotificationPlan.needsRefresh({ group, previous, openTags })) {
+      } else if (NotificationRules.needsRefresh({ group, previous, openTags })) {
         show.push({ kind: 'refresh', group });
       }
     }

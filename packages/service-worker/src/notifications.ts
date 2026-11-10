@@ -27,7 +27,7 @@
 
 import { Config } from './config';
 import { Tags } from './constants';
-import type { GroupWithFingerprint, MoreWithFingerprint, PlanItem } from './notification-plan';
+import type { GroupWithFingerprint, MoreWithFingerprint, NotificationAction } from './notification-rules';
 import { sw } from './sw-global';
 
 /** Lists, closes and shows the worker's notifications; every tag carries the worker's prefix. */
@@ -49,7 +49,7 @@ export class Notifications {
     open.forEach((notification) => notification.close());
   }
 
-  static show(item:PlanItem):Promise<void> {
+  static show(item:NotificationAction):Promise<void> {
     switch (item.kind) {
       case 'alert':
         return Notifications.showGroup(item.group, { renotify: true });

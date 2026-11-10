@@ -29,7 +29,7 @@ import { Badge } from './badge';
 import { Config } from './config';
 import { SIGN_OUT_TIMEOUT_MS } from './constants';
 import { NotificationFingerprint } from './notification-fingerprint';
-import { NotificationPlan, type SummaryGroup, type SummaryMore } from './notification-plan';
+import { NotificationRules, type SummaryGroup, type SummaryMore } from './notification-rules';
 import { Notifications } from './notifications';
 import { PushState } from './push-state';
 import { sw } from './sw-global';
@@ -51,7 +51,7 @@ import { UnreadSummary } from './unread-summary';
  *                            ├─ empty ........ close and forget all, "all read", clear badge
  *                            └─ unread ....... set badge
  *                                              close notifications no longer listed
- *                                              fingerprint groups ► plan ► show each item
+ *                                              fingerprint groups ► decide ► show each item
  *                                              save state
  *
  * any error on the way ► fallback
@@ -210,7 +210,7 @@ export class PushHandler {
     const state = await PushState.read();
     const open = await Notifications.listOpen();
     const openTags = open.map((notification) => notification.tag);
-    const closeTags = NotificationPlan.staleTags({ groups, more, openTags });
+    const closeTags = NotificationRules.staleTags({ groups, more, openTags });
     Notifications.close(open, closeTags);
     return { state, openTags, closeTags };
   }
@@ -219,7 +219,7 @@ export class PushHandler {
     const { state, closeTags } = await this.closeStale(summary);
     if (closeTags.length === 0) return;
 
-    await PushState.write(NotificationPlan.stateAfterClose({ closeTags, more: summary.more, state }));
+    await PushState.write(NotificationRules.stateAfterClose({ closeTags, more: summary.more, state }));
   }
 
   async showUnreadGroups(summary:{ groups:SummaryGroup[]; more?:SummaryMore }):Promise<void> {
@@ -227,9 +227,9 @@ export class PushHandler {
     const { state, openTags } = await this.closeStale(summary);
     if (groups.length === 0) return Notifications.showFallback();
 
-    const plan = NotificationPlan.for({ ...(await NotificationFingerprint.addTo({ groups, more })), openTags, state });
-    for (const item of plan.show) await Notifications.show(item);
-    await PushState.write(plan.state);
+    const decision = NotificationRules.decide({ ...(await NotificationFingerprint.addTo({ groups, more })), openTags, state });
+    for (const item of decision.show) await Notifications.show(item);
+    await PushState.write(decision.state);
   }
 
   async closeAndForgetAll():Promise<void> {

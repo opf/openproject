@@ -27,7 +27,7 @@
 
 import { Config } from './config';
 import { FETCH_TIMEOUT_MS } from './constants';
-import type { SummaryGroup, SummaryMore } from './notification-plan';
+import type { SummaryGroup, SummaryMore } from './notification-rules';
 
 export type UnreadOutcome =
   | { outcome:'signedOut'|'pushOff'|'unavailable'|'empty' }

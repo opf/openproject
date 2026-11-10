@@ -26,7 +26,7 @@
 //++
 
 import { Config } from './config';
-import type { PushStateMap } from './notification-plan';
+import type { PushStateMap } from './notification-rules';
 
 /**
  * What the worker last showed, kept in the cache because the worker stops between pushes.

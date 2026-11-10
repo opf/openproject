@@ -25,10 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import type { GroupWithFingerprint, MoreWithFingerprint, SummaryGroup, SummaryMore } from './notification-plan';
+import type { GroupWithFingerprint, MoreWithFingerprint, SummaryGroup, SummaryMore } from './notification-rules';
 
 /**
- * Fingerprints what each notification shows, so the plan can tell whether an open notification
+ * Fingerprints what each notification shows, so the rules can tell whether an open notification
  * is out of date. The fingerprint covers the activity revision, title and body; a change refreshes
  * the notification silently, while only newer activity makes a sound.
  */

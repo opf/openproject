@@ -105,12 +105,12 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/notification-plan.ts'],
+    files: ['src/notification-rules.ts'],
     rules: {
       'no-restricted-imports': ['error', {
         patterns: [{
           regex: '^(?!\\./constants$)',
-          message: 'The notification plan must stay pure: import only ./constants.',
+          message: 'The notification rules must stay pure: import only ./constants.',
         }],
       }],
     },
