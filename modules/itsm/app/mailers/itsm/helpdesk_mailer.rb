@@ -29,7 +29,7 @@
 
 module ITSM
   class HelpdeskMailer < ActionMailer::Base # rubocop:disable Rails/ApplicationMailer -- ApplicationMailer only sends to users
-    class_attribute :mailbox_delivery_method, default: :smtp
+    class_attribute :mailbox_delivery_method, default: SmtpDelivery
 
     def confirmation(email_message, mailbox, address)
       @thread = email_message.thread
@@ -53,8 +53,15 @@ module ITSM
         subject: email_message.subject,
         message_id: email_message.message_id,
         in_reply_to: email_message.in_reply_to,
-        references: email_message.referenced_message_ids.presence
+        references: email_message.referenced_message_ids.presence,
+        reply_to: reply_address(email_message.from_address)
       }
+    end
+
+    def reply_address(from_address)
+      incoming = IncomingMailbox.where(project: @work_package.project, active: true).order(:id).pluck(:email, :aliases)
+
+      incoming.first&.first unless incoming.flatten.include?(from_address)
     end
   end
 end
