@@ -45,6 +45,7 @@ import {
     BlankslateHeadingComponent,
     BlankslateDescriptionComponent,
   ],
+  host: { class: 'd-block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NoResultsComponent {
