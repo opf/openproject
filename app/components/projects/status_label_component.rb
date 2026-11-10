@@ -36,7 +36,6 @@ class Projects::StatusLabelComponent < ApplicationComponent
 
     @project = project
     @with_icon = with_icon
-    @size = with_icon ? :large : :medium
     @status = find_status(project.status_code)
     @system_arguments = system_arguments
   end
@@ -46,7 +45,8 @@ class Projects::StatusLabelComponent < ApplicationComponent
 
     @system_arguments[:classes] = class_names(
       @system_arguments[:classes],
-      helpers.hl_background_muted_class(:project_status, @status.id)
+      helpers.hl_background_muted_class(:project_status, @status.id),
+      "op-project-status-label"
     )
   end
 

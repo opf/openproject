@@ -1,13 +1,13 @@
 <%=
-  render(Primer::Beta::Label.new(size: @size, **@system_arguments)) do
-    render(Primer::OpenProject::FlexLayout.new(align_items: :center)) do |flex|
+  render(Primer::Beta::Label.new(size: :medium, inline: true, **@system_arguments)) do
+    render(Primer::OpenProject::FlexLayout.new(align_items: :center, classes: "gap-1")) do |flex|
       if @with_icon
-        flex.with_column(mr: 1) do
+        flex.with_column do
           render(Primer::Beta::Octicon.new(icon: @status.icon))
         end
       end
       flex.with_column do
-        render(Primer::Beta::Text.new(font_size: 5, font_weight: :bold)) { name }
+        render(Primer::Beta::Text.new) { name }
       end
     end
   end
