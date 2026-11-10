@@ -9,9 +9,8 @@ import { UnavailableChip } from './UnavailableChip';
 import { PendingWorkPackagePopover } from '../WorkPackage/PendingWorkPackagePopover';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { WpPreviewPopover } from '../WorkPackage/PreviewPopover';
-import { getPendingCallbacks, clearInlineWpCallbacks } from './callbacks';
+import { pendingWorkPackages } from './pending';
 import type { InlineWpSize } from '../WorkPackage/types';
-import type { WorkPackage } from '../../openProjectTypes';
 import {
   findInlineChipAtDOM,
   selectInlineChipAt,
@@ -28,6 +27,7 @@ import { useTapActivation } from '../../utils/tapActivation';
 import { useOptionsHost } from '../../utils/optionsHost';
 import { isKeyboardClick, menuButtonProps } from '../../utils/a11y';
 import { describeLinkedWorkPackage, unavailableKindOf, workPackageLabel } from '../WorkPackage/description';
+import { usePressOutside } from '../../hooks/usePressOutside';
 import type { BlockNoteEditor } from '@blocknote/core';
 
 export interface InlineWorkPackageChipProps {
@@ -48,8 +48,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const displayId = inlineContent.props.displayId || rawWpid;
   const size = (inlineContent.props.size ?? 's') as InlineWpSize;
 
-  const pendingCallbacks = getPendingCallbacks(rawWpid);
-  const wpid = pendingCallbacks === undefined && rawWpid ? Number(rawWpid) : undefined;
+  const pending = pendingWorkPackages.get(rawWpid);
+  const wpid = pending === undefined && rawWpid ? Number(rawWpid) : undefined;
 
   useColors();
 
@@ -90,7 +90,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
 
   const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;
-    if (pendingCallbacks || node === null) setChipEl(node);
+    if (pending || node === null) setChipEl(node);
     optionsHostRef(node);
     contentRef(node);
   };
@@ -117,24 +117,10 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     toggleOptions(isKeyboardClick(event));
   });
 
-  // Close the options popover and the preview when the user taps outside the chip
-  const { isOpen: isOptionsOpen, close: closeOptions } = options;
-  useEffect(() => {
-    if (!isOptionsOpen && !previewOpen) return;
-    const onPressOutside = (e:Event) => {
-      if (chipRef.current && !chipRef.current.contains(e.target as Node)) {
-        closeOptions();
-        closePreview();
-      }
-    };
-    // Touch as well: a tap another element answers never becomes a mousedown.
-    document.addEventListener('mousedown', onPressOutside);
-    document.addEventListener('touchstart', onPressOutside);
-    return () => {
-      document.removeEventListener('mousedown', onPressOutside);
-      document.removeEventListener('touchstart', onPressOutside);
-    };
-  }, [isOptionsOpen, previewOpen, closeOptions, closePreview]);
+  usePressOutside(chipRef, options.isOpen || previewOpen, () => {
+    options.close();
+    closePreview();
+  });
 
   const optionsPopover = (
     <WpOptionsPopover
@@ -162,25 +148,16 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     />
   );
 
-  if (pendingCallbacks) {
-    const resolvePending = (resolvedWp:WorkPackage) => {
-      pendingCallbacks.onSelect(resolvedWp);
-      clearInlineWpCallbacks(rawWpid);
-    };
-    const cancelPending = () => {
-      pendingCallbacks.onCancel();
-      clearInlineWpCallbacks(rawWpid);
-    };
-
+  if (pending) {
     return (
       <InlineChip ref={setRef}>
         {chipEl && (
           <PendingWorkPackagePopover
-            mode={pendingCallbacks.mode}
-            initialSubject={pendingCallbacks.initialSubject}
+            mode={pending.mode}
+            initialSubject={pending.initialSubject}
             anchorEl={chipEl}
-            onResolve={resolvePending}
-            onCancel={cancelPending}
+            onResolve={pending.onResolve}
+            onCancel={pending.onCancel}
           />
         )}
       </InlineChip>
