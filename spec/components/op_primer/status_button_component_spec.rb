@@ -93,6 +93,7 @@ RSpec.describe OpPrimer::StatusButtonComponent, type: :component do
 
   context "when readonly" do
     let(:readonly) { true }
+    let(:items) { [OpPrimer::StatusButtonOption.new(name: "Done", icon: "check", color: nil)] }
 
     it "does not render the dropdown or icon" do
       render_inline(component)
