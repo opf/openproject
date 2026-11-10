@@ -36,6 +36,7 @@ class CustomOption < ApplicationRecord
 
   validates :value, presence: true, length: { maximum: 255 }
   validates :default_value, absence: true, if: :project_id?
+  validate :validate_value_unique_between_global_and_project
 
   before_destroy :assure_at_least_one_option
 
@@ -53,5 +54,18 @@ class CustomOption < ApplicationRecord
     errors.add(:base, I18n.t(:"activerecord.errors.models.custom_field.at_least_one_custom_option"))
 
     throw :abort
+  end
+
+  private
+
+  def validate_value_unique_between_global_and_project
+    options_with_same_value = CustomOption.where(custom_field_id:, value:).where.not(id:)
+    conflicting_options = if project_id
+                            options_with_same_value.where(project_id: nil)
+                          else
+                            options_with_same_value.where.not(project_id: nil)
+                          end
+
+    errors.add(:value, :taken) if conflicting_options.exists?
   end
 end

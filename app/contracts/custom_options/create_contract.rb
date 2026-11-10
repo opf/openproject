@@ -34,9 +34,7 @@ module CustomOptions
     attribute :custom_field_id do
       errors.add(:custom_field, :blank) if model.custom_field.nil?
     end
-    attribute :value do
-      validate_value_unique_between_global_and_project
-    end
+    attribute :value
     attribute :position
     attribute :default_value
     attribute :project_id do
@@ -45,27 +43,11 @@ module CustomOptions
 
     private
 
-    def validate_value_unique_between_global_and_project
-      return if model.custom_field.nil?
-
-      errors.add(:value, :taken) if conflicting_options.exists?(value: model.value)
-    end
-
     def validate_additional_project_values_allowed
       return if model.project_id.nil? || model.custom_field.nil?
 
       unless model.custom_field.allow_additional_project_values
         errors.add(:project_id, :additional_values_not_allowed)
-      end
-    end
-
-    def conflicting_options
-      options = model.custom_field.custom_options.where.not(id: model.id)
-
-      if model.project_id
-        options.where(project_id: nil)
-      else
-        options.where.not(project_id: nil)
       end
     end
   end

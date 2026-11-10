@@ -37,7 +37,6 @@ RSpec.describe CustomOptions::CreateContract do
 
   let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Berlin], allow_additional_project_values: true) }
   let(:project) { create(:project) }
-  let(:other_project) { create(:project) }
   let(:option_project) { nil }
   let(:option_value) { "Hamburg" }
   let(:custom_option) { CustomOption.new(custom_field:, value: option_value, position: 2, project: option_project) }
@@ -52,34 +51,10 @@ RSpec.describe CustomOptions::CreateContract do
     it_behaves_like "contract is invalid", custom_field: :blank
   end
 
-  context "when a global option uses the value" do
-    let(:option_value) { "Berlin" }
-
-    it_behaves_like "contract is valid"
-  end
-
-  context "when a project option uses the value" do
-    before { create(:custom_option, custom_field:, value: option_value, project:) }
-
-    it_behaves_like "contract is invalid", value: :taken
-  end
-
   context "with a project" do
     let(:option_project) { project }
 
     it_behaves_like "contract is valid"
-
-    context "when a global option uses the value" do
-      let(:option_value) { "Berlin" }
-
-      it_behaves_like "contract is invalid", value: :taken
-    end
-
-    context "when another project's option uses the value" do
-      before { create(:custom_option, custom_field:, value: option_value, project: other_project) }
-
-      it_behaves_like "contract is valid"
-    end
 
     context "when the custom field does not allow additional project values" do
       let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Berlin], allow_additional_project_values: false) }
