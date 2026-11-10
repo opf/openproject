@@ -59,7 +59,7 @@ module OpenProject
       @formatter = formatter
     end
 
-    def multi_value_possible?(class_name = nil)
+    def multi_value_possible?(class_name)
       case @multi_value_possible
       when Array then @multi_value_possible.include?(class_name)
       else @multi_value_possible
