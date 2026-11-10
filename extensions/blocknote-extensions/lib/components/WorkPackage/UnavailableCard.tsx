@@ -9,6 +9,7 @@ import {
 } from './atoms';
 import { CHIP_STYLES } from './tokens';
 import { formatWorkPackageId } from '../../utils/id';
+import type { MenuButtonProps } from '../../utils/a11y';
 
 interface UnavailableCardProps {
   headerKey:string;
@@ -16,6 +17,7 @@ interface UnavailableCardProps {
   icon?:ReactNode;
   displayId?:string;
   linkHeader?:boolean;
+  menuButton?:MenuButtonProps;
 }
 
 const UnavailableWorkPackage = styled.div.attrs({
@@ -42,7 +44,7 @@ const UnavailableMessageHeader = styled.div.attrs({
   gap: ${CHIP_STYLES.gap};
 `;
 
-export const UnavailableCard = ({ headerKey, messageKey, icon, displayId, linkHeader }:UnavailableCardProps) => {
+export const UnavailableCard = ({ headerKey, messageKey, icon, displayId, linkHeader, menuButton }:UnavailableCardProps) => {
   const { t } = useTranslation();
 
   const header = t(headerKey);
@@ -52,7 +54,7 @@ export const UnavailableCard = ({ headerKey, messageKey, icon, displayId, linkHe
       <UnavailableMessage>
         <UnavailableMessageHeader>
           {icon}
-          {displayId && <WorkPackageId as="span" $compact>{formatWorkPackageId(displayId)}</WorkPackageId>}
+          {displayId && <WorkPackageId as="span" $compact {...menuButton}>{formatWorkPackageId(displayId)}</WorkPackageId>}
           <span>
             {linkHeader && displayId
               ? <WorkPackageTitleLink {...workPackageLinkProps(displayId)}>{header}</WorkPackageTitleLink>

@@ -263,7 +263,45 @@
       "displayName": "Pavel Balashou",
       "emailAddress": "p.balashou@openproject.com"
     },
-    "subtasks": [],
+    "subtasks": [
+      {
+        "id": "11400",
+        "key": "DPPP-7",
+        "self": "https://jira-dc.openproject.org/rest/api/2/issue/11400",
+        "fields": {
+          "summary": "Bug sub task",
+          "status": {
+            "self": "https://jira-dc.openproject.org/rest/api/2/status/10003",
+            "description": "",
+            "iconUrl": "https://jira-dc.openproject.org/",
+            "name": "TO DO",
+            "id": "10003",
+            "statusCategory": {
+              "self": "https://jira-dc.openproject.org/rest/api/2/statuscategory/2",
+              "id": 2,
+              "key": "new",
+              "colorName": "default",
+              "name": "To Do"
+            }
+          },
+          "priority": {
+            "self": "https://jira-dc.openproject.org/rest/api/2/priority/3",
+            "iconUrl": "https://jira-dc.openproject.org/images/icons/priorities/medium.svg",
+            "name": "Medium",
+            "id": "3"
+          },
+          "issuetype": {
+            "self": "https://jira-dc.openproject.org/rest/api/2/issuetype/10003",
+            "id": "10003",
+            "description": "The sub-task of the issue",
+            "iconUrl": "https://jira-dc.openproject.org/secure/viewavatar?size=xsmall&avatarId=10316&avatarType=issuetype",
+            "name": "Sub-task",
+            "subtask": true,
+            "avatarId": 10316
+          }
+        }
+      }
+    ],
     "versions": [],
     "issuetype": {
       "id": "10004",

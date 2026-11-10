@@ -164,6 +164,28 @@ RSpec.describe "Workflows index", :skip_csrf, type: :rails_request do
       expect(page).to have_no_text("Spare flow")
     end
 
+    it "finds a workflow a status transitions from" do
+      origin = create(:status)
+      create(:status_transition, workflow: shared_workflow, old_status: origin)
+      create(:named_workflow, name: "Spare flow")
+
+      get workflows_path(filters: %(status_id = "#{origin.id}"))
+
+      expect(page).to have_text("Standard flow")
+      expect(page).to have_no_text("Spare flow")
+    end
+
+    it "finds a workflow a status transitions to" do
+      destination = create(:status)
+      create(:status_transition, workflow: shared_workflow, new_status: destination)
+      create(:named_workflow, name: "Spare flow")
+
+      get workflows_path(filters: %(status_id = "#{destination.id}"))
+
+      expect(page).to have_text("Standard flow")
+      expect(page).to have_no_text("Spare flow")
+    end
+
     it "renders the blank slate when nothing matches" do
       get workflows_path(filters: %(name ~ "nothing here"))
 

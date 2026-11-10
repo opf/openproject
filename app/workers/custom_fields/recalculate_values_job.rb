@@ -31,6 +31,8 @@ module CustomFields
   class RecalculateValuesJob < ApplicationJob
     include JobConcurrency
 
+    RELEVANT_FIELD_FORMATS = %w[calculated_value weighted_item_list].freeze
+
     queue_with_priority :default
 
     good_job_control_concurrency_with(
@@ -40,7 +42,7 @@ module CustomFields
 
     def perform(user:, custom_field_id:)
       custom_field = CustomField.find_by(id: custom_field_id)
-      return unless custom_field&.field_format_calculated_value?
+      return unless custom_field&.field_format.in?(RELEVANT_FIELD_FORMATS)
 
       User.execute_as(user) { recalculate_values(custom_field) }
     end

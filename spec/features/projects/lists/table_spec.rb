@@ -64,8 +64,8 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
         ProjectRole.anonymous
         visit projects_path
 
-        expect(page).to have_no_text(project.name)
         expect(page).to have_text(public_project.name)
+        expect(page).to have_no_text(project.name)
 
         # Test that the 'More' menu stays invisible on hover
         expect(page).to have_no_css(".icon-show-more-horizontal")

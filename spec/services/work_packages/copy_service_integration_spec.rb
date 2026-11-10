@@ -403,7 +403,12 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
       end
 
       context "when specifying to copy attachments (default)" do
-        it "copies the attachment" do
+        before do
+          create(:attachment, :pending_import, container: work_package)
+          create(:attachment, :failed_import, container: work_package)
+        end
+
+        it "copies all attachments except incomplete imports" do
           expect(copy.attachments.length)
             .to eq 1
 

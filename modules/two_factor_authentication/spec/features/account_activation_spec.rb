@@ -106,7 +106,7 @@ RSpec.describe "activating an invited account",
       click_button I18n.t(:button_login), type: "submit"
 
       expect(page).to have_current_path signin_path
-      expect(page).to have_content(I18n.t(:notice_account_otp_invalid))
+      expect(page).to have_text(I18n.t(:notice_account_otp_invalid))
     end
   end
 

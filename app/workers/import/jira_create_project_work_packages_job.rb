@@ -98,9 +98,16 @@ module Import
               new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
               update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
               priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
+
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
 
-              create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry)
+              attachment_ids, attachment_paths_by_name = prepare_attachments(jira_issue, @project)
+              create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry,
+                                  attachment_ids:, attachment_paths_by_name:)
+              # Jira attachments cannot be replaced, so both timestamps take the date the file was attached
+              # in Jira rather than the date the import created the attachment. This has to follow the
+              # work package's creation, which touched their updated_at when claiming them.
+              match_attachment_updated_at_to_created_at(attachment_ids)
               @jira_import.set_job_cursor(self, jira_issue.id)
             end
           end
@@ -263,6 +270,34 @@ module Import
       { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
     end
 
+    def label_attrs(jira_issue)
+      issue_labels = jira_label_names(jira_issue).index_with { find_label(it) }
+      log_missing_labels(issue_labels)
+
+      label_ids = issue_labels.values.compact.map(&:id)
+      label_ids.any? ? { label_ids: } : {}
+    end
+
+    def jira_label_names(jira_issue)
+      labels = jira_issue.payload.dig("fields", "labels")
+      return [] unless labels.is_a?(Array)
+
+      labels.filter_map { it.to_s.squish.presence }
+    end
+
+    def log_missing_labels(issue_labels)
+      missing = issue_labels.filter_map { |name, label| name if label.nil? }
+      return if missing.empty?
+
+      Rails.logger.warn("Skipping jira labels without an OpenProject label: #{missing.join(', ')}")
+    end
+
+    def find_label(name) = labels_by_name[name.downcase]
+
+    def labels_by_name
+      @labels_by_name ||= Hash.new { |cache, name| cache[name] = Label.named(name).first }
+    end
+
     def update_workflows(type)
       Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
         statuses = Status.all
@@ -279,19 +314,21 @@ module Import
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
-    def create_work_package(jira_issue, project, type, status, priority, custom_field_registry)
+    def create_work_package(jira_issue, project, type, status, priority, custom_field_registry,
+                            attachment_ids:, attachment_paths_by_name:)
       Rails.logger.debug "Creating work package"
 
       # required because otherwise project.types does not include type and then wp creation fails.
       project.reload
 
+      due_date = jira_issue.payload.dig("fields", "duedate")&.to_date
       author_key = jira_issue.payload.dig("fields", "creator", "key")
       author = find_user(author_key)
       assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
       assigned_to = find_user(assignee_key)
       [author, assigned_to].uniq.compact.each { |member| create_member(project, member) }
 
-      custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue)
+      custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue, attachment_paths_by_name:)
                              .merge(resolution_date_cf_attrs(jira_issue))
 
       original_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "originalEstimateSeconds")
@@ -323,17 +360,22 @@ module Import
           .call(
             project:,
             subject: jira_issue.payload["fields"]["summary"],
-            description: Import::JiraWikiMarkupConverter.new(jira_issue.payload["fields"]["description"] || "").convert,
+            description: Import::JiraWikiMarkupConverter.new(jira_issue.payload["fields"]["description"] || "",
+                                                             attachment_paths_by_name:).convert,
+            attachment_ids:,
             type:,
             priority:,
             status:,
             assigned_to:,
             target_versions:,
             observed_in_versions:,
-            due_date: jira_issue.payload.dig("fields", "duedate"),
+            due_date:,
+            # Otherwise SetAttributesService moves the due date to the next working day.
+            ignore_non_working_days: due_on_non_working_day?(due_date),
             estimated_hours: (original_estimate_seconds / 3600.0 if original_estimate_seconds),
             remaining_hours: (remaining_estimate_seconds / 3600.0 if remaining_estimate_seconds),
             skip_semantic_id_allocation: true,
+            **label_attrs(jira_issue),
             **custom_field_attrs
           )
       unless service_call.success?
@@ -364,15 +406,90 @@ module Import
                                                unique_by: :identifier)
 
       create_reference!(op_leg: work_package, jira_leg: jira_issue, jira_import: @jira_import, uses_existing: false)
-      create_work_package_history(work_package, jira_issue, project)
+      create_work_package_history(work_package, jira_issue, project, attachment_paths_by_name)
+      create_watchers(work_package, jira_issue, project)
       work_package
     end
 
+    def due_on_non_working_day?(due_date)
+      due_date.present? && working_days.non_working?(due_date)
+    end
+
+    def working_days
+      @working_days ||= WorkPackages::Shared::WorkingDays.new
+    end
+
+    def prepare_attachments(jira_issue, project)
+      # When there are several attachments with the same name, Jira uses the most recent one. Sorting here
+      # guarantees it comes last and overwrites the older ones in attachment_paths_by_name.
+      payloads = (jira_issue.payload.dig("fields", "attachment") || [])
+                   .sort_by { |payload| attached_at(payload) || Time.zone.at(0) }
+      attachment_ids = payloads.map { |payload| prepare_attachment(jira_issue, project, payload) }
+      attachment_paths_by_name = payloads.zip(attachment_ids).to_h do |payload, id|
+        [payload["filename"], attachment_content_path(id)]
+      end
+
+      [attachment_ids, attachment_paths_by_name]
+    end
+
+    def attachment_content_path(id)
+      ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(id)
+    end
+
+    def prepare_attachment(jira_issue, project, payload)
+      Rails.logger.tagged("jira_object_type:attachment", "jira_object_id_or_name:#{payload['filename']}") do
+        author = find_user(payload.dig("author", "key"))
+        create_member(project, author) if author.present? && !author.is_a?(DeletedUser)
+        attachment = create_prepared_attachment(payload, author || @system_user)
+
+        jira_attachment =
+          Import::JiraAttachment.create!(
+            jira_import: @jira_import,
+            jira_project_id: jira_issue.jira_project_id,
+            jira_issue:,
+            origin_id: payload["id"],
+            payload:
+          )
+
+        create_reference!(op_leg: attachment, jira_leg: jira_attachment, jira_import: @jira_import, uses_existing: false)
+
+        attachment.id
+      end
+    end
+
+    def create_prepared_attachment(payload, author)
+      service_call =
+        Attachments::PrepareImportService
+          .new(user: author, contract_class: EmptyContract)
+          .call(
+            filename: payload["filename"],
+            filesize: payload["size"],
+            content_type: payload["mimeType"],
+            created_at: attached_at(payload)
+          )
+
+      unless service_call.success?
+        Rails.logger.error service_call.message
+        raise service_call.message
+      end
+
+      service_call.result
+    end
+
+    def attached_at(payload)
+      Time.zone.parse(payload["created"].to_s)
+    end
+
+    def match_attachment_updated_at_to_created_at(attachment_ids)
+      Attachment.where(id: attachment_ids).update_all("updated_at = created_at")
+    end
+
     # rubocop:disable-next Metrics/AbcSize
-    def create_work_package_history(work_package, jira_issue, project)
-      journal_service = Import::JiraImportJournals.new(work_package:)
+    def create_work_package_history(work_package, jira_issue, project, attachment_paths_by_name)
+      journal_service = Import::JiraImportJournals.new(work_package:, attachment_paths_by_name:)
 
       jira_created_at = jira_issue.payload.dig("fields", "created")
+      jira_updated_at = jira_issue.payload.dig("fields", "updated")
       journal_service.set_creation_time(date_time: jira_created_at)
 
       history = jira_issue.payload.dig("changelog", "histories")
@@ -391,30 +508,24 @@ module Import
         end
       end
 
-      journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
+      journal_service.call
+      journal_service.add_migration_entry(updated_at: jira_updated_at)
     end
 
-    def find_user(jira_user_key)
-      return if jira_user_key.blank?
+    def create_watchers(work_package, jira_issue, project)
+      watchers = jira_issue.payload.fetch("watchers", [])
+      return unless watchers.any?
 
-      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
-        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-        if jira_user
-          ref = JiraOpenProjectReference.find_by(
-            jira_entity_class: "Import::JiraUser",
-            jira_entity_id: jira_user.id
-          )
-          if ref.present?
-            ref.op_leg
-          else
-            log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
-            Rails.logger.error log_message
-            raise log_message
-          end
-        else
-          Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
-          DeletedUser.first
-        end
+      users = watchers.filter_map { find_imported_user(it["key"]) }
+      return unless users.any?
+
+      users.each { create_member(project, it) }
+      Watcher.insert_all(watchers_insert_data(users, work_package), unique_by: :index_watchers_on_user_id_and_watchable)
+    end
+
+    def watchers_insert_data(users, work_package)
+      users.map do |user|
+        { user_id: user.id, watchable_type: work_package.class.name, watchable_id: work_package.id }
       end
     end
   end

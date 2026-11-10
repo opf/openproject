@@ -154,6 +154,8 @@ RSpec.describe BackupJob, type: :model do
 
       let!(:attachment) { create(:attachment) }
       let!(:pending_direct_upload) { create(:pending_direct_upload) }
+      let!(:pending_import) { create(:attachment, :pending_import) }
+      let!(:failed_import) { create(:attachment, :failed_import) }
       let(:stored_backup) { Attachment.where(container_type: "Export").last }
       let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
 
@@ -203,6 +205,11 @@ RSpec.describe BackupJob, type: :model do
 
         it "does not include pending direct uploads" do
           expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
+        end
+
+        it "does not include incomplete imports" do
+          expect(backup_files).not_to include backed_up_attachment(pending_import)
+          expect(backup_files).not_to include backed_up_attachment(failed_import)
         end
       end
     end

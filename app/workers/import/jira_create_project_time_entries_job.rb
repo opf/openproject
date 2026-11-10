@@ -134,20 +134,5 @@ module Import
         user
       end
     end
-
-    def find_user(jira_user_key)
-      return if jira_user_key.blank?
-
-      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
-        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-
-        if jira_user
-          @jira_import.find_op_leg!(jira_user)
-        else
-          Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
-          DeletedUser.first
-        end
-      end
-    end
   end
 end

@@ -46,6 +46,14 @@ module AI
         REASON = :timeout
       end
 
+      class RateLimited < Error
+        REASON = :rate_limited
+      end
+
+      class ContextTooLong < Error
+        REASON = :context_too_long
+      end
+
       class Upstream < Error
         REASON = :upstream_error
       end

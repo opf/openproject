@@ -83,13 +83,13 @@ pt-BR:
         dependencies: Dependências
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Ativo
-        injects_type_template: Inserir modelo de tipo de pacote de trabalho
-        label: Rótulo
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
         prompt: Prompt
-        types: Tipos de pacote de trabalho
-        usage_scope: Escopo
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Ação
         cancel_requested: Cancelamento solicitado
@@ -814,7 +814,7 @@ pt-BR:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Você não possui as permissões necessárias para arquivar todos os subprojetos. Entre em contato com um administrador
-              project_initiation_request_disabled: A solicitação de início de projeto está desabilitada. Ela precisa estar habilitada para criar o pacote de trabalho de artefato.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: O módulo '%{dependency}' precisa ser habilitado, pois o módulo '%{module}' depende dele.
               format: "%{message}"
@@ -828,7 +828,7 @@ pt-BR:
               switch_target_blank: Selecione a variante para a qual deseja mudar
               switch_target_identical: O tipo de destino deve ser diferente do tipo que o projeto usa atualmente
               switch_target_not_in_family: Só é possível mudar para outro tipo da mesma família
-          cannot_be_assigned_to_artifact_work_package: O usuário selecionado não tem permissão para ser designado a pacotes de trabalho.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Pacotes de trabalho em projetos não descendentes referenciam versões do projeto ou de seus descendentes.
         project/phase:
           attributes:
@@ -954,8 +954,6 @@ pt-BR:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de salvar.
             variant:
               must_belong_to_the_type: deve ser uma variante deste tipo.
-            workflow:
-              not_available_to_this_variant: deve ser um fluxo de trabalho que este projeto possa usar.
         user:
           attributes:
             base:
@@ -1086,9 +1084,9 @@ pt-BR:
       action:
         one: Ação
         other: Ações
-      ai/text_transform_action:
-        one: Ação de transformação de texto
-        other: Ações de transformação de texto
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Execução da transformação de texto
         other: Execuções da transformação de texto
@@ -1641,6 +1639,10 @@ pt-BR:
         button_delete_personal_access_token: Delete PAT
         button_save: Salvar configuração
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1652,6 +1654,7 @@ pt-BR:
           personal_access_token: Personal access token (PAT)
           url: URL do Jira Server/Data Center
         label_testing: Testando configuração...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1669,18 +1672,24 @@ pt-BR:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1703,6 +1712,9 @@ pt-BR:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Você está tentando importar um projeto com um identificador já em uso: %{taken_identifier}. Atualize o identificador do projeto no Jira e clique em Tentar novamente.'
         remove_error: Uma importação do Jira não pode ser removida enquanto estiver em execução
         side_panel:
@@ -1764,6 +1776,9 @@ pt-BR:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1793,6 +1808,7 @@ pt-BR:
               label_available_data: Dados a serem importados
               label_import_data: Importando no momento
               label_progress: Importação em andamento...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Usuários envolvidos nos projetos selecionados (incluindo membros de grupos)
               title: Importar dados
             fetch_data:
@@ -1831,7 +1847,7 @@ pt-BR:
                   subtitle: 'Envolvido em projetos importados '
                 work_packages:
                   label: Pacotes de trabalho
-                  subtitle: Com anexos
+                  subtitle: With attachments and logged time
               title: Resultados da execução de importação
             import_scope:
               button_continue: Continuar
@@ -1848,6 +1864,7 @@ pt-BR:
                 issue_details: Descrição, histórico, comentários e anexos dos itens
                 issue_ids: Identificadores de item de trabalho
                 issues: Itens
+                logged_time: Logged time
                 permissions: Permissões
                 project_ids: Identificadores de projeto
                 project_versions: Project versions
@@ -1880,6 +1897,12 @@ pt-BR:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -1902,8 +1925,8 @@ pt-BR:
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
             '9':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
@@ -1912,10 +1935,12 @@ pt-BR:
         error: Ocorreu um erro inesperado ao testar a conexão
         failed: 'Falha na conexão: não foi possível recuperar as informações do servidor'
         invalid_url: Forneça um URL válido
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Falha ao interpretar a resposta do servidor. O servidor pode não ser uma instância válida do Jira.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Conectado com sucesso a %{server} (versão %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Migrador do Jira
       user:
         unknown_name: Desconhecido
@@ -2165,41 +2190,42 @@ pt-BR:
         page_header:
           description: Escolha entre IDs de pacotes de trabalho numéricos clássicos ou IDs semânticos específicos do projeto, que adicionam o identificador do projeto ao ID do pacote de trabalho.
         success_banner: Formato de identificador de pacote de trabalho atualizado com sucesso.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Os usuários não poderão mais executar esta ação no editor de texto formatado.
-        heading: Tem certeza de que deseja excluir a ação “%{label}”?
-        title: Excluir ação de transformação de texto
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Se marcada, o modelo de descrição do tipo de pacote de trabalho será adicionado automaticamente ao prompt. O prompt deve conter instruções sobre o que fazer com o modelo.
-        label_caption: Este é o nome que ficará visível para os usuários no editor.
-        select_types: Selecionar tipos
-        types_caption: Adicione os tipos de pacote de trabalho para os quais esta ação deve estar disponível. Todas as variantes disponíveis serão incluídas automaticamente.
-        usage_scope_caption: 'Você pode limitar onde esta ação ficará visível: em todos os lugares (incluindo comentários, wikis e campos personalizados), para todos os tipos de pacote de trabalho ou para tipos de pacote de trabalho específicos.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Ação
-        label_aria_add_action: Adicionar ação de transformação de texto
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Adicione uma ação para vê-la aqui
-          title: Nenhuma ação de transformação de texto configurada ainda
-        disabled_warning: As ações de transformação de texto estão desabilitadas. As ações a seguir não estarão disponíveis em nenhum lugar.
-        label_disable_all: Desabilitar tudo
-        label_enable_all: Habilitar tudo
-        title: Ações
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Nova ação de transformação de texto
+        title: New text action
       row_component:
-        label_actions: Menu de ações
-        label_toggle: Alternar %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} tipo de pacote de trabalho"
-          other: "%{count} tipos de pacote de trabalho"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Todos os tipos de pacote de trabalho
-        everywhere: Em todos os lugares
-        specific_work_package_types: Tipos de pacote de trabalho específicos
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Adicione status para começar a configurar fluxos de trabalho para esta função
@@ -2252,7 +2278,9 @@ pt-BR:
     text_transform:
       errors:
         connection_failed: Não foi possível acessar o serviço de IA.
-        not_available: O assistente de IA não está disponível.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
+        not_available: The text assistant is not available.
+        rate_limited: The AI service is busy. Try again in a moment.
         timeout: O serviço de IA não respondeu a tempo.
         upstream_error: O serviço de IA apresentou um erro.
       pane:
@@ -2263,7 +2291,9 @@ pt-BR:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2295,6 +2325,8 @@ pt-BR:
         emoji_reactions_activity_type_not_supported: Este tipo de atividade não dá suporte a reações por emoji.
         invalid_link: O link sob a chave "%{key}" não é válido.
         links_not_an_object: _links deve ser um objeto JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Requisição inválida: %{message}'
       code_401: Você precisa estar autenticado para acessar este recurso.
       code_401_wrong_credentials: Você não forneceu as credenciais corretas.
@@ -2344,6 +2376,7 @@ pt-BR:
       schema: Esquema
     undisclosed:
       ancestor: Não revelado - O ancestral está invisível devido à falta de permissões.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Não revelado - O projeto está invisível devido à falta de permissões.
       definingWorkspace: Não revelado - O espaço de trabalho está invisível devido à falta de permissões.
       parent: Não revelado - O pai está invisível devido à falta de permissões.
@@ -2643,6 +2676,22 @@ pt-BR:
       missing_value: O atributo “%{custom_field_name}” é obrigatório para este valor calculado, mas está vazio.
       unknown: Ocorreu um erro desconhecido. Revise a fórmula deste valor calculado.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Editar cor
     form:
@@ -2670,7 +2719,7 @@ pt-BR:
     failure_message: Consentimento falhou, não pode continuar.
     not_yet_consented: O usuário ainda não deu seu consentimento para as [informações de consentimento configuradas](consent_settings). Ele será lembrado disso na próxima vez que fizer login.
     text_update_consent_time: Marque esta caixa para forçar os usuários a consentir novamente. Ative quando você alterar o aspecto legal da informação de consentimento acima.
-    title: Consentimento do usuário
+    title: User consent
     update_consent_last_time: 'Última atualização do consentimento: %{update_time}'
     user_has_consented: O usuário deu seu consentimento para as [informações de consentimento configuradas](consent_settings).
   copy_project:
@@ -3143,6 +3192,7 @@ pt-BR:
       scim_api: API do servidor SCIM
       sso_auth_providers: Autenticação única (SSO)
       team_planner_view: Planejador de Equipes
+      text_assistant: Text assistant
       virus_scanning: Verificação de antivírus
       weighted_item_lists: Listas de itens ponderados
       work_package_query_relation_columns: Colunas de relação de consulta do pacote de trabalho
@@ -3255,6 +3305,9 @@ pt-BR:
       sso_auth_providers:
         description: Permitir que os usuários façam login por meio de provedores SSO externos usando SAML ou OpenID Connect, garantindo acesso contínuo e integração com os sistemas de identidade existentes.
         title: Login único (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Complemento empresarial
       trial_text: Este recurso está incluído no seu período de avaliação do Enterprise ativo.
       unlimited: Ilimitado
@@ -3511,6 +3564,7 @@ pt-BR:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3518,7 +3572,7 @@ pt-BR:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -3814,6 +3868,9 @@ pt-BR:
         header: alterações por %{author}
         migrated: do Jira
         set_with_diff: "%{field} definido (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(cancelado)"
       meeting_deleted: "(excluído)"
       meeting_series_backlog_html: backlog da série de reuniões %{link}
@@ -3838,6 +3895,7 @@ pt-BR:
       total_percent_complete_mode_changed_to_work_weighted_average: Pacotes de trabalho infantil sem Trabalho são ignorados.
       unaccessable_work_package_changed: por alterações a um pacote de trabalho relacionado
       work_package_children_changed_times: por alterações ao secundário %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: O status foi atualizado automaticamente pelo pacote de trabalho duplicado %{link}
       work_package_parent_changed_times: por alterações ao primário %{link}
       work_package_parent_deleted: porque o pacote de trabalho pai foi excluído
@@ -3853,10 +3911,13 @@ pt-BR:
           working: "%{day} agora é um dia útil"
     caused_changes:
       budget_deleted: Orçamento foi excluído
+      comment_retracted: Comment retracted
       dates_changed: Datas alteradas
       default_attribute_written: Atributos de somente leitura escritos
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importado
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Adicionado à reunião</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Adicionado à</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Discutido na reunião</strong> %{meeting_title_information}"
@@ -3870,6 +3931,7 @@ pt-BR:
       system_update: 'Atualização do sistema OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: O cálculo dos totais de % de conclusão agora é feito com base na média simples dos valores de % de conclusão.
       total_percent_complete_mode_changed_to_work_weighted_average: O cálculo dos totais de % de conclusão agora é ponderado pelo Trabalho.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Pacote de trabalho duplicado atualizado:'
       work_package_parent_deleted: Pai removido
     changes_retracted: As mudanças foram retraídas.
@@ -3995,7 +4057,7 @@ pt-BR:
   label_completed: Concluído
   label_configuration: configuração
   label_confirmation: Confirmação
-  label_consent_settings: Consentimento do usuário
+  label_consent_settings: User consent
   label_constant_plural: Constantes
   label_contains: contém
   label_content: Conteúdo
@@ -4995,7 +5057,7 @@ pt-BR:
       mail_notification: Notificações por e-mail
       mails_and_notifications: E-mails e notificações
       mcp_configurations: Protocolo de Contexto de Modelo (MCP)
-      text_transform_actions: Ações de transformação de texto
+      text_actions: Text assistant
     quick_add:
       label: Adicionar…
   more_actions: Mais funções
@@ -5555,10 +5617,19 @@ pt-BR:
       toc:
         caption: Adicionar uma página de índice com os cabeçalhos das seções.
         label: Tabela de conteúdos
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Página %{page} de %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Todos os atributos do formulário atual, com base no modelo padrão.
       label: Atributos e descrição
@@ -5871,11 +5942,11 @@ pt-BR:
           no_status_when_submitted: Falha ao ativar a solicitação de início de projeto, pois o tipo de pacote de trabalho %{type} precisa ter pelo menos um status associado. Habilite pelo menos um fluxo de trabalho de status para este tipo de pacote de trabalho.
           no_work_package_type: Falha ao ativar a solicitação de início de projeto, pois é necessário ter pelo menos um tipo de pacote de trabalho ativo, e este projeto não possui nenhum. Adicione pelo menos um tipo de pacote de trabalho a este projeto.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Selecione qual dos armazenamentos de arquivos externos configurados deve ser utilizado.
           external_file_storage: Armazenamento de arquivos externo
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: Salvar como anexo de pacote de trabalho
           label_file_link_export: Carregar arquivo no armazenamento externo e adicionar link do arquivo ao pacote de trabalho
           pdf_file_storage: Armazenamento de arquivos PDF
@@ -5981,10 +6052,12 @@ pt-BR:
         switch:
           apply: Aplicar
           impact:
-            hidden_heading: Campos que não serão mais exibidos
-            missing_statuses_description: O fluxo de trabalho para o qual você está mudando não tem transição a partir desses status, portanto, ninguém poderá avançar esses pacotes de trabalho.
-            missing_statuses_heading: Pacotes de trabalho que ficam presos
-            new_heading: Campos que ficam disponíveis
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: Nenhum campo ou status é afetado.
             status_count:
               one: "%{count} work package"
@@ -6014,14 +6087,14 @@ pt-BR:
     status:
       button_edit: Editar status
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: Este projeto não tem atributos de projeto habilitados para o assistente. Habilite pelo menos um atributo nas <a href="%{link}">configurações do projeto</a>.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções
       sidebar_content_title: Conteúdo
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Solicitação de início de projeto
   pwa:
     offline:
@@ -6047,6 +6120,22 @@ pt-BR:
         automatic:
           description: Ordene os %{plural} por um ou mais critérios de ordenação. A ordenação anterior será perdida.
           heading: Automático
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6243,7 +6332,6 @@ pt-BR:
   setting_after_login_default_redirect_url_example_html: 'Defina um caminho padrão para redirecionar os usuários após o login, caso nenhum link de retorno tenha sido fornecido. Se não for definido, os usuários serão redirecionados para a página inicial. <br/> Exemplo: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Habilitar ações de transformação de texto
   setting_allowed_link_protocols: Protocolos de link permitidos
   setting_allowed_link_protocols_text_html: Permite que estes protocolos sejam apresentados como links nas descrições do pacote de trabalho, campos de texto e comentários. Por exemplo, %{tel_code} ou %{element_code}. Insira um protocolo por linha. <br/> Os protocolos %{http_code}, %{https_code} e %{mailto_code} estão sempre permitidos.
   setting_antivirus_scan_action: Ação do arquivo infectado
@@ -6597,12 +6685,12 @@ pt-BR:
         confirmation_message: O assistente de solicitação de início não estará mais disponível para novos projetos com base neste modelo. Os gerentes e responsáveis pelo projeto precisarão configurar manualmente e preencher as informações relevantes na visão geral do projeto.
         heading: Desativar esta solicitação de início de projeto?
         title: Desativar solicitação de início de projeto
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Assistente de criação de projeto
           project_initiation_request: Solicitação de início de projeto
@@ -6622,8 +6710,8 @@ pt-BR:
           Você enviou uma solicitação de início de projeto para **%{project_name}**. Ela agora aguarda revisão.
           Clique no link abaixo para acessar o pacote de trabalho com a sua solicitação.
         confirmation_email_text: Texto do e-mail de confirmação
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Enviar e-mail de confirmação para o usuário que enviou a solicitação de início de projeto
         status_when_submitted: Status ao enviar
         status_when_submitted_caption: O status para o qual o pacote de trabalho gerado será alterado assim que a solicitação for enviada.
@@ -6631,7 +6719,7 @@ pt-BR:
         work_package_comment_caption: O responsável selecionado acima será automaticamente @mencionado no comentário.
         work_package_comment_default: Uma solicitação de início de projeto para **%{project_name}** foi enviada e está aguardando revisão.
         work_package_type: Tipo de pacote de trabalho
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Abrir assistente de criação de projeto
         project_initiation_request: Abrir solicitação de início de projeto
@@ -6797,6 +6885,10 @@ pt-BR:
         Nenhum atributo poderá ser alterado, exceto o status.
         <br>
         <strong>Nota</strong>: Valores herdados (por exemplo, de itens filhos ou relações) ainda serão aplicados.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: O estado não pôde ser alterado.
       headers:
@@ -6806,6 +6898,9 @@ pt-BR:
       no_results_content_text: Adicionar uma nova situação
       no_results_title_text: Atualmente, não há nenhuma situação de pacote de trabalho.
       status_actions: Ações de estado
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: e
@@ -6973,6 +7068,9 @@ pt-BR:
       short: "%d/%b %H:%M"
       time: "%I:%M %p"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: para
     show: Mostrar intervalo de tempo
@@ -7148,13 +7246,13 @@ pt-BR:
           file_link:
             caption: O PDF gerado foi carregado no armazenamento Nextcloud gerenciado automaticamente pelo projeto e vinculado ao pacote de trabalho. Os pacotes de trabalho de projetos sem esse tipo de armazenamento serão ignorados.
             label: Carregar arquivo no armazenamento externo e adicionar link do arquivo ao pacote de trabalho
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: Nenhum PDF é gerado automaticamente.
             label: Desativado
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: indisponível, nenhum armazenamento Nextcloud gerenciado automaticamente está configurado
         pdf_export_templates:
           actions:
@@ -7166,7 +7264,6 @@ pt-BR:
         tab: Gerar PDF
         templates:
           readonly_error: Não pode ser alterado enquanto estiver vinculado a um tipo de origem.
-          section_title: Modelos de exportação de PDF
           settings:
             edit_link: Editar configurações
             reset_to_default: Restaurar para padrão
@@ -7188,7 +7285,6 @@ pt-BR:
         empty_group_hint: Arraste os atributos para cá
         exclusions:
           attribute_label: Herdar %{attribute}
-          excluded: Oculto
           section_label: Herdar seção %{section}
         filter_inactive: Filtrar atributos
         group_actions: Ações da seção
@@ -7197,9 +7293,15 @@ pt-BR:
         invalid_attribute_groups: O conteúdo do formulário é inválido.
         invalid_query: A configuração da consulta incorporada é inválida.
         label_group: Seção
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: Nenhum atributo inativo
         not_found: O item de formulário solicitado não foi encontrado.
         query_group_label: Tabela de pacotes de trabalho relacionados
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Remover da seção
         rename_group: Renomear seção
         required:
@@ -7216,6 +7318,7 @@ pt-BR:
         reset_title: Redefinir formulário
         reset_to_defaults: Redefinir formulário
         row_actions: Ações da linha
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Formulário
         untitled_group: Grupo sem título
       overview:
@@ -7240,7 +7343,6 @@ pt-BR:
           manual:
             description: Depois que você [criar atributos de projeto](administration_url), eles ficarão visíveis aqui e poderão ser adicionados a um tipo.
             title: Nenhum atributo de projeto disponível
-        disabled: Desativado
         exclusions:
           attribute_label: Herdar %{attribute}
         filter: Pesquisar por seção ou nome
@@ -7260,8 +7362,6 @@ pt-BR:
           no_results: Não existem projetos correspondentes.
           title: Not used in any project yet
         enable_all: Habilitar para todos os projetos
-        select_projects: Selecionar projetos
-        select_projects_description: Selecione os projetos nos quais deseja usar esse tipo.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?
@@ -7320,14 +7420,14 @@ pt-BR:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Começar com uma cópia única das configurações que esta configuração herda atualmente.
-              label: Copiar configurações herdadas
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Use as configurações padrão para novos tipos.
               label: Configurações padrão
             empty:
               caption: Configure tudo do zero, começando com uma configuração em branco.
-              label: Vazio
+              label: Start from scratch
           success: O modo de configuração foi alterado.
           title: Configuração manual
         parent_suffix: " (pai)"
@@ -7364,9 +7464,6 @@ pt-BR:
         text: 'Isso tornará esta variante específica do projeto uma variante global, disponível para todos os projetos. O administrador do projeto não poderá mais editá-la.
 
           '
-        workflow_text: 'O fluxo de trabalho "%{name}" pertence a este projeto e também se tornará global.
-
-          '
       convert_to_global_notice: "%{name} agora é uma variante global."
       convert_to_global_rename:
         confirm: Converter
@@ -7381,7 +7478,7 @@ pt-BR:
           one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Excluir tipo
-      description: 'Cada área de configuração em tipos e variantes pode ser configurada independentemente, limitada por outro tipo ou totalmente vinculada a uma origem.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Cópia de %{name}
@@ -7698,9 +7795,6 @@ pt-BR:
       note_placeholder: Por que você está configurando este lembrete?
       success_deletion_message: Lembrete excluído com sucesso.
       success_update_message: Lembrete atualizado com sucesso.
-    updated_automatically_by_child_changes: '_Atualizado automaticamente por alterações de valores dentro do pacote de trabalho filho %{child}_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Adicione relações com outros pacotes de trabalho para criar um vínculo entre eles.
@@ -8081,8 +8175,6 @@ pt-BR:
           notice:
             one: Fluxo de trabalho copiado com sucesso para a função "%{role_name}".
             other: Fluxo de trabalho copiado com sucesso para %{count} funções.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8100,6 +8192,7 @@ pt-BR:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Description
@@ -8115,7 +8208,7 @@ pt-BR:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Criar fluxo de trabalho
+      save_title: Save workflow
     index:
       actions:
         create: Fluxo de Trabalho

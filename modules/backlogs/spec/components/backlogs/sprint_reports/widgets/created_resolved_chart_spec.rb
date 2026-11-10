@@ -23,68 +23,123 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "rails_helper"
 
-# This is just a quick smoke test of the created vs resolved chart.
-# Long term, ideally there should be a proper integration test that inspects what the user
-# can actually see. For now, this is too time-intensive.
-RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart, type: :component,
-                                                                       with_ee: %i[sprint_report_pro_widgets] do
-  let(:project) { build_stubbed(:project) }
-  let(:sprint) { build_stubbed(:sprint, project:, start_date: 1.week.ago.to_date, finish_date: 1.week.from_now.to_date) }
-
+RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
+               type: :component,
+               with_ee: %i[sprint_report_pro_widgets] do
   subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
 
-  current_user { build_stubbed(:user) }
+  shared_let(:project) { create(:project) }
+  shared_let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages]) }
+  shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
+  shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
 
-  before do
-    mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+  let(:monday) { Date.new(2026, 10, 12) }
+  let(:second_friday) { Date.new(2026, 10, 23) }
+  let(:sprint_start) { monday.in_time_zone + 9.hours }
+  let(:work_added) { sprint_start + 1.day }
+  let(:now) { monday.in_time_zone + 3.days + 12.hours }
+
+  let(:sprint) do
+    create(:sprint, project:, start_date: monday, finish_date: second_friday, started_at: sprint_start)
+  end
+
+  current_user { create(:user, member_with_roles: { project => role }) }
+
+  def chart_data
+    JSON.parse(rendered_component.at("opce-created-resolved-chart")["chart-data"])
+  end
+
+  before { week_with_saturday_and_sunday_as_weekend }
+
+  around do |example|
+    travel_to(now) { example.run }
   end
 
   context "when the sprint has a date range set" do
-    let(:created_resolved) do
-      instance_double(
-        CreatedResolved,
-        days: [Time.zone.today - 2.days, Time.zone.today - 1.day, Time.zone.today],
-        series: { wp_created: [1.0, 2.0, 0.0], wp_resolved: [0.0, 1.0, 4.0] }
-      )
+    before do
+      create(:work_package, project:, sprint:, status: open_status,
+                            journals: { work_added => { subject: "Open one" } })
+      create(:work_package, project:, sprint:, status: closed_status,
+                            journals: { work_added => { subject: "Closed one", status_id: closed_status.id } })
     end
-
-    before { allow(CreatedResolved).to receive(:new).with(sprint, project).and_return(created_resolved) }
 
     it "renders the created vs resolved chart element" do
       expect(rendered_component).to have_element(:"opce-created-resolved-chart")
     end
 
-    it "sets chart-data with labels and the expected dataset labels" do
-      chart_data = JSON.parse(rendered_component.at("opce-created-resolved-chart")["chart-data"])
-
-      expect(chart_data["labels"]).to be_an(Array)
-      expect(chart_data["datasets"].pluck("label")).to contain_exactly("Created", "Resolved")
+    it "carries each series under a stable id and a translated label" do
+      expect(chart_data["series"].pluck("id", "label"))
+        .to eq([["created", "Created"], ["resolved", "Resolved"]])
     end
 
-    context "with more days than fit on the x axis" do
-      let(:created_resolved) do
-        days = (0...20).map { Time.zone.today - it.days }
-        instance_double(CreatedResolved, days:, series: { wp_created: Array.new(20, 1.0), wp_resolved: Array.new(20, 0.0) })
+    it "sends points as x/y pairs, counting what the project gained since the window opened" do
+      created, resolved = chart_data["series"].pluck("data")
+
+      expect(created.first["x"]).to eq sprint_start.utc.iso8601(3)
+      expect(created.first["y"]).to eq 0.0
+      expect(created.last["y"]).to eq 2.0
+      expect(resolved.last["y"]).to eq 1.0
+    end
+
+    # Both series are counted at the same ticks, which is what lets the chart match them by index.
+    it "samples both series at the very same instants" do
+      created, resolved = chart_data["series"].map { it["data"].pluck("x") }
+
+      expect(created).to eq resolved
+    end
+
+    it "sends the step, without which the chart cannot name a tick's period" do
+      expect(chart_data["step"]).to eq "hour"
+    end
+
+    # These counts stop at the current moment, but the burndown beside them is drawn to the
+    # planned finish. The axis follows the window so that the two span the same interval.
+    it "sends the charted window, which reaches past where the counts stop" do
+      expect(chart_data["range"]["from"]).to eq sprint_start.utc.iso8601(3)
+      expect(chart_data["range"]["to"]).to eq second_friday.in_time_zone.end_of_day.utc.iso8601(3)
+      expect(chart_data["series"].first["data"].last["x"]).to eq now.utc.iso8601(3)
+    end
+
+    # Over a span of several sprints they are too dense to read as anything but hatching.
+    it "leaves the non working days out" do
+      expect(chart_data).not_to have_key "nonWorkingIntervals"
+    end
+
+    context "with sprints preceding this one" do
+      let!(:earlier_sprint) do
+        create(:sprint, project:, start_date: monday - 42.days, finish_date: monday - 32.days,
+                        started_at: (monday - 42.days).in_time_zone + 9.hours)
       end
 
-      it "labels every day so tooltips can show the date" do
-        chart_data = JSON.parse(rendered_component.at("opce-created-resolved-chart")["chart-data"])
+      it "opens the window with the earliest of them and samples by day over the longer span" do
+        expect(chart_data["range"]["from"]).to eq earlier_sprint.started_at.utc.iso8601(3)
+        expect(chart_data["step"]).to eq "day"
+      end
+    end
 
-        expect(chart_data["labels"].size).to eq 20
-        expect(chart_data["labels"]).to all(be_present)
+    context "when the sprint has not started yet" do
+      let(:sprint) do
+        create(:sprint, project:, start_date: monday, finish_date: second_friday)
+      end
+      let(:now) { monday.in_time_zone - 7.days }
+
+      # Nothing has been created in a sprint that has not begun, and a flat zero would invite the
+      # reader to believe that was measured. The frontend turns the empty payload into a blankslate.
+      it "leaves out both series rather than sending a measured zero" do
+        expect(chart_data["series"]).to be_empty
       end
     end
   end
 
   context "when the sprint has no date range set" do
-    let(:sprint) { build_stubbed(:sprint, project:, start_date: nil, finish_date: nil) }
+    let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
 
     it "renders a blankslate instead of the chart" do
       expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")

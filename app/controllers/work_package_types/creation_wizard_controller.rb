@@ -34,17 +34,30 @@ module WorkPackageTypes
     include ::WorkPackageTypes::ConfiguredInScope
     include ::WorkPackageTypes::VariantRoutes
     include OpTurbo::ComponentStream
+    include ::WorkPackageTypes::ProjectsTab::TableRefresh
 
     layout "no_menu"
 
     helper_method :adding_variant?
-    before_action :find_type, only: %i[show update]
-    before_action :find_variant, only: %i[show update]
+    before_action :find_type, only: %i[show update projects]
+    before_action :find_variant, only: %i[show update projects]
     before_action :set_current_step, only: %i[show update]
     before_action :set_back_url
     before_action :set_started_form_configuration_id
 
-    def show; end
+    def show
+      load_query if @current_step == :projects
+    end
+
+    # The projects step's filters ask for its table here rather than from the step's own address,
+    # which a Turbo form submission redirects to with the same turbo-stream Accept header.
+    def projects
+      return render_404 unless Wizard::Steps.available?(:projects, @variant)
+
+      load_query
+      update_via_turbo_stream(component: projects_table_component)
+      respond_with_turbo_streams
+    end
 
     def new # rubocop:disable Metrics/AbcSize
       if params[:type_id]
@@ -220,6 +233,7 @@ module WorkPackageTypes
       NamedReferences::NameDialogComponent.new(record:,
                                                model_class: record.class,
                                                ask_copy_source: false,
+                                               creating: true,
                                                url:)
     end
 
@@ -227,14 +241,20 @@ module WorkPackageTypes
       params.expect(record.model_name.param_key => %i[name description]).to_h.symbolize_keys
     end
 
+    # The matrix submits its inputs with the wizard form, along with the roles and
+    # transition tab it was showing, so that only that slice is rewritten. Without a tab
+    # the lazily loaded matrix never rendered, and there is nothing to persist.
     def update_matrix
+      return ServiceResult.success unless params.key?(:tab)
+
       context = ::Workflows::MatrixContext.new(workflow: @variant.workflow,
                                                variant: @variant,
                                                tab: params[:tab],
-                                               role_ids: params[:role_ids])
+                                               role_ids: params[:role_ids],
+                                               wizard: true)
 
       ::Workflows::MatrixUpdateService
-        .new(workflow: @variant.workflow, roles: context.roles, tab: context.tab)
+        .new(context:)
         .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
     end
 
@@ -271,6 +291,8 @@ module WorkPackageTypes
 
     def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
 
+    def listing_in_wizard? = true
+
     def find_type
       @type = ::Type.find(params.expect(:type_id))
     end
@@ -288,11 +310,11 @@ module WorkPackageTypes
     end
 
     def details_params
-      params.expect(type: %i[name color_id is_milestone is_in_roadmap allow_project_variants])
+      params.expect(type: %i[name description color_id is_milestone is_in_roadmap allow_project_variants])
     end
 
     def variant_details_params
-      params.expect(type_variant: [:variant_name])
+      params.expect(type_variant: %i[variant_name description])
     end
 
     # The owner is the project this was routed through, merged last so that it wins over anything

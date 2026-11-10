@@ -1,7 +1,7 @@
 # Schema: Attachments
 ---
 allOf:
-  - "$ref": "./collection_model.yml"
+  - $ref: "./collection_model.yml"
   - type: object
     required:
       - _links
@@ -14,10 +14,10 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The attachments collection
-                  
+
                   **Resource**: AttachmentsCollection
                 readOnly: true
       _embedded:
@@ -27,6 +27,6 @@ allOf:
             type: array
             readOnly: true
             items:
-                allOf:
-                - "$ref": "./attachment_model.yml"
+              allOf:
+                - $ref: "./attachment_model.yml"
                 - description: Collection of Attachments

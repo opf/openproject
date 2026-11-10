@@ -14,3 +14,7 @@ properties:
     type: string
     format: uri
     description: URL of the user's avatar image
+examples:
+  - name: Crawler Carl
+    username: carl
+    avatarUrl: https://img.example.com/carl.png

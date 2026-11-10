@@ -1,6 +1,6 @@
-// Server-safe surface of op-blocknote-extensions.
+// Server-safe surface of @openproject/blocknote-extensions.
 //
-// Importing from "op-blocknote-extensions/server" gives consumers (e.g. a
+// Importing from "@openproject/blocknote-extensions/server" gives consumers (e.g. a
 // hocuspocus server using @blocknote/server-util) the pieces they need to
 // reconstruct a BlockNote schema and run markdown export without dragging
 // @blocknote/react / @blocknote/mantine into the Node import graph.
@@ -32,3 +32,17 @@ export type {
   WorkPackageInlineExternalData,
   WorkPackageInlineProps,
 } from './components/InlineWorkPackage/externalHtml';
+
+export { attributeInlineConfig } from './components/WorkPackageAttribute/inlineConfig';
+export { openProjectWorkPackageAttributeStaticInlineSpec } from './components/WorkPackageAttribute/staticSpec';
+export { attributeBlockConfig } from './components/WorkPackageAttribute/blockConfig';
+export { openProjectWorkPackageAttributeStaticBlockSpec } from './components/WorkPackageAttribute/staticBlockSpec';
+export {
+  buildWorkPackageAttributeExternalDOM,
+  computeWorkPackageAttributeExternalData,
+  parseWorkPackageAttributeExternalHTML,
+} from './components/WorkPackageAttribute/externalHtml';
+export type {
+  WorkPackageAttributeExternalData,
+  WorkPackageAttributeProps,
+} from './components/WorkPackageAttribute/externalHtml';

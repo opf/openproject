@@ -47,6 +47,8 @@ da:
       draggable_hint: 'Træk til et redigeringsfelt for at indsætte et billede i teksten eller henvise til den vedhæftede fil. Lukkede redigeringsfelter åbnes, mens du trækker.
 
         '
+      import_failed_hint: Filen kunne ikke importeres. Den kan ikke hentes.
+      import_prepared_hint: Filen er ved at blive importeret. Den kan ikke hentes endnu.
       quarantined_hint: Filen er sat i karantæne, fordi der blev fundet en virus. Den kan ikke hentes.
     autocomplete_ng_select:
       add_tag: Tilføj element
@@ -129,8 +131,8 @@ da:
     button_confirm: Bekræft
     button_continue: Fortsæt
     button_copy: Kopiér
-    button_copy_link_to_clipboard: Kopiér link til udklipsholderen
-    button_copy_numeric_id_to_clipboard: Kopiér numerisk id til udklipsholderen
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopiér til udklipsholderen
     button_copy_to_other_project: Dupliker i et andet projekt
     button_create: Opret
@@ -203,6 +205,9 @@ da:
     description_select_work_package: 'Vælg arbejdspakke #%{id}'
     description_subwork_package: 'Underordnet arbejdspakke #%{id}'
     editor:
+      ai_actions:
+        caption: Assistent
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Der opstod en fejl i CKEditor
       ckeditor_error_reload: Editoren holdt op med at virke. Din tekst er her stadig, men du kan ikke ændre den. Kopiér den tekst, som du vil beholde, og genindlæs derefter siden.
       error_saving_failed: 'Dokumentet kunne ikke gemmes på grund af følgende fejl: %{error}'
@@ -434,7 +439,6 @@ da:
     label_assignee: Tildelt
     label_assignee_alt_text: Arbejdspakken er tildelt %{name}
     label_attachments: Vedhæftede filer
-    label_author: 'Forfatter: %{user}'
     label_avatar: Avatar
     label_between: mellem
     label_board: Tavle
@@ -1092,15 +1096,26 @@ da:
       scheduling:
         is_parent: Arbejdspakkens datoer udledes automatisk af dens underordnede. Aktivér 'Manuel planlægning' for at angive datoerne.
         is_switched_from_manual_to_automatic: Arbejdspakkens datoer skal måske beregnes igen, efter at du har skiftet fra manuel til automatisk planlægning, fordi den har relationer til andre arbejdspakker.
+      selection:
+        all_selected:
+          one: Alle arbejdspakker på siden er valgt (%{count}).
+          other: Alle %{count} arbejdspakker på siden er valgt.
+        cleared: Markeringen er ryddet.
+        selected:
+          one: "%{count} arbejdspakke valgt."
+          other: "%{count} arbejdspakker valgt."
       sharing:
         show_all_users: Vis alle brugere, som arbejdspakken er delt med
         title: Del arbejdspakke
       table:
         configure_button: Konfigurer tabellen med arbejdspakker
-        summary: Tabel med arbejdspakker som rækker og deres attributter som kolonner.
-        text_inline_edit: De fleste celler i tabellen er knapper, der gør det muligt at redigere attributten direkte i tabellen.
-        text_select_hint: Rullelister åbnes med 'ALT' og piletasterne.
-        text_sort_hint: Med linkene i tabeloverskrifterne kan du sortere, gruppere, flytte, fjerne og tilføje tabelkolonner.
+        grid_actions_header: Handlinger
+        grid_baseline_header: Sammenligningsstatus
+        relations_button: Relationer i %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} stigende"
+        sort_criterion_descending: "%{column} faldende"
+        sorted_by: Sorteret efter %{criteria}.
+        sorted_manually: Sorteret manuelt.
       table_configuration:
         button: Konfigurer denne tabel med arbejdspakker
         choose_display_mode: Vis arbejdspakker som
@@ -1109,7 +1124,6 @@ da:
         default_mode: Flad liste
         display_settings: Visningsindstillinger
         display_sums_hint: Vis summen af alle attributter, der kan summeres, i en række under tabellens resultater.
-        embedded_tab_disabled: Fanen er ikke tilgængelig for den indlejrede visning, som du redigerer.
         hierarchy_hint: Alle filtrerede resultater i tabellen suppleres med deres overordnede. Hierarkier kan foldes ud og sammen.
         hierarchy_mode: Hierarki
         highlighting: Fremhævning

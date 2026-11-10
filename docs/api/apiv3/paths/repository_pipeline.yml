@@ -2,7 +2,7 @@
 ---
 get:
   summary: View repository pipeline
-  operationId: view_repository_pipeline
+  operationId: get_repository_pipeline
   tags:
   - Repositories
   description: |-

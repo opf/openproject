@@ -47,6 +47,8 @@ vi:
       draggable_hint: 'Kéo trường soạn thảo vào hình ảnh nội tuyến hoặc tệp đính kèm tham chiếu. Các trường soạn thảo đã đóng sẽ được mở trong khi bạn tiếp tục kéo.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Tệp đã được cách ly vì đã tìm thấy vi-rút. Nó không có sẵn để tải về.
     autocomplete_ng_select:
       add_tag: Thêm mục
@@ -129,8 +131,8 @@ vi:
     button_confirm: Xác nhận
     button_continue: tiếp tục
     button_copy: sao chép
-    button_copy_link_to_clipboard: Sao chép liên kết vào bảng tạm
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Sao chép vào khay nhớ tạm
     button_copy_to_other_project: Trùng lặp trong một dự án khác
     button_create: Tạo mới
@@ -162,7 +164,7 @@ vi:
     button_start_timer: Bắt đầu hẹn giờ
     button_stop_timer: Dừng hẹn giờ
     button_uncheck_all: Bỏ chọn tất cả
-    button_update: Cập Nhật
+    button_update: cập nhật
     button_view_markdown: View Markdown
     caption_rate_history: Lịch sử giá
     card:
@@ -203,6 +205,9 @@ vi:
     description_select_work_package: 'Chọn gói công việc #%{id}'
     description_subwork_package: 'Gói công việc con #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Đã xảy ra lỗi trong CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lưu tài liệu không thành công với lỗi sau: %{error}'
@@ -434,7 +439,6 @@ vi:
     label_assignee: Người được chuyển nhượng
     label_assignee_alt_text: Gói công việc này được giao cho %{name}
     label_attachments: tệp đính kèm
-    label_author: 'Tác giả: %{user}'
     label_avatar: hình đại diện
     label_between: giữa
     label_board: bảng
@@ -1086,15 +1090,24 @@ vi:
       scheduling:
         is_parent: Ngày của gói công việc này được tự động suy ra từ các phần tử con của nó. Kích hoạt 'Lập lịch thủ công' để đặt ngày.
         is_switched_from_manual_to_automatic: Ngày của gói công việc này có thể cần được tính toán lại sau khi chuyển từ lập lịch thủ công sang lập lịch tự động do mối quan hệ với các gói công việc khác.
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Hiển thị tất cả người dùng đã được chia sẻ gói công việc
         title: Chia sẻ gói công việc
       table:
         configure_button: Cấu hình bảng gói công việc
-        summary: Bảng có các hàng gói công việc và các cột thuộc tính gói công việc.
-        text_inline_edit: Hầu hết các ô của bảng này là các nút kích hoạt chức năng chỉnh sửa nội tuyến của thuộc tính đó.
-        text_select_hint: Các hộp chọn phải được mở bằng 'ALT' và phím mũi tên.
-        text_sort_hint: Với các liên kết trong tiêu đề bảng, bạn có thể sắp xếp, nhóm, sắp xếp lại, xóa và thêm các cột trong bảng.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Định cấu hình bảng gói công việc này
         choose_display_mode: Hiển thị các gói công việc dưới dạng
@@ -1103,7 +1116,6 @@ vi:
         default_mode: Danh sách phẳng
         display_settings: Cài đặt hiển thị
         display_sums_hint: Hiển thị tổng của tất cả các thuộc tính có thể tính tổng trong một hàng bên dưới kết quả của bảng.
-        embedded_tab_disabled: Tab cấu hình này không có sẵn cho chế độ xem được nhúng mà bạn đang chỉnh sửa.
         hierarchy_hint: Tất cả các kết quả bảng đã lọc sẽ được tăng cường với tổ tiên của chúng. Hệ thống phân cấp có thể được mở rộng và thu gọn.
         hierarchy_mode: Hệ thống phân cấp
         highlighting: Làm nổi bật

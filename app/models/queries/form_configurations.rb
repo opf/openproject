@@ -33,5 +33,8 @@ module Queries::FormConfigurations
     filter Filters::TypeFilter
     filter Filters::ProjectFilter
     filter Filters::CustomFieldFilter
+
+    # Only set programmatically when looking at the 'forms' tab of a custom field
+    exclude Filters::CustomFieldFilter
   end
 end

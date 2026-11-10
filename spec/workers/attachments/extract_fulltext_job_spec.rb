@@ -134,6 +134,20 @@ RSpec.describe Attachments::ExtractFulltextJob, type: :job do
     end
   end
 
+  context "with an unfinished upload" do
+    let(:attachment) { create(:pending_direct_upload) }
+
+    before do
+      attachment
+      allow(Plaintext::Resolver).to receive(:new).and_call_original
+    end
+
+    it "does not extract text" do
+      perform_enqueued_jobs
+      expect(Plaintext::Resolver).not_to have_received(:new)
+    end
+  end
+
   context "with exception during extraction" do
     let(:exception_message) { "boom-internal-error" }
     let(:logger) { Rails.logger }

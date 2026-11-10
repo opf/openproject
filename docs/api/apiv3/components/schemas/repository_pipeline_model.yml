@@ -73,24 +73,24 @@ properties:
 
             **Resource**: RepositoryMergeRequest
           readOnly: true
-example:
-  _type: RepositoryPipeline
-  _links:
-    self:
-      href: "/api/v3/repository_pipelines/99"
-      title: success
-    mergeRequest:
-      href: "/api/v3/repository_merge_requests/1"
-      title: Fix crash when saving
-  id: 99
-  status: success
-  webUrl: https://gitlab.example.com/my-group/my-project/-/pipelines/99
-  detailsUrl: https://gitlab.example.com/my-group/my-project/-/pipelines/99/builds
-  author:
-    name: Jane Doe
-    username: jdoe
-    avatarUrl: https://gitlab.example.com/uploads/user/avatar/1/avatar.png
-  startedAt: '2026-10-01T12:00:00.000Z'
-  completedAt: '2026-10-01T12:10:00.000Z'
-  createdAt: '2026-10-01T12:00:00.000Z'
-  updatedAt: '2026-10-01T12:10:00.000Z'
+examples:
+  - _type: RepositoryPipeline
+    _links:
+      self:
+        href: "/api/v3/repository_pipelines/99"
+        title: success
+      mergeRequest:
+        href: "/api/v3/repository_merge_requests/1"
+        title: Fix crash when saving
+    id: 99
+    status: success
+    webUrl: https://gitlab.example.com/my-group/my-project/-/pipelines/99
+    detailsUrl: https://gitlab.example.com/my-group/my-project/-/pipelines/99/builds
+    author:
+      name: Jane Doe
+      username: jdoe
+      avatarUrl: https://gitlab.example.com/uploads/user/avatar/1/avatar.png
+    startedAt: '2026-10-01T12:00:00.000Z'
+    completedAt: '2026-10-01T12:10:00.000Z'
+    createdAt: '2026-10-01T12:00:00.000Z'
+    updatedAt: '2026-10-01T12:10:00.000Z'

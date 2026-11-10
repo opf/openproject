@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { WorkPackageStateLinkEvent } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -75,6 +76,7 @@ import {
 import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { isInsideDisabledControl } from 'core-common/interactive-element-helper';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -118,9 +120,9 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
-  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
+  @Output() stateLinkClicked = new EventEmitter<WorkPackageStateLinkEvent>();
 
-  @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
+  @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent|KeyboardEvent }>();
 
   @Output() cardDblClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent }>();
 
@@ -219,6 +221,26 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       [`${base}-${this.workPackage.id}`]: !!this.workPackage.id,
       [`${base}_${this.orientation}`]: true,
     };
+  }
+
+  public activateCard(event:Event):void {
+    if (this.workPackage.id === null || !(event instanceof MouseEvent || event instanceof KeyboardEvent)) {
+      return;
+    }
+
+    if (event.target instanceof Element && isInsideDisabledControl(event.target)) {
+      return;
+    }
+
+    this.cardClicked.emit({ workPackageId: this.workPackage.id, event });
+  }
+
+  public emitPointerEvent(output:EventEmitter<{ workPackageId:string, event:MouseEvent }>, event:MouseEvent):void {
+    if (this.workPackage.id === null) {
+      return;
+    }
+
+    output.emit({ workPackageId: this.workPackage.id, event });
   }
 
   cardTitle():string {

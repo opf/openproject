@@ -75,6 +75,26 @@ class Status < ApplicationRecord
     order(:position)
   end
 
+  # Maps each given status to the number of distinct workflows whose transitions reference it
+  def self.workflow_counts(statuses)
+    ids = statuses.map(&:id)
+    return {} if ids.empty?
+
+    workflow_ids = Hash.new { |hash, key| hash[key] = Set.new }
+    Workflows::StatusTransition.touching_statuses(ids)
+      .pluck(:workflow_id, :old_status_id, :new_status_id)
+      .each do |workflow_id, old_id, new_id|
+        workflow_ids[old_id] << workflow_id
+        workflow_ids[new_id] << workflow_id
+      end
+
+    workflow_ids.slice(*ids).transform_values(&:size)
+  end
+
+  def workflow_count
+    Workflows::StatusTransition.touching_statuses(id).distinct.count(:workflow_id)
+  end
+
   def self.can_readonly?
     EnterpriseToken.allows_to?(:readonly_work_packages)
   end

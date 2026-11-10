@@ -2,7 +2,7 @@
 ---
 get:
   summary: View repository branch
-  operationId: view_repository_branch
+  operationId: get_repository_branch
   tags:
   - Repositories
   description: |-

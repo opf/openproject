@@ -2,7 +2,7 @@
 ---
 get:
   summary: View repository commit
-  operationId: view_repository_commit
+  operationId: get_repository_commit
   tags:
   - Repositories
   description: |-

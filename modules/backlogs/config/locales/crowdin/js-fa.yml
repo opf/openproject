@@ -45,21 +45,28 @@ fa:
         not_selectable: انتخاب بدون تغییر ماند. این بسته کاری در ترتیب این فهرست نقشی ندارد.
         range_blocked: انتخاب بدون تغییر ماند. این بازه شامل بسته کاری‌ای است که در ترتیب این فهرست نقشی ندارد.
         range_restarted:
-          one: Could not extend the range. %{count} work package selected.
-          other: Could not extend the range. %{count} work packages selected.
+          one: گسترش محدوده انتخاب ممکن نشد. %{count} بسته کاری انتخاب شده است.
+          other: گسترش بازه ممکن نشد. %{count} بسته کاری انتخاب شدند.
         range_unavailable: انتخاب بدون تغییر ماند. برای انتخاب آن بازه، این فهرست را گسترش دهید.
         selected:
-          one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          one: "%{count} بسته کاری انتخاب‌شده"
+          other: "%{count} بسته کاری انتخاب شدند."
     burndown_chart:
-      chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
-      chart_summary: 'Burndown chart data: %{days}.'
+      chart_day: 'روز %{day}: %{values}'
+      chart_label: نمودار باقی‌مانده کار اسپرینت
+      chart_summary: 'داده‌های نمودار باقی‌مانده کار اسپرینت: %{days}.'
       chart_value: "%{label}: %{value}"
-      non_working_day: Non-working day
+      story_points: امتیازهای داستان
+    burnup_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burnup chart
+      chart_summary: 'Burnup chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
       story_points: Story points
-    created_resolved:
-      work_packages: Work packages
+    created_resolved_chart:
+      work_packages: بسته‌های کاری
+    sprint_charts:
+      non_working_day: روز غیرکاری
     work_packages:
       properties:
         storyPoints: امتیاز داستان

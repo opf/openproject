@@ -28,7 +28,7 @@ describe('Inline chip - convert to block card', () => {
   //   await insertInlineWorkPackageViaSlashMenu();
 
   //   await openInlineWorkPackageSizeMenu();
-  //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
+  //   await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular card', exact: true }));
 
   //   await expect.element(page.getByTestId('block-card')).toBeVisible();
   //   await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -43,7 +43,7 @@ describe('Block card - convert to inline chip', () => {
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
     await expect.element(page.getByText('#123')).toBeVisible();
@@ -57,7 +57,7 @@ describe('Block card - convert to inline chip', () => {
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
     await expect.element(page.getByText('#123')).toBeVisible();
@@ -72,7 +72,7 @@ describe('Block card - convert to inline chip', () => {
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Regular', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
     await expect.element(page.getByText('#123')).toBeVisible();
@@ -87,7 +87,7 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
     await userEvent.keyboard(' World');
 
     await openInlineWorkPackageSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -106,7 +106,7 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
     await userEvent.keyboard(' World');
 
     await openInlineWorkPackageSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -129,7 +129,7 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
     await insertInlineWorkPackageViaHashWithTextBefore('Hello ');
 
     await openInlineWorkPackageSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -165,7 +165,7 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
 
     // Convert middle chip (#456) to block card
     await openInlineWorkPackageSizeMenu('#456');
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
     await expect.element(page.getByText('Add dark mode')).toBeVisible();
@@ -202,7 +202,7 @@ describe('Round-trip conversion', () => {
 
     // back to inline S
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Regular', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
     await expect.element(page.getByText('#123')).toBeVisible();
@@ -216,12 +216,12 @@ describe('Round-trip conversion', () => {
 
     // block
     await openInlineWorkPackageSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact card', exact: true }));
     await expect.element(page.getByTestId('block-card')).toBeVisible();
 
     // back to XXS inline
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
     await expect.element(page.getByText('#123')).toBeVisible();

@@ -47,8 +47,8 @@ RSpec.describe "Global menu item for boards", :js do
       end
 
       expect(page).to have_current_path(work_package_boards_path)
-      expect(page).to have_content(boards_label)
-      expect(page).to have_content(I18n.t(:no_results_title_text))
+      expect(page).to have_text(boards_label)
+      expect(page).to have_text(I18n.t(:no_results_title_text))
     end
   end
 
@@ -57,7 +57,7 @@ RSpec.describe "Global menu item for boards", :js do
 
     it "is not rendered" do
       within "#main-menu" do
-        expect(page).to have_no_content(boards_label)
+        expect(page).to have_no_text(boards_label)
       end
     end
   end

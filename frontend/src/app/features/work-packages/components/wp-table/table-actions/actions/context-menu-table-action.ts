@@ -25,12 +25,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import {
   contextColumnIcon,
   contextMenuLinkClassName,
+  invisibleIconButtonClasses,
   OpTableAction,
 } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
-import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
+import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
+import { ICON_MAP } from 'core-app/shared/components/primer/dynamic-icon-map';
 
 export class OpContextMenuTableAction extends OpTableAction {
   public readonly identifier = 'open-context-menu-action';
@@ -40,12 +43,14 @@ export class OpContextMenuTableAction extends OpTableAction {
   };
 
   public buildElement() {
-    const contextMenu = document.createElement('a');
-    contextMenu.href = '#';
-    contextMenu.classList.add(contextMenuLinkClassName, contextColumnIcon);
-    contextMenu.title = this.text.linkTitle;
-    contextMenu.appendChild(opIconElement('icon', 'icon-show-more-horizontal'));
+    const contextMenu = document.createElement('button');
+    contextMenu.type = 'button';
+    contextMenu.classList.add(contextMenuLinkClassName, contextColumnIcon, ...invisibleIconButtonClasses);
+    contextMenu.setAttribute('aria-haspopup', 'menu');
+    contextMenu.setAttribute('aria-expanded', 'false');
 
-    return contextMenu;
+    contextMenu.appendChild(octiconElement(ICON_MAP['kebab-horizontal'], 'small', 'Button-visual'));
+
+    return withTooltip(contextMenu, this.text.linkTitle, 'label');
   }
 }

@@ -47,7 +47,7 @@ RSpec.describe "Settings" do
       end
 
       it "can be visited" do
-        expect(page).to have_content(/#{section}/i)
+        expect(page).to have_text(/#{section}/i)
       end
     end
 

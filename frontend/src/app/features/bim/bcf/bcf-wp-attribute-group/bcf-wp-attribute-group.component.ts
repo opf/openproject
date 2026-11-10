@@ -242,9 +242,9 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       });
   }
 
-  public saveViewpoint(workPackage:WorkPackageResource) {
+  public saveViewpoint() {
     this.viewpointsService
-      .saveViewpoint$(workPackage)
+      .saveViewpoint$(this.workPackage)
       .subscribe(() => {
         this.toastService.addSuccess(this.text.notice_successful_create);
         this.showIndex = this.viewpoints.length;

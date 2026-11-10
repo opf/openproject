@@ -2,7 +2,7 @@
 ---
 get:
   summary: View repository merge request
-  operationId: view_repository_merge_request
+  operationId: get_repository_merge_request
   tags:
   - Repositories
   description: |-

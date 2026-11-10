@@ -83,7 +83,7 @@ fi:
         dependencies: Riippuvuudet
   activerecord:
     attributes:
-      ai/text_transform_action:
+      ai/text_action:
         active: Active
         injects_type_template: Insert work package type template
         label: Label
@@ -814,7 +814,7 @@ fi:
           attributes:
             base:
               archive_permission_missing_on_subprojects: You do not have the permissions required to archive all sub-projects. Please contact an administrator.
-              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artifact work package.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it.
               format: "%{message}"
@@ -828,7 +828,7 @@ fi:
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
               switch_target_not_in_family: Can only switch to another type of the same family
-          cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Work packages in non descendant projects reference versions of the project or its descendants.
         project/phase:
           attributes:
@@ -954,8 +954,6 @@ fi:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             variant:
               must_belong_to_the_type: must be a variant of this type.
-            workflow:
-              not_available_to_this_variant: must be a workflow this project can use.
         user:
           attributes:
             base:
@@ -1086,9 +1084,9 @@ fi:
       action:
         one: Action
         other: Actions
-      ai/text_transform_action:
-        one: Text transform action
-        other: Text transform actions
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Text transform run
         other: Text transform runs
@@ -1641,6 +1639,10 @@ fi:
         button_delete_personal_access_token: Delete PAT
         button_save: Save configuration
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1652,6 +1654,7 @@ fi:
           personal_access_token: Personal access token (PAT)
           url: Jira Server/Data Center URL
         label_testing: Testing configuration...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1669,18 +1672,24 @@ fi:
         jobs:
           JiraCreateCustomFieldsJob:
             title: Create custom fields
+          JiraCreateLabelsJob:
+            title: Create labels
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: Create parent-child relations for '%{jira_project_name}'
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
             title: Create 'JiraMember' project role
+          JiraCreateProjectTimeEntriesJob:
+            title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1703,6 +1712,9 @@ fi:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
         side_panel:
@@ -1764,6 +1776,9 @@ fi:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1793,6 +1808,7 @@ fi:
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
@@ -1831,7 +1847,7 @@ fi:
                   subtitle: 'Involved in imported projects '
                 work_packages:
                   label: Work packages
-                  subtitle: With attachments
+                  subtitle: With attachments and logged time
               title: Import run results
             import_scope:
               button_continue: Continue
@@ -1848,6 +1864,7 @@ fi:
                 issue_details: Issue description, history, comments and attachments
                 issue_ids: Issue identifiers
                 issues: Issues
+                logged_time: Logged time
                 permissions: Permissions
                 project_ids: Project identifiers
                 project_versions: Project versions
@@ -1880,6 +1897,12 @@ fi:
             '1':
               rest_line_text: ''
               title: Fetch Jira configuration
+            '10':
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
+            '11':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
@@ -1902,8 +1925,8 @@ fi:
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
             '9':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
+              title: Create parent-child relations from subtasks
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
@@ -1912,10 +1935,12 @@ fi:
         error: An unexpected error occurred while testing the connection
         failed: 'Connection failed: Unable to retrieve server information'
         invalid_url: Please provide a valid URL
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Failed to parse the response from the server. The server may not be a valid Jira instance.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Successfully connected to %{server} (version %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: Unknown
@@ -2165,11 +2190,11 @@ fi:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
         description: Users will no longer be able to run this action in the rich text editor.
         heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete text transform action
+        title: Delete action
       form:
         injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
         label_caption: This is the name that will be visible to users in the editor.
@@ -2177,19 +2202,20 @@ fi:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
         label_add_action: Action
-        label_aria_add_action: Add text transform action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
           description: Add an action to see it here
-          title: No text transform actions configured yet
-        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
         label_disable_all: Disable all
         label_enable_all: Enable all
-        title: Actions
+        title: Action
       new:
-        title: New text transform action
+        title: New text action
       row_component:
         label_actions: Action menu
         label_toggle: Toggle %{label}
@@ -2252,7 +2278,9 @@ fi:
     text_transform:
       errors:
         connection_failed: The AI service could not be reached.
-        not_available: The AI assistant is not available.
+        context_too_long: The text is too long for the AI model. Shorten it and try again.
+        not_available: The text assistant is not available.
+        rate_limited: The AI service is busy. Try again in a moment.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
       pane:
@@ -2263,7 +2291,9 @@ fi:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2295,6 +2325,8 @@ fi:
         emoji_reactions_activity_type_not_supported: This activity type does not support emoji reactions.
         invalid_link: The link under key '%{key}' is not valid.
         links_not_an_object: _links must be a JSON object.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Bad request: %{message}'
       code_401: Kirjaudu käyttääksesi tätä resurssia.
       code_401_wrong_credentials: Et ole antanut oikeita käyttäjätietoja.
@@ -2344,6 +2376,7 @@ fi:
       schema: Schema
     undisclosed:
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      budget: Undisclosed - The budget is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.
@@ -2643,6 +2676,22 @@ fi:
       missing_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is empty.
       unknown: An unknown error occurred. Please review the formula for this Calculated value.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Edit Color
     form:
@@ -2670,7 +2719,7 @@ fi:
     failure_message: Suostumuksen antaminen epäonnistui, ei voida jatkaa.
     not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     text_update_consent_time: Valitse tämä ruutu pakottaaksesi käyttäjät hyväksymään suostumus uudelleen. Ota käyttöön kun olet muuttanut yllä olevia ehtoja.
-    title: Käyttäjän suostumus
+    title: User consent
     update_consent_last_time: 'Suostumuksen viimeisin päivitys: %{update_time}'
     user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
   copy_project:
@@ -3143,6 +3192,7 @@ fi:
       scim_api: SCIM server API
       sso_auth_providers: Single Sign-On
       team_planner_view: Team Planner View
+      text_assistant: Text assistant
       virus_scanning: Antivirus Scanning
       weighted_item_lists: Weighted item lists
       work_package_query_relation_columns: Work Package Query Relation Columns
@@ -3255,6 +3305,9 @@ fi:
       sso_auth_providers:
         description: Enable users to log in via external SSO providers using SAML or OpenID Connect for seamless access and integration with existing identity systems.
         title: Single Sign-On (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise add-on
       trial_text: This feature is included in your active Enterprise trial.
       unlimited: Rajoittamaton
@@ -3509,6 +3562,7 @@ fi:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3516,7 +3570,7 @@ fi:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -3812,6 +3866,9 @@ fi:
         header: changes by %{author}
         migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
+      label_deleted:
+        one: "%{label_names} was deleted"
+        other: "%{label_names} were deleted"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
       meeting_series_backlog_html: backlog for meeting series %{link}
@@ -3836,6 +3893,7 @@ fi:
       total_percent_complete_mode_changed_to_work_weighted_average: Child work packages without Work are ignored.
       unaccessable_work_package_changed: by changes to a related work package
       work_package_children_changed_times: by changes to child %{link}
+      work_package_children_changed_values: by changing values within child work package %{link}
       work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
       work_package_parent_changed_times: by changes to parent %{link}
       work_package_parent_deleted: because the parent work package was deleted
@@ -3851,10 +3909,13 @@ fi:
           working: "%{day} is now working"
     caused_changes:
       budget_deleted: Budget has been deleted
+      comment_retracted: Comment retracted
       dates_changed: Dates changed
       default_attribute_written: Read-only attributes written
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
@@ -3868,6 +3929,7 @@ fi:
       system_update: 'OpenProject system update:'
       total_percent_complete_mode_changed_to_simple_average: Calculation of % Complete totals now based on a simple average of only % Complete values.
       total_percent_complete_mode_changed_to_work_weighted_average: Calculation of % Complete totals now weighted by Work.
+      work_package_children_changed_values: Updated automatically
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: The changes were retracted.
@@ -3993,7 +4055,7 @@ fi:
   label_completed: Completed
   label_configuration: asetukset
   label_confirmation: Vahvistus
-  label_consent_settings: Käyttäjän suostumus
+  label_consent_settings: User consent
   label_constant_plural: Constants
   label_contains: sisältää
   label_content: Sisältö
@@ -4994,7 +5056,7 @@ fi:
       mail_notification: Sähköposti-ilmoitukset
       mails_and_notifications: Emails and notifications
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Text transform actions
+      text_actions: Text assistant
     quick_add:
       label: Add…
   more_actions: Enemmän toimintoja
@@ -5554,10 +5616,19 @@ fi:
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Page %{page} of %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: Attributes and description
@@ -5870,11 +5941,11 @@ fi:
           no_status_when_submitted: Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type.
           no_work_package_type: Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Select which of the configured external file storages should be used.
           external_file_storage: External file storage
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: Save as work package file attachment
           label_file_link_export: Upload file to external file storage and add file link to work package
           pdf_file_storage: PDF file storage
@@ -5980,10 +6051,12 @@ fi:
         switch:
           apply: Apply
           impact:
-            hidden_heading: Fields that will no longer be shown
-            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
-            missing_statuses_heading: Work packages that get stuck
-            new_heading: Fields that become available
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: No fields or statuses are affected.
             status_count:
               one: "%{count} work package"
@@ -6013,14 +6086,14 @@ fi:
     status:
       button_edit: Edit status
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
       sidebar_content_title: Content
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Project initiation request
   pwa:
     offline:
@@ -6046,6 +6119,22 @@ fi:
         automatic:
           description: Order the %{plural} by one or more sorting criteria. You will lose the previous sorting.
           heading: Automaattinen
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6250,7 +6339,6 @@ fi:
   setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Allowed link protocols
   setting_allowed_link_protocols_text_html: Allow these protocols to be rendered as links in work package descriptions, long text fields and comments. For example, %{tel_code} or %{element_code}. Enter one protocol per line. <br/> Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
   setting_antivirus_scan_action: Infected file action
@@ -6604,12 +6692,12 @@ fi:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Project creation wizard
           project_initiation_request: Project initiation request
@@ -6629,8 +6717,8 @@ fi:
           You submitted a project initiation request for **%{project_name}**. It is now awaiting review.
           Click the link below to access the work package with your request.
         confirmation_email_text: Confirmation email text
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Status when submitted
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -6638,7 +6726,7 @@ fi:
         work_package_comment_caption: The assignee selected above will automatically be @mentioned in the comment.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -6807,6 +6895,10 @@ fi:
         No attributes can be changed with the exception of the status.
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      used_by_workflows:
+        one: This status is used by %{count} workflow.
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: Status could not be moved.
       headers:
@@ -6816,6 +6908,9 @@ fi:
       no_results_content_text: Lisää uusi tila
       no_results_title_text: Ei tehtävien tiloja.
       status_actions: Status actions
+      workflows_count:
+        one: "%{count} workflow"
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: and
@@ -6987,6 +7082,9 @@ fi:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: iltapäivä
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: to
     show: Näytä aikataulu
@@ -7162,13 +7260,13 @@ fi:
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: No PDF is generated automatically.
             label: 'Off'
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         pdf_export_templates:
           actions:
@@ -7180,7 +7278,6 @@ fi:
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
-          section_title: PDF export templates
           settings:
             edit_link: Edit settings
             reset_to_default: Reset to default
@@ -7202,7 +7299,6 @@ fi:
         empty_group_hint: Drag attributes here
         exclusions:
           attribute_label: Inherit %{attribute}
-          excluded: Hidden
           section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
@@ -7211,9 +7307,15 @@ fi:
         invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Remove from section
         rename_group: Rename section
         required:
@@ -7230,6 +7332,7 @@ fi:
         reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: Form
         untitled_group: Untitled group
       overview:
@@ -7254,7 +7357,6 @@ fi:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
         filter: Search by section or name
@@ -7274,8 +7376,6 @@ fi:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: Enable for all projects
-        select_projects: Select projects
-        select_projects_description: Select the projects in which you would like to use this type.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?
@@ -7334,14 +7434,14 @@ fi:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
             empty:
               caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
+              label: Start from scratch
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (parent)"
@@ -7378,9 +7478,6 @@ fi:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
-
-          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
@@ -7395,7 +7492,7 @@ fi:
           one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
-      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Copy of %{name}
@@ -7712,9 +7809,6 @@ fi:
       note_placeholder: Why are you setting this reminder?
       success_deletion_message: Reminder deleted successfully.
       success_update_message: Reminder updated successfully.
-    updated_automatically_by_child_changes: '_Päivitetty automaattisesti alitehtävän %{child} muutoksen seurauksena_
-
-      '
   work_package_relations_tab:
     index:
       action_bar_title: Add relations to other work packages to create a link between them.
@@ -8095,8 +8189,6 @@ fi:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             other: Successfully copied workflow to %{count} roles.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8114,6 +8206,7 @@ fi:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Description
@@ -8129,7 +8222,7 @@ fi:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow

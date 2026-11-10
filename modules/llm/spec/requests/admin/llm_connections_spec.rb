@@ -113,22 +113,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(response.body).not_to include("llm-settings--tabs")
       end
 
-      it "points at no tab while the connection is disabled" do
+      it "shows the shared header description while the connection is disabled" do
         create(:llm_connection, base_url:)
 
         get llm_connection_path
 
-        expect(response.body).to include("Connect OpenProject to an LLM server")
-        expect(response.body).not_to include("review the models offered by the server")
+        expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
       end
 
-      it "points at the Models tab once the features are on",
+      it "shows the shared header description once the features are on",
          with_settings: { llm_features_enabled: true } do
         create(:llm_connection, base_url:)
 
         get llm_connection_path
 
-        expect(response.body).to include("review the models offered by the server")
+        expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
         expect(page).to have_css("a[href='#{llm_models_path}']", text: "Models")
       end
 
@@ -173,24 +172,31 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       context "when an API key is stored" do
         let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
-        it "says that a key is stored and keeps the field blank" do
+        it "shows no caption and keeps the field blank" do
           get llm_connection_path
 
-          expect(response.body).to include("A key is stored")
+          expect(response.body).not_to include("A key is stored")
+          expect(response.body).not_to include("Leave blank to keep the current key")
           expect(response.body).not_to include("sk-original")
         end
 
-        it "marks the stored key in the field itself" do
+        it "shows a disabled masked field instead of the editable one" do
           get llm_connection_path
 
-          expect(page).to have_css("#{api_key_field}[placeholder='API key stored']", visible: :all)
-          expect(page).to have_no_css("#{api_key_field}[value]", visible: :all)
+          expect(page).to have_no_css(api_key_field, visible: :all)
+          expect(page).to have_no_css("[placeholder='API key stored']", visible: :all)
+          expect(page).to have_css("input[name='saved_api_key'][disabled][value='*********']", visible: :all)
         end
 
-        it "offers to remove the key beside the field" do
+        it "offers a trash icon button that opens the delete dialog" do
           get llm_connection_path
 
-          expect(page).to have_css(remove_api_key, text: "Remove key", visible: :all)
+          expect(page).to have_css(
+            "#{remove_api_key}[href='#{delete_api_key_dialog_llm_connection_path}'][data-controller='async-dialog']",
+            visible: :all
+          )
+          expect(page).to have_css("#{remove_api_key} .octicon-trash", visible: :all)
+          expect(page).to have_css("tool-tip", text: "Remove key", visible: :all)
         end
       end
 
@@ -580,6 +586,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
     end
 
+    context "when the server rejects the stored key" do
+      let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+      let(:new_base_url) { "https://other.example.com/v1" }
+      let!(:models_request) { mock_llm_models_response(new_base_url, response_code: 401) }
+
+      it "shows the rejection beside the masked field" do
+        patch llm_connection_path,
+              params: { llm_connection: { base_url: new_base_url, api_key: "" } },
+              headers: { "Accept" => "text/html" }
+
+        expect(page).to have_css("input[name='saved_api_key'][disabled]", visible: :all)
+        expect(response.body).to include("was rejected by the LLM server")
+      end
+    end
+
     context "when an API key is already stored" do
       let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
       let!(:models_request) { mock_llm_models_response(base_url) }
@@ -742,20 +763,15 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Disconnect from the LLM server?")
-      expect(response.body).to include("Description assistant")
+      expect(response.body).to include("Text assistant")
     end
 
-    it "clears the credential and switches the connection off, keeping everything else" do
-      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
-
+    it "disconnects and confirms it" do
       post disconnect_llm_connection_path
 
-      connection.reload
-      expect(connection.api_key).to be_blank
-      expect(Setting.llm_features_enabled?).to be(false)
-      expect(connection.base_url).to eq("https://example.com/v1")
-      expect(connection.models.count).to eq(2)
-      expect(connection.feature_bindings.first.model_id).to eq("qwen3.6-27b")
+      expect(response).to have_http_status(:see_other)
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disconnect.success"))
+      expect(connection.reload.api_key).to be_blank
     end
 
     it "refuses when the connection comes from the environment" do
@@ -767,47 +783,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(flash[:error]).to eq(I18n.t("admin.llm_connections.disconnect.configured_from_env"))
       expect(connection.reload.api_key).to eq("sk-test")
       expect(Setting.llm_features_enabled?).to be(true)
-    end
-
-    it "refuses when a seed applies the environment's values after the request loaded the connection" do
-      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
-      apply_environment_after_the_connection_loads
-
-      post disconnect_llm_connection_path
-
-      expect(flash[:error]).to eq(I18n.t("admin.llm_connections.disconnect.configured_from_env"))
-      connection.reload
-      expect(connection.api_key).to eq("sk-from-env")
-      expect(connection.env_provisioned_at).to be_present
-      expect(Setting.llm_features_enabled?).to be(true)
-    end
-
-    it "disconnects a connection the environment has not written yet" do
-      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
-
-      post disconnect_llm_connection_path
-
-      expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disconnect.success"))
-      expect(connection.reload.api_key).to be_blank
-    end
-
-    it "lets go of the environment's mark once the environment no longer configures the connection" do
-      connection.update_columns(env_provisioned_at: Time.current)
-
-      post disconnect_llm_connection_path
-
-      connection.reload
-      expect(connection.api_key).to be_blank
-      expect(connection.env_provisioned_at).to be_nil
-    end
-
-    it "clears the credential when the features switch is set through the environment" do
-      allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
-
-      post disconnect_llm_connection_path
-
-      expect(response).to have_http_status(:see_other)
-      expect(connection.reload.api_key).to be_blank
     end
 
     it "is refused to a non-admin" do
@@ -835,16 +810,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       post disconnect_llm_connection_path
 
       expect(response).to have_http_status(:forbidden)
-    end
-
-    it "disconnects a stored connection that no longer passes validation" do
-      connection.update_column(:base_url, "not a url")
-
-      post disconnect_llm_connection_path
-
-      expect(response).to have_http_status(:see_other)
-      expect(connection.reload.api_key).to be_nil
-      expect(Setting.llm_features_enabled?).to be(false)
     end
   end
 

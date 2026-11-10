@@ -13,7 +13,7 @@ async function settled(selector:string):Promise<Element> {
   return document.querySelector(selector)!;
 }
 
-const chip = () => settled('.op-bn-inline-wp[role="button"]');
+const chip = () => settled('.op-bn-inline-wp:has([aria-haspopup="menu"])');
 const blockCard = () => settled('[data-testid="block-card"]');
 
 describe('Single tap activation', () => {

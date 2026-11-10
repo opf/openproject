@@ -19,6 +19,7 @@ import {
 } from '../../services/colors';
 import { formatWorkPackageId } from '../../utils/id';
 import type { TapActivationProps } from '../../utils/tapActivation';
+import type { MenuButtonProps } from '../../utils/a11y';
 
 const DESCRIPTION_MAX_CHARS = 300;
 
@@ -30,6 +31,7 @@ export interface BlockCardSharedProps {
   inDropdown?:boolean;
   linkTitle?:boolean;
   onActivation?:TapActivationProps;
+  menuButton?:MenuButtonProps;
 }
 
 function buildTitle(workPackage:WorkPackage, linkTitle:boolean) {
@@ -98,13 +100,14 @@ const DescriptionSnippet = styled.p`
 const CardMeta = ({
   workPackage,
   withRelations = false,
-}:{ workPackage:WorkPackage; withRelations?:boolean }) => (
+  menuButton,
+}:{ workPackage:WorkPackage; withRelations?:boolean; menuButton?:MenuButtonProps }) => (
   <>
     <WorkPackageType $color={typeColor(workPackage)}>
       {workPackage._links?.type?.title}
     </WorkPackageType>
     {WRAP_OPPORTUNITY}
-    <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
+    <WorkPackageId {...menuButton}>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
     {WRAP_OPPORTUNITY}
     <WorkPackageStatus
       $baseColor={statusColor(workPackage)}
@@ -135,6 +138,7 @@ export const BlockCardM = ({
   inDropdown = false,
   linkTitle = false,
   onActivation,
+  menuButton,
   cardRef,
 }:BlockCardSharedProps & { cardRef?:React.Ref<HTMLDivElement> }) => (
   <CardBase
@@ -142,12 +146,11 @@ export const BlockCardM = ({
     className="op-bn-work-package op-bn-work-package--m"
     $inDropdown={inDropdown}
     {...onActivation}
-    role={onActivation ? 'button' : undefined}
     data-testid="block-card"
     style={onActivation ? { cursor: 'pointer' } : undefined}
   >
     <CardDetails>
-      <CardMeta workPackage={workPackage} />
+      <CardMeta workPackage={workPackage} menuButton={menuButton} />
     </CardDetails>
     <WorkPackageTitle>{buildTitle(workPackage, linkTitle)}</WorkPackageTitle>
   </CardBase>
@@ -160,6 +163,7 @@ export const BlockCardL = ({
   inDropdown = false,
   linkTitle = false,
   onActivation,
+  menuButton,
   cardRef,
 }:BlockCardSharedProps & { cardRef?:React.Ref<HTMLDivElement> }) => (
   <CardBase
@@ -167,12 +171,11 @@ export const BlockCardL = ({
     className="op-bn-work-package op-bn-work-package--l"
     $inDropdown={inDropdown}
     {...onActivation}
-    role={onActivation ? 'button' : undefined}
     data-testid="block-card"
     style={onActivation ? { cursor: 'pointer' } : undefined}
   >
     <CardDetailsSpaced>
-      <CardMeta workPackage={workPackage} withRelations />
+      <CardMeta workPackage={workPackage} withRelations menuButton={menuButton} />
     </CardDetailsSpaced>
     <WorkPackageTitle>{buildTitle(workPackage, linkTitle)}</WorkPackageTitle>
   </CardBase>
@@ -184,6 +187,7 @@ export const BlockCardXL = ({
   inDropdown = false,
   linkTitle = false,
   onActivation,
+  menuButton,
   cardRef,
 }:BlockCardSharedProps & { cardRef?:React.Ref<HTMLDivElement> }) => {
   const rawDescription = workPackage.description?.raw;
@@ -200,12 +204,11 @@ export const BlockCardXL = ({
       className="op-bn-work-package op-bn-work-package--xl"
       $inDropdown={inDropdown}
       {...onActivation}
-      role={onActivation ? 'button' : undefined}
       data-testid="block-card"
       style={onActivation ? { cursor: 'pointer' } : undefined}
     >
       <CardDetailsSpaced>
-        <CardMeta workPackage={workPackage} withRelations />
+        <CardMeta workPackage={workPackage} withRelations menuButton={menuButton} />
       </CardDetailsSpaced>
       <WorkPackageTitle>{buildTitle(workPackage, linkTitle)}</WorkPackageTitle>
       {snippetText && (

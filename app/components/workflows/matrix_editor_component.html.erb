@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
                   data: data_attributes
                 )
               ) do |panel|
-                panel.with_show_button(scheme: :secondary) do |button|
+                panel.with_show_button(scheme: :secondary, classes: "op-workflow-role-select-button") do |button|
                   button.with_trailing_visual_icon(icon: :"triangle-down")
                   if roles.many?
                     t("admin.workflows.role_selector.roles", count: roles.size)
@@ -145,7 +145,7 @@ See COPYRIGHT and LICENSE files for more details.
           t("admin.workflows.status_button")
         end
 
-        if (copy_href = context.copy_path(source_role_id: roles.first&.id))
+        if (copy_href = context.copy_path(source_role_id: roles.first&.id, tab:))
           subheader.with_action_button(
             tag: :a,
             scheme: :secondary,
@@ -220,6 +220,11 @@ See COPYRIGHT and LICENSE files for more details.
       %>
     <% end %>
   <% else %>
+    <% roles.each do |role| %>
+      <%= hidden_field_tag "role_ids[]", role.id %>
+    <% end %>
+    <%= hidden_field_tag "tab", tab %>
+
     <%= render Workflows::BlankslateComponent.new(context:) %>
   <% end %>
 <% end %>

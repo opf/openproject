@@ -55,6 +55,20 @@ RSpec.describe "What's new menu", :js do
     )
   end
 
+  shared_examples "hides the what's new entries" do
+    it "shows neither the button nor the user menu link" do
+      visit home_path
+
+      expect(page).to have_test_selector("header-help-button")
+      expect(page).to have_no_test_selector("op-header-whats-new-button", visible: :all)
+
+      find_test_selector("op-app-header--user-menu-button").click
+
+      expect(page).to have_css("#op-app-header--user-menu-list")
+      expect(page).to have_no_test_selector("op-menu--whats-new", visible: :all)
+    end
+  end
+
   context "with items for the current release" do
     it "places the button left of the notification bell" do
       visit home_path
@@ -171,32 +185,16 @@ RSpec.describe "What's new menu", :js do
       user.pref.save!
     end
 
-    it "shows neither the button nor the user menu link" do
-      visit home_path
+    it_behaves_like "hides the what's new entries"
+  end
 
-      expect(page).to have_test_selector("header-help-button")
-      expect(page).to have_no_test_selector("op-header-whats-new-button", visible: :all)
-
-      find_test_selector("op-app-header--user-menu-button").click
-
-      expect(page).to have_css("#op-app-header--user-menu-list")
-      expect(page).to have_no_test_selector("op-menu--whats-new", visible: :all)
-    end
+  context "with community links disabled", with_config: { show_community_links: false } do
+    it_behaves_like "hides the what's new entries"
   end
 
   context "without items for the current release" do
     let(:items) { [] }
 
-    it "shows neither the button nor the user menu link" do
-      visit home_path
-
-      expect(page).to have_test_selector("header-help-button")
-      expect(page).to have_no_test_selector("op-header-whats-new-button", visible: :all)
-
-      find_test_selector("op-app-header--user-menu-button").click
-
-      expect(page).to have_css("#op-app-header--user-menu-list")
-      expect(page).to have_no_test_selector("op-menu--whats-new", visible: :all)
-    end
+    it_behaves_like "hides the what's new entries"
   end
 end

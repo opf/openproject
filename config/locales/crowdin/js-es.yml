@@ -45,6 +45,8 @@ es:
       draggable_hint: 'Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: El archivo está en cuarentena, ya que se ha encontrado un virus. No está disponible para su descarga.
     autocomplete_ng_select:
       add_tag: Añadir elemento
@@ -127,8 +129,8 @@ es:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copiar enlace al portapapeles
-    button_copy_numeric_id_to_clipboard: Copiar ID numérico al portapapeles
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copiar en el portapapeles
     button_copy_to_other_project: Duplicar en otro proyecto
     button_create: Crear
@@ -201,6 +203,9 @@ es:
     description_select_work_package: 'Seleccione el paquete de trabajo #%{id}'
     description_subwork_package: 'Seleccione el paquete de trabajo #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Se ha producido un error dentro de CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
@@ -432,7 +437,6 @@ es:
     label_assignee: Asignado a
     label_assignee_alt_text: Este paquete de trabajo está asignado a %{name}
     label_attachments: Archivos adjuntos
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: entre
     label_board: Tablero
@@ -1090,15 +1094,26 @@ es:
       scheduling:
         is_parent: Las fechas de este paquete de trabajo son deducidas automáticamente de sus sub-elementos. Active 'Programación manual' para establecer las fechas.
         is_switched_from_manual_to_automatic: Las fechas de este paquete de trabajo pueden necesitar ser recalculadas después de pasar de programación manual a programación automática debido a las relaciones con otros paquetes de trabajo.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Mostrar todos los usuarios con los que se ha compartido el paquete de trabajo
         title: Compartir paquete de trabajo
       table:
         configure_button: Configurar tabla de paquetes de trabajo
-        summary: Tabla con filas de paquetes de trabajo y columnas con sus atributos.
-        text_inline_edit: La mayoría de las celdas de esta tabla son botones que activan la funcionalidad de edición de dicho atributo.
-        text_select_hint: Los cuadros de selección deben ser abiertos con 'ALT' y las teclas de cursor.
-        text_sort_hint: Con los enlaces en los encabezamientos de las tablas puede ordenar, agrupar, reordenar, quitar y añadir columnas de las tablas.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Configurar esta tabla de paquetes de trabajo
         choose_display_mode: Mostrar paquetes de trabajo como
@@ -1107,7 +1122,6 @@ es:
         default_mode: Lista plana
         display_settings: Configuración de visualización
         display_sums_hint: Muestra las sumas de todos los atributos que pueden sumarse en una fila debajo de los resultados de la tabla.
-        embedded_tab_disabled: Esta pestaña de configuración no está disponible para la vista insertada que está editando.
         hierarchy_hint: A todos los resultados de la tabla filtrada se le añadirán sus antecesores. Las jerarquías se pueden expandir y contraer.
         hierarchy_mode: Jerarquía
         highlighting: Resaltado

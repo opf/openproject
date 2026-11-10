@@ -84,3 +84,16 @@ export function selectBlockNode(editor:AnyEditor, blockId:string):void {
   });
   hideSafariPhantomSelection(editor);
 }
+
+/** The DOM of the work package the editor has node-selected, if it has one selected. */
+export function selectedWorkPackageDom(editor:AnyEditor):Node | null {
+  const { selection } = editor.prosemirrorState;
+  if (!(selection instanceof NodeSelection)) return null;
+  if (!WORK_PACKAGE_NODE_TYPES.includes(selection.node.type.name)) return null;
+
+  return editor.prosemirrorView?.nodeDOM(selection.from) ?? null;
+}
+
+export function isWorkPackageNodeSelected(editor:AnyEditor, element:Element | null):boolean {
+  return Boolean(element && selectedWorkPackageDom(editor)?.contains(element));
+}

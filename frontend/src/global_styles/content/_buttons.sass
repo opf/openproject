@@ -58,8 +58,14 @@ a.button
     text-decoration: none
 
   &:disabled,
-  &.-disabled
+  &.-disabled,
+  &[aria-disabled="true"]
     @include button-disabled
+
+  &[aria-disabled="true"]
+    pointer-events: auto
+    --button--background-hover-color: var(--button--background-color)
+    --button--primary-background-hover-color: var(--button--primary-background-color)
 
   &.-with-icon
     &::before
@@ -200,7 +206,8 @@ html.-browser-windows.-browser-chrome
   &:hover
     text-decoration: underline
 
-  &[disabled], &[disabled]:hover
+  &[disabled], &[disabled]:hover,
+  &[aria-disabled="true"], &[aria-disabled="true"]:hover
     cursor: not-allowed
     background: none
     color: var(--fgColor-muted)

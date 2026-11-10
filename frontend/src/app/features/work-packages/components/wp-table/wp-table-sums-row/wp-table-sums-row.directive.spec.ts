@@ -28,8 +28,7 @@
 import { ChangeDetectorRef, Component, Injector } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { firstValueFrom, Subject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { within } from '@testing-library/dom';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
@@ -38,12 +37,11 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { nextTask } from 'core-common/testing/timing';
-import { buildQuery, buildTable, FakeDragAndDropService, harnessProviders, initializeViewServices, TableHarness } from '../../wp-fast-table/testing/table-harness';
-import type { KeyboardNavigation } from '../../wp-fast-table/handlers/state/keyboard/keyboard-navigation-transformer';
-import { totalsRowKey } from '../../wp-fast-table/handlers/state/keyboard/navigable-rows';
+import { buildQuery, buildTable, FakeDragAndDropService, harnessProviders, initializeViewServices, scopeKeys, TableHarness } from '../../wp-fast-table/testing/table-harness';
+import { totalsRowKey } from '../../wp-fast-table/row-keys';
 import { WorkPackageTableSumsRowController } from './wp-table-sums-row.directive';
 
-@Component({ template: '<table><tbody><tr wpTableSumsRow></tr></tbody></table>', standalone: false })
+@Component({ template: '<table><tbody><tr class="wp-table--sums-row wp-table--row" wpTableSumsRow></tr></tbody></table>', standalone: false })
 class SumsHostComponent {}
 
 describe('WorkPackageTableSumsRowController input readiness', () => {
@@ -154,25 +152,24 @@ describe('WorkPackageTableSumsRowController input readiness', () => {
   ])('captures focus ownership before %s the row and notifies the table after', async (_name, enabled, text) => {
     const events:string[] = [];
     row.innerHTML = '<td>previous</td>';
-    harness.table.keyboardNavigation = {
-      captureOwnership: () => events.push(`capture:${row.textContent}`),
-    } as unknown as KeyboardNavigation;
-    harness.table.rowsRefreshed$.subscribe((key) => events.push(`refreshed:${key}:${row.textContent}`));
+    vi.spyOn(harness.table.keyboardNavigation, 'captureOwnership').mockImplementation(() => { events.push(`capture:${row.textContent}`); });
+    vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged').mockImplementation(({ scope }) => { events.push(`refreshed:${scopeKeys(scope).join(',')}:${row.textContent}`); });
     directive.wpTableSums.setEnabled(enabled);
     directive.workPackageTable = harness.table;
     fixture.detectChanges();
 
     await resolveSchema();
 
-    expect(events).toEqual(['capture:previous', `refreshed:${totalsRowKey}:${text}`]);
+    expect(events).toEqual([
+      'capture:previous', `refreshed:${totalsRowKey}:previous`,
+      'capture:previous', `refreshed:${totalsRowKey}:${text}`,
+    ]);
   });
 
   it('leaves an already empty row alone when sums are off', async () => {
     const events:string[] = [];
-    harness.table.keyboardNavigation = {
-      captureOwnership: () => events.push('capture'),
-    } as unknown as KeyboardNavigation;
-    harness.table.rowsRefreshed$.subscribe((key) => events.push(`refreshed:${key}`));
+    vi.spyOn(harness.table.keyboardNavigation, 'captureOwnership').mockImplementation(() => { events.push('capture'); });
+    vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged').mockImplementation(({ scope }) => { events.push(`refreshed:${scopeKeys(scope).join(',')}`); });
     directive.wpTableSums.setEnabled(false);
     directive.workPackageTable = harness.table;
     fixture.detectChanges();
@@ -180,7 +177,7 @@ describe('WorkPackageTableSumsRowController input readiness', () => {
     await resolveSchema();
 
     expect(row).toBeEmptyDOMElement();
-    expect(events).toEqual([]);
+    expect(events).toEqual(['capture', `refreshed:${totalsRowKey}`]);
   });
 });
 
@@ -217,6 +214,7 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     directive = debug.injector.get(WorkPackageTableSumsRowController);
     hostChangeDetector = debug.injector.get(ChangeDetectorRef);
     row = debug.nativeElement as HTMLTableRowElement;
+    harness.tbody.closest('table')!.append(row.parentElement!);
     TestBed.inject(IsolatedQuerySpace).results.putValue({
       elements: [], sumsSchema: { href: '/api/v3/sums/schema' }, totalSums: { storyPoints: 34 },
     } as unknown as WorkPackageCollectionResource);
@@ -234,7 +232,6 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     await nextTask();
   }
 
-  const section = () => row.parentElement!;
   const valueCell = () => within(row).getByText('34').closest('td')!;
 
   afterEach(async () => {
@@ -243,83 +240,98 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     vi.restoreAllMocks();
   });
 
-  it('paints roles and exposure before notifying the table', async () => {
-    const harness = await setUp({ keyboardNavigationEnabled: true });
-    const painted = firstValueFrom(harness.table.rowsRefreshed$.pipe(take(1), map((key) => ({
-      key,
-      role: row.getAttribute('role'),
-      level: row.getAttribute('aria-level'),
-      cellRoles: Array.from(row.cells).map((cell) => cell.getAttribute('role')),
-      rowHidden: row.getAttribute('aria-hidden'),
-      sectionRole: section().getAttribute('role'),
-      sectionHidden: section().getAttribute('aria-hidden'),
-    }))));
+  it('repaints once per update, with the cells in place, before the row notification', async () => {
+    const harness = await setUp({});
+    const events:string[] = [];
+    const paint = harness.table.painter.paint.bind(harness.table.painter);
+    vi.spyOn(harness.table.painter, 'paint').mockImplementation((scope) => {
+      events.push(`paint:${row.cells.length > 0}`);
+      return paint(scope);
+    });
+    vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged').mockImplementation(() => { events.push('notify'); });
     attach(harness, true);
+    events.length = 0;
 
     await resolveSchema();
 
-    expect(await painted).toEqual({
-      key: totalsRowKey,
-      role: 'row',
-      level: '1',
-      cellRoles: Array.from(row.cells).map(() => 'gridcell'),
-      rowHidden: null,
-      sectionRole: 'rowgroup',
-      sectionHidden: null,
-    });
-    expect(row.cells.length).toBeGreaterThan(0);
+    expect(events).toEqual(['paint:true', 'notify']);
+    events.length = 0;
+    directive.wpTableSums.setEnabled(false);
+    expect(events).toEqual(['paint:false', 'notify']);
   });
 
-  it('hides the empty row and section until its cells render, and again after clearing', async () => {
-    const harness = await setUp({ keyboardNavigationEnabled: true });
+  it('mutates the totals row by its key', async () => {
+    const harness = await setUp({});
+    attach(harness, true);
+    const mutated = harness.nextMutation().then(({ scope }) => scopeKeys(scope));
+
+    await resolveSchema();
+
+    expect(await mutated).toEqual([totalsRowKey]);
+  });
+
+  it('renders the cells while sums are on and empties the row again when they are off', async () => {
+    const harness = await setUp({});
     attach(harness, false);
 
     expect(row).toBeEmptyDOMElement();
-    expect(row).toHaveAttribute('aria-hidden', 'true');
-    expect(section()).toHaveAttribute('aria-hidden', 'true');
 
     directive.wpTableSums.setEnabled(true);
     await resolveSchema();
 
-    expect(row).not.toHaveAttribute('aria-hidden');
-    expect(section()).not.toHaveAttribute('aria-hidden');
+    expect(row.cells.length).toBeGreaterThan(0);
 
     directive.wpTableSums.setEnabled(false);
 
     expect(row).toBeEmptyDOMElement();
-    expect(row).toHaveAttribute('aria-hidden', 'true');
-    expect(section()).toHaveAttribute('aria-hidden', 'true');
   });
 
-  it('stays hidden when the schema resolves after sums were disabled', async () => {
-    const harness = await setUp({ keyboardNavigationEnabled: true });
-    const refreshed = vi.fn();
-    harness.table.rowsRefreshed$.subscribe(refreshed);
-    attach(harness, true);
-    directive.wpTableSums.setEnabled(false);
+  it('repaints only the replacement table after a pending schema resolves', async () => {
+    const previous = await setUp({});
+    attach(previous, true);
+    const previousPaint = vi.spyOn(previous.table.painter, 'paint');
+    const replacement = buildTable({ workPackages: [], configuration: {} });
+    tables.push(replacement);
+    replacement.tbody.closest('table')!.append(row.parentElement!);
+    directive.workPackageTable = replacement.table;
+    const replacementPaint = vi.spyOn(replacement.table.painter, 'paint');
+    previous.table.destroy();
 
     await resolveSchema();
 
+    expect(previousPaint).not.toHaveBeenCalled();
+    expect(replacementPaint).toHaveBeenCalled();
+    expect(row.cells.length).toBeGreaterThan(0);
+  });
+
+  it('stays empty when the schema resolves after sums were disabled', async () => {
+    const harness = await setUp({});
+    attach(harness, true);
+    directive.wpTableSums.setEnabled(false);
+    const refreshed = vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged');
+    const painted = vi.spyOn(harness.table.painter, 'paint');
+
+    await resolveSchema();
+
+    expect(painted).not.toHaveBeenCalled();
     expect(row).toBeEmptyDOMElement();
-    expect(row).toHaveAttribute('aria-hidden', 'true');
-    expect(section()).toHaveAttribute('aria-hidden', 'true');
     expect(refreshed).not.toHaveBeenCalled();
   });
 
-  it('stays hidden when the schema resolves after the table was destroyed', async () => {
-    const harness = await setUp({ keyboardNavigationEnabled: true });
+  it('stays empty when the schema resolves after the table was destroyed', async () => {
+    const harness = await setUp({});
     attach(harness, true);
     harness.table.destroy();
+    const painted = vi.spyOn(harness.table.painter, 'paint');
 
     await resolveSchema();
 
+    expect(painted).not.toHaveBeenCalled();
     expect(row).toBeEmptyDOMElement();
-    expect(row).toHaveAttribute('aria-hidden', 'true');
-    expect(section()).toHaveAttribute('aria-hidden', 'true');
   });
 
   it.each([true, false])('names the totals row and describes its values with drag and drop %s', async (dragAndDropEnabled) => {
-    const harness = await setUp({ keyboardNavigationEnabled: true, dragAndDropEnabled });
+    const harness = await setUp({ dragAndDropEnabled });
     attach(harness, true);
 
     await resolveSchema();
@@ -329,18 +341,5 @@ describe('WorkPackageTableSumsRowController semantics', () => {
     expect(row).toHaveAccessibleName(expect.stringContaining('34'));
     expect(within(row).getByText('Total sum').id).toBe(`${harness.table.domId}-sum-total`);
     expect(valueCell()).toHaveAccessibleDescription('Total sum');
-  });
-
-  it('leaves the totals row of a capability-off table untouched', async () => {
-    const harness = await setUp({});
-    attach(harness, true);
-
-    await resolveSchema();
-
-    expect(row).toHaveTextContent('Total sum');
-    [row, section(), ...Array.from(row.cells)].forEach((node) => {
-      ['role', 'aria-level', 'aria-hidden', 'aria-describedby'].forEach((name) => expect(node).not.toHaveAttribute(name));
-    });
-    expect(within(row).getByText('Total sum')).not.toHaveAttribute('id');
   });
 });

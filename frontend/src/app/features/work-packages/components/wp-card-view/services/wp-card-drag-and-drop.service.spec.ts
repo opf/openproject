@@ -177,7 +177,10 @@ describe('WorkPackageCardDragAndDropService', () => {
     cdRef:{ detectChanges:ReturnType<typeof vi.fn> };
     cardView:{ updateRenderedCardsValues:ReturnType<typeof vi.fn> };
     onMoved:{ emit:ReturnType<typeof vi.fn> };
+    queryRefreshRequested:{ emit:ReturnType<typeof vi.fn> };
     workPackageAddedHandler:ReturnType<typeof vi.fn>;
+    retainsCard?:() => boolean;
+    query:{ id:string };
     orderIsMembership:boolean;
     resolvedListId:string;
   };
@@ -217,7 +220,9 @@ describe('WorkPackageCardDragAndDropService', () => {
       cdRef: { detectChanges: vi.fn() },
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
+      queryRefreshRequested: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
+      query: { id: LIST_ID },
       orderIsMembership: false,
       resolvedListId: LIST_ID,
     };
@@ -445,7 +450,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       await flush();
 
       expect(cardView.workPackageAddedHandler).toHaveBeenCalledWith(states.workPackages.get('x').value);
-      expect(reorderServiceStub.add).toHaveBeenCalledWith([], 'x', 0);
+      expect(reorderServiceStub.add).toHaveBeenCalledWith([], 'x', 0, cardView.query);
       expect(complete).toHaveBeenCalledWith(true);
     });
 
@@ -461,6 +466,43 @@ describe('WorkPackageCardDragAndDropService', () => {
       await flush();
 
       expect(updateOrderSpy).toHaveBeenCalledWith(['x'], expect.any(Number));
+    });
+
+    it('keeps an ordinary action-board insert local after the attribute and order are saved', async () => {
+      seed('x');
+      service.workPackages = [];
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true });
+      service.handleDrop(buildDropEvent({ sourceId: 'x', sourceListId: 'source', targetId: null }));
+      await flush();
+
+      expect(cardView.queryRefreshRequested.emit).not.toHaveBeenCalled();
+      expect(apiV3ServiceStub.work_packages.id).not.toHaveBeenCalled();
+    });
+
+    it('refreshes a filtered destination only after its order is saved', async () => {
+      seed('x');
+      service.workPackages = [];
+      const orderSave = deferred<void>();
+      reorderServiceStub.add.mockReturnValue(orderSave.promise);
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true, needsQueryRefresh: () => true });
+      service.handleDrop(buildDropEvent({ sourceId: 'x', sourceListId: 'source', targetId: null }));
+      await flush();
+
+      expect(cardView.queryRefreshRequested.emit).not.toHaveBeenCalled();
+      orderSave.resolve();
+      await flush();
+      expect(cardView.queryRefreshRequested.emit).toHaveBeenCalledOnce();
+    });
+
+    it('restores the existing target position when an overlapping cross-list move fails', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['x', 'p', 'q'].map(buildWp);
+      cardView.workPackageAddedHandler.mockRejectedValue(new Error('save failed'));
+      service.handleDrop(buildDropEvent({ sourceId: 'x', sourceListId: 'source', targetId: 'q', edge: 'top' }));
+
+      expect(idsOf(service.workPackages)).toEqual(['p', 'x', 'q']);
+      await flush();
+      expect(idsOf(service.workPackages)).toEqual(['x', 'p', 'q']);
     });
 
     it('inserts before/after the target item according to the edge', () => {
@@ -527,6 +569,7 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(idsOf(service.workPackages)).toEqual(['p', 'q']);
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+      expect(cardView.queryRefreshRequested.emit).not.toHaveBeenCalled();
       expect(complete).toHaveBeenCalledWith(false);
     });
 
@@ -546,7 +589,44 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(idsOf(service.workPackages)).toEqual(['p', 'x', 'q']);
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+      expect(cardView.queryRefreshRequested.emit).toHaveBeenCalled();
       expect(complete).toHaveBeenCalledWith(true);
+    });
+
+    it('does not request a reload when a newer order replaced the failed insert', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['p', 'q'].map(buildWp);
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true });
+      let rejectAdd!:(error:Error) => void;
+      reorderServiceStub.add.mockReturnValue(new Promise((_resolve, reject) => { rejectAdd = reject; }));
+      service.handleDrop(buildDropEvent({
+        sourceId: 'x', sourceListId: 'source-list', targetId: 'q', edge: 'top', complete: vi.fn(),
+      }));
+      await flush();
+
+      service.workPackages = ['q', 'x', 'p'].map(buildWp);
+      rejectAdd(new Error('add persistence failed'));
+      await flush();
+
+      expect(cardView.queryRefreshRequested.emit).not.toHaveBeenCalled();
+    });
+
+    it('requests a reload when a same-order refresh landed before the order save failed', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['p', 'q'].map(buildWp);
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true });
+      let rejectAdd!:(error:Error) => void;
+      reorderServiceStub.add.mockReturnValue(new Promise((_resolve, reject) => { rejectAdd = reject; }));
+      service.handleDrop(buildDropEvent({
+        sourceId: 'x', sourceListId: 'source-list', targetId: 'q', edge: 'top', complete: vi.fn(),
+      }));
+      await flush();
+
+      service.workPackages = [...service.workPackages];
+      rejectAdd(new Error('add persistence failed'));
+      await flush();
+
+      expect(cardView.queryRefreshRequested.emit).toHaveBeenCalledOnce();
     });
 
     it('does not roll back a failed add when a refresh changed the order meanwhile', async () => {
@@ -640,7 +720,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       await flush();
 
       expect(idsOf(service.workPackages)).toEqual(['x', 'a']);
-      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a'], 'x', 0);
+      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a'], 'x', 0, cardView.query);
       await expect(result).resolves.toBe(true);
     });
 
@@ -656,7 +736,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       await flush();
 
       expect(idsOf(service.workPackages)).toEqual(['x', 'a', 'b']);
-      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a', 'b'], 'x', 0);
+      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a', 'b'], 'x', 0, cardView.query);
       await expect(result).resolves.toBe(true);
     });
 
@@ -801,6 +881,39 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(reorderServiceStub.removePersisted).not.toHaveBeenCalled();
     });
 
+    it('keeps the source position when the saved card still matches this version', async () => {
+      cardView.retainsCard = () => true;
+      service.handleRemoved(buildRemovedEvent({ itemId: 'a', completion: Promise.resolve(true) }));
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['a', 'b']);
+      expect(reorderServiceStub.removePersisted).not.toHaveBeenCalled();
+    });
+
+    it('rechecks retained membership if new results arrived during the drop', async () => {
+      cardView.retainsCard = () => true;
+      const completion = deferred<boolean>();
+      service.handleRemoved(buildRemovedEvent({ itemId: 'a', completion: completion.promise }));
+      service.workPackages = [buildWp('b')];
+      completion.resolve(true);
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['b']);
+      expect(cardView.queryRefreshRequested.emit).toHaveBeenCalledOnce();
+      expect(reorderServiceStub.removePersisted).not.toHaveBeenCalled();
+    });
+
+    it('persists removal against the original source if the source reloads during the target write', async () => {
+      const source = cardView.query;
+      const completion = deferred<boolean>();
+      service.handleRemoved(buildRemovedEvent({ itemId: 'a', completion: completion.promise }));
+      cardView.query = { ...source };
+      completion.resolve(true);
+      await flush();
+
+      expect(reorderServiceStub.removePersisted.mock.lastCall?.[2]).toBe(source);
+    });
+
     it('persists only after the target completes successfully, then finalizes', async () => {
       const completion = deferred<boolean>();
       const removePersisted = deferred<string[]>();
@@ -812,7 +925,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       completion.resolve(true);
       await flush();
 
-      expect(reorderServiceStub.removePersisted).toHaveBeenCalledWith(['a', 'b'], 'a');
+      expect(reorderServiceStub.removePersisted).toHaveBeenCalledWith(['a', 'b'], 'a', cardView.query);
       expect(finalize).not.toHaveBeenCalled();
 
       removePersisted.resolve(['b']);
@@ -968,7 +1081,7 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
         @for (wp of items(); track wp.id) {
           <div
             class="item"
-            [opSortableListsItem]="wp.id"
+            [opSortableListsItem]="wp.id!"
             [opSortableListsItemCanDrag]="itemCanDrag()"
             style="height: 40px; width: 200px;"
           >{{ wp.id }}</div>
@@ -1068,7 +1181,9 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
       cdRef: { detectChanges: () => { listHost.resync(); fixture.detectChanges(); } },
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
-      workPackageAddedHandler: vi.fn().mockResolvedValue(true),
+      queryRefreshRequested: { emit: vi.fn() },
+      workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
+      query: { id: listHost.listId() },
       resolvedListId: listHost.listId(),
     } as unknown as WorkPackageCardViewComponent);
   }
@@ -1121,8 +1236,8 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
 
     await flush();
 
-    expect(reorderService.add).toHaveBeenCalledWith(['b1', 'b2'], 'a1', 0);
-    expect(reorderService.removePersisted).toHaveBeenCalledWith(['a1', 'a2'], 'a1');
+    expect(reorderService.add).toHaveBeenCalledWith(['b1', 'b2'], 'a1', 0, { id: listBHost.listId() });
+    expect(reorderService.removePersisted).toHaveBeenCalledWith(['a1', 'a2'], 'a1', { id: listAHost.listId() });
     expect(idsOf(listAHost.dragDrop.workPackages)).toEqual(['a2']);
   });
 });

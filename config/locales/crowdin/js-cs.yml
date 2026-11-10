@@ -47,6 +47,8 @@ cs:
       draggable_hint: 'Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Soubor je karanténí, protože byl nalezen virus. Není k dispozici ke stažení.
     autocomplete_ng_select:
       add_tag: Přidat položku
@@ -129,8 +131,8 @@ cs:
     button_confirm: Potvrdit
     button_continue: Pokračovat
     button_copy: Kopírovat
-    button_copy_link_to_clipboard: Kopírovat odkaz do schránky
-    button_copy_numeric_id_to_clipboard: Kopírovat numerické ID do schránky
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopírovat do schránky
     button_copy_to_other_project: Duplikovat v jiném projektu
     button_create: Vytvořit
@@ -203,6 +205,9 @@ cs:
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
     description_subwork_package: 'Podřazený pracovního balíčku #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Došlo k chybě v CKEditoru
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uložení dokumentu se nezdařilo s následující chybou: %{error}'
@@ -434,7 +439,6 @@ cs:
     label_assignee: Řešitel
     label_assignee_alt_text: Tento pracovní balíček je přiřazen %{name}
     label_attachments: Přílohy
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: mezi
     label_board: Tabule
@@ -1108,15 +1112,30 @@ cs:
       scheduling:
         is_parent: Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat.
         is_switched_from_manual_to_automatic: Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Zobrazit všechny uživatele, s nimiž byl pracovní balíček sdílen s
         title: Sdílet pracovní balíček
       table:
         configure_button: Konfigurovat tabulku pracovních balíčků
-        summary: Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku.
-        text_inline_edit: Většina buněk v této tabulce jsou tlačítka, která aktivují funkci úpravy inline-editace atributu.
-        text_select_hint: Vyberte pole by mělo být otevřeno pomocí kláves "ALT" a šipkami.
-        text_sort_hint: Pomocí odkazů v záhlaví tabulky můžete seřadit, seřadit, odstranit a přidat sloupce tabulky.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Konfigurovat tabulku pracovních balíčků
         choose_display_mode: Zobrazit pracovní balíčky jako
@@ -1125,7 +1144,6 @@ cs:
         default_mode: Plochý seznam
         display_settings: Nastavení zobrazení
         display_sums_hint: Zobrazit součty všech sčitatelných atributů v řádku pod tabulkou výsledků.
-        embedded_tab_disabled: Tato karta konfigurace není k dispozici pro embedded zobrazení, které upravujete.
         hierarchy_hint: Všechny filtrované výsledky z tabulky budou rozšířeny o jejich předky. Hierarchii lze rozbalit a sbalit.
         hierarchy_mode: Hierarchie
         highlighting: Zvýraznění

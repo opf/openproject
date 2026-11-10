@@ -47,6 +47,8 @@ tr:
       draggable_hint: 'Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Dosya, bir virüs bulunduğu için karantinaya alındı. İndirmek için kullanılamaz.
     autocomplete_ng_select:
       add_tag: Öge ekle
@@ -129,8 +131,8 @@ tr:
     button_confirm: Onayla
     button_continue: Devam et
     button_copy: Kopyala
-    button_copy_link_to_clipboard: Bağlantıyı panoya kopyala
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Panoya kopyala
     button_copy_to_other_project: Başka projeye çoğalt
     button_create: Oluştur
@@ -203,6 +205,9 @@ tr:
     description_select_work_package: "#%{id} nolu iş paketini seçin"
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor içinde bir hata oluştu
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
@@ -434,7 +439,6 @@ tr:
     label_assignee: Atanan
     label_assignee_alt_text: Bu iş paketi %{name} ne atanmıştır.
     label_attachments: Ekler
-    label_author: 'Yazar: %{user}'
     label_avatar: Avatar
     label_between: arasında
     label_board: Pano
@@ -1092,15 +1096,26 @@ tr:
       scheduling:
         is_parent: Bu çalışma paketinin tarihleri otomatik olarak çocuklarından çıkarılır. Tarihleri ayarlamak için 'Manuel zamanlama'yı etkinleştirin.
         is_switched_from_manual_to_automatic: Bu çalışma paketinin tarihlerinin, diğer çalışma paketleriyle olan ilişkiler nedeniyle manuelden otomatik zamanlamaya geçtikten sonra yeniden hesaplanması gerekebilir.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: İş paketinin paylaşıldığı tüm kullanıcıları gösterin
         title: İş paketini paylaş
       table:
         configure_button: İş paketi tablosunu kopyala
-        summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
-        text_inline_edit: Bu tablodaki çoğu hücre o öznitelikteki satır içi düzenleme işlevselliğini etkinleşirme düğmeleridir.
-        text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.
-        text_sort_hint: Tablo başlığındaki bağlantılardan tablo sütunlarını sırayalabilir, gruplayabilir, yeniden düzenleyebilir, silebilir ya da ekleyebilirsiniz.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Bu iş paketi tablosunu yapılandır
         choose_display_mode: İş paketlerini farklı olarak göster
@@ -1109,7 +1124,6 @@ tr:
         default_mode: Düz liste
         display_settings: Görünüm ayarları
         display_sums_hint: Tüm toplanabilir özelliklerin toplamlarını, tablonun sonuçlarının altındaki bir satırda görüntüleyin.
-        embedded_tab_disabled: Bu yapılandırma sekmesi, düzenlemekte olduğunuz gömülü görünüm için kullanılamaz.
         hierarchy_hint: Filtrelenen tüm tablo sonuçları atalarıyla artırılacaktır. Hiyerarşiler genişletilebilir ve daraltılabilir.
         hierarchy_mode: Hiyerarşi
         highlighting: Vurgulama

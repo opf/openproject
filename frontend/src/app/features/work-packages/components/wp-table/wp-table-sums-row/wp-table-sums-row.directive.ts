@@ -38,11 +38,8 @@ import { combineLatest, ReplaySubject } from 'rxjs';
 import { GroupSumsBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
-import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
-import { paintRowRole, paintSectionExposure } from 'core-app/features/work-packages/components/wp-fast-table/semantics/treegrid-semantics';
+import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -115,44 +112,30 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
         if (sum && resource.sumsSchema) {
           void this.schemaCache
             .ensureLoaded(resource.sumsSchema.href!)
-            .then((schema:SchemaResource) => {
+            .then(() => {
               if (table.destroyed || this.destroyRef.destroyed || this.workPackageTable !== table || !this.wpTableSums.isEnabled) return;
-              table.keyboardNavigation?.captureOwnership();
-              this.refresh(columns, resource, schema);
-              this.reconcileSemantics(table);
-              table.notifyRowsRefreshed(totalsRowKey);
+              table.mutate(new Set([totalsRowKey]), () => this.refresh(columns, resource));
             });
         } else if (this.element.hasChildNodes()) {
-          table.keyboardNavigation?.captureOwnership();
-          this.clear();
-          this.reconcileSemantics(table);
-          table.notifyRowsRefreshed(totalsRowKey);
+          table.mutate(new Set([totalsRowKey]), () => this.clear());
         }
       });
   }
 
   private reconcileSemantics(table:WorkPackageTable) {
-    if (table.destroyed || !keyboardNavigationEnabled(table.configuration)) return;
-
-    if (this.isHidden || this.element.cells.length === 0) {
-      this.element.setAttribute('aria-hidden', 'true');
-    } else {
-      this.element.removeAttribute('aria-hidden');
-    }
-    paintRowRole(this.element, 1);
-    paintSectionExposure(this.element.parentElement as HTMLTableSectionElement);
+    table.mutate(new Set([totalsRowKey]), () => undefined);
   }
 
   private clear() {
     this.element.innerHTML = '';
   }
 
-  private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
+  private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource) {
     this.clear();
-    this.render(columns, resource, schema);
+    this.render(columns, resource);
   }
 
-  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, _schema:SchemaResource) {
+  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource) {
     this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
     this.groupSumsBuilder.text = this.text;
     this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element, 'total');

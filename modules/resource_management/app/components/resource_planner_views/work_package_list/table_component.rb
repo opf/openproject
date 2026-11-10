@@ -59,10 +59,6 @@ module ResourcePlannerViews::WorkPackageList
 
     def has_actions? = true
 
-    # Scopes this table's styling (see table_component.sass) without touching the
-    # shared border-box grid defaults used by every other table.
-    def container_class = class_names("op-resource-work-package-list", "-global": global?)
-
     def mobile_title
       I18n.t("resource_management.work_package_list.mobile_title")
     end

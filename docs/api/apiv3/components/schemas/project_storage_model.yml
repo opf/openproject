@@ -94,27 +94,27 @@ properties:
 
               **Deprecated:** Use `open` instead, which returns a link that will ensure the user's connection to the storage
               as well, but properly works for all kinds of storage configurations.
-example:
-  _type: 'ProjectStorage'
-  id: 1337
-  projectFolderMode: 'manual'
-  createdAt: '2023-01-20T14:30:00.368Z'
-  updatedAt: '2023-05-23T11:57:48.618Z'
-  _links:
-    self:
-      href: '/api/v3/project_storages/23'
-    projectFolder:
-      href: '/api/v3/storages/81/files/30'
-    creator:
-      title: 'Darth Vader'
-      href: '/api/v3/users/3'
-    project:
-      title: 'Death Star 3.0'
-      href: '/api/v3/projects/11'
-    storage:
-      title: "Palpatine's Data Vault"
-      href: '/api/v3/storages/81'
-    open:
-      href: '/api/v3/storages/81/open'
-    openWithConnectionEnsured:
-      href: '/api/v3/storages/81/open'
+examples:
+  - _type: 'ProjectStorage'
+    id: 1337
+    projectFolderMode: 'manual'
+    createdAt: '2023-01-20T14:30:00.368Z'
+    updatedAt: '2023-05-23T11:57:48.618Z'
+    _links:
+      self:
+        href: '/api/v3/project_storages/23'
+      projectFolder:
+        href: '/api/v3/storages/81/files/30'
+      creator:
+        title: 'Darth Vader'
+        href: '/api/v3/users/3'
+      project:
+        title: 'Death Star 3.0'
+        href: '/api/v3/projects/11'
+      storage:
+        title: "Palpatine's Data Vault"
+        href: '/api/v3/storages/81'
+      open:
+        href: '/api/v3/storages/81/open'
+      openWithConnectionEnsured:
+        href: '/api/v3/storages/81/open'

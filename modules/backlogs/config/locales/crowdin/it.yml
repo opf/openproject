@@ -143,6 +143,9 @@ it:
         blankslate_description: Imposta la data di inizio e di fine dello sprint per generare un grafico di burndown.
         blankslate_title: Non sono disponibili dati di burndown
     created_resolved_chart:
+      series:
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -193,9 +196,6 @@ it:
     rebuild_positions: Ricostruisce le posizioni
     remaining_hours: Lavoro residuo
     sharing: Condivisione dello sprint
-    show_burndown_chart: Grafico Burndown
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: Macro-attività nello sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Aggiungi macro-attività esistente
@@ -225,6 +225,44 @@ it:
         breadcrumb: Report
         title: Report %{sprint}
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} of %{count} work package completed"
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} work package"
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
+        velocity_chart:
+          average:
+            one: 'Average of previous sprint:'
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            one: Bar chart of committed and completed story points of the last sprint.
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: Grafico delle macro-attività
         work_package_overview:
@@ -233,9 +271,9 @@ it:
             heading: Non sono disponibili dati relativi allo sprint
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Cambio di ambito
-              story_points_change: "+%{added} / -%{removed} story point"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Completate
             initially_planned:
@@ -245,10 +283,19 @@ it:
           breakdown_block:
             blocks:
               show_all: Vedi tutto
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: Macro-attività chiuse
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            one: "%{percentage}% (%{resolved} di %{total} macro attività)"
-            other: "%{percentage}% (%{resolved} di %{total} macro attività)"
+            story_points:
+              one: "%{percentage} (%{resolved} of %{total} story point)"
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} of %{total} work package)"
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:
@@ -344,9 +391,6 @@ it:
       update_service:
         invalid_target_type: 'list_type deve essere uno dei seguenti valori: backlog_bucket con un list_id, sprint con un list_id oppure inbox senza list_id.'
         missing_target: È necessario che sia presente list_type o list_id.
-  created_resolved:
-    wp_created: Created
-    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Più sprint attivi

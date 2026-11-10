@@ -45,7 +45,7 @@ ru:
         few: WebAuthn
         many: WebAuthn
         other: WebAuthn
-  button_continue: Далее
+  button_continue: Продолжить
   button_make_active: Активировать
   button_make_default: Задать по умолчанию
   button_otp_by_sms: SMS

@@ -64,7 +64,7 @@ module AuthSourceSSO
       return logged_user
     end
 
-    Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
+    Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}=#{op_auth_header_value.inspect}" }
 
     # Try to find an existing, or autocreate a new user for onthefly ldap connections
     user = LdapAuthSource.find_user(login)
@@ -75,7 +75,7 @@ module AuthSourceSSO
     return if user.nil?
     return user if user.login.casecmp?(login)
 
-    Rails.logger.warn { "Header-based auth source SSO user changed from #{user.login} to #{login}. Re-authenticating" }
+    Rails.logger.warn { "Header-based auth source SSO user changed from #{user.login} to #{login.inspect}. Re-authenticating" }
     ::Users::LogoutService.new(controller: self).call!(user)
 
     nil

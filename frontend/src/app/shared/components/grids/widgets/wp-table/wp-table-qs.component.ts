@@ -39,6 +39,10 @@ import { WidgetChangeset } from 'core-app/shared/components/grids/widgets/widget
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WidgetWpTableQuerySpaceComponent extends AbstractWidgetComponent {
+  override readonly role:string|null = null;
+
+  override readonly ariaLabelledBy:string|null = null;
+
   public onResourceChanged(changeset:WidgetChangeset) {
     this.resourceChanged.emit(changeset);
   }

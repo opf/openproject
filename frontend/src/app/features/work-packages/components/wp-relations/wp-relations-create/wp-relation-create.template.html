@@ -51,9 +51,11 @@
           <button
             type="button"
             class="spot-link wp-create-relation--cancel"
+            opTooltip
+            [label]="text.abort"
             (click)="toggleRelationsCreateForm()"
             >
-            <op-icon icon-classes="icon-remove icon-no-color -padded" [icon-title]="text.abort" />
+            <op-icon icon-classes="icon-remove icon-no-color -padded" />
           </button>
         </div>
       </div>

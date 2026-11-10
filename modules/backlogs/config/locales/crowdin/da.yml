@@ -143,6 +143,9 @@ da:
         blankslate_description: Angiv start- og slutdato for sprinten for at danne et burndown-diagram.
         blankslate_title: Der er ingen data til burndown-diagrammet
     created_resolved_chart:
+      series:
+        created: Oprettede
+        resolved: Løste
       show:
         blankslate_description: Angiv start- og slutdato for sprinten for at danne et diagram over oprettede og løste arbejdspakker.
         blankslate_title: Der er ingen data til diagrammet over oprettede og løste arbejdspakker
@@ -193,9 +196,6 @@ da:
     rebuild_positions: Genopbyg positioner
     remaining_hours: Resterende arbejde
     sharing: Deling af sprints
-    show_burndown_chart: Burndown-diagram
-    show_created_resolved_chart: Oprettede og løste arbejdspakker
-    show_work_package_overview: Arbejdspakker i sprinten
     sprint_component:
       action_menu:
         add_existing_work_package: Tilføj eksisterende arbejdspakke
@@ -225,6 +225,44 @@ da:
         breadcrumb: Rapport
         title: Rapport for %{sprint}
       widgets:
+        burndown_chart:
+          title: Burndown-diagram
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
+        created_resolved_chart:
+          title: Oprettede og løste arbejdspakker
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} af %{count} arbejdspakke er færdig"
+              other: "%{epic}: %{completed} af %{count} arbejdspakker er færdige"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} arbejdspakke"
+              other: "%{completed} / %{count} arbejdspakker"
+          title: Fremdrift for epics
+        velocity_chart:
+          average:
+            one: 'Gennemsnit af den forrige sprint:'
+            other: 'Gennemsnit af de forrige %{count} sprints:'
+          average_legend: Gennemsnit
+          committed: Planlagt
+          completed: Færdige
+          story_points: "%{value} SP"
+          summary:
+            one: Søjlediagram over planlagte og færdige story points i den seneste sprint.
+            other: Søjlediagram over planlagte og færdige story points i de seneste %{count} sprints.
+          summary_average: 'Gennemsnitlig hastighed: %{average}.'
+          title: Hastighedsdiagram
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: Graf over arbejdspakker
         work_package_overview:
@@ -233,62 +271,71 @@ da:
             heading: Der er ingen data om sprinten
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Ændret omfang
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Færdige
             initially_planned:
               heading: Oprindeligt planlagt
             unfinished:
-              heading: Ikke færdige
+              heading: Ufærdige
           breakdown_block:
             blocks:
               show_all: Vis alle
+              show_all_label: 'Vis alle: %{heading}'
           closed_work_packages: Lukkede arbejdspakker
+          completed_estimated_time: Anslået tid for færdige arbejdspakker
+          completed_story_points: Færdige story points
           resolved_summary:
-            one: "%{percentage} % (%{resolved} af %{total} arbejdspakke)"
-            other: "%{percentage} % (%{resolved} af %{total} arbejdspakker)"
+            story_points:
+              one: "%{percentage} (%{resolved} af %{total} story point)"
+              other: "%{percentage} (%{resolved} af %{total} story points)"
+            time: "%{percentage} (%{resolved} af %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} af %{total} arbejdspakke)"
+              other: "%{percentage} (%{resolved} af %{total} arbejdspakker)"
+          title: Arbejdspakker i sprinten
         work_package_table:
           added:
             blankslate:
               empty:
-                description: Work packages that were added after the sprint start date will appear here.
+                description: Arbejdspakker, der er tilføjet efter sprintens startdato, vises her.
               no_dates:
-                description: Sprint start and finish dates are necessary to show added work packages.
+                description: Sprinten skal have en start- og slutdato, før tilføjede arbejdspakker kan vises.
               not_started:
-                description: Added work packages will appear here after the sprint starts.
-            title: Scope increase after sprint start
+                description: Tilføjede arbejdspakker vises her, når sprinten er startet.
+            title: Øget omfang efter sprintstart
           blankslate:
-            heading: No work packages to display
+            heading: Ingen arbejdspakker at vise
           completed:
             blankslate:
               empty:
-                description: Work packages that were completed in the sprint will appear here.
+                description: Arbejdspakker, der er gjort færdige i sprinten, vises her.
               no_dates:
-                description: Sprint start and finish dates are necessary to show completed work packages.
+                description: Sprinten skal have en start- og slutdato, før færdige arbejdspakker kan vises.
               not_started:
-                description: Completed work packages will appear here after the sprint starts.
-            title: Completed work
+                description: Færdige arbejdspakker vises her, når sprinten er startet.
+            title: Færdigt arbejde
           removed:
             blankslate:
               empty:
-                description: Work packages that were removed after the sprint start date will appear here.
+                description: Arbejdspakker, der er fjernet efter sprintens startdato, vises her.
               no_dates:
-                description: Sprint start and finish dates are necessary to show removed work packages.
+                description: Sprinten skal have en start- og slutdato, før fjernede arbejdspakker kan vises.
               not_started:
-                description: Removed work packages will appear here after the sprint starts.
-            title: Scope decrease after sprint start
+                description: Fjernede arbejdspakker vises her, når sprinten er startet.
+            title: Reduceret omfang efter sprintstart
           unfinished:
             blankslate:
               empty:
-                description: All work packages in this sprint are completed.
-                heading: Wow, all done!
+                description: Alle arbejdspakker i denne sprint er færdige.
+                heading: Flot, alt er færdigt!
               no_dates:
-                description: Sprint start and finish dates are necessary to show unfinished work packages.
+                description: Sprinten skal have en start- og slutdato, før ufærdige arbejdspakker kan vises.
               not_started:
-                description: Unfinished work packages will appear here after the sprint starts.
-            title: Unfinished work
+                description: Ufærdige arbejdspakker vises her, når sprinten er startet.
+            title: Ufærdigt arbejde
     sprints:
       row_component:
         action_menu:
@@ -344,9 +391,6 @@ da:
       update_service:
         invalid_target_type: 'list_type skal være en af: backlog_bucket med et list_id, sprint med et list_id eller inbox uden list_id.'
         missing_target: list_type eller list_id skal være angivet.
-  created_resolved:
-    wp_created: Oprettede
-    wp_resolved: Løste
   ee:
     features:
       multiple_active_sprints: Flere aktive sprints

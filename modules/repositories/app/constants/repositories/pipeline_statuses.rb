@@ -37,17 +37,17 @@ module Repositories
                                                  hexcode: "#BF3989",
                                                  icon: :"op-auto-date")
 
-    CREATED = RepositoryStatus.pipeline_status(code: :created, hexcode: "#1A67A3", icon: :hourglass)
-    PREPARING = RepositoryStatus.pipeline_status(code: :preparing, hexcode: "#1A67A3", icon: :hourglass)
-    PENDING = RepositoryStatus.pipeline_status(code: :pending, hexcode: "#1A67A3", icon: :hourglass)
+    CREATED = RepositoryStatus.pipeline_status(code: :created, hexcode: "#0F41B5", icon: :hourglass)
+    PREPARING = RepositoryStatus.pipeline_status(code: :preparing, hexcode: "#0F41B5", icon: :hourglass)
+    PENDING = RepositoryStatus.pipeline_status(code: :pending, hexcode: "#0F41B5", icon: :hourglass)
     WAITING_FOR_RESOURCE = RepositoryStatus.pipeline_status(code: :waiting_for_resource,
-                                                            hexcode: "#1A67A3",
+                                                            hexcode: "#0F41B5",
                                                             icon: :hourglass)
     WAITING_FOR_CALLBACK = RepositoryStatus.pipeline_status(code: :waiting_for_callback,
-                                                            hexcode: "#1A67A3",
+                                                            hexcode: "#0F41B5",
                                                             icon: :hourglass)
 
-    MANUAL = RepositoryStatus.pipeline_status(code: :manual, hexcode: "#1A67A3", icon: :pencil)
+    MANUAL = RepositoryStatus.pipeline_status(code: :manual, hexcode: "#0F41B5", icon: :pencil)
     SKIPPED = RepositoryStatus.pipeline_status(code: :skipped, hexcode: "#24292F", icon: :tab)
     CANCELLED = RepositoryStatus.pipeline_status(code: :cancelled, hexcode: "#24292F", icon: :"x-circle")
     CANCELLING = RepositoryStatus.pipeline_status(code: :cancelling,

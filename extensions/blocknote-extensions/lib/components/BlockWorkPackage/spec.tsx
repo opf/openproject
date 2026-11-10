@@ -6,6 +6,7 @@ import {
   parseWorkPackageBlockExternalHTML,
 } from './externalHtml';
 import { PasteWorkPackageLinkExtension } from '../../plugins/pasteWorkPackageLinkExtension';
+import { WorkPackageAccessibilityExtension } from '../../plugins/workPackageAccessibilityExtension';
 
 export { blockConfig };
 
@@ -33,5 +34,6 @@ export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
 
   [
     PasteWorkPackageLinkExtension,
+    WorkPackageAccessibilityExtension(),
   ]
 );

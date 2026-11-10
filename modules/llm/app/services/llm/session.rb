@@ -32,14 +32,8 @@ module Llm
   #
   # Every inference request in OpenProject goes through here, so that the
   # administrator's stored settings (endpoint, credential, custom headers) are
-  # applied in exactly one place.
-  #
-  # Note that RubyLLM builds its own Faraday connection over net_http and so
-  # does *not* pass through OpenProject.httpx and its SSRF filter. Inference
-  # traffic to an administrator-supplied base URL is therefore not SSRF
-  # filtered; routing it through the filter is tracked in AI-145
-  # (https://community.openproject.org/wp/AI-145). Model discovery stays on
-  # Llm::Client, which is filtered.
+  # applied in exactly one place, and that every request passes the SSRF filter
+  # through Llm::SsrfFilteredAdapter.
   class Session
     # RubyLLM exposes a single Faraday timeout rather than Llm::Client's
     # connect/read/request triple, so those three values collapse to one.
@@ -127,17 +121,19 @@ module Llm
         apply_credentials(config)
 
         config.openproject_custom_headers = connection.custom_headers
-        config.request_timeout = timeout
-        # RubyLLM retries POSTs three times by default, so one completion can be
-        # billed four times. Callers state what they are willing to pay for.
-        config.max_retries = max_retries
-        # Not Rails.logger: RubyLLM wires its Faraday logger middleware with
-        # "bodies: RubyLLM.logger.debug?", so an instance running at debug level
-        # would write full request and response bodies through a path
-        # Llm::Errors.log never sees, including an error body that echoes the
-        # credential.
-        config.logger = Logger.new(IO::NULL)
+        apply_request_options(config)
       end
+    end
+
+    def apply_request_options(config)
+      config.faraday_adapter = Llm::SsrfFilteredAdapter
+      config.request_timeout = timeout
+      # RubyLLM retries POSTs three times by default, so one completion can be
+      # billed four times. Callers state what they are willing to pay for.
+      config.max_retries = max_retries
+      # OpenAI-compatible servers such as vLLM or Ollama drop the "developer"
+      # role, and the instructions with it.
+      config.openai_use_system_role = true
     end
 
     def apply_credentials(config)

@@ -95,3 +95,19 @@ RSpec.shared_examples "no legacy drag-and-drop wiring" do
     expect(rendered_component).to have_no_css("[data-drop-url]")
   end
 end
+
+# The four directions, their order, icons and action wiring are the move menu's
+# own contract (spec/components/sortable_lists/move_menu_spec.rb). Consumers
+# prove only that they include the items, and withhold them for a sole item.
+RSpec.shared_examples "offers the shared move items" do
+  it "offers the four move items to the item controller" do
+    expect(rendered_component)
+      .to have_css("[data-sortable-lists--item-target='moveItem']", count: 4, visible: :all)
+  end
+end
+
+RSpec.shared_examples "offers no move items" do
+  it "offers no move items" do
+    expect(rendered_component).to have_no_css("[data-sortable-lists--item-target='moveItem']", visible: :all)
+  end
+end

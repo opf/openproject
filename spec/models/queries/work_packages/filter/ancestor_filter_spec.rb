@@ -37,6 +37,7 @@ RSpec.describe Queries::WorkPackages::Filter::AncestorFilter do
 
   it_behaves_like "basic query filter" do
     let(:class_key) { :ancestor }
+    let(:values) { ["1"] }
     let(:type) { :list }
 
     before do
@@ -307,6 +308,29 @@ RSpec.describe Queries::WorkPackages::Filter::AncestorFilter do
           expect(scope).to contain_exactly(another_wp, grandparent, parent)
         end
       end
+    end
+  end
+
+  describe "with a semantic identifier as value" do
+    let!(:ancestor) { create(:work_package) }
+    let!(:child) { create(:work_package, parent: ancestor) }
+    let!(:grandchild) { create(:work_package, parent: child) }
+    let!(:other_wp) { create(:work_package) }
+
+    let(:instance) do
+      described_class.create!(name: :ancestor, context: build_stubbed(:query, project: nil), operator: "=", values: ["ANC-1"])
+    end
+
+    before { create(:work_package_semantic_alias, work_package: ancestor, identifier: "ANC-1") }
+
+    current_user { create(:admin) }
+
+    it "is valid" do
+      expect(instance).to be_valid
+    end
+
+    it "returns the descendants" do
+      expect(WorkPackage.where(instance.where)).to contain_exactly(child, grandchild)
     end
   end
 end

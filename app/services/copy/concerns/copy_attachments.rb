@@ -34,6 +34,7 @@ module Copy
       # Tries to copy the given attachment between containers
       def copy_attachments(container_type, from:, to:, references: [])
         Attachment
+          .not_incomplete_import
           .where(container_type:, container_id: from.id)
           .find_each do |source|
           copy_attachment(from:, to:, references:, source:)

@@ -249,4 +249,16 @@ RSpec.describe My::TimeManagementController do
       expect(assigns(:date)).to eq(Date.current)
     end
   end
+
+  describe "the current date of a user in a negative time zone" do
+    let(:user) { create(:user, preferences: { time_zone: "America/New_York" }) }
+
+    it "is the user's date while it is already the next day in UTC" do
+      travel_to Time.utc(2026, 11, 2, 0, 14) do
+        get :index, params: { mode: :week }
+      end
+
+      expect(assigns(:date)).to eq(Date.new(2026, 11, 1))
+    end
+  end
 end

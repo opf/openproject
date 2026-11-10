@@ -68,9 +68,20 @@ module Statuses
 
     def readonly = flag_checkmark(:readonly, status.is_readonly?)
 
+    def workflows
+      count = table.workflow_count_for(status)
+      return dash if count.zero?
+
+      render(Primer::Beta::Link.new(href: helpers.status_workflows_filter_path(status))) do
+        t("statuses.index.workflows_count", count:)
+      end
+    end
+
     def button_links = [action_menu]
 
     private
+
+    def dash = render(Primer::Beta::Text.new(color: :muted)) { "-" }
 
     # The cell holds nothing but the icon, so the column caption has to carry its meaning.
     def flag_checkmark(column, flagged)

@@ -45,7 +45,7 @@ RSpec.describe "Time entry activity", :js do
 
     # we are redirected back to the index page
     expect(page).to have_current_path(admin_settings_time_entry_activities_path)
-    expect(page).to have_content("A new activity")
+    expect(page).to have_text("A new activity")
 
     # It allows editing (Regression #62459)
     click_link "A new activity"
@@ -54,7 +54,7 @@ RSpec.describe "Time entry activity", :js do
     click_on("Save")
 
     expect(page).to have_current_path(admin_settings_time_entry_activities_path)
-    expect(page).to have_content("Development")
+    expect(page).to have_text("Development")
 
     activity = TimeEntryActivity.find_by(name: "Development")
     expect(activity).to be_present

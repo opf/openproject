@@ -23,6 +23,13 @@
 hy:
   js:
     button_log_costs: Գրանցել միավորի ծախսեր
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: ժամ
     label_hours: ժամ
     text_are_you_sure: Համոզվա՞ծ եք։

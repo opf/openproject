@@ -61,25 +61,25 @@ properties:
 
             **Resource**: RepositoryCommit
           readOnly: true
-example:
-  _type: RepositoryCommit
-  _links:
-    self:
-      href: "/api/v3/repository_commits/1"
-      title: Fix crash when saving
-  id: 1
-  sha: 0a1b2c3d4e5f60718293a4b5c6d7e8f901234567
-  message:
-    format: plain
-    raw: "Fix crash when saving\n\nOP#1234"
-    html: "<p>Fix crash when saving</p><p>OP#1234</p>"
-  authorName: Jane Doe
-  authoredAt: '2026-10-01T12:00:00.000Z'
-  projectName: my-group/my-project
-  webUrl: https://gitlab.example.com/my-group/my-project/-/commit/0a1b2c3d4e5f60718293a4b5c6d7e8f901234567
-  author:
-    name: Jane Doe
-    username: jdoe
-    avatarUrl: https://gitlab.example.com/uploads/user/avatar/1/avatar.png
-  createdAt: '2026-10-01T12:00:00.000Z'
-  updatedAt: '2026-10-01T12:00:00.000Z'
+examples:
+  - _type: RepositoryCommit
+    _links:
+      self:
+        href: "/api/v3/repository_commits/1"
+        title: Fix crash when saving
+    id: 1
+    sha: 0a1b2c3d4e5f60718293a4b5c6d7e8f901234567
+    message:
+      format: plain
+      raw: "Fix crash when saving\n\nOP#1234"
+      html: "<p>Fix crash when saving</p><p>OP#1234</p>"
+    authorName: Jane Doe
+    authoredAt: '2026-10-01T12:00:00.000Z'
+    projectName: my-group/my-project
+    webUrl: https://gitlab.example.com/my-group/my-project/-/commit/0a1b2c3d4e5f60718293a4b5c6d7e8f901234567
+    author:
+      name: Jane Doe
+      username: jdoe
+      avatarUrl: https://gitlab.example.com/uploads/user/avatar/1/avatar.png
+    createdAt: '2026-10-01T12:00:00.000Z'
+    updatedAt: '2026-10-01T12:00:00.000Z'

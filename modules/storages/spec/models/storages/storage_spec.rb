@@ -42,6 +42,26 @@ RSpec.describe Storages::Storage do
     end
   end
 
+  describe ".provider_type_for" do
+    it "returns the provider class for its class name" do
+      expect(described_class.provider_type_for("Storages::NextcloudStorage")).to eq(Storages::NextcloudStorage)
+    end
+
+    it "returns nil for a class that is not a storage provider" do
+      expect(described_class.provider_type_for("User")).to be_nil
+    end
+  end
+
+  describe ".shorten_provider_type" do
+    it "returns the short name of the provider" do
+      expect(described_class.shorten_provider_type("Storages::NextcloudStorage")).to eq("nextcloud")
+    end
+
+    it "returns an empty string for a class that is not a storage provider" do
+      expect(described_class.shorten_provider_type("User")).to eq("")
+    end
+  end
+
   describe "#oauth_access_granted?" do
     let(:storage) { build(:storage, oauth_client:) }
     let(:oauth_client) { create(:oauth_client) }

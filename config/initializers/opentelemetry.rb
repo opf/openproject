@@ -28,6 +28,7 @@
 #++
 
 require_relative "../../lib_static/open_project/opentelemetry"
+require_relative "../../lib_static/open_project/opentelemetry/excon_hash_query"
 
 Rails.application.configure do
   if OpenProject::Configuration.opentelemetry_enabled?
@@ -67,6 +68,8 @@ Rails.application.configure do
 
       c.use_all
     end
+
+    OpenProject::OpenTelemetry::ExconHashQuery.apply!
 
     # Extend the core log delegator
     handler = OpenProject::OpenTelemetry.method(:exception_handler)

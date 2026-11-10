@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: Project id
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Project id
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -28,7 +28,7 @@ get:
                   - 100
                 enabledInternalComments: true
           schema:
-            "$ref": "../components/schemas/project_configuration_model.yml"
+            $ref: "../components/schemas/project_configuration_model.yml"
       description: OK
       headers: {}
     '404':
@@ -50,5 +50,5 @@ get:
   description: |-
     Returns the configuration scoped to a specific project, including all global
     configuration properties plus project-specific settings.
-  operationId: View_project_configuration
+  operationId: get_project_configuration
   summary: View project configuration

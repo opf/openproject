@@ -31,15 +31,15 @@ properties:
           - description: |-
               Execute this custom action.
 
-example:
-  _type: CustomAction
-  name: Change project and type
-  description: Changes project and type in one go
-  _links:
-    executeImmediately:
-      href: "/api/v3/custom_actions/2/execute"
-      title: Execute Change project and type
-      method: post
-    self:
-      href: "/api/v3/custom_actions/2"
-      title: Change project and type
+examples:
+  - _type: CustomAction
+    name: Change project and type
+    description: Changes project and type in one go
+    _links:
+      executeImmediately:
+        href: "/api/v3/custom_actions/2/execute"
+        title: Execute Change project and type
+        method: post
+      self:
+        href: "/api/v3/custom_actions/2"
+        title: Change project and type

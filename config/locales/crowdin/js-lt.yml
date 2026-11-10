@@ -47,6 +47,8 @@ lt:
       draggable_hint: 'Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Failas patalpintas į karantiną, nes rastas virusas. Jo atsisiųsti negalima.
     autocomplete_ng_select:
       add_tag: Pridėti elementą
@@ -129,8 +131,8 @@ lt:
     button_confirm: Patvirtinti
     button_continue: Tęsti
     button_copy: Kopijuoti
-    button_copy_link_to_clipboard: Kopijuoti nuorodą į iškarpinę
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopijuoti į iškarpinę
     button_copy_to_other_project: Duplicate in another project
     button_create: Kurti
@@ -203,6 +205,9 @@ lt:
     description_select_work_package: 'Pasirinkite darbų paketą #%{id}'
     description_subwork_package: 'Darbų paketo vaikas #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor'iuje įvyko klaida
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
@@ -434,7 +439,6 @@ lt:
     label_assignee: Paskirtas
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Priedai
-    label_author: 'Autorius: %{user}'
     label_avatar: Nuotrauka
     label_between: tarp
     label_board: Lenta
@@ -1104,15 +1108,30 @@ lt:
       scheduling:
         is_parent: Šio darbų paketo datos yra automatiškai nustatomos pagal jo vaikų datas. Norėdami nustatyti kitokias datas įjunkite „Rankinį tvarkaraščio parinkimą“
         is_switched_from_manual_to_automatic: Po perjungimo iš rankinio į automatinį tvarkaraščio parinkimą, šio darbų paketo datas gali reikėti perskaičiuoti, nes yra sąryšių su kitais darbų paketais.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Rodyti visus naudotojus, su kuriais bendrinamas šis darbo paketas
         title: Dalintis darbo paketu
       table:
         configure_button: Sukonfigūruokite darbų paketo lentelę
-        summary: Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų.
-        text_inline_edit: Dauguma langelių šioje lentelėje yra mygtukai, kurie aktyvuoja to atributo redagavimą eilutėje.
-        text_select_hint: Pažymėjimo langeliai turi būti atidaryti nuspaudus 'Alt' ir krypčių rodykles.
-        text_sort_hint: Su nuorodomis lentelės antraštėje galima rikiavimo, grupuoti, perdėlioti, šalinti ir pridėti lentelės stulpelius.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Konfigūruokite šią darbų paketo lentelę
         choose_display_mode: Parodyti darbų paketą kaip
@@ -1121,7 +1140,6 @@ lt:
         default_mode: Paprastas sąrašas
         display_settings: Rodymo nustatymai
         display_sums_hint: Rodyti visų sumuotinų atributų sumas eilutėje lentelės apačioje po rezultatais.
-        embedded_tab_disabled: Ši konfigūracijos kortelė nerodoma įterpiamam vaizdui, kurį jūs redaguojate.
         hierarchy_hint: Visi filtruoti lentelės rezultatai bus papildyti savo tėvais. Hierarchijas galima išplėsti ir sutraukti.
         hierarchy_mode: Hierarchija
         highlighting: Paryškinimai

@@ -30,7 +30,8 @@ require_relative "shared_context"
 
 RSpec.describe "Calendar drag&dop and resizing",
                :js,
-               :selenium do
+               :selenium,
+               with_settings: { start_of_week: 1 } do
   include_context "with calendar full access"
 
   shared_let(:monday) { Date.current.beginning_of_week(:monday) }

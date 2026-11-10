@@ -17,7 +17,7 @@ allOf:
               - $ref: './link.yml'
               - description: |-
                   This hierarchy item collection
-                  
+
                   **Resource**: HierarchyItemCollectionModel
       _embedded:
         type: object

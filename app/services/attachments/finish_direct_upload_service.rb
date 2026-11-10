@@ -60,7 +60,10 @@ module Attachments
 
     def persist(call)
       super.tap do |service_result|
-        unless attachment.save
+        if attachment.save
+          # Stores the final file before the commit, so an uploaded attachment never points to a missing file.
+          attachment.store_file!
+        else
           service_result.errors = attachment.errors
           service_result.success = false
         end
@@ -72,7 +75,7 @@ module Attachments
         journalize_container
         attachment_created_event
         schedule_jobs
-        DirectFogUploader.delete_staged_upload(attachment)
+        delete_staged_upload_after_commit
       end
     end
 
@@ -97,6 +100,13 @@ module Attachments
       attachment.change_by_system do
         attachment.status = :uploaded
         attachment.file = staged_upload.local_file
+      end
+    end
+
+    # The staged file is served while the attachment is still prepared, so it must outlive the transaction.
+    def delete_staged_upload_after_commit
+      ActiveRecord.after_all_transactions_commit do
+        DirectFogUploader.delete_staged_upload(attachment)
       end
     end
 

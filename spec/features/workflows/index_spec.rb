@@ -139,8 +139,8 @@ RSpec.describe "Workflows index", :js do
     end
   end
 
-  def current_url_filters
-    Rack::Utils.parse_query(URI(page.current_url).query).fetch("filters", "")
+  def url_filters_including(*names)
+    a_hash_including("filters" => a_string_including(*names.map { /\b#{Regexp.escape(it)}\b/ }))
   end
 
   def open_row_menu(name)
@@ -205,7 +205,7 @@ RSpec.describe "Workflows index", :js do
     search_workflows("Hardw")
 
     expect_listed("Hardware flow")
-    expect(current_url_filters).to include("name")
+    expect(page).to have_current_query_params(url_filters_including("name"))
   end
 
   it "keeps the workflow when filtering by a type that only references it" do
@@ -214,7 +214,7 @@ RSpec.describe "Workflows index", :js do
     keep_only_types(milestone)
 
     expect_listed("Bug flow")
-    expect(current_url_filters).to include("type_id")
+    expect(page).to have_current_query_params(url_filters_including("type_id"))
   end
 
   it "filters by the projects a workflow is active in" do
@@ -223,7 +223,7 @@ RSpec.describe "Workflows index", :js do
     filter_by_projects(on_hardware)
 
     expect_listed("Hardware flow")
-    expect(current_url_filters).to include("project_id")
+    expect(page).to have_current_query_params(url_filters_including("project_id"))
   end
 
   it "reaches a sub-project's workflow when picking its parent with sub-items" do
@@ -253,7 +253,7 @@ RSpec.describe "Workflows index", :js do
       within(".op-pagination") { click_link_or_button "2" }
 
       expect(page).to have_css("#{results} .name a", count: 1)
-      expect(current_url_filters).to include("name")
+      expect(page).to have_current_query_params(url_filters_including("name"))
     end
   end
 

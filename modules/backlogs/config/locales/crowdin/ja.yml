@@ -86,7 +86,7 @@ ja:
               can_only_contain_work_packages_of_current_sprint: 現在のスプリント内のワークパッケージIDのみを含めることができます。
               must_block_at_least_one_work_package: は少なくとも 1つのチケットIDを含める必要があります。
             sprint:
-              not_assignable: プロジェクトと共有されていないか、すでに完了しているため、割り当てることができません。
+              not_assignable: is not assignable since it is either not shared with the project or already finished.
               not_eligible_for_moving: そのワークパッケージが移動元のプロジェクトにおいて、現在アクティブなスプリントではない。
             version_id:
               task_version_must_be_the_same_as_story_version: 親ストーリーのバージョンと同じでなければなりません。
@@ -100,7 +100,7 @@ ja:
         other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: 既存のワークパッケージを追加する
+      title_without_container: Add existing work package
     administration_blankslate:
       text: 現在、「バックログ」モジュールの再設計を進めています。スプリントおよびバックログに関する管理設定は、近いうちにこちらで表示されるようになります。プロジェクトレベルの設定については、引き続きご利用いただけます。
       title: バックログの管理設定は進化を続けています
@@ -139,6 +139,9 @@ ja:
         blankslate_description: スプリントの開始日と終了日を設定して、バーンダウンチャートを生成します。
         blankslate_title: バーンダウンデータはありません
     created_resolved_chart:
+      series:
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -187,9 +190,6 @@ ja:
     rebuild_positions: 位置情報を再構築
     remaining_hours: 残時間
     sharing: スプリントの共有
-    show_burndown_chart: バーンダウンチャート
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
         add_existing_work_package: 既存のワークパッケージを追加する
@@ -219,6 +219,40 @@ ja:
         breadcrumb: Report
         title: "%{sprint} report"
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
+        velocity_chart:
+          average:
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Average
+          committed: Committed
+          completed: Completed
+          story_points: "%{value} SP"
+          summary:
+            other: Bar chart of committed and completed story points of the last %{count} sprints.
+          summary_average: 'Average velocity: %{average}.'
+          title: Velocity chart
+          velocity: "%{sprint}:"
+          y_axis_title: Story points
         work_package_graph:
           title: Work packages graph
         work_package_overview:
@@ -227,9 +261,9 @@ ja:
             heading: No sprint data available
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Scope change
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Completed
             initially_planned:
@@ -239,9 +273,17 @@ ja:
           breakdown_block:
             blocks:
               show_all: View all
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: Closed work packages
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            other: "%{percentage}% (%{resolved} of %{total} work packages)"
+            story_points:
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:
@@ -336,21 +378,18 @@ ja:
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
-  created_resolved:
-    wp_created: Created
-    wp_resolved: Resolved
   ee:
     features:
-      multiple_active_sprints: 複数のアクティブなスプリント
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Sprint sharing
     upsell:
       multiple_active_sprints:
-        description: プロジェクト内の異なるチームで複数のスプリントを並行して実行することで、管理性と柔軟性を高めることができます。
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: All sprints
   label_backlog: Backlog
-  label_backlog_and_sprints: バックログとスプリント
+  label_backlog_and_sprints: Backlog and sprints
   label_backlog_bucket_edit: Edit backlog bucket
   label_backlog_bucket_new: New backlog bucket
   label_backlogs: バックログ

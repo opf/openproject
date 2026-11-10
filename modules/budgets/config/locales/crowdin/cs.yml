@@ -27,7 +27,7 @@ cs:
         author: Autor
         available: Dostupné
         base_amount: Základní částka
-        budget: Rozpočet
+        budget: Plánované
         budget_ratio: Stráveno (poměr)
         description: Popis
         labor_budget: Plánované mzdové náklady

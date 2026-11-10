@@ -42,6 +42,13 @@ installElements();
 
 registerDialogStreamAction();
 
+// Spec files share one browser page, so a pointer left over a later spec's link
+// would otherwise start a Turbo hover prefetch through that spec's fetch spy.
+const turboPrefetch = document.createElement('meta');
+turboPrefetch.name = 'turbo-prefetch';
+turboPrefetch.content = 'false';
+document.head.append(turboPrefetch);
+
 afterEach(() => {
   vi.useRealTimers();
 });

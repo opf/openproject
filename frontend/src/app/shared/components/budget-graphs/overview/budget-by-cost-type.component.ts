@@ -40,6 +40,7 @@ import { ChartConfiguration, ChartData } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { chartFont, chartLegend, createPieTooltipRenderer } from 'core-app/shared/components/budget-graphs/chart.config';
 import type { PieTooltipContext } from 'core-app/shared/components/budget-graphs/chart.config';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
@@ -55,6 +56,9 @@ export class BudgetByCostTypeComponent {
   private readonly tooltipHost = viewChild<ElementRef<HTMLDivElement>>('tooltipHost');
 
   private renderer:ReturnType<typeof createPieTooltipRenderer>|null = null;
+
+  readonly chartDescriptionId = generateId('budget-by-cost-type-chart-description');
+  readonly chartLabel = this.i18n.t('js.budgets.widgets.budget_by_cost_type.chart_label');
 
   constructor() {
     effect((onCleanup) => {
@@ -74,7 +78,23 @@ export class BudgetByCostTypeComponent {
   readonly currency = input<string>('€');
 
   readonly pieChartData = computed<ChartData<'pie'>>(() => JSON.parse(this.chartData()) as ChartData<'pie'>);
-  readonly hasChartData = computed(() => this.pieChartData().datasets[0].data.length > 0);
+  readonly hasChartData = computed(() => {
+    const { datasets } = this.pieChartData();
+    return datasets.length > 0 && datasets[0].data.length > 0;
+  });
+
+  readonly chartDescription = computed(() => {
+    const { labels = [], datasets } = this.pieChartData();
+    const values = labels.map((label, index) => this.i18n.t(
+      'js.budgets.widgets.budget_by_cost_type.chart_value',
+      {
+        label: String(label),
+        value: this.formatCurrency(Number(datasets[0].data[index])),
+      },
+    ));
+
+    return this.i18n.t('js.budgets.widgets.budget_by_cost_type.chart_summary', { values: values.join('; ') });
+  });
 
   readonly pieChartOptions:Signal<ChartConfiguration<'pie'>['options']> = computed<ChartConfiguration<'pie'>['options']>(() => ({
     font: chartFont,
@@ -93,13 +113,13 @@ export class BudgetByCostTypeComponent {
   private formatCurrency(value:number):string {
     const currency = this.currency();
     try {
-      return new Intl.NumberFormat(undefined, {
+      return new Intl.NumberFormat(this.i18n.locale, {
         style: 'currency',
         currency,
         maximumFractionDigits: 0,
       }).format(value);
     } catch {
-      return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(value)} ${currency}`;
+      return `${new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 0 }).format(value)} ${currency}`;
     }
   }
 }

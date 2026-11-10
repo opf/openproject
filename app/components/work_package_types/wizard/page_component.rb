@@ -158,7 +158,7 @@ module WorkPackageTypes
         when :project_attributes
           ProjectAttributesStepComponent.new(variant:)
         when :projects
-          WorkPackageTypes::ProjectsComponent.new(type, variant:, projects: Project.all)
+          ProjectsStepComponent.new(variant:, reload_url: step_url)
         when :pdf
           PdfStepComponent.new(variant:)
         else

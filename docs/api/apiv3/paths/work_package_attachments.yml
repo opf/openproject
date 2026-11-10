@@ -2,13 +2,13 @@
 ---
 get:
   parameters:
-  - description: ID of the work package whose attachments will be listed
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: ID of the work package whose attachments will be listed
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:
@@ -40,13 +40,13 @@ get:
   summary: List attachments by work package
 post:
   parameters:
-  - description: ID of the work package to receive the attachment
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: ID of the work package to receive the attachment
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       content:

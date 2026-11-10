@@ -47,6 +47,8 @@ zh-CN:
       draggable_hint: '将图片或附件拖到编辑区内即可添加。鼠标在关闭的编辑区上停留将打开这个编辑区。
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: 该文件由于发现了病毒已被隔离。该文件不可下载。
     autocomplete_ng_select:
       add_tag: 添加项目
@@ -129,8 +131,8 @@ zh-CN:
     button_confirm: 确认
     button_continue: 继续
     button_copy: 复制
-    button_copy_link_to_clipboard: 将链接复制到剪贴板
-    button_copy_numeric_id_to_clipboard: 将数字 ID 复制到剪贴板
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: 复制到剪贴板
     button_copy_to_other_project: 复制到其他项目
     button_create: 创建
@@ -203,6 +205,9 @@ zh-CN:
     description_select_work_package: '选择工作包 #%{id}'
     description_subwork_package: '子工作包 #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor 发生错误
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
@@ -434,7 +439,6 @@ zh-CN:
     label_assignee: 指定
     label_assignee_alt_text: 此工作包被指定至 %{name}
     label_attachments: 附件
-    label_author: '作者: %{user}'
     label_avatar: 头像
     label_between: 介于
     label_board: 面板
@@ -1086,15 +1090,24 @@ zh-CN:
       scheduling:
         is_parent: 此工作包的日期会自动从其子项推导出。可激活“手动计划”来设置日期。
         is_switched_from_manual_to_automatic: 由于与其他工作包的关系，在从手动计划切换为自动计划后，此工作包的日期可能需要重新计算。
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: 显示与之共享工作包的所有用户
         title: 共享工作包
       table:
         configure_button: 配置工作包表
-        summary: 行为工作包且列为工作包属性的表格。
-        text_inline_edit: 大多数此表格的单元格为激活工作包属性的直接编辑功能的按钮。
-        text_select_hint: 请使用Alt+方向键打开选择框。
-        text_sort_hint: 使用表格标题中的链接，您可以对表格中的列排序、分组、重排序、删除和添加。
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: 配置当前工作包表
         choose_display_mode: 将工作包显示为
@@ -1103,7 +1116,6 @@ zh-CN:
         default_mode: 扁平列表
         display_settings: 显示设置
         display_sums_hint: 在表结果下方一行中显示所有可累加属性的总和。
-        embedded_tab_disabled: 此配置选项卡不适用于您正在编辑的嵌入式视图。
         hierarchy_hint: 所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。
         hierarchy_mode: 层次结构
         highlighting: 突出显示

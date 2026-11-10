@@ -93,7 +93,7 @@ module Accounts::AuthenticationStages
 
   def authentication_stages(after_activation: false, reset: true)
     if OpenProject::Authentication::Stage.stages.select(&:active?).any?
-      session.delete %i[authentication_stages stage_secrets back_url] if reset
+      %i[authentication_stages stage_secrets].each { |key| session.delete(key) } if reset
 
       if session.include?(:authentication_stages)
         lookup_authentication_stages

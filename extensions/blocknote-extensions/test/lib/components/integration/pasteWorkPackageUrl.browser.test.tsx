@@ -159,7 +159,7 @@ describe('Paste work package URL', () => {
       { type: 'paragraph', content: [] },
       { type: 'openProjectWorkPackageBlock', props: { wpid: 456, displayId: '456', size: 'm' } },
     ]);
-    await expect.element(page.getByText('Add dark mode')).toBeVisible();
+    await expect.element(page.getByText('Add dark mode', { exact: true })).toBeVisible();
     editor.setTextCursorPosition(editor.document[0].id, 'start');
 
     pastePlainText('http://localhost:3000/wp/123');

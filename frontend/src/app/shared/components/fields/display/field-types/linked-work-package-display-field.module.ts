@@ -69,11 +69,11 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     title.textContent = ` ${truncate(titleText, { length: 40 })}`;
 
     element.innerHTML = '';
-    element.appendChild(link);
+    element.appendChild(link.element);
     element.appendChild(title);
   }
 
-  public get writable():boolean {
+  public override get writable():boolean {
     return false;
   }
 

@@ -25,93 +25,64 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChartOptions } from 'chart.js';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
-import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
+import { SeriesChartComponent, SeriesStyle } from 'core-app/shared/components/charts/component.series-chart';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { environment } from '../../../environments/environment';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
-const BURNDOWN_Y_SCALE_MIN = 10;
+type SeriesKey = 'created'|'resolved';
+
+// ORDER IS SIGNIFICANT: the legend and the tooltip read in the order these are declared. It is
+// not the order the lines are drawn in -- the band is painted with the series that declares it,
+// so created takes the higher `order` to be drawn first and leave both lines above the band.
+//
+// Which of the two leads is the whole question the chart answers, so the band between them is
+// red while work is arriving faster than it is finished and green while it is not.
+const SERIES_STYLE:Record<SeriesKey, SeriesStyle<SeriesKey>> = {
+  created: {
+    swatch: 'rect',
+    borderWidth: 1,
+    order: 1,
+    stepped: 'after',
+    band: { to: 'resolved', above: paleRed, below: paleGreen },
+    color: () => ({
+      border: getCSSVariable('--display-red-scale-4', '#e5484d'),
+      background: paleRed(),
+    }),
+  },
+  resolved: {
+    swatch: 'rect',
+    borderWidth: 1,
+    order: 0,
+    stepped: 'after',
+    color: () => ({
+      border: getCSSVariable('--display-green-scale-4', '#30a46c'),
+      background: paleGreen(),
+    }),
+  },
+};
+
+function paleRed():string {
+  return getCSSVariable('--display-red-scale-2', '#fda5a7');
+}
+
+function paleGreen():string {
+  return getCSSVariable('--display-green-scale-2', '#b1efc8');
+}
 
 @Component({
   selector: 'op-created-resolved-chart',
   templateUrl: './created-resolved-chart.component.html',
-  imports: [BaseChartDirective, JsonPipe, NoResultsComponent],
-  providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [BaseChartDirective, NoResultsComponent],
+  providers: [provideCharts(withDefaultRegisterables())],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatedResolvedComponent {
-  readonly isDevMode = !environment.production;
-  readonly i18n = inject(I18nService);
-  readonly chartData = input.required<string>();
+export class CreatedResolvedComponent extends SeriesChartComponent<SeriesKey> {
+  protected readonly seriesStyle = SERIES_STYLE;
 
-  readonly lineChartData = computed<ChartData<'line'>>(() => {
-    const data = JSON.parse(this.chartData()) as ChartData<'line'>;
+  protected readonly yAxisTitle = this.i18n.t('js.created_resolved_chart.work_packages');
 
-    // Resolved never exceeds created, so it has to be drawn on top (lower order) to stay visible.
-    const styles = [
-      {background: getCSSVariable('--display-red-scale-2'), border: getCSSVariable('--display-red-scale-4'), order: 1}, //created
-      {background: getCSSVariable('--display-green-scale-2'), border: getCSSVariable('--display-green-scale-4'), order: 0} //resolved
-    ];
-
-    data.datasets.forEach((dataset, i) => {
-      dataset.backgroundColor = Array(dataset.data.length).fill(styles[i]?.background);
-      dataset.borderColor = Array(dataset.data.length).fill(styles[i]?.border);
-      dataset.borderWidth = 1;
-      dataset.order = styles[i]?.order;
-    });
-
-    return data;
-  });
-
-  readonly hasChartData = computed(() =>
-    this.lineChartData().datasets.some((ds) => ds.data.length > 0)
-  );
-
-  readonly maxValue = computed(() => {
-    return this.lineChartData().datasets
-      .flatMap((dataset) => dataset.data)
-      .filter((item):item is number => typeof item === 'number')
-      .reduce((a, b) => Math.max(a, b), 0);
-  });
-
-  readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => ({
-    fill: true,
-    tension: 0,
-    pointRadius: 0,
-    interaction: {
-      mode: 'index',
-      intersect: false,
-    },
-    scales: {
-      x: {
-        title: {
-          display: false,
-        },
-        ticks: {
-          maxTicksLimit: 15,
-        }
-      },
-      y: {
-        title: {
-          display: true,
-          text: this.i18n.t('js.created_resolved.work_packages')
-        },
-        suggestedMin: 0,
-        max: this.maxValue() + BURNDOWN_Y_SCALE_MIN
-      }
-    },
-    plugins: {
-      legend: {
-        position: 'bottom'
-      },
-      'primer-colors': {
-        enabled: false
-      }
-    }
-  }));
+  protected readonly interaction:ChartOptions<'line'>['interaction'] = { mode: 'index', intersect: false };
 }

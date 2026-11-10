@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
+  SEARCH_PLACEHOLDER,
   insertInlineWorkPackageViaSlashMenu,
   convertToCompactCard,
   openBlockCardPopover,
@@ -15,7 +16,7 @@ describe('Block card - resize', () => {
   //   await convertToCompactCard();
 
   //   await openBlockCardSizeMenu();
-  //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
+  //   await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular card', exact: true }));
 
   //   await expect.element(page.getByTestId('block-card')).toBeVisible();
   //   await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -27,11 +28,11 @@ describe('Block card - resize', () => {
   //   await insertInlineWorkPackageViaSlashMenu();
 
   //   await openBlockCardSizeMenu();
-  //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
+  //   await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular card', exact: true }));
   //   await expect.element(page.getByTestId('block-card')).toBeVisible();
 
   //   await openBlockCardSizeMenu();
-  //   await userEvent.click(page.getByRole('button', { name: 'Full card', exact: true }));
+  //   await userEvent.click(page.getByRole('menuitemradio', { name: 'Full card', exact: true }));
 
   //   await expect.element(page.getByTestId('block-card')).toBeVisible();
   //   await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -60,7 +61,7 @@ describe('Block card - resize', () => {
       'Regular',
       'Compact card',
     ]) {
-      await expect.element(page.getByRole('button', { name: label, exact: true })).toBeVisible();
+      await expect.element(page.getByRole('menuitemradio', { name: label, exact: true })).toBeVisible();
     }
   });
 
@@ -70,7 +71,7 @@ describe('Block card - resize', () => {
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('size-menu')).not.toBeInTheDocument();
   });
@@ -136,14 +137,21 @@ describe('Block card - selection', () => {
     // user-select: all made a single click highlight the whole card's text.
     expect(getComputedStyle(wrapper).userSelect).toBe('none');
   });
+});
+describe('Block card - insert into an empty line with nested blocks', () => {
+  it('keeps the nested blocks', async () => {
+    renderEditor({
+      initialContent: [{ type: 'paragraph', content: [], children: [{ type: 'paragraph', content: 'Nested' }] }],
+    });
+    await expect.element(page.getByText('Nested')).toBeVisible();
 
-  // role=button is what makes iOS fire the click on the first tap (a plain div
-  // in the contenteditable needs two); see BlockCards.
-  it('the clickable card exposes role=button', async () => {
-    renderEditor();
-    await insertInlineWorkPackageViaSlashMenu();
-    await convertToCompactCard();
+    await userEvent.click(document.querySelector('[data-content-type="paragraph"]')!);
+    await userEvent.keyboard('/');
+    await userEvent.click(page.getByText('Link existing work package').first());
+    await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Fix');
+    await userEvent.click(page.getByText('Fix login bug'));
 
-    expect(page.getByTestId('block-card').element().getAttribute('role')).toBe('button');
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('Nested')).toBeVisible();
   });
 });
