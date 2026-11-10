@@ -44,14 +44,24 @@ module Backlogs
           not_started_without_estimated_hours: :graph
         }.freeze
 
-        def chart_available? = blankslate_reason.nil?
+        def chart_available? = resolved_blankslate_reason.nil?
 
         def blankslate
+          reason = resolved_blankslate_reason
+
           render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
-            blankslate.with_visual_icon(icon: ICONS.fetch(blankslate_reason))
-            blankslate.with_heading(tag: :h3).with_content(t(".blankslate.#{blankslate_reason}.heading"))
-            blankslate.with_description_content(t(".blankslate.#{blankslate_reason}.description"))
+            blankslate.with_visual_icon(icon: ICONS.fetch(reason))
+            blankslate.with_heading(tag: :h3).with_content(t(".blankslate.#{reason}.heading"))
+            blankslate.with_description_content(t(".blankslate.#{reason}.description"))
           end
+        end
+
+        private
+
+        def resolved_blankslate_reason
+          return @resolved_blankslate_reason if defined?(@resolved_blankslate_reason)
+
+          @resolved_blankslate_reason = blankslate_reason
         end
       end
     end

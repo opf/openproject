@@ -132,6 +132,14 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
         exact_text: "The burndown chart will appear here once the sprint has received a work package with estimated story points."
       )
     end
+
+    it "checks for received work packages only once" do
+      allow(sprint).to receive(:received_work_packages?).and_call_original
+
+      rendered_component
+
+      expect(sprint).to have_received(:received_work_packages?).once
+    end
   end
 
   context "when the sprint only received work packages without story points" do
