@@ -34,10 +34,11 @@ module Overviews
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(project:)
+      def initialize(project:, user:)
         super
 
         @project = project
+        @user = user
         @phases = @project.available_phases.eager_load(:definition)
       end
     end

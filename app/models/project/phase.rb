@@ -49,6 +49,8 @@ class Project::Phase < ApplicationRecord
 
   attr_readonly :definition_id
 
+  enum :status, { open: "open", in_progress: "in_progress", completed: "completed" }, validate: true
+
   scope :active, -> { where(active: true) }
   scope :with_timeline_content, -> {
     joins(:definition).where(
