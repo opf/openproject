@@ -2894,6 +2894,8 @@ en:
           item:
             description: Add items to this list to create sub-items inside another one
             title: This item doesn't have any hierarchy level below
+          project_item:
+            description: "This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration)."
           root:
             description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
             title: "Your list of items is empty"

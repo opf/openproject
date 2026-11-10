@@ -90,9 +90,15 @@ module Admin
 
         def blank_description_text
           if model.root?
-            "custom_fields.admin.items.blankslate.root.description"
+            I18n.t("custom_fields.admin.items.blankslate.root.description")
+          elsif model.project
+            # TODO: link to the project administration page for managing custom field values once it exists
+            helpers.link_translate("custom_fields.admin.items.blankslate.project_item.description",
+                                   i18n_args: { project: model.project.name },
+                                   links: { project_administration: "#" },
+                                   external: false)
           else
-            "custom_fields.admin.items.blankslate.item.description"
+            I18n.t("custom_fields.admin.items.blankslate.item.description")
           end
         end
 

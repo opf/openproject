@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
                     component.with_visual_icon(icon: blank_icon)
 
                     component.with_heading(tag: :h3).with_content(I18n.t(blank_header_text))
-                    component.with_description { I18n.t(blank_description_text) }
+                    component.with_description { blank_description_text }
                     if items_addable?
                       component.with_primary_action(href: new_item_path) do |button|
                         button.with_leading_visual_icon(icon: :plus)
