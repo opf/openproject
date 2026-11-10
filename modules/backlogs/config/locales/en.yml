@@ -262,7 +262,13 @@ en:
       widgets:
         burndown_chart:
           blankslate:
-            no_work:
+            no_work_packages:
+              description: "The burndown chart will appear here once the sprint has received a work package."
+              heading: "No work to display"
+            not_started:
+              description: "The burndown chart will appear here after the sprint start date."
+              heading: "No work to display"
+            not_started_without_work_packages:
               description: "The burndown chart will appear here after the sprint start date, once the sprint has received a work package."
               heading: "No work to display"
             too_long:
@@ -271,7 +277,13 @@ en:
           title: "Burndown chart"
         burnup_chart:
           blankslate:
-            no_work:
+            no_work_packages:
+              description: "The burnup chart will appear here once the sprint has received a work package."
+              heading: "No work to display"
+            not_started:
+              description: "The burnup chart will appear here after the sprint start date."
+              heading: "No work to display"
+            not_started_without_work_packages:
               description: "The burnup chart will appear here after the sprint start date, once the sprint has received a work package."
               heading: "No work to display"
             too_long:

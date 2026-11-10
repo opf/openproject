@@ -60,10 +60,15 @@ module Backlogs
         private
 
         def blankslate_reason
-          if burndown.too_long_to_chart?
-            :too_long
-          elsif !start_reached? || !sprint.received_work_packages?(project)
-            :no_work
+          return :too_long if burndown.too_long_to_chart?
+
+          received = sprint.received_work_packages?(project)
+          if !start_reached? && !received
+            :not_started_without_work_packages
+          elsif !start_reached?
+            :not_started
+          elsif !received
+            :no_work_packages
           end
         end
 

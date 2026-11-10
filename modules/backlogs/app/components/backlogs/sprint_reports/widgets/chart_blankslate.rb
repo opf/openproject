@@ -33,7 +33,14 @@ module Backlogs
       # Including widgets implement `blankslate_reason`, returning nil when the chart can be drawn,
       # or a key of +ICONS+ naming why it cannot.
       module ChartBlankslate
-        ICONS = { too_long: :blocked, no_work: :graph, no_epics: :graph }.freeze
+        ICONS = {
+          too_long: :blocked,
+          no_work: :graph,
+          no_epics: :graph,
+          not_started: :graph,
+          no_work_packages: :graph,
+          not_started_without_work_packages: :graph
+        }.freeze
 
         def chart_available? = blankslate_reason.nil?
 

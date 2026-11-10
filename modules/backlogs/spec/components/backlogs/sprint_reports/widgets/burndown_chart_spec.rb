@@ -126,9 +126,25 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
   context "when the sprint never received a work package" do
     it "renders a blankslate instead of the chart" do
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       expect(rendered_component).to have_css(
-        ".blankslate",
-        text: "The burndown chart will appear here after the sprint start date, once the sprint has received a work package."
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here once the sprint has received a work package."
+      )
+    end
+  end
+
+  context "when the current date is before the sprint's start date and the sprint never received a work package" do
+    let(:now) { monday.in_time_zone - 2.hours }
+    let(:sprint) { create(:sprint, project:, start_date: monday, finish_date: second_friday) }
+
+    it "renders a blankslate naming both reasons" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here after the sprint start date, " \
+                    "once the sprint has received a work package."
       )
     end
   end
@@ -143,8 +159,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
       expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       expect(rendered_component).to have_css(
-        ".blankslate",
-        text: "The burndown chart will appear here after the sprint start date, once the sprint has received a work package."
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here after the sprint start date."
       )
     end
 
