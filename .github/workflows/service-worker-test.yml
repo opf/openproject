@@ -1,14 +1,5 @@
 name: "Service worker / Tests"
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - dev
-      - release/*
-    paths:
-      - 'packages/service-worker/**'
-      - '.github/workflows/service-worker-test.yml'
-      - 'COPYRIGHT_short'
   pull_request:
     types: [opened, reopened, synchronize]
     paths:
