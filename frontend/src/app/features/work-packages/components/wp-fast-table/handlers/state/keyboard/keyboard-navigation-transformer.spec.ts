@@ -816,7 +816,7 @@ describe('KeyboardNavigationTransformer', () => {
       groups: grouped.groups!.map((group) => ({ ...group, sums: { estimatedTime: 'PT1H' } as never })),
     });
     const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
-    const sumsRow = table.container.querySelector<HTMLTableRowElement>('tbody.work-package--results-tbody tr.wp-table--sums-row')!;
+    const sumsRow = table.groupSums(0);
     sumsRow.focus();
 
     expect(press(sumsRow, 'Enter')).toBe(true);
