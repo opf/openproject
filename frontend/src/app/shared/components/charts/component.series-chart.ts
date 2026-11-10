@@ -43,8 +43,11 @@ import 'chartjs-adapter-luxon';
 import moment from 'moment-timezone';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
-import { ChartStep, formattedTick, timeChartOptions } from 'core-app/shared/components/charts/options.time-chart';
+import {
+  ChartStep, YTicks, formattedTick, timeChartOptions,
+} from 'core-app/shared/components/charts/options.time-chart';
 
 export interface SeriesPoint {
   x:string;
@@ -71,6 +74,7 @@ export interface ChartedRange {
 }
 
 export interface SeriesChartData<Key extends string> {
+  unit?:'story_points'|'time';
   step:ChartStep;
   range:ChartedRange;
   series:ChartSeries<Key>[];
@@ -133,6 +137,7 @@ const SERIES_DEFAULTS:Omit<Partial<SeriesStyle>, 'swatch'|'color'> = {
 export abstract class SeriesChartComponent<Key extends string> {
   readonly i18n = inject(I18nService);
   readonly timezoneService = inject(TimezoneService);
+  readonly configurationService = inject(ConfigurationService);
 
   readonly chartData = input.required<string>();
 
@@ -200,6 +205,7 @@ export abstract class SeriesChartComponent<Key extends string> {
         zone,
         range: this.chartedRange(),
         yTitle: this.yAxisTitle,
+        yTicks: this.yTicks(),
         suggestedMax: this.yAxisMaximum(),
         formatDate: (iso) => this.timezoneService.formattedDatetimeAsDate(iso),
       }),
@@ -260,12 +266,24 @@ export abstract class SeriesChartComponent<Key extends string> {
     return dated ? this.formattedTick(dated) : '';
   }
 
-  // Values divided across working days carry a fraction; counts and story points do not, and are
-  // left as they are.
   protected tooltipLabel(item:TooltipItem<'line'>):string {
-    const value = (item.parsed.y ?? 0).toLocaleString(undefined, { maximumFractionDigits: 1 });
+    return `${item.dataset.label ?? ''}: ${this.formatValue(item.parsed.y ?? 0)}`;
+  }
 
-    return `${item.dataset.label ?? ''}: ${value}`;
+  private formatValue(value:number):string {
+    if (this.parsedInput().unit === 'time') {
+      return this.timezoneService.formattedChronicDurationFromHours(value);
+    }
+
+    return new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 2 }).format(value);
+  }
+
+  private yTicks():YTicks {
+    if (this.parsedInput().unit === 'time') {
+      return { stepSize: this.configurationService.hoursPerDay(), format: (value) => this.formatValue(value) };
+    }
+
+    return {};
   }
 
   protected formattedTick(item:TooltipItem<'line'>):string {
@@ -288,10 +306,6 @@ export abstract class SeriesChartComponent<Key extends string> {
 
         return { label: series.label, byDay };
       });
-  }
-
-  private formatValue(value:number):string {
-    return new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 2 }).format(value);
   }
 
   // Everything the style holds but the swatch, which belongs to the legend, is already a dataset

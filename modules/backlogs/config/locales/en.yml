@@ -152,10 +152,6 @@ en:
       title: "Delete backlog bucket?"
 
     burndown_chart:
-      series:
-        guideline: "Guideline"
-        projection: "Remaining story points (projection)"
-        remaining: "Remaining story points"
       show:
         blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
         blankslate_title: "No burndown data available"
@@ -263,6 +259,14 @@ en:
         title: "%{sprint} report"
       widgets:
         burndown_chart:
+          series:
+            guideline: "Guideline"
+            projection:
+              story_points: "Remaining story points (projection)"
+              time: "Remaining estimated time (projection)"
+            remaining:
+              story_points: "Remaining story points"
+              time: "Remaining estimated time"
           title: "Burndown chart"
         burnup_chart:
           blankslate_description: "Set start and end date for the sprint to generate a burnup chart."

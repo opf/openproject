@@ -72,7 +72,9 @@ en:
       chart_label: "Burndown chart"
       chart_summary: "Burndown chart data: %{days}."
       chart_value: "%{label}: %{value}"
-      story_points: "Story points"
+      y_axis_title:
+        story_points: "Story points"
+        time: "Estimated time"
     burnup_chart:
       chart_day: "Day %{day}: %{values}"
       chart_label: "Burnup chart"
