@@ -32,8 +32,9 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { time_entry.project }
-  let(:time_entry) { create(:time_entry) }
+  let(:project) { create(:project) }
+  let(:time_entry_user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+  let(:time_entry) { create(:time_entry, entity: create(:work_package, project:), user: time_entry_user) }
   let(:active_activity) { create(:time_entry_activity) }
   let(:in_project_inactive_activity) do
     create(:time_entry_activity).tap do |tea|
