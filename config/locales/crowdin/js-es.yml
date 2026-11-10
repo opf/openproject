@@ -129,8 +129,8 @@ es:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copiar enlace al portapapeles
-    button_copy_numeric_id_to_clipboard: Copiar ID numérico al portapapeles
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copiar en el portapapeles
     button_copy_to_other_project: Duplicar en otro proyecto
     button_create: Crear
@@ -205,6 +205,7 @@ es:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Se ha producido un error dentro de CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'

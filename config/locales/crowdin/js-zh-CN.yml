@@ -131,8 +131,8 @@ zh-CN:
     button_confirm: 确认
     button_continue: 继续
     button_copy: 复制
-    button_copy_link_to_clipboard: 将链接复制到剪贴板
-    button_copy_numeric_id_to_clipboard: 将数字 ID 复制到剪贴板
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: 复制到剪贴板
     button_copy_to_other_project: 复制到其他项目
     button_create: 创建
@@ -207,6 +207,7 @@ zh-CN:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor 发生错误
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 保存文档失败，出现以下错误：%{error}

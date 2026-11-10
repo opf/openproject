@@ -55,6 +55,12 @@ zh-TW:
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
       story_points: Story points
+    burnup_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burnup chart
+      chart_summary: 'Burnup chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
+      story_points: Story points
     created_resolved_chart:
       work_packages: Work packages
     sprint_charts:

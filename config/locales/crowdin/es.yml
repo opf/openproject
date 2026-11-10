@@ -2291,7 +2291,9 @@ es:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2713,7 +2715,7 @@ es:
     failure_message: Consentimiento fallido, no puede continuar.
     not_yet_consented: El usuario aún no ha dado su consentimiento a su [texto de información de consentimiento configurado](consent_settings). Se le recordará la próxima vez que se conecte.
     text_update_consent_time: Marque esta casilla para estimular a los usuarios a dar, nuevamente, su consentimiento. Habilite cuando haya cambiado el aspecto legal de la información relativa al mencionado consentimiento.
-    title: Consentimiento del usuario
+    title: User consent
     update_consent_last_time: 'Última actualización de consentimiento: %{update_time}'
     user_has_consented: El usuario ha dado su consentimiento a su [texto de información de consentimiento configurado](consent_settings).
   copy_project:
@@ -3554,6 +3556,7 @@ es:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3561,7 +3564,7 @@ es:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -4046,7 +4049,7 @@ es:
   label_completed: Completado
   label_configuration: configuracion
   label_confirmation: Confirmación
-  label_consent_settings: Consentimiento del usuario
+  label_consent_settings: User consent
   label_constant_plural: Constantes
   label_contains: contiene
   label_content: Contenido
@@ -5604,6 +5607,15 @@ es:
       toc:
         caption: Añade una tabla de contenidos con los títulos de las secciones.
         label: Tabla de contenidos
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Página %{page} de %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -6030,10 +6042,12 @@ es:
         switch:
           apply: Aplicar
           impact:
-            hidden_heading: Campos que ya no se mostrarán
-            missing_statuses_description: El flujo de trabajo al que va a cambiar no prevé ninguna transición desde estos estados, por lo que nadie podrá hacer avanzar estos paquetes de trabajo.
-            missing_statuses_heading: Paquetes de trabajo que se estancan
-            new_heading: Campos que pasan a estar disponibles
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: No hay campos o estados afectados.
             status_count:
               one: "%{count} work package"
@@ -7247,7 +7261,6 @@ es:
         tab: Generar PDF
         templates:
           readonly_error: No se puede modificar mientras haya un vínculo con un tipo de fuente.
-          section_title: Plantillas de exportación PDF
           settings:
             edit_link: Editar ajustes
             reset_to_default: Restablecer a valores por defecto
@@ -7269,7 +7282,6 @@ es:
         empty_group_hint: Arrastra los atributos aquí
         exclusions:
           attribute_label: Heredar %{attribute}
-          excluded: Oculto
           section_label: Heredar la sección %{section}
         filter_inactive: Atributos del filtro
         group_actions: Acciones de sección
@@ -7328,7 +7340,6 @@ es:
           manual:
             description: Una vez que [cree los atributos del proyecto](administration_url), estos aparecerán aquí y se podrán añadir a un tipo.
             title: No hay atributos de proyecto disponibles
-        disabled: Deshabilitado
         exclusions:
           attribute_label: Heredar %{attribute}
         filter: Buscar por sección o por nombre
@@ -7406,14 +7417,14 @@ es:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Empiece por realizar una copia única de los ajustes que esta configuración hereda actualmente.
-              label: Copiar la configuración heredada
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Utilice la configuración predeterminada para los nuevos tipos.
               label: Configuración predeterminada
             empty:
               caption: Configúrelo todo desde cero, partiendo de una configuración vacía.
-              label: Vacío
+              label: Start from scratch
           success: Se ha cambiado el modo de configuración.
           title: Configuración manual
         parent_suffix: "(principal)"
@@ -7464,7 +7475,7 @@ es:
           one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Eliminar tipo
-      description: 'Cada área de configuración dentro de los tipos y variantes puede configurarse de forma independiente, limitarse con respecto a otro tipo o vincularse por completo a una fuente.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Copia de %{name}
@@ -8159,8 +8170,6 @@ es:
           notice:
             one: Se ha copiado correctamente el flujo de trabajo al rol «%{role_name}».
             other: Se ha copiado correctamente el flujo de trabajo a %{count} roles.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8178,6 +8187,7 @@ es:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Description
@@ -8193,7 +8203,7 @@ es:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow

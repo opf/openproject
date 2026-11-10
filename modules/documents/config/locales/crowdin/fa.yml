@@ -48,8 +48,8 @@ fa:
   documents:
     active_editors: ویرایشگران فعال
     active_editors_count:
-      one: "%{count} active editor"
-      other: "%{count} active editors"
+      one: "%{count} ویرایشگر فعال"
+      other: "%{count} ویرایشگر فعال"
     admin:
       collaboration_settings:
         banner:
@@ -86,10 +86,10 @@ fa:
     button_add_type: نوع
     collaboration_token:
       errors:
-        collaboration_disabled: Real-time collaboration is not enabled.
-        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
-        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
-        not_collaborative: The document does not support real-time collaboration.
+        collaboration_disabled: همکاری هم‌زمان فعال نیست.
+        collaboration_token_not_allowed: درخواست‌های احرازهویت‌شده با توکن همکاری نمی‌توانند درخواست صدور توکن همکاری بدهند.
+        invalid_previous_token: توکن همکاری قبلی نامعتبر است، قبلاً باطل شده یا به این سند و کاربر تعلق ندارد.
+        not_collaborative: این سند از همکاری هم‌زمان پشتیبانی نمی‌کند.
     delete_dialog:
       confirmation_message_html: این کار این سند و همه فایل‌های پیوست آن را برای همیشه حذف می‌کند. آیا مطمئن هستید؟
       heading: این سند حذف شود؟

@@ -2291,7 +2291,9 @@ eu:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2717,7 +2719,7 @@ eu:
     failure_message: Consent failed, cannot proceed.
     not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
-    title: User Consent
+    title: User consent
     update_consent_last_time: 'Last update of consent: %{update_time}'
     user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
   copy_project:
@@ -3562,6 +3564,7 @@ eu:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3569,7 +3572,7 @@ eu:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -4054,7 +4057,7 @@ eu:
   label_completed: Completed
   label_configuration: configuration
   label_confirmation: Confirmation
-  label_consent_settings: User Consent
+  label_consent_settings: User consent
   label_constant_plural: Constants
   label_contains: contains
   label_content: Content
@@ -5615,6 +5618,15 @@ eu:
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Page %{page} of %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -6041,10 +6053,12 @@ eu:
         switch:
           apply: Apply
           impact:
-            hidden_heading: Fields that will no longer be shown
-            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
-            missing_statuses_heading: Work packages that get stuck
-            new_heading: Fields that become available
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: No fields or statuses are affected.
             status_count:
               one: "%{count} work package"
@@ -7268,7 +7282,6 @@ eu:
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
-          section_title: PDF export templates
           settings:
             edit_link: Edit settings
             reset_to_default: Reset to default
@@ -7290,7 +7303,6 @@ eu:
         empty_group_hint: Drag attributes here
         exclusions:
           attribute_label: Inherit %{attribute}
-          excluded: Hidden
           section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
@@ -7349,7 +7361,6 @@ eu:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
         filter: Search by section or name
@@ -7427,14 +7438,14 @@ eu:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
             empty:
               caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
+              label: Start from scratch
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (parent)"
@@ -7485,7 +7496,7 @@ eu:
           one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
-      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Copy of %{name}
@@ -8182,8 +8193,6 @@ eu:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             other: Successfully copied workflow to %{count} roles.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8201,6 +8210,7 @@ eu:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Description
@@ -8216,7 +8226,7 @@ eu:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow
