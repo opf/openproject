@@ -1,7 +1,6 @@
 import styled, { createGlobalStyle, css, keyframes } from 'styled-components';
 import flatpickrStyles from 'flatpickr/dist/flatpickr.css?inline';
-import { defaultWpVariables } from '../WorkPackage/atoms';
-import { defaultColorStyles, typeTextColor } from '../../services/colors';
+import { colorDotStyles, defaultWpVariables } from '../WorkPackage/atoms';
 
 const surfaceColor = 'var(--op-create-wp-surface)';
 const textColor = 'var(--op-create-wp-text)';
@@ -381,21 +380,12 @@ export const TextAreaControl = styled.textarea`
   resize: vertical;
 `;
 
-const colorDotStyles = css<{ $color:string }>`
-  ${({ $color }) => defaultColorStyles($color)}
-  width: ${colorDotSize};
-  height: ${colorDotSize};
-  border-radius: 50%;
-  background: ${typeTextColor};
-  pointer-events: none;
-`;
-
 export const OptionColorDot = styled.span.attrs({
   className: 'op-bn-create-wp-option-color',
   'data-testid': 'create-wp-option-color',
   'aria-hidden': true,
 })<{ $color:string }>`
-  ${colorDotStyles}
+  ${colorDotStyles(colorDotSize)}
   flex-shrink: 0;
 `;
 
@@ -403,7 +393,7 @@ export const TypeColorDot = styled.span.attrs({
   className: 'op-bn-create-wp-type-color',
   'data-testid': 'create-wp-type-color',
 })<{ $color:string }>`
-  ${colorDotStyles}
+  ${colorDotStyles(colorDotSize)}
   position: absolute;
   left: ${colorDotInset};
 `;

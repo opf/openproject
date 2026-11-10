@@ -48,6 +48,15 @@ export const menuItemFocusStyles = css`
   }
 `;
 
+export const colorDotStyles = (size:string) => css<{ $color:string }>`
+  ${({ $color }) => defaultColorStyles($color)}
+  width: ${size};
+  height: ${size};
+  border-radius: 50%;
+  background: ${typeTextColor};
+  pointer-events: none;
+`;
+
 // The -webkit- prefix is not redundant: Safari (including iOS) implements only the prefixed
 // property and styled-components v6 no longer auto-prefixes, so unprefixed alone leaves the
 // chip text selectable there. Belongs on the container only: `user-select` is not inherited,
