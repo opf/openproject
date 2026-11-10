@@ -100,8 +100,7 @@ module ITSM
       def create_work_package(email)
         case InboundEmails::CreateWorkPackageService.new(user: User.system).call(mailbox:, email:)
         in { success: true, result: thread } if thread.previously_new_record?
-          OutboundEmails::SendConfirmationJob.perform_later(thread)
-          remove("Added to work package ##{thread.work_package_id}")
+          confirm_new_request(thread)
         in { success: true, result: thread }
           remove("Already in work package ##{thread.work_package_id}")
         in { failure: true, result:, errors: } if project_setup_prevents?(result, errors)
@@ -110,6 +109,11 @@ module ITSM
         in { failure: true, errors: }
           mark_seen("Not processed (#{error_codes(errors)})", level: :warn)
         end
+      end
+
+      def confirm_new_request(thread)
+        OutboundEmails::SendConfirmationJob.perform_later(thread)
+        remove("Added to work package ##{thread.work_package_id}")
       end
 
       def project_setup_prevents?(record, errors)
