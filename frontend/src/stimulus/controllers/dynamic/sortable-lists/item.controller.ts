@@ -64,7 +64,7 @@ import {
   type DestinationIdentity,
 } from './list-dom';
 import { webLinkHref } from './external-data';
-import { primaryMenuOf } from './menu-dom';
+import { MenuEvents } from './menu-events';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
@@ -119,24 +119,19 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private root?:SortableListsRoot;
   private moveRefreshScheduled = false;
 
-  private readonly onMenuToggle = (event:Event):void => {
-    // An optimistic in-list drag leaves the server-rendered direction
-    // availability stale, so it is recomputed when the card's own menu opens.
-    // The toggle event does not bubble, so listen in capture phase, and only
-    // for the menu's primary overlay. Read newState by duck typing rather than
-    // `instanceof ToggleEvent` so a browser without the ToggleEvent global
-    // cannot throw.
-    if ('newState' in event && event.newState === 'open'
-      && this.hasMenuElement
-      && primaryMenuOf(event.target) === this.menuElement) {
-      this.refreshMoveMenuAvailability();
-    }
-  };
+  private menus?:MenuEvents;
 
   connect():void {
     this.warnOnMissingValues();
     this.register();
-    this.element.addEventListener('toggle', this.onMenuToggle, true);
+    // An optimistic in-list drag leaves the server-rendered direction
+    // availability stale, so it is recomputed when the card's own menu opens.
+    this.menus = new MenuEvents(
+      this.element,
+      { opened: () => this.refreshMoveMenuAvailability() },
+      (menu) => this.hasMenuElement && menu === this.menuElement,
+    );
+    this.menus.start();
   }
 
   disconnect():void {
@@ -146,7 +141,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.clearDropIndicator();
     this.cleanupFn?.();
     this.cleanupFn = undefined;
-    this.element.removeEventListener('toggle', this.onMenuToggle, true);
+    this.menus?.stop();
+    this.menus = undefined;
     this.disconnectRoot();
   }
 

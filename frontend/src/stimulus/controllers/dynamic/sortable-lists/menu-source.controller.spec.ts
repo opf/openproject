@@ -109,8 +109,8 @@ describe('Sortable lists menu source controller', () => {
     `;
   }
 
-  async function renderRoot(cards:string[] = [card('1'), card('2'), card('3')], rootAttributes = '') {
-    await ctx.mount(`
+  function rootMarkup(cards:string[], rootAttributes = ''):string {
+    return `
       <div id="sortable-root"
            data-controller="sortable-lists sortable-lists--menu-source"
            data-sortable-lists-sortable-lists--menu-source-outlet="#sortable-root"
@@ -126,7 +126,11 @@ describe('Sortable lists menu source controller', () => {
           ${cards.join('')}
         </ul>
       </div>
-    `);
+    `;
+  }
+
+  async function renderRoot(cards:string[] = [card('1'), card('2'), card('3')], rootAttributes = '') {
+    await ctx.mount(rootMarkup(cards, rootAttributes));
 
     const root = ctx.container.querySelector<HTMLElement>('#sortable-root')!;
     const items = Array.from(root.querySelectorAll<HTMLElement>('[data-sortable-lists--item-id-value]'));
@@ -259,17 +263,6 @@ describe('Sortable lists menu source controller', () => {
     expect(src.searchParams.getAll('ids[]')).toEqual(['A&B', 'C/D']);
     expect(src.searchParams.get('invoker_id')).toBe('C/D');
     expect(src.pathname).toBe(menuUrl);
-  });
-
-  it('accepts a duck-typed primary open event', async () => {
-    const { items } = await renderRoot();
-    click(items[0]);
-    click(items[1], { ctrlKey: true });
-    const event = Object.assign(new Event('beforetoggle'), { newState: 'open' });
-    items[1].querySelector(':scope action-menu > anchored-position')!.dispatchEvent(event);
-
-    const src = new URL(menuOf(items[1]).getAttribute('src')!, window.location.href);
-    expect(src.searchParams.getAll('ids[]')).toEqual(['1', '2']);
   });
 
   describe('scope settled by each menu entry point', () => {
@@ -519,25 +512,6 @@ describe('Sortable lists menu source controller', () => {
     expect(menuOf(items[0])).toHaveAttribute('src', `${menuUrl}?ids%5B%5D=1&ids%5B%5D=2&invoker_id=1`);
   });
 
-  it('ignores beforetoggle with newState closed', async () => {
-    const { items } = await renderRoot();
-    click(items[0], { ctrlKey: true });
-    click(items[1], { ctrlKey: true });
-
-    openMenu(items[1], 'closed');
-
-    expect(menuOf(items[1])).toHaveAttribute('src', `${menuUrl}?ids%5B%5D=2&invoker_id=2`);
-  });
-
-  it('ignores popovers other than the primary menu', async () => {
-    const { items } = await renderRoot();
-
-    toggle(items[1].querySelector('#menu-2-tooltip')!);
-    toggle(items[1].querySelector('#menu-2-submenu')!);
-
-    items.forEach((item) => expect(item).not.toHaveAttribute('data-batch-selected'));
-  });
-
   it('uses the batch without selecting while the root is busy', async () => {
     const { root, items } = await renderRoot();
     click(items[0], { ctrlKey: true });
@@ -711,6 +685,40 @@ describe('Sortable lists menu source controller', () => {
       await loadMenu(items[0], 2);
 
       expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
+    });
+
+    it('labels a menu list already present when the controller connects', async () => {
+      const staging = document.createElement('div');
+      staging.innerHTML = rootMarkup(
+        [namedCard('1')],
+        `data-sortable-lists--menu-source-menu-label-key-value="${menuLabelKey}"`,
+      );
+      const root = staging.firstElementChild!;
+      const item = root.querySelector<HTMLElement>('[data-sortable-lists--item-id-value]')!;
+      fakePrimerMenus([item]);
+      Object.assign(menuOf(item), { invokerElement: item.querySelector('button') });
+      const list = menuList('menu-1', 1);
+      list.setAttribute('aria-labelledby', 'menu-1-button');
+      overlayOf(item).replaceChildren(list);
+
+      ctx.container.append(root);
+
+      await waitFor(() => expect(list).toHaveAttribute('aria-labelledby', 'menu-1-tooltip'));
+      expect(list).toHaveAccessibleName(singularName);
+    });
+
+    it('labels a menu list present when the controller reconnects', async () => {
+      const { root, items } = await renderNamedRoot(['1', '2']);
+      root.setAttribute('data-controller', 'sortable-lists');
+      await ctx.nextFrame();
+      const list = menuList('menu-1', 1);
+      list.setAttribute('aria-labelledby', 'menu-1-button');
+      overlayOf(items[0]).replaceChildren(list);
+
+      root.setAttribute('data-controller', 'sortable-lists sortable-lists--menu-source');
+
+      await waitFor(() => expect(list).toHaveAttribute('aria-labelledby', 'menu-1-tooltip'));
+      expect(list).toHaveAccessibleName(singularName);
     });
 
     it('restores the previous card when reopened on another card', async () => {

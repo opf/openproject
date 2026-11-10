@@ -30,7 +30,7 @@ import type { ActionMenuElement } from '@openproject/primer-view-components/app/
 import type { RootAwareChild, SortableListsRoot } from './drag-and-drop';
 import { relativeUrl } from './url';
 import { resolveClosestItemElement, resolveItemId } from './list-dom';
-import { primaryMenuOf } from './menu-dom';
+import { MenuEvents } from './menu-events';
 
 const SINGULAR_COUNT = 1;
 
@@ -47,18 +47,23 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
   private openMenu:ActionMenuElement|null = null;
 
   private root?:SortableListsRoot;
+  private menus?:MenuEvents;
   private listeners?:AbortController;
 
   connect():void {
+    this.menus = new MenuEvents(
+      this.element,
+      { opening: this.onOpening, closed: this.onClosed },
+      (menu) => resolveClosestItemElement(menu, this.element) !== null,
+    );
+    this.menus.start();
     this.listeners = new AbortController();
-    const { signal } = this.listeners;
-    // beforetoggle and toggle do not bubble.
-    this.element.addEventListener('beforetoggle', this.onBeforeToggle, { capture: true, signal });
-    this.element.addEventListener('toggle', this.onToggle, { capture: true, signal });
-    document.addEventListener('turbo:before-cache', this.onBeforeCache, { signal });
+    document.addEventListener('turbo:before-cache', this.onBeforeCache, { signal: this.listeners.signal });
   }
 
   disconnect():void {
+    this.menus?.stop();
+    this.menus = undefined;
     this.listeners?.abort();
     this.listeners = undefined;
     this.disconnectRoot();
@@ -81,15 +86,10 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     }
   }
 
-  private readonly onBeforeToggle = (event:Event):void => {
-    if (!('newState' in event) || event.newState !== 'open') {
-      return;
-    }
-
-    const menu = primaryMenuOf(event.target);
-    const itemElement = menu && resolveClosestItemElement(menu, this.element);
+  private readonly onOpening = (menu:ActionMenuElement):void => {
+    const itemElement = resolveClosestItemElement(menu, this.element);
     const root = this.root;
-    if (!menu || !itemElement || !root) {
+    if (!itemElement || !root) {
       return;
     }
 
@@ -105,16 +105,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     }
   };
 
-  private readonly onToggle = (event:Event):void => {
-    if (!('newState' in event) || event.newState !== 'closed') {
-      return;
-    }
-
-    const menu = primaryMenuOf(event.target);
-    if (!menu || !resolveClosestItemElement(menu, this.element)) {
-      return;
-    }
-
+  private readonly onClosed = (menu:ActionMenuElement):void => {
     if (menu === this.openMenu) {
       this.openMenu = null;
     }

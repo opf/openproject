@@ -21,6 +21,8 @@ are not sortable items and do not participate in selection.
   and presentation.
 - [selection-orchestrator.ts](selection-orchestrator.ts) interprets gestures
   through a narrow host interface and imports no Stimulus.
+- [menu-events.ts](menu-events.ts) reports when a card menu is opening, has
+  opened and has closed, to the menu source and to each item.
 
 Selection identity is `(type, id)`. Each root must render exactly one instance
 of each pair, and an item without a type is not a selection candidate. The

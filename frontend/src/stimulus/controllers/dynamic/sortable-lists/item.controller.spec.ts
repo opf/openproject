@@ -1580,29 +1580,21 @@ describe('Sortable lists item controller', () => {
       expect(el.querySelector('[data-sortable-lists--item-target="moveDivider"]')).toHaveAttribute('hidden');
     });
 
-    it('refreshes only when its primary overlay opens, not for tooltip or submenu toggles', async () => {
+    it('refreshes move availability when its own menu opens', async () => {
       const { el } = renderItemWithMenu(2);
       const menu = el.querySelector('action-menu')!;
       const primary = document.createElement('anchored-position');
       primary.append(...menu.children);
       menu.append(primary);
       Object.defineProperty(menu, 'popoverElement', { value: primary });
-      const submenu = document.createElement('anchored-position');
-      primary.append(submenu);
-      const tooltip = document.createElement('tool-tip');
-      menu.append(tooltip);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       const root = stubRoot(el, { isFirst: false, isLast: false });
       const availability = vi.spyOn(root, 'moveAvailability');
       controller.connectRoot(root);
       availability.mockClear();
-      const open = () => Object.assign(new Event('toggle'), { newState: 'open' });
 
-      tooltip.dispatchEvent(open());
-      submenu.dispatchEvent(open());
-      expect(availability).not.toHaveBeenCalled();
-      primary.dispatchEvent(open());
+      primary.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'open' }));
       expect(availability).toHaveBeenCalledOnce();
       primary.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'closed' }));
       expect(availability).toHaveBeenCalledOnce();
