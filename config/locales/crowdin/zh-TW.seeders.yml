@@ -71,7 +71,7 @@ zh-TW:
           name: 成員和專案管理員
         item_1:
           name: 標準全域角色
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
           label: Fix grammar
         item_1:
@@ -117,6 +117,17 @@ zh-TW:
           name: Finance & Administration
         item_6:
           name: Quality Assurance
+      labels:
+        item_0:
+          name: Website
+        item_1:
+          name: Marketing
+        item_2:
+          name: Speakers
+        item_3:
+          name: Security
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: 示範專案

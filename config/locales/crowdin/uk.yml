@@ -83,13 +83,13 @@ uk:
         dependencies: Залежності
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Триває
-        injects_type_template: Вставити шаблон для типу пакета робіт
-        label: Мітка
-        prompt: Запит
-        types: Типи пакетів робіт
-        usage_scope: Область
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Дія
         cancel_requested: Запит на скасування
@@ -140,7 +140,6 @@ uk:
         allow_non_open_versions: Дозволити невідкриті версії
         content_right_to_left: Письмо зліва направо
         default_value: Значення за замовчуванням
-        editable: Може бути відредаговане
         field_format: Формат
         formula: Формула
         has_comment: Додати текстове поле для коментаря
@@ -157,6 +156,7 @@ uk:
         regexp: Регулярний вираз
         searchable: Доступно для пошуку
         semantic_key: Семантичне значення
+        user_self_editable: Editable
         visible_on_user_card: Показати на картці користувача
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -1104,11 +1104,11 @@ uk:
         few: Дії
         many: Дії
         other: Дії
-      ai/text_transform_action:
-        one: Дія з перетворення тексту
-        few: Дії з перетворення тексту
-        many: Дії з перетворення тексту
-        other: Дії з перетворення тексту
+      ai/text_action:
+        one: Text action
+        few: Text actions
+        many: Text actions
+        other: Text actions
       ai/text_transform_run:
         one: Запуск перетворення тексту
         few: Запуски перетворення тексту
@@ -2477,43 +2477,44 @@ uk:
         page_header:
           description: Виберіть класичні числові ідентифікатори пакетів робіт або семантичні із зазначенням проєкту (до ідентифікатора пакета робіт додається префікс з ідентифікатором проєкту).
         success_banner: Формат ідентифікаторів пакетів робіт успішно оновлено.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Користувачі більше не зможуть виконувати цю дію в редакторі форматованого тексту.
-        heading: Справді видалити дію «%{label}»?
-        title: Видалити дію перетворення тексту
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Якщо цей прапорець встановлено, шаблон опису типу пакета робіт автоматично додається до підказки. Підказка має містити інструкції щодо того, як працювати з цим шаблоном.
-        label_caption: Це назва, яку бачитимуть користувачі в редакторі.
-        select_types: Виберіть типи
-        types_caption: Додайте типи пакетів робіт, для яких ця дія має бути доступною. Усі наявні варіанти будуть включені автоматично.
-        usage_scope_caption: 'Ви можете вибрати, де буде доступна ця дія: усюди (зокрема в коментарях, вікі-сторінках і користувацьких полях), для всіх типів пакетів робіт або лише для певних типів.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Дія
-        label_aria_add_action: Додати дію з перетворення тексту
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Додайте дію, щоб побачити її тут
-          title: Наразі не налаштовано жодних дій з перетворення тексту
-        disabled_warning: Дії з перетворення тексту вимкнені. Наведені нижче дії будуть недоступні скрізь.
-        label_disable_all: Вимкнути все
-        label_enable_all: Увімкнути все
-        title: Дії
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Нова дія з перетворення тексту
+        title: New text action
       row_component:
-        label_actions: Меню дій
-        label_toggle: Перемикач %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} тип пакетів робіт"
-          few: "%{count} типи пакетів робіт"
-          many: "%{count} типів пакетів робіт"
-          other: "%{count} типа пакетів робіт"
+          one: "%{count} work package type"
+          few: "%{count} work package types"
+          many: "%{count} work package types"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Усі типи пакетів робіт
-        everywhere: Скрізь
-        specific_work_package_types: Конкретні типи пакетів робіт
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Додайте статуси, щоб почати налаштовувати робочі процеси для цієї ролі
@@ -2571,7 +2572,7 @@ uk:
       errors:
         connection_failed: Не вдалося встановити з’єднання зі службою ШІ.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: ШІ-асистент недоступний.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Служба ШІ не відповіла вчасно.
         upstream_error: Сервіс ШІ повернув помилку.
@@ -2583,7 +2584,9 @@ uk:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -3007,7 +3010,7 @@ uk:
     failure_message: Згода не отримана, продовження неможливе.
     not_yet_consented: Користувач ще не надав згоду на [налаштований текст інформації про згоду] (consent_settings). Він отримає нагадування під час наступного входу.
     text_update_consent_time: Установіть цей прапорець, щоб примусити користувачів знову погодитися. Увімкнути, коли ви змінили юридичний аспект інформації про згоду вище.
-    title: Згода користувача
+    title: User consent
     update_consent_last_time: 'Останнє оновлення згоди: %{update_time}'
     user_has_consented: Користувач надав згоду на [налаштований текст інформації про згоду](consent_settings).
   copy_project:
@@ -3144,8 +3147,6 @@ uk:
       admin_only:
         all: Установіть прапорець, щоб зробити це користувацьке поле видимим лише для адміністраторів. Користувачі без прав адміністратора не зможуть переглядати або редагувати його.
         project: Установіть прапорець, щоб зробити цей атрибут видимим лише для адміністраторів. Користувачі без прав адміністратора не зможуть переглядати або редагувати його.
-      editable:
-        all: Дозвольте користувачам самостійно редагувати це поле.
       formula:
         project: Додайте числові значення або введіть «/» для пошуку атрибута, оператора, функції чи іншого маркера.
       has_comment:
@@ -3175,6 +3176,8 @@ uk:
       searchable:
         all: Включіть значення полів під час використання функції глобального пошуку.
         project: Установіть прапорець, щоб зробити цей атрибут доступним як фільтр у списках проєктів.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: Якщо встановлено, значення цього поля відображається на інформаційній картці користувача, коли навести вказівник на користувача будь-де в додатку.
     is_enabled_globally: Увімкнено у всьому світі
@@ -3522,6 +3525,7 @@ uk:
       scim_api: API сервера SCIM
       sso_auth_providers: Single Sign-On
       team_planner_view: Подання командного планувальника
+      text_assistant: Text assistant
       virus_scanning: Пошук вірусів
       weighted_item_lists: Списки зважених елементів
       work_package_query_relation_columns: Стовпці зв’язків запиту пакета робіт
@@ -3636,6 +3640,9 @@ uk:
       sso_auth_providers:
         description: Дайте користувачам змогу входити через зовнішніх постачальників SSO за допомогою SAML або OpenID Connect для безперешкодного доступу й інтеграції з наявними ідентифікаційними системами.
         title: Єдиний вхід (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Доповнення версії Enterprise
       trial_text: Ця функція є у вашій активній пробній версії Enterprise.
       unlimited: Без обмежень
@@ -3896,6 +3903,7 @@ uk:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3903,7 +3911,7 @@ uk:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -4410,7 +4418,7 @@ uk:
   label_completed: Завершено
   label_configuration: конфігурація
   label_confirmation: Підтвердження
-  label_consent_settings: Згода користувача
+  label_consent_settings: User consent
   label_constant_plural: Константи
   label_contains: містить
   label_content: Контент
@@ -5429,7 +5437,7 @@ uk:
       mails_and_notifications: Електронні листи й сповіщення
       mcp_configurations: Model Context Protocol (MCP)
       push_notifications: Browser notifications
-      text_transform_actions: Дії з перетворення тексту
+      text_actions: Text assistant
     quick_add:
       label: Додати…
   more_actions: Додаткові функції
@@ -5995,6 +6003,15 @@ uk:
       toc:
         caption: Можна додати сторінку зі змістом, на якій наводяться заголовки розділів.
         label: Зміст
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Сторінка %{page} з %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -6423,10 +6440,12 @@ uk:
         switch:
           apply: Застосувати
           impact:
-            hidden_heading: Поля, які більше не показуватимуться
-            missing_statuses_description: У робочому процесі, на який ви перемикаєтеся, немає переходів із цих статусів, тому ніхто не зможе перевести пакети робіт на наступні етапи.
-            missing_statuses_heading: Робочі пакети застрягнуть
-            new_heading: Поля, які стають доступними
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: Це не впливає на поля чи статуси.
             status_count:
               one: "%{count} work package"
@@ -6729,7 +6748,6 @@ uk:
   setting_after_login_default_redirect_url_example_html: 'Налаштуйте шлях, який за замовчуванням використовуватиметься для переспрямування користувачів після входу, якщо зворотне посилання не надано. Якщо не налаштувати його, користувачі переспрямовуватимуться на головну сторінку. <br/>Приклад: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Увімкнути дії з перетворення тексту
   setting_allowed_link_protocols: Дозволені протоколи для посилань
   setting_allowed_link_protocols_text_html: Дозвольте відображення цих протоколів у вигляді посилань в описах пакетів робіт, довгих текстових полях і коментарях. Наприклад, %{tel_code} або %{element_code}. Вводьте по одному протоколу в рядок. <br/> Протоколи %{http_code}, %{https_code} і %{mailto_code} завжди дозволені.
   setting_antivirus_scan_action: Дія із зараженим файлом
@@ -7680,7 +7698,6 @@ uk:
         tab: Згенерувати PDF
         templates:
           readonly_error: Не можна змінити, поки пов'язано з типом джерела.
-          section_title: Шаблони експорту PDF
           settings:
             edit_link: Редагувати налаштування
             reset_to_default: Відновити налаштування за промовчанням
@@ -7702,7 +7719,6 @@ uk:
         empty_group_hint: Перетягніть атрибути сюди
         exclusions:
           attribute_label: Успадкувати %{attribute}
-          excluded: Приховано
           section_label: Успадковувати розділ «%{section}»
         filter_inactive: Фільтрувати атрибути
         group_actions: Дії з розділом
@@ -7761,7 +7777,6 @@ uk:
           manual:
             description: Коли ви [створите атрибути проєкту](administration_url), вони з’являться тут і їх можна буде додати в тип.
             title: Немає доступних атрибутів проєкту
-        disabled: Вимкнено
         exclusions:
           attribute_label: Успадкувати %{attribute}
         filter: Пошук за розділом або назвою
@@ -7839,14 +7854,14 @@ uk:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Почніть з одноразового копіювання налаштувань, які ця конфігурація зараз успадковує.
-              label: Скопіювати успадковані налаштування
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Використовувати налаштування за промовчанням для нових типів.
               label: Налаштування за промовчанням
             empty:
               caption: Почніть із порожньої конфігурації і налаштуйте все з нуля.
-              label: Пусто
+              label: Start from scratch
           success: Режим конфігурації змінено.
           title: Ручна конфігурація
         parent_suffix: " (батьківський об’єкт)"
@@ -7899,7 +7914,7 @@ uk:
           many: 'The type will be removed from %{count} projects:'
           other: 'The type will be removed from %{count} projects:'
         title: Видалити тип
-      description: 'Кожну область конфігурації на рівні типів і варіантів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Копія обʼєкта «%{name}»
@@ -8634,8 +8649,6 @@ uk:
             few: Робочий процес успішно скопійовано в %{count} ролі.
             many: Робочий процес успішно скопійовано в %{count} ролей.
             other: Робочий процес успішно скопійовано в %{count} ролі.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8655,6 +8668,7 @@ uk:
         caption: Новий робочий процес починається з копії переходів статусу цього робочого процесу.
         label: Скопіювати із
         placeholder: Виберіть робочий процес…
+      copy_title: Copy workflow %{name}
       description:
         caption: Додайте короткий опис того, де та як використовуватиметься цей робочий процес.
         label: Опис
@@ -8670,7 +8684,7 @@ uk:
       name:
         caption: Виберіть назву, яка допоможе вам пізніше впізнати цей робочий процес в інших місцях.
         label: Назва робочого процесу
-      new_title: Створити робочий процес
+      save_title: Save workflow
     index:
       actions:
         create: Робочий процес

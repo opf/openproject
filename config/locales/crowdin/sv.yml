@@ -83,13 +83,13 @@ sv:
         dependencies: Beroenden
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Aktiv
-        injects_type_template: Infoga mall för arbetspaketstyp
-        label: Etikett
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
         prompt: Prompt
-        types: Arbetspaketstyper
-        usage_scope: Omfattning
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Åtgärd
         cancel_requested: Avbrott har begärts
@@ -140,7 +140,6 @@ sv:
         allow_non_open_versions: Tillåt versioner som inte är öppna
         content_right_to_left: Höger-till-vänster-innehåll
         default_value: Standardvärde
-        editable: Redigerbar
         field_format: Format
         formula: Formel
         has_comment: Lägg till ett textfält för kommentarer
@@ -157,6 +156,7 @@ sv:
         regexp: Reguljära uttryck
         searchable: Sökbara
         semantic_key: Semantisk betydelse
+        user_self_editable: Editable
         visible_on_user_card: Visa på användarkort
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -1092,9 +1092,9 @@ sv:
       action:
         one: Åtgärd
         other: Åtgärder
-      ai/text_transform_action:
-        one: Åtgärd för textomvandling
-        other: Åtgärder för textomvandling
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Textbearbetningskörning
         other: Textbearbetningskörningar
@@ -2229,41 +2229,42 @@ sv:
         page_header:
           description: Välj mellan klassiska numeriska arbetspakets-ID:n och semantiska projektspecifika identifierare där projektidentifieraren läggs före arbetspakets-ID:t.
         success_banner: Formatet för arbetspaketsidentifierare uppdaterades.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Användarna kommer inte längre att kunna köra den här åtgärden i rich text-redigeraren.
-        heading: Är du säker på att du vill ta bort åtgärden ”%{label}”?
-        title: Ta bort åtgärd för textomvandling
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Om detta markeras läggs beskrivningsmallen för arbetspaketstypen automatiskt till i prompten. Prompten bör innehålla instruktioner om vad som ska göras med mallen.
-        label_caption: Detta är namnet som visas för användarna i redigeraren.
-        select_types: Välj typer
-        types_caption: Lägg till de arbetspaketstyper som åtgärden ska vara tillgänglig för. Alla tillgängliga varianter inkluderas automatiskt.
-        usage_scope_caption: 'Du kan begränsa var åtgärden är synlig: överallt (inklusive kommentarer, wikier och anpassade fält), för alla arbetspaketstyper eller för vissa arbetspaketstyper.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Åtgärd
-        label_aria_add_action: Lägg till åtgärd för textomvandling
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Lägg till en åtgärd för att visa den här
-          title: Inga åtgärder för textomvandling har konfigurerats ännu
-        disabled_warning: Åtgärder för textomvandling är inaktiverade. Följande åtgärder kommer inte att vara tillgängliga någonstans.
-        label_disable_all: Inaktivera alla
-        label_enable_all: Aktivera alla
-        title: Åtgärder
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Ny åtgärd för textomvandling
+        title: New text action
       row_component:
-        label_actions: Åtgärdsmeny
-        label_toggle: Växla %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} arbetspaketstyp"
-          other: "%{count} arbetspaketstyper"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Alla arbetspaketstyper
-        everywhere: Överallt
-        specific_work_package_types: Specifika arbetspaketstyper
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Lägg till statusar för att börja konfigurera arbetsflöden för den här rollen
@@ -2317,7 +2318,7 @@ sv:
       errors:
         connection_failed: Det gick inte att nå AI-tjänsten.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: AI-assistenten är inte tillgänglig.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: AI-tjänsten svarade inte i tid.
         upstream_error: AI-tjänsten returnerade ett fel.
@@ -2329,7 +2330,9 @@ sv:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2753,7 +2756,7 @@ sv:
     failure_message: Samtycke misslyckades, kan inte fortsätta.
     not_yet_consented: Användaren har ännu inte samtyckt till den [konfigurerade informationstexten om samtycke](consent_settings). Användaren påminns nästa gång hen loggar in.
     text_update_consent_time: Kryssa i den här rutan för att tvinga användare att ge sitt samtycke igen. Aktivera när du har ändrat den juridiska aspekten av samtyckesinformationen ovan.
-    title: Användarsamtycken
+    title: User consent
     update_consent_last_time: 'Senaste uppdatering av samtycke: %{update_time}'
     user_has_consented: Användaren har samtyckt till den [konfigurerade informationstexten om samtycke](consent_settings).
   copy_project:
@@ -2888,8 +2891,6 @@ sv:
       admin_only:
         all: Markera för att göra det här anpassade fältet synligt endast för administratörer. Användare utan administratörsbehörighet kan inte visa eller redigera det.
         project: Markera för att göra det här attributet synligt endast för administratörer. Användare utan administratörsbehörighet kan inte visa eller redigera det.
-      editable:
-        all: Tillåt användare att själva redigera fältet.
       formula:
         project: Lägg till numeriska värden eller skriv / för att söka efter ett attribut, en operator, en funktion eller annan token.
       has_comment:
@@ -2919,6 +2920,8 @@ sv:
       searchable:
         all: Inkludera fältvärdena när den globala sökfunktionen används.
         project: Markera för att göra det här attributet tillgängligt som filter i projektlistor.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: När detta är markerat visas fältets värde på användarens informationskort när pekaren hålls över en användare i programmet.
     is_enabled_globally: Är aktiverad globalt
@@ -3226,6 +3229,7 @@ sv:
       scim_api: SCIM server API
       sso_auth_providers: Enkel inloggning
       team_planner_view: Teamplanerarvy
+      text_assistant: Text assistant
       virus_scanning: Antivirusskanning
       weighted_item_lists: Viktade postlistor
       work_package_query_relation_columns: Relationskolumner för arbetspaketsfrågor
@@ -3338,6 +3342,9 @@ sv:
       sso_auth_providers:
         description: Låt användare logga in via externa SSO-leverantörer med SAML eller OpenID Connect för smidig åtkomst och integrering med befintliga identitetssystem.
         title: Enkel inloggning (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise-tillägg
       trial_text: Den här funktionen ingår i din aktiva Enterprise-provperiod.
       unlimited: Obegränsat
@@ -3594,6 +3601,7 @@ sv:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3601,7 +3609,7 @@ sv:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -4086,7 +4094,7 @@ sv:
   label_completed: Slutförd
   label_configuration: konfiguration
   label_confirmation: Bekräftelse
-  label_consent_settings: Användarsamtycken
+  label_consent_settings: User consent
   label_constant_plural: Konstanter
   label_contains: innehåller
   label_content: Innehåll
@@ -5086,7 +5094,7 @@ sv:
       mails_and_notifications: E-post och aviseringar
       mcp_configurations: Model Context Protocol (MCP)
       push_notifications: Browser notifications
-      text_transform_actions: Åtgärder för textomvandling
+      text_actions: Text assistant
     quick_add:
       label: Lägg till…
   more_actions: Fler funktioner
@@ -5644,6 +5652,15 @@ sv:
       toc:
         caption: Lägg till en innehållsförteckningssida som indexerar avsnittsrubrikerna.
         label: Innehållsförteckning
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Sida %{page} av %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -6070,10 +6087,12 @@ sv:
         switch:
           apply: Tilldela
           impact:
-            hidden_heading: Fält som inte längre kommer att visas
-            missing_statuses_description: Arbetsflödet som du byter till har ingen övergång från dessa statusar, så ingen kommer att kunna flytta dessa arbetspaket vidare.
-            missing_statuses_heading: Arbetspaket som fastnar
-            new_heading: Fält som blir tillgängliga
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: Inga fält eller statusar påverkas.
             status_count:
               one: "%{count} work package"
@@ -6346,7 +6365,6 @@ sv:
   setting_after_login_default_redirect_url_example_html: 'Ange en standardsökväg som användare ska omdirigeras till efter inloggning om ingen bakåtlänk angavs. Omdirigerar till startsidan om den inte anges. <br/> Exempel: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Aktivera åtgärder för textomvandling
   setting_allowed_link_protocols: Tillåtna länkprotokoll
   setting_allowed_link_protocols_text_html: Tillåt att dessa protokoll återges som länkar i beskrivningar av arbetspaket, långa textfält och kommentarer. Till exempel %{tel_code} eller %{element_code}. Ange ett protokoll per rad. <br/> Protokollen %{http_code}, %{https_code} och %{mailto_code} är alltid tillåtna.
   setting_antivirus_scan_action: Åtgärd för infekterad fil
@@ -7288,7 +7306,6 @@ sv:
         tab: Generera PDF
         templates:
           readonly_error: Kan inte ändras när den är länkad till en källtyp.
-          section_title: Mallar för PDF-export
           settings:
             edit_link: Redigera inställningar
             reset_to_default: Återställ till standard
@@ -7310,7 +7327,6 @@ sv:
         empty_group_hint: Dra attribut hit
         exclusions:
           attribute_label: Ärv %{attribute}
-          excluded: Dold
           section_label: Ärv avsnittet %{section}
         filter_inactive: Filtrera attribut
         group_actions: Avsnittsåtgärder
@@ -7369,7 +7385,6 @@ sv:
           manual:
             description: När du har [skapat projektattribut](administration_url) visas de här och kan läggas till i en typ.
             title: Inga projektattribut tillgängliga
-        disabled: Inaktiverad
         exclusions:
           attribute_label: Ärv %{attribute}
         filter: Sök efter avsnitt eller namn
@@ -7447,14 +7462,14 @@ sv:
           mode_label: Konfigurera den här sidan manuellt
           modes:
             copy:
-              caption: Börja med en engångskopia av de inställningar som den här konfigurationen ärver nu.
-              label: Kopiera ärvda inställningar
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Använd standardinställningarna för nya typer.
               label: Standardinställningar
             empty:
               caption: Konfigurera allt från grunden med en tom konfiguration.
-              label: Tom
+              label: Start from scratch
           success: Konfigurationsläget har bytts.
           title: Manuell konfiguration
         parent_suffix: "(överordnad)"
@@ -7505,7 +7520,7 @@ sv:
           one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Ta bort typ
-      description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Kopia av %{name}
@@ -8202,8 +8217,6 @@ sv:
           notice:
             one: Arbetsflödet kopierades till rollen "%{role_name}".
             other: Arbetsflödet kopierades till %{count} roller.
-      new:
-        dialog_title: Kopiera arbetsflödet för ”%{source}”
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8221,6 +8234,7 @@ sv:
         caption: Det nya arbetsflödet börjar som en kopia av det valda arbetsflödets statusövergångar.
         label: Kopiera från
         placeholder: Välj ett arbetsflöde…
+      copy_title: Copy workflow %{name}
       description:
         caption: Lägg till en kort beskrivning av var och hur arbetsflödet ska användas.
         label: Beskrivning
@@ -8236,7 +8250,7 @@ sv:
       name:
         caption: Välj ett namn som gör det lätt att känna igen arbetsflödet på andra ställen senare.
         label: Arbetsflödets namn
-      new_title: Skapa arbetsflöde
+      save_title: Save workflow
     index:
       actions:
         create: Arbetsflöde

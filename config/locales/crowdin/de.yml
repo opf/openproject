@@ -83,12 +83,12 @@ de:
         dependencies: Abhängigkeiten
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Aktiv
-        injects_type_template: Vorlage für Arbeitspaket-Typ einfügen
-        label: Bezeichnung
-        prompt: Eingabe
-        types: Arbeitspaket-Typen
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
         usage_scope: Scope
       ai/text_transform_run:
         action: Aktion
@@ -140,7 +140,6 @@ de:
         allow_non_open_versions: Erlaube nicht-offene Versionen
         content_right_to_left: Linksläufiger Inhalt
         default_value: Standardwert
-        editable: Bearbeitbar
         field_format: Format
         formula: Formel
         has_comment: Ein Kommentarfeld hinzufügen
@@ -157,6 +156,7 @@ de:
         regexp: Regulärer Ausdruck
         searchable: Durchsuchbar
         semantic_key: Semantische Bedeutung
+        user_self_editable: Editable
         visible_on_user_card: Auf Benutzerkarte anzeigen
       custom_field/project_specific_value_restriction:
         restriction: Beschränkung
@@ -1092,9 +1092,9 @@ de:
       action:
         one: Aktion
         other: Aktionen
-      ai/text_transform_action:
-        one: Text-Bearbeitung
-        other: Text-Bearbeitungen
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Text-Bearbeitung
         other: Text-Bearbeitungen
@@ -2229,41 +2229,42 @@ de:
         page_header:
           description: Wählen Sie zwischen einfachen numerischen Arbeitspaket- oder projektspezifischen Kennungen, bei denen die Projektkennung der Arbeitspaket-ID vorangestellt wird.
         success_banner: Das Format der Arbeitspaket-Kennung wurde erfolgreich aktualisiert.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Benutzer können diese Aktion im Rich-Text-Editor nicht mehr ausführen.
-        heading: Sind Sie sicher, dass Sie die Aktion %{label} löschen möchten?
-        title: Textumwandlungsaktion löschen
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Bei aktiviertem Kontrollkästchen, wird die Beschreibungsvorlage des Arbeitspaket-Typs automatisch in die Eingabeaufforderung eingefügt. Die Eingabeaufforderung sollte Anweisungen dazu enthalten, wie mit der Vorlage verfahren werden soll.
-        label_caption: Dies ist der Name, der den Benutzern im Editor angezeigt wird.
-        select_types: Typen auswählen
-        types_caption: Fügen Sie Arbeitspakettypen hinzu, für die diese Aktion verfügbar sein soll. Alle verfügbaren Varianten eines Typs werden automatisch hinzugefügt.
-        usage_scope_caption: 'Sie können festlegen, wo diese Aktion sichtbar sein soll: überall (einschließlich Kommentaren, Wikis und benutzerdefinierten Feldern), für alle Arten von Arbeitspaketen oder für bestimmte Arten von Arbeitspaketen.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Aktion
-        label_aria_add_action: Text-Bearbeitungs-Aktion hinzufügen
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Füge hier eine Aktion hinzu, um sie hier zu sehen
-          title: Noch keine Textumwandlungsaktionen konfiguriert
-        disabled_warning: Aktionen zur Textumwandlung sind deaktiviert. Die folgenden Aktionen stehen an keiner Stelle zur Verfügung.
-        label_disable_all: Alles deaktivieren
-        label_enable_all: Alles aktivieren
-        title: Aktionen
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Neue Textumwandlungsaktion
+        title: New text action
       row_component:
-        label_actions: Aktionsmenü
-        label_toggle: "%{label} umschalten"
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} Arbeitspakettyp"
-          other: "%{count} Arbeitspakettypen"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Alle Arbeitspakettypen
-        everywhere: Überall
-        specific_work_package_types: Bestimmte Arbeitspakettypen
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Status hinzufügen, um mit der Konfiguration von Arbeitsabläufen für diese Rolle zu beginnen
@@ -2317,7 +2318,7 @@ de:
       errors:
         connection_failed: Der KI-Dienst konnte nicht erreicht werden.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: Der KI-Assistent ist nicht verfügbar.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Der KI-Dienst hat nicht rechtzeitig geantwortet.
         upstream_error: Der KI-Dienst hat eine Fehlermeldung zurückgegeben.
@@ -2329,7 +2330,9 @@ de:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Ersetzen
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2755,7 +2758,7 @@ de:
     failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
     not_yet_consented: Der Benutzer hat seine Einwilligung zu Ihrem [konfigurierten Einwilligungstext](consent_settings) noch nicht gegeben. Er wird bei der nächsten Anmeldung daran erinnert werden.
     text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
-    title: Nutzer-Einwilligung
+    title: User consent
     update_consent_last_time: 'Letzte Änderung der Einwilligungsinformationen: %{update_time}'
     user_has_consented: Der Benutzer hat Ihrem [konfigurierten Einwilligungstext](consent_settings) zugestimmt.
   copy_project:
@@ -2890,8 +2893,6 @@ de:
       admin_only:
         all: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
         project: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
-      editable:
-        all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
         project: Fügen Sie numerische Werte hinzu oder geben Sie / ein, um nach einem Attribut, einem Operator, einer Funktion oder einem Schlüsselwort zu suchen.
       has_comment:
@@ -2921,6 +2922,8 @@ de:
       searchable:
         all: Inkludiert die Werte des Feldes in die globale Suche.
         project: Das Attribut kann als Filter in Projektlisten ausgewählt werden.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: Wenn diese Option aktiviert ist, wird der Wert dieses Feldes in der Benutzerinformationskarte angezeigt, wenn Sie über einen Benutzer in der Anwendung bewegen.
     is_enabled_globally: Für alle Projekte aktiviert
@@ -3228,6 +3231,7 @@ de:
       scim_api: SCIM-Server-API
       sso_auth_providers: Single-Sign-On
       team_planner_view: Teamplaner
+      text_assistant: Text assistant
       virus_scanning: Antivirus-Überprüfung
       weighted_item_lists: Gewichtete Listen
       work_package_query_relation_columns: Arbeitspaket-Relationsspalten
@@ -3340,6 +3344,9 @@ de:
       sso_auth_providers:
         description: Ermöglichen Sie es Benutzern, sich über externe SSO-Anbieter mit SAML oder OpenID Connect anzumelden, um einen nahtlosen Zugriff und die Integration mit bestehenden Identitätssystemen zu ermöglichen.
         title: Single Sign-On (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise Add-on
       trial_text: Diese Funktion ist in Ihrer aktiven Enterprise-Testversion enthalten.
       unlimited: Unbegrenzt
@@ -3594,6 +3601,7 @@ de:
         caption: Das neue Formular beginnt mit einer Kopie der Gruppen und Felder dieses Formulars.
         label: Kopieren von
         placeholder: Formular auswählen…
+      copy_title: Copy form %{name}
       description:
         caption: Fügen Sie eine kurze Beschreibung hinzu, wo und wie dieses Formular verwendet wird.
         label: Beschreibung
@@ -3601,7 +3609,7 @@ de:
       name:
         caption: Wählen Sie einen Namen, anhand dessen Sie dieses Formular später an anderer Stelle wiedererkennen können.
         label: Formularname
-      new_title: Formular anlegen
+      save_title: Save form
     index:
       actions:
         edit: Formular bearbeiten
@@ -4086,7 +4094,7 @@ de:
   label_completed: Abgeschlossen
   label_configuration: Konfiguration
   label_confirmation: Bestätigung
-  label_consent_settings: Nutzer-Einwilligung
+  label_consent_settings: User consent
   label_constant_plural: Konstanten
   label_contains: enthält
   label_content: Inhalt
@@ -5087,7 +5095,7 @@ de:
       mails_and_notifications: E-Mails und Benachrichtigungen
       mcp_configurations: Model Context Protocol (MCP)
       push_notifications: Browser notifications
-      text_transform_actions: Textumwandlungsaktionen
+      text_actions: Text assistant
     quick_add:
       label: Hinzufügen…
   more_actions: Weitere Funktionen
@@ -5651,6 +5659,15 @@ de:
       toc:
         caption: Fügen Sie ein Inhaltsverzeichnis ein, in dem die Überschriften der Abschnitte aufgeführt sind.
         label: Inhaltsverzeichnis
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Seite %{page} von %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -6077,10 +6094,12 @@ de:
         switch:
           apply: Anwenden
           impact:
-            hidden_heading: Felder, die nicht mehr angezeigt werden
-            missing_statuses_description: Der Arbeitsablauf, zu dem Sie wechseln, sieht keinen Übergang aus diesen Status vor, sodass niemand diese Arbeitspakete weiterbearbeiten kann.
-            missing_statuses_heading: Arbeitspakete, die in eine Sackgasse geraten
-            new_heading: Felder, die verfügbar werden
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: Es sind keine Felder oder Status betroffen.
             status_count:
               one: "%{count} Arbeitspaket"
@@ -6361,7 +6380,6 @@ de:
   setting_after_login_default_redirect_url_example_html: 'Legen Sie einen Standardpfad fest, zu dem nach der Anmeldung weitergeleitet wird, wenn kein Back-Link vorhanden ist. Falls nicht gesetzt, wird zur Startseite weitergeleitet. <br/> Beispiel: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Textumwandlungsaktionen aktivieren
   setting_allowed_link_protocols: Erlaubte Link-Protokolle
   setting_allowed_link_protocols_text_html: Erlauben Sie es, diese Protokolle als Links in Arbeitspaket-Beschreibungen, langen Textfeldern und Kommentaren darzustellen. Zum Beispiel %{tel_code} oder %{element_code}. Geben Sie ein Protokoll pro Zeile ein. <br/> Protokolle %{http_code}, %{https_code} und %{mailto_code} sind immer erlaubt.
   setting_antivirus_scan_action: Aktion für infizierte Datei
@@ -7306,7 +7324,6 @@ de:
         tab: PDF generieren
         templates:
           readonly_error: Kann nicht geändert werden, solange eine Verknüpfung zu einem Quelltyp besteht.
-          section_title: PDF-Exportvorlagen
           settings:
             edit_link: Einstellungen bearbeiten
             reset_to_default: Auf Standard zurücksetzen
@@ -7328,7 +7345,6 @@ de:
         empty_group_hint: Attribute hierher ziehen
         exclusions:
           attribute_label: "%{attribute} erben"
-          excluded: Ausgeblendet
           section_label: Übernommener Abschnitt %{section}
         filter_inactive: Attribute filtern
         group_actions: Abschnittsoptionen
@@ -7387,7 +7403,6 @@ de:
           manual:
             description: Sobald Sie [Projektattribute anlegen](administration_url), werden diese hier angezeigt und können einem Typ hinzugefügt werden.
             title: Es sind keine Projektattribute verfügbar
-        disabled: Deaktiviert
         exclusions:
           attribute_label: "%{attribute} erben"
         filter: Nach Abschnitt oder Name suchen
@@ -7465,14 +7480,14 @@ de:
           mode_label: Diese Seite manuell konfigurieren
           modes:
             copy:
-              caption: Beginnen Sie mit einer einmaligen Kopie der Einstellungen, die diese Konfiguration derzeit übernimmt.
-              label: Vererbte Einstellungen kopieren
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Standardeinstellungen für neue Typen verwenden.
               label: Standardeinstellungen
             empty:
               caption: Richten Sie alles von Grund auf ein, beginnend mit einer leeren Konfiguration.
-              label: Leer
+              label: Start from scratch
           success: Der Konfigurationsmodus wurde gewechselt.
           title: Manuelle Konfiguration
         parent_suffix: " (übergeordneter Typ)"
@@ -7523,7 +7538,7 @@ de:
           one: 'Der Typ wird aus %{count} Projekt entfernt:'
           other: 'Der Typ wird aus %{count} Projekten entfernt:'
         title: Typ löschen
-      description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Kopie von %{name}
@@ -8218,8 +8233,6 @@ de:
           notice:
             one: Workflow erfolgreich in die Rolle '%{role_name}' kopiert.
             other: Workflow erfolgreich in %{count} Rollen kopiert.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: Dieser Workflow wird derzeit von %{count} Typ oder der Variante verwendet. Bitte wählen Sie einen neuen Workflow aus, durch den dieser ersetzt werden soll.
@@ -8237,6 +8250,7 @@ de:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Kopieren von
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Beschreibung
@@ -8252,7 +8266,7 @@ de:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow

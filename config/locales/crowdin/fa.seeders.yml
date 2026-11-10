@@ -71,7 +71,7 @@ fa:
           name: مدیر کارکنان و پروژه‌ها
         item_1:
           name: نقش سراسری استاندارد
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
           label: اصلاح دستور زبان
         item_1:
@@ -117,6 +117,17 @@ fa:
           name: مالی و اداری
         item_6:
           name: تضمین کیفیت
+      labels:
+        item_0:
+          name: Website
+        item_1:
+          name: Marketing
+        item_2:
+          name: Speakers
+        item_3:
+          name: Security
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: پروژهٔ نمایشی

@@ -177,13 +177,13 @@ fa:
       cost_types:
         for_all_projects_hint: این نوع هزینه در همه پروژه‌ها فعال است.
         heading: انواع هزینه
-        hint: Select which cost types are displayed in your project when members log their costs.
+        hint: انواع هزینه‌هایی را انتخاب کنید که هنگام ثبت هزینه توسط اعضا در پروژه شما نمایش داده شوند.
         in_use_hint: این نوع هزینه قابل غیرفعال‌کردن نیست، زیرا قبلاً برای آن در این پروژه هزینه ثبت شده است.
         none_active: در حال حاضر هیچ نوع هزینه‌ای در این پروژه فعال نیست.
       time_and_costs: زمان و هزینه‌ها
       time_entry_activities:
-        heading: Time tracking
-        hint: Select which time tracking activities are displayed in your project when members log their time.
+        heading: ثبت زمان
+        hint: فعالیت‌های ثبت زمانی را انتخاب کنید که هنگام ثبت زمان توسط اعضا در پروژه شما نمایش داده شوند.
   costs:
     widgets:
       actual_costs:
