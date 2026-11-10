@@ -160,5 +160,5 @@ get:
     ```
     ?filters=[{"name_and_identifier":{"operator":"~","values":["rollout"]}}]
     ```
-  operationId: List_available_parent_project_candidates
+  operationId: list_available_parent_project_candidates
   summary: List available parent project candidates

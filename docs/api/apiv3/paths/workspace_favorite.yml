@@ -49,7 +49,7 @@ delete:
     - Favorites
   description: |-
     Removes the workspace from the current user's favorites.
-  operationId: Unfavorite_Workspace
+  operationId: unfavorite_workspace
   summary: Unfavorite Workspace
 post:
   parameters:
@@ -100,5 +100,5 @@ post:
     - Favorites
   description: |-
     Adds the workspace to the current user's favorites.
-  operationId: Favorite_Workspace
+  operationId: favorite_workspace
   summary: Favorite Workspace

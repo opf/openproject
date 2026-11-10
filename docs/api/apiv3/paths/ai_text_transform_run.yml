@@ -2,7 +2,7 @@
 ---
 get:
   summary: View AI text transform run
-  operationId: view_ai_text_transform_run
+  operationId: get_ai_text_transform_run
   tags:
     - AI
   description: |-

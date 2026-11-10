@@ -2,7 +2,7 @@
 ---
 get:
   summary: View a non-working day
-  operationId: view_non_working_day
+  operationId: get_non_working_day
   tags:
     - Work Schedule
   description: |-

@@ -2,7 +2,7 @@
 ---
 get:
   summary: View an hourly rate
-  operationId: view_principal_hourly_rate
+  operationId: get_principal_hourly_rate
   tags:
     - Hourly rates
   description: |-

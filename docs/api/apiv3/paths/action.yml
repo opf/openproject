@@ -48,5 +48,5 @@ get:
   tags:
     - Actions & Capabilities
   description: Returns an individual action.
-  operationId: View_action
+  operationId: get_action
   summary: View action

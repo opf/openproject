@@ -30,5 +30,5 @@ post:
   tags:
     - Time Entries
   description: ''
-  operationId: Time_entry_create_form
+  operationId: validate_time_entry_create_form
   summary: Time entry create form

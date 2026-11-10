@@ -74,5 +74,5 @@ get:
     - Roles
   description: List all defined roles. This includes built in roles like 'Anonymous'
     and 'Non member'.
-  operationId: List_roles
+  operationId: list_roles
   summary: List roles

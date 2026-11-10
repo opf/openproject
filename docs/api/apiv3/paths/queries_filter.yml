@@ -58,5 +58,5 @@ get:
   tags:
     - Query Filters
   description: Retrieve an individual QueryFilter as identified by the id parameter.
-  operationId: View_Query_Filter
+  operationId: get_query_filter
   summary: View Query Filter

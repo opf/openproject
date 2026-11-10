@@ -146,7 +146,7 @@ get:
     - News
   description: Lists news. The news returned depend on the provided parameters and
     also on the requesting user's permissions.
-  operationId: List_News
+  operationId: list_news
   summary: List News
 
 post:

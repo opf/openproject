@@ -93,5 +93,5 @@ get:
   tags:
     - Attachments
   description: ''
-  operationId: view_attachment
+  operationId: get_attachment
   summary: View attachment

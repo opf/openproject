@@ -36,5 +36,5 @@ get:
   tags:
     - Queries
   description: Retrieve the schema for workspace queries.
-  operationId: View_schema_for_workspace_queries
+  operationId: get_schema_for_workspace_queries
   summary: View schema for workspace queries
