@@ -602,7 +602,7 @@ export default class FiltersFormController extends Controller {
     const params = new URLSearchParams(window.location.search);
     const newFilters = this.buildFiltersParam(this.currentFilters());
 
-    if (newFilters === this.requestedFilters()) {
+    if (newFilters === (this.sentFilters ?? params.get('filters') ?? '')) {
       // Some fields may be triggered via the input event and the change event too.
       // This early return will prevent firing request when the filter params are not changed.
       return;
@@ -621,7 +621,7 @@ export default class FiltersFormController extends Controller {
     const url = `${pathName}${search ? `?${search}` : ''}`;
 
     if (this.hasTurboFrameRequestValue) {
-      void this.visitFrame(url);
+      void this.visitFrame(url, newFilters);
     } else if (this.turboStreamRequestValue) {
       void this.fetchStream(url, newFilters);
     } else {
@@ -630,24 +630,16 @@ export default class FiltersFormController extends Controller {
     }
   }
 
-  private requestedFilters():string {
-    // Check for in-flight stream requests
-    if (this.sentFilters !== null) return this.sentFilters;
-
-    // Check for in-flight frame requests, otherwise use the browser href.
-    const frame = this.turboFrame;
-    const requestedUrl = frame?.hasAttribute('busy') && frame.src ? frame.src : window.location.href;
-
-    return new URL(requestedUrl, window.location.href).searchParams.get('filters') ?? '';
-  }
-
-  private visitFrame(url:string):Promise<void> {
+  private visitFrame(url:string, newFilters:string):Promise<void> {
     // visit() snapshots the page for history; keep a previous request's indicator out of it.
     hideLoadingIndicator();
     visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
+    this.sentFilters = newFilters;
 
     const { turboFrame } = this;
-    return withLoadingIndicator(turboFrame ? frameResponded(turboFrame) : Promise.resolve());
+    const responded = turboFrame ? frameResponded(turboFrame) : Promise.resolve();
+    const settled = responded.then(() => { this.sentFilters = null; });
+    return withLoadingIndicator(settled);
   }
 
   private fetchStream(url:string, newFilters:string):Promise<void> {

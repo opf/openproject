@@ -202,12 +202,13 @@ describe('Filters form navigation', () => {
   async function mountLoadingFrame() {
     const controller = await mount(['page', 'all'], '<turbo-frame id="backlogs_container" disabled></turbo-frame>');
     const frame = ctx.container.querySelector<HTMLElement>('#backlogs_container')!;
-    visit.mockImplementation((location) => {
-      frame.setAttribute('src', location);
-      frame.setAttribute('busy', '');
-    });
 
     return { controller, frame };
+  }
+
+  async function settle(frame:HTMLElement, eventName:string) {
+    frame.dispatchEvent(new CustomEvent(eventName, { bubbles: true }));
+    await Promise.resolve();
   }
 
   it('navigates back to the applied filters while a newer visit is still loading', async () => {
@@ -233,7 +234,7 @@ describe('Filters form navigation', () => {
     controller.sendForm();
     expect(indicator).toBeVisible();
 
-    frame.dispatchEvent(new CustomEvent('turbo:before-fetch-response', { bubbles: true }));
+    frame.dispatchEvent(new CustomEvent('turbo:frame-load', { bubbles: true }));
 
     await vi.waitFor(() => expect(indicator).not.toBeVisible());
   });
@@ -264,7 +265,7 @@ describe('Filters form navigation', () => {
     controller.sendForm();
     expect(visit).toHaveBeenCalledOnce();
 
-    frame.removeAttribute('busy');
+    await settle(frame, 'turbo:fetch-request-error');
     controller.sendForm();
 
     expect(visit).toHaveBeenCalledTimes(2);
@@ -277,8 +278,8 @@ describe('Filters form navigation', () => {
     controller.currentFiltersValue = [{ subject: { operator: '~', values: ['mm'] } }];
     controller.sendForm();
 
-    frame.removeAttribute('busy');
     setUrl('subject ~ "mm"');
+    await settle(frame, 'turbo:frame-load');
     controller.sendForm();
 
     expect(visit).toHaveBeenCalledOnce();
