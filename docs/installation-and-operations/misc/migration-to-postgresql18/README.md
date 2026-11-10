@@ -174,8 +174,8 @@ Keep source and destination in separate directories. Do not pre-create `vector` 
 Stop OpenProject before the final dump:
 
 ```shell
-sudo openproject stop
-sudo -u postgres pg_dump --no-owner --no-privileges -d openproject > openproject.sql
+sudo systemctl stop openproject
+sudo -u postgres pg_dump -p 45432 --no-owner --no-privileges -d openproject > openproject.sql
 ```
 
 Adjust the database, port, and role to your installation. Install PostgreSQL 18 and pgvector alongside the existing server:
@@ -190,7 +190,13 @@ sudo dnf install postgresql18-server postgresql18 postgresql18-contrib pgvector_
 sudo /usr/pgsql-18/bin/postgresql-18-setup initdb
 ```
 
-Configure PostgreSQL 18 on a different port while the original server remains installed. Debian's `pg_lsclusters` shows assigned ports; RPM installations require configuring the new cluster's port before starting `postgresql-18`.
+Configure PostgreSQL 18 on a different port while the original server remains installed. On Debian/Ubuntu, check `pg_lsclusters`: installing another major does not always create its cluster. If no PostgreSQL 18 cluster exists, create one on the new port:
+
+```shell
+sudo pg_createcluster 18 main --port=45433 --start
+```
+
+If the cluster already exists, set its port with `sudo pg_conftool 18 main set port 45433` and restart it with `sudo pg_ctlcluster 18 main restart`. Choose an unused port. RPM installations require configuring the new cluster's port before starting `postgresql-18`.
 
 Create the application role and database on PostgreSQL 18, preserving the role name and password from your installation. Restore with `psql -p NEW_PORT -d DATABASE -v ON_ERROR_STOP=1 < openproject.sql` as a database administrator. Run `CREATE EXTENSION IF NOT EXISTS vector;` in that database and verify it.
 
