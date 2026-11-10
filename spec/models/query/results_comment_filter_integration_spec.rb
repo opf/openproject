@@ -51,8 +51,10 @@ RSpec.describe Query::Results, "Comment filter integration", with_ee: %i[interna
   end
 
   describe "comment filter" do
+    let(:operator) { "~" }
+
     before do
-      query.add_filter("comment", "~", ["note"])
+      query.add_filter("comment", operator, ["note"])
     end
 
     context "when the user is not allowed to see internal comments" do
@@ -70,26 +72,13 @@ RSpec.describe Query::Results, "Comment filter integration", with_ee: %i[interna
         expect(work_packages).to contain_exactly(public_comment_wp, internal_comment_wp)
       end
     end
-  end
 
-  describe "search filter" do
-    before do
-      query.add_filter("search", "**", ["note"])
-    end
-
-    context "when the user is not allowed to see internal comments" do
+    context "when the user is not allowed to see internal comments and filtering by does not contain" do
       let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+      let(:operator) { "!~" }
 
-      it "does not match internal comments" do
-        expect(work_packages).to contain_exactly(public_comment_wp)
-      end
-    end
-
-    context "when the user is allowed to see internal comments" do
-      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages view_internal_comments] }) }
-
-      it "matches internal comments" do
-        expect(work_packages).to contain_exactly(public_comment_wp, internal_comment_wp)
+      it "treats work packages matching only in internal comments as not containing the text" do
+        expect(work_packages).to contain_exactly(internal_comment_wp)
       end
     end
   end

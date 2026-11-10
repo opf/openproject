@@ -77,7 +77,7 @@ RSpec.describe WorkPackage, "search" do
     end
   end
 
-  context "with the keyword only in an internal comment", with_ee: %i[internal_comments] do
+  context "with the keyword only in an internal journal", with_ee: %i[internal_comments] do
     let(:searchword) { "confidential" }
 
     before do
@@ -91,7 +91,7 @@ RSpec.describe WorkPackage, "search" do
         .to be_empty
     end
 
-    context "when allowed to see internal comments" do
+    context "when allowed to see internal journals" do
       let(:permissions) { %i[view_work_packages view_internal_comments] }
 
       it "finds the work package" do
@@ -108,6 +108,26 @@ RSpec.describe WorkPackage, "search" do
           expect(subject)
             .to be_empty
         end
+      end
+    end
+
+    context "when allowed to see internal journals in only one of two projects" do
+      let(:other_project) { create(:project, enabled_internal_comments: true) }
+      let(:other_work_package) { create(:work_package, project: other_project) }
+
+      current_user do
+        create(:user, member_with_permissions: { project => %i[view_work_packages view_internal_comments],
+                                                 other_project => %i[view_work_packages] })
+      end
+
+      before do
+        other_work_package.add_journal(user: create(:admin), notes: "Another #{searchword} remark", internal: true)
+        other_work_package.save!(validate: false)
+      end
+
+      it "finds only the work package of the project with the permission" do
+        expect(subject)
+          .to eq [work_package]
       end
     end
 
@@ -129,7 +149,7 @@ RSpec.describe WorkPackage, "search" do
     end
   end
 
-  context "with the keyword only in an internal comment and no enterprise token" do
+  context "with the keyword only in an internal journal and no enterprise token" do
     let(:searchword) { "confidential" }
     let(:permissions) { %i[view_work_packages view_internal_comments] }
 
