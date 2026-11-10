@@ -77,7 +77,8 @@ export function frameResponded(frame:FrameElement):Promise<void> {
       listeners.abort();
       resolve();
     };
-    frame.addEventListener('turbo:before-fetch-response', settle, { signal: listeners.signal });
+    frame.addEventListener('turbo:frame-load', settle, { signal: listeners.signal });
+    frame.addEventListener('turbo:frame-missing', settle, { signal: listeners.signal });
     frame.addEventListener('turbo:fetch-request-error', settle, { signal: listeners.signal });
   });
 }

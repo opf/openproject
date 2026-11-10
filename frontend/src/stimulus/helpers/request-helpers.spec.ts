@@ -131,7 +131,7 @@ describe('frameResponded', () => {
     frame.remove();
   });
 
-  it.each(['turbo:before-fetch-response', 'turbo:fetch-request-error'])('settles on the frame\'s %s', async (eventName) => {
+  it.each(['turbo:frame-load', 'turbo:frame-missing', 'turbo:fetch-request-error'])('settles on the frame\'s %s', async (eventName) => {
     const responded = vi.fn();
     void frameResponded(frame).then(responded);
 
