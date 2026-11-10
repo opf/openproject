@@ -100,7 +100,6 @@ module Admin::Settings
         @user_custom_field_section.move_after_anchor(drop_params[:prev_id], scope: UserCustomFieldSection.all)
 
       if moved
-        update_header_via_turbo_stream(allow_custom_field_creation: allow_custom_field_creation?)
         update_sections_via_turbo_stream(user_custom_field_sections: UserCustomFieldSection.all)
         respond_with_turbo_streams
       else

@@ -32,81 +32,53 @@ require "rails_helper"
 RSpec.describe Settings::UserCustomFieldSections::IndexComponent, type: :component do
   let(:section_a) { create(:user_custom_field_section) }
   let(:section_b) { create(:user_custom_field_section) }
+  let(:root) { rendered_component.at_css("[data-controller='sortable-lists']") }
+  let(:list) { rendered_component.at_css("[data-controller~='sortable-lists--list']") }
 
-  subject do
+  subject(:rendered_component) do
     with_request_url "/admin/settings/user_custom_fields" do
       render_inline(described_class.new(user_custom_field_sections: [section_a, section_b]))
     end
   end
 
-  before do
-    section_a
-    section_b
+  it_behaves_like "a sortable-lists root", wrapper_id: "settings-user-custom-field-sections-index-component"
+  it_behaves_like "a sortable-lists list", list_type: "user_custom_field_section", name: nil
+
+  it "wires each section row as a sortable item of type user_custom_field_section" do
+    [section_a, section_b].each do |section|
+      row = rendered_component.at_css("[data-sortable-lists--item-id-value='#{section.id}']")
+
+      expect(row["data-controller"]).to eq("sortable-lists--item")
+      expect(row["data-sortable-lists--item-type-value"]).to eq("user_custom_field_section")
+      expect(row["data-sortable-lists--item-label-value"]).to eq(section.name)
+      expect(row).to have_css(".DragHandle[data-sortable-lists--item-target~='handle']")
+    end
   end
 
-  it "wires the wrapper as the sortable-lists root with per-type move URL templates" do
-    subject
-
-    root = page.find("[data-controller='sortable-lists']", visible: :all)
+  it "addresses the section list type with its own move URL template" do
     move_url_templates = JSON.parse(root["data-sortable-lists-move-url-templates-value"])
 
     expect(move_url_templates["user_custom_field_section"]).to include("/admin/settings/user_custom_field_sections/{id}/drop")
   end
 
+  it "leaves the sections list unscoped, matching the controller's list_id_scoped: false" do
+    expect(list["data-sortable-lists--list-id-value"]).to be_nil
+  end
+
+  # Prove the selector-to-DOM link, not just attribute presence: if the
+  # dasherization or the `##{wrapper_key}` interpolation drifts, these
+  # selectors silently stop matching anything and the outlets connect
+  # to nothing with no failing test or console warning.
   it "wires the root's outlet selectors so they actually resolve to the rendered list/items" do
-    subject
-
-    root = page.find("[data-controller='sortable-lists']", visible: :all)
-    list_outlet_selector = root["data-sortable-lists-sortable-lists--list-outlet"]
-    item_outlet_selector = root["data-sortable-lists-sortable-lists--item-outlet"]
-
-    expect(list_outlet_selector).to be_present
-    expect(item_outlet_selector).to be_present
-
-    # Prove the selector-to-DOM link, not just attribute presence: if the
-    # dasherization or the `##{wrapper_key}` interpolation drifts, these
-    # selectors silently stop matching anything and the outlets connect
-    # to nothing with no failing test or console warning.
-    expect(page).to have_css(list_outlet_selector)
-    expect(page).to have_css(item_outlet_selector)
+    expect(rendered_component).to have_css(root["data-sortable-lists-sortable-lists--list-outlet"])
+    expect(rendered_component).to have_css(root["data-sortable-lists-sortable-lists--item-outlet"])
   end
 
-  it "wires the sections flex container as a sortable-lists list of type user_custom_field_section without a list id" do
-    subject
-
-    expect(page).to have_css(
-      "[data-controller~='sortable-lists--list']" \
-      "[data-sortable-lists--list-type-value='user_custom_field_section']" \
-      "[data-sortable-lists--list-accepted-type-value='user_custom_field_section']" \
-      ":not([data-sortable-lists--list-id-value])"
-    )
-  end
-
-  it "wires each section row as a sortable-lists item of type user_custom_field_section" do
-    subject
-
-    [section_a, section_b].each do |section|
-      expect(page).to have_css(
-        "[data-controller~='sortable-lists--item']" \
-        "[data-sortable-lists--item-id-value='#{section.id}']" \
-        "[data-sortable-lists--item-type-value='user_custom_field_section']" \
-        "[data-sortable-lists--item-label-value='#{section.name}']"
-      )
-    end
-  end
-
-  # The section's own sortable-lists wiring has no generic-drag-and-drop
-  # remnants; its rendered ShowComponent still carries them for its field
-  # list until that is migrated too (see show_component_spec.rb).
+  # Scoped to the sections list: the nested ShowComponent still carries
+  # generic-drag-and-drop for its field list until that is migrated too
+  # (see show_component_spec.rb).
   it "has no generic-drag-and-drop remnants on the sections list itself" do
-    subject
-
-    root = page.find("[data-controller='sortable-lists']", visible: :all)
-    expect(root["data-controller"]).to eq("sortable-lists")
-    list = page.find(
-      "[data-controller~='sortable-lists--list'][data-sortable-lists--list-type-value='user_custom_field_section']",
-      visible: :all
-    )
-    expect(list[:class].to_s).not_to include("dragula-container")
+    expect(list["class"].to_s).not_to include("dragula-container")
+    expect(list["data-generic-drag-and-drop-target"]).to be_nil
   end
 end
