@@ -66,6 +66,10 @@ module CustomFieldSections
       end
 
       moved
+    rescue ActiveRecord::RecordNotFound
+      # A section or the custom field can be destroyed between the lookup and
+      # the lock. Treat the vanished move as an invalid one rather than a 404.
+      false
     end
 
     def still_in_source?

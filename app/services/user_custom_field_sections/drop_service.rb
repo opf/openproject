@@ -32,8 +32,6 @@ module UserCustomFieldSections
   # BUILT_IN_ATTRIBUTES name. Built-in attributes own no record, so their
   # source section is the one whose attribute_order lists them.
   class DropService < ::BaseServices::BaseCallable
-    CUSTOM_FIELD_ID = /\A\d+\z/
-
     def initialize(user:, key:)
       super()
       @user = user
@@ -62,7 +60,8 @@ module UserCustomFieldSections
     def custom_field
       return @custom_field if defined?(@custom_field)
 
-      @custom_field = (UserCustomField.find_by(id: @key) if @key.match?(CUSTOM_FIELD_ID))
+      id = Lists::MoveAfterAnchor.canonical_id(@key)
+      @custom_field = (UserCustomField.find_by(id:) if id)
     end
 
     def order_key
@@ -72,21 +71,32 @@ module UserCustomFieldSections
     def source_section
       return @source_section if defined?(@source_section)
 
-      @source_section = custom_field&.custom_field_section ||
-                        UserCustomFieldSection.find_by("? = ANY(attribute_order)", order_key)
+      @source_section = custom_field&.custom_field_section || built_in_source_section
+    end
+
+    # The drop carries no source list, so a built-in that several sections
+    # list can only be reordered inside the destination. Moving it elsewhere
+    # would strip the key from a section the admin never dragged from.
+    def built_in_source_section
+      sections = UserCustomFieldSection.where("? = ANY(attribute_order)", order_key).to_a
+      return sections.first if sections.one?
+
+      sections.find { |section| section.id == target_section&.id }
     end
 
     def target_section
       return @target_section if defined?(@target_section)
 
-      @target_section = UserCustomFieldSection.find_by(id: params[:list_id])
+      id = Lists::MoveAfterAnchor.canonical_id(params[:list_id])
+      @target_section = (UserCustomFieldSection.find_by(id:) if id)
     end
 
     # nil anchors the top; :invalid rejects the move.
     def anchor_key_in(prev_id)
-      return nil if prev_id.blank?
+      return nil if prev_id.nil? || prev_id == ""
 
-      anchor_field = target_section.custom_fields.find_by(id: prev_id) if prev_id.to_s.match?(CUSTOM_FIELD_ID)
+      anchor_id = Lists::MoveAfterAnchor.canonical_id(prev_id)
+      anchor_field = target_section.custom_fields.find_by(id: anchor_id) if anchor_id
       anchor_field&.column_name || built_in_key(prev_id) || :invalid
     end
 

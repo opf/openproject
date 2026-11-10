@@ -60,18 +60,18 @@ module Settings
       def move_url_templates
         id_placeholder = "__id__"
         {
-          user_custom_field_section: drop_admin_settings_user_custom_field_section_path(id_placeholder)
-                                       .sub(id_placeholder, "{id}"),
-          user_field: drop_admin_settings_user_custom_field_section_field_path(id_placeholder)
-                        .sub(id_placeholder, "{id}")
+          UserCustomFieldSection::SORTABLE_LIST_TYPE =>
+            drop_admin_settings_user_custom_field_section_path(id_placeholder).sub(id_placeholder, "{id}"),
+          UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE =>
+            drop_admin_settings_user_custom_field_section_field_path(id_placeholder).sub(id_placeholder, "{id}")
         }
       end
 
       def sections_list_data
         {
           controller: "sortable-lists--list",
-          sortable_lists__list_type_value: "user_custom_field_section",
-          sortable_lists__list_accepted_type_value: "user_custom_field_section"
+          sortable_lists__list_type_value: UserCustomFieldSection::SORTABLE_LIST_TYPE,
+          sortable_lists__list_accepted_type_value: UserCustomFieldSection::SORTABLE_LIST_TYPE
         }
       end
 
@@ -79,7 +79,7 @@ module Settings
         {
           controller: "sortable-lists--item",
           sortable_lists__item_id_value: section.id,
-          sortable_lists__item_type_value: "user_custom_field_section",
+          sortable_lists__item_type_value: UserCustomFieldSection::SORTABLE_LIST_TYPE,
           sortable_lists__item_label_value: section.name
         }
       end

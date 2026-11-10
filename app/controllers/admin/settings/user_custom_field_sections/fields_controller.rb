@@ -38,7 +38,7 @@ module Admin
 
         menu_item :user_custom_fields_settings
 
-        configure_drop_request list_type: "user_field", list_id_scoped: true
+        configure_drop_request list_type: UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE, list_id_scoped: true
 
         def drop
           return render_invalid_drop_request unless valid_drop_request?

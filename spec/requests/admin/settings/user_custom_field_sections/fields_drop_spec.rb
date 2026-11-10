@@ -140,6 +140,28 @@ RSpec.describe "User custom field section fields drop", :skip_csrf, type: :rails
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
     end
 
+    it "reorders a built-in listed by more than one section within its own section" do
+      section_b.update_column(:attribute_order, %w[firstname login])
+
+      drop("login", { list_type: "user_field", list_id: section_b.id.to_s, prev_id: "" })
+
+      expect(response).to have_http_status(:ok)
+      expect(section_b.reload.attribute_order).to eq(%w[login firstname])
+      expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
+    end
+
+    it "422s without mutation moving a built-in listed by more than one section elsewhere" do
+      section_b.update_column(:attribute_order, %w[firstname login])
+      section_c = create(:user_custom_field_section, attribute_order: %w[mail])
+
+      drop("login", { list_type: "user_field", list_id: section_c.id.to_s, prev_id: "mail" })
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(section_c.reload.attribute_order).to eq(%w[mail])
+      expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
+      expect(section_b.reload.attribute_order).to eq(%w[firstname login])
+    end
+
     it "422s without mutation for a prev_id belonging to a different CustomField subtype" do
       project_section = create(:project_custom_field_section)
       foreign_field = create(:project_custom_field, project_custom_field_section: project_section)

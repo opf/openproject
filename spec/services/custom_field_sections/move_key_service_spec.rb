@@ -93,6 +93,26 @@ RSpec.describe CustomFieldSections::MoveKeyService do
     expect(section_b.reload.attribute_order).to eq(["firstname"])
   end
 
+  it "fails without mutation when the destination section was deleted before the lock" do
+    section_c = create(:user_custom_field_section, position: 3)
+    UserCustomFieldSection.where(id: section_c.id).delete_all
+
+    result = move("login", from: section_a, to: section_c, prev_key: "")
+
+    expect(result).not_to be_success
+    expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name])
+  end
+
+  it "fails without mutation when the custom field was destroyed before the lock" do
+    UserCustomField.where(id: cf1.id).delete_all
+
+    result = move(cf1.column_name, from: section_a, to: section_b, prev_key: "", custom_field: cf1)
+
+    expect(result).not_to be_success
+    expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name])
+    expect(section_b.reload.attribute_order).to eq(["firstname"])
+  end
+
   it "fails without mutation when the custom field no longer passes validation" do
     cf1.update_column(:name, "")
 

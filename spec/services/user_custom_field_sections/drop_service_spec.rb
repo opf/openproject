@@ -106,7 +106,7 @@ RSpec.describe UserCustomFieldSections::DropService do
   it "fails without mutation for a key that is neither a user custom field nor a built-in attribute" do
     foreign_field = create(:project_custom_field)
 
-    ["not_a_real_attribute", "0", "#{cf1.id}abc", foreign_field.id.to_s].each do |key|
+    ["not_a_real_attribute", "0", "0#{cf1.id}", " #{cf1.id}", "#{cf1.id}abc", foreign_field.id.to_s].each do |key|
       expect(drop(key, list_id: section_a.id, prev_id: "")).not_to be_success
     end
     expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
@@ -132,6 +132,28 @@ RSpec.describe UserCustomFieldSections::DropService do
 
   it "fails without mutation for an unknown list_id" do
     expect(drop(cf1.id.to_s, list_id: 0, prev_id: "")).not_to be_success
+    expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
+  end
+
+  it "fails without mutation for a list_id that is not a canonical section id" do
+    ["0#{section_b.id}", " #{section_b.id}", "#{section_b.id}abc", true].each do |list_id|
+      expect(drop(cf1.id.to_s, list_id:, prev_id: "")).not_to be_success
+    end
+    expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
+    expect(cf1.reload.custom_field_section_id).to eq(section_a.id)
+  end
+
+  it "fails without mutation for a prev_id that is not a canonical custom field id" do
+    ["0#{cf1.id}", " #{cf1.id}", "#{cf1.id}abc"].each do |prev_id|
+      expect(drop(cf2.id.to_s, list_id: section_a.id, prev_id:)).not_to be_success
+    end
+    expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
+  end
+
+  it "fails without mutation for a blank prev_id that is not the empty string" do
+    [" ", false, [], {}].each do |prev_id|
+      expect(drop(cf2.id.to_s, list_id: section_a.id, prev_id:)).not_to be_success
+    end
     expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
   end
 

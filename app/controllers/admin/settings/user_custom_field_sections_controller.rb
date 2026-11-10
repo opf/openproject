@@ -33,7 +33,7 @@ module Admin::Settings
     include Admin::Settings::UserCustomFields::ComponentStreams
     include ::SortableLists::DropRequestValidation
 
-    configure_drop_request list_type: "user_custom_field_section", list_id_scoped: false
+    configure_drop_request list_type: UserCustomFieldSection::SORTABLE_LIST_TYPE, list_id_scoped: false
 
     before_action :set_user_custom_field_section, only: %i[update drop destroy]
 

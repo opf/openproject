@@ -56,8 +56,8 @@ module Settings
       def field_list_data
         {
           controller: "sortable-lists--list",
-          sortable_lists__list_type_value: "user_field",
-          sortable_lists__list_accepted_type_value: "user_field",
+          sortable_lists__list_type_value: UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE,
+          sortable_lists__list_accepted_type_value: UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE,
           sortable_lists__list_id_value: @user_custom_field_section.id,
           sortable_lists__list_name_value: @user_custom_field_section.name,
           # The section's drag preview snapshots the box itself rather than
@@ -71,7 +71,7 @@ module Settings
         {
           controller: "sortable-lists--item",
           sortable_lists__item_id_value: key,
-          sortable_lists__item_type_value: "user_field",
+          sortable_lists__item_type_value: UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE,
           sortable_lists__item_label_value: User.human_attribute_name(key)
         }
       end
@@ -80,7 +80,7 @@ module Settings
         {
           controller: "sortable-lists--item",
           sortable_lists__item_id_value: cf.id,
-          sortable_lists__item_type_value: "user_field",
+          sortable_lists__item_type_value: UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE,
           sortable_lists__item_label_value: cf.name
         }
       end
