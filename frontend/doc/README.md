@@ -25,7 +25,7 @@ To learn more about how this behavior works in detail, see the asset helper at `
 Production builds are triggered either through the `rake assets:precompile` rake task, which compiles
 the frontend along with the rest of the assets, or by running `npm run build` manually. That script
 builds with `--configuration production`, which enables ahead-of-time compilation. It does not include
-the service worker; run `npm -C packages/service-worker run build` from the repository root afterwards, or use `rake assets:angular`, which does both.
+the service worker or the asset manifest; `rake assets:angular` builds both and rebuilds the manifest. To do it by hand, run `npm -C packages/service-worker run build` from the repository root, then `bundle exec rake assets:rebuild_manifest`.
 
 ## Tests
 
