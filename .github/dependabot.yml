@@ -6,6 +6,7 @@ updates:
       - "/frontend"
       - "/extensions/blocknote-extensions"
       - "/extensions/op-blocknote-hocuspocus"
+      - "/packages/service-worker"
     schedule:
       interval: "daily"
     target-branch: "dev"
