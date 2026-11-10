@@ -77,10 +77,11 @@ RSpec.describe WorkPackage, "search" do
     end
   end
 
-  context "with the keyword only in an internal comment" do
+  context "with the keyword only in an internal comment", with_ee: %i[internal_comments] do
     let(:searchword) { "confidential" }
 
     before do
+      project.update!(enabled_internal_comments: true)
       work_package.add_journal(user: create(:admin), notes: "A #{searchword} remark", internal: true)
       work_package.save!(validate: false)
     end
@@ -97,6 +98,50 @@ RSpec.describe WorkPackage, "search" do
         expect(subject)
           .to eq [work_package]
       end
+
+      context "when internal comments are disabled for the project" do
+        before do
+          project.update!(enabled_internal_comments: false)
+        end
+
+        it "does not find the work package" do
+          expect(subject)
+            .to be_empty
+        end
+      end
+    end
+
+    context "when being anonymous on a public project", with_settings: { login_required: false } do
+      current_user { User.anonymous }
+
+      before do
+        project.update!(public: true)
+        create(:anonymous_role, permissions: %i[view_work_packages])
+      end
+
+      it "does not find the work package" do
+        expect(described_class.visible(current_user))
+          .to include(work_package)
+
+        expect(subject)
+          .to be_empty
+      end
+    end
+  end
+
+  context "with the keyword only in an internal comment and no enterprise token" do
+    let(:searchword) { "confidential" }
+    let(:permissions) { %i[view_work_packages view_internal_comments] }
+
+    before do
+      project.update!(enabled_internal_comments: true)
+      work_package.add_journal(user: create(:admin), notes: "A #{searchword} remark", internal: true)
+      work_package.save!(validate: false)
+    end
+
+    it "does not find the work package" do
+      expect(subject)
+        .to be_empty
     end
   end
 end

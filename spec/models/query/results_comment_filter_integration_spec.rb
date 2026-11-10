@@ -30,8 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe Query::Results, "Comment filter integration" do
-  let(:project) { create(:project) }
+RSpec.describe Query::Results, "Comment filter integration", with_ee: %i[internal_comments] do
+  let(:project) { create(:project, enabled_internal_comments: true) }
   let!(:public_comment_wp) { create(:work_package, project:) }
   let!(:internal_comment_wp) { create(:work_package, project:) }
   let(:query) do

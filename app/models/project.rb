@@ -210,6 +210,9 @@ class Project < ApplicationRecord
   scope :without_member, ->(user = User.current) { where.not(id: user.memberships.select(:project_id)) }
   scope :workspace_type, ->(workspace_type) { workspace_types.key?(workspace_type) ? where(workspace_type:) : none }
   scope :templated, -> { where(templated: true) }
+  scope :with_internal_comments_enabled, -> {
+    EnterpriseToken.allows_to?(:internal_comments) ? with_settings(enabled_internal_comments: "true") : none
+  }
 
   scopes :activated_time_activity,
          :visible_with_activated_time_activity,

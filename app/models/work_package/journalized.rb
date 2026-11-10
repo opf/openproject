@@ -33,7 +33,7 @@ module WorkPackage::Journalized
 
   class_methods do
     def internal_journals_visible_condition(user = User.current)
-      projects = Project.allowed_to(user, :view_internal_comments).select(:id)
+      projects = Project.allowed_to(user, :view_internal_comments).with_internal_comments_enabled.select(:id)
 
       "(#{Journal.table_name}.restricted = FALSE OR #{table_name}.project_id IN (#{projects.to_sql}))"
     end
@@ -42,16 +42,18 @@ module WorkPackage::Journalized
   def last_loaded_visible_journal(user = User.current)
     return unless journals.loaded?
 
-    visible = user.allowed_in_project?(:view_internal_comments, project) ? journals : journals.reject(&:internal?)
+    visible = internal_journals_visible?(user) ? journals : journals.reject(&:internal?)
     visible.max_by(&:version)
+  end
+
+  def internal_journals_visible?(user = User.current)
+    project.internal_comments_enabled? && user.allowed_in_project?(:view_internal_comments, project)
   end
 
   included do
     acts_as_journalized journals_association_extension: proc {
       def internal_visible
-        project = proxy_association.owner.project
-
-        if project.internal_comments_enabled? && User.current.allowed_in_project?(:view_internal_comments, project)
+        if proxy_association.owner.internal_journals_visible?
           all
         else
           where(internal: false)
