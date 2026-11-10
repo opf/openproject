@@ -56,7 +56,7 @@ module CustomFields
       when "calculated_value"
         model.formula_previously_changed? || (model.is_required_previously_changed? && model.is_required?)
       when "weighted_item_list"
-        model.multi_value_previously_changed?
+        model.multi_value_previously_changed? && CustomField.with_formula_referencing(model.id).any?
       else
         false
       end

@@ -713,6 +713,7 @@ en:
               format: "%{message}"
               invalid: "Formula is invalid."
               invalid_tokens: "Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed."
+              multi_value_list_not_aggregated: "Multi-select attributes (%{custom_fields}) can only be used within aggregate functions."
               not_allowed_custom_fields_referenced: "The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other."
             project_specific_value_restriction:
               not_supported: "is only available for work package custom fields of the formats list, hierarchy and weighted item list."
@@ -2729,6 +2730,7 @@ en:
       disabled_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is disabled for the project.
       mathematical: "The mathematical formula leads to an error. Please review the project calculation attribute and try again."
       missing_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is empty.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: "An unknown error occurred. Please review the formula for this Calculated value."
 
   colors:

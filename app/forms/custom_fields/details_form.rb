@@ -466,7 +466,8 @@ module CustomFields
     private
 
     def formula_caption
-      link_translate("custom_fields.instructions.formula.project", links: { docs_url: :calculated_value_formula_docs })
+      link_translate("custom_fields.instructions.formula.project",
+                     links: { docs_url: OpenProject::Static::Links.url_for(:calculated_value_formula_docs) })
     end
   end
 end

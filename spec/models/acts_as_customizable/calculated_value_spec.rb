@@ -627,27 +627,51 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
     end
 
     describe "missing value" do
-      let(:cf_int) { create(:integer_project_custom_field, projects: [project]) }
-      let(:cv1) do
-        create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "5 + #{cf_int}")
+      def create_calc_field(formula)
+        create(:calculated_value_project_custom_field, :skip_validations, projects:, formula:)
       end
-      let(:cv2) { create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "5 + #{cv1}") }
-      let(:cv3) { create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "5 + 5") }
 
-      let(:custom_field_values) do
-        { cv1 => nil, cv2 => nil, cf_int => nil, cv3 => nil }
-      end
+      let(:projects) { [project] }
+      let(:cf) { create(:integer_project_custom_field, projects:) }
+      let(:cv1) { create_calc_field("5 + #{cf}") }
+      let(:cv2) { create_calc_field("5 + #{cv1}") }
+      let(:cv3) { create_calc_field("5 + 5") }
+
+      let(:calc_fields) { [cv1, cv2, cv3] }
+      let(:custom_field_values) { calc_fields.index_with(nil).merge(cf => nil) }
 
       it "creates a missing value error" do
-        project.calculate_custom_fields([cv1, cv2, cv3])
+        project.calculate_custom_fields(calc_fields)
 
         expect_no_calculated_value_errors(cv3, project)
-
-        # Directly missing cf_int
-        expect_calculated_value_error(cv1, project, "ERROR_MISSING_VALUE", cf_int.name)
-
-        # Missing a value for cv1, which itself is missing cf_int and thus has no value
+        expect_calculated_value_error(cv1, project, "ERROR_MISSING_VALUE", cf.name)
         expect_calculated_value_error(cv2, project, "ERROR_MISSING_VALUE", cv1.name)
+      end
+
+      context "with a multi-value weighted item list where nothing was selected" do
+        let(:cf) { create(:weighted_item_list_project_custom_field, multi_value: true, projects:) }
+        let(:cv_avg) { create_calc_field("AVG(#{cf})") }
+        let(:cv_min) { create_calc_field("MIN(#{cf})") }
+        let(:cv_max) { create_calc_field("MAX(#{cf})") }
+        let(:cv_sum) { create_calc_field("SUM(#{cf})") }
+        let(:cv_count) { create_calc_field("COUNT(#{cf})") }
+        let(:calc_fields) { [cv_avg, cv_min, cv_max, cv_sum, cv_count] }
+
+        it "creates a missing value error for aggregate functions which are unable to handle empty lists" do
+          project.calculate_custom_fields(calc_fields)
+
+          expect_calculated_value_error(cv_avg, project, "ERROR_MISSING_VALUE", cf.name)
+          expect(project.typed_custom_value_for(cv_avg)).to be_nil
+          expect_calculated_value_error(cv_min, project, "ERROR_MISSING_VALUE", cf.name)
+          expect(project.typed_custom_value_for(cv_min)).to be_nil
+          expect_calculated_value_error(cv_max, project, "ERROR_MISSING_VALUE", cf.name)
+          expect(project.typed_custom_value_for(cv_max)).to be_nil
+
+          expect_no_calculated_value_errors(cv_sum, project)
+          expect(project.typed_custom_value_for(cv_sum)).to eq(0)
+          expect_no_calculated_value_errors(cv_count, project)
+          expect(project.typed_custom_value_for(cv_count)).to eq(0)
+        end
       end
     end
 
@@ -670,7 +694,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
             project.calculate_custom_fields([cv])
 
             expect(cv.first_calculation_error(project))
-              .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+              .to have_attributes(error_code: "ERROR_UNKNOWN", offending_custom_field_ids: [])
           end
         end
 
@@ -681,7 +705,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
             project.calculate_custom_fields([cv])
 
             expect(cv.first_calculation_error(project))
-              .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+              .to have_attributes(error_code: "ERROR_UNKNOWN", offending_custom_field_ids: [])
           end
         end
       end
@@ -698,7 +722,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
           project.calculate_custom_fields([cv])
 
           expect(cv.first_calculation_error(project))
-            .to have_attributes(error_code: "ERROR_UNKNOWN", missing_custom_field_ids: [])
+            .to have_attributes(error_code: "ERROR_UNKNOWN", offending_custom_field_ids: [])
         end
       end
     end
@@ -719,7 +743,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         project.calculate_custom_fields([cv])
 
         expect(cv.first_calculation_error(project))
-          .to have_attributes(error_code: "ERROR_MISSING_VALUE", missing_custom_field_ids: [cf_int.id])
+          .to have_attributes(error_code: "ERROR_MISSING_VALUE", offending_custom_field_ids: [cf_int.id])
       end
     end
 
@@ -858,7 +882,7 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         end
       end
 
-      describe "when applying an arithmetic operation to a list" do
+      describe "when using a multi-value list outside an aggregation function" do
         let(:cf_list) { create(:weighted_item_list_project_custom_field, multi_value: true, projects: [project]) }
         let!(:cf_sum) do
           create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "SUM(#{cf_list})")
@@ -866,18 +890,30 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
         let!(:cf_add) do
           create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "#{cf_list} + 0")
         end
+        let!(:cf_mul) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "MUL(#{cf_list} * 2)")
+        end
+        let!(:cf_chained) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "#{cf_add} + 2")
+        end
         let(:items) { [1.5, 2].map { create(:hierarchy_item, parent: cf_list.hierarchy_root, weight: it) } }
 
         before { items.each { create(:custom_value, customized: project, custom_field: cf_list, value: it) } }
 
-        it "reports an error for the arithmetic operation" do
-          project.calculate_custom_fields([cf_sum, cf_add])
+        it "reports an error and sets the result to nil" do
+          project.calculate_custom_fields([cf_sum, cf_add, cf_mul, cf_chained])
 
           expect(project.typed_custom_value_for(cf_sum)).to eq(3.5)
           expect_no_calculated_value_errors(cf_sum, project)
 
           expect(project.typed_custom_value_for(cf_add)).to be_nil
-          expect_calculated_value_error(cf_add, project, "ERROR_UNKNOWN")
+          expect_calculated_value_error(cf_add, project, "ERROR_MULTI_VALUE_LIST")
+
+          expect(project.typed_custom_value_for(cf_mul)).to be_nil
+          expect_calculated_value_error(cf_mul, project, "ERROR_MULTI_VALUE_LIST")
+
+          expect(project.typed_custom_value_for(cf_chained)).to be_nil
+          expect_calculated_value_error(cf_chained, project, "ERROR_MISSING_VALUE")
         end
       end
     end

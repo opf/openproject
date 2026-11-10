@@ -48,23 +48,22 @@ module CustomField::CalculatedValue
   # Functions allowed in a formula.
   # AND and OR can be used both as operators and functions.
   FORMULA_FUNCTIONS = %w[
-    IF AND OR XOR NOT SWITCH
-    ROUND ROUNDDOWN ROUNDUP ABS
+    ABS AND IF NOT OR ROUND ROUNDDOWN ROUNDUP SWITCH XOR
   ].freeze
 
   # Functions accepting list and single values as input.
   FORMULA_AGGREGATE_FUNCTIONS = %w[
-    MIN MAX SUM MUL COUNT AVG
+    AVG COUNT MAX MIN MUL SUM
   ].freeze
 
   # Keywords allowed in a formula.
   FORMULA_KEYWORDS = %w[
-    CASE WHEN THEN ELSE END
+    CASE ELSE END THEN WHEN
   ].freeze
 
   # Boolean literals allowed in a formula.
   FORMULA_CONSTANTS = %w[
-    TRUE FALSE
+    FALSE TRUE
   ].freeze
 
   # Longer alternatives must come first, otherwise matching ROUND breaks matching ROUNDUP.
@@ -126,18 +125,6 @@ module CustomField::CalculatedValue
   included do
     validate :validate_formula, if: :field_format_calculated_value?
 
-    def validate_formula
-      if formula_string.blank?
-        errors.add(:formula, :blank)
-      elsif !formula_contains_only_allowed_tokens?
-        errors.add(:formula, :invalid_tokens)
-      elsif !valid_formula_syntax?
-        errors.add(:formula, :invalid)
-      else
-        validate_referenced_custom_fields
-      end
-    end
-
     def formula=(value)
       if value.is_a?(String)
         super({ formula: value, referenced_custom_fields: cf_ids_used_in_formula(value) })
@@ -165,21 +152,6 @@ module CustomField::CalculatedValue
         .select { it.can_be_referenced_by?(id, cache) }
     end
 
-    def validate_referenced_custom_fields
-      # We can only validate used custom fields from a high-level perspective, since at this point in validation,
-      # we do not have a project context to check against. So we cannot check if the custom fields are actually
-      # enabled for a project and visible to a non-admin user.
-      formula_cfs = formula_referenced_custom_field_ids
-      allowed_cfs = usable_custom_field_references_for_formula.pluck(:id)
-
-      surplus_cfs = formula_cfs - allowed_cfs
-
-      if surplus_cfs.any?
-        custom_field_names = CustomField.where(id: surplus_cfs).pluck(:name).sort
-        errors.add(:formula, :not_allowed_custom_fields_referenced, custom_fields: custom_field_names.join(", "))
-      end
-    end
-
     def can_be_referenced_by?(target_id, cache = {})
       return true unless field_format_calculated_value?
 
@@ -199,14 +171,42 @@ module CustomField::CalculatedValue
       formula_string.gsub(/\{\{(cf_\d+)}}/, '\1')
     end
 
+    def multi_value_lists_outside_aggregate_functions
+      multi_value_lists = used_multi_value_lists.index_by(&:column_name)
+      return [] if multi_value_lists.empty?
+
+      ast_nodes_with_parents(formula_ast)
+        .select { |node, _parent| node.is_a?(Dentaku::AST::Identifier) }
+        .reject { |_node, parent| parent&.name.in?(FORMULA_AGGREGATE_FUNCTIONS) }
+        .filter_map { |node, _parent| multi_value_lists[node.identifier] }
+        .uniq
+    end
+
     private
+
+    def validate_formula
+      if formula_string.blank?
+        errors.add(:formula, :blank)
+      elsif !formula_contains_only_allowed_tokens?
+        errors.add(:formula, :invalid_tokens)
+      elsif !valid_formula_syntax?
+        errors.add(:formula, :invalid)
+      else
+        validate_referenced_custom_fields
+        validate_multi_value_list_usage
+      end
+    end
 
     def valid_formula_syntax?
       # Attempt to parse the formula. If no error is returned, the formula is syntactically valid.
-      CustomField::CalculatedValue.calculator_instance.ast(formula_str_without_patterns)
+      formula_ast
       true
     rescue Dentaku::ParseError, Dentaku::TokenizerError
       false
+    end
+
+    def formula_ast
+      CustomField::CalculatedValue.calculator_instance.ast(formula_str_without_patterns)
     end
 
     def formula_contains_only_allowed_tokens?
@@ -218,6 +218,42 @@ module CustomField::CalculatedValue
       # Once this basic validation passes, the formula will be parsed and validated by Dentaku, which builds an AST
       # and ensures that the formula is really valid.
       formula_string.split(FORMULA_SPLITTER).all?(FORMULA_TOKENS)
+    end
+
+    def validate_referenced_custom_fields
+      # We can only validate used custom fields from a high-level perspective, since at this point in validation,
+      # we do not have a project context to check against. So we cannot check if the custom fields are actually
+      # enabled for a project and visible to a non-admin user.
+      formula_cfs = formula_referenced_custom_field_ids
+      allowed_cfs = usable_custom_field_references_for_formula.pluck(:id)
+
+      surplus_cfs = formula_cfs - allowed_cfs
+
+      if surplus_cfs.any?
+        custom_field_names = CustomField.where(id: surplus_cfs).pluck(:name).sort
+        errors.add(:formula, :not_allowed_custom_fields_referenced, custom_fields: custom_field_names.join(", "))
+      end
+    end
+
+    def validate_multi_value_list_usage
+      misused_lists = multi_value_lists_outside_aggregate_functions
+      return if misused_lists.empty?
+
+      custom_field_names = misused_lists.map(&:name).join(", ")
+      errors.add(:formula, :multi_value_list_not_aggregated, custom_fields: custom_field_names)
+    end
+
+    def used_multi_value_lists
+      return CustomField.none if formula_referenced_custom_field_ids.empty?
+
+      CustomField.where(id: formula_referenced_custom_field_ids, field_format: "weighted_item_list", multi_value: true)
+    end
+
+    def ast_nodes_with_parents(node, parent = nil)
+      children = node.instance_variables
+        .flat_map { Array(node.instance_variable_get(it)) }
+        .grep(Dentaku::AST::Node)
+      [[node, parent], *children.flat_map { ast_nodes_with_parents(it, node) }]
     end
 
     # Returns a list of custom field IDs used in the formula.
