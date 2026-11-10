@@ -40,6 +40,7 @@ module Backlogs
         param :breakdown
 
         def render?
+          sprint.date_range_set? &&
           EnterpriseToken.allows_to?(:baseline_comparison) &&
           EnterpriseToken.allows_to?(:sprint_report_pro_widgets) &&
           user_allowed?(:view_sprints)
@@ -84,9 +85,7 @@ module Backlogs
 
         def state
           @state ||=
-            if !sprint.date_range_set?
-              :no_dates
-            elsif !sprint.started_at?
+            if !sprint.started_at?
               :not_started
             elsif empty?
               :empty

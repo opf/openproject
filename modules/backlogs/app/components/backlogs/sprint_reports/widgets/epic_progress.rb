@@ -45,7 +45,8 @@ module Backlogs
         end
 
         def render?
-          EnterpriseToken.allows_to?(:sprint_report_pro_widgets) &&
+          sprint.date_range_set? &&
+            EnterpriseToken.allows_to?(:sprint_report_pro_widgets) &&
             user_allowed?(:view_sprints) && epic_type_id.present?
         end
 

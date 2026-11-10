@@ -168,6 +168,23 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         expect(page).to have_no_test_selector("op-enterprise-banner")
       end
     end
+
+    context "when the sprint has no date range set",
+            with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
+      shared_let(:sprint) do
+        create(:sprint, project:, name: "Sprint 42", start_date: nil, finish_date: nil)
+      end
+      shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
+
+      it "shows only the goal widget and a missing dates blankslate", :aggregate_failures do
+        expect(page).to have_css(".widget-boxes .widget-box", count: 1)
+        expect(page).to have_css(".widget-boxes .widget-box", text: "Add sprint goal widget")
+
+        expect(page).to have_css(".blankslate", text: "Missing sprint dates")
+        expect(page).to have_css(".blankslate",
+                                 text: "Sprint start and finish dates are necessary to show the rest of the widgets.")
+      end
+    end
   end
 
   describe "work package tables", with_ee: %i[baseline_comparison sprint_report_pro_widgets] do

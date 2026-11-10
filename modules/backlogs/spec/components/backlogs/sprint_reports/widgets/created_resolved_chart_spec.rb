@@ -147,9 +147,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
   context "when the sprint has no date range set" do
     let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
 
-    it "renders a blankslate instead of the chart" do
-      expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
-      expect(rendered_component).to have_text("No created vs resolved chart data available")
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
     end
   end
 end

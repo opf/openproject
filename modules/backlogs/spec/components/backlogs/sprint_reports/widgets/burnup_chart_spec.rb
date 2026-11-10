@@ -121,9 +121,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurnupChart, type: :component d
   context "when the sprint has no date range set" do
     let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
 
-    it "renders a blankslate instead of the chart" do
-      expect(rendered_component).to have_no_element(:"opce-burnup-chart")
-      expect(rendered_component).to have_text("No burnup data available")
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
     end
   end
 

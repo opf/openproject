@@ -50,14 +50,12 @@ module Backlogs
         end
 
         def render?
-          !project.estimation_unit_none?
+          sprint.date_range_set? && !project.estimation_unit_none?
         end
 
         private
 
         def burnup
-          return nil unless sprint.date_range_set?
-
           @burnup ||= ::Sprints::Burnup.new(sprint:, project:)
         end
 

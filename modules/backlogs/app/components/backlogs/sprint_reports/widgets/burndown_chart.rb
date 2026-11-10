@@ -52,14 +52,12 @@ module Backlogs
         end
 
         def render?
-          !project.estimation_unit_none?
+          sprint.date_range_set? && !project.estimation_unit_none?
         end
 
         private
 
         def burndown
-          return nil unless sprint.date_range_set?
-
           @burndown ||= ::Sprints::Burndown.new(sprint:, project:)
         end
 

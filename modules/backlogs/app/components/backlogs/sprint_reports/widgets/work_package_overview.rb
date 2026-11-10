@@ -41,10 +41,8 @@ module Backlogs
         def title = t(".title")
 
         def render?
-          user_allowed?(:view_sprints)
+          sprint.date_range_set? && user_allowed?(:view_sprints)
         end
-
-        def show_widget_content? = sprint.date_range_set?
 
         def resolved_percentage
           resolved = comparable_value(progress_numerator)

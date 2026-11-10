@@ -44,7 +44,7 @@ module Backlogs
           { full_width: true }
         end
 
-        def render? = user_allowed?(:view_sprints)
+        def render? = sprint.date_range_set? && user_allowed?(:view_sprints)
 
         def call
           widget_wrapper do |widget|

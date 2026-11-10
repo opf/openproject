@@ -62,21 +62,4 @@ RSpec.describe "Created vs resolved chart widget", :js, with_ee: %i[sprint_repor
       expect(page).to have_element(:"opce-created-resolved-chart")
     end
   end
-
-  context "when the sprint has no date range set" do
-    shared_let(:sprint) do
-      create(:sprint,
-             project:,
-             name: "Sprint 42",
-             start_date: nil,
-             finish_date: nil)
-    end
-
-    it "renders a blankslate instead of the chart" do
-      visit_sprint_report(sprint)
-
-      expect(page).to have_no_element(:"opce-created-resolved-chart")
-      expect(page).to have_text("No created vs resolved chart data available")
-    end
-  end
 end

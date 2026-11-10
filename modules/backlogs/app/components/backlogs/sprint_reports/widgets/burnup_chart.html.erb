@@ -28,18 +28,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   widget_wrapper do |container|
-    if burnup.present?
-      container.with_body do
-        helpers.angular_component_tag "opce-burnup-chart", "chart-data": chart_data, class: "d-block"
-      end
-    else
-      container.with_body do
-        render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
-          blankslate.with_visual_icon(icon: :graph)
-          blankslate.with_heading(tag: :h3).with_content(t(".blankslate_title"))
-          blankslate.with_description_content(t(".blankslate_description"))
-        end
-      end
+    container.with_body do
+      helpers.angular_component_tag "opce-burnup-chart", "chart-data": chart_data, class: "d-block"
     end
   end
 %>

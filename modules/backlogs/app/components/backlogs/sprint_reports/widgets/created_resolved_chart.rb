@@ -54,14 +54,14 @@ module Backlogs
         end
 
         def render?
-          user_allowed?(:view_sprints) && EnterpriseToken.allows_to?(:sprint_report_pro_widgets)
+          sprint.date_range_set? &&
+            user_allowed?(:view_sprints) &&
+            EnterpriseToken.allows_to?(:sprint_report_pro_widgets)
         end
 
         private
 
         def created_resolved
-          return nil unless sprint.date_range_set?
-
           @created_resolved ||= ::Sprints::CreatedResolved.new(sprint:, project:)
         end
 

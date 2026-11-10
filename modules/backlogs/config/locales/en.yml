@@ -156,17 +156,11 @@ en:
         guideline: "Guideline"
         projection: "Remaining story points (projection)"
         remaining: "Remaining story points"
-      show:
-        blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
-        blankslate_title: "No burndown data available"
 
     created_resolved_chart:
       series:
         created: "Created"
         resolved: "Resolved"
-      show:
-        blankslate_description: "Set start and end date for the sprint to generate a created vs resolved chart."
-        blankslate_title: "No created vs resolved chart data available"
 
     estimation_unit: "Units"
     excluded_work_package_types_caption: >
@@ -261,12 +255,14 @@ en:
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
+      show:
+        missing_dates_blankslate:
+          description: "Sprint start and finish dates are necessary to show the rest of the widgets."
+          heading: "Missing sprint dates"
       widgets:
         burndown_chart:
           title: "Burndown chart"
         burnup_chart:
-          blankslate_description: "Set start and end date for the sprint to generate a burnup chart."
-          blankslate_title: "No burnup data available"
           series:
             completed: "Completed work"
             guideline: "Guideline"
@@ -303,9 +299,6 @@ en:
         work_package_graph:
           title: "Work packages graph"
         work_package_overview:
-          blankslate:
-            description: "Set start and end date for the sprint to generate the work package overview."
-            heading: "No sprint data available"
           blocks:
             changed_after_start:
               change_html: "+%{added} %{divider} -%{removed}"
@@ -338,8 +331,6 @@ en:
             blankslate:
               empty:
                 description: "Work packages that were added after the sprint start date will appear here."
-              no_dates:
-                description: "Sprint start and finish dates are necessary to show added work packages."
               not_started:
                 description: "Added work packages will appear here after the sprint starts."
             title: "Scope increase after sprint start"
@@ -349,8 +340,6 @@ en:
             blankslate:
               empty:
                 description: "Work packages that were completed in the sprint will appear here."
-              no_dates:
-                description: "Sprint start and finish dates are necessary to show completed work packages."
               not_started:
                 description: "Completed work packages will appear here after the sprint starts."
             title: "Completed work"
@@ -358,8 +347,6 @@ en:
             blankslate:
               empty:
                 description: "Work packages that were removed after the sprint start date will appear here."
-              no_dates:
-                description: "Sprint start and finish dates are necessary to show removed work packages."
               not_started:
                 description: "Removed work packages will appear here after the sprint starts."
             title: "Scope decrease after sprint start"
@@ -368,8 +355,6 @@ en:
               empty:
                 description: "All work packages in this sprint are completed."
                 heading: "Wow, all done!"
-              no_dates:
-                description: "Sprint start and finish dates are necessary to show unfinished work packages."
               not_started:
                 description: "Unfinished work packages will appear here after the sprint starts."
             title: "Unfinished work"
