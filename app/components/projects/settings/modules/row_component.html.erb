@@ -1,0 +1,52 @@
+<%=
+  flex_layout(align_items: :center, justify_content: :space_between) do |row|
+    row.with_column(mr: 2, classes: "min-width-0") do
+      flex_layout(align_items: :center) do |label|
+        label.with_column(mr: 1) do
+          render(Primer::Beta::Text.new) { module_label }
+        end
+
+        if enterprise_upsell?
+          label.with_column do
+            render(Primer::Beta::Octicon.new(icon: :"op-enterprise-addons", classes: "upsell-colored"))
+          end
+        end
+      end
+    end
+
+    # py: 1 quick fix: prevents the row from bouncing as the toggle switch currently changes height while toggling
+    row.with_column(py: 1, mr: 2) do
+      concat(
+        # buggy currently:
+        # small variant + status_label_position: :start leads to a small bounce while toggling
+        # quick fix: don't display loading indicator which is causing the bounce
+        render(
+          Primer::Alpha::ToggleSwitch.new(
+            src: toggle_path,
+            csrf_token: form_authenticity_token,
+            data: toggle_data_attributes,
+            checked: toggle_checked?,
+            enabled: toggle_enabled?,
+            turbo: true,
+            size: :small,
+            status_label_position: :start,
+            classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
+          )
+        )
+      )
+
+      # As a courtesy to users, we show a hover card explaining why the toggle is disabled.
+      if toggle_disabled?
+        concat(
+          content_tag(:template, id: unique_hovercard_id) do
+            flex_layout(classes: "op-project-module--popover") do |hover_card|
+              hover_card.with_column do
+                render(Primer::Beta::Text.new) { required_by_text }
+              end
+            end
+          end
+        )
+      end
+    end
+  end
+%>

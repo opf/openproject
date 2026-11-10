@@ -1,0 +1,25 @@
+<%=
+  component_wrapper do
+    render(
+      OpPrimer::BorderBoxListComponent.new(
+        container: "project-modules-administration",
+        position: :relative,
+        mb: 3
+      )
+    ) do |list|
+      list.with_header(title: I18n.t(:label_module_plural))
+
+      module_names.each do |name|
+        list.with_item(test_selector: "project-module-#{name}") do
+          render(
+            Projects::Settings::Modules::RowComponent.new(
+              project: @project,
+              name:,
+              required_by: required_by[name]
+            )
+          )
+        end
+      end
+    end
+  end
+%>

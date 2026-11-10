@@ -37,16 +37,18 @@ RSpec.describe "Backlogs project module dependencies", :js do
     create(:user, member_with_permissions: { project => %i[edit_project select_project_modules] })
   end
 
-  it "enables Boards automatically when Backlogs is enabled" do
+  it "enables Boards along with Backlogs and says so" do
     modules_settings_page.visit!
 
-    check "Backlogs"
-    click_button "Save"
+    modules_settings_page.toggle_module("backlogs")
 
-    expect_flash type: :success, message: I18n.t(:notice_successful_update)
+    modules_settings_page.expect_flash type: :warning, message:
+      I18n.t("projects.settings.modules.dependencies_enabled",
+             dependencies: I18n.t("project_module_board_view"),
+             module: I18n.t("project_module_backlogs"))
 
-    expect(page).to have_checked_field "Backlogs"
-    expect(page).to have_checked_field "Boards"
+    modules_settings_page.expect_module_enabled("board_view")
+    modules_settings_page.expect_module_locked("board_view")
 
     expect(project.reload).to be_module_enabled("backlogs")
     expect(project).to be_module_enabled("board_view")
@@ -55,16 +57,23 @@ RSpec.describe "Backlogs project module dependencies", :js do
   context "with both modules already enabled" do
     let!(:project) { create(:project, enabled_module_names: %w[work_package_tracking backlogs board_view]) }
 
-    it "keeps Boards enabled when unchecked while Backlogs stays enabled" do
+    it "locks the Boards toggle and explains why" do
       modules_settings_page.visit!
 
-      uncheck "Boards"
-      click_button "Save"
+      modules_settings_page.expect_module_locked("board_view")
+      modules_settings_page.expect_lock_reason("board_view")
+    end
 
-      expect_flash type: :success, message: I18n.t(:notice_successful_update)
+    it "releases the Boards toggle once Backlogs is disabled" do
+      modules_settings_page.visit!
 
-      expect(page).to have_checked_field "Boards"
-      expect(project.reload).to be_module_enabled("board_view")
+      modules_settings_page.toggle_module("backlogs")
+
+      modules_settings_page.expect_module_unlocked("board_view")
+      modules_settings_page.expect_no_flash
+
+      expect(project.reload).not_to be_module_enabled("backlogs")
+      expect(project).to be_module_enabled("board_view")
     end
   end
 end
