@@ -63,6 +63,7 @@ import {
   type DestinationIdentity,
 } from './list-dom';
 import { webLinkHref } from './external-data';
+import { primaryMenuOf } from './menu-dom';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
@@ -120,12 +121,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
     // An optimistic in-list drag leaves the server-rendered direction
     // availability stale, so it is recomputed when the card's own menu opens.
     // The toggle event does not bubble, so listen in capture phase, and only
-    // for the menu's primary overlay: tooltips and sub-menus toggle too. Read
-    // newState by duck typing rather than `instanceof ToggleEvent` so a browser
-    // without the ToggleEvent global cannot throw.
+    // for the menu's primary overlay. Read newState by duck typing rather than
+    // `instanceof ToggleEvent` so a browser without the ToggleEvent global
+    // cannot throw.
     if ('newState' in event && event.newState === 'open'
       && this.hasMenuElement
-      && event.target === this.menuElement.querySelector(':scope > anchored-position')) {
+      && primaryMenuOf(event.target) === this.menuElement) {
       this.refreshMoveMenuAvailability();
     }
   };

@@ -1580,6 +1580,7 @@ describe('Sortable lists item controller', () => {
       const primary = document.createElement('anchored-position');
       primary.append(...menu.children);
       menu.append(primary);
+      Object.defineProperty(menu, 'popoverElement', { value: primary });
       const submenu = document.createElement('anchored-position');
       primary.append(submenu);
       const tooltip = document.createElement('tool-tip');

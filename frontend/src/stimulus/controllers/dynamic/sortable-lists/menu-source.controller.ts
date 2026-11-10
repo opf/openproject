@@ -30,6 +30,7 @@ import type { ActionMenuElement } from '@openproject/primer-view-components/app/
 import type { RootAwareChild, SortableListsRoot } from './drag-and-drop';
 import { relativeUrl } from './url';
 import { resolveClosestItemElement, resolveItemId } from './list-dom';
+import { primaryMenuOf } from './menu-dom';
 
 const SINGULAR_COUNT = 1;
 
@@ -85,7 +86,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
       return;
     }
 
-    const menu = this.primaryMenuOf(event.target);
+    const menu = primaryMenuOf(event.target);
     const itemElement = menu && resolveClosestItemElement(menu, this.element);
     const root = this.root;
     if (!menu || !itemElement || !root) {
@@ -109,7 +110,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
       return;
     }
 
-    const menu = this.primaryMenuOf(event.target);
+    const menu = primaryMenuOf(event.target);
     if (!menu || !resolveClosestItemElement(menu, this.element)) {
       return;
     }
@@ -156,13 +157,6 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     const labelId = menu.invokerElement?.getAttribute('aria-labelledby');
     const tooltip = labelId ? menu.ownerDocument.getElementById(labelId) : null;
     return tooltip?.localName === 'tool-tip' ? tooltip : null;
-  }
-
-  // Tooltips and sub-menus inside the card menu are popovers too; only the
-  // menu's own popover counts.
-  private primaryMenuOf(target:EventTarget|null):ActionMenuElement|null {
-    const menu = target instanceof HTMLElement ? target.closest<ActionMenuElement>('action-menu') : null;
-    return menu?.popoverElement === target ? menu : null;
   }
 
   // A refused scope (a fixed or non-orderable card, or selection disabled)
