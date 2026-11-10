@@ -85,6 +85,12 @@ module WorkPackageTypes
         end
       end
 
+      def navigable? = record_persisted?
+
+      def node_variant = navigable? ? :anchor : :div
+
+      def wrapper_classes = ("op-work-package-types-wizard--sidebar-static" unless navigable?)
+
       def href_for(step)
         return unless record_persisted?
 
