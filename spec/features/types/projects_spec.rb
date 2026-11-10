@@ -79,6 +79,18 @@ RSpec.describe "Work package type projects tab", :js do
     a_hash_including("filters" => a_string_including(*names.map { /\b#{Regexp.escape(it)}\b/ }))
   end
 
+  it "shows more information when hovering over a project name" do
+    visit edit_type_projects_path(type_id: type.id)
+
+    row = find_test_selector("type-projects-row-#{on_hardware.id}")
+    row.find("a", text: on_hardware.name).hover
+
+    within_test_selector("project-hover-card-#{on_hardware.id}") do
+      expect(page).to have_test_selector("project-hover-card-name", text: on_hardware.name)
+      expect(page).to have_test_selector("project-hover-card-breadcrumbs", text: on_hardware.name)
+    end
+  end
+
   it "lists every variant's projects at type level and narrows to one inside a variant" do
     visit edit_type_projects_path(type_id: type.id)
     expect_listed(on_base, on_hardware, on_firmware)
