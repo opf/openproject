@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Pipe, PipeTransform, inject, input,
+} from '@angular/core';
 import { AlertFillIconComponent } from '@openproject/octicons-angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -33,7 +35,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   selector: 'op-selection-error',
   imports: [AlertFillIconComponent],
   template: `
-    <div class="FormControl-inlineValidation" role="alert">
+    <div class="FormControl-inlineValidation" role="alert" [id]="id()">
       <span class="FormControl-inlineValidation--visual">
         <svg alert-fill-icon size="xsmall"></svg>
       </span>
@@ -43,5 +45,14 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectionErrorComponent {
+  readonly id = input.required<string>();
+
   readonly message = inject(I18nService).t('js.autocompleter.invalid_selection');
+}
+
+@Pipe({ name: 'selectionInputAttrs' })
+export class SelectionInputAttrsPipe implements PipeTransform {
+  transform(invalid:boolean, errorId:string):Record<string, string> {
+    return { 'aria-invalid': String(invalid), 'aria-describedby': invalid ? errorId : '' };
+  }
 }

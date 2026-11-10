@@ -41,7 +41,7 @@ import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autoc
 import {
   ProjectAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
-import { SelectionErrorComponent } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
+import { SelectionErrorComponent, SelectionInputAttrsPipe } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
 import {
   OpEditingPortalChangesetToken,
   OpEditingPortalHandlerToken,
@@ -53,7 +53,7 @@ import { ProjectEditFieldComponent } from './project-edit-field.component';
 expectTypeOf<ProjectEditFieldComponent['onSelectionChange']>().parameter(0).toEqualTypeOf<ProjectSelection>();
 
 @Component({
-  imports: [OpenprojectAutocompleterModule, SelectionErrorComponent],
+  imports: [OpenprojectAutocompleterModule, SelectionErrorComponent, SelectionInputAttrsPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './project-edit-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

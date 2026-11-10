@@ -40,7 +40,7 @@ import { PrincipalRendererService } from 'core-app/shared/components/principal/p
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
-import { SelectionErrorComponent } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
+import { SelectionErrorComponent, SelectionInputAttrsPipe } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
 import {
   UserAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
@@ -55,7 +55,7 @@ import { UserEditFieldComponent } from './user-edit-field.component';
 expectTypeOf<UserEditFieldComponent['onSelectionChange']>().parameter(0).toEqualTypeOf<UserSelection>();
 
 @Component({
-  imports: [OpenprojectAutocompleterModule, SelectionErrorComponent],
+  imports: [OpenprojectAutocompleterModule, SelectionErrorComponent, SelectionInputAttrsPipe],
   templateUrl: './user-edit-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: PrincipalRendererService, useValue: { render: () => undefined } }],
@@ -214,6 +214,23 @@ describe('UserEditFieldComponent', () => {
 
     expect(screen.queryByText('Rejected')).toBeNull();
     expect(screen.getByRole('alert')).toBeTruthy();
+  });
+
+  it('marks the combobox invalid and describes it by the error until recovery', async () => {
+    const autocompleter = fixture.debugElement.query(By.directive(UserAutocompleterComponent))
+      .componentInstance as UserAutocompleterComponent;
+    const combobox = screen.getByRole('combobox');
+
+    autocompleter.changed({ id: '99', name: 99 });
+    await fixture.whenStable();
+
+    expect(combobox).toHaveAttribute('aria-invalid', 'true');
+    expect(combobox).toHaveAccessibleDescription('js.autocompleter.invalid_selection');
+
+    await chooseAda();
+
+    expect(combobox).toHaveAttribute('aria-invalid', 'false');
+    expect(combobox).not.toHaveAccessibleDescription();
   });
 
   it('recovers by choosing the option a malformed change shares its identity with', async () => {

@@ -18,10 +18,11 @@
     [resource]="resourceType"
     [compareWith]="selection.bridge.compareWith"
     [trackByFn]="itemTracker"
+    [inputAttrs]="selection.state().kind === 'invalid' | selectionInputAttrs: 'values-' + filter.id + '-selection-error'"
     (change)="setValues($event, valuesAutocompleter)"
    />
 
   @if (selection.state().kind === 'invalid') {
-    <op-selection-error />
+    <op-selection-error [id]="'values-' + filter.id + '-selection-error'" />
   }
 </div>

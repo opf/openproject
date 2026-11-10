@@ -46,7 +46,7 @@ import { HalResourceSortingService } from 'core-app/features/hal/services/hal-re
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ProjectAutocompleterComponent } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
-import { SelectionErrorComponent } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
+import { SelectionErrorComponent, SelectionInputAttrsPipe } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
 import { FilterProjectComponent } from './filter-project/filter-project.component';
 import { FilterSearchableMultiselectValueComponent } from './filter-searchable-multiselect-value/filter-searchable-multiselect-value.component';
 import { FilterToggledMultiselectValueComponent } from './filter-toggled-multiselect-value/filter-toggled-multiselect-value.component';
@@ -155,21 +155,21 @@ describe('createProjectFilterSelectionAdapter', () => {
 });
 
 @Component({
-  imports: [SelectionErrorComponent, OpenprojectAutocompleterModule],
+  imports: [SelectionErrorComponent, SelectionInputAttrsPipe, OpenprojectAutocompleterModule],
   templateUrl: './filter-toggled-multiselect-value/filter-toggled-multiselect-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestToggledComponent extends FilterToggledMultiselectValueComponent {}
 
 @Component({
-  imports: [SelectionErrorComponent, OpenprojectAutocompleterModule],
+  imports: [SelectionErrorComponent, SelectionInputAttrsPipe, OpenprojectAutocompleterModule],
   templateUrl: './filter-searchable-multiselect-value/filter-searchable-multiselect-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestSearchableComponent extends FilterSearchableMultiselectValueComponent {}
 
 @Component({
-  imports: [SelectionErrorComponent, OpenprojectAutocompleterModule],
+  imports: [SelectionErrorComponent, SelectionInputAttrsPipe, OpenprojectAutocompleterModule],
   templateUrl: './filter-project/filter-project.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

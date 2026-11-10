@@ -9,11 +9,12 @@
     [compareWith]="selection.bridge.compareWith"
     [trackByFn]="selection.bridge.trackBy"
     [id]="handler.htmlId"
+    [inputAttrs]="selection.state().kind === 'invalid' | selectionInputAttrs: handler.htmlId + '-selection-error'"
     (change)="selection.bridge.accept($event, userAutocompleter)"
     (cancel)="handler.handleUserCancel()"
     (userInvited)="selection.bridge.accept($event, userAutocompleter)"
    />
   @if (selection.state().kind === 'invalid') {
-    <op-selection-error />
+    <op-selection-error [id]="handler.htmlId + '-selection-error'" />
   }
 }

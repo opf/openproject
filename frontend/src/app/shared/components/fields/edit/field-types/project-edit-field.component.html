@@ -9,11 +9,12 @@
     [openDirectly]="!isNew"
     [isInlineContext]="true"
     appendTo=".op-wide-autocomplete-wrapper"
+    [inputAttrs]="selection.state().kind === 'invalid' | selectionInputAttrs: handler.htmlId + '-selection-error'"
     (change)="selection.bridge.accept($event, projectAutocompleter)"
     (cancel)="handler.handleUserCancel()"
    />
   @if (selection.state().kind === 'invalid') {
-    <op-selection-error />
+    <op-selection-error [id]="handler.htmlId + '-selection-error'" />
   }
 } @else {
   <op-content-loader

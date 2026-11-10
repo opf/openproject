@@ -67,11 +67,11 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { SelectionErrorComponent } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
+import { SelectionErrorComponent, SelectionInputAttrsPipe } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
 import { WorkPackageFiltersService } from './wp-filters/wp-filters.service';
 
 @Component({
-  imports: [CommonModule, OpenprojectAutocompleterModule, SelectionErrorComponent],
+  imports: [CommonModule, OpenprojectAutocompleterModule, SelectionErrorComponent, SelectionInputAttrsPipe],
   templateUrl: './filter-toggled-multiselect-value/filter-toggled-multiselect-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -80,7 +80,7 @@ class TestFilterBoundaryComponent extends FilterToggledMultiselectValueComponent
 const searchableOptions:HalResource[] = [];
 
 @Component({
-  imports: [CommonModule, OpenprojectAutocompleterModule, SelectionErrorComponent],
+  imports: [CommonModule, OpenprojectAutocompleterModule, SelectionErrorComponent, SelectionInputAttrsPipe],
   templateUrl: './filter-searchable-multiselect-value/filter-searchable-multiselect-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

@@ -44,7 +44,7 @@ import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autoc
 import {
   LabelsAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/labels-autocompleter/labels-autocompleter.component';
-import { SelectionErrorComponent } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
+import { SelectionErrorComponent, SelectionInputAttrsPipe } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
 import {
   OpEditingPortalChangesetToken,
   OpEditingPortalHandlerToken,
@@ -73,7 +73,7 @@ class EditFieldControlsStubComponent {
 }
 
 @Component({
-  imports: [OpenprojectAutocompleterModule, SelectionErrorComponent, EditFieldControlsStubComponent],
+  imports: [OpenprojectAutocompleterModule, SelectionErrorComponent, SelectionInputAttrsPipe, EditFieldControlsStubComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './labels-edit-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
