@@ -28,9 +28,10 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
   const { wpid, displayId, attribute, display } = content;
   const resolved = useWorkPackageAttribute(wpid, attribute);
   useColors();
-  const { elementRef, options, active, pick, toggleProps } = useAttributeOptions({
+  const { elementRef, setElementRef, options, active, pick, toggleProps } = useAttributeOptions({
     editor,
-    display,
+    content,
+    resolved,
     onDisplayChange,
     onActivate: () => selectAttributeNode(),
   });
@@ -50,7 +51,7 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
   return (
     <AttributeInline
       ref={(node:HTMLElement | null) => {
-        elementRef.current = node;
+        setElementRef(node);
         contentRef?.(node);
       }}
       title={attributeTitle(resolved, displayId)}

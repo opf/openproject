@@ -122,7 +122,8 @@ export const en = {
       },
       'options': {
         'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
-        'removeAriaLabel': 'Remove work package attribute'
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',

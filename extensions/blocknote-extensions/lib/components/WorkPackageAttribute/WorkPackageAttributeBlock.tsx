@@ -22,9 +22,10 @@ interface WorkPackageAttributeBlockProps {
 export function WorkPackageAttributeBlock({ blockId, content, editor, onDisplayChange }:WorkPackageAttributeBlockProps) {
   const { wpid, displayId, attribute, display } = content;
   const resolved = useWorkPackageAttribute(wpid, attribute);
-  const { elementRef, options, active, pick, toggleProps } = useAttributeOptions({
+  const { setElementRef, options, active, pick, toggleProps } = useAttributeOptions({
     editor,
-    display,
+    content,
+    resolved,
     onDisplayChange,
     onActivate: () => selectBlockNode(editor, blockId),
   });
@@ -33,7 +34,7 @@ export function WorkPackageAttributeBlock({ blockId, content, editor, onDisplayC
 
   return (
     <AttributeBlockFrame
-      ref={(node:HTMLDivElement | null) => { elementRef.current = node; }}
+      ref={setElementRef}
       title={attributeTitle(resolved, displayId)}
       $selected={selected || options.isOpen}
       {...blockDragProps(editor, blockId)}
