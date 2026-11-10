@@ -48,6 +48,7 @@ import {
 } from '../../../testing/table-harness';
 import { buildGroup, buildWorkPackage } from '../../../testing/work-package-fixture';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageStateLinkEvent } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import {
   OpEditingPortalChangesetToken,
@@ -216,7 +217,7 @@ describe('KeyboardNavigationTransformer', () => {
       new TableHandlerRegistry(harness.injector).attachTo({
         workPackageTable: fresh,
         itemClicked: new EventEmitter<{ workPackageId:string, double:boolean }>(),
-        stateLinkClicked: new EventEmitter<{ workPackageId:string, requestedState:string }>(),
+        stateLinkClicked: new EventEmitter<WorkPackageStateLinkEvent>(),
       });
       await harness.render();
       fresh.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('2'), cell: 0, desiredColumn: 0 });
