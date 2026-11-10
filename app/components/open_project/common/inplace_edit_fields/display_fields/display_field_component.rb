@@ -134,7 +134,7 @@ module OpenProject
           end
 
           def custom_field?
-            attribute.to_s.start_with?("custom_field_")
+            CustomField.custom_field_attribute?(attribute)
           end
 
           def custom_field
@@ -168,7 +168,7 @@ module OpenProject
               model: model.class.name,
               id: model.id,
               attribute:,
-              system_arguments_json: @system_arguments.to_json
+              system_arguments: OpenProject::InplaceEdit::SystemArguments.sign(@system_arguments)
             )
           end
 
