@@ -61,7 +61,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
   > [!IMPORTANT]
   > All selected project data is copied, including work packages, wiki pages, attachments, and project membership details the user cannot view in the source project. Users who are not instance administrators receive the configured **New role for users that create projects** in the copied project. This role can grant access to all copied data, independently of their permissions in the source project.
   >
-  > Grant **Copy projects** only to users who may access all data that can be copied from the source project. Review the [role assigned to project creators](../../projects/new-project/) alongside this permission.
+  > Grant **Copy projects** only to users who are authorized to access all data that can be copied from the source project. Review the [role assigned to project creators](../../projects/new-project/) alongside this permission.
   >
   > To access the **Copy** action from **Project settings**, users must also be able to open the project settings, which typically requires the **Edit project** permission. Alternatively, users can create a new project from a project template.
   

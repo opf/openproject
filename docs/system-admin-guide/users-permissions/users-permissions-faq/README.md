@@ -98,4 +98,4 @@ When a user who is not an instance administrator copies a project, they are assi
 
 All selected project data is copied, including content and attachments the user cannot view in the original project. The role assigned in the new project can grant access to all copied data.
 
-Grant **Copy projects** only to users who may access all data that can be copied from the source project. Review the permissions assigned to the [role for project creators](../../projects/new-project/) to ensure they match your intended level of access.
+Grant **Copy projects** only to users who are authorized to access all data that can be copied from the source project. Review the permissions assigned to the [role for project creators](../../projects/new-project/) to ensure they match your intended level of access.
