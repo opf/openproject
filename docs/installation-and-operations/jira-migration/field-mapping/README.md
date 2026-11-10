@@ -114,7 +114,7 @@ The migrator imports sprints and the current sprint of each issue. Everything el
 - **Sprints without imported issues**, for example empty future sprints.
 - **Time of day of sprint dates**: the planned start and end become dates without a time. When the sprint was actually started and completed is kept with the time.
 - **Reports**: sprint reports, burndown, burnup, velocity and control charts, cumulative flow diagrams.
-- **Epics**: Epic Link, Epic Name, Epic Status and Epic Colour. Epic issues themselves are imported as work packages of the type "Epic", but their issues are not linked to them.
+- **Epics**: Epic Link, Epic Name, Epic Status and Epic Color. Epic issues themselves are imported as work packages of the type "Epic", but their issues are not linked to them.
 - **Story points**: the Jira "Story Points" field is a number field and is imported as a custom field of the same name, not into OpenProject's own story points attribute. Backlogs and burndown charts therefore show no story points.
 - **Advanced Roadmaps data**: Parent Link, Target start, Target end, Original story points, plans, teams and releases of plans.
 
