@@ -28,10 +28,16 @@
 #++
 
 # The text actions seeded before 18.0 were placeholders behind a feature flag. The seeder only seeds an
-# empty table, so clearing it lets the db:seed that follows every migration install the released defaults.
+# empty table, so once the placeholders are gone, the db:seed that follows every migration installs the
+# released defaults. Actions an administrator created themselves are kept.
 class DeletePreReleaseAITextActions < ActiveRecord::Migration[8.1]
+  PRE_RELEASE_LABELS = ["Fix grammar", "Make concise", "Translate to English", "Sort into template"].freeze
+
   def up
-    execute "DELETE FROM ai_text_actions"
+    execute <<~SQL.squish
+      DELETE FROM ai_text_actions
+      WHERE label IN (#{PRE_RELEASE_LABELS.map { |label| connection.quote(label) }.join(', ')})
+    SQL
   end
 
   def down

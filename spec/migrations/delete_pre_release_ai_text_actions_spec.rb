@@ -33,15 +33,14 @@ require Rails.root.join("db/migrate/20261109232225_delete_pre_release_ai_text_ac
 RSpec.describe DeletePreReleaseAITextActions, type: :model do
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 
-  before do
-    create(:ai_text_action)
-    create(:ai_text_action, :for_specific_types)
-  end
+  let!(:placeholder) { create(:ai_text_action, label: "Fix grammar") }
+  let!(:specific_placeholder) { create(:ai_text_action, :for_specific_types, label: "Sort into template") }
+  let!(:custom_action) { create(:ai_text_action, label: "Our own action") }
 
-  it "deletes all actions with their type assignments" do
+  it "deletes the placeholder actions with their type assignments" do
     migrate
 
-    expect(AI::TextAction.count).to eq(0)
-    expect(AI::TextActionType.count).to eq(0)
+    expect(AI::TextAction.all).to contain_exactly(custom_action)
+    expect(AI::TextActionType.where(ai_text_action_id: specific_placeholder.id)).to be_empty
   end
 end
