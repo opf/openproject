@@ -57,21 +57,15 @@ RSpec.describe "Project phase definitions move", :skip_csrf, type: :rails_reques
     expect(ordered_ids).to eq([definition_b.id, definition_a.id])
   end
 
-  {
-    "an unknown anchor" => -> { { list_type: "project_phase_definition", list_id: "", prev_id: "999999" } },
-    "an omitted prev_id" => -> { { list_type: "project_phase_definition", list_id: "" } },
-    "a wrong list_type" => -> { { list_type: "enumeration", list_id: "", prev_id: "" } },
-    "a nonblank list_id" => -> { { list_type: "project_phase_definition", list_id: definition_b.id.to_s, prev_id: "" } },
-    "a collection-valued prev_id" =>
-      -> { { list_type: "project_phase_definition", list_id: "", prev_id: [definition_b.id.to_s] } },
-    "an empty collection prev_id" => -> { { list_type: "project_phase_definition", list_id: "", prev_id: [""] } },
-    "a collection-valued list_id" => -> { { list_type: "project_phase_definition", list_id: [""], prev_id: "" } }
-  }.each do |description, params|
-    it "422s without mutation for #{description}" do
-      move(definition_a, instance_exec(&params))
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(ordered_ids).to eq([definition_a.id, definition_b.id])
+  it_behaves_like "a sortable list drop endpoint", list_id_scoped: false do
+    let(:dragged_id) { definition_a.id }
+    let(:valid_drop_params) do
+      { list_type: "project_phase_definition", list_id: "", prev_id: definition_b.id.to_s }
     end
+
+    def send_drop(params) = move(definition_a, params)
+
+    def expect_unmoved = expect(ordered_ids).to eq([definition_a.id, definition_b.id])
   end
 
   it "renders the invalid-anchor error message on failure" do

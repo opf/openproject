@@ -53,46 +53,17 @@ RSpec.describe "Project custom field sections drop", :skip_csrf, type: :rails_re
     expect(ProjectCustomFieldSection.order(:position).ids).to eq([section_b.id, section_a.id])
   end
 
-  it "422s without mutation for an unknown anchor" do
-    drop(section_a, { list_type: "section", list_id: "", prev_id: "999999" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ProjectCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
-  end
+  it_behaves_like "a sortable list drop endpoint", list_id_scoped: false do
+    let(:dragged_id) { section_a.id }
+    let(:valid_drop_params) do
+      { list_type: "section", list_id: "", prev_id: section_b.id.to_s }
+    end
 
-  it "422s when prev_id is omitted entirely" do
-    drop(section_a, { list_type: "section", list_id: "" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ProjectCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
-  end
+    def send_drop(params) = drop(section_a, params)
 
-  it "422s for a wrong list_type" do
-    drop(section_a, { list_type: "custom_field", list_id: "", prev_id: "" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ProjectCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
-  end
-
-  it "422s for a nonblank list_id" do
-    drop(section_a, { list_type: "section", list_id: section_b.id.to_s, prev_id: "" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ProjectCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
-  end
-
-  it "422s without mutation for a collection-valued prev_id" do
-    drop(section_a, { list_type: "section", list_id: "", prev_id: [section_b.id.to_s] })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ProjectCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
-  end
-
-  it "422s without mutation for an empty collection prev_id" do
-    drop(section_a, { list_type: "section", list_id: "", prev_id: [""] })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ProjectCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
-  end
-
-  it "422s for a collection-valued list_id" do
-    drop(section_a, { list_type: "section", list_id: [""], prev_id: "" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ProjectCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
+    def expect_unmoved
+      expect(ProjectCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
+    end
   end
 
   it "morphs the sections list on success" do
