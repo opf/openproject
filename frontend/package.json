@@ -209,8 +209,8 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "typecheck": "npm run typecheck:app && npm run typecheck:spec",
-    "typecheck:app": "tsc -d --noEmit -p tsconfig.app.json",
-    "typecheck:spec": "tsc --noEmit -p tsconfig.spec.json",
+    "typecheck:app": "ngc -p tsconfig.app.json --noEmit",
+    "typecheck:spec": "ngc -p tsconfig.spec.json --noEmit",
     "postinstall": "patch-package"
   },
   "overrides": {
