@@ -104,6 +104,33 @@ RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
       end
     end
 
+    context "with project items" do
+      let(:project) { create(:project) }
+      let(:other_project) { create(:project) }
+      let!(:jedi) { create(:hierarchy_item, label: "jedi", short: "JD", parent: vader, project:) }
+      let!(:sith) { create(:hierarchy_item, label: "sith", short: "SI", parent: vader, project: other_project) }
+      let!(:padawan) { create(:hierarchy_item, label: "padawan", parent: vader, project:) }
+
+      it "allows a project item to use the label and short of another project's sibling" do
+        expect(subject.call(item: padawan, label: "sith", short: "SI")).to be_success
+      end
+
+      it "does not allow a project item to use the label of a sibling of the same project" do
+        expect(subject.call(item: padawan, label: "jedi", short: nil).errors.to_h)
+          .to include(label: ["must be unique within the same hierarchy level."])
+      end
+
+      it "does not allow a project item to use the short of a global sibling" do
+        expect(subject.call(item: padawan, label: "padawan", short: "ls").errors.to_h)
+          .to include(short: ["must be unique within the same hierarchy level."])
+      end
+
+      it "does not allow a global item to use the label of a project sibling" do
+        expect(subject.call(item: luke, label: "sith", short: nil).errors.to_h)
+          .to include(label: ["must be unique within the same hierarchy level."])
+      end
+    end
+
     context "when fields are invalid" do
       it "is invalid" do
         [

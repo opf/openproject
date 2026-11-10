@@ -91,6 +91,28 @@ RSpec.describe CustomFields::Hierarchy::UpdateWeightedItemContract do
       end
     end
 
+    context "with project items" do
+      let(:project) { create(:project) }
+      let(:other_project) { create(:project) }
+      let!(:urgent) { create(:hierarchy_item, label: "Urgent", weight: 2, parent: impact, project:) }
+      let!(:critical) { create(:hierarchy_item, label: "Critical", weight: 3, parent: impact, project: other_project) }
+      let!(:minor) { create(:hierarchy_item, label: "Minor", weight: 0.5, parent: impact, project:) }
+
+      it "allows a project item to use the label of another project's sibling" do
+        expect(subject.call(item: minor, label: "Critical", weight: 0.5)).to be_success
+      end
+
+      it "does not allow a project item to use the label of a sibling of the same project" do
+        expect(subject.call(item: minor, label: "Urgent", weight: 0.5).errors[:label])
+          .to match_array("must be unique within the same hierarchy level.")
+      end
+
+      it "does not allow a project item to use the label of a global sibling" do
+        expect(subject.call(item: minor, label: "Middle", weight: 0.5).errors[:label])
+          .to match_array("must be unique within the same hierarchy level.")
+      end
+    end
+
     context "when fields are invalid" do
       it "is invalid" do
         [

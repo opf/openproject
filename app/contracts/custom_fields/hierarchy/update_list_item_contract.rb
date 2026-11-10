@@ -44,14 +44,22 @@ module CustomFields
       rule(:label) do
         next if schema_error?(:item)
 
-        key.failure(:not_unique) if values[:item].siblings.exists?(label: value)
+        key.failure(:not_unique) if conflicting_siblings(values[:item]).exists?(label: value)
       end
 
       rule(:short) do
         next if schema_error?(:item)
         next if value.nil?
 
-        key.failure(:not_unique) if values[:item].siblings.exists?(short: value)
+        key.failure(:not_unique) if conflicting_siblings(values[:item]).exists?(short: value)
+      end
+
+      private
+
+      def conflicting_siblings(item)
+        return item.siblings if item.project_id.nil?
+
+        item.siblings.where(project_id: [nil, item.project_id])
       end
     end
   end
