@@ -47,13 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% unless @sprint.date_range_set? %>
   <%= render(Primer::Box.new(mb: 3)) do %>
-    <%=
-      render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
-        blankslate.with_visual_icon(icon: :calendar)
-        blankslate.with_heading(tag: :h3).with_content(t(".missing_dates_blankslate.heading"))
-        blankslate.with_description_content(t(".missing_dates_blankslate.description"))
-      end
-    %>
+    <%= render(Backlogs::SprintReports::MissingDatesBlankslateComponent.new) %>
   <% end %>
 <% end %>
 

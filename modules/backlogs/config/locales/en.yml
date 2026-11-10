@@ -249,16 +249,15 @@ en:
       shared_sprint_warning_banner: "This is a shared sprint. You do not have the necessary permissions to edit it."
 
     sprint_reports:
+      missing_dates_blankslate_component:
+        description: "Sprint start and finish dates are necessary to show the rest of the widgets."
+        heading: "Missing sprint dates"
       navigation_component:
         next: "Next"
         previous: "Previous"
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
-      show:
-        missing_dates_blankslate:
-          description: "Sprint start and finish dates are necessary to show the rest of the widgets."
-          heading: "Missing sprint dates"
       widgets:
         burndown_chart:
           blankslate:
