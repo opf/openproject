@@ -116,7 +116,7 @@ module Backlogs
     # permission and on every member sharing one list, not on whether any
     # cross-container destination is offered.
     def show_move_items?
-      destinations.manage_permission? && (one_list? || moves_locked?)
+      destinations.manage_permission? && one_list?
     end
 
     def one_list?

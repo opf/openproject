@@ -345,7 +345,7 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
       expect(menu).to have_css("[data-sortable-lists-scope-count='51']")
       expect(menu).to have_selector(:menuitem, text: explanation, disabled: true, count: 1)
       expect(menu).to no_singular_actions_for(invoker)
-      expect(menu).to have_selector(:menuitem, text: "Move to position", disabled: true)
+      expect(menu).to have_no_text("Move to position")
       expect(menu).to have_no_css("form", visible: :all)
       expect(menu).to have_no_element(:button, id: /_menu_move_to_/)
     end

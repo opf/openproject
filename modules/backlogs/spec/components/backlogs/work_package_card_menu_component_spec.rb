@@ -517,6 +517,19 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         expect(page).to have_selector(:menuitem, text: "Move to position", disabled: true)
       end
 
+      context "when the scope spans two lists" do
+        let(:work_packages) { [work_package, first_story, inbox_story] }
+
+        it "explains the cap without offering Move to position", :aggregate_failures do
+          render_component(work_packages:)
+
+          expect(page).to have_selector(:menuitem,
+                                        text: "Cannot move 3 work packages at once. Select no more than 2.",
+                                        disabled: true)
+          expect(page).to have_no_text("Move to position")
+        end
+      end
+
       context "when Move to position is the only batch action", with_ee: %i[readonly_work_packages] do
         let(:work_package) { readonly_story }
         let(:work_packages) do
