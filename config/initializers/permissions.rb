@@ -150,7 +150,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :select_project_modules,
                      {
-                       "projects/settings/modules": %i[show update]
+                       "projects/settings/modules": %i[show toggle]
                      },
                      permissible_on: :project,
                      require: :member

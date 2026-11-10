@@ -44,6 +44,35 @@ module Pages
         def path
           "/projects/#{project.identifier}/settings/modules"
         end
+
+        # The toggle flips optimistically before the request completes, so waiting on its
+        # state alone would race the server.
+        def toggle_module(name)
+          within_test_selector(toggle_selector(name)) { click_button }
+          wait_for_network_idle
+        end
+
+        def expect_module_enabled(name, enabled: true)
+          expect(page).to have_css("#{toggle_css(name)} button[aria-pressed='#{enabled}']")
+        end
+
+        def expect_module_locked(name)
+          expect(page).to have_css("#{toggle_css(name)} button[disabled]")
+        end
+
+        def expect_module_unlocked(name)
+          expect(page).to have_css("#{toggle_css(name)} button:not([disabled])")
+        end
+
+        def expect_lock_reason(name)
+          expect(page).to have_css("#project-module-#{name}-disabled-reason", visible: :all)
+        end
+
+        private
+
+        def toggle_selector(name) = "toggle-project-module-#{name}"
+
+        def toggle_css(name) = "[data-test-selector='#{toggle_selector(name)}']"
       end
     end
   end

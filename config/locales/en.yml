@@ -6139,6 +6139,10 @@ en:
         section_header: "Phases"
         step:
           use_in_project: "Use %{step} in this project"
+      modules:
+        dependencies_enabled: "%{dependencies} was enabled as well because %{module} requires it."
+        description: "Enabling a module allows using its functionality in this project."
+        required_by: "This module cannot be disabled because %{modules} requires it."
       private_confirmation:
         checkbox: "I understand that this will make the previously public content private."
         description: >

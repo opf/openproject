@@ -176,7 +176,7 @@ module OpenProject
 
       # Returns the given module names plus every module they depend on, resolved transitively
       def modules_with_dependencies_appended(names)
-        dependencies = modules.to_h { |mod| [mod[:name].to_s, Array(mod[:dependencies]).map(&:to_s)] }
+        dependencies = module_dependencies
 
         resolved = []
         pending = Array(names).map(&:to_s).compact_blank
@@ -241,9 +241,14 @@ module OpenProject
         @public_permissions = nil
         @disabled_permissions = nil
         @permissions = nil
+        @module_dependencies = nil
       end
 
       private
+
+      def module_dependencies
+        @module_dependencies ||= modules.to_h { |mod| [mod[:name].to_s, Array(mod[:dependencies]).map(&:to_s)] }
+      end
 
       def normalized_controller_action_string(action)
         controller = if action[:controller]&.to_s&.starts_with?("/")

@@ -554,7 +554,9 @@ Rails.application.routes.draw do
           get :toggle_public_dialog
           post :toggle_public
         end
-        resource :modules, only: %i[show update]
+        resource :modules, only: %i[show] do
+          post :toggle
+        end
         resource :subitems, only: %i[show update]
         resource :template, only: %i[show update], controller: "template" do
           post :toggle_template, on: :member
