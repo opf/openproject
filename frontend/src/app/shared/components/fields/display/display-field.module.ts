@@ -68,6 +68,8 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
     return false;
   }
 
+  public readonly labelsOwnContent:boolean = false;
+
   /**
    * Return the provided local injector,
    * which is relevant to provide the display field
