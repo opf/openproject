@@ -31,7 +31,7 @@ module Backlogs
   module SprintReports
     module Widgets
       class BurnupChart < Grids::WidgetComponent
-        include ChartBlankslate
+        include BurnChartBlankslate
 
         param :sprint
         param :project
@@ -57,22 +57,7 @@ module Backlogs
 
         private
 
-        def blankslate_reason
-          return :too_long if burnup.too_long_to_chart?
-
-          estimated = sprint.received_work_packages?(project, estimated_in: estimate_column)
-          if !start_reached? && !estimated
-            :"not_started_without_#{estimate_column}"
-          elsif !start_reached?
-            :not_started
-          elsif !estimated
-            :"no_#{estimate_column}"
-          end
-        end
-
-        def estimate_column = project.estimation_unit_time? ? :estimated_hours : :story_points
-
-        def start_reached? = sprint.started_at? || current_user.today >= sprint.start_date
+        delegate :too_long_to_chart?, to: :burnup, private: true
 
         def burnup
           @burnup ||= ::Sprints::Burnup.new(sprint:, project:)
