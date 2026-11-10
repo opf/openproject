@@ -146,4 +146,4 @@ If you want to delete a project, navigate to the [Project settings](../../projec
 You can also delete a project via the [projects overview list](../../project-lists/).
 
 > [!NOTE]
-> Deleting projects is only available for System administrators.
+> Deleting projects is only available for instance administrators.
