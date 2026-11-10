@@ -29,10 +29,11 @@
 
 module Repositories::Admin::Forms
   class WebhookFormComponent < StepFormComponent
+    API_KEY_PLACEHOLDER = "API_KEY"
     def self.step_name = :webhook
 
     def webhook_url
-      "#{URI.join(helpers.root_url, "webhooks/#{provider}")}?key=#{t('repositories.admin.steps.webhook.api_key_placeholder')}"
+      "#{URI.join(helpers.root_url, "webhooks/#{provider}")}?key=#{API_KEY_PLACEHOLDER}"
     end
 
     def regenerate_path

@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
             readonly: true
           )
           input_group.with_trailing_action_clipboard_copy_button(value: webhook_url, aria: { label: t(:button_copy_to_clipboard) })
-          input_group.with_caption { t("repositories.admin.steps.webhook.url_caption") }
+          input_group.with_caption { t("repositories.admin.steps.webhook.url_caption", placeholder: API_KEY_PLACEHOLDER) }
         end
       end
 

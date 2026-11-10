@@ -62,7 +62,6 @@ en:
             The address of your GitLab instance, including the https://. Webhooks are accepted for all projects
             below this address.
         webhook:
-          api_key_placeholder: API_KEY
           description_configured: The webhook secret is configured.
           description_pending: >-
             No webhook secret is configured. Requests to the webhook are accepted without verification, which may
@@ -75,7 +74,7 @@ en:
           secret_caption: Copy this value into the "Secret token" field of the GitLab webhook.
           title: Webhook configuration
           url: URL
-          url_caption: Replace API_KEY with an API key of the webhook user.
+          url_caption: Replace %{placeholder} with an API key of the webhook user.
         webhook_user:
           caption: >-
             When set, webhook requests authenticated with any other user's API key are rejected.
