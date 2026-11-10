@@ -31,36 +31,21 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM do
-  describe ".helpdesk_user" do
-    subject(:helpdesk_user) { described_class.helpdesk_user }
+  context "when the help desk was turned on" do
+    let!(:created) { ITSM::HelpdeskUsers::FindOrCreateService.new.call.result }
 
-    it "returns the same service account every time" do
-      expect(helpdesk_user).to be_a(ServiceAccount)
-      expect(described_class.helpdesk_user).to eq(helpdesk_user)
-    end
-
-    context "when the account cannot be created" do
-      before { create(:project_role, name: "Help desk") }
-
-      it "raises" do
-        expect { helpdesk_user }.to raise_error(/Unable to create the help desk user/)
-      end
+    it "finds the help desk user and role" do
+      expect(described_class.helpdesk_user).to eq(created)
+      expect(described_class.helpdesk_role).to have_attributes(name: "Help desk", id: Setting.helpdesk_role_id)
     end
   end
 
-  describe ".helpdesk_role" do
-    subject(:helpdesk_role) { described_class.helpdesk_role }
-
-    it "creates the help desk role when it does not exist yet" do
-      expect(helpdesk_role).to have_attributes(name: "Help desk", id: Setting.helpdesk_role_id)
-    end
-
-    context "when the role was deleted" do
-      before { described_class.helpdesk_role.destroy }
-
-      it "creates it again" do
-        expect(helpdesk_role).to be_persisted
-      end
+  context "when the help desk was not turned on yet" do
+    it "finds nothing and creates nothing" do
+      expect do
+        expect(described_class.helpdesk_user).to be_nil
+        expect(described_class.helpdesk_role).to be_nil
+      end.not_to change(Principal, :count)
     end
   end
 end

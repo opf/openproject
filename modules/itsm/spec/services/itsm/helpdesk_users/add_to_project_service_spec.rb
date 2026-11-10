@@ -62,8 +62,9 @@ RSpec.describe ITSM::HelpdeskUsers::AddToProjectService, with_flag: { helpdesk: 
 
   context "when the help desk user is a member with other roles" do
     let(:other_role) { create(:project_role) }
+    let(:helpdesk_user) { ITSM::HelpdeskUsers::FindOrCreateService.new.call.result }
 
-    before { create(:member, project:, principal: ITSM.helpdesk_user, roles: [other_role]) }
+    before { create(:member, project:, principal: helpdesk_user, roles: [other_role]) }
 
     it "adds the help desk role and keeps the others" do
       expect(result).to be_success

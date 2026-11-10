@@ -30,44 +30,33 @@
 module ITSM
   module HelpdeskUsers
     class FindOrCreateService < ::BaseServices::BaseCallable
-      include Dry::Monads[:result]
-
       PERMISSIONS = %i[view_work_packages add_work_packages add_work_package_comments].freeze
 
       protected
 
       def perform
-        find_existing
-          .or { in_transaction { locked { find_or_create_role.bind { find_or_create_user } } } }
-          .either(->(user) { ServiceResult.success(result: user) },
-                  ->(record) { ServiceResult.failure(errors: record.errors) })
+        role = ITSM.helpdesk_role
+        user = ITSM.helpdesk_user
+        return ServiceResult.success(result: user) if role && user
+
+        in_transaction { locked { create_missing } }
       end
 
       private
 
-      def find_existing
-        find(ProjectRole, Setting.helpdesk_role_id).bind { find(ServiceAccount, Setting.helpdesk_user_id) }
+      def create_missing
+        role = ITSM.helpdesk_role || create(new_role, :helpdesk_role_id)
+        return ServiceResult.failure(errors: role.errors) unless role.persisted?
+
+        user = ITSM.helpdesk_user || create(new_user, :helpdesk_user_id)
+        user.persisted? ? ServiceResult.success(result: user) : ServiceResult.failure(errors: user.errors)
       end
 
-      def find_or_create_role
-        find_or_create(ProjectRole, :helpdesk_role_id) do
-          ProjectRole.new(name: translated(:label_helpdesk_role), permissions: PERMISSIONS)
-        end
-      end
+      def new_role = ProjectRole.new(name: translated(:label_helpdesk_role), permissions: PERMISSIONS)
 
-      def find_or_create_user
-        find_or_create(ServiceAccount, :helpdesk_user_id) { ServiceAccount.new(name: translated(:label_helpdesk_user)) }
-      end
+      def new_user = ServiceAccount.new(name: translated(:label_helpdesk_user))
 
-      def find_or_create(model, setting)
-        find(model, Setting[setting]).or do
-          persist(yield).fmap { |record| record.tap { Setting[setting] = it.id } }
-        end
-      end
-
-      def find(model, id) = model.find_by(id:).then { it ? Success(it) : Failure() }
-
-      def persist(record) = record.save ? Success(record) : Failure(record)
+      def create(record, setting) = record.tap { Setting[setting] = it.id if it.save }
 
       def locked(&) = OpenProject::Mutex.with_advisory_lock(ServiceAccount, "itsm_helpdesk_user", transaction: true, &)
 
