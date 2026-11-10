@@ -3,7 +3,7 @@
 set -e
 
 echo "Cleaning up npm development dependencies"
-env -u NPM_CONFIG_PRODUCTION npm prune --omit=dev --ignore-scripts
+PATH="$PWD/.heroku/node/bin:$PATH" env -u NPM_CONFIG_PRODUCTION npm prune --omit=dev --ignore-scripts
 
 echo "Cleaning up frontend/node_modules folders"
 rm -rf frontend/node_modules || true

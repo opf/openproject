@@ -52,6 +52,13 @@ export npm_config_cache="$tmpdir/npm-cache"
 npm install --ignore-scripts --offline --no-audit --no-fund
 test -e node_modules/development/package.json
 
+mkdir -p .heroku/node/bin host-bin
+ln -s "$(node -p 'process.execPath')" .heroku/node/bin/node
+ln -s "$(npm root --global)/npm/bin/npm-cli.js" .heroku/node/bin/npm
+for command in bash env find rm; do
+  ln -s "$(command -v "$command")" "host-bin/$command"
+done
+
 removed=(
   frontend/node_modules/dependency/index.js
   frontend/.angular/cache/file
@@ -84,7 +91,7 @@ done
 
 for run in 1 2; do
   echo "Cleanup pass $run"
-  bash "$teardown"
+  PATH="$tmpdir/host-bin" bash "$teardown"
   for path in "${removed[@]}"; do
     test ! -e "$path" || { echo "Unexpected file after cleanup: $path" >&2; exit 1; }
   done
