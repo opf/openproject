@@ -30,9 +30,18 @@
 module ITSM
   module OutboundEmails
     class SendConfirmationJob < ApplicationJob
+      include GoodJob::ActiveJobExtensions::Concurrency
+
       class DeliveryFailed < StandardError; end
 
+      RETRIED_ERRORS = %i[delivery_failed unreachable].freeze
+
       queue_with_priority :notification
+
+      good_job_control_concurrency_with(
+        perform_limit: 1,
+        key: -> { "#{self.class.name}-#{arguments.first.id}" }
+      )
 
       retry_on DeliveryFailed, wait: :polynomially_longer, attempts: 10 do |job, _error|
         Rails.logger.warn { "Confirmation for email thread #{job.arguments.first.id} not sent after #{job.executions} attempts" }
@@ -50,9 +59,10 @@ module ITSM
 
       def not_sent(result)
         codes = result.errors.symbols_for(:base)
-        raise DeliveryFailed, "Email message #{result.result.id} not sent" if codes.include?(:delivery_failed)
+        reason = "Confirmation not sent (#{(codes.presence || result.errors.attribute_names).join(', ')})"
+        raise DeliveryFailed, reason if codes.intersect?(RETRIED_ERRORS)
 
-        Rails.logger.info { "Confirmation not sent (#{(codes.presence || result.errors.attribute_names).join(', ')})" }
+        Rails.logger.info { reason }
       end
     end
   end

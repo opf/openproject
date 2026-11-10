@@ -50,6 +50,11 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job do
     expect(described_class.new(thread).priority).to eq(ApplicationJob.priority_number(:notification))
   end
 
+  it "sends the confirmation of a thread once at a time" do
+    expect(described_class.good_job_concurrency_config).to include(perform_limit: 1)
+    expect(described_class.new(thread).good_job_concurrency_key).to eq("#{described_class.name}-#{thread.id}")
+  end
+
   it "logs tagged with the thread" do
     allow(Rails.logger).to receive(:tagged).and_call_original
 
@@ -68,9 +73,9 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job do
       expect(described_class).to have_been_enqueued.with(thread)
     end
 
-    it "fails with the email message that was not sent" do
+    it "fails with the reason" do
       expect { described_class.new.perform(thread) }
-        .to raise_error(described_class::DeliveryFailed, "Email message #{email_message.id} not sent")
+        .to raise_error(described_class::DeliveryFailed, "Confirmation not sent (delivery_failed)")
     end
 
     it "gives up after the last attempt and logs it" do
@@ -82,6 +87,27 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job do
       expect(Rails.logger).to have_received(:warn) do |&message|
         expect(message.call).to eq("Confirmation for email thread #{thread.id} not sent after 10 attempts")
       end
+    end
+  end
+
+  context "when the SMTP server could not be reached" do
+    let(:result) { ServiceResult.failure(result: thread).tap { it.errors.add(:base, :unreachable) } }
+
+    it "tries again later" do
+      perform
+
+      expect(described_class).to have_been_enqueued.with(thread)
+    end
+  end
+
+  context "when the SMTP server rejected the email" do
+    let(:email_message) { create(:itsm_email_message, thread:, direction: "outbound", status: "failed") }
+    let(:result) { ServiceResult.failure(result: email_message).tap { it.errors.add(:base, :delivery_rejected) } }
+
+    it "does not try again" do
+      perform
+
+      expect(described_class).not_to have_been_enqueued
     end
   end
 
