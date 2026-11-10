@@ -121,6 +121,10 @@ const WP_ID_URL_PATTERN = '\\d+|[A-Za-z][A-Za-z0-9_]*-\\d+';
 const WP_ID_REGEX = new RegExp(`^(?:${WP_ID_URL_PATTERN})$`);
 const WP_URL_REGEX = new RegExp(`^/(?:wp|(?:projects/[^/]+/)?work_packages)(?:/details)?/(${WP_ID_URL_PATTERN})(?:[/?#]|$)`);
 
+export function isWorkPackageIdentifier(value:string):boolean {
+  return WP_ID_REGEX.test(value);
+}
+
 /**
  * Parses a URL of this OpenProject instance pointing to a work package.
  * Recognizes `/wp/{id}`, `/work_packages/{id}` and

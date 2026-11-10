@@ -6,6 +6,7 @@ import {
   computeWorkPackageAttributeExternalData,
   parseWorkPackageAttributeExternalHTML,
 } from './externalHtml';
+import { PasteWorkPackageAttributeExtension } from '../../plugins/pasteWorkPackageAttributeExtension';
 
 export const openProjectWorkPackageAttributeBlockSpec = createReactBlockSpec(
   attributeBlockConfig,
@@ -26,5 +27,7 @@ export const openProjectWorkPackageAttributeBlockSpec = createReactBlockSpec(
     },
 
     parse: (element) => parseWorkPackageAttributeExternalHTML(element, 'block'),
-  }
+  },
+
+  [PasteWorkPackageAttributeExtension]
 );

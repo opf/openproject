@@ -37,7 +37,11 @@ export interface ChipContent {
  * position inside its node-view wrapper (off by one), so both candidates are
  * checked and verified by node type.
  */
-export function findInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement):FoundInlineChip | null {
+export function findInlineChipAtDOM(
+  editor:AnyEditor,
+  chipDom:HTMLElement,
+  type:string = INLINE_WP_TYPE,
+):FoundInlineChip | null {
   const view = editor.prosemirrorView;
   if (!view) return null;
 
@@ -51,7 +55,7 @@ export function findInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement):Found
   for (const position of [basePosition, basePosition - 1]) {
     if (position < 0) continue;
     const node = view.state.doc.nodeAt(position);
-    if (node?.type.name === INLINE_WP_TYPE) return { position, node };
+    if (node?.type.name === type) return { position, node };
   }
   return null;
 }
@@ -64,19 +68,24 @@ export function chipContentOf(workPackage:WorkPackage, size:InlineWpSize):ChipCo
   };
 }
 
-function chipAt(editor:AnyEditor, position:number):ProsemirrorNode | null {
+function chipAt(editor:AnyEditor, position:number, type:string = INLINE_WP_TYPE):ProsemirrorNode | null {
   return editor.transact((tr) => {
     const node = tr.doc.nodeAt(position);
-    return node?.type.name === INLINE_WP_TYPE ? node : null;
+    return node?.type.name === type ? node : null;
   });
 }
 
-export function selectInlineChipAt(editor:AnyEditor, position:number):void {
-  if (!chipAt(editor, position)) return;
+export function selectInlineChipAt(editor:AnyEditor, position:number, type:string = INLINE_WP_TYPE):void {
+  if (!chipAt(editor, position, type)) return;
   editor.transact((tr) => {
     tr.setSelection(NodeSelection.create(tr.doc, position));
   });
   hideSafariPhantomSelection(editor);
+}
+
+export function selectInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement, type:string = INLINE_WP_TYPE):void {
+  const chip = findInlineChipAtDOM(editor, chipDom, type);
+  if (chip) selectInlineChipAt(editor, chip.position, type);
 }
 
 export function removeInlineChipAt(editor:AnyEditor, position:number):void {
