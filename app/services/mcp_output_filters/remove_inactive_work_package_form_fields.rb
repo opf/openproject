@@ -36,7 +36,7 @@ module McpOutputFilters
     private
 
     def on_hash(hash)
-      attribute_groups = hash["_attributeGroups"]
+      attribute_groups = hash.delete("_attributeGroups")
       return true unless attribute_groups.is_a?(Array)
 
       hash.except!(*(removable_fields - fields_in_form(attribute_groups)))

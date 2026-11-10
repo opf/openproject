@@ -58,7 +58,7 @@ module McpTools
     output_filter McpOutputFilters::RemoveReadOnlySchemaProperties.new
     output_filter McpOutputFilters::RemoveDeprecatedSchemaProperties.new
     output_filter McpOutputFilters::RemoveInactiveWorkPackageFormFields.new
-    output_filter McpOutputFilters::RemoveKeys.new(%w[_attributeGroups _dependencies validationErrors])
+    output_filter McpOutputFilters::RemoveKeys.new(%w[_dependencies validationErrors])
 
     def call(project_id:, type_id:)
       project = Project.visible(current_user).find_by(id: project_id)
