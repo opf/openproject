@@ -232,4 +232,19 @@ describe('DragAndDropTransformer with two tables showing the same work packages'
     expect(drops).toEqual([{ group: null, previous: '3', next: undefined }]);
     expect(other.row('2')).toBeVisible();
   });
+
+  it('keeps the original target when the collapsed hierarchy\'s last row carries no id', async () => {
+    const dragging = await mountDragging({
+      workPackages: [hierarchy.unrelated, hierarchy.parent, hierarchy.first, hierarchy.last],
+      showHierarchies: true,
+    });
+    fireEvent.click(within(dragging.row('1')).getByRole('button'));
+    await waitFor(() => expect(dragging.row('2')).not.toBeVisible());
+    delete dragging.row('3').dataset.workPackageId;
+
+    const success = await dragging.drop('4', '2', 'top');
+
+    expect(success).toBe(true);
+    expect(drops).toEqual([{ group: null, previous: '1', next: '2' }]);
+  });
 });

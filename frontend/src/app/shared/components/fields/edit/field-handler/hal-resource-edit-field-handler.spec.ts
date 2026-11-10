@@ -136,25 +136,25 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
 
   it('returns to the origin after an owned overlay closes', () => {
     const cell = harness.row('1').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
-    const origin = harness.table.keyboardNavigation!.positionOfCell(cell)!;
-    harness.table.keyboardNavigation!.recordPosition(origin);
+    const origin = harness.table.keyboardNavigation.positionOfCell(cell)!;
+    harness.table.keyboardNavigation.recordPosition(origin);
     handler.registerOverlay(external);
     external.focus();
     handler.deactivate(false);
 
-    harness.table.keyboardNavigation!.returnFocus(origin, handler);
+    harness.table.keyboardNavigation.returnFocus(origin, handler);
 
     expect(cell).toHaveFocus();
   });
 
   it('does not return when a foreign overlay owns focus', () => {
     const cell = harness.row('1').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
-    const origin = harness.table.keyboardNavigation!.positionOfCell(cell)!;
-    harness.table.keyboardNavigation!.recordPosition(origin);
+    const origin = harness.table.keyboardNavigation.positionOfCell(cell)!;
+    harness.table.keyboardNavigation.recordPosition(origin);
     external.focus();
     handler.deactivate(false);
 
-    harness.table.keyboardNavigation!.returnFocus(origin, handler);
+    harness.table.keyboardNavigation.returnFocus(origin, handler);
 
     expect(external).toHaveFocus();
     expect(cell).not.toHaveFocus();
@@ -162,8 +162,8 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
 
   it('does not return after focus leaves an owned overlay for an external control', () => {
     const cell = harness.row('1').querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject')!;
-    const origin = harness.table.keyboardNavigation!.positionOfCell(cell)!;
-    harness.table.keyboardNavigation!.recordPosition(origin);
+    const origin = harness.table.keyboardNavigation.positionOfCell(cell)!;
+    harness.table.keyboardNavigation.recordPosition(origin);
     const overlay = document.createElement('div');
     const overlayButton = document.createElement('button');
     overlay.append(overlayButton);
@@ -173,7 +173,7 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
     external.focus();
     handler.deactivate(false);
 
-    harness.table.keyboardNavigation!.returnFocus(origin, handler);
+    harness.table.keyboardNavigation.returnFocus(origin, handler);
 
     expect(external).toHaveFocus();
     expect(cell).not.toHaveFocus();

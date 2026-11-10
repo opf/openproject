@@ -2,7 +2,7 @@
 label: One list
 ---
 
-One list whose rows the server can reorder. `Admin::TextTransformActions` is
+One list whose rows the server can reorder. `Admin::TextActions` is
 the smallest complete implementation in the codebase; the samples below
 follow it.
 
@@ -19,11 +19,11 @@ One wrapper per page region. It carries the move URL template and the outlet
 selectors, scoped to its own id:
 
 ```html
-<div id="text_transform_actions_list"
+<div id="text_actions_list"
      data-controller="sortable-lists"
      data-sortable-lists-move-url-template-value="<%%= move_url_template %>"
-     data-sortable-lists-sortable-lists--list-outlet="#text_transform_actions_list [data-controller~='sortable-lists--list']"
-     data-sortable-lists-sortable-lists--item-outlet="#text_transform_actions_list [data-controller~='sortable-lists--item']">
+     data-sortable-lists-sortable-lists--list-outlet="#text_actions_list [data-controller~='sortable-lists--list']"
+     data-sortable-lists-sortable-lists--item-outlet="#text_actions_list [data-controller~='sortable-lists--item']">
 ```
 
 Build the template from the route helper through a sentinel, so an
@@ -33,7 +33,7 @@ the client with the dragged row's id:
 ```ruby
 def move_url_template
   id_placeholder = "__id__"
-  drop_admin_text_transform_action_path(id_placeholder).sub(id_placeholder, "{id}")
+  drop_admin_text_action_path(id_placeholder).sub(id_placeholder, "{id}")
 end
 ```
 
@@ -50,8 +50,8 @@ costs nothing and the list may gain siblings.
 
 ```html
 <div data-controller="sortable-lists--list"
-     data-sortable-lists--list-type-value="text_transform_action"
-     data-sortable-lists--list-accepted-type-value="text_transform_action"
+     data-sortable-lists--list-type-value="text_action"
+     data-sortable-lists--list-accepted-type-value="text_action"
      data-sortable-lists--list-name-value="<%%= t(".title") %>">
   <ul>
     …rows…
@@ -70,7 +70,7 @@ Each row declares its identity and hosts the drag handle:
 ```html
 <li data-controller="sortable-lists--item"
     data-sortable-lists--item-id-value="<%%= action.id %>"
-    data-sortable-lists--item-type-value="text_transform_action"
+    data-sortable-lists--item-type-value="text_action"
     data-sortable-lists--item-label-value="<%%= action.label %>">
   <button type="button" class="handle" data-sortable-lists--item-target="handle" aria-hidden="true" tabindex="-1">
     <%%= primer_octicon(:grabber) %>

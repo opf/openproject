@@ -34,6 +34,7 @@ module AI
       CLOSE_FORM_ID = "ai-text-transform-pane-close"
       APPLY_FORM_ID = "ai-text-transform-pane-apply"
       RETRY_FORM_ID = "ai-text-transform-pane-retry"
+      APPLIED_EVENT = "op:ai-text-transform:applied"
 
       private
 

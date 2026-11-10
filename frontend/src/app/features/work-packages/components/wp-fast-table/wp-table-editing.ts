@@ -86,7 +86,7 @@ export class WorkPackageTableEditingContext {
 
   public markOverlay(overlay:HTMLElement):void {
     overlay.dataset.wpTableEditor = this.ownerId;
-    this.table.keyboardNavigation?.adoptOverlay(overlay);
+    this.table.keyboardNavigation.adoptOverlay(overlay);
   }
 
   public reset() {

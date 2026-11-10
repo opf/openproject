@@ -71,15 +71,15 @@ de:
           name: Mitarbeiter und Projektmanager
         item_1:
           name: Globale Standardrolle
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: Grammatik korrigieren
+          label: Fix grammar
         item_1:
-          label: Prägnant formulieren
+          label: Make concise
         item_2:
-          label: Ins Englische übersetzen
+          label: Translate to English
         item_3:
-          label: In Vorlage sortieren
+          label: Sort into template
     standard:
       project_phases:
         item_0:

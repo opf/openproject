@@ -30,10 +30,9 @@
 require "spec_helper"
 
 RSpec.describe AI::TextTransforms::CreateRun,
-               with_flag: { ai_text_transform_actions: true },
-               with_settings: { ai_text_transform_actions_enabled: true } do
+               with_flag: { ai_text_actions: true } do
   shared_let(:user) { create(:user) }
-  shared_let(:action) { create(:ai_text_transform_action, prompt: "Fix grammar only.") }
+  shared_let(:action) { create(:ai_text_action, prompt: "Fix grammar only.") }
 
   let(:gateway) { AI::TextTransforms::FakeGateway.new }
   let(:availability) { AI::TextTransforms::Availability.new(gateway:) }

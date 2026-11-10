@@ -566,7 +566,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   it('paints the column header row through a table mutation', async () => {
     const component = await mount({});
     const scopes:PaintScope[] = [];
-    vi.spyOn(component.workPackageTable.keyboardNavigation!, 'rowsChanged').mockImplementation(({ scope }) => { scopes.push(scope); });
+    vi.spyOn(component.workPackageTable.keyboardNavigation, 'rowsChanged').mockImplementation(({ scope }) => { scopes.push(scope); });
 
     sortBy(['subject', QUERY_SORT_BY_DESC]);
 
@@ -815,7 +815,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     it('opens and closes the create row through table mutations', async () => {
       const component = await mount(inlineCreate);
       const scopes:PaintScope[] = [];
-      vi.spyOn(component.workPackageTable.keyboardNavigation!, 'rowsChanged').mockImplementation(({ scope }) => { scopes.push(scope); });
+      vi.spyOn(component.workPackageTable.keyboardNavigation, 'rowsChanged').mockImplementation(({ scope }) => { scopes.push(scope); });
 
       const row = await openCreateRow();
       expect(scopes.at(-1)).toEqual(new Set([inlineCreateRowKey]));

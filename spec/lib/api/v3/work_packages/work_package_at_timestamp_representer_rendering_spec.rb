@@ -90,7 +90,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
                   type:,
                   priority:,
                   parent:,
-                  responsible:).tap do |wp|
+                  responsible:,
+                  estimated_hours: 5,
+                  derived_estimated_hours: 8).tap do |wp|
       allow(wp)
         .to receive(:respond_to?)
               .and_call_original
@@ -141,6 +143,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
         "subject" => work_package.subject,
         "startDate" => work_package.start_date,
         "dueDate" => work_package.due_date,
+        "estimatedTime" => "PT5H",
+        "derivedEstimatedTime" => "PT8H",
         "customField#{custom_field.id}" => "This is a string value",
         "_meta" => {
           "matchesFilters" => true,
@@ -239,6 +243,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
+    end
+  end
+
+  %w[estimated_hours derived_estimated_hours].each do |attribute|
+    context "with only #{attribute} changed" do
+      let(:attributes_changed_to_baseline) { [attribute] }
+
+      it "renders both own and total work" do
+        expect(subject).to be_json_eql("PT5H".to_json).at_path("estimatedTime")
+        expect(subject).to be_json_eql("PT8H".to_json).at_path("derivedEstimatedTime")
+      end
     end
   end
 
@@ -607,6 +622,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
         "subject" => work_package.subject,
         "startDate" => work_package.start_date,
         "dueDate" => work_package.due_date,
+        "estimatedTime" => "PT5H",
+        "derivedEstimatedTime" => "PT8H",
         "_meta" => {
           "matchesFilters" => true,
           "exists" => true,

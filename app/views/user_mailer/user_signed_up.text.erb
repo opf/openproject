@@ -30,14 +30,17 @@ See COPYRIGHT and LICENSE files for more details.
 <%= t(:mail_body_register, app_title: Setting.app_title) %>
 <%= @activation_url %>
 
-<%= strip_tags t(
-      :mail_body_register_links_html,
-      webinar_link: OpenProject::Static::Links.url_for(:webinar_videos),
-      youtube_link: OpenProject::Configuration.youtube_channel,
-      get_started_link: OpenProject::Static::Links.url_for(:get_started_videos),
-      documentation_link: OpenProject::Static::Links.url_for(:openproject_docs)
-    )
-%>
+<%= CGI.unescapeHTML(
+      strip_tags(
+        t(
+          :mail_body_register_links_html,
+          webinar_link: OpenProject::Static::Links.url_for(:webinar_videos),
+          youtube_link: OpenProject::Configuration.youtube_channel,
+          get_started_link: OpenProject::Static::Links.url_for(:get_started_videos),
+          documentation_link: OpenProject::Static::Links.url_for(:openproject_docs)
+        )
+      )
+    ) %>
 
 <%= t(:mail_body_register_ending) %>
 <%= t(:mail_body_register_closing) %>

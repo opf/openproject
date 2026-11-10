@@ -556,12 +556,9 @@ RSpec.describe AccountController, :skip_2fa_stage do
       allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false) # rubocop:disable RSpec/AnyInstance
     end
 
-    describe "Missing flash data for user initiated password change" do
+    describe "Missing password change user" do
       before do
         post "change_password",
-             flash: {
-               _password_change_user: nil
-             },
              params: {
                username: admin.login,
                password: "whatever",
@@ -570,8 +567,8 @@ RSpec.describe AccountController, :skip_2fa_stage do
              }
       end
 
-      it "renders 404" do
-        expect(response).to have_http_status :not_found
+      it "rejects the attempt like invalid credentials" do
+        expect(response).to have_http_status :unprocessable_entity
       end
     end
 
@@ -614,9 +611,98 @@ RSpec.describe AccountController, :skip_2fa_stage do
       end
     end
 
+    context "for a user without a forced or expired password" do
+      shared_let(:user) { create(:user, password: "ValidPass123!", password_confirmation: "ValidPass123!") }
+
+      before do
+        post :change_password,
+             params: {
+               password_change_user: user.login,
+               password: "ValidPass123!",
+               new_password: "NewPass123!",
+               new_password_confirmation: "NewPass123!"
+             }
+      end
+
+      it "rejects the attempt like invalid credentials" do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(flash[:error]).to eq I18n.t(:notice_account_invalid_credentials_or_blocked)
+      end
+
+      it "does not change the password" do
+        expect(user.reload.check_password?("ValidPass123!")).to be true
+      end
+
+      it "counts a failed login attempt" do
+        expect(user.reload.failed_login_count).to eq 1
+      end
+    end
+
+    context "for an unknown login" do
+      before do
+        post :change_password,
+             params: {
+               password_change_user: "nobody",
+               password: "ValidPass123!",
+               new_password: "NewPass123!",
+               new_password_confirmation: "NewPass123!"
+             }
+      end
+
+      it "rejects the attempt like invalid credentials" do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(flash[:error]).to eq I18n.t(:notice_account_invalid_credentials_or_blocked)
+      end
+    end
+
+    context "for a user without a password", with_settings: { password_days_valid: 30 } do
+      shared_let(:user) { create(:user, :passwordless) }
+
+      before do
+        post :change_password,
+             params: {
+               password_change_user: user.login,
+               password: "ValidPass123!",
+               new_password: "NewPass123!",
+               new_password_confirmation: "NewPass123!"
+             }
+      end
+
+      it "rejects the attempt like invalid credentials" do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(flash[:error]).to eq I18n.t(:notice_account_invalid_credentials_or_blocked)
+      end
+    end
+
+    context "for a user with an expired password", with_settings: { password_days_valid: 30 } do
+      shared_let(:user) { create(:user, password: "ValidPass123!", password_confirmation: "ValidPass123!") }
+
+      before do
+        user.current_password.update_column(:created_at, 31.days.ago)
+
+        post :change_password,
+             params: {
+               password_change_user: user.login,
+               password: "ValidPass123!",
+               new_password: "NewPass123!",
+               new_password_confirmation: "NewPass123!"
+             }
+      end
+
+      it "changes the password" do
+        expect(user.reload.check_password?("NewPass123!")).to be true
+      end
+    end
+
     context "with brute force protection",
             with_settings: { brute_force_block_minutes: 30, brute_force_block_after_failed_logins: 20 } do
-      shared_let(:user) { create(:user, login: "testuser", password: "ValidPass123!", password_confirmation: "ValidPass123!") }
+      shared_let(:user) do
+        create(:user,
+               login: "testuser",
+               password: "ValidPass123!",
+               password_confirmation: "ValidPass123!",
+               force_password_change: true)
+      end
 
       describe "blocks password change attempts after too many failures" do
         before do

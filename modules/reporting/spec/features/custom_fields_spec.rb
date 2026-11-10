@@ -72,7 +72,7 @@ RSpec.describe "Custom fields reporting", :js do
     end
 
     let(:initial_custom_values) { { custom_field.id => custom_value_for(custom_field, "First option") } }
-    let(:cf_id) { "custom_field#{custom_field.id}" }
+    let(:cf_id) { custom_field.column_name }
 
     # Have a second work package in the test that will have no values
     # as this caused problems with casting the nil value of the custom value to 0.

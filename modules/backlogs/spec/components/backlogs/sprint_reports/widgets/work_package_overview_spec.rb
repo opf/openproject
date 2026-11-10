@@ -96,15 +96,41 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         expect(rendered_component).to have_css(".color-fg-muted", text: "2")
       end
 
-      it "links each block's 'View all' to the work packages table filtered to the sprint" do
-        links = rendered_component.css("a", text: "View all")
-        expect(links).not_to be_empty
+      describe "'View all' links" do
+        let(:query_props) do
+          rendered_component.css("a", text: "View all").map do |link|
+            JSON.parse(CGI.parse(URI.parse(link["href"]).query)["query_props"].first)
+          end
+        end
 
-        query_props = links.map { |link| JSON.parse(CGI.parse(URI.parse(link["href"]).query)["query_props"].first) }
+        it "links each block to the work packages table filtered to the sprint" do
+          expect(query_props).not_to be_empty
+          expect(query_props).to all(include("f" => include(include("n" => "sprintId"))))
+          expect(query_props).to all(include("ts"))
+          expect(query_props).to all(include("is" => false))
+        end
 
-        expect(query_props).to all(include("f" => include(include("n" => "sprintId"))))
-        expect(query_props).to all(include("ts"))
-        expect(query_props).to all(include("is" => false))
+        it "includes the story points column" do
+          expect(query_props).to all(include("c" => include("story_points")))
+        end
+
+        context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+          before { project.estimation_unit = "time" }
+
+          it "includes the estimated time column" do
+            expect(query_props).to all(include("c" => include("estimated_hours")))
+            expect(query_props).to all(include("c" => exclude("story_points")))
+          end
+        end
+
+        context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+          before { project.estimation_unit = "none" }
+
+          it "includes no estimation column" do
+            expect(query_props).to all(include("c" => exclude("story_points")))
+            expect(query_props).to all(include("c" => exclude("estimated_hours")))
+          end
+        end
       end
     end
 

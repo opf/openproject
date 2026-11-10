@@ -41,7 +41,7 @@ module LlmConnections
   # listed even once it no longer qualifies, flagged, so that opening the page
   # cannot silently blank a working binding.
   class SelectableModelsQuery
-    Option = Data.define(:model_id, :qualifies)
+    Option = Data.define(:model_id, :name, :qualifies)
 
     def initialize(connection, feature, bound_model_id: nil)
       @connection = connection
@@ -50,7 +50,12 @@ module LlmConnections
     end
 
     def call
-      offerable_model_ids.map { |model_id| Option.new(model_id:, qualifies: qualifying_ids.include?(model_id)) }
+      ids = offerable_model_ids
+      names = connection.models.where(external_id: ids).index_by(&:external_id).transform_values(&:name)
+
+      ids.map do |model_id|
+        Option.new(model_id:, name: names.fetch(model_id, model_id), qualifies: qualifying_ids.include?(model_id))
+      end
     end
 
     def models_left_out?

@@ -108,6 +108,30 @@ RSpec.describe "Status action board",
       board_page.expect_list "Closed"
     end
 
+    it "keeps a moved card in place and still shows changes made elsewhere (OP-20534)" do
+      create(:work_package, project:, type:, subject: "Task 1", status: open_status)
+      board_index.visit!
+      board_page = board_index.create_board action: "Kanban"
+      board_page.expect_list "Open"
+      board_page.add_list option: "Closed"
+      board_page.expect_list "Closed"
+      board_page.expect_card "Open", "Task 1"
+      board_page.wait_for_lists_reload
+
+      board_page.move_card_by_name("Task 1", from: "Open", to: "Closed")
+      board_page.expect_card("Open", "Task 1", present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
+
+      open_query = board_page.board(reload: true).contained_queries.find_by(name: "Open")
+      added_elsewhere = create(:work_package, project:, type:, subject: "Added elsewhere", status: open_status)
+      open_query.ordered_work_packages.create!(work_package: added_elsewhere, position: 0)
+      open_query.touch
+
+      board_page.expect_card("Open", "Added elsewhere", present: true)
+      board_page.expect_card("Open", "Task 1", present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
+    end
+
     it "does not change moving card project when filtering on projects (Bug #44895)" do
       other_project = create(:project,
                              types: [type],

@@ -257,7 +257,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
           return id === listId;
         })
-        .forEach((listComponent) => listComponent.refreshQueryUnlessCaused(query, false));
+        .forEach((listComponent) => listComponent.refreshQueryIfOutdated(query, false));
     });
   }
 

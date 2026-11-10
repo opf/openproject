@@ -209,6 +209,7 @@ import { WorkPackageViewPageEntryComponent } from 'core-app/features/work-packag
 import { MyPageComponent } from './features/my-page/my-page.component';
 import { DashboardComponent } from './features/overview/dashboard.component';
 import { BurndownChartComponent } from './features/backlogs/burndown-chart.component';
+import { BurnupChartComponent } from './features/backlogs/burnup-chart.component';
 import { CreatedResolvedComponent } from './features/backlogs/created-resolved-chart.component';
 import { VelocityChartComponent } from './features/backlogs/velocity-chart.component';
 import { BudgetByCostTypeComponent } from './shared/components/budget-graphs/overview/budget-by-cost-type.component';
@@ -422,6 +423,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-my-page', MyPageComponent, { injector });
     registerCustomElement('opce-dashboard', DashboardComponent, { injector });
     registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector });
+    registerCustomElement('opce-burnup-chart', BurnupChartComponent, { injector });
     registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector });
     registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector });
     registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
