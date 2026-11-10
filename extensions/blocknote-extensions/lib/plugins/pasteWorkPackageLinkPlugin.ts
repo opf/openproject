@@ -250,5 +250,9 @@ async function insertInlineWorkPackages(editor:AnyEditor, parts:PastePart[]):Pro
   if (content.length === 0) return;
   if (lastIsChip) content.push({ type: 'text', text: ' ', styles: {} });
 
-  (editor.insertInlineContent as (content:unknown[]) => void)(content);
+  // Still the paste, for the plugins that act on pasted content.
+  editor.transact((tr) => {
+    tr.setMeta('uiEvent', 'paste');
+    (editor.insertInlineContent as (content:unknown[]) => void)(content);
+  });
 }

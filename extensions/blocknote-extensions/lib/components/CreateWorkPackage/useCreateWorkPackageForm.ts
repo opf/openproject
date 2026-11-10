@@ -19,8 +19,8 @@ import {
   valueProblems,
 } from './formSchema';
 import type { FieldErrors, FieldLabels, FieldValue, FieldValues, FormField, ValueProblems } from './formSchema';
-import { rememberSelection } from './lastSelection';
-import { prefillFor, projectPrefill, selectionToRemember } from './prefill';
+import { rememberChoice } from './lastChoice';
+import { choiceToRemember, prefillFor, projectPrefill } from './prefill';
 import type { Prefill } from './prefill';
 
 export interface CreateWorkPackageFormState {
@@ -205,7 +205,7 @@ export function useCreateWorkPackageForm(
     createWorkPackage(buildCreatePayload(form._embedded?.payload ?? {}, allFields, values))
       .then(
         (workPackage) => {
-          rememberSelection(selectionToRemember(allFields, values, valueLabels));
+          rememberChoice(choiceToRemember(allFields, values, valueLabels));
           // Not chained behind onCreated: a failed insert must not read as a
           // failed create, which would invite a duplicate.
           setSubmitting(false);

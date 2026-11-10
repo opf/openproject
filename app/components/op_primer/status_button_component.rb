@@ -65,10 +65,12 @@ module OpPrimer
     end
 
     def button_content(button)
-      button.with_leading_visual_icon(icon: @current_status.icon) if @current_status.icon
-      button.with_trailing_action_icon(icon: "triangle-down") if !readonly? && @items.any?
+      if !@button_arguments[:icon_only]
+        button.with_leading_visual_icon(icon: @current_status.icon) if @current_status.icon
+        button.with_trailing_action_icon(icon: "triangle-down") if !readonly? && @items.any?
 
-      @current_status.name
+        @current_status.name
+      end
     end
 
     def button_arguments
@@ -80,9 +82,10 @@ module OpPrimer
         classes: class_names(@button_arguments[:classes], highlight_class_name(@current_status, style)),
         disabled: disabled?,
         aria: {
-          label: title
+          label: title,
+          disabled: readonly?
         }
-      }.compact.deep_merge(@button_arguments)
+      }.compact.deep_merge(@button_arguments.except(:classes, :icon_only, :style))
     end
 
     def highlight_class_name(status, style)

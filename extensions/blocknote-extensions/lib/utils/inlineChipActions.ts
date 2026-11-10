@@ -7,7 +7,6 @@ import type { InlineWpSize, BlockWpSize } from '../components/WorkPackage/types'
 import { moveCursorAfterBlock } from './cursor';
 import { BLOCK_WP_TYPE, INLINE_WP_TYPE } from './nodeTypes';
 import { hideSafariPhantomSelection } from './selection';
-import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
 
 // Direct, position-based operations on inline work package chips.
 //
@@ -38,7 +37,11 @@ export interface ChipContent {
  * position inside its node-view wrapper (off by one), so both candidates are
  * checked and verified by node type.
  */
-export function findInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement):FoundInlineChip | null {
+export function findInlineChipAtDOM(
+  editor:AnyEditor,
+  chipDom:HTMLElement,
+  type:string = INLINE_WP_TYPE,
+):FoundInlineChip | null {
   const view = editor.prosemirrorView;
   if (!view) return null;
 
@@ -52,37 +55,9 @@ export function findInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement):Found
   for (const position of [basePosition, basePosition - 1]) {
     if (position < 0) continue;
     const node = view.state.doc.nodeAt(position);
-    if (node?.type.name === INLINE_WP_TYPE) return { position, node };
+    if (node?.type.name === type) return { position, node };
   }
   return null;
-}
-
-/**
- * Finds a pending chip by its wpid. Only `pending:<uuid>` placeholder wpids
- * are unique in the document, so only those can be found reliably.
- */
-export function findPendingInlineChip(doc:ProsemirrorNode, wpid:string):FoundInlineChip | null {
-  if (!wpid.startsWith(PENDING_PREFIX)) return null;
-
-  let found:FoundInlineChip | null = null;
-  doc.descendants((node, position) => {
-    if (found) return false;
-    if (node.type.name === INLINE_WP_TYPE && node.attrs.wpid === wpid) {
-      found = { position, node };
-      return false;
-    }
-    return true;
-  });
-  return found;
-}
-
-/** Removes a pending chip, if it is still in the document, and says whether it was. */
-export function removePendingInlineChip(editor:AnyEditor, wpid:string):boolean {
-  return editor.transact((tr) => {
-    const found = findPendingInlineChip(tr.doc, wpid);
-    if (found) tr.delete(found.position, found.position + found.node.nodeSize);
-    return found !== null;
-  });
 }
 
 /** The inline content one chip is inserted from. */
@@ -93,19 +68,24 @@ export function chipContentOf(workPackage:WorkPackage, size:InlineWpSize):ChipCo
   };
 }
 
-function chipAt(editor:AnyEditor, position:number):ProsemirrorNode | null {
+function chipAt(editor:AnyEditor, position:number, type:string = INLINE_WP_TYPE):ProsemirrorNode | null {
   return editor.transact((tr) => {
     const node = tr.doc.nodeAt(position);
-    return node?.type.name === INLINE_WP_TYPE ? node : null;
+    return node?.type.name === type ? node : null;
   });
 }
 
-export function selectInlineChipAt(editor:AnyEditor, position:number):void {
-  if (!chipAt(editor, position)) return;
+export function selectInlineChipAt(editor:AnyEditor, position:number, type:string = INLINE_WP_TYPE):void {
+  if (!chipAt(editor, position, type)) return;
   editor.transact((tr) => {
     tr.setSelection(NodeSelection.create(tr.doc, position));
   });
   hideSafariPhantomSelection(editor);
+}
+
+export function selectInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement, type:string = INLINE_WP_TYPE):void {
+  const chip = findInlineChipAtDOM(editor, chipDom, type);
+  if (chip) selectInlineChipAt(editor, chip.position, type);
 }
 
 export function removeInlineChipAt(editor:AnyEditor, position:number):void {

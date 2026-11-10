@@ -1,93 +1,63 @@
 <div class="generic-table--sort-header-outer">
   @switch (columnType) {
-    @case ('hierarchy') {
-      <span class="generic-table--sort-header">
-        @if (displayHierarchyIcon) {
-          <span
-            class="hierarchy-header--icon"
-            (click)="toggleHierarchy($event)"
-            [attr.title]="text.toggleHierarchy"
-            tabindex="-1"
-            aria-hidden="true">
-            <op-icon icon-classes="icon {{ hierarchyIcon }}" />
-          </span>
-        }
-        <!--suppress XmlDuplicatedId -->
-        @if (sortable) {
-          <a href="#"
-            [ngClass]="[directionClass && 'sort', directionClass]"
-            lang-attribute
-            lang="{{locale}}"
-            id="{{ headerColumn.id }}"
-            tabindex="-1"
-          rel="nofollow">{{headerColumn.name}}</a>
-        }
-        @if (!sortable) {
-          <a>{{headerColumn.name}}</a>
-        }
-        @if (displayDropdownIcon) {
-          <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
-            icon-title="{{ text.openMenu }}"
-           />
-        }
-      </span>
-    }
-    @case ('relation') {
-      <span class="generic-table--sort-header">
-        @if (displayDropdownIcon) {
-          <button type="button"
-            class="relations-header--button"
-            tabindex="-1"
-            opTooltip
-            [label]="columnName"
-            [description]="headerColumn.name === columnName ? undefined : headerColumn.name"
-            [tooltipWhenTruncated]="headerColumn.name === columnName ? '' : undefined">
-            <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
-            {{columnName}}
-          </button>
-          <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
-            icon-title="{{ text.openMenu }}"
-           />
-        } @else {
-          <a [attr.title]="headerColumn.name">
-            <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
-            {{columnName}}
-          </a>
-        }
-      </span>
-    }
     @case ('sort') {
-      <span class="draggable-table--sort-header"
-        >
-      </span>
+      <span class="draggable-table--sort-header"></span>
     }
     @default {
       <span class="generic-table--sort-header">
-        <!--suppress XmlDuplicatedId -->
-        @if (sortable) {
-          <a href="#"
-            [ngClass]="[directionClass && 'sort', directionClass]"
+        @if (displayMenu) {
+          <op-action-menu align="end"
+            [anchor]="headerCell()"
+            [label]="headerColumn.name"
+            [items]="items()"
+            (opening)="onMenuOpening()"
+            (closed)="onMenuClosed($event)">
+            @if (columnType === 'relation') {
+              <button opActionMenuTrigger
+                type="button"
+                tabindex="-1"
+                class="wp-table--column-menu-button"
+                opTooltip
+                [label]="columnName"
+                [description]="headerColumn.name === columnName ? undefined : headerColumn.name"
+                [tooltipWhenTruncated]="headerColumn.name === columnName ? '' : undefined">
+                <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
+                <span class="wp-table--column-menu-name" [class.sort]="directionClass !== ''" [class.asc]="directionClass === 'asc'" [class.desc]="directionClass === 'desc'">{{ columnName }}</span>
+                <svg octicon size="small" icon="triangle-down" aria-hidden="true" class="wp-table--column-menu-indicator"></svg>
+              </button>
+            } @else {
+              <button opActionMenuTrigger
+                type="button"
+                tabindex="-1"
+                class="wp-table--column-menu-button"
+                lang-attribute
+                [attr.lang]="locale">
+                @if (showHierarchyGlyph) {
+                  <svg octicon size="small" icon="op-hierarchy" aria-hidden="true" class="wp-table--column-menu-glyph"></svg>
+                }
+                <span class="wp-table--column-menu-name" [class.sort]="directionClass !== ''" [class.asc]="directionClass === 'asc'" [class.desc]="directionClass === 'desc'">{{ headerColumn.name }}</span>
+                <svg octicon size="small" icon="triangle-down" aria-hidden="true" class="wp-table--column-menu-indicator"></svg>
+              </button>
+            }
+          </op-action-menu>
+        } @else if (columnType === 'relation') {
+          <span class="wp-table--column-menu-name" [attr.title]="headerColumn.name">
+            <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
+            {{ columnName }}
+          </span>
+        } @else {
+          @if (showHierarchyGlyph) {
+            <svg octicon size="small" icon="op-hierarchy" aria-hidden="true" class="wp-table--column-menu-glyph"></svg>
+          }
+          <span class="wp-table--column-menu-name"
             lang-attribute
-            lang="{{locale}}"
-            id="{{ headerColumn.id }}"
-            tabindex="-1"
-          rel="nofollow">{{headerColumn.name}}</a>
-        }
-        @if (!sortable) {
-          <a>{{headerColumn.name}}</a>
+            [attr.lang]="locale"
+            [class.sort]="directionClass !== ''" [class.asc]="directionClass === 'asc'" [class.desc]="directionClass === 'desc'">{{ headerColumn.name }}</span>
         }
         @if (baselineIncompatible) {
-          <span
-            class="generic-table--sort-header--error-indicator"
-            [attr.title]="text.baselineIncompatible"
-            >
+          <span class="generic-table--sort-header--error-indicator" [attr.title]="text.baselineIncompatible">
             <svg alert-icon size="small"></svg>
           </span>
-        }
-        @if (displayDropdownIcon) {
-          <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
-            icon-title="{{ text.openMenu }}"
-           />
         }
       </span>
     }

@@ -27,7 +27,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
-import { ContextualActionMenu } from 'core-common/contextual-action-menu';
+import { ContextualActionMenu, PointerReleaseGate } from 'core-common/contextual-action-menu';
 // The strict variant: a drag-gating one treats far more of the card as
 // interactive and would hand most right-clicks back to the browser.
 import { closestInteractiveElement } from 'core-common/interactive-element-helper';
@@ -71,13 +71,8 @@ export default class ContextualActionMenuController extends Controller<HTMLEleme
   // keyboard-generated contextmenu event never is, so this needs no timing
   // window and cannot swallow a genuine right-click.
   private expectKeyboardEcho = false;
-  // Fed by `pointerdown` as well as `mousedown` because Chrome emits no
-  // `mousedown` before a long-press contextmenu, and released from the document
-  // in capture phase because a native HTML5 drag ends in `dragend`, not
-  // `mouseup`.
-  private pointerIsDown = false;
   private pointerType = '';
-  private pendingOpen?:AbortController;
+  private gate?:PointerReleaseGate;
 
   connect():void {
     this.abortController = new AbortController();
@@ -88,14 +83,12 @@ export default class ContextualActionMenuController extends Controller<HTMLEleme
     this.element.addEventListener('pointerdown', this.onPointerDown, { signal });
     this.element.addEventListener('mousedown', this.onPointerPress, { signal });
 
-    const doc = this.element.ownerDocument;
-    doc.addEventListener('pointerup', this.onPointerRelease, { capture: true, signal });
-    doc.addEventListener('mouseup', this.onPointerRelease, { capture: true, signal });
+    this.gate = new PointerReleaseGate(this.element.ownerDocument, signal);
   }
 
   disconnect():void {
-    this.cancelPendingOpen();
-    this.pointerIsDown = false;
+    this.gate?.cancelPendingOpen();
+    this.gate = undefined;
     this.pointerType = '';
 
     this.abortController?.abort();
@@ -115,11 +108,7 @@ export default class ContextualActionMenuController extends Controller<HTMLEleme
   // the latter.
   private readonly onPointerPress = ():void => {
     this.expectKeyboardEcho = false;
-    this.pointerIsDown = true;
-  };
-
-  private readonly onPointerRelease = ():void => {
-    this.pointerIsDown = false;
+    this.gate?.press();
   };
 
   private readonly onContextMenu = (event:MouseEvent):void => {
@@ -160,21 +149,8 @@ export default class ContextualActionMenuController extends Controller<HTMLEleme
 
     event.preventDefault();
 
-    // Chrome light-dismisses a `popover="auto"` opened while the right-click
-    // gesture is still in flight: the trailing pointerup lands outside the
-    // freshly opened popover, counts as an outside click, and closes it again
-    // within the same gesture. A timer does not fix it — Chrome 150 runs a
-    // setTimeout(0) scheduled here several milliseconds *before* it dispatches
-    // the gesture's own pointerup — so the open is keyed off the real release.
-    //
-    // The two platform orderings need opposite treatment, and `pointerIsDown`
-    // is what tells them apart without sniffing the platform:
-    //   * macOS/Chrome fires contextmenu at mousedown time. The release is
-    //     still pending, so the open has to wait for it.
-    //   * Windows/Linux fire contextmenu at mouseup time. The release has
-    //     already landed and no further one is coming, so opening now is both
-    //     correct and necessary — waiting would hang forever.
-    // Do not "simplify" either branch into a single inline call or a timer.
+    // Why the release and not a timer, and why both branches: see
+    // `PointerReleaseGate`. Do not "simplify" either branch.
     //
     // Read the presenter inside the closure, never here: a morph that swaps or
     // removes the action-menu while the button is held has to be visible to the
@@ -184,8 +160,8 @@ export default class ContextualActionMenuController extends Controller<HTMLEleme
       ? ():void => this.contextualMenu?.openAtInvoker(this.element)
       : ():void => this.contextualMenu?.openAtPoint(clientX, clientY, this.element);
 
-    if (this.pointerIsDown) {
-      this.openOnRelease(open);
+    if (this.gate?.pointerIsDown) {
+      this.gate.openOnRelease(open);
     } else {
       open();
     }
@@ -203,7 +179,7 @@ export default class ContextualActionMenuController extends Controller<HTMLEleme
     // A keyboard invocation supersedes a right-click still waiting for its
     // release: the menu belongs where the show button puts it, not at the
     // abandoned pointer position, and only one of the two may open.
-    this.cancelPendingOpen();
+    this.gate?.cancelPendingOpen();
 
     this.expectKeyboardEcho = true;
     event.preventDefault();
@@ -213,57 +189,6 @@ export default class ContextualActionMenuController extends Controller<HTMLEleme
     // card invoked the menu, so the card gets focus back.
     this.contextualMenu?.openAtInvoker(this.element);
   };
-
-  /**
-   * Runs the given open from the pointer release that ends the current
-   * gesture, rather than from the contextmenu event itself. See onContextMenu
-   * for why the release, and not a timer, is what this waits on.
-   */
-  private openOnRelease(openMenu:() => void):void {
-    // A second right-click arriving while this one waits retires it, so the
-    // release opens the menu once, at the latest invocation's position.
-    this.cancelPendingOpen();
-
-    const controllerSignal = this.abortController?.signal;
-    if (!controllerSignal || controllerSignal.aborted) {
-      return;
-    }
-
-    const pending = new AbortController();
-    this.pendingOpen = pending;
-    const { signal } = pending;
-    const doc = this.element.ownerDocument;
-
-    const open = ():void => {
-      this.cancelPendingOpen();
-
-      // Backstop for any path where disconnect()'s explicit cancel slips:
-      // never open against a disconnected controller.
-      if (controllerSignal.aborted) {
-        return;
-      }
-
-      openMenu();
-    };
-
-    const cancel = ():void => this.cancelPendingOpen();
-
-    // On the document, capture phase: the release opens the menu wherever it
-    // lands (the pointer may have left the card while the button was held) and
-    // before anything else reacts to it.
-    doc.addEventListener('pointerup', open, { capture: true, signal });
-    doc.addEventListener('mouseup', open, { capture: true, signal });
-    // Should the release never arrive — pointer left the window, gesture
-    // cancelled — the next gesture's own press retires the pending open, so it
-    // cannot survive into some later, unrelated click.
-    doc.addEventListener('pointerdown', cancel, { capture: true, signal });
-    doc.addEventListener('pointercancel', cancel, { capture: true, signal });
-  }
-
-  private cancelPendingOpen():void {
-    this.pendingOpen?.abort();
-    this.pendingOpen = undefined;
-  }
 
   private canPresent(target:EventTarget|null):boolean {
     if (!this.hasMenuElement || !(target instanceof Element)) {

@@ -2,7 +2,7 @@
 ---
 get:
   summary: List queries
-  operationId: List_queries
+  operationId: list_queries
   tags:
     - Queries
   description: Returns a collection of queries. The collection can be filtered via
@@ -54,7 +54,7 @@ get:
       headers: {}
 post:
   summary: Create query
-  operationId: Create_query
+  operationId: create_query
   tags:
     - Queries
   description: |-

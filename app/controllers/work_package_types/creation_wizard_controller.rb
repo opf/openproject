@@ -310,11 +310,11 @@ module WorkPackageTypes
     end
 
     def details_params
-      params.expect(type: %i[name color_id is_milestone is_in_roadmap allow_project_variants])
+      params.expect(type: %i[name description color_id is_milestone is_in_roadmap allow_project_variants])
     end
 
     def variant_details_params
-      params.expect(type_variant: [:variant_name])
+      params.expect(type_variant: %i[variant_name description])
     end
 
     # The owner is the project this was routed through, merged last so that it wins over anything

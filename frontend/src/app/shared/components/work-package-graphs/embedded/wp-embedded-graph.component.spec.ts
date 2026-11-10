@@ -133,6 +133,6 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
     fixture.componentRef.setInput('datasets', []);
     fixture.detectChanges();
 
-    expect(within(element).getByRole('heading', { name: 'No results' })).toBeInTheDocument();
+    expect(within(element).getByRole('heading', { name: 'No results', level: 4 })).toBeInTheDocument();
   });
 });

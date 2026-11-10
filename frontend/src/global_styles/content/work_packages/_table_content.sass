@@ -132,22 +132,12 @@ html:not(.-browser-mobile)
     line-height: initial !important
     white-space: nowrap
 
-// Show context menu button when hovering
-.wp-table--context-menu-td a
-  vertical-align: -3px
-  .icon:before
-    color: var(--accent-color)
-    padding: 0 0 0 0.25rem
-  &.-disabled .icon:before
+.wp-table--context-menu-td .Button
+  vertical-align: middle
+  &.-disabled
     color: var(--fgColor-muted)
   &:hover
     text-decoration: none
-
-.wp-table--details-link
-  padding-right: 5px
-
-.wp-table-context-menu-link
-  padding-left: 5px
 
 .wp-table--cell-container
   @extend .ellipsis
@@ -184,3 +174,60 @@ html:not(.-browser-mobile)
 .wp-table--cell-td img.thumbnail
   height: 40px
   outline: none
+
+.wp-table--table-header .generic-table--sort-header
+  max-width: none
+
+// The menu's custom elements sit between the flex header and its button and
+// have to pass the available width through for the indicator to reach the edge.
+.generic-table--sort-header > op-action-menu,
+.generic-table--sort-header > op-action-menu > action-menu
+  display: flex
+  flex: 1 1 auto
+  min-width: 0
+
+// The menu is anchored to the header cell, and Primer's `anchored-position`
+// offers no anchor offset below 4px, so the gap is pulled back here.
+.generic-table--sort-header > op-action-menu > action-menu > anchored-position
+  margin-top: calc(-1 * var(--base-size-4))
+
+.wp-table--column-menu-button
+  display: inline-flex
+  flex: 1 1 auto
+  align-items: center
+  gap: var(--base-size-4)
+  min-width: 0
+  max-width: 100%
+  padding: 0
+  border: 0
+  background: none
+  font: inherit
+  color: inherit
+  text-align: start
+  // Like the projects table's menu button: the header's uppercase stops at
+  // `action-menu` (see _table.sass), whose items must not inherit it.
+  text-transform: uppercase
+  letter-spacing: inherit
+  cursor: pointer
+
+.wp-table--column-menu-name
+  @include text-shortener
+
+.wp-table--column-menu-glyph
+  flex: 0 0 auto
+  align-self: center
+
+.wp-table--column-menu-indicator
+  flex: 0 0 auto
+  margin-inline-start: auto
+  visibility: hidden
+
+  th:hover &,
+  th:focus-visible &,
+  tr:focus-visible > th &,
+  .wp-table--column-menu-button:focus-visible &,
+  [aria-expanded="true"] &
+    visibility: visible
+
+  @media (hover: none)
+    visibility: visible
