@@ -29,10 +29,20 @@
 
 module Import
   class JiraIssueSprintField
-    def initialize(jira_client)
-      @keys = jira_client.fields
-        .select { |field| field.dig("schema", "custom") == Import::JiraSprintValueParser::SPRINT_FIELD_SCHEMA }
-        .pluck("id")
+    def self.from_client(jira_client)
+      new(jira_client.fields
+            .select { |field| field.dig("schema", "custom") == Import::JiraSprintValueParser::SPRINT_FIELD_SCHEMA }
+            .pluck("id"))
+    end
+
+    def self.from_staged_fields(jira_import)
+      new(Import::JiraField.where(jira_import:)
+            .where("payload #>> '{schema,custom}' = ?", Import::JiraSprintValueParser::SPRINT_FIELD_SCHEMA)
+            .pluck(:origin_id))
+    end
+
+    def initialize(keys)
+      @keys = keys
     end
 
     def each_issue_sprint_ids(issues)
@@ -42,6 +52,11 @@ module Import
         sprint_ids = values.flat_map { Import::JiraSprintValueParser.sprint_ids(it) }.uniq
         yield jira_project_id, sprint_ids if sprint_ids.any?
       end
+    end
+
+    def current_sprint_id(jira_issue)
+      values = @keys.flat_map { |key| Array.wrap(jira_issue.payload.dig("fields", key)) }
+      Import::JiraSprintValueParser.current_sprint_id(values)
     end
 
     def sprint_ids(issues)

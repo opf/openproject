@@ -105,7 +105,7 @@ module Import
     end
 
     def sprint_field
-      @sprint_field ||= Import::JiraIssueSprintField.new(@jira_client)
+      @sprint_field ||= Import::JiraIssueSprintField.from_client(@jira_client)
     end
 
     def fetch_board_sprints(board)

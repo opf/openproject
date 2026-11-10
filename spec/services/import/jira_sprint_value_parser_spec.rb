@@ -137,4 +137,35 @@ RSpec.describe Import::JiraSprintValueParser do
       expect(described_class.sprint_ids([])).to eq([])
     end
   end
+
+  describe ".current_sprint_id" do
+    def closed(id, complete_date) = { "id" => id, "state" => "closed", "completeDate" => complete_date }
+
+    it "takes the open sprint wherever it is listed" do
+      value = [closed(1, "2026-01-04T22:03:28.766Z"), { "id" => 2, "state" => "active" }, closed(3, "2026-02-04T10:00:00Z")]
+
+      expect(described_class.current_sprint_id(value)).to eq("2")
+    end
+
+    it "takes the closed sprint completed last when no sprint is open" do
+      value = [closed(1, "2026-02-04T10:00:00Z"), closed(2, "2026-01-04T22:03:28.766Z")]
+
+      expect(described_class.current_sprint_id(value)).to eq("1")
+    end
+
+    it "does not take a sprint without a known state as open" do
+      value = [{ "id" => 1, "state" => "unknown" }, closed(2, "2026-01-04T22:03:28.766Z")]
+
+      expect(described_class.current_sprint_id(value)).to eq("2")
+    end
+
+    it "reads the string form" do
+      expect(described_class.current_sprint_id([jira_10_value, jira_8_value])).to eq("11")
+    end
+
+    it "returns nil without a sprint" do
+      expect(described_class.current_sprint_id(nil)).to be_nil
+      expect(described_class.current_sprint_id(["garbage"])).to be_nil
+    end
+  end
 end

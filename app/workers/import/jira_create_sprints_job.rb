@@ -82,7 +82,7 @@ module Import
     private
 
     def issue_counts_by_sprint
-      sprint_field = Import::JiraIssueSprintField.new(@jira_client)
+      sprint_field = Import::JiraIssueSprintField.from_client(@jira_client)
       counts = {}
       Import::JiraIssue.where(jira_import_id: @jira_import.id).in_batches(of: ISSUE_BATCH_SIZE) do |issues|
         sprint_field.each_issue_sprint_ids(issues) do |jira_project_id, sprint_ids|

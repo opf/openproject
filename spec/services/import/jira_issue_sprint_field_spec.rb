@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraIssueSprintField do
-  subject(:sprint_field) { described_class.new(jira_client) }
+  subject(:sprint_field) { described_class.from_client(jira_client) }
 
   let(:jira_client) { instance_double(Import::JiraClient, fields:) }
   let(:fields) do
@@ -70,6 +70,23 @@ RSpec.describe Import::JiraIssueSprintField do
         expect { |block| sprint_field.each_issue_sprint_ids(issues, &block) }
           .to yield_successive_args([jira_project.id, %w[2 3]])
       end
+    end
+  end
+
+  describe ".from_staged_fields" do
+    it "reads the sprint field of the staged custom fields" do
+      create(:jira_field, jira_import:, origin_id: "customfield_10102", payload: fields.second)
+      create(:jira_field, jira_import:, origin_id: "customfield_10300",
+                          payload: { "id" => "customfield_10300", "schema" => { "custom" => "other" } })
+      issue = stage_issue("customfield_10102" => [{ "id" => 2 }], "customfield_10300" => [{ "id" => 3 }])
+
+      expect(described_class.from_staged_fields(jira_import).current_sprint_id(issue)).to eq("2")
+    end
+  end
+
+  describe "#current_sprint_id" do
+    it "returns nil for an issue without the sprint field" do
+      expect(sprint_field.current_sprint_id(stage_issue("summary" => "No sprint"))).to be_nil
     end
   end
 

@@ -74,6 +74,7 @@ module Import
         ).op_leg
 
         setup_resolution_date_cf(jira_project)
+        @sprint_field = Import::JiraIssueSprintField.from_staged_fields(@jira_import)
 
         cursor ||= @jira_import.get_job_cursor(self)
         enumerator_builder.active_record_on_records(
@@ -369,6 +370,7 @@ module Import
             assigned_to:,
             target_versions:,
             observed_in_versions:,
+            sprint: sprint_for(jira_issue),
             due_date:,
             # Otherwise SetAttributesService moves the due date to the next working day.
             ignore_non_working_days: due_on_non_working_day?(due_date),
@@ -409,6 +411,17 @@ module Import
       create_work_package_history(work_package, jira_issue, project, attachment_paths_by_name)
       create_watchers(work_package, jira_issue, project)
       work_package
+    end
+
+    def sprint_for(jira_issue)
+      origin_id = @sprint_field.current_sprint_id(jira_issue)
+      return if origin_id.nil?
+
+      @sprints_by_origin_id ||= {}
+      @sprints_by_origin_id.fetch(origin_id) do
+        jira_sprint = Import::JiraSprint.find_by(jira_import: @jira_import, origin_id:)
+        @sprints_by_origin_id[origin_id] = jira_sprint && @jira_import.find_op_leg(jira_sprint)
+      end
     end
 
     def due_on_non_working_day?(due_date)

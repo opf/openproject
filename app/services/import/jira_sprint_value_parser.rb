@@ -38,6 +38,7 @@ module Import
     STRING_FORM_SEPARATOR = /,(?=(?:#{STRING_FORM_KEYS.join('|')})=)/
     STRING_FORM_NULL = "<null>"
     STATES = %w[future active closed].freeze
+    OPEN_STATES = %w[future active].freeze
     ID = /\A\d+\z/
 
     module_function
@@ -64,6 +65,15 @@ module Import
 
     def sprint_ids(field_value)
       Array.wrap(field_value).filter_map { |value| parse(value)&.dig(:id) }
+    end
+
+    # The value lists every sprint the issue was in, ordered by sprint sequence rather than
+    # time. Jira keeps at most one open sprint in it.
+    def current_sprint_id(field_value)
+      sprints = Array.wrap(field_value).filter_map { |value| parse(value) }
+      current = sprints.find { |sprint| OPEN_STATES.include?(sprint[:state]) } ||
+                sprints.max_by { |sprint| sprint[:complete_date].to_i }
+      current&.dig(:id)
     end
 
     def attribute_values(value)
