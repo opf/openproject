@@ -295,6 +295,34 @@ RSpec.describe OpenProject::AccessControl do
     end
   end
 
+  describe ".modules_required_by" do
+    include_context "with blank access control state"
+
+    before do
+      described_class.map do |map|
+        map.project_module :standalone_module
+        map.project_module :base_module
+        map.project_module :middle_module, dependencies: :base_module
+        map.project_module :top_module, dependencies: :middle_module
+        map.project_module :other_top_module, dependencies: :base_module
+      end
+    end
+
+    it "maps a dependency onto the modules requiring it, transitively" do
+      expect(described_class.modules_required_by(%w[top_module]))
+        .to eq("middle_module" => %w[top_module], "base_module" => %w[top_module])
+    end
+
+    it "collects every module requiring the same dependency" do
+      expect(described_class.modules_required_by(%w[top_module other_top_module])["base_module"])
+        .to contain_exactly("top_module", "other_top_module")
+    end
+
+    it "omits modules nothing depends on" do
+      expect(described_class.modules_required_by(%w[standalone_module])).to be_empty
+    end
+  end
+
   describe ".work_package_permissions" do
     include_context "with blank access control state"
 
