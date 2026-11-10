@@ -2,7 +2,7 @@
 ---
 get:
   summary: Export a work package as PDF
-  operationId: export_work_package_pdf
+  operationId: get_work_package_pdf
   tags:
     - Work Packages
   description: |-
