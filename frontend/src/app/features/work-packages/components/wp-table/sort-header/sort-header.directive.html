@@ -30,7 +30,6 @@
                 type="button"
                 tabindex="-1"
                 class="wp-table--column-menu-button"
-                lang-attribute
                 [attr.lang]="locale()">
                 @if (showHierarchyGlyph()) {
                   <svg octicon size="small" icon="op-hierarchy" aria-hidden="true" class="wp-table--column-menu-glyph"></svg>
@@ -50,7 +49,6 @@
             <svg octicon size="small" icon="op-hierarchy" aria-hidden="true" class="wp-table--column-menu-glyph"></svg>
           }
           <span class="wp-table--column-menu-name"
-            lang-attribute
             [attr.lang]="locale()"
             [class.sort]="directionClass() !== ''" [class.asc]="directionClass() === 'asc'" [class.desc]="directionClass() === 'desc'">{{ headerColumn().name }}</span>
         }
