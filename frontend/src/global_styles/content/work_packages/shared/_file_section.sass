@@ -83,7 +83,7 @@
         left: 0
         width: 100%
 
-        background: rgba($spot-color-basic-white, 0.9)
+        background: var(--bgColor-default)
         z-index: -2
 
       &::after
@@ -98,26 +98,26 @@
       display: flex
 
     &_dragging-over
-      color: $spot-color-main
+      color: var(--fgColor-accent)
 
       &::before
-        background: rgba($spot-color-main-light, 0.9)
+        background: var(--bgColor-accent-muted)
 
       &::after
-        border: 2px dashed $spot-color-main
+        border: 2px dashed var(--borderColor-accent-emphasis)
 
     &_dragging-over:not(#{&}_float)
-      background: rgba($spot-color-main-light, 0.9)
+      background: var(--bgColor-accent-muted)
 
       &::after
         top: $spot-spacing-0_5
         height: calc(100% - #{$spot-spacing-1})
         left: $spot-spacing-0_5
         width: calc(100% - #{$spot-spacing-1})
-        border: 2px dashed $spot-color-main
+        border: 2px dashed var(--borderColor-accent-emphasis)
 
     &_dragging-over &-text
-      color: $spot-color-main
+      color: var(--fgColor-accent)
 
     &-text
       cursor: pointer
