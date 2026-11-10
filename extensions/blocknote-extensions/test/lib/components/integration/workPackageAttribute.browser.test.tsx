@@ -217,6 +217,47 @@ describe('Values of work package attributes', () => {
   });
 });
 
+const SELECTION_RING = 'rgb(100, 160, 255) 0px 0px 0px 2px inset';
+
+describe('Work package attributes in a text selection', () => {
+  it('outline an inline attribute while the selection covers it', async () => {
+    let editor:{ focus:() => void, setTextCursorPosition:(block:unknown, placement:'start') => void, document:unknown[] } | undefined;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [{
+        type: 'paragraph',
+        content: ['See ', { type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'assignee', display: 'value' } }],
+      }],
+    });
+    await expect.element(page.getByText('Mira Hofmann')).toBeVisible();
+    editor!.focus();
+    editor!.setTextCursorPosition(editor!.document[0], 'start');
+
+    await userEvent.keyboard('{Shift>}{End}{/Shift}');
+    await vi.waitFor(() => expect(getComputedStyle(chip()).boxShadow).toContain(SELECTION_RING));
+
+    editor!.setTextCursorPosition(editor!.document[0], 'start');
+    await vi.waitFor(() => expect(getComputedStyle(chip()).boxShadow).not.toContain(SELECTION_RING));
+  });
+
+  it('outline a long text while the selection covers it', async () => {
+    renderEditor({
+      initialContent: [
+        { type: 'paragraph', content: 'First' },
+        { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } },
+        { type: 'paragraph', content: 'Last' },
+      ],
+    });
+    await expect.element(page.getByText('Kick-off')).toBeVisible();
+    const frame = () => document.querySelector('.op-bn-wp-attribute-block')!;
+    const unselected = getComputedStyle(frame()).boxShadow;
+
+    await userEvent.click(page.getByText('First'));
+    await userEvent.keyboard('{Home}{Shift>}{ArrowDown}{ArrowDown}{End}{/Shift}');
+    await vi.waitFor(() => expect(getComputedStyle(frame()).boxShadow).not.toBe(unselected));
+  });
+});
+
 describe('Long text work package attribute', () => {
   it('can be dragged to another place', async () => {
     let editor:{ document:{ type:string }[] } | undefined;
