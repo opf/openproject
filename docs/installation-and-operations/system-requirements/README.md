@@ -28,7 +28,7 @@ OpenProject officially supports [PostgreSQL version 16](https://www.postgresql.o
 
 PostgreSQL versions 13 - 15 are not officially supported, but MAY continue to work, but could result in incompatibilities and degraded performance in the future. If you are using one of these versions currently, we have a [migration guide on how to upgrade to PostgreSQL 18](../misc/migration-to-postgresql18/) and strongly recommend you to upgrade your DBMS, as there are significant performance improvements.
 
-New managed installations default to PostgreSQL 18 and enable pgvector. Existing installations do not need pgvector for an application update. See the [PostgreSQL 18 guide](../misc/migration-to-postgresql18/) for installation and activation instructions.
+New managed installations default to PostgreSQL 18 with pgvector available. Existing installations do not need pgvector for an application update. See the [PostgreSQL 18 guide](../misc/migration-to-postgresql18/) for installation and activation instructions.
 
 OpenProject currently requires some bundled extensions, that should be available in all distributions, but may require additional packages:
 

@@ -135,6 +135,8 @@ origin_mdn_documentation:
 packager_installation:
   href: https://www.openproject.org/docs/installation-and-operations/installation/packaged/
   label: Packaged installation
+postgres_13_upgrade:
+  href: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql13/
 postgres_17_upgrade:
   href: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql17/
 postgres_18_upgrade:

@@ -83,6 +83,6 @@ wiz_check_package() { dpkg-query -W "$1" >/dev/null; }
 wiz_set() { :; }
 WIZARD
 /source/bin/preinstall
-PGPASSWORD=packagedfresh psql -h 127.0.0.1 -U packagedfresh -d packagedfresh -v ON_ERROR_STOP=1 -c "SELECT '[1,2,3]'::vector <-> '[1,2,3]'::vector;"
-echo 'PASS: packaged provisioning activates vector in a new database'
+test "$(PGPASSWORD=packagedfresh psql -h 127.0.0.1 -p 5432 -U packagedfresh -d packagedfresh -v ON_ERROR_STOP=1 -tAc "SELECT count(*) FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NULL")" = 1
+echo 'PASS: packaged provisioning leaves vector available for application migrations'
 runuser -u postgres -- "$PGBIN/pg_ctl" -D "$PGDATA" -m fast -w stop

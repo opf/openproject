@@ -5,7 +5,7 @@ sidebar_navigation:
 
 # Migrating your OpenProject installation to PostgreSQL 18
 
-OpenProject 18.0 defaults to PostgreSQL 18 in new packaged, all-in-one (AIO), and Docker Compose installations. New managed databases also enable the `vector` extension. Existing databases are not upgraded automatically, and OpenProject does not require pgvector for an application update.
+OpenProject 18.0 defaults to PostgreSQL 18 in new packaged, all-in-one (AIO), and Docker Compose installations. The database packages and images include pgvector; OpenProject handles extension creation during application migrations. Existing databases are not upgraded automatically, and OpenProject does not require pgvector for an application update.
 
 A PostgreSQL major upgrade requires dump/restore or `pg_upgrade`. Changing an image tag does not upgrade database files.
 
@@ -35,7 +35,7 @@ Also set `POSTGRES_VERSION=17` in `.env`. The explicit image above preserves the
 
 For development Compose, use `pgdata` as the source for `db` and apply the same override to `db-test` with source `pgdata-test`.
 
-If you deliberately switch an existing PostgreSQL 17 deployment to pgvector, use `pgvector/pgvector:pg17-bookworm` with the same PostgreSQL 17 mount target. Back up first, check locale/collation compatibility, and follow the manual activation instructions below. Selecting `POSTGRES_VERSION=17` alone does not restore the old mount layout.
+If you deliberately switch an existing PostgreSQL 17 deployment to pgvector, use `pgvector/pgvector:pg17-bookworm` with the same PostgreSQL 17 mount target. Back up first, check locale/collation compatibility, and follow the pgvector instructions below. Selecting `POSTGRES_VERSION=17` alone does not restore the old mount layout.
 
 ### Packaged installations
 
@@ -84,7 +84,7 @@ These instructions apply to `opf/openproject-docker-compose`. Run the dump with 
    docker compose exec -T db sh -c 'pg_isready -U "${POSTGRES_USER:-postgres}" -d "$POSTGRES_DB"'
    ```
 
-   The image initializes the configured database and activates `vector`. The default entrypoint handles ownership on ordinary local volumes. For NFS, root-squashed storage, or explicit container users, provision writable storage for the image's PostgreSQL user before starting it. Do not change ownership of the original database.
+   The image initializes the configured database with pgvector available for application migrations. The default entrypoint handles ownership on ordinary local volumes. For NFS, root-squashed storage, or explicit container users, provision writable storage for the image's PostgreSQL user before starting it. Do not change ownership of the original database.
 
 5. Restore the dump, stopping on the first SQL error:
 
@@ -132,14 +132,13 @@ Use the previous OpenProject image for the dump. Record its exact tag, environme
    docker exec openproject-pg-restore pg_isready -U postgres -d postgres
    ```
 
-3. Once ready, create the application role and database, then restore and activate pgvector:
+3. Once ready, create the application role and database, then restore the dump:
 
    ```shell
    docker exec openproject-pg-restore createuser -U postgres --superuser openproject
    docker exec openproject-pg-restore createdb -U postgres -O openproject openproject
    docker exec openproject-pg-restore psql -U postgres -v ON_ERROR_STOP=1 -c "ALTER ROLE openproject PASSWORD 'openproject';"
    docker exec -i openproject-pg-restore psql -U openproject -d openproject -v ON_ERROR_STOP=1 < openproject.sql
-   docker exec openproject-pg-restore psql -U openproject -d openproject -v ON_ERROR_STOP=1 -c 'CREATE EXTENSION IF NOT EXISTS vector;'
    ```
 
    Restore the application database role's password to match your AIO connection settings before cutover. The default AIO role is `openproject` with password `openproject`. Preserve any custom roles, grants, tablespaces, and additional databases separately; this dump covers the application database only.
@@ -198,20 +197,20 @@ sudo pg_createcluster 18 main --port=45433 --start
 
 If the cluster already exists, set its port with `sudo pg_conftool 18 main set port 45433` and restart it with `sudo pg_ctlcluster 18 main restart`. Choose an unused port. RPM installations require configuring the new cluster's port before starting `postgresql-18`.
 
-Create the application role and database on PostgreSQL 18, preserving the role name and password from your installation. Restore with `psql -p NEW_PORT -d DATABASE -v ON_ERROR_STOP=1 < openproject.sql` as a database administrator. Run `CREATE EXTENSION IF NOT EXISTS vector;` in that database and verify it.
+Create the application role and database on PostgreSQL 18, preserving the role name and password from your installation. Restore with `psql -p NEW_PORT -d DATABASE -v ON_ERROR_STOP=1 < openproject.sql` as a database administrator.
 
 Run `sudo openproject reconfigure`, select the existing-database option, and enter the new server's connection details. Start OpenProject and verify application access, attachments, and background jobs. Do not remove the original cluster until verification succeeds.
 
 ## Adding pgvector to an existing database
 
-This is a separate administrator action; application updates do not activate the extension automatically.
+The database server must have pgvector installed before OpenProject can create the extension during application migrations.
 
 For a local packaged database, install the package matching the running server major, for example `postgresql-17-pgvector` on Debian/Ubuntu or `pgvector_17` on Enterprise Linux. In AIO, matching packages are bundled. For Compose, deliberately switch to the matching pgvector image while preserving the major and data layout. For externally managed databases, ask the provider to make pgvector available.
 
-Connect to the **application database** as an administrator and run:
+After installing pgvector, run OpenProject's application migrations. If the application database user cannot create extensions, ask a database administrator to create it in the **application database**, then rerun the migrations:
 
 ```sql
-CREATE EXTENSION IF NOT EXISTS vector;
+CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA pg_catalog;
 ```
 
 Do not grant the application role superuser privileges just to activate an extension. Do not assume that installing a package activates it in every database.
@@ -222,10 +221,16 @@ Run these queries in the application database:
 
 ```sql
 SHOW server_version;
+SELECT default_version FROM pg_available_extensions WHERE name = 'vector';
+```
+
+Expect PostgreSQL 18 and an available pgvector version. If vector was present in the source database, or after application migrations create it, also check:
+
+```sql
 SELECT extversion FROM pg_extension WHERE extname = 'vector';
 SELECT '[1,2,3]'::vector <-> '[1,2,3]'::vector AS distance;
 ```
 
-Expect PostgreSQL 18, an extension version, and distance `0`. Check representative application records and attachment access, then restart/recreate the database container or service and verify persistence.
+Expect an extension version and distance `0`. Check representative application records and attachment access, then restart/recreate the database container or service and verify persistence.
 
 If validation fails before accepting new writes, stop the new application and database and restore the previous image, configuration, and original data mount. If the application version also changed, restore that version too. Once users write to the new database, switching back would discard those writes: retain both databases and plan recovery explicitly. Never start PostgreSQL 17 against PostgreSQL 18 files.

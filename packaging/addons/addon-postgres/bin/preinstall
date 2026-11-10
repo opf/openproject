@@ -185,7 +185,6 @@ SQL
 		echo "INFO: database $PGDATABASE already exists"
 	else
 		runuser -u postgres -- createdb -p "$PGPORT" -O "$PGUSER" -- "$PGDATABASE"
-		runuser -u postgres -- psql -p "$PGPORT" -d "$PGDATABASE" -v ON_ERROR_STOP=1 -c 'CREATE EXTENSION vector;'
 	fi
 }
 
