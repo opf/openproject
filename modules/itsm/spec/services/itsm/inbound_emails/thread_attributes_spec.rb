@@ -53,4 +53,15 @@ RSpec.describe ITSM::InboundEmails::ThreadAttributes do
       expect(attributes[:recipients]).to be_empty
     end
   end
+
+  context "when the email reached the help desk through a forwarding address" do
+    let(:raw) do
+      Mail.new(from: "jane@customer.example", to: "team@company.example", cc: ["colleague@customer.example"],
+               "X-Original-To" => "team@company.example", "Delivered-To" => "support@example.com").to_s
+    end
+
+    it "does not take that address as a recipient" do
+      expect(attributes[:recipients]).to eq(["colleague@customer.example"])
+    end
+  end
 end

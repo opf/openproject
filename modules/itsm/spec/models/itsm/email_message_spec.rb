@@ -31,11 +31,12 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM::EmailMessage do
-  subject(:message) { build(:itsm_email_message, thread:, message_id:, direction:) }
+  subject(:message) { build(:itsm_email_message, thread:, message_id:, direction:, status:) }
 
   let(:thread) { create(:itsm_email_thread) }
   let(:message_id) { "abc@customer.example" }
   let(:direction) { "inbound" }
+  let(:status) { "received" }
 
   it { is_expected.to be_valid }
 
@@ -45,8 +46,33 @@ RSpec.describe ITSM::EmailMessage do
     it { is_expected.not_to be_valid }
   end
 
+  context "with a status of the other direction" do
+    let(:status) { "sent" }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context "when an outbound message was sent" do
+    let(:direction) { "outbound" }
+    let(:status) { "sent" }
+
+    it { is_expected.to be_valid }
+  end
+
   context "with a Message-ID longer than 255 characters" do
     let(:message_id) { "#{'a' * 250}@customer.example" }
+
+    it { is_expected.to be_valid }
+  end
+
+  context "with a Message-ID longer than a header line" do
+    let(:message_id) { "#{'a' * 990}@customer.example" }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context "with a Message-ID of fewer characters but more bytes than a header line" do
+    let(:message_id) { "#{'語' * 330}@customer.example" }
 
     it { is_expected.not_to be_valid }
   end

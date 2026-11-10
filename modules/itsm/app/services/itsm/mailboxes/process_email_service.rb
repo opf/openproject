@@ -31,6 +31,14 @@ module ITSM
   module Mailboxes
     class ProcessEmailService < ::BaseServices::BaseCallable
       include Dry::Monads[:result]
+      include ServiceFailure
+
+      MAX_EMAIL_SIZE = 50.megabytes
+      DATABASE_ERRORS = [
+        ActiveRecord::ConnectionNotEstablished,
+        ActiveRecord::QueryAborted,
+        ActiveRecord::TransactionRollbackError
+      ].freeze
 
       def initialize(mailbox:, session:)
         super()
@@ -43,9 +51,8 @@ module ITSM
       def perform
         @uid = params[:uid]
 
-        Adapters::Queries::RawEmail.call(session:, uid:)
-          .bind { |raw| raw.nil? ? Success() : process(raw) }
-          .either(->(_) { ServiceResult.success(result: mailbox) }, method(:imap_failure))
+        fetch_and_process.either(->(_) { ServiceResult.success(result: mailbox) },
+                                 ->(error) { service_failure(error.code, result: mailbox) })
       end
 
       private
@@ -54,13 +61,28 @@ module ITSM
 
       delegate :project, to: :mailbox
 
+      def fetch_and_process
+        Adapters::Queries::EmailSize.call(session:, uid:).bind do |size|
+          next mark_seen("Not processed (too large)", level: :warn) if size.to_i > MAX_EMAIL_SIZE
+
+          Adapters::Queries::RawEmail.call(session:, uid:).bind { |raw| raw.nil? ? Success() : process(raw) }
+        end
+      end
+
       def process(raw)
         email = InboundEmail.new(raw)
 
         Rails.logger.tagged("email #{email.headers.message_id}") { handle(email) }
+      rescue *DATABASE_ERRORS => e
+        report(e, "not processed")
+        failure(:processing_failed)
       rescue StandardError => e
-        OpenProject.logger.error("Email #{uid} failed (#{e.class.name})", exception: e)
+        report(e, "failed")
         Adapters::Commands::MarkEmailSeen.call(session:, uid:)
+      end
+
+      def report(error, outcome)
+        OpenProject.logger.error("Email #{uid} #{outcome} (#{error.class.name})", exception: error)
       end
 
       def handle(email)
@@ -82,9 +104,16 @@ module ITSM
           remove("Added to work package ##{thread.work_package_id}")
         in { success: true, result: thread }
           remove("Already in work package ##{thread.work_package_id}")
+        in { failure: true, result:, errors: } if project_setup_prevents?(result, errors)
+          Rails.logger.warn { "Work package not created (#{error_codes(errors)})" }
+          failure(:work_package_not_created)
         in { failure: true, errors: }
           mark_seen("Not processed (#{error_codes(errors)})", level: :warn)
         end
+      end
+
+      def project_setup_prevents?(record, errors)
+        record.is_a?(WorkPackage) || errors.symbols_for(:base).include?(:error_unauthorized)
       end
 
       def remove(outcome)
@@ -101,7 +130,7 @@ module ITSM
         errors.map { |error| error.type.is_a?(Symbol) ? "#{error.attribute} #{error.type}" : error.attribute }.join(", ")
       end
 
-      def imap_failure(error) = ServiceResult.failure(result: mailbox).tap { it.errors.add(:base, error.code) }
+      def failure(code) = Failure(SimpleError.new(source: self.class, code:))
     end
   end
 end

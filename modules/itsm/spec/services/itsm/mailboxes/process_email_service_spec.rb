@@ -139,6 +139,30 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
     end
   end
 
+  context "when the project's setup lets no work package be created" do
+    let!(:priority) { nil }
+
+    it "fails and leaves the email untouched, to be tried again" do
+      expect { result }.not_to change(WorkPackage, :count)
+      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(imap).not_to have_received(:uid_store)
+      expect(warned).to include("Work package not created (priority blank)")
+    end
+  end
+
+  context "when the author may not create work packages from emails" do
+    before do
+      failure = ServiceResult.failure(result: ITSM::EmailThread.new).tap { it.errors.add(:base, :error_unauthorized) }
+      service = instance_double(ITSM::InboundEmails::CreateWorkPackageService, call: failure)
+      allow(ITSM::InboundEmails::CreateWorkPackageService).to receive(:new).and_return(service)
+    end
+
+    it "fails and leaves the email untouched, to be tried again" do
+      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(imap).not_to have_received(:uid_store)
+    end
+  end
+
   context "when the work package is rejected with a message" do
     before do
       failure = ServiceResult.failure.tap { it.errors.add(:subject, "Printer of jane@customer.example") }
@@ -164,6 +188,36 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
       expect(OpenProject.logger).to have_received(:error)
         .with("Email 7 failed (ActiveRecord::StatementInvalid)", exception: instance_of(ActiveRecord::StatementInvalid))
+    end
+  end
+
+  context "when the database is not available" do
+    before do
+      allow(ITSM::InboundEmails::CreateWorkPackageService).to receive(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
+      allow(OpenProject.logger).to receive(:error)
+    end
+
+    it "fails and leaves the email untouched, to be tried again" do
+      expect(result.errors.symbols_for(:base)).to eq([:processing_failed])
+      expect(imap).not_to have_received(:uid_store)
+      expect(OpenProject.logger).to have_received(:error)
+        .with("Email 7 not processed (ActiveRecord::ConnectionNotEstablished)",
+              exception: instance_of(ActiveRecord::ConnectionNotEstablished))
+    end
+  end
+
+  context "when the email is larger than allowed" do
+    before do
+      allow(imap).to receive(:uid_fetch).with(7, "RFC822.SIZE")
+        .and_return([Net::IMAP::FetchData.new(7, { "RFC822.SIZE" => 51.megabytes })])
+    end
+
+    it "marks it as seen without loading it" do
+      expect { result }.not_to change(WorkPackage, :count)
+      expect(result).to be_success
+      expect(imap).not_to have_received(:uid_fetch).with(7, "BODY.PEEK[]")
+      expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
+      expect(warned).to include("Not processed (too large)")
     end
   end
 

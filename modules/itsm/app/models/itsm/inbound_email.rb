@@ -31,7 +31,6 @@ module ITSM
   class InboundEmail
     Headers = Data.define(:message_id, :in_reply_to, :references, :from_address, :from_name,
                           :to_addresses, :cc_addresses, :subject)
-    LINK_TARGET = /\A(https?|mailto):/i
 
     def initialize(raw)
       @raw = raw
@@ -49,10 +48,14 @@ module ITSM
     end
 
     def text
-      @text ||= valid_utf8(body_text).gsub(/\r\n?/, "\n").strip
+      @text ||= body_text.gsub(/\r\n?/, "\n").strip
     end
 
     def header_value(name) = valid_utf8(Array(mail.header[name]).first&.value)
+
+    def delivery_addresses
+      email_addresses(%w[Delivered-To X-Original-To].filter_map { header_value(it)&.delete("<>") })
+    end
 
     def delivery_report?
       mail.mime_type == "multipart/report" && mail.content_type_parameters["report-type"]&.casecmp?("delivery-status")
@@ -83,27 +86,20 @@ module ITSM
     end
 
     def body_text
-      part = mail.multipart? ? mail.text_part || mail.html_part : mail
+      return part_text(mail) unless mail.multipart?
 
-      case part&.mime_type
-      when nil, "text/plain" then part&.decoded.to_s
-      when "text/html" then html_to_text(part.decoded)
+      parts = body_parts("text/plain").presence || body_parts("text/html")
+      parts.map { part_text(it).strip }.compact_blank.join("\n\n")
+    end
+
+    def body_parts(mime_type) = mail.all_parts.select { it.mime_type == mime_type && !it.attachment? }
+
+    def part_text(part)
+      case part.mime_type
+      when nil, "text/plain" then valid_utf8(part.decoded.to_s)
+      when "text/html" then HtmlToText.call(valid_utf8(part.decoded))
       else ""
       end
-    end
-
-    def html_to_text(html)
-      document = Loofah.html5_document(html).scrub!(:prune)
-      document.css("a[href]").each { |link| link.replace(document.create_text_node(link_text(link))) }
-      document.to_text(encode_special_chars: false)
-    end
-
-    def link_text(link)
-      text = link.text.strip
-      return text unless link["href"].match?(LINK_TARGET)
-
-      target = link["href"].delete_prefix("mailto:")
-      text.empty? || text == target ? target : "#{text} (#{target})"
     end
 
     def email_addresses(addresses) = EmailAddress::NORMALIZE_ALL.call(addresses.select { EmailValidator.valid?(it) })
@@ -113,7 +109,7 @@ module ITSM
     def valid_utf8(value)
       case value
       when Array then value.map { valid_utf8(it) }
-      when String then value.dup.force_encoding(Encoding::UTF_8).scrub
+      when String then value.dup.force_encoding(Encoding::UTF_8).scrub.delete("\u0000")
       else value
       end
     end

@@ -51,14 +51,16 @@ en:
         itsm/incoming_mailbox:
           attributes:
             base:
-              address_not_allowed: "The mail server is on a network address that OpenProject is not allowed to connect to."
+              address_not_allowed: "The mail server resolves to a blocked address. If it runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable."
               authentication_failed: "The mail server rejected the username or password."
               fetch_in_progress: "The mailbox is already being checked."
               inactive: "The mailbox is paused."
-              server_error: "The mail server returned an error."
+              processing_failed: "The emails could not be processed. They stay in the mailbox and are tried again. Check the OpenProject worker logs for details."
+              server_error: "The mail server returned an error. Check the OpenProject worker logs for details."
               timeout: "The mail server stopped responding."
               tls_failed: "No secure connection to the mail server could be established. Check its certificate."
               unreachable: "The mail server could not be reached."
+              work_package_not_created: "No work package could be created from an email, for example because of a required custom field without a default value. The email stays in the mailbox and is tried again. Check the OpenProject worker logs for details."
     models:
       itsm/email_message:
         one: Email message

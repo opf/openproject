@@ -45,8 +45,10 @@ module ITSM
       delegate :headers, to: :email
 
       def recipients
-        (headers.to_addresses + headers.cc_addresses).uniq - [headers.from_address] - EmailAddress.helpdesk_addresses
+        (headers.to_addresses + headers.cc_addresses).uniq - [headers.from_address] - own_addresses
       end
+
+      def own_addresses = EmailAddress.helpdesk_addresses + email.delivery_addresses
     end
   end
 end

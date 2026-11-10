@@ -44,7 +44,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
   before do
     with_ssrf_ip_allowlist(["203.0.113.10"])
     allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("203.0.113.10")] })
-    allow(Net::IMAP).to receive(:new).and_return(imap)
+    allow(ITSM::Adapters::ImapConnection).to receive(:new).and_return(imap)
     allow(imap).to receive(:uid_search).and_return(unseen_uids)
     allow(ITSM::Mailboxes::ProcessEmailService).to receive(:new)
       .with(mailbox:, session: instance_of(ITSM::Adapters::ImapSession))
@@ -54,7 +54,12 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
   it "logs in with the mailbox's IMAP settings" do
     result
 
-    expect(Net::IMAP).to have_received(:new).with(mailbox.mail_server.host, port: 993, ssl: true, open_timeout: 10)
+    expect(ITSM::Adapters::ImapConnection).to have_received(:new)
+      .with(mailbox.mail_server.host,
+            addresses: ["203.0.113.10"],
+            port: 993,
+            ssl: { min_version: OpenSSL::SSL::TLS1_2_VERSION },
+            open_timeout: 10)
     expect(imap).to have_received(:login).with(mailbox.username, "imap-password")
   end
 
@@ -68,6 +73,10 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
     result
 
     expect(imap).to have_received(:logout)
+  end
+
+  it "does not schedule another check" do
+    expect { result }.not_to have_enqueued_job(ITSM::Mailboxes::FetchJob)
   end
 
   it "records the successful check", freeze_time: Time.current.change(usec: 0) do
@@ -107,6 +116,10 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
 
       expect(process_email_service).to have_received(:call).once.with(uid: 1)
     end
+
+    it "checks the mailbox again right away" do
+      expect { result }.to have_enqueued_job(ITSM::Mailboxes::FetchJob).with(mailbox)
+    end
   end
 
   context "with earlier failures" do
@@ -121,7 +134,18 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
   end
 
   context "when the server cannot be reached", freeze_time: Time.current.change(usec: 0) do
-    before { allow(Net::IMAP).to receive(:new).and_raise(Errno::ECONNREFUSED) }
+    let(:warnings) { [] }
+
+    before do
+      allow(ITSM::Adapters::ImapConnection).to receive(:new).and_raise(Errno::ECONNREFUSED)
+      allow(Rails.logger).to receive(:warn) { |&message| warnings << message.call }
+    end
+
+    it "logs the server and the error" do
+      result
+
+      expect(warnings).to include("Fetching from #{mailbox.mail_server.host}:993 failed (unreachable): Connection refused")
+    end
 
     it "fails with the reason" do
       expect(result).to be_failure
@@ -135,6 +159,21 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
                                                 last_error: "unreachable",
                                                 next_fetch_at: 30.minutes.from_now,
                                                 last_fetched_at: nil)
+    end
+  end
+
+  context "when no work package can be created from an email" do
+    before do
+      stub_const("#{described_class}::BATCH_SIZE", 2)
+      allow(process_email_service).to receive(:call).with(uid: 1)
+        .and_return(ServiceResult.failure(result: mailbox).tap { it.errors.add(:base, :work_package_not_created) })
+    end
+
+    it "stops, so the email and the ones after it are tried again later" do
+      expect { result }.not_to have_enqueued_job(ITSM::Mailboxes::FetchJob)
+      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(mailbox.reload).to have_attributes(last_error: "work_package_not_created", consecutive_failures: 1)
+      expect(process_email_service).not_to have_received(:call).with(uid: 2)
     end
   end
 
@@ -158,21 +197,21 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
     it "does not connect" do
       expect(result).to be_failure
       expect(result.errors.symbols_for(:base)).to eq([:inactive])
-      expect(Net::IMAP).not_to have_received(:new)
+      expect(ITSM::Adapters::ImapConnection).not_to have_received(:new)
     end
   end
 
   context "when the help desk is turned off in the administration", with_settings: { helpdesk_enabled: false } do
     it "does not connect" do
       expect(result.errors.symbols_for(:base)).to eq([:inactive])
-      expect(Net::IMAP).not_to have_received(:new)
+      expect(ITSM::Adapters::ImapConnection).not_to have_received(:new)
     end
   end
 
   context "with the help desk feature disabled", with_flag: { helpdesk: false } do
     it "does not connect" do
       expect(result.errors.symbols_for(:base)).to eq([:inactive])
-      expect(Net::IMAP).not_to have_received(:new)
+      expect(ITSM::Adapters::ImapConnection).not_to have_received(:new)
     end
   end
 
@@ -181,7 +220,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
 
     it "does not connect" do
       expect(result.errors.symbols_for(:base)).to eq([:inactive])
-      expect(Net::IMAP).not_to have_received(:new)
+      expect(ITSM::Adapters::ImapConnection).not_to have_received(:new)
     end
   end
 
@@ -195,7 +234,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
     it "does not connect" do
       expect(result).to be_failure
       expect(result.errors.symbols_for(:base)).to eq([:fetch_in_progress])
-      expect(Net::IMAP).not_to have_received(:new)
+      expect(ITSM::Adapters::ImapConnection).not_to have_received(:new)
     end
   end
 end

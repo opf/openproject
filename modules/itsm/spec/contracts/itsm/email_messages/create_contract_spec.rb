@@ -71,8 +71,8 @@ RSpec.describe ITSM::EmailMessages::CreateContract, :check_errors_i18n do
     it_behaves_like "contract is invalid", journal: :invalid
   end
 
-  context "with a message ID longer than 255 characters" do
-    let(:message_id) { "#{'a' * 256}@customer.example" }
+  context "with a message ID longer than a header line" do
+    let(:message_id) { "#{'a' * 990}@customer.example" }
 
     it_behaves_like "contract is invalid", message_id: :too_long
   end
