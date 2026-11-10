@@ -36,6 +36,8 @@ export const contextMenuSpanClassName = 'wp-table--context-menu-span';
 export const contextMenuLinkClassName = 'wp-table-context-menu-link';
 export const contextColumnIcon = 'wp-table-context-menu-icon';
 export const destructiveControlAttribute = 'data-wp-table-destructive';
+/** The classes `Primer::Beta::IconButton` renders for `scheme: :invisible, size: :small`. */
+export const invisibleIconButtonClasses = ['Button', 'Button--iconOnly', 'Button--invisible', 'Button--small'] as const;
 
 export abstract class OpTableAction {
   @LazyInject() I18n!:I18nService;

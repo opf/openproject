@@ -3,7 +3,7 @@ import type { KeyboardEvent } from 'react';
 import { fetchAllowedValues } from '../../services/openProjectApi';
 import type { AllowedValuesQuery } from '../../services/openProjectApi';
 import { listedValues, toAllowedValues } from './formSchema';
-import type { AllowedValue, ListedValue } from './formSchema';
+import type { AllowedValue, ListedValue } from '../Shared/options';
 
 const SEARCH_DEBOUNCE = 300;
 

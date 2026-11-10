@@ -4,7 +4,7 @@
       <table
         class="keyboard-accessible-list generic-table work-package-table"
         data-controller="table-highlighting"
-        [attr.id]="workPackageTable?.domId ?? null"
+        [attr.id]="tableDomId"
         [class.op-table-baseline]="baselineEnabled"
         role="treegrid"
         aria-multiselectable="true"
@@ -61,10 +61,7 @@
                   [attr.aria-sort]="ariaSort(column)">
                   <sortHeader [headerColumn]="column"
                     [locale]="column.custom_field && column.custom_field.name_locale || locale"
-                    [table]="workPackageTable"
-                    opColumnsContextMenu
-                    [opColumnsContextMenu-column]="column"
-                    [opColumnsContextMenu-table]="workPackageTable" />
+                    [table]="workPackageTable" />
                 </th>
               }
               @if (configuration.columnMenuEnabled || configuration.actionsColumnEnabled) {
@@ -84,14 +81,11 @@
           @if (!isEmbedded && query && results.count === 0) {
             <tbody class="work-package--empty-tbody">
               <tr id="empty-row-notification">
-                <td [attr.colspan]="numTableColumns">
-                  <span>
-                    <op-icon icon-classes="icon-info1 icon-context" />
-                    <span>
-                      <strong>{{text.noResults.title}}</strong>
-                      {{text.noResults.description}}
-                    </span>
-                  </span>
+                <td class="-no-ellipsis" [attr.colspan]="numTableColumns">
+                  <op-no-results
+                    icon="op-work-packages"
+                    [title]="text.noResults.title"
+                    [message]="text.noResults.description" />
                 </td>
               </tr>
             </tbody>

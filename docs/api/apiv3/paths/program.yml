@@ -40,7 +40,7 @@ get:
   tags:
     - Programs
   description: ''
-  operationId: View_program
+  operationId: get_program
   summary: View program
 patch:
   parameters:
@@ -135,7 +135,7 @@ patch:
     - Programs
   description: Updates the given program by applying the attributes provided in the
     body.
-  operationId: Update_Program
+  operationId: update_program
   summary: Update Program
 delete:
   parameters:
@@ -217,5 +217,5 @@ delete:
     Deletes the program permanently. As this is a lengthy process, the actual deletion is carried out asynchronously.
     So the program might exist well after the request has returned successfully. To prevent unwanted changes to
     the program scheduled for deletion, it is archived at once.
-  operationId: Delete_Program
+  operationId: delete_program
   summary: Delete Program

@@ -79,5 +79,5 @@ get:
     - Sprints
   description: |-
     List sprints in the project. The sprints might be ones native to the project or shared with it. This endpoint supports pagination and filtering.
-  operationId: List_sprints_in_project
+  operationId: list_sprints_in_project
   summary: List sprints in project

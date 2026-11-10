@@ -83,4 +83,15 @@ RSpec.describe "Spent time widget on the dashboard", :js do
 
     expect(page).to have_dialog
   end
+
+  it "shows an empty state below the widget title without recent time entries" do
+    time_entry.destroy!
+    dashboard_page.visit!
+
+    within(".grid--area.-widgeted") do
+      expect(page).to have_heading("Spent time (last 7 days)", level: 3)
+      expect(page).to have_heading("No time entries for the last 7 days.", level: 4)
+    end
+    expect(page).to be_axe_clean.within(".grid--area.-widgeted")
+  end
 end

@@ -74,7 +74,7 @@ get:
   tags:
     - News
   description: ''
-  operationId: View_news
+  operationId: get_news
   summary: View news
 patch:
   summary: Update news

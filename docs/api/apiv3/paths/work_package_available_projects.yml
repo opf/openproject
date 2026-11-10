@@ -118,5 +118,5 @@ get:
     - Work Packages
   description: Gets a list of projects that are available as projects to which the
     work package can be moved.
-  operationId: Available_projects_for_work_package
+  operationId: list_available_projects_for_work_package
   summary: Available projects for work package

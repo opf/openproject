@@ -48,7 +48,7 @@ delete:
 
 get:
   summary: View user
-  operationId: view_user
+  operationId: get_user
   description: ''
   tags:
     - Users

@@ -32,8 +32,39 @@ import { PositionArgs, WorkPackageViewContextMenu } from 'core-app/shared/compon
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
-import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { MoveDirection } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/row-mover';
+import type { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import { forgetKeyboardMenuOpen } from 'core-app/features/work-packages/components/wp-fast-table/handlers/context-menu/context-menu-handler';
+
+const tableActionIcons = {
+  'icon-clipboard': 'paste',
+  'icon-code-tag': 'hash',
+  'icon-copy': 'duplicate',
+  'icon-delete': 'trash',
+  'icon-duplicate': 'duplicate',
+  'icon-edit': 'pencil',
+  'icon-export-atom': 'op-file-atom',
+  'icon-export-pdf-with-descriptions': 'op-pdf-description',
+  'icon-file-text': 'markdown',
+  'icon-log_time': 'clock',
+  'icon-move': 'op-move',
+  'icon-paragraph-left': 'op-outdent',
+  'icon-paragraph-right': 'op-indent',
+  'icon-project-types': 'op-copy-to-project',
+  'icon-relation-follows': 'op-relation-follows',
+  'icon-relation-new-child': 'op-relation-new-child',
+  'icon-relations': 'op-relations',
+  'icon-user-plus': 'person-add',
+  'icon-view-fullscreen': 'op-view-fullscreen',
+  'icon-view-split': 'op-view-split',
+} as const satisfies Record<`icon-${string}`, DynamicIconName>;
+
+function octiconFor(icon:string):DynamicIconName|undefined {
+  return Object.hasOwn(tableActionIcons, icon)
+    ? tableActionIcons[icon as keyof typeof tableActionIcons]
+    : undefined;
+}
 
 export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
   @LazyInject() wpViewIndentation:WorkPackageViewHierarchyIdentationService;
@@ -47,13 +78,54 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     protected table:WorkPackageTable) {
     super(injector, workPackageId, element, additionalPositionArgs, true);
     this.origin = table.keyboardNavigation.originForControl(element);
+    // Appended here: the base class builds `items` before `table` is assigned.
+    this.appendMoveItems();
+  }
+
+  protected override buildItems():OpContextMenuItem[] {
+    return super.buildItems().map((item):OpContextMenuItem => ({
+      ...item,
+      octicon: item.icon ? octiconFor(item.icon) : undefined,
+    }));
+  }
+
+  private appendMoveItems():void {
+    const selection = this.selectedWorkPackages.length === 1
+      ? [this.workPackageId]
+      : this.selectedWorkPackages.flatMap((wp) => wp.id ?? []);
+    const mover = this.table.rowMover;
+    const directions = mover?.movableDirections(selection);
+    if (!mover || !directions) return;
+
+    const entries:{ direction:MoveDirection, linkText:string, octicon:DynamicIconName }[] = [
+      { direction: 'top', linkText: I18n.t('js.label_sort_highest'), octicon: 'move-to-top' },
+      { direction: 'up', linkText: I18n.t('js.label_sort_higher'), octicon: 'chevron-up' },
+      { direction: 'down', linkText: I18n.t('js.label_sort_lower'), octicon: 'chevron-down' },
+      { direction: 'bottom', linkText: I18n.t('js.label_sort_lowest'), octicon: 'move-to-bottom' },
+    ];
+    this.items.push(
+      { divider: true },
+      {
+        linkText: I18n.t('js.button_move'),
+        octicon: 'op-arrow-in',
+        children: entries.map(({ direction, linkText, octicon }) => ({
+          linkText,
+          octicon,
+          disabled: !directions.has(direction),
+          onClick: () => {
+            mover.move(selection, direction);
+            return true;
+          },
+        })),
+      },
+    );
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
     forgetKeyboardMenuOpen(this.table);
 
-    if (this.origin && (reason === 'escape' || reason === 'action')) {
-      this.table.keyboardNavigation.returnFocusFromMenu(this.origin);
+    if (this.origin && (reason === 'escape' || reason === 'action' || reason === 'scroll')) {
+      this.table.keyboardNavigation.returnFocusFromMenu(this.origin, this.origin, { reveal: reason !== 'scroll' });
       return;
     }
 

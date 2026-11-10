@@ -46,7 +46,7 @@ get:
 
 delete:
   summary: Delete version
-  operationId: delete_Version
+  operationId: delete_version
   tags:
     - Versions
   description: Deletes the version. Entities associated to the version will no longer be assigned to it.
@@ -102,7 +102,7 @@ delete:
 
 patch:
   summary: Update Version
-  operationId: update_Version
+  operationId: update_version
   tags:
     - Versions
   description: |-
