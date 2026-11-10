@@ -63,22 +63,11 @@ describe('NoResultsComponent', () => {
 
   const icon = () => (fixture.nativeElement as HTMLElement).querySelector<SVGElement>('svg.blankslate-icon');
 
-  it('renders a Primer Blankslate', () => {
+  it('renders a Primer Blankslate with the generic no data label as a level 3 heading', () => {
     render();
 
     expect(fixture.nativeElement.querySelector('.blankslate-container > .blankslate')).toBeInTheDocument();
-  });
-
-  it('defaults the heading to the generic no data label', () => {
-    render();
-
-    expect(screen.getByRole('heading', { name: 'No data to display' })).toHaveClass('blankslate-heading');
-  });
-
-  it('renders the heading at level 3 by default', () => {
-    render();
-
-    expect(screen.getByRole('heading', { level: 3, name: 'No data to display' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: 'No data to display' })).toHaveClass('blankslate-heading');
   });
 
   it('renders the heading at the given level', () => {
