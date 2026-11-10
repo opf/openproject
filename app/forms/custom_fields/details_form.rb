@@ -208,7 +208,9 @@ module CustomFields
             label: I18n.t("custom_fields.project_specific_values.all.label"),
             caption: I18n.t("custom_fields.project_specific_values.all.caption"),
             data: mode_switch_cause_data
-          )
+          ) do |radio|
+            project_admin_settings(radio, mode: "all", value: "")
+          end
           group.radio_button(
             value: "allow",
             checked: model.project_specific_value_restriction_allow?,
@@ -216,7 +218,9 @@ module CustomFields
             label: I18n.t("custom_fields.project_specific_values.allow.label"),
             caption: helpers.t("custom_fields.project_specific_values.allow.caption_html"),
             data: mode_switch_cause_data
-          )
+          ) do |radio|
+            project_admin_settings(radio, mode: "allow", value: "allow")
+          end
           group.radio_button(
             value: "block",
             checked: model.project_specific_value_restriction_block?,
@@ -224,7 +228,26 @@ module CustomFields
             label: I18n.t("custom_fields.project_specific_values.block.label"),
             caption: I18n.t("custom_fields.project_specific_values.block.caption"),
             data: mode_switch_cause_data
-          )
+          ) do |radio|
+            project_admin_settings(radio, mode: "block", value: "block")
+          end
+        end
+
+        details_form.html_content do
+          render(
+            Primer::Alpha::Banner.new(
+              icon: :info,
+              hidden: !project_admin_flag_enabled?,
+              test_selector: "project-admin-permission-banner",
+              data: { "admin--project-specific-values-target": "permissionBanner" }
+            )
+          ) do
+            helpers.link_translate(
+              "custom_fields.project_specific_values.project_admins.permission_info",
+              links: { roles: url_helpers.roles_path },
+              external: false
+            )
+          end
         end
 
         details_form.html_content do
@@ -361,7 +384,26 @@ module CustomFields
     end
 
     def mode_switch_cause_data
-      { show_when_value_selected_target: "cause", target_name: "project_specific_value_restriction" }
+      {
+        show_when_value_selected_target: "cause",
+        target_name: "project_specific_value_restriction",
+        action: "admin--project-specific-values#selectMode"
+      }
+    end
+
+    def project_admin_settings(radio, mode:, value:)
+      selected = (model.project_specific_value_restriction || "") == value
+
+      radio.nested_form(
+        hidden: !selected,
+        data: { "admin--project-specific-values-target": "section", value: }
+      ) do |builder|
+        ProjectAdminSettingsForm.new(builder, mode:, disabled: !selected || !project_specific_values_enterprise?)
+      end
+    end
+
+    def project_admin_flag_enabled?
+      model.allow_additional_project_values || model.project_level_value_management
     end
 
     def mode_switch_banner(details_form, mode:, value:)

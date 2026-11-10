@@ -22,7 +22,10 @@
             id: "custom_field_form",
             url: form_url,
             method: form_method,
-            data: { controller: "show-when-value-selected" }
+            data: {
+              controller: "show-when-value-selected admin--project-specific-values",
+              "admin--project-specific-values-enterprise-value": EnterpriseToken.allows_to?(:project_specific_list_values)
+            }
           ) { |form| render CustomFields::DetailsForm.new(form) }
         end
       end
