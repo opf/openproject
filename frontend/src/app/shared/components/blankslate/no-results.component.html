@@ -1,5 +1,7 @@
 <blankslate>
-  <blankslate-icon [icon]="icon()" />
+  @if (icon(); as icon) {
+    <blankslate-icon [icon]="icon" />
+  }
   <blankslate-heading [level]="headingLevel()">{{ title() }}</blankslate-heading>
   @if (message()) {
     <blankslate-description>{{ message() }}</blankslate-description>

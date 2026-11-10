@@ -27,7 +27,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
-import { graphIconData, noteIconData } from '@openproject/octicons-angular';
+import { noteIconData } from '@openproject/octicons-angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import { BlankslateHeadingLevel } from './blankslate.component';
@@ -61,7 +61,7 @@ describe('NoResultsComponent', () => {
     fixture.detectChanges();
   }
 
-  const icon = () => (fixture.nativeElement as HTMLElement).querySelector<SVGElement>('svg.blankslate-icon')!;
+  const icon = () => (fixture.nativeElement as HTMLElement).querySelector<SVGElement>('svg.blankslate-icon');
 
   it('renders a Primer Blankslate', () => {
     render();
@@ -108,17 +108,17 @@ describe('NoResultsComponent', () => {
     expect(description.querySelector('b')).not.toBeInTheDocument();
   });
 
-  it('renders a decorative graph icon by default', () => {
+  it('omits the icon without one', () => {
     render();
+
+    expect(icon()).not.toBeInTheDocument();
+  });
+
+  it('renders the given icon as decorative', () => {
+    render({ icon: 'note' });
 
     expect(icon()).toHaveClass('octicon', 'blankslate-icon');
     expect(icon()).toHaveAttribute('aria-hidden', 'true');
-    expect(icon().querySelector('path')).toHaveAttribute('d', graphIconData['24'].paths[0]);
-  });
-
-  it('renders the given icon', () => {
-    render({ icon: 'note' });
-
-    expect(icon().querySelector('path')).toHaveAttribute('d', noteIconData['24'].paths[0]);
+    expect(icon()?.querySelector('path')).toHaveAttribute('d', noteIconData['24'].paths[0]);
   });
 });

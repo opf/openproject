@@ -51,7 +51,7 @@ import {
 export class NoResultsComponent {
   private readonly i18n = inject(I18nService);
 
-  readonly icon = input<DynamicIconName>('graph');
+  readonly icon = input<DynamicIconName>();
   readonly title = input(this.i18n.t('js.label_no_data'));
   readonly message = input<string>();
   readonly headingLevel = input<BlankslateHeadingLevel>(3);
