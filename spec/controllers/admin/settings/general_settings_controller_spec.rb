@@ -35,4 +35,15 @@ RSpec.describe Admin::Settings::GeneralSettingsController do
   current_user { user }
 
   include_examples "GET #show requires admin permission and renders template", path: "general_settings"
+
+  describe "PATCH #update" do
+    it "stores custom protocols and drops schemes that cannot be used in links" do
+      patch :update, params: {
+        settings: { allowed_link_protocols: "ftp\njavascript\nJavaScript\ndata\nvbscript\n<vbscript>\n" }
+      }
+
+      expect(response).to redirect_to(action: "show")
+      expect(Setting.allowed_link_protocols).to eq(["ftp"])
+    end
+  end
 end

@@ -60,7 +60,6 @@ module WorkPackageTypes
           element_key: @project_custom_field.attribute_name,
           label: t("types.edit.project_attributes.exclusions.attribute_label", attribute: @project_custom_field.name),
           aspect: ASPECT,
-          off_label: t("types.edit.project_attributes.disabled"),
           test_selector: "toggle-variant-project-attribute-#{@project_custom_field.id}"
         )
       end

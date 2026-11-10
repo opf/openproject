@@ -32,6 +32,8 @@ require "spec_helper"
 RSpec.describe "Watcher tab", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
+  include_context "with axe on Cuprite"
+
   let!(:standard_global_role) { create(:empty_global_role) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
@@ -63,14 +65,12 @@ RSpec.describe "Watcher tab", :js do
   end
 
   def expect_button_is_watching
-    title = I18n.t("js.label_unwatch_work_package")
-    expect(page).to have_css("#unwatch-button[title='#{title}']", wait: 30)
+    expect(page).to have_button("unwatch-button", accessible_name: "Unwatch work package", wait: 30)
     expect(page).to have_css("#unwatch-button .button--icon[eye-icon]")
   end
 
   def expect_button_is_not_watching
-    title = I18n.t("js.label_watch_work_package")
-    expect(page).to have_css("#watch-button[title='#{title}']")
+    expect(page).to have_button("watch-button", accessible_name: "Watch work package")
     expect(page).to have_css("#watch-button .button--icon[eye-closed-icon]")
   end
 
@@ -114,10 +114,11 @@ RSpec.describe "Watcher tab", :js do
 
       # Expect watchers counter to increase
       tabs.expect_counter(watchers_tab, 1)
+      expect(page).to be_axe_clean.within("op-wp-watcher-entry")
 
       # Remove watcher from list
       page.find_test_selector("op-wp-watcher-name", text: user.name).hover
-      page.find(".form--selected-value--remover").click
+      click_on accessible_name: "Remove watcher #{user.name}"
 
       # Watchers counter should not be displayed
       tabs.expect_no_counter(watchers_tab)

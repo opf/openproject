@@ -53,7 +53,7 @@ RSpec.describe "version edit", :js do
     expect(page)
       .to have_current_path(version_path(version))
     expect(page)
-      .to have_content new_version_name
+      .to have_text new_version_name
   end
 
   context "with a custom field" do
@@ -90,7 +90,7 @@ RSpec.describe "version edit", :js do
       click_on "Save"
 
       expect(page).to have_text("Successful update")
-      expect(page).to have_content("Version 2.1")
+      expect(page).to have_text("Version 2.1")
 
       # Verify the custom field value was updated
       updated_version = Version.find_by(name: "Version 2.1")

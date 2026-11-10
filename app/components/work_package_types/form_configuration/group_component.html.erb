@@ -28,9 +28,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper(
+    :stack_item,
     data: wrapper_data
   ) do
-    render(border_box_container(mt: 3, mb: (last? ? 3 : 0), padding: :condensed, data: box_data)) do |box|
+    render(border_box_container(padding: :condensed, data: box_data, position: :static)) do |box|
       # The group item resolves its menu as the first action-menu inside it: the header stays above the rows.
       box.with_header(font_weight: :bold) do
         render(

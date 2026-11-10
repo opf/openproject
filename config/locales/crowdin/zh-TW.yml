@@ -83,7 +83,7 @@ zh-TW:
         dependencies: 依賴套件
   activerecord:
     attributes:
-      ai/text_transform_action:
+      ai/text_action:
         active: Active
         injects_type_template: Insert work package type template
         label: Label
@@ -140,7 +140,6 @@ zh-TW:
         allow_non_open_versions: 允許非開放版本
         content_right_to_left: 從右至左的內容
         default_value: 預設值
-        editable: 可編輯
         field_format: 格式
         formula: 公式
         has_comment: Add a comment text field
@@ -157,6 +156,7 @@ zh-TW:
         regexp: 正規表示式
         searchable: 搜索
         semantic_key: Semantic meaning
+        user_self_editable: Editable
         visible_on_user_card: Show on user card
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -817,7 +817,7 @@ zh-TW:
           attributes:
             base:
               archive_permission_missing_on_subprojects: 您沒有權限將所有子專案封存。請洽系統管理員。
-              project_initiation_request_disabled: 專案啟動請求已被停用。必須啟用它才能建立成品工作套件。
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: 還需要啓用模塊“%{dependency}”，因為模塊“%{module}”依賴於該模塊。
               format: "%{message}"
@@ -831,7 +831,7 @@ zh-TW:
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
               switch_target_not_in_family: Can only switch to another type of the same family
-          cannot_be_assigned_to_artifact_work_package: 不允許指定所選使用者為工作套件。
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: 非子孫專案中的工作套件參考該專案或其子孫專案的版本。
         project/phase:
           attributes:
@@ -1088,8 +1088,8 @@ zh-TW:
     models:
       action:
         other: Actions
-      ai/text_transform_action:
-        other: Text transform actions
+      ai/text_action:
+        other: Text actions
       ai/text_transform_run:
         other: Text transform runs
       ai/text_transform_run_event:
@@ -1401,7 +1401,7 @@ zh-TW:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -1537,6 +1537,10 @@ zh-TW:
         button_delete_personal_access_token: Delete PAT
         button_save: Save configuration
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1548,6 +1552,7 @@ zh-TW:
           personal_access_token: Personal access token (PAT)
           url: Jira Server/Data Center URL
         label_testing: Testing configuration...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1605,6 +1610,9 @@ zh-TW:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
         side_panel:
@@ -1663,6 +1671,8 @@ zh-TW:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1688,6 +1698,7 @@ zh-TW:
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
@@ -1813,10 +1824,12 @@ zh-TW:
         error: An unexpected error occurred while testing the connection
         failed: 'Connection failed: Unable to retrieve server information'
         invalid_url: Please provide a valid URL
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Failed to parse the response from the server. The server may not be a valid Jira instance.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Successfully connected to %{server} (version %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: Unknown
@@ -2094,11 +2107,11 @@ zh-TW:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
         description: Users will no longer be able to run this action in the rich text editor.
         heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete text transform action
+        title: Delete action
       form:
         injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
         label_caption: This is the name that will be visible to users in the editor.
@@ -2106,19 +2119,20 @@ zh-TW:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
         label_add_action: Action
-        label_aria_add_action: Add text transform action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
           description: Add an action to see it here
-          title: No text transform actions configured yet
-        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
         label_disable_all: Disable all
         label_enable_all: Enable all
-        title: Actions
+        title: Action
       new:
-        title: New text transform action
+        title: New text action
       row_component:
         label_actions: Action menu
         label_toggle: Toggle %{label}
@@ -2179,7 +2193,7 @@ zh-TW:
       errors:
         connection_failed: The AI service could not be reached.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: The AI assistant is not available.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
@@ -2191,7 +2205,9 @@ zh-TW:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2223,6 +2239,8 @@ zh-TW:
         emoji_reactions_activity_type_not_supported: 此活動類型不支持表情符號反應。
         invalid_link: 金鑰「%{key}」下的連結無效。
         links_not_an_object: _links 必須是 JSON object。
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 錯誤請求：%{message}
       code_401: |-
         You need to be authenticated to access this resource.
@@ -2576,6 +2594,22 @@ zh-TW:
       missing_value: 此計算值需要屬性 "%{custom_field_name}"，但該屬性為空。
       unknown: 發生未知錯誤。請查看此計算值的公式。
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: 編輯色彩
     form:
@@ -2603,7 +2637,7 @@ zh-TW:
     failure_message: 同意失敗, 無法繼續。
     not_yet_consented: 使用者尚未同意您的 [設定的同意資訊文字](consent_settings)。下次登入時會提醒他們。
     text_update_consent_time: 若更改上述資訊時，請使用者再次同意。
-    title: 使用者同意個資意向書
+    title: User consent
     update_consent_last_time: '同意日期: %{update_time}'
     user_has_consented: 使用者同意您的 [設定的同意資訊文字](consent_settings)。
   copy_project:
@@ -2738,8 +2772,6 @@ zh-TW:
       admin_only:
         all: 勾選使自訂欄位僅對管理員可見。沒有管理權限的使用者將無法檢視或編輯。
         project: 勾選可使此屬性只對管理員可見。沒有管理員權限的使用者將無法檢視或編輯。
-      editable:
-        all: 允許使用者自行編輯欄位。
       formula:
         project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
@@ -2769,6 +2801,8 @@ zh-TW:
       searchable:
         all: 使用全區域搜尋功能時，包含欄位值。
         project: 勾選可使此屬性在專案清單中作為篩選條件。
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     is_enabled_globally: 已全域啟用
@@ -3056,6 +3090,7 @@ zh-TW:
       scim_api: SCIM 伺服器 API
       sso_auth_providers: 單一帳號登入(SSO)
       team_planner_view: 團隊規劃檢視
+      text_assistant: Text assistant
       virus_scanning: 掃描病毒
       weighted_item_lists: 加權項目清單
       work_package_query_relation_columns: 工作套件查詢關聯列
@@ -3165,6 +3200,9 @@ zh-TW:
       sso_auth_providers:
         description: 啟用使用者透過外部 SSO 提供者（如 SAML 或 OpenID Connect）登入，以便與現有身份系統無縫整合和存取。
         title: 單一帳號登入(SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: 企業版附加元件
       trial_text: This feature is included in your active Enterprise trial.
       unlimited: 不限
@@ -3419,6 +3457,7 @@ zh-TW:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3426,7 +3465,7 @@ zh-TW:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -3757,6 +3796,7 @@ zh-TW:
       comment_retracted: Comment retracted
       dates_changed: 日期變更
       default_attribute_written: 已寫入只讀屬性
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       label_deleted: 'Label removed:'
@@ -3899,7 +3939,7 @@ zh-TW:
   label_completed: 已完成
   label_configuration: 組態
   label_confirmation: 確認
-  label_consent_settings: 使用者同意個資意向書
+  label_consent_settings: User consent
   label_constant_plural: Constants
   label_contains: 包含
   label_content: 內容
@@ -4890,7 +4930,7 @@ zh-TW:
       mails_and_notifications: 郵件與通知
       mcp_configurations: 模型上下文通訊協定 (MCP)
       push_notifications: Browser notifications
-      text_transform_actions: Text transform actions
+      text_actions: Text assistant
     quick_add:
       label: 新增…
   more_actions: 更多功能
@@ -5447,10 +5487,19 @@ zh-TW:
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: 頁面 %{page} of %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: 屬性以及說明
@@ -5762,11 +5811,11 @@ zh-TW:
           no_status_when_submitted: 啟用專案啟動請求失敗，因為工作包類型 %{type} 至少需要一個狀態與之相關。請為此工作包類型啟用至少一個狀態工作流程。
           no_work_package_type: 啟用專案啟動請求失敗，因為它需要至少一個作用中的工作套件類型，而此專案沒有。請為此專案新增至少一個工作套件類型。
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: 選擇應使用哪個已設定的外部檔案儲存空間。
           external_file_storage: 外部存儲空間
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: 儲存為工作套件檔案附件
           label_file_link_export: 將檔案上傳至外部檔案儲存空間，並將檔案連結新增至工作套件
           pdf_file_storage: PDF 檔案儲存
@@ -5872,10 +5921,12 @@ zh-TW:
         switch:
           apply: Apply
           impact:
-            hidden_heading: Fields that will no longer be shown
-            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
-            missing_statuses_heading: Work packages that get stuck
-            new_heading: Fields that become available
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: No fields or statuses are affected.
             status_count:
               other: "%{count} work packages"
@@ -5902,14 +5953,14 @@ zh-TW:
     status:
       button_edit: 編輯狀態
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: 此屬性未定義任何說明文字。
       progress_label: "%{current} of %{total}"
       sections: 區段
       sidebar_content_title: 內容
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: 專案啟動請求
   pwa:
     offline:
@@ -5935,6 +5986,22 @@ zh-TW:
         automatic:
           description: 按一個或多個排序標準對 %{plural} 進行排序。您將失去之前的排序。
           heading: 自動
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6128,7 +6195,6 @@ zh-TW:
   setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: 允許連結
   setting_allowed_link_protocols_text_html: 允許在工作套件描述、長文字欄位與留言中，將這些協定顯示為連結。例如：%{tel_code} 或 %{element_code}。每行輸入一個協定。<br/>協定 %{http_code}、%{https_code} 與 %{mailto_code} 一律允許使用。
   setting_antivirus_scan_action: 受感染文件的操作
@@ -6490,12 +6556,12 @@ zh-TW:
         confirmation_message: 啟動請求精靈將不再適用於基於此模板的新專案。專案經理和專案所有人將需要在專案概述中手動設定和填寫相關資訊。
         heading: 停用此專案啟動請求？
         title: 停用專案啟動請求
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: 專案建立精靈
           project_initiation_request: 專案啟動請求
@@ -6513,8 +6579,8 @@ zh-TW:
           您已提交 %{project_name} 的專案啟動請求，目前正等待審核。
           請點擊下方連結以存取包含您請求的工作套件。
         confirmation_email_text: 確認電子郵件文字
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: 向提交專案啟動請求的使用者傳送確認電子郵件
         status_when_submitted: 提交時的狀態
         status_when_submitted_caption: 提交請求後，產生的工作套件將轉換到的狀態。
@@ -6522,7 +6588,7 @@ zh-TW:
         work_package_comment_caption: 上面選擇的執行者會自動在留言中 @。
         work_package_comment_default: "%{project_name} 的專案啟動請求已提交，正在等待審核。"
         work_package_type: 工作套件類型
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: 開啟專案建立精靈
         project_initiation_request: 開啟專案啟動請求
@@ -6878,6 +6944,9 @@ zh-TW:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: pm
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: 到
     show: 顯示時間
@@ -7052,13 +7121,13 @@ zh-TW:
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: No PDF is generated automatically.
             label: 'Off'
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         pdf_export_templates:
           actions:
@@ -7070,7 +7139,6 @@ zh-TW:
         tab: 產生PDF檔案
         templates:
           readonly_error: Cannot be changed while linked to a source type.
-          section_title: PDF export templates
           settings:
             edit_link: Edit settings
             reset_to_default: Reset to default
@@ -7092,7 +7160,6 @@ zh-TW:
         empty_group_hint: Drag attributes here
         exclusions:
           attribute_label: Inherit %{attribute}
-          excluded: Hidden
           section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
@@ -7105,6 +7172,11 @@ zh-TW:
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Remove from section
         rename_group: Rename section
         required:
@@ -7146,7 +7218,6 @@ zh-TW:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
         filter: Search by section or name
@@ -7166,8 +7237,6 @@ zh-TW:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: 在所有專案中啟用
-        select_projects: 選取專案
-        select_projects_description: 選擇要使用此類型的專案。
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?
@@ -7226,14 +7295,14 @@ zh-TW:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
             empty:
               caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
+              label: Start from scratch
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (parent)"
@@ -7283,7 +7352,7 @@ zh-TW:
         projects:
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
-      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Copy of %{name}
@@ -7958,8 +8027,6 @@ zh-TW:
         create:
           notice:
             other: Successfully copied workflow to %{count} roles.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
@@ -7976,6 +8043,7 @@ zh-TW:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Description
@@ -7991,7 +8059,7 @@ zh-TW:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow

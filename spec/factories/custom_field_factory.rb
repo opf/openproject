@@ -61,7 +61,6 @@ FactoryBot.define do
     min_length { false }
     default_value { "" }
     max_length { false }
-    editable { true }
     possible_values { "" }
     admin_only { false }
     field_format { "bool" }

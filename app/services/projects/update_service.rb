@@ -97,7 +97,9 @@ module Projects
     end
 
     def update_calculated_value_custom_fields
-      changed_cf_ids = model.custom_values.select(&:changed?).map(&:custom_field_id)
+      changed_cf_ids = model.custom_values
+        .select { it.changed? || it.marked_for_destruction? }
+         .map(&:custom_field_id)
 
       # Using unscope(where: :admin_only) to fix an issue when non admin user
       # edits a custom field which is used by an admin only calculated value

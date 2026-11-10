@@ -198,7 +198,7 @@ RSpec.describe "API v3 Work package form resource" do
               it_behaves_like "having no errors"
             end
 
-            describe "labels", with_flag: :work_package_labels do
+            describe "labels" do
               let(:label) { create(:label) }
               let(:params) do
                 valid_params.merge(_links: { labels: [{ href: api_v3_paths.label(label.id) }] })

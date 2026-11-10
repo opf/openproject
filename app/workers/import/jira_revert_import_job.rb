@@ -51,6 +51,12 @@ module Import
       "Status" => "status"
     }.freeze
 
+    WORK_PACKAGE_ASSOCIATIONS = {
+      "Type" => :type,
+      "IssuePriority" => :priority,
+      "Status" => :status
+    }.freeze
+
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
@@ -140,10 +146,14 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: ["Type", "IssuePriority", "Status"])
         .find_each do |ref|
+          op_leg = ref.op_leg
+
+          # delete_projects runs first, so any work package left is from outside this import
+          next if WorkPackage.exists?(WORK_PACKAGE_ASSOCIATIONS.fetch(ref.op_entity_class) => op_leg)
+
           Rails.logger.tagged("jira_object_type:#{REF_OBJECT_TYPES.fetch(ref.op_entity_class)}",
                               "jira_object_id_or_name:#{ref.op_entity_id}") do
             Rails.logger.debug { "Deleting #{ref.op_entity_class}" }
-            op_leg = ref.op_leg
             op_leg.destroy!
           end
         rescue Import::JiraOpenProjectReference::LegNotFoundError

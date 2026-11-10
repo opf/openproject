@@ -131,8 +131,8 @@
     button_confirm: Bekreft
     button_continue: Fortsett
     button_copy: Kopier
-    button_copy_link_to_clipboard: Kopier lenke til utklippstavlen
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopier til utklippstavlen
     button_copy_to_other_project: Duplicate in another project
     button_create: Opprett
@@ -207,6 +207,7 @@
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Det oppstod en feil i CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lagring av dokumentet mislyktes med følgende feil: %{error}'
@@ -438,7 +439,6 @@
     label_assignee: Deltaker
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Vedlegg
-    label_author: 'Forfatter: %{user}'
     label_avatar: Profilbilde
     label_between: mellom
     label_board: Tavle
@@ -1124,7 +1124,6 @@
         default_mode: Flat liste
         display_settings: Skjerminnstillinger
         display_sums_hint: Vis summer av alle summerbare egenskaper i en rad under tabellresultatene.
-        embedded_tab_disabled: Denne konfigurasjons-fanen er ikke tilgjengelig for den innebygde visningen du redigerer.
         hierarchy_hint: Alle filtrerte tabellresultater vil bli forsterket med sine overordnede. Hierarkier kan utvides og kollapses.
         hierarchy_mode: Hierarki
         highlighting: Utheving

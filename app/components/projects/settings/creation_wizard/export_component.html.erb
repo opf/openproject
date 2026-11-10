@@ -29,9 +29,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   settings_primer_form_with(
     model: @project,
-    id: "project_creation_wizard_export_artifact_form",
-    url: update_artifact_export_settings_project_settings_creation_wizard_path(@project),
+    id: "project_creation_wizard_export_artefact_form",
+    url: update_artefact_export_settings_project_settings_creation_wizard_path(@project),
     method: :post,
-    data: { controller: "projects--settings--initiation-request--export-artifact" }
+    data: { controller: "projects--settings--initiation-request--export-artefact" }
   ) { |form| render Projects::Settings::CreationWizard::ExportForm.new(form) }
 %>

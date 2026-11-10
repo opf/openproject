@@ -1,3 +1,4 @@
+---
 description: |-
   A simple meeting response.
 value:
@@ -12,19 +13,19 @@ value:
   duration: 1.0
   createdAt: '2026-02-13T14:47:12.315Z'
   updatedAt: '2026-02-13T14:47:12.315Z'
-  _links: 
-    attachments: 
+  _links:
+    attachments:
       href: '/api/v3/meetings/1/attachments'
-    addAttachment: 
+    addAttachment:
       href: '/api/v3/meetings/1/attachments'
       method: 'post'
-    self: 
+    self:
       href: '/api/v3/meetings/1'
       title: 'Meeting No 42'
-    author: 
+    author:
       href: '/api/v3/users/4'
       title: 'Darth Vader'
-    project: 
+    project:
       href: '/api/v3/projects/10'
       title: 'Death Star'
   _embedded:
@@ -35,7 +36,7 @@ value:
       count: 2
     author:
       _type: User
-      name: Darth Vader 
+      name: Darth Vader
       id: 4
     project:
       _type: Project

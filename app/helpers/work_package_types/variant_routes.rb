@@ -303,17 +303,18 @@ module WorkPackageTypes
                  **)
     end
 
+    def variant_creation_wizard_projects_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :projects_type_creation_wizard_path,
+                                   named: :projects_type_variant_creation_wizard_path,
+                                   **)
+    end
+
     def edit_variant_projects_path(variant, **)
       administration_variant_route(variant,
                                    base: :edit_type_projects_path,
                                    named: :edit_type_variant_projects_path,
                                    **)
-    end
-
-    def variant_projects_path(variant)
-      administration_variant_route(variant,
-                                   base: :type_projects_path,
-                                   named: :type_variant_projects_path)
     end
 
     def enable_all_variant_projects_path(variant, **)
@@ -323,10 +324,11 @@ module WorkPackageTypes
                                    **)
     end
 
-    def new_link_variant_projects_path(variant)
+    def new_link_variant_projects_path(variant, **)
       administration_variant_route(variant,
                                    base: :new_link_type_projects_path,
-                                   named: :new_link_type_variant_projects_path)
+                                   named: :new_link_type_variant_projects_path,
+                                   **)
     end
 
     def tree_variant_projects_path(variant, **)
@@ -336,10 +338,11 @@ module WorkPackageTypes
                                    **)
     end
 
-    def link_variant_projects_path(variant)
+    def link_variant_projects_path(variant, **)
       administration_variant_route(variant,
                                    base: :link_type_projects_path,
-                                   named: :link_type_variant_projects_path)
+                                   named: :link_type_variant_projects_path,
+                                   **)
     end
 
     def unlink_variant_projects_path(variant, **)

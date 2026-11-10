@@ -39,12 +39,8 @@ RSpec.describe Queries::WorkPackages::Filter::LabelsFilter do
     let(:human_name) { "Labels" }
 
     describe "#available?" do
-      it "is true with the feature flag enabled", with_flag: { work_package_labels: true } do
+      it "is true" do
         expect(instance).to be_available
-      end
-
-      it "is false with the feature flag disabled", with_flag: { work_package_labels: false } do
-        expect(instance).not_to be_available
       end
     end
 

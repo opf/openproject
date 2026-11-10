@@ -60,7 +60,8 @@ module WhatsNew
     end
 
     def visible_to?(user)
-      user.logged? && items.any? && !expired_for?(user)
+      OpenProject::Configuration.show_community_links? &&
+        user.logged? && items.any? && !expired_for?(user)
     end
 
     def item?(key)

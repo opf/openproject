@@ -61,7 +61,7 @@ RSpec.describe "User settings administration", :js do
       expect(page).to have_field "Users allowed to delete their accounts"
     end
 
-    within_fieldset "User Consent" do
+    within_fieldset "User consent" do
       expect(page).to have_field "Consent required"
       expect(page).to have_select "Consent information text", selected: "English"
       expect(consent_info_editor.editor_element).to have_text("agree to the privacy and security policy")
@@ -132,7 +132,7 @@ RSpec.describe "User settings administration", :js do
     it "allows changing the consent settings" do
       user_settings_page.visit!
 
-      within_fieldset "User Consent" do
+      within_fieldset "User consent" do
         expect(page).to have_unchecked_field "Consent required"
         expect(consent_info_editor.editor_element).to have_text("agree to the privacy and security policy")
         expect(page).to have_checked_field "toggle_consent_time"
@@ -148,7 +148,7 @@ RSpec.describe "User settings administration", :js do
 
       user_settings_page.save_and_reload!
 
-      within_fieldset "User Consent" do
+      within_fieldset "User consent" do
         expect(page).to have_checked_field "Consent required"
         expect(page).to have_select "Consent information text", selected: "English"
         expect(consent_info_editor.editor_element).to have_text("Please accept our updated terms.", exact: true)

@@ -25,14 +25,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { NavigationCommand } from 'core-app/shared/helpers/navigation-keys';
 import type { RowRecordKind } from '../../../semantics/row-classifier';
+import type { RowKey } from '../../../row-keys';
 
 export const ROW_KINDS = ['header', 'workPackage', 'groupHeader', 'sums', 'totals'] as const satisfies readonly RowRecordKind[];
 
 export type RowKind = (typeof ROW_KINDS)[number];
 
 export interface NavigableRow {
-  key:string;
+  key:RowKey;
   kind:RowKind;
   hidden:boolean;
   cellCount:number;
@@ -41,21 +43,28 @@ export interface NavigableRow {
 }
 
 export interface FocusPosition {
-  key:string;
-  cell:number|null;
-  desiredColumn:number|null;
-  groupIdentifier?:string;
+  readonly key:RowKey;
+  readonly cell:number|null;
+  readonly desiredColumn:number|null;
+  readonly groupIdentifier?:string;
 }
 
-export type NavKey = 'ArrowUp'|'ArrowDown'|'ArrowLeft'|'ArrowRight'|'Home'|'End'|'PageUp'|'PageDown'|'CtrlHome'|'CtrlEnd';
+/** True for the same row and cell; the desired column does not count. */
+export function samePosition(a:FocusPosition|null, b:FocusPosition|null):boolean {
+  return a === b || (!!a && !!b && a.key === b.key && a.cell === b.cell);
+}
 
 export type NavResult =
   | { type:'move', position:FocusPosition }
-  | { type:'expand', key:string }
-  | { type:'collapse', key:string }
+  | { type:'expand', row:NavigableRow }
+  | { type:'collapse', row:NavigableRow }
   | { type:'none' };
 
 const NONE:NavResult = { type: 'none' };
+
+export function rowPosition(key:RowKey):FocusPosition {
+  return { key, cell: null, desiredColumn: null };
+}
 
 function positionOn(row:NavigableRow, cell:number|null, desiredColumn:number|null):FocusPosition {
   const position:FocusPosition = { key: row.key, cell, desiredColumn };
@@ -75,11 +84,12 @@ function landOn(row:NavigableRow, cellFocus:boolean, desiredColumn:number|null):
   return positionOn(row, Math.min(column, row.cellCount - 1), column);
 }
 
+function sameLanding(a:FocusPosition, b:FocusPosition):boolean {
+  return samePosition(a, b) && a.desiredColumn === b.desiredColumn;
+}
+
 function toResult(position:FocusPosition, current:FocusPosition):NavResult {
-  const unchanged = position.key === current.key
-    && position.cell === current.cell
-    && position.desiredColumn === current.desiredColumn;
-  return unchanged ? NONE : { type: 'move', position };
+  return sameLanding(position, current) ? NONE : { type: 'move', position };
 }
 
 function moveRows(
@@ -122,10 +132,44 @@ function moveToEdge(
   return toResult(positionOn(target, cell, cell), position);
 }
 
-function navigateHorizontally(row:NavigableRow, position:FocusPosition, direction:'Home'|'End'|'ArrowLeft'|'ArrowRight'):NavResult {
+type Movement =
+  | { type:'rows', delta:-1|1, scale:'one'|'page' }
+  | { type:'edge', edge:'first'|'last', column:'desired'|'edge' }
+  | { type:'cell', to:'first'|'last'|'previous'|'next' }
+  | { type:'expand' }
+  | { type:'collapse' };
+
+const VERTICAL = {
+  ArrowUp: { type: 'rows', delta: -1, scale: 'one' },
+  ArrowDown: { type: 'rows', delta: 1, scale: 'one' },
+  PageUp: { type: 'rows', delta: -1, scale: 'page' },
+  PageDown: { type: 'rows', delta: 1, scale: 'page' },
+  CtrlHome: { type: 'edge', edge: 'first', column: 'edge' },
+  CtrlEnd: { type: 'edge', edge: 'last', column: 'edge' },
+} as const satisfies Partial<Record<NavigationCommand, Movement>>;
+
+const ROW_FOCUS = {
+  ...VERTICAL,
+  Home: { type: 'edge', edge: 'first', column: 'desired' },
+  End: { type: 'edge', edge: 'last', column: 'desired' },
+  ArrowRight: { type: 'expand' },
+  ArrowLeft: { type: 'collapse' },
+} as const satisfies Record<NavigationCommand, Movement>;
+
+const CELL_FOCUS = {
+  ...VERTICAL,
+  Home: { type: 'cell', to: 'first' },
+  End: { type: 'cell', to: 'last' },
+  ArrowLeft: { type: 'cell', to: 'previous' },
+  ArrowRight: { type: 'cell', to: 'next' },
+} as const satisfies Record<NavigationCommand, Movement>;
+
+function navigateHorizontally(row:NavigableRow, position:FocusPosition, to:Extract<Movement, { type:'cell' }>['to']):NavResult {
   const cell = position.cell ?? 0;
   const last = row.cellCount - 1;
-  const landing = { Home: 0, End: last, ArrowLeft: cell - 1, ArrowRight: cell + 1 }[direction];
+  const landing = {
+    first: 0, last, previous: cell - 1, next: cell + 1,
+  }[to];
 
   if (landing < 0) {
     return toResult(positionOn(row, null, position.desiredColumn), position);
@@ -138,48 +182,29 @@ function navigateHorizontally(row:NavigableRow, position:FocusPosition, directio
   return toResult(positionOn(row, landing, landing), position);
 }
 
-function navigateFromRow(rows:readonly NavigableRow[], row:NavigableRow, position:FocusPosition, key:NavKey, index:number, pageSize:number):NavResult {
-  switch (key) {
-    case 'ArrowRight':
+function move(rows:readonly NavigableRow[], row:NavigableRow, position:FocusPosition, movement:Movement, index:number, pageSize:number):NavResult {
+  switch (movement.type) {
+    case 'rows':
+      return moveRows(rows, position, index, movement.delta * (movement.scale === 'page' ? pageSize : 1));
+    case 'edge':
+      return moveToEdge(rows, position, movement.edge, movement.column);
+    case 'cell':
+      return navigateHorizontally(row, position, movement.to);
+    case 'expand':
       if (row.expanded === false) {
-        return { type: 'expand', key: row.key };
+        return { type: 'expand', row };
       }
       return row.cellCount > 0 ? { type: 'move', position: positionOn(row, 0, 0) } : NONE;
-    case 'ArrowLeft':
-      return row.expanded === true ? { type: 'collapse', key: row.key } : NONE;
-    default:
-      return navigateVertically(rows, position, key, index, pageSize);
+    case 'collapse':
+      return row.expanded === true ? { type: 'collapse', row } : NONE;
   }
 }
 
-function navigateVertically(rows:readonly NavigableRow[], position:FocusPosition, key:NavKey, index:number, pageSize:number):NavResult {
-  switch (key) {
-    case 'ArrowUp':
-      return moveRows(rows, position, index, -1);
-    case 'ArrowDown':
-      return moveRows(rows, position, index, 1);
-    case 'PageUp':
-      return moveRows(rows, position, index, -pageSize);
-    case 'PageDown':
-      return moveRows(rows, position, index, pageSize);
-    case 'Home':
-      return moveToEdge(rows, position, 'first', 'desired');
-    case 'End':
-      return moveToEdge(rows, position, 'last', 'desired');
-    case 'CtrlHome':
-      return moveToEdge(rows, position, 'first', 'edge');
-    case 'CtrlEnd':
-      return moveToEdge(rows, position, 'last', 'edge');
-    default:
-      return NONE;
-  }
-}
-
-/** Computes what a navigation key does at the given position. */
+/** Computes what a navigation command does at the given position. */
 export function computeNextPosition(
   rows:readonly NavigableRow[],
   position:FocusPosition,
-  key:NavKey,
+  command:NavigationCommand,
   pageSize:number,
 ):NavResult {
   const index = rows.findIndex((row) => row.key === position.key);
@@ -192,19 +217,8 @@ export function computeNextPosition(
     return NONE;
   }
 
-  if (position.cell === null) {
-    return navigateFromRow(rows, row, position, key, index, pageSize);
-  }
-
-  switch (key) {
-    case 'ArrowLeft':
-    case 'ArrowRight':
-    case 'Home':
-    case 'End':
-      return navigateHorizontally(row, position, key);
-    default:
-      return navigateVertically(rows, position, key, index, pageSize);
-  }
+  const movement:Movement = (position.cell === null ? ROW_FOCUS : CELL_FOCUS)[command];
+  return move(rows, row, position, movement, index, pageSize);
 }
 
 /** Returns the position focus starts on after a render, or null when no row is visible. */

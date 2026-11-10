@@ -140,4 +140,15 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
       expect(session[:updated_at]).to eq(last_seen)
     end
   end
+
+  context "when the user is anonymous", with_settings: { login_required?: false } do
+    before { session.delete(:user_id) }
+
+    it "does not write a session timestamp" do
+      get :index
+
+      expect(response).to have_http_status(:ok)
+      expect(session[:updated_at]).to be_nil
+    end
+  end
 end

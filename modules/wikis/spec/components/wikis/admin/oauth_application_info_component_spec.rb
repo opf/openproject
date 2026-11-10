@@ -38,17 +38,17 @@ RSpec.describe Wikis::Admin::OAuthApplicationInfoComponent, type: :component do
     before { allow(wiki_provider).to receive(:oauth_application).and_return(nil) }
 
     it "renders the incomplete label" do
-      render_inline(described_class.new(wiki_provider))
+      render_inline(described_class.new(model: wiki_provider))
       expect(page).to have_text(I18n.t(:label_incomplete))
     end
 
     it "renders the description" do
-      render_inline(described_class.new(wiki_provider))
+      render_inline(described_class.new(model: wiki_provider))
       expect(page).to have_text(I18n.t("wikis.admin.wiki_providers.xwiki.oauth.openproject_oauth_description"))
     end
 
     it "renders a sync button with a confirm dialog" do
-      render_inline(described_class.new(wiki_provider))
+      render_inline(described_class.new(model: wiki_provider))
       button = page.find("button[type='submit']")
       expect(button["data-turbo-confirm"]).to eq(
         I18n.t("wikis.admin.oauth_application_info_component.confirm_replace_oauth_application")
@@ -60,19 +60,19 @@ RSpec.describe Wikis::Admin::OAuthApplicationInfoComponent, type: :component do
     before { allow(wiki_provider).to receive(:oauth_application).and_return(oauth_application) }
 
     it "renders the completed label" do
-      render_inline(described_class.new(wiki_provider))
+      render_inline(described_class.new(model: wiki_provider))
       expect(page).to have_text(I18n.t(:label_completed))
     end
 
     it "renders the oauth application id" do
-      render_inline(described_class.new(wiki_provider))
+      render_inline(described_class.new(model: wiki_provider))
       expect(page).to have_text(
         "#{I18n.t('wikis.admin.oauth_application_info_component.label_oauth_client_id')}: #{oauth_application.uid}"
       )
     end
 
     it "renders a sync button with a confirm dialog" do
-      render_inline(described_class.new(wiki_provider))
+      render_inline(described_class.new(model: wiki_provider))
       button = page.find("button[type='submit']")
       expect(button["data-turbo-confirm"]).to eq(
         I18n.t("wikis.admin.oauth_application_info_component.confirm_replace_oauth_application")

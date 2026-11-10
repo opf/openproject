@@ -82,6 +82,8 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
              name: "Sprint 41",
              start_date: 20.days.ago,
              finish_date: 10.days.ago,
+             started_at: 20.days.ago,
+             completed_at: 10.days.ago,
              status: :completed)
     end
 
@@ -106,6 +108,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         [:text, "Work packages within the sprint"],
         [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
+        [:css, "opce-burnup-chart"],
         [:css, "opce-wp-overview-graph"]
       ]
     end
@@ -116,6 +119,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         [:text, "Work packages within the sprint"],
         [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
+        [:css, "opce-burnup-chart"],
         [:css, "opce-created-resolved-chart"],
         [:text, "Epic progress"],
         [:css, "opce-wp-overview-graph"],

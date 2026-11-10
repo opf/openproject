@@ -58,16 +58,16 @@ export class ApiV3Paths {
     return base;
   }
 
-  public aiTextTransformActions() {
-    return `${this.apiV3Base}/ai_text_transform_actions`;
+  public aiTextActions() {
+    return `${this.apiV3Base}/ai_text_actions`;
   }
 
-  public aiTextTransformActionsByWorkPackage(workPackageId:string|number) {
-    return `${this.apiV3Base}/work_packages/${workPackageId}/ai_text_transform_actions`;
+  public aiTextActionsByWorkPackage(workPackageId:string|number) {
+    return `${this.apiV3Base}/work_packages/${workPackageId}/ai_text_actions`;
   }
 
-  public aiTextTransformActionsByProject(projectId:string|number, typeId:string|number) {
-    return `${this.apiV3Base}/projects/${projectId}/ai_text_transform_actions?typeId=${typeId}`;
+  public aiTextActionsByProject(projectId:string|number, typeId:string|number) {
+    return `${this.apiV3Base}/projects/${projectId}/ai_text_actions?typeId=${typeId}`;
   }
 
   public aiTextTransformRuns() {

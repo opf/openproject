@@ -52,7 +52,7 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
         model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
       },
       content_right_to_left: ->(model) { model.is_a?(WorkPackageCustomField) && model.field_format == "text" },
-      editable: ->(model) { model.is_a?(UserCustomField) },
+      user_self_editable: ->(model) { model.is_a?(UserCustomField) },
       visible_on_user_card: ->(model) { model.is_a?(UserCustomField) },
       is_for_all: ->(model) { model.is_a?(ProjectCustomField) },
       searchable: lambda { |model|
@@ -66,7 +66,10 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       max_value: ->(model) { %w[int float].include?(model.field_format) },
       regexp: ->(model) { %w[string int float text link].include?(model.field_format) },
       default_value: ->(model) { %w[string int float text link bool].include?(model.field_format) },
-      multi_value: ->(model) { %w[list user version hierarchy].include?(model.field_format) },
+      multi_value: ->(model) do
+        %w[list user version hierarchy].include?(model.field_format) ||
+          (model.is_a?(ProjectCustomField) && model.field_format == "weighted_item_list")
+      end,
       is_required: ->(model) { %w[calculated_value bool].exclude?(model.field_format) },
       formula: ->(model) { model.field_format == "calculated_value" },
       allow_non_open_versions: ->(model) { model.field_format == "version" }

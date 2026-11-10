@@ -38,59 +38,58 @@ properties:
               Not provided
 
               **Resource**: urn:openproject-org:api:v3:storages:storage_file:no_link_provided
-example:
-  _type: StorageFiles
-  files:
-    - id: "42"
-      name: readme.md
+examples:
+  - _type: StorageFiles
+    files:
+      - id: "42"
+        name: readme.md
+        _type: StorageFile
+        location: '/readme.md'
+        mimeType: 'text/markdown'
+        size: 4096
+        createdAt: '2021-12-19T09:42:10.170Z'
+        lastModifiedAt: '2021-12-20T14:00:13.987Z'
+        createdByName: Luke Skywalker
+        lastModifiedByName: Anakin Skywalker
+        permissions:
+          - readable
+          - writable
+        _links:
+          self:
+            href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
+      - id: "43"
+        name: readme.pdf
+        _type: StorageFile
+        location: '/readme.pdf'
+        mimeType: 'application/pdf'
+        size: 2048
+        createdAt: '2021-12-19T09:42:10.170Z'
+        lastModifiedAt: '2021-12-20T14:00:13.987Z'
+        createdByName: Luke Skywalker
+        lastModifiedByName: Anakin Skywalker
+        permissions:
+          - readable
+          - writable
+        _links:
+          self:
+            href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
+    parent:
+      id: "41"
+      name: '/'
       _type: StorageFile
-      location: '/readme.md'
-      mimeType: 'text/markdown'
-      size: 4096
-      createdAt: '2021-12-19T09:42:10.170Z'
-      lastModifiedAt: '2021-12-20T14:00:13.987Z'
+      location: '/'
+      mimeType: 'application/x-op-directory'
+      size: 6144
+      createdAt: '2021-12-20T09:42:10.170Z'
+      lastModifiedAt: '2021-12-21T14:00:13.987Z'
       createdByName: Luke Skywalker
       lastModifiedByName: Anakin Skywalker
       permissions:
         - readable
-        - writable
       _links:
         self:
           href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
-    - id: "43"
-      name: readme.pdf
-      _type: StorageFile
-      location: '/readme.pdf'
-      mimeType: 'application/pdf'
-      size: 2048
-      createdAt: '2021-12-19T09:42:10.170Z'
-      lastModifiedAt: '2021-12-20T14:00:13.987Z'
-      createdByName: Luke Skywalker
-      lastModifiedByName: Anakin Skywalker
-      permissions:
-        - readable
-        - writable
-      _links:
-        self:
-          href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
-  parent:
-    id: "41"
-    name: '/'
-    _type: StorageFile
-    location: '/'
-    mimeType: 'application/x-op-directory'
-    size: 6144
-    createdAt: '2021-12-20T09:42:10.170Z'
-    lastModifiedAt: '2021-12-21T14:00:13.987Z'
-    createdByName: Luke Skywalker
-    lastModifiedByName: Anakin Skywalker
-    permissions:
-      - readable
+    ancestors: []
     _links:
       self:
         href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
-  ancestors: []
-  _links:
-    self:
-      href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
-

@@ -131,8 +131,8 @@ ne:
     button_confirm: निश्चित गर्नुहोस्
     button_continue: Continue
     button_copy: Copy
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
     button_create: Create
@@ -207,6 +207,7 @@ ne:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
@@ -438,7 +439,6 @@ ne:
     label_assignee: Assignee
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Attachments
-    label_author: 'Author: %{user}'
     label_avatar: 'अवतार '
     label_between: between
     label_board: बोर्ड
@@ -1124,7 +1124,6 @@ ne:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarchy
         highlighting: Highlighting

@@ -37,8 +37,12 @@ RSpec.describe "Jira instance configuration", :js do
   describe "new form" do
     before { visit new_admin_import_jira_path }
 
-    it "offers a Test Connection button" do
+    it "explains the credential requirements and offers a Test Connection button" do
       expect(page).to have_button("Test Connection")
+      expect(page).to have_text("Requirements for the Jira user behind the credentials")
+      expect(page).to have_text("The user must be a Jira administrator.")
+      expect(page).to have_text("The user must be a member of every Jira project you want to migrate.")
+      expect(page).to have_text("The token must belong to a Jira administrator.")
     end
 
     it "cancels back to the Jira import overview" do
@@ -109,9 +113,10 @@ RSpec.describe "Jira instance configuration", :js do
 
     before { visit edit_admin_import_jira_path(jira) }
 
-    it "shows the masked token with a delete button when a token is present" do
+    it "shows the masked token with a delete button and the administrator caption when a token is present" do
       expect(page).to have_field("Personal access token (PAT)", with: "*********", disabled: true)
       expect(page).to have_css("[href='/admin/import/jira/9/clear_credential?field=personal_access_token']")
+      expect(page).to have_css(".FormControl-caption", text: "The token must belong to a Jira administrator.")
     end
 
     it "deletes the token and shows the token input field" do

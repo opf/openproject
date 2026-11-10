@@ -53,19 +53,19 @@ RSpec.describe "Multi-value custom fields creation", :js, :selenium do
     click_link "Items"
     wait_for_network_idle
 
-    expect(page).to have_css("input#custom_field_custom_options_attributes_0_value")
+    expect(page).to have_field("custom_field_custom_options_attributes_0_value")
     fill_in "custom_field_custom_options_attributes_0_value", with: "A"
 
     # Add new row
     page.find_test_selector("add-custom-option").click
     SeleniumHubWaiter.wait
-    expect(page).to have_css("input#custom_field_custom_options_attributes_1_value")
+    expect(page).to have_field("custom_field_custom_options_attributes_1_value")
     fill_in "custom_field_custom_options_attributes_1_value", with: "B"
 
     # Add new row
     page.find_test_selector("add-custom-option").click
     SeleniumHubWaiter.wait
-    expect(page).to have_css("input#custom_field_custom_options_attributes_2_value")
+    expect(page).to have_field("custom_field_custom_options_attributes_2_value")
     fill_in "custom_field_custom_options_attributes_2_value", with: "C"
 
     click_on "Save"

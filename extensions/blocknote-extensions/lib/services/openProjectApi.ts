@@ -2,13 +2,18 @@
 import type {
   HalCollection,
   HalResource,
+  NonWorkingDay,
   OpenProjectApiErrorBody,
+  OpenProjectConfiguration,
   OpenProjectResponse,
+  PriorityCollection,
   StatusCollection,
   TypeCollection,
+  Weekday,
   WorkPackage,
   WorkPackageForm,
   WorkPackagePayload,
+  WorkPackageSchema,
 } from '../openProjectTypes';
 
 let baseUrl = 'https://openproject.local';
@@ -116,6 +121,10 @@ const WP_ID_URL_PATTERN = '\\d+|[A-Za-z][A-Za-z0-9_]*-\\d+';
 const WP_ID_REGEX = new RegExp(`^(?:${WP_ID_URL_PATTERN})$`);
 const WP_URL_REGEX = new RegExp(`^/(?:wp|(?:projects/[^/]+/)?work_packages)(?:/details)?/(${WP_ID_URL_PATTERN})(?:[/?#]|$)`);
 
+export function isWorkPackageIdentifier(value:string):boolean {
+  return WP_ID_REGEX.test(value);
+}
+
 /**
  * Parses a URL of this OpenProject instance pointing to a work package.
  * Recognizes `/wp/{id}`, `/work_packages/{id}` and
@@ -146,8 +155,17 @@ export function fetchWorkPackage(id:string | number):Promise<WorkPackage> {
 /*  Keeps the filter short enough for any proxy's URL limit.  */
 const WORK_PACKAGES_PER_REQUEST = 100;
 
-async function fetchWorkPackagesPaged(ids:number[]):Promise<WorkPackage[]> {
-  const workPackages:WorkPackage[] = [];
+export interface WorkPackageBatch {
+  workPackages:WorkPackage[];
+  schemas:WorkPackageSchema[];
+}
+
+type WorkPackagePage = HalCollection<WorkPackage> & {
+  _embedded?:{ schemas?:HalCollection<WorkPackageSchema> };
+};
+
+async function fetchWorkPackagesPaged(ids:number[]):Promise<WorkPackageBatch> {
+  const batch:WorkPackageBatch = { workPackages: [], schemas: [] };
   let offset = 1;
 
   for (;;) {
@@ -159,25 +177,27 @@ async function fetchWorkPackagesPaged(ids:number[]):Promise<WorkPackage[]> {
       pageSize: String(ids.length),
       offset: String(offset),
     });
-    const page = await get<HalCollection<WorkPackage>>(`/api/v3/work_packages?${params.toString()}`);
+    const page = await get<WorkPackagePage>(`/api/v3/work_packages?${params.toString()}`);
     const elements = page._embedded?.elements ?? [];
     const total = page.total ?? elements.length;
 
     // With none of the ids valid, the API drops the filter and answers with unrelated work packages.
-    if (total > ids.length) return [];
+    if (total > ids.length) return { workPackages: [], schemas: [] };
 
-    workPackages.push(...elements);
+    batch.workPackages.push(...elements);
+    batch.schemas.push(...page._embedded?.schemas?._embedded?.elements ?? []);
     // The instance may cap the page size below the one asked for.
-    if (elements.length === 0 || workPackages.length >= total) return workPackages;
+    if (elements.length === 0 || batch.workPackages.length >= total) return batch;
     offset += 1;
   }
 }
 
 /**
- * Loads the given work packages in as few requests as possible. Work packages
- * that do not exist or are not visible are missing from the result.
+ * Loads the given work packages and their schemas in as few requests as
+ * possible. Work packages that do not exist or are not visible are missing
+ * from the result.
  */
-export async function fetchWorkPackages(ids:readonly number[]):Promise<WorkPackage[]> {
+export async function fetchWorkPackages(ids:readonly number[]):Promise<WorkPackageBatch> {
   const wanted = [...new Set(ids)].filter((id) => Number.isSafeInteger(id) && id > 0);
 
   const chunks:number[][] = [];
@@ -185,9 +205,12 @@ export async function fetchWorkPackages(ids:readonly number[]):Promise<WorkPacka
     chunks.push(wanted.slice(start, start + WORK_PACKAGES_PER_REQUEST));
   }
 
-  const workPackages = (await Promise.all(chunks.map(fetchWorkPackagesPaged))).flat();
+  const batches = await Promise.all(chunks.map(fetchWorkPackagesPaged));
   const requested = new Set(wanted);
-  return workPackages.filter((workPackage) => requested.has(workPackage.id));
+  return {
+    workPackages: batches.flatMap((batch) => batch.workPackages).filter((workPackage) => requested.has(workPackage.id)),
+    schemas: batches.flatMap((batch) => batch.schemas),
+  };
 }
 
 export function fetchStatuses():Promise<StatusCollection> {
@@ -204,6 +227,38 @@ export function fetchTypes():Promise<TypeCollection> {
     // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
     return Promise.reject(error);
   });
+}
+
+export function fetchConfiguration():Promise<OpenProjectConfiguration> {
+  return get<OpenProjectConfiguration>('/api/v3/configuration');
+}
+
+export async function fetchWeekdays():Promise<Weekday[]> {
+  const data = await get<HalCollection<Weekday>>('/api/v3/days/week');
+  return data._embedded?.elements ?? [];
+}
+
+export async function fetchNonWorkingDays(year:number):Promise<string[]> {
+  const filters = [{ date: { operator: '<>d', values: [`${year}-01-01`, `${year}-12-31`] } }];
+  const params = new URLSearchParams({ filters: JSON.stringify(filters) });
+
+  const data = await get<HalCollection<NonWorkingDay>>(`/api/v3/days/non_working?${params.toString()}`);
+  return (data._embedded?.elements ?? []).map((day) => day.date);
+}
+
+export function fetchPriorities():Promise<PriorityCollection> {
+  return get<PriorityCollection>('/api/v3/priorities').catch((error:unknown) => {
+    console.error('[OpenProjectApi] fetchPriorities failed:', error);
+    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+    return Promise.reject(error);
+  });
+}
+
+const USER_HREF = /^\/api\/v3\/users\/\d+$/;
+
+/** Only users have a picture; groups and placeholder users stay with their initials. */
+export function avatarUrlOf(principalHref:string | null | undefined):string | undefined {
+  return principalHref && USER_HREF.test(principalHref) ? `${proxyUrl}${principalHref}/avatar` : undefined;
 }
 
 /*  Beyond one page of them a listing is searched rather than browsed.  */

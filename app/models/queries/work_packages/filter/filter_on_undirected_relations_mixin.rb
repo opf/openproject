@@ -56,13 +56,13 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
 
   def relations_subselect_to_from
     relation_subselect
-      .where(to_id: values)
+      .where(to_id: work_package_ids)
       .select(:from_id)
   end
 
   def relations_subselect_from_to
     relation_subselect
-      .where(from_id: values)
+      .where(from_id: work_package_ids)
       .select(:to_id)
   end
 

@@ -17,9 +17,9 @@ properties:
     readOnly: true
   description:
     allOf:
-    - "$ref": "./formattable.yml"
-    - description: The main body of the news with all the details
-      readOnly: true
+      - $ref: "./formattable.yml"
+      - description: The main body of the news with all the details
+        readOnly: true
   createdAt:
     type: string
     format: date-time
@@ -28,84 +28,84 @@ properties:
   _links:
     type: object
     required:
-    - self
-    - project
-    - author
+      - self
+      - project
+      - author
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This news
+          - $ref: "./link.yml"
+          - description: |-
+              This news
 
-            **Resource**: News
-          readOnly: true
+              **Resource**: News
+            readOnly: true
       project:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The workspace the news is situated in
+          - $ref: "./link.yml"
+          - description: |-
+              The workspace the news is situated in
 
-            **Resource**: workspace
+              **Resource**: workspace
       author:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The user having created the news
+          - $ref: "./link.yml"
+          - description: |-
+              The user having created the news
 
-            **Resource**: User
-          readOnly: true
+              **Resource**: User
+            readOnly: true
       updateImmediately:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Directly perform edits on the news
 
               **Permission** manage news
       delete:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Delete the news
 
               **Permission** manage news
-example:
-  _type: News
-  id: 1
-  title: asperiores possimus nam doloribus ab
-  summary: Celebrer spiculum colo viscus claustrum atque. Id nulla culpa sumptus.
-    Comparo crapula depopulo demonstro.
-  description:
-    format: markdown
-    raw: Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago
-      vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago
-      consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus
-      tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
-      sortitus cresco apud vestrum qui.
-    html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur
-      vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria
-      ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter
-      somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
-      vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
-  createdAt: '2015-03-20T12:57:01.908Z'
-  _links:
-    self:
-      href: "/api/v3/news/1"
-      title: asperiores possimus nam doloribus ab
-    project:
-      href: "/api/v3/projects/1"
-      title: A project
-    author:
-      href: "/api/v3/users/2"
-      title: Peggie Feeney
-    updateImmediately:
-      href: "api/v3/news/1"
-      method: "patch"
-    delete:
-      href: "api/v3/news/1"
-      method: "delete"
-  _embedded:
-    project:
-      _type: Workspace...
-    author:
-      _type: User...
+examples:
+  - _type: News
+    id: 1
+    title: asperiores possimus nam doloribus ab
+    summary: Celebrer spiculum colo viscus claustrum atque. Id nulla culpa sumptus.
+      Comparo crapula depopulo demonstro.
+    description:
+      format: markdown
+      raw: Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago
+        vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago
+        consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus
+        tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
+        sortitus cresco apud vestrum qui.
+      html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur
+        vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria
+        ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter
+        somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
+        vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
+    createdAt: '2015-03-20T12:57:01.908Z'
+    _links:
+      self:
+        href: "/api/v3/news/1"
+        title: asperiores possimus nam doloribus ab
+      project:
+        href: "/api/v3/projects/1"
+        title: A project
+      author:
+        href: "/api/v3/users/2"
+        title: Peggie Feeney
+      updateImmediately:
+        href: "api/v3/news/1"
+        method: "patch"
+      delete:
+        href: "api/v3/news/1"
+        method: "delete"
+    _embedded:
+      project:
+        _type: Workspace...
+      author:
+        _type: User...

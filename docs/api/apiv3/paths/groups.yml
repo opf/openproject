@@ -15,11 +15,11 @@ get:
       description: |-
         JSON specifying sort criteria.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
-        
+
         + id: Sort by primary key
-        
+
         + created_at: Sort by group creation datetime
-        
+
         + updated_at: Sort by the time the group was updated last
       in: query
       required: false

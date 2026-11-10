@@ -41,7 +41,7 @@ module Projects
               checked: checked?(:attachment),
               label: I18n.t("projects.settings.creation_wizard.export.label_attachment_export"),
               caption: I18n.t("projects.settings.creation_wizard.export.description_attachment_export"),
-              data: { action: "projects--settings--initiation-request--export-artifact#updateForm" }
+              data: { action: "projects--settings--initiation-request--export-artefact#updateForm" }
             )
             group.radio_button(
               value: :file_link,
@@ -49,14 +49,14 @@ module Projects
               label: file_link_label,
               caption: I18n.t("projects.settings.creation_wizard.export.description_file_link_export"),
               disabled: file_storages.empty?,
-              data: { action: "projects--settings--initiation-request--export-artifact#updateForm" }
+              data: { action: "projects--settings--initiation-request--export-artefact#updateForm" }
             )
           end
 
           if file_storages.any?
             f.group(display: show_file_storage_select_list_initially? ? :block : :none,
                     data: {
-                      "projects--settings--initiation-request--export-artifact-target": "projectStoragesSelectList"
+                      "projects--settings--initiation-request--export-artefact-target": "projectStoragesSelectList"
                     }) do |storage_select|
               storage_select.select_list(
                 name: :project_creation_wizard_artifact_export_storage,

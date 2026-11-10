@@ -60,11 +60,15 @@ RSpec.describe "index users", :js do
     expect(page).to have_text(group.name)
   end
 
-  context "as another user" do
+  context "as another user sharing a project" do
+    shared_let(:shared_role) { create(:project_role, permissions: %i[view_project]) }
+    shared_let(:shared_project) { create(:project, members: { user => shared_role, other_user => shared_role }) }
+
     current_user { other_user }
 
     it "does not show the group" do
       visit user_path(user)
+      expect(page).to have_text user.name
       expect(page).to have_no_text group.name
     end
   end

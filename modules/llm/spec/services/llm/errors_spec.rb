@@ -100,6 +100,13 @@ RSpec.describe Llm::Errors do
         .to be_a(Llm::Errors::SslError)
     end
 
+    it "maps an address blocked by the SSRF filter onto an SSRF error" do
+      expect(described_class.translate(OpenProject::ServerSideRequestForgeryError.new("blocked")))
+        .to be_a(Llm::Errors::SsrfError)
+      expect(described_class.translate(HTTPX::ServerSideRequestForgeryError.new("scheme not allowed")))
+        .to be_a(Llm::Errors::SsrfError)
+    end
+
     it "keeps a TLS failure rescuable as a connection error" do
       expect(described_class.translate(Faraday::SSLError.new("certificate verify failed")))
         .to be_a(Llm::Errors::ConnectionError)

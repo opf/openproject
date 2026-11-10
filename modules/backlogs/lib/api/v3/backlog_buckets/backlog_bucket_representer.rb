@@ -34,7 +34,6 @@ module API
   module V3
     module BacklogBuckets
       class BacklogBucketRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
         include API::V3::Workspaces::LinkedResource
         include API::Decorators::DateProperty
 

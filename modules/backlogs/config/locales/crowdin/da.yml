@@ -144,8 +144,8 @@ da:
         blankslate_title: Der er ingen data til burndown-diagrammet
     created_resolved_chart:
       series:
-        created: Oprettede arbejdspakker
-        resolved: Løste arbejdspakker
+        created: Oprettede
+        resolved: Løste
       show:
         blankslate_description: Angiv start- og slutdato for sprinten for at danne et diagram over oprettede og løste arbejdspakker.
         blankslate_title: Der er ingen data til diagrammet over oprettede og løste arbejdspakker
@@ -227,6 +227,15 @@ da:
       widgets:
         burndown_chart:
           title: Burndown-diagram
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
         created_resolved_chart:
           title: Oprettede og løste arbejdspakker
         epic_progress:

@@ -13,9 +13,11 @@
       <button
           type="button"
           class="spot-link wp-create-relation--cancel"
+          opTooltip
+          [label]="text.abort"
           (click)="cancel()"
       >
-        <op-icon icon-classes="icon-remove icon-no-color" [icon-title]="text.abort" />
+        <op-icon icon-classes="icon-remove icon-no-color" />
       </button>
     </div>
   </div>

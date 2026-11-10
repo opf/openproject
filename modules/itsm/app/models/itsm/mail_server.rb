@@ -44,5 +44,8 @@ module ITSM
     validates :name, presence: true, uniqueness: { scope: :protocol, case_sensitive: false }, length: { maximum: 255 }
     validates :host, presence: true
     validates :port, numericality: { only_integer: true, in: 1..65_535 }
+
+    scope :imap, -> { where(protocol: :imap) }
+    scope :smtp, -> { where(protocol: :smtp) }
   end
 end

@@ -15,4 +15,3 @@ allOf:
             type: array
             items:
               $ref: './membership_read_model.yml'
-
