@@ -16,7 +16,7 @@ echo "---------------------------------------"
 echo "Done. Now run the following services"
 echo '- Rails server `RAILS_ENV=development OPENPROJECT_DISABLE_DEV_ASSET_PROXY=true ./bin/rails s`'
 echo '- Angular CLI: `cd frontend && npm run build:watch`'
-echo '- Service worker (start once the first build has finished, it empties the output folder, so restart it whenever build:watch is restarted): `cd frontend && npm run build:watch:service-worker`'
+echo '- Service worker (start once the first build has finished, it empties the output folder, so restart it whenever build:watch is restarted): `npm -C packages/service-worker run build:watch`'
 echo ''
 echo 'Once you are done: keep in mind to remove the public/assets folder or run the setup_dev script.'
 

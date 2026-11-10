@@ -20,6 +20,7 @@ try 'echo "{}" > config/frontend_assets.manifest.json'
 
 echo "Installing node_modules ... "
 try '(cd frontend && npm ci) >> log/setup_dev.log'
+try '(cd packages/service-worker && npm ci) >> log/setup_dev.log'
 
 echo "Installing hocuspocus dependencies..."
 try '(cd extensions/op-blocknote-hocuspocus && npm ci) >> log/setup_dev.log'
@@ -31,7 +32,7 @@ echo "---------------------------------------"
 echo "Done. Now start the following services"
 echo '- Rails server `RAILS_ENV=development bin/rails server`'
 echo '- Angular CLI: `npm run serve`'
-echo '- Service worker: `npm run serve:service-worker` (in frontend/)'
+echo '- Service worker: `npm -C packages/service-worker run serve`'
 echo '- Good Job worker: `RAILS_ENV=development bundle exec good_job start`'
 echo ""
 echo 'You can also run `bin/dev` to run all the above on a single terminal.'

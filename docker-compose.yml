@@ -118,7 +118,8 @@ services:
 
   frontend-service-worker:
     <<: *frontend
-    command: npm run serve:service-worker
+    working_dir: /home/dev/openproject/packages/service-worker
+    command: npm run serve
 
   db:
     image: postgres:17

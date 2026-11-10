@@ -1,5 +1,5 @@
 web: bundle exec rails server
 angular: npm run serve
-service-worker: npm -C frontend run serve:service-worker
+service-worker: npm -C packages/service-worker run serve
 worker: bundle exec good_job start
 hocuspocus: cd extensions/op-blocknote-hocuspocus && SECRET=$OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET npm run dev
