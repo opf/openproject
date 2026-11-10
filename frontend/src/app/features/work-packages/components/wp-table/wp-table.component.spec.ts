@@ -31,6 +31,9 @@ import type { PaintScope } from 'core-app/features/work-packages/components/wp-f
 import { ChangeDetectorRef, Component, Injector, NgModule, NO_ERRORS_SCHEMA, signal } from '@angular/core';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { WorkPackageTableSumsRowController } from './wp-table-sums-row/wp-table-sums-row.directive';
+import { SortHeaderDirective } from './sort-header/sort-header.directive';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
@@ -63,8 +66,9 @@ import { TextDisplayField } from 'core-app/shared/components/fields/display/fiel
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
-  buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
+  buildColumn, buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
 } from '../wp-fast-table/testing/table-harness';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
 import { WorkPackageTimelineTableController } from './timeline/container/wp-timeline-container.directive';
 import { WorkPackagesTableComponent } from './wp-table.component';
@@ -103,7 +107,7 @@ describe('WorkPackagesTableComponent lifecycle', () => {
       providers: [
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
         WorkPackageViewSumService,
-        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false, live$: () => of(null) } },
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false, isIncompatibleColumn: () => false, live$: () => of(null) } },
       ],
     }).compileComponents();
 
@@ -334,7 +338,7 @@ describe('WorkPackagesTableComponent physical columns', () => {
       providers: [
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
         WorkPackageViewSumService,
-        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baseline, isChanged: () => false, live$: () => of(null) } },
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baseline, isChanged: () => false, isIncompatibleColumn: () => false, live$: () => of(null) } },
       ],
     }).compileComponents();
 
@@ -420,9 +424,12 @@ function configureTableModule():void {
   TestBed.overrideModule(OpenprojectWorkPackagesModule, {
     set: {
       imports: [CommonModule, NoResultsComponent],
-      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController],
+      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController, SortHeaderDirective],
       exports: [WorkPackagesTableComponent],
-      providers: [],
+      providers: [
+        { provide: OpModalService, useValue: {} },
+        { provide: ConfirmDialogService, useValue: {} },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     },
   });
@@ -463,7 +470,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       providers: [
         ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], translations, editing: {} }),
         WorkPackageViewSumService,
-        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, live$: () => of(null) } },
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, isIncompatibleColumn: () => false, live$: () => of(null) } },
         {
           provide: WorkPackageInlineCreateService,
           useValue: {
@@ -572,6 +579,59 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       .flatMap((element) => [element.getAttribute('aria-describedby'), element.getAttribute('aria-labelledby')])
       .flatMap((value) => value?.split(/\s+/) ?? []);
   }
+
+  describe('sort headers', () => {
+    function makeSortable(...ids:string[]) {
+      querySpace.available.sortBy.putValue(ids.map((id) => ({
+        column: { id, name: id, href: `/api/v3/queries/columns/${id}` },
+        direction: { href: QUERY_SORT_BY_ASC },
+      }) as unknown as QuerySortByResource));
+    }
+
+    const subjectHeader = () => within(headerRow()).getByRole('columnheader', { name: 'subject' });
+    const subjectName = () => subjectHeader().querySelector('.wp-table--column-menu-name');
+
+    it('keeps following the sort after the table is replaced', async () => {
+      makeSortable('id', 'subject');
+      const component = await mount({});
+      const body = document.createElement('div');
+      component.timeline.append(body);
+      component.registerTimeline({} as WorkPackageTimelineTableController, body);
+
+      sortBy(['subject', QUERY_SORT_BY_DESC]);
+      await fixture.whenStable();
+
+      expect(subjectName()).toHaveClass('sort', 'desc');
+    });
+
+    it('keeps the sort on headers rebuilt from replacement columns', async () => {
+      makeSortable('id', 'subject');
+      await mount({});
+      sortBy(['subject', QUERY_SORT_BY_ASC]);
+      await fixture.whenStable();
+
+      TestBed.inject(WorkPackageViewColumnsService).update([buildColumn('subject'), buildColumn('id')] as QueryColumn[]);
+      await fixture.whenStable();
+
+      expect(within(headerRow()).getAllByRole('columnheader')[0]).toBe(subjectHeader());
+      expect(subjectName()).toHaveClass('sort', 'asc');
+    });
+
+    it('keeps header focus when the sort changes', async () => {
+      makeSortable('id', 'subject');
+      await mount({});
+      const header = subjectHeader();
+      header.focus();
+      expect(header).toHaveFocus();
+
+      sortBy(['subject', QUERY_SORT_BY_DESC]);
+      await fixture.whenStable();
+
+      expect(subjectHeader()).toBe(header);
+      expect(header).toHaveFocus();
+      expect(subjectName()).toHaveClass('sort', 'desc');
+    });
+  });
 
   describe('naming', () => {
     it('names the table', async () => {
