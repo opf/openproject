@@ -29,12 +29,9 @@
 
 module McpOutputFilters
   class RemoveInactiveWorkPackageFormFields < HashFilter
-    # The date picker and the progress dialog edit these fields together, so placing
-    # one of them in the form configuration makes all of them editable.
-    FIELDS_EDITED_TOGETHER = [
-      %w[date startDate dueDate duration scheduleManually ignoreNonWorkingDays],
-      %w[estimatedTime remainingTime percentageDone]
-    ].freeze
+    # The form configuration has a single `date` entry, shown as the date picker,
+    # which edits these schema properties.
+    DATE_PICKER_FIELDS = %w[startDate dueDate duration scheduleManually ignoreNonWorkingDays].freeze
 
     private
 
@@ -48,17 +45,13 @@ module McpOutputFilters
     end
 
     def removable_fields
-      configurable_fields | FIELDS_EDITED_TOGETHER.flatten
+      configurable_fields | DATE_PICKER_FIELDS
     end
 
     def fields_in_form(attribute_groups)
       fields = attribute_groups.flat_map { |group| Array(group["attributes"]) }
 
-      FIELDS_EDITED_TOGETHER.each do |together|
-        fields |= together if together.intersect?(fields)
-      end
-
-      fields
+      fields.include?("date") ? fields | DATE_PICKER_FIELDS : fields
     end
 
     def configurable_fields

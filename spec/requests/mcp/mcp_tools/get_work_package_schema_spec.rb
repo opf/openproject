@@ -184,14 +184,14 @@ RSpec.describe McpTools::GetWorkPackageSchema do
         mcp_request
 
         expect(schema.keys).not_to include("labels", "category", "assignee", "responsible", "startDate", "dueDate",
-                                           "duration", "scheduleManually", "ignoreNonWorkingDays")
+                                           "duration", "scheduleManually", "ignoreNonWorkingDays",
+                                           "remainingTime", "percentageDone")
       end
 
-      it "keeps the fields placed in the form and those edited together with them" do
+      it "keeps the fields placed in the form" do
         mcp_request
 
-        expect(schema.keys).to include("priority", "estimatedTime", "remainingTime", "percentageDone",
-                                       list_custom_field.attribute_name(:camel_case))
+        expect(schema.keys).to include("priority", "estimatedTime", list_custom_field.attribute_name(:camel_case))
       end
 
       it "keeps the fields that are always part of the form" do
