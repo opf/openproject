@@ -281,6 +281,25 @@ describe('Filters form controller', () => {
     await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
   });
 
+  it('leaves the URL alone and sends the same value again after an error response', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+    resolveResponse(new Response('', { status: 500 }));
+    await waitFor(() => expect(indicator.hidden).toBe(true));
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2));
+    expect(replaceState).not.toHaveBeenCalled();
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(indicator.hidden).toBe(true));
+  });
+
   it('keeps the in-flight request when typing returns to its value before the debounce', async () => {
     const controller = await renderForm();
     const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);

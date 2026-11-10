@@ -652,21 +652,22 @@ export default class FiltersFormController extends Controller {
     this.sentFilters = newFilters;
 
     const response = fetch(url, { signal: request.signal, headers: { Accept: 'text/vnd.turbo-stream.html' } })
-      .then((fetched) => fetched.text())
-      .then((html) => {
-        if (this.buildFiltersParam(this.currentFilters()) !== newFilters) {
-          this.sentFilters = null;
-          return;
-        }
+      .then(async (fetched) => {
+        const html = await fetched.text();
+        if (this.buildFiltersParam(this.currentFilters()) !== newFilters) return;
 
         renderStreamMessage(html);
-        window.history.replaceState(window.history.state, '', browserUrl);
+        if (fetched.ok) {
+          window.history.replaceState(window.history.state, '', browserUrl);
+        }
       })
       .catch((error:unknown) => {
         if (request.signal.aborted) return;
 
         console.error('Error:', error);
-        this.sentFilters = null;
+      })
+      .finally(() => {
+        if (this.streamAbortController === request) this.sentFilters = null;
       });
 
     // A newer request owns the indicator once it has replaced this one.
