@@ -123,9 +123,6 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   max-width: 400px
   @include text-shortener
 
-// CKEditor 49 changed the mention list: it insets the items, no longer pads
-// our custom items, and marks the selected item only with an outline.
-// Restore the CKEditor 48 look.
 .ck.ck-list.ck-mentions
   --ck-list-padding: var(--ck-spacing-small, var(--ck-spacing-sm)) 0
   --ck-list-item-outer-padding: 0
