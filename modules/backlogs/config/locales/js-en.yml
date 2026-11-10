@@ -80,7 +80,9 @@ en:
       chart_label: "Burnup chart"
       chart_summary: "Burnup chart data: %{days}."
       chart_value: "%{label}: %{value}"
-      story_points: "Story points"
+      y_axis_title:
+        story_points: "Story points"
+        time: "Estimated time"
     created_resolved_chart:
       work_packages: "Work packages"
     # Shared by every sprint chart that paints the non-working-days plugin's bands.

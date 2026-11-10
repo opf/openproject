@@ -72,6 +72,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurnupChart, type: :component d
       expect(rendered_component).to have_element(:"opce-burnup-chart")
     end
 
+    it "sends the unit" do
+      expect(chart_data["unit"]).to eq "story_points"
+    end
+
     it "carries each series under a stable id and a translated label" do
       expect(chart_data["series"].pluck("id", "label"))
         .to eq([["completed", "Completed work"],
@@ -127,11 +131,35 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurnupChart, type: :component d
     end
   end
 
-  context "when the project has no estimation unit set", with_flag: { project_settings_estimation_unit: true } do
-    before { project.estimation_unit = "none" }
+  context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+    before { project.estimation_unit = estimation_unit }
 
-    it "renders nothing" do
-      expect(rendered_component.to_s).to be_empty
+    context "when estimation unit is story points" do
+      let(:estimation_unit) { "story_points" }
+
+      it "renders the widget" do
+        expect(rendered_component).to have_element(:"opce-burnup-chart")
+      end
+    end
+
+    context "when estimation unit is time" do
+      let(:estimation_unit) { "time" }
+
+      it "renders the widget" do
+        expect(rendered_component).to have_element(:"opce-burnup-chart")
+      end
+
+      it "sends the unit" do
+        expect(chart_data["unit"]).to eq "time"
+      end
+    end
+
+    context "when estimation unit is none" do
+      let(:estimation_unit) { "none" }
+
+      it "renders nothing" do
+        expect(rendered_component.to_s).to be_empty
+      end
     end
   end
 end
