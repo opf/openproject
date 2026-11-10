@@ -48,9 +48,11 @@ module Admin
             with_item_group(menu) { edit_action_item(menu) }
 
             with_item_group(menu) do
-              add_above_action_item(menu)
-              add_below_action_item(menu)
-              add_sub_item_action_item(menu)
+              if item.parent.project_id.nil?
+                add_above_action_item(menu)
+                add_below_action_item(menu)
+              end
+              add_sub_item_action_item(menu) if item.project_id.nil?
             end
 
             with_item_group(menu) { change_parent_item(menu) }

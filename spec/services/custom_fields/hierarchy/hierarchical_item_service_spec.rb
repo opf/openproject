@@ -390,6 +390,62 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
         preordered_descendants = root.reload.self_and_descendants_preordered.pluck(:label)
         expect(root.self_and_descendants.reorder(:position_cache).pluck(:label)).to eq(preordered_descendants)
       end
+
+      it "fails when the new parent has a child with the same label" do
+        service.insert_item(contract_class:, parent: lando, label: "mara")
+
+        result = service.move_item(item: mara, new_parent: lando)
+
+        expect(result).to be_failure
+        expect(result.failure).to be_error(:label)
+        expect(mara.reload.parent).to eq(luke)
+      end
+
+      context "with project items" do
+        let(:project) { create(:project) }
+        let(:other_project) { create(:project) }
+
+        before { custom_field.update!(allow_additional_project_values: true) }
+
+        it "keeps a moved global item before the project items" do
+          jedi = service.insert_item(contract_class:, parent: lando, label: "jedi", project:).value!
+
+          service.move_item(item: mara, new_parent: lando)
+
+          expect(lando.reload.children.to_a).to eq([mara, jedi])
+        end
+
+        it "fails to move a global item below a project item" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+
+          result = service.move_item(item: mara, new_parent: jedi)
+
+          expect(result).to be_failure
+          expect(result.failure).to be_error(:parent)
+        end
+
+        it "moves a project item below an item of the same project" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          expect(service.move_item(item: padawan, new_parent: jedi)).to be_success
+          expect(padawan.reload.parent).to eq(jedi)
+        end
+
+        it "fails to move a project item below an item of another project" do
+          sith = service.insert_item(contract_class:, parent: root, label: "sith", project: other_project).value!
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          expect(service.move_item(item: padawan, new_parent: sith)).to be_failure
+        end
+
+        it "allows a project item to share the label of another project's sibling" do
+          service.insert_item(contract_class:, parent: lando, label: "padawan", project: other_project)
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          expect(service.move_item(item: padawan, new_parent: lando)).to be_success
+        end
+      end
     end
 
     describe "#reorder_item" do

@@ -137,12 +137,13 @@ module CustomFields
       # Move an item/node to a new parent item/node
       # @param item [CustomField::Hierarchy::Item] the parent of the node
       # @param new_parent [CustomField::Hierarchy::Item] the new parent of the node
-      # @return [Success(CustomField::Hierarchy::Item)]
+      # @return [Success(CustomField::Hierarchy::Item), Failure(Dry::Validation::Result)]
       def move_item(item:, new_parent:)
-        updated_item = new_parent.append_child(item)
-        update_position_cache(new_parent.root)
-
-        Success(updated_item)
+        CustomFields::Hierarchy::MoveItemContract
+          .new
+          .call({ item:, parent: new_parent })
+          .to_monad
+          .bind { append_to_new_parent(item:, new_parent:) }
       end
 
       # Reorder the item along its siblings.
@@ -209,6 +210,19 @@ module CustomFields
         return Failure(item.errors) if item.new_record?
 
         update_position_cache(item.root)
+        Success(item.reload)
+      end
+
+      def append_to_new_parent(item:, new_parent:)
+        relative_sibling = relative_sibling_in_band(parent: new_parent, item:, before: nil)
+
+        if relative_sibling.present?
+          relative_sibling.prepend_sibling(item)
+        else
+          new_parent.append_child(item)
+        end
+
+        update_position_cache(new_parent.root)
         Success(item.reload)
       end
 
