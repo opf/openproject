@@ -31,39 +31,18 @@ module Admin::Settings
   class NewProjectSettingsController < ::Admin::SettingsController
     menu_item :new_project_settings
 
-    before_action :validate_enabled_modules, only: :update # rubocop:disable Rails/LexicallyScopedActionFilter
-
     private
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    def validate_enabled_modules
-      return if params[:tab] == "notifications"
-      return if settings_params[:default_projects_modules].blank?
+    # Locked check boxes are not submitted, so the dependencies of the selected modules are
+    # added back here rather than rejecting the save.
+    def settings_params
+      super.tap do |settings|
+        modules = settings[:default_projects_modules]
 
-      enabled_modules = settings_params[:default_projects_modules].map(&:to_sym)
+        next if modules.blank?
 
-      module_missing_deps = OpenProject::AccessControl
-        .modules
-        .filter_map do |m|
-          if m[:dependencies] &&
-            enabled_modules.include?(m[:name]) &&
-            (m[:dependencies] & enabled_modules) != m[:dependencies]
-
-            I18n.t(
-              "settings.projects.missing_dependencies",
-              module: I18n.t("project_module_#{m[:name]}"),
-              dependencies: m[:dependencies].map { |dep| I18n.t("project_module_#{dep}") }.join(", ")
-            )
-          end
-        end
-
-      if module_missing_deps.any?
-        flash[:error] = helpers.list_of_messages(module_missing_deps)
-
-        redirect_to action: :show, tab: params[:tab]
+        settings[:default_projects_modules] = OpenProject::AccessControl.modules_with_dependencies_appended(modules)
       end
     end
-
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end

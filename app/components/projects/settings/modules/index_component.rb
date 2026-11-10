@@ -47,18 +47,8 @@ module Projects
           OpenProject::AccessControl.available_project_modules(sorted: true).map(&:to_s)
         end
 
-        # Maps each module onto the enabled modules that force it to stay enabled, by walking
-        # every enabled module's dependency closure once.
         def required_by
-          @required_by ||= enabled_module_names.each_with_object(Hash.new { |map, key| map[key] = [] }) do |name, map|
-            dependencies = OpenProject::AccessControl.modules_with_dependencies_appended([name]) - [name]
-
-            dependencies.each { map[it] << name }
-          end
-        end
-
-        def enabled_module_names
-          @enabled_module_names ||= @project.enabled_module_names
+          @required_by ||= OpenProject::AccessControl.modules_required_by(@project.enabled_module_names)
         end
       end
     end

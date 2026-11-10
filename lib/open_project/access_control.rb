@@ -191,6 +191,14 @@ module OpenProject
         resolved
       end
 
+      # Maps each module onto those of the given modules that depend on it, directly or
+      # transitively. Modules nothing depends on are absent from the map.
+      def modules_required_by(names)
+        Array(names).each_with_object(Hash.new { |map, key| map[key] = [] }) do |name, map|
+          (modules_with_dependencies_appended([name]) - [name]).each { map[it] << name }
+        end
+      end
+
       def module_enterprise_feature?(name)
         current_module = modules.find { |m| m[:name] == name }
 

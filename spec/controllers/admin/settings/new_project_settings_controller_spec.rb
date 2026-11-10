@@ -79,6 +79,20 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
             .to have_css "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
         end
       end
+
+      context "with a selected module that depends on another" do
+        before do
+          Setting.default_projects_modules = %w[backlogs]
+        end
+
+        it "renders the dependency checked and locked" do
+          get "show", params: { tab: "settings" }
+
+          expect(response.body)
+            .to have_css "input[@name='settings[default_projects_modules][]'][@value='board_view']" \
+                         "[@checked='checked'][@disabled='disabled']"
+        end
+      end
     end
 
     describe "default role for new projects" do
@@ -157,6 +171,21 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
         expect(response).to redirect_to action: "show", tab: "settings"
 
         expect(Setting.default_projects_modules).to eq(["activity", "wiki"])
+      end
+
+      it "adds the dependencies of the selected modules" do
+        patch "update",
+              params: {
+                tab: "settings",
+                settings: {
+                  default_projects_modules: ["backlogs"]
+                }
+              }
+
+        expect(response).to be_redirect
+
+        expect(Setting.default_projects_modules)
+          .to contain_exactly("backlogs", "board_view", "work_package_tracking")
       end
     end
 

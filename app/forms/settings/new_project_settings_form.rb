@@ -43,10 +43,14 @@ module Settings
         label: I18n.t(:setting_default_projects_modules)
       ) do |check_box_group|
         OpenProject::AccessControl.available_project_modules(sorted: true).each do |m|
+          required_by = modules_required_by[m.to_s]
+
           check_box_group.check_box(
             value: m.to_s,
             label: I18n.t("project_module_#{m}", default: m.to_s.humanize),
-            checked: Setting.default_projects_modules.include?(m.to_s)
+            checked: Setting.default_projects_modules.include?(m.to_s) || required_by.any?,
+            disabled: required_by.any?,
+            caption: required_by_caption(required_by)
           )
         end
       end
@@ -62,6 +66,17 @@ module Settings
       end
 
       f.submit
+    end
+
+    def modules_required_by
+      @modules_required_by ||= OpenProject::AccessControl.modules_required_by(Setting.default_projects_modules)
+    end
+
+    def required_by_caption(required_by)
+      return if required_by.empty?
+
+      I18n.t("projects.settings.modules.required_by",
+             modules: required_by.map { I18n.t("project_module_#{it}", default: it.humanize) }.to_sentence)
     end
 
     # Adds the role options to the new_project_user_role_id select. Roles that pass the
