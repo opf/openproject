@@ -53,13 +53,12 @@ test "$(find "$PGDATA" -type f | wc -l)" = 1
 rm "$PGDATA/PG_VERSION"
 /source/docker/prod/supervisord
 runuser -u postgres -- "$PGBIN/pg_ctl" -D "$PGDATA" -o "-c config_file=$PGCONF_FILE" -l /tmp/aio.log -w start
-psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "SELECT '[1,2,3]'::vector <-> '[1,2,3]'::vector;"
-psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c 'DROP EXTENSION vector;'
+test "$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -tAc "SELECT count(*) FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NULL")" = 1
 runuser -u postgres -- "$PGBIN/pg_ctl" -D "$PGDATA" -m fast -w stop
 /source/docker/prod/supervisord
 runuser -u postgres -- "$PGBIN/pg_ctl" -D "$PGDATA" -o "-c config_file=$PGCONF_FILE" -l /tmp/aio.log -w start
-test "$(psql "$DATABASE_URL" -tAc "SELECT count(*) FROM pg_extension WHERE extname = 'vector'")" = 0
-echo 'PASS: fresh AIO activates vector; existing AIO is unchanged'
+test "$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -tAc "SELECT count(*) FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NULL")" = 1
+echo 'PASS: fresh and existing AIO leave vector available for application migrations'
 
 mkdir -p /var/lib/postgresql/external-marker
 echo 17 > /var/lib/postgresql/external-marker/PG_VERSION
@@ -74,7 +73,7 @@ export PGDATA=/var/lib/postgresql/aio17
 /source/docker/prod/supervisord
 runuser -u postgres -- "$PGBIN/pg_ctl" -D "$PGDATA" -o "-c config_file=$PGCONF_FILE" -l /tmp/aio17.log -w start
 test "$(psql "$DATABASE_URL" -tAc 'SHOW server_version_num')" -lt 180000
-psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c 'DROP EXTENSION vector;'
+test "$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -tAc "SELECT count(*) FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NULL")" = 1
 echo 'PASS: explicit PostgreSQL 17 pin starts an existing cluster'
 
 runuser -u postgres -- "$PGBIN/pg_ctl" -D "$PGDATA" -m fast -w stop

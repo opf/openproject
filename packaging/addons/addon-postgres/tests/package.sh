@@ -50,5 +50,5 @@ wiz_check_package() { dpkg-query -W "$1" >/dev/null 2>&1; }
 wiz_set() { :; }
 WIZARD
 /source/bin/preinstall
-PGPASSWORD=openproject psql -h 127.0.0.1 -p 45432 -U openproject -d openproject -v ON_ERROR_STOP=1 -c "SHOW server_version; SELECT '[1,2,3]'::vector <-> '[1,2,3]'::vector;"
+test "$(PGPASSWORD=openproject psql -h 127.0.0.1 -p 45432 -U openproject -d openproject -v ON_ERROR_STOP=1 -tAc "SELECT count(*) FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NULL")" = 1
 echo 'PASS: clean Debian 12 packaged installation'

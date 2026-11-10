@@ -118,7 +118,6 @@ services:
     stop_grace_period: "3s"
     volumes:
       - "pgdata:/var/lib/postgresql"
-      - "./docker/postgres/init-vector.sql:/docker-entrypoint-initdb.d/vector.sql:ro"
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
@@ -150,7 +149,6 @@ services:
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql"
-      - "./docker/postgres/init-vector.sql:/docker-entrypoint-initdb.d/vector.sql:ro"
     environment:
       POSTGRES_DB: openproject
       POSTGRES_USER: openproject

@@ -11,6 +11,6 @@ docker run --rm -v "$PWD:/source:ro" openproject-postgresql-test /source/docker/
 The tests create disposable PostgreSQL clusters inside containers:
 
 - `upgrade.sh` checks PostgreSQL 17→18 upgrades with vector data and checksums enabled and disabled.
-- `provision.sh` checks AIO version mismatch rejection, fresh-only vector activation, external database handling, and PostgreSQL 17 pins.
+- `provision.sh` checks AIO version mismatch rejection, pgvector availability without provisioning-time activation, external database handling, and PostgreSQL 17 pins.
 
 The provisioning test substitutes application migration/seeding commands and the final supervisor launch. It tests AIO database setup, not the full application or packaged installer.

@@ -152,7 +152,6 @@ if [ -z "${DATABASE_URL}" ] || [ "$dbhost" = "127.0.0.1" ]; then
 		su postgres -c "$PGBIN/pg_ctl -w -l /dev/null -o '-c config_file=$PGCONF_FILE' -D '$PGDATA' start" | indent
 		su postgres -c "$PGBIN/psql --command \"CREATE USER openproject WITH SUPERUSER PASSWORD 'openproject';\"" | indent
 		su postgres -c "$PGBIN/createdb -O openproject openproject" | indent
-		su postgres -c "$PGBIN/psql -v ON_ERROR_STOP=1 -d openproject -c 'CREATE EXTENSION vector;'" | indent
 		(install_plugins && migrate) 2>&1 | indent
 		su - postgres -c "$PGBIN/pg_ctl -D '$PGDATA' stop" | indent
 	fi
