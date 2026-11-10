@@ -69,7 +69,7 @@
   "dependencies": {
     "@angular/animations": "^22.2.3",
     "@angular/cdk": "^22.2.6",
-    "@angular/cli": "^22.2.5",
+    "@angular/cli": "^22.2.6",
     "@angular/common": "^22.2.4",
     "@angular/compiler": "^22.2.4",
     "@angular/compiler-cli": "^22.2.4",
