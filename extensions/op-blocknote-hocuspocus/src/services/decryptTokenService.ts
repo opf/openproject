@@ -46,15 +46,23 @@ type PackedParams = {
  * Decrypts a given token using AES-256-GCM algorithm.
  */
 export function decryptToken(encrypted:string):PackedParams {
-  const [token, iv, authTag] = encrypted.split('--').map((part:string) => Buffer.from(part, 'base64'));
+  const decrypted = decrypt(encrypted);
 
+  try {
+    return JSON.parse(decrypted.toString());
+  } catch {
+    // hide the original error to avoid accidentally exposing decrypted information
+    throw new Error("Unauthorized: Decrypted token is not valid JSON");
+  }
+}
+
+function decrypt(encrypted:string):Buffer {
+  const [token, iv, authTag] = encrypted.split('--').map((part:string) => Buffer.from(part, 'base64'));
   const decipher = createDecipheriv(ALGORITHM, SECRET, iv);
   decipher.setAuthTag(authTag);
 
-  const decrypted = Buffer.concat([
+  return Buffer.concat([
     decipher.update(token),
     decipher.final()
   ]);
-
-  return JSON.parse(decrypted.toString());
 }
