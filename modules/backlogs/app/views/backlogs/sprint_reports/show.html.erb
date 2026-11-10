@@ -43,6 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% grid.with_widget(Backlogs::SprintReports::Widgets::UnfinishedTable, @sprint, @project, @breakdown) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::AddedTable, @sprint, @project, @breakdown) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::RemovedTable, @sprint, @project, @breakdown) %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::EnterpriseBanner) %>
 <% end %>
 
 <%= render(Backlogs::SprintReports::NavigationComponent.new(sprint: @sprint, project: @project)) %>
