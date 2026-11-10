@@ -334,14 +334,14 @@ en:
           closed_work_packages: "Closed work packages"
           completed_estimated_time: "Completed estimated time"
           completed_story_points: "Completed story points"
-          resolved_summary:
+          progress_summary:
             story_points:
-              one: "%{percentage} (%{resolved} of %{total} story point)"
-              other: "%{percentage} (%{resolved} of %{total} story points)"
-            time: "%{percentage} (%{resolved} of %{total})"
+              one: "%{percentage} (%{resolved} of %{count} story point)"
+              other: "%{percentage} (%{resolved} of %{count} story points)"
+            time: "%{percentage} (%{resolved} of %{count})"
             work_packages:
-              one: "%{percentage} (%{resolved} of %{total} work package)"
-              other: "%{percentage} (%{resolved} of %{total} work packages)"
+              one: "%{percentage} (%{resolved} of %{count} work package)"
+              other: "%{percentage} (%{resolved} of %{count} work packages)"
           title: "Work packages within the sprint"
         work_package_table:
           added:

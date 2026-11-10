@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
                 aria: {
                   valuenow: resolved_percentage, valuemin: 0, valuemax: 100,
                   label: progress_label,
-                  valuetext: resolved_summary_text
+                  valuetext: progress_summary_text
                 }
               )
             ) do |bar|
@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 
           flex.with_column(mr: 3, aria: { hidden: true }) do
             render(Primer::Beta::Text.new(tag: :div, font_size: :small)) do
-              resolved_summary_text
+              progress_summary_text
             end
           end
         end
