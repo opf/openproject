@@ -94,7 +94,6 @@ module Repositories
           .new(user: current_user, model: @provider, contract_class: contract_class(:update))
           .call(webhook_secret: @provider.class.generate_webhook_secret)
 
-        close_dialog_via_turbo_stream(Repositories::Admin::RegenerateWebhookSecretDialogComponent::DIALOG_ID)
         render_step_form
       end
 
