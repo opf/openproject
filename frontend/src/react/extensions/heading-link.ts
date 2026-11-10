@@ -37,7 +37,7 @@ import { alertIconData, checkIconData, linkIconData, toDOMString } from '@openpr
 const ANCHOR_PREFIX = 'heading-';
 const BLOCK_CONTAINER = '[data-node-type="blockContainer"]';
 const HEADING = '[data-content-type="heading"]';
-const COLLAPSED_TOGGLE_BUTTON = ':scope > .bn-block-content .bn-toggle-wrapper[data-show-children="false"] > .bn-toggle-button';
+const COLLAPSED_TOGGLE_BUTTON = ':scope > .bn-toggle-wrapper > .bn-toggle-button[aria-expanded="false"]';
 const USER_INPUT_EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchstart'] as const;
 const FEEDBACK_DURATION = 2000;
 const TAP_MOVE_TOLERANCE = 10;
