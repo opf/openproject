@@ -161,7 +161,7 @@
 <ng-template let-item let-search="search" #defaultOption>
   @switch (true) {
     @case (!resource && !!item.depth) {
-      <span [ngOptionHighlight]="search"
+      <span
         [textContent]="item.name"
         [ngStyle]="{'padding-left.px': item.depth * 16}"
         class="ng-option-label ellipsis">
@@ -182,25 +182,21 @@
       }
       <span
         [attr.data-hover-card-trigger-target]="getHoverCardTriggerTarget(item)"
-        [attr.data-hover-card-url]="getHoverCardUrl(item)"
-      [ngOptionHighlight]="search">{{ item.name }}</span>
+        [attr.data-hover-card-url]="getHoverCardUrl(item)">{{ item.name }}</span>
       @if (item.email) {
         <span
-          class="op-autocompleter__option-principal-email"
-        [ngOptionHighlight]="search">{{ item.email }}</span>
+          class="op-autocompleter__option-principal-email">{{ item.email }}</span>
       }
     }
     @case (resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default' || (!resource && !item.depth)) {
       <span
         [ngClass]="'ng-option-label ' + (item?.[additionalClassProperty] || '')"
         [attr.data-hover-card-trigger-target]="getHoverCardTriggerTarget(item)"
-        [attr.data-hover-card-url]="getHoverCardUrl(item)"
-        [ngOptionHighlight]="search">{{ item.name }}
+        [attr.data-hover-card-url]="getHoverCardUrl(item)">{{ item.name }}
       </span>
       @if (item.email) {
         <span
-          class="op-autocompleter__option-principal-email"
-        [ngOptionHighlight]="search">{{ item.email }}</span>
+          class="op-autocompleter__option-principal-email">{{ item.email }}</span>
       }
     }
   }
@@ -212,18 +208,15 @@
       @if (item.type) {
         <span
           [ngClass]="highlighting('type', item.type.id)"
-          [ngOptionHighlight]="search"
           [textContent]="item.type.name"
         ></span>
       }
       <span
         class="op-autocompleter--wp-id"
-        [ngOptionHighlight]="search"
       >{{ item.formattedId }}</span>
       @if (item.status) {
         <span
           [ngClass]="highlighting('status', item.status.id)"
-          [ngOptionHighlight]="search"
           [textContent]="item.status.name"
           class="op-autocompleter--wp-status"
         ></span>
@@ -231,14 +224,12 @@
       @if (item.project?.name) {
         <span>-</span>
         <span
-          [ngOptionHighlight]="search"
           [textContent]="item.project.name"
           class="op-autocompleter--wp-project"
         ></span>
       }
     </div>
     <span
-      [ngOptionHighlight]="search"
       [textContent]="item.subject"
       class="op-autocompleter--wp-subject"
     ></span>
@@ -255,7 +246,6 @@
     @if (item.id) {
       <span
         class="ng-value-label"
-        [ngOptionHighlight]="search"
         >
         {{ item.type?.name }} {{ item.formattedId }} {{ item.subject || item.name }}
       </span>
@@ -271,7 +261,6 @@
             (keydown.space)="$event.preventDefault(); clear(item)">×</span>
     }
     <span
-      [ngOptionHighlight]="search"
       [ngClass]=" additionalClassProperty ? item[additionalClassProperty] : ''"
     class="ng-value-label">{{ item.name }}</span>
   }
