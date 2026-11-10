@@ -43,6 +43,25 @@ RSpec.describe CustomOption do
     custom_field.save!
   end
 
+  describe "validations" do
+    let(:project) { create(:project) }
+
+    it "allows a global option to be the default" do
+      expect(build(:custom_option, custom_field:, default_value: true)).to be_valid
+    end
+
+    it "does not allow a project option to be the default" do
+      option = build(:custom_option, custom_field:, project:, default_value: true)
+
+      expect(option).not_to be_valid
+      expect(option.errors.symbols_for(:default_value)).to include(:present)
+    end
+
+    it "allows a project option that is not the default" do
+      expect(build(:custom_option, custom_field:, project:, default_value: false)).to be_valid
+    end
+  end
+
   describe "saving" do
     it "updates the custom_field's timestamp" do
       timestamp_before = custom_field.updated_at

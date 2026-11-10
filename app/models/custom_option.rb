@@ -35,6 +35,7 @@ class CustomOption < ApplicationRecord
   belongs_to :project, optional: true
 
   validates :value, presence: true, length: { maximum: 255 }
+  validates :default_value, absence: true, if: :project_id?
 
   before_destroy :assure_at_least_one_option
 
