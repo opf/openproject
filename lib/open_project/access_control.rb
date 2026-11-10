@@ -174,6 +174,23 @@ module OpenProject
         permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
       end
 
+      # Returns the given module names plus every module they depend on, resolved transitively
+      def modules_with_dependencies_appended(names)
+        dependencies = modules.to_h { |mod| [mod[:name].to_s, Array(mod[:dependencies]).map(&:to_s)] }
+
+        resolved = []
+        pending = Array(names).map(&:to_s).compact_blank
+
+        while (name = pending.shift)
+          next if resolved.include?(name)
+
+          resolved << name
+          pending.concat(dependencies.fetch(name, []))
+        end
+
+        resolved
+      end
+
       def module_enterprise_feature?(name)
         current_module = modules.find { |m| m[:name] == name }
 

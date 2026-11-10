@@ -37,23 +37,16 @@ RSpec.describe "Backlogs project module dependencies", :js do
     create(:user, member_with_permissions: { project => %i[edit_project select_project_modules] })
   end
 
-  it "requires Boards to be enabled alongside Backlogs" do
+  it "enables Boards automatically when Backlogs is enabled" do
     modules_settings_page.visit!
 
     check "Backlogs"
     click_button "Save"
 
-    expect_flash(type: :error, message:
-      I18n.t(:"activerecord.errors.models.project.attributes.enabled_modules.dependency_missing",
-             dependency: "Boards",
-             module: "Backlogs"))
-
-    expect(project.reload).not_to be_module_enabled("backlogs")
-
-    check "Boards"
-    click_button "Save"
-
     expect_flash type: :success, message: I18n.t(:notice_successful_update)
+
+    expect(page).to have_checked_field "Backlogs"
+    expect(page).to have_checked_field "Boards"
 
     expect(project.reload).to be_module_enabled("backlogs")
     expect(project).to be_module_enabled("board_view")
@@ -62,17 +55,15 @@ RSpec.describe "Backlogs project module dependencies", :js do
   context "with both modules already enabled" do
     let!(:project) { create(:project, enabled_module_names: %w[work_package_tracking backlogs board_view]) }
 
-    it "refuses to disable Boards while Backlogs stays enabled" do
+    it "keeps Boards enabled when unchecked while Backlogs stays enabled" do
       modules_settings_page.visit!
 
       uncheck "Boards"
       click_button "Save"
 
-      expect_flash(type: :error, message:
-        I18n.t(:"activerecord.errors.models.project.attributes.enabled_modules.dependency_missing",
-               dependency: "Boards",
-               module: "Backlogs"))
+      expect_flash type: :success, message: I18n.t(:notice_successful_update)
 
+      expect(page).to have_checked_field "Boards"
       expect(project.reload).to be_module_enabled("board_view")
     end
   end

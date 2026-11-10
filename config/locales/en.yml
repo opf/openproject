@@ -827,7 +827,6 @@ en:
               archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
               project_initiation_request_disabled: "Project initiation request is disabled. It must be enabled to create the artefact work package."
             enabled_modules:
-              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
             identifier:
               must_start_with_letter: "must start with a letter"
