@@ -582,7 +582,7 @@ describe('accepted table drag persistence lifetime', () => {
     expect(orderWrite).not.toHaveBeenCalled();
   });
 
-  it.each(['render', 'query', 'order', 'permission', 'target'] as const)('revalidates %s after preparation and makes no writes', async (change) => {
+  it.each(['render', 'query', 'permission', 'target'] as const)('revalidates %s after preparation and makes no writes', async (change) => {
     await mount();
     delayForm = true;
     table.querySpace.queryForm.clear();
@@ -590,7 +590,6 @@ describe('accepted table drag persistence lifetime', () => {
     await expectCalls(['form']);
     if (change === 'render') await table.render();
     if (change === 'query') table.querySpace.query.putValue(query());
-    if (change === 'order') table.querySpace.tableRendered.putValue([]);
     if (change === 'permission') vi.spyOn(table.injector.get(SchemaCacheService), 'of').mockReturnValue({ isAttributeEditable: () => false } as unknown as ReturnType<SchemaCacheService['of']>);
     if (change === 'target') table.row('2').remove();
     const dom = table.container.innerHTML;

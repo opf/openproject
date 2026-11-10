@@ -408,10 +408,10 @@ describe('Contextual action menu controller', () => {
     await nextFrame();
 
     keydown(card, 'F10', { shiftKey: true });
-    rightClickPress(card, { clientX: 300, clientY: 400 });
+    rightClickPress(card, { clientX: 120, clientY: 240 });
     pointerRelease(card);
 
-    expect(pointerOffsetOf(overlay)).toBeCloseTo(300 - card.getBoundingClientRect().left, 0);
+    expect(pointerOffsetOf(overlay)).toBeCloseTo(120 - card.getBoundingClientRect().left, 0);
     expect((overlay as unknown as { anchorElement:HTMLElement|null }).anchorElement).toBe(card);
   });
 

@@ -36,8 +36,9 @@ import type AnchoredPositionElement from '@openproject/primer-view-components/ap
 // Side-effect import: the type-only import above is elided, and it is loading
 // the module that registers `<anchored-position>`.
 import '@openproject/primer-view-components/app/components/primer/anchored_position';
-import { nextFrame } from 'core-common/testing/timing';
-import { CONTEXTUAL_ALIGN, CONTEXTUAL_SIDE, ContextualActionMenu } from './contextual-action-menu';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { nextFrame, nextTask } from 'core-common/testing/timing';
+import { CONTEXTUAL_ALIGN, CONTEXTUAL_SIDE, ContextualActionMenu, PointerReleaseGate } from './contextual-action-menu';
 
 // The real <action-menu> custom element is registered by the Primer bundle,
 // which the Vitest browser environment does not load. The presenter only
@@ -342,5 +343,252 @@ describe('ContextualActionMenu', () => {
       expect(overlay.anchorOffset).toBe(8);
       expect(popover.matches(':popover-open')).toBe(true);
     });
+  });
+
+  describe('fitting the pointer position', () => {
+    const rect = () => overlay.getBoundingClientRect();
+    const expectRect = (check:(r:DOMRect) => void) => waitFor(() => check(rect()));
+
+    it('opens below and to the right of the pointer when it fits', async () => {
+      presenter.openAtPoint(100, 100, card);
+
+      await expectRect((r) => {
+        expect(Math.round(r.left)).toBe(100);
+        expect(Math.round(r.top)).toBe(100);
+      });
+      expect(overlay).toHaveAttribute('allow-out-of-bounds');
+    });
+
+    it('opens above the pointer when the menu does not fit below it', async () => {
+      overlay.style.height = '200px';
+      const y = window.innerHeight - 50;
+
+      presenter.openAtPoint(100, y, card);
+
+      await expectRect((r) => {
+        expect(Math.round(r.left)).toBe(100);
+        expect(Math.round(r.bottom)).toBe(y);
+      });
+    });
+
+    it('opens to the left of the pointer when the menu does not fit to its right', async () => {
+      overlay.style.width = '240px';
+      const x = window.innerWidth - 50;
+
+      presenter.openAtPoint(x, 100, card);
+
+      await expectRect((r) => {
+        expect(Math.round(r.right)).toBe(x);
+        expect(Math.round(r.top)).toBe(100);
+      });
+    });
+
+    it('pins the menu to the viewport bottom when it fits neither below nor above the pointer', async () => {
+      // AP-4: a menu taller than the space on either side of the pointer. Primer would walk to
+      // outside-right and reinterpret the offsets; the menu must stay under the pointer's x.
+      const height = Math.round(window.innerHeight * 0.8);
+      overlay.style.height = `${height}px`;
+
+      presenter.openAtPoint(100, Math.round(window.innerHeight / 2), card);
+
+      await expectRect((r) => {
+        expect(Math.round(r.left)).toBe(100);
+        expect(Math.round(r.bottom)).toBe(window.innerHeight);
+      });
+    });
+
+    it('refits when the open menu grows past the viewport edge', async () => {
+      overlay.style.cssText = 'min-width: 0; width: 20px';
+      const x = window.innerWidth - 50;
+      presenter.openAtPoint(x, 100, card);
+      await expectRect((r) => expect(Math.round(r.left)).toBe(x));
+
+      overlay.style.width = '240px';
+      await nextFrame();
+      await nextTask();
+
+      expect(Number(overlay.getAttribute('alignment-offset'))).toBe(x - 240 - CARD_LEFT);
+      await expectRect((r) => expect(Math.round(r.right)).toBeLessThanOrEqual(window.innerWidth));
+    });
+
+    it('refits the open menu when the window resizes', () => {
+      overlay.style.cssText = 'min-width: 0; width: 40px';
+      presenter.openAtPoint(100, 100, card);
+      vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(120);
+
+      fireEvent.resize(window);
+
+      expect(Number(overlay.getAttribute('alignment-offset'))).toBe(100 - 40 - CARD_LEFT);
+    });
+
+    it('keeps a flipped menu inside a viewport that shrank under it', () => {
+      overlay.style.cssText = 'min-width: 0; width: 240px; height: 200px';
+      const innerWidth = vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1000);
+      const innerHeight = vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(800);
+      presenter.openAtPoint(700, 550, card);
+
+      innerWidth.mockReturnValue(600);
+      innerHeight.mockReturnValue(400);
+      fireEvent.resize(window);
+
+      const left = CARD_LEFT + Number(overlay.getAttribute('alignment-offset'));
+      const top = card.getBoundingClientRect().bottom + overlay.anchorOffset;
+      expect(left + 240).toBeLessThanOrEqual(600);
+      expect(top + 200).toBeLessThanOrEqual(400);
+    });
+
+    describe('while the page scrolls', () => {
+      const menuTop = () => card.getBoundingClientRect().bottom + overlay.anchorOffset;
+      const scrollCardTo = (top:number) => {
+        card.style.top = `${top}px`;
+        fireEvent.scroll(window);
+      };
+
+      beforeEach(() => {
+        overlay.style.cssText = 'min-width: 0; width: 240px; height: 200px';
+        vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1000);
+      });
+
+      it('follows the invoking element where the menu still fits', () => {
+        vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(800);
+        presenter.openAtPoint(POINTER_X, POINTER_Y, card);
+        const opened = menuTop();
+
+        scrollCardTo(CARD_TOP + 50);
+
+        expect(menuTop()).toBeCloseTo(opened + 50, 0);
+      });
+
+      it('keeps a menu fitted above the pointer inside the top of the viewport', () => {
+        vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(300);
+        presenter.openAtPoint(POINTER_X, POINTER_Y, card);
+
+        scrollCardTo(CARD_TOP - 100);
+
+        expect(menuTop()).toBeGreaterThanOrEqual(0);
+      });
+
+      it('keeps a menu below the pointer inside the bottom of the viewport', () => {
+        vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(800);
+        presenter.openAtPoint(POINTER_X, POINTER_Y, card);
+
+        scrollCardTo(600);
+
+        expect(menuTop() + 200).toBeLessThanOrEqual(800);
+      });
+
+      it('stops following the scroll once the menu closed', async () => {
+        vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(800);
+        presenter.openAtPoint(POINTER_X, POINTER_Y, card);
+        await closeMenu();
+        update.mockClear();
+
+        scrollCardTo(600);
+
+        expect(update).not.toHaveBeenCalled();
+      });
+    });
+
+    it('stops refitting once the presenter is destroyed', async () => {
+      overlay.style.cssText = 'min-width: 0; width: 20px';
+      presenter.openAtPoint(window.innerWidth - 50, 100, card);
+      await nextFrame();
+      await nextTask();
+      presenter.destroy();
+
+      overlay.style.width = '240px';
+      vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(120);
+      fireEvent.resize(window);
+      await nextFrame();
+      await nextTask();
+
+      expect(overlay.getAttribute('alignment-offset')).toBe('12');
+    });
+
+    it('restores allow-out-of-bounds with the rest of the anchoring when the menu closes', async () => {
+      presenter.openAtPoint(100, 100, card);
+      expect(overlay).toHaveAttribute('allow-out-of-bounds');
+
+      await closeMenu();
+
+      expect(overlay).not.toHaveAttribute('allow-out-of-bounds');
+    });
+  });
+
+  describe('opening at an anchor', () => {
+    it('anchors on the given element with the requested alignment', () => {
+      presenter.openAtAnchor(card, { align: 'end' });
+
+      expect(overlay.anchorElement).toBe(card);
+      expect(overlay.hasAttribute('anchor')).toBe(false);
+      expect(overlay.getAttribute('align')).toBe('end');
+      expect(overlay.getAttribute('side')).toBe('outside-bottom');
+      expect(overlay.hasAttribute('alignment-offset')).toBe(false);
+      // The overlay's own gap (`anchor-offset="spacious"`) stays in force.
+      expect(overlay.anchorOffset).toBe(8);
+      expect(popover.matches(':popover-open')).toBe(true);
+    });
+
+    it('stops refitting a pointer open it takes over from', () => {
+      presenter.openAtPoint(POINTER_X, POINTER_Y, card);
+      presenter.openAtAnchor(invoker, { align: 'end' });
+
+      fireEvent.resize(window);
+
+      expect(overlay).not.toHaveAttribute('alignment-offset');
+      expect(overlay).not.toHaveAttribute('allow-out-of-bounds');
+      expect(overlay.anchorElement).toBe(invoker);
+    });
+
+    it('restores the original anchoring when the menu closes', async () => {
+      presenter.openAtAnchor(card, { align: 'end' });
+
+      await closeMenu();
+
+      expect(overlay.getAttribute('anchor')).toBe('wp-1-menu-button');
+      expect(overlay.getAttribute('align')).toBe('end');
+      expect(overlay.getAttribute('alignment-offset')).toBe('12');
+      expect(overlay.hasAttribute('side')).toBe(false);
+      expect(overlay.anchorElement).toBe(invoker);
+    });
+  });
+});
+
+describe('PointerReleaseGate', () => {
+  let controller:AbortController;
+
+  beforeEach(() => {
+    controller = new AbortController();
+  });
+
+  afterEach(() => {
+    controller.abort();
+  });
+
+  it('runs the open on the release that ends the gesture', () => {
+    const gate = new PointerReleaseGate(document, controller.signal);
+    const open = vi.fn();
+
+    gate.press();
+    gate.openOnRelease(open);
+    expect(open).not.toHaveBeenCalled();
+    expect(gate.pointerIsDown).toBe(true);
+
+    fireEvent.pointerUp(document);
+
+    expect(open).toHaveBeenCalledTimes(1);
+    expect(gate.pointerIsDown).toBe(false);
+  });
+
+  it('drops a pending open on the next press', () => {
+    const gate = new PointerReleaseGate(document, controller.signal);
+    const open = vi.fn();
+
+    gate.press();
+    gate.openOnRelease(open);
+    fireEvent.pointerDown(document);
+    fireEvent.pointerUp(document);
+
+    expect(open).not.toHaveBeenCalled();
   });
 });

@@ -58,7 +58,17 @@ RSpec.describe "Work Package table hierarchy vs grouping", :js do
 
     hierarchy.expect_mode_disabled
 
+    page.find(:columnheader, "Subject").click_button("Subject")
+    within(:menu, "Subject") do
+      expect(page).to have_selector(:role, "menuitemcheckbox",
+                                    text: I18n.t("js.toolbar.settings.display_hierarchy"),
+                                    aria: { disabled: "true", checked: "false" })
+    end
+    page.find(:columnheader, "Subject").click_button("Subject")
+
+    group_by.disable_via_menu
     hierarchy.enable_via_header
+    hierarchy.expect_mode_enabled
 
     group_by.expect_not_grouped_by("Type")
   end
