@@ -732,6 +732,10 @@ en:
           attributes:
             project_ids:
               blank: "Please select a project."
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: "cannot add values to this custom field."
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -5722,6 +5726,9 @@ en:
           not_unique: "must be unique within the same hierarchy level."
         parent:
           not_descendant: "must be a descendant of the hierarchy root."
+          other_project: "must be a global value or belong to the same project."
+        project:
+          additional_values_not_allowed: "cannot add values to this custom field."
         short:
           not_unique: "must be unique within the same hierarchy level."
       str?: "must be a string."

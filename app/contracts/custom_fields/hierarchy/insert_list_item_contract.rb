@@ -34,6 +34,7 @@ module CustomFields
         required(:parent).filled(type?: CustomField::Hierarchy::Item)
         required(:label).filled(:string)
         required(:short).maybe(:string)
+        optional(:project).maybe(type?: Project)
       end
 
       rule(:parent) do
@@ -42,17 +43,41 @@ module CustomFields
         key.failure("must exist") unless value.persisted?
       end
 
-      rule(:label) do
-        next if schema_error?(:parent)
+      rule(:parent, :project) do
+        next if schema_error?(:parent) || schema_error?(:project)
 
-        key.failure(:not_unique) if values[:parent].children.exists?(label: value)
+        key(:parent).failure(:other_project) unless parent_in_reach?(values[:parent], values[:project])
+      end
+
+      rule(:project) do
+        next if value.nil? || schema_error?(:parent)
+
+        key.failure(:additional_values_not_allowed) unless values[:parent].root.custom_field.allow_additional_project_values
+      end
+
+      rule(:label) do
+        next if schema_error?(:parent) || schema_error?(:project)
+
+        key.failure(:not_unique) if conflicting_siblings(values[:parent], values[:project]).exists?(label: value)
       end
 
       rule(:short) do
-        next if schema_error?(:parent)
+        next if schema_error?(:parent) || schema_error?(:project)
         next if value.nil?
 
-        key.failure(:not_unique) if values[:parent].children.exists?(short: value)
+        key.failure(:not_unique) if conflicting_siblings(values[:parent], values[:project]).exists?(short: value)
+      end
+
+      private
+
+      def parent_in_reach?(parent, project)
+        parent.project_id.nil? || parent.project_id == project&.id
+      end
+
+      def conflicting_siblings(parent, project)
+        return parent.children if project.nil?
+
+        parent.children.where(project: [nil, project])
       end
     end
   end

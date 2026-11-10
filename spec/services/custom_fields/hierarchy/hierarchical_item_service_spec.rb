@@ -123,6 +123,57 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
         end
       end
 
+      context "with a project" do
+        let(:project) { create(:project) }
+
+        before { custom_field.update!(allow_additional_project_values: true) }
+
+        it "assigns the project to the item" do
+          item = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+
+          expect(item.project).to eq(project)
+        end
+
+        it "keeps global items before project items" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+          leia = service.insert_item(contract_class:, parent: root, label: "leia").value!
+
+          expect(root.reload.children.to_a).to eq([luke, leia, jedi])
+        end
+
+        it "places a global item positioned within the project items before them" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+          leia = service.insert_item(contract_class:, parent: root, label: "leia", before: jedi.sort_order).value!
+
+          expect(root.reload.children.to_a).to eq([luke, leia, jedi])
+        end
+
+        it "places a project item positioned within the global items at the end" do
+          leia = service.insert_item(contract_class:, parent: root, label: "leia").value!
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:, before: luke.sort_order).value!
+
+          expect(root.reload.children.to_a).to eq([luke, leia, jedi])
+        end
+
+        it "honors a position within the project items" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+          sith = service.insert_item(contract_class:, parent: root, label: "sith", project:, before: jedi.sort_order).value!
+
+          expect(root.reload.children.to_a).to eq([luke, sith, jedi])
+        end
+
+        context "when the custom field does not allow additional project values" do
+          before { custom_field.update!(allow_additional_project_values: false) }
+
+          it "fails to insert the item" do
+            result = service.insert_item(contract_class:, parent: root, label: "jedi", project:)
+
+            expect(result).to be_failure
+            expect(root.reload.children.to_a).to eq([luke])
+          end
+        end
+      end
+
       context "with invalid item" do
         it "fails to insert an item" do
           # child item won't be persisted if `add_child` is mocked
