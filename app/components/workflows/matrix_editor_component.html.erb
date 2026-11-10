@@ -145,7 +145,7 @@ See COPYRIGHT and LICENSE files for more details.
           t("admin.workflows.status_button")
         end
 
-        if (copy_href = context.copy_path(source_role_id: roles.first&.id))
+        if (copy_href = context.copy_path(source_role_id: roles.first&.id, tab:))
           subheader.with_action_button(
             tag: :a,
             scheme: :secondary,

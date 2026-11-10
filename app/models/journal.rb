@@ -89,6 +89,8 @@ class Journal < ApplicationRecord
                    status_name
                    status_id
                    status_changes
+                   label_ids
+                   label_names
                    meeting_id
                    source_meeting_id
                    message_id
@@ -110,6 +112,7 @@ class Journal < ApplicationRecord
     email
     forum_message
     import
+    label_deleted
     progress_mode_changed_to_status_based
     status_changed
     system_update

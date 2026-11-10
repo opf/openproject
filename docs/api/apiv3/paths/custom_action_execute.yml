@@ -2,13 +2,13 @@
 ---
 post:
   parameters:
-  - description: The id of the custom action to execute
-    example: 1
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: The id of the custom action to execute
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       description: OK
@@ -80,7 +80,7 @@ post:
         when a constraint on a work package property was violated.
       headers: {}
   tags:
-  - Custom actions
+    - Custom actions
   description: |-
     A POST to this endpoint executes the custom action on the work package provided in the payload. The altered work package will be returned. In order to avoid executing
      the custom action unbeknown to a change that has already taken place, the client has to provide the work package's current lockVersion.

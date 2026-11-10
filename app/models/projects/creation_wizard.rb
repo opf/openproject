@@ -28,9 +28,9 @@
 #++
 
 module Projects::CreationWizard
-  ARTIFACT_NAME_OPTIONS = %w[project_creation_wizard project_initiation_request project_mandate].freeze
-  DEFAULT_ARTIFACT_NAME_OPTION = "project_creation_wizard"
-  DEFAULT_ARTIFACT_EXPORT_TYPE = "attachment"
+  ARTEFACT_NAME_OPTIONS = %w[project_creation_wizard project_initiation_request project_mandate].freeze
+  DEFAULT_ARTEFACT_NAME_OPTION = "project_creation_wizard"
+  DEFAULT_ARTEFACT_EXPORT_TYPE = "attachment"
 
   extend ActiveSupport::Concern
 
@@ -50,7 +50,7 @@ module Projects::CreationWizard
     # The store_attribute default cannot be used here, because the default is not returned
     # when the JSON definition is present but it's nil.
     def project_creation_wizard_artifact_name
-      super.presence || DEFAULT_ARTIFACT_NAME_OPTION
+      super.presence || DEFAULT_ARTEFACT_NAME_OPTION
     end
 
     def project_creation_wizard_work_package_type_id
@@ -58,7 +58,7 @@ module Projects::CreationWizard
     end
 
     def project_creation_wizard_artifact_export_type
-      super.presence || DEFAULT_ARTIFACT_EXPORT_TYPE
+      super.presence || DEFAULT_ARTEFACT_EXPORT_TYPE
     end
 
     def project_creation_wizard_status_when_submitted_id

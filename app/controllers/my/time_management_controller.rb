@@ -145,7 +145,7 @@ module My
     end
 
     def current_date
-      Time.zone.today
+      User.current.today
     end
 
     def load_entries(dates)
