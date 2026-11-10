@@ -30,24 +30,32 @@
 module McpTools
   class GetWorkPackageSchema < Base
     default_title "Get work package schema"
-    default_description "Describes a new work package of the given type in the given project. Returns the default " \
-                        "values, including the description template, and the writable fields with their types, required " \
-                        "flags and allowed values. Call this before create_work_package."
+    default_description "Describes a work package for creating or updating it. Pass project_id and type_id for a new " \
+                        "work package, or work_package_id for an existing one. Returns the default or current values, " \
+                        "including the description template of a new work package, and the writable fields with their " \
+                        "types, required flags and allowed values. Call this before create_work_package or " \
+                        "update_work_package."
 
     name "get_work_package_schema"
     annotations read_only: true, idempotent: true, destructive: false
 
     input_schema(
       additionalProperties: false,
-      required: %i[project_id type_id],
       properties: {
         project_id: {
           type: "number",
-          description: "The ID of the project the work package will be created in."
+          description: "The ID of the project the work package will be created in. Required together with type_id " \
+                       "when describing a new work package."
         },
         type_id: {
           type: "number",
-          description: "The ID of the work package type."
+          description: "The ID of the work package type. Required when describing a new work package. Together with " \
+                       "work_package_id, describes the existing work package changed to this type."
+        },
+        work_package_id: {
+          type: %w[string number],
+          description: "The identifier of an existing work package. Describes it for an update instead of a new work " \
+                       "package."
         }
       }
     )
@@ -60,30 +68,52 @@ module McpTools
     output_filter McpOutputFilters::RemoveInactiveWorkPackageFormFields.new
     output_filter McpOutputFilters::RemoveKeys.new(%w[_dependencies validationErrors])
 
-    def call(project_id:, type_id:)
+    def call(project_id: nil, type_id: nil, work_package_id: nil)
+      if work_package_id && project_id.nil?
+        update_form(work_package_id, type_id)
+      elsif project_id && type_id && work_package_id.nil?
+        create_form(project_id, type_id)
+      else
+        Failure("Pass either work_package_id, or project_id and type_id.")
+      end
+    end
+
+    private
+
+    def create_form(project_id, type_id)
       project = Project.visible(current_user).find_by(id: project_id)
       return Failure("The given project could not be found.") if project.nil?
       return Failure("You are not allowed to create work packages in this project.") unless can_add_work_packages?(project)
 
-      type = project.enabled_types.find_by(id: type_id)
-      return Failure("The given type is not enabled in this project.") if type.nil?
-
-      Success(form_for(project, type))
+      form(WorkPackage.new(project:), type_id, WorkPackages::CreateContract, API::V3::WorkPackages::CreateFormRepresenter)
     end
 
-    private
+    def update_form(work_package_id, type_id)
+      work_package = WorkPackage.visible(current_user).find_by_display_id(work_package_id)
+      return Failure("The given work package could not be found.") if work_package.nil?
+      return Failure("You are not allowed to edit this work package.") unless can_update?(work_package)
+
+      form(work_package, type_id, WorkPackages::UpdateContract, API::V3::WorkPackages::UpdateFormRepresenter)
+    end
+
+    def form(work_package, type_id, contract_class, representer)
+      type = type_id && work_package.project.enabled_types.find_by(id: type_id)
+      return Failure("The given type is not enabled in this project.") if type_id && type.nil?
+
+      work_package = WorkPackages::SetAttributesService
+                       .new(user: current_user, model: work_package, contract_class:)
+                       .call({ type: }.compact)
+                       .result
+
+      Success(representer.new(work_package, current_user:))
+    end
 
     def can_add_work_packages?(project)
       current_user.allowed_in_project?(:add_work_packages, project)
     end
 
-    def form_for(project, type)
-      work_package = WorkPackages::SetAttributesService
-                       .new(user: current_user, model: WorkPackage.new(project:), contract_class: WorkPackages::CreateContract)
-                       .call(type:)
-                       .result
-
-      API::V3::WorkPackages::CreateFormRepresenter.new(work_package, current_user:)
+    def can_update?(work_package)
+      WorkPackages::UpdateContract.update_allowed?(user: current_user, work_package:)
     end
   end
 end

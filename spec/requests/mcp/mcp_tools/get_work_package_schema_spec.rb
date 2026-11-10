@@ -240,7 +240,32 @@ RSpec.describe McpTools::GetWorkPackageSchema do
     context "when not passing any arguments" do
       let(:call_args) { {} }
 
-      it_behaves_like "MCP tool execution error response"
+      it "responds with an error" do
+        mcp_request
+
+        expect(result_item.fetch("error")).to eq("Pass either work_package_id, or project_id and type_id.")
+      end
+    end
+
+    context "when passing only the project" do
+      let(:call_args) { { project_id: project.id } }
+
+      it "responds with an error" do
+        mcp_request
+
+        expect(result_item.fetch("error")).to eq("Pass either work_package_id, or project_id and type_id.")
+      end
+    end
+
+    context "when passing both a work package and a project" do
+      let(:work_package) { create(:work_package, project:, type:) }
+      let(:call_args) { { work_package_id: work_package.id, project_id: project.id, type_id: type.id } }
+
+      it "responds with an error" do
+        mcp_request
+
+        expect(result_item.fetch("error")).to eq("Pass either work_package_id, or project_id and type_id.")
+      end
     end
 
     context "when the type is not enabled in the project" do
@@ -270,6 +295,90 @@ RSpec.describe McpTools::GetWorkPackageSchema do
         mcp_request
 
         expect(result_item.fetch("error")).to eq("You are not allowed to create work packages in this project.")
+      end
+    end
+
+    context "when passing an existing work package" do
+      let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
+      let(:work_package) do
+        create(:work_package, project:, type:, status: next_status, subject: "Existing", description: "Current description")
+      end
+      let(:call_args) { { work_package_id: work_package.id } }
+
+      it "returns the current values" do
+        mcp_request
+
+        expect(payload.fetch("subject")).to eq("Existing")
+        expect(payload.fetch("description")).to eq("format" => "markdown", "raw" => "Current description")
+        expect(payload.dig("_links", "status", "href")).to eq("/api/v3/statuses/#{next_status.id}")
+      end
+
+      it "lists the allowed statuses starting from the current status" do
+        mcp_request
+
+        expect(schema.dig("status", "_links", "allowedValues"))
+          .to contain_exactly({ "href" => "/api/v3/statuses/#{next_status.id}", "title" => next_status.name })
+      end
+
+      it "describes the custom fields of the type" do
+        mcp_request
+
+        expect(schema.fetch(list_custom_field.attribute_name(:camel_case))).to include("name" => "Severity")
+      end
+
+      it "omits action links" do
+        mcp_request
+
+        expect(result_item["_links"]).to be_empty
+      end
+
+      it "does not change the work package" do
+        expect { mcp_request }.not_to change { work_package.reload.updated_at }
+      end
+
+      context "and a type" do
+        let(:other_type) { create(:type, custom_fields: [user_custom_field]) }
+        let(:call_args) { { work_package_id: work_package.id, type_id: other_type.id } }
+
+        before { project.project_types.create!(type: other_type) }
+
+        it "describes the work package changed to that type" do
+          mcp_request
+
+          expect(payload.dig("_links", "type", "href")).to eq("/api/v3/types/#{other_type.id}")
+          expect(schema.keys).to include(user_custom_field.attribute_name(:camel_case))
+          expect(schema.keys).not_to include(list_custom_field.attribute_name(:camel_case))
+        end
+      end
+
+      context "and a type that is not enabled in the project" do
+        let(:call_args) { { work_package_id: work_package.id, type_id: create(:type).id } }
+
+        it "responds with an error" do
+          mcp_request
+
+          expect(result_item.fetch("error")).to eq("The given type is not enabled in this project.")
+        end
+      end
+
+      context "when the work package is not visible to the user" do
+        let(:work_package) { create(:work_package) }
+
+        it "responds with an error" do
+          mcp_request
+
+          expect(result_item.fetch("error")).to eq("The given work package could not be found.")
+        end
+      end
+
+      context "when the user may not edit the work package" do
+        let(:role) { create(:project_role, permissions: %i[view_work_packages add_work_packages]) }
+
+        it "responds with an error" do
+          mcp_request
+
+          expect(result_item.fetch("error")).to eq("You are not allowed to edit this work package.")
+        end
       end
     end
   end
