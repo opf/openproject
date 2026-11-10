@@ -76,7 +76,7 @@ module FormConfigurations
                                   .call(**form_configuration_params)
 
       if service_call.success?
-        redirect_to edit_form_configuration_path(@form_configuration), status: :see_other
+        redirect_back_to_origin
       else
         render_form_errors(service_call.result)
       end
@@ -84,11 +84,7 @@ module FormConfigurations
 
     def mark_default
       report_default_marking
-
-      respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.redirect_to(marked_default_from) }
-        format.html { redirect_to marked_default_from, status: :see_other }
-      end
+      redirect_back_to_origin
     end
 
     def destroy
@@ -104,7 +100,14 @@ module FormConfigurations
 
     def model_class = ::FormConfiguration
 
-    def marked_default_from = url_from(request.referer) || edit_form_configuration_path(@form_configuration)
+    def redirect_back_to_origin
+      origin = url_from(request.referer) || edit_form_configuration_path(@form_configuration)
+
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.redirect_to(origin) }
+        format.html { redirect_to origin, status: :see_other }
+      end
+    end
 
     def form_editor_context
       @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: @form_configuration)
