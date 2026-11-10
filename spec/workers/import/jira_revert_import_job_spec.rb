@@ -69,6 +69,15 @@ RSpec.describe Import::JiraRevertImportJob do
       expect(Project).not_to exist(project.id)
     end
 
+    it "deletes the sprints of the project and unassigns them elsewhere" do
+      sprint = create(:sprint, project:)
+      create(:sprint_goal, sprint:, project:)
+      outside_work_package = create(:work_package, sprint:)
+
+      expect { job.send(:delete_projects) }.to change(Sprint, :count).by(-1).and change(SprintGoal, :count).by(-1)
+      expect(outside_work_package.reload.sprint).to be_nil
+    end
+
     context "when the project is already gone" do
       let(:other_project) { create(:project) }
       let!(:other_reference) { reference_for(other_project, "Project") }
