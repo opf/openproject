@@ -1,11 +1,13 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { useTapActivation } from '../../utils/tapActivation';
+import { isKeyboardClick } from '../../utils/a11y';
+import { useOptionsMenu } from '../../hooks/useOptionsMenu';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import { usePressOutside } from '../../hooks/usePressOutside';
 import { normalizeDisplay, type AttributeDisplay } from './display';
 
-interface AttributeDisplayMenuOptions {
+interface AttributeOptionsSettings {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   editor?:BlockNoteEditor<any, any, any>;
   display:string;
@@ -13,12 +15,12 @@ interface AttributeDisplayMenuOptions {
   onActivate?:() => void;
 }
 
-export function useAttributeDisplayMenu({ editor, display, onDisplayChange, onActivate }:AttributeDisplayMenuOptions) {
+export function useAttributeOptions({ editor, display, onDisplayChange, onActivate }:AttributeOptionsSettings) {
   const elementRef = useRef<HTMLElement | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const options = useOptionsMenu();
   const tapProps = useTapActivation();
-  useSuppressFormattingToolbar(editor, menuOpen);
-  usePressOutside(elementRef, menuOpen, () => setMenuOpen(false));
+  useSuppressFormattingToolbar(editor, options.isOpen);
+  usePressOutside(elementRef, options.isOpen, options.close);
 
   const active = normalizeDisplay(display);
 
@@ -29,13 +31,12 @@ export function useAttributeDisplayMenu({ editor, display, onDisplayChange, onAc
     event?.preventDefault();
     event?.stopPropagation();
     onActivate?.();
-    setMenuOpen((open) => !open);
+    options.toggle(isKeyboardClick(event));
   });
 
   const pick = (picked:AttributeDisplay) => {
-    setMenuOpen(false);
     if (picked !== active) onDisplayChange?.(picked);
   };
 
-  return { elementRef, menuOpen, active, pick, toggleProps };
+  return { elementRef, options, active, pick, toggleProps };
 }

@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': 'Open in new tab',
-      'open': 'Open',
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': 'Change size',
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
@@ -119,6 +119,10 @@ export const en = {
         'label': 'Label',
         'value': 'Value',
         'both': 'Label + value'
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute'
       },
       'dialog': {
         'title': 'Insert work package attribute',
