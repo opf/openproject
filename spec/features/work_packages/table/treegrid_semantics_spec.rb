@@ -539,6 +539,7 @@ RSpec.describe "Work package table treegrid semantics", :js do
       wp_table.press_keys(:enter)
 
       expect(wp_table.treegrid).to have_selector(:row, "No work packages to display.", aria: { level: 1, selected: nil })
+      expect(wp_table.treegrid).to have_heading("No work packages to display.", level: 3)
       expect(wp_table.treegrid).to have_selector(:row, "Create new work package", aria: { level: 1, selected: nil })
       ["No work packages to display.", "Create new work package"].each do |name|
         row = wp_table.treegrid.find(:row, name, aria: { selected: nil })

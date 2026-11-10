@@ -1,0 +1,8 @@
+<ng-template #content><ng-content/></ng-template>
+@switch (level()) {
+  @case (2) { <h2 class="blankslate-heading"><ng-container [ngTemplateOutlet]="content" /></h2> }
+  @case (4) { <h4 class="blankslate-heading"><ng-container [ngTemplateOutlet]="content" /></h4> }
+  @case (5) { <h5 class="blankslate-heading"><ng-container [ngTemplateOutlet]="content" /></h5> }
+  @case (6) { <h6 class="blankslate-heading"><ng-container [ngTemplateOutlet]="content" /></h6> }
+  @default { <h3 class="blankslate-heading"><ng-container [ngTemplateOutlet]="content" /></h3> }
+}
