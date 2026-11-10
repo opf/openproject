@@ -48,7 +48,7 @@ RSpec.describe McpTools::GetWorkPackageSchema do
       }
     }
   end
-  let(:call_args) { { project: project.identifier, type: type.id } }
+  let(:call_args) { { project: project.identifier, type_id: type.id } }
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
   let(:result_item) { parsed_results.fetch("structuredContent") }
   let(:payload) { result_item.dig("_embedded", "payload") }
@@ -238,7 +238,7 @@ RSpec.describe McpTools::GetWorkPackageSchema do
     end
 
     context "when passing the project id instead of the identifier" do
-      let(:call_args) { { project: project.id, type: type.id } }
+      let(:call_args) { { project: project.id, type_id: type.id } }
 
       it "returns the schema" do
         mcp_request
@@ -254,7 +254,7 @@ RSpec.describe McpTools::GetWorkPackageSchema do
     end
 
     context "when the type is not enabled in the project" do
-      let(:call_args) { { project: project.identifier, type: create(:type).id } }
+      let(:call_args) { { project: project.identifier, type_id: create(:type).id } }
 
       it "responds with an error" do
         mcp_request
@@ -264,7 +264,7 @@ RSpec.describe McpTools::GetWorkPackageSchema do
     end
 
     context "when the project is not visible to the user" do
-      let(:call_args) { { project: create(:project).identifier, type: type.id } }
+      let(:call_args) { { project: create(:project).identifier, type_id: type.id } }
 
       it "responds with an error" do
         mcp_request

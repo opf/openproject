@@ -39,13 +39,13 @@ module McpTools
 
     input_schema(
       additionalProperties: false,
-      required: %i[project type],
+      required: %i[project type_id],
       properties: {
         project: {
           type: %w[string number],
           description: "The ID or identifier of the project the work package will be created in."
         },
-        type: {
+        type_id: {
           type: "number",
           description: "The ID of the work package type."
         }
@@ -60,12 +60,12 @@ module McpTools
     output_filter McpOutputFilters::RemoveInactiveWorkPackageFormFields.new
     output_filter McpOutputFilters::RemoveKeys.new(%w[_attributeGroups _dependencies validationErrors])
 
-    def call(project:, type:)
+    def call(project:, type_id:)
       project = find_project(project)
       return Failure("The given project could not be found.") if project.nil?
       return Failure("You are not allowed to create work packages in this project.") unless can_add_work_packages?(project)
 
-      type = project.enabled_types.find_by(id: type)
+      type = project.enabled_types.find_by(id: type_id)
       return Failure("The given type is not enabled in this project.") if type.nil?
 
       Success(form_for(project, type))
