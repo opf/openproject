@@ -47,7 +47,7 @@ RSpec.describe SemanticIndex do
     expect(semantic_index.errors.details[:title]).to include(error: :blank)
   end
 
-  %i[embedding_vector_dimensions context_token_length].each do |attribute|
+  %i[embedding_vector_dimensions context_token_length batch_size].each do |attribute|
     it "requires a positive integer #{attribute}" do
       semantic_index.public_send(:"#{attribute}=", 0)
 
