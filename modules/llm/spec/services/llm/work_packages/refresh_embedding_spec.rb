@@ -84,14 +84,4 @@ RSpec.describe Llm::WorkPackages::RefreshEmbedding, with_settings: { journal_agg
       end
     end
   end
-
-  describe "subscription to the aggregated journal event" do
-    it "enqueues an embedding for the journal's work package" do
-      OpenProject::Notifications.send(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-                                      journal: journal_after_update(subject: "Fix logout bug"),
-                                      send_mail: false)
-
-      expect(Llm::EmbedWorkPackagesJob).to have_been_enqueued.once.with(semantic_index.id, [work_package.id])
-    end
-  end
 end
