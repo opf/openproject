@@ -32,6 +32,7 @@ module ITSM
     class FetchService < ::BaseServices::BaseCallable
       include Dry::Monads[:result]
       include Dry::Monads::Do.for(:read_all)
+      include ServiceFailure
 
       BATCH_SIZE = 50
 
@@ -43,18 +44,22 @@ module ITSM
       protected
 
       def perform
-        return service_failure(:inactive) unless mailbox.active?
+        return service_failure(:inactive, result: mailbox) unless mailbox.active?
 
-        OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0) do
-          Rails.logger.tagged("ITSM", "mailbox #{mailbox.id}") do
-            fetch_emails.either(method(:fetch_succeeded), method(:fetch_failed))
-          end
-        end || service_failure(:fetch_in_progress)
+        fetch_exclusively || service_failure(:fetch_in_progress, result: mailbox)
       end
 
       private
 
       attr_reader :mailbox
+
+      def fetch_exclusively
+        OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0) do
+          Rails.logger.tagged("ITSM", "mailbox #{mailbox.id}") do
+            fetch_emails.either(method(:fetch_succeeded), method(:fetch_failed))
+          end
+        end
+      end
 
       def fetch_emails
         Adapters::ImapSession.open(mail_server: mailbox.mail_server, auth_strategy:) do |session|
@@ -91,10 +96,8 @@ module ITSM
       def fetch_failed(error)
         Rails.logger.warn { ["Fetching from #{server_address} failed (#{error.code})", error.payload].compact.join(": ") }
         mailbox.fetch_failed!(error.code)
-        service_failure(error.code)
+        service_failure(error.code, result: mailbox)
       end
-
-      def service_failure(code) = ServiceResult.failure(result: mailbox).tap { it.errors.add(:base, code) }
     end
   end
 end

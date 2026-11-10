@@ -36,6 +36,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
   subject(:imap_session) { described_class.new(mail_server: imap_mail_server, auth_strategy: imap_auth_strategy) }
 
   let(:encryption) { "tls" }
+  let(:tls_options) { { min_version: OpenSSL::SSL::TLS1_2_VERSION } }
   let(:imap_mail_server) { build(:itsm_mail_server, :imap, encryption:) }
 
   after { imap_session.close }
@@ -52,11 +53,11 @@ RSpec.describe ITSM::Adapters::ImapSession do
   end
 
   describe "#connect" do
-    it "logs in over TLS and opens the inbox" do
+    it "logs in over TLS 1.2 or newer and opens the inbox" do
       expect(imap_session.connect).to eq(Dry::Monads::Success(imap_session))
 
       expect(ITSM::Adapters::ImapConnection).to have_received(:new)
-        .with("imap.example.com", addresses: ["203.0.113.10"], port: 993, ssl: true, open_timeout: 10)
+        .with("imap.example.com", addresses: ["203.0.113.10"], port: 993, ssl: tls_options, open_timeout: 10)
       expect(imap).not_to have_received(:starttls)
       expect(imap).to have_received(:login).with("support@example.com", "secret")
       expect(imap).to have_received(:select).with("INBOX")
@@ -65,12 +66,12 @@ RSpec.describe ITSM::Adapters::ImapSession do
     context "with STARTTLS" do
       let(:encryption) { "starttls" }
 
-      it "upgrades the connection before logging in" do
+      it "upgrades the connection to TLS 1.2 or newer" do
         imap_session.connect
 
         expect(ITSM::Adapters::ImapConnection).to have_received(:new)
         .with("imap.example.com", addresses: ["203.0.113.10"], port: 993, ssl: false, open_timeout: 10)
-        expect(imap).to have_received(:starttls)
+        expect(imap).to have_received(:starttls).with(**tls_options)
       end
     end
 
@@ -85,7 +86,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
         imap_session.connect
 
         expect(ITSM::Adapters::ImapConnection).to have_received(:new)
-          .with("imap.example.com", addresses: %w[203.0.113.10 203.0.113.11], port: 993, ssl: true, open_timeout: 10)
+          .with("imap.example.com", addresses: %w[203.0.113.10 203.0.113.11], port: 993, ssl: tls_options, open_timeout: 10)
       end
     end
 

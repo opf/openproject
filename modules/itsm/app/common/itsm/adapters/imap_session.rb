@@ -37,6 +37,7 @@ module ITSM
       OPEN_TIMEOUT = 10
       SESSION_TIMEOUT = 5.minutes
       FOLDER = "INBOX"
+      TLS_OPTIONS = { min_version: OpenSSL::SSL::TLS1_2_VERSION }.freeze
 
       def self.open(mail_server:, auth_strategy:)
         session = new(mail_server:, auth_strategy:)
@@ -54,7 +55,7 @@ module ITSM
         close
         start_deadline
 
-        verify_host
+        checked_addresses
           .bind { |addresses| open_connection(addresses) }
           # The strategy returns its own Result, which imap_request wraps once more.
           .bind { imap_request { auth_strategy.call(imap) }.flatten }
@@ -77,25 +78,21 @@ module ITSM
 
       def instance_variables_to_inspect = %i[@mail_server]
 
-      def verify_host
-        addresses = OpenProject::SsrfProtection.resolver.call(mail_server.host)
-
-        return failure(code: :unreachable) if addresses.empty?
-        return failure(code: :address_not_allowed) unless addresses.all? { OpenProject::SsrfProtection.safe_ip?(it) }
-
-        Success(addresses.map(&:to_s))
-      end
+      def checked_addresses = CheckedAddresses.call(mail_server.host)
 
       def open_connection(addresses)
         imap_request do
           @imap = new_connection(addresses)
-          imap.starttls if mail_server.starttls?
+          imap.starttls(**TLS_OPTIONS) if mail_server.starttls?
         end
       end
 
       def new_connection(addresses)
         ImapConnection.new(mail_server.host,
-                           addresses:, port: mail_server.port, ssl: mail_server.tls?, open_timeout: OPEN_TIMEOUT)
+                           addresses:,
+                           port: mail_server.port,
+                           ssl: mail_server.tls? && TLS_OPTIONS,
+                           open_timeout: OPEN_TIMEOUT)
       end
 
       def imap_request(source: self.class)
