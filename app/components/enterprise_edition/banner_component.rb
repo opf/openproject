@@ -120,15 +120,6 @@ module EnterpriseEdition
       "enterprise_banner_#{@dismiss_key}"
     end
 
-    def render?
-      return true if @show_always
-      return false if dismissed?
-      return true if feature_available? && trial_feature?
-      return false if EnterpriseToken.hide_banners?
-
-      !feature_available?
-    end
-
     private
 
     def check_media_arguments!
@@ -170,6 +161,15 @@ module EnterpriseEdition
       @dismissable = true
       @dismiss_key += "_trial" unless @dismiss_key.end_with?("_trial")
       @variant = :inline
+    end
+
+    def render?
+      return true if @show_always
+      return false if dismissed?
+      return true if feature_available? && trial_feature?
+      return false if EnterpriseToken.hide_banners?
+
+      !feature_available?
     end
 
     def feature_available?

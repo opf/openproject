@@ -43,7 +43,15 @@ See COPYRIGHT and LICENSE files for more details.
   <% grid.with_widget(Backlogs::SprintReports::Widgets::UnfinishedTable, @sprint, @project, @breakdown) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::AddedTable, @sprint, @project, @breakdown) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::RemovedTable, @sprint, @project, @breakdown) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::EnterpriseBanner) %>
 <% end %>
+
+<%=
+  render EnterpriseEdition::BannerComponent.new(
+    :sprint_report_pro_widgets,
+    variant: :large,
+    video: "enterprise/agile-sprint-reports.mp4",
+    mb: 3
+  )
+%>
 
 <%= render(Backlogs::SprintReports::NavigationComponent.new(sprint: @sprint, project: @project)) %>
