@@ -109,13 +109,21 @@ module Admin
               if item.root?
                 { href: admin_settings_project_custom_field_items_path(custom_field.id), label: custom_field.name }
               else
-                { href: admin_settings_project_custom_field_item_path(custom_field.id, item), label: item.label }
+                { href: admin_settings_project_custom_field_item_path(custom_field.id, item), label: breadcrumb_label(item) }
               end
             elsif item.root?
               { href: custom_field_items_path(custom_field.id), label: custom_field.name }
             else
-              { href: custom_field_item_path(custom_field.id, item), label: item.label }
+              { href: custom_field_item_path(custom_field.id, item), label: breadcrumb_label(item) }
             end
+          end
+        end
+
+        def breadcrumb_label(item)
+          return item.label unless item.project
+
+          render(Primer::BaseComponent.new(tag: :span, display: :inline_flex, align_items: :baseline)) do
+            safe_join([item.label, render(Primer::Beta::Text.new(font_size: :small, color: :muted, ml: 2)) { item.project.name }])
           end
         end
       end

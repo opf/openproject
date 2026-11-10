@@ -34,7 +34,14 @@ See COPYRIGHT and LICENSE files for more details.
       href_fn: lambda { |item| href_for(item) },
       expanded: [@active_item, @active_item.parent],
       current: @active_item,
-      label_fn: lambda { |item| item_formatter.format(item:) }
+      label_fn: lambda { |item|
+        formatted = item_formatter.format(item:)
+        next formatted unless item.project
+
+        render(Primer::BaseComponent.new(tag: :span, display: :inline_flex, align_items: :baseline)) do
+          safe_join([formatted, render(Primer::Beta::Text.new(font_size: :small, color: :muted, ml: 2)) { item.project.name }])
+        end
+      }
     }
 
     populate_tree_view(tree_view, @custom_field, item_options:)
