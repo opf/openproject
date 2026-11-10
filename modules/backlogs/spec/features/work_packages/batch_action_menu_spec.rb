@@ -33,6 +33,7 @@ require_relative "../../support/pages/backlog"
 RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
   entry_points = %i[more right_click context_menu_key shift_f10]
   let(:singular_actions) { ["Open details view", "Open fullscreen view", "Copy link to clipboard", "Copy work package ID"] }
+  let(:no_batch_actions) { "No actions available for the selected work packages." }
 
   let!(:project) do
     create(:project, types: [type], enabled_module_names: %w(work_package_tracking backlogs))
@@ -164,26 +165,49 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
       singular_actions.each { |label| expect(menu).to have_no_selector(:menuitem, text: label) }
     end
 
-    it "falls back to the invoker's own actions when the batch cannot move by position", :aggregate_failures do
+    it "explains a batch that cannot move by position", :aggregate_failures do
       backlogs_page.select_contiguous_cards(stories.first, stories.last)
 
       menu = backlogs_page.open_card_menu(stories[2], via: :more)
 
-      singular_actions.each { |label| expect(menu).to have_selector(:menuitem, text: label) }
-      expect(menu).to have_no_selector(:menuitem, text: "Move to position")
-      expect(page).to have_selector(:menu, accessible_name: "Work package actions")
-      backlogs_page.expect_work_package_menu_button_named(stories[2], "Work package actions")
+      expect(page).to have_selector(:menu, accessible_name: "Actions for 3 selected work packages")
+      expect(menu).to have_selector(:menuitem, text: no_batch_actions, disabled: true)
+      expect(menu).to have_no_text("Move to position")
+      singular_actions.each { |label| expect(menu).to have_no_selector(:menuitem, text: label) }
+      backlogs_page.expect_work_package_menu_button_named(stories[2], "Actions for 3 selected work packages")
       backlogs_page.expect_selected_cards_in_order(*stories)
     end
 
-    it "moves keyboard focus through the fallback actions" do
+    it "keeps the menu open on the explanation when opened from the keyboard", :aggregate_failures do
       backlogs_page.select_contiguous_cards(stories.first, stories.last)
 
       menu = backlogs_page.open_card_menu(stories[0], via: :shift_f10)
 
-      expect(menu).to have_selector(:menuitem, text: "Open details view", focused: true)
-      backlogs_page.send_keys_to_focused_element(:arrow_down)
-      expect(menu).to have_selector(:menuitem, text: "Open fullscreen view", focused: true)
+      expect(menu).to have_selector(:menuitem, text: no_batch_actions, disabled: true, focused: true)
+      expect(page).to have_selector(:menu, accessible_name: "Actions for 3 selected work packages")
+    end
+  end
+
+  context "with read-only cards in two sprints", with_ee: %i[readonly_work_packages] do
+    let(:readonly_status) { create(:status, :readonly) }
+    let!(:sprint) { create(:sprint, project:, name: "Sprint") }
+    let!(:other_sprint) { create(:sprint, project:, name: "Other sprint") }
+    let!(:story) { create(:work_package, project:, type:, status: readonly_status, sprint:) }
+    let!(:other_story) { create(:work_package, project:, type:, status: readonly_status, sprint: other_sprint) }
+
+    before do
+      backlogs_page.visit!
+    end
+
+    it "explains a batch that no action applies to", :aggregate_failures do
+      backlogs_page.select_cards(story, other_story)
+
+      menu = backlogs_page.open_card_menu(story, via: :more)
+
+      expect(page).to have_selector(:menu, accessible_name: "Actions for 2 selected work packages")
+      expect(menu).to have_selector(:menuitem, text: no_batch_actions, disabled: true)
+      expect(menu).to have_no_text("Move to position")
+      singular_actions.each { |label| expect(menu).to have_no_selector(:menuitem, text: label) }
     end
   end
 

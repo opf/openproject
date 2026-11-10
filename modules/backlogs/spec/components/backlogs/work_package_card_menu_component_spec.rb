@@ -485,6 +485,34 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_no_css(".ActionList-sectionDivider")
     end
 
+    context "when no action applies to the batch", with_ee: %i[readonly_work_packages] do
+      let(:work_package) { readonly_story }
+      let(:explanation) { "No actions available for the selected work packages." }
+
+      def readonly_story_in(sprint)
+        create(:work_package, project:, type: type_feature, status: readonly_status, sprint:)
+      end
+
+      it "renders a batch menu that only explains itself when the members sit in different lists",
+         :aggregate_failures do
+        render_component(work_packages: [readonly_story, readonly_story_in(other_sprint)])
+
+        expect(page).to have_selector(:menuitem, text: explanation, disabled: true, count: 1)
+        expect(page).to have_no_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+        expect(page).to have_css("[data-sortable-lists-scope-count='2']")
+        expect(page).to have_no_css("[data-sortable-lists--item-target]", visible: :all)
+      end
+
+      it "sends the explanation hidden for the client to reveal when Move to position is the only action",
+         :aggregate_failures do
+        render_component(work_packages: [readonly_story, readonly_story_in(sprint)])
+
+        expect(page).to have_selector(:menuitem, text: "Move to position")
+        expect(page).to have_css("li[hidden][data-sortable-lists--item-target='moveUnavailable']", visible: :all)
+        expect(page).to have_no_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+      end
+    end
+
     context "with a scope above the batch cap" do
       before { stub_const("Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE", 2) }
 
@@ -538,11 +566,11 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
           end
         end
 
-        it "renders no singular fallback for the locked menu", :aggregate_failures do
+        it "explains only the cap for the locked menu", :aggregate_failures do
           render_component(work_packages:)
 
           expect(page).to have_selector(:menuitem, text: "Move to position", disabled: true)
-          expect(page).to have_no_css("[data-sortable-lists--item-target='moveFallback']", visible: :all)
+          expect(page).to have_no_css("[data-sortable-lists--item-target='moveUnavailable']", visible: :all)
         end
       end
     end

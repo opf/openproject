@@ -108,12 +108,14 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
       expect(menu).to have_no_css(".ActionList-sectionDivider, .ActionList-sectionHeading")
       expect(menu).to have_no_text(/\b2\b/)
       expect(menu).to have_no_css("[aria-disabled]")
-      expect(menu).to have_no_css("[data-sortable-lists--item-target='moveFallback']", visible: :all)
+      expect(menu).to have_no_css("[data-sortable-lists--item-target='moveUnavailable']", visible: :all)
     end
   end
 
   describe "a multi-card scope of confined members", with_ee: %i[readonly_work_packages] do
     shared_let(:readonly_status) { create(:status, :readonly) }
+
+    let(:explanation) { "No actions available for the selected work packages." }
 
     context "when they share one list" do
       let!(:invoker) { create(:work_package, sprint: sprint_a, status: readonly_status, type:, project:) }
@@ -128,15 +130,13 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
         expect(menu).to move_to_position_for(invoker)
       end
 
-      it "renders hidden singular fallback when Move to position is the only batch action", :aggregate_failures do
+      it "sends the explanation hidden when Move to position is the only batch action", :aggregate_failures do
         get_menu(ids: [invoker.id, other.id])
 
-        %i[open_details open_fullscreen copy_url_to_clipboard copy_work_package_id].each do |item|
-          expect(menu).to have_css(
-            "li[hidden][data-sortable-lists--item-target='moveFallback'] ##{menu_item_id(invoker, item)}",
-            visible: :hidden
-          )
-        end
+        expect(menu).to have_css(
+          "li[hidden][data-sortable-lists--item-target='moveUnavailable'] ##{menu_item_id(invoker, :no_batch_actions)}",
+          visible: :hidden
+        )
       end
     end
 
@@ -144,15 +144,16 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
       let!(:invoker) { create(:work_package, sprint: sprint_a, status: readonly_status, type:, project:) }
       let!(:other) { create(:work_package, sprint: sprint_b, status: readonly_status, type:, project:) }
 
-      it "falls back to singular actions when no batch action applies", :aggregate_failures do
+      it "explains a batch that no action applies to", :aggregate_failures do
         get_menu(ids: [invoker.id, other.id])
 
         expect(response).to have_http_status(:ok)
         expect(menu).to have_element(:ul,
                                      id: "work_package_#{invoker.id}_menu-list",
-                                     "data-sortable-lists-scope-count": "1")
-        expect(menu).to singular_actions_for(invoker)
-        expect(menu).to no_singular_actions_for(other)
+                                     "data-sortable-lists-scope-count": "2")
+        expect(menu).to have_selector(:menuitem, text: explanation, disabled: true, count: 1)
+        expect(menu).to no_singular_actions_for(invoker)
+        expect(menu).to have_no_css("[data-sortable-lists--item-target]", visible: :all)
         expect(menu).to have_no_element(:button, id: menu_item_id(invoker, :top))
         expect(menu).to have_no_css(".ActionList-sectionDivider")
       end

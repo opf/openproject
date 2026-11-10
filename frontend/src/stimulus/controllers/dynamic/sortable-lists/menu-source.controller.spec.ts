@@ -728,66 +728,6 @@ describe('Sortable lists menu source controller', () => {
       expect(buttonOf(items[1])).toHaveAccessibleName('Actions for 2 selected work packages');
     });
 
-    // What item.controller does when it reveals or hides a batch menu's
-    // singular fallback.
-    const announceScopeChange = (item:HTMLElement, narrowed:boolean) => {
-      within(item).getByRole('menu', { hidden: true }).toggleAttribute('data-sortable-lists-scope-narrowed', narrowed);
-      fireEvent(menuOf(item), new CustomEvent('sortable-lists:menu-scope-changed', { bubbles: true }));
-    };
-
-    it('reverts to the singular label when the batch menu narrows to its fallback', async () => {
-      const { items } = await renderNamedRoot(['1', '2']);
-      click(items[0], { ctrlKey: true });
-      click(items[1], { ctrlKey: true });
-      openMenu(items[0]);
-      const list = await loadMenu(items[0], 2);
-
-      announceScopeChange(items[0], true);
-
-      expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
-      expect(list).toHaveAccessibleName(singularName);
-    });
-
-    it('names the batch again once the menu widens back', async () => {
-      const { items } = await renderNamedRoot(['1', '2']);
-      click(items[0], { ctrlKey: true });
-      click(items[1], { ctrlKey: true });
-      openMenu(items[0]);
-      await loadMenu(items[0], 2);
-      announceScopeChange(items[0], true);
-
-      announceScopeChange(items[0], false);
-
-      expect(buttonOf(items[0])).toHaveAccessibleName('Actions for 2 selected work packages');
-    });
-
-    it('keeps the singular label when reopened on a menu still narrowed', async () => {
-      const { items } = await renderNamedRoot(['1', '2']);
-      click(items[0], { ctrlKey: true });
-      click(items[1], { ctrlKey: true });
-      openMenu(items[0]);
-      await loadMenu(items[0], 2);
-      announceScopeChange(items[0], true);
-      closeMenu(items[0]);
-
-      openMenu(items[0]);
-
-      expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
-    });
-
-    it('ignores a scope change on a closed menu', async () => {
-      const { items } = await renderNamedRoot(['1', '2']);
-      click(items[0], { ctrlKey: true });
-      click(items[1], { ctrlKey: true });
-      openMenu(items[0]);
-      await loadMenu(items[0], 2);
-      closeMenu(items[0]);
-
-      announceScopeChange(items[0], false);
-
-      expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
-    });
-
     it('leaves a list header menu with its own label on close', async () => {
       const { root } = await renderNamedRoot(['1']);
       root.insertAdjacentHTML('afterbegin', `

@@ -54,7 +54,6 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     // beforetoggle and toggle do not bubble.
     this.element.addEventListener('beforetoggle', this.onBeforeToggle, { capture: true, signal });
     this.element.addEventListener('toggle', this.onToggle, { capture: true, signal });
-    this.element.addEventListener('sortable-lists:menu-scope-changed', this.onScopeChanged, { signal });
     document.addEventListener('turbo:before-cache', this.onBeforeCache, { signal });
   }
 
@@ -121,14 +120,6 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     this.rename(menu, SINGULAR_COUNT);
   };
 
-  private readonly onScopeChanged = (event:Event):void => {
-    const menu = event.target instanceof HTMLElement ? event.target.closest<ActionMenuElement>('action-menu') : null;
-    const list = menu && this.menuTargets.find((target) => menu.contains(target));
-    if (menu && list && menu === this.openMenu) {
-      this.rename(menu, this.scopeCountOf(list));
-    }
-  };
-
   // A restored page reloads its menus when they next open; the snapshot only
   // has to lose the open menu and its batch name.
   private readonly onBeforeCache = ():void => {
@@ -146,13 +137,8 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
   };
 
   // The server decides between the batch and the singular menu, so the list
-  // it renders carries the count the name reports. A list narrowed to its
-  // singular fallback on the client is a singular menu.
+  // it renders carries the count the name reports.
   private scopeCountOf(list:HTMLElement):number {
-    if (list.hasAttribute('data-sortable-lists-scope-narrowed')) {
-      return SINGULAR_COUNT;
-    }
-
     const count = Number.parseInt(list.dataset.sortableListsScopeCount ?? '', 10);
     return Number.isNaN(count) ? SINGULAR_COUNT : count;
   }

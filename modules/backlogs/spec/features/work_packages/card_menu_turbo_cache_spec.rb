@@ -171,17 +171,18 @@ RSpec.describe "Backlog card menus restored or morphed by Turbo",
   context "with a full inbox selection and no other destination" do
     let!(:sprint) { nil }
 
-    it "deduplicates a healthy effective-singular fallback on reopen" do
+    it "deduplicates a healthy explained batch menu on reopen" do
+      explanation = "No actions available for the selected work packages."
       backlogs_page.select_cards(first_story, second_story)
       install_menu_request_probe
       menu = backlogs_page.open_card_menu(first_story, via: :more)
-      expect(menu).to have_selector(:menuitem, text: "Open details view")
-      expect(page).to have_selector(:menu, accessible_name: "Work package actions")
+      expect(menu).to have_selector(:menuitem, text: explanation, disabled: true)
+      expect(page).to have_selector(:menu, accessible_name: "Actions for 2 selected work packages")
       expect_menu_requests([first_story, second_story])
       backlogs_page.dismiss_card_menu(first_story, via: :more)
 
       menu = backlogs_page.open_card_menu(first_story, via: :more)
-      expect(menu).to have_selector(:menuitem, text: "Open details view")
+      expect(menu).to have_selector(:menuitem, text: explanation, disabled: true)
       expect_menu_requests([first_story, second_story])
     end
   end

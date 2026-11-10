@@ -38,7 +38,7 @@ module Backlogs
     attr_reader :invoker, :work_packages, :destinations, :project, :current_user, :stale_scope
 
     # A scope of several cards gets a batch menu of move actions only. When
-    # none applies, the invoker's singular menu renders instead.
+    # none applies, the batch menu says so.
     #
     # @param invoker [WorkPackage] the card the menu opened on; it names the
     #   menu and carries its singular actions.
@@ -63,8 +63,6 @@ module Backlogs
 
     private
 
-    # The count the client names the menu with. A revealed singular fallback
-    # narrows it back to one on the client.
     def list_data
       {
         sortable_lists__menu_source_target: "menu",
@@ -74,20 +72,20 @@ module Backlogs
     end
 
     def batch_menu?
-      !stale_scope && work_packages.many? && (moves_locked? || any_move_action?)
+      !stale_scope && work_packages.many?
+    end
+
+    def show_no_batch_actions?
+      batch_menu? && !moves_locked? && !any_destination?
     end
 
     # The client hides Move to position for a block that cannot move in any
     # direction, which only the DOM can tell. When it is the sole batch
-    # action, the singular actions ride along hidden for the client to reveal.
-    def singular_fallback?
-      batch_menu? && !moves_locked? && show_move_items? && !any_destination?
-    end
+    # action, the explanation rides along hidden for the client to reveal.
+    def no_batch_actions_item_arguments
+      return {} unless show_move_items?
 
-    def singular_item_arguments
-      return {} unless batch_menu?
-
-      { hidden: true, data: { sortable_lists__item_target: "moveFallback" } }
+      { hidden: true, data: { sortable_lists__item_target: "moveUnavailable" } }
     end
 
     # Above the cap the batch menu still renders, with its actions disabled

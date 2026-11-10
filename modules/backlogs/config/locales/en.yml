@@ -404,6 +404,7 @@ en:
         move_to_backlog_bucket: "Move to backlog bucket"
         move_to_inbox: "Move to backlog inbox"
         move_to_sprint: "Move to sprint"
+        no_batch_actions: "No actions available for the selected work packages."
         stale_selection: "The selection has changed. Refresh it before moving work packages."
 
     work_package_is_closed: "Work package is done, when"
