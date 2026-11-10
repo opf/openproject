@@ -50,7 +50,7 @@ RSpec.describe Projects::HoverCardComponent, type: :component do
 
   let(:displayed_project) { project }
 
-  subject { described_class.new(project: displayed_project, user: current_user) }
+  subject { described_class.new(project: displayed_project) }
 
   before do
     login_as(current_user)
@@ -144,7 +144,7 @@ RSpec.describe Projects::HoverCardComponent, type: :component do
     context "when an ancestor is archived" do
       before do
         parent.update_column(:active, false)
-        render_inline(described_class.new(project:, user: current_user))
+        render_inline(described_class.new(project:))
       end
 
       it "omits the archived ancestor" do
