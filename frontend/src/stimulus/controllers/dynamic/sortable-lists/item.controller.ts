@@ -59,19 +59,15 @@ import {
   resolveItemExternalUrl,
   resolveItemLabel,
   sortableItemSelector,
-  sortableLockedAttribute,
   type DestinationIdentity,
 } from './list-dom';
 import { webLinkHref } from './external-data';
 import { MenuEvents } from './menu-events';
+import { MoveMenu } from './move-menu';
 import { renderDragPreview } from './preview';
 import { RenderedMenuScope } from './rendered-menu-scope';
 
 type CleanupFn = () => void;
-
-// The server marks a move item locked when it renders it disabled for a
-// reason direction gating cannot see, such as a scope above the batch cap.
-const isLocked = (item:HTMLElement):boolean => item.hasAttribute(sortableLockedAttribute);
 
 export default class ItemController extends Controller<HTMLElement> implements RegisteredRootAwareChild {
   static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'moveUnavailable', 'focus'];
@@ -162,7 +158,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   move(event:ActionEvent):void {
-    const item = this.activatableMenuItem(event);
+    const item = this.moveMenu()?.activatable(event.currentTarget);
     if (!item || !isOrderableItem(this.element)) return;
 
     const { direction } = event.params;
@@ -172,19 +168,11 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   moveToDestination(event:ActionEvent):void {
-    const item = this.activatableMenuItem(event);
+    const item = this.moveMenu()?.activatable(event.currentTarget);
     const form = item?.querySelector('form');
     if (form) {
       this.root?.moveToDestination(form);
     }
-  }
-
-  private activatableMenuItem(event:ActionEvent):HTMLElement|null {
-    const item = event.currentTarget;
-    if (!this.hasMenuElement || !(item instanceof HTMLElement)) return null;
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) return null;
-
-    return item;
   }
 
   // The focus host is the consumer's business: Backlogs puts the tab stop on
@@ -508,7 +496,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   private refreshMoveMenuAvailability():void {
     const root = this.root;
-    if (!root || !this.hasMenuElement) {
+    const moveMenu = this.moveMenu();
+    if (!root || !moveMenu) {
       return;
     }
 
@@ -519,105 +508,28 @@ export default class ItemController extends Controller<HTMLElement> implements R
       return;
     }
 
-    let available = 0;
-    for (const item of this.moveItemTargets) {
-      // Outside a Stimulus action there is no event.params, so read the
-      // param's backing attribute directly.
-      const direction = item.getAttribute(`data-${this.identifier}-direction-param`);
-      const enabled = isMoveDirection(direction) && availability[direction];
-      this.setAvailability(item, enabled);
-      if (enabled) {
-        available += 1;
-      }
-    }
-
-    if (this.hasMoveMenuTarget) {
-      this.refreshMoveMenu(root, available > 0);
-    }
-
-    this.refreshMoveDivider();
+    moveMenu.gate(availability, () => root.actionScopeFor(this.element).items.length);
   }
 
-  private refreshMoveMenu(root:SortableListsRoot, available:boolean):void {
-    const moveMenu = this.moveMenuTarget;
-    if (isLocked(moveMenu)) {
-      return;
+  private moveMenu():MoveMenu|null {
+    if (!this.hasMenuElement) {
+      return null;
     }
 
-    const blocked = !available && root.actionScopeFor(this.element).items.length > 1;
-    if (blocked) {
-      this.moveUnavailableTargets.forEach((item) => this.menuElement.showItem(item));
-      this.hideMenuItem(moveMenu);
-      return;
-    }
-
-    if (!this.hideUnavailableValue && this.menuElement.isItemHidden(moveMenu)) {
-      this.menuElement.showItem(moveMenu);
-    }
-
-    this.setAvailability(moveMenu, available);
-    this.moveUnavailableTargets.forEach((item) => this.hideMenuItem(item));
-  }
-
-  // Focus left on a hidden item drops to the body and Primer light-dismisses
-  // the menu, so it moves to a visible item of the same menu first. Primer
-  // focuses the first item as the list loads, which can be the one to hide.
-  private hideMenuItem(item:HTMLElement):void {
-    if (item.contains(document.activeElement)) {
-      const list = item.closest('[role="menu"]');
-      const visible = Array.from(list?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? [])
-        .find((other) => !item.contains(other) && other.closest('[role="menu"]') === list && !other.closest('[hidden]'));
-      visible?.focus();
-    }
-
-    this.menuElement.hideItem(item);
-  }
-
-  // The divider that opens the move group is rendered server-side from a
-  // permission check alone, so hiding the last entry below it would otherwise
-  // leave a separator with nothing to separate. It never goes through
-  // setAvailability: `disableItem` writes to the item's `.ActionListContent`,
-  // which a divider does not have.
-  private refreshMoveDivider():void {
-    if (!this.hasMoveDividerTarget) {
-      return;
-    }
-
-    const divider = this.moveDividerTarget;
-    let sibling = divider.nextElementSibling;
-
-    while (sibling) {
-      if (sibling.matches('li.ActionListItem:not([hidden])')) {
-        divider.removeAttribute('hidden');
-        return;
-      }
-
-      sibling = sibling.nextElementSibling;
-    }
-
-    divider.setAttribute('hidden', 'hidden');
-  }
-
-  // Availability goes through the action-menu element's API: disableItem sets the
-  // ActionListItem--disabled class plus aria-disabled on the item's content, and
-  // hideItem toggles hidden. It operates on any descendant li, including the ones
-  // in the nested move submenu. Default is hide; hideUnavailable=false switches to disable.
-  private setAvailability(item:HTMLElement, available:boolean):void {
-    const menu = this.menuElement;
-    if (isLocked(item)) {
-      return;
-    }
-
-    if (this.hideUnavailableValue) {
-      if (available) {
-        menu.showItem(item);
-      } else {
-        menu.hideItem(item);
-      }
-    } else if (available) {
-      menu.enableItem(item);
-    } else {
-      menu.disableItem(item);
-    }
+    return new MoveMenu(
+      this.menuElement,
+      {
+        items: this.moveItemTargets,
+        submenu: this.hasMoveMenuTarget ? this.moveMenuTarget : null,
+        divider: this.hasMoveDividerTarget ? this.moveDividerTarget : null,
+        explanations: this.moveUnavailableTargets,
+      },
+      {
+        hideUnavailable: this.hideUnavailableValue,
+        // Outside a Stimulus action there is no event.params, so the move
+        // menu reads the param's backing attribute directly.
+        directionAttribute: `data-${this.identifier}-direction-param`,
+      },
+    );
   }
 }
