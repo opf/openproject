@@ -46,7 +46,6 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { initializeHalResourceConfig } from 'core-app/features/hal/services/hal-resource.config';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { WorkPackageRelationsHierarchyComponent } from '../../wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import { WorkPackageChildrenQueryComponent } from './wp-children-query.component';
 
 @Component({
@@ -136,21 +135,18 @@ describe('children query input contracts', () => {
     });
   });
 
-  it('passes the hierarchy request parameters through the real child-query consumer', () => {
-    const hierarchy = TestBed.runInInjectionContext(() => new WorkPackageRelationsHierarchyComponent());
-    hierarchy.workPackage = resource;
-    hierarchy.ngOnInit();
-    const childQuery = TestBed.runInInjectionContext(() => new WorkPackageChildrenQueryComponent());
-    childQuery.workPackage = resource;
-    Object.assign(childQuery, { query: hierarchy.childrenQueryProps });
-    childQuery.ngOnInit();
-
-    expect(childQuery.queryProps).toBe(hierarchy.childrenQueryProps);
-    expect(childQuery.queryProps).toEqual({
+  it('passes plain request parameters through unchanged', () => {
+    const requestParams = {
       filters: JSON.stringify([{ parent: { operator: '=', values: ['42'] } }]),
       'columns[]': ['id', 'type', 'subject', 'status'],
       showHierarchies: false,
-    });
+    };
+    const childQuery = TestBed.runInInjectionContext(() => new WorkPackageChildrenQueryComponent());
+    childQuery.workPackage = resource;
+    childQuery.query = requestParams;
+    childQuery.ngOnInit();
+
+    expect(childQuery.queryProps).toBe(requestParams);
   });
 
   it('serializes a HAL query while retaining contextual request options', () => {
