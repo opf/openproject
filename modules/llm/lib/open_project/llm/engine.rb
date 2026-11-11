@@ -119,7 +119,7 @@ module OpenProject::Llm
     end
 
     initializer "openproject_llm.pgvector_migrations", after: "openproject_llm.append_migrations" do
-      OpenProject::Llm::Pgvector.include_migrations_path_if_installed_or_installable!
+      OpenProject::Llm::Pgvector.include_migrations_path_if_installed!
     end
 
     config.to_prepare do

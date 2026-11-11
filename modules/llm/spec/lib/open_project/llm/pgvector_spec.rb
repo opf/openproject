@@ -56,49 +56,38 @@ RSpec.describe OpenProject::Llm::Pgvector do
     end
   end
 
-  describe ".include_migrations_path_if_installed_or_installable!" do
-    it "includes the path and returns nil when the extension is already installed" do
-      expect(described_class.include_migrations_path_if_installed_or_installable!).to be_nil
-      expect(ActiveRecord::Migrator.migrations_paths).to include(described_class.migrations_path)
+  describe ".include_migrations_path_if_installable!" do
+    let(:connection) { ActiveRecord::Base.connection }
+
+    def raise_from_postgres(pg_error)
+      raise pg_error, "boom"
+    rescue PG::Error
+      raise ActiveRecord::StatementInvalid, "boom"
     end
 
-    context "when the extension is not installed" do
-      before { allow(described_class).to receive(:extension_installed?).and_return(false) }
+    it "succeeds when the extension is already installed" do
+      expect(described_class.include_migrations_path_if_installable!).to be_nil
+    end
 
-      it "includes the path and returns nil when the extension can be created" do
-        allow(described_class).to receive(:may_create_extension?).and_return(true)
+    it "reports if pgvector is unavailable" do
+      allow(described_class).to receive(:extension_available?).and_return(false)
 
-        expect(described_class.include_migrations_path_if_installed_or_installable!).to be_nil
-        expect(ActiveRecord::Migrator.migrations_paths).to include(described_class.migrations_path)
-      end
+      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :unavailable)
+    end
 
-      it "reports if pgvector is unavailable" do
-        allow(described_class).to receive(:extension_available?).and_return(false)
+    it "reports a database user that may not create the extension" do
+      allow(connection).to receive(:execute).and_call_original
+      allow(connection).to receive(:execute).with(/CREATE EXTENSION/) { raise_from_postgres(PG::InsufficientPrivilege) }
 
-        expect(described_class.include_migrations_path_if_installed_or_installable!).to have_attributes(reason: :unavailable)
-      end
+      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :insufficient_privilege,
+                                                                                         detail: "boom")
+    end
 
-      it "reports a read-only database" do
-        allow(described_class).to receive(:read_only?).and_return(true)
+    it "reports any other failure" do
+      allow(connection).to receive(:execute).and_call_original
+      allow(connection).to receive(:execute).with(/CREATE EXTENSION/) { raise_from_postgres(PG::InternalError) }
 
-        expect(described_class.include_migrations_path_if_installed_or_installable!).to have_attributes(reason: :read_only)
-      end
-
-      it "reports a database user that may not create the extension" do
-        allow(described_class).to receive(:may_create_extension?).and_return(false)
-
-        expect(described_class.include_migrations_path_if_installed_or_installable!)
-          .to have_attributes(reason: :insufficient_privilege)
-      end
-
-      it "logs a warning when the extension cannot be created" do
-        allow(described_class).to receive(:extension_available?).and_return(false)
-        allow(Rails.logger).to receive(:warn)
-
-        described_class.include_migrations_path_if_installed_or_installable!
-
-        expect(Rails.logger).to have_received(:warn).with(/PGVECTOR NOT AVAILABLE/)
-      end
+      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :failed)
     end
   end
 
