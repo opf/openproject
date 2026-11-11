@@ -178,8 +178,6 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
     expect_field_in_section(section_for_select_fields, string_user_custom_field)
   end
 
-  # helper methods:
-
   def within_user_custom_field_section_container(section, &)
     within_test_selector("user-custom-field-section-container-#{section.id}", &)
   end

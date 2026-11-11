@@ -34,8 +34,6 @@ module Settings
     module MoveBetweenSections
       private
 
-      # One form per row rather than one per destination: a form per menu item
-      # multiplies across every row and every section the page renders.
       def move_to_section_form(key)
         form_with(
           url: drop_admin_settings_user_custom_field_section_field_path(key),
@@ -46,7 +44,7 @@ module Settings
           safe_join(
             [
               hidden_field_tag("list_type", UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE, id: nil),
-              hidden_field_tag("prev_id", "", id: nil) # Move to top of section
+              hidden_field_tag("prev_id", "", id: nil)
             ]
           )
         end
