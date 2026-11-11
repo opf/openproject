@@ -74,6 +74,15 @@ module OpenProject
           failure
         end
 
+        def migrate_pending_if_installable!
+          failure = include_migrations_path_if_installable!
+          return if failure
+
+          migration_context.migrate
+        rescue ActiveRecord::ConnectionNotEstablished, ActiveRecord::NoDatabaseError
+          nil
+        end
+
         def include_migrations_path!
           app_paths = Rails.application.config.paths["db/migrate"]
           return if app_paths.to_a.include?(migrations_path)
@@ -106,20 +115,34 @@ module OpenProject
 
         private
 
-        # Rolled back on purpose: the EnablePgvector migration installs the extension, not this check.
         def check_if_installable
           return Failure.new(reason: :unavailable, detail: nil) unless extension_available?
+          return Failure.new(reason: :read_only, detail: nil) if read_only?
+          return Failure.new(reason: :insufficient_privilege, detail: nil) unless may_create_extension?
 
-          begin
-            connection.transaction(requires_new: true) do
-              connection.execute("CREATE EXTENSION IF NOT EXISTS #{EXTENSION} WITH SCHEMA pg_catalog")
-              raise ActiveRecord::Rollback
-            end
-            nil
-          rescue ActiveRecord::StatementInvalid => e
-            reason = e.cause.is_a?(PG::InsufficientPrivilege) ? :insufficient_privilege : :failed
-            Failure.new(reason:, detail: e.message)
-          end
+          nil
+        end
+
+        def read_only?
+          connection.select_value("SELECT pg_is_in_recovery() OR current_setting('transaction_read_only') = 'on'")
+        end
+
+        def may_create_extension?
+          row = connection.select_one(<<~SQL.squish)
+            SELECT ext.superuser AS needs_superuser,
+                   roles.rolsuper AS user_is_superuser,
+                   has_database_privilege(current_user, current_database(), 'CREATE') AS may_create_on_database
+            FROM pg_available_extension_versions ext
+            CROSS JOIN pg_roles roles
+            WHERE ext.name = '#{EXTENSION}'
+              AND roles.rolname = current_user
+            ORDER BY ext.version DESC
+            LIMIT 1
+          SQL
+
+          return false if row.nil?
+
+          row["user_is_superuser"] || (!row["needs_superuser"] && row["may_create_on_database"])
         end
 
         def failure_explanation(failure)
@@ -133,6 +156,8 @@ module OpenProject
             <<~TEXT.chomp
               The database user is not allowed to create the pgvector extension.
             TEXT
+          when :read_only
+            "The database connection is read-only."
           else
             "Creating the pgvector extension failed: #{failure.detail}"
           end

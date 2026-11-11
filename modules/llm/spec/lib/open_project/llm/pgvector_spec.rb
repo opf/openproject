@@ -57,15 +57,7 @@ RSpec.describe OpenProject::Llm::Pgvector do
   end
 
   describe ".include_migrations_path_if_installable!" do
-    let(:connection) { ActiveRecord::Base.connection }
-
-    def raise_from_postgres(pg_error)
-      raise pg_error, "boom"
-    rescue PG::Error
-      raise ActiveRecord::StatementInvalid, "boom"
-    end
-
-    it "succeeds when the extension is already installed" do
+    it "succeeds when the extension can be created on this database" do
       expect(described_class.include_migrations_path_if_installable!).to be_nil
     end
 
@@ -75,19 +67,16 @@ RSpec.describe OpenProject::Llm::Pgvector do
       expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :unavailable)
     end
 
-    it "reports a database user that may not create the extension" do
-      allow(connection).to receive(:execute).and_call_original
-      allow(connection).to receive(:execute).with(/CREATE EXTENSION/) { raise_from_postgres(PG::InsufficientPrivilege) }
+    it "reports a read-only database" do
+      allow(described_class).to receive(:read_only?).and_return(true)
 
-      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :insufficient_privilege,
-                                                                                         detail: "boom")
+      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :read_only)
     end
 
-    it "reports any other failure" do
-      allow(connection).to receive(:execute).and_call_original
-      allow(connection).to receive(:execute).with(/CREATE EXTENSION/) { raise_from_postgres(PG::InternalError) }
+    it "reports a database user that may not create the extension" do
+      allow(described_class).to receive(:may_create_extension?).and_return(false)
 
-      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :failed)
+      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :insufficient_privilege)
     end
   end
 

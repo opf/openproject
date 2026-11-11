@@ -122,6 +122,37 @@ module OpenProject::Llm
       OpenProject::Llm::Pgvector.include_migrations_path_if_installed!
     end
 
+    rake_tasks do
+      namespace :openproject do
+        namespace :llm do
+          namespace :pgvector do
+            desc "Include the pgvector migrations in db:migrate if the extension can be installed"
+            task include_migrations_path_if_installable: :environment do
+              failure = OpenProject::Llm::Pgvector.include_migrations_path_if_installable!
+              warn OpenProject::Llm::Pgvector.warning(failure) if failure
+            rescue ActiveRecord::NoDatabaseError
+              # db:migrate creates the database after this task. The next run installs the extension via its migrations.
+            end
+          end
+        end
+      end
+
+      if Rake::Task.task_defined?("db:migrate")
+        Rake::Task["db:migrate"].enhance(["openproject:llm:pgvector:include_migrations_path_if_installable"])
+      end
+
+      # Schema loads replay the dump and run no migrations;
+      # as pgvector is optional, the dump can't depend on it.
+      # therefore we must run its migrations after loading the schema
+      %w[db:schema:load db:prepare].each do |name|
+        next unless Rake::Task.task_defined?(name)
+
+        Rake::Task[name].enhance do
+          OpenProject::Llm::Pgvector.migrate_pending_if_installable!
+        end
+      end
+    end
+
     config.to_prepare do
       OpenProject::Llm::Hooks
     end
