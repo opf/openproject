@@ -30,13 +30,17 @@ module API
     module Notifications
       class NotificationsAPI < ::API::OpenProjectAPI
         resources :notifications do
+          after_validation do
+            authorize_by_with_raise(current_user.logged?)
+          end
+
           namespace :summary do
             before do
               header "Cache-Control", "no-store"
             end
 
             after_validation do
-              raise API::Errors::Unauthenticated unless current_user.logged? && current_user.active?
+              raise API::Errors::Unauthenticated unless current_user.active?
 
               guard_feature_flag(:progressive_web_app)
             end
@@ -45,12 +49,6 @@ module API
               NotificationSummaryRepresenter.new(PushSubscriptions::NotificationSummary.new(current_user),
                                                  current_user:)
             end
-          end
-        end
-
-        resources :notifications do
-          after_validation do
-            authorize_by_with_raise(current_user.logged?)
           end
 
           helpers do
