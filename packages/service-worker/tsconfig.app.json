@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "strictPropertyInitialization": false,
-    "strictFunctionTypes": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
