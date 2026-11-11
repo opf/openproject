@@ -192,6 +192,7 @@ describe('SortHeaderDirective', () => {
 
       expect(columnName(host)).toHaveClass('sort', shown);
       expect(columnName(host)).not.toHaveClass(hidden);
+      expect(host.querySelector('.wp-table--column-sort-indicator')).toHaveClass(`octicon-sort-${shown}`);
     });
 
     it('shows no direction as a secondary criterion or once sorting is cleared', async () => {
@@ -208,6 +209,7 @@ describe('SortHeaderDirective', () => {
       sortBy();
       await mounted.whenStable();
       expect(columnName(host)).not.toHaveClass('sort');
+      expect(host.querySelector('.wp-table--column-sort-indicator')).toBeNull();
     });
 
     it('settles on the republished sort after a reload clears the view state', async () => {

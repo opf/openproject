@@ -23,6 +23,9 @@
                 [tooltipWhenTruncated]="headerColumn().name === columnName() ? '' : undefined">
                 <op-icon icon-classes="icon-context icon-relations relations-header--icon" />
                 <span class="wp-table--column-menu-name" [class.sort]="directionClass() !== ''" [class.asc]="directionClass() === 'asc'" [class.desc]="directionClass() === 'desc'">{{ columnName() }}</span>
+                @if (directionClass() !== '') {
+                  <svg octicon size="small" [icon]="directionClass() === 'asc' ? 'sort-asc' : 'sort-desc'" aria-hidden="true" class="wp-table--column-sort-indicator"></svg>
+                }
                 <svg octicon size="small" icon="triangle-down" aria-hidden="true" class="wp-table--column-menu-indicator"></svg>
               </button>
             } @else {
@@ -35,6 +38,9 @@
                   <svg octicon size="small" icon="op-hierarchy" aria-hidden="true" class="wp-table--column-menu-glyph"></svg>
                 }
                 <span class="wp-table--column-menu-name" [class.sort]="directionClass() !== ''" [class.asc]="directionClass() === 'asc'" [class.desc]="directionClass() === 'desc'">{{ headerColumn().name }}</span>
+                @if (directionClass() !== '') {
+                  <svg octicon size="small" [icon]="directionClass() === 'asc' ? 'sort-asc' : 'sort-desc'" aria-hidden="true" class="wp-table--column-sort-indicator"></svg>
+                }
                 <svg octicon size="small" icon="triangle-down" aria-hidden="true" class="wp-table--column-menu-indicator"></svg>
               </button>
             }
@@ -51,6 +57,9 @@
           <span class="wp-table--column-menu-name"
             [attr.lang]="locale()"
             [class.sort]="directionClass() !== ''" [class.asc]="directionClass() === 'asc'" [class.desc]="directionClass() === 'desc'">{{ headerColumn().name }}</span>
+          @if (directionClass() !== '') {
+            <svg octicon size="small" [icon]="directionClass() === 'asc' ? 'sort-asc' : 'sort-desc'" aria-hidden="true" class="wp-table--column-sort-indicator"></svg>
+          }
         }
         @if (baselineIncompatible()) {
           <span class="generic-table--sort-header--error-indicator" [attr.title]="text.baselineIncompatible">

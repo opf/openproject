@@ -320,7 +320,7 @@ module SortHelper
   #
   def sort_header_tag(column, allowed_params: nil, **)
     with_sort_header_options(column, with_title: true, allowed_params:, **) do |col, cap, default_order, **opts|
-      sort_link(col, cap, default_order, **opts)
+      sort_link(col, cap, default_order, **opts) + sort_indicator(col)
     end
   end
 
@@ -433,7 +433,7 @@ module SortHelper
         button.with_leading_visual_icon(**column.visual_icon) if column.respond_to?(:visual_icon)
         button.with_trailing_action_icon(icon: :"triangle-down")
 
-        h(caption).to_s
+        h(caption) + sort_indicator(column.attribute)
       end
     end
   end
@@ -560,6 +560,13 @@ module SortHelper
     end
 
     { label:, content_arguments: }.merge(extra_args)
+  end
+
+  def sort_indicator(column)
+    order = order_string(column)
+    return "".html_safe if order.nil?
+
+    render Primer::Beta::Octicon.new(icon: :"sort-#{order}", size: :small, classes: "generic-table--sort-indicator")
   end
 
   def sort_class(column)
