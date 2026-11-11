@@ -256,6 +256,8 @@ en:
       shared_sprint_warning_banner: "This is a shared sprint. You do not have the necessary permissions to edit it."
 
     sprint_reports:
+      header_infoline_component:
+        planned_html: "Planned: %{range}"
       navigation_component:
         next: "Next"
         previous: "Previous"
@@ -400,6 +402,8 @@ en:
             title: "Unfinished work"
 
     sprints:
+      date_cell_component:
+        planned: "(planned)"
       row_component:
         action_menu:
           edit_sprint: "Edit sprint"
