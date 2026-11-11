@@ -60,9 +60,6 @@ RSpec.describe Projects::HoverCardController, type: :rails_request do
       it "renders the hover card" do
         perform
 
-        # set if it's a redirect
-        # error page or JSON
-
         expect(response).to have_http_status(:ok)
       end
 
