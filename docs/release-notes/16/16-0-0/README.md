@@ -86,7 +86,7 @@ Each day shows the sum of the tracked time, and in the weekly and monthly views,
 
 Please note that this module has to be activated by an administrator first. Navigate to _Administration → Time and costs → Defaults_ and check the box next to 'Allow exact time tracking' to enable tracking start and finish dates. If 'Allow exact time tracking' is enabled, the calendar becomes the default view for the My time tracking module. If 'Require exact times' is checked, users must provide both start and end times when logging time. Otherwise, the list view remains the default. In the calendar view, all entries are then displayed at the top of the respective day column.
 
-Learn more about My time tracking module in [this user guide](../../../user-guide/time-and-costs/my-work/) and [this blog article](https://www.openproject.org/blog/time-tracking-module/).
+Learn more about My time tracking module in [this user guide](../../../user-guide/time-and-costs/my-time/) and [this blog article](https://www.openproject.org/blog/time-tracking-module/).
 
 ### Time entries with legally required mandatory fields: start time and finish time
 

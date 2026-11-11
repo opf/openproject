@@ -10,7 +10,7 @@ keywords: my time, time tracking, log time, time spent, calendar, time spent cal
 
 ## Overview
 
-The _My time_ module offers a clear overview of your personal time entries and the work that is [allocated to you](#resource-allocations-in-my-work). You can quickly log time directly from this page. To access it, select **My time** from the left-hand menu.
+The _My time_ module offers a clear overview of your personal time entries and the work that is [allocated to you](#resource-allocations-in-my-time). You can quickly log time directly from this page. To access it, select **My time** from the left-hand menu.
 
 Alternatively, click the grid icon in the top left corner and select _My time_ from the overlay menu that will open.
 
@@ -109,7 +109,7 @@ The _Stack_ view shows how many hours you have logged and how many are still pla
 
 You can select the zoom level **Day**, **Work week** or **Week**. The **Month** zoom level is not available in this view.
 
-Time entries are displayed at the bottom of each day, followed by a running timer if there is one. [Resource allocations](#resource-allocations-in-my-work) are stacked on top.
+Time entries are displayed at the bottom of each day, followed by a running timer if there is one. [Resource allocations](#resource-allocations-in-my-time) are stacked on top.
 
 ![Stack view under My time module in OpenProject](openproject_user_guide_my_work_stack_view.png)
 
