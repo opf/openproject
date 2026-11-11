@@ -1457,6 +1457,8 @@ Rails.application.routes.draw do
 
   resource :help, controller: :help, only: [] do
     member do
+      get "documentation/:article_id", action: :documentation, as: :documentation_article
+      get "documentation/:article_id/assets/:filename", action: :documentation_asset, as: :documentation_asset, format: false
       get :keyboard_shortcuts
       get :text_formatting
     end

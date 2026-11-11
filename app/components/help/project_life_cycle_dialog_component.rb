@@ -28,7 +28,11 @@
 #++
 
 module Help
-  class ProjectLifeCycleDialogComponent < ApplicationComponent
-    DIALOG_ID = "project-life-cycle-help-dialog"
+  class ProjectLifeCycleDialogComponent < DocumentationDialogComponent
+    DIALOG_ID = DocumentationDialogComponent.dialog_id("life_cycle")
+
+    def initialize(show_button: false)
+      super(context: "life_cycle", show_button:)
+    end
   end
 end

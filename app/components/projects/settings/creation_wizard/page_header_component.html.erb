@@ -37,6 +37,13 @@ See COPYRIGHT and LICENSE files for more details.
     )
 
     enabled = @project.project_creation_wizard_enabled
+    header.with_action_button(
+      mobile_icon: :book,
+      mobile_label: t("contextual_help.initiation.open"),
+      aria: { haspopup: "dialog" },
+      data: { show_dialog_id: Help::DocumentationDialogComponent.dialog_id("initiation") },
+      test_selector: "project-initiation-contextual-help"
+    ) { t("contextual_help.initiation.open") }
     label = I18n.t(:button_disable)
 
     if enabled
@@ -87,3 +94,4 @@ See COPYRIGHT and LICENSE files for more details.
     end
   end
 %>
+<%= render Help::DocumentationDialogComponent.new(context: "initiation") %>

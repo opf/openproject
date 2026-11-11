@@ -3,6 +3,8 @@
   <%= render(Primer::Beta::Text.new(tag: :p)) { @status_explanation } %>
 <% end %>
 
+<%= render Help::DocumentationDialogComponent.new(context: "initiation", show_button: true) %>
+
 <% if artifact_work_package %>
   <%= render(
         Primer::Beta::Button.new(

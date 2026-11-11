@@ -10,10 +10,12 @@
     end
     header.with_breadcrumbs(breadcrumb_items)
     header.with_action_button(
+      mobile_icon: :book,
+      mobile_label: t("contextual_help.life_cycle.open"),
       data: { show_dialog_id: Help::ProjectLifeCycleDialogComponent::DIALOG_ID },
       test_selector: "project-life-cycle-contextual-help",
       aria: { haspopup: "dialog" }
-    ) { t("contextual_help.open") }
+    ) { t("contextual_help.life_cycle.open") }
   end
 %>
 <%= render Help::ProjectLifeCycleDialogComponent.new %>

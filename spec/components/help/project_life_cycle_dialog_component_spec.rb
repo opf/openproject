@@ -32,20 +32,22 @@ require "rails_helper"
 RSpec.describe Help::ProjectLifeCycleDialogComponent, type: :component do
   before { render_inline(described_class.new(show_button: true)) }
 
-  it "renders the right-side overlay used for avatar settings" do
-    expect(page).to have_css("dialog.Overlay--placement-right##{described_class::DIALOG_ID}", visible: :all)
+  it "uses the existing Primer modal with the floating reader layout" do
+    expect(page).to have_css("dialog.contextual-help-dialog##{described_class::DIALOG_ID}", visible: :all)
   end
 
-  it "combines the methodology with concrete OpenProject steps", :aggregate_failures do
-    expect(page).to have_heading(I18n.t("contextual_help.project_life_cycle.purpose_heading"), visible: :all)
-    expect(page).to have_heading(I18n.t("contextual_help.project_life_cycle.steps_heading"), visible: :all)
-    expect(page).to have_css("dl dt", count: 4, visible: :all)
-    expect(page).to have_css("ol li", count: 4, visible: :all)
+  it "loads the repository article when opened" do
+    expect(page).to have_css('turbo-frame[src*="/help/documentation/project-life-cycle"][loading="lazy"]', visible: :all)
   end
 
-  it "provides an accessible trigger, title and close button", :aggregate_failures do
-    expect(page).to have_button(I18n.t("contextual_help.open"))
+  it "provides a labelled trigger and dialog", :aggregate_failures do
+    expect(page).to have_button(I18n.t("contextual_help.life_cycle.open"))
     expect(page).to have_css("dialog[aria-labelledby]", visible: :all)
-    expect(page).to have_button(I18n.t(:button_close), visible: :all)
+  end
+
+  it "gives project initiation help a separate dialog and frame" do
+    render_inline(Help::DocumentationDialogComponent.new(context: "initiation", show_button: true))
+    expect(page).to have_css("dialog##{Help::DocumentationDialogComponent.dialog_id('initiation')}", visible: :all)
+    expect(page).to have_css('turbo-frame[src*="/help/documentation/initiation-request"]', visible: :all)
   end
 end

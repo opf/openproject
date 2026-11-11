@@ -1,0 +1,85 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: Help::DocumentationDialogComponent.dialog_id(@context),
+        title: t("contextual_help.title"),
+        size: :large,
+        position: :right,
+        classes: "contextual-help-dialog",
+        data: {
+          controller: "documentation-help",
+          action: "click->documentation-help#remember turbo:frame-load->documentation-help#articleLoaded",
+          "documentation-help-index-url-value": index_path,
+          "documentation-help-expand-label-value": t("contextual_help.expand"),
+          "documentation-help-collapse-label-value": t("contextual_help.collapse")
+        }
+      )
+    ) do |dialog| %>
+  <% if @show_button %>
+    <% dialog.with_show_button(
+         scheme: :link,
+         test_selector: trigger_selector,
+         aria: { haspopup: "dialog" }
+       ) do |button| %>
+      <% button.with_leading_visual_icon(icon: :book) %>
+      <%= trigger_label %>
+    <% end %>
+  <% end %>
+  <% dialog.with_header(variant: :large) %>
+  <% dialog.with_body do %>
+    <nav class="contextual-help-toolbar" aria-label="<%= t('contextual_help.navigation') %>">
+      <%= render(
+            Primer::Beta::Button.new(
+              scheme: :invisible,
+              data: { action: "documentation-help#back" }
+            )
+          ) do |button| %>
+        <% button.with_leading_visual_icon(icon: :"arrow-left") %>
+        <%= t("contextual_help.back") %>
+      <% end %>
+      <%= render(
+            Primer::Beta::Button.new(
+              scheme: :invisible,
+              aria: { pressed: false },
+              data: { action: "documentation-help#toggleExpanded", "documentation-help-target": "expandButton" }
+            )
+          ) { t("contextual_help.expand") } %>
+    </nav>
+    <%= turbo_frame_tag Help::DocumentationDialogComponent.frame_id(@context),
+                        src: initial_article_path,
+                        loading: :lazy,
+                        data: { "documentation-help-target": "frame" } do %>
+      <div class="contextual-help-loading" role="status">
+        <%= render Primer::Beta::Spinner.new %>
+        <%= t("contextual_help.loading") %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

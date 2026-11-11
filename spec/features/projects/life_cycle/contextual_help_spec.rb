@@ -29,45 +29,58 @@
 
 require "spec_helper"
 
-RSpec.describe "Project life cycle contextual help", :js do
+RSpec.describe "Contextual documentation reader", :js do
   let(:project) { create(:project) }
   let!(:phase) { create(:project_phase, project:) }
-  let(:dialog_selector) { "dialog##{Help::ProjectLifeCycleDialogComponent::DIALOG_ID}" }
+  let(:context) { "life_cycle" }
+  let(:article_id) { "project-life-cycle" }
+  let(:dialog_selector) { "dialog##{Help::DocumentationDialogComponent.dialog_id(context)}" }
+  let(:trigger_selector) { "project-life-cycle-contextual-help" }
 
   current_user { create(:admin) }
 
-  shared_examples "life cycle help overlay" do
-    it "opens, closes and reopens help without leaving the project" do
+  shared_examples "embedded documentation" do
+    it "navigates between repository articles while preserving the current project" do
       visit entry_path
-      original_url = page.current_url
-      find('[data-test-selector="project-life-cycle-contextual-help"]').click
+      find("[data-test-selector='#{trigger_selector}']").click
 
       within(dialog_selector) do
-        expect(page).to have_heading(I18n.t("contextual_help.project_life_cycle.title"))
-        expect(page).to have_heading(I18n.t("contextual_help.project_life_cycle.steps_heading"))
-        click_button I18n.t(:button_close)
+        expect(page).to have_heading(Help::DocumentationArticle.new(article_id).title, level: 1)
+        click_link I18n.t("contextual_help.articles.pmflex-mapping")
+        expect(page).to have_heading(Help::DocumentationArticle.new("pmflex-mapping").title, level: 1)
+        click_button I18n.t("contextual_help.back")
+        expect(page).to have_heading(Help::DocumentationArticle.new(article_id).title, level: 1)
+        click_button I18n.t("contextual_help.expand")
+        expect(page).to have_css('button[aria-pressed="true"]', text: I18n.t("contextual_help.collapse"))
+        find(".Overlay-closeButton").click
       end
 
       expect(page).to have_no_css(dialog_selector)
-      expect(page.current_url).to eq(original_url)
-
-      find('[data-test-selector="project-life-cycle-contextual-help"]').click
-      expect(page).to have_css("#{dialog_selector}[open]", count: 1)
+      expect(page).to have_current_path(entry_path)
+      find("[data-test-selector='#{trigger_selector}']").click
       find(dialog_selector).send_keys(:escape)
       expect(page).to have_no_css(dialog_selector)
-      expect(page.current_url).to eq(original_url)
     end
   end
 
   context "on the project home page" do
     let(:entry_path) { project_overview_path(project) }
 
-    include_examples "life cycle help overlay"
+    include_examples "embedded documentation"
   end
 
-  context "in the project life cycle settings" do
+  context "in life cycle settings" do
     let(:entry_path) { "/projects/#{project.identifier}/settings/life_cycle" }
 
-    include_examples "life cycle help overlay"
+    include_examples "embedded documentation"
+  end
+
+  context "in project initiation request settings" do
+    let(:entry_path) { project_settings_creation_wizard_path(project) }
+    let(:context) { "initiation" }
+    let(:article_id) { "initiation-request" }
+    let(:trigger_selector) { "project-initiation-contextual-help" }
+
+    include_examples "embedded documentation"
   end
 end
