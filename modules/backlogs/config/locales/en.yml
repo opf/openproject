@@ -41,6 +41,11 @@ en:
         finish_date: "Finish date"
         goal: "Sprint goal"
         name: "Sprint name"
+        origin: "Origin"
+        origin_host: "Origin host"
+        origin_id: "Origin ID"
+        origin_source: "Origin source"
+        origin_url: "Origin URL"
         sharing: "Sharing"
         statuses:
           active: "Active"
