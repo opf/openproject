@@ -71,14 +71,23 @@ export interface TimeChartOptions {
   // Taken across every series rather than the visible ones, so hiding one does not refit the axes.
   range:{ min?:number, max?:number };
   yTitle:string;
+  yTicks:YTicks;
   suggestedMax:number|undefined;
   // Given an ISO instant, the date as the reader's OpenProject settings spell it.
   formatDate:(iso:string) => string;
 }
 
+export interface YTicks {
+  stepSize?:number;
+  format?:(value:number) => string;
+}
+
 type ThemedScales = Pick<ChartOptions<'line'>, 'maintainAspectRatio'|'color'|'scales'>;
 
-export function timeChartOptions({ zone, range, yTitle, suggestedMax, formatDate }:TimeChartOptions):ThemedScales {
+export function timeChartOptions({
+  zone, range, yTitle, yTicks, suggestedMax, formatDate,
+}:TimeChartOptions):ThemedScales {
+  const { stepSize, format } = yTicks;
   const fontColor = getCSSVariable('--body-font-color', '#333333');
   const gridColor = getCSSVariable('--borderColor-muted', '#d0d7de');
 
@@ -102,8 +111,13 @@ export function timeChartOptions({ zone, range, yTitle, suggestedMax, formatDate
         title: { display: true, text: yTitle, color: fontColor },
         // Whole units only. Callers must be measuring something atomic -- a count of work
         // packages, or a sum of story points, which are integers. A fractional unit such as
-        // estimated hours (AGILE-198) would need this lifted to a parameter.
-        ticks: { color: fontColor, precision: 0 },
+        // estimated hours has to step in whole multiples of something, like a working day.
+        ticks: {
+          color: fontColor,
+          precision: 0,
+          stepSize,
+          callback: format && ((value:string|number) => format(Number(value))),
+        },
         grid: { color: gridColor },
         border: { color: fontColor },
         beginAtZero: true,

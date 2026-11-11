@@ -106,8 +106,6 @@ export class BurndownChartComponent extends SeriesChartComponent<SeriesKey> {
 
   protected readonly seriesStyle = SERIES_STYLE;
 
-  protected readonly yAxisTitle = this.i18n.t('js.burndown_chart.story_points');
-
   protected readonly interaction:ChartOptions<'line'>['interaction'] = { mode: 'series-at-x', intersect: false };
 
   readonly chartDescription = computed(() => this.describedByDay({

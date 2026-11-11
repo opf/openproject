@@ -157,10 +157,6 @@ en:
       title: "Delete backlog bucket?"
 
     burndown_chart:
-      series:
-        guideline: "Guideline"
-        projection: "Remaining story points (projection)"
-        remaining: "Remaining story points"
       show:
         blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
         blankslate_title: "No burndown data available"
@@ -268,6 +264,14 @@ en:
         title: "%{sprint} report"
       widgets:
         burndown_chart:
+          series:
+            guideline: "Guideline"
+            projection:
+              story_points: "Remaining story points (projection)"
+              time: "Remaining estimated time (projection)"
+            remaining:
+              story_points: "Remaining story points"
+              time: "Remaining estimated time"
           title: "Burndown chart"
         burnup_chart:
           blankslate_description: "Set start and end date for the sprint to generate a burnup chart."
@@ -282,13 +286,23 @@ en:
           title: "Created vs resolved work packages"
         epic_progress:
           card:
+            progress:
+              story_points:
+                one: "%{resolved} / %{count} story point"
+                other: "%{resolved} / %{count} story points"
+              time: "%{resolved} / %{count}"
+              work_packages:
+                one: "%{resolved} / %{count} work package"
+                other: "%{resolved} / %{count} work packages"
             progress_label:
-              one: "%{epic}: %{completed} of %{count} work package completed"
-              other: "%{epic}: %{completed} of %{count} work packages completed"
+              story_points:
+                one: "%{epic}: %{resolved} of %{count} story point completed"
+                other: "%{epic}: %{resolved} of %{count} story points completed"
+              time: "%{epic}: %{resolved} of %{count} completed"
+              work_packages:
+                one: "%{epic}: %{resolved} of %{count} work package completed"
+                other: "%{epic}: %{resolved} of %{count} work packages completed"
             work_package_completed: "(%{percentage})"
-            work_package_counts:
-              one: "%{completed} / %{count} work package"
-              other: "%{completed} / %{count} work packages"
           title: "Epic progress"
         velocity_chart:
           average:
@@ -299,12 +313,18 @@ en:
           completed: "Completed"
           story_points: "%{value} SP"
           summary:
-            one: "Bar chart of committed and completed story points of the last sprint."
-            other: "Bar chart of committed and completed story points of the last %{count} sprints."
+            story_points:
+              one: "Bar chart of committed and completed story points of the last sprint."
+              other: "Bar chart of committed and completed story points of the last %{count} sprints."
+            time:
+              one: "Bar chart of committed and completed estimated time of the last sprint."
+              other: "Bar chart of committed and completed estimated time of the last %{count} sprints."
           summary_average: "Average velocity: %{average}."
           title: "Velocity chart"
           velocity: "%{sprint}:"
-          y_axis_title: "Story points"
+          y_axis_title:
+            story_points: "Story points"
+            time: "Estimated time"
         work_package_graph:
           title: "Work packages graph"
         work_package_overview:
@@ -329,14 +349,14 @@ en:
           closed_work_packages: "Closed work packages"
           completed_estimated_time: "Completed estimated time"
           completed_story_points: "Completed story points"
-          resolved_summary:
+          progress_summary:
             story_points:
-              one: "%{percentage} (%{resolved} of %{total} story point)"
-              other: "%{percentage} (%{resolved} of %{total} story points)"
-            time: "%{percentage} (%{resolved} of %{total})"
+              one: "%{percentage} (%{resolved} of %{count} story point)"
+              other: "%{percentage} (%{resolved} of %{count} story points)"
+            time: "%{percentage} (%{resolved} of %{count})"
             work_packages:
-              one: "%{percentage} (%{resolved} of %{total} work package)"
-              other: "%{percentage} (%{resolved} of %{total} work packages)"
+              one: "%{percentage} (%{resolved} of %{count} work package)"
+              other: "%{percentage} (%{resolved} of %{count} work packages)"
           title: "Work packages within the sprint"
         work_package_table:
           added:

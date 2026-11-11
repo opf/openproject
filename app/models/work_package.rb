@@ -100,15 +100,10 @@ class WorkPackage < ApplicationRecord
     end
   }
 
-  scope :with_status_open, -> {
-    includes(:status)
-      .where(statuses: { is_closed: false })
-  }
-
-  scope :with_status_closed, -> {
-    includes(:status)
-      .where(statuses: { is_closed: true })
-  }
+  scope :with_status_open, -> { where(status: Status.not_closed) }
+  scope :with_status_to_do, -> { where(status: Status.to_do) }
+  scope :with_status_in_progress, -> { where(status: Status.in_progress) }
+  scope :with_status_closed, -> { where(status: Status.closed) }
 
   scope :with_limit, ->(limit) {
     limit(limit)
@@ -243,8 +238,7 @@ class WorkPackage < ApplicationRecord
 
   # Returns true if this work package is blocked by another work package that is still open
   def blocked?
-    blockers
-      .exists?
+    blockers.exists?
   end
 
   def to_s = to_fs
@@ -265,7 +259,7 @@ class WorkPackage < ApplicationRecord
 
   # Return true if the work_package is closed, otherwise false
   def closed?
-    status.nil? || status.is_closed?
+    status.nil? || status.closed?
   end
 
   # Return true if the work_package's status is_readonly
@@ -424,7 +418,7 @@ class WorkPackage < ApplicationRecord
     # counted under each of them.
     sql = sanitize_sql_array(
       ["SELECT s.id AS status_id,
-               s.is_closed AS closed,
+               COALESCE(s.category = 'closed', false) AS closed,
                wpv.version_id AS version_id,
                COUNT(i.id) AS total
           FROM #{WorkPackage.table_name} i
@@ -432,7 +426,7 @@ class WorkPackage < ApplicationRecord
           INNER JOIN #{WorkPackageVersion.table_name} wpv
              ON wpv.work_package_id = i.id AND wpv.kind = :kind
          WHERE i.project_id = :project_id
-         GROUP BY s.id, s.is_closed, wpv.version_id",
+         GROUP BY s.id, s.category, wpv.version_id",
        { kind: WorkPackageVersion.kinds[:target], project_id: project.id }]
     )
     ActiveRecord::Base.connection.select_all(sql).to_a
@@ -473,7 +467,7 @@ class WorkPackage < ApplicationRecord
 
     ActiveRecord::Base.connection.select_all(
       "select    s.id as status_id,
-        s.is_closed as closed,
+        COALESCE(s.category = 'closed', false) as closed,
         i.project_id as project_id,
         count(i.id) as total
       from
@@ -481,7 +475,7 @@ class WorkPackage < ApplicationRecord
       where
         i.status_id=s.id
         and i.project_id IN (#{project.descendants.active.map(&:id).join(',')})
-      group by s.id, s.is_closed, i.project_id"
+      group by s.id, s.category, i.project_id"
     ).to_a
   end
 
@@ -710,17 +704,17 @@ class WorkPackage < ApplicationRecord
     where = "i.#{select_field}=j.id"
 
     ActiveRecord::Base.connection.select_all(
-      "select    s.id as status_id,
-        s.is_closed as closed,
-        j.id as #{select_field},
-        count(i.id) as total
-      from
+      "SELECT s.id AS status_id,
+        COALESCE(s.category = 'closed', false) AS closed,
+        j.id AS #{select_field},
+        count(i.id) AS total
+      FROM
           #{WorkPackage.table_name} i, #{Status.table_name} s, #{joins} j
-      where
+      WHERE
         i.status_id=s.id
-        and #{where}
-        and i.project_id=#{project.id}
-      group by s.id, s.is_closed, j.id"
+        AND #{where}
+        AND i.project_id=#{project.id}
+      GROUP BY s.id, s.category, j.id"
     ).to_a
   end
 
