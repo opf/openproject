@@ -69,9 +69,9 @@ Click **Finish setup** to complete the wizard. You can change the configuration 
 
 #### Enable the Repositories module
 
-Finally you will need to activate the **Repositories** module for each project under its [Project settings](../../../user-guide/projects/project-settings/modules/) so that all information pulling through from GitLab will be shown in the work packages.
+Finally you will need to activate the **Repositories** module for each project under its [Project settings](../../../user-guide/projects/project-settings/modules/) so that all information retrieved from GitLab will be shown in the work packages.
 
-![Activate a Repositories module in OpenProject](openproject-system-guide-gitlab-integration-project-modules.png)
+![Activate the Repositories module in OpenProject](openproject-system-guide-gitlab-integration-project-modules.png)
 
 Seeing the **Code** tab requires the **Show repository content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab. This can be added in the [**Roles and Permissions**](../../users-permissions/roles-permissions/) settings.
 
@@ -83,7 +83,7 @@ In GitLab you have to set up a webhook in each project or group to be integrated
 
 ![Create the webhook in GitLab](openproject-system-guide-gitlab-integration-gitlab-webhook.png)
 
-Copy the **URL** shown in the webhook configuration of the repository provider in OpenProject and replace `API_KEY` with the API key you copied earlier. In the end the URL should look something like this:
+Copy the **URL** shown in the webhook configuration of the repository provider in OpenProject and replace `API_KEY` with the API key you copied earlier. The resulting URL should look something like this:
 
 `https://openproject.example.com/webhooks/gitlab?key=opapi-4221687468163843`
 
@@ -171,7 +171,7 @@ When you click on the link in the comment, it will take you to the OpenProject w
 
 ![GitLab actions in activity tab](openproject-system-guide-gitlab-integration-push-activity.png)
 
-In the **Code** tab of that work package, the status of the merge request as well as status of all the configured GitLab Actions will also be displayed.
+In the **Code** tab of that work package, the status of the merge request as well as the status of all the configured GitLab Actions will also be displayed.
 
 ![GitLab actions under the Code tab in OpenProject work package](openproject-system-guide-gitlab-integration-gitlab-actions.png)
 
@@ -181,14 +181,14 @@ If the status of a merge request changes, it will be reflected in the OpenProjec
 
 ### Using the Command Line Interface
 
-If you prefer to work with Git via the Command Line Interface (CLI), you can follow a similar process to create and manage merge requests, by following same steps as you would if using a Git Desktop Client.
+If you prefer to work with Git via the Command Line Interface (CLI), you can follow a similar process to create and manage merge requests, by following the same steps as you would if using a Git Desktop Client.
 
 You can copy the branch name from the OpenProject work package as described in the Git snippets section above. Then, create and switch to a new branch in your local repository. Modify the necessary files in your repository. Once you are satisfied with the changes, stage and commit them, using the suggested commit message from OpenProject.
 
 ![Git snippet to create a new branch in GitLab entered into command line interface](openproject-system-guide-gitlab-integration-branch-git-snippet-cli.png)
 
 When using a CLI you can also use the **Create branch with empty commit** Git snippet.
-![Git snippet to create a branch with empty commit under Code tab in a work package in OpenProject](openproject-system-guide-gitlab-integration-git_snippet_empty_commit.png)
+![Git snippet to create a branch with empty commit under the Code tab in a work package in OpenProject](openproject-system-guide-gitlab-integration-git_snippet_empty_commit.png)
 
 The advantage of using this snippet is that there is no need to first create a branch and then copy a separate Git snippet for the commit. A new branch will be created from your current branch along with an empty commit. When you push it to GitLab, both the branch and the commit are linked to the work package and appear in the **Branches** and **Commits** sections of the **Code** tab.
 
@@ -200,7 +200,7 @@ Continue your work as you normally would, push the branch to GitLab and create a
 
 Changes to the merge request will be tracked under the **Code** tab of the OpenProject work package, from which git snippets were copied, together with the branch and the commits pushed to it.
 
-![Work package in OpenProject showing Code tab and related merge request updates](openproject-system-guide-gitlab-cli-snippet-work-package.png)
+![Work package in OpenProject showing the Code tab and related merge request updates](openproject-system-guide-gitlab-cli-snippet-work-package.png)
 
 ### Link issues
 
@@ -219,9 +219,6 @@ Once you save your changes or create a GitLab issue, it will become visible unde
 ![New GitLab issues shown in OpenProject work packages](openproject-system-guide-gitlab-integration-new-issues.png)
 
 ### Link branches
-
-> [!IMPORTANT]
-> This feature is available on our Dev branch.
 
 A GitLab branch is linked to a work package when the branch is pushed to GitLab and its name contains the work package ID. The branch name you copy from the **Git quick snippets** dialog already has the right format.
 
