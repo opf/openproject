@@ -45,8 +45,10 @@ module ITSM
       def tcp_socket(_host, port)
         @addresses.each_with_index do |address, index|
           return super(address, port).tap { it.timeout = open_timeout }
-        rescue SystemCallError, Net::OpenTimeout
+        rescue SystemCallError, Net::OpenTimeout => e
           raise if index == @addresses.size - 1
+
+          Rails.logger.warn { "Connecting to #{address} failed (#{e.class.name}), trying the next address" }
         end
       end
 
