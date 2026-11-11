@@ -154,14 +154,13 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
       end)
     end
 
-    context "when the server rejects the reasoning setting" do
-      before do
+    ["Unsupported parameter: 'reasoning_effort' is not supported with this model.",
+     "Argument not supported on this model: reasoningEffort"].each do |message|
+      it "retries once without the reasoning setting when the server answers #{message.inspect}" do
         stub_request(:post, completions)
-          .to_return(bad_request("Unsupported parameter: 'reasoning_effort' is not supported with this model."))
+          .to_return(bad_request(message))
           .then.to_return(stream_response("Hello"))
-      end
 
-      it "retries once without it" do
         expect(stream { nil }).to eq("Hello")
 
         expect(WebMock).to have_requested(:post, completions).twice
@@ -169,6 +168,13 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
           !JSON.parse(request.body).key?("reasoning_effort")
         end)
       end
+    end
+
+    it "reports an upstream error when the retry is rejected as well" do
+      stub_request(:post, completions).to_return(bad_request("Unsupported parameter: 'reasoning_effort'"))
+
+      expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::Upstream)
+      expect(WebMock).to have_requested(:post, completions).twice
     end
 
     it "does not retry a bad request unrelated to reasoning" do

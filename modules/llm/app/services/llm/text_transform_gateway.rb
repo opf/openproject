@@ -55,20 +55,20 @@ module Llm
     end
 
     def complete(system:, user:, timeout:, &)
-      ask(chat(system:, timeout:).with_thinking(effort: :none), user, &)
+      ask(chat(system:, timeout:).with_thinking(effort: :none), user, fallback: true, &)
     rescue ReasoningRejected
-      ask(chat(system:, timeout:), user, &)
+      ask(chat(system:, timeout:), user, fallback: false, &)
     end
 
     def chat(system:, timeout:)
       resolution.chat(timeout:, max_retries: 0).with_instructions(system)
     end
 
-    def ask(chat, user)
+    def ask(chat, user, fallback:)
       streamed = false
       consumer_error = nil
       chat.ask(user) do |chunk|
-        streamed = true
+        streamed ||= chunk.content.present?
         yield chunk.content.to_s
       rescue StandardError => e
         consumer_error = e
@@ -76,7 +76,7 @@ module Llm
       end
     rescue Llm::Errors::Error => e
       raise consumer_error if consumer_error
-      raise ReasoningRejected if !streamed && reasoning_rejected?(e)
+      raise ReasoningRejected if fallback && !streamed && reasoning_rejected?(e)
 
       raise
     end
@@ -86,7 +86,7 @@ module Llm
     def reasoning_rejected?(error)
       error.instance_of?(Llm::Errors::ApiError) &&
         error.status == 400 &&
-        error.cause&.message.to_s.match?(/reasoning_effort|thinking/i)
+        error.cause&.message.to_s.match?(/reasoning|thinking/i)
     end
 
     def translate(error)
