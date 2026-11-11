@@ -6036,6 +6036,107 @@ a.ck.ck-button.ck-link-toolbar__preview {
 
 div.ck.ck-balloon-panel.ck-mention-balloon {
   z-index: calc(var(--ck-z-dialog, var(--ck-z-modal)) + 1);
+  border-radius: 12px !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #d0d7de !important;
+  min-width: 280px !important;
+  max-width: 360px !important;
+  padding: 4px !important;
+  background: #ffffff !important;
+}
+
+.ck.ck-mentions .ck-list__item {
+  margin: 3px 2px !important;
+}
+
+.ck.ck-mentions .ck-button {
+  padding: 8px 10px !important;
+  border-radius: 8px !important;
+  width: 100% !important;
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+.ck.ck-mentions .ck-button:hover,
+.ck.ck-mentions .ck-list__item.ck-mentions__item_focused > .ck-button {
+  background-color: #00875a !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.ck.ck-mentions .op-mention-user-item {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  gap: 10px !important;
+}
+
+.ck.ck-mentions .op-mention-avatar {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+  background-color: #e1e4e8 !important;
+  display: block !important;
+}
+
+.ck.ck-mentions .op-mention-info {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+  line-height: 1.25 !important;
+}
+
+.ck.ck-mentions .op-mention-name {
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: #24292f !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  width: 100% !important;
+}
+
+.ck.ck-mentions .op-mention-handle {
+  font-size: 11px !important;
+  color: #6e7781 !important;
+  margin-top: 1px !important;
+  font-family: inherit !important;
+}
+
+.ck.ck-mentions .op-mention-role-badge {
+  font-size: 10px !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+  background-color: #f6f8fa !important;
+  color: #57606a !important;
+  border: 1px solid #d0d7de !important;
+  font-family: monospace, sans-serif !important;
+  flex-shrink: 0 !important;
+  letter-spacing: 0.5px !important;
+}
+
+.ck.ck-mentions .ck-button:hover .op-mention-name,
+.ck.ck-mentions .ck-list__item.ck-mentions__item_focused > .ck-button .op-mention-name {
+  color: #ffffff !important;
+}
+
+.ck.ck-mentions .ck-button:hover .op-mention-handle,
+.ck.ck-mentions .ck-list__item.ck-mentions__item_focused > .ck-button .op-mention-handle {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.ck.ck-mentions .ck-button:hover .op-mention-role-badge,
+.ck.ck-mentions .ck-list__item.ck-mentions__item_focused > .ck-button .op-mention-role-badge {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
 }
 
 :root, :host {

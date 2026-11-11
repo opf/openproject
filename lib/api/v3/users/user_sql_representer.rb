@@ -92,6 +92,12 @@ module API
 
         property :lastname,
                  render_if: method(:render_if_manage_user_or_self)
+
+        property :login,
+                 column: :login
+
+        property :admin,
+                 representation: ->(*) { "COALESCE(admin, false)" }
       end
     end
   end
