@@ -103,7 +103,7 @@ Jira allows one active sprint per board, so a project covered by several boards 
 - The **Backlogs** module is enabled in every project that owns or shows an imported sprint.
 - The `JiraMember` role created by the import can view sprints, backlogs and boards. It cannot move work packages between sprints, because that also requires permission to edit work packages. Grant those permissions to the role, or use another role, where members should plan sprints.
 - If a `JiraMember` role already exists from an earlier import, it is reused unchanged and does not get the sprint permissions. Add **View sprints** and **View boards** to it manually.
-- Reverting the import deletes the sprints it created together with the imported projects. A sprint reused from an earlier import stays, only the work packages of the reverted projects leave it.
+- Reverting the import deletes the sprints it created together with the imported projects. A sprint reused from an earlier import stays, only the work packages of the reverted projects leave it. If a later import still uses a sprint of the reverted import, the sprint moves to the project with most of its remaining work packages instead of being deleted.
 
 ### Agile data that is currently not migrated
 

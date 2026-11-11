@@ -78,6 +78,47 @@ RSpec.describe Import::JiraRevertImportJob do
       expect(outside_work_package.reload.sprint).to be_nil
     end
 
+    context "when another import reuses a sprint of the project" do
+      let(:other_import) { create(:jira_import, jira:, author:) }
+      let(:other_project) { create(:project) }
+      let(:sprint) { create(:sprint, project:) }
+      let!(:other_work_package) { create(:work_package, project: other_project, sprint:) }
+
+      before do
+        create(:work_package, project:, sprint:)
+        reference_for(sprint, "Sprint")
+        reference_for(sprint, "Sprint", uses_existing: true, import: other_import)
+      end
+
+      it "moves the sprint to the project still using it" do
+        expect { job.send(:delete_projects) }.not_to change(Sprint, :count)
+        expect(sprint.reload.project).to eq(other_project)
+        expect(other_work_package.reload.sprint).to eq(sprint)
+      end
+
+      context "when the sprint and a sprint of the other project are active" do
+        let(:sprint) do
+          create(:sprint, :active, project: other_project)
+          create(:sprint, :active, project:)
+        end
+
+        it "allows multiple active sprints in the other project" do
+          job.send(:delete_projects)
+
+          expect(sprint.reload.project).to eq(other_project)
+          expect(other_project.reload.allow_multiple_active_sprints?).to be(true)
+        end
+      end
+
+      context "when no work package outside the reverted projects is left in it" do
+        let!(:other_work_package) { nil }
+
+        it "deletes the sprint" do
+          expect { job.send(:delete_projects) }.to change(Sprint, :count).by(-1)
+        end
+      end
+    end
+
     context "when the project is already gone" do
       let(:other_project) { create(:project) }
       let!(:other_reference) { reference_for(other_project, "Project") }
