@@ -82,7 +82,9 @@ function paleGreen():string {
 export class CreatedResolvedComponent extends SeriesChartComponent<SeriesKey> {
   protected readonly seriesStyle = SERIES_STYLE;
 
-  protected readonly yAxisTitle = this.i18n.t('js.created_resolved_chart.work_packages');
+  protected override get yAxisTitle():string {
+    return this.i18n.t('js.created_resolved_chart.work_packages');
+  }
 
   protected readonly interaction:ChartOptions<'line'>['interaction'] = { mode: 'index', intersect: false };
 }

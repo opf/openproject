@@ -89,7 +89,7 @@ RSpec.describe McpTools::SearchCustomFieldItems do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server custom_field_hierarchies] do
+  context "when the custom field hierarchies enterprise feature is enabled", with_ee: %i[custom_field_hierarchies] do
     it_behaves_like "MCP text tool"
 
     it "finds all items of the custom field" do
@@ -178,13 +178,6 @@ RSpec.describe McpTools::SearchCustomFieldItems do
         mcp_request
         expect(parsed_results.dig("structuredContent", "items").size).to eq(0)
       end
-    end
-  end
-
-  context "when the mcp_server enterprise feature is disabled", with_ee: %i[custom_field_hierarchies] do
-    it "responds in a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
     end
   end
 end

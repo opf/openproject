@@ -38,6 +38,7 @@ import {
   initMainMenuExpandStatus,
 } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
 import { canonicalizeWorkPackageIdInUrl } from 'core-app/core/setup/globals/canonicalize-work-package-id-in-url';
+import { hideElement } from 'core-app/shared/helpers/dom-helpers';
 import { isOpenProjectCustomElement } from './openproject-custom-element';
 
 export function addTurboGlobalListeners(target:Document = document, signal?:AbortSignal) {
@@ -86,6 +87,13 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
   };
   target.addEventListener('turbo:render', runOnRenderAndLoad, { signal });
   target.addEventListener('DOMContentLoaded', runOnRenderAndLoad, { signal });
+
+  // Keeps an in-flight request's loading indicator out of Turbo Drive snapshots, which would
+  // otherwise restore it visible on Back.
+  target.addEventListener('turbo:before-cache', () => {
+    const indicator = target.querySelector<HTMLElement>('#global-loading-indicator');
+    if (indicator) hideElement(indicator);
+  }, { signal });
 
   target.addEventListener('turbo:before-morph-element', (event) => {
     // In case the element is an OpenProject custom dom element, morphing is prevented.

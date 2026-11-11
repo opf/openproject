@@ -28,14 +28,11 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { States } from 'core-app/core/states/states.service';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
 import { internalContextMenuColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { lazyInject } from 'core-app/shared/helpers/angular/lazy-inject';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
 import { rowId } from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {
@@ -49,14 +46,7 @@ export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
 const cancelLinkHostClassName = 'wp-table--cancel-create-host';
 
 export class InlineCreateRowBuilder extends SingleRowBuilder {
-  // Injections
-  @LazyInject() public states:States;
-
-  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
-
-  @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
-
-  @LazyInject() public I18n:I18nService;
+  private readonly i18n = lazyInject(I18nService, { injector: () => this.injector });
 
   protected text:{ cancelButton:string };
 
@@ -65,7 +55,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     super(injector, workPackageTable);
 
     this.text = {
-      cancelButton: this.I18n.t('js.button_cancel'),
+      cancelButton: this.i18n().t('js.button_cancel'),
     };
   }
 

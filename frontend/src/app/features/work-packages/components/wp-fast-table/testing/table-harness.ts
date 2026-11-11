@@ -89,6 +89,7 @@ import { DragAndDropService, DragMember } from 'core-app/shared/helpers/drag-and
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import type { Edge } from 'core-common/drag-and-drop/reorder';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
+import { groupedRowClassName } from '../builders/modes/grouped/grouped-rows-helpers';
 import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
 import type { MutationExit, PaintScope } from '../row-mutations';
@@ -230,6 +231,8 @@ export interface TableHarness {
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
   /** Fresh lookup; group headers are replaced on every collapse toggle. */
   groupHeader(index:number):HTMLTableRowElement;
+  /** The sums row of the group at `index`; groups render one when the query shows sums. */
+  groupSums(index:number):HTMLTableRowElement;
   /** Selects the given columns as the column configuration does, redrawing the table without reloading results. */
   setColumns(columnIds:string[]):void;
   rowIds():string[];
@@ -504,6 +507,14 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
         throw new Error(`No rendered group header ${index}`);
       }
       return header;
+    },
+
+    groupSums(index) {
+      const sums = dom.tbody.querySelector<HTMLTableRowElement>(`tr.wp-table--sums-row.${groupedRowClassName(index)}`);
+      if (!sums) {
+        throw new Error(`No rendered sums row for group ${index}`);
+      }
+      return sums;
     },
 
     setColumns(columnIds) {
