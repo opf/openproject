@@ -100,6 +100,41 @@ describe('Admin custom fields controller', () => {
     expect(cells).toEqual(['two', 'one']);
   });
 
+  it('adds a global option when the last option belongs to a project', async () => {
+    await ctx.mount(`
+      <div data-controller="admin--custom-fields">
+        <table>
+          <tbody>
+            <tr data-admin--custom-fields-target="customOptionRow">
+              <td>
+                <input type="hidden" class="custom-option-id" value="12">
+                <span class="custom-option-value"><input type="text" value="D"></span>
+              </td>
+              <td class="custom-option-project">[dev] Large</td>
+              <td>
+                <input type="hidden" disabled>
+                <input type="checkbox" disabled>
+              </td>
+              <td>
+                <a class="delete-custom-option" href="/admin/settings/work_package_custom_fields/14/options/12"></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `);
+    const controller = ctx.getController<CustomFieldsControllerType>('admin--custom-fields');
+
+    controller.addOption();
+
+    const added = ctx.container.querySelectorAll('tr')[1];
+    expect(added.querySelector('.custom-option-project')!.textContent).toBe('');
+    expect(added.querySelector('input[type="checkbox"]')).toBeEnabled();
+    expect(added.querySelector('input[type="hidden"]:not(.custom-option-id)')).toBeEnabled();
+    expect(added.querySelector('.delete-custom-option')!.getAttribute('href'))
+      .toBe('/admin/settings/work_package_custom_fields/14/options/0');
+  });
+
   it('does not set up autoscroll when disconnected before the context resolves', async () => {
     let resolveContext!:(context:unknown) => void;
     window.OpenProject = {

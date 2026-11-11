@@ -147,6 +147,7 @@ en:
         commented: "Commented" # an object that this comment belongs to
       custom_field:
         admin_only: "Admin-only"
+        allow_additional_project_values: "Project admins can add project-specific values"
         allow_non_open_versions: "Allow non-open versions"
         content_right_to_left: "Right-to-Left content"
         default_value: "Default value"
@@ -162,6 +163,7 @@ en:
         min_value: "Minimum value"
         multi_value: "Allow multi-select"
         possible_values: "Possible values"
+        project_level_value_management: "Project admins can manage values at a project level"
         project_specific_value_restriction: "Project-specific values"
         regexp: "Regular expression"
         searchable: "Searchable"
@@ -719,6 +721,8 @@ en:
               invalid_tokens: "Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed."
               multi_value_list_not_aggregated: "Multi-select attributes (%{custom_fields}) can only be used within aggregate functions."
               not_allowed_custom_fields_referenced: "The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other."
+            project_level_value_management:
+              not_available_for_all_values: "is only available when values are restricted per project."
             project_specific_value_restriction:
               not_supported: "is only available for work package custom fields of the formats list, hierarchy and weighted item list."
             required:
@@ -731,6 +735,10 @@ en:
           attributes:
             project_ids:
               blank: "Please select a project."
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: "cannot add values to this custom field."
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -2891,6 +2899,8 @@ en:
           item:
             description: Add items to this list to create sub-items inside another one
             title: This item doesn't have any hierarchy level below
+          project_item:
+            description: "This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration)."
           root:
             description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
             title: "Your list of items is empty"
@@ -3013,6 +3023,11 @@ en:
       block:
         caption: "By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects."
         label: "Block filter: Manually choose which values to deactivate for each project"
+      label: "Project-specific"
+      label_with_project: "Project-specific: %{project}"
+      project_admins:
+        additional_values_caption: "Added values are only available in the project they were created in. You can make them available to all projects later."
+        value_management_caption: "Project admins can enable or disable certain values for their project. All global values will be visible to them."
       switch_warning:
         all: "All values will be available in all projects."
         allow: "No values will be available to any project unless you manually activate them in each project individually."
@@ -5721,6 +5736,9 @@ en:
           not_unique: "must be unique within the same hierarchy level."
         parent:
           not_descendant: "must be a descendant of the hierarchy root."
+          other_project: "must be a global value or belong to the same project."
+        project:
+          additional_values_not_allowed: "cannot add values to this custom field."
         short:
           not_unique: "must be unique within the same hierarchy level."
       str?: "must be a string."

@@ -29,5 +29,14 @@
 
 module CustomFields
   class SetAttributesService < ::BaseServices::SetAttributes
+    private
+
+    def set_attributes(params)
+      super
+
+      if model.project_level_value_management && model.project_specific_value_restriction.nil?
+        model.project_level_value_management = false
+      end
+    end
   end
 end

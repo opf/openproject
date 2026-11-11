@@ -42,6 +42,18 @@ module CustomFieldHierarchyTreeViewHelper
     add_sub_tree(tree_view, hierarchy_hash, item_options)
   end
 
+  def with_project_specific_label(label, item)
+    return label if item.project_id.nil?
+
+    project_specific = render(Primer::Beta::Text.new(font_size: :small, color: :muted, ml: 2)) do
+      I18n.t("custom_fields.project_specific_values.label")
+    end
+
+    render(Primer::BaseComponent.new(tag: :span, display: :inline_flex, align_items: :baseline)) do
+      safe_join([label, project_specific])
+    end
+  end
+
   def standard_tree_view_item_formatter
     ::CustomFields::Hierarchy::HierarchicalItemFormatter.new(number_integer_digit_limit: 8,
                                                              number_length_limit: 9,
