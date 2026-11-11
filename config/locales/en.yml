@@ -1653,7 +1653,6 @@ en:
         connection_timeout: "Connection to Jira server timed out: %{message}"
         parse_error: "Failed to parse Jira API response: %{message}"
         ssl_error: "SSL error connecting to Jira server: %{message}"
-        ssrf_block_doc_link: "Please see our [documentation](docs_url)."
         ssrf_blocked: >-
           Connection blocked: the Jira host resolves to a private IP address. If your Jira instance
           runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST
@@ -1697,10 +1696,14 @@ en:
           timeout: "Jira did not answer in time. Check the URL and that OpenProject can reach the Jira server."
           unexpected_error: "Jira answered in a way OpenProject did not expect. Check that the URL points to Jira."
           unreachable: "Jira could not be reached. Check the URL and that OpenProject can reach the Jira server."
+        form_values_checked: "Checked the values in the form. They are not saved yet."
+        last_check: "Last check: %{datetime}"
+        not_checked: "Not checked yet."
         server:
           header: "Jira server"
           reachable: "Server reachable"
           responds_as_jira: "Responds as Jira"
+        title: "Connection check"
       description: "Use this tool to import data from your Jira instance. You can configure multiple Jira hosts and choose what to import in each import run."
       errors:
         cannot_delete_with_imports: "Cannot delete Jira host with existing imports"
@@ -2026,19 +2029,9 @@ en:
               rest_line_text: "Creating parent-child relations from subtasks for %{projects_number} more projects"
               title: "Create parent-child relations from subtasks"
       test:
-        api_error: "Jira API returned error status %{status}. Please check your Jira instance URL and credentials."
         basic_auth_password_invalid: "Invalid basic auth password. Please check your credentials in the configuration."
         basic_auth_username_invalid: "Invalid basic auth username. Please check your credentials in the configuration."
-        connection_error: "Connection error: %{message}"
-        error: "An unexpected error occurred while testing the connection"
-        failed: "Connection failed: Unable to retrieve server information"
-        invalid_url: "Please provide a valid URL"
-        not_administrator:
-          basic: "Basic auth user must be a Jira administrator."
-          bearer: "Personal Access Token must be an admin token."
-        parse_error: "Failed to parse the response from the server. The server may not be a valid Jira instance."
         personal_access_token_invalid: "Invalid personal access token (PAT). Please check your credentials in the configuration."
-        success: "Successfully connected to %{server} (version %{version})"
       title: "Jira Migrator"
       user:
         unknown_name: "Unknown"

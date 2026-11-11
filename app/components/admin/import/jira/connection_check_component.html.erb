@@ -1,0 +1,60 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel::Section.new) do |section|
+      section.with_title(tag: :h3) { I18n.t("admin.jira.connection_check.title") }
+
+      flex_layout do |container|
+        container.with_row do
+          render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { report_state }
+        end
+
+        if report
+          container.with_row(mt: 3) do
+            render(
+              HealthReports::ReportComponent.new(
+                report,
+                i18n_scope: "admin.jira.connection_check",
+                docs_href: ::OpenProject::Static::Links.url_for(:jira_migration_docs, :connection_check)
+              )
+            )
+          end
+        end
+
+        container.with_row(mt: 4) do
+          render(Primer::Beta::Button.new(**test_connection_button_arguments)) do |button|
+            button.with_leading_visual_icon(icon: :plug)
+            I18n.t("admin.jira.form.button_test_connection")
+          end
+        end
+      end
+    end
+  end
+%>

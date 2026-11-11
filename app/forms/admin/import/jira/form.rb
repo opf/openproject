@@ -37,14 +37,6 @@ module Admin::Import::Jira
             helpers.safe_join([credential_row(input_name), input_caption(caption)])
           end
         end
-
-        group.text_field(
-          name: input_name,
-          label: I18n.t("admin.jira.form.fields.#{input_name}"),
-          hidden: true,
-          value: "",
-          data: { "admin--jira-configuration-form-target": input_name.to_s.camelize(:lower) }
-        )
       else
         group.text_field(
           name: input_name,
@@ -52,8 +44,7 @@ module Admin::Import::Jira
           caption:,
           required: !model.persisted?,
           input_width: :large,
-          autocomplete: "off",
-          data: { "admin--jira-configuration-form-target": input_name.to_s.camelize(:lower) }
+          autocomplete: "off"
         )
       end
     end
@@ -71,16 +62,10 @@ module Admin::Import::Jira
         label: I18n.t("admin.jira.form.fields.url"),
         required: true,
         input_width: :large,
-        type: :url,
-        data: { "admin--jira-configuration-form-target": "url" }
+        type: :url
       )
 
-      f.radio_button_group(
-        name: :auth_method,
-        data: {
-          "admin--jira-configuration-form-target": "authMethodGroup"
-        }
-      ) do |group|
+      f.radio_button_group(name: :auth_method) do |group|
         group.radio_button(
           value: "bearer",
           label: I18n.t("admin.jira.form.auth_method.bearer.label"),
@@ -138,8 +123,7 @@ module Admin::Import::Jira
           name: :basic_auth_username,
           label: I18n.t("admin.jira.form.fields.basic_auth_username"),
           input_width: :large,
-          required: !model.persisted?,
-          data: { "admin--jira-configuration-form-target": "basicAuthUsername" }
+          required: !model.persisted?
         )
         credential_field(basic_group, input_name: :basic_auth_password)
       end
@@ -164,13 +148,6 @@ module Admin::Import::Jira
           scheme: :default,
           tag: :a,
           href: url_helpers.admin_import_jira_index_path
-        )
-
-        button_group.button(
-          name: :test_connection,
-          label: I18n.t("admin.jira.form.button_test_connection"),
-          scheme: :default,
-          data: { action: "click->admin--jira-configuration-form#testConnection" }
         )
       end
     end

@@ -36,6 +36,8 @@ module Import
 
     has_many :jira_imports, dependent: :destroy
     has_many :health_reports, as: :subject, dependent: :delete_all
+    has_one :latest_health_report, -> { order(created_at: :desc, id: :desc) },
+            as: :subject, class_name: "HealthReport", inverse_of: false, dependent: nil
 
     normalizes :url, with: ->(url) { url.strip }
 
