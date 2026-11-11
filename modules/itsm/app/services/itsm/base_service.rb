@@ -28,7 +28,7 @@
 #++
 
 module ITSM
-  module ServiceFailure
+  class BaseService < ::BaseServices::BaseCallable
     private
 
     def service_failure(code, result:, **details) = ServiceResult.failure(result:).tap { it.errors.add(:base, code, **details) }

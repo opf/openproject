@@ -29,9 +29,8 @@
 
 module ITSM
   module Mailboxes
-    class FetchService < ::BaseServices::BaseCallable
+    class FetchService < BaseService
       include Dry::Monads[:result]
-      include ServiceFailure
 
       BATCH_SIZE = 50
 
