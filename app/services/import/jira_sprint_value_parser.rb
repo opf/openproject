@@ -99,5 +99,11 @@ module Import
     rescue ArgumentError
       nil
     end
+
+    def parse_date(value)
+      Date.iso8601(value.to_s) if value.present?
+    rescue ArgumentError
+      nil
+    end
   end
 end

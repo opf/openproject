@@ -195,7 +195,7 @@ module Import
     end
 
     def to_date(value)
-      to_time(value)&.to_date
+      Import::JiraSprintValueParser.parse_date(value)
     end
 
     def log(origin_id = nil, &)

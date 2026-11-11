@@ -168,4 +168,18 @@ RSpec.describe Import::JiraSprintValueParser do
       expect(described_class.current_sprint_id(["garbage"])).to be_nil
     end
   end
+
+  describe ".parse_date" do
+    it "keeps the date of the offset Jira sends" do
+      expect(described_class.parse_date("2026-11-02T09:00:00.000+10:00")).to eq(Date.new(2026, 11, 2))
+      expect(described_class.parse_date("2026-11-16T17:00:00.000-08:00")).to eq(Date.new(2026, 11, 16))
+      expect(described_class.parse_date("2026-09-01T09:00:00.000Z")).to eq(Date.new(2026, 9, 1))
+    end
+
+    it "returns nil for a blank or malformed value" do
+      expect(described_class.parse_date(nil)).to be_nil
+      expect(described_class.parse_date("2026-13-45T09:00:00.000Z")).to be_nil
+      expect(described_class.parse_date("not a date")).to be_nil
+    end
+  end
 end

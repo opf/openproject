@@ -186,6 +186,15 @@ RSpec.describe Import::JiraCreateSprintsJob do
       expect(created_sprint(1).status).to eq("in_planning")
     end
 
+    it "keeps the planned dates of a Jira server outside UTC" do
+      stage_issue(demo, 3)
+      stage_sprint(3, startDate: "2026-11-02T09:00:00.000+10:00", endDate: "2026-11-16T17:00:00.000-08:00")
+
+      perform
+
+      expect(created_sprint(3)).to have_attributes(start_date: Date.new(2026, 11, 2), finish_date: Date.new(2026, 11, 16))
+    end
+
     it "moves a finish date before the start date to the start date" do
       stage_issue(demo, 3)
       stage_sprint(3, startDate: "2026-11-16T09:00:00.000Z", endDate: "2026-11-02T17:00:00.000Z")
