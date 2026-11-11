@@ -31,7 +31,7 @@ module OpenProject
   module Llm
     # pgvector is optional while installations catch up on installing it.
     #
-    # Migrations that need it live in db/migrate_requires_pgvector, which is only added to
+    # Migrations that need it live in db/migrate_optional/pgvector, which is only added to
     # the migration paths once the extension is installed or can be created. Until then they are
     # neither run nor reported as pending, and a later db:migrate picks them up.
     # The extension itself is created by a migration in that path, so installation goes
@@ -107,7 +107,7 @@ module OpenProject
         end
 
         def migrations_path
-          Engine.root.join("db/migrate_requires_pgvector").to_s
+          Engine.root.join("db/migrate_optional/pgvector").to_s
         end
 
         private

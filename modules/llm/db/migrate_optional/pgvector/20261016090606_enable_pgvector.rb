@@ -27,7 +27,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "../migrate/extensions/pgvector"
+require_relative "../../migrate/extensions/pgvector"
 
 class EnablePgvector < ActiveRecord::Migration[8.1]
   def up
