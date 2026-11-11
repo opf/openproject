@@ -78,9 +78,11 @@ ko:
               invalid: "- 사용자이거나 플레이스홀더 사용자여야 합니다."
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: "'기록됨:'은 비워둘 수 없습니다."
-              cannot_log_for_this_work_package: 이 작업 패키지에 대한 시간을 기록할 권한이 없습니다.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: 기록된 시간은 사용자의 근무일에 허용된 제한인 %{limit}시간을 초과할 수 없습니다.
@@ -94,6 +96,9 @@ ko:
             start_time:
               format: "%{message}"
               invalid_time: 시간이 잘못되었습니다. 시간은 00:00 ~ 23:59 사이여야 합니다.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: 이미 다른 타이머가 실행 중입니다. 한 번에 하나의 타이머만 활성화할 수 있습니다.
         work_package:
           is_not_a_valid_target_for_cost_entries: '작업 패키지 #%{id}은(는) 비용 항목 재할당에 올바른 대상이 아닙니다.'

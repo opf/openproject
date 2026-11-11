@@ -413,6 +413,7 @@ ru:
       type:
         allow_project_variants: Разрешить варианты для проектов
         color: Цвет
+        description: Description
         is_in_roadmap: По умолчанию отображается в дорожной карте
         is_milestone: Это веха
         project_types: Проекты
@@ -422,6 +423,7 @@ ru:
       type_variant:
         attribute_groups: Форма
         default_work_package_description: Текст для описания по умолчанию
+        description: Description
         enabled_in_new_projects: Активно в новых проектах
         linked_aspects: Унаследованная конфигурация
         patterns: Шаблоны
@@ -702,6 +704,7 @@ ru:
               format: "%{message}"
               invalid: Формула неверна.
               invalid_tokens: Допускаются только числовые значения, операторы, функции, ключевые слова и атрибуты проекта целочисленного числа, числа с плавающей точкой, рассчитываемые значения и взвешенный список.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: Атрибут %{custom_fields} не может быть использован, потому что это приводит к циклической ссылке, один атрибут зависит от другого.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1691,6 +1694,7 @@ ru:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} и %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: дата удаления %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Эти значения настраиваются через переменные окружения и не могут быть отредактированы.
@@ -1723,7 +1727,7 @@ ru:
             name: Логотип в режиме высокой контрастности
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2926,6 +2930,7 @@ ru:
       disabled_value: Атрибут "%{custom_field_name}" необходим для этого рассчитываемого значения, но он отключен для этого проекта.
       mathematical: Математическая формула приводит к ошибке. Пожалуйста, проверьте рассчитываемый атрибут  проекта и повторите попытку.
       missing_value: Атрибут "%{custom_field_name}" необходим для этого рассчитываемого значения, но он пуст.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Произошла неизвестная ошибка. Пожалуйста, проверьте формулу для этого рассчитываемого значения.
   colors:
     contrast:
@@ -3109,7 +3114,7 @@ ru:
       editable:
         all: Разрешить редактирование поля самими пользователями.
       formula:
-        project: Добавьте числовые значения или наберите / для поиска атрибута, оператора, функции или другого маркера.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Позволяет пользователю добавить комментарий, относящийся к атрибуту проекта, при выборе значения в обзоре проекта.
       is_filter:
@@ -4286,6 +4291,7 @@ ru:
   label_additional_workflow_transitions_for_author: Дополнительные переходы допускаются, если пользователь является автором
   label_administration: Администрирование
   label_age: Возраст
+  label_aggregate_function_plural: Aggregate functions
   label_ago: дней назад
   label_all: все
   label_all_open_wps: Все открытые
@@ -6261,6 +6267,15 @@ ru:
       new:
         placeholder: Список новых проектов
       shared: Общедоступные проекты
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Выключить всё
@@ -7603,6 +7618,7 @@ ru:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: Администраторы проекта, обладающие правом на управление вариантами, могут расширять или изменять данный тип в рамках проекта.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Унаследовано от типа <b>%{type}</b>.
         tab: Подробности
         type_color_text: Выбранный цвет выделяет разные типы в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.

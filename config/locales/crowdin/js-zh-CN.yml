@@ -150,6 +150,7 @@ zh-CN:
     button_log_time: 记录时间
     button_more: 更多
     button_more_actions: 更多操作
+    button_move: Move
     button_open_details: 打开详情视图
     button_open_fullscreen: 打开全屏视图
     button_quote: 引用
@@ -567,7 +568,9 @@ zh-CN:
     label_show_in_menu: 在菜单中显示视图
     label_sort_by: 排序按
     label_sort_higher: 向上移动
+    label_sort_highest: Move to top
     label_sort_lower: 向下移动
+    label_sort_lowest: Move to bottom
     label_sorted_by: 排序按
     label_sorting: 排序
     label_spent_time: 已耗工时
@@ -818,6 +821,7 @@ zh-CN:
         batch_too_large: 无法一次性移动 %{count} 个条目。选择的条目数量不得超过 %{max} 个。
         fallback_item_label: 条目
         fallback_list_name: 另一个列表
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: 移动失败。请检查该条目的当前位置。
         move_failed_check_positions_batch:
           other: 移动失败。请检查条目的当前位置。

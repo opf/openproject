@@ -498,7 +498,7 @@ pt-BR:
     oauth_grant_nudge_modal:
       cancel_button_label: Cuidarei disso mais tarde
       heading: Login em %{provider_type} obrigatório
-      login_button_aria_label: Faça login em %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: Login %{provider_type}
       project_settings:
         description: Para ter acesso à pasta do projeto, você precisa fazer login em %{storage}.
