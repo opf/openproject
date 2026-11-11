@@ -40,6 +40,7 @@ $pagination--font-size: var(--body-font-size)
 
   &--pages
     display: flex
+    min-width: 0
     flex-grow: 2
     flex-shrink: 2
 
@@ -56,6 +57,7 @@ $pagination--font-size: var(--body-font-size)
   &--items
     list-style-type: none
     display: flex
+    flex-wrap: wrap
     align-items: center
     margin: 0
     padding: 0
@@ -148,6 +150,9 @@ $pagination--font-size: var(--body-font-size)
 
   &--info
     flex-basis: auto
+
+  &--range
+    flex: 1 0 auto
 
   &--range,
   &--label
