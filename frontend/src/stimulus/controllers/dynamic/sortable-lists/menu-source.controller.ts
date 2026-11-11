@@ -31,7 +31,6 @@ import type { SelectionAwareChild, SortableListsRoot } from './drag-and-drop';
 import { relativeUrl } from './url';
 import { resolveClosestItemElement, resolveItemId } from './list-dom';
 import { MenuEvents } from './menu-events';
-import { RenderedMenuScope } from './rendered-menu-scope';
 import { batchSelectedAttribute } from './selection';
 
 const SINGULAR_COUNT = 1;
@@ -44,7 +43,6 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
   declare readonly urlValue:string;
   declare readonly menuLabelKeyValue:string;
   declare readonly hasMenuLabelKeyValue:boolean;
-  declare readonly menuTargets:HTMLElement[];
 
   private openMenu:ActionMenuElement|null = null;
 
@@ -76,15 +74,10 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
   // button. Accname does not follow the button's own aria-labelledby on to
   // its tooltip, so the list is pointed at the tooltip directly.
   menuTargetConnected(list:HTMLElement):void {
-    const menu = list.closest<ActionMenuElement>('action-menu');
-    const tooltip = menu && this.tooltipOf(menu);
-    if (!menu || !tooltip) {
-      return;
-    }
-
-    list.setAttribute('aria-labelledby', tooltip.id);
-    if (menu === this.openMenu) {
-      this.rename(menu, RenderedMenuScope.of(list)?.count ?? SINGULAR_COUNT);
+    const menu = list.closest<HTMLElement>('action-menu');
+    const tooltip = menu && this.invokerTooltipOf(menu);
+    if (tooltip) {
+      list.setAttribute('aria-labelledby', tooltip.id);
     }
   }
 
@@ -101,21 +94,16 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     }
 
     this.openMenu = menu;
-    const loadedList = this.menuTargets.find((list) => menu.contains(list));
-    if (loadedList) {
-      this.rename(menu, RenderedMenuScope.of(loadedList)?.count ?? SINGULAR_COUNT);
-    }
   };
 
   private readonly onClosed = (menu:ActionMenuElement):void => {
     if (menu === this.openMenu) {
       this.openMenu = null;
     }
-    this.rename(menu, SINGULAR_COUNT);
   };
 
   // A restored page reloads its menus when they next open; the snapshot only
-  // has to lose the open menu and its batch name.
+  // has to lose the open menu.
   private readonly onBeforeCache = ():void => {
     const menu = this.openMenu;
     if (!menu) {
@@ -127,23 +115,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
       overlay.hidePopover();
     }
     this.openMenu = null;
-    this.rename(menu, SINGULAR_COUNT);
   };
-
-  // Primer's IconButton drops its aria-label in favor of aria-labelledby at
-  // the label tooltip, so the tooltip text is the name.
-  private rename(menu:ActionMenuElement, count:number):void {
-    const tooltip = this.tooltipOf(menu);
-    if (tooltip && this.hasMenuLabelKeyValue) {
-      tooltip.textContent = I18n.t(this.menuLabelKeyValue, { count });
-    }
-  }
-
-  private tooltipOf(menu:ActionMenuElement):HTMLElement|null {
-    const labelId = menu.invokerElement?.getAttribute('aria-labelledby');
-    const tooltip = labelId ? menu.ownerDocument.getElementById(labelId) : null;
-    return tooltip?.localName === 'tool-tip' ? tooltip : null;
-  }
 
   // A refused scope (a fixed or non-orderable card, or selection disabled)
   // still loads the invoker's own menu.
