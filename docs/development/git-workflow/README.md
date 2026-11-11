@@ -20,12 +20,21 @@ OpenProject works with a git branching model similar to Git Flow to organize dev
 - **`dev`**:  Contains the current development version of OpenProject. Almost all development is made against this branch, with the exception of [bugfixes and minor changes](#bugs-and-hotfixes)
 - **`release/X.Y`**:  Multiple of these branches may exist, they are maintenance branches or maintained or stale older releases of OpenProject. These branches will include bugfixes and changes for the next patch release of OpenProject.
 - **`stable/X`**:  Multiple of these branches exist containing the latest stable `X.y.z` release of OpenProject. These branches are used for building docker images and packages from and are usually never pushed to directly except during an automated release process.
-- **`feature/X`**: These are temporary branches used by developers to develop features or other changes that are targeting the dev branch. They are opened as a pull request for reviewing and testing. When they are ready to merge, they will be merged into the `dev` branch.
-- **`(bug)fix/X`**: These are temporary branches used by developers to provide bug fixes and regression tests. They can be created against `dev` on a new major or minor release during stabilization, but most often, you will want to create a bugfix against a current production release. In this case, open the pull request against the most recent `release/X.Y` branch so that the bugfix will be available in the immediate next patch release. Ensure that the version of the corresponding OpenProject bug ticket matches the release branch version.
+- **Work branches** (e.g. `feature/…`, `bug/…`): These are temporary branches used by developers to develop features, bug fixes, or other changes. They are opened as a pull request for reviewing and testing, and merged into their target branch when ready. See [branch names](#branch-names) for the naming convention and [features](#features) and [bugs and hotfixes](#bugs-and-hotfixes) for which branch to target.
 
 The following is an overview of the processes that happen during the release of a new major release and the bug fixing phase afterwards leading to patch releases being made.
 
 ![Overview of the branches](branching-diagram.png)
+
+### Branch names
+
+Name work branches `<type>/<work package ID>-<short-description>`:
+
+- `<type>` mirrors the type of the work package, e.g. `feature/`, `bug/`, `implementation/`, `code-maintenance/`, or `documentation/`.
+- `<work package ID>` is the lowercased semantic ID (e.g. `op-19358`) or the numeric ID of the work package.
+- `<short-description>` is a few lowercase words separated by hyphens.
+
+For example: `bug/op-19358-popover-values-verbatim`.
 
 ## Contribution flow
 
@@ -44,7 +53,7 @@ For contributing source code, please follow the git workflow below:
 - Clone your fork to your development machine:
 
 ```shell
-git clone git@github.com/<username>/openproject
+git clone git@github.com:<username>/openproject.git
 ```
 
 Make sure you're on the right branch. The main development branch is `dev`:
@@ -62,13 +71,13 @@ git remote add upstream git@github.com:opf/openproject
 Update your local git branch to the core branch
 
 ```shell
-git pull upstream/dev
+git pull upstream dev
 ```
 
-Create a feature branch:
+Create a branch following the [branch naming convention](#branch-names):
 
 ```shell
-git checkout -b feature/<short description of your feature>
+git checkout -b feature/<work package ID>-<short-description>
 ```
 
 Make your changes, then push the branch into your **own** repository:
@@ -81,9 +90,13 @@ git push origin <your feature branch>
 
 Create a pull request against a branch of of the `opf/openproject` repository, containing a **clear description** of what the pull request attempts to change and/or fix.
 
-If your pull request **does not contain a description** for what it does and what its intentions are, we will reject it. If you are working on a specific work package from the [list](https://community.openproject.org/projects/openproject/work_packages), please include a link to that work package in the description, so we can track your work.
+If your pull request **does not contain a description** for what it does and what its intentions are, we will reject it. The pull request should link the [work package](https://community.openproject.org/projects/openproject/work_packages) it addresses in the **Ticket** section of the pull request template, so we can track your work.
 
 The core contributor team will then review your pull request according to our [code review guideline](../code-review-guidelines/). Please note that you can add commits after the pull request has been created by pushing to the branch in your fork.
+
+#### Inactive pull requests
+
+We want to keep the pull request list tidy. Maintainers may close pull requests that have been inactive (no comments, no further pushes) for 30 days or more.
 
 #### Features
 
@@ -93,7 +106,7 @@ New features are always added to the current `dev` branch, which is the developm
 
 Bugfixes for one of the actively supported versions of OpenProject should be issued against the respective branch. For that, we maintain at least one `release/X.Y` branch for OpenProject releases X.Y.Z. For example, the OpenProject release branch for 11.0 would be `release/11.0` and contains all releases between `11.0.0` until `11.0.X` .
 
- A fix for the current version (called "Hotfix" and the branch ideally being named `fix/XYZ`) should target `release/*` and a fix for the former version (called "Backport" and the branch ideally being named `backport/XYZ`) should target `backport/*`. We will try to merge hotfixes into dev branch but if that is no trivial task, we might ask you to create another PR for that.
+During stabilization of a new major or minor release, bugfixes can target `dev`, but most often you will want to fix a current production release. Name the branch following the [branch naming convention](#branch-names) (e.g. `bug/op-12345-short-description`) and open the pull request against the most recent `release/X.Y` branch, so that the fix is available in the immediate next patch release. A fix for an older, still supported version (a "backport") targets that version's `release/X.Y` branch. Ensure that the version of the corresponding OpenProject bug ticket matches the release branch version. We will try to merge hotfixes into the `dev` branch, but if that is no trivial task, we might ask you to create another PR for that.
 
 #### Tagging
 

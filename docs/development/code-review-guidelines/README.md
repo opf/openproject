@@ -6,7 +6,7 @@ This guide serves as a foundation on how to prepare your work for and perform co
 
 ### Coding style
 
-We try to adhere to the [Ruby community style guide](https://github.com/bbatsov/ruby-style-guide) as well as the [AirBnB JavaScript style guide](https://github.com/airbnb/javascript) with [some extensions for Angular](../style-guide/frontend/). Rules we want to follow are expressed as either Rubocop definitions or eslint rules. Follow your linter to adhere to them.
+We try to adhere to the [Ruby community style guide](https://github.com/bbatsov/ruby-style-guide) for Ruby and the [frontend style guide](../style-guide/frontend/) for TypeScript and JavaScript. Rules we want to follow are expressed as either Rubocop definitions or eslint rules (`frontend/eslint.config.mjs`, built on typescript-eslint, angular-eslint, and `@stylistic`). Follow your linter to adhere to them. See also the [development style guide](../style-guide/), including how to write [code comments](../style-guide/#code-comments).
 
 Due to the age of our codebase, a lot of our code might not yet adhere to these style guides, but we want all new code to adhere to it. You do not have to improve existing code when making changes, but we encourage it. If you do, please do all improvements in a separate commit from the actual change, so the improvements do not hide your actual code changes in a diff.
 
@@ -49,23 +49,40 @@ fix command does not stage changes automatically.
 
 ### Structure of commit messages
 
-- First line: less than 72 characters, this is when GitHub shows ‘…’
-- Blank line
-- Detailed description of the change, wrapped to 72 characters so the text is readable in git log
+- Subject line: at most 50 characters, in the imperative mood ("Remove foo", not "Removed foo").
+- Blank line.
+- Body: wrapped at 72 characters so the text is readable in `git log`. Explain why the change is made, not what it does; the diff shows what.
+- Work package prefix: start the subject with the ID of the work package the commit is about. Write semantic IDs without `#` (e.g. `[DREAM-863] Cover grouped collapse`) and numeric IDs with `#` (e.g. `[#12345] Remove foo`).
+- A prefixed commit ends with the work package URL as the last line of the body, after the prose.
+- Omit the prefix on follow-up commits that are not about that work package.
+
+```text
+[DREAM-863] Cover grouped collapse
+
+Collapsing a group hid its rows but kept them in the tab order, so
+keyboard users landed on invisible rows. Skip collapsed rows when
+computing focus targets.
+
+https://community.openproject.org/wp/DREAM-863
+```
 
 See the [Git Book](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#Commit-Guidelines).
 
+Use `[skip ci]` in the commit message to suppress builds which are not necessary (e.g. after fixing a typo in a `README`).
+
 ### Pull Request description
 
-- Provide a clear title, optionally linking to a work package
-- Add steps necessary to review / reproduce / set up development data for testing
-- Reference the change in the OpenProject community, if ticket exists. If no ticket exists, double check if one is really optional.
+Fill in the [pull request template](https://github.com/opf/openproject/blob/dev/.github/pull_request_template.md). In addition:
+
+- Provide a clear title.
+- Add steps necessary to review / reproduce / set up development data for testing.
+- Link the work package in the **Ticket** section. If no work package exists, double check if one is really optional.
 
 ### Testing
 
-- All GitHub workflow actions must be green on continuous integration
+- All GitHub workflow actions must be green on continuous integration. Run the relevant tests [locally](../testing/running-tests-locally/) before creating your pull request, since the complete suite takes a while to run in CI. If you push to your branch in quick succession (especially force pushes), consider canceling the superseded CI runs.
 - Appropriate unit and integration tests, e.g. test application logic via rspec tests and its integration with the user interface via feature tests
-- Test frontend code with appropriate feature specs.
+- Test frontend code with Vitest unit specs (Stimulus controller specs live next to their controllers, see [testing the frontend](https://github.com/opf/openproject/blob/dev/frontend/doc/TESTING.md)) and its integration with the backend with feature specs.
 - Forms: besides testing for success response, also test whether values are actually saved, e.g. read form or look into database
 - Bugfixes: must contain a test which detects the bug they fix to prevent regressions
 - Translations: Never use a specific translation string in a test. We might want to change them in the future and do not want to fix tests when we do.
@@ -83,7 +100,7 @@ Every developer and reviewer should read the Rails Security Guide as well as the
 
 - All changes made to the OpenProject software are managed and documented via work packages in the [OpenProject project](https://community.openproject.org/projects/openproject/).
 - The [Roadmap view](https://community.openproject.org/projects/openproject/roadmap) gives a corresponding overview.
-- For any nontrivial or pure maintenance changes (Gem bumps etc.), please ensure you have a corresponding ticket you link to in the form of `OP##<Work package ID>` or `https://community.openproject.org/work_packages/ID` in your pull request.
+- For any nontrivial or pure maintenance changes (Gem bumps etc.), please ensure you have a corresponding work package and link it in the **Ticket** section of your pull request (e.g. `https://community.openproject.org/wp/OP-12345`).
 - To prevent inconsistencies and avoid redundant work there is no additional change log in the source code. Releases will contain a changelog of the publicly visible tickets in the GitHub releases pages, as well as [on our release notes](../../release-notes/).
 
 ### Marking your code as reviewable

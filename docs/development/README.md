@@ -38,7 +38,7 @@ This behavior can be disabled by setting an environment variable `OPENPROJECT_DE
 
 ## Branching model and development flow
 
-Please see this separate guide for the [git branching model and core development](git-workflow/).
+Please see this separate guide for the [git branching model, which branch to target, and core development](git-workflow/).
 
 ## Development concepts
 
@@ -48,7 +48,7 @@ We prepared a set of documentation concepts for an introduction to various backe
 
 If you want to contribute to the localization of OpenProject and its plugins you can do so on the [Crowdin OpenProject page](https://crowdin.com/project/openproject). Once a day we fetch those locales and automatically upload them to GitHub. Contributing there will ensure your language will be up to date for the next release!
 
-More on this topic can be found in our [blog post](https://www.openproject.org/blog/help-translate-openproject-into-your-language/).
+More on this topic can be found in our [blog post](https://www.openproject.org/blog/help-translate-openproject-into-your-language/). For working with translation keys in code, see the [translations concept](concepts/translations/).
 
 ## Packaging process
 
@@ -56,17 +56,11 @@ Please see this separate guide for the [process of building packages of OpenProj
 
 ## Testing
 
-Please add tests to your code to verify functionality, especially if it is a new feature.
-
-Pull requests will be verified by the Continuous Integration system (CI) as well, but please run them locally as well and make sure they are green before creating your pull request. We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
-
-If you push to your branch in quick succession, please consider stopping the associated CI builds, as they will run for each commit. This is especially true if you force push to the branch.
-
-Please also use `[ci skip]` in your commit message to suppress builds which are not necessary (e.g. after fixing a typo in the `README`).
+Please add tests to your code to verify functionality, especially if it is a new feature. See the [testing requirements in the code review guidelines](code-review-guidelines/#testing) and how to [run tests locally](testing/running-tests-locally/).
 
 ## Inactive pull requests
 
-We want to keep the Pull request list as cleaned up as possible - we will aim close pull requests after an **inactivity period of 30 days** (no comments, no further pushes) which are not labeled as `work in progress` by us.
+See [inactive pull requests](git-workflow/#inactive-pull-requests) in the development workflow.
 
 ## Security
 
