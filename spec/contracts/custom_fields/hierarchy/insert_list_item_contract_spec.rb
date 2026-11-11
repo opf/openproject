@@ -96,6 +96,16 @@ RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
       end
     end
 
+    context "when the label only differs in case from a label in the same hierarchy level" do
+      let(:params) { { parent:, label: "duplicate LABEL", short: nil } }
+
+      before { create(:hierarchy_item, parent:, label: "Duplicate Label") }
+
+      it "is invalid" do
+        expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+      end
+    end
+
     context "when short is not unique in the same hierarchy level" do
       let(:params) { { parent:, label: "Valid Label", short: "Repeated Short" } }
 
@@ -105,6 +115,16 @@ RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
         result = subject.call(params)
         expect(result).to be_failure
         expect(result.errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
+      end
+    end
+
+    context "when the short only differs in case from a short in the same hierarchy level" do
+      let(:params) { { parent:, label: "Valid Label", short: "repeated SHORT" } }
+
+      before { create(:hierarchy_item, parent:, label: "Unique Label", short: "Repeated Short") }
+
+      it "is invalid" do
+        expect(subject.call(params).errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
       end
     end
 
@@ -185,8 +205,24 @@ RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
         end
       end
 
+      context "when a global sibling uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "PROJECT LABEL") }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
       context "when a global sibling uses the short" do
         before { create(:hierarchy_item, parent:, label: "Global Label", short: "PL") }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a global sibling uses the short in a different case" do
+        before { create(:hierarchy_item, parent:, label: "Global Label", short: "pl") }
 
         it "is invalid" do
           expect(subject.call(params).errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
@@ -201,8 +237,24 @@ RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
         end
       end
 
+      context "when a sibling of the same project uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "project label", project:) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
       context "when a sibling of another project uses the label and short" do
         before { create(:hierarchy_item, parent:, label: "Project Label", short: "PL", project: other_project) }
+
+        it "is valid" do
+          expect(subject.call(params)).to be_success
+        end
+      end
+
+      context "when a sibling of another project uses the label and short in a different case" do
+        before { create(:hierarchy_item, parent:, label: "project label", short: "pl", project: other_project) }
 
         it "is valid" do
           expect(subject.call(params)).to be_success
@@ -219,6 +271,16 @@ RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
         let(:params) { { parent: root, label: "Project Label", short: nil } }
 
         before { create(:hierarchy_item, parent: root, label: "Project Label", project:) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a project sibling uses the label in a different case" do
+        let(:params) { { parent: root, label: "Project Label", short: nil } }
+
+        before { create(:hierarchy_item, parent: root, label: "PROJECT label", project:) }
 
         it "is invalid" do
           expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])

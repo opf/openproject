@@ -59,7 +59,10 @@ class CustomOption < ApplicationRecord
   private
 
   def validate_value_unique
-    options_with_same_value = CustomOption.where(custom_field_id:, value:).where.not(id:)
+    options_with_same_value = CustomOption
+                                .where(custom_field_id:)
+                                .where("LOWER(#{CustomOption.table_name}.value) = LOWER(?)", value)
+                                .where.not(id:)
     conflicting_options = if project_id
                             options_with_same_value.where(project_id: [nil, project_id])
                           else

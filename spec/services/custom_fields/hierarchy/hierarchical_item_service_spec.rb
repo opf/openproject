@@ -401,6 +401,25 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
         expect(mara.reload.parent).to eq(luke)
       end
 
+      it "fails when the new parent has a child with the same label in a different case" do
+        service.insert_item(contract_class:, parent: lando, label: "MARA")
+
+        result = service.move_item(item: mara, new_parent: lando)
+
+        expect(result).to be_failure
+        expect(result.failure).to be_error(:label)
+      end
+
+      it "fails when the new parent has a child with the same short in a different case" do
+        service.insert_item(contract_class:, parent: lando, label: "obi-wan", short: "ow")
+        kenobi = service.insert_item(contract_class:, parent: luke, label: "kenobi", short: "OW").value!
+
+        result = service.move_item(item: kenobi, new_parent: lando)
+
+        expect(result).to be_failure
+        expect(result.failure).to be_error(:short)
+      end
+
       context "with project items" do
         let(:project) { create(:project) }
         let(:other_project) { create(:project) }
@@ -444,6 +463,23 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
           padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
 
           expect(service.move_item(item: padawan, new_parent: lando)).to be_success
+        end
+
+        it "allows a project item to share the label of another project's sibling in a different case" do
+          service.insert_item(contract_class:, parent: lando, label: "PADAWAN", project: other_project)
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          expect(service.move_item(item: padawan, new_parent: lando)).to be_success
+        end
+
+        it "fails to move a project item next to a global item with the same label in a different case" do
+          service.insert_item(contract_class:, parent: lando, label: "PADAWAN")
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          result = service.move_item(item: padawan, new_parent: lando)
+
+          expect(result).to be_failure
+          expect(result.failure).to be_error(:label)
         end
       end
     end

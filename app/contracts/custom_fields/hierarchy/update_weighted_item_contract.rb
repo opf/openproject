@@ -44,7 +44,7 @@ module CustomFields
       rule(:label) do
         next if schema_error?(:item)
 
-        key.failure(:not_unique) if conflicting_siblings(values[:item]).exists?(label: value)
+        key.failure(:not_unique) if conflicting_siblings(values[:item]).with_label_ignoring_case(value).exists?
       end
 
       private

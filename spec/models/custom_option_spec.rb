@@ -98,6 +98,44 @@ RSpec.describe CustomOption do
         expect(build(:custom_option, custom_field:, value: "QA", project: other_project)).to be_valid
       end
 
+      it "does not allow a global option to share the value of another global option in a different case" do
+        option = build(:custom_option, custom_field:, value: "SOME VALUE")
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a project option to share the value of an option of the same project in a different case" do
+        option = build(:custom_option, custom_field:, value: "qa", project:)
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a global option to share the value of a project option in a different case" do
+        option = build(:custom_option, custom_field:, value: "qa")
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a project option to share the value of a global option in a different case" do
+        option = build(:custom_option, custom_field:, value: "Some Value", project: other_project)
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "allows a project option to share the value of another project's option in a different case" do
+        expect(build(:custom_option, custom_field:, value: "qa", project: other_project)).to be_valid
+      end
+
+      it "allows an option to change the case of its own value" do
+        custom_option.value = "Some Value"
+
+        expect(custom_option).to be_valid
+      end
+
       it "rejects a global option added through the custom field's nested attributes" do
         custom_field.custom_options_attributes = [{ value: "QA", position: 3 }]
 

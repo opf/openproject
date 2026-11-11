@@ -48,8 +48,8 @@ module CustomFields
         item = values[:item]
         siblings = conflicting_siblings(values[:parent], item)
 
-        key(:label).failure(:not_unique) if siblings.exists?(label: item.label)
-        key(:short).failure(:not_unique) if item.short && siblings.exists?(short: item.short)
+        key(:label).failure(:not_unique) if siblings.with_label_ignoring_case(item.label).exists?
+        key(:short).failure(:not_unique) if item.short && siblings.with_short_ignoring_case(item.short).exists?
       end
 
       private

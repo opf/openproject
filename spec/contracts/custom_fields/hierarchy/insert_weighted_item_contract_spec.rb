@@ -116,6 +116,16 @@ RSpec.describe CustomFields::Hierarchy::InsertWeightedItemContract do
       end
     end
 
+    context "when the label only differs in case from a label in the same hierarchy level" do
+      let(:params) { { parent:, label: "duplicate LABEL", weight: 0.1337 } }
+
+      before { create(:hierarchy_item, parent:, label: "Duplicate Label", weight: 0.1337) }
+
+      it "is invalid" do
+        expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+      end
+    end
+
     context "when weight is not a decimal value" do
       let(:params) { { parent:, label: "Valid Label", weight: "pi" } }
 
@@ -163,8 +173,32 @@ RSpec.describe CustomFields::Hierarchy::InsertWeightedItemContract do
         end
       end
 
+      context "when a global sibling uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "PROJECT LABEL", weight: 0.1) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a sibling of the same project uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "project label", weight: 0.1, project:) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
       context "when a sibling of another project uses the label" do
         before { create(:hierarchy_item, parent:, label: "Project Label", weight: 0.1, project: other_project) }
+
+        it "is valid" do
+          expect(subject.call(params)).to be_success
+        end
+      end
+
+      context "when a sibling of another project uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "project label", weight: 0.1, project: other_project) }
 
         it "is valid" do
           expect(subject.call(params)).to be_success

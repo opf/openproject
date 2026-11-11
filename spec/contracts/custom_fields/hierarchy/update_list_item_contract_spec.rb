@@ -92,6 +92,30 @@ RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
       end
     end
 
+    context "when the label only differs in case from a label in the same hierarchy level" do
+      let(:params) { { item: luke, label: "LEIA", short: "ls" } }
+
+      it "is invalid" do
+        expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+      end
+    end
+
+    context "when only the case of the item's own label changes" do
+      let(:params) { { item: luke, label: "Luke", short: "ls" } }
+
+      it "is valid" do
+        expect(subject.call(params)).to be_success
+      end
+    end
+
+    context "when the short only differs in case from a short in the same hierarchy level" do
+      let(:params) { { item: luke, label: "luke", short: "LO" } }
+
+      it "is invalid" do
+        expect(subject.call(params).errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
+      end
+    end
+
     context "when the short already exist in the same hierarchy level" do
       let(:params) { { item: luke, short: "lo" } }
 
@@ -128,6 +152,20 @@ RSpec.describe CustomFields::Hierarchy::UpdateListItemContract do
       it "does not allow a global item to use the label of a project sibling" do
         expect(subject.call(item: luke, label: "sith", short: nil).errors.to_h)
           .to include(label: ["must be unique within the same hierarchy level."])
+      end
+
+      it "does not allow a project item to use the label of a sibling of the same project in a different case" do
+        expect(subject.call(item: padawan, label: "JEDI", short: nil).errors.to_h)
+          .to include(label: ["must be unique within the same hierarchy level."])
+      end
+
+      it "does not allow a project item to use the short of a global sibling in a different case" do
+        expect(subject.call(item: padawan, label: "padawan", short: "LS").errors.to_h)
+          .to include(short: ["must be unique within the same hierarchy level."])
+      end
+
+      it "allows a project item to use the label and short of another project's sibling in a different case" do
+        expect(subject.call(item: padawan, label: "SITH", short: "si")).to be_success
       end
     end
 

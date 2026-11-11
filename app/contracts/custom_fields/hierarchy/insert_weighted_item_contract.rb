@@ -58,7 +58,8 @@ module CustomFields
       rule(:label) do
         next if schema_error?(:parent) || schema_error?(:project)
 
-        key.failure(:not_unique) if conflicting_siblings(values[:parent], values[:project]).exists?(label: value)
+        siblings = conflicting_siblings(values[:parent], values[:project])
+        key.failure(:not_unique) if siblings.with_label_ignoring_case(value).exists?
       end
 
       private

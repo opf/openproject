@@ -91,6 +91,22 @@ RSpec.describe CustomFields::Hierarchy::UpdateWeightedItemContract do
       end
     end
 
+    context "when the label only differs in case from a label in the same hierarchy level" do
+      let(:params) { { item: high, label: "MIDDLE", weight: 1.17e-12 } }
+
+      it "is invalid" do
+        expect(subject.call(params).errors[:label]).to match_array("must be unique within the same hierarchy level.")
+      end
+    end
+
+    context "when only the case of the item's own label changes" do
+      let(:params) { { item: high, label: "High", weight: 1.17e-12 } }
+
+      it "is valid" do
+        expect(subject.call(params)).to be_success
+      end
+    end
+
     context "with project items" do
       let(:project) { create(:project) }
       let(:other_project) { create(:project) }
@@ -110,6 +126,15 @@ RSpec.describe CustomFields::Hierarchy::UpdateWeightedItemContract do
       it "does not allow a project item to use the label of a global sibling" do
         expect(subject.call(item: minor, label: "Middle", weight: 0.5).errors[:label])
           .to match_array("must be unique within the same hierarchy level.")
+      end
+
+      it "does not allow a project item to use the label of a sibling of the same project in a different case" do
+        expect(subject.call(item: minor, label: "URGENT", weight: 0.5).errors[:label])
+          .to match_array("must be unique within the same hierarchy level.")
+      end
+
+      it "allows a project item to use the label of another project's sibling in a different case" do
+        expect(subject.call(item: minor, label: "critical", weight: 0.5)).to be_success
       end
     end
 
