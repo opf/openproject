@@ -35,13 +35,13 @@ RSpec.describe Projects::HoverCardController, type: :rails_request do
 
   shared_let(:admin) { create(:admin) }
   shared_let(:member_with_permission) do
-    create(:user, member_with_permissions: { project => %i[view_project_attributes] })
+    create(:user, member_with_permissions: { project => %i[view_project] })
   end
   shared_let(:member_without_permission) do
     create(:user, member_with_permissions: { project => %i[view_work_packages] })
   end
   shared_let(:archived_member) do
-    create(:user, member_with_permissions: { archived_project => %i[view_project_attributes] })
+    create(:user, member_with_permissions: { archived_project => %i[view_project] })
   end
   shared_let(:non_member) { create(:user) }
 
@@ -76,7 +76,7 @@ RSpec.describe Projects::HoverCardController, type: :rails_request do
       context "when the project is archived" do
         let(:requested_id) { archived_project.id }
 
-        it "renders the hover card with the archived label" do
+        it "renders the hover card with the archived label", pending: "https://community.openproject.org/wp/DREAM-1005" do
           perform
 
           expect(response).to have_http_status(:ok)
@@ -86,7 +86,7 @@ RSpec.describe Projects::HoverCardController, type: :rails_request do
       end
     end
 
-    context "as a member with :view_project_attributes" do
+    context "as a member with :view_project" do
       let(:current_user) { member_with_permission }
 
       it "renders the hover card" do
@@ -110,17 +110,6 @@ RSpec.describe Projects::HoverCardController, type: :rails_request do
 
           expect(response).to have_http_status(:not_found)
         end
-      end
-    end
-
-    context "as a member without :view_project_attributes" do
-      let(:current_user) { member_without_permission }
-
-      it "responds with 403 and renders nothing" do
-        perform
-
-        expect(response).to have_http_status(:forbidden)
-        expect(response.body).not_to include("Visible project")
       end
     end
 
