@@ -84,6 +84,6 @@ describe('addTurboGlobalListeners — snapshot caching', () => {
 
     document.dispatchEvent(new CustomEvent('turbo:before-cache'));
 
-    expect(document.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true);
+    expect(document.querySelector<HTMLElement>('#global-loading-indicator')).not.toBeVisible();
   });
 });

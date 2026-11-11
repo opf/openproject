@@ -105,10 +105,10 @@ describe('turbo-navigation-patch (tripwire for hotwired/turbo#1300)', () => {
 
       const cached = await cachedFrame();
 
-      expect(cached.getAttribute('src')).toBe('/list?filters=a');
-      expect(cached.hasAttribute('complete')).toBe(true);
-      expect(cached.hasAttribute('busy')).toBe(false);
-      expect(cached.hasAttribute('aria-busy')).toBe(false);
+      expect(cached).toHaveAttribute('src', '/list?filters=a');
+      expect(cached).toHaveAttribute('complete');
+      expect(cached).not.toHaveAttribute('busy');
+      expect(cached).not.toHaveAttribute('aria-busy');
     });
 
     it('takes a fresh snapshot once the previous visit has rendered', async () => {
@@ -120,7 +120,7 @@ describe('turbo-navigation-patch (tripwire for hotwired/turbo#1300)', () => {
 
       proposeVisit('/list?filters=c');
 
-      expect((await cachedFrame()).getAttribute('src')).toBe('/list?filters=b');
+      expect(await cachedFrame()).toHaveAttribute('src', '/list?filters=b');
     });
   });
 });
