@@ -417,6 +417,7 @@ rw:
       type:
         allow_project_variants: Allow project-specific variants
         color: Color
+        description: Description
         is_in_roadmap: Displayed in roadmap by default
         is_milestone: Is milestone
         project_types: Projects
@@ -426,6 +427,7 @@ rw:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -706,6 +708,7 @@ rw:
               format: "%{message}"
               invalid: Formula is invalid.
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1479,6 +1482,7 @@ rw:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: date deleted %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
@@ -2713,6 +2717,7 @@ rw:
       disabled_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is disabled for the project.
       mathematical: The mathematical formula leads to an error. Please review the project calculation attribute and try again.
       missing_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is empty.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: An unknown error occurred. Please review the formula for this Calculated value.
   colors:
     contrast:
@@ -2894,7 +2899,7 @@ rw:
         all: Check to make this custom field only visible to administrators. Users without admin rights will not be able to view or edit it.
         project: Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -4007,6 +4012,7 @@ rw:
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_administration: Administration
   label_age: Age
+  label_aggregate_function_plural: Aggregate functions
   label_ago: days ago
   label_all: all
   label_all_open_wps: All open
@@ -5958,6 +5964,15 @@ rw:
       new:
         placeholder: New project list
       shared: Shared project lists
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Disable all
@@ -7298,6 +7313,7 @@ rw:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.

@@ -417,6 +417,7 @@ pl:
       type:
         allow_project_variants: Zezwól na warianty specyficzne dla projektu
         color: Kolor
+        description: Description
         is_in_roadmap: Domyślnie wyświetlany w planie działania
         is_milestone: Jest Kamieniem Milowym
         project_types: Projekty
@@ -426,6 +427,7 @@ pl:
       type_variant:
         attribute_groups: Formularz
         default_work_package_description: Domyślny tekst opisu
+        description: Description
         enabled_in_new_projects: Aktywne w nowych projektach
         linked_aspects: Inherited configuration
         patterns: Wzorce
@@ -706,6 +708,7 @@ pl:
               format: "%{message}"
               invalid: Wzór jest nieprawidłowy.
               invalid_tokens: Dozwolone są tylko wartości liczbowe, operatory, funkcje, słowa kluczowe i atrybuty projektu typu liczba całkowita, liczba zmiennoprzecinkowa, obliczana wartość i lista ważona.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: Nie można użyć atrybutu %{custom_fields}, ponieważ prowadzi to do odwołania cyklicznego; jeden atrybut zależy od drugiego.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1699,6 +1702,7 @@ pl:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} i %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: data usunięcia %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Wartości te są konfigurowane za pomocą zmiennych środowiskowych i nie można ich edytować tutaj.
@@ -2961,6 +2965,7 @@ pl:
       disabled_value: Atrybut „%{custom_field_name}” jest wymagany przez tę obliczoną wartość, ale jest wyłączony dla projektu.
       mathematical: Wzór matematyczny prowadzi do błędu. Sprawdź atrybut obliczeń projektu i spróbuj ponownie.
       missing_value: Atrybut „%{custom_field_name}” jest wymagany przez tę obliczoną wartość, ale jest pusty.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Wystąpił nieoczekiwany błąd. Sprawdź wzór na tę obliczaną wartość.
   colors:
     contrast:
@@ -3142,7 +3147,7 @@ pl:
         all: Zaznacz, aby to pole niestandardowe było widoczne tylko dla administratorów. Użytkownicy bez uprawnień administratora nie będą mogli go wyświetlać ani edytować.
         project: Zaznacz, aby ten atrybut był widoczny tylko dla administratorów. Użytkownicy bez uprawnień administratora nie będą mogli go wyświetlać ani edytować.
       formula:
-        project: Dodaj wartości liczbowe lub wpisz znak /, aby wyszukać atrybut, operator, funkcję lub inny token.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Umożliwia użytkownikowi dodanie komentarza związanego z atrybutem projektu podczas wybierania wartości w przeglądzie projektu.
       is_filter:
@@ -4319,6 +4324,7 @@ pl:
   label_additional_workflow_transitions_for_author: Dodatkowe przejścia dozwolone, gdy użytkownik jest autorem
   label_administration: Administracja
   label_age: Wiek
+  label_aggregate_function_plural: Aggregate functions
   label_ago: dni temu
   label_all: wszystkie
   label_all_open_wps: Wszystkie otwarte
@@ -6301,6 +6307,15 @@ pl:
       new:
         placeholder: Nowa lista projektów
       shared: Udostępnione listy projektów
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Wyłącz wszystkie
@@ -7653,6 +7668,7 @@ pl:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: W przypadku administratorów projektu z uprawnieniami do zarządzania wariantami ten typ można rozszerzyć lub zmodyfikować w ramach projektu.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Dziedziczone z typu <b>%{type}</b>.
         tab: Szczegóły
         type_color_text: Wybrany kolor odróżnia różne typy na wykresach Gantta lub w tabelach pakietów roboczych. W związku z tym zalecane jest stosowanie mocnego koloru.

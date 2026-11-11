@@ -417,6 +417,7 @@ ko:
       type:
         allow_project_variants: 프로젝트별 변형 허용
         color: 색상
+        description: Description
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_milestone: 마일스톤
         project_types: 프로젝트
@@ -426,6 +427,7 @@ ko:
       type_variant:
         attribute_groups: 양식
         default_work_package_description: 설명의 기본 텍스트
+        description: Description
         enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
         linked_aspects: Inherited configuration
         patterns: 패턴
@@ -706,6 +708,7 @@ ko:
               format: "%{message}"
               invalid: 수식이 유효하지 않습니다.
               invalid_tokens: 정수, 부동 소수점, 계산된 값 및 가중치 목록 유형의 숫자 값, 연산자, 함수, 키워드 및 프로젝트 특성만 허용됩니다.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: "%{custom_fields} 특성은 순환 참조로 이어지기 때문에 사용할 수 없습니다. 한 특성이 다른 특성에 종속됩니다."
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1369,6 +1372,7 @@ ko:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} 및 %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: 삭제된 날짜 %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
@@ -2586,6 +2590,7 @@ ko:
       disabled_value: '"%{custom_field_name}" 특성은 이 계산된 값에 필요하지만 해당 프로젝트에 대해 비활성화되어 있습니다.'
       mathematical: 수학 공식으로 인해 오류가 발생했습니다. 프로젝트 계산 특성을 검토한 후 다시 시도하세요.
       missing_value: '"%{custom_field_name}" 특성은 이 계산된 값에 필요하지만 비어 있습니다.'
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: 알 수 없는 오류가 발생했습니다. 이 계산된 값의 공식을 검토해 주세요.
   colors:
     contrast:
@@ -2767,7 +2772,7 @@ ko:
         all: 이 사용자 지정 필드를 관리자에게만 표시하려면 선택합니다. 관리자 권한이 없는 사용자는 이 특성을 보거나 편집할 수 없습니다.
         project: 이 특성을 관리자에게만 표시하려면 선택합니다. 관리자 권한이 없는 사용자는 이 특성을 보거나 편집할 수 없습니다.
       formula:
-        project: 숫자 값을 추가하거나 /를 입력하여 특성, 연산자, 함수 또는 기타 토큰을 검색하세요.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: 사용자가 프로젝트 개요에서 값을 선택할 때 프로젝트 특성과 관련된 코멘트를 추가할 수 있습니다.
       is_filter:
@@ -3846,6 +3851,7 @@ ko:
   label_additional_workflow_transitions_for_author: 사용자가 작성자일 때 허용되는 추가 전환
   label_administration: 관리
   label_age: 기간
+  label_aggregate_function_plural: Aggregate functions
   label_ago: 일 전
   label_all: 모두
   label_all_open_wps: 모두 열림
@@ -5781,6 +5787,15 @@ ko:
       new:
         placeholder: 새 프로젝트 목록
       shared: 공유된 프로젝트 목록
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: 모두 비활성화
@@ -7100,6 +7115,7 @@ ko:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: 변형 관리 권한이 있는 프로젝트 관리자는 프로젝트 내에서 이 유형을 확장하거나 수정할 수 있습니다.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: 유형 <b>%{type}</b>에서 상속되었습니다.
         tab: 세부 정보
         type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.

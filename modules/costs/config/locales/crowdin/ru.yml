@@ -78,9 +78,11 @@ ru:
               invalid: должен быть либо пользователем, либо пользователем-заполнителем.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: Не может быть пустым.
-              cannot_log_for_this_work_package: У вас нет прав на учет рабочего времени по данному пакету работ.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: Количество затраченных часов не может превышать %{limit} часов, доступных в рабочий день пользователя.
@@ -94,6 +96,9 @@ ru:
             start_time:
               format: "%{message}"
               invalid_time: Недопустимое время. Время должно быть в диапазоне от 00:00 до 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: Таймер уже запущен. Одновременно может быть активен только один таймер.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Пакет работ #%{id} не является допустимым объектом для назначения стимостей.'

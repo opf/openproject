@@ -417,6 +417,7 @@ fa:
       type:
         allow_project_variants: اجازه ایجاد گونه‌های ویژه پروژه
         color: رنگ
+        description: Description
         is_in_roadmap: نمایش پیش‌فرض در نقشه راه
         is_milestone: نقطه عطف است
         project_types: پروژه‌ها
@@ -426,6 +427,7 @@ fa:
       type_variant:
         attribute_groups: فرم
         default_work_package_description: متن پیش‌فرض توضیحات
+        description: Description
         enabled_in_new_projects: فعال در پروژه‌های جدید
         linked_aspects: پیکربندی موروثی
         patterns: الگوها
@@ -704,6 +706,7 @@ fa:
               format: "%{message}"
               invalid: فرمول نامعتبر است.
               invalid_tokens: فقط مقادیر عددی، عملگرها، توابع، کلیدواژه‌ها و ویژگی‌های پروژه از نوع عدد صحیح، اعشاری، مقدار محاسبه‌شده و فهرست وزن‌دار مجاز هستند.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: ویژگی %{custom_fields} قابل استفاده نیست، زیرا باعث ارجاع دوری می‌شود؛ یک ویژگی به دیگری وابسته است.
             project_specific_value_restriction:
               not_supported: تنها برای فیلدهای سفارشی بسته کاری با قالب‌های فهرست، سلسله‌مراتب و فهرست اقلام وزن‌دار در دسترس است.
@@ -1477,6 +1480,7 @@ fa:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} و %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: تاریخ %{date} حذف شد
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: این مقادیر از طریق متغیرهای محیطی پیکربندی شده‌اند و در اینجا قابل ویرایش نیستند.
@@ -2711,6 +2715,7 @@ fa:
       disabled_value: ویژگی «%{custom_field_name}» برای این مقدار محاسبه‌شده لازم است، اما در پروژه غیرفعال است.
       mathematical: فرمول ریاضی به خطا منجر می‌شود. لطفاً ویژگی محاسبه پروژه را بازبینی و دوباره تلاش کنید.
       missing_value: ویژگی «%{custom_field_name}» برای این مقدار محاسبه‌شده لازم است، اما خالی است.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: یک خطای ناشناخته رخ داد. لطفاً فرمول این مقدار محاسبه‌شده را بازبینی کنید.
   colors:
     contrast:
@@ -2890,7 +2895,7 @@ fa:
         all: برای اینکه این فیلد سفارشی فقط برای مدیران قابل مشاهده باشد این گزینه را فعال کنید. کاربران بدون دسترسی مدیر امکان مشاهده یا ویرایش آن را نخواهند داشت.
         project: برای اینکه این ویژگی فقط برای مدیران قابل مشاهده باشد این گزینه را فعال کنید. کاربران بدون دسترسی مدیر امکان مشاهده یا ویرایش آن را نخواهند داشت.
       formula:
-        project: مقادیر عددی اضافه کنید یا / را تایپ کنید تا ویژگی، عملگر، تابع یا Token دیگری را جستجو کنید.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: به کاربر اجازه می‌دهد هنگام انتخاب مقدار ویژگی پروژه در نمای کلی پروژه، دیدگاهی مرتبط با آن اضافه کند.
       is_filter:
@@ -4003,6 +4008,7 @@ fa:
   label_additional_workflow_transitions_for_author: انتقال‌های اضافی مجاز زمانی که کاربر نویسنده است
   label_administration: مدیریت
   label_age: سن
+  label_aggregate_function_plural: Aggregate functions
   label_ago: روز پیش
   label_all: همه
   label_all_open_wps: همه موارد باز
@@ -5952,6 +5958,15 @@ fa:
       new:
         placeholder: فهرست پروژه جدید
       shared: فهرست‌های پروژه اشتراک‌گذاری‌شده
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: غیرفعال‌کردن همه
@@ -7292,6 +7307,7 @@ fa:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: برای مدیران پروژه‌ای که مجوز مدیریت گونه‌ها را دارند، این نوع می‌تواند درون یک پروژه گسترش یابد یا تغییر کند.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: به‌ارث‌رسیده از نوع <b>%{type}</b>.
         tab: جزئیات
         type_color_text: رنگ انتخاب‌شده نوع‌های مختلف را در نمودار گانت یا جدول بسته کاری متمایز می‌کند. بنابراین استفاده از رنگ قوی توصیه می‌شود.

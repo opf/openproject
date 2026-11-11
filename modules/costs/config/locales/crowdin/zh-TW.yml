@@ -78,9 +78,11 @@ zh-TW:
               invalid: 必須是使用者或佔位使用者。
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: 因欄位不能為空而記錄在案。
-              cannot_log_for_this_work_package: 您沒有權限為此工作項目記錄工時。
               format: "%{message}"
             hours:
               exceeds_user_working_hours: 記錄的小時數不得超過使用者工作日可用的 %{limit} 小時上限。
@@ -94,6 +96,9 @@ zh-TW:
             start_time:
               format: "%{message}"
               invalid_time: 時間不正確。時間必須介於 00:00 至 23:59 之間。
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: 已有另一個計時器正在運行。同一時間只能有一個計時器處於活躍狀態。
         work_package:
           is_not_a_valid_target_for_cost_entries: '工作套件 #%{id} 無法作為有效的支出重新分配目標。'

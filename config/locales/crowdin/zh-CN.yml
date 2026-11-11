@@ -417,6 +417,7 @@ zh-CN:
       type:
         allow_project_variants: 允许项目特定变体
         color: 颜色
+        description: Description
         is_in_roadmap: 默认在路线图中显示
         is_milestone: 里程碑
         project_types: 项目
@@ -426,6 +427,7 @@ zh-CN:
       type_variant:
         attribute_groups: 表单
         default_work_package_description: 默认描述文本
+        description: Description
         enabled_in_new_projects: 在新项目中有效
         linked_aspects: Inherited configuration
         patterns: 模式
@@ -706,6 +708,7 @@ zh-CN:
               format: "%{message}"
               invalid: 公式无效。
               invalid_tokens: 仅允许使用数值、运算符、函数、关键字以及整数、浮点数、计算值和加权列表类型的项目特性。
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: 属性 %{custom_fields} 无法使用，因为存在循环引用：一个属性依赖于另一个属性。
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1369,6 +1372,7 @@ zh-CN:
       phase_and_both_gates: "%{phase_message}。%{start_gate_message}，和%{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}。%{gate_message}"
       removed_date: 删除日期%{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: 这些值通过环境变量配置，无法在此处编辑。
@@ -2584,6 +2588,7 @@ zh-CN:
       disabled_value: 属性“%{custom_field_name}”为此计算值的必填项，但在项目中已停用。
       mathematical: 数学公式导致错误。请检查项目计算属性并重试。
       missing_value: 属性“%{custom_field_name}”为此计算值的必填项，但当前为空。
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: 发生未知错误。请检查此计算值的公式。
   colors:
     contrast:
@@ -2765,7 +2770,7 @@ zh-CN:
         all: 选中可使此自定义字段仅对管理员可见。没有管理员权限的用户将无法查看或编辑该字段。
         project: 选中可使此特性仅对管理员可见。没有管理员权限的用户将无法查看或编辑该特性。
       formula:
-        project: 添加数值或输入 / 以搜索特性、运算符、函数或其他令牌。
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: 允许用户在项目概览中选择值时添加与项目特性相关的注释。
       is_filter:
@@ -3844,6 +3849,7 @@ zh-CN:
   label_additional_workflow_transitions_for_author: 当用户是作者时允许额外转移
   label_administration: 管理
   label_age: 年龄
+  label_aggregate_function_plural: Aggregate functions
   label_ago: 天前
   label_all: 所有
   label_all_open_wps: 全部打开
@@ -5778,6 +5784,15 @@ zh-CN:
       new:
         placeholder: 新项目列表
       shared: 共享项目列表
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: 全部禁用
@@ -7094,6 +7109,7 @@ zh-CN:
           label_with_context: "%{attribute_context}：%{attribute_label}"
       details:
         allow_project_variants_caption: 对于拥有变体管理权限的项目管理员，可以在项目内扩展或修改此类型。
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: 继承自类型 <b>%{type}</b>。
         tab: 详细信息
         type_color_text: 所选颜色可用于在甘特图或工作包表中区分不同类型。因此，建议使用浓烈的颜色。

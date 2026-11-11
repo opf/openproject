@@ -417,6 +417,7 @@ zh-TW:
       type:
         allow_project_variants: Allow project-specific variants
         color: 顏色
+        description: Description
         is_in_roadmap: 在藍圖中預設為顯示
         is_milestone: 里程碑
         project_types: Projects
@@ -426,6 +427,7 @@ zh-TW:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -706,6 +708,7 @@ zh-TW:
               format: "%{message}"
               invalid: 公式無效。
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: 不能使用屬性 %{custom_fields} ，因為這會導致循環引用；一個屬性依賴於另一個屬性。
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1369,6 +1372,7 @@ zh-TW:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, 與%{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: 已刪除日期：%{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
@@ -2592,6 +2596,7 @@ zh-TW:
       disabled_value: 此計算值需要屬性 "%{custom_field_name}"，但在專案中已停用。
       mathematical: 數學公式導致錯誤。請檢視專案計算屬性，然後再試一次。
       missing_value: 此計算值需要屬性 "%{custom_field_name}"，但該屬性為空。
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: 發生未知錯誤。請查看此計算值的公式。
   colors:
     contrast:
@@ -2773,7 +2778,7 @@ zh-TW:
         all: 勾選使自訂欄位僅對管理員可見。沒有管理權限的使用者將無法檢視或編輯。
         project: 勾選可使此屬性只對管理員可見。沒有管理員權限的使用者將無法檢視或編輯。
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -3850,6 +3855,7 @@ zh-TW:
   label_additional_workflow_transitions_for_author: 使用者是作者，可用狀態
   label_administration: 系統管理
   label_age: 年齡
+  label_aggregate_function_plural: Aggregate functions
   label_ago: 天前
   label_all: 所有
   label_all_open_wps: 所有「未關閉」工作套件
@@ -5786,6 +5792,15 @@ zh-TW:
       new:
         placeholder: 新專案清單
       shared: 共享專案清單
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: 全部停用
@@ -7109,6 +7124,7 @@ zh-TW:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.

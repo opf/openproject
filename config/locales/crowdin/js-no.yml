@@ -150,6 +150,7 @@
     button_log_time: Logg tid
     button_more: Mer
     button_more_actions: Flere handlinger
+    button_move: Move
     button_open_details: Åpne detaljvisning
     button_open_fullscreen: Åpne fullskjermvisning
     button_quote: Sitèr
@@ -567,7 +568,9 @@
     label_show_in_menu: Vis visning i meny
     label_sort_by: Sorter på
     label_sort_higher: Flytt opp
+    label_sort_highest: Move to top
     label_sort_lower: Flytt ned
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortert på
     label_sorting: Sortering
     label_spent_time: Tid brukt
@@ -819,6 +822,7 @@
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

@@ -417,6 +417,7 @@ hy:
       type:
         allow_project_variants: Allow project-specific variants
         color: Գույն
+        description: Description
         is_in_roadmap: Կանխադրված կարգով ցուցադրվում է ճանապարհային քարտեզում
         is_milestone: Հանգրվան է
         project_types: Projects
@@ -426,6 +427,7 @@ hy:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -706,6 +708,7 @@ hy:
               format: "%{message}"
               invalid: Բանաձևն անվավեր է։
               invalid_tokens: Թույլատրվում են միայն թվային արժեքներ, օպերատորներ, ֆունկցիաներ, հիմնաբառեր և ամբողջ թվի, տասնորդական թվի, հաշվարկվող արժեքի և կշռված ցանկի տեսակի նախագծի հատկանիշներ։
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: "%{custom_fields} հատկանիշը հնարավոր չէ օգտագործել, քանի որ դա հանգեցնում է ցիկլային հղման; հատկանիշներից մեկը կախված է մյուսից։"
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1479,6 +1482,7 @@ hy:
       phase_and_both_gates: "%{phase_message}։ %{start_gate_message} և %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}։ %{gate_message}"
       removed_date: ջնջվել է %{date} ամսաթիվը
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Այս արժեքները կազմաձևված են միջավայրի փոփոխականների միջոցով և հնարավոր չէ խմբագրել այստեղ։
@@ -2711,6 +2715,7 @@ hy:
       disabled_value: '"%{custom_field_name}" հատկանիշը պարտադիր է այս հաշվարկված արժեքի համար, սակայն անջատված է նախագծում։'
       mathematical: Մաթեմատիկական բանաձևը հանգեցնում է սխալի։ Խնդրում ենք ստուգել նախագծի հաշվարկի հատկանիշը և կրկին փորձել։
       missing_value: '"%{custom_field_name}" հատկանիշը պարտադիր է այս հաշվարկված արժեքի համար, սակայն դատարկ է։'
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Տեղի է ունեցել անհայտ սխալ։ Խնդրում ենք ստուգել այս հաշվարկված արժեքի բանաձևը։
   colors:
     contrast:
@@ -2892,7 +2897,7 @@ hy:
         all: Նշեք, որպեսզի այս հատուկ դաշտը տեսանելի լինի միայն ադմինիստրատորներին։ Առանց ադմինիստրատորի իրավունքների օգտատերերը չեն կարողանա դիտել կամ խմբագրել այն։
         project: Նշեք, որպեսզի այս հատկանիշը տեսանելի լինի միայն ադմինիստրատորներին։ Առանց ադմինիստրատորի իրավունքների օգտատերերը չեն կարողանա դիտել կամ խմբագրել այն։
       formula:
-        project: Ավելացրեք թվային արժեքներ կամ մուտքագրեք / նշանը՝ հատկանիշ, օպերատոր, ֆունկցիա կամ այլ տարր որոնելու համար։
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Թույլ է տալիս օգտատիրոջը նախագծի ընդհանուր տեսքում արժեքն ընտրելիս ավելացնել նախագծի հատկանիշին առնչվող մեկնաբանություն։
       is_filter:
@@ -4003,6 +4008,7 @@ hy:
   label_additional_workflow_transitions_for_author: Լրացուցիչ անցումներ, որոնք թույլատրվում են, երբ օգտատերը հեղինակն է
   label_administration: Ադմինիստրավորում
   label_age: Տարիք
+  label_aggregate_function_plural: Aggregate functions
   label_ago: օր առաջ
   label_all: բոլորը
   label_all_open_wps: Բոլոր բացերը
@@ -5952,6 +5958,15 @@ hy:
       new:
         placeholder: Նախագծերի նոր ցանկ
       shared: Համօգտագործված նախագծերի ցանկեր
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Անջատել բոլորը
@@ -7290,6 +7305,7 @@ hy:
           label_with_context: "%{attribute_context}՝ %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Մանրամասներ
         type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։

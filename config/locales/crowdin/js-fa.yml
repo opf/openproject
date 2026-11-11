@@ -150,6 +150,7 @@ fa:
     button_log_time: ثبت زمان
     button_more: بیشتر
     button_more_actions: اقدام‌های بیشتر
+    button_move: Move
     button_open_details: بازکردن نمای جزئیات
     button_open_fullscreen: بازکردن نمای تمام‌صفحه
     button_quote: نقل‌قول
@@ -567,7 +568,9 @@ fa:
     label_show_in_menu: نمایش نما در منو
     label_sort_by: مرتب‌سازی بر اساس
     label_sort_higher: انتقال به بالا
+    label_sort_highest: Move to top
     label_sort_lower: انتقال به پایین
+    label_sort_lowest: Move to bottom
     label_sorted_by: مرتب‌شده بر اساس
     label_sorting: مرتب‌سازی
     label_spent_time: زمان صرف‌شده
@@ -819,6 +822,7 @@ fa:
         batch_too_large: امکان جابه‌جایی %{count} مورد به‌صورت هم‌زمان وجود ندارد. حداکثر %{max} مورد را انتخاب کنید.
         fallback_item_label: مورد
         fallback_list_name: فهرست دیگر
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: انتقال ناموفق بود. موقعیت فعلی مورد را بررسی کنید.
         move_failed_check_positions_batch:
           other: جابه‌جایی ناموفق بود. موقعیت فعلی موارد را بررسی کنید.

@@ -131,8 +131,8 @@ da:
     button_confirm: Bekræft
     button_continue: Fortsæt
     button_copy: Kopiér
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_id: Kopiér id ("%{id}")
+    button_copy_link_to_clipboard: Kopiér link
     button_copy_to_clipboard: Kopiér til udklipsholderen
     button_copy_to_other_project: Dupliker i et andet projekt
     button_create: Opret
@@ -150,6 +150,7 @@ da:
     button_log_time: Registrer tid
     button_more: Mere
     button_more_actions: Flere handlinger
+    button_move: Move
     button_open_details: Åbn detaljevisning
     button_open_fullscreen: Åbn fuldskærmsvisning
     button_quote: Citer
@@ -207,7 +208,7 @@ da:
     editor:
       ai_actions:
         caption: Assistent
-        start_failed: The Assistant could not start. Please try again.
+        start_failed: Assistenten kunne ikke starte. Prøv igen.
       ckeditor_error: Der opstod en fejl i CKEditor
       ckeditor_error_reload: Editoren holdt op med at virke. Din tekst er her stadig, men du kan ikke ændre den. Kopiér den tekst, som du vil beholde, og genindlæs derefter siden.
       error_saving_failed: 'Dokumentet kunne ikke gemmes på grund af følgende fejl: %{error}'
@@ -567,7 +568,9 @@ da:
     label_show_in_menu: Vis visningen i menuen
     label_sort_by: Sortér efter
     label_sort_higher: Flyt op
+    label_sort_highest: Move to top
     label_sort_lower: Flyt ned
+    label_sort_lowest: Move to bottom
     label_sorted_by: sorteret efter
     label_sorting: Sortering
     label_spent_time: Anvendt tid
@@ -819,6 +822,7 @@ da:
         batch_too_large: "%{count} elementer kan ikke flyttes på én gang. Vælg højst %{max}."
         fallback_item_label: Element
         fallback_list_name: en anden liste
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Flytningen mislykkedes. Tjek elementets aktuelle placering.
         move_failed_check_positions_batch:
           other: Flytningen mislykkedes. Tjek elementernes aktuelle placeringer.
