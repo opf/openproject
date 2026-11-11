@@ -105,7 +105,7 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
 
     expect_fields_in_order(string_user_custom_field, boolean_user_custom_field)
 
-    # string_user_custom_field's row was patched (not replaced) by the morph
+    # boolean_user_custom_field's row was patched (not replaced) by the morph
     # that reconciled the first drag; drag it again to prove it is still wired.
     drag_field(boolean_user_custom_field, before: string_user_custom_field)
 
@@ -126,9 +126,13 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
 
     expect_fields_in_order(boolean_user_custom_field, "login", string_user_custom_field)
 
+    drag_built_in("login", after: string_user_custom_field)
+
+    expect_fields_in_order(boolean_user_custom_field, string_user_custom_field, "login")
+
     cf_index_page.visit!
 
-    expect_fields_in_order(boolean_user_custom_field, "login", string_user_custom_field)
+    expect_fields_in_order(boolean_user_custom_field, string_user_custom_field, "login")
   end
 
   it "moves a field and a built-in attribute to another section via the kebab 'Move to …' item" do
