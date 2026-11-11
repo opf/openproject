@@ -28,8 +28,8 @@ Some of these checks are automated: [Herb](https://herb-tools.dev) lints ERB tem
 - Color is not used as the sole method of conveying content or distinguishing visual elements.
 - The contrast is sufficient
   - Text and images of text have a contrast ratio of at least 4.5:1.
-  - Large text (over 18 point or 14 point bold) has a contrast ratio of at least 3:1
-  - User interface components and meaningful graphics have a contrast ratio of at least 3:1 against adjacent colors.
+  - Large text (at least 18 point, or at least 14 point bold) has a contrast ratio of at least 3:1
+  - The visual information needed to identify user interface components and their states, and meaningful graphics, have a contrast ratio of at least 3:1 against adjacent colors. Disabled controls are exempt.
 - The page is readable and functional when the text size is doubled.
 - If the same visual presentation can be made using text alone, an image is not used to present that text.
 
