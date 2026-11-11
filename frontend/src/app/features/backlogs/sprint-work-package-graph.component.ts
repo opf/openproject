@@ -50,6 +50,41 @@ const MUTED_FILL_OPACITY = 0.5;
 // A status is not obliged to carry a color.
 const UNCOLORED_STATUS_FALLBACK = '--display-gray-scale-6';
 
+// Nothing here follows the data, so the options are built once rather than tracked.
+function barChartOptions():ChartOptions<'bar'> {
+  const fontColor = getCSSVariable('--body-font-color');
+  const gridColor = getCSSVariable('--borderColor-muted');
+
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    color: fontColor,
+    scales: {
+      x: {
+        grid: { color: gridColor },
+        ticks: { color: fontColor },
+      },
+      y: {
+        beginAtZero: true,
+        grace: '10%',
+        grid: { color: gridColor },
+        ticks: { color: fontColor, precision: 0 },
+      },
+    },
+    plugins: {
+      // The bars bring their own colors, which the plugin would otherwise paint over.
+      'primer-colors': { enabled: false },
+      legend: { display: false },
+      datalabels: {
+        anchor: 'center',
+        align: 'top',
+        color: fontColor,
+        font: { weight: 'bold', size: 14 },
+      },
+    },
+  };
+}
+
 @Component({
   selector: 'op-sprint-work-package-graph',
   templateUrl: './sprint-work-package-graph.component.html',
@@ -85,37 +120,5 @@ export class SprintWorkPackageGraphComponent {
     };
   });
 
-  readonly barChartOptions:Signal<ChartOptions<'bar'>> = computed<ChartOptions<'bar'>>(() => {
-    const fontColor = getCSSVariable('--body-font-color');
-    const gridColor = getCSSVariable('--borderColor-muted');
-
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      color: fontColor,
-      scales: {
-        x: {
-          grid: { color: gridColor },
-          ticks: { color: fontColor },
-        },
-        y: {
-          beginAtZero: true,
-          grace: '10%',
-          grid: { color: gridColor },
-          ticks: { color: fontColor, precision: 0 },
-        },
-      },
-      plugins: {
-        // The bars bring their own colors, which the plugin would otherwise paint over.
-        'primer-colors': { enabled: false },
-        legend: { display: false },
-        datalabels: {
-          anchor: 'center',
-          align: 'top',
-          color: fontColor,
-          font: { weight: 'bold', size: 14 },
-        },
-      },
-    };
-  });
+  readonly barChartOptions:ChartOptions<'bar'> = barChartOptions();
 }

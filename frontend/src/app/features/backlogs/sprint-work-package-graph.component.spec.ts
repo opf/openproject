@@ -53,7 +53,7 @@ describe('SprintWorkPackageGraphComponent', () => {
     fixture.detectChanges();
   });
 
-  const options = () => fixture.componentInstance.barChartOptions();
+  const options = () => fixture.componentInstance.barChartOptions;
 
   it('renders the chart', () => {
     expect(element.querySelector('canvas')).not.toBeNull();
