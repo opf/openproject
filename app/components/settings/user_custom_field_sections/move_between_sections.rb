@@ -34,21 +34,15 @@ module Settings
     module MoveBetweenSections
       private
 
-      def with_move_to_section_submenu(menu, key:, other_sections:)
-        return if other_sections.none?
-
-        menu.with_sub_menu_item(label: t("settings.user_custom_field_sections.label_move_to_section")) do |submenu|
-          submenu.with_leading_visual_icon(icon: :"arrow-right")
-
-          other_sections.each do |section|
-            move_to_section_item(submenu, key:, section:)
-          end
+      def with_move_to_section_items(menu, key:, other_sections:)
+        other_sections.each do |section|
+          move_to_section_item(menu, key:, section:)
         end
       end
 
       def move_to_section_item(menu, key:, section:)
         menu.with_item(
-          label: section.name,
+          label: t("settings.user_custom_field_sections.label_move_to_section", name: section.name),
           tag: :button,
           href: drop_admin_settings_user_custom_field_section_field_path(key),
           form_arguments: {
@@ -59,7 +53,9 @@ module Settings
               { name: "prev_id", value: "" } # Move to top of section
             ]
           }
-        )
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"arrow-right")
+        end
       end
     end
   end

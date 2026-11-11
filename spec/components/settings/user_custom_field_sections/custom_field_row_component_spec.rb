@@ -57,31 +57,37 @@ RSpec.describe Settings::UserCustomFieldSections::CustomFieldRowComponent, type:
     expect(page).to have_css(".handle[data-sortable-lists--item-target='handle']")
   end
 
-  it "renders a Move submenu wired to the item controller's move action" do
+  it "renders the move directions in the main menu, wired to the item controller's move action" do
     subject
 
-    expect(page).to have_selector(:menuitem, "Move", exact: true) do |item|
-      expect(item["aria-haspopup"]).to eq("true")
-    end
+    expect(page).to have_selector(:menuitem, "Move to top", exact: true)
+    expect(page).to have_selector(:menuitem, "Move up", exact: true)
+    expect(page).to have_css(
+      "li[data-sortable-lists--item-target='moveItem'][data-action='click->sortable-lists--item#move']",
+      count: SortableLists::MoveMenu::DIRECTIONS.size
+    )
+  end
+
+  it "heads the move directions with a divider the item controller can hide" do
+    subject
+
+    expect(page).to have_css(".ActionList-sectionDivider[data-sortable-lists--item-target='moveDivider']", count: 1)
   end
 
   context "with another section to move to" do
     let!(:other_section) { create(:user_custom_field_section, name: "Other section") }
 
-    it "renders a Move to section submenu listing the other section" do
+    it "renders a move item per other section in the main menu" do
       subject
 
-      expect(page).to have_selector(:menuitem, "Move to section", exact: true)
-      move_item = page.find(:menuitem, "Move to section", exact: true)
-      expect(page).to have_selector(:menu, id: move_item["aria-controls"]) do |submenu|
-        expect(submenu).to have_selector(:menuitem, other_section.name)
-      end
+      expect(page).to have_no_selector(:menuitem, "Move to section", exact: true)
+      expect(page).to have_selector(:menuitem, "Move to #{other_section.name}", exact: true)
     end
 
     it "submits the destination section's id with no anchor, landing the field first" do
       subject
 
-      item = page.find(:menuitem, other_section.name)
+      item = page.find(:menuitem, "Move to #{other_section.name}")
       form = item.ancestor("form")
       expect(form[:action]).to eq(drop_admin_settings_user_custom_field_section_field_path(field.id))
       expect(form).to have_css("input[name='list_type'][value='user_field']", visible: :all)
@@ -90,10 +96,12 @@ RSpec.describe Settings::UserCustomFieldSections::CustomFieldRowComponent, type:
   end
 
   context "with no other section" do
-    it "renders no Move to section item" do
+    it "renders no move-to-section item" do
       subject
 
-      expect(page).to have_no_selector(:menuitem, "Move to section")
+      expect(page).to have_css("li[data-sortable-lists--item-target='moveItem']",
+                               count: SortableLists::MoveMenu::DIRECTIONS.size)
+      expect(page).to have_selector(:menuitem, count: SortableLists::MoveMenu::DIRECTIONS.size + 2)
     end
   end
 end

@@ -85,7 +85,7 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
     expect_sections_in_order(section_for_select_fields, section_for_input_fields)
   end
 
-  it "still reorders sections and fields via the kebab Move submenu" do
+  it "still reorders sections and fields via the kebab Move menu" do
     move_section(section_for_select_fields, direction: "Move up")
 
     expect_sections_in_order(section_for_select_fields, section_for_input_fields)
@@ -131,7 +131,7 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
     expect_fields_in_order(boolean_user_custom_field, "login", string_user_custom_field)
   end
 
-  it "moves a field and a built-in attribute to another section via the kebab 'Move to section' item" do
+  it "moves a field and a built-in attribute to another section via the kebab 'Move to …' item" do
     section_for_input_fields.add_to_order("login")
     cf_index_page.visit!
 
@@ -200,28 +200,25 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
   def move_section(section, direction:)
     within_user_custom_field_section_menu(section) do
       submenu = open_controlled_menu(find(:menuitem, "Move", exact: true))
-      wait_for_turbo_stream { submenu.find(:menuitem, direction).click }
+      wait_for_turbo_stream { submenu.find(:menuitem, direction, exact: true).click }
     end
   end
 
   def move_field(custom_field, direction:)
     within_user_custom_field_menu(custom_field) do
-      submenu = open_controlled_menu(find(:menuitem, "Move", exact: true))
-      wait_for_turbo_stream { submenu.find(:menuitem, direction).click }
+      wait_for_turbo_stream { find(:menuitem, direction, exact: true).click }
     end
   end
 
   def move_field_to_section(custom_field, section:)
     within_user_custom_field_menu(custom_field) do
-      submenu = open_controlled_menu(find(:menuitem, "Move to section", exact: true))
-      wait_for_turbo_stream { submenu.find(:menuitem, section.name).click }
+      wait_for_turbo_stream { find(:menuitem, "Move to #{section.name}", exact: true).click }
     end
   end
 
   def move_built_in_to_section(key, section:)
     within_built_in_attribute_menu(key) do
-      submenu = open_controlled_menu(find(:menuitem, "Move to section", exact: true))
-      wait_for_turbo_stream { submenu.find(:menuitem, section.name).click }
+      wait_for_turbo_stream { find(:menuitem, "Move to #{section.name}", exact: true).click }
     end
   end
 

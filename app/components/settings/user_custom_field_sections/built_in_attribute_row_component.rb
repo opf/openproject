@@ -52,8 +52,8 @@ module Settings
         @attribute_key
       end
 
-      def move_to_section_submenu(menu)
-        with_move_to_section_submenu(menu, key: @attribute_key, other_sections: @other_sections)
+      def move_to_section_items(menu)
+        with_move_to_section_items(menu, key: @attribute_key, other_sections: @other_sections)
       end
     end
   end

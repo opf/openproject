@@ -57,8 +57,8 @@ module Settings
         end
       end
 
-      def move_to_section_submenu(menu)
-        with_move_to_section_submenu(menu, key: @user_custom_field.id.to_s, other_sections: @other_sections)
+      def move_to_section_items(menu)
+        with_move_to_section_items(menu, key: @user_custom_field.id.to_s, other_sections: @other_sections)
       end
 
       def delete_action_item(menu)
