@@ -1126,6 +1126,7 @@ en:
         other: "Other"
         people: "People"
       query:
+        add_columns: "Add columns"
         click_to_edit_query_name: "Click to edit title of this view."
         column_names: "Columns"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1135,17 +1136,16 @@ en:
           not_found: "There is no such view"
           unretrievable_query: "Unable to retrieve view from URL"
         filters: "Filters"
-        group: "Group by"
         group_by: "Group results by"
+        group_by_column: "Group by %{column}"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
-        hide_column: "Hide column"
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
-        insert_columns: "Insert columns"
         move_column_left: "Move column left"
         move_column_right: "Move column right"
         public_text: >
           Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query.
           This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+        remove_column: "Remove column"
         rename_query_placeholder: "Name of this view"
         sort_ascending: "Sort ascending"
         sort_descending: "Sort descending"

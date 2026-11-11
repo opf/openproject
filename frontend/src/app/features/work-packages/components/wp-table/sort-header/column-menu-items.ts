@@ -38,6 +38,7 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { primarySortDirection } from './primary-sort-direction';
 
 /** What a column menu's actions need from the header that owns the menu. */
 export interface ColumnMenuHost {
@@ -70,24 +71,29 @@ export class ColumnMenuItems {
 
   build(column:QueryColumn, table:WorkPackageTable, header:HTMLElement, host:ColumnMenuHost):OpContextMenuItem[] {
     const sortable = this.wpTableSortBy.isSortable(column);
+    const sortDirection = primarySortDirection(this.wpTableSortBy.current, column);
 
     return [
       {
         hidden: !sortable,
         linkText: this.I18n.t('js.work_packages.query.sort_descending'),
         octicon: 'sort-desc',
-        onClick: () => this.sortBy(column, QUERY_SORT_BY_DESC, host),
+        checked: sortDirection === 'desc',
+        radio: true,
+        onClick: () => this.sortUnlessSorted(column, QUERY_SORT_BY_DESC, sortDirection === 'desc', host),
       },
       {
         hidden: !sortable,
         linkText: this.I18n.t('js.work_packages.query.sort_ascending'),
         octicon: 'sort-asc',
-        onClick: () => this.sortBy(column, QUERY_SORT_BY_ASC, host),
+        checked: sortDirection === 'asc',
+        radio: true,
+        onClick: () => this.sortUnlessSorted(column, QUERY_SORT_BY_ASC, sortDirection === 'asc', host),
       },
       { divider: true },
       {
         hidden: !this.wpTableGroupBy.isGroupable(column),
-        linkText: this.I18n.t('js.work_packages.query.group'),
+        linkText: this.I18n.t('js.work_packages.query.group_by_column', { column: column.name }),
         octicon: 'op-group',
         checked: this.wpTableGroupBy.isCurrentlyGroupedBy(column),
         onClick: () => {
@@ -139,7 +145,7 @@ export class ColumnMenuItems {
         },
       },
       {
-        linkText: this.I18n.t('js.work_packages.query.insert_columns'),
+        linkText: this.I18n.t('js.work_packages.query.add_columns'),
         octicon: 'columns',
         onClick: () => {
           host.close();
@@ -151,10 +157,9 @@ export class ColumnMenuItems {
           return false;
         },
       },
-      { divider: true },
       {
-        linkText: this.I18n.t('js.work_packages.query.hide_column'),
-        octicon: 'eye-closed',
+        linkText: this.I18n.t('js.work_packages.query.remove_column'),
+        octicon: 'x-circle',
         onClick: () => {
           const th = header.closest('th') ?? header;
           const neighbor = this.wpTableColumns.isFirst(column) ? th.nextElementSibling : th.previousElementSibling;
@@ -166,6 +171,10 @@ export class ColumnMenuItems {
         },
       },
     ];
+  }
+
+  private sortUnlessSorted(column:QueryColumn, direction:QuerySortDirection, sorted:boolean, host:ColumnMenuHost):boolean {
+    return sorted || this.sortBy(column, direction, host);
   }
 
   private sortBy(column:QueryColumn, direction:QuerySortDirection, host:ColumnMenuHost):boolean {
