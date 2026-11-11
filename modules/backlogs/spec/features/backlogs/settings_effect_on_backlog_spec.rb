@@ -46,7 +46,7 @@ RSpec.describe "Backlogs settings effect on backlog and sprints", :js do
 
   let(:permissions) do
     %i[view_sprints add_work_packages view_work_packages create_sprints manage_sprint_items
-       start_complete_sprint select_backlog_types_and_statuses]
+       start_complete_sprint manage_backlogs_configuration]
   end
 
   let(:user) do

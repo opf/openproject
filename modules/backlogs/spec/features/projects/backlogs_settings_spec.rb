@@ -42,7 +42,7 @@ RSpec.describe "Backlogs Project Settings", :js do
   end
   let(:role) do
     create(:project_role,
-           permissions: %i[select_backlog_types_and_statuses])
+           permissions: %i[manage_backlogs_configuration])
   end
   let!(:current_user) do
     create(:user,
@@ -59,7 +59,7 @@ RSpec.describe "Backlogs Project Settings", :js do
   context "when navigating between tabs" do
     let(:role) do
       create(:project_role,
-             permissions: %i[select_backlog_types_and_statuses share_sprint])
+             permissions: %i[manage_backlogs_configuration share_sprint])
     end
 
     it "persists the active tab in the URL when switching tabs" do
