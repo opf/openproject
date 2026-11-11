@@ -306,7 +306,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * without modification.
    */
   protected get rawFilters():QueryFilterInstanceResource[] {
-    return this.lastUpdatedState.value || [];
+    return this.lastUpdatedState.value ?? [];
   }
 
   public get currentlyVisibleFilters():QueryFilterInstanceResource[] {
