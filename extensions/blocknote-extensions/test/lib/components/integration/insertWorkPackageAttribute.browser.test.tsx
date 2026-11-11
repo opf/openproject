@@ -289,6 +289,25 @@ describe('Insert work package attribute', () => {
     await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
   });
 
+  it('offers the attributes in alphabetical order, to be picked and not typed', async () => {
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+    const attributeField = page.getByRole('combobox', { name: 'Attribute' });
+    await expect.element(attributeField).toHaveAttribute('readonly');
+    expect(getComputedStyle(attributeField.element()).cursor).toBe('pointer');
+
+    await userEvent.click(attributeField);
+    await expect.element(page.getByRole('option', { name: 'Status' })).toBeVisible();
+
+    const labels = page.getByRole('option').elements().map((option) => option.textContent);
+    expect(labels).toEqual([...labels].sort(new Intl.Collator('en', { sensitivity: 'base' }).compare));
+    expect(labels.slice(0, 3)).toEqual(['% Complete', 'Accountable', 'Approved']);
+
+    await userEvent.keyboard('s');
+    await expect.element(attributeField).toHaveAttribute('aria-activedescendant', `op-bn-wp-attribute-select-list-option-${labels.indexOf('Start date')}`);
+  });
+
   it('prefills the next invocation with the previous choice, which can be cleared', async () => {
     await openWorkPackageAttributeDialog();
     await pickWorkPackage('Redesign', 'Redesign onboarding flow');

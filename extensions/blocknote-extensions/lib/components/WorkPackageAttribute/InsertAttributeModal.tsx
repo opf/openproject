@@ -23,7 +23,13 @@ import {
   Panel,
   RequiredMark,
 } from '../Shared/atoms';
-import { findAttribute, formatAttributeValue, listAttributes, type WorkPackageAttribute } from './attributes';
+import {
+  findAttribute,
+  formatAttributeValue,
+  listAttributes,
+  sortByLabel,
+  type WorkPackageAttribute,
+} from './attributes';
 import type { AttributeNodeKind } from './externalHtml';
 import { ATTRIBUTE_DISPLAYS, type AttributeDisplay } from './display';
 import type { AttributeChoice } from './types';
@@ -103,8 +109,10 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
   const schemaError = unauthorized || !!error || (!!loadedWanted && !schema);
 
   const attributes = useMemo(
-    () => (schema ? listAttributes(schema).filter((option) => isOffered(option, offersLongText)) : []),
-    [schema, offersLongText],
+    () => (schema
+      ? sortByLabel(listAttributes(schema).filter((option) => isOffered(option, offersLongText)), formatOptions.locale)
+      : []),
+    [schema, offersLongText, formatOptions.locale],
   );
   const found = schema && attribute ? findAttribute(schema, attribute) : undefined;
   const selected = found && isOffered(found, offersLongText) ? found : undefined;
