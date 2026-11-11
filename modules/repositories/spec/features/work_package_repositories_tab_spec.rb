@@ -56,7 +56,7 @@ RSpec.describe "Open the Repositories tab", :js do
   let(:work_package) { create(:work_package, project:, subject: "A test work_package") }
 
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-  let(:repositories_tab_element) { find(".op-tab-row--link_selected", text: "REPOSITORIES") }
+  let(:repositories_tab_element) { find(".op-tab-row--link_selected", text: "CODE") }
   let(:repositories_tab) { Pages::RepositoriesTab.new(work_package.id) }
 
   let(:provider) { create(:repository_provider) }
@@ -101,13 +101,13 @@ RSpec.describe "Open the Repositories tab", :js do
       repositories_tab.paste_clipboard_content
       activity_tab.expect_unsaved_content(text)
 
-      work_package_page.switch_to_tab(tab: "repositories")
+      work_package_page.switch_to_tab(tab: repositories_tab_name)
     end
 
     context "when the user is allowed to see the repositories tab" do
       before do
         work_package_page.visit!
-        work_package_page.switch_to_tab(tab: "repositories")
+        work_package_page.switch_to_tab(tab: repositories_tab_name)
         repositories_tab.wait_for_tab_loaded
       end
 
@@ -174,7 +174,7 @@ RSpec.describe "Open the Repositories tab", :js do
 
       before do
         work_package_page.visit!
-        work_package_page.switch_to_tab(tab: "repositories")
+        work_package_page.switch_to_tab(tab: repositories_tab_name)
         repositories_tab.wait_for_tab_loaded
       end
 
@@ -230,6 +230,7 @@ RSpec.describe "Open the Repositories tab", :js do
 
   describe "work package full view" do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
+    let(:repositories_tab_name) { "code" }
     let(:expected_tab_count) { 4 }
 
     it_behaves_like "a repositories tab"
@@ -237,6 +238,10 @@ RSpec.describe "Open the Repositories tab", :js do
 
   describe "work package split view" do
     let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
+    let(:repositories_tab_name) do
+      # The split view test helper selects the tab based on its test selector, not based on its user-visible name
+      "repositories"
+    end
     let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
     let(:repositories_tab_element) { "repositories" }
     let(:expected_tab_count) { 4 }

@@ -62,7 +62,7 @@ module Pages
     end
 
     def expect_tab_not_present
-      expect(page).to have_no_css(".op-tab-row--link", text: "REPOSITORIES")
+      expect(page).to have_no_css(".op-tab-row--link", text: "CODE")
     end
 
     private
