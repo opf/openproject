@@ -239,6 +239,70 @@ RSpec.describe Import::JiraCreateSprintsJob do
       expect { perform }.to change(Sprint, :count).by(1)
       expect(created_sprint(2)).to be_present
     end
+
+    it "stores the Jira origin of the sprint" do
+      stage_issue(demo, 2)
+      stage_sprint(2, originBoardId: 4)
+
+      perform
+
+      expect(created_sprint(2)).to have_attributes(
+        origin_source: "jira_data_center", origin_host: "https://jira-software.local/", origin_id: "2",
+        origin_url: "https://jira-software.local/secure/RapidBoard.jspa?rapidView=4&view=reporting&chart=sprintRetrospective&sprint=2"
+      )
+    end
+
+    it "links a sprint without origin board to its REST resource" do
+      stage_issue(demo, 2)
+      stage_sprint(2)
+
+      perform
+
+      expect(created_sprint(2).origin_url).to eq("https://jira-software.local/rest/agile/1.0/sprint/2")
+    end
+
+    context "when an earlier import created the sprint" do
+      let(:earlier_project) { create(:project) }
+      let!(:earlier_sprint) do
+        create(:sprint, project: earlier_project, name: "Earlier", origin_source: "jira_data_center",
+                        origin_host: jira.url, origin_id: "7", origin_url: "#{jira.url}rest/agile/1.0/sprint/7")
+      end
+
+      before do
+        stage_issue(aauv, 7)
+        stage_sprint(7, goal: "Ship it")
+      end
+
+      it "reuses the sprint without changing it" do
+        expect { perform }.not_to change(Sprint, :count)
+        expect(created_sprint(7)).to eq(earlier_sprint)
+        expect(earlier_sprint.reload).to have_attributes(project: earlier_project, name: "Earlier")
+        expect(SprintGoal.where(sprint: earlier_sprint)).to be_empty
+      end
+
+      it "marks the reference as using an existing sprint" do
+        perform
+
+        reference = Import::JiraOpenProjectReference.find_by!(jira_import:, op_entity_class: "Sprint")
+        expect(reference.uses_existing).to be(true)
+      end
+
+      it "enables the backlogs module in the importing project" do
+        perform
+
+        expect(op_project(aauv).reload.module_enabled?(:backlogs)).to be(true)
+      end
+    end
+
+    it "does not reuse a sprint of another Jira instance" do
+      create(:sprint, origin_source: "jira_data_center", origin_host: "https://other-jira.local/", origin_id: "7",
+                      origin_url: "https://other-jira.local/rest/agile/1.0/sprint/7")
+      stage_issue(demo, 7)
+      stage_sprint(7)
+
+      expect { perform }.to change(Sprint, :count).by(1)
+      expect(created_sprint(7).project).to eq(op_project(demo))
+    end
   end
 
   describe "#progress" do

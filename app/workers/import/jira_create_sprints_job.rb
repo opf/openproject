@@ -33,6 +33,7 @@ module Import
     include JiraJobUtils
 
     ISSUE_BATCH_SIZE = 1_000
+    ORIGIN_SOURCE = "jira_data_center"
     STATUSES = {
       "future" => "in_planning",
       "active" => "active",
@@ -74,12 +75,38 @@ module Import
     def each_iteration(jira_sprint, _jira_import_id)
       counts = @issue_counts[jira_sprint.origin_id]
       ActiveRecord::Base.transaction do
-        create_sprint(jira_sprint, counts) if counts
+        import_sprint(jira_sprint, counts) if counts
         @jira_import.set_job_cursor(self, jira_sprint.id)
       end
     end
 
     private
+
+    def import_sprint(jira_sprint, counts)
+      existing_sprint = earlier_imported_sprint(jira_sprint)
+      sprint = existing_sprint || create_sprint(jira_sprint, counts)
+      counts.each_key { |jira_project_id| enable_backlogs(op_project(jira_project_id)) }
+      create_reference!(op_leg: sprint, jira_leg: jira_sprint, jira_import: @jira_import,
+                        uses_existing: existing_sprint.present?)
+    end
+
+    def earlier_imported_sprint(jira_sprint)
+      sprint = Sprint.find_by(origin_source: ORIGIN_SOURCE, origin_host:, origin_id: jira_sprint.origin_id)
+      log(jira_sprint.origin_id) { Rails.logger.debug "Reusing sprint of an earlier import" } if sprint
+      sprint
+    end
+
+    def origin_host
+      @jira_import.jira.url
+    end
+
+    def origin_url(payload)
+      base_url = origin_host.chomp("/")
+      board_id = payload["originBoardId"]
+      return "#{base_url}/rest/agile/1.0/sprint/#{payload['id']}" if board_id.blank?
+
+      "#{base_url}/secure/RapidBoard.jspa?rapidView=#{board_id}&view=reporting&chart=sprintRetrospective&sprint=#{payload['id']}"
+    end
 
     def issue_counts_by_sprint
       sprint_field = Import::JiraIssueSprintField.from_client(@jira_client)
@@ -98,10 +125,14 @@ module Import
       attributes = sprint_attributes(payload)
       allow_multiple_active_sprints(project) if attributes[:status] == "active"
 
-      sprint = Sprint.create!(project:, **attributes)
+      sprint = Sprint.create!(project:, **attributes, **origin_attributes(jira_sprint))
       create_goal(sprint, payload["goal"])
-      counts.each_key { |jira_project_id| enable_backlogs(op_project(jira_project_id)) }
-      create_reference!(op_leg: sprint, jira_leg: jira_sprint, jira_import: @jira_import, uses_existing: false)
+      sprint
+    end
+
+    def origin_attributes(jira_sprint)
+      { origin_source: ORIGIN_SOURCE, origin_host:, origin_id: jira_sprint.origin_id,
+        origin_url: origin_url(jira_sprint.payload) }
     end
 
     # project with most issues wins, ties go to the project key that sorts first.
