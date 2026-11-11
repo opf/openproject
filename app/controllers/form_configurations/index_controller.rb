@@ -78,43 +78,11 @@ module FormConfigurations
     def load_query
       @query = ::Queries::FormConfigurations::FormConfigurationQuery.new
 
-      @query.where(:name, "~", [name_term]) if name_term.present?
-      list_filters.each do |key, ids|
-        operator = operator_for(key)
-        @query.where(key, operator, ids) if operator && (ids.any? || !operator_requires_value?(operator))
+      requested_filters.each do |filter|
+        @query.where(filter[:attribute], filter[:operator], filter[:values])
       end
 
       @query
-    end
-
-    def list_filters
-      {
-        type_id: filtered_type_ids,
-        project_id: filtered_project_ids
-      }
-    end
-
-    def operator_for(filter_key)
-      requested_filters.find { |filter| filter[:attribute].to_s == filter_key.to_s }&.fetch(:operator)&.to_s
-    end
-
-    def operator_requires_value?(operator)
-      ::Queries::Operators::OPERATORS[operator]&.requires_value? != false
-    end
-
-    def name_term = @name_term ||= values_for(::Queries::FormConfigurations::Filters::NameFilter.key).first.to_s.strip
-
-    def filtered_type_ids = @filtered_type_ids ||= values_for(::Queries::FormConfigurations::Filters::TypeFilter.key)
-
-    def filtered_project_ids
-      @filtered_project_ids ||= values_for(::Queries::FormConfigurations::Filters::ProjectFilter.key)
-    end
-
-    def values_for(filter_key)
-      requested_filters
-        .select { |filter| filter[:attribute].to_s == filter_key.to_s }
-        .flat_map { |filter| Array(filter[:values]).map(&:to_s) }
-        .compact_blank
     end
 
     def requested_filters
