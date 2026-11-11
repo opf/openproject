@@ -35,6 +35,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
+  shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
 
   let(:monday) { Date.new(2026, 10, 12) }
   let(:friday) { Date.new(2026, 10, 16) }
@@ -129,7 +130,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       expect(rendered_component).to have_css(
         ".blankslate-description",
-        exact_text: "The burndown chart will appear here once the sprint has received a work package with estimated story points."
+        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
       )
     end
   end
@@ -145,7 +146,22 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
       expect(rendered_component).to have_css(
         ".blankslate-description",
-        exact_text: "The burndown chart will appear here once the sprint has received a work package with estimated story points."
+        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+      )
+    end
+  end
+
+  context "when the story points in the sprint were closed throughout the charted window" do
+    before do
+      create(:work_package, project:, sprint:, status: closed_status,
+                            journals: { monday.in_time_zone - 1.day => { story_points: 5, status_id: closed_status.id } })
+    end
+
+    it "renders a blankslate asking for open work" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
       )
     end
   end
@@ -158,7 +174,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       expect(rendered_component).to have_css(
         ".blankslate-description",
-        exact_text: "The burndown chart will appear here once the sprint has received a work package with estimated story points."
+        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
       )
     end
   end
@@ -171,7 +187,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
         expect(rendered_component).to have_no_element(:"opce-burndown-chart")
         expect(rendered_component).to have_css(
           ".blankslate-description",
-          exact_text: "The burndown chart will appear here once the sprint has received a work package with work time estimate."
+          exact_text: "The burndown chart will appear here once the sprint has an open work package with work time estimate."
         )
       end
     end
