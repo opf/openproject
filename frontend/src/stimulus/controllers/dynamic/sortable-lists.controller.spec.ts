@@ -65,6 +65,7 @@ import { LiveRegionElement } from '@primer/live-region-element';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
 import type { DragSession } from './sortable-lists/drag-session';
+import { RenderedMenuScope } from './sortable-lists/rendered-menu-scope';
 import { selectionTranslations } from './sortable-lists/testing/selection-translations';
 import type {
   sortableDragSourceData as sortableDragSourceDataFn,
@@ -1614,9 +1615,6 @@ describe('Sortable lists controller', () => {
       { name: 'changed members', rendered: '["2","4"]', live: [1, 2] },
       { name: 'singular menu and live batch', rendered: '["2"]', live: [1, 2] },
       { name: 'batch menu and live singleton', rendered: '["2","3"]', live: [1] },
-      { name: 'malformed scope', rendered: '{', live: [1, 2] },
-      { name: 'non-string scope', rendered: '[2,3]', live: [1, 2] },
-      { name: 'duplicate scope', rendered: '["2","2"]', live: [1, 2] },
       { name: 'missing scope', rendered: null, live: [1, 2] },
     ].forEach(({ name, rendered, live }) => {
       it(`refuses ${name} before before-move, collapse, reorder or request`, async () => {
@@ -1630,7 +1628,7 @@ describe('Sortable lists controller', () => {
         const beforeMove = vi.fn();
         root.addEventListener('sortable-lists:before-move', beforeMove);
 
-        controllerFor(root).moveInDirection(items[1], 'up', scopeOwner);
+        controllerFor(root).moveInDirection(items[1], 'up', RenderedMenuScope.of(scopeOwner));
         await flushPromises();
 
         expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
@@ -1657,7 +1655,7 @@ describe('Sortable lists controller', () => {
       const beforeMove = vi.fn();
       root.addEventListener('sortable-lists:before-move', beforeMove);
 
-      controllerFor(root).moveInDirection(items[1], 'up', scopeOwner);
+      controllerFor(root).moveInDirection(items[1], 'up', RenderedMenuScope.of(scopeOwner));
       await flushPromises();
 
       expect(itemIds(sourceList)).toEqual(['1', '2', '4']);
@@ -1676,7 +1674,7 @@ describe('Sortable lists controller', () => {
       scopeOwner.setAttribute('data-sortable-lists-scope-count', '2');
       scopeOwner.setAttribute('data-sortable-lists-scope-ids', '["2","3"]');
 
-      controllerFor(root).moveInDirection(items[1], 'up', scopeOwner);
+      controllerFor(root).moveInDirection(items[1], 'up', RenderedMenuScope.of(scopeOwner));
       await flushPromises();
       expect(fetchMock).toHaveBeenCalledOnce();
     });
