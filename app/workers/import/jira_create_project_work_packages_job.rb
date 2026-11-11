@@ -63,6 +63,7 @@ module Import
         @jira_import = Import::JiraImport.find(jira_import_id)
         jira = @jira_import.jira
         @jira_id = jira.id
+        @jira_base_url = jira.url
         @system_user = User.system
         @jira_client = jira.client
 
@@ -104,8 +105,14 @@ module Import
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
 
               attachment_ids, attachment_paths_by_name = prepare_attachments(jira_issue, @project)
-              create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry,
-                                  attachment_ids:, attachment_paths_by_name:)
+              create_work_package(jira_issue:,
+                                  project: @project,
+                                  type:,
+                                  status:,
+                                  priority:,
+                                  custom_field_registry: @custom_field_registry,
+                                  attachment_ids:,
+                                  attachment_paths_by_name:)
               # Jira attachments cannot be replaced, so both timestamps take the date the file was attached
               # in Jira rather than the date the import created the attachment. This has to follow the
               # work package's creation, which touched their updated_at when claiming them.
@@ -316,8 +323,14 @@ module Import
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
-    def create_work_package(jira_issue, project, type, status, priority, custom_field_registry,
-                            attachment_ids:, attachment_paths_by_name:)
+    def create_work_package(jira_issue:,
+                            project:,
+                            type:,
+                            status:,
+                            priority:,
+                            custom_field_registry:,
+                            attachment_ids:,
+                            attachment_paths_by_name:)
       Rails.logger.debug "Creating work package"
 
       # required because otherwise project.types does not include type and then wp creation fails.
@@ -389,7 +402,14 @@ module Import
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
       _, sequence_number = identifier.split("-")
-      work_package.update_columns(sequence_number:, identifier:)
+      work_package.update_columns(
+        sequence_number:,
+        identifier:,
+        origin_source: "jira_data_center",
+        origin_id: jira_issue.origin_id,
+        origin_host: @jira_base_url,
+        origin_url: "#{@jira_base_url}/browse/#{identifier}"
+      )
       work_package_id = work_package.id
       aliases_from_history = jira_issue
                                .payload["changelog"]["histories"]

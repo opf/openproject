@@ -31,14 +31,14 @@ module Admin
   module Settings
     module CustomFields
       class TableComponent < OpPrimer::BorderBoxTableComponent
-        options :work_package, :project_counts
+        options :work_package, :project_counts, :form_counts
 
         main_column :name
-        mobile_columns :name, :field_format, :is_required, :used_in_projects, :contained_in_type
-        mobile_labels :field_format, :is_required, :used_in_projects, :contained_in_type
+        mobile_columns :name, :field_format, :is_required, :used_in_projects, :contained_in
+        mobile_labels :field_format, :is_required, :used_in_projects, :contained_in
 
         def main_column?(column)
-          super || (work_package && column == :contained_in_type)
+          super || (work_package && column == :contained_in)
         end
 
         def mobile_title
@@ -71,7 +71,7 @@ module Admin
             [:field_format, { caption: CustomField.human_attribute_name(:field_format) }],
             [:is_required, { caption: CustomField.human_attribute_name(:is_required) }],
             work_package ? [:used_in_projects, { caption: t(:label_used_in_projects) }] : nil,
-            work_package ? [:contained_in_type, { caption: t("custom_fields.contained_in_type") }] : nil
+            work_package ? [:contained_in, { caption: t("custom_fields.contained_in") }] : nil
           ].compact
         end
 

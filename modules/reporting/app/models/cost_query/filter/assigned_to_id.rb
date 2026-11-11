@@ -34,7 +34,7 @@ class CostQuery::Filter::AssignedToId < CostQuery::Filter::UserId
     WorkPackage.human_attribute_name(:assigned_to)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     []
   end
 end

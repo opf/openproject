@@ -27,6 +27,7 @@
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { readOnlyClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../testing/table-harness';
 
 describe('Edit cell entry', () => {
@@ -52,6 +53,17 @@ describe('Edit cell entry', () => {
       expect(within(harness.row('2')).queryByRole('textbox')).not.toBeInTheDocument();
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
       expect(harness.focus.focusedWorkPackage).toBe('2');
+    });
+
+    it('abandons an activation when the table is torn down mid-load', async () => {
+      const field = subjectField('1');
+
+      fireEvent.click(field);
+      harness.table.destroy();
+      await new Promise((resolve) => { setTimeout(resolve, 50); });
+
+      expect(field).not.toHaveClass(readOnlyClassName);
+      expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
     });
 
     it('opens the editor on Enter', async () => {
