@@ -57,7 +57,7 @@ module Backlogs
 
         private
 
-        delegate :too_long_to_chart?, to: :burnup, private: true
+        delegate :too_long_to_chart?, :anything_to_chart?, to: :burnup, private: true
 
         def burnup
           @burnup ||= ::Sprints::Burnup.new(sprint:, project:)

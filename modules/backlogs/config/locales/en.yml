@@ -270,12 +270,6 @@ en:
             not_started:
               description: "The burndown chart will appear here after the sprint starts."
               heading: "No work to display"
-            not_started_without_estimated_hours:
-              description: "The burndown chart will appear here after the sprint starts, once the sprint has received a work package with work time estimate."
-              heading: "No work to display"
-            not_started_without_story_points:
-              description: "The burndown chart will appear here after the sprint starts, once the sprint has received a work package with estimated story points."
-              heading: "No work to display"
             too_long:
               description: "The sprint duration exceeded the 1-year limit of the burndown chart's timespan."
               heading: "No chart to display"
@@ -290,12 +284,6 @@ en:
               heading: "No work to display"
             not_started:
               description: "The burnup chart will appear here after the sprint starts."
-              heading: "No work to display"
-            not_started_without_estimated_hours:
-              description: "The burnup chart will appear here after the sprint starts, once the sprint has received a work package with work time estimate."
-              heading: "No work to display"
-            not_started_without_story_points:
-              description: "The burnup chart will appear here after the sprint starts, once the sprint has received a work package with estimated story points."
               heading: "No work to display"
             too_long:
               description: "The sprint duration exceeded the 1-year limit of the burnup chart's timespan."

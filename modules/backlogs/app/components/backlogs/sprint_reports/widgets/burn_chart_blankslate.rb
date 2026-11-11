@@ -30,21 +30,18 @@
 module Backlogs
   module SprintReports
     module Widgets
-      # Including widgets implement `too_long_to_chart?`.
+      # Including widgets implement `too_long_to_chart?` and `anything_to_chart?`.
       module BurnChartBlankslate
         include ChartBlankslate
 
         private
 
         def blankslate_reason
-          return :too_long if too_long_to_chart?
-
-          estimated = sprint.received_work_packages?(project, estimated_in: estimate_column)
-          if !start_reached? && !estimated
-            :"not_started_without_#{estimate_column}"
+          if too_long_to_chart?
+            :too_long
           elsif !start_reached?
             :not_started
-          elsif !estimated
+          elsif !anything_to_chart?
             :"no_#{estimate_column}"
           end
         end

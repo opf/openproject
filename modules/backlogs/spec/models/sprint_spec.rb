@@ -327,59 +327,6 @@ RSpec.describe Sprint do
 
       expect(sprint.received_work_packages?(project)).to be false
     end
-
-    context "when asking for work packages estimated in story points" do
-      it "is true when a work package in the sprint has story points" do
-        create(:work_package, project:, sprint:, story_points: 3)
-
-        expect(sprint.received_work_packages?(project, estimated_in: :story_points)).to be true
-      end
-
-      it "is false when the work packages in the sprint have no story points" do
-        create(:work_package, project:, sprint:, story_points: nil)
-
-        expect(sprint.received_work_packages?(project, estimated_in: :story_points)).to be false
-      end
-
-      it "is false when the work packages in the sprint are estimated at zero story points" do
-        create(:work_package, project:, sprint:, story_points: 0)
-
-        expect(sprint.received_work_packages?(project, estimated_in: :story_points)).to be false
-      end
-
-      it "is false when the work packages in the sprint are only estimated in time" do
-        create(:work_package, project:, sprint:, estimated_hours: 5)
-
-        expect(sprint.received_work_packages?(project, estimated_in: :story_points)).to be false
-      end
-
-      it "is true when a work package had story points while in the sprint, even though they were removed since" do
-        create(:work_package, project:, sprint:,
-                              journals: { 2.days.ago => { story_points: 3 }, 1.day.ago => { story_points: nil } })
-
-        expect(sprint.received_work_packages?(project, estimated_in: :story_points)).to be true
-      end
-    end
-
-    context "when asking for work packages estimated in time" do
-      it "is true when a work package in the sprint has a work estimate" do
-        create(:work_package, project:, sprint:, estimated_hours: 5)
-
-        expect(sprint.received_work_packages?(project, estimated_in: :estimated_hours)).to be true
-      end
-
-      it "is false when the work packages in the sprint are estimated at zero hours" do
-        create(:work_package, project:, sprint:, estimated_hours: 0)
-
-        expect(sprint.received_work_packages?(project, estimated_in: :estimated_hours)).to be false
-      end
-
-      it "is false when the work packages in the sprint are only estimated in story points" do
-        create(:work_package, project:, sprint:, story_points: 3)
-
-        expect(sprint.received_work_packages?(project, estimated_in: :estimated_hours)).to be false
-      end
-    end
   end
 
   describe "#owned_by?" do

@@ -75,6 +75,8 @@ module Sprints
       @projection ||= decline_from(remaining.last)
     end
 
+    def anything_to_chart? = remaining.any? { !it.value.zero? }
+
     delegate :step, :too_long_to_chart?, :non_working_intervals, :charted_range, to: :window
 
     private

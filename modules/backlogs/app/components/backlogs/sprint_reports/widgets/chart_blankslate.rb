@@ -39,9 +39,7 @@ module Backlogs
           no_epics: :graph,
           not_started: :graph,
           no_story_points: :graph,
-          no_estimated_hours: :graph,
-          not_started_without_story_points: :graph,
-          not_started_without_estimated_hours: :graph
+          no_estimated_hours: :graph
         }.freeze
 
         def chart_available? = resolved_blankslate_reason.nil?
