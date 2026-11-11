@@ -540,11 +540,12 @@ en:
     other: >
       %{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.
   permission_create_sprints: "Create sprints"
+  permission_manage_backlogs_configuration: "Manage backlogs configuration"
+  permission_manage_backlogs_configuration_explanation: >
+    Allows configuring the backlogs module including: choosing which work package types to hide
+    from the backlog, defining which statuses represent a closed or finished state in the
+    project's workflow and selecting the unit for velocity.
   permission_manage_sprint_items: "Manage sprint items"
-  permission_select_backlog_types_and_statuses: "Select backlog types and statuses"
-  permission_select_backlog_types_and_statuses_explanation: >
-    Allows choosing which work package types to hide from the backlog. Also allows defining
-    which statuses represent a closed or finished state in the project's workflow.
   permission_share_sprint: "Share sprint"
   permission_start_complete_sprint: "Start/complete sprint"
   permission_view_sprints: "View sprints"
