@@ -35,6 +35,9 @@ module Import
     store_attribute :options, :exclude_resolution_fields, :boolean, default: false
 
     has_many :jira_imports, dependent: :destroy
+    has_many :health_reports, as: :subject, dependent: :delete_all
+
+    normalizes :url, with: ->(url) { url.strip }
 
     validate :url_must_be_http_or_https
 
@@ -46,17 +49,19 @@ module Import
                              basic_auth_password:)
     end
 
+    def http_url?
+      uri = URI.parse(url.to_s)
+      uri.is_a?(URI::HTTP) && uri.host.present?
+    rescue URI::InvalidURIError
+      false
+    end
+
     private
 
     def url_must_be_http_or_https
-      return if url.blank?
+      return if url.blank? || http_url?
 
-      uri = URI.parse(url)
-      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:url, :invalid_protocol)
-      end
-    rescue URI::InvalidURIError
-      errors.add(:url, :invalid)
+      errors.add(:url, :invalid_url)
     end
   end
 end

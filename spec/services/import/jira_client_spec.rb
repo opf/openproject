@@ -38,6 +38,31 @@ RSpec.describe Import::JiraClient do
   let(:basic_auth_username) { nil }
   let(:basic_auth_password) { nil }
 
+  describe "error reasons" do
+    def api_error(status)
+      Import::JiraClient::ApiError.new("Jira API error", status:, response_body: "", response_headers: {})
+    end
+
+    it "gives every error a reason" do
+      expect(Import::JiraClient::Error.new.reason).to eq(:unexpected_error)
+      expect(Import::JiraClient::ConnectionError.new.reason).to eq(:unreachable)
+      expect(Import::JiraClient::SsrfError.new.reason).to eq(:ssrf_blocked)
+      expect(Import::JiraClient::SslError.new.reason).to eq(:ssl_error)
+      expect(Import::JiraClient::ConnectionTimeoutError.new.reason).to eq(:timeout)
+      expect(Import::JiraClient::ParseError.new.reason).to eq(:invalid_response)
+    end
+
+    it "gives API errors a reason by status" do
+      expect([401, 403, 404, 500].map { api_error(it).reason })
+        .to eq(%i[credentials_rejected credentials_rejected not_found api_error])
+    end
+
+    it "gives API errors their status as context" do
+      expect(api_error(500).context).to eq(status: "500")
+      expect(Import::JiraClient::ParseError.new.context).to be_nil
+    end
+  end
+
   describe "#initialize" do
     context "with bearer auth" do
       let(:auth_method) { "bearer" }
