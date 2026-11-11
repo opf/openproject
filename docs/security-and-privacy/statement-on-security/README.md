@@ -177,7 +177,10 @@ Admins can set a specific session duration in the system administration, so that
 
 While users work in OpenProject, the browser keeps some data locally: cached pages and API responses, and site storage such as editor drafts and revision backups. This data can contain content from projects and work packages.
 
-When a user logs out of OpenProject, the logout response includes the `Clear-Site-Data: "storage"` header. The browser then deletes site storage for the OpenProject address, such as local storage, session storage and IndexedDB. Browsers apply this header only on HTTPS connections.
+When a user logs out of OpenProject deployed at the root of a hostname, the logout response includes the `Clear-Site-Data: "storage"` header. The browser then deletes site storage for the OpenProject address, such as local storage, session storage and IndexedDB. Browsers apply this header only on HTTPS connections.
+
+> [!WARNING]
+> Deploying OpenProject in a subdirectory, such as `https://example.com/openproject`, provides less protection for browser data after logout. When `OPENPROJECT_RAILS__RELATIVE__URL__ROOT` is set to a non-empty path, OpenProject omits this header because it would also delete storage belonging to other applications on the same origin (scheme, hostname and port). Editor drafts and revision backups can therefore remain in the browser after logout. Use a dedicated hostname, such as `https://openproject.example.com`, with OpenProject deployed at its root to enable storage clearing on logout.
 
 The header does not clear the browser cache, because clearing the cache this way can make Google Chrome stop responding for several seconds. It also does not clear cookies, because the browser would remove the cookies of all applications on the same parent domain and log the user out of them.
 

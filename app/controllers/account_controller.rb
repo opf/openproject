@@ -521,7 +521,11 @@ class AccountController < ApplicationController
   # (https://crbug.com/40233601).
   #
   # - "cookies": The browser removes the cookies of the full main domain that we may have no control over.
+  #
+  # In a relative URL root, we would also clean related paths when clearing "storage", so we can't even do that there.
   def clear_site_data
+    return if OpenProject::Configuration.rails_relative_url_root.present?
+
     response.headers["Clear-Site-Data"] = '"storage"'
   end
 
