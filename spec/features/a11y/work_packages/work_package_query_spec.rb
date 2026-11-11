@@ -56,7 +56,7 @@ RSpec.describe "Work package index accessibility" do
     shared_examples_for "sortable column" do
       def sort_from_column_menu(item)
         find(:columnheader, column_name).click_button(column_name)
-        within(:menu, column_name) { find(:menuitem, item).click }
+        within(:menu, column_name) { find(:role, "menuitemradio", text: item).click }
       end
 
       it "sorts descending from the column menu" do
