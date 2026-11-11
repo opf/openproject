@@ -30,10 +30,10 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe ITSM::HelpdeskUsers::FindOrCreateService do
+RSpec.describe ITSM::HelpdeskUsers::SetUpService do
   subject(:result) { described_class.new.call }
 
-  let(:user) { result.result }
+  let(:user) { ITSM.helpdesk_user }
   let(:role) { ITSM.helpdesk_role }
 
   it "creates a service account named after the help desk" do
@@ -57,14 +57,16 @@ RSpec.describe ITSM::HelpdeskUsers::FindOrCreateService do
   end
 
   it "does not count the account as a user of the instance" do
+    result
+
     expect(User.human).not_to include(user)
     expect(Principal.not_builtin).not_to include(user)
   end
 
   context "when the account and the role exist" do
-    let!(:existing_user) { described_class.new.call.result }
+    let!(:existing_user) { described_class.new.call.then { ITSM.helpdesk_user } }
 
-    it "returns the existing account without creating anything" do
+    it "keeps the existing account without creating anything" do
       expect { result }.not_to change(Principal, :count)
       expect(user).to eq(existing_user)
       expect(ProjectRole.where(name: "Help desk").count).to eq(1)
@@ -95,7 +97,7 @@ RSpec.describe ITSM::HelpdeskUsers::FindOrCreateService do
   end
 
   context "when the account was deleted" do
-    let!(:existing_user) { described_class.new.call.result }
+    let!(:existing_user) { described_class.new.call.then { ITSM.helpdesk_user } }
 
     before { existing_user.destroy }
 

@@ -32,10 +32,10 @@ require_module_spec_helper
 
 RSpec.describe ITSM do
   context "when the help desk was turned on" do
-    let!(:created) { ITSM::HelpdeskUsers::FindOrCreateService.new.call.result }
+    before { ITSM::HelpdeskUsers::SetUpService.new.call }
 
     it "finds the help desk user and role" do
-      expect(described_class.helpdesk_user).to eq(created)
+      expect(described_class.helpdesk_user).to have_attributes(name: "Help desk", id: Setting.helpdesk_user_id)
       expect(described_class.helpdesk_role).to have_attributes(name: "Help desk", id: Setting.helpdesk_role_id)
     end
   end

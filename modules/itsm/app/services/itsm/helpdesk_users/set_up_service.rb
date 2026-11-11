@@ -29,15 +29,13 @@
 
 module ITSM
   module HelpdeskUsers
-    class FindOrCreateService < ::BaseServices::BaseCallable
+    class SetUpService < ::BaseServices::BaseCallable
       PERMISSIONS = %i[view_work_packages add_work_packages add_work_package_comments].freeze
 
       protected
 
       def perform
-        role = ITSM.helpdesk_role
-        user = ITSM.helpdesk_user
-        return ServiceResult.success(result: user) if role && user
+        return ServiceResult.success if ITSM.helpdesk_role && ITSM.helpdesk_user
 
         in_transaction { locked { create_missing } }
       end
@@ -49,7 +47,7 @@ module ITSM
         return ServiceResult.failure(errors: role.errors) unless role.persisted?
 
         user = ITSM.helpdesk_user || create(new_user, :helpdesk_user_id)
-        user.persisted? ? ServiceResult.success(result: user) : ServiceResult.failure(errors: user.errors)
+        user.persisted? ? ServiceResult.success : ServiceResult.failure(errors: user.errors)
       end
 
       def new_role = ProjectRole.new(name: translated(:label_helpdesk_role), permissions: PERMISSIONS)

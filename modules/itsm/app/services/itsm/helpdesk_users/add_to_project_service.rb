@@ -38,7 +38,7 @@ module ITSM
       protected
 
       def perform
-        FindOrCreateService.new.call.bind { |user| add_member(user, ITSM.helpdesk_role) }
+        SetUpService.new.call.bind { add_member(ITSM.helpdesk_user, ITSM.helpdesk_role) }
       end
 
       private

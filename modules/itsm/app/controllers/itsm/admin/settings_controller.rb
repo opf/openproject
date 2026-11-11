@@ -48,7 +48,7 @@ module ITSM
 
       def enable_helpdesk
         enabled = ActiveModel::Type::Boolean.new.cast(params[:value])
-        result = enabled ? HelpdeskUsers::FindOrCreateService.new.call : ServiceResult.success
+        result = enabled ? HelpdeskUsers::SetUpService.new.call : ServiceResult.success
 
         result
           .on_success { Setting.helpdesk_enabled = enabled }
