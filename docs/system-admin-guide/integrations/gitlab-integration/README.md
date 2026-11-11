@@ -75,7 +75,7 @@ Finally you will need to activate the **Repositories** module for each project u
 
 Seeing the **Code** tab requires the **Show repository content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab. This can be added in the [**Roles and Permissions**](../../users-permissions/roles-permissions/) settings.
 
-![Grant permission to show GitLab content to user roles in OpenProject](openproject-system-guide-gitlab-integration-gitlab-content-role-permission.png)
+![Grant permission to show repository content to user roles in OpenProject](openproject-system-guide-gitlab-integration-gitlab-content-role-permission.png)
 
 ### GitLab
 
@@ -206,7 +206,7 @@ Changes to the merge request will be tracked under the **Code** tab of the OpenP
 
 OpenProject GitLab integration allows linking GitLab issues directly with OpenProject work packages.
 
-Initially when no issues were linked yet you will see the following message under **Code** tab.
+If no issues are linked yet, the **Code** tab displays the following message.
 
 ![Gitlab no link issues](openproject-system-guide-gitlab-integration-no-issues.png)
 
