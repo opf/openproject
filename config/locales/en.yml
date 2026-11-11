@@ -2935,7 +2935,7 @@ en:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
-    contained_in_type: "Contained in type"
+    contained_in: "Contained in"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:
@@ -4225,7 +4225,7 @@ en:
   label_custom_export_footer: "Footer image"
   label_custom_export_logo: "Logo"
   label_custom_favicon: "Custom favicon"
-  label_custom_field_add_no_type: "Add this field to a work package type"
+  label_custom_field_add_no_form: "Add this field to a form"
   label_custom_field_default_type: "Empty type"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
@@ -4843,6 +4843,9 @@ en:
     one: "%{count} file"
     other: "%{count} files"
     zero: "no files"
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
