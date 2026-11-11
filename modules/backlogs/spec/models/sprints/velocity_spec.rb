@@ -37,7 +37,7 @@ RSpec.describe Sprints::Velocity do
 
   shared_let(:open_status) { create(:status, is_default: true) }
   shared_let(:done_status) { create(:status) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:closed_status) { create(:status, category: "closed") }
 
   shared_let(:start_of_history) { Time.zone.local(2026, 3, 2, 10) }
 
