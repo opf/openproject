@@ -173,6 +173,23 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_u
       end
     end
 
+    context "with an empty staged upload" do
+      before do
+        stage_direct_upload(pending_attachment, content: "")
+      end
+
+      it "stores the attachment as an empty file" do
+        job.perform(pending_attachment.id)
+
+        attachment = Attachment.find(pending_attachment.id)
+
+        expect(attachment).to be_status_uploaded
+        expect(attachment.filesize).to eq 0
+        expect(attachment.digest).to eql("d41d8cd98f00b204e9800998ecf8427e")
+        expect(stored_content).to eq ""
+      end
+    end
+
     context "without a staged upload" do
       before do
         staged_direct_upload(pending_attachment).destroy

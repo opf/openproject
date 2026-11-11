@@ -86,6 +86,39 @@ RSpec.describe FogFileUploader,
       end
     end
 
+    context "with an empty remote file" do
+      let(:model) { Attachment.new(id: 1) }
+      let(:remote_uploader) { described_class.new(model, :file) }
+
+      before do
+        Fog::Storage.new(MockCarrierwave.credentials)
+          .directories.get(MockCarrierwave.bucket)
+          .files.create(key: "#{remote_uploader.store_dir}/empty.txt", body: "")
+
+        remote_uploader.retrieve_from_store!("empty.txt")
+      end
+
+      it "returns an empty local file" do
+        file = Rails.application.executor.wrap { remote_uploader.local_file }
+
+        expect(file).to be_a(File)
+        expect(file.size).to eq 0
+      end
+    end
+
+    context "when downloading the remote file fails" do
+      before do
+        allow(uploader.file).to receive(:read).and_raise(Excon::Error::Socket.new(StandardError.new("connection reset")))
+      end
+
+      it "raises the download error" do
+        expect { Rails.application.executor.wrap { uploader.local_file } }
+          .to raise_error(FogFileUploader::DownloadError, /connection reset/) do |error|
+            expect(error.cause).to be_a(Excon::Error::Socket)
+          end
+      end
+    end
+
     it "keeps a file that was cached and not downloaded" do
       cached_uploader = described_class.new(model, :file)
       cached_uploader.cache!(CarrierWave::SanitizedFile.new(tempfile: StringIO.new(content), filename: "cached.bin"))
