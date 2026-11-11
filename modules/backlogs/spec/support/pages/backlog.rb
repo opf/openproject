@@ -957,10 +957,9 @@ module Pages
     end
 
     def expect_work_package_menu_axe_clean(work_package)
-      within_work_package_menu(work_package) do |menu|
-        menu_selector = "##{menu[:id]}"
+      within_work_package_menu(work_package) do
         expect_work_package_menu_loaded(work_package)
-        expect(page).to be_axe_clean.within(menu_selector)
+        expect(page).to be_axe_clean.within("##{ActionView::RecordIdentifier.dom_target(work_package, :menu)}-list")
       end
     end
 
