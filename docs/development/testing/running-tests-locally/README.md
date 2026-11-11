@@ -144,11 +144,12 @@ You can also run _all_ feature specs locally, see [Parallel testing](#parallel-t
 
 In case you are on Windows using WSL2 rather than Linux directly, install Chrome or Chromium inside your WSL2 distribution, as Cuprite needs to find a local browser binary. Otherwise you will see an error like "Failed to find Chrome binary".
 
-Specs that use Selenium can alternatively run against a Selenium Grid on the Windows host. Point `SELENIUM_GRID_URL` to the grid and set `CAPYBARA_APP_HOSTNAME` to an address of your WSL2 instance that the browser on Windows can reach:
+Specs that use Selenium can alternatively run against a Selenium Grid on the Windows host. Point `SELENIUM_GRID_URL` to the grid and set `CAPYBARA_APP_HOSTNAME` to an address of your WSL2 instance that the browser on Windows can reach. The test server only listens on `127.0.0.1` by default, so also bind it to all interfaces with `CAPYBARA_BIND_ADDRESS`:
 
 ```shell
 export SELENIUM_GRID_URL=http://<Windows host IP>:4444/wd/hub
 export CAPYBARA_APP_HOSTNAME=`hostname -I | cut -d ' ' -f 1`
+export CAPYBARA_BIND_ADDRESS=0.0.0.0
 ```
 
 ### Headless testing
@@ -233,6 +234,12 @@ By default, the number of processes is the CPU count. This might be a bit much t
 
 ```shell
 export PARALLEL_TEST_PROCESSORS=4
+```
+
+`turbo_tests` numbers its processes starting at 1, while the `parallel:` tasks leave the first database without a number by default. Make them number the databases the same way, as CI does:
+
+```shell
+export PARALLEL_TEST_FIRST_IS_1=true
 ```
 
 First migrate and dump your current development schema with `RAILS_ENV=development ./bin/rails db:migrate db:schema:dump` (will create a `db/structure.sql`).
