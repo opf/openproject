@@ -75,7 +75,11 @@
               </anchored-position>
             </li>
           } @else {
-            <li role="none" class="ActionListItem" [class]="item.class" [class.ActionListItem--disabled]="item.disabled">
+            <li role="none"
+              class="ActionListItem"
+              [class]="item.class"
+              [class.ActionListItem--disabled]="item.disabled"
+              [class.ActionListItem--danger]="item.scheme === 'danger'">
               @if (item.href) {
                 <a tabindex="-1"
                   [attr.role]="item.checked === undefined ? 'menuitem' : 'menuitemcheckbox'"

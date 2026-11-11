@@ -64,6 +64,7 @@ export interface OpContextMenuItem {
   children?:OpContextMenuItem[];
   /** Renders the item as a `menuitemcheckbox` with this checked state. */
   checked?:boolean;
+  scheme?:'danger';
 }
 
 export interface OpContextMenuLocalsMap {
