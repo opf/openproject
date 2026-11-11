@@ -196,7 +196,7 @@ module API
             name_source: ->(*) { custom_field.name },
             required: custom_field.is_required,
             href_callback: ->(*) do
-              project_id = represented.project&.id if custom_field.project_specific_value_restriction
+              project_id = represented.project&.id if custom_field.project_specific_values_supported?
               api_v3_paths.custom_field_items(custom_field.id, project: project_id)
             end
           )

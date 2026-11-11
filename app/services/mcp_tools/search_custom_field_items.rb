@@ -86,7 +86,7 @@ module McpTools
     end
 
     def visible_value_ids(custom_field)
-      return if custom_field.project_specific_value_restriction.nil?
+      return unless custom_field.project_specific_values_supported?
 
       custom_field.visible_values_for(current_user).pluck(:id).to_set
     end
