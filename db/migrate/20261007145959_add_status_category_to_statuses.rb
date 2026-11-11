@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-
 class AddStatusCategoryToStatuses < ActiveRecord::Migration[8.1]
   def up
     add_column :statuses, :category, :string
