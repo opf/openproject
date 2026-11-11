@@ -154,6 +154,11 @@ export interface RootAwareChild {
   disconnectRoot():void;
 }
 
+// The menu source, which names card menus after the presented selection.
+export interface SelectionAwareChild extends RootAwareChild {
+  selectionPresented():void;
+}
+
 export interface RegisteredRootAwareChild extends RootAwareChild {
   reregister():void;
 }

@@ -73,19 +73,25 @@ RSpec.describe "Backlogs batch destination menus",
     let!(:bucket_story) { create(:work_package, project:, type:, backlog_bucket: bucket) }
     let!(:sprint_story) { create(:work_package, project:, type:, sprint: source_sprint) }
 
-    it "names the menu after the batch only while it is open", :aggregate_failures do
+    it "names the More button after the batch for as long as it is selected", :aggregate_failures do
       backlogs_page.visit!
       backlogs_page.select_cards(sprint_story, bucket_story)
 
       backlogs_page.within_work_package(sprint_story) do
-        find(:button, accessible_name: "Work package actions").click
-        expect(page).to have_button(accessible_name: "Actions for 2 selected work packages")
+        find(:button, accessible_name: "Actions for 2 selected work packages").click
       end
       expect(page).to have_selector(:menu, accessible_name: "Actions for 2 selected work packages")
 
       backlogs_page.send_keys_to_focused_element(:escape)
 
       expect(page).to have_no_selector(:menu)
+      backlogs_page.within_work_package(sprint_story) do
+        expect(page).to have_button(accessible_name: "Actions for 2 selected work packages", focused: true)
+      end
+
+      backlogs_page.send_keys_to_focused_element(:escape)
+
+      backlogs_page.expect_no_selected_cards
       backlogs_page.within_work_package(sprint_story) do
         expect(page).to have_button(accessible_name: "Work package actions")
       end
