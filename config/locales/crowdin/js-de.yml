@@ -150,6 +150,7 @@ de:
     button_log_time: Zeit buchen
     button_more: Mehr
     button_more_actions: Weitere Aktionen
+    button_move: Move
     button_open_details: Detailansicht öffnen
     button_open_fullscreen: Vollbildansicht öffnen
     button_quote: Zitieren
@@ -203,7 +204,7 @@ de:
     description_available_columns: Verfügbare Spalten
     description_current_position: 'Sie sind hier: '
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
-    description_subwork_package: 'Unteraufgabe von Arbeitspaket #%{id}'
+    description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
       ai_actions:
         caption: Assistant
@@ -567,7 +568,9 @@ de:
     label_show_in_menu: Ansicht im Seitenmenü anzeigen
     label_sort_by: Sortieren nach
     label_sort_higher: Nach oben verschieben
+    label_sort_highest: Move to top
     label_sort_lower: Nach unten verschieben
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortiert nach
     label_sorting: Sortierung
     label_spent_time: Aufgewendete Zeit
@@ -591,7 +594,7 @@ de:
     label_uploaded_by: Hochgeladen von
     label_user_plural: Benutzer
     label_validation_error: 'Das Arbeitspaket konnte aufgrund folgender Fehler nicht gespeichert werden:'
-    label_value_derived_from_children: "(aggregierter Wert von Unteraufgaben)"
+    label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
     label_version_plural: Versionen
     label_view_has_changed: Diese Ansicht hat ungespeicherte Änderungen. Klicken, um sie zu speichern.
     label_visibility_settings: Sichtbarkeits-Einstellungen
@@ -821,6 +824,7 @@ de:
         batch_too_large: Es ist nicht möglich, %{count} Element auf einmal zu verschieben. Wählen Sie nicht mehr als %{max} aus.
         fallback_item_label: Element
         fallback_list_name: andere Liste
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Elements.
         move_failed_check_positions_batch:
           other: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Elements.
@@ -958,7 +962,7 @@ de:
         button: Erstellen
         header: 'Neu: %{type}'
         header_no_type: Neues Arbeitspaket (Typ noch nicht gesetzt)
-        header_with_parent: 'Neu: %{type} (Unteraufgabe von %{parent_type} #%{id})'
+        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         title: Neues Arbeitspaket
       default_queries:
         all_open: Alle offenen

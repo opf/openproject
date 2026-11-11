@@ -271,7 +271,7 @@ RSpec.describe "Invite user modal", :js do
                    :list,
                    name: "List",
                    is_required: true,
-                   editable: false,
+                   user_self_editable: false,
                    default_option: "A")
           end
 
@@ -314,7 +314,7 @@ RSpec.describe "Invite user modal", :js do
                      :list,
                      name: "List",
                      is_required: true,
-                     editable: false,
+                     user_self_editable: false,
                      default_option: "A")
             end
 
@@ -450,7 +450,6 @@ RSpec.describe "Invite user modal", :js do
                    :list,
                    name: "Department",
                    is_required: true,
-                   editable: false,
                    default_option: "A")
           end
 

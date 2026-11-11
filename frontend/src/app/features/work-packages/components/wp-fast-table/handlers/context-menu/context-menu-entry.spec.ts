@@ -26,15 +26,18 @@
 //++
 
 import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
+import type { MockInstance } from 'vitest';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { userEvent } from 'vitest/browser';
 import { States } from 'core-app/core/states/states.service';
+import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
-import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
 import { buildTable, TableHarness, type TableHarnessOptions } from '../../testing/table-harness';
 import { wpOccurrenceKey } from '../../rendered-occurrence-ledger';
 import { headerRowKey, totalsRowKey } from '../../row-keys';
@@ -44,7 +47,7 @@ import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 describe('Context menu entry', () => {
   let harness:TableHarness;
   let menuTargets:string[][];
-  let opened:ReturnType<typeof vi.spyOn>;
+  let opened:MockInstance<OpActionMenuService['show']>;
 
   const mount = async (options:Partial<TableHarnessOptions> = {}, expanded:[string, string][] = []) => {
     harness = buildTable({
@@ -61,7 +64,7 @@ describe('Context menu entry', () => {
         menuTargets.push(workPackages.map((wp) => wp.id!));
         return [];
       });
-    opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+    opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
   };
 
   beforeEach(() => mount());
@@ -73,6 +76,65 @@ describe('Context menu entry', () => {
     { key: 'F10', shiftKey: true, altKey: true },
   );
 
+  it('renders known table actions as Octicons and preserves custom visuals', () => {
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+      { key: 'delete' },
+      { key: 'log_costs', icon: 'icon-budget' },
+      { key: 'relation-precedes' },
+      { key: 'custom', icon: 'icon-custom' },
+    ]);
+
+    fireEvent.contextMenu(harness.row('1'));
+
+    expect(opened.mock.calls[0][0].locals.items).toEqual(expect.arrayContaining([
+      expect.objectContaining({ octicon: 'op-view-split' }),
+      expect.objectContaining({ octicon: 'trash' }),
+      expect.objectContaining({ octicon: 'op-budget' }),
+      expect.objectContaining({ octicon: 'package-dependents' }),
+      expect.objectContaining({ icon: 'icon-custom', octicon: undefined }),
+    ]));
+  });
+
+  it('separates the action groups with dividers and marks deletion as dangerous', () => {
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+      { key: 'copy_link_to_clipboard', text: 'Copy link to clipboard' },
+      { key: 'log_time', text: 'Log time' },
+      { key: 'change_project', text: 'Move to another project' },
+      { key: 'generate_pdf', text: 'Generate PDF' },
+      { key: 'delete', text: 'Delete' },
+    ]);
+
+    fireEvent.contextMenu(harness.row('1'));
+
+    const items = opened.mock.calls[0][0].locals.items;
+
+    expect(items.slice(2).map((item) => (item.divider ? '---' : item.linkText))).toEqual([
+      'Copy link to clipboard',
+      '---',
+      'Log time',
+      '---',
+      'Move to another project',
+      '---',
+      'Generate PDF',
+      '---',
+      'Delete',
+    ]);
+    expect(items.filter((item) => item.scheme === 'danger').map((item) => item.linkText)).toEqual(['Delete']);
+  });
+
+  it('uses the duplicate Octicon for the bulk copy action', () => {
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
+      .mockReturnValue([{ key: 'copy', text: 'Bulk duplicate' }]);
+    harness.click('1');
+    harness.click('2', { shiftKey: true });
+
+    fireEvent.contextMenu(harness.row('2'));
+
+    expect(opened.mock.calls[0][0].locals.items).toContainEqual(
+      expect.objectContaining({ linkText: 'Bulk duplicate', octicon: 'duplicate' }),
+    );
+  });
+
   it('selects an unselected row and opens the menu for it alone', () => {
     harness.click('2');
 
@@ -82,6 +144,42 @@ describe('Context menu entry', () => {
     expect(harness.focus.focusedWorkPackage).toBe('2');
     expect(opened).toHaveBeenCalledTimes(1);
     expect(menuTargets).toEqual([['1']]);
+  });
+
+  it.each(['touch', 'pen'])('leaves a held %s context menu native through release', (pointerType) => {
+    harness.click('2');
+    const row = harness.row('1');
+    fireEvent.pointerDown(row, { pointerType, buttons: 1 });
+
+    expect(fireEvent.contextMenu(row, { buttons: 0 })).toBe(true);
+    expect(opened).not.toHaveBeenCalled();
+
+    fireEvent.pointerUp(row, { pointerType, buttons: 0 });
+
+    expect(opened).not.toHaveBeenCalled();
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  it('still opens by keyboard after touch input and consumes its companion event', () => {
+    const row = harness.row('1');
+    fireEvent.pointerDown(row, { pointerType: 'touch', buttons: 1 });
+    fireEvent.pointerUp(row, { pointerType: 'touch', buttons: 0 });
+
+    openFromKeyboard('1');
+
+    expect(opened).toHaveBeenCalledTimes(1);
+    expect(fireEvent.contextMenu(row)).toBe(false);
+    expect(opened).toHaveBeenCalledTimes(1);
+  });
+
+  it('opens a mouse context menu after touch input', () => {
+    const row = harness.row('1');
+    fireEvent.pointerDown(row, { pointerType: 'touch', buttons: 1 });
+    fireEvent.pointerUp(row, { pointerType: 'touch', buttons: 0 });
+    fireEvent.pointerDown(row, { pointerType: 'mouse', buttons: 2 });
+
+    expect(fireEvent.contextMenu(row, { buttons: 2 })).toBe(false);
+    expect(opened).toHaveBeenCalledTimes(1);
   });
 
   it('keeps a batch selection and opens the menu for the whole batch', () => {
@@ -136,6 +234,130 @@ describe('Context menu entry', () => {
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
   });
 
+  describe('Move actions', () => {
+    const menuItems = () => {
+      const call = opened.mock.lastCall;
+      if (!call) throw new Error('No menu was opened');
+      return call[0].locals.items;
+    };
+    const moveMenu = () => menuItems().find((item) => item.children && item.linkText === 'Move to position');
+    const moveItems = () => moveMenu()?.children ?? [];
+    const hasMoveSubmenu = () => moveMenu() !== undefined;
+
+    const dragAndDropTable = { contextMenuEnabled: true, dragAndDropEnabled: true };
+
+    beforeEach(async () => {
+      window.I18n.store({
+        en: {
+          js: {
+            button_move_to_position: 'Move to position',
+            label_sort_highest: 'Move to top',
+            label_sort_higher: 'Move up',
+            label_sort_lower: 'Move down',
+            label_sort_lowest: 'Move to bottom',
+          },
+        },
+      });
+      await harness.destroy();
+      await mount({ manualSort: true, configuration: dragAndDropTable });
+    });
+
+    it('offers the move group for one work package', () => {
+      openFromKeyboard('2');
+
+      expect(hasMoveSubmenu()).toBe(true);
+      expect(moveItems().map((item) => item.linkText)).toEqual(['Move to top', 'Move up', 'Move down', 'Move to bottom']);
+      expect(moveItems().map((item) => item.disabled)).toEqual([false, false, false, false]);
+    });
+
+    it('disables the edge actions on the first row', () => {
+      openFromKeyboard('1');
+
+      expect(moveItems().map((item) => [item.linkText, item.disabled])).toEqual([
+        ['Move to top', true],
+        ['Move up', true],
+        ['Move down', false],
+        ['Move to bottom', false],
+      ]);
+    });
+
+    it('also offers the group from a right click', () => {
+      fireEvent.contextMenu(harness.row('3'));
+
+      expect(moveItems().map((item) => [item.linkText, item.disabled])).toEqual([
+        ['Move to top', false],
+        ['Move up', false],
+        ['Move down', true],
+        ['Move to bottom', true],
+      ]);
+    });
+
+    it('offers the bulk move submenu with selection-wide edges', () => {
+      harness.click('1');
+      harness.click('2', { shiftKey: true });
+
+      openFromKeyboard('2');
+
+      expect(moveItems().map((item) => item.disabled)).toEqual([true, true, false, false]);
+    });
+
+    it('offers no move group outside manual sorting', async () => {
+      await harness.destroy();
+      await mount({ manualSort: false, configuration: dragAndDropTable });
+
+      openFromKeyboard('2');
+
+      expect(hasMoveSubmenu()).toBe(false);
+    });
+
+    it('offers no move group in a descending manual sort', async () => {
+      await harness.destroy();
+      await mount({ manualSort: true, manualSortDirection: QUERY_SORT_BY_DESC, configuration: dragAndDropTable });
+
+      openFromKeyboard('2');
+
+      expect(hasMoveSubmenu()).toBe(false);
+    });
+
+    it('offers no move group when the table has drag and drop disabled', async () => {
+      await harness.destroy();
+      await mount({ manualSort: true, configuration: { contextMenuEnabled: true } });
+
+      openFromKeyboard('2');
+
+      expect(hasMoveSubmenu()).toBe(false);
+      expect(moveItems()).toEqual([]);
+    });
+
+    it('moves the row from the menu', async () => {
+      openFromKeyboard('2');
+
+      expect(moveItems()[2].onClick!(new MouseEvent('click'))).toBe(true);
+
+      await vi.waitFor(() => expect(harness.table.rowMover!.movableDirections(['2'])).toEqual(new Set(['top', 'up'])));
+    });
+
+    it('disables every move while a move is pending', async () => {
+      const service = harness.injector.get(WorkPackageViewOrderService);
+      let release!:() => void;
+      const gate = new Promise<void>((resolve) => { release = resolve; });
+      const original = service.prepareMove.bind(service);
+      const prepareMove = vi.spyOn(service, 'prepareMove').mockImplementation(async (...args) => {
+        const prepared = await original(...args);
+        return { ...prepared, persist: async () => { await gate; await prepared.persist(); } };
+      });
+      harness.table.rowMover!.move(['1'], 'down');
+      await vi.waitFor(() => expect(prepareMove).toHaveBeenCalled());
+
+      openFromKeyboard('2');
+
+      expect(moveItems().map((item) => item.disabled)).toEqual([true, true, true, true]);
+      const rendered = harness.nextRender();
+      release();
+      await rendered;
+    });
+  });
+
   describe('with a relation row', () => {
     beforeEach(async () => {
       await harness.destroy();
@@ -184,7 +406,7 @@ describe('Context menu origin during a row-control walk', () => {
 describe('Context menu entry from the actions column button', () => {
   let harness:TableHarness;
   let menuTargets:string[][];
-  let opened:ReturnType<typeof vi.spyOn>;
+  let opened:MockInstance<OpActionMenuService['show']>;
 
   beforeEach(async () => {
     harness = buildTable({
@@ -199,13 +421,13 @@ describe('Context menu entry from the actions column button', () => {
         menuTargets.push(workPackages.map((wp) => wp.id!));
         return [];
       });
-    opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+    opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
   });
 
   afterEach(() => harness.destroy());
 
   const menuButton = (workPackageId:string) => within(harness.row(workPackageId))
-    .getByRole('link', { name: 'js.label_open_context_menu' });
+    .getByRole('button', { name: 'js.label_open_context_menu' });
 
   it('selects an unselected row and opens the menu for it alone', () => {
     harness.click('2');
@@ -244,7 +466,7 @@ describe('Context menu entry from the actions column button', () => {
 describe('Context menu entry on the inline-create row', () => {
   let harness:TableHarness;
   let inlineCreateRow:HTMLTableRowElement;
-  let opened:ReturnType<typeof vi.spyOn>;
+  let opened:MockInstance<OpActionMenuService['show']>;
 
   const menuShortcut = { key: 'F10', shiftKey: true, altKey: true };
 
@@ -265,7 +487,7 @@ describe('Context menu entry on the inline-create row', () => {
     inlineCreateRow = harness.addInlineCreateRow();
     harness.click('2');
 
-    opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+    opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
   });
 
   afterEach(() => harness.destroy());
@@ -311,7 +533,7 @@ describe('Context menu entry on the inline-create row', () => {
 describe('Context menu keyboard chords', () => {
   let harness:TableHarness;
   let menuTargets:string[][];
-  let opened:ReturnType<typeof vi.spyOn>;
+  let opened:MockInstance<OpActionMenuService['show']>;
   let clock:number;
 
   const newStatus = { href: '/api/v3/statuses/1' };
@@ -338,7 +560,7 @@ describe('Context menu keyboard chords', () => {
         menuTargets.push(workPackages.map((wp) => wp.id!));
         return [];
       });
-    opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+    opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
   };
 
   const focusKey = (key:string) => harness.table.keyboardNavigation
@@ -613,10 +835,12 @@ describe('Context menu keyboard chords', () => {
   });
 });
 
+const menuElement = () => within(document.body).getAllByRole('menu', { hidden: true })[0];
+const firstMenuItem = () => within(menuElement()).getAllByRole('menuitem')[0];
+
 describe('Context menu focus return', () => {
   let harness:TableHarness;
-  let menu:OPContextMenuService;
-  let unregister:() => void;
+  let menu:OpActionMenuService;
   let action:() => void;
   let page:HTMLElement;
 
@@ -627,7 +851,6 @@ describe('Context menu focus return', () => {
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
       columns: ['id', 'subject', 'status'],
       productionMarkup: true,
-      providers: [OPContextMenuService],
       ...options,
       configuration: { contextMenuEnabled: true, ...options.configuration },
     });
@@ -637,8 +860,7 @@ describe('Context menu focus return', () => {
     page.id = 'wrapper';
     page.textContent = 'Blank page';
     document.body.append(page);
-    menu = harness.injector.get(OPContextMenuService);
-    unregister = registerContextMenu(menu);
+    menu = harness.injector.get(OpActionMenuService);
     action = () => undefined;
     vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
       .mockReturnValue([{ key: 'test-action', text: 'Test action', link: '#' }]);
@@ -653,7 +875,7 @@ describe('Context menu focus return', () => {
     target.focus();
     fireEvent.keyDown(target, { key: 'F10', shiftKey: true });
     return waitFor(() => {
-      const item = document.querySelector<HTMLElement>('.op-context-menu--overlay .menu-item')!;
+      const item = firstMenuItem();
       expect(item).toHaveFocus();
       return item;
     });
@@ -665,7 +887,7 @@ describe('Context menu focus return', () => {
   };
 
   const clickAction = async () => {
-    const item = await waitFor(() => within(document.querySelector<HTMLElement>('.op-context-menu--overlay')!)
+    const item = await waitFor(() => within(menuElement())
       .getByRole('menuitem', { name: 'Test action' }));
     fireEvent.click(item);
   };
@@ -675,7 +897,6 @@ describe('Context menu focus return', () => {
     await nextFrame();
     await nextFrame();
     menu.close();
-    unregister();
     page.remove();
     vi.restoreAllMocks();
     await harness.destroy();
@@ -690,26 +911,72 @@ describe('Context menu focus return', () => {
         await userEvent.tab();
       }
       const initialFocus = walk
-        ? within(harness.row('1')).getByRole('link', { name: 'js.label_open_context_menu' })
+        ? within(harness.row('1')).getByRole('button', { name: 'js.label_open_context_menu' })
         : harness.row('1');
       expect(initialFocus).toHaveFocus();
-      const link = within(harness.row('2')).getByRole('link', { name: 'js.label_open_context_menu' });
+      const link = within(harness.row('2')).getByRole('button', { name: 'js.label_open_context_menu' });
       const navigation = harness.table.keyboardNavigation;
       const origin = navigation.positionOfCell(link)!;
       link.focus();
       expect(link).toHaveFocus();
 
       await userEvent.keyboard('{Enter}');
-      await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+      await waitFor(() => expect(firstMenuItem()).toHaveFocus());
       await userEvent.keyboard('{Escape}');
 
       expect(menu.active).toBeNull();
       expect(navigation.elementAt(origin)).toHaveFocus();
     });
+
+    it('opens end-aligned on the actions button and marks it expanded', async () => {
+      const button = within(harness.row('2')).getByRole('button', { name: 'js.label_open_context_menu' });
+
+      fireEvent.click(button);
+      await waitFor(() => expect(firstMenuItem()).toHaveFocus());
+
+      const overlay = menuElement().closest<AnchoredPositionElement>('anchored-position')!;
+      expect(overlay.anchorElement).toBe(button);
+      expect(overlay).toHaveAttribute('align', 'end');
+      expect(button).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('anchors a Shift+F10 menu to the focused actions cell, start-aligned', async () => {
+      const cell = navigableCells(harness.row('2')).at(-1)!;
+      const navigation = harness.table.keyboardNavigation;
+      navigation.focusPosition(navigation.positionOfCell(cell)!);
+      expect(cell).toHaveFocus();
+
+      fireEvent.keyDown(cell, { key: 'F10', shiftKey: true });
+      await waitFor(() => expect(firstMenuItem()).toHaveFocus());
+
+      const overlay = menuElement().closest<AnchoredPositionElement>('anchored-position')!;
+      expect(overlay.anchorElement).toBe(cell);
+      expect(overlay).toHaveAttribute('align', 'start');
+
+      fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+      await waitFor(() => expect(cell).toHaveFocus());
+    });
   });
 
   describe('in a flat list', () => {
     beforeEach(() => mount());
+
+    it('swallows the contextmenu event Shift+F10 sends to the focused menu item', async () => {
+      const item = await openFromKeyboard(harness.row('2'));
+
+      expect(fireEvent.contextMenu(item)).toBe(false);
+      expect(menu.active).not.toBeNull();
+    });
+
+    it('opens a pointer menu from an icon inside a cell', async () => {
+      const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      cellOf('2', 1).append(icon);
+
+      fireEvent.contextMenu(icon, { clientX: 10, clientY: 10 });
+
+      const item = await waitFor(() => within(menuElement()).getByRole('menuitem', { name: 'Test action' }));
+      expect(item).toBeInTheDocument();
+    });
 
     it('row menu: an action that re-renders the row returns focus to the origin cell, not the body', async () => {
       action = () => harness.table.refreshRows(resource('2'));
@@ -739,6 +1006,16 @@ describe('Context menu focus return', () => {
       expect(cellOf('2', 1)).toHaveFocus();
     });
 
+    it('a scroll-away close returns to the cell origin without scrolling it back into view', async () => {
+      await openOnCell('2', 1);
+      const scrollIntoView = vi.spyOn(Element.prototype, 'scrollIntoView');
+
+      menu.close('scroll');
+
+      expect(cellOf('2', 1)).toHaveFocus();
+      expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+
     it('Escape immediately after opening closes the menu, returns focus and keeps the selection', async () => {
       harness.click('2');
       harness.table.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
@@ -750,30 +1027,28 @@ describe('Context menu focus return', () => {
       await nextFrame();
       await nextFrame();
       await nextFrame();
-      expect(document.querySelector('.op-context-menu--overlay .menu-item')).toBeNull();
+      expect(within(document.body).queryByRole('menu', { hidden: true })).toBeNull();
       expect(cellOf('2', 1)).toHaveFocus();
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
     });
 
     it('a click outside closes a right-click menu without pulling focus into the table', async () => {
       fireEvent.contextMenu(cellOf('2', 1));
-      await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+      await waitFor(() => expect(firstMenuItem()).toHaveFocus());
 
-      fireEvent.click(page);
+      fireEvent.pointerDown(page);
 
       expect(menu.active).toBeNull();
       expect(document.body).toHaveFocus();
     });
 
-    it('a scroll closes a keyboard-opened menu without moving focus or scrolling', async () => {
-      await openOnCell('2', 1);
-      const scrolled = vi.spyOn(Element.prototype, 'scrollIntoView');
+    it('a scroll keeps a keyboard-opened menu open with focus inside it', async () => {
+      const item = await openOnCell('2', 1);
 
       fireEvent.scroll(page);
 
-      expect(menu.active).toBeNull();
-      expect(document.body).toHaveFocus();
-      expect(scrolled).not.toHaveBeenCalled();
+      expect(menu.active).not.toBeNull();
+      expect(item).toHaveFocus();
     });
 
     it('origin row removed by the action: focus lands on the reconciled neighbor', async () => {
@@ -820,7 +1095,7 @@ describe('Context menu focus return', () => {
 
       await harness.destroy();
 
-      expect(() => menu.close(true)).not.toThrow();
+      expect(() => menu.close()).not.toThrow();
       expect(menu.active).toBeNull();
       expect(document.body).toHaveFocus();
     });
@@ -842,9 +1117,9 @@ describe('Context menu focus return', () => {
           fireEvent.keyDown(cellOf('2', 1), chord);
           fireEvent.keyDown(cellOf('2', 1), { ...chord, repeat: true });
 
-          await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+          await waitFor(() => expect(firstMenuItem()).toHaveFocus());
           expect(shown).toHaveBeenCalledTimes(1);
-          expect(document.querySelectorAll('.op-context-menu--overlay .dropdown')).toHaveLength(1);
+          expect(document.querySelectorAll('op-action-menu')).toHaveLength(1);
           expect(errors).toEqual([]);
         } finally {
           window.removeEventListener('error', collect);
@@ -891,7 +1166,7 @@ describe('Context menu focus return', () => {
 
       it('still swallows the companion of a keyboard open that replaces an open menu', async () => {
         fireEvent.contextMenu(cellOf('1', 1));
-        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+        await waitFor(() => expect(firstMenuItem()).toHaveFocus());
 
         fireEvent.keyDown(harness.row('2'), { key: 'F10', shiftKey: true });
 

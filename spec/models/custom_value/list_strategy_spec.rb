@@ -31,7 +31,7 @@ require "spec_helper"
 
 RSpec.describe CustomValue::ListStrategy do
   let(:instance) { described_class.new(custom_value) }
-  let(:custom_field) { create(:list_wp_custom_field) }
+  let!(:custom_field) { create(:list_wp_custom_field) }
   let(:custom_value) { instance_double(CustomValue, value:, custom_field:, customized:) }
   let(:customized) { instance_double(Project) }
 

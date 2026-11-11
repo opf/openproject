@@ -36,7 +36,7 @@ source "https://rubygems.org", cooldown: 7
 ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
-gem "activerecord-import", "~> 3.0.0"
+gem "activerecord-import", "~> 3.0.1"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
 gem "rails", "~> 8.1.4", ">= 8.1.4.1"
@@ -106,7 +106,7 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "msgpack", "~> 1.8.4"
+gem "msgpack", "~> 1.8.7"
 gem "ruby-duration", "~> 3.2.0"
 
 gem "mail", "2.9.1"
@@ -154,7 +154,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.7.0"
+gem "mcp", "~> 1.8.2"
 
 gem "meta-tags", "~> 2.24.0"
 
@@ -199,8 +199,9 @@ gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.6"
+gem "web-push", "~> 3.1"
 
-gem "aws-sdk-core", "~> 3.254"
+gem "aws-sdk-core", "~> 3.261"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.233"
 
@@ -371,14 +372,22 @@ group :development, :test do
   # erb linting
   gem "erb_lint", require: false
 
-  # Brakeman scanner
-  gem "brakeman", "~> 8.1.0"
-
-  # i18n-tasks helps find and manage missing and unused translations.
-  gem "i18n-tasks", "~> 1.1.0", require: false
-
   # Active Record Doctor helps to keep the database in good shape.
   gem "active_record_doctor", "~> 2.1.0"
+end
+
+group :development, :test, :brakeman do
+  gem "brakeman", "~> 8.1.0"
+end
+
+group :development, :test, :i18n_tasks do
+  # i18n-tasks helps find and manage missing and unused translations.
+  gem "i18n-tasks", "~> 1.1.0", require: false
+end
+
+group :danger do
+  gem "danger", "~> 9.6.1", require: false
+  gem "git", "~> 5.7.1", require: false
 end
 
 # API gems

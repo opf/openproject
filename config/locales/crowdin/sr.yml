@@ -140,7 +140,6 @@ sr:
         allow_non_open_versions: Allow non-open versions
         content_right_to_left: Right-to-Left content
         default_value: Default value
-        editable: Editable
         field_format: Format
         formula: Formula
         has_comment: Add a comment text field
@@ -157,6 +156,7 @@ sr:
         regexp: Regular expression
         searchable: Searchable
         semantic_key: Semantic meaning
+        user_self_editable: Editable
         visible_on_user_card: Show on user card
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -342,6 +342,10 @@ sr:
         custom_field_section: Section
       project_type:
         variant: Variant
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: Child work packages
         column_names: Columns
@@ -413,6 +417,7 @@ sr:
       type:
         allow_project_variants: Allow project-specific variants
         color: Color
+        description: Description
         is_in_roadmap: Displayed in roadmap by default
         is_milestone: Is milestone
         project_types: Projects
@@ -422,6 +427,7 @@ sr:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -702,6 +708,7 @@ sr:
               format: "%{message}"
               invalid: Formula is invalid.
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -848,6 +855,10 @@ sr:
             variant:
               must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1581,6 +1592,7 @@ sr:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: date deleted %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
@@ -1613,7 +1625,7 @@ sr:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2229,6 +2241,37 @@ sr:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
@@ -2799,6 +2842,7 @@ sr:
       disabled_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is disabled for the project.
       mathematical: The mathematical formula leads to an error. Please review the project calculation attribute and try again.
       missing_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is empty.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: An unknown error occurred. Please review the formula for this Calculated value.
   colors:
     contrast:
@@ -2979,10 +3023,8 @@ sr:
       admin_only:
         all: Check to make this custom field only visible to administrators. Users without admin rights will not be able to view or edit it.
         project: Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it.
-      editable:
-        all: Allow the field to be editable by users themselves.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -3010,6 +3052,8 @@ sr:
       searchable:
         all: Include the field values when using the global search functionality.
         project: Check to make this attribute available as a filter in project lists.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     is_enabled_globally: Is enabled globally
@@ -4127,6 +4171,7 @@ sr:
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_administration: Administration
   label_age: Age
+  label_aggregate_function_plural: Aggregate functions
   label_ago: days ago
   label_all: all
   label_all_open_wps: All open
@@ -5228,6 +5273,7 @@ sr:
       mail_notification: Email notifications
       mails_and_notifications: Emails and notifications
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: Add…
@@ -6092,6 +6138,15 @@ sr:
       new:
         placeholder: New project list
       shared: Shared project lists
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Disable all
@@ -6735,6 +6790,12 @@ sr:
   setting_user_format: Users name format
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title
@@ -7439,6 +7500,7 @@ sr:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.

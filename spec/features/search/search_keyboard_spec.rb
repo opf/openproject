@@ -59,7 +59,7 @@ RSpec.describe "Search work packages keyboard navigation", :js, with_settings: {
 
   it_behaves_like "an embedded keyboard table", editable: false do
     let(:first_row_controls) { [rows.first.id.to_s] }
-    let(:next_control) { { element: :em, text: "1" } }
+    let(:next_control) { { element: :span, text: "1" } }
     let(:axe_states) { [-> { wp_table.press_keys(select_all_chord) }] }
   end
 
@@ -69,10 +69,10 @@ RSpec.describe "Search work packages keyboard navigation", :js, with_settings: {
     wp_table.expect_focus_on_column_header("Subject")
 
     wp_table.press_keys(:enter)
-    expect(page).to have_selector(:menuitem, focused: true)
+    expect(page).to have_css("[role^='menuitem']", focused: true)
 
     wp_table.press_keys(:escape)
-    expect(page).to have_no_css("#column-context-menu")
+    expect(page).to have_no_menu
     wp_table.expect_focus_on_column_header("Subject")
   end
 

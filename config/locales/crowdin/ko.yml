@@ -140,7 +140,6 @@ ko:
         allow_non_open_versions: 비공개 버전 허용
         content_right_to_left: 오른쪽에서 왼쪽 콘텐츠
         default_value: 기본값
-        editable: 편집 가능
         field_format: 형식
         formula: 공식
         has_comment: 코멘트 텍스트 필드 추가
@@ -157,6 +156,7 @@ ko:
         regexp: 정규 표현식
         searchable: 검색가능한
         semantic_key: 시맨틱 의미
+        user_self_editable: Editable
         visible_on_user_card: 사용자 카드에 표시
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -342,6 +342,10 @@ ko:
         custom_field_section: 섹션
       project_type:
         variant: 변형
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: 자식 작업 패키지
         column_names: 컬럼
@@ -413,6 +417,7 @@ ko:
       type:
         allow_project_variants: 프로젝트별 변형 허용
         color: 색상
+        description: Description
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_milestone: 마일스톤
         project_types: 프로젝트
@@ -422,6 +427,7 @@ ko:
       type_variant:
         attribute_groups: 양식
         default_work_package_description: 설명의 기본 텍스트
+        description: Description
         enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
         linked_aspects: Inherited configuration
         patterns: 패턴
@@ -702,6 +708,7 @@ ko:
               format: "%{message}"
               invalid: 수식이 유효하지 않습니다.
               invalid_tokens: 정수, 부동 소수점, 계산된 값 및 가중치 목록 유형의 숫자 값, 연산자, 함수, 키워드 및 프로젝트 특성만 허용됩니다.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: "%{custom_fields} 특성은 순환 참조로 이어지기 때문에 사용할 수 없습니다. 한 특성이 다른 특성에 종속됩니다."
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -846,6 +853,10 @@ ko:
             variant:
               must_be_owned_by_the_project: "- 다른 프로젝트가 소유하고 있는 변형이 아니어야 합니다."
               must_belong_to_the_type: "- 프로젝트에서 사용하는 유형의 변형이어야 합니다."
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1361,6 +1372,7 @@ ko:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} 및 %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: 삭제된 날짜 %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
@@ -1393,7 +1405,7 @@ ko:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -1987,6 +1999,37 @@ ko:
           error: 해당 섹션의 순서를 변경할 수 없습니다.
         move:
           error: 해당 섹션의 순서를 변경할 수 없습니다.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: 해당 섹션을 삭제할 수 없습니다.
@@ -2547,6 +2590,7 @@ ko:
       disabled_value: '"%{custom_field_name}" 특성은 이 계산된 값에 필요하지만 해당 프로젝트에 대해 비활성화되어 있습니다.'
       mathematical: 수학 공식으로 인해 오류가 발생했습니다. 프로젝트 계산 특성을 검토한 후 다시 시도하세요.
       missing_value: '"%{custom_field_name}" 특성은 이 계산된 값에 필요하지만 비어 있습니다.'
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: 알 수 없는 오류가 발생했습니다. 이 계산된 값의 공식을 검토해 주세요.
   colors:
     contrast:
@@ -2727,10 +2771,8 @@ ko:
       admin_only:
         all: 이 사용자 지정 필드를 관리자에게만 표시하려면 선택합니다. 관리자 권한이 없는 사용자는 이 특성을 보거나 편집할 수 없습니다.
         project: 이 특성을 관리자에게만 표시하려면 선택합니다. 관리자 권한이 없는 사용자는 이 특성을 보거나 편집할 수 없습니다.
-      editable:
-        all: 사용자가 필드를 편집할 수 있도록 허용합니다.
       formula:
-        project: 숫자 값을 추가하거나 /를 입력하여 특성, 연산자, 함수 또는 기타 토큰을 검색하세요.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: 사용자가 프로젝트 개요에서 값을 선택할 때 프로젝트 특성과 관련된 코멘트를 추가할 수 있습니다.
       is_filter:
@@ -2758,6 +2800,8 @@ ko:
       searchable:
         all: 글로벌 검색 기능을 사용할 때 필드 값을 포함합니다.
         project: 프로젝트 목록에서 이 특성을 필터로 사용 가능하게 설정하려면 선택합니다.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: 이 항목을 선택하면, 애플리케이션 전반에서 사용자 위에 마우스를 올렸을 때 사용자 정보 카드에 이 필드의 값이 표시됩니다.
     is_enabled_globally: 는 세계적으로 사용 가능합니다.
@@ -3807,6 +3851,7 @@ ko:
   label_additional_workflow_transitions_for_author: 사용자가 작성자일 때 허용되는 추가 전환
   label_administration: 관리
   label_age: 기간
+  label_aggregate_function_plural: Aggregate functions
   label_ago: 일 전
   label_all: 모두
   label_all_open_wps: 모두 열림
@@ -4886,6 +4931,7 @@ ko:
       mail_notification: 이메일 알림
       mails_and_notifications: 이메일 및 알림
       mcp_configurations: 모델 컨텍스트 프로토콜(MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: 추가…
@@ -5741,6 +5787,15 @@ ko:
       new:
         placeholder: 새 프로젝트 목록
       shared: 공유된 프로젝트 목록
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: 모두 비활성화
@@ -6358,6 +6413,12 @@ ko:
   setting_user_format: 사용자 이름 형식
   setting_users_deletable_by_admins: 관리자가 삭제 가능한 사용자 계정
   setting_users_deletable_by_self: 자신의 계정을 삭제하도록 허용된 사용자
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: 홈 화면에 환영 블록 표시
   setting_welcome_text: 환영 블록 텍스트
   setting_welcome_title: 환영 블록 제목
@@ -7054,6 +7115,7 @@ ko:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: 변형 관리 권한이 있는 프로젝트 관리자는 프로젝트 내에서 이 유형을 확장하거나 수정할 수 있습니다.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: 유형 <b>%{type}</b>에서 상속되었습니다.
         tab: 세부 정보
         type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.

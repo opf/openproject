@@ -276,7 +276,7 @@ class ProjectsController < ApplicationController
   def clear_custom_field_errors!(project)
     # Delete custom field errors from project
     project.errors.attribute_names
-      .select { |key| key.to_s.start_with?("custom_field") }
+      .select { |key| CustomField.custom_field_attribute?(key) }
       .each { |key| project.errors.delete(key) }
 
     # Clear errors on custom value objects

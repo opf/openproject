@@ -189,6 +189,9 @@ zh-TW:
     rebuild: 重建
     rebuild_positions: 重建位置
     remaining_hours: 剩餘工時
+    selected_work_packages_component:
+      label:
+        other: "%{count} selected work packages"
     sharing: 共用衝刺
     sprint_component:
       action_menu:
@@ -357,6 +360,8 @@ zh-TW:
         move_to_backlog_bucket: 移至待辦事項區
         move_to_inbox: 移至待辦事項收件匣
         move_to_sprint: 移動到衝刺
+        no_batch_actions: No actions available for the selected work packages.
+        stale_selection: The selection has changed. Refresh it before moving work packages.
     work_package_is_closed: 視為工作套件已完成
     work_packages:
       add_existing_dialog:
@@ -370,9 +375,15 @@ zh-TW:
         unexpected_failure: 無法移動這些工作包。請重試。
       move:
         moved_announcement: "%{label} 已移至 %{list}，位置 %{position} 的 %{total}"
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: 待移轉的工作包清單無效。
         member_failed: "%{work_package}: %{reason}"
+        moved_announcement:
+          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
         too_many_work_packages: 一次最多只能移動 %{max} 個工作包。
         work_packages_not_found: 在此專案中，至少有一個工作包無法找到。
       update_service:
@@ -420,7 +431,7 @@ zh-TW:
   permission_view_sprints: 檢視衝刺
   plugin_openproject_backlogs:
     description: 此模組新增了讓敏捷團隊能夠在 Scrum 專案中使用 OpenProject 的功能。
-    name: OpenProject待辦事項
+    name: OpenProject代辦事項
   project_module_backlogs: 待辦事項
   projects:
     copy:

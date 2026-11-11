@@ -86,7 +86,7 @@ ja:
               can_only_contain_work_packages_of_current_sprint: 現在のスプリント内のワークパッケージIDのみを含めることができます。
               must_block_at_least_one_work_package: は少なくとも 1つのチケットIDを含める必要があります。
             sprint:
-              not_assignable: is not assignable since it is either not shared with the project or already finished.
+              not_assignable: プロジェクトと共有されていないか、すでに完了しているため、割り当てることができません。
               not_eligible_for_moving: そのワークパッケージが移動元のプロジェクトにおいて、現在アクティブなスプリントではない。
             version_id:
               task_version_must_be_the_same_as_story_version: 親ストーリーのバージョンと同じでなければなりません。
@@ -100,7 +100,7 @@ ja:
         other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: 既存のワークパッケージを追加する
     administration_blankslate:
       text: 現在、「バックログ」モジュールの再設計を進めています。スプリントおよびバックログに関する管理設定は、近いうちにこちらで表示されるようになります。プロジェクトレベルの設定については、引き続きご利用いただけます。
       title: バックログの管理設定は進化を続けています
@@ -189,6 +189,9 @@ ja:
     rebuild: 再構築
     rebuild_positions: 位置情報を再構築
     remaining_hours: 残時間
+    selected_work_packages_component:
+      label:
+        other: "%{count} selected work packages"
     sharing: スプリントの共有
     sprint_component:
       action_menu:
@@ -357,6 +360,8 @@ ja:
         move_to_backlog_bucket: Move to backlog bucket
         move_to_inbox: Move to backlog inbox
         move_to_sprint: Move to sprint
+        no_batch_actions: No actions available for the selected work packages.
+        stale_selection: The selection has changed. Refresh it before moving work packages.
     work_package_is_closed: ワークパッケージが終了するには
     work_packages:
       add_existing_dialog:
@@ -370,9 +375,15 @@ ja:
         unexpected_failure: The work packages could not be moved. Please try again.
       move:
         moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: The list of work packages to move is invalid.
         member_failed: "%{work_package}: %{reason}"
+        moved_announcement:
+          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
         too_many_work_packages: No more than %{max} work packages can be moved at once.
         work_packages_not_found: At least one work package could not be found in this project.
       update_service:
@@ -380,16 +391,16 @@ ja:
         missing_target: list_type or list_id must be present.
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: 複数のアクティブなスプリント
       sprint_sharing: Sprint sharing
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: プロジェクト内の異なるチームで複数のスプリントを並行して実行することで、管理性と柔軟性を高めることができます。
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: All sprints
   label_backlog: Backlog
-  label_backlog_and_sprints: Backlog and sprints
+  label_backlog_and_sprints: バックログとスプリント
   label_backlog_bucket_edit: Edit backlog bucket
   label_backlog_bucket_new: New backlog bucket
   label_backlogs: バックログ

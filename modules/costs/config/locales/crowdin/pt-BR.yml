@@ -78,9 +78,11 @@ pt-BR:
               invalid: deve ser um usuário ou um usuário substituto.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: "“Registrado para” não pode ficar em branco."
-              cannot_log_for_this_work_package: Você não tem permissão para registrar horas para este pacote de trabalho.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: As horas registradas não podem exceder o limite de %{limit} horas disponíveis no dia de trabalho do usuário.
@@ -94,6 +96,9 @@ pt-BR:
             start_time:
               format: "%{message}"
               invalid_time: Horário inválido. O horário deve estar entre 00:00 e 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: Outro cronômetro já está em execução. Apenas um cronômetro pode estar ativo por vez.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Pacote de trabalho #%{id} não é válido para reatribuir as entradas de custo.'

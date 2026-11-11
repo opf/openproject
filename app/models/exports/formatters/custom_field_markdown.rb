@@ -31,7 +31,7 @@ module Exports
   module Formatters
     class CustomFieldMarkdown < CustomField
       def self.apply?(attribute, export_format)
-        export_format == :md && attribute.start_with?("cf_")
+        export_format == :md && ::CustomField.column_name?(attribute)
       end
 
       def format_for_export(object, custom_field)

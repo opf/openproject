@@ -119,13 +119,13 @@ da:
           name: Kvalitetssikring
       labels:
         item_0:
-          name: Website
+          name: Websted
         item_1:
           name: Marketing
         item_2:
-          name: Speakers
+          name: Talere
         item_3:
-          name: Security
+          name: Sikkerhed
         item_4:
           name: UX
       projects:

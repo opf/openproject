@@ -68,12 +68,14 @@ module Meetings
       end
 
       def model_attributes(meeting_data)
+        start_time = (Time.current.next_weekday + 10.hours).change(sec: 0)
+
         {
           title: meeting_data["title"],
           author: seed_data.find_reference(meeting_data["author"]),
           duration: minutes_to_hours(meeting_data["duration"]),
-          start_time: Time.current.next_weekday + 10.hours,
-          current_schedule_start: Time.current.next_weekday + 10.hours,
+          start_time:,
+          current_schedule_start: start_time,
           frequency: meeting_data["frequency"],
           interval: meeting_data["interval"],
           time_zone: meeting_data["time_zone"],

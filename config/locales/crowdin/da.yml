@@ -140,7 +140,6 @@ da:
         allow_non_open_versions: Tillad versioner, der ikke er åbne
         content_right_to_left: Indhold fra højre mod venstre
         default_value: Forhåndsvalgt værdi
-        editable: Redigerbar
         field_format: Format
         formula: Formel
         has_comment: Tilføj et tekstfelt til en kommentar
@@ -157,6 +156,7 @@ da:
         regexp: Regulært udtryk
         searchable: Søgbar
         semantic_key: Semantisk betydning
+        user_self_editable: Redigerbar
         visible_on_user_card: Vis på brugerkortet
       custom_field/project_specific_value_restriction:
         restriction: Begrænsning
@@ -342,6 +342,10 @@ da:
         custom_field_section: Afsnit
       project_type:
         variant: Variant
+      push_subscription:
+        created_at: Tilføjet
+        endpoint: Endepunkt
+        session_id: Session
       query:
         child_work_packages: Underordnede arbejdspakker
         column_names: Kolonner
@@ -413,6 +417,7 @@ da:
       type:
         allow_project_variants: Tillad projektspecifikke varianter
         color: Farve
+        description: Description
         is_in_roadmap: Vises som standard i køreplanen
         is_milestone: Er milepæl
         project_types: Projekter
@@ -422,6 +427,7 @@ da:
       type_variant:
         attribute_groups: Formular
         default_work_package_description: Standardtekst til beskrivelsen
+        description: Description
         enabled_in_new_projects: Aktiv i nye projekter
         linked_aspects: Nedarvet konfiguration
         patterns: Mønstre
@@ -702,6 +708,7 @@ da:
               format: "%{message}"
               invalid: Formlen er ugyldig.
               invalid_tokens: Kun talværdier, operatorer, funktioner, nøgleord og projektattributter af typen heltal, decimaltal, beregnet værdi og vægtet liste er tilladt.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: 'Attributten %{custom_fields} kan ikke bruges, fordi den fører til en cirkulær reference: Den ene attribut afhænger af den anden.'
             project_specific_value_restriction:
               not_supported: er kun tilgængelig for brugerdefinerede felter til arbejdspakker af formaterne liste, hierarki og vægtet liste.
@@ -847,6 +854,10 @@ da:
             variant:
               must_be_owned_by_the_project: må ikke være en variant, som et andet projekt ejer.
               must_belong_to_the_type: skal være en variant af den type, projektet bruger.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Kun %{count} enheder kan få browsernotifikationer på samme tid.
         queries/filters/base:
           attributes:
             values:
@@ -1471,6 +1482,7 @@ da:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} og %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: dato slettet %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Værdierne er konfigureret med miljøvariabler og kan ikke redigeres her.
@@ -2108,6 +2120,37 @@ da:
           error: Afsnittets placering kunne ikke ændres.
         move:
           error: Afsnittets placering kunne ikke ændres.
+      push_notifications:
+        checking: Tjekker …
+        description: Brugerne kan vælge at installere OpenProject som en progressiv webapp (PWA) i moderne browsere. Gør de det, kan de også få notifikationer fra styresystemet om aktivitet i OpenProject.
+        hosts_intro: 'OpenProject sender push til den push-tjeneste, som den enkelte brugers browser abonnerer via. Tjekket nedenfor kontakter de store browseres push-tjenester og alle tjenester, som et eksisterende abonnement bruger:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: Push-signeringsnøglen angives med miljøvariablen OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY. Skift variablen for at forny nøglen.
+        key_renewed: Push-signeringsnøglen er fornyet. Alle enheder skal slå browsernotifikationer til igen.
+        key_unreadable: Push-signeringsnøglen kunne ikke læses. Forny den for at få browsernotifikationerne tilbage. Derefter skal alle enheder slå browsernotifikationer til igen.
+        reachable: Kan nås
+        reasons:
+          connection: Forbindelsen mislykkedes
+          filtered: Anmodningen blev blokeret af SSRF-beskyttelsen
+          invalid_host: Værtsnavnet er ugyldigt
+          private_address: Værten peger på en privat adresse
+          sample_unresolved: Eksempelværten kunne ikke slås op; resultatet er ikke entydigt
+          timeout: Intet svar inden for %{seconds} sekunder
+          tls: TLS-handshake mislykkedes
+          unresolved: Værtsnavnet kunne ikke slås op
+        renew_key: Forny nøgler
+        renew_key_dialog:
+          confirm_button: Forny nøglen
+          confirmation: Jeg forstår, at alle enheder skal slå browsernotifikationer til igen.
+          description:
+            one: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: det ene eksisterende abonnement slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            other: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: %{count} abonnementer slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            zero: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: der findes endnu ingen abonnementer, men alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+          heading: Vil du forny push-signeringsnøglen?
+          title: Forny nøgler
+        unreachable: Kan ikke nås
+        verify_reachability: Tjek, om tjenesterne kan nås
+        verify_reachability_description: For at tjekke for notifikationer sender OpenProject en push uden indhold, der vækker appen. Den installerede PWA henter derefter antallet af ulæste over brugerens session. Følgende push-tjenester ser abonnementets endepunkt, denne installations adresse og offentlige nøgle samt tidspunktet for hver push.
       user_custom_field_sections:
         destroy:
           error: Afsnittet kunne ikke slettes.
@@ -2291,9 +2334,9 @@ da:
         editor_gone: Editoren er ikke længere åben, så teksten kan ikke erstattes. Du kan stadig kopiere den.
         failed_title: Genereringen mislykkedes
         generating: Genererer …
-        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
+        mentions_converted: Nye omtaler i AI-forslaget er gjort til almindelig tekst, så ingen får besked ved en fejl. Når du har valgt Erstat, kan du omtale dem igen i editoren.
         replace: Erstat
-        request_failed: The request failed. Close the result and try again.
+        request_failed: Anmodningen mislykkedes. Luk resultatet, og prøv igen.
         selection_gone: Den markerede tekst findes ikke længere, så den kan ikke erstattes. Du kan stadig kopiere den.
         stopped_description: Svaret blev blokeret, før det var færdigt, så den delvise tekst er kasseret.
         stopped_title: Genereringen stoppede
@@ -2674,6 +2717,7 @@ da:
       disabled_value: Attributten "%{custom_field_name}" er påkrævet af den beregnede værdi, men er deaktiveret for projektet.
       mathematical: Den matematiske formel giver en fejl. Gennemse projektets beregningsattribut, og prøv igen.
       missing_value: Attributten "%{custom_field_name}" er påkrævet af den beregnede værdi, men er tom.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Der opstod en ukendt fejl. Gennemse formlen for den beregnede værdi.
   colors:
     contrast:
@@ -2719,7 +2763,7 @@ da:
     failure_message: Samtykket mislykkedes. Der kan ikke fortsættes.
     not_yet_consented: Brugeren har endnu ikke givet samtykke til din [konfigurerede tekst om samtykke](consent_settings). Brugeren bliver mindet om det ved næste login.
     text_update_consent_time: Markér feltet for at kræve, at brugerne giver samtykke igen. Brug det, når du har ændret de juridiske forhold i teksten om samtykke ovenfor.
-    title: User consent
+    title: Brugerens samtykke
     update_consent_last_time: 'Seneste opdatering af samtykke: %{update_time}'
     user_has_consented: Brugeren har givet samtykke til din [konfigurerede tekst om samtykke](consent_settings).
   copy_project:
@@ -2854,10 +2898,8 @@ da:
       admin_only:
         all: Markér feltet for kun at vise det brugerdefinerede felt for administratorer. Brugere uden administratorrettigheder kan hverken se eller redigere det.
         project: Markér feltet for kun at vise attributten for administratorer. Brugere uden administratorrettigheder kan hverken se eller redigere den.
-      editable:
-        all: Lad brugerne selv redigere feltet.
       formula:
-        project: Tilføj talværdier, eller skriv / for at søge efter en attribut, operator, funktion eller et andet element.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Lader brugeren tilføje en kommentar til projektattributten, når værdien vælges i projektoversigten.
       is_filter:
@@ -2885,6 +2927,8 @@ da:
       searchable:
         all: Medtag feltets værdier, når der søges med den globale søgning.
         project: Markér feltet for at gøre attributten tilgængelig som filter i projektlister.
+      user_self_editable:
+        all: Lad brugerne selv redigere feltet.
       visible_on_user_card:
         all: Når feltet er markeret, vises værdien på brugerens informationskort, når man holder musen over en bruger i programmet.
     is_enabled_globally: Er aktiveret globalt
@@ -3564,7 +3608,7 @@ da:
         caption: Den nye formular begynder med en kopi af den valgte formulars attributgrupper.
         label: Kopiér fra
         placeholder: Vælg en formular …
-      copy_title: Copy form %{name}
+      copy_title: Kopiér formularen %{name}
       description:
         caption: Tilføj en kort beskrivelse af, hvor og hvordan formularen skal bruges.
         label: Beskrivelse
@@ -3572,7 +3616,7 @@ da:
       name:
         caption: Vælg et navn, så du senere kan genkende formularen andre steder.
         label: Formularens navn
-      save_title: Save form
+      save_title: Gem formular
     index:
       actions:
         edit: Rediger formular
@@ -3968,6 +4012,7 @@ da:
   label_additional_workflow_transitions_for_author: Yderligere overgange tilladt når brugeren er forfatteren
   label_administration: Administration
   label_age: Alder
+  label_aggregate_function_plural: Aggregate functions
   label_ago: dage siden
   label_all: alle
   label_all_open_wps: Alle åbne
@@ -4057,7 +4102,7 @@ da:
   label_completed: Fuldført
   label_configuration: opsætning
   label_confirmation: Bekræftelse
-  label_consent_settings: User consent
+  label_consent_settings: Brugersamtykke
   label_constant_plural: Konstanter
   label_contains: indeholder
   label_content: Indhold
@@ -4141,7 +4186,7 @@ da:
   label_duplicate: dublet
   label_duplicated_by: dubleret af
   label_duplicates: dublerer
-  label_edit: Rediger
+  label_edit: Redigér
   label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
   label_enable_multi_select: Slå flervalg til/fra
@@ -5057,6 +5102,7 @@ da:
       mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browsernotifikationer
       text_actions: Tekstassistent
     quick_add:
       label: Tilføj …
@@ -5616,14 +5662,14 @@ da:
         caption: Tilføj en side med en indholdsfortegnelse over afsnittenes overskrifter.
         label: Indholdsfortegnelse
       wiki_pages:
-        add: Add wiki pages
-        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
-        dialog_subtitle: Select the wiki page you would like to add
-        dialog_title: Add existing wiki page
-        manage_label: Manage and reorder wiki pages
-        placeholder: Select a wiki page
-        unavailable: Unavailable wiki page (%{reference})
-        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
+        add: Tilføj wiki-sider
+        caption: Du kan tilføje en eller flere wiki-sider, som kommer med sidst i den eksporterede PDF.
+        dialog_subtitle: Vælg den wiki-side, du vil tilføje
+        dialog_title: Tilføj eksisterende wiki-side
+        manage_label: Administrer wiki-sider, og skift deres rækkefølge
+        placeholder: Vælg en wiki-side
+        unavailable: Utilgængelig wiki-side (%{reference})
+        visibility_warning: Når du tilføjer en wiki-side, kan alle, der kan eksportere artefaktet, se dens indhold, også selvom de ikke har adgang til selve wiki-siden.
     page_nr_footer: Side %{page} af %{total}
     template_artefact:
       caption: Arbejdspakkens detaljer vist som et PMflex-artefakt.
@@ -5915,6 +5961,15 @@ da:
       new:
         placeholder: Ny projektliste
       shared: Delte projektlister
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Deaktiver alle
@@ -6050,12 +6105,12 @@ da:
         switch:
           apply: Anvend
           impact:
-            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
-            hidden_heading: Fields that will be removed
-            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
-            missing_statuses_heading: Work packages without transitions
-            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
-            new_heading: Fields that will be added
+            hidden_description: Den valgte variant indeholder ikke disse felter. Eventuelle værdier, som felterne havde, vises ikke længere.
+            hidden_heading: Felter, der fjernes
+            missing_statuses_description: Den valgte arbejdsgang har ingen overgange ud af følgende statusser. Brugerne kan ikke skifte til en ny status.
+            missing_statuses_heading: Arbejdspakker uden overgange
+            new_description: Den valgte variant har disse ekstra felter. De tilføjes til alle relevante arbejdspakker med en tom værdi.
+            new_heading: Felter, der tilføjes
             nothing_affected: Ingen felter eller statusser påvirkes.
             status_count:
               one: "%{count} arbejdspakke"
@@ -6542,6 +6597,12 @@ da:
   setting_user_format: Format for brugernavne
   setting_users_deletable_by_admins: Brugerens konti kan slettes af administratorer
   setting_users_deletable_by_self: Brugererne kan selv slette deres konti
+  setting_web_push_enabled: Browsernotifikationer
+  setting_web_push_enabled_caption: Lader brugere, der har installeret OpenProject som en progressiv webapp, få notifikationer fra styresystemet, når de har ulæste notifikationer i OpenProject.
+  setting_web_push_enabled_false: Tillad ikke browsernotifikationer
+  setting_web_push_enabled_false_caption: Brugerne kan ikke slå browsernotifikationer til i deres kontoindstillinger, heller ikke hvis de har installeret PWA'en
+  setting_web_push_enabled_true: Tillad browsernotifikationer
+  setting_web_push_enabled_true_caption: Brugerne kan slå browsernotifikationer til i deres kontoindstillinger, hvis de har installeret PWA'en
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel
@@ -7241,6 +7302,7 @@ da:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: Projektadministratorer med tilladelse til at administrere varianter kan udvide eller ændre denne type i et projekt.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Nedarvet fra typen <b>%{type}</b>.
         tab: Detaljer
         type_color_text: Den valgte farve adskiller typerne fra hinanden i Gantt-diagrammer og tabeller over arbejdspakker. Vælg derfor en kraftig farve.
@@ -7427,14 +7489,14 @@ da:
           mode_label: Konfigurer siden manuelt
           modes:
             copy:
-              caption: Start with a one-time copy of the settings of the parent type.
-              label: Copy existing settings
+              caption: Start med en kopi af den overordnede types indstillinger. Kopien tages én gang.
+              label: Kopiér eksisterende indstillinger
             default:
               caption: Brug standardindstillingerne for nye typer.
               label: Standardindstillinger
             empty:
               caption: Opsæt det hele fra bunden med en tom konfiguration.
-              label: Start from scratch
+              label: Start fra bunden
           success: Konfigurationstilstanden er skiftet.
           title: Manuel konfiguration
         parent_suffix: " (overordnet)"
@@ -7485,7 +7547,7 @@ da:
           one: 'Typen fjernes fra %{count} projekt:'
           other: 'Typen fjernes fra %{count} projekter:'
         title: Slet type
-      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
+      description: 'Opret og konfigurer forskellige arbejdspakketyper. Hver type har sin egen standardskabelon og et sæt brugerdefinerede felter, en arbejdsgang og andre indstillinger. Har du brug for projektspecifikke konfigurationer, kan du også oprette lidt forskellige varianter af hver type efter det enkelte projekts behov.
 
         '
       duplicate_name: Kopi af %{name}
@@ -8199,7 +8261,7 @@ da:
         caption: Den nye arbejdsgang begynder med en kopi af den valgte arbejdsgangs statusovergange.
         label: Kopiér fra
         placeholder: Vælg en arbejdsgang …
-      copy_title: Copy workflow %{name}
+      copy_title: Kopiér arbejdsgangen %{name}
       description:
         caption: Tilføj en kort beskrivelse af, hvor og hvordan arbejdsgangen skal bruges.
         label: Beskrivelse
@@ -8215,7 +8277,7 @@ da:
       name:
         caption: Vælg et navn, så du senere kan genkende arbejdsgangen andre steder.
         label: Arbejdsgangens navn
-      save_title: Save workflow
+      save_title: Gem arbejdsgang
     index:
       actions:
         create: Arbejdsgang

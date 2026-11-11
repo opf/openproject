@@ -116,10 +116,61 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
         it "updates the position_cache" do
           leia = service.insert_item(contract_class:, parent: root, label: "leia").value!
-          expect(root.reload.position_cache).to eq(64)
+          expect(leia.reload.position_cache).to eq(4)
 
           service.insert_item(contract_class:, parent: root, label: "Bob", before: 1).value!
-          expect(leia.reload.position_cache).to eq(200)
+          expect(leia.reload.position_cache).to eq(5)
+        end
+      end
+
+      context "with a project" do
+        let(:project) { create(:project) }
+
+        before { custom_field.update!(allow_additional_project_values: true) }
+
+        it "assigns the project to the item" do
+          item = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+
+          expect(item.project).to eq(project)
+        end
+
+        it "keeps global items before project items" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+          leia = service.insert_item(contract_class:, parent: root, label: "leia").value!
+
+          expect(root.reload.children.to_a).to eq([luke, leia, jedi])
+        end
+
+        it "places a global item positioned within the project items before them" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+          leia = service.insert_item(contract_class:, parent: root, label: "leia", before: jedi.sort_order).value!
+
+          expect(root.reload.children.to_a).to eq([luke, leia, jedi])
+        end
+
+        it "places a project item positioned within the global items at the end" do
+          leia = service.insert_item(contract_class:, parent: root, label: "leia").value!
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:, before: luke.sort_order).value!
+
+          expect(root.reload.children.to_a).to eq([luke, leia, jedi])
+        end
+
+        it "honors a position within the project items" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+          sith = service.insert_item(contract_class:, parent: root, label: "sith", project:, before: jedi.sort_order).value!
+
+          expect(root.reload.children.to_a).to eq([luke, sith, jedi])
+        end
+
+        context "when the custom field does not allow additional project values" do
+          before { custom_field.update!(allow_additional_project_values: false) }
+
+          it "fails to insert the item" do
+            result = service.insert_item(contract_class:, parent: root, label: "jedi", project:)
+
+            expect(result).to be_failure
+            expect(root.reload.children.to_a).to eq([luke])
+          end
         end
       end
 
@@ -168,11 +219,14 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
           expect(root.reload.children).to be_empty
         end
 
-        it "updates the position_cache" do
+        it "does not recalculate the position_cache" do
+          leia = service.insert_item(contract_class:, parent: root, label: "leia").value!
+          expect(leia.position_cache).to eq(4)
+
           result = service.delete_branch(item: luke)
 
           expect(result).to be_success
-          expect(root.reload.position_cache).to eq(27)
+          expect(leia.reload.position_cache).to eq(4)
         end
 
         context "if the item or its descendants were assigned as a custom value" do
@@ -335,6 +389,98 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
         preordered_descendants = root.reload.self_and_descendants_preordered.pluck(:label)
         expect(root.self_and_descendants.reorder(:position_cache).pluck(:label)).to eq(preordered_descendants)
+      end
+
+      it "fails when the new parent has a child with the same label" do
+        service.insert_item(contract_class:, parent: lando, label: "mara")
+
+        result = service.move_item(item: mara, new_parent: lando)
+
+        expect(result).to be_failure
+        expect(result.failure).to be_error(:label)
+        expect(mara.reload.parent).to eq(luke)
+      end
+
+      it "fails when the new parent has a child with the same label in a different case" do
+        service.insert_item(contract_class:, parent: lando, label: "MARA")
+
+        result = service.move_item(item: mara, new_parent: lando)
+
+        expect(result).to be_failure
+        expect(result.failure).to be_error(:label)
+      end
+
+      it "fails when the new parent has a child with the same short in a different case" do
+        service.insert_item(contract_class:, parent: lando, label: "obi-wan", short: "ow")
+        kenobi = service.insert_item(contract_class:, parent: luke, label: "kenobi", short: "OW").value!
+
+        result = service.move_item(item: kenobi, new_parent: lando)
+
+        expect(result).to be_failure
+        expect(result.failure).to be_error(:short)
+      end
+
+      context "with project items" do
+        let(:project) { create(:project) }
+        let(:other_project) { create(:project) }
+
+        before { custom_field.update!(allow_additional_project_values: true) }
+
+        it "keeps a moved global item before the project items" do
+          jedi = service.insert_item(contract_class:, parent: lando, label: "jedi", project:).value!
+
+          service.move_item(item: mara, new_parent: lando)
+
+          expect(lando.reload.children.to_a).to eq([mara, jedi])
+        end
+
+        it "fails to move a global item below a project item" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+
+          result = service.move_item(item: mara, new_parent: jedi)
+
+          expect(result).to be_failure
+          expect(result.failure).to be_error(:parent)
+        end
+
+        it "moves a project item below an item of the same project" do
+          jedi = service.insert_item(contract_class:, parent: root, label: "jedi", project:).value!
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          expect(service.move_item(item: padawan, new_parent: jedi)).to be_success
+          expect(padawan.reload.parent).to eq(jedi)
+        end
+
+        it "fails to move a project item below an item of another project" do
+          sith = service.insert_item(contract_class:, parent: root, label: "sith", project: other_project).value!
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          expect(service.move_item(item: padawan, new_parent: sith)).to be_failure
+        end
+
+        it "allows a project item to share the label of another project's sibling" do
+          service.insert_item(contract_class:, parent: lando, label: "padawan", project: other_project)
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          expect(service.move_item(item: padawan, new_parent: lando)).to be_success
+        end
+
+        it "allows a project item to share the label of another project's sibling in a different case" do
+          service.insert_item(contract_class:, parent: lando, label: "PADAWAN", project: other_project)
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          expect(service.move_item(item: padawan, new_parent: lando)).to be_success
+        end
+
+        it "fails to move a project item next to a global item with the same label in a different case" do
+          service.insert_item(contract_class:, parent: lando, label: "PADAWAN")
+          padawan = service.insert_item(contract_class:, parent: luke, label: "padawan", project:).value!
+
+          result = service.move_item(item: padawan, new_parent: lando)
+
+          expect(result).to be_failure
+          expect(result.failure).to be_error(:label)
+        end
       end
     end
 

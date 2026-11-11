@@ -140,7 +140,6 @@ hy:
         allow_non_open_versions: Թույլատրել ոչ բաց տարբերակներ
         content_right_to_left: Աջից ձախ բովանդակություն
         default_value: Կանխադրված արժեք
-        editable: Խմբագրելի
         field_format: Ձևաչափ
         formula: Բանաձև
         has_comment: Ավելացնել մեկնաբանության տեքստի դաշտ
@@ -157,6 +156,7 @@ hy:
         regexp: Կանոնավոր արտահայտություն
         searchable: Որոնելի
         semantic_key: Իմաստային նշանակություն
+        user_self_editable: Editable
         visible_on_user_card: Ցուցադրել օգտատիրոջ քարտում
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -342,6 +342,10 @@ hy:
         custom_field_section: Բաժին
       project_type:
         variant: Variant
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: Դուստր աշխատանքային փաթեթներ
         column_names: Սյունակներ
@@ -413,6 +417,7 @@ hy:
       type:
         allow_project_variants: Allow project-specific variants
         color: Գույն
+        description: Description
         is_in_roadmap: Կանխադրված կարգով ցուցադրվում է ճանապարհային քարտեզում
         is_milestone: Հանգրվան է
         project_types: Projects
@@ -422,6 +427,7 @@ hy:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -702,6 +708,7 @@ hy:
               format: "%{message}"
               invalid: Բանաձևն անվավեր է։
               invalid_tokens: Թույլատրվում են միայն թվային արժեքներ, օպերատորներ, ֆունկցիաներ, հիմնաբառեր և ամբողջ թվի, տասնորդական թվի, հաշվարկվող արժեքի և կշռված ցանկի տեսակի նախագծի հատկանիշներ։
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: "%{custom_fields} հատկանիշը հնարավոր չէ օգտագործել, քանի որ դա հանգեցնում է ցիկլային հղման; հատկանիշներից մեկը կախված է մյուսից։"
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -847,6 +854,10 @@ hy:
             variant:
               must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1471,6 +1482,7 @@ hy:
       phase_and_both_gates: "%{phase_message}։ %{start_gate_message} և %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}։ %{gate_message}"
       removed_date: ջնջվել է %{date} ամսաթիվը
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Այս արժեքները կազմաձևված են միջավայրի փոփոխականների միջոցով և հնարավոր չէ խմբագրել այստեղ։
@@ -1503,7 +1515,7 @@ hy:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2108,6 +2120,37 @@ hy:
           error: Բաժինը չհաջողվեց վերադասավորել։
         move:
           error: Բաժինը չհաջողվեց վերադասավորել։
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: Բաժինը չհաջողվեց ջնջել։
@@ -2672,6 +2715,7 @@ hy:
       disabled_value: '"%{custom_field_name}" հատկանիշը պարտադիր է այս հաշվարկված արժեքի համար, սակայն անջատված է նախագծում։'
       mathematical: Մաթեմատիկական բանաձևը հանգեցնում է սխալի։ Խնդրում ենք ստուգել նախագծի հաշվարկի հատկանիշը և կրկին փորձել։
       missing_value: '"%{custom_field_name}" հատկանիշը պարտադիր է այս հաշվարկված արժեքի համար, սակայն դատարկ է։'
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Տեղի է ունեցել անհայտ սխալ։ Խնդրում ենք ստուգել այս հաշվարկված արժեքի բանաձևը։
   colors:
     contrast:
@@ -2852,10 +2896,8 @@ hy:
       admin_only:
         all: Նշեք, որպեսզի այս հատուկ դաշտը տեսանելի լինի միայն ադմինիստրատորներին։ Առանց ադմինիստրատորի իրավունքների օգտատերերը չեն կարողանա դիտել կամ խմբագրել այն։
         project: Նշեք, որպեսզի այս հատկանիշը տեսանելի լինի միայն ադմինիստրատորներին։ Առանց ադմինիստրատորի իրավունքների օգտատերերը չեն կարողանա դիտել կամ խմբագրել այն։
-      editable:
-        all: Թույլատրել, որ դաշտը խմբագրվի հենց օգտատերերի կողմից։
       formula:
-        project: Ավելացրեք թվային արժեքներ կամ մուտքագրեք / նշանը՝ հատկանիշ, օպերատոր, ֆունկցիա կամ այլ տարր որոնելու համար։
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Թույլ է տալիս օգտատիրոջը նախագծի ընդհանուր տեսքում արժեքն ընտրելիս ավելացնել նախագծի հատկանիշին առնչվող մեկնաբանություն։
       is_filter:
@@ -2883,6 +2925,8 @@ hy:
       searchable:
         all: Ներառել դաշտի արժեքները գլոբալ որոնումն օգտագործելիս։
         project: Նշեք, որպեսզի այս հատկանիշը հասանելի դառնա որպես զտիչ նախագծերի ցանկերում։
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: Նշված լինելու դեպքում այս դաշտի արժեքը ցուցադրվում է օգտատիրոջ տեղեկատվական քարտում, երբ հավելվածում կուրսորը տանում եք օգտատիրոջ վրայով։
     is_enabled_globally: Միացված է գլոբալ մակարդակում
@@ -3964,6 +4008,7 @@ hy:
   label_additional_workflow_transitions_for_author: Լրացուցիչ անցումներ, որոնք թույլատրվում են, երբ օգտատերը հեղինակն է
   label_administration: Ադմինիստրավորում
   label_age: Տարիք
+  label_aggregate_function_plural: Aggregate functions
   label_ago: օր առաջ
   label_all: բոլորը
   label_all_open_wps: Բոլոր բացերը
@@ -5054,6 +5099,7 @@ hy:
       mail_notification: Էլ. փոստի ծանուցումներ
       mails_and_notifications: Էլ. նամակներ և ծանուցումներ
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: Ավելացնել…
@@ -5912,6 +5958,15 @@ hy:
       new:
         placeholder: Նախագծերի նոր ցանկ
       shared: Համօգտագործված նախագծերի ցանկեր
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Անջատել բոլորը
@@ -6545,6 +6600,12 @@ hy:
   setting_user_format: Օգտատերերի անվան ձևաչափ
   setting_users_deletable_by_admins: Օգտատերերի հաշիվները կարող են ջնջվել ադմինիստրատորների կողմից
   setting_users_deletable_by_self: Օգտատերերին թույլատրվում է ջնջել իրենց հաշիվները
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Ցուցադրել ողջույնի բլոկը գլխավոր էջում
   setting_welcome_text: Ողջույնի բլոկի տեքստ
   setting_welcome_title: Ողջույնի բլոկի վերնագիր
@@ -7244,6 +7305,7 @@ hy:
           label_with_context: "%{attribute_context}՝ %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Մանրամասներ
         type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։

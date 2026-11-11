@@ -31,7 +31,6 @@ module API
   module V3
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
         include API::V3::Workspaces::LinkedResource
         include API::Decorators::DateProperty
         include API::Decorators::FormattableProperty
@@ -457,6 +456,26 @@ module API
         date_time_property :created_at
 
         date_time_property :updated_at
+
+        property :origin_source,
+                 as: :originSource,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_id,
+                 as: :originId,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_host,
+                 as: :originHost,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_url,
+                 as: :originUrl,
+                 render_nil: false,
+                 writable: false
 
         property :relations,
                  embedded: true,

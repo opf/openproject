@@ -67,7 +67,7 @@ module API
           target_versions
         ].freeze
 
-        SUPPORTED_CUSTOM_PROPERTIES = [/^custom_field_\d+$/].freeze
+        SUPPORTED_CUSTOM_PROPERTIES = [CustomField::ATTRIBUTE_NAME_PATTERN].freeze
 
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
 
@@ -114,7 +114,7 @@ module API
         # contains the lower camel-cased names.
         def rendered_properties_for_links
           @rendered_properties_for_links ||= rendered_properties.map do |property|
-            if property.starts_with?("custom_field_") || MULTI_VALUED_LINK_PROPERTIES.include?(property)
+            if CustomField.custom_field_attribute?(property) || MULTI_VALUED_LINK_PROPERTIES.include?(property)
               API::Utilities::PropertyNameConverter.from_ar_name(property)
             else
               property

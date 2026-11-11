@@ -76,6 +76,17 @@ collection move action for one dragged item or many. The root's
 `moveAnnouncementScope` sets the translation vocabulary for move announcements,
 independently of the selection's `announcementScope`.
 
+A batch reordered within its list, by drag or by the move menu, stays selected
+with its anchor so it can be moved again. A single item, a move to another list
+and a move through a destination dialog clear the selection. A consumer whose
+server reports moves made outside the root binds that event to
+`sortable-lists#clearSelectionAfterMove`; the root skips the event for moves it
+requested itself, so every successful Turbo Stream move response must carry it.
+
+With `maxBatchSize` set, a drag of more items is refused before it starts and
+the `batch_too_large` message of `moveAnnouncementScope` is shown as an error
+toast.
+
 ## Presentation and feedback
 
 `data-batch-selected` belongs on the sortable item element. In Backlogs this is

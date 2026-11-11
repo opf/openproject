@@ -96,7 +96,11 @@ export interface KeyboardNavigation {
   /** Focuses the origin again, or the row hiding it, unless the user has since moved elsewhere, an editor is open or focus rests on a live control; true when it focused. */
   returnFocus(origin:FocusPosition, closing?:EditFieldHandler):boolean;
   /** Returns focus to `origin` after a menu closed, though focus visited the menu portal; same userPosition guard as returnFocus, and never takes focus from a control outside the table. */
-  returnFocusFromMenu(origin:FocusPosition):void;
+  /**
+   * Returns focus to `origin` after a menu closed; `menuCell` (default `origin`) is the cell whose controls still count as focus at rest.
+   * `reveal: false` leaves the scroll position alone, for a menu closed because its row scrolled away.
+   */
+  returnFocusFromMenu(origin:FocusPosition, menuCell?:FocusPosition, options?:{ reveal?:boolean }):void;
   /** The position of the navigable cell or row enclosing `cell`, or null when it is not a rendered occurrence. */
   positionOfCell(cell:HTMLElement):FocusPosition|null;
   originForControl(control:HTMLElement):FocusPosition|null;
@@ -275,21 +279,26 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
   }
 
-  public returnFocusFromMenu(origin:FocusPosition):void {
-    if (this.table.destroyed || !this.focusAtRest()) {
+  public returnFocusFromMenu(origin:FocusPosition, menuCell:FocusPosition = origin, { reveal = true }:{ reveal?:boolean } = {}):void {
+    if (this.table.destroyed || !this.focusAtRest(undefined, menuCell)) {
       return;
     }
 
     const focusLeftTable = this.focusLeftTable;
     this.focusLeftTable = false;
-    if (this.returnFocus(origin)) {
+    if (this.returnFocus(origin, undefined, menuCell, reveal)) {
       this.owned = true;
     } else {
       this.focusLeftTable = focusLeftTable;
     }
   }
 
-  public returnFocus(origin:FocusPosition, closing?:EditFieldHandler):boolean {
+  /**
+   * `menuCell` names the cell whose menu is closing: a control inside it (a menu
+   * item, or the header's own menu button, which Primer refocuses on close)
+   * counts as focus at rest, so `origin` can take focus back.
+   */
+  public returnFocus(origin:FocusPosition, closing?:EditFieldHandler, menuCell?:FocusPosition, reveal = true):boolean {
     if (this.table.destroyed) return false;
     const rows = buildNavigableRows(this.table);
     const originIndex = rows.findIndex((row) => row.key === origin.key);
@@ -297,11 +306,15 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     const { userPosition } = this.cursor;
     const userIndex = userPosition ? rows.findIndex((row) => row.key === userPosition.key) : -1;
     const user = userPosition && userIndex !== -1 ? reconcilePosition(rows, userPosition, userIndex) : null;
-    if (!target || !this.mayRestoreFocus(closing) || (user && !samePosition(user, target))) {
+    if (!target || !this.mayRestoreFocus(closing, menuCell) || (user && !samePosition(user, target))) {
       return false;
     }
 
-    this.focusPosition(target);
+    if (reveal) {
+      this.focusPosition(target);
+    } else {
+      this.moveFocusTo(target);
+    }
     return true;
   }
 
@@ -345,10 +358,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   private recover(requested:FocusPosition|null, retainStop = false, changedRows:HTMLElement[]|null = null):void {
-    if (this.table.destroyed) {
-      return;
-    }
-
     const owned = this.owned;
     if (!this.table.hasPendingRender) {
       this.owned = false;
@@ -408,17 +417,18 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     return regrouped ? nearestPosition(rows, previousIndex) : reconcilePosition(rows, position, previousIndex);
   }
 
-  private mayRestoreFocus(closing?:EditFieldHandler):boolean {
+  private mayRestoreFocus(closing?:EditFieldHandler, menuCell?:FocusPosition):boolean {
     const editing = this.table.editing.owns(document.activeElement);
-    return !editing && !this.focusLeftTable && this.focusAtRest(closing);
+    return !editing && !this.focusLeftTable && this.focusAtRest(closing, menuCell);
   }
 
-  private focusAtRest(closing?:EditFieldHandler):boolean {
+  private focusAtRest(closing?:EditFieldHandler, menuCell?:FocusPosition):boolean {
     const active = document.activeElement;
     return !active
       || active === document.body
       || !active.isConnected
       || !!closing?.owns(active)
+      || (menuCell !== undefined && (this.elementAt(menuCell)?.contains(active) ?? false))
       || (insideGridContent(this.table.scrollContainer, active) && this.hiddenOrUnlisted(active));
   }
 
@@ -688,8 +698,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   private clickHeaderControl(cell:HTMLElement|null):boolean {
-    const control = cell?.querySelector<HTMLElement>('a')
-      ?? cell?.querySelector<HTMLElement>('button.wp-table--columns-selection');
+    const control = cell?.querySelector('button');
     control?.click();
     return !!control;
   }

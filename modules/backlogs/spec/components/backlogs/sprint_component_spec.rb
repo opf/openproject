@@ -220,7 +220,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
     end
 
-    describe "sprint status badge in header description" do
+    describe "sprint status label in header description" do
       context "when the sprint is in planning" do
         let(:sprint) do
           create(:sprint, project:, name: "Sprint 1",
@@ -228,7 +228,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "in_planning")
         end
 
-        it "renders the status badge" do
+        it "renders the status label" do
           expect(rendered_component).to have_css(".Label", text: "In planning")
         end
       end
@@ -240,7 +240,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "active")
         end
 
-        it "renders the status badge" do
+        it "renders the status label" do
           expect(rendered_component).to have_css(".Label", text: "Active")
         end
       end
@@ -252,7 +252,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "completed")
         end
 
-        it "renders the status badge" do
+        it "renders the status label" do
           expect(rendered_component).to have_css(".Label", text: "Completed")
         end
       end

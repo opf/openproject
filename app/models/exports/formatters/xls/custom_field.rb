@@ -35,7 +35,7 @@ module Exports
         TYPED_FORMATS = %w[int float date calculated_value].freeze
 
         def self.apply?(attribute, export_format)
-          export_format == :xls && attribute.start_with?("cf_")
+          export_format == :xls && ::CustomField.column_name?(attribute)
         end
 
         def format_for_export(object, available_field)
@@ -71,7 +71,7 @@ module Exports
         def custom_field
           return @custom_field if defined?(@custom_field)
 
-          @custom_field = ::CustomField.find_by(id: attribute.to_s.delete_prefix("cf_"))
+          @custom_field = ::CustomField.find_by(id: ::CustomField.id_from_column_name(attribute))
         end
       end
     end

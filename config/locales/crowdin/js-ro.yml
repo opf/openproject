@@ -150,6 +150,7 @@ ro:
     button_log_time: Înregistrare timp
     button_more: Mai mult
     button_more_actions: Mai multe acțiuni
+    button_move: Move
     button_open_details: Deschide vizualizare detaliată
     button_open_fullscreen: Afișează pe tot ecranul
     button_quote: Citat
@@ -164,7 +165,7 @@ ro:
     button_start_timer: Pornește cronometrul
     button_stop_timer: Oprește cronometrul
     button_uncheck_all: Deselectează tot
-    button_update: Actualizează
+    button_update: Actualizare
     button_view_markdown: View Markdown
     caption_rate_history: Istoric cotă
     card:
@@ -567,7 +568,9 @@ ro:
     label_show_in_menu: Vizualizează configurația în meniu
     label_sort_by: Sortează după
     label_sort_higher: Mută în sus
+    label_sort_highest: Move to top
     label_sort_lower: Mută în jos
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortează după
     label_sorting: Sortare
     label_spent_time: Timp consumat
@@ -820,6 +823,7 @@ ro:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

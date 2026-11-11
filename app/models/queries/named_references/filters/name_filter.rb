@@ -41,6 +41,8 @@ class Queries::NamedReferences::Filters::NameFilter < Queries::Filters::Base
   end
 
   def where
+    return if blank_search?
+
     case operator
     when "~", "**"
       where_contains
@@ -54,6 +56,12 @@ class Queries::NamedReferences::Filters::NameFilter < Queries::Filters::Base
   end
 
   private
+
+  def blank_search? = values.compact_blank.empty?
+
+  def validate_presence_of_values
+    super unless blank_search?
+  end
 
   def columns
     ["#{model.table_name}.name", "COALESCE(#{model.table_name}.description, '')"]

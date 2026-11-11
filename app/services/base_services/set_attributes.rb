@@ -111,7 +111,7 @@ module BaseServices
 
     def custom_field_ids_from(params)
       # 1. Retrieve custom fields set via the accessor `wp.custom_field_1 = 1`
-      custom_field_ids = params.keys.filter_map { |k| k[/^custom_field_(\d+)$/, 1]&.to_i }
+      custom_field_ids = params.keys.filter_map { CustomField.id_from_attribute_name(it) }
 
       # 2. Retrieve custom fields set via the `wp.custom_field_values = { 1 => 1}` hash.
       if params[:custom_field_values]

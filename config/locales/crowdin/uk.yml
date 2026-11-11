@@ -140,7 +140,6 @@ uk:
         allow_non_open_versions: Дозволити невідкриті версії
         content_right_to_left: Письмо зліва направо
         default_value: Значення за замовчуванням
-        editable: Може бути відредаговане
         field_format: Формат
         formula: Формула
         has_comment: Додати текстове поле для коментаря
@@ -157,6 +156,7 @@ uk:
         regexp: Регулярний вираз
         searchable: Доступно для пошуку
         semantic_key: Семантичне значення
+        user_self_editable: Editable
         visible_on_user_card: Показати на картці користувача
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -342,6 +342,10 @@ uk:
         custom_field_section: Розділ
       project_type:
         variant: Варіант
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: Дочірні пакети робіт
         column_names: Стовпці
@@ -413,6 +417,7 @@ uk:
       type:
         allow_project_variants: Дозволити варіанти для проєкту
         color: Колір
+        description: Description
         is_in_roadmap: За умовчанням відображається в дорожній карті
         is_milestone: Це віха
         project_types: Проєкти
@@ -422,6 +427,7 @@ uk:
       type_variant:
         attribute_groups: Форма
         default_work_package_description: Стандартний текст опису
+        description: Description
         enabled_in_new_projects: Активовано в нових проєктах
         linked_aspects: Успадкована конфігурація
         patterns: Шаблони
@@ -704,6 +710,7 @@ uk:
               format: "%{message}"
               invalid: Формула недійсна.
               invalid_tokens: 'Допускаються лише числові значення, оператори, функції, ключові слова й атрибути проєкту таких типів: ціле число, число з рухомою комою, розраховане значення й список зважених елементів.'
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: Атрибут «%{custom_fields}» не можна використовувати, оскільки це призведе до циклічного посилання; один атрибут залежить від іншого.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -853,6 +860,10 @@ uk:
             variant:
               must_be_owned_by_the_project: не може бути варіантом, який належить іншому проєкту.
               must_belong_to_the_type: має бути варіантом типу, який використовується в проєкті.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1695,6 +1706,7 @@ uk:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} і %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: видалено %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Ці значення налаштовуються за допомогою змінних середовища, і їх не можна змінити тут.
@@ -1727,7 +1739,7 @@ uk:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2354,6 +2366,37 @@ uk:
           error: Не вдалося перевпорядкувати цей розділ.
         move:
           error: Не вдалося перевпорядкувати цей розділ.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: Не вдалося видалити цей розділ.
@@ -2926,6 +2969,7 @@ uk:
       disabled_value: Атрибут «%{custom_field_name}» обов’язковий для цього поля «Розраховане значення», але його вимкнено для проєкту.
       mathematical: Математична формула призводить до помилки. Перевірте обчислювальний атрибут проєкту й повторіть спробу.
       missing_value: Атрибут «%{custom_field_name}» обов’язковий для цього поля «Розраховане значення», але є порожнім.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Сталася невідома помилка. Перевірте формулу, що використовується для цього поля «Розраховане значення».
   colors:
     contrast:
@@ -3108,10 +3152,8 @@ uk:
       admin_only:
         all: Установіть прапорець, щоб зробити це користувацьке поле видимим лише для адміністраторів. Користувачі без прав адміністратора не зможуть переглядати або редагувати його.
         project: Установіть прапорець, щоб зробити цей атрибут видимим лише для адміністраторів. Користувачі без прав адміністратора не зможуть переглядати або редагувати його.
-      editable:
-        all: Дозвольте користувачам самостійно редагувати це поле.
       formula:
-        project: Додайте числові значення або введіть «/» для пошуку атрибута, оператора, функції чи іншого маркера.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Дає змогу користувачу додати коментар до атрибута проєкту при виборі значення на сторінці «Огляд проєкту».
       is_filter:
@@ -3139,6 +3181,8 @@ uk:
       searchable:
         all: Включіть значення полів під час використання функції глобального пошуку.
         project: Установіть прапорець, щоб зробити цей атрибут доступним як фільтр у списках проєктів.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: Якщо встановлено, значення цього поля відображається на інформаційній картці користувача, коли навести вказівник на користувача будь-де в додатку.
     is_enabled_globally: Увімкнено у всьому світі
@@ -4290,6 +4334,7 @@ uk:
   label_additional_workflow_transitions_for_author: Додаткові переходи дозволені користувачу, який є автором
   label_administration: Адміністрування
   label_age: Вік
+  label_aggregate_function_plural: Aggregate functions
   label_ago: днів тому
   label_all: всі
   label_all_open_wps: Всі відкрити
@@ -4564,7 +4609,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції із встановлення
+  label_installation_guides: Інструкції зі встановлення
   label_integer: Ціле число
   label_integrations: Інтеграції
   label_interface: Інтерфейс
@@ -5397,6 +5442,7 @@ uk:
       mail_notification: Email сповіщення
       mails_and_notifications: Електронні листи й сповіщення
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: Додати…
@@ -6265,6 +6311,15 @@ uk:
       new:
         placeholder: Новий список проєктів
       shared: Спільні проєкти
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Вимкнути все
@@ -6918,6 +6973,12 @@ uk:
   setting_user_format: Формат імені користувача
   setting_users_deletable_by_admins: Облікові записи користувачів можуть бути видалені адміністраторами
   setting_users_deletable_by_self: Користувачі можуть видаляти свої акаунти
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Відображати вітальний блок на робочому столі
   setting_welcome_text: Текст блоку привітання
   setting_welcome_title: Заголовок вітального блоку
@@ -7622,6 +7683,7 @@ uk:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: Адміністратори проєкту, які мають права на управління варіантами, можуть розширювати або змінювати цей тип у межах проєкту.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Успадковано від типу <b>%{type}</b>.
         tab: Деталі
         type_color_text: Вибраний колір використовується для виділення різних типів на діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений.

@@ -150,6 +150,7 @@ ru:
     button_log_time: Добавить трудозатраты
     button_more: Ещё
     button_more_actions: Еще действия
+    button_move: Move
     button_open_details: Открыть детальный просмотр
     button_open_fullscreen: Открыть полноэкранный просмотр
     button_quote: Цитировать
@@ -164,7 +165,7 @@ ru:
     button_start_timer: Запустить таймер
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
-    button_update: Обновить
+    button_update: Обновление
     button_view_markdown: View Markdown
     caption_rate_history: История оценок
     card:
@@ -569,7 +570,9 @@ ru:
     label_show_in_menu: Показать представление в меню
     label_sort_by: Сортировать по
     label_sort_higher: Переместить вверх
+    label_sort_highest: Move to top
     label_sort_lower: Переместить вниз
+    label_sort_lowest: Move to bottom
     label_sorted_by: отсортировано по
     label_sorting: Сортировка
     label_spent_time: Затраченное время
@@ -823,6 +826,7 @@ ru:
         batch_too_large: Нельзя переместить %{count} элементов за один раз. Выберите не более %{max}.
         fallback_item_label: Элемент
         fallback_list_name: другой список
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Не удалось переместить. Проверьте текущую позицию.
         move_failed_check_positions_batch:
           other: Перемещение не удалось. Проверьте текущие позиции элементов.

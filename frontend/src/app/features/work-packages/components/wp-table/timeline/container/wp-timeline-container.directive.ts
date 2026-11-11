@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, inject } from '@angular/core';
+import { AfterViewInit, OnDestroy, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   IToast,
@@ -61,7 +61,6 @@ import {
   Observable,
   ReplaySubject,
 } from 'rxjs';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
 import {
   groupIdFromIdentifier,
@@ -99,7 +98,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class WorkPackageTimelineTableController extends UntilDestroyedMixin implements AfterViewInit {
+export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {
   readonly injector = inject(Injector);
   readonly destroyRef = inject(DestroyRef);
   private readonly tables = new ReplaySubject<WorkPackageTable>(1);
@@ -173,12 +172,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     return !this.destroyRef.destroyed && !table.destroyed && this.workPackageTable === table;
   }
 
-  override ngOnDestroy():void {
+  ngOnDestroy():void {
     this.releaseAttachment();
     this.disposeCells();
     this.disposeSelectionMode();
     this.tables.complete();
-    super.ngOnDestroy();
   }
 
   private _viewParameters:TimelineViewParameters = new TimelineViewParameters();

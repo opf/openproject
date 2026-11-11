@@ -150,6 +150,7 @@ hr:
     button_log_time: Vrijeme pristupa
     button_more: Više
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Otvorite pregled pojedinosti
     button_open_fullscreen: Otvoren prikaz preko cijeliog ekrana
     button_quote: Citiraj
@@ -567,7 +568,9 @@ hr:
     label_show_in_menu: Show view in menu
     label_sort_by: Sortiraj prema
     label_sort_higher: Pomakni gore
+    label_sort_highest: Move to top
     label_sort_lower: Pomakni dolje
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortirao
     label_sorting: Sortiranje
     label_spent_time: Utrošeno vrijeme
@@ -820,6 +823,7 @@ hr:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

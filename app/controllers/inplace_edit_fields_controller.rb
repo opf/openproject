@@ -130,7 +130,7 @@ class InplaceEditFieldsController < ApplicationController
   def authorize_project_custom_field_visibility!
     return unless @model.is_a?(Project)
 
-    custom_field_id = @attribute.to_s.delete_prefix("custom_field_").to_i
+    custom_field_id = CustomField.id_from_attribute_name(@attribute)
     unless ProjectCustomField.visible(current_user, project: @model).exists?(custom_field_id)
       head :not_found
     end
@@ -156,7 +156,7 @@ class InplaceEditFieldsController < ApplicationController
   def custom_comments_params
     return {} unless custom_field_attribute?
 
-    custom_field_id = @attribute.to_s.delete_prefix("custom_field_")
+    custom_field_id = CustomField.id_from_attribute_name(@attribute).to_s
     raw_comment = params.dig(@model.model_name.param_key, :custom_comments, custom_field_id)
 
     return {} if raw_comment.nil?
@@ -166,7 +166,7 @@ class InplaceEditFieldsController < ApplicationController
 
   def transform_custom_field_values_params
     model_key = @model.model_name.param_key
-    custom_field_id = @attribute.to_s.delete_prefix("custom_field_")
+    custom_field_id = CustomField.id_from_attribute_name(@attribute).to_s
 
     # Strong Parameters doesn't support dynamic keys in nested hashes
     # So we extract the value directly from the raw params.
@@ -250,7 +250,7 @@ class InplaceEditFieldsController < ApplicationController
   end
 
   def affected_calculated_fields
-    cf_id = @attribute.to_s.delete_prefix("custom_field_").to_i
+    cf_id = CustomField.id_from_attribute_name(@attribute)
     @model.available_custom_fields.affected_calculated_fields([cf_id])
   end
 

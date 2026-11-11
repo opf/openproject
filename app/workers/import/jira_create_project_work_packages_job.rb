@@ -41,6 +41,7 @@ module Import
         .where(id: @project.id)
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
+      allow_multiple_active_sprints
       tagged_log("jira_import_id:#{arguments[0]}",
                  "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
         Rails.logger.debug "Creating work packages finished"
@@ -62,6 +63,7 @@ module Import
         @jira_import = Import::JiraImport.find(jira_import_id)
         jira = @jira_import.jira
         @jira_id = jira.id
+        @jira_base_url = jira.url
         @system_user = User.system
         @jira_client = jira.client
 
@@ -74,6 +76,7 @@ module Import
         ).op_leg
 
         setup_resolution_date_cf(jira_project)
+        @sprint_field = Import::JiraIssueSprintField.from_staged_fields(@jira_import)
 
         cursor ||= @jira_import.get_job_cursor(self)
         enumerator_builder.active_record_on_records(
@@ -102,8 +105,14 @@ module Import
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
 
               attachment_ids, attachment_paths_by_name = prepare_attachments(jira_issue, @project)
-              create_work_package(jira_issue, @project, type, status, priority, @custom_field_registry,
-                                  attachment_ids:, attachment_paths_by_name:)
+              create_work_package(jira_issue:,
+                                  project: @project,
+                                  type:,
+                                  status:,
+                                  priority:,
+                                  custom_field_registry: @custom_field_registry,
+                                  attachment_ids:,
+                                  attachment_paths_by_name:)
               # Jira attachments cannot be replaced, so both timestamps take the date the file was attached
               # in Jira rather than the date the import created the attachment. This has to follow the
               # work package's creation, which touched their updated_at when claiming them.
@@ -314,8 +323,14 @@ module Import
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
-    def create_work_package(jira_issue, project, type, status, priority, custom_field_registry,
-                            attachment_ids:, attachment_paths_by_name:)
+    def create_work_package(jira_issue:,
+                            project:,
+                            type:,
+                            status:,
+                            priority:,
+                            custom_field_registry:,
+                            attachment_ids:,
+                            attachment_paths_by_name:)
       Rails.logger.debug "Creating work package"
 
       # required because otherwise project.types does not include type and then wp creation fails.
@@ -369,6 +384,7 @@ module Import
             assigned_to:,
             target_versions:,
             observed_in_versions:,
+            sprint: sprint_for(jira_issue),
             due_date:,
             # Otherwise SetAttributesService moves the due date to the next working day.
             ignore_non_working_days: due_on_non_working_day?(due_date),
@@ -386,7 +402,14 @@ module Import
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
       _, sequence_number = identifier.split("-")
-      work_package.update_columns(sequence_number:, identifier:)
+      work_package.update_columns(
+        sequence_number:,
+        identifier:,
+        origin_source: "jira_data_center",
+        origin_id: jira_issue.origin_id,
+        origin_host: @jira_base_url,
+        origin_url: "#{@jira_base_url}/browse/#{identifier}"
+      )
       work_package_id = work_package.id
       aliases_from_history = jira_issue
                                .payload["changelog"]["histories"]
@@ -409,6 +432,26 @@ module Import
       create_work_package_history(work_package, jira_issue, project, attachment_paths_by_name)
       create_watchers(work_package, jira_issue, project)
       work_package
+    end
+
+    def sprint_for(jira_issue)
+      origin_id = @sprint_field.current_sprint_id(jira_issue)
+      return if origin_id.nil?
+
+      @sprints_by_origin_id ||= {}
+      @sprints_by_origin_id.fetch(origin_id) do
+        jira_sprint = Import::JiraSprint.find_by(jira_import: @jira_import, origin_id:)
+        @sprints_by_origin_id[origin_id] = jira_sprint && @jira_import.find_op_leg(jira_sprint)
+      end
+    end
+
+    def allow_multiple_active_sprints
+      return if @project.allow_multiple_active_sprints? || !Sprint.for_project(@project).active.many?
+
+      @project.update!(allow_multiple_active_sprints: true)
+      tagged_log("jira_import_id:#{@jira_import.id}", "jira_project_id:#{@project.identifier}", "jira_object_type:sprint") do
+        Rails.logger.warn "Project #{@project.identifier} has several active sprints, multiple active sprints are allowed"
+      end
     end
 
     def due_on_non_working_day?(due_date)

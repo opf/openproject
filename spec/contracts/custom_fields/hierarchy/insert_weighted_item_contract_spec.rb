@@ -116,6 +116,16 @@ RSpec.describe CustomFields::Hierarchy::InsertWeightedItemContract do
       end
     end
 
+    context "when the label only differs in case from a label in the same hierarchy level" do
+      let(:params) { { parent:, label: "duplicate LABEL", weight: 0.1337 } }
+
+      before { create(:hierarchy_item, parent:, label: "Duplicate Label", weight: 0.1337) }
+
+      it "is invalid" do
+        expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+      end
+    end
+
     context "when weight is not a decimal value" do
       let(:params) { { parent:, label: "Valid Label", weight: "pi" } }
 
@@ -123,6 +133,76 @@ RSpec.describe CustomFields::Hierarchy::InsertWeightedItemContract do
         result = subject.call(params)
         expect(result).to be_failure
         expect(result.errors.to_h).to include(weight: ["must be a decimal."])
+      end
+    end
+
+    context "with a project", with_ee: %i[weighted_item_lists] do
+      let(:custom_field) { create(:custom_field, :weighted_item_list, allow_additional_project_values: true) }
+      let(:parent) { custom_field.hierarchy_root }
+      let(:project) { create(:project) }
+      let(:other_project) { create(:project) }
+      let(:params) { { parent:, label: "Project Label", weight: 0.5, project: } }
+
+      it "is valid" do
+        expect(subject.call(params)).to be_success
+      end
+
+      context "when the custom field does not allow additional project values" do
+        let(:custom_field) { create(:custom_field, :weighted_item_list, allow_additional_project_values: false) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(project: ["cannot add values to this custom field."])
+        end
+      end
+
+      context "when the parent belongs to another project" do
+        let(:params) do
+          { parent: create(:hierarchy_item, parent:, project: other_project), label: "Project Label", weight: 0.5, project: }
+        end
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(parent: ["must be a global value or belong to the same project."])
+        end
+      end
+
+      context "when a global sibling uses the label" do
+        before { create(:hierarchy_item, parent:, label: "Project Label", weight: 0.1) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a global sibling uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "PROJECT LABEL", weight: 0.1) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a sibling of the same project uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "project label", weight: 0.1, project:) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a sibling of another project uses the label" do
+        before { create(:hierarchy_item, parent:, label: "Project Label", weight: 0.1, project: other_project) }
+
+        it "is valid" do
+          expect(subject.call(params)).to be_success
+        end
+      end
+
+      context "when a sibling of another project uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "project label", weight: 0.1, project: other_project) }
+
+        it "is valid" do
+          expect(subject.call(params)).to be_success
+        end
       end
     end
 

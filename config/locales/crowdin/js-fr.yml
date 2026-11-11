@@ -150,6 +150,7 @@ fr:
     button_log_time: Consigner du temps
     button_more: Plus
     button_more_actions: Plus d'actions
+    button_move: Move
     button_open_details: Ouvrir la vue détaillée
     button_open_fullscreen: Ouvrir l'affichage plein écran
     button_quote: Citer
@@ -567,7 +568,9 @@ fr:
     label_show_in_menu: Afficher la vue dans le menu
     label_sort_by: Trier par
     label_sort_higher: Déplacer vers le haut
+    label_sort_highest: Move to top
     label_sort_lower: Déplacer vers le bas
+    label_sort_lowest: Move to bottom
     label_sorted_by: trié par
     label_sorting: Tri
     label_spent_time: Temps passé
@@ -819,6 +822,7 @@ fr:
         batch_too_large: Impossible de déplacer %{count} éléments à la fois. Sélectionnez-en au maximum %{max}.
         fallback_item_label: Élément
         fallback_list_name: une autre liste
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Le déplacement a échoué. Vérifiez la position actuelle de l'élément.
         move_failed_check_positions_batch:
           other: Échec du déplacement. Vérifiez les positions actuelles des éléments.

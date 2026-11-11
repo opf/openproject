@@ -150,6 +150,7 @@ pl:
     button_log_time: Rejestruj czas pracy
     button_more: Więcej
     button_more_actions: Więcej działań
+    button_move: Move
     button_open_details: Otwórz szczegóły widoku
     button_open_fullscreen: Otwórz widok pełnoekranowy
     button_quote: Cytat
@@ -567,7 +568,9 @@ pl:
     label_show_in_menu: Pokaż widok w menu
     label_sort_by: Sortuj według
     label_sort_higher: Przenieś wyżej
+    label_sort_highest: Move to top
     label_sort_lower: Przenieś niżej
+    label_sort_lowest: Move to bottom
     label_sorted_by: posortowane według
     label_sorting: Sortowanie
     label_spent_time: Czas pracy
@@ -821,6 +824,7 @@ pl:
         batch_too_large: Nie można przenieść %{count} elementów naraz. Wybierz nie więcej niż %{max}.
         fallback_item_label: Element
         fallback_list_name: inna lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Przeniesienie nie powiodło się. Sprawdź bieżącą pozycję elementu.
         move_failed_check_positions_batch:
           other: Przeniesienie nie powiodło się. Sprawdź bieżące pozycje elementów.

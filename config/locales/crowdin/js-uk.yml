@@ -150,6 +150,7 @@ uk:
     button_log_time: Записування часу
     button_more: Більше
     button_more_actions: Інші дії
+    button_move: Move
     button_open_details: Відкрити докладне подання
     button_open_fullscreen: Відкрити на весь екран
     button_quote: Цитата
@@ -567,7 +568,9 @@ uk:
     label_show_in_menu: Показати вигляд у меню
     label_sort_by: Сортувати за
     label_sort_higher: Перемістити вгору
+    label_sort_highest: Move to top
     label_sort_lower: Перемістити вниз
+    label_sort_lowest: Move to bottom
     label_sorted_by: відсортовано за
     label_sorting: Сортування
     label_spent_time: Витрачений час
@@ -821,6 +824,7 @@ uk:
         batch_too_large: Неможливо перемістити всі елементи (%{count}) одночасно. Максимальна кількість — %{max}.
         fallback_item_label: Об’єкт
         fallback_list_name: інший список
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Не вдалося перемістити. Перегляньте поточну позицію об’єкта.
         move_failed_check_positions_batch:
           other: Не вдалося перемістити. Перегляньте поточні позиції елементів.
