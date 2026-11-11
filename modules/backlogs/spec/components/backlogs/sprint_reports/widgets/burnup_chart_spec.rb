@@ -257,6 +257,11 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurnupChart, type: :component d
     context "when estimation unit is story points" do
       let(:estimation_unit) { "story_points" }
 
+      before do
+        create(:work_package, project:, sprint:, status: open_status,
+                              journals: { monday.in_time_zone + 9.hours => { story_points: 10 } })
+      end
+
       it "renders the widget" do
         expect(rendered_component).to have_element(:"opce-burnup-chart")
       end
@@ -264,6 +269,11 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurnupChart, type: :component d
 
     context "when estimation unit is time" do
       let(:estimation_unit) { "time" }
+
+      before do
+        create(:work_package, project:, sprint:, status: open_status,
+                              journals: { monday.in_time_zone + 9.hours => { estimated_hours: 10 } })
+      end
 
       it "renders the widget" do
         expect(rendered_component).to have_element(:"opce-burnup-chart")

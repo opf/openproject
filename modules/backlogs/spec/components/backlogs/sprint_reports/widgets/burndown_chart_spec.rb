@@ -35,7 +35,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
-  shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
+  shared_let(:closed_status) { create(:closed_status, name: "Closed") }
 
   let(:monday) { Date.new(2026, 10, 12) }
   let(:friday) { Date.new(2026, 10, 16) }
@@ -277,6 +277,11 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
 
     context "when estimation unit is story points" do
       let(:estimation_unit) { "story_points" }
+
+      before do
+        create(:work_package, project:, sprint:, status: open_status,
+                              journals: { monday.in_time_zone + 9.hours => { story_points: 10 } })
+      end
 
       it "renders the widget" do
         expect(rendered_component).to have_element(:"opce-burndown-chart")
