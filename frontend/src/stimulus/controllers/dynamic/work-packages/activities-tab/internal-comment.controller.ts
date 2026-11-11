@@ -34,83 +34,124 @@ export default class InternalCommentController extends BaseController {
   declare readonly workPackagesActivitiesTabEditorOutlet:EditorController;
   private get editorOutlet() { return this.workPackagesActivitiesTabEditorOutlet; }
 
-  static targets = ['confirmationDialog', 'internalCheckbox', 'formContainer', 'learnMoreLink'];
+  static targets = ['confirmationDialog', 'modeMenu', 'formContainer', 'learnMoreLink'];
   declare readonly confirmationDialogTarget:HTMLDialogElement;
-  declare readonly internalCheckboxTarget:HTMLInputElement;
+  declare readonly modeMenuTarget:HTMLElement;
   declare readonly formContainerTarget:HTMLElement;
   declare readonly learnMoreLinkTarget:HTMLAnchorElement;
-  declare hasInternalCheckboxTarget:boolean;
+  declare hasModeMenuTarget:boolean;
+  declare hasLearnMoreLinkTarget:boolean;
 
-  static classes = ['highlight', 'hidden'];
-  declare readonly highlightClass:string;
+  static classes = ['hidden'];
   declare readonly hiddenClass:string;
 
   static values = {
-    isInternal: { type: Boolean, default: false },
+    mode: { type: String, default: 'public' },
   };
 
-  declare isInternalValue:boolean;
+  declare modeValue:string;
 
   connect():void {
     super.connect();
-    this.restoreInternalState();
+    this.restoreMode();
   }
 
   disconnect():void {
     super.disconnect();
-    this.rescueInternalState();
+    this.rescueMode();
   }
 
   onSubmitEnd(_event:CustomEvent):void {
-    this.updateInternalState({ persist: false });
+    const defaultMode = this.modeItems[0];
+    if (defaultMode) this.selectMode(defaultMode);
   }
 
-  updateInternalState({ persist = true } = {}):void {
-    if (!this.hasInternalCheckboxTarget) return;
+  onModeSelected():void {
+    const item = this.selectedModeItem;
+    if (!item) return;
 
-    const isChecked = this.internalCheckboxTarget.checked;
+    this.applyMode(item);
+    this.persistMode(this.modeValue);
 
-    if (persist) {
-      this.setInternalStateWithPersistence(isChecked);
-    } else {
-      this.setInternalStateWithoutPersistence(isChecked);
-    }
-
-    if (isChecked) {
+    if (this.isInternal(item)) {
       void this.sanitizeInternalMentions();
     }
   }
 
-  async isInternalValueChanged(currentValue:boolean, previousValue:boolean):Promise<void> {
+  restrictToInternal():void {
+    const internalItem = this.modeItems.find((item) => this.isInternal(item));
+    if (internalItem) this.selectMode(internalItem);
+  }
+
+  async modeValueChanged(currentValue:string, previousValue:string):Promise<void> {
     if (currentValue === previousValue) return;
+
+    const previousItem = this.modeItem(previousValue);
+    const currentItem = this.modeItem(currentValue);
+    if (!previousItem || !currentItem) return;
+    if (!this.isInternal(previousItem) || this.isInternal(currentItem)) return;
 
     if (this.ckEditorInstance) {
       const editorData = this.ckEditorInstance.getData({ trim: 'none' });
       if (editorData.length === 0) return;
 
-      if (!currentValue && previousValue) {
-        const confirmed = await this.askForConfirmation();
+      const confirmed = await this.askForConfirmation();
+      if (!confirmed) this.selectMode(previousItem);
 
-        if (confirmed) {
-          this.editorOutlet.focusEditor();
-        } else {
-          this.internalCheckboxTarget.checked = true;
-          this.setInternalStateWithPersistence(this.internalCheckboxTarget.checked);
-          this.editorOutlet.focusEditor();
-        }
-      }
+      this.editorOutlet.focusEditor();
     }
   }
 
-  private setInternalStateWithPersistence(isChecked:boolean):void {
-    this.setInternalStateWithoutPersistence(isChecked);
-    this.persistInternalState(isChecked);
+  private get modeItems():HTMLElement[] {
+    if (!this.hasModeMenuTarget) return [];
+
+    return Array.from(this.modeMenuTarget.querySelectorAll<HTMLElement>('[role="menuitemradio"]'));
   }
 
-  private toggleLearnMoreLink(isChecked:boolean):void {
+  private get selectedModeItem():HTMLElement|undefined {
+    return this.modeItems.find((item) => item.getAttribute('aria-checked') === 'true');
+  }
+
+  private modeItem(mode:string):HTMLElement|undefined {
+    return this.modeItems.find((item) => item.dataset.value === mode);
+  }
+
+  private isInternal(item:HTMLElement):boolean {
+    return item.dataset.internal === 'true';
+  }
+
+  // The menu keeps the checked item, its label and the form input in sync when an item is clicked.
+  private selectMode(item:HTMLElement):void {
+    if (item === this.selectedModeItem) {
+      this.applyMode(item);
+    } else {
+      item.click();
+    }
+  }
+
+  private applyMode(item:HTMLElement):void {
+    this.modeItems.forEach(({ dataset: { highlightClass } }) => {
+      if (highlightClass) this.formContainerTarget.classList.remove(highlightClass);
+    });
+    if (item.dataset.highlightClass) this.formContainerTarget.classList.add(item.dataset.highlightClass);
+
+    this.showModeIcon(item);
+    this.toggleLearnMoreLink(this.isInternal(item));
+    this.modeValue = item.dataset.value ?? this.modeValue;
+  }
+
+  private showModeIcon(item:HTMLElement):void {
+    const icon = item.querySelector('.ActionListItem-visual--leading svg');
+    const buttonVisual = this.modeMenuTarget.querySelector('.Button-leadingVisual');
+
+    if (icon && buttonVisual) buttonVisual.replaceChildren(icon.cloneNode(true));
+  }
+
+  private toggleLearnMoreLink(isInternal:boolean):void {
+    if (!this.hasLearnMoreLinkTarget) return;
     if (this.isMobile()) return; // hidden on mobile
 
-    this.learnMoreLinkTarget.classList.toggle(this.hiddenClass, !isChecked);
+    this.learnMoreLinkTarget.classList.toggle(this.hiddenClass, !isInternal);
   }
 
   private async sanitizeInternalMentions():Promise<void> {
@@ -160,32 +201,31 @@ export default class InternalCommentController extends BaseController {
     });
   }
 
-  private persistInternalState(isChecked:boolean):void {
+  private persistMode(mode:string):void {
     try {
-      localStorage.setItem(this.storageKey, JSON.stringify(isChecked));
+      localStorage.setItem(this.storageKey, mode);
     } catch (error) {
       window.ErrorReporter.captureException(error as Error);
     }
   }
 
-  private rescueInternalState():void {
-    if (!this.hasInternalCheckboxTarget) return;
+  private rescueMode():void {
+    if (!this.hasModeMenuTarget) return;
 
-    this.persistInternalState(this.internalCheckboxTarget.checked);
+    this.persistMode(this.modeValue);
   }
 
-  private restoreInternalState():void {
-    if (!this.hasInternalCheckboxTarget) return;
+  private restoreMode():void {
+    if (!this.hasModeMenuTarget) return;
 
     try {
-      const storedState = localStorage.getItem(this.storageKey);
-      if (storedState !== null) {
-        const isChecked = JSON.parse(storedState) as boolean;
-        this.internalCheckboxTarget.checked = isChecked;
-        this.setInternalStateWithoutPersistence(isChecked);
-        // Remove the stored state after restoration to ensure the internal comment state
-        // is only persisted temporarily (e.g., across a single navigation or reload).
-        // This prevents stale state from being applied unintentionally in future sessions.
+      const storedMode = localStorage.getItem(this.storageKey);
+      if (storedMode !== null) {
+        const item = this.modeItem(storedMode);
+        if (item) this.selectMode(item);
+        // Remove the stored mode after restoration to ensure it is only persisted
+        // temporarily (e.g., across a single navigation or reload).
+        // This prevents a stale mode from being applied unintentionally in future sessions.
         localStorage.removeItem(this.storageKey);
       }
     } catch (error) {
@@ -193,18 +233,12 @@ export default class InternalCommentController extends BaseController {
     }
   }
 
-  private setInternalStateWithoutPersistence(isChecked:boolean):void {
-    this.formContainerTarget.classList.toggle(this.highlightClass, isChecked);
-    this.toggleLearnMoreLink(isChecked);
-    this.isInternalValue = isChecked;
-  }
-
   private get ckEditorInstance() {
     return this.editorOutlet.ckEditorInstance;
   }
 
   private get storageKey():string {
-    return `work-package-${this.workPackageId}-internal-comment-state`;
+    return `work-package-${this.workPackageId}-comment-mode`;
   }
 
   private get workPackageId():string {

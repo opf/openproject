@@ -48,23 +48,36 @@ RSpec.describe WorkPackages::ActivitiesTab::CommentService do
 
   describe "#add" do
     it "writes the raw notes for a public comment and notifies by default" do
-      service(journal: { notes: "hi", internal: "false" }).add
+      service(journal: { notes: "hi", mode: "public" }).add
 
-      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false)
+      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false, channel: nil)
       expect(sanitizer).not_to have_received(:sanitize)
     end
 
     it "sanitizes the notes for an internal comment" do
-      service(journal: { notes: "raw", internal: "true" }).add
+      service(journal: { notes: "raw", mode: "internal" }).add
 
       expect(sanitizer).to have_received(:sanitize).with(work_package, "raw")
-      expect(add_service).to have_received(:call).with("sanitized", send_notifications: true, internal: true)
+      expect(add_service).to have_received(:call).with("sanitized", send_notifications: true, internal: true, channel: nil)
+    end
+
+    it "writes a public comment when no mode is given" do
+      service(journal: { notes: "hi" }).add
+
+      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false, channel: nil)
+    end
+
+    it "passes any other mode on as the channel of a public comment" do
+      service(journal: { notes: "hi", mode: "email_reply" }).add
+
+      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false, channel: "email_reply")
+      expect(sanitizer).not_to have_received(:sanitize)
     end
 
     it "honors an explicit notify=false flag" do
-      service(journal: { notes: "hi", internal: "false" }, notify: "false").add
+      service(journal: { notes: "hi", mode: "public" }, notify: "false").add
 
-      expect(add_service).to have_received(:call).with("hi", send_notifications: false, internal: false)
+      expect(add_service).to have_received(:call).with("hi", send_notifications: false, internal: false, channel: nil)
     end
   end
 

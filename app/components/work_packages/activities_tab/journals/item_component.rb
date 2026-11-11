@@ -63,6 +63,9 @@ module WorkPackages
             if journal.internal?
               classes << "work-packages-activities-tab-journals-item-component--container__internal-comment"
             end
+            if delivery_channel
+              classes << "work-packages-activities-tab-journals-item-component--container__delivered-comment"
+            end
           end
         end
 
@@ -70,6 +73,9 @@ module WorkPackages
           [].tap do |classes|
             if journal.internal?
               classes << "work-packages-activities-tab-journals-item-component--header__internal-comment"
+            end
+            if delivery_channel
+              classes << "work-packages-activities-tab-journals-item-component--header__delivered-comment"
             end
           end
         end
@@ -79,7 +85,16 @@ module WorkPackages
             if journal.internal?
               classes << "work-packages-activities-tab-journals-item-component--journal-notes-body__internal-comment"
             end
+            if delivery_channel
+              classes << "work-packages-activities-tab-journals-item-component--journal-notes-body__delivered-comment"
+            end
           end
+        end
+
+        def delivery_channel
+          return @delivery_channel if defined?(@delivery_channel)
+
+          @delivery_channel = WorkPackages::CommentChannels.delivering(journal)
         end
 
         def show_comment_container?

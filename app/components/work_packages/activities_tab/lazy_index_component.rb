@@ -116,9 +116,7 @@ module WorkPackages
           controller: internal_comment_stimulus_controller,
           internal_comment_stimulus_controller("-target") => "formContainer",
           action: editor_stimulus_controller(":onSubmit-end@window->#{internal_comment_stimulus_controller}#onSubmitEnd"),
-          internal_comment_stimulus_controller("-highlight-class") => "work-packages-activities-tab-journals-new-component--journal-notes-body__internal-comment", # rubocop:disable Layout/LineLength
           internal_comment_stimulus_controller("-hidden-class") => "d-none",
-          internal_comment_stimulus_controller("-is-internal-value") => false, # Initial value
           internal_comment_stimulus_controller("-#{editor_stimulus_controller}-outlet") => index_component_dom_selector
         }
       end

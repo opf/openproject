@@ -45,6 +45,7 @@ RSpec.describe WorkPackages::CreateNoteContract do
   end
   let(:user) { build_stubbed(:user) }
   let(:permissions) { %i[add_work_package_comments add_internal_comments] }
+  let(:options) { {} }
 
   before do
     mock_permissions_for(user) do |mock|
@@ -53,7 +54,7 @@ RSpec.describe WorkPackages::CreateNoteContract do
   end
 
   subject(:contract) do
-    described_class.new(work_package, user)
+    described_class.new(work_package, user, options:)
   end
 
   describe "validations" do
@@ -78,6 +79,45 @@ RSpec.describe WorkPackages::CreateNoteContract do
         let(:permissions) { [] }
 
         it_behaves_like "contract is invalid", journal_notes: :error_unauthorized
+      end
+    end
+
+    describe "channel" do
+      let(:options) { { channel: "letter" } }
+      let(:channel) { instance_double(WorkPackages::CommentChannel, available?: true) }
+
+      before do
+        work_package.journal_notes = "blubs"
+        allow(WorkPackages::CommentChannels).to receive(:find).with("letter").and_return(channel)
+      end
+
+      it_behaves_like "contract is valid"
+
+      it "asks the channel for the work package and the user" do
+        contract.validate
+
+        expect(channel).to have_received(:available?).with(work_package:, user:)
+      end
+
+      context "when the channel is not available" do
+        let(:channel) { instance_double(WorkPackages::CommentChannel, available?: false) }
+
+        it_behaves_like "contract is invalid", base: :comment_channel_unavailable
+      end
+
+      context "when the channel is unknown" do
+        let(:channel) { nil }
+
+        it_behaves_like "contract is invalid", base: :comment_channel_unavailable
+      end
+
+      context "when the comment is internal", with_ee: [:internal_comments] do
+        before do
+          allow(project).to receive(:enabled_internal_comments).and_return(true)
+          work_package.journal_internal = true
+        end
+
+        it_behaves_like "contract is invalid", base: :comment_channel_internal
       end
     end
 

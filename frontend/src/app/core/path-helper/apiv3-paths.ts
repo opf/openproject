@@ -148,7 +148,8 @@ export class ApiV3Paths {
    */
   private isInternalMentionable():boolean {
     const isInternalAttributeValue = 'data-work-packages--activities-tab--internal-comment-is-internal-value';
-    const addingCommentIsInternal = document.getElementById('work-packages-activities-tab-add-comment-component')?.getAttribute(isInternalAttributeValue) === 'true';
+    const modeAttributeValue = 'data-work-packages--activities-tab--internal-comment-mode-value';
+    const addingCommentIsInternal = document.getElementById('work-packages-activities-tab-add-comment-component')?.getAttribute(modeAttributeValue) === 'internal';
     const editingCommentIsInternal = document.querySelector('.work-packages-activities-tab-journals-item-component-edit')?.getAttribute(isInternalAttributeValue) === 'true';
 
     return addingCommentIsInternal || editingCommentIsInternal;

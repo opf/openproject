@@ -179,7 +179,8 @@ class WorkPackages::ActivitiesTab::Paginator
   def page_journals(page_relation)
     page_relation
       .includes(:user, :customizable_journals, :attachable_journals, :storable_journals, :target_version_journals,
-                :label_journals, :observed_in_version_journals, :notifications, :attachments)
+                :label_journals, :observed_in_version_journals, :notifications, :attachments,
+                *WorkPackages::CommentChannels.journal_preloads)
       .to_a
   end
 

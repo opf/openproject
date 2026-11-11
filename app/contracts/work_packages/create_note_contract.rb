@@ -55,7 +55,23 @@ module WorkPackages
       end
     end
 
+    validate :validate_channel
+
     private
+
+    def validate_channel
+      return if options[:channel].blank?
+
+      if model.journal_internal
+        errors.add(:base, :comment_channel_internal)
+      elsif !channel&.available?(work_package: model, user:)
+        errors.add(:base, :comment_channel_unavailable)
+      end
+    end
+
+    def channel
+      WorkPackages::CommentChannels.find(options[:channel])
+    end
 
     def adding_notes_allowed?
       allowed_in_work_package?(:add_work_package_comments) || allowed_in_work_package?(:edit_work_packages)

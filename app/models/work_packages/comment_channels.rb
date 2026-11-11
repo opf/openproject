@@ -27,18 +27,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages::ActivitiesTab::Journals
-  class InternalNoteForm < ApplicationForm
-    form do |notes_form|
-      notes_form.check_box(
-        name: :internal,
-        label: I18n.t("activities.work_packages.activity_tab.internal_comment"),
-        checked: false,
-        data: {
-          "work-packages--activities-tab--internal-comment-target": "internalCheckbox",
-          action: "input->work-packages--activities-tab--internal-comment#updateInternalState"
-        }
-      )
+module WorkPackages
+  module CommentChannels
+    class << self
+      def register(channel)
+        registry[channel.key.to_s] = channel
+      end
+
+      def find(key)
+        registry[key.to_s]
+      end
+
+      def available_for(work_package:, user:)
+        registry.values.select { it.available?(work_package:, user:) }
+      end
+
+      def delivering(journal)
+        registry.values.find { it.delivered?(journal) }
+      end
+
+      def journal_preloads
+        registry.values.flat_map(&:journal_preloads)
+      end
+
+      private
+
+      def registry
+        @registry ||= {}
+      end
     end
   end
 end

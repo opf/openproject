@@ -68,6 +68,9 @@ en:
         description: Configure the SMTP server to reply emails directly from the work packages activity.
         edit: Edit SMTP server configuration
         title: SMTP server configuration
+    reply_channel:
+      delivered_label: Sent to the recipients by email
+      label: Reply to recipients
   label_helpdesk: Help desk
   permission_manage_helpdesk: Manage help desk
   project_module_helpdesk: Help desk

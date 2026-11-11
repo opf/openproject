@@ -600,6 +600,8 @@ en:
         cannot_delete_mapping: "is required. Cannot be deleted."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
+        comment_channel_internal: "An internal comment cannot be sent to people outside of OpenProject."
+        comment_channel_unavailable: "The comment cannot be sent this way for this work package."
         configured_via_env: "The configuration of this object is managed through environment variables and can't be changed at runtime."
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
@@ -1420,6 +1422,7 @@ en:
       activity_tab:
         changed: "changed"
         changed_on: "changed on"
+        comment_mode: "Comment type"
         commented: "commented"
         created: "created"
         created_on: "created this on"
@@ -1442,6 +1445,7 @@ en:
         label_who: Who?
         no_results_description_text: 'Choose "Show everything" to show all activity and comments'
         no_results_title_text: No activity to display
+        public_comment: Public comment
         unsaved_changes_confirmation_message: "Are you sure you want to dismiss your comment? The content that you have written will be lost."
 
   activity:

@@ -140,6 +140,27 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent, type: :comp
       end
     end
 
+    context "with a comment delivered through a channel" do
+      let(:notification) { nil }
+      let(:channel) do
+        instance_double(WorkPackages::CommentChannel, icon: :mail, delivered_label: "Sent by letter")
+      end
+
+      before do
+        allow(WorkPackages::CommentChannels).to receive(:delivering).with(journal).and_return(channel)
+      end
+
+      it "renders the delivered-comment state" do
+        rendered_component
+
+        expect(page).to have_test_selector("op-journal-delivered-icon")
+        expect(page).to have_css("[aria-label='Sent by letter']")
+        expect(page).to have_css(".work-packages-activities-tab-journals-item-component--container__delivered-comment")
+        expect(page).to have_css(".work-packages-activities-tab-journals-item-component--header__delivered-comment")
+        expect(page).to have_css(".work-packages-activities-tab-journals-item-component--journal-notes-body__delivered-comment")
+      end
+    end
+
     context "with a retracted journal" do
       let!(:previous_journal) do
         create(:work_package_journal, journable: work_package, user:, notes: "A comment", version: 2)

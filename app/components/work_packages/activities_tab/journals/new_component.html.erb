@@ -66,20 +66,46 @@
               )
             end
 
-            form_container.with_row(flex_layout: true, justify_content: adding_internal_comment_allowed? ? :space_between : :flex_end) do |form_container_row|
-              if adding_internal_comment_allowed?
-                form_container_row.with_column(flex_layout: true, align_items: :center) do |internal_comment_container|
-                  internal_comment_container.with_column(mr: 2, test_selector: "op-work-package-journal-internal-comment-checkbox") do
-                    render(WorkPackages::ActivitiesTab::Journals::InternalNoteForm.new(f))
+            form_container.with_row(flex_layout: true, justify_content: selecting_comment_mode? ? :space_between : :flex_end) do |form_container_row|
+              if selecting_comment_mode?
+                form_container_row.with_column(flex_layout: true, align_items: :center) do |comment_mode_container|
+                  comment_mode_container.with_column(mr: 2) do
+                    render(
+                      Primer::Alpha::ActionMenu.new(
+                        select_variant: :single,
+                        dynamic_label: true,
+                        anchor_side: :outside_top,
+                        form_arguments: { builder: f, name: :mode },
+                        data: comment_mode_menu_data
+                      )
+                    ) do |menu|
+                      menu.with_show_button("aria-label": t("activities.work_packages.activity_tab.comment_mode")) do |button|
+                        button.with_leading_visual_icon(icon: comment_modes.first.icon)
+                        button.with_trailing_action_icon(icon: :"triangle-down")
+                        comment_modes.first.label
+                      end
+
+                      comment_modes.each_with_index do |mode, index|
+                        menu.with_item(
+                          label: mode.label,
+                          active: index.zero?,
+                          data: { value: mode.key },
+                          content_arguments: { data: comment_mode_item_data(mode) }
+                        ) do |item|
+                          item.with_leading_visual_icon(icon: mode.icon)
+                        end
+                      end
+                    end
                   end
 
-                  internal_comment_container.with_column(
-                    display: :none,
-                    data: { "#{internal_comment_stimulus_controller}-target": "learnMoreLink" },
-                    pb: 1
-                  ) do
-                    helpers.static_link_to(:enterprise_features, :internal_comments,
-                                           label: I18n.t(:label_learn_more))
+                  if adding_internal_comment_allowed?
+                    comment_mode_container.with_column(
+                      display: :none,
+                      data: { "#{internal_comment_stimulus_controller}-target": "learnMoreLink" },
+                      pb: 1
+                    ) do
+                      helpers.static_link_to(:enterprise_features, :internal_comments, label: I18n.t(:label_learn_more))
+                    end
                   end
                 end
               end

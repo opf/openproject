@@ -30,10 +30,13 @@
 module WorkPackages
   module ActivitiesTab
     # Builds and runs the service behind a comment write, resolving the note body
-    # (mentions are sanitized only for internal comments) and coercing the request
-    # flags. Callers handle the returned ServiceResult; this owns how a comment is
+    # (mentions are sanitized only for internal comments) and resolving the comment
+    # mode into the internal flag or a delivery channel. Callers handle the returned ServiceResult; this owns how a comment is
     # written.
     class CommentService
+      PUBLIC_MODE = "public"
+      INTERNAL_MODE = "internal"
+
       def initialize(work_package:, user:, params:)
         @work_package = work_package
         @user = user
@@ -43,7 +46,7 @@ module WorkPackages
       def add
         AddWorkPackageNoteService
           .new(user:, work_package:)
-          .call(note_body(internal:), send_notifications:, internal:)
+          .call(note_body(internal:), send_notifications:, internal:, channel:)
       end
 
       def update(journal)
@@ -65,7 +68,15 @@ module WorkPackages
       end
 
       def internal
-        to_boolean(journal_params[:internal], false)
+        mode == INTERNAL_MODE
+      end
+
+      def channel
+        mode unless [PUBLIC_MODE, INTERNAL_MODE].include?(mode)
+      end
+
+      def mode
+        journal_params[:mode].presence || PUBLIC_MODE
       end
 
       def send_notifications
@@ -73,7 +84,7 @@ module WorkPackages
       end
 
       def journal_params
-        params.expect(journal: %i[notes internal])
+        params.expect(journal: %i[notes mode])
       end
 
       def to_boolean(value, default)

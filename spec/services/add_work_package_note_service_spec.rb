@@ -79,6 +79,33 @@ RSpec.describe AddWorkPackageNoteService, type: :model do
       expect(work_package).to have_received(:save_journals)
     end
 
+    context "with a channel" do
+      let(:channel) { instance_double(WorkPackages::CommentChannel, deliver: nil) }
+      let(:journal) { build_stubbed(:work_package_journal) }
+
+      before do
+        allow(WorkPackages::CommentChannels).to receive(:find).with("letter").and_return(channel)
+        allow(work_package).to receive(:journals).and_return([journal])
+      end
+
+      subject { instance.call("blubs", send_notifications:, channel: "letter") }
+
+      it "validates the channel and delivers the saved comment" do
+        expect(subject).to be_success
+        expect(mock_contract).to have_received(:new).with(work_package, user, options: { channel: "letter" })
+        expect(channel).to have_received(:deliver).with(journal)
+      end
+
+      context "when the contract does not validate" do
+        let(:valid_contract) { false }
+
+        it "delivers nothing" do
+          expect(subject).to be_failure
+          expect(channel).not_to have_received(:deliver)
+        end
+      end
+    end
+
     context "with internal note" do
       subject { instance.call("blubs", send_notifications:, internal: true) }
 
