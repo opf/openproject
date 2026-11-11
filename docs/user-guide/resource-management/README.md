@@ -370,7 +370,7 @@ Global resource planners differ from project resource planners in the following 
 - Work package views can be filtered by **Project** to choose which projects to plan across. Manually hand-picked views let you add work packages from all projects with the Resource management module activated.
 - The work package views show an additional **Project** column.
 - User views let you add any user you are allowed to see, not only members of one project.
-- When you allocate work, the allocation belongs to the project of the selected work package. Only members of that project can be selected as assignee.
+- When you allocate work, the allocation belongs to the project of the selected work package. Only members of that project can be selected as assignees.
 
 ![Work packages list of a global resource planner showing work packages from several projects](resource-management-global-planner-work-packages-list.png)
 

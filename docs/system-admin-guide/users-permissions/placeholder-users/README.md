@@ -23,7 +23,7 @@ Placeholder users can be managed by system admins and by users with the [role](.
 |-----------------------------------------------------------------------|------------------------------------------------------|
 | [Placeholder user list](#placeholder-user-list)                       | Manage placeholder users in OpenProject.             |
 | [Create placeholder users](#create-placeholder-users)                 | Add new placeholder users.                           |
-| [Manage placeholder user settings](#manage-placeholder-user-settings) | Change names, hourly rates and add placeholders users to projects. |
+| [Manage placeholder user settings](#manage-placeholder-user-settings) | Change names, hourly rates and add placeholder users to projects. |
 | [Placeholder user criteria](#placeholder-user-criteria)               | Describe which users match a placeholder user.       |
 
 ## Placeholder user list
@@ -94,13 +94,13 @@ Placeholder users cannot be added to groups and cannot be assigned global roles.
 
 ## Placeholder user criteria
 
-Criteria describe which users can fill a placeholder user. They are used in [Resource management](../../../user-guide/resource-management/): when you allocate work to a placeholder user, the [Staffing](../../../user-guide/resource-management/#staffing) view only suggests project members that match its criteria.
+Criteria describe which users can fill the role of a placeholder user. They are used in [Resource management](../../../user-guide/resource-management/): when you allocate work to a placeholder user, the [Staffing](../../../user-guide/resource-management/#staffing) view only suggests project members that match its criteria.
 
 Only placeholder users with criteria can be selected when allocating work in Resource management.
 
 To set criteria, open the placeholder user and select the **Criteria** tab. Turn on **Activate filter criteria** and add filters. You can filter by the standard user attributes, such as name, group membership or status, and by [user attributes](../user-attributes/) like job title, skills or spoken languages.
 
-Changes are saved automatically. On the right side you see the users that currently meet the criteria. If more than 50 users match, select **Show all matching users** to open the full list.
+Changes are saved automatically. On the right, you see the users that currently meet the criteria. If more than 50 users match, select **Show all matching users** to open the full list.
 
 ![Criteria tab of a placeholder user in OpenProject](openproject_system_guide_placeholder_user_criteria_tab.png)
 

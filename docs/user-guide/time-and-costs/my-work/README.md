@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: My work
   priority: 950
-description: Get an overview of time logs and resource allocations in a calendar, list or stack view. Easily log time directly from My work page.
+description: Get an overview of time logs and resource allocations in a calendar, list or stack view. Easily log time directly from the My work page.
 keywords: my work, time tracking, log time, time spent, calendar, time spent calendar, time logs, stack, resource allocations
 ---
 
