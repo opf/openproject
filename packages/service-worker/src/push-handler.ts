@@ -45,7 +45,7 @@ import { UnreadSummary } from './unread-summary';
  * ```
  * push event ──► queue ──► GET notification summary
  *                            │
- *                            ├─ signed out (401)
+ *                            ├─ signed out (401/403)
  *                            │               clear badge, close and forget all, fallback
  *                            ├─ unavailable .. fallback
  *                            ├─ empty ........ close and forget all, "all read", clear badge

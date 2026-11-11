@@ -138,18 +138,13 @@ RSpec.describe "API v3 notification summary",
   describe "anonymous user" do
     current_user { User.anonymous }
 
-    context "when login is required", with_settings: { login_required: true } do
-      before { get path }
+    before { get path }
 
-      it_behaves_like "unauthenticated access"
-    end
+    it_behaves_like "forbidden response based on login_required"
 
     context "when login is not required", with_settings: { login_required: false } do
-      before { get path }
-
-      it_behaves_like "unauthenticated access"
-
       it "forbids caching the response" do
+        expect(last_response).to have_http_status(:forbidden)
         expect(last_response.headers["Cache-Control"]).to include("no-store")
       end
     end

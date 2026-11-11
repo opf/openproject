@@ -40,8 +40,8 @@ describe('UnreadSummary.fetch', () => {
   const respondWith = (response:Response) => vi.spyOn(globalThis, 'fetch').mockResolvedValue(response);
   const json = (body:unknown, status = 200) => respondWith(new Response(JSON.stringify(body), { status }));
 
-  it('reports a signed-out session for 401', async () => {
-    respondWith(new Response(null, { status: 401 }));
+  it.each([401, 403])('reports a signed-out session for a %i response', async (status) => {
+    respondWith(new Response(null, { status }));
 
     expect(await UnreadSummary.fetch()).toEqual({ outcome: 'signedOut' });
   });

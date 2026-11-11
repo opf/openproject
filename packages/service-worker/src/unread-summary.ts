@@ -49,7 +49,7 @@ export class UnreadSummary {
         headers: { Accept: 'application/json' },
         signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       });
-      if (response.status === 401) return { outcome: 'signedOut' };
+      if (response.status === 401 || response.status === 403) return { outcome: 'signedOut' };
       if (!response.ok) return { outcome: 'unavailable' };
 
       const data = await response.json() as SummaryResponse|null;
