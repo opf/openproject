@@ -325,6 +325,27 @@ RSpec.describe SortHelper do
       expect(sort_asc["href"]).to eq("/projects?sortBy=%5B%5B%22id%22%2C%22asc%22%5D%5D")
     end
 
+    it "renders the sorting actions as unchecked radio items" do
+      sort_items = action_menu.css("action-list .ActionListItem a[role='menuitemradio']")
+
+      expect(sort_items.pluck("aria-checked")).to eq(%w[false false])
+    end
+
+    context "when the table is sorted by the column" do
+      before do
+        sort_criteria.available_criteria = { "id" => "id" }
+        sort_criteria.from_param("id:desc")
+      end
+
+      it "checks the action matching the sort direction" do
+        sort_desc = action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-sort-desc']")
+        sort_asc = action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-sort-asc']")
+
+        expect(sort_desc["aria-checked"]).to eq("true")
+        expect(sort_asc["aria-checked"]).to eq("false")
+      end
+    end
+
     context "with a column that is not sortable" do
       let(:options) { { param: :json, sortable: false } }
 
@@ -381,7 +402,7 @@ RSpec.describe SortHelper do
 
     it "shows an action to add columns" do
       add_col = action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-add-column']")
-      expect(add_col.at_css(".ActionListItem-label").text.strip).to eq("Add column")
+      expect(add_col.at_css(".ActionListItem-label").text.strip).to eq("Add columns")
       # Check that the 'ConfigureViewModal' is opened on link click. This is where adding columns happens.
       expect(add_col["href"]).to eq("/project_queries/configure_view_modal")
     end
@@ -389,6 +410,7 @@ RSpec.describe SortHelper do
     it "shows an action to remove a column" do
       remove_col = action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-remove-column']")
       expect(remove_col.at_css(".ActionListItem-label").text.strip).to eq("Remove column")
+      expect(remove_col).to have_octicon(:"x-circle")
       # The current column is removed from the columns-query:
       expect(remove_col["href"]).to eq("/projects?columns=name+description")
     end
