@@ -167,6 +167,73 @@ RSpec.describe Sprints::WorkPackageBreakdown do
     end
   end
 
+  describe "#status_counts" do
+    let(:issue_in_progress) { create(:status, name: "In progress") }
+    let(:sprint) do
+      create(:sprint, project:,
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
+    end
+
+    let!(:open_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                            journals: { 11.days.ago => {} })
+    end
+
+    let!(:in_progress_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_in_progress,
+                            journals: { 11.days.ago => {} })
+    end
+
+    let!(:closed_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_closed,
+                            journals: { 11.days.ago => {} })
+    end
+
+    let!(:other_project_work_package) do
+      create(:work_package, type: type_feature, status: issue_open, journals: { 11.days.ago => {} })
+    end
+
+    it "counts the sprint's work packages by status, excluding other projects" do
+      expect(breakdown.status_counts)
+        .to eq(issue_open.id => 1, issue_in_progress.id => 1, issue_closed.id => 1)
+    end
+
+    context "when every work package has left the sprint" do
+      let!(:open_work_package) do
+        create(:work_package, project:, type: type_feature, status: issue_open,
+                              journals: { 11.days.ago => { sprint_id: sprint.id }, 9.days.ago => {} })
+      end
+      let!(:in_progress_work_package) { nil }
+      let!(:closed_work_package) { nil }
+
+      it "is empty" do
+        expect(breakdown.status_counts).to be_empty
+      end
+    end
+
+    context "when the sprint has been completed" do
+      let(:sprint) do
+        create(:sprint, project:,
+                        start_date: Time.zone.today - 10.days,
+                        finish_date: Time.zone.today - 2.days,
+                        started_at: 10.days.ago,
+                        completed_at: 2.days.ago)
+      end
+
+      let!(:open_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_closed,
+                              journals: { 11.days.ago => { status_id: issue_open.id }, 1.day.ago => {} })
+      end
+
+      it "reports the statuses the work packages held at completion, not since" do
+        expect(breakdown.status_counts)
+          .to eq(issue_open.id => 1, issue_in_progress.id => 1, issue_closed.id => 1)
+      end
+    end
+  end
+
   describe "#changed_after_start" do
     let(:sprint) do
       create(:sprint, project:,

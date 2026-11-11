@@ -72,23 +72,41 @@ RSpec.describe "Work package graph widget", :js, with_flag: :sprint_reports do
     visit project_backlogs_sprint_report_path(project, sprint)
   end
 
-  it "renders the graph with counts scoped to the sprint, and without the group-by select" do
+  def expect_chart_summary(text)
+    within "opce-sprint-work-package-graph" do
+      summary_id = find("canvas[aria-labelledby]", wait: 20)["aria-labelledby"]
+
+      expect(page).to have_css("##{summary_id}", exact_text: text, visible: :all)
+    end
+  end
+
+  it "renders the graph with counts scoped to the sprint" do
     visit_sprint_report(sprint)
 
-    expect(page).to have_element(:"opce-wp-overview-graph")
+    expect(page).to have_element(:"opce-sprint-work-package-graph")
 
-    within "opce-wp-overview-graph" do
-      description_id = find("canvas[aria-describedby]", wait: 20)["aria-describedby"]
+    expect_chart_summary(
+      "Bar chart showing work packages which are " \
+      "3 #{status_new.name}; 1 #{status_in_progress.name}; 2 #{status_closed.name}."
+    )
+  end
 
-      expect(page).to have_css(
-        "##{description_id}",
-        exact_text: "Bar chart showing work packages which are " \
-                    "3 #{status_new.name}; 1 #{status_in_progress.name}; 2 #{status_closed.name}.",
-        visible: :all
-      )
+  context "when the sprint has been completed" do
+    shared_let(:completed_sprint) do
+      create(:sprint, :completed, project:, name: "Sprint 40",
+                                  start_date: 10.days.ago.to_date, finish_date: 3.days.ago.to_date,
+                                  started_at: 10.days.ago, completed_at: 3.days.ago)
+    end
 
-      # The group-by select is explicitly hidden for this widget.
-      expect(page).to have_no_select
+    shared_let(:reopened_work_package) do
+      create(:work_package, project:, sprint: completed_sprint, status: status_new,
+                            journals: { 9.days.ago => { status_id: status_closed.id }, 1.day.ago => {} })
+    end
+
+    it "charts the statuses the work packages held at completion, not since" do
+      visit_sprint_report(completed_sprint)
+
+      expect_chart_summary("Bar chart showing work packages which are 1 #{status_closed.name}.")
     end
   end
 end

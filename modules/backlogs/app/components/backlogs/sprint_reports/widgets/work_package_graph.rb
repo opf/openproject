@@ -36,6 +36,7 @@ module Backlogs
 
         param :sprint
         param :project
+        param :breakdown
 
         def title
           t(".title")
@@ -47,34 +48,31 @@ module Backlogs
 
         def render? = sprint.date_range_set? && user_allowed?(:view_sprints)
 
-        def call
-          widget_wrapper do |widget|
-            widget.with_body do
-              chart_available? ? graph : blankslate
-            end
-          end
+        def chart_data
+          {
+            labels: bars.map(&:first),
+            data: bars.map(&:last),
+            summary:,
+            statusColumnTitle: WorkPackage.human_attribute_name(:status),
+            countColumnTitle: WorkPackage.model_name.human(count: 2)
+          }.to_json
         end
 
         private
 
         def blankslate_reason
-          :no_work unless sprint.received_work_packages?(project)
+          :no_work if bars.empty?
         end
 
-        def graph
-          helpers.angular_component_tag(
-            "opce-wp-overview-graph",
-            "global-scope": false,
-            "initial-filters": graph_filters.to_json,
-            "show-group-by-options": false
-          )
+        # Statuses might have been deleted. If that happened, work packages associated to that
+        # status are ignored in the count.
+        def bars
+          @bars ||= Status.where(id: breakdown.status_counts.keys)
+                          .map { [it.name, breakdown.status_counts[it.id]] }
         end
 
-        def graph_filters
-          [
-            { sprint: { operator: "=", values: [sprint.id] } },
-            { project: { operator: "=", values: [project.id] } }
-          ]
+        def summary
+          t(".summary", description: bars.map { |name, count| "#{count} #{name}" }.join("; "))
         end
       end
     end

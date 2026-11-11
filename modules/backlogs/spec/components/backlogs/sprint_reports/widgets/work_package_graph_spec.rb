@@ -33,9 +33,16 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
   let(:project) { create(:project) }
   let(:sprint) { create(:sprint, project:) }
   let(:user) { build_stubbed(:user) }
-  let!(:work_package) { create(:work_package, project:, sprint:) }
 
-  subject(:rendered_component) { render_inline(described_class.new(sprint, project, current_user: user)) }
+  # Statuses are charted in their configured order, which is the order they were created in here.
+  let(:status_new) { create(:status, name: "New") }
+  let(:status_in_progress) { create(:status, name: "In progress") }
+  let(:status_closed) { create(:closed_status, name: "Closed") }
+
+  let(:status_counts) { { status_new.id => 3, status_in_progress.id => 1, status_closed.id => 2 } }
+  let(:breakdown) { instance_double(Sprints::WorkPackageBreakdown, status_counts:) }
+
+  subject(:rendered_component) { render_inline(described_class.new(sprint, project, breakdown, current_user: user)) }
 
   before do
     mock_permissions_for(user) do |mock|
@@ -43,28 +50,46 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
     end
   end
 
+  def chart_data
+    JSON.parse(rendered_component.at("opce-sprint-work-package-graph")["chart-data"])
+  end
+
   it "renders the work package graph element" do
-    expect(rendered_component).to have_element(:"opce-wp-overview-graph")
+    expect(rendered_component).to have_element(:"opce-sprint-work-package-graph")
   end
 
-  it "scopes the graph to the sprint and project, and hides the group-by select" do
-    element = rendered_component.at("opce-wp-overview-graph")
-
-    expect(element["global-scope"]).to eq("false")
-    expect(element["show-group-by-options"]).to eq("false")
-
-    filters = JSON.parse(element["initial-filters"])
-    expect(filters).to contain_exactly(
-      { "sprint" => { "operator" => "=", "values" => [sprint.id] } },
-      { "project" => { "operator" => "=", "values" => [project.id] } }
-    )
+  it "labels one bar per status, in the configured status order" do
+    expect(chart_data["labels"]).to eq ["New", "In progress", "Closed"]
   end
 
-  context "when the sprint never received a work package" do
-    let!(:work_package) { nil }
+  it "passes the count of each status" do
+    expect(chart_data["data"]).to eq [3, 1, 2]
+  end
+
+  it "passes an accessible summary of the chart" do
+    expect(chart_data["summary"])
+      .to eq "Bar chart showing work packages which are 3 New; 1 In progress; 2 Closed."
+  end
+
+  it "passes the headers of the accessible data table" do
+    expect(chart_data["statusColumnTitle"]).to eq "Status"
+    expect(chart_data["countColumnTitle"]).to eq "Work packages"
+  end
+
+  context "when a status has been deleted since" do
+    let(:status_counts) { { status_new.id => 3, status_closed.id => 2, 0 => 1 } }
+
+    it "charts only the statuses that still exist" do
+      expect(chart_data["labels"]).to eq ["New", "Closed"]
+      expect(chart_data["data"]).to eq [3, 2]
+    end
+  end
+
+  context "when the sprint holds no work package" do
+    let(:status_counts) { {} }
 
     it "renders a blankslate instead of the graph" do
-      expect(rendered_component).to have_no_element(:"opce-wp-overview-graph")
+      expect(rendered_component).to have_no_element(:"opce-sprint-work-package-graph")
       expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       expect(rendered_component).to have_css(
         ".blankslate",
@@ -79,7 +104,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
     end
 
     it "does not render" do
-      expect(rendered_component).to have_no_element(:"opce-wp-overview-graph")
+      expect(rendered_component).to have_no_element(:"opce-sprint-work-package-graph")
     end
   end
 end

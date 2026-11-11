@@ -340,6 +340,7 @@ en:
             no_work:
               description: "The work package graph will appear here once the sprint has received a work package."
               heading: "No work to display"
+          summary: "Bar chart showing work packages which are %{description}."
           title: "Work packages graph"
         work_package_overview:
           blocks:
