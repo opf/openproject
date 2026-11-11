@@ -35,8 +35,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
   let(:user) { build_stubbed(:user) }
 
   # Statuses are charted in their configured order, which is the order they were created in here.
-  let(:status_new) { create(:status, name: "New") }
-  let(:status_in_progress) { create(:status, name: "In progress") }
+  let(:status_new) { create(:status, name: "New", color: create(:color, hexcode: "#1A67A3")) }
+  let(:status_in_progress) { create(:status, name: "In progress", color: create(:color, hexcode: "#FFA500")) }
   let(:status_closed) { create(:closed_status, name: "Closed") }
 
   let(:status_counts) { { status_new.id => 3, status_in_progress.id => 1, status_closed.id => 2 } }
@@ -64,6 +64,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
 
   it "passes the count of each status" do
     expect(chart_data["data"]).to eq [3, 1, 2]
+  end
+
+  it "passes each status' own color, and nothing for a status without one" do
+    expect(chart_data["colors"]).to eq ["#1A67A3", "#FFA500", nil]
   end
 
   it "passes an accessible summary of the chart" do

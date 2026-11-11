@@ -36,10 +36,19 @@ import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 interface SprintWorkPackageGraphData {
   labels:string[];
   data:number[];
+  colors:(string|null)[];
   summary:string;
   statusColumnTitle:string;
   countColumnTitle:string;
 }
+
+// Opacity as the alpha channel of an eight digit hex color. A bar is filled the way
+// `hl_background_muted_styles` fills a status badge -- its own color, faded, behind its own
+// outline -- but stronger than the 0.18 a badge uses, which a bar this large washes out.
+const MUTED_FILL_ALPHA = '80';
+
+// A status is not obliged to carry a color.
+const UNCOLORED_STATUS_FALLBACK = '--display-gray-scale-6';
 
 @Component({
   selector: 'op-sprint-work-package-graph',
@@ -60,12 +69,20 @@ export class SprintWorkPackageGraphComponent {
     () => JSON.parse(this.chartData()) as SprintWorkPackageGraphData,
   );
 
-  // One bar per status and no dataset label, which is what leaves the legend off and lets the
-  // Primer colors plugin give every bar a color of its own.
+  // One bar per status, carrying the color that status carries everywhere else in the product.
   readonly barChartData:Signal<ChartData<'bar'>> = computed<ChartData<'bar'>>(() => {
-    const { labels, data } = this.parsedData();
+    const { labels, data, colors } = this.parsedData();
+    const borderColor = colors.map((color) => color ?? getCSSVariable(UNCOLORED_STATUS_FALLBACK, '#59636e'));
 
-    return { labels, datasets: [{ data }] };
+    return {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: borderColor.map((color) => `${color}${MUTED_FILL_ALPHA}`),
+        borderColor,
+        borderWidth: 1,
+      }],
+    };
   });
 
   readonly barChartOptions:Signal<ChartOptions<'bar'>> = computed<ChartOptions<'bar'>>(() => {
@@ -89,6 +106,8 @@ export class SprintWorkPackageGraphComponent {
         },
       },
       plugins: {
+        // The bars bring their own colors, which the plugin would otherwise paint over.
+        'primer-colors': { enabled: false },
         legend: { display: false },
         datalabels: {
           anchor: 'center',

@@ -45,6 +45,7 @@ describe('SprintWorkPackageGraphComponent', () => {
     fixture.componentRef.setInput('chartData', JSON.stringify({
       labels: ['New', 'In progress', 'Closed'],
       data: [3, 1, 2],
+      colors: ['#1A67A3', '#FFA500', null],
       summary,
       statusColumnTitle: 'Status',
       countColumnTitle: 'Work packages',
@@ -68,6 +69,17 @@ describe('SprintWorkPackageGraphComponent', () => {
 
   it('leaves out the legend, which a single unlabeled dataset has nothing to say in', () => {
     expect(options().plugins!.legend!.display).toBe(false);
+  });
+
+  it('outlines each bar in its status color and fills it with the muted variant', () => {
+    const [dataset] = fixture.componentInstance.barChartData().datasets;
+
+    expect(dataset.borderColor).toEqual(['#1A67A3', '#FFA500', '#59636e']);
+    expect(dataset.backgroundColor).toEqual(['#1A67A380', '#FFA50080', '#59636e80']);
+  });
+
+  it('keeps the Primer palette from painting over the status colors', () => {
+    expect(options().plugins!['primer-colors']).toEqual({ enabled: false });
   });
 
   it('counts in whole work packages', () => {

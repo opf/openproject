@@ -34,6 +34,8 @@ module Backlogs
         include Backlogs::CommonHelper
         include ChartBlankslate
 
+        Bar = Data.define(:label, :count, :color)
+
         param :sprint
         param :project
         param :breakdown
@@ -50,8 +52,9 @@ module Backlogs
 
         def chart_data
           {
-            labels: bars.map(&:first),
-            data: bars.map(&:last),
+            labels: bars.map(&:label),
+            data: bars.map(&:count),
+            colors: bars.map(&:color),
             summary:,
             statusColumnTitle: WorkPackage.human_attribute_name(:status),
             countColumnTitle: WorkPackage.model_name.human(count: 2)
@@ -67,12 +70,13 @@ module Backlogs
         # Statuses might have been deleted. If that happened, work packages associated to that
         # status are ignored in the count.
         def bars
-          @bars ||= Status.where(id: breakdown.status_counts.keys)
-                          .map { [it.name, breakdown.status_counts[it.id]] }
+          @bars ||= Status.includes(:color)
+                          .where(id: breakdown.status_counts.keys)
+                          .map { Bar.new(label: it.name, count: breakdown.status_counts[it.id], color: it.color&.hexcode) }
         end
 
         def summary
-          t(".summary", description: bars.map { |name, count| "#{count} #{name}" }.join("; "))
+          t(".summary", description: bars.map { "#{it.count} #{it.label}" }.join("; "))
         end
       end
     end
