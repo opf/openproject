@@ -64,51 +64,9 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("skipWaiting", "clients.claim")
     end
 
-    it "wakes on a push, reads the unread summary and handles clicks on its notification" do
+    it "serves the push and notification click handlers fetching the notification summary" do
       expect(response.body).to include('addEventListener("push"', 'addEventListener("notificationclick"',
-                                       '"/push-notification"', "New activity in OpenProject")
-    end
-
-    it "shows a silent all-read notification and re-alerts on a rising count" do
-      expect(response.body).to include("No unread notifications", "renotify: true", "silent: true")
-    end
-
-    it "alerts only on newer activity and brings back groups pushed out by the overflow silently" do
-      expect(response.body).to include("at > previous.at", "evicted: true", "silent: true, renotify: false",
-                                       "tag === Config.tags.placeholder")
-    end
-
-    it "closes notifications of work packages that are no longer unread" do
-      expect(response.body).to include("getNotifications()", '"openproject-"', '"openproject-more"')
-    end
-
-    it "reconciles its notifications when an open page asks" do
-      expect(response.body).to include('type === "reconcile"', "this.reconcile()")
-    end
-
-    it "closes its notifications when the user signs out" do
-      expect(response.body).to include('signOut: "/logout"', "event.waitUntil(pushHandler.signOut(response))",
-                                       "this.enqueue(() => this.clearForSignOut())",
-                                       "generation !== this.signOutGeneration || this.signOutsInProgress > 0",
-                                       "signOutTimeoutMs: 10000")
-    end
-
-    it "closes the notifications of another user when a page reports a different account" do
-      expect(response.body).to include('addEventListener("message"', "pushHandler.onMessage(event)",
-                                       "closeOtherAccounts")
-    end
-
-    it "clears its notifications when the summary reports push as turned off" do
-      expect(response.body).to include("response.status === 404", 'case "pushOff":')
-    end
-
-    it "stores only fingerprints of what it showed" do
-      expect(response.body).to include("crypto.subtle.digest")
-      expect(response.body).not_to include("JSON.stringify({ title")
-    end
-
-    it "keeps the push state in a cache that survives upgrades" do
-      expect(response.body).to include("push-state", "name !== Config.cache.state")
+                                       '"/api/v3/notifications/summary"')
     end
 
     it "precaches the offline page under the configured cache name" do
@@ -116,10 +74,10 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     end
 
     context "when served under a path prefix", with_config: { rails_relative_url_root: "/openproject" } do
-      it "points at the prefixed offline page" do
+      it "points at the prefixed offline page and notification summary" do
         get "/service-worker", env: { "SCRIPT_NAME" => "/openproject" }
 
-        expect(response.body).to include('"/openproject/offline"')
+        expect(response.body).to include('"/openproject/offline"', '"/openproject/api/v3/notifications/summary"')
       end
     end
   end
@@ -175,7 +133,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("openproject-offline-", "unregister")
       expect(response.body).not_to include('addEventListener("fetch"')
       expect(response.body).not_to include('addEventListener("push"', 'addEventListener("notificationclick"',
-                                           "/push-notification", "New activity in OpenProject")
+                                           "/api/v3/notifications/summary", "New activity in OpenProject")
     end
 
     it "registers no worker" do

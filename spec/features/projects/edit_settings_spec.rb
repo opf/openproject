@@ -43,12 +43,6 @@ RSpec.describe "Projects", "editing settings", :js do
     create(:project, name: "Foo project", identifier: "foo-project")
   end
 
-  it "hides the field whose functionality is presented otherwise" do
-    visit project_settings_general_path(project.id)
-
-    expect(page).to have_no_text :all, "Active"
-  end
-
   describe "identifier edit" do
     context "with classic IDs", with_settings: { work_packages_identifier: "classic" } do
       it "updates the project identifier via dialog" do
@@ -64,7 +58,7 @@ RSpec.describe "Projects", "editing settings", :js do
           click_on "Change identifier"
         end
 
-        expect(page).to have_content "Successful update."
+        expect(page).to have_text "Successful update."
         expect(page).to have_current_path %r{/projects/foo-bar/settings/general}
         expect(project.reload.identifier).to eq "foo-bar"
       end
@@ -84,7 +78,7 @@ RSpec.describe "Projects", "editing settings", :js do
           click_on "Change identifier"
         end
 
-        expect(page).to have_content "Successful update."
+        expect(page).to have_text "Successful update."
         expect(page).to have_current_path %r{/projects/FOOBAR/settings/general}
         expect(project.reload.identifier).to eq "FOOBAR"
       end

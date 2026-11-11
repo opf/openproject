@@ -254,7 +254,10 @@ RSpec.describe CustomField do
         field.min_length = "a"
       end
 
-      it { expect(field).not_to be_valid }
+      it "casts the length to zero" do
+        expect(field).to be_valid
+        expect(field.min_length).to eq(0)
+      end
     end
 
     describe "WITH a text field WITH maximum length not an integer" do
@@ -263,7 +266,10 @@ RSpec.describe CustomField do
         field.max_length = "a"
       end
 
-      it { expect(field).not_to be_valid }
+      it "casts the length to zero" do
+        expect(field).to be_valid
+        expect(field.max_length).to eq(0)
+      end
     end
 
     describe "WITH a text field WITH minimum length greater than maximum length" do
@@ -378,9 +384,9 @@ RSpec.describe CustomField do
             field.min_value = "abc"
           end
 
-          it "is invalid" do
-            expect(field).not_to be_valid
-            expect(field.errors.symbols_for(:min_value)).to include(:not_a_number)
+          it "casts the bound to zero" do
+            expect(field).to be_valid
+            expect(field.min_value).to eq(0.0)
           end
         end
 
@@ -786,158 +792,119 @@ RSpec.describe CustomField do
 
   describe "#multi_value_possible?" do
     context "with a wp list cf" do
-      let(:field) { build_stubbed(:list_wp_custom_field) }
+      subject { build_stubbed(:list_wp_custom_field) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a wp user cf" do
-      let(:field) { build_stubbed(:user_wp_custom_field) }
+      subject { build_stubbed(:user_wp_custom_field) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a wp int cf" do
-      let(:field) { build_stubbed(:integer_wp_custom_field) }
+      subject { build_stubbed(:integer_wp_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_multi_value_possible
-      end
+      it { is_expected.not_to be_multi_value_possible }
     end
 
     context "with a project list cf" do
-      let(:field) { build_stubbed(:list_project_custom_field) }
+      subject { build_stubbed(:list_project_custom_field) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a project user cf" do
-      let(:field) { build_stubbed(:user_project_custom_field) }
+      subject { build_stubbed(:user_project_custom_field) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a project int cf" do
-      let(:field) { build_stubbed(:integer_project_custom_field) }
+      subject { build_stubbed(:integer_project_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_multi_value_possible
-      end
+      it { is_expected.not_to be_multi_value_possible }
+    end
+
+    context "with a project weighted_item_list cf" do
+      subject { build_stubbed(:weighted_item_list_project_custom_field) }
+
+      it { is_expected.to be_multi_value_possible }
+    end
+
+    context "with a wp weighted_item_list cf" do
+      subject { build_stubbed(:weighted_item_list_wp_custom_field) }
+
+      it { is_expected.not_to be_multi_value_possible }
     end
 
     context "with a project calculated value cf" do
-      let(:field) { build_stubbed(:calculated_value_project_custom_field) }
+      subject { build_stubbed(:calculated_value_project_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_multi_value_possible
-      end
+      it { is_expected.not_to be_multi_value_possible }
     end
 
     context "with a time_entry user cf" do
-      let(:field) { build_stubbed(:time_entry_custom_field, :user) }
+      subject { build_stubbed(:time_entry_custom_field, :user) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a time_entry list cf" do
-      let(:field) { build_stubbed(:time_entry_custom_field, :list) }
+      subject { build_stubbed(:time_entry_custom_field, :list) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
   end
 
   describe "#allow_non_open_versions?" do
     context "with a wp list cf" do
-      let(:field) { build_stubbed(:list_wp_custom_field) }
+      subject { build_stubbed(:list_wp_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_allow_non_open_versions_possible
-      end
+      it { is_expected.not_to be_allow_non_open_versions_possible }
     end
 
     context "with a wp user cf" do
-      let(:field) { build_stubbed(:user_wp_custom_field) }
+      subject { build_stubbed(:user_wp_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_allow_non_open_versions_possible
-      end
+      it { is_expected.not_to be_allow_non_open_versions_possible }
     end
 
     context "with a wp int cf" do
-      let(:field) { build_stubbed(:integer_wp_custom_field) }
+      subject { build_stubbed(:integer_wp_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_allow_non_open_versions_possible
-      end
+      it { is_expected.not_to be_allow_non_open_versions_possible }
     end
 
     context "with a work package user cf" do
-      let(:field) { build_stubbed(:wp_custom_field, :user) }
+      subject { build_stubbed(:wp_custom_field, :user) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_allow_non_open_versions_possible
-      end
+      it { is_expected.not_to be_allow_non_open_versions_possible }
     end
 
     context "with a work package version cf" do
-      let(:field) { build_stubbed(:wp_custom_field, :version) }
+      subject { build_stubbed(:wp_custom_field, :version) }
 
-      it "is true" do
-        expect(field)
-          .to be_allow_non_open_versions_possible
-      end
+      it { is_expected.to be_allow_non_open_versions_possible }
     end
 
     context "with a version cf for version" do
-      let(:field) { build_stubbed(:version_custom_field, :version) }
+      subject { build_stubbed(:version_custom_field, :version) }
 
-      it "is true" do
-        expect(field)
-          .to be_allow_non_open_versions_possible
-      end
+      it { is_expected.to be_allow_non_open_versions_possible }
     end
 
     context "with a project version cf" do
-      let(:field) { build_stubbed(:project_custom_field, :version) }
+      subject { build_stubbed(:project_custom_field, :version) }
 
-      it "is true" do
-        expect(field)
-          .to be_allow_non_open_versions_possible
-      end
+      it { is_expected.to be_allow_non_open_versions_possible }
     end
 
     context "with a time entry version cf" do
-      let(:field) { build_stubbed(:time_entry_custom_field, :version) }
+      subject { build_stubbed(:time_entry_custom_field, :version) }
 
-      it "is true" do
-        expect(field)
-          .to be_allow_non_open_versions_possible
-      end
+      it { is_expected.to be_allow_non_open_versions_possible }
     end
   end
 

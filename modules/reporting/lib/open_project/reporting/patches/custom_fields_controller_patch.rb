@@ -31,7 +31,7 @@ module OpenProject::Reporting::Patches
     # deleted, which would leave it referring to something that no longer
     # exists.
     def destroy
-      remove_custom_field_from_cost_reports(@custom_field.id)
+      remove_custom_field_from_cost_reports(@custom_field.column_name)
     rescue StandardError => e
       Rails.logger.error "Failed to remove custom_field #{@custom_field.id} from cost reports. " \
                          "#{e.class}: #{e.message}"
@@ -41,9 +41,7 @@ module OpenProject::Reporting::Patches
 
     private
 
-    def remove_custom_field_from_cost_reports(id)
-      attribute = "cf_#{id}"
-
+    def remove_custom_field_from_cost_reports(attribute)
       CostReport.includes(:query).find_each do |report|
         remove_dimension_and_filter(report, attribute)
       end

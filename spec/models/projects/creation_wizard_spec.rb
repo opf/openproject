@@ -38,7 +38,7 @@ RSpec.describe Projects::CreationWizard do
 
   describe "#project_creation_wizard_artifact_name" do
     context "when no value is stored" do
-      it "returns the default artifact name" do
+      it "returns the default artefact name" do
         expect(project.project_creation_wizard_artifact_name).to eq("project_creation_wizard")
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe Projects::CreationWizard do
     context "when the stored value is nil" do
       before { project.update_column(:settings, project.settings.merge("project_creation_wizard_artifact_name" => nil)) }
 
-      it "returns the default artifact name" do
+      it "returns the default artefact name" do
         project.reload
         expect(project.project_creation_wizard_artifact_name).to eq("project_creation_wizard")
       end

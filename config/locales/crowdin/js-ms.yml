@@ -131,8 +131,8 @@ ms:
     button_confirm: Sahkan
     button_continue: Teruskan
     button_copy: Salin
-    button_copy_link_to_clipboard: Salin pautan ke papan klip
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Salin ke papan klip
     button_copy_to_other_project: Salin dalam projek lain
     button_create: Cipta
@@ -207,6 +207,7 @@ ms:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Ralat berlaku dalam CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}'
@@ -438,7 +439,6 @@ ms:
     label_assignee: Penerima tugasan
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Lampiran
-    label_author: 'Pengarang: %{user}'
     label_avatar: Avatar
     label_between: antara
     label_board: Board
@@ -1116,7 +1116,6 @@ ms:
         default_mode: Senarai datar
         display_settings: Tetapan paparan
         display_sums_hint: Paparkan jumlah semua atribut yang boleh dijumlahkan dalam baris di bawah hasil jadual.
-        embedded_tab_disabled: Tab konfigurasi ini tidak tersedia untuk paparan tersemat yang anda sedang edit.
         hierarchy_hint: Semua hasil jadual tersaring akan ditambah bersama leluhur mereka. Hierarki boleh dikembang dan ditutup.
         hierarchy_mode: Hierarki
         highlighting: Menyorotkan

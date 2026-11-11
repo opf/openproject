@@ -131,8 +131,8 @@ nl:
     button_confirm: Accepteren
     button_continue: Ga verder
     button_copy: Kopieer
-    button_copy_link_to_clipboard: Link naar klembord kopiëren
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopiëren naar het klembord
     button_copy_to_other_project: Duplicate in another project
     button_create: Maken
@@ -207,6 +207,7 @@ nl:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Er is een fout opgetreden in CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: Het opslaan van het document is mislukt met de volgende foutmelding:%{error}
@@ -438,7 +439,6 @@ nl:
     label_assignee: Toegewezene
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Bijlagen
-    label_author: 'Auteur: %{user}'
     label_avatar: Avatar
     label_between: tussen
     label_board: Bord
@@ -1124,7 +1124,6 @@ nl:
         default_mode: Platte lijst
         display_settings: Weergave-instellingen
         display_sums_hint: Waarden van alle optelbare attributen in een rij onder de tabel resultaten weergeven.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
         hierarchy_mode: Hiërarchie
         highlighting: Markering

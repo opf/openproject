@@ -1,7 +1,6 @@
 @if (!active) {
   @if (parent) {
     <a
-      [attr.title]="parent.name"
       [href]="parentLink(parent)"
       class="op-wp-breadcrumb-parent"
       data-test-selector="op-wp-breadcrumb-parent"
@@ -13,7 +12,8 @@
     <button
       type="button"
       class="spot-link wp-relation--parent-change -no-decoration hide-when-print"
-      [title]="parent ? text.edit_parent : text.set_parent"
+      opTooltip
+      [label]="parent ? text.edit_parent : undefined"
       (click)="open()"
       >
       @if (!parent) {
@@ -26,7 +26,8 @@
     <button
       type="button"
       class="spot-link wp-relation--parent-remove hide-when-print -no-decoration"
-      [title]="text.remove_parent"
+      opTooltip
+      [label]="text.remove_parent"
       (click)="updateParent(null)"
       >
       <op-icon icon-classes="icon-small icon-no-color icon-remove icon4" />

@@ -82,7 +82,9 @@ RSpec.describe "/api/v3/queries/:id/order" do
     let!(:wp1) { create(:work_package) }
     let!(:wp2) { create(:work_package) }
 
-    let(:timestamp) { API::V3::Utilities::DateTimeFormatter.format_datetime(query.updated_at) }
+    def timestamp
+      API::V3::Utilities::DateTimeFormatter.format_datetime(query.updated_at)
+    end
 
     before do
       query.ordered_work_packages.create(work_package_id: wp1.id, position: 0)
@@ -108,20 +110,44 @@ RSpec.describe "/api/v3/queries/:id/order" do
         end
 
         it "allows inserting a delta" do
+          previous = timestamp
           patch path, { delta: { wp2.id.to_s => 1234 } }.to_json
           expect(last_response).to have_http_status :ok
 
           query.reload
-          expect(body).to eq("t" => timestamp)
+          expect(body).to eq("t" => timestamp, "previousUpdatedAt" => previous)
           expect(query.ordered_work_packages.find_by(work_package: wp2).position).to eq 1234
         end
 
+        it "distinguishes consecutive order writes within the same millisecond" do
+          freeze_time do
+            patch path, { delta: { wp1.id.to_s => 42 } }.to_json
+            first_revision = JSON.parse(last_response.body).fetch("t")
+
+            patch path, { delta: { wp2.id.to_s => 43 } }.to_json
+
+            expect(body.fetch("previousUpdatedAt")).to eq(first_revision)
+            expect(body.fetch("t")).to be > first_revision
+          end
+        end
+
+        it "initializes the timestamp for an older query with no revision" do
+          query.update_column(:updated_at, nil)
+
+          patch path, { delta: { wp1.id.to_s => 42 } }.to_json
+
+          expect(last_response).to have_http_status :ok
+          query.reload
+          expect(body).to eq("t" => timestamp, "previousUpdatedAt" => nil)
+        end
+
         it "allows removing an item" do
+          previous = timestamp
           patch path, { delta: { wp1.id.to_s => -1 } }.to_json
           expect(last_response).to have_http_status :ok
 
           query.reload
-          expect(body).to eq("t" => timestamp)
+          expect(body).to eq("t" => timestamp, "previousUpdatedAt" => previous)
           expect(query.ordered_work_packages.to_a).to be_empty
         end
       end

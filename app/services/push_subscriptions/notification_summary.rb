@@ -38,10 +38,21 @@ module PushSubscriptions
       @user = user
     end
 
-    def as_json(*)
-      return { count: 0 } if groups.empty?
+    def count
+      rows.empty? ? 0 : rows.first.unread_total
+    end
 
-      { count: groups.first.unread_total, groups: groups.map { group_json(it) }, more: more_json }
+    def groups
+      @groups ||= rows.map { group_json(it) }
+    end
+
+    def more
+      return if rows.empty?
+
+      remaining = rows.first.work_package_count - rows.size
+      return if remaining.zero?
+
+      { count: remaining, title: I18n.t("pwa.push.more_title", count: remaining), url: url_helpers.notifications_center_path }
     end
 
     private
@@ -63,8 +74,8 @@ module PushSubscriptions
         .order(Arel.sql("notifications.resource_id, #{ACTIVITY_AT} DESC, notifications.id DESC"))
     end
 
-    def groups
-      @groups ||= Notification
+    def rows
+      @rows ||= Notification
         .from(latest_unread_per_work_package, :notifications)
         .select("notifications.*, COUNT(*) OVER () AS work_package_count, (SUM(unread_count) OVER ())::integer AS unread_total")
         .order(activity_at: :desc, id: :desc)
@@ -93,13 +104,6 @@ module PushSubscriptions
       else
         "#{work_package.formatted_id}: #{work_package.subject}"
       end
-    end
-
-    def more_json
-      remaining = groups.first.work_package_count - groups.size
-      return if remaining.zero?
-
-      { count: remaining, title: I18n.t("pwa.push.more_title", count: remaining), url: url_helpers.notifications_center_path }
     end
 
     def headline(notification)

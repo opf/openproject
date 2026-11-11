@@ -29,18 +29,18 @@ allOf:
             items:
               $ref: './placeholder_user_model.yml'
 
-example:
-  _type: Collection
-  total: 2
-  count: 2
-  _links:
-    self:
-      href: '/api/v3/placeholder_users'
-  _embedded:
-    elements:
-      - _abbreviated: PlaceholderUser resource shortened for brevity
-        _type: PlaceholderUser
-        id: 1337
-      - _abbreviated: PlaceholderUser resource shortened for brevity
-        _type: PlaceholderUser
-        id: 1338
+examples:
+  - _type: Collection
+    total: 2
+    count: 2
+    _links:
+      self:
+        href: '/api/v3/placeholder_users'
+    _embedded:
+      elements:
+        - _abbreviated: PlaceholderUser resource shortened for brevity
+          _type: PlaceholderUser
+          id: 1337
+        - _abbreviated: PlaceholderUser resource shortened for brevity
+          _type: PlaceholderUser
+          id: 1338

@@ -35,13 +35,13 @@ See COPYRIGHT and LICENSE files for more details.
     render(
       Primer::Forms::ToggleSwitchForm.new(
         name: :enable_helpdesk,
-        label: I18n.t("admin.enable_helpdesk"),
+        label: I18n.t("itsm.admin.enable_helpdesk"),
         src: enable_helpdesk_itsm_admin_settings_path,
         csrf_token: form_authenticity_token,
         status_label_position: :start,
         checked: @helpdesk_enabled,
         enabled: @helpdesk_feature_writable,
-        caption: @helpdesk_feature_writable ? "" : I18n.t("admin.helpdesk_set_by_environment"),
+        caption: @helpdesk_feature_writable ? "" : I18n.t("itsm.admin.helpdesk_set_by_environment"),
         data: { turbo: true },
         test_selector: "toggle-helpdesk-enabled",
         input_width: :large
@@ -50,4 +50,4 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render(ITSM::Admin::HelpdeskSettingsComponent.new(enabled: @helpdesk_enabled)) %>
+<%= render(ITSM::Admin::HelpdeskSettingsComponent.new(enabled: @helpdesk_enabled, wizard: @wizard)) %>

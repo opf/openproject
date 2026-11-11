@@ -58,6 +58,10 @@ RSpec.describe CostQuery, :reporting_query_helper do
         expect(described_class.named("tweek")).to eq(CostQuery::Filter::Tweek)
       end
 
+      it "finds the permission filter by the class name it registers itself with" do
+        expect(described_class.named(:PermissionFilter)).to eq(CostQuery::Filter::PermissionFilter)
+      end
+
       it "does not resolve constants outside the registered filters" do
         expect(described_class.named("::Object")).to be_nil
       end
@@ -569,14 +573,14 @@ RSpec.describe CostQuery, :reporting_query_helper do
       it "is usable as filter" do
         create_searchable_fields_and_values
         cf = WorkPackageCustomField.find_by(name: "Searchable Field")
-        query.filter cf.attribute_name, operator: "=", value: "125"
+        query.filter cf.column_name, operator: "=", value: "125"
         expect(query.result.count).to eq(2)
       end
 
       it "is usable as filter #2" do
         create_searchable_fields_and_values
         cf = WorkPackageCustomField.find_by(name: "Searchable Field")
-        query.filter cf.attribute_name, operator: "=", value: "finnlabs"
+        query.filter cf.column_name, operator: "=", value: "finnlabs"
         expect(query.result.count).to eq(0)
       end
     end

@@ -225,5 +225,21 @@ RSpec.describe MyController, :skip_2fa_stage do
       expect(session[:user_id]).to eq user.id
       expect(session[:updated_at]).to be > session_update_time
     end
+
+    context "with a line break in the header login" do
+      let(:header_login_value) { "h.wurst\n[FORGED] INFO -- : Successful login" }
+
+      it "logs the header login on a single line" do
+        warnings = []
+        allow(Rails.logger).to receive(:warn) { |&message| warnings << message&.call }
+
+        get :account
+
+        expect(warnings).to include(
+          "Header-based auth source SSO user changed from other_user to " \
+          '"h.wurst\\n[FORGED] INFO -- : Successful login". Re-authenticating'
+        )
+      end
+    end
   end
 end

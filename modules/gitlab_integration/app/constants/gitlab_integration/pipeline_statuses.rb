@@ -37,17 +37,17 @@ module GitlabIntegration
                                              hexcode: "#BF3989",
                                              icon: :"op-auto-date")
 
-    CREATED = GitlabStatus.pipeline_status(code: :created, hexcode: "#1A67A3", icon: :hourglass)
-    PREPARING = GitlabStatus.pipeline_status(code: :preparing, hexcode: "#1A67A3", icon: :hourglass)
-    PENDING = GitlabStatus.pipeline_status(code: :pending, hexcode: "#1A67A3", icon: :hourglass)
+    CREATED = GitlabStatus.pipeline_status(code: :created, hexcode: "#0F41B5", icon: :hourglass)
+    PREPARING = GitlabStatus.pipeline_status(code: :preparing, hexcode: "#0F41B5", icon: :hourglass)
+    PENDING = GitlabStatus.pipeline_status(code: :pending, hexcode: "#0F41B5", icon: :hourglass)
     WAITING_FOR_RESOURCE = GitlabStatus.pipeline_status(code: :waiting_for_resource,
-                                                        hexcode: "#1A67A3",
+                                                        hexcode: "#0F41B5",
                                                         icon: :hourglass)
     WAITING_FOR_CALLBACK = GitlabStatus.pipeline_status(code: :waiting_for_callback,
-                                                        hexcode: "#1A67A3",
+                                                        hexcode: "#0F41B5",
                                                         icon: :hourglass)
 
-    MANUAL = GitlabStatus.pipeline_status(code: :manual, hexcode: "#1A67A3", icon: :pencil)
+    MANUAL = GitlabStatus.pipeline_status(code: :manual, hexcode: "#0F41B5", icon: :pencil)
     SKIPPED = GitlabStatus.pipeline_status(code: :skipped, hexcode: "#24292F", icon: :tab)
     CANCELLED = GitlabStatus.pipeline_status(code: :cancelled, hexcode: "#24292F", icon: :"x-circle")
     CANCELLING = GitlabStatus.pipeline_status(code: :cancelling,

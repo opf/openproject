@@ -101,10 +101,11 @@ module Admin::Import
                                            basic_auth_password:)
 
       server_info = jira_client.server_info
-      jira_user_is_administer = jira_client.mypermissions.dig("permissions", "ADMINISTER", "havePermission")
 
-      unless jira_user_is_administer
-        return render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.user_is_not_admin"))
+      unless jira_client.administrator?
+        return render_error_flash_message_via_turbo_stream(
+          message: t(:"admin.jira.test.not_administrator.#{params['auth_method']}")
+        )
       end
 
       render_test_result(server_info)

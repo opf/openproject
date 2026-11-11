@@ -55,9 +55,9 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
 
       dialog.confirm_flow_with user_password
 
-      expect(page).to have_content("Account has been scheduled for deletion. " \
-                                   "Note that this process takes place in the background. " \
-                                   "It might take a few moments until the user is fully deleted.")
+      expect(page).to have_text("Account has been scheduled for deletion. " \
+                                "Note that this process takes place in the background. " \
+                                "It might take a few moments until the user is fully deleted.")
       expect(page).to have_current_path "/login"
     end
 
@@ -75,8 +75,8 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
     it "can not delete even if settings allow it", with_settings: { users_deletable_by_admins: true } do
       visit edit_user_path(user)
 
-      expect(page).to have_content "#{user.firstname} #{user.lastname}"
-      expect(page).to have_no_content "Delete account"
+      expect(page).to have_text "#{user.firstname} #{user.lastname}"
+      expect(page).to have_no_text "Delete account"
 
       visit deletion_info_user_path(user)
       expect(page).to have_text "Error 404"
@@ -95,7 +95,7 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
     it "can delete other users if the setting permits it", with_settings: { users_deletable_by_admins: true } do
       visit edit_user_path(user)
 
-      expect(page).to have_content "#{user.firstname} #{user.lastname}"
+      expect(page).to have_text "#{user.firstname} #{user.lastname}"
 
       click_on "Delete"
 
@@ -112,16 +112,16 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
 
       dialog.confirm_flow_with user_password, should_fail: false
 
-      expect(page).to have_content("Account has been scheduled for deletion. " \
-                                   "Note that this process takes place in the background. " \
-                                   "It might take a few moments until the user is fully deleted.")
+      expect(page).to have_text("Account has been scheduled for deletion. " \
+                                "Note that this process takes place in the background. " \
+                                "It might take a few moments until the user is fully deleted.")
       expect(page).to have_current_path "/users"
     end
 
     it "can delete and confirm with keyboard (Regression #44499)", with_settings: { users_deletable_by_admins: true } do
       visit edit_user_path(user)
 
-      expect(page).to have_content "#{user.firstname} #{user.lastname}"
+      expect(page).to have_text "#{user.firstname} #{user.lastname}"
 
       click_on "Delete"
 
@@ -131,16 +131,17 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
 
       dialog.confirm_flow_with user_password, with_keyboard: true, should_fail: false
 
-      expect(page).to have_content("Account has been scheduled for deletion. " \
-                                   "Note that this process takes place in the background. " \
-                                   "It might take a few moments until the user is fully deleted.")
+      expect(page).to have_text("Account has been scheduled for deletion. " \
+                                "Note that this process takes place in the background. " \
+                                "It might take a few moments until the user is fully deleted.")
       expect(page).to have_current_path "/users"
     end
 
     it "cannot delete other users if the settings forbid it", with_settings: { users_deletable_by_admins: false } do
       visit edit_user_path(user)
 
-      expect(page).to have_no_content "Delete account"
+      expect(page).to have_text "#{user.firstname} #{user.lastname}"
+      expect(page).to have_no_text "Delete account"
     end
 
     it "can change the deletablilty settings" do

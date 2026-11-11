@@ -27,7 +27,7 @@
 
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { createEvent, fireEvent, screen } from '@testing-library/dom';
+import { createEvent, fireEvent, screen, waitFor } from '@testing-library/dom';
 import { EMPTY, of, Subject } from 'rxjs';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -36,8 +36,10 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { AutofocusDirective } from 'core-app/shared/directives/focus/autofocus.directive';
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
+import { runMutation } from '../wp-fast-table/testing/table-harness';
 import { inlineCreateCancelClassName } from './inline-create-row-builder';
 import { WorkPackageInlineCreateComponent } from './wp-inline-create.component';
 import { WorkPackageInlineCreateService } from './wp-inline-create.service';
@@ -51,7 +53,7 @@ class ReferenceStubComponent {}
 describe('WorkPackageInlineCreateComponent', () => {
   const mount = () => {
     TestBed.configureTestingModule({
-      declarations: [WorkPackageInlineCreateComponent, ReferenceStubComponent],
+      declarations: [WorkPackageInlineCreateComponent, ReferenceStubComponent, AutofocusDirective],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
@@ -64,7 +66,7 @@ describe('WorkPackageInlineCreateComponent', () => {
             newInlineWorkPackageCreated: new Subject<string>(),
           },
         },
-        { provide: WorkPackageCreateService, useValue: { onNewWorkPackage: () => EMPTY } },
+        { provide: WorkPackageCreateService, useValue: { onNewWorkPackage: () => EMPTY, cancelCreation: () => undefined } },
         { provide: WorkPackageViewColumnsService, useValue: { updates$: () => EMPTY } },
         { provide: WorkPackageViewFocusService, useValue: {} },
         { provide: HalResourceEditingService, useValue: {} },
@@ -76,7 +78,7 @@ describe('WorkPackageInlineCreateComponent', () => {
     });
 
     const fixture = TestBed.createComponent(WorkPackageInlineCreateComponent);
-    fixture.componentInstance.table = { configuration: {}, reconcileSection: () => undefined } as unknown as WorkPackageTable;
+    fixture.componentInstance.table = { configuration: {}, mutate: runMutation } as unknown as WorkPackageTable;
     fixture.componentInstance.colspan = 3;
     fixture.detectChanges();
     return fixture;
@@ -89,6 +91,15 @@ describe('WorkPackageInlineCreateComponent', () => {
 
     expect(screen.getByRole('button', { name: 'Create new child' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Add existing' })).toBeInTheDocument();
+  });
+
+  it('returns focus to the create trigger after the create row resets', async () => {
+    const fixture = mount();
+    fixture.componentInstance.hideRow();
+
+    fixture.componentInstance.resetRow();
+
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Create new child' })).toHaveFocus());
   });
 
   it.each(['click', 'Enter'])('cancels inline creation without navigation on %s of a Cancel link', (gesture) => {

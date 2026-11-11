@@ -74,7 +74,7 @@ module ::Overviews
     def find_project_phase_and_project
       @project_phase = Project::Phase.where(active: true)
                                      .eager_load(:definition, :project)
-                                     .find(params[:id])
+                                     .find(params.expect(:id))
       @project = @project_phase.project
     end
   end

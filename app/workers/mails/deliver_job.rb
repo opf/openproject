@@ -29,6 +29,7 @@
 
 class Mails::DeliverJob < ApplicationJob
   queue_with_priority :notification
+  queue_as :transactional
 
   def perform(recipient_id)
     self.recipient_id = recipient_id

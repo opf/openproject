@@ -68,7 +68,7 @@ RSpec.describe "Projects", "creation", :js do
     expect_and_dismiss_flash type: :success, message: "Successful creation."
 
     expect(page).to have_current_path /\/projects\/foo-bar\/?/
-    expect(page).to have_content "Foo bar"
+    expect(page).to have_text "Foo bar"
   end
 
   it "redirects to the parent project page when users cancels while creating subproject" do
@@ -197,7 +197,7 @@ RSpec.describe "Projects", "creation", :js do
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
       expect(page).to have_current_path /\/projects\/foo-bar\/?/
-      expect(page).to have_content "Foo bar"
+      expect(page).to have_text "Foo bar"
 
       project = Project.last
       expect(project.name).to eq "Foo bar"
@@ -265,7 +265,7 @@ RSpec.describe "Projects", "creation", :js do
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
       expect(page).to have_current_path /\/projects\/foo-bar\/?/
-      expect(page).to have_content "Foo bar"
+      expect(page).to have_text "Foo bar"
 
       project = Project.last
       expect(project.name).to eq "Foo bar"
@@ -280,8 +280,8 @@ RSpec.describe "Projects", "creation", :js do
 
     expect(page).to have_heading "New project"
 
-    expect(page).to have_no_content "Active"
-    expect(page).to have_no_content "Identifier"
+    expect(page).to have_no_text "Active"
+    expect(page).to have_no_text "Identifier"
   end
 
   context "with optional and required custom fields" do
@@ -475,7 +475,7 @@ RSpec.describe "Projects", "creation", :js do
 
         context "with an admin user" do
           it "shows invisible fields in the form and allows their activation" do
-            expect(page).to have_content "Text for Admins only"
+            expect(page).to have_text "Text for Admins only"
 
             fill_in "Text for Admins only", with: "foo"
             expect(page).to have_field("Text for Admins only", with: "foo")
@@ -502,7 +502,7 @@ RSpec.describe "Projects", "creation", :js do
           it "does not show invisible fields in the form and thus not activates the invisible field" do
             pending "Admin-only project attributes currently prevent users from creating projects (OP#64479)"
 
-            expect(page).to have_no_content "Text for Admins only"
+            expect(page).to have_no_text "Text for Admins only"
 
             click_on "Complete"
 
@@ -553,7 +553,7 @@ RSpec.describe "Projects", "creation", :js do
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
       expect(page).to have_current_path %r{/projects/project-without-step-3/?}
-      expect(page).to have_content "Project without step 3"
+      expect(page).to have_text "Project without step 3"
 
       # The required_not_for_all field should NOT be activated for the new project
       new_project = Project.find_by(name: "Project without step 3")

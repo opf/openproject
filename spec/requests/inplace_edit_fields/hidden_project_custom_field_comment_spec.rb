@@ -111,7 +111,7 @@ RSpec.describe "InplaceEditFieldsController — admin_only project custom field 
     current_user { non_admin_user }
 
     it "does not block the non-admin user for standard project attributes" do
-      get inplace_edit_field_dialog_path(model: "project", id: project.id, attribute: "name"),
+      get inplace_edit_field_dialog_path(model: "project", id: project.id, attribute: "description"),
           headers: turbo_headers
 
       expect(response).to have_http_status(:ok)

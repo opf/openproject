@@ -137,8 +137,8 @@ hu:
     button_confirm: Jóváhagy
     button_continue: Folytatás
     button_copy: Másol
-    button_copy_link_to_clipboard: Hivatkozás másolása a vágólapra
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Másolás a vágólapra
     button_copy_to_other_project: Duplicate in another project
     button_create: Létrehoz
@@ -217,6 +217,7 @@ hu:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: 'Hiba történt a CKEditorban
 
         '
@@ -454,7 +455,6 @@ hu:
     label_assignee: Megbízott
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Csatolmány
-    label_author: 'Szerző: %{user}'
     label_avatar: Profilkép
     label_between: között
     label_board: Tábla
@@ -1162,7 +1162,6 @@ hu:
         display_sums_hint: 'Az összes összegezhető attribútum összegének megjelenítése a táblázat eredményei alatti sorban.
 
           '
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: 'Minden szűrt táblázat eredményei kiegészülnek az őseikkel. A hierarchiák kiterjeszthetők és összecsukhatók.
 
           '

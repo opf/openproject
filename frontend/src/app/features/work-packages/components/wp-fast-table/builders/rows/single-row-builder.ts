@@ -205,7 +205,8 @@ export class SingleRowBuilder {
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
+  /** `_depth` is the row's nesting depth in the rendered query, which hierarchy rows draw; plain rows have none. */
+  public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement, _depth?:number):HTMLTableRowElement {
     const oldCells = Array.from(row.cells);
     const retained = new Map<string, HTMLTableCellElement>();
 

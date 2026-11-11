@@ -86,7 +86,7 @@ module Components
     end
 
     def expect_closed
-      expect(page).to have_no_selector("#{selector}.expanded")
+      expect(page).to have_no_css("#{selector}.expanded")
     end
 
     def submit_in_project_and_subproject_scope

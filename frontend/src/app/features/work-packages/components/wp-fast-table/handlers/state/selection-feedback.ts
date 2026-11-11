@@ -78,11 +78,6 @@ function sameKeys(a:ReadonlySet<SelectionKey>, b:ReadonlySet<SelectionKey>):bool
   return a.size === b.size && [...a].every((key) => b.has(key));
 }
 
-/** Runs `mutate` through the table's feedback when it has one, plainly otherwise. */
 export function selectionGesture(table:WorkPackageTable, kind:SelectionGesture, mutate:() => void):void {
-  if (table.selectionFeedback) {
-    table.selectionFeedback.gesture(kind, mutate);
-  } else {
-    mutate();
-  }
+  table.selectionFeedback.gesture(kind, mutate);
 }

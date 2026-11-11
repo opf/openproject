@@ -34,14 +34,17 @@ module Overviews
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
+      attr_reader :user
+
       def initialize(project:)
         super
 
         @project = project
+        @user = User.current
       end
 
       def render?
-        User.current.allowed_in_project?(:view_project_phases, @project) &&
+        user.allowed_in_project?(:view_project_phases, @project) &&
           @project.phases.active.any?
       end
     end
