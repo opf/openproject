@@ -37,7 +37,6 @@ import { States } from 'core-app/core/states/states.service';
 import {
   WorkPackageViewTimelineService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { RelationsStateValue, WorkPackageRelationsService } from '../../../wp-relations/wp-relations.service';
 import { WorkPackageTimelineCell } from '../cells/wp-timeline-cell';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
@@ -87,7 +86,7 @@ function newSegment(vp:TimelineViewParameters,
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
+export class WorkPackageTableTimelineRelations implements OnInit {
   readonly injector = inject(Injector);
   readonly destroyRef = inject(DestroyRef);
   private readonly notificationService = inject(WorkPackageNotificationService);

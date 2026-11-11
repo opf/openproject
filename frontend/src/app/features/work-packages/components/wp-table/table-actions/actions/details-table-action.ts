@@ -45,7 +45,7 @@ export class OpDetailsTableAction extends OpTableAction {
     this.injector.get(UrlParamsService));
 
   private text = {
-    button: this.I18n.t('js.button_open_details'),
+    button: this.I18n().t('js.button_open_details'),
   };
 
   public buildElement() {

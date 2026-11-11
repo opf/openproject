@@ -26,11 +26,11 @@
 //++
 
 import { CommonModule } from '@angular/common';
-import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, createComponent, EnvironmentInjector, Injector, NO_ERRORS_SCHEMA, NgModule } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ComponentRef, createComponent, EnvironmentInjector, Injector, NO_ERRORS_SCHEMA, NgModule } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
-import { of } from 'rxjs';
+import { defer, finalize, Observable, of } from 'rxjs';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -40,7 +40,8 @@ import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service
 import { QuerySortByResource, QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
-import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { WorkPackageQueryStateService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -61,10 +62,13 @@ import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-
 import { SortHeaderDirective } from './sort-header.directive';
 import { primarySortDirection } from './primary-sort-direction';
 
-describe('SortHeaderDirective input readiness', () => {
-  let fixture:ComponentFixture<SortHeaderDirective>;
+describe('SortHeaderDirective', () => {
+  let fixture:ComponentFixture<SortHeaderDirective>|undefined;
   let harness:TableHarness;
   const tables:TableHarness[] = [];
+  const subject = { id: 'subject', name: 'Subject', href: '/api/v3/queries/columns/subject', _type: queryColumnTypes.PROPERTY } as QueryColumn;
+  const status = { id: 'status', name: 'Status', href: '/api/v3/queries/columns/status', _type: queryColumnTypes.PROPERTY } as QueryColumn;
+  const category = { id: 'category', name: 'Category', href: '/api/v3/queries/columns/category', _type: queryColumnTypes.PROPERTY } as QueryColumn;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -84,169 +88,187 @@ describe('SortHeaderDirective input readiness', () => {
       },
     }).compileComponents();
     initializeViewServices(TestBed.inject(Injector), buildQuery(['id', 'subject'], null, false, false));
-    harness = buildTable({ workPackages: [] });
+    harness = buildTable({ workPackages: [], configuration: { hierarchyToggleEnabled: true } });
     tables.push(harness);
-    fixture = TestBed.createComponent(SortHeaderDirective);
-    fixture.componentRef.setInput('headerColumn', TestBed.inject(WorkPackageViewSortByService).available[0]?.column
-      ?? { id: 'subject', name: 'Subject', href: '/api/v3/queries/columns/subject', _type: 'QueryColumn' });
-    fixture.componentRef.setInput('table', harness.table);
-    TestBed.inject(IsolatedQuerySpace).available.sortBy.putValue([]);
   });
 
   afterEach(async () => {
-    vi.useRealTimers();
-    fixture.destroy();
+    fixture?.destroy();
+    fixture = undefined;
     await Promise.all(tables.splice(0).map((table) => table.destroy()));
     vi.restoreAllMocks();
   });
 
-  function observeDetection() {
-    const header = fixture.componentInstance as unknown as { cdRef:ChangeDetectorRef };
-    return vi.spyOn(header.cdRef, 'detectChanges');
+  function mount(column:QueryColumn, table:WorkPackageTable|null = harness.table) {
+    const mounted = TestBed.createComponent(SortHeaderDirective);
+    fixture = mounted;
+    mounted.componentRef.setInput('headerColumn', column);
+    if (table) mounted.componentRef.setInput('table', table);
+    mounted.detectChanges();
+    return { mounted, host: mounted.nativeElement as HTMLElement };
   }
 
-  function sort() {
-    const column = fixture.componentInstance.headerColumn;
-    TestBed.inject(WorkPackageViewSortByService).update([
-      { column, direction: { href: QUERY_SORT_BY_ASC } } as QuerySortByResource,
-    ]);
+  function sortBy(...criteria:[QueryColumn, string][]) {
+    TestBed.inject(WorkPackageViewSortByService).update(
+      criteria.map(([column, href]) => ({ column, direction: { href } }) as QuerySortByResource),
+    );
   }
 
-  it('shows a passive hierarchy glyph when column menus are disabled', async () => {
-    fixture.componentRef.setInput('headerColumn', {
-      id: 'subject', name: 'Subject', href: '/api/v3/queries/columns/subject', _type: 'QueryColumn',
+  const columnName = (host:HTMLElement) => host.querySelector('.wp-table--column-menu-name');
+  const relationIcon = (host:HTMLElement) => host.querySelector('op-icon[icon-classes*="relations-header--icon"]');
+  const hierarchyGlyph = (host:HTMLElement) => host.querySelector('svg.octicon-op-hierarchy');
+
+  describe('presentation', () => {
+    it.each([
+      [queryColumnTypes.RELATION_TO_TYPE, { type: { name: 'Milestone', href: '/api/v3/types/2' } }, 'Milestone'],
+      [queryColumnTypes.RELATION_OF_TYPE, { relationType: 'relates' }, 'js.relation_labels.relates'],
+      [queryColumnTypes.RELATION_CHILD, {}, 'Children'],
+    ])('names a %s relation header on first detection without a table', (type, attributes, label) => {
+      const { host } = mount({ id: 'relations', name: 'Children', _type: type, ...attributes } as unknown as QueryColumn, null);
+
+      expect(host).toHaveTextContent(label);
+      expect(relationIcon(host)).not.toBeNull();
+      expect(columnName(host)).toHaveAttribute('title', 'Children');
     });
-    TestBed.inject(WorkPackageViewHierarchiesService).setEnabled(true);
-    fixture.detectChanges();
-    await nextTask();
-    fixture.detectChanges();
 
-    const element = fixture.nativeElement as HTMLElement;
-    expect(within(element).queryByRole('button')).toBeNull();
-    expect(element.querySelector('svg.octicon-op-hierarchy')).toHaveAttribute('aria-hidden', 'true');
-    const glyph = element.querySelector('svg.octicon-op-hierarchy')!.getBoundingClientRect();
-    const label = element.querySelector('.wp-table--column-menu-name')!.getBoundingClientRect();
-    expect(glyph.top + glyph.height / 2).toBeCloseTo(label.top + label.height / 2, 0);
+    it('shows a passive hierarchy glyph on first detection when column menus are disabled', () => {
+      TestBed.inject(WorkPackageViewHierarchiesService).setEnabled(true);
+      const { host } = mount(subject);
+
+      expect(within(host).queryByRole('button')).toBeNull();
+      expect(hierarchyGlyph(host)).toHaveAttribute('aria-hidden', 'true');
+      const glyph = hierarchyGlyph(host)!.getBoundingClientRect();
+      const label = columnName(host)!.getBoundingClientRect();
+      expect(glyph.top + glyph.height / 2).toBeCloseTo(label.top + label.height / 2, 0);
+    });
+
+    it('resets presentation when a relation input becomes an ordinary column', () => {
+      const { mounted, host } = mount({ id: 'relations', name: 'Children', _type: queryColumnTypes.RELATION_CHILD } as QueryColumn);
+      expect(relationIcon(host)).not.toBeNull();
+
+      mounted.componentRef.setInput('headerColumn', status);
+      mounted.detectChanges();
+
+      expect(host).toHaveTextContent('Status');
+      expect(host).not.toHaveTextContent('Children');
+      expect(relationIcon(host)).toBeNull();
+    });
   });
 
-  it('cancels header setup when the header is destroyed before its task', async () => {
-    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
-    fixture.detectChanges();
-    const detect = observeDetection();
-    const dom = vi.spyOn(fixture.componentInstance, 'setActiveColumnClass');
-    const subscriptions = vi.spyOn(TestBed.inject(WorkPackageViewSortByService), 'onReadyWithAvailable');
-    fixture.destroy();
-    await vi.runAllTimersAsync();
-    expect(detect).not.toHaveBeenCalled();
-    expect(dom).not.toHaveBeenCalled();
-    expect(subscriptions).not.toHaveBeenCalled();
+  describe('view state notifications', () => {
+    it('follows hierarchy changes made elsewhere', async () => {
+      const { mounted, host } = mount(subject);
+      expect(hierarchyGlyph(host)).toBeNull();
+
+      TestBed.inject(WorkPackageViewHierarchiesService).setEnabled(true);
+      await mounted.whenStable();
+
+      expect(hierarchyGlyph(host)).not.toBeNull();
+    });
+
+    it('repaints the baseline warning when baseline mode changes', async () => {
+      const { mounted, host } = mount(category);
+      const baseline = mounted.debugElement.injector.get(WorkPackageViewBaselineService);
+      const warning = () => host.querySelector('.generic-table--sort-header--error-indicator');
+      expect(warning()).toBeNull();
+
+      baseline.update(['2026-10-01']);
+      await mounted.whenStable();
+      expect(warning()).not.toBeNull();
+
+      baseline.disable();
+      await mounted.whenStable();
+      expect(warning()).toBeNull();
+    });
+
+    it.each([
+      [QUERY_SORT_BY_ASC, 'asc', 'desc'],
+      [QUERY_SORT_BY_DESC, 'desc', 'asc'],
+    ])('shows the primary %s direction', async (href, shown, hidden) => {
+      const { mounted, host } = mount(status);
+
+      sortBy([status, href]);
+      await mounted.whenStable();
+
+      expect(columnName(host)).toHaveClass('sort', shown);
+      expect(columnName(host)).not.toHaveClass(hidden);
+    });
+
+    it('shows no direction as a secondary criterion or once sorting is cleared', async () => {
+      const { mounted, host } = mount(status);
+
+      sortBy([subject, QUERY_SORT_BY_ASC], [status, QUERY_SORT_BY_DESC]);
+      await mounted.whenStable();
+      expect(columnName(host)).not.toHaveClass('sort');
+
+      sortBy([status, QUERY_SORT_BY_DESC]);
+      await mounted.whenStable();
+      expect(columnName(host)).toHaveClass('sort', 'desc');
+
+      sortBy();
+      await mounted.whenStable();
+      expect(columnName(host)).not.toHaveClass('sort');
+    });
+
+    it('settles on the republished sort after a reload clears the view state', async () => {
+      const { mounted, host } = mount(status);
+      sortBy([status, QUERY_SORT_BY_ASC]);
+      await mounted.whenStable();
+
+      const service = TestBed.inject(WorkPackageViewSortByService);
+      service.clear('reload');
+      const query = buildQuery(['id', 'status'], null, false, false);
+      query.sortBy = [{ column: status, direction: { href: QUERY_SORT_BY_DESC } } as QuerySortByResource];
+      service.initialize(query, query.results);
+      await mounted.whenStable();
+
+      expect(columnName(host)).toHaveClass('sort', 'desc');
+      expect(columnName(host)).not.toHaveClass('asc');
+    });
   });
 
-  it('ignores an already destroyed table input', async () => {
-    fixture.componentRef.setInput('table', undefined);
-    harness.table.destroy();
-    fixture.componentRef.setInput('table', harness.table);
-    fixture.detectChanges();
-    const detect = observeDetection();
-    const dom = vi.spyOn(fixture.componentInstance, 'setActiveColumnClass');
-    const subscriptions = vi.spyOn(TestBed.inject(WorkPackageViewSortByService), 'onReadyWithAvailable');
-    await nextTask();
-    expect(detect).not.toHaveBeenCalled();
-    expect(dom).not.toHaveBeenCalled();
-    expect(subscriptions).not.toHaveBeenCalled();
-  });
+  describe('subscriptions', () => {
+    function trackSubscriptions():string[] {
+      const log:string[] = [];
+      const track = <T>(name:string, source:() => Observable<T>) => defer(() => {
+        log.push(`+${name}`);
+        return source().pipe(finalize(() => log.push(`-${name}`)));
+      });
+      const bridgeName = (service:object) => {
+        if (service instanceof WorkPackageViewSortByService) return 'sort';
+        if (service instanceof WorkPackageViewHierarchiesService) return 'hierarchy';
+        if (service instanceof WorkPackageViewBaselineService) return 'baseline';
+        return 'other';
+      };
+      /* eslint-disable @typescript-eslint/unbound-method */
+      const live = WorkPackageQueryStateService.prototype.live$;
+      const ready = WorkPackageViewSortByService.prototype.onReadyWithAvailable;
+      /* eslint-enable @typescript-eslint/unbound-method */
+      vi.spyOn(WorkPackageQueryStateService.prototype, 'live$').mockImplementation(function trackedLive(this:WorkPackageQueryStateService<unknown>) {
+        return track(bridgeName(this), () => live.call(this));
+      });
+      vi.spyOn(WorkPackageViewSortByService.prototype, 'onReadyWithAvailable').mockImplementation(function trackedReady(this:WorkPackageViewSortByService) {
+        return track('ready', () => ready.call(this));
+      });
+      return log;
+    }
 
-  it('cancels setup when its input table is destroyed before the task', async () => {
-    fixture.detectChanges();
-    const subscriptions = vi.spyOn(TestBed.inject(WorkPackageViewSortByService), 'onReadyWithAvailable');
-    harness.table.destroy();
-    await nextTask();
-    expect(subscriptions).not.toHaveBeenCalled();
-  });
+    it('subscribes once per bridge, survives table replacement and unsubscribes on destroy', async () => {
+      const replacement = buildTable({ workPackages: [] });
+      tables.push(replacement);
+      const log = trackSubscriptions();
+      const { mounted } = mount(subject);
+      expect([...log].sort()).toEqual(['+baseline', '+hierarchy', '+sort']);
 
-  it('waits for a live input after the view is ready', async () => {
-    fixture.componentRef.setInput('table', undefined);
-    fixture.detectChanges();
-    const subscriptions = vi.spyOn(TestBed.inject(WorkPackageViewSortByService), 'onReadyWithAvailable');
-    await nextTask();
-    expect(subscriptions).not.toHaveBeenCalled();
-    fixture.componentRef.setInput('table', harness.table);
-    fixture.detectChanges();
-    await nextTask();
-    sort();
-    expect(fixture.nativeElement).toHaveClass('active-column');
-    expect(subscriptions).toHaveBeenCalledTimes(1);
-  });
+      mounted.componentRef.setInput('table', replacement.table);
+      mounted.detectChanges();
+      harness.table.destroy();
+      await mounted.whenStable();
+      expect(log).toHaveLength(3);
 
-  it('only initializes the replacement input when setup is queued', async () => {
-    fixture.detectChanges();
-    const replacement = buildTable({ workPackages: [] });
-    tables.push(replacement);
-    const subscriptions = vi.spyOn(TestBed.inject(WorkPackageViewSortByService), 'onReadyWithAvailable');
-    fixture.componentRef.setInput('table', replacement.table);
-    fixture.detectChanges();
-    harness.table.destroy();
-    await nextTask();
-    sort();
-    expect(fixture.nativeElement).toHaveClass('active-column');
-    expect(subscriptions).toHaveBeenCalledTimes(1);
-  });
-
-  it('unsubscribes initialized streams when replacing a still live input', async () => {
-    fixture.detectChanges();
-    await nextTask();
-    const replacement = buildTable({ workPackages: [] });
-    tables.push(replacement);
-    const detect = observeDetection();
-    fixture.componentRef.setInput('table', replacement.table);
-    fixture.detectChanges();
-    sort();
-    expect(detect).not.toHaveBeenCalled();
-    await nextTask();
-    detect.mockClear();
-    sort();
-    expect(detect).toHaveBeenCalledTimes(1);
-    harness.table.destroy();
-    detect.mockClear();
-    sort();
-    expect(detect).toHaveBeenCalledTimes(1);
-  });
-
-  it('marks its column only while it is the primary criterion', async () => {
-    fixture.detectChanges();
-    await nextTask();
-    const column = fixture.componentInstance.headerColumn;
-    const status = { id: 'status', href: '/api/v3/queries/columns/status' } as QueryColumn;
-    const sortBy = TestBed.inject(WorkPackageViewSortByService);
-
-    sortBy.update([
-      { column: status, direction: { href: QUERY_SORT_BY_ASC } },
-      { column, direction: { href: QUERY_SORT_BY_DESC } },
-    ] as QuerySortByResource[]);
-    expect(fixture.nativeElement).not.toHaveClass('active-column');
-    expect(fixture.componentInstance.directionClass).toBe('');
-
-    sortBy.update([{ column, direction: { href: QUERY_SORT_BY_DESC } }] as QuerySortByResource[]);
-    expect(fixture.nativeElement).toHaveClass('active-column');
-    expect(fixture.componentInstance.directionClass).toBe('desc');
-  });
-
-  it.each(['header', 'table'])('stops all header streams after destroying the %s', async (owner) => {
-    fixture.detectChanges();
-    await nextTask();
-    const detect = observeDetection();
-    const dom = vi.spyOn(fixture.componentInstance, 'setActiveColumnClass');
-    const baseline = fixture.debugElement.injector.get(WorkPackageViewBaselineService);
-    const baselineEffects = vi.spyOn(baseline, 'isActive');
-    if (owner === 'header') fixture.destroy();
-    else harness.table.destroy();
-    sort();
-    TestBed.inject(WorkPackageViewGroupByService).disable();
-    TestBed.inject(WorkPackageViewHierarchiesService).toggleState();
-    baseline.update(['2026-10-01']);
-    expect(detect).not.toHaveBeenCalled();
-    expect(dom).not.toHaveBeenCalled();
-    expect(baselineEffects).not.toHaveBeenCalled();
+      mounted.destroy();
+      expect(log.slice(3).sort()).toEqual(['-baseline', '-hierarchy', '-sort']);
+    });
   });
 });
 
@@ -335,6 +357,16 @@ describe('SortHeaderDirective relation columns', () => {
     const tooltip = () => document.querySelector(`tool-tip[for="${screen.getByRole('button', { name: 'Children' }).id}"]`);
     await waitFor(() => expect(tooltip()).toHaveAttribute('data-type', 'label'));
     expect(tooltip()).toHaveTextContent('Children');
+  });
+
+  it('marks the sort direction on a relation column menu button', async () => {
+    await render(relationColumns.children);
+
+    TestBed.inject(WorkPackageViewSortByService).update([
+      { column: relationColumns.children, direction: { href: QUERY_SORT_BY_ASC } } as unknown as QuerySortByResource,
+    ]);
+
+    await waitFor(() => expect(within(screen.getByRole('button', { name: 'Children' })).getByText('Children')).toHaveClass('sort', 'asc'));
   });
 
   it('renders no header button without a column menu', async () => {
@@ -544,6 +576,17 @@ describe('SortHeaderDirective column menu', () => {
     expect(subject).toHaveAttribute('aria-controls', menu('subject').id);
     expect(within(header(1)).queryByRole('link')).toBeNull();
     expect(getComputedStyle(indicator(1)).visibility).toBe('hidden');
+  });
+
+  it('marks the sort direction on the menu button', async () => {
+    const subject = columns().getColumns()[1];
+
+    harness.injector.get(WorkPackageViewSortByService).update([
+      { column: subject, direction: { href: QUERY_SORT_BY_DESC } } as QuerySortByResource,
+    ]);
+
+    await waitFor(() => expect(within(button('subject')).getByText('subject')).toHaveClass('sort', 'desc'));
+    expect(within(button('status')).getByText('status')).not.toHaveClass('sort');
   });
 
   it('shows the menu indicator while the header cell has keyboard focus', () => {
