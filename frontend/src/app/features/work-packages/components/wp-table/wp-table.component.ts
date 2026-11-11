@@ -69,7 +69,6 @@ export interface WorkPackageFocusContext {
 
 @Component({
   templateUrl: './wp-table.component.html',
-  styleUrls: ['./wp-table.component.sass'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   // eslint-disable-next-line @angular-eslint/component-selector
