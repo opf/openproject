@@ -40,7 +40,7 @@ RSpec.describe Help::ProjectLifeCycleDialogComponent, type: :component do
     expect(page).to have_css('turbo-frame[src*="/help/documentation/project-life-cycle"][loading="lazy"]', visible: :all)
   end
 
-  it "provides a labelled trigger and dialog", :aggregate_failures do
+  it "provides a labeled trigger and dialog", :aggregate_failures do
     expect(page).to have_button(I18n.t("contextual_help.life_cycle.open"))
     expect(page).to have_css("dialog[aria-labelledby]", visible: :all)
   end

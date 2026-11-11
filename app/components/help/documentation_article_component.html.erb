@@ -37,10 +37,10 @@ See COPYRIGHT and LICENSE files for more details.
       <% if headings.any? %>
         <details class="contextual-help-contents">
           <summary><%= t("contextual_help.contents") %></summary>
-          <nav aria-label="<%= t('contextual_help.contents') %>">
+          <nav aria-label="<%= t("contextual_help.contents") %>">
             <ul>
               <% headings.each do |heading| %>
-                <li><%= link_to heading.text, "##{heading['id']}", data: { action: "documentation-help#jump" } %></li>
+                <li><%= link_to heading.text, "##{heading["id"]}", data: { action: "documentation-help#jump" } %></li>
               <% end %>
             </ul>
           </nav>

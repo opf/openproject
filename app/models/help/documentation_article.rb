@@ -41,10 +41,14 @@ module Help
     }.freeze
 
     CONTEXTS = {
-      "life_cycle" => %w[project-life-cycle life-cycle-settings life-cycle-administration pmflex-mapping pm2-methodology
-                        initiation-request initiating-phase initiation-settings],
-      "initiation" => %w[initiation-request initiating-phase initiation-settings pmflex-mapping
-                        project-life-cycle pm2-methodology life-cycle-settings life-cycle-administration]
+      "life_cycle" => %w[
+        project-life-cycle life-cycle-settings life-cycle-administration pmflex-mapping pm2-methodology
+        initiation-request initiating-phase initiation-settings
+      ],
+      "initiation" => %w[
+        initiation-request initiating-phase initiation-settings pmflex-mapping
+        project-life-cycle pm2-methodology life-cycle-settings life-cycle-administration
+      ]
     }.freeze
 
     attr_reader :id, :directory
@@ -86,14 +90,10 @@ module Help
     end
 
     def linked_article(href)
-      link = URI.parse(href)
-      return if link.absolute? || link.path.blank?
+      target = linked_path(href)
+      return unless target
 
-      target = path.dirname.join(link.path).cleanpath
-      target = target.join("README.md") if target.extname.empty?
       DIRECTORIES.each_key.map { |id| self.class.new(id) }.find { |article| article.path == target }
-    rescue URI::InvalidURIError
-      nil
     end
 
     def asset_path(filename)
@@ -104,6 +104,18 @@ module Help
       raise KeyError unless asset.file?
 
       asset
+    end
+
+    private
+
+    def linked_path(href)
+      link = URI.parse(href)
+      return if link.absolute? || link.path.blank?
+
+      target = path.dirname.join(link.path).cleanpath
+      target.extname.empty? ? target.join("README.md") : target
+    rescue URI::InvalidURIError
+      nil
     end
   end
 end

@@ -58,18 +58,20 @@ module Help
     end
 
     def rewrite_links(doc)
-      doc.css("a[href]").each do |link|
-        if (article = @article.linked_article(link["href"]))
-          link["href"] = documentation_article_help_path(article_id: article.id, context: @context)
-          link["data-help-article"] = "true"
-        else
-          link["href"] = URI.join(@article.url, link["href"]).to_s
-          link["target"] = "_blank"
-          link["rel"] = "noopener noreferrer"
-        end
-      rescue URI::InvalidURIError
-        link.remove_attribute("href")
+      doc.css("a[href]").each { |link| rewrite_link(link) }
+    end
+
+    def rewrite_link(link)
+      if (article = @article.linked_article(link["href"]))
+        link["href"] = documentation_article_help_path(article_id: article.id, context: @context)
+        link["data-help-article"] = "true"
+      else
+        link["href"] = URI.join(@article.url, link["href"]).to_s
+        link["target"] = "_blank"
+        link["rel"] = "noopener noreferrer"
       end
+    rescue URI::InvalidURIError
+      link.remove_attribute("href")
     end
 
     def rewrite_images(doc)
