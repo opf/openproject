@@ -580,6 +580,8 @@ You can navigate through the meeting presentation by either clicking the _Previo
 
 Meeting changes made during the presentation are updated automatically unless an item is actively being edited.
 
+For recurring meetings, the **More** (...) menu option beside the presenter's name allows you to move an agenda item to the backlog or to the next meeting.
+
 To exit the presentation mode click the Exit presentation button in the header. 
 
 > [!NOTE]
