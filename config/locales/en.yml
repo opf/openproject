@@ -2579,6 +2579,7 @@ en:
     public: "Public"
     reason: "Reason"
     recipient: "Recipient"
+    reporter: "Reporter"
     required: "Required"
     responsible: "Accountable"
     role: "Role"

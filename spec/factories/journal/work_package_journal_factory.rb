@@ -39,6 +39,7 @@ FactoryBot.define do
     status_id { 0 }
     priority_id { 0 }
     author_id { 0 }
+    reporter_id { author_id }
     done_ratio { 0 }
   end
 end
