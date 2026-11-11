@@ -27,6 +27,7 @@
 
 import { ChangeDetectionStrategy, Component, Signal, computed, input } from '@angular/core';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
+import { color } from 'chart.js/helpers';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
@@ -41,10 +42,10 @@ interface SprintWorkPackageGraphData {
   countColumnTitle:string;
 }
 
-// Opacity as the alpha channel of an eight digit hex color. A bar is filled the way
-// `hl_background_muted_styles` fills a status badge -- its own color, faded, behind its own
-// outline -- but stronger than the 0.18 a badge uses, which a bar this large washes out.
-const MUTED_FILL_ALPHA = '80';
+// A bar is filled the way `hl_background_muted_styles` fills a status badge -- its own color,
+// faded, behind its own outline -- but stronger than the 0.18 a badge uses, which a bar this
+// large washes out.
+const MUTED_FILL_OPACITY = 0.5;
 
 // A status is not obliged to carry a color.
 const UNCOLORED_STATUS_FALLBACK = '--display-gray-scale-6';
@@ -71,13 +72,13 @@ export class SprintWorkPackageGraphComponent {
   // One bar per status, carrying the color that status carries everywhere else in the product.
   readonly barChartData:Signal<ChartData<'bar'>> = computed<ChartData<'bar'>>(() => {
     const { labels, data, colors } = this.parsedData();
-    const borderColor = colors.map((color) => color ?? getCSSVariable(UNCOLORED_STATUS_FALLBACK, '#59636e'));
+    const borderColor = colors.map((statusColor) => statusColor ?? getCSSVariable(UNCOLORED_STATUS_FALLBACK, '#59636e'));
 
     return {
       labels,
       datasets: [{
         data,
-        backgroundColor: borderColor.map((color) => `${color}${MUTED_FILL_ALPHA}`),
+        backgroundColor: borderColor.map((barColor) => color(barColor).alpha(MUTED_FILL_OPACITY).rgbString()),
         borderColor,
         borderWidth: 1,
       }],

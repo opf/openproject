@@ -75,7 +75,11 @@ describe('SprintWorkPackageGraphComponent', () => {
     const [dataset] = fixture.componentInstance.barChartData().datasets;
 
     expect(dataset.borderColor).toEqual(['#1A67A3', '#FFA500', '#59636e']);
-    expect(dataset.backgroundColor).toEqual(['#1A67A380', '#FFA50080', '#59636e80']);
+    expect(dataset.backgroundColor).toEqual([
+      'rgba(26, 103, 163, 0.5)',
+      'rgba(255, 165, 0, 0.5)',
+      'rgba(89, 99, 110, 0.5)',
+    ]);
   });
 
   it('keeps the Primer palette from painting over the status colors', () => {
