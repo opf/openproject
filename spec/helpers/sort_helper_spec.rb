@@ -417,7 +417,7 @@ RSpec.describe SortHelper do
 
     it "shows a 'filter by' action" do
       filter_by = action_menu.at_css("action-list .ActionListItem button[data-test-selector='id-filter-by']")
-      expect(filter_by.at_css(".ActionListItem-label").text.strip).to eq("Filter by")
+      expect(filter_by.at_css(".ActionListItem-label").text.strip).to eq("Filter by Id")
       # Check that the correct Stimulus controller with the correct data is referenced:
       expect(filter_by["data-action"]).to eq("table-action-menu#filterBy")
       expect(filter_by["data-filter-name"]).to eq("id")
@@ -431,7 +431,7 @@ RSpec.describe SortHelper do
 
       it "shows a 'filter by' action with the mapped filter" do
         filter_by = action_menu.at_css("action-list .ActionListItem button[data-test-selector='id-filter-by']")
-        expect(filter_by.at_css(".ActionListItem-label").text.strip).to eq("Filter by")
+        expect(filter_by.at_css(".ActionListItem-label").text.strip).to eq("Filter by Id")
         expect(filter_by["data-action"]).to eq("table-action-menu#filterBy")
         # With a column mapping, the filter name is changed accordingly:
         expect(filter_by["data-filter-name"]).to eq("id_code")

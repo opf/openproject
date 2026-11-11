@@ -4310,7 +4310,7 @@ en:
   label_filter: "Filters"
   label_filter_add: "Add filter"
   label_filter_any_name_attribute: "Name attributes"
-  label_filter_by: "Filter by"
+  label_filter_by_column: "Filter by %{column}"
   label_filter_plural: "Filters"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"

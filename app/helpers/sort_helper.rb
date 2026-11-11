@@ -410,7 +410,7 @@ module SortHelper
 
       # Some columns are not sortable or do not offer a suitable filter. Omit those actions for them.
       sort_actions(menu, attribute, default_order, content_args:, allowed_params:, **html_options) if sortable
-      filter_action(menu, attribute, filter, content_args:) if filter
+      filter_action(menu, attribute, caption, filter, content_args:) if filter
 
       move_column_actions(menu, attribute, table_columns, content_args:, allowed_params:, **html_options)
       add_and_remove_column_actions(menu, attribute, table_columns, content_args:, allowed_params:, **html_options)
@@ -463,8 +463,8 @@ module SortHelper
     column.to_s == @sort_criteria.first_key && @sort_criteria.first_asc? == asc
   end
 
-  def filter_action(menu, column, filter, content_args:)
-    menu.with_item(**menu_options(label: t(:label_filter_by),
+  def filter_action(menu, column, caption, filter, content_args:)
+    menu.with_item(**menu_options(label: t(:label_filter_by_column, column: caption),
                                   content_args:,
                                   data: {
                                     "test-selector" => "#{column}-filter-by",
