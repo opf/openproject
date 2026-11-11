@@ -52,7 +52,7 @@ module SquashTMIntegration
     def load_project_requirements(squashtm_project_id)
       client.all_requirements(squashtm_project_id)
             .map { project_requirement(it) }
-            .sort_by { sort_key(it) }
+            .sort_by { [it[:reference].to_s.downcase, it[:name].to_s.downcase] }
     rescue Client::Error => e
       log_failure("requirements of project #{squashtm_project_id}", e)
       nil
@@ -103,13 +103,6 @@ module SquashTMIntegration
         name: requirement["name"],
         reference: requirement.dig("current_version", "reference").presence
       }
-    end
-
-    # Compares the numbers inside references numerically, so that REQ-2 comes before REQ-10.
-    def sort_key(option)
-      reference_parts = option[:reference].to_s.downcase.split(/(\d+)/).map { it.match?(/\A\d+\z/) ? [1, it.to_i] : [0, it] }
-
-      [option[:reference] ? 0 : 1, reference_parts, option[:name].to_s.downcase]
     end
 
     def log_failure(subject, error)

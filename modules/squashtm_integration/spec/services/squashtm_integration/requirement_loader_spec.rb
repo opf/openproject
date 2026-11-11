@@ -125,7 +125,7 @@ RSpec.describe SquashTMIntegration::RequirementLoader do
       expect(loader.load_project_requirements(3)).to eq([{ id: 2, name: "Sign in", reference: "REQ-002" }])
     end
 
-    it "sorts references numerically and lists requirements without a reference last by name" do
+    it "sorts alphabetically by reference and then by name" do
       allow(client).to receive(:all_requirements).with(3).and_return(
         [{ "id" => 1, "name" => "b no reference", "current_version" => { "reference" => "" } },
          { "id" => 2, "name" => "Ten", "current_version" => { "reference" => "REQ-10" } },
@@ -134,7 +134,7 @@ RSpec.describe SquashTMIntegration::RequirementLoader do
          { "id" => 5, "name" => "One", "current_version" => { "reference" => "REQ-001" } }]
       )
 
-      expect(loader.load_project_requirements(3).pluck(:id)).to eq([5, 4, 2, 3, 1])
+      expect(loader.load_project_requirements(3).pluck(:id)).to eq([3, 1, 5, 2, 4])
     end
 
     it "is nil when SquashTM cannot be reached" do
