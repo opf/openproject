@@ -46,7 +46,7 @@ module CustomFields
     # The sortable-lists wire: list_id names the target section, prev_id the
     # custom field to insert after (blank = top).
     def perform_anchor_drop
-      target_section = @custom_field.custom_field_section.class.find_by(id: params[:list_id])
+      target_section = target_section_in(params[:list_id])
       return invalid_anchor if target_section.nil?
 
       prev_key = anchor_key_in(target_section, params[:prev_id])
@@ -60,11 +60,19 @@ module CustomFields
         .call(prev_key:)
     end
 
+    def target_section_in(list_id)
+      id = Lists::MoveAfterAnchor.canonical_id(list_id)
+      @custom_field.custom_field_section.class.find_by(id:) if id
+    end
+
     # nil anchors the top; :invalid rejects the move.
     def anchor_key_in(target_section, prev_id)
-      return nil if prev_id.blank?
+      return nil if prev_id.nil? || prev_id == ""
 
-      target_section.custom_fields.find_by(id: prev_id)&.column_name || :invalid
+      anchor_id = Lists::MoveAfterAnchor.canonical_id(prev_id)
+      return :invalid if anchor_id.nil?
+
+      target_section.custom_fields.find_by(id: anchor_id)&.column_name || :invalid
     end
 
     def invalid_anchor

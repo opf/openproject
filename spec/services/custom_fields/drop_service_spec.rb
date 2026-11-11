@@ -133,6 +133,31 @@ RSpec.describe CustomFields::DropService do
       expect(cf3.reload.custom_field_section_id).to eq(section_a.id)
     end
 
+    it "fails without mutation for a list_id that is not a canonical section id" do
+      ["0#{section_b.id}", " #{section_b.id}", "#{section_b.id}abc", true].each do |list_id|
+        expect(service.call(list_id:, prev_id: "")).not_to be_success
+      end
+
+      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
+      expect(cf3.reload.custom_field_section_id).to eq(section_a.id)
+    end
+
+    it "fails without mutation for a prev_id that is not a canonical custom field id" do
+      ["0#{cf1.id}", " #{cf1.id}", "#{cf1.id}abc"].each do |prev_id|
+        expect(service.call(list_id: section_a.id, prev_id:)).not_to be_success
+      end
+
+      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
+    end
+
+    it "fails without mutation for a blank prev_id that is not the empty string" do
+      [" ", false, [], {}].each do |prev_id|
+        expect(service.call(list_id: section_a.id, prev_id:)).not_to be_success
+      end
+
+      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
+    end
+
     context "when user is not admin" do
       let(:admin) { build(:user) }
 
