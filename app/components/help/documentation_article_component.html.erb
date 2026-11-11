@@ -26,7 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_frame_tag Help::DocumentationDialogComponent.frame_id(@context) do %>
+<%= helpers.turbo_frame_tag Help::DocumentationDialogComponent.frame_id(@context) do %>
   <% if @article %>
     <article class="contextual-help-article">
       <p class="contextual-help-source"><%= t("contextual_help.source") %></p>

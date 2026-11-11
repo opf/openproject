@@ -72,7 +72,7 @@ See COPYRIGHT and LICENSE files for more details.
             )
           ) { t("contextual_help.expand") } %>
     </nav>
-    <%= turbo_frame_tag Help::DocumentationDialogComponent.frame_id(@context),
+    <%= helpers.turbo_frame_tag Help::DocumentationDialogComponent.frame_id(@context),
                         src: initial_article_path,
                         loading: :lazy,
                         data: { "documentation-help-target": "frame" } do %>
