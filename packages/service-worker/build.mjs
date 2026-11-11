@@ -26,7 +26,7 @@
 //++
 
 import { build, context } from 'esbuild';
-import { existsSync } from 'node:fs';
+import { existsSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -54,6 +54,14 @@ if (!dev && !outdirArg && !existsSync(outdir)) {
   console.error(`${outdir} does not exist. Run the Angular build (ng build) before building the service worker.`);
   process.exit(1);
 }
+
+function removeStaleBundles(dir) {
+  for (const file of readdirSync(dir)) {
+    if (/^service-worker-.+\.js$/.test(file)) rmSync(path.join(dir, file));
+  }
+}
+
+if (!unhashed) removeStaleBundles(outdir);
 
 const options = {
   entryPoints: [path.join(packageDir, 'src/main.ts')],
