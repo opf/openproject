@@ -122,13 +122,13 @@ module Admin
               else
                 {
                   href: admin_settings_project_custom_field_item_path(custom_field.id, item),
-                  label: with_project_name(item.label, item)
+                  label: with_project_specific_label(item.label, item)
                 }
               end
             elsif item.root?
               { href: custom_field_items_path(custom_field.id), label: custom_field.name }
             else
-              { href: custom_field_item_path(custom_field.id, item), label: with_project_name(item.label, item) }
+              { href: custom_field_item_path(custom_field.id, item), label: with_project_specific_label(item.label, item) }
             end
           end
         end

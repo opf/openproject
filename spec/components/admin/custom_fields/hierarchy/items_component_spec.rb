@@ -64,8 +64,8 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemsComponent, type: :component,
       expect(page).to have_link("project administration")
     end
 
-    it "names the project in the breadcrumbs" do
-      expect(page).to have_css("[data-test-selector='hierarchy-breadcrumbs'] .color-fg-muted", text: "Scrum project")
+    it "marks the project item as project-specific in the breadcrumbs" do
+      expect(page).to have_css("[data-test-selector='hierarchy-breadcrumbs'] .color-fg-muted", exact_text: "Project-specific")
     end
   end
 end

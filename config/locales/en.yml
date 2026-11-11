@@ -3017,6 +3017,8 @@ en:
       block:
         caption: "By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects."
         label: "Block filter: Manually choose which values to deactivate for each project"
+      label: "Project-specific"
+      label_with_project: "Project-specific: %{project}"
       project_admins:
         additional_values_caption: "Added values are only available in the project they were created in. You can make them available to all projects later."
         value_management_caption: "Project admins can enable or disable certain values for their project. All global values will be visible to them."

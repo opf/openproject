@@ -53,8 +53,8 @@ RSpec.describe Admin::CustomFields::Hierarchy::ChangeItemParentDialogComponent, 
       expect(tree_item.("Germany")["aria-disabled"]).to eq("false")
     end
 
-    it "names the project of project items" do
-      expect(page).to have_css("[role='treeitem'] .color-fg-muted", text: "Scrum project", visible: :all)
+    it "marks project items as project-specific" do
+      expect(page).to have_css("[role='treeitem'] .color-fg-muted", exact_text: "Project-specific", visible: :all)
     end
   end
 

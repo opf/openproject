@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
           parent = @hierarchy_item.parent
           descendants = hierarchy_service.get_descendants(item: @hierarchy_item).value!
           item_formatter = standard_tree_view_item_formatter
-          label_fn = lambda { |item| with_project_name(item_formatter.format(item:), item) }
+          label_fn = lambda { |item| with_project_specific_label(item_formatter.format(item:), item) }
 
           item_options = {
             select_variant: :single,
