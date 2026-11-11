@@ -31,9 +31,10 @@
 # option-tags from the content array instead of the filters available values.
 class Widget::Filters::Option < Widget::Filters::Base
   option :content, optional: true
+  option :project, optional: true
 
   def render_filter
-    options = content(@content || filter_class.available_values)
+    options = content(@content || filter_class.available_values(project: @project))
     safe_join(options)
   end
 
