@@ -156,15 +156,6 @@ en:
       details: "The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted."
       title: "Delete backlog bucket?"
 
-    burndown_chart:
-      show:
-        blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
-        blankslate_title: "No burndown data available"
-      series:
-        guideline: "Guideline"
-        projection: "Remaining story points (projection)"
-        remaining: "Remaining story points"
-
     created_resolved_chart:
       series:
         created: "Created"
@@ -268,14 +259,6 @@ en:
         title: "%{sprint} report"
       widgets:
         burndown_chart:
-          series:
-            guideline: "Guideline"
-            projection:
-              story_points: "Remaining story points (projection)"
-              time: "Remaining estimated time (projection)"
-            remaining:
-              story_points: "Remaining story points"
-              time: "Remaining estimated time"
           blankslate:
             no_estimated_hours:
               description: "The burndown chart will appear here once the sprint has an open work package with work time estimate."
@@ -289,6 +272,14 @@ en:
             too_long:
               description: "The sprint duration exceeded the 1-year limit of the burndown chart's timespan."
               heading: "No chart to display"
+          series:
+            guideline: "Guideline"
+            projection:
+              story_points: "Remaining story points (projection)"
+              time: "Remaining estimated time (projection)"
+            remaining:
+              story_points: "Remaining story points"
+              time: "Remaining estimated time"
           title: "Burndown chart"
         burnup_chart:
           blankslate:
