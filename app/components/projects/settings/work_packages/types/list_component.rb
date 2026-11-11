@@ -38,18 +38,18 @@ module Projects
 
           FRAME_ID = "project-types-list"
 
-          def initialize(project:, created_by_migration: nil)
+          def initialize(project:, created_by_migration: false)
             super()
 
             @project = project
-            @created_by_migration = created_by_migration.presence
+            @created_by_migration = created_by_migration
           end
 
           private
 
           attr_reader :project, :created_by_migration
 
-          def migration_filter? = created_by_migration == "t"
+          def migration_filter? = created_by_migration
 
           def active_project_types
             @active_project_types ||= begin

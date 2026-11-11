@@ -36,7 +36,7 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
 
   def index
     @types = ::Type.all
-    @created_by_migration = params[:created_by_migration].presence
+    @created_by_migration = params[:created_by_migration].presence == WorkPackageTypes::MigrationFilterComponent::MIGRATED
     @migrated_variants_exist = migrated_variants.exists?
 
     render layout: false if turbo_frame_request?

@@ -38,17 +38,21 @@ module WorkPackageTypes
       action: "itemActivated->filter--segmented-control#activate"
     }.freeze
 
-    def initialize(selected:, test_selector:)
+    def initialize(migrated:, test_selector:)
       super()
 
-      @selected = selected
+      @migrated = migrated
       @test_selector = test_selector
     end
 
     private
 
-    attr_reader :selected, :test_selector
+    attr_reader :migrated, :test_selector
 
-    def migrated? = selected == MIGRATED
+    def migrated? = migrated
+
+    def param_value
+      MIGRATED if migrated?
+    end
   end
 end

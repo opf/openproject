@@ -75,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
           subheader.with_quick_filter(data: WorkPackageTypes::MigrationFilterComponent::QUICK_FILTER_DATA) do
             render(
               WorkPackageTypes::MigrationFilterComponent.new(
-                selected: @created_by_migration,
+                migrated: @created_by_migration == WorkPackageTypes::MigrationFilterComponent::MIGRATED,
                 test_selector: "types-migration-filter"
               )
             )

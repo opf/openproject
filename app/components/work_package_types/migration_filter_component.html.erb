@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= hidden_field_tag(
-      :created_by_migration, selected,
+      :created_by_migration, param_value,
       data: { "filter--segmented-control-target": "field", action: "change->auto-submit#submit" }
     ) %>
 
