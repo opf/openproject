@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Updating internal wiki provider", :js, :selenium, driver: :firefox_en do
+RSpec.describe "Updating internal wiki provider", :js, :selenium do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
   shared_let(:auth_provider) { create(:oidc_provider) }
 
