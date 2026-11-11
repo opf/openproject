@@ -27,6 +27,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+Rails.application.reloader.to_prepare do
+  OpenProject::AccessControl.map do |map|
+    map.project_module nil, order: 100 do
+      map.permission :use_mcp_server,
+                     {},
+                     permissible_on: :global,
+                     require: :loggedin
+    end
+  end
+end
+
 MCP.configure do |config|
   config.exception_reporter = lambda do |exception, server_context|
     cause = exception.cause
