@@ -144,8 +144,8 @@ da:
         blankslate_title: Der er ingen data til burndown-diagrammet
     created_resolved_chart:
       series:
-        created: Oprettede arbejdspakker
-        resolved: Løste arbejdspakker
+        created: Oprettede
+        resolved: Løste
       show:
         blankslate_description: Angiv start- og slutdato for sprinten for at danne et diagram over oprettede og løste arbejdspakker.
         blankslate_title: Der er ingen data til diagrammet over oprettede og løste arbejdspakker
@@ -195,10 +195,11 @@ da:
     rebuild: Genopbyg
     rebuild_positions: Genopbyg positioner
     remaining_hours: Resterende arbejde
+    selected_work_packages_component:
+      label:
+        one: "%{count} selected work package"
+        other: "%{count} selected work packages"
     sharing: Deling af sprints
-    show_burndown_chart: Burndown-diagram
-    show_created_resolved_chart: Oprettede og løste arbejdspakker
-    show_work_package_overview: Arbejdspakker i sprinten
     sprint_component:
       action_menu:
         add_existing_work_package: Tilføj eksisterende arbejdspakke
@@ -228,6 +229,29 @@ da:
         breadcrumb: Rapport
         title: Rapport for %{sprint}
       widgets:
+        burndown_chart:
+          title: Burndown-diagram
+        burnup_chart:
+          blankslate_description: Angiv start- og slutdato for sprinten for at danne et burnup-diagram.
+          blankslate_title: Der er ingen data til burnup-diagrammet
+          series:
+            completed: Udført arbejde
+            guideline: Ideallinje
+            projection: Samlet arbejdsomfang (prognose)
+            scope: Samlet arbejdsomfang
+          title: Burnup-diagram
+        created_resolved_chart:
+          title: Oprettede og løste arbejdspakker
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} af %{count} arbejdspakke er færdig"
+              other: "%{epic}: %{completed} af %{count} arbejdspakker er færdige"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} arbejdspakke"
+              other: "%{completed} / %{count} arbejdspakker"
+          title: Fremdrift for epics
         velocity_chart:
           average:
             one: 'Gennemsnit af den forrige sprint:'
@@ -251,9 +275,9 @@ da:
             heading: Der er ingen data om sprinten
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Ændret omfang
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Færdige
             initially_planned:
@@ -263,10 +287,19 @@ da:
           breakdown_block:
             blocks:
               show_all: Vis alle
+              show_all_label: 'Vis alle: %{heading}'
           closed_work_packages: Lukkede arbejdspakker
+          completed_estimated_time: Anslået tid for færdige arbejdspakker
+          completed_story_points: Færdige story points
           resolved_summary:
-            one: "%{percentage} % (%{resolved} af %{total} arbejdspakke)"
-            other: "%{percentage} % (%{resolved} af %{total} arbejdspakker)"
+            story_points:
+              one: "%{percentage} (%{resolved} af %{total} story point)"
+              other: "%{percentage} (%{resolved} af %{total} story points)"
+            time: "%{percentage} (%{resolved} af %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} af %{total} arbejdspakke)"
+              other: "%{percentage} (%{resolved} af %{total} arbejdspakker)"
+          title: Arbejdspakker i sprinten
         work_package_table:
           added:
             blankslate:
@@ -341,6 +374,8 @@ da:
         move_to_backlog_bucket: Flyt til backlog-gruppe
         move_to_inbox: Flyt til backlog-indbakken
         move_to_sprint: Flyt til sprint
+        no_batch_actions: No actions available for the selected work packages.
+        stale_selection: The selection has changed. Refresh it before moving work packages.
     work_package_is_closed: Arbejdspakken er færdig, når
     work_packages:
       add_existing_dialog:
@@ -354,9 +389,16 @@ da:
         unexpected_failure: Arbejdspakkerne kunne ikke flyttes. Prøv igen.
       move:
         moved_announcement: "%{label} er flyttet til %{list}, placering %{position} af %{total}"
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: Listen over arbejdspakker, der skal flyttes, er ugyldig.
         member_failed: "%{work_package}: %{reason}"
+        moved_announcement:
+          one: "%{count} work package moved to %{list}, position %{first} of %{total}"
+          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
         too_many_work_packages: Der kan højst flyttes %{max} arbejdspakker på én gang.
         work_packages_not_found: Mindst én arbejdspakke blev ikke fundet i projektet.
       update_service:

@@ -51,7 +51,7 @@ RSpec.describe "Work Packages", "index view", :js, :selenium do
 
       within("#content") do
         wp_table.expect_title("All open", editable: true)
-        expect(page).to have_text("No work packages to display")
+        expect(page).to have_heading("No work packages to display.", level: 3)
       end
 
       expect(page).to be_axe_clean
@@ -74,7 +74,7 @@ RSpec.describe "Work Packages", "index view", :js, :selenium do
 
       within("#content") do
         wp_table.expect_title("All open", editable: true)
-        expect(page).to have_text("No work packages to display")
+        expect(page).to have_heading("No work packages to display.", level: 3)
       end
 
       expect(page).to be_axe_clean

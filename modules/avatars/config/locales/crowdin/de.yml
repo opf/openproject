@@ -3,36 +3,36 @@ de:
   are_you_sure_delete_avatar: Sind Sie sicher, dass Sie das Profilbild löschen möchten?
   avatar_deleted: Profilbild erfolgreich gelöscht.
   avatars:
-    background_color_hint: Leave blank for an automatic color.
+    background_color_hint: Lassen Sie das Feld leer, um die Farbe automatisch ableiten zu lassen.
     delete_image: Bild löschen
     edit_avatar: Avatar bearbeiten
-    image_hint: Choose a JPG, PNG, or GIF. Your image is saved when you select Save.
-    image_required: Choose an image, or select a different avatar option.
+    image_hint: Wählen Sie ein JPG-, PNG- oder GIF-Bild aus. Ihr Bild wird gespeichert, sobald Sie auf Speichern klicken.
+    image_required: Wählen Sie ein Bild aus oder wählen Sie eine andere Option für das Avatar.
     label_avatar_text: Avatartext
     label_background_color: Hintergrundfarbe
     label_gravatar: Gravatar
     label_local_avatar: Selbsterstelltes Profilbild
     label_option: Avataroption
-    manage_gravatar: Manage your image on Gravatar
-    message_avatar_updated: Avatar changed successfully.
+    manage_gravatar: Verwalten Sie Ihr Profilbild auf Gravatar
+    message_avatar_updated: Das Porfilbild wurde erfolgreich geändert.
     preview: Vorschau
     randomize_color: Farbe zufällig auswählen
     settings:
       enable_gravatars: Aktiviere Gravatare
       enable_local_avatars: Selbsterstellte Profilbilder aktivieren
       gravatar_default: Standard-Gravatar-Bild
-    text_avatar_text: Enter up to two characters. Leave blank to use your name's initials.
-    text_invalid_error: Use only visible characters.
-    text_length_error: Enter up to two characters.
+    text_avatar_text: Geben Sie bis zu zwei Zeichen ein. Lassen Sie das Feld leer, um die Initialen Ihres Namens zu verwenden.
+    text_invalid_error: Verwenden Sie bitte sichtbare Schriftzeichen.
+    text_length_error: Geben Sie bis zu zwei Zeichen ein.
     types:
       gravatar:
-        description: The image registered for your email address on Gravatar
+        description: Das Bild, das unter Ihrer E-Mail-Adresse bei Gravatar hinterlegt ist
         label: Gravatar
       image:
-        description: A custom image you can upload to this instance
+        description: Ein benutzerdefiniertes Bild, das Sie in diese Instanz hochladen können
         label: Bild
       initials:
-        description: Use your name's initials or override them with up to two characters.
+        description: Verwenden Sie die Initialen Ihres Namens oder ersetzen Sie diese durch bis zu zwei Zeichen.
         label: Initialen
   empty_file_error: Bitte laden Sie ein gültiges Bild hoch (JPG, PNG, GIF)
   error_image_size: Das Bild ist zu groß.

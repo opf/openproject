@@ -47,6 +47,8 @@ zh-CN:
       draggable_hint: '将图片或附件拖到编辑区内即可添加。鼠标在关闭的编辑区上停留将打开这个编辑区。
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: 该文件由于发现了病毒已被隔离。该文件不可下载。
     autocomplete_ng_select:
       add_tag: 添加项目
@@ -129,8 +131,8 @@ zh-CN:
     button_confirm: 确认
     button_continue: 继续
     button_copy: 复制
-    button_copy_link_to_clipboard: 将链接复制到剪贴板
-    button_copy_numeric_id_to_clipboard: 将数字 ID 复制到剪贴板
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: 复制到剪贴板
     button_copy_to_other_project: 复制到其他项目
     button_create: 创建
@@ -148,6 +150,7 @@ zh-CN:
     button_log_time: 记录时间
     button_more: 更多
     button_more_actions: 更多操作
+    button_move: Move
     button_open_details: 打开详情视图
     button_open_fullscreen: 打开全屏视图
     button_quote: 引用
@@ -205,6 +208,7 @@ zh-CN:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor 发生错误
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
@@ -436,7 +440,6 @@ zh-CN:
     label_assignee: 指定
     label_assignee_alt_text: 此工作包被指定至 %{name}
     label_attachments: 附件
-    label_author: '作者: %{user}'
     label_avatar: 头像
     label_between: 介于
     label_board: 面板
@@ -565,7 +568,9 @@ zh-CN:
     label_show_in_menu: 在菜单中显示视图
     label_sort_by: 排序按
     label_sort_higher: 向上移动
+    label_sort_highest: Move to top
     label_sort_lower: 向下移动
+    label_sort_lowest: Move to bottom
     label_sorted_by: 排序按
     label_sorting: 排序
     label_spent_time: 已耗工时
@@ -816,6 +821,7 @@ zh-CN:
         batch_too_large: 无法一次性移动 %{count} 个条目。选择的条目数量不得超过 %{max} 个。
         fallback_item_label: 条目
         fallback_list_name: 另一个列表
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: 移动失败。请检查该条目的当前位置。
         move_failed_check_positions_batch:
           other: 移动失败。请检查条目的当前位置。
@@ -1106,10 +1112,6 @@ zh-CN:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: 行为工作包且列为工作包属性的表格。
-        text_inline_edit: 大多数此表格的单元格为激活工作包属性的直接编辑功能的按钮。
-        text_select_hint: 请使用Alt+方向键打开选择框。
-        text_sort_hint: 使用表格标题中的链接，您可以对表格中的列排序、分组、重排序、删除和添加。
       table_configuration:
         button: 配置当前工作包表
         choose_display_mode: 将工作包显示为
@@ -1118,7 +1120,6 @@ zh-CN:
         default_mode: 扁平列表
         display_settings: 显示设置
         display_sums_hint: 在表结果下方一行中显示所有可累加属性的总和。
-        embedded_tab_disabled: 此配置选项卡不适用于您正在编辑的嵌入式视图。
         hierarchy_hint: 所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。
         hierarchy_mode: 层次结构
         highlighting: 突出显示

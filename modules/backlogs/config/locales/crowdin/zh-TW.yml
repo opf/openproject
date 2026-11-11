@@ -140,8 +140,8 @@ zh-TW:
         blankslate_title: 沒有可用的燃盡圖資料
     created_resolved_chart:
       series:
-        created: Created work packages
-        resolved: Resolved work packages
+        created: Created
+        resolved: Resolved
       show:
         blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
         blankslate_title: No created vs resolved chart data available
@@ -189,10 +189,10 @@ zh-TW:
     rebuild: 重建
     rebuild_positions: 重建位置
     remaining_hours: 剩餘工時
+    selected_work_packages_component:
+      label:
+        other: "%{count} selected work packages"
     sharing: 共用衝刺
-    show_burndown_chart: 未完成圖
-    show_created_resolved_chart: Created vs resolved work packages
-    show_work_package_overview: 衝刺中的工作包
     sprint_component:
       action_menu:
         add_existing_work_package: 新增現有的工作套件
@@ -222,6 +222,27 @@ zh-TW:
         breadcrumb: 報告
         title: "%{sprint} 報告"
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
         velocity_chart:
           average:
             other: 'Average of previous %{count} sprints:'
@@ -243,9 +264,9 @@ zh-TW:
             heading: 沒有衝刺數據
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: 範圍變更
-              story_points_change: "+%{added} / -%{removed} 故事點數"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: 已完成
             initially_planned:
@@ -255,9 +276,17 @@ zh-TW:
           breakdown_block:
             blocks:
               show_all: 查看全部
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: 已關閉的工作項目
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            other: "%{percentage}% (%{resolved} 佔 %{total} 工作項目)"
+            story_points:
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:
@@ -331,6 +360,8 @@ zh-TW:
         move_to_backlog_bucket: 移至待辦事項區
         move_to_inbox: 移至待辦事項收件匣
         move_to_sprint: 移動到衝刺
+        no_batch_actions: No actions available for the selected work packages.
+        stale_selection: The selection has changed. Refresh it before moving work packages.
     work_package_is_closed: 視為工作套件已完成
     work_packages:
       add_existing_dialog:
@@ -344,9 +375,15 @@ zh-TW:
         unexpected_failure: 無法移動這些工作包。請重試。
       move:
         moved_announcement: "%{label} 已移至 %{list}，位置 %{position} 的 %{total}"
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: 待移轉的工作包清單無效。
         member_failed: "%{work_package}: %{reason}"
+        moved_announcement:
+          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
         too_many_work_packages: 一次最多只能移動 %{max} 個工作包。
         work_packages_not_found: 在此專案中，至少有一個工作包無法找到。
       update_service:

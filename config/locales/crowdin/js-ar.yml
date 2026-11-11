@@ -47,6 +47,8 @@ ar:
       draggable_hint: 'Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -129,8 +131,8 @@ ar:
     button_confirm: تأكيد
     button_continue: Continue
     button_copy: انسخ
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: نسخ إلى الحافظة
     button_copy_to_other_project: Duplicate in another project
     button_create: إنشاء
@@ -148,6 +150,7 @@ ar:
     button_log_time: وقت السجل
     button_more: المزيد
     button_more_actions: More actions
+    button_move: Move
     button_open_details: عرض التفاصيل المفتوحة
     button_open_fullscreen: فتح عرض كامل الشاشة
     button_quote: اقتباس
@@ -205,6 +208,7 @@ ar:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
@@ -436,7 +440,6 @@ ar:
     label_assignee: المُسند إليه
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: المرفقات
-    label_author: الكاتب%{user}
     label_avatar: الصورة الرمزية
     label_between: بين
     label_board: لوحة
@@ -565,7 +568,9 @@ ar:
     label_show_in_menu: Show view in menu
     label_sort_by: التصنيف حسب
     label_sort_higher: تحريك للأعلى
+    label_sort_highest: Move to top
     label_sort_lower: تحريك للأسفل
+    label_sort_lowest: Move to bottom
     label_sorted_by: مرتبة حسب
     label_sorting: جاري الترتيب
     label_spent_time: الوقت المستهلك
@@ -821,6 +826,7 @@ ar:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -1146,10 +1152,6 @@ ar:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: أسطر الجدول كتب عمل والاعمدة واصفات لكتب العمل.
-        text_inline_edit: معظم خلايا الجدول هي أزرار لتنشيط وظائف التحرير المضمنة لتلك الواصفة.
-        text_select_hint: يجب فتح الخانات المختارة بمفتاح "ألت" ومفاتيح الأسهم.
-        text_sort_hint: مع الارتباطات الموجودة في رؤوس الجدول يمكنك فرز، والمجموعة، وإعادة ترتيب، وإزالة وإضافة أعمدة الجدول.
       table_configuration:
         button: Configure this work package table
         choose_display_mode: Display work packages as
@@ -1158,7 +1160,6 @@ ar:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarchy
         highlighting: Highlighting

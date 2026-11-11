@@ -36,8 +36,7 @@ module Documents
     def create
       token_result = Documents::OAuth::TokenWithMetadataService.new(
         user: current_user,
-        document: @document,
-        project: @project
+        document: @document
       ).call
 
       if token_result.success?

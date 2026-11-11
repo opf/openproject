@@ -234,6 +234,18 @@ class UserPreference < ApplicationRecord
     self.settings = settings.merge("pause_reminders" => pause_reminders_hash(hash))
   end
 
+  def reminders_paused_on?(date)
+    return false unless pause_reminders[:enabled]
+
+    first_day = pause_reminders[:first_day]
+    last_day = pause_reminders[:last_day]
+    return true if first_day.blank? || last_day.blank?
+
+    (Date.parse(first_day)..Date.parse(last_day)).cover?(date.to_date)
+  rescue Date::Error
+    false
+  end
+
   def dismissed_banner?(feature)
     dismissed_enterprise_banners.key?(feature.to_s)
   end

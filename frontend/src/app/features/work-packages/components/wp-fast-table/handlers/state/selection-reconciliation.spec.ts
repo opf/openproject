@@ -199,6 +199,7 @@ describe('Selection reconciliation with the rendered scope', () => {
     });
 
     it('prunes the contextual ancestor when the flat view no longer shows it (OP-17663)', async () => {
+      harness.row('2').focus();
       expect(fireEvent.keyDown(harness.row('2'), { key: 'a', ctrlKey: true })).toBe(false);
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3', '4']);
 
@@ -358,6 +359,7 @@ describe('Selection reconciliation with the rendered scope', () => {
 
       harness = buildTable({ workPackages: fixtures });
       await harness.render();
+      harness.row('1').focus();
       fireEvent.keyDown(harness.row('1'), { key: 'a', ctrlKey: true });
       await harness.render(reduced);
 

@@ -145,7 +145,8 @@
             "providersFile": "src/test-providers.ts",
             "setupFiles": ["src/test-browser-polyfills.ts", "src/test-setup.ts"],
             "browsers": ["chromium"],
-            "reporters": ["dot"]
+            "reporters": ["dot"],
+            "quiet": true
           }
         },
         "lint": {

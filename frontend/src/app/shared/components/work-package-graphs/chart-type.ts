@@ -27,6 +27,12 @@
 
 export const CHART_TYPE_IDENTIFIERS = ['bar', 'horizontalBar', 'line', 'pie', 'doughnut', 'radar', 'polarArea'] as const;
 
+export type ChartTypeIdentifier = typeof CHART_TYPE_IDENTIFIERS[number];
+
+export function normalizeChartType(value:string):ChartTypeIdentifier {
+  return CHART_TYPE_IDENTIFIERS.find((identifier) => identifier === value) ?? 'bar';
+}
+
 /**
  * Returns the locale key for a chart type.
  * To do so, the type (e.g. horizontalBar) is transformed to snake_case (horizontal_bar) if necessary.

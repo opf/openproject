@@ -80,12 +80,17 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     const workPackageId = element.dataset.workPackageId;
 
     // Normal link processing if there are no state and work package information
-    if (!state || !workPackageId) {
+    if ((state !== 'split' && state !== 'show') || !workPackageId) {
       return true;
     }
 
-    // Blur the target to avoid focus being kept there
-    target.closest('a')?.blur();
+    const navigation = view.workPackageTable.keyboardNavigation;
+    const origin = navigation.originForControl(element);
+    if (origin) {
+      navigation.focusPosition(origin);
+    } else {
+      target.closest('a')?.blur();
+    }
 
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.

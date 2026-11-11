@@ -31,7 +31,7 @@ module Grids
   module Widgets
     class TimeEntriesCurrentUser < Grids::WidgetComponent
       option :mode, default: -> { :workweek }
-      option :date, default: -> { Time.zone.today }
+      option :date, default: -> { current_user.today }
 
       def title
         I18n.t("js.grid.widgets.time_entries_current_user.title")

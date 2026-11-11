@@ -45,7 +45,7 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
     {
       form_configuration: WorkPackageTypes::Wizard::FormConfigurationStepComponent,
       project_attributes: WorkPackageTypes::Wizard::ProjectAttributesStepComponent,
-      projects: WorkPackageTypes::ProjectsComponent,
+      projects: WorkPackageTypes::Wizard::ProjectsStepComponent,
       pdf: WorkPackageTypes::Wizard::PdfStepComponent
     }.each do |step, component|
       it "renders #{component} on the #{step} step" do

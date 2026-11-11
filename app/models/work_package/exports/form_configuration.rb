@@ -55,7 +55,7 @@ class WorkPackage::Exports::FormConfiguration
 
   def attribute_group(group)
     parts = group_parts(group)
-    return if parts.empty? && group.attributes.any?
+    return if parts.empty?
 
     AttributeGroup.new(key: group.key, title: group.translated_key, parts:)
   end
@@ -100,7 +100,7 @@ class WorkPackage::Exports::FormConfiguration
   end
 
   def form_key_to_custom_field(form_key)
-    id = form_key.to_s.sub("custom_field_", "").to_i
+    id = CustomField.id_from_attribute_name(form_key)
     work_package.available_custom_fields.find { it.id == id }
   end
 

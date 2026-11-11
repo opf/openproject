@@ -61,7 +61,7 @@ volumes:
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
 x-op-image: &image
-  image: openproject/openproject:${TAG:-15}
+  image: openproject/openproject:${TAG:-18}
 x-op-app: &app
   <<: [*image, *restart_policy]
   environment:
@@ -79,7 +79,7 @@ x-op-app: &app
     - "${OPDATA:-opdata}:/var/openproject/assets"
 
 # configuration cut off at this point.
-# Please use the file at https://github.com/opf/openproject-docker-compose/blob/stable/17/docker-compose.yml
+# Please use the file at https://github.com/opf/openproject-docker-compose/blob/stable/18/docker-compose.yml
 ```
 
 Alternatively, you can also use an env file for docker-compose like so:
@@ -106,7 +106,7 @@ volumes:
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
 x-op-image: &image
-  image: openproject/openproject:${TAG:-15}
+  image: openproject/openproject:${TAG:-18}
 x-op-app: &app
   <<: [*image, *restart_policy]
   environment:
@@ -114,7 +114,7 @@ x-op-app: &app
     # ... more environment variables
 
 # configuration cut off at this point.
-# Please use the file at https://github.com/opf/openproject-docker-compose/blob/stable/17/docker-compose.yml
+# Please use the file at https://github.com/opf/openproject-docker-compose/blob/stable/18/docker-compose.yml
 ```
 
 Let's say you have a `.env.prod`  file with some production-specific configuration. Then, start the services with that special env file specified.
@@ -319,7 +319,7 @@ In an automated deployment setup, such as installing OpenProject using our Helm 
 ```shell
 OPENPROJECT_SEED_DESIGN_PRIMARY__BUTTON__COLOR="#1F883D"
 OPENPROJECT_SEED_DESIGN_ACCENT__COLOR="#1F883D"
-OPENPROJECT_SEED_DESIGN_HEADER__BG__COLOR="#1A67A3"
+OPENPROJECT_SEED_DESIGN_HEADER__BG__COLOR="#0F41B5"
 OPENPROJECT_SEED_DESIGN_MAIN__MENU__BG__COLOR="#FFFFFF"
 OPENPROJECT_SEED_DESIGN_MAIN__MENU__BG__SELECTED__BACKGROUND="#1F883D"
 OPENPROJECT_SEED_DESIGN_EXPORT__COVER__TEXT__COLOR="#333333"

@@ -84,7 +84,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/available_relation_candidates_model.yml"
+            $ref: "../components/schemas/available_relation_candidates_model.yml"
       description: OK
     '404':
       content:

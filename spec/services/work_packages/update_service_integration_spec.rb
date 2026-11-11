@@ -1894,7 +1894,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
-  describe "creating labels typed into the work package", with_flag: { work_package_labels: true } do
+  describe "creating labels typed into the work package" do
     let(:attributes) { { label_names: %w[charlie Alpha bravo] } }
     let(:saved_work_package) { work_package.reload }
     let(:service_result) { subject }
@@ -1949,7 +1949,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
-  context "with an automatically generated subject containing labels", with_flag: { work_package_labels: true } do
+  context "with an automatically generated subject containing labels" do
     shared_let(:labels_type) do
       create(:type, name: "Labeled autosubject",
                     patterns: { subject: { blueprint: "\#{{id}} [{{labels}}]", enabled: true } }).tap do |type|

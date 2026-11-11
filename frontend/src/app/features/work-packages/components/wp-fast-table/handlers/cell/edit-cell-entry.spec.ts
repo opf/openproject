@@ -38,7 +38,7 @@ describe('Edit cell entry', () => {
     harness.click('2');
   };
 
-  const subjectField = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>('td.subject .inline-edit--display-field')!;
+  const subjectField = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject .inline-edit--display-field')!;
 
   afterEach(() => harness.destroy());
 
@@ -116,7 +116,7 @@ describe('Edit cell entry', () => {
     });
 
     it('selects the row when clicking elsewhere in the cell', () => {
-      fireEvent.click(harness.row('1').querySelector('td.subject')!);
+      fireEvent.click(harness.row('1').querySelector(':scope > .wp-table--cell-td.subject')!);
 
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
       expect(harness.focus.focusedWorkPackage).toBe('1');

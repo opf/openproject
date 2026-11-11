@@ -185,7 +185,7 @@ module Exports::PDF::Components::WpTable
       build_table_row(work_package, columns)
     end
     rows.unshift build_header_row(columns)
-    rows.push build_sum_row(columns, sums) if query.display_sums?
+    rows.push build_sum_row(work_packages, columns, sums) if query.display_sums?
     rows
   end
 
@@ -215,13 +215,20 @@ module Exports::PDF::Components::WpTable
     end
   end
 
-  def build_sum_row(columns, sums)
+  def build_sum_row(work_packages, columns, sums)
     sums_style = styles.wp_table_sums_cell
     sum_row = columns.map do |col|
-      content = get_formatted_value(sums[col], col.name)
+      content = sum_cell_content(work_packages, col, sums)
       pdf.make_cell(content, sums_style)
     end
     sum_row[0] = pdf.make_cell(I18n.t("js.label_sum"), sums_style)
     sum_row
+  end
+
+  # A sum over work packages whose value is hidden from the user would disclose it.
+  def sum_cell_content(work_packages, column, sums)
+    return "" unless work_packages.all? { |work_package| allowed_to_view_attribute?(work_package, column.name) }
+
+    get_formatted_value(sums[column], column.name)
   end
 end

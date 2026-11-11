@@ -106,7 +106,7 @@ RSpec.describe Queries::Users::Orders::CustomFieldOrder do
       allow(UserCustomField).to receive(:where).and_return(where)
       allow(where).to receive(:not).with(field_format: %w[text]).and_return(where_not)
       allow(where_not).to receive(:visible).and_return(visible)
-      allow(visible).to receive(:find_by).with(id: "42").and_return(custom_field)
+      allow(visible).to receive(:find_by).with(id: 42).and_return(custom_field)
     end
 
     context "when the CF exists and is sortable" do

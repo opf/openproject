@@ -42,7 +42,9 @@ module Users
     end
 
     def persist(_service_result)
+      password_changed = password_being_changed?
       service_result = super
+      revoke_sessions_after_password_change if service_result.success? && password_changed
 
       if service_result.success? && params[:pref].present?
         preference_service = UserPreferences::UpdateService.new(user:, model: model.pref)
@@ -50,6 +52,16 @@ module Users
       end
 
       service_result
+    end
+
+    private
+
+    def password_being_changed?
+      model.password.present? && model.ldap_auth_source_id.blank?
+    end
+
+    def revoke_sessions_after_password_change
+      ::Users::RevokePasswordSessionsService.call!(user: model, session: state.session)
     end
   end
 end

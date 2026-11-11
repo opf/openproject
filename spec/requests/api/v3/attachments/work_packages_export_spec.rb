@@ -40,6 +40,8 @@ RSpec.describe "#{WorkPackages::Export} attachments" do
 
     let(:export) { create(:work_packages_export) }
 
+    let(:text_disposition) { "attachment" }
+
     let(:missing_permissions_user) { create(:user) }
     let(:other_user) { create(:user) }
 

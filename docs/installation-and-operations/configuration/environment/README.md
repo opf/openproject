@@ -128,7 +128,6 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_ADDITIONAL__HOST__NAMES` | `[]` | Additional allowed host names for the application. |
 | `OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL` | `nil` | URL users logging in for the first time will be redirected to (e.g., a help screen) |
 | `OPENPROJECT_AFTER__LOGIN__DEFAULT__REDIRECT__URL` | `nil` | Override URL to which logged in users are redirected instead of the Home page |
-| `OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED` | `false` | Enable AI text transform actions in the rich text editor |
 | `OPENPROJECT_AI__TEXT__TRANSFORM__RUN__RETENTION__SECONDS` | `3600` | How long AI text transform runs and their events are kept before a cron job removes them. Applies to finished runs from their finish time and to unfinished runs from their creation time. |
 | `OPENPROJECT_ALLOW__TRACKING__START__AND__END__TIMES` | `false` | Allow start and finish times |
 | `OPENPROJECT_ALLOWED__LINK__PROTOCOLS` | `[]` | Allowed protocols for links in the WYSIWYG editor and formatted texts |
@@ -196,6 +195,8 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_CSP__IMG__SRC` | `["*", "data:", "blob:"]` | Allowed sources for the CSP img-src directive. |
 | `OPENPROJECT_CSV__ESCAPE__FORMULAS` | `true` | Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@) |
 | `OPENPROJECT_DATABASE__CIPHER__KEY` | `nil` | Encryption key for repository credentials |
+| `OPENPROJECT_DATABASE__ENCRYPTION__KEY` | `nil` | Secret for data that OpenProject encrypts in the database. Defaults to SECRET_KEY_BASE. The encryption key is derived from this value |
+| `OPENPROJECT_DATABASE__ENCRYPTION__PREVIOUS__KEY` | `nil` | Old value of SECRET_KEY_BASE or of the database encryption key, used to decrypt data while you rotate that key |
 | `OPENPROJECT_DATE__FORMAT` | `nil` | Date |
 | `OPENPROJECT_DAYS__PER__MONTH` | `20` | This will define what is considered a “month” when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months. |
 | `OPENPROJECT_DEFAULT__AUTO__HIDE__POPUPS` | `true` | Whether to automatically hide success notifications by default |
@@ -427,6 +428,8 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_USERS__DELETABLE__BY__ADMINS` | `false` | User accounts deletable by admins |
 | `OPENPROJECT_USERS__DELETABLE__BY__SELF` | `false` | Users allowed to delete their accounts |
 | `OPENPROJECT_WEB` | `{"workers" => 2, "timeout" => 120, "wait_timeout" => 30, "min_threads" => 4, "max_threads" => 16, "term_on_timeout" => 1}` | Web worker count and threads configuration |
+| `OPENPROJECT_WEB__PUSH__ENABLED` | `true` | Browser notifications |
+| `OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY` | `<randomly generated>` | The VAPID private key used to sign browser notification pushes, given as the base64 DER (PKCS#8) encoding of a prime256v1 key. If you leave this unset, OpenProject generates a key the first time it is needed, stores it in the database and lets administrators renew it from the administration page. If you set it through this environment variable, the key is managed by you: the administration page can no longer renew it, and you rotate it by changing the variable. Whichever way the key changes, every existing browser notification subscription becomes invalid. |
 | `OPENPROJECT_WELCOME__ON__HOMESCREEN` | `false` | Display welcome block on homescreen |
 | `OPENPROJECT_WELCOME__TEXT` | `nil` | Welcome block text |
 | `OPENPROJECT_WELCOME__TITLE` | `nil` | Welcome block title |

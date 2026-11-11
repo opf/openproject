@@ -90,15 +90,18 @@ describe('RowClickHandler', () => {
 
   it('starts the next range at the Select All event target', () => {
     harness.click('1');
+    harness.row('3').focus();
     fireEvent.keyDown(harness.row('3'), { key: 'a', ctrlKey: true });
     harness.click('4', { shiftKey: true });
 
     expect(selectedIds()).toEqual(['3', '4']);
   });
 
-  it('disposes Select All with the table view', async () => {
+  it('disposes Select All with the table view', () => {
     const row = harness.row('3');
-    await harness.destroy();
+    row.focus();
+    expect(row).toHaveFocus();
+    harness.table.destroy();
     const event = new KeyboardEvent('keydown', {
       key: 'a', ctrlKey: true, bubbles: true, cancelable: true,
     });
@@ -133,6 +136,7 @@ describe('RowClickHandler', () => {
     it('anchors Select All at the targeted duplicate occurrence', () => {
       harness.click('1');
 
+      harness.row('2').focus();
       expect(fireEvent.keyDown(harness.row('2'), { key: 'a', ctrlKey: true })).toBe(false);
       harness.click('4', { shiftKey: true });
 

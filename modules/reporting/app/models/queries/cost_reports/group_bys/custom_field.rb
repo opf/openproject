@@ -30,10 +30,8 @@
 # Replaces the runtime generated CostQuery::GroupBy::CustomField<id> classes
 # with a single group by parameterized by the custom field id.
 class Queries::CostReports::GroupBys::CustomField < Queries::CostReports::GroupBys::Base
-  KEY = /\Acf_(\d+)\z/
-
   def self.key
-    KEY
+    ::CustomField::COLUMN_NAME_PATTERN
   end
 
   def custom_field
@@ -43,7 +41,7 @@ class Queries::CostReports::GroupBys::CustomField < Queries::CostReports::GroupB
   end
 
   def custom_field_id
-    name.to_s[KEY, 1]
+    ::CustomField.id_from_column_name(name)
   end
 
   def available?

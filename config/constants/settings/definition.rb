@@ -47,10 +47,6 @@ module Settings
         format: :string,
         default: nil
       },
-      ai_text_transform_actions_enabled: {
-        description: "Enable AI text transform actions in the rich text editor",
-        default: false
-      },
       ai_text_transform_run_retention_seconds: {
         description: "How long AI text transform runs and their events are kept before a cron job removes them. " \
                      "Applies to finished runs from their finish time and to unfinished runs from their creation time.",
@@ -348,6 +344,20 @@ module Settings
         writable: false,
         secret: true
       },
+      database_encryption_key: {
+        description: "Secret for data that OpenProject encrypts in the database. Defaults to SECRET_KEY_BASE. The encryption key is derived from this value",
+        format: :string,
+        default: nil,
+        writable: false,
+        secret: true
+      },
+      database_encryption_previous_key: {
+        description: "Old value of SECRET_KEY_BASE or of the database encryption key, used to decrypt data while you rotate that key",
+        format: :string,
+        default: nil,
+        writable: false,
+        secret: true
+      },
       date_format: {
         format: :string,
         default: nil,
@@ -636,6 +646,23 @@ module Settings
                      "Changing this invalidates all existing hashed tokens.",
         format: :string,
         default: -> { SecureRandom.hex(32) },
+        persist_on_first_read: true,
+        secret: true
+      },
+      web_push_enabled: {
+        format: :boolean,
+        default: true
+      },
+      web_push_vapid_private_key: {
+        description: "The VAPID private key used to sign browser notification pushes, given as the " \
+                     "base64 DER (PKCS#8) encoding of a prime256v1 key. If you leave this unset, OpenProject " \
+                     "generates a key the first time it is needed, stores it in the database and lets " \
+                     "administrators renew it from the administration page. If you set it through this " \
+                     "environment variable, the key is managed by you: the administration page can no longer " \
+                     "renew it, and you rotate it by changing the variable. Whichever way the key changes, " \
+                     "every existing browser notification subscription becomes invalid.",
+        format: :string,
+        default: -> { OpenProject::WebPush.generate_private_key },
         persist_on_first_read: true,
         secret: true
       },

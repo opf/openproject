@@ -31,10 +31,12 @@ module FormConfigurations
   class GroupsController < ApplicationController
     include TypesHelper
     include OpTurbo::ComponentStream
+    include FormConfigurations::EditorRecords
     include WorkPackageTypes::FormConfigurationComponentStreams
 
     before_action :require_admin
     before_action :load_form_configuration
+    before_action :reconcile_editor_records
 
     TEMPORARY_GROUP_KEY = "__new_form_configuration_group__"
 
@@ -102,32 +104,16 @@ module FormConfigurations
       respond_with_turbo_streams(status: turbo_status_for(call))
     end
 
-    def drop
-      call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
-        .call(position: params[:position])
-
-      if call.success?
-        update_main_content_via_turbo_stream
-      else
-        render_form_configuration_error(call)
-      end
-
-      respond_with_turbo_streams(status: turbo_status_for(call))
-    end
-
     def move
-      call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
-        .call(move_to: params[:move_to])
+      group = @form_configuration.form_groups.find(params.expect(:id))
+      call = valid_drop_request? ? move_group_call(group) : nil
 
-      if call.success?
-        update_main_content_via_turbo_stream
+      if call&.success?
+        update_main_content_via_turbo_stream(method: :morph)
+        respond_with_turbo_streams
       else
-        render_form_configuration_error(call)
+        render_invalid_move(call)
       end
-
-      respond_with_turbo_streams(status: turbo_status_for(call))
     end
 
     def update_query
@@ -136,14 +122,26 @@ module FormConfigurations
         .call(query_props: params[:query])
 
       if call.success?
-        head :ok
+        @form_configuration.reload
+        replace_query_row_via_turbo_stream(call.result.key)
       else
         render_form_configuration_error(call)
-        respond_with_turbo_streams(status: turbo_status_for(call))
       end
+
+      respond_with_turbo_streams(status: turbo_status_for(call))
     end
 
     private
+
+    def replace_query_row_via_turbo_stream(key)
+      group = form_editor_context.attribute_groups.find { |candidate| candidate.key.to_s == key.to_s }
+      replace_via_turbo_stream(
+        component: WorkPackageTypes::FormConfiguration::GroupQueryRowComponent.new(
+          group: group_form_map(group),
+          ee_available: EnterpriseToken.allows_to?(:edit_attribute_groups)
+        )
+      )
+    end
 
     def group_params
       params.expect(group: %i[name group_type query])
@@ -174,8 +172,21 @@ module FormConfigurations
         name:,
         attributes: [],
         query:,
+        query_summary: temporary_query_summary(group_type:, query:, name:),
         temporary: true
       }
+    end
+
+    def temporary_query_summary(group_type:, query:, name:)
+      return unless group_type.to_s == "query"
+
+      call = WorkPackageTypes::FormConfiguration::EmbeddedQueryBuilder.build(
+        query_props: query,
+        name: "Embedded table: #{name}",
+        user: current_user
+      )
+
+      WorkPackageTypes::FormConfiguration::QuerySummary.new(call.result).rows if call.success?
     end
 
     def turbo_status_for(call)
@@ -198,6 +209,30 @@ module FormConfigurations
         .call(name: group_params[:name])
     end
 
+    def move_group_call(group)
+      ::WorkPackageTypes::FormConfigurationGroups::MoveService
+        .new(user: current_user, form_configuration: @form_configuration, record: group)
+        .call(prev_id: drop_params[:prev_id])
+    end
+
+    # The raw list_id is checked because permit cannot tell an absent value
+    # from a filtered-out collection one.
+    def valid_drop_request?
+      drop_params[:list_type] == WorkPackageTypes::FormConfiguration::SortableTypes::GROUP &&
+        params[:list_id].blank? &&
+        drop_params.key?(:prev_id)
+    end
+
+    def drop_params
+      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+    end
+
+    def render_invalid_move(call)
+      message = call&.message.presence || I18n.t(:error_invalid_list_move_anchor)
+      render_error_flash_message_via_turbo_stream(message:)
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
+
     def render_create_error(call)
       @form_configuration.reload
       group = temporary_group(
@@ -214,12 +249,14 @@ module FormConfigurations
 
     def render_existing_group_update_error(call) # rubocop:disable Metrics/AbcSize
       @form_configuration.reload
-      group = active_groups_for_form.find { |active_group| active_group[:key].to_s == group_key_param.to_s }
+      groups = active_groups_for_form
+      group = groups.find { |active_group| active_group[:key].to_s == group_key_param.to_s }
 
       # A group deleted from another tab leaves no editor to re-render the rejected name into.
       return render_form_configuration_error(call) if group.nil?
 
       update_main_content_via_turbo_stream(
+        groups:,
         editing_group_key: group_key_param,
         form_model: group_form_model(
           group:,
@@ -229,8 +266,13 @@ module FormConfigurations
       )
     end
 
-    def render_temporary_group_editor(group: temporary_group(group_type: params[:group_type], query: params[:query]),
-                                      form_model: nil)
+    def render_temporary_group_editor(group: nil, form_model: nil)
+      group ||= temporary_group(
+        group_type: params[:group_type],
+        query: params[:query],
+        name: params[:name].to_s
+      )
+
       update_main_content_via_turbo_stream(
         groups: [group] + active_groups_for_form,
         editing_group_key: TEMPORARY_GROUP_KEY,

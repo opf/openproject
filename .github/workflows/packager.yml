@@ -7,6 +7,11 @@ on:
       - packaging/*
       - release/*
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to package (e.g. v17.5.2). Empty builds the selected branch."
+        required: false
+        type: string
   schedule:
     - cron: '0 3 * * *' # Daily at 03:00
 
@@ -33,21 +38,23 @@ jobs:
         target:
           - debian:11
           - debian:12
-          - ubuntu:20.04
           - ubuntu:22.04
           - el:9
           - sles:15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ inputs.tag || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - name: Setup
         id: setup
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
         run: |
           VERSION=$(ruby -r ./lib/open_project/version.rb -e "puts OpenProject::VERSION")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+          if [[ "${GITHUB_REF_TYPE}" == "tag" || -n "$INPUT_TAG" ]]; then
             MAJOR=$(ruby -r ./lib/open_project/version.rb -e "puts OpenProject::VERSION::MAJOR")
             echo "channel=stable/${MAJOR}" >> $GITHUB_OUTPUT
           else
@@ -61,7 +68,7 @@ jobs:
           version: ${{ steps.setup.outputs.version }}
           pkgr_version: acc46f88dd24241e118139cb0e1f38ea948bb8c5
           debug: true
-          cache_prefix: ${{ github.ref_name }}
+          cache_prefix: ${{ inputs.tag || github.ref_name }}
           env: |
             DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1:5432/app
       - name: Publish

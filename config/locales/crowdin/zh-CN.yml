@@ -83,13 +83,13 @@ zh-CN:
         dependencies: 依赖项
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: 有效
-        injects_type_template: 插入工作包类型模板
-        label: 标签
-        prompt: 提示
-        types: 工作包类型
-        usage_scope: 范围
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: 操作
         cancel_requested: 已请求取消
@@ -140,7 +140,6 @@ zh-CN:
         allow_non_open_versions: 允许非打开版本
         content_right_to_left: 内容从右到左
         default_value: 默认值
-        editable: 可编辑
         field_format: 格式
         formula: 公式
         has_comment: 添加注释文本字段
@@ -157,6 +156,7 @@ zh-CN:
         regexp: 正则表达式
         searchable: 可搜索
         semantic_key: 语义
+        user_self_editable: Editable
         visible_on_user_card: 在用户卡上显示
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -342,6 +342,10 @@ zh-CN:
         custom_field_section: 单元
       project_type:
         variant: 变体
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: 子级工作包
         column_names: 列
@@ -413,6 +417,7 @@ zh-CN:
       type:
         allow_project_variants: 允许项目特定变体
         color: 颜色
+        description: Description
         is_in_roadmap: 默认在路线图中显示
         is_milestone: 里程碑
         project_types: 项目
@@ -422,6 +427,7 @@ zh-CN:
       type_variant:
         attribute_groups: 表单
         default_work_package_description: 默认描述文本
+        description: Description
         enabled_in_new_projects: 在新项目中有效
         linked_aspects: Inherited configuration
         patterns: 模式
@@ -702,6 +708,7 @@ zh-CN:
               format: "%{message}"
               invalid: 公式无效。
               invalid_tokens: 仅允许使用数值、运算符、函数、关键字以及整数、浮点数、计算值和加权列表类型的项目特性。
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: 属性 %{custom_fields} 无法使用，因为存在循环引用：一个属性依赖于另一个属性。
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -813,7 +820,7 @@ zh-CN:
           attributes:
             base:
               archive_permission_missing_on_subprojects: 您没有归档所有子项目所需的权限。请联系管理员。
-              project_initiation_request_disabled: 项目启动请求已禁用。必须启用才能创建工件工作包。
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: 还需要启用模块“%{dependency}”，因为模块“%{module}”依赖于该模块。
               format: "%{message}"
@@ -827,7 +834,7 @@ zh-CN:
               switch_target_blank: 选择要切换到的变体
               switch_target_identical: 目标类型必须不同于项目现在使用的类型
               switch_target_not_in_family: 只能切换到同一品类的其他类型
-          cannot_be_assigned_to_artifact_work_package: 不允许将所选用户指定至工作包。
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: 非子级项目中的工作包会引用此项目或其子级的版本。
         project/phase:
           attributes:
@@ -846,6 +853,10 @@ zh-CN:
             variant:
               must_be_owned_by_the_project: 不得是另一个项目拥有的变体。
               must_belong_to_the_type: 必须是该项目所用类型的变体。
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1080,8 +1091,8 @@ zh-CN:
     models:
       action:
         other: 操作
-      ai/text_transform_action:
-        other: 文本转换操作
+      ai/text_action:
+        other: Text actions
       ai/text_transform_run:
         other: 文本转换运行
       ai/text_transform_run_event:
@@ -1361,6 +1372,7 @@ zh-CN:
       phase_and_both_gates: "%{phase_message}。%{start_gate_message}，和%{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}。%{gate_message}"
       removed_date: 删除日期%{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: 这些值通过环境变量配置，无法在此处编辑。
@@ -1393,7 +1405,7 @@ zh-CN:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -1529,6 +1541,10 @@ zh-CN:
         button_delete_personal_access_token: Delete PAT
         button_save: 保存配置
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1540,6 +1556,7 @@ zh-CN:
           personal_access_token: Personal access token (PAT)
           url: Jira 服务器/数据中心 URL
         label_testing: 正在测试配置…
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1569,12 +1586,12 @@ zh-CN:
             title: Create time entries for '%{jira_project_name}'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
-          JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
             title: Create users
+          JiraDownloadProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Fetch custom fields
           JiraFetchIssueTypesJob:
@@ -1597,6 +1614,9 @@ zh-CN:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 您尝试导入的项目所使用的标识符 %{taken_identifier} 已经用过。请在 Jira 中更新项目标识符，然后点击“重试”。
         remove_error: 无法移除正在运行的 Jira 导入运行
         side_panel:
@@ -1655,6 +1675,8 @@ zh-CN:
               other: "%{count} jobs"
             projects:
               other: "%{count} projects"
+            resolutions:
+              other: "%{count} resolutions"
             statuses:
               other: "%{count} statuses"
             types:
@@ -1680,6 +1702,7 @@ zh-CN:
               label_available_data: 要导入的数据
               label_import_data: 当前正在导入
               label_progress: 正在导入…
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: 参与所选项目的用户（包括群组成员资格）
               title: 导入数据
             fetch_data:
@@ -1805,10 +1828,12 @@ zh-CN:
         error: 测试连接时发生意外错误
         failed: 连接失败：无法检索服务器信息
         invalid_url: 请提供有效的 URL
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: 服务器响应解析失败。服务器可能不是有效的 Jira 实例。
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: 成功连接到 %{server}（版本 %{version}）
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: 未知
@@ -1974,6 +1999,37 @@ zh-CN:
           error: 此分区无法重新排序。
         move:
           error: 此分区无法重新排序。
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: 此分区无法删除。
@@ -2053,40 +2109,41 @@ zh-CN:
         page_header:
           description: 可以选择经典的数字工作包 ID，或者将项目标识符作为工作包 ID 前缀的语义化项目特定工作包 ID。
         success_banner: 已成功更新工作包标识符格式。
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: 用户将无法再在富文本编辑器中运行此操作。
-        heading: 确定要删除操作“%{label}”吗？
-        title: 删除文本转换操作
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: 如果选中此项，工作包类型的描述模板将自动添加到提示词中。提示词应包含有关模板使用方法的说明。
-        label_caption: 这是将在编辑器中向用户显示的名称。
-        select_types: 选择类型
-        types_caption: 添加应当可以使用此操作的工作包类型。所有可用的变体将自动包含在内。
-        usage_scope_caption: 您可以限制此操作的可见范围： 所有位置（包括评论、Wiki 和自定义字段）、适用于所有工作包类型，或适用于某些工作包类型。
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: 操作
-        label_aria_add_action: 添加文本转换操作
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: 添加操作以在此处查看
-          title: 尚未配置文本转换操作
-        disabled_warning: 文本转换操作已禁用。以下操作在任何位置均不可用。
-        label_disable_all: 全部禁用
-        label_enable_all: 全部启用
-        title: 操作
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: 新建文本转换操作
+        title: New text action
       row_component:
-        label_actions: 操作菜单
-        label_toggle: 切换 %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
           other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: 所有工作包类型
-        everywhere: 任何位置
-        specific_work_package_types: 特定的工作包类型
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: 添加状态，以开始为此角色配置工作流
@@ -2138,7 +2195,7 @@ zh-CN:
       errors:
         connection_failed: 无法访问 AI 服务。
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: AI 助手不可用。
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: AI 服务未及时响应。
         upstream_error: AI 服务返回错误。
@@ -2150,7 +2207,9 @@ zh-CN:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2182,6 +2241,8 @@ zh-CN:
         emoji_reactions_activity_type_not_supported: 此活动类型不支持表情符号回应。
         invalid_link: 密钥 '%{key}' 下的链接无效。
         links_not_an_object: _links 必须为 JSON 对象。
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 错误的请求：%{message}
       code_401: 你需要被授权访问该资源。
       code_401_wrong_credentials: 你没有提供正确的凭据。
@@ -2527,8 +2588,25 @@ zh-CN:
       disabled_value: 属性“%{custom_field_name}”为此计算值的必填项，但在项目中已停用。
       mathematical: 数学公式导致错误。请检查项目计算属性并重试。
       missing_value: 属性“%{custom_field_name}”为此计算值的必填项，但当前为空。
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: 发生未知错误。请检查此计算值的公式。
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: 编辑颜色
     form:
@@ -2556,7 +2634,7 @@ zh-CN:
     failure_message: 同意失败, 无法继续。
     not_yet_consented: 用户尚未同意[配置的同意信息](同意设置)。他们下次登录时会被提醒。
     text_update_consent_time: 选中此框可强制用户再次同意。在更改上述同意信息的法律方面时启用。
-    title: 用户同意
+    title: User consent
     update_consent_last_time: '同意的最后更新: %{update_time}'
     user_has_consented: 用户同意您的 [配置的同意信息文本](同意设置)。
   copy_project:
@@ -2691,10 +2769,8 @@ zh-CN:
       admin_only:
         all: 选中可使此自定义字段仅对管理员可见。没有管理员权限的用户将无法查看或编辑该字段。
         project: 选中可使此特性仅对管理员可见。没有管理员权限的用户将无法查看或编辑该特性。
-      editable:
-        all: 允许用户自行编辑该字段。
       formula:
-        project: 添加数值或输入 / 以搜索特性、运算符、函数或其他令牌。
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: 允许用户在项目概览中选择值时添加与项目特性相关的注释。
       is_filter:
@@ -2722,6 +2798,8 @@ zh-CN:
       searchable:
         all: 使用全局搜索功能时包含字段值。
         project: 选中可将此特性用作项目列表中的筛选条件。
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: 选中后，在应用程序中将鼠标悬停在某个用户上时，此字段的值会显示在用户信息卡中。
     is_enabled_globally: 已全局启用
@@ -3009,6 +3087,7 @@ zh-CN:
       scim_api: SCIM 服务器 API
       sso_auth_providers: 单点登录
       team_planner_view: 工作组规划器视图
+      text_assistant: Text assistant
       virus_scanning: 反病毒扫描
       weighted_item_lists: 加权项目列表
       work_package_query_relation_columns: 工作包查询关系列
@@ -3120,6 +3199,9 @@ zh-CN:
       sso_auth_providers:
         description: 允许用户使用 SAML 或 OpenID Connect 通过外部 SSO 提供商登录，以实现无缝访问，并与现有身份系统集成。
         title: 单点登录（SSO）
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: 企业附加组件
       trial_text: 此功能包含在您的有效 Enterprise 试用版中。
       unlimited: 无限制
@@ -3374,6 +3456,7 @@ zh-CN:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3381,7 +3464,7 @@ zh-CN:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -3667,6 +3750,8 @@ zh-CN:
         header: 更改者：%{author}
         migrated: 从 Jira
         set_with_diff: "“%{field}”已设置 (%{link})"
+      label_deleted:
+        other: "%{label_names} were deleted"
       meeting_cancelled: "（已取消）"
       meeting_deleted: "（已删除）"
       meeting_series_backlog_html: 系列会议 %{link} 的积压工作
@@ -3710,8 +3795,10 @@ zh-CN:
       comment_retracted: Comment retracted
       dates_changed: 日期已更改
       default_attribute_written: 已写入只读属性
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: 已导入
+      label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>已添加到会议</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>已添加到</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: 已在会议 %{meeting_title_information} 中<strong>讨论</strong>
@@ -3762,6 +3849,7 @@ zh-CN:
   label_additional_workflow_transitions_for_author: 当用户是作者时允许额外转移
   label_administration: 管理
   label_age: 年龄
+  label_aggregate_function_plural: Aggregate functions
   label_ago: 天前
   label_all: 所有
   label_all_open_wps: 全部打开
@@ -3851,7 +3939,7 @@ zh-CN:
   label_completed: 已完成
   label_configuration: 配置
   label_confirmation: 确认
-  label_consent_settings: 用户同意
+  label_consent_settings: User consent
   label_constant_plural: 常量
   label_contains: 包含
   label_content: 内容
@@ -4837,7 +4925,8 @@ zh-CN:
       mail_notification: 电子邮件通知
       mails_and_notifications: 电子邮件和通知
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: 文本转换操作
+      push_notifications: Browser notifications
+      text_actions: Text assistant
     quick_add:
       label: 添加…
   more_actions: 更多功能
@@ -5396,10 +5485,19 @@ zh-CN:
       toc:
         caption: 添加索引章节标题的目录页。
         label: 目录
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: 第 %{page} 页，共%{total} 页
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: 当前表单中使用默认模板的所有特性。
       label: 属性和描述
@@ -5686,6 +5784,15 @@ zh-CN:
       new:
         placeholder: 新项目列表
       shared: 共享项目列表
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: 全部禁用
@@ -5711,11 +5818,11 @@ zh-CN:
           no_status_when_submitted: 无法启用项目启动请求，因为工作包类型“%{type}” 至少需要一个与之相关的状态。请为此工作包类型至少启用一个状态工作流。
           no_work_package_type: 无法启用项目启动请求，因为它至少需要一个有效工作包类型，但此项目没有。请为此项目至少添加一种工作包类型。
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: 选择应使用哪个配置的外部文件存储空间。
           external_file_storage: 外部文件存储空间
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: 保存为工作包文件附件
           label_file_link_export: 将文件上传到外部文件存储空间，并将文件链接添加到工作包
           pdf_file_storage: PDF 文件存储空间
@@ -5821,10 +5928,12 @@ zh-CN:
         switch:
           apply: 应用
           impact:
-            hidden_heading: 将不再显示的字段
-            missing_statuses_description: 您正在切换的工作流不存在从这些状态转出的过渡路径，因此所有用户都无法继续推进这些工作包。
-            missing_statuses_heading: 停滞的工作包
-            new_heading: 变为可用状态的字段
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: 没有任何字段或状态受到影响。
             status_count:
               other: "%{count} work packages"
@@ -5851,14 +5960,14 @@ zh-CN:
     status:
       button_edit: 编辑状态
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: 此项目没有为向导启用任何项目特性。请在<a href="%{link}">项目设置</a>中至少启用一个属性。
       no_help_text: 此特性未定义帮助文本。
       progress_label: "%{current}/%{total}"
       sections: 分区
       sidebar_content_title: 目录
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: 项目启动请求
   pwa:
     offline:
@@ -5884,6 +5993,22 @@ zh-CN:
         automatic:
           description: 按一个或多个排序标准对 %{plural} 进行排序。您将失去之前的排序。
           heading: 自动
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6071,7 +6196,6 @@ zh-CN:
   setting_after_login_default_redirect_url_example_html: '设置一个默认路径，用于在没有提供返回链接的情况下登录后重定向用户。如果没有设置，则重定向到首页。<br/>示例：%{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: 启用文本转换操作
   setting_allowed_link_protocols: 允许的链接协议
   setting_allowed_link_protocols_text_html: 允许这些协议在工作包描述、长文本字段和评论中显示为链接。例如，%{tel_code} 或 %{element_code}。每行输入一个协议。<br/> 协议 %{http_code}、%{https_code} 和 %{mailto_code} 始终允许。
   setting_antivirus_scan_action: 受感染文件的操作
@@ -6282,6 +6406,12 @@ zh-CN:
   setting_user_format: 用户名格式
   setting_users_deletable_by_admins: 可由管理员删除用户帐户
   setting_users_deletable_by_self: 允许用户删除其帐户
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_welcome_text: 欢迎块文本
   setting_welcome_title: 欢迎块标题
@@ -6425,12 +6555,12 @@ zh-CN:
         confirmation_message: 基于此模板的新项目将无法再使用启动请求向导。项目经理和项目所有者需要在项目概览中手动配置和填写相关信息。
         heading: 是否禁用此项目启动请求？
         title: 禁用项目启动请求
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: 项目创建向导
           project_initiation_request: 项目启动请求
@@ -6450,8 +6580,8 @@ zh-CN:
           您提交了 **%{project_name}** 的项目启动请求。目前正在等待审查。
           请点击下方链接访问工作包以及您的请求。
         confirmation_email_text: 确认电子邮件文本
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: 向提交项目启动请求的用户发送确认电子邮件
         status_when_submitted: 提交时的状态
         status_when_submitted_caption: 提交请求后，生成的工作包将转入的状态。
@@ -6459,7 +6589,7 @@ zh-CN:
         work_package_comment_caption: 在上方选择的受理人将在备注中被自动提及。
         work_package_comment_default: "**%{project_name}** 的项目启动请求已提交，正在等待审查。"
         work_package_type: 工作包类型
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: 打开项目创建向导
         project_initiation_request: 打开项目启动请求
@@ -6627,6 +6757,9 @@ zh-CN:
         除了状态外，不能更改其他属性。
         <br>
         <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
+      used_by_workflows:
+        other: This status is used by %{count} workflows.
+      view_workflows_button: View workflows
     index:
       could_not_be_moved: 无法移动状态。
       headers:
@@ -6636,6 +6769,8 @@ zh-CN:
       no_results_content_text: 添加新的状态
       no_results_title_text: 目前没有工作包状态。
       status_actions: 状态操作
+      workflows_count:
+        other: "%{count} workflows"
   support:
     array:
       sentence_connector: 和
@@ -6809,6 +6944,9 @@ zh-CN:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: 下午
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: 到
     show: 显示时间段
@@ -6971,6 +7109,7 @@ zh-CN:
           label_with_context: "%{attribute_context}：%{attribute_label}"
       details:
         allow_project_variants_caption: 对于拥有变体管理权限的项目管理员，可以在项目内扩展或修改此类型。
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: 继承自类型 <b>%{type}</b>。
         tab: 详细信息
         type_color_text: 所选颜色可用于在甘特图或工作包表中区分不同类型。因此，建议使用浓烈的颜色。
@@ -6983,13 +7122,13 @@ zh-CN:
           file_link:
             caption: 生成的 PDF 会上传至项目的自动管理的 Nextcloud 存储空间，并与该工作包相关联。没有此类存储空间的项目中的工作包将被跳过。
             label: 将文件上传到外部文件存储空间，并将文件链接添加到工作包
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: 不会自动生成 PDF。
             label: 关闭
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: 不可用，未配置自动管理的 Nextcloud 存储空间
         pdf_export_templates:
           actions:
@@ -7001,7 +7140,6 @@ zh-CN:
         tab: 生成 PDF
         templates:
           readonly_error: 链接到源类型时无法更改。
-          section_title: PDF 导出模板
           settings:
             edit_link: 编辑设置
             reset_to_default: 重置为默认设置
@@ -7023,7 +7161,6 @@ zh-CN:
         empty_group_hint: 将特性拖动到此处
         exclusions:
           attribute_label: 继承 %{attribute}
-          excluded: 已隐藏
           section_label: 继承 %{section} 分区
         filter_inactive: 筛选特性
         group_actions: 小节操作
@@ -7032,9 +7169,15 @@ zh-CN:
         invalid_attribute_groups: 表单有效负载无效。
         invalid_query: 嵌入式查询配置无效。
         label_group: 小节
+        move_failed: The move could not be saved. Please reload the page and try again.
         no_inactive_attributes: 没有停用的特性
         not_found: 找不到请求的表单条目。
         query_group_label: 相关的工作包表
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: 从小节中移除
         rename_group: 重命名小节
         required:
@@ -7051,6 +7194,7 @@ zh-CN:
         reset_title: 重置表单
         reset_to_defaults: 重置表单
         row_actions: 行操作
+        save_failed: The change could not be saved. Please reload the page and try again.
         tab: 表单
         untitled_group: 无标题群组
       overview:
@@ -7075,7 +7219,6 @@ zh-CN:
           manual:
             description: 在您[创建项目特性](administration_url)后，这些特性将显示在此处，并且可以添加到类型中。
             title: 没有可用的项目特性
-        disabled: 已禁用
         exclusions:
           attribute_label: 继承 %{attribute}
         filter: 按分区或名称搜索
@@ -7095,8 +7238,6 @@ zh-CN:
           no_results: 没有匹配的项目。
           title: Not used in any project yet
         enable_all: 对所有项目启用
-        select_projects: 选择项目
-        select_projects_description: 选择您想要使用此类型的项目。
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?
@@ -7155,14 +7296,14 @@ zh-CN:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: 首先对此配置现在继承的设置进行一次性复制。
-              label: 复制继承的设置
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: 对新类型使用默认设置。
               label: 默认设置
             empty:
               caption: 以空白配置为起点，从头开始设置所有内容。
-              label: 空
+              label: Start from scratch
           success: 配置模式已切换。
           title: 手动配置
         parent_suffix: "（父项）"
@@ -7212,7 +7353,7 @@ zh-CN:
         projects:
           other: 'The type will be removed from %{count} projects:'
         title: 删除类型
-      description: '类型和变体内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: "%{name} 的副本"
@@ -7889,8 +8030,6 @@ zh-CN:
         create:
           notice:
             other: 已成功将工作流复制到 %{count} 个角色。
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
@@ -7907,6 +8046,7 @@ zh-CN:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Description
@@ -7922,7 +8062,7 @@ zh-CN:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow

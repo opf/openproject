@@ -41,7 +41,7 @@ class CostReportsController < ApplicationController
   def show
     report = CostReport.visible(current_user).for_legacy_cost_query_id(params[:id])
 
-    return render_404 if report.nil?
+    return render_404 if report.nil? || !report.visible?(current_user)
 
     redirect_to report_path(report, legacy_query), status: :moved_permanently
   end

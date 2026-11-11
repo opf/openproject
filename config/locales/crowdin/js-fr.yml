@@ -47,6 +47,8 @@ fr:
       draggable_hint: 'Faites glisser le champ de l''éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l''éditeur seront ouverts tant que vous continuer à faire glisser.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Le fichier est en quarantaine, car un virus a été détecté. Il ne peut pas être téléchargé.
     autocomplete_ng_select:
       add_tag: Ajouter un élément
@@ -129,8 +131,8 @@ fr:
     button_confirm: Confirmer
     button_continue: Continuer
     button_copy: Copier
-    button_copy_link_to_clipboard: Copier le lien dans le presse-papiers
-    button_copy_numeric_id_to_clipboard: Copier l'identifiant numérique dans le presse-papiers
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copier dans le presse-papiers
     button_copy_to_other_project: Dupliquer dans un autre projet
     button_create: Créer
@@ -148,6 +150,7 @@ fr:
     button_log_time: Consigner du temps
     button_more: Plus
     button_more_actions: Plus d'actions
+    button_move: Move
     button_open_details: Ouvrir la vue détaillée
     button_open_fullscreen: Ouvrir l'affichage plein écran
     button_quote: Citer
@@ -205,6 +208,7 @@ fr:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Une erreur s'est produite dans CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur suivante : %{error}'
@@ -436,7 +440,6 @@ fr:
     label_assignee: Assigné
     label_assignee_alt_text: Ce lot de travaux est assigné à %{name}
     label_attachments: Pièces jointes
-    label_author: 'Auteur : %{user}'
     label_avatar: Avatar
     label_between: entre
     label_board: Tableau
@@ -565,7 +568,9 @@ fr:
     label_show_in_menu: Afficher la vue dans le menu
     label_sort_by: Trier par
     label_sort_higher: Déplacer vers le haut
+    label_sort_highest: Move to top
     label_sort_lower: Déplacer vers le bas
+    label_sort_lowest: Move to bottom
     label_sorted_by: trié par
     label_sorting: Tri
     label_spent_time: Temps passé
@@ -817,6 +822,7 @@ fr:
         batch_too_large: Impossible de déplacer %{count} éléments à la fois. Sélectionnez-en au maximum %{max}.
         fallback_item_label: Élément
         fallback_list_name: une autre liste
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Le déplacement a échoué. Vérifiez la position actuelle de l'élément.
         move_failed_check_positions_batch:
           other: Échec du déplacement. Vérifiez les positions actuelles des éléments.
@@ -1114,10 +1120,6 @@ fr:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tableau dont les lignes correspondent aux lots de travaux et les colonnes à leurs attributs.
-        text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui permettent de modifier en ligne l'attribut correspondant.
-        text_select_hint: Les listes de sélection doivent être ouvertes avec la touche « ALT » et les flèches directionnelles.
-        text_sort_hint: Les liens dans les en-têtes du tableau permettent de trier, regrouper et réorganiser les colonnes, ainsi que d'en retirer ou d'en ajouter.
       table_configuration:
         button: Configurer ce tableau des lots de travaux
         choose_display_mode: Afficher les lots de travaux sous forme de
@@ -1126,7 +1128,6 @@ fr:
         default_mode: Liste
         display_settings: Paramètres d'affichage
         display_sums_hint: Afficher, sous les résultats du tableau, une ligne contenant les totaux de tous les attributs pouvant être additionnés.
-        embedded_tab_disabled: Cet onglet de configuration n'est pas disponible pour la vue intégrée que vous êtes en train de modifier.
         hierarchy_hint: Tous les résultats filtrés du tableau seront complétés par leurs ancêtres. Les hiérarchies peuvent être dépliées et repliées.
         hierarchy_mode: Hiérarchie
         highlighting: Mise en surbrillance

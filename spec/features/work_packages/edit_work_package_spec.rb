@@ -195,7 +195,7 @@ RSpec.describe "edit work package", :js do
 
     # Another (empty) journal should exist now
     activity_tab.within_journals_container do
-      expect(page).to have_content(work_package.journals.last.user.name, count: 2)
+      expect(page).to have_text(work_package.journals.last.user.name, count: 2)
     end
 
     wp_page.expect_attributes assignee: "-"

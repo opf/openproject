@@ -62,6 +62,15 @@ module LlmConnections
       end
     end
 
+    def caption
+      if linkable_caption?
+        helpers.link_translate("#{feature.i18n_scope}.caption_with_link",
+                               links: { text_actions_url: helpers.admin_text_actions_path })
+      else
+        feature.caption
+      end
+    end
+
     def locked? = binding&.locked?
 
     def dangling? = binding&.dangling?
@@ -85,6 +94,10 @@ module LlmConnections
     end
 
     private
+
+    def linkable_caption?
+      feature.key == :description_assistant && OpenProject::FeatureDecisions.ai_text_actions_active?
+    end
 
     attr_reader :feature, :connection, :binding
 

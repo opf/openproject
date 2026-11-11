@@ -32,6 +32,7 @@ module API
     class ParseQueryParamsService
       KEYS_GROUP_BY = %i(group_by groupBy g).freeze
       KEYS_COLUMNS = %i(columns c column_names columns[]).freeze
+      KEYS_HIGHLIGHTED_ATTRIBUTES = %i(highlightedAttributes highlightedAttributes[]).freeze
 
       def call(params)
         json_parsed = json_parsed_params(params)
@@ -158,7 +159,7 @@ module API
       end
 
       def highlighted_attributes_from_params(params)
-        highlighted_attributes = Array(params[:highlightedAttributes].presence)
+        highlighted_attributes = Array(params_value(params, KEYS_HIGHLIGHTED_ATTRIBUTES).presence)
 
         return if highlighted_attributes.blank?
 

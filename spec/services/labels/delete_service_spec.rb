@@ -31,7 +31,9 @@ require "spec_helper"
 require "services/base_services/behaves_like_delete_service"
 
 RSpec.describe Labels::DeleteService, type: :model do
-  it_behaves_like "BaseServices delete service"
+  it_behaves_like "BaseServices delete service" do
+    before { allow(model_instance).to receive(:lock!) }
+  end
 
   describe "with a real service call" do
     shared_let(:admin) { create(:admin) }
@@ -47,6 +49,58 @@ RSpec.describe Labels::DeleteService, type: :model do
       expect(result).to be_success
       expect(Label.where(id: label.id)).not_to exist
       expect(Labeling.where(id: labeling.id)).not_to exist
+      expect(Labels::JournalizeDeletionJob)
+        .to have_been_enqueued.with(work_package_ids: [labeling.labelable_id],
+                                    label_id: label.id,
+                                    label_name: label.name,
+                                    user_id: admin.id)
+    end
+
+    it "treats a label already deleted by a concurrent request as deleted" do
+      create(:labeling, label:)
+      Label.where(id: label.id).delete_all
+
+      expect(instance.call).to be_success
+      expect(Labels::JournalizeDeletionJob).not_to have_been_enqueued
+    end
+
+    it "locks the label" do
+      create(:labeling, label:)
+      allow(label).to receive(:lock!).and_call_original
+
+      instance.call
+
+      expect(label).to have_received(:lock!)
+    end
+
+    it "enqueues the journalization in slices" do
+      stub_const("#{described_class}::WORK_PACKAGES_PER_JOB", 2)
+      labelings = create_list(:labeling, 3, label:)
+      slices = []
+      allow(Labels::JournalizeDeletionJob).to receive(:perform_later) { |work_package_ids:, **| slices << work_package_ids }
+
+      instance.call
+
+      expect(slices.map(&:size)).to eq([2, 1])
+      expect(slices.flatten).to match_array(labelings.map(&:labelable_id))
+    end
+
+    it "enqueues nothing for an unused label" do
+      instance.call
+
+      expect(Labels::JournalizeDeletionJob).not_to have_been_enqueued
+    end
+
+    context "when the label cannot be destroyed" do
+      before do
+        create(:labeling, label:)
+        allow(label).to receive(:destroy).and_return(false)
+      end
+
+      it "fails and enqueues nothing" do
+        expect(instance.call).to be_failure
+        expect(Labels::JournalizeDeletionJob).not_to have_been_enqueued
+      end
     end
 
     context "with a non-admin user" do
@@ -58,6 +112,7 @@ RSpec.describe Labels::DeleteService, type: :model do
         expect(result).to be_failure
         expect(result.errors.symbols_for(:base)).to include(:error_unauthorized)
         expect(Label.where(id: label.id)).to exist
+        expect(Labels::JournalizeDeletionJob).not_to have_been_enqueued
       end
     end
   end

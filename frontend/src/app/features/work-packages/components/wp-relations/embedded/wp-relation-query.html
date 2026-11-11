@@ -3,6 +3,7 @@
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
         <h3 class="attributes-group--header-text"
+        [attr.id]="groupHeadingId"
         [textContent]="group.name"></h3>
       </div>
     </div>
@@ -12,7 +13,8 @@
     [initialLoadingIndicator]="false"
     [queryProps]="queryProps"
     [tableActions]="tableActions"
-                     [configuration]="{ actionsColumnEnabled: true,
+                     [configuration]="{ labelledBy: group ? groupHeadingId : null,
+                                        actionsColumnEnabled: true,
                                         hierarchyToggleEnabled: false,
                                         inlineCreateEnabled: true,
                                         compactTableStyle: true,

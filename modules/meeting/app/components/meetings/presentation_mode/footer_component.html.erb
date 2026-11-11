@@ -20,10 +20,10 @@
         <% button.with_leading_visual_icon(icon: :"chevron-left") %>
         <%= t("meeting.presentation_mode.previous") %>
       <% end %>
-      <% if previous_presenter_changed? %>
+      <% if previous_presenter %>
         <%= render(
               Users::AvatarComponent.new(
-                user: previous_item.presenter,
+                user: previous_presenter,
                 show_name: false,
                 link: false,
                 size: "mini",
@@ -33,12 +33,12 @@
             ) %>
       <% end %>
     <% end %>
-    <% if previous_item %>
+    <% if previous_label_text %>
       <div class="op-meeting-presentation--footer-agenda-item">
-        <% if previous_item.meeting_section != current_section %>
-          <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { previous_item.meeting_section.title.presence || t("meeting_section.untitled_title") } %>:
+        <% if section_prefix(previous_item) %>
+          <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { section_prefix(previous_item) } %>:
         <% end %>
-        <%= render(Primer::Beta::Text.new(color: :subtle)) { previous_item.display_title } %>
+        <%= render(Primer::Beta::Text.new(color: :subtle)) { previous_label_text } %>
       </div>
     <% end %>
   </div>
@@ -60,10 +60,10 @@
     <%= render(
           Primer::Box.new(display: :flex, align_items: :center, justify_content: :flex_end)
         ) do %>
-      <% if next_presenter_changed? %>
+      <% if next_presenter %>
         <%= render(
               Users::AvatarComponent.new(
-                user: next_item.presenter,
+                user: next_presenter,
                 show_name: false,
                 link: false,
                 size: "mini",
@@ -87,13 +87,13 @@
         <% button.with_trailing_visual_icon(icon: :"chevron-right") %>
       <% end %>
     <% end %>
-    <div class="op-meeting-presentation--footer-agenda-item">
-      <% if next_item %>
-        <% if next_item.meeting_section != current_section %>
-          <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { next_item.meeting_section.title.presence || t("meeting_section.untitled_title") } %>:
+    <% if next_label_text %>
+      <div class="op-meeting-presentation--footer-agenda-item">
+        <% if section_prefix(next_item) %>
+          <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :subtle)) { section_prefix(next_item) } %>:
         <% end %>
-        <%= render(Primer::Beta::Text.new(color: :subtle)) { next_item.display_title } %>
-      <% end %>
-    </div>
+        <%= render(Primer::Beta::Text.new(color: :subtle)) { next_label_text } %>
+      </div>
+    <% end %>
   </div>
 <% end %>

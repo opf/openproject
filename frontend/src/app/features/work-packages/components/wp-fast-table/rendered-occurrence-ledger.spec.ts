@@ -40,6 +40,7 @@ import {
 function draftOccurrence(key:OccurrenceKey, overrides:Partial<DraftOccurrence> = {}):DraftOccurrence {
   return {
     key,
+    kind: 'workPackage',
     classIdentifier: 'wp-row-1',
     workPackageId: '1',
     renderType: 'primary',
@@ -123,6 +124,8 @@ describe('RenderedOccurrenceLedger', () => {
 
     expect(ledger.byWorkPackageId('7').map((o) => o.key)).toEqual([wpOccurrenceKey('7'), ancestorOccurrenceKey('7')]);
     expect(ledger.byWorkPackageId('missing')).toEqual([]);
+    expect(ledger.keysOf('7')).toEqual(new Set([wpOccurrenceKey('7'), ancestorOccurrenceKey('7')]));
+    expect(ledger.keysOf('missing').size).toBe(0);
   });
 
   it('keeps two relation occurrences that share one bridge classIdentifier', () => {
@@ -272,6 +275,42 @@ describe('RenderedOccurrenceLedger', () => {
 
     commitKeys(ledger, draftOccurrence('b'));
     expect(ledger.byElement(el)).toBeUndefined();
+  });
+
+  describe('lookup by work package id', () => {
+    const keysByScan = (ledger:RenderedOccurrenceLedger, id:string) => ledger.occurrences
+      .filter((occurrence) => occurrence.workPackageId === id)
+      .map((occurrence) => occurrence.key);
+
+    it('returns every occurrence of a work package in render order', () => {
+      const ledger = new RenderedOccurrenceLedger();
+      commitKeys(
+        ledger,
+        draftOccurrence(wpOccurrenceKey('1'), { workPackageId: '1' }),
+        draftOccurrence(groupOccurrenceKey(0, 'header'), { kind: 'groupHeader', workPackageId: null }),
+        draftOccurrence(relationOccurrenceKey('ofType', '1', '2'), { workPackageId: '2', renderType: 'relations' }),
+        draftOccurrence(wpOccurrenceKey('2'), { workPackageId: '2' }),
+      );
+
+      expect(Array.from(ledger.keysOf('2'))).toEqual([relationOccurrenceKey('ofType', '1', '2'), wpOccurrenceKey('2')]);
+      expect(ledger.byWorkPackageId('2').map(({ key }) => key)).toEqual(keysByScan(ledger, '2'));
+      expect(Array.from(ledger.keysOf('absent'))).toEqual([]);
+      expect(ledger.byWorkPackageId('absent')).toEqual([]);
+    });
+
+    it('stays in step with setHidden, replaceElement and a later commit', () => {
+      const ledger = new RenderedOccurrenceLedger();
+      commitKeys(ledger, draftOccurrence(wpOccurrenceKey('1'), { workPackageId: '1' }), draftOccurrence(wpOccurrenceKey('2'), { workPackageId: '2' }));
+
+      ledger.setHidden(new Map([[wpOccurrenceKey('1'), true]]));
+      ledger.replaceElement(wpOccurrenceKey('2'), document.createElement('tr'));
+      expect(ledger.byWorkPackageId('1').map(({ hidden }) => hidden)).toEqual([true]);
+      expect(ledger.byWorkPackageId('2')[0].element).toBe(ledger.byKey(wpOccurrenceKey('2'))!.element);
+
+      commitKeys(ledger, draftOccurrence(wpOccurrenceKey('3'), { workPackageId: '3' }));
+      expect(Array.from(ledger.keysOf('1'))).toEqual([]);
+      expect(Array.from(ledger.keysOf('3'))).toEqual([wpOccurrenceKey('3')]);
+    });
   });
 
   it('does not expose an uncommitted draft', () => {

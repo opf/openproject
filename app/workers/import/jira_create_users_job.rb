@@ -242,7 +242,6 @@ module Import
       end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def handle_create_group_failure(call, group_name)
       if call.errors.find { |error| error.type == :taken }.blank?
         message = "Error creating a group #{group_name}: #{call.message}"
@@ -252,15 +251,6 @@ module Import
 
       group = Group.where(name: group_name).first
       if group.present?
-        # The group is imported once per member. Overwriting the reference would clear
-        # uses_existing and make the revert skip a group this run created.
-        already_referenced = Import::JiraOpenProjectReference.exists?(
-          jira_import_id: @jira_import.id,
-          op_entity_class: group.class.to_s,
-          op_entity_id: group.id
-        )
-        return if already_referenced
-
         create_reference!(
           op_leg: group,
           jira_leg: nil,

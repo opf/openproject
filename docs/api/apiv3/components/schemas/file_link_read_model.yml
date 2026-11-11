@@ -115,69 +115,69 @@ properties:
 
               **Resource**: N/A
 
-example:
-  id: 1337
-  _type: FileLink
-  createdAt: '2021-12-20T13:37:00.211Z'
-  updatedAt: '2021-12-20T13:37:00.211Z'
-  originData:
-    id: "5503"
-    name: logo.png
-    mimeType: image/png
-    size: 16042
-    createdAt: '2021-12-19T09:42:10.170Z'
-    lastModifiedAt: '2021-12-20T14:00:13.987Z'
-    createdByName: Luke Skywalker
-    lastModifiedByName: Anakin Skywalker
-  _embedded:
-    storage:
-      id: 1337
-      _type: Storage
-      name: It's no moon
-      createdAt: '2021-12-20T13:37:00.211Z'
-      updatedAt: '2021-12-20T13:37:00.211Z'
-      _links:
-        self:
-          href: /api/v3/storages/1337
-          title: It's no moon
-        type:
-          href: urn:openproject-org:api:v3:storages:nextcloud
-          title: Nextcloud
-        origin:
-          href: https://nextcloud.deathstar.rocks/
-        open:
-          href: https://example.com/a-link-to-open-the-file
-        authorizationState:
-          href: urn:openproject-org:api:v3:storages:authorization:Connected
-    container:
-      _hint: Work package resource shortened for brevity
-      _type: WorkPackage
-      id: 1528
-      subject: Develop API
-  _links:
-    self:
-      href: /api/v3/work_package/17/file_links/1337
-    storage:
-      href: /api/v3/storage/42
-      title: It's no moon
-    container:
-      href: /api/v3/work_package/17
-      title: Develop API
-    creator:
-      href: /api/v3/users/33
-      title: Obi-Wan Kenobi
-    delete:
-      href: /api/v3/work_package/17/file_links/1337
-    status:
-      href: urn:openproject-org:api:v3:file-links:permission:ViewAllowed
-      title: View allowed
-    originOpen:
-      href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=1
-    staticOriginOpen:
-      href: /api/v3/file_links/1337/open
-    originOpenLocation:
-      href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=0
-    staticOriginOpenLocation:
-      href: /api/v3/file_links/1337/open?location=true
-    staticOriginDownload:
-      href: /api/v3/file_links/1337/download
+examples:
+  - id: 1337
+    _type: FileLink
+    createdAt: '2021-12-20T13:37:00.211Z'
+    updatedAt: '2021-12-20T13:37:00.211Z'
+    originData:
+      id: "5503"
+      name: logo.png
+      mimeType: image/png
+      size: 16042
+      createdAt: '2021-12-19T09:42:10.170Z'
+      lastModifiedAt: '2021-12-20T14:00:13.987Z'
+      createdByName: Luke Skywalker
+      lastModifiedByName: Anakin Skywalker
+    _embedded:
+      storage:
+        id: 1337
+        _type: Storage
+        name: It's no moon
+        createdAt: '2021-12-20T13:37:00.211Z'
+        updatedAt: '2021-12-20T13:37:00.211Z'
+        _links:
+          self:
+            href: /api/v3/storages/1337
+            title: It's no moon
+          type:
+            href: urn:openproject-org:api:v3:storages:nextcloud
+            title: Nextcloud
+          origin:
+            href: https://nextcloud.deathstar.rocks/
+          open:
+            href: https://example.com/a-link-to-open-the-file
+          authorizationState:
+            href: urn:openproject-org:api:v3:storages:authorization:Connected
+      container:
+        _hint: Work package resource shortened for brevity
+        _type: WorkPackage
+        id: 1528
+        subject: Develop API
+    _links:
+      self:
+        href: /api/v3/work_package/17/file_links/1337
+      storage:
+        href: /api/v3/storage/42
+        title: It's no moon
+      container:
+        href: /api/v3/work_package/17
+        title: Develop API
+      creator:
+        href: /api/v3/users/33
+        title: Obi-Wan Kenobi
+      delete:
+        href: /api/v3/work_package/17/file_links/1337
+      status:
+        href: urn:openproject-org:api:v3:file-links:permission:ViewAllowed
+        title: View allowed
+      originOpen:
+        href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=1
+      staticOriginOpen:
+        href: /api/v3/file_links/1337/open
+      originOpenLocation:
+        href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=0
+      staticOriginOpenLocation:
+        href: /api/v3/file_links/1337/open?location=true
+      staticOriginDownload:
+        href: /api/v3/file_links/1337/download

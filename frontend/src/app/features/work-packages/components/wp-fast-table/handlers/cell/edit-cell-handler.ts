@@ -131,7 +131,7 @@ export function activateTableField(table:WorkPackageTable, target:HTMLElement, p
   const workPackage = table.states.workPackages.get(rowElement.dataset.workPackageId!).value!;
   const form = table.editing.startEditing(workPackage, rowElement.dataset.classIdentifier!);
 
-  form.activate(fieldName)
+  form.activate(fieldName, false, true)
     .then((handler) => {
       if (table.destroyed) return;
       if (!handler) {

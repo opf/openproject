@@ -37,9 +37,7 @@ module Backlogs
         param :sprint
         param :project
 
-        def title
-          t("backlogs.show_created_resolved_chart")
-        end
+        def title = t(".title")
 
         # Timestamps go out as UTC; the chart renders them in the viewer's zone. They sit at
         # period ends, so the chart needs the step to label them the way a reader expects.
@@ -47,8 +45,7 @@ module Backlogs
           {
             step: created_resolved.step,
             range: charted_range,
-            series: series,
-            nonWorkingIntervals: non_working_intervals
+            series: series
           }.to_json
         end
 
@@ -84,10 +81,6 @@ module Backlogs
         def charted_range
           { from: created_resolved.charted_range.first.utc.iso8601(3),
             to: created_resolved.charted_range.last.utc.iso8601(3) }
-        end
-
-        def non_working_intervals
-          created_resolved.non_working_intervals.map { { from: it.first.iso8601, to: it.last.iso8601 } }
         end
       end
     end

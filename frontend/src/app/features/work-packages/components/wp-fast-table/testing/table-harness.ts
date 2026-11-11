@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
 import { fireEvent } from '@testing-library/dom';
 import {
   createEnvironmentInjector, DestroyRef, EnvironmentInjector, EventEmitter, Injector, Provider, Type,
@@ -43,9 +44,11 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { States } from 'core-app/core/states/states.service';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import {
+  QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC, QuerySortByResource, type QuerySortDirection,
+} from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -62,7 +65,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { WorkPackageStateLinkEvent, WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
@@ -78,6 +81,7 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { OpContextMenuTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/context-menu-table-action';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
@@ -87,6 +91,7 @@ import type { Edge } from 'core-common/drag-and-drop/reorder';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
 import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
+import type { MutationExit, PaintScope } from '../row-mutations';
 import { WorkPackageTable } from '../wp-fast-table';
 import {
   buildGroup, buildRelations, buildWorkPackage, GroupFixture, RelationFixture, WorkPackageFixture,
@@ -136,6 +141,12 @@ export interface TableHarnessOptions {
   groups?:GroupFixture[];
   groupBy?:string;
   showHierarchies?:boolean;
+  /** Sorts the built query manually. */
+  manualSort?:boolean;
+  /** The manual sort's direction; defaults to ascending. */
+  manualSortDirection?:QuerySortDirection;
+  /** Builds a persisted query that can (default) or cannot update its ordered work packages. */
+  canReorder?:boolean;
   configuration?:WorkPackageTableConfigurationObject;
   /** Keeps production defaults for every setting but the extra columns the harness cannot build. */
   productionDefaults?:boolean;
@@ -167,6 +178,20 @@ export interface TableHarnessOptions {
   beforeAttach?:(injector:Injector) => void;
 }
 
+/** The keys of a paint scope for assertions; `'all'` stays a single marker. */
+export function scopeKeys(scope:PaintScope):string[] {
+  return typeof scope === 'string' ? [scope] : Array.from(scope);
+}
+
+/** A `WorkPackageTable.mutate` stand-in for fakes: runs the change, paints nothing. */
+export const runMutation:WorkPackageTable['mutate'] = (_scope, change) => { change(); };
+
+export interface HeldFrames {
+  readonly pending:() => number;
+  readonly commit:() => void;
+  readonly release:() => void;
+}
+
 export interface TableHarness {
   readonly table:WorkPackageTable;
   readonly tbody:HTMLTableSectionElement;
@@ -179,6 +204,10 @@ export interface TableHarness {
   render(workPackages?:WorkPackageFixture[]):Promise<RenderedWorkPackage[]>;
   /** Resolves with the next completed table render. */
   nextRender():Promise<RenderedWorkPackage[]>;
+  /** Intercepts the table's frame scheduling until `release()`; `commit()` runs the held frames in order. */
+  holdFrames():HeldFrames;
+  /** Resolves after the next outermost mutation settled: rows painted and keyboard navigation notified. */
+  nextMutation():Promise<MutationExit>;
   /** Every rendered work-package row, relation rows included. */
   rows():HTMLTableRowElement[];
   /** Asserts the `aria-rowindex` of every table row in document order and the table's `aria-rowcount`; requires `productionMarkup`. */
@@ -226,6 +255,54 @@ const harnessConfiguration:WorkPackageTableConfigurationObject = {
   dragAndDropEnabled: false,
 };
 
+export type ConsumerName = 'list'|'search'|'macro'|'widget'|'queryGroup'|'bcf';
+
+const consumerLiterals:Record<ConsumerName, WorkPackageTableConfigurationObject> = {
+  list: {
+    dragAndDropEnabled: true,
+  },
+  search: {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: true,
+    contextMenuEnabled: false,
+    inlineCreateEnabled: false,
+    withFilters: true,
+    showFilterButton: true,
+  },
+  macro: {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: false,
+    contextMenuEnabled: false,
+  },
+  widget: {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: false,
+    hierarchyToggleEnabled: true,
+    contextMenuEnabled: false,
+  },
+  queryGroup: {
+    actionsColumnEnabled: true,
+    hierarchyToggleEnabled: false,
+    inlineCreateEnabled: true,
+    compactTableStyle: true,
+    columnMenuEnabled: false,
+    contextMenuEnabled: false,
+    projectContext: false,
+  },
+  bcf: {
+    dragAndDropEnabled: false,
+  },
+};
+
+export function consumerConfiguration(name:ConsumerName):WorkPackageTableConfigurationObject {
+  const productionDefaults = Object.fromEntries(
+    Object.entries(new WorkPackageTableConfiguration({}))
+      .filter(([, value]) => typeof value === 'boolean'),
+  ) as WorkPackageTableConfigurationObject;
+
+  return { ...productionDefaults, ...consumerLiterals[name] };
+}
+
 const unbuildableColumns:WorkPackageTableConfigurationObject = {
   actionsColumnEnabled: false,
   columnMenuEnabled: false,
@@ -252,6 +329,18 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     options.timelineVisible ?? false,
     options.highlightingMode,
   );
+  if (options.manualSort) {
+    const direction = options.manualSortDirection ?? QUERY_SORT_BY_ASC;
+    query.sortBy = [{
+      href: `/api/v3/queries/sort_bys/manualSorting-${direction === QUERY_SORT_BY_DESC ? 'desc' : 'asc'}`,
+      column: { href: '/api/v3/queries/columns/manualSorting' },
+      direction: { href: direction },
+    } as unknown as QuerySortByResource];
+  }
+  if (options.canReorder !== undefined) {
+    query.id = '1';
+    query.updateOrderedWorkPackages = options.canReorder ? vi.fn() : undefined;
+  }
   querySpace.query.putValue(query);
   const configuration = new WorkPackageTableConfiguration(
     { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },
@@ -274,7 +363,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
   const outputs:WorkPackageViewOutputs = {
     itemClicked: new EventEmitter<{ workPackageId:string, double:boolean }>(),
-    stateLinkClicked: new EventEmitter<{ workPackageId:string, requestedState:string }>(),
+    stateLinkClicked: new EventEmitter<WorkPackageStateLinkEvent>(),
   };
   options.beforeAttach?.(injector);
   new TableHandlerRegistry(injector).attachTo({ workPackageTable: table, ...outputs });
@@ -324,6 +413,26 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     },
 
     nextRender,
+    nextMutation() {
+      return new Promise<MutationExit>((resolve) => {
+        const navigation = table.keyboardNavigation;
+        const original = navigation.rowsChanged.bind(navigation);
+        const spy = vi.spyOn(navigation, 'rowsChanged').mockImplementation((exit) => {
+          spy.mockRestore();
+          original(exit);
+          resolve(exit);
+        });
+      });
+    },
+    holdFrames() {
+      const held:(() => void)[] = [];
+      const spy = vi.spyOn(table.uiWork, 'frame').mockImplementation((callback) => { held.push(callback); });
+      return {
+        pending: () => held.length,
+        commit: () => { held.splice(0).forEach((callback) => callback()); },
+        release: () => { spy.mockRestore(); },
+      };
+    },
 
     rows() {
       return Array.from(dom.tbody.querySelectorAll<HTMLTableRowElement>('tr.wp-table--row'));
@@ -413,7 +522,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
     click(workPackageId, init = {}) {
       const row = this.row(workPackageId);
-      const target = row.querySelector('td') ?? row;
+      const target = row.cells[0] ?? row;
       fireEvent.click(target, init);
     },
 
@@ -482,14 +591,18 @@ class FakeEditingPortalService {
   create(container:HTMLElement, injector:Injector, form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
     const wrapper = document.createElement('div');
     wrapper.className = activeFieldContainerClassName;
+    const formElement = document.createElement('form');
+    formElement.tabIndex = -1;
     const label = document.createElement('label');
     label.className = 'sr-only';
     const input = document.createElement('input');
     input.className = activeFieldClassName;
-    wrapper.append(label, input);
+    formElement.append(label, input);
+    wrapper.append(formElement);
     container.appendChild(wrapper);
     const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
     input.id = handler.htmlId;
+    input.addEventListener('keydown', (event) => { void handler.handleUserKeydown(event); });
     label.htmlFor = handler.htmlId;
     const markErrors = () => {
       wrapper.classList.toggle('-error', handler.isErrorenous);
@@ -511,7 +624,12 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
   const editableFields = options.editing?.fields ?? ['subject'];
-  const fieldSchema = (name:string, writable:boolean) => (editableFields.includes(name) ? { type: 'String', name, writable } : undefined);
+  const fieldSchema = (name:string, writable:boolean) => {
+    if (name === 'id') {
+      return { type: 'Integer', name: 'ID', writable: false };
+    }
+    return editableFields.includes(name) ? { type: 'String', name, writable } : undefined;
+  };
   const sumsSchema = buildSumsSchema(options.groups ?? []);
 
   return [
@@ -530,7 +648,12 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     WorkPackageViewHighlightingService,
     WorkPackageViewRelationColumnsService,
     WorkPackageViewOrderService,
-    { provide: WorkPackagesListService, useValue: {} },
+    {
+      provide: WorkPackagesListService,
+      useValue: {
+        conditionallyLoadForm: () => new Promise<never>(() => undefined),
+      } satisfies Partial<WorkPackagesListService>,
+    },
     {
       provide: ApiV3Service,
       useFactory: (states:States) => ({
@@ -582,6 +705,7 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     { provide: WorkPackageRelationsService, useValue: relationsStub(options.relations ?? []) },
     { provide: WorkPackageContextMenuHelperService, useValue: { getPermittedActions: () => [] } },
     { provide: OPContextMenuService, useValue: { close: () => undefined, show: () => undefined } },
+    OpActionMenuService,
     {
       provide: ConfigurationService,
       useValue: { requireDoubleClickForInlineEdit: () => !!options.requireDoubleClickForInlineEdit },
@@ -596,7 +720,6 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     },
     { provide: BannersService, useValue: { eeShowBanners: false } },
     { provide: PathHelperService, useValue: { genericWorkPackagePath: () => '/work_packages/1' } },
-    { provide: CausedUpdatesService, useValue: { add: () => undefined } },
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
@@ -652,29 +775,35 @@ function productionMarkupElement<T extends HTMLElement = HTMLElement>(wrapper:HT
 }
 
 function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configuration:WorkPackageTableConfiguration) {
-  const keyboardNavigationEnabled = configuration.keyboardNavigationEnabled;
-  const tabindex = keyboardNavigationEnabled ? ' tabindex="-1"' : '';
-  const navigable = keyboardNavigationEnabled ? ' wp-table--navigable-cell' : '';
+  const tabindex = ' tabindex="-1"';
+  const navigable = ' wp-table--navigable-cell';
   const columns = query.columns as unknown as { id:string, name:string, sortable?:boolean }[];
   const headerCells = columns.map(({ id, name, sortable }) => `
     <th class="wp-table--table-header${navigable}">
       <div class="generic-table--sort-header-outer">
-        <span class="generic-table--sort-header">${sortable === false ? `<a${tabindex}>${name}</a>` : `<a href="#" id="${id}"${tabindex}>${name}</a>`}</span>
+        <span class="generic-table--sort-header"><button type="button" id="${id}" class="wp-table--column-menu-button"${tabindex}${sortable === false ? ' data-sortable="false"' : ''}>${name}</button></span>
       </div>
     </th>`).join('');
-  const configurationCell = `
+  const hasConfigurationCell = configuration.columnMenuEnabled || configuration.actionsColumnEnabled;
+  const configurationCell = !hasConfigurationCell ? '' : `
     <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th${navigable}">
-      <button type="button" class="wp-table--columns-selection"${tabindex}></button>
+      ${configuration.columnMenuEnabled ? `<button type="button" class="wp-table--columns-selection"${tabindex}></button>` : ''}
     </th>`;
 
   productionMarkupElement(wrapper, 'thead tr').innerHTML = headerCells + configurationCell;
+  if (configuration.inlineCreateEnabled) {
+    wrapper.querySelector('tbody.work-package--results-tbody')!.closest('table')!.insertAdjacentHTML(
+      'beforeend',
+      '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>',
+    );
+  }
   const augmentedColumns = [
     ...(configuration.dragAndDropEnabled ? [internalSortColumn] : []),
     ...(columns as QueryColumn[]),
-    internalContextMenuColumn,
+    ...(hasConfigurationCell ? [internalContextMenuColumn] : []),
   ];
   productionMarkupElement(wrapper, 'tr.wp-table--sums-row').innerHTML = augmentedColumns
-    .map((column) => `<td${keyboardNavigationEnabled && isNavigableColumn(column, configuration) ? ` class="${navigableCellClassName}"` : ''}></td>`)
+    .map((column) => `<td${isNavigableColumn(column, configuration) ? ` class="${navigableCellClassName}"` : ''}></td>`)
     .join('');
 }
 
@@ -700,7 +829,6 @@ export function buildDom(options:{ productionMarkup?:boolean } = {}) {
         ${options.productionMarkup ? '<thead class="-sticky"><tr></tr></thead>' : ''}
         <tbody class="work-package--results-tbody"></tbody>
         ${options.productionMarkup ? '<tbody><tr class="wp-table--sums-row wp-table--row"></tr></tbody>' : ''}
-        ${options.productionMarkup ? '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>' : ''}
       </table>
     </div>
     <div class="work-packages-tabletimeline--timeline-side"><div class="wp-table-timeline--body"></div></div>
@@ -737,7 +865,7 @@ export function buildQuery(columns:(string|RelationColumnSpec|NonSortableColumnS
   } as unknown as QueryResource;
 }
 
-function buildColumn(column:string|RelationColumnSpec|NonSortableColumnSpec) {
+export function buildColumn(column:string|RelationColumnSpec|NonSortableColumnSpec) {
   if (typeof column === 'string') {
     return { id: column, name: column, _type: 'QueryColumn', href: `/api/v3/queries/columns/${column}` };
   }

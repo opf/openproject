@@ -78,7 +78,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       if (nextGroup && groupsChanged) {
         const groupClass = groupClassNameFor(nextGroup);
         const rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
-        this.appendNonWorkPackageRow(groupOccurrenceKey(nextGroup.index, 'header'), rowElement, groupClass, [groupRowClass], false, nextGroup.identifier);
+        this.appendNonWorkPackageRow(groupOccurrenceKey(nextGroup.index, 'header'), 'groupHeader', rowElement, groupClass, [groupRowClass], false, nextGroup.identifier);
         currentGroup = nextGroup;
       }
 
@@ -95,7 +95,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    * Find a matching group for the given work package.
    * The API sadly doesn't provide us with the information which group a WP belongs to.
    */
-  private matchingGroup(workPackage:WorkPackageResource) {
+  private matchingGroup(workPackage:WorkPackageResource):GroupObject|null {
     return this.groups.find((group:GroupObject) => {
       let property = workPackage[groupByProperty(group)];
       // explicitly check for undefined as `false` (bool) is a valid value.
@@ -127,7 +127,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       // Values provided by the API are always string
       // so avoid triple equal here
       return value == property;
-    })!;
+    }) ?? null;
   }
 
   private hasHref(value:unknown):value is { href:string } {
@@ -184,7 +184,7 @@ export class GroupedRenderPass extends PlainRenderPass {
     const { additionalClasses, hidden } = this.groupRowState(group);
 
     rowElement.classList.add(...additionalClasses);
-    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), rowElement, groupClass, additionalClasses, hidden, group.identifier, 2);
+    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), 'sums', rowElement, groupClass, additionalClasses, hidden, group.identifier, 2);
   }
 
   private groupRowState(group:GroupObject):{ additionalClasses:string[], hidden:boolean } {

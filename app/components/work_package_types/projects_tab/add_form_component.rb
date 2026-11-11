@@ -38,17 +38,18 @@ module WorkPackageTypes
       FORM_ID = "work-package-type-add-projects-form"
       FIELD_NAME = "project_ids"
 
-      def initialize(variant:, validation_message: nil)
+      def initialize(variant:, wizard: false, validation_message: nil)
         super()
 
         @variant = variant
+        @wizard = wizard
         @validation_message = validation_message
       end
 
       def form_arguments
         {
           id: FORM_ID,
-          url: link_variant_projects_path(variant),
+          url: link_variant_projects_path(variant, **(@wizard ? { wizard: true } : {})),
           method: :post,
           data: { turbo: true }
         }

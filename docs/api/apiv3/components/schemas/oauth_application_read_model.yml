@@ -80,24 +80,24 @@ properties:
 
                 **Resource**: N/A
 
-example:
-  id: 1337
-  _type: OAuthApplication
-  name: Vader's secure OAuth app
-  clientId: O5h6WObhMg1Z8IcLHRE3_LMh4jJYmmca2V6OTFSv8DA
-  confidential: true
-  createdAt: '2022-12-07T12:56:42.626Z'
-  updatedAt: '2022-12-07T12:56:42.626Z'
-  scopes:
-    - api_v3
-  _links:
-    self:
-      href: '/api/v3/oauth_applications/1337'
-    owner:
-      href: '/api/v3/users/13'
-      title: Darth Vader
-    integration:
-      href: '/api/v3/storages/42'
-      title: Death Star Cloud
-    redirectUri:
-      - href: 'https://death-star.cloud.tools/index.php/apps/integration_openproject/oauth-redirect'
+examples:
+  - id: 1337
+    _type: OAuthApplication
+    name: Vader's secure OAuth app
+    clientId: O5h6WObhMg1Z8IcLHRE3_LMh4jJYmmca2V6OTFSv8DA
+    confidential: true
+    createdAt: '2022-12-07T12:56:42.626Z'
+    updatedAt: '2022-12-07T12:56:42.626Z'
+    scopes:
+      - api_v3
+    _links:
+      self:
+        href: '/api/v3/oauth_applications/1337'
+      owner:
+        href: '/api/v3/users/13'
+        title: Darth Vader
+      integration:
+        href: '/api/v3/storages/42'
+        title: Death Star Cloud
+      redirectUri:
+        - href: 'https://death-star.cloud.tools/index.php/apps/integration_openproject/oauth-redirect'

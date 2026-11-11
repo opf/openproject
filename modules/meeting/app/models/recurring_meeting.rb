@@ -210,22 +210,18 @@ class RecurringMeeting < ApplicationRecord
   end
 
   def schedule
-    @schedule ||= IceCube::Schedule.new(start_time, duration: template&.duration).tap do |s|
-      s.add_recurrence_rule count_rule(frequency_rule)
-      exclude_non_working_days(s) if frequency_working_days?
-    end
+    @schedule ||= build_schedule(start_time)
   end
 
   def ical_schedule
-    @ical_schedule ||= IceCube::Schedule.new(current_schedule_start, duration: template&.duration).tap do |s|
-      s.add_recurrence_rule count_rule(frequency_rule, only_upcoming_iterations: true)
-      exclude_non_working_days(s) if frequency_working_days?
-    end
+    @ical_schedule ||= build_schedule(current_schedule_start, only_upcoming_iterations: true)
   end
 
   # The recurrence rule without the end rule applied.
   # This is used to define the UNTIL rule for previous schedules.
   def frequency_rule # rubocop:disable Metrics/AbcSize
+    return unless positive_interval?
+
     case frequency
     when "daily"
       IceCube::Rule.daily(interval)
@@ -245,6 +241,8 @@ class RecurringMeeting < ApplicationRecord
   end
 
   def base_schedule # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
+    return unless frequency_working_days? || positive_interval?
+
     case frequency
     when "daily"
       if interval == 1
@@ -280,30 +278,36 @@ class RecurringMeeting < ApplicationRecord
     end
   end
 
-  def full_schedule_in_words # rubocop:disable Metrics/AbcSize
+  def full_schedule_in_words
+    base = base_schedule
+    return if base.blank?
+
     time = "#{format_time(start_time, time_zone:, include_date: false)} (#{friendly_timezone_name(time_zone)})"
     if has_ended?
       I18n.t("recurring_meeting.in_words.full_past",
-             base: base_schedule,
+             base:,
              time:,
              end_date: format_date(last_occurrence))
     elsif will_end?
       I18n.t("recurring_meeting.in_words.full",
-             base: base_schedule,
+             base:,
              time:,
              end_date: format_date(last_occurrence))
     else
       I18n.t("recurring_meeting.in_words.never_ending",
-             base: base_schedule,
+             base:,
              time:)
     end
   end
 
   def human_frequency_schedule
+    base = base_schedule
+    return if base.blank?
+
     formatted_time = format_time(start_time, time_zone:, include_date: false)
     time = time_zone_differs? ? "#{formatted_time} (#{friendly_timezone_name(time_zone)})" : formatted_time
     I18n.t("recurring_meeting.in_words.frequency",
-           base: base_schedule,
+           base:,
            time:)
   end
 
@@ -335,21 +339,21 @@ class RecurringMeeting < ApplicationRecord
   end
 
   def scheduled_occurrences(limit:, from_time: Time.current)
-    schedule.next_occurrences(limit, from_time)
+    schedule&.next_occurrences(limit, from_time) || []
   end
 
   def first_occurrence
-    @first_occurrence ||= schedule.first
+    @first_occurrence ||= schedule&.first
   end
 
   def last_occurrence
     return if end_after_never?
 
-    @last_occurrence ||= schedule.last
+    @last_occurrence ||= schedule&.last
   end
 
   def next_occurrence(from_time: Time.current)
-    schedule.next_occurrence(from_time)&.to_time
+    schedule&.next_occurrence(from_time)&.to_time
   end
 
   def first_available_occurrence(from_time: Time.current)
@@ -373,12 +377,16 @@ class RecurringMeeting < ApplicationRecord
   end
 
   def previous_occurrence(from_time: Time.current)
-    schedule.previous_occurrence(from_time)&.to_time
+    schedule&.previous_occurrence(from_time)&.to_time
   end
 
-  delegate :occurs_at?, to: :schedule
+  def occurs_at?(time)
+    schedule&.occurs_at?(time) || false
+  end
 
   def remaining_occurrences(after_time: Time.current)
+    return if schedule.nil?
+
     case end_after
     when "specific_date"
       schedule.occurrences_between(after_time, end_date.to_time(:utc).end_of_day)
@@ -443,6 +451,7 @@ class RecurringMeeting < ApplicationRecord
     return unless end_after_specific_date?
     return if end_date.blank? || start_time.blank?
     return if parsed_start_date.present? && end_date < parsed_start_date
+    return unless schedule
 
     schedule.next_occurrences(MAX_ITERATIONS + 1, Time.current).size
   end
@@ -461,6 +470,20 @@ class RecurringMeeting < ApplicationRecord
     @schedule = nil
     @first_occurrence = nil
     @last_occurrence = nil
+  end
+
+  def build_schedule(schedule_start, only_upcoming_iterations: false)
+    rule = frequency_rule
+    return if rule.nil?
+
+    IceCube::Schedule.new(schedule_start, duration: template&.duration).tap do |s|
+      s.add_recurrence_rule count_rule(rule, only_upcoming_iterations:)
+      exclude_non_working_days(s) if frequency_working_days?
+    end
+  end
+
+  def positive_interval?
+    interval.is_a?(Integer) && interval.positive?
   end
 
   def end_date_constraints

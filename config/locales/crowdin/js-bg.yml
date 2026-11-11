@@ -47,6 +47,8 @@ bg:
       draggable_hint: 'Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -129,8 +131,8 @@ bg:
     button_confirm: Confirm
     button_continue: Продължаване
     button_copy: Копиране
-    button_copy_link_to_clipboard: Копиране на връзката в клипборда
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Копирай в буфер
     button_copy_to_other_project: Duplicate in another project
     button_create: Създаване
@@ -148,6 +150,7 @@ bg:
     button_log_time: Отчетено време
     button_more: Повече
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Отвори детайлен изглед
     button_open_fullscreen: Отвори на цял екран
     button_quote: Цитат
@@ -205,6 +208,7 @@ bg:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
@@ -436,7 +440,6 @@ bg:
     label_assignee: Изпълнител
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Прикачени файлове
-    label_author: 'Автор: %{user}'
     label_avatar: Аватар
     label_between: между
     label_board: Board
@@ -565,7 +568,9 @@ bg:
     label_show_in_menu: Show view in menu
     label_sort_by: Подреждане по
     label_sort_higher: Премести нагоре
+    label_sort_highest: Move to top
     label_sort_lower: Премести надолу
+    label_sort_lowest: Move to bottom
     label_sorted_by: сортирано по
     label_sorting: Сортиране
     label_spent_time: Отработено време
@@ -817,6 +822,7 @@ bg:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -1114,10 +1120,6 @@ bg:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Таблица с атрибути от редове и колони на работен пакет.
-        text_inline_edit: Повечето клетки на тази таблица са бутони, които активират инлайн редактиране функционалност на този атрибут.
-        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
-        text_sort_hint: С линковете в заглавията на колоните в таблицата можете да сортирате, преподреждате, премахвате и добавяте колони.
       table_configuration:
         button: Configure this work package table
         choose_display_mode: Display work packages as
@@ -1126,7 +1128,6 @@ bg:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarchy
         highlighting: Highlighting

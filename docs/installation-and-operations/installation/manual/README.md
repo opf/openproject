@@ -155,7 +155,7 @@ with OpenProject. For more information, see [github.com/opf/openproject](https:/
 
 ```shell
 [openproject@host] cd ~
-[openproject@host] git clone https://github.com/opf/openproject.git --branch stable/17 --depth 1
+[openproject@host] git clone https://github.com/opf/openproject.git --branch stable/18 --depth 1
 [openproject@host] cd openproject
 # Ensure rubygems is up-to-date for bundler 2
 [openproject@host] gem update --system

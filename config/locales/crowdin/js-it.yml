@@ -47,6 +47,8 @@ it:
       draggable_hint: 'Trascina l''elemento nei campi dell''editor per allineare l''immagine o il riferimento allegato. I campi dell''editor chiusi verranno sbloccati durante il trascinamento.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Il file è in quarantena, poiché è stato trovato un virus. Non è disponibile per il download.
     autocomplete_ng_select:
       add_tag: Aggiungi elemento
@@ -129,8 +131,8 @@ it:
     button_confirm: Conferma
     button_continue: Continua
     button_copy: Copia
-    button_copy_link_to_clipboard: Copia link negli appunti
-    button_copy_numeric_id_to_clipboard: Copia l'ID numerico negli appunti
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copia negli appunti
     button_copy_to_other_project: Duplica in un altro progetto
     button_create: Crea
@@ -148,6 +150,7 @@ it:
     button_log_time: Registra l'orario effettuato
     button_more: Più
     button_more_actions: Altre azioni
+    button_move: Move
     button_open_details: Mostra dettagli
     button_open_fullscreen: Apri la visualizzazione a schermo intero
     button_quote: Cita
@@ -205,6 +208,7 @@ it:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Si è verificato un errore all'interno di CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'
@@ -436,7 +440,6 @@ it:
     label_assignee: Assegnatario
     label_assignee_alt_text: Questa macro-attività è assegnata a %{name}
     label_attachments: Allegati
-    label_author: 'Autore: %{user}'
     label_avatar: Avatar
     label_between: tra
     label_board: Tabellone
@@ -565,7 +568,9 @@ it:
     label_show_in_menu: Mostra la vista nel menù
     label_sort_by: Ordina per
     label_sort_higher: Sposta su
+    label_sort_highest: Move to top
     label_sort_lower: Sposta giu
+    label_sort_lowest: Move to bottom
     label_sorted_by: ordinati per
     label_sorting: Ordinamento
     label_spent_time: Tempo speso
@@ -817,6 +822,7 @@ it:
         batch_too_large: Non è possibile spostare %{count} elementi alla volta. Selezionane al massimo %{max}.
         fallback_item_label: Elemento
         fallback_list_name: un'altra lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Spostamento non riuscito. Verifica la posizione attuale dell'elemento.
         move_failed_check_positions_batch:
           other: Spostamento non riuscito. Controlla le posizioni attuali degli elementi.
@@ -1114,10 +1120,6 @@ it:
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
         sorted_manually: Sorted manually.
-        summary: Tabella con righe di macro-attività e colonne dei loro attributi.
-        text_inline_edit: Molte celle di questa tabella sono pulsanti che attivano le funzionalità di modifica in linea di tale attributo.
-        text_select_hint: Le caselle di selezione devono essere aperte con ' ALT ' e i tasti freccia.
-        text_sort_hint: Con i collegamenti nelle intestazioni di tabella puoi ordinare, raggruppare, riordinare, rimuovere e aggiungere le colonne della tabella.
       table_configuration:
         button: Configura questa tabella di macro-attività
         choose_display_mode: Visualizza la macro-attività come
@@ -1126,7 +1128,6 @@ it:
         default_mode: Elenco semplice
         display_settings: Impostazioni di visualizzazione
         display_sums_hint: Visualizza i totali degli attributi sommabili in una riga sotto i risultati della tabella.
-        embedded_tab_disabled: La scheda di configurazione non è disponibile per la visualizzazione incorporata che stai modificando.
         hierarchy_hint: Tutti i risultati della tabella filtrata verranno ampliati con i loro antenati. Le gerarchie possono essere espanse e compresse.
         hierarchy_mode: Gerarchia
         highlighting: Evidenziazione

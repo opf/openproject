@@ -142,8 +142,7 @@ RSpec.describe "Cost reports XLS export", :js do
     report_page.visit!
     click_on "Export XLS"
 
-    expect(page).to have_content I18n.t("job_status_dialog.generic_messages.in_queue"),
-                                 wait: 10
+    expect(page).to have_text I18n.t("job_status_dialog.generic_messages.in_queue"), wait: 10
     perform_enqueued_jobs
 
     expect(page).to have_text(I18n.t("export.succeeded"))

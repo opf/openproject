@@ -32,14 +32,19 @@ require "spec_helper"
 RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
   include Rails.application.routes.url_helpers
 
-  shared_let(:project) { create(:project) }
+  # Required for epic progress widget:
+  shared_let(:epic_type) { create(:type, name: "Epic") }
+
+  shared_let(:project) { create(:project, types: [epic_type, create(:type_task)]) }
+  shared_let(:closed_status) { create(:closed_status) }
   shared_let(:sprint) do
     create(:sprint,
            project:,
            name: "Sprint 42",
            start_date: Date.yesterday,
            finish_date: Date.tomorrow,
-           status: :active)
+           status: :active,
+           started_at: 12.hours.ago)
   end
   shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
 
@@ -77,6 +82,8 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
              name: "Sprint 41",
              start_date: 20.days.ago,
              finish_date: 10.days.ago,
+             started_at: 20.days.ago,
+             completed_at: 10.days.ago,
              status: :completed)
     end
 
@@ -101,6 +108,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         [:text, "Work packages within the sprint"],
         [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
+        [:css, "opce-burnup-chart"],
         [:css, "opce-wp-overview-graph"]
       ]
     end
@@ -111,7 +119,9 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         [:text, "Work packages within the sprint"],
         [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
+        [:css, "opce-burnup-chart"],
         [:css, "opce-created-resolved-chart"],
+        [:text, "Epic progress"],
         [:css, "opce-wp-overview-graph"],
         [:text, "Completed work"],
         [:text, "Unfinished work"],
@@ -149,6 +159,61 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
       let(:expected_widgets) { all_widgets }
 
       it_behaves_like "sprint report widgets"
+    end
+  end
+
+  describe "work package tables", with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
+    shared_let(:added_and_completed) do
+      create(
+        :work_package,
+        project:,
+        sprint:,
+        status: closed_status,
+        journals: {
+          6.days.ago => { sprint_id: nil },
+          1.hour.ago => {}
+        }
+      )
+    end
+
+    shared_let(:kept) do
+      create(:work_package, project:, sprint:, journals: { 6.days.ago => {} })
+    end
+
+    shared_let(:removed) do
+      create(:work_package, project:, journals: { 6.days.ago => { sprint_id: sprint.id }, 1.hour.ago => {} })
+    end
+
+    before { visit_sprint_report }
+
+    it "succeeds loading tables from API", :aggregate_failures do
+      within(".op-sprint-report-wp-table", text: "Completed work") do
+        expect(page).to have_css("opce-embedded-work-package-table")
+        expect(page).to have_text(added_and_completed.subject)
+        expect(page).to have_no_text(kept.subject)
+        expect(page).to have_no_text(removed.subject)
+      end
+
+      within(".op-sprint-report-wp-table", text: "Unfinished work") do
+        expect(page).to have_css("opce-embedded-work-package-table")
+        expect(page).to have_text(kept.subject)
+        expect(page).to have_no_text(added_and_completed.subject)
+        expect(page).to have_no_text(removed.subject)
+      end
+
+      within(".op-sprint-report-wp-table", text: "Scope increase after sprint start") do
+        expect(page).to have_css("opce-embedded-work-package-table")
+        expect(page).to have_text(added_and_completed.subject)
+        expect(page).to have_no_text(kept.subject)
+        expect(page).to have_no_text(removed.subject)
+      end
+
+      within(".op-sprint-report-wp-table", text: "Scope decrease after sprint start") do
+        expect(page).to have_css("opce-embedded-work-package-table")
+        expect(page).to have_text(removed.subject)
+        expect(page).to have_no_text(added_and_completed.subject)
+        expect(page).to have_no_text(kept.subject)
+      end
     end
   end
 end

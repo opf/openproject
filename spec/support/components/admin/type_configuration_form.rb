@@ -97,29 +97,7 @@ module Components
       end
 
       def drag_and_drop(handle, target)
-        target_container = drop_container_for(target)
-        source_row = handle.find(:xpath, "./ancestor::li[1]")
-
-        scroll_to_element(target_container)
-        source_row.hover
-
-        page.driver.browser.action
-            .move_to(handle.native)
-            .click_and_hold(handle.native)
-            .perform
-
-        scroll_to_element(target_container)
-
-        target_container.all(":scope > li", visible: true).each do |item|
-          page.driver.browser.action
-              .move_to(item.native)
-              .perform
-        end
-
-        page.driver.browser.action
-            .move_to(target_container.native)
-            .release
-            .perform
+        perform_native_drag(source: handle, target: drop_container_for(target))
       end
 
       def add_query_group(name, relation_filter, expect: true)
@@ -172,20 +150,7 @@ module Components
       def edit_query_group(name)
         wait_for_turbo
 
-        group_key = find_group(name)["data-group-key"]
-        menu_id = open_query_menu(name)
-        page.find("##{menu_id}", visible: :all)
-            .find(:test_id, "type-form-configuration-edit-query-#{group_key}", visible: :all)
-            .click
-        expect(page).to have_css(".wp-table--configuration-modal")
-      end
-
-      def edit_query_group_via_link(name)
-        wait_for_turbo
-
-        group = find_group(name)
-        label = I18n.t("types.edit.form_configuration.query_group_label")
-        group.click_button(label)
+        within(find_group(name)) { click_on accessible_name: I18n.t("types.edit.form_configuration.edit_query") }
         expect(page).to have_css(".wp-table--configuration-modal")
       end
 
@@ -249,26 +214,12 @@ module Components
 
       def group_order
         page.within_test_selector("type-form-configuration-groups-container") do
-          all(":scope > [data-group-key] .Box-header span.text-bold", visible: true).map(&:text)
+          all(":scope > [data-group-key] .Box-header span.text-bold", visible: :visible).map(&:text)
         end
-      end
-
-      def attribute_order(group_name)
-        find_group(group_name).find("ul").all(":scope > li[data-attr-key]", visible: true).pluck("data-attr-key")
       end
 
       def open_attribute_menu(attribute)
         open_menu("type-form-configuration-attribute-actions-#{attribute}")
-      end
-
-      def open_query_menu(name)
-        group_key = find_group(name)["data-group-key"]
-        open_menu("type-form-configuration-query-actions-#{group_key}")
-      end
-
-      def close_menu(menu_id)
-        page.find("body").send_keys(:escape)
-        expect(page).to have_no_css("##{menu_id}")
       end
 
       def invoke_group_action(name, label)
