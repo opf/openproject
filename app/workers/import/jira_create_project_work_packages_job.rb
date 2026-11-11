@@ -41,6 +41,7 @@ module Import
         .where(id: @project.id)
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
+      allow_multiple_active_sprints
       tagged_log("jira_import_id:#{arguments[0]}",
                  "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
         Rails.logger.debug "Creating work packages finished"
@@ -421,6 +422,15 @@ module Import
       @sprints_by_origin_id.fetch(origin_id) do
         jira_sprint = Import::JiraSprint.find_by(jira_import: @jira_import, origin_id:)
         @sprints_by_origin_id[origin_id] = jira_sprint && @jira_import.find_op_leg(jira_sprint)
+      end
+    end
+
+    def allow_multiple_active_sprints
+      return if @project.allow_multiple_active_sprints? || !Sprint.for_project(@project).active.many?
+
+      @project.update!(allow_multiple_active_sprints: true)
+      tagged_log("jira_import_id:#{@jira_import.id}", "jira_project_id:#{@project.identifier}", "jira_object_type:sprint") do
+        Rails.logger.warn "Project #{@project.identifier} has several active sprints, multiple active sprints are allowed"
       end
     end
 

@@ -691,6 +691,33 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           end
         end
 
+        context "when the project owns an active sprint and receives another one" do
+          let(:sprint_value) { [{ "id" => 3, "state" => "active" }] }
+
+          before do
+            create(:sprint, :active, project: op_project)
+            stage_sprint("3", create(:sprint, :active, project: create(:project)))
+          end
+
+          it "allows multiple active sprints in the project" do
+            create_work_packages
+
+            expect(op_project.reload).to be_allow_multiple_active_sprints
+          end
+        end
+
+        context "when the project only receives an active sprint" do
+          let(:sprint_value) { [{ "id" => 3, "state" => "active" }] }
+
+          it "leaves the setting alone" do
+            stage_sprint("3", create(:sprint, :active, project: create(:project)))
+
+            create_work_packages
+
+            expect(op_project.reload).not_to be_allow_multiple_active_sprints
+          end
+        end
+
         context "when the sprint was not imported" do
           let(:sprint_value) { [{ "id" => 9, "state" => "active" }] }
 
