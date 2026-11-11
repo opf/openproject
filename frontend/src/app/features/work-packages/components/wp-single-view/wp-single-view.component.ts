@@ -160,6 +160,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       createdBy: this.I18n.t('js.label_created_by'),
       lastUpdatedOn: this.I18n.t('js.label_last_updated_on'),
     },
+    origin: {
+      label: this.I18n.t('js.label_origin'),
+      source: this.I18n.t('js.label_origin_source'),
+      id: this.I18n.t('js.label_origin_id'),
+      jiraDataCenter: this.I18n.t('js.label_origin_jira_data_center'),
+    },
   };
 
   public isNewResource:boolean;
@@ -306,6 +312,18 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   public showSwitchToProjectBanner():boolean {
     return !this.isNewResource && this.projectContext && !this.projectContext.matches;
+  }
+
+  public hasOrigin():boolean {
+    return !this.isNewResource && !!this.workPackage.originSource;
+  }
+
+  public get originSourceLabel():string {
+    const source = this.workPackage.originSource as string | undefined;
+    if (source === 'jira_data_center') {
+      return this.text.origin.jiraDataCenter;
+    }
+    return source ?? '';
   }
 
   public get switchToProjectPath():string {

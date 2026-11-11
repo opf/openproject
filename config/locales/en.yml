@@ -560,6 +560,11 @@ en:
         labels: "Labels"
         notify: "Notify" # used in custom actions
         observed_in_versions: "Observed in versions"
+        origin: "Origin"
+        origin_host: "Origin host"
+        origin_id: "Origin ID"
+        origin_source: "Origin source"
+        origin_url: "Origin URL"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -1717,6 +1722,8 @@ en:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
             title: "Create work packages for '%{jira_project_name}'"
+          JiraCreateRelationsJob:
+            title: "Create relations for '%{jira_project_name}'"
           JiraCreateSprintsJob:
             title: "Create sprints"
           JiraCreateUsersJob:
@@ -1940,9 +1947,12 @@ en:
               rest_line_text: ""
               title: "Fetch Jira configuration"
             "10":
+              rest_line_text: "Creating relations for %{projects_number} more projects"
+              title: "Create relations"
+            "11":
               rest_line_text: "Creating time entries for %{projects_number} more projects"
               title: "Create time entries"
-            "11":
+            "12":
               rest_line_text: "Downloading attachments for %{projects_number} more projects"
               title: "Download attachments"
             "2":
@@ -2278,6 +2288,8 @@ en:
       blankslate:
         description: "Add statuses to start configuring workflows for this role"
         linked_description: "This type reuses the workflows of its linked source type, which has no status transitions configured"
+        readonly_description: "Select other roles to view configured transitions"
+        readonly_title: "No status transitions configured for the selected roles"
         title: "No status transitions configured"
       leave_confirmation:
         description: "You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?"
@@ -2929,7 +2941,7 @@ en:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
-    contained_in_type: "Contained in type"
+    contained_in: "Contained in"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:
@@ -4083,7 +4095,7 @@ en:
   label_active_in_new_projects: "Active in new projects"
   label_activity: "Activity"
   label_add_another_file: "Add another file"
-  label_add_column: "Add column"
+  label_add_column: "Add columns"
   label_add_columns: "Add selected columns"
   label_add_edit_translations: "Add and edit translations"
   label_add_note: "Add a note"
@@ -4219,7 +4231,7 @@ en:
   label_custom_export_footer: "Footer image"
   label_custom_export_logo: "Logo"
   label_custom_favicon: "Custom favicon"
-  label_custom_field_add_no_type: "Add this field to a work package type"
+  label_custom_field_add_no_form: "Add this field to a form"
   label_custom_field_default_type: "Empty type"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
@@ -4314,7 +4326,7 @@ en:
   label_filter: "Filters"
   label_filter_add: "Add filter"
   label_filter_any_name_attribute: "Name attributes"
-  label_filter_by: "Filter by"
+  label_filter_by_column: "Filter by %{column}"
   label_filter_plural: "Filters"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"
@@ -4843,6 +4855,9 @@ en:
     one: "1 in progress"
     other: "%{count} in progress"
     zero: "0 in progress"
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -7640,7 +7655,7 @@ en:
         actions:
           confirm_remove: "Remove the type %{type} from %{project}?"
           remove_from_project: "Remove from project"
-          switch_variant: "Change variant"
+          switch_variant: "Switch variant"
         add_dialog:
           no_projects_selected: "Please select at least one project."
           search_placeholder: "Search projects"

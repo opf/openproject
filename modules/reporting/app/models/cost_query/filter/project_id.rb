@@ -36,7 +36,7 @@ class CostQuery::Filter::ProjectId < Report::Filter::Base
     ["=", "!", "=_child_projects", "!_child_projects"].map(&:to_operator)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     []
   end
 end
