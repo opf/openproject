@@ -110,6 +110,27 @@ RSpec.describe "GET workspaces/:id/labels" do
       end
     end
 
+    context "for a user with a work package of the workspace shared with them" do
+      let(:shared_user) do
+        create(:user).tap do |user|
+          create(:work_package_member,
+                 principal: user,
+                 entity: create(:work_package, project:),
+                 roles: [create(:edit_work_package_role)])
+        end
+      end
+
+      current_user { shared_user }
+
+      before do
+        get get_path
+      end
+
+      it_behaves_like "API V3 collection response", 3, 3, "Label" do
+        let(:elements) { [local_label, popular_elsewhere, unused_label] }
+      end
+    end
+
     context "for a user without permission to view work packages" do
       current_user { unpermitted_user }
 
