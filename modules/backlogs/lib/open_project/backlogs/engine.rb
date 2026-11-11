@@ -50,7 +50,7 @@ module OpenProject::Backlogs
              author_url: "https://www.openproject.org",
              bundled: true,
              settings:) do
-      project_module :backlogs, dependencies: :work_package_tracking do
+      project_module :backlogs, dependencies: %i[work_package_tracking board_view] do
         enabled_by_default!
 
         permission :view_sprints,

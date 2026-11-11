@@ -3,7 +3,7 @@
     section.with_title { I18n.t(:"admin.jira.run.side_panel.run_status") }
     flex_layout do |flex|
       flex.with_row do
-        render(Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(jira_import))
+        render(Admin::Import::Jira::ImportRuns::StreamableStatusLabelComponent.new(jira_import))
       end
       flex.with_row(mt: 3) do
         render(

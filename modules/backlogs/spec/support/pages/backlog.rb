@@ -356,8 +356,10 @@ module Pages
     # Leaves the menu open, for callers that act while it is.
     def open_work_package_menu(work_package)
       within_work_package(work_package) do
-        open_controlled_menu(find(:button, accessible_name: "Work package actions"))
+        find(:button, accessible_name: "Work package actions").click
       end
+
+      loaded_work_package_menu(work_package)
     end
 
     # Opens a card's menu through one of the four entry points Backlogs
@@ -365,13 +367,17 @@ module Pages
     # against the loading placeholder.
     def open_card_menu(work_package, via:)
       case via
-      when :more then open_work_package_menu(work_package)
+      when :more then return open_work_package_menu(work_package)
       when :right_click then right_click_work_package_card(work_package)
       when :context_menu_key then press_context_menu_key_on_card(work_package)
       when :shift_f10 then send_work_package_card_keys(work_package, %i[shift f10])
       else raise ArgumentError, "Unknown card menu entry point: #{via.inspect}"
       end
 
+      loaded_work_package_menu(work_package)
+    end
+
+    def loaded_work_package_menu(work_package)
       expect_work_package_menu_loaded(work_package)
       page.document.find(menu_owner_overlay_selector(work_package)).find(:menu)
     end
@@ -639,6 +645,30 @@ module Pages
       expect_turbo_frame_not_reloaded("backlogs_container", wait:)
     end
 
+    def expect_loading_skeleton
+      expect(page).to have_test_selector("op-backlogs-skeleton")
+      expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+
+      expect_no_loading_skeleton
+    end
+
+    def expect_no_loading_skeleton
+      expect(page).to have_no_test_selector("op-backlogs-skeleton")
+      expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+    end
+
+    def expect_loading_spinner
+      expect(page).to have_css("turbo-frame#backlogs_container[busy]")
+      expect(page).to have_css("#global-loading-indicator", visible: :visible)
+
+      expect_no_loading_spinner
+    end
+
+    def expect_no_loading_spinner
+      expect(page).to have_no_css("turbo-frame#backlogs_container[busy]")
+      expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+    end
+
     def expect_no_backlog_bucket_menu(bucket)
       within_backlog_bucket(bucket) do
         expect(page).to have_no_button(accessible_name: "Backlog bucket actions")
@@ -773,7 +803,7 @@ module Pages
         .to have_css("#{work_package_selector(work_package)}[draggable]")
     end
 
-    # The lock on the status badge is what tells the user why the cross-container
+    # The lock on the status label is what tells the user why the cross-container
     # moves are gone. Without it a read-only card is indistinguishable from a
     # movable one until they try to move it and nothing happens.
     def expect_work_package_locked(work_package)
@@ -957,10 +987,8 @@ module Pages
     end
 
     def expect_work_package_menu_axe_clean(work_package)
-      within_work_package_menu(work_package) do |menu|
-        menu_selector = "##{menu[:id]}"
-        expect_work_package_menu_loaded(work_package)
-        expect(page).to be_axe_clean.within(menu_selector)
+      within_work_package_menu(work_package) do
+        expect(page).to be_axe_clean.within("##{ActionView::RecordIdentifier.dom_target(work_package, :menu)}-list")
       end
     end
 

@@ -48,7 +48,7 @@ RSpec.describe "Work package table refreshing due to split view", :js do
 
     wp_table.expect_work_package_listed work_package
     page.within wp_table.row(work_package) do
-      expect(page).to have_css(".wp-table--drag-and-drop-handle.icon-drag-handle", visible: :all)
+      expect(page).to have_css(".wp-table--drag-and-drop-handle", visible: :all)
     end
   end
 end

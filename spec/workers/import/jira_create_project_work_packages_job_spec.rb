@@ -604,6 +604,131 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
       end
 
+      context "with sprint assignments" do
+        let(:op_project) { Project.find_by!(identifier: jira_project_key) }
+        let(:sprint_value) { [] }
+        let(:jira_issue_payload) { super().deep_merge("fields" => { "customfield_10102" => sprint_value }) }
+        let(:work_package) { WorkPackage.find("DPPP-6") }
+
+        def stage_sprint(origin_id, sprint)
+          jira_sprint = create(:jira_sprint, jira_import:, origin_id:)
+          create(:jira_open_project_reference,
+                 jira_import:,
+                 jira_entity_class: jira_sprint.class.to_s,
+                 jira_entity_id: jira_sprint.id.to_s,
+                 op_entity_class: sprint.class.to_s,
+                 op_entity_id: sprint.id.to_s)
+          sprint
+        end
+
+        def closed(id) = { "id" => id, "state" => "closed", "completeDate" => "2026-01-04T22:03:28.766Z" }
+
+        before do
+          create(:jira_field,
+                 jira_import:,
+                 origin_id: "customfield_10102",
+                 payload: { "id" => "customfield_10102",
+                            "schema" => { "type" => "array", "items" => "string",
+                                          "custom" => "com.pyxis.greenhopper.jira:gh-sprint" } })
+        end
+
+        context "when the issue was carried over into an open sprint" do
+          let(:sprint_value) { [{ "id" => 2, "state" => "active" }, closed(1)] }
+
+          it "assigns the open sprint" do
+            stage_sprint("1", create(:sprint, :completed, project: op_project))
+            open_sprint = stage_sprint("2", create(:sprint, :active, project: op_project))
+
+            create_work_packages
+
+            expect(work_package.sprint).to eq(open_sprint)
+          end
+        end
+
+        context "when every sprint of the issue is closed" do
+          let(:sprint_value) { [closed(1)] }
+
+          it "assigns the completed sprint" do
+            completed_sprint = stage_sprint("1", create(:sprint, :completed, project: op_project))
+
+            create_work_packages
+
+            expect(work_package.sprint).to eq(completed_sprint)
+          end
+        end
+
+        context "when several issues are in the same sprint" do
+          let(:sprint_value) { [closed(1)] }
+
+          before do
+            create(:jira_issue,
+                   jira_import:,
+                   origin_id: "10406",
+                   jira_project:,
+                   payload: jira_issue_payload.deep_dup.merge("id" => "10406", "key" => "#{jira_project_key}-1124"))
+          end
+
+          it "assigns all of them and looks the sprint up once" do
+            sprint = stage_sprint("1", create(:sprint, :completed, project: op_project))
+            allow(Import::JiraSprint).to receive(:find_by).and_call_original
+
+            create_work_packages
+
+            expect(WorkPackage.where(project: op_project).map(&:sprint)).to eq([sprint, sprint])
+            expect(Import::JiraSprint).to have_received(:find_by).once
+          end
+        end
+
+        context "when the sprint is owned by another project" do
+          let(:sprint_value) { [{ "id" => 3, "state" => "future" }] }
+
+          it "assigns the sprint" do
+            foreign_sprint = stage_sprint("3", create(:sprint, project: create(:project)))
+
+            create_work_packages
+
+            expect(work_package.sprint).to eq(foreign_sprint)
+          end
+        end
+
+        context "when the project owns an active sprint and receives another one" do
+          let(:sprint_value) { [{ "id" => 3, "state" => "active" }] }
+
+          before do
+            create(:sprint, :active, project: op_project)
+            stage_sprint("3", create(:sprint, :active, project: create(:project)))
+          end
+
+          it "allows multiple active sprints in the project" do
+            create_work_packages
+
+            expect(op_project.reload).to be_allow_multiple_active_sprints
+          end
+        end
+
+        context "when the project only receives an active sprint" do
+          let(:sprint_value) { [{ "id" => 3, "state" => "active" }] }
+
+          it "leaves the setting alone" do
+            stage_sprint("3", create(:sprint, :active, project: create(:project)))
+
+            create_work_packages
+
+            expect(op_project.reload).not_to be_allow_multiple_active_sprints
+          end
+        end
+
+        context "when the sprint was not imported" do
+          let(:sprint_value) { [{ "id" => 9, "state" => "active" }] }
+
+          it "creates the work package without a sprint" do
+            create_work_packages
+
+            expect(work_package.sprint).to be_nil
+          end
+        end
+      end
+
       context "with labels" do
         let(:jira_issue_payload) do
           super().tap { |payload| payload["fields"]["labels"] = %w[backend urgent] }

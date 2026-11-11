@@ -19,6 +19,7 @@ Actions to take in Jira, in OpenProject and in your migration planning before yo
 - [ ] For large or attachment-heavy migrations, test your network bandwidth beforehand to get a realistic sense of how long the import will take.
 - [ ] Back up your Jira instance as well, not just OpenProject — several items in this checklist ask you to make changes in Jira (archiving issues, renaming fields, cleaning up duplicate accounts) before migrating.
 - [ ] Identify any external integrations, webhooks, or tools that reference Jira's raw issue/project/comment IDs directly (e.g. custom scripts, reporting tools). These numeric IDs don't carry over to OpenProject — Jira issue *keys* (e.g. `PROJECT-123`) keep working via OpenProject's semantic aliasing, but anything relying on the underlying numeric ID will need to be reconfigured after migration. Make a list now so you know exactly what to go fix afterward, rather than finding out when something breaks.
+- [ ] If you want to import sprints, check the [sprint requirements](../field-mapping/#sprints): a valid Jira Software license, a token user who can open every Scrum board of the projects you import (board visibility follows the sharing of the board's filter, admin permissions alone do not grant it), and the Sprint field not hidden in the projects' field configurations. None of these stops the import when it is missing: the affected sprints are left out, with only a warning in the server log.
 
 ## Confirm you can accept what doesn't yet migrate
 
@@ -39,8 +40,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 **Not migrated, specific to custom fields:**
 
 - [ ] Epic Link / Epic Name
-- [ ] Sprint field
-- [ ] Story Points
+- [ ] Story Points (native OpenProject field, currently Story Points are imported into a custom field instead)
 - [ ] User picker / multi-user picker values, unless the referenced user is also referenced elsewhere on an imported issue (as creator, assignee, watcher, comment or attachment author, or an @mention). Otherwise the value comes across empty, with no reliable way to prevent this in advance.
 - [ ] Version-picker
 - [ ] Any third-party plugin-provided custom field type e.g. Scripted Fields
@@ -51,6 +51,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Workflows (which status transitions are allowed for which roles) (planned: [JIM-153](https://community.openproject.org/projects/JIM/work_packages/JIM-153)). Note that at the moment, OpenProject workflows are defined globally per Type, not per project. If different Jira projects used different workflow schemes for the same issue type, that distinction cannot be preserved at the moment. (in development: [AUTOWORK-67](https://community.openproject.org/projects/AUTOWORK/work_packages/AUTOWORK-67))
 - [ ] Permission schemes / roles (planned: [JIM-97](https://community.openproject.org/projects/JIM/work_packages/JIM-97))
 - [ ] Agile boards (Scrum/Kanban setup, filters, swimlanes) (planned: [JIM-106](https://community.openproject.org/projects/JIM/work_packages/JIM-106))
+- [ ] Sprint history and reports: each work package gets only its current sprint, earlier sprints remain visible in the change history only. Sprints without any imported issue, burndown and velocity data are not migrated. See [Sprints](../field-mapping/#sprints).
 - [ ] Integration with Confluence (planned: [JIM-193](https://community.openproject.org/projects/JIM/work_packages/JIM-193))
 - [ ] Any Marketplace app data (e.g. Tempo time tracking, Xray/Zephyr test management, Structure hierarchies) — the migrator only handles core Jira issue/project/user data and the specific custom field types listed above. Inventory which apps your teams actually depend on and decide separately how to handle each one's data.
 
