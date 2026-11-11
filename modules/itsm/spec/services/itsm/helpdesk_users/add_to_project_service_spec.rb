@@ -31,7 +31,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM::HelpdeskUsers::AddToProjectService, with_flag: { helpdesk: true } do
-  subject(:result) { described_class.new.call(project:) }
+  subject(:result) { described_class.new(project:).call }
 
   let(:project) { create(:project, disable_modules: :helpdesk) }
   let(:member) { Member.find_by(project:, principal: ITSM.helpdesk_user) }
@@ -51,7 +51,7 @@ RSpec.describe ITSM::HelpdeskUsers::AddToProjectService, with_flag: { helpdesk: 
   end
 
   context "when the help desk user is already a member with the role" do
-    before { described_class.new.call(project:) }
+    before { described_class.new(project:).call }
 
     it "changes nothing" do
       expect { result }.not_to change(MemberRole, :count)

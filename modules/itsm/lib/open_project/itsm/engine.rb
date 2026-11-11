@@ -91,7 +91,7 @@ module OpenProject::ITSM
           enabled_module = payload[:enabled_module]
           next unless enabled_module.name == "helpdesk" && enabled_module.project
 
-          ITSM::HelpdeskUsers::AddToProjectService.new.call(project: enabled_module.project).on_failure do |result|
+          ITSM::HelpdeskUsers::AddToProjectService.new(project: enabled_module.project).call.on_failure do |result|
             OpenProject.logger.error("Help desk user not added to project #{enabled_module.project.id}: #{result.message}")
           end
         end

@@ -30,6 +30,11 @@
 module ITSM
   module HelpdeskUsers
     class AddToProjectService < ::BaseServices::BaseCallable
+      def initialize(project:)
+        @project = project
+        super()
+      end
+
       protected
 
       def perform
@@ -38,8 +43,10 @@ module ITSM
 
       private
 
+      attr_reader :project
+
       def add_member(user, role)
-        member = Member.find_or_initialize_by(project: params[:project], principal: user, entity: nil)
+        member = Member.find_or_initialize_by(project:, principal: user, entity: nil)
         member.member_roles.build(role:) unless member.roles.include?(role)
         return ServiceResult.success(result: member) unless member.changed_for_autosave?
 
