@@ -133,7 +133,7 @@ module Llm
     end
 
     def usable?(model_id)
-      connection.available_model_ids.include?(model_id) && !(binding_model_id == model_id && binding.from_another_deployment?)
+      connection.available_model_ids.include?(model_id)
     end
 
     def binding

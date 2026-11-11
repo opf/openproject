@@ -36,7 +36,7 @@ RSpec.describe Sprints::Burndown do
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
-  shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
+  shared_let(:closed_status) { create(:status, name: "Closed", category: "closed") }
 
   # A sprint from one Monday to the Friday of the following week: 10 working days
   # around a single weekend.
@@ -132,6 +132,37 @@ RSpec.describe Sprints::Burndown do
       let(:now) { at_hour(first_monday - 7.days, 12) }
 
       it { expect(burndown.remaining).to be_empty }
+    end
+
+    context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+      before do
+        project.estimation_unit = estimation_unit
+        story_pointed(sprint_start => { story_points: 3, estimated_hours: 2.5 })
+      end
+
+      context "when estimation unit is story points" do
+        let(:estimation_unit) { "story_points" }
+
+        it "sums the story points" do
+          expect(burndown.remaining.first).to have_attributes(value: 13.0)
+        end
+      end
+
+      context "when estimation unit is time" do
+        let(:estimation_unit) { "time" }
+
+        it "sums the estimated hours" do
+          expect(burndown.remaining.first).to have_attributes(value: 2.5)
+        end
+      end
+
+      context "when estimation unit is none" do
+        let(:estimation_unit) { "none" }
+
+        it "counts the work packages" do
+          expect(burndown.remaining.first).to have_attributes(value: 2.0)
+        end
+      end
     end
   end
 

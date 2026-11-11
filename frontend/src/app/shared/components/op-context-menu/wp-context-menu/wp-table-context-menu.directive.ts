@@ -32,12 +32,14 @@ import { PositionArgs, WorkPackageViewContextMenu } from 'core-app/shared/compon
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
-import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { ContextMenuItemGroups } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { MoveDirection } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/row-mover';
 import type { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import { forgetKeyboardMenuOpen } from 'core-app/features/work-packages/components/wp-fast-table/handlers/context-menu/context-menu-handler';
 
 const tableActionIcons = {
+  'icon-budget': 'op-budget',
   'icon-clipboard': 'paste',
   'icon-code-tag': 'hash',
   'icon-copy': 'duplicate',
@@ -54,6 +56,7 @@ const tableActionIcons = {
   'icon-project-types': 'op-copy-to-project',
   'icon-relation-follows': 'op-relation-follows',
   'icon-relation-new-child': 'op-relation-new-child',
+  'icon-relation-precedes': 'package-dependents',
   'icon-relations': 'op-relations',
   'icon-user-plus': 'person-add',
   'icon-view-fullscreen': 'op-view-fullscreen',
@@ -78,18 +81,17 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     protected table:WorkPackageTable) {
     super(injector, workPackageId, element, additionalPositionArgs, true);
     this.origin = table.keyboardNavigation.originForControl(element);
-    // Appended here: the base class builds `items` before `table` is assigned.
-    this.appendMoveItems();
+    // Added here: the base class builds its items before `table` is assigned.
+    this.addMoveItems();
   }
 
-  protected override buildItems():OpContextMenuItem[] {
-    return super.buildItems().map((item):OpContextMenuItem => ({
-      ...item,
-      octicon: item.icon ? octiconFor(item.icon) : undefined,
-    }));
+  protected override buildItemGroups():ContextMenuItemGroups {
+    const groups = super.buildItemGroups();
+    groups.transform((item) => ({ ...item, octicon: item.icon ? octiconFor(item.icon) : undefined }));
+    return groups;
   }
 
-  private appendMoveItems():void {
+  private addMoveItems():void {
     const selection = this.selectedWorkPackages.length === 1
       ? [this.workPackageId]
       : this.selectedWorkPackages.flatMap((wp) => wp.id ?? []);
@@ -103,22 +105,20 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
       { direction: 'down', linkText: I18n.t('js.label_sort_lower'), octicon: 'chevron-down' },
       { direction: 'bottom', linkText: I18n.t('js.label_sort_lowest'), octicon: 'move-to-bottom' },
     ];
-    this.items.push(
-      { divider: true },
-      {
-        linkText: I18n.t('js.button_move'),
-        octicon: 'op-arrow-in',
-        children: entries.map(({ direction, linkText, octicon }) => ({
-          linkText,
-          octicon,
-          disabled: !directions.has(direction),
-          onClick: () => {
-            mover.move(selection, direction);
-            return true;
-          },
-        })),
-      },
-    );
+    this.itemGroups.prepend('organize', {
+      linkText: I18n.t('js.button_move_to_position'),
+      octicon: 'op-arrow-in',
+      children: entries.map(({ direction, linkText, octicon }) => ({
+        linkText,
+        octicon,
+        disabled: !directions.has(direction),
+        onClick: () => {
+          mover.move(selection, direction);
+          return true;
+        },
+      })),
+    });
+    this.items = this.itemGroups.items;
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {

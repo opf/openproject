@@ -458,6 +458,26 @@ module API
 
         date_time_property :updated_at
 
+        property :origin_source,
+                 as: :originSource,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_id,
+                 as: :originId,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_host,
+                 as: :originHost,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_url,
+                 as: :originUrl,
+                 render_nil: false,
+                 writable: false
+
         property :relations,
                  embedded: true,
                  exec_context: :decorator,

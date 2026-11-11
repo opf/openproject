@@ -139,4 +139,5 @@ varius = "varius" # Lorem ipsum
 navigatable = "navigatable" # menu_items column; follow-up
 noteable = "noteable" # GitLab webhook payload field
 opf = "opf"
+Sie = "Sie" # German formal address in the seeded text action prompts
 writeable = "writeable" # Representable kwarg

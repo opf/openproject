@@ -40,6 +40,7 @@ module Backlogs
 
         def chart_data
           {
+            unit:,
             step: burnup.step,
             range: charted_range,
             series: series,
@@ -56,6 +57,8 @@ module Backlogs
         end
 
         private
+
+        def unit = project.estimation_unit_time? ? :time : :story_points
 
         delegate :too_long_to_chart?, :anything_to_chart?, to: :burnup, private: true
 

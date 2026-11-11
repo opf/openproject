@@ -37,32 +37,32 @@ See COPYRIGHT and LICENSE files for more details.
     end
   %>
 
-  <% container.with_body do %>
-    <%=
-      flex_layout(classes: "op-wp-overview--progress", align_items: :center) do |flex|
-        flex.with_column(flex: 1, mr: 3) do
-          render(
-            Primer::Beta::ProgressBar.new(
-              size: :large,
-              role: "progressbar",
-              aria: {
-                valuenow: resolved_percentage, valuemin: 0, valuemax: 100,
-                label: progress_label,
-                valuetext: resolved_summary_text
-              }
-            )
-          ) do |bar|
-            bar.with_item(percentage: resolved_percentage)
+    <% container.with_body do %>
+      <%=
+        flex_layout(classes: "op-wp-overview--progress", align_items: :center) do |flex|
+          flex.with_column(flex: 1, mr: 3) do
+            render(
+              Primer::Beta::ProgressBar.new(
+                size: :large,
+                role: "progressbar",
+                aria: {
+                  valuenow: resolved_percentage, valuemin: 0, valuemax: 100,
+                  label: progress_label,
+                  valuetext: progress_summary_text
+                }
+              )
+            ) do |bar|
+              bar.with_item(percentage: resolved_percentage)
+            end
           end
-        end
 
-        flex.with_column(mr: 3, aria: { hidden: true }) do
-          render(Primer::Beta::Text.new(tag: :div, font_size: :small)) do
-            resolved_summary_text
+          flex.with_column(mr: 3, aria: { hidden: true }) do
+            render(Primer::Beta::Text.new(tag: :div, font_size: :small)) do
+              progress_summary_text
+            end
           end
         end
-      end
-    %>
+      %>
 
     <%= render(Primer::Box.new(classes: "op-wp-overview--blocks", mt: 3)) do %>
       <%=

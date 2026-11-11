@@ -1,0 +1,59 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module SquashTMIntegration
+  module ProjectLinks
+    class DeleteService < ::BaseServices::Delete
+      include WorkPackageLinks::Journalizable
+
+      protected
+
+      def before_perform(service_call)
+        self.contract_options = params.slice(:unlink_work_packages)
+
+        service_call
+      end
+
+      def persist(service_result)
+        if params[:unlink_work_packages]
+          @unlinked_links = model.work_package_links.includes(:work_package).to_a
+          model.work_package_links.delete_all
+        end
+
+        super
+      end
+
+      def after_perform(service_call)
+        @unlinked_links&.each { |link| journalize_unlinked(link) }
+
+        super
+      end
+    end
+  end
+end
