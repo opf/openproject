@@ -85,6 +85,29 @@ RSpec.describe API::V3::ProjectPhases::ProjectPhaseRepresenter, "rendering" do
       let(:value) { phase.active }
     end
 
+    describe "startDate" do
+      it_behaves_like "has ISO 8601 date only" do
+        let(:date) { phase.start_date }
+        let(:json_path) { "startDate" }
+      end
+    end
+
+    describe "finishDate" do
+      it_behaves_like "has ISO 8601 date only" do
+        let(:date) { phase.finish_date }
+        let(:json_path) { "finishDate" }
+      end
+    end
+
+    context "when the phase has no dates" do
+      let(:phase) { build_stubbed(:project_phase, definition:, project:, start_date: nil, finish_date: nil) }
+
+      it "renders both dates as null" do
+        expect(subject).to be_json_eql(nil.to_json).at_path("startDate")
+        expect(subject).to be_json_eql(nil.to_json).at_path("finishDate")
+      end
+    end
+
     describe "createdAt" do
       it_behaves_like "has UTC ISO 8601 date and time" do
         let(:date) { phase.created_at }

@@ -179,6 +179,49 @@ RSpec.describe McpTools::SearchProjects do
       end
     end
 
+    describe "project phases" do
+      let!(:first_definition) { create(:project_phase_definition) }
+      let!(:second_definition) { create(:project_phase_definition) }
+      let!(:inactive_definition) { create(:project_phase_definition) }
+      let(:items) { parsed_results.dig("structuredContent", "items").index_by { |item| item["identifier"] } }
+
+      before do
+        create(:project_phase, project: project_a, definition: second_definition,
+                               start_date: Date.new(2026, 3, 2), finish_date: Date.new(2026, 3, 31))
+        create(:project_phase, project: project_a, definition: first_definition, start_date: nil, finish_date: nil)
+        create(:project_phase, project: project_a, definition: inactive_definition, active: false)
+      end
+
+      it "embeds the active phases of a project in their order with their dates" do
+        mcp_request
+
+        phases = items.dig("abc", "_embedded", "phases")
+        expect(phases.pluck("name")).to eq([first_definition.name, second_definition.name])
+        expect(phases.first).to include("startDate" => nil, "finishDate" => nil)
+        expect(phases.last).to include("startDate" => "2026-03-02", "finishDate" => "2026-03-31")
+      end
+
+      it "embeds an empty list for a project without active phases" do
+        mcp_request
+
+        expect(items.dig("def", "_embedded", "phases")).to eq([])
+      end
+
+      context "when the user may see the phases of only one project" do
+        let(:user) do
+          create(:user, member_with_permissions: { project_a => %i[view_project view_project_phases],
+                                                   project_b => %i[view_project] })
+        end
+
+        it "embeds the phases only where the user may see them" do
+          mcp_request
+
+          expect(items.dig("abc", "_embedded", "phases").size).to eq(2)
+          expect(items["def"].fetch("_embedded", {})).not_to have_key("phases")
+        end
+      end
+    end
+
     context "when passing an invalid project status" do
       let(:call_args) { { status_code: "blubb" } }
 

@@ -53,6 +53,9 @@ module API
         property :name
         property :active
 
+        date_property :start_date
+        date_property :finish_date
+
         date_time_property :created_at
         date_time_property :updated_at
 

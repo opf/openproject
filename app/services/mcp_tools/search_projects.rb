@@ -53,11 +53,22 @@ module McpTools
     )
 
     def base_scope
-      Success(Project.project.visible)
+      Success(Project.project.visible.preload(available_phases: :definition))
     end
 
     def format_item(item)
-      API::V3::Projects::ProjectRepresenter.create(item, current_user:)
+      project = API::V3::Projects::ProjectRepresenter.create(item, current_user:).as_json
+      return project unless current_user.allowed_in_project?(:view_project_phases, item)
+
+      project.merge("_embedded" => project.fetch("_embedded", {}).merge("phases" => format_phases(item)))
+    end
+
+    private
+
+    def format_phases(project)
+      project.available_phases.map do |phase|
+        API::V3::ProjectPhases::ProjectPhaseRepresenter.create(phase, current_user:).as_json
+      end
     end
   end
 end
