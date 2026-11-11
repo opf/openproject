@@ -1,6 +1,13 @@
+---
+sidebar_navigation:
+  title: Testing
+description: Overview of the testing architecture of OpenProject
+keywords: testing, tests, quality assurance
+---
+
 # Testing OpenProject
 
-OpenProject uses automated tests throughout the stack. Tests that are executed in the browser (angular frontend, RSpec system tests) require to have Chrome installed. To ensure we deliver high quality code to our customers, it's essential to conduct various types of tests.
+OpenProject uses automated tests throughout the stack. Tests that are executed in the browser require a local browser: frontend specs run in browsers installed by [Playwright](https://playwright.dev/), and RSpec system tests require Chrome (and Firefox for some specs). To ensure we deliver high quality code to our customers, it's essential to conduct various types of tests.
 
 | Topic                                                       | Content                                                      |
 | ----------------------------------------------------------- | :----------------------------------------------------------- |

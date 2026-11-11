@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Running tests locally
+description: How to run the OpenProject frontend, unit and system tests on your machine
+keywords: testing, rspec, vitest, parallel tests, turbo_tests
+---
+
 # Running tests locally
 
 As there are multiple ways employed to test OpenProject, you may want to run a specific test or test group.
@@ -39,7 +46,7 @@ Before you can start testing, you will often need to run the database migrations
 RAILS_ENV=development rails db:migrate db:test:prepare
 ```
 
-This migrates the _development_ database, outputting its schema to `db/schema.rb` and will copy this schema to the test database. This ensures your test database matches your current expected schema.
+This migrates the _development_ database, outputting its schema to `db/structure.sql` and will copy this schema to the test database. This ensures your test database matches your current expected schema.
 
 ## Frontend tests
 
@@ -51,7 +58,13 @@ You can run all frontend tests with the standard npm command:
 npm test
 ```
 
-This runs the suite in headless Chromium. CI additionally runs Firefox and WebKit; to reproduce that locally, pass the browsers explicitly:
+The specs run in browsers driven by [Playwright](https://playwright.dev/). If the browsers are not installed yet, install them from the `frontend/` folder:
+
+```shell
+npx playwright install chromium firefox webkit
+```
+
+`npm test` runs the suite in headless Chromium. CI additionally runs Firefox and WebKit; to reproduce that locally, pass the browsers explicitly:
 
 ```shell
 npm test -- --browsers chromium --browsers firefox --browsers webkit
@@ -103,6 +116,10 @@ When feature specs are run and a failure occurs, the browser logs are printed to
 debugging, but it can also be overwhelming when there are many logs. To disable this behavior, set the environment
 variable `SKIP_CAPYBARA_BROWSER_LOGS` to `true` in your `.env` file or export it in your terminal session:
 
+```shell
+export SKIP_CAPYBARA_BROWSER_LOGS=true
+```
+
 ### Dependencies
 
 For the javascript dependent integration tests, you have to install Chrome and Firefox, to run them locally.
@@ -121,71 +138,18 @@ RAILS_ENV=test bundle exec rspec ./modules/documents/spec/features/attachment_up
 
 The tests will generally run a lot slower due to the whole application being run end-to-end, but these system tests will provide the most elaborate tests possible.
 
-You can also run _all_ feature specs locally with this command. This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let GitHub Actions CI test the entire suite.
-
-```shell
-RAILS_ENV=test bundle exec rake parallel:features -- --group-number 1 --only-group 1
-```
+You can also run _all_ feature specs locally, see [Parallel testing](#parallel-testing). This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let GitHub Actions CI test the entire suite.
 
 #### WSL2
 
-In case you are on Windows using WSL2 rather than Linux directly, running tests this way will not work. You will see an error like "Failed to find Chrome binary.". The solution here is to use Selenium Grid.
+In case you are on Windows using WSL2 rather than Linux directly, install Chrome or Chromium inside your WSL2 distribution, as Cuprite needs to find a local browser binary. Otherwise you will see an error like "Failed to find Chrome binary".
 
-**1) Download the chrome web driver**
-
-You can find the driver for your Chrome version [here](https://chromedriver.chromium.org/downloads)
-
-**2) Add the driver to your `PATH`**
-
-Either save the driver under `C:\Windows\system32` to make it available or add its alternative location to the `PATH` using the system environment variable settings ([press the WIN key and search for 'system env').
-
-**3) Find out your WSL ethernet adapter IP**
-
-You can do this by opening a powershell and running ``wsl cat /etc/resolv.conf `| grep nameserver `| cut -d ' ' -f 2``. Alternatively looking for the adapter's IP in the output of `ipconfig` works too.
-It will be called something like "Ethernet adapter vEthernet (WSL)".
-
-**4) Download Selenium hub**
-
-Download version 3.141.59 (at the time of writing) [here](https://www.selenium.dev/downloads/)
-
-The download is a JAR, i.e. a Java application. You will also need to download and install a Java Runtime Environment in at least version 8 to be able to run it.
-
-**5) Run the Selenium Server**
-
-In your powershell on Windows, find the JAR you downloaded in the previous step and run it like this:
+Specs that use Selenium can alternatively run against a Selenium Grid on the Windows host. Point `SELENIUM_GRID_URL` to the grid and set `CAPYBARA_APP_HOSTNAME` to an address of your WSL2 instance that the browser on Windows can reach:
 
 ```shell
-java -jar .\Downloads\selenium-server-standalone-3.141.59.jar -host 192.168.0.216
+export SELENIUM_GRID_URL=http://<Windows host IP>:4444/wd/hub
+export CAPYBARA_APP_HOSTNAME=`hostname -I | cut -d ' ' -f 1`
 ```
-
-Where `192.168.0.216` is your WSL IP from step 3).
-
-**6) Setup your test environment**
-
-Now you are almost ready to go. All that you need to do now is to set the necessary environment
-for the browser on Windows to be able to access the application running on the Linux host.
-Usually this should work transparently but it doesn't always. So we'll make sure it does.
-
-Now in the linux world do the following variables:
-
-```shell
-export RAILS_ENV=test
-export CAPYBARA_APP_HOSTNAME=`hostname -I`
-export SELENIUM_GRID_URL=http://192.168.0.216:4444/wd/hub
-```
-
-Again `192.168.0.216` is the WSL IP from step 3). `hostname -I` is the IP of your Linux host seen from within Windows.
-Setting this make sure the browser in Windows will try to access, for instance `http://172.29.233.42:3001/` rather than `http://localhost:3001` which may not work.
-
-**7) Run the tests**
-
-Now you can run the integration tests as usual as seen above. For instance like this:
-
-```shell
-bundle exec rspec ./modules/documents/spec/features/attachment_upload_spec.rb[1:1:1:1]
-```
-
-There is no need to prefix this with the `RAILS_ENV` here since we've exported it already before.
 
 ### Headless testing
 
@@ -223,13 +187,13 @@ Use a fresh output directory for each run or comparison:
 ```shell
 mkdir -p coverage
 export COVERAGE_DIR=$(mktemp -d coverage/rspec.XXXXXX)
-COVERAGE=1 mise exec -- bundle exec rspec spec/models/project_spec.rb
+COVERAGE=1 bundle exec rspec spec/models/project_spec.rb
 ```
 
 After the tests succeed, generate HTML and JSON reports:
 
 ```shell
-mise exec -- bundle exec ruby script/coverage_report "$COVERAGE_DIR" 1
+bundle exec ruby script/coverage_report "$COVERAGE_DIR" 1
 ```
 
 Open `$COVERAGE_DIR/report/index.html`. The final argument is the expected number of
@@ -253,19 +217,11 @@ Run performance comparisons without coverage instrumentation.
 
 ## Parallel testing
 
-Running tests in parallel makes usage of all available cores of the machine.
-Functionality is being provided by [parallel_tests](https://github.com/grosser/parallel_tests) gem.
-See its GitHub page for any options like number of cpus used.
+Running tests in parallel makes use of all available cores of the machine. CI runs the RSpec suite with [turbo_tests](https://github.com/opf/turbo_tests), which builds on the [parallel_tests](https://github.com/grosser/parallel_tests) gem. See `run_units` and `run_features` in `docker/ci/entrypoint.sh` for the exact commands.
 
 ### Prepare
 
-By default, `parallel_test` will use CPU count to parallelize. This might be a bit much to handle for your system when 8 or more parallel browser instances are being run. To manually set the value of databases to create and tests to run in parallel, use this command:
-
-```shell
-export PARALLEL_TEST_PROCESSORS=4
-```
-
-Adjust `database.yml` to use different databases:
+Each process uses its own test database, numbered through the `TEST_ENV_NUMBER` environment variable. Adjust `database.yml` to use different databases:
 
 ```yaml
 test: &test
@@ -273,24 +229,36 @@ test: &test
   # ...
 ```
 
-Create all databases: `RAILS_ENV=test ./bin/rails parallel:create db:migrate parallel:prepare`
+By default, the number of processes is the CPU count. This might be a bit much to handle for your system when 8 or more parallel browser instances are being run. To manually set the number of databases to create and tests to run in parallel, use this command:
 
-Prepare all databases:
+```shell
+export PARALLEL_TEST_PROCESSORS=4
+```
 
-First migrate and dump your current development schema with `RAILS_ENV=development ./bin/rails db:migrate db:schema:dump` (will create a db/structure.sql)
+First migrate and dump your current development schema with `RAILS_ENV=development ./bin/rails db:migrate db:schema:dump` (will create a `db/structure.sql`).
 
-Then you can just use `RAILS_ENV=test ./bin/rails parallel:prepare` to prepare test databases.
+Then create and prepare all test databases with `RAILS_ENV=test ./bin/rails parallel:create parallel:prepare`.
 
 ### RSpec specs
 
-Run all unit and system tests in parallel with `RAILS_ENV=test ./bin/rails parallel:spec`
+Run the unit specs and the feature specs the way CI does, with the same number of processes as test databases (the globs need `shopt -s extglob globstar` in bash):
+
+```shell
+# Unit specs
+RAILS_ENV=test bundle exec turbo_tests -n 4 {,modules/*/}spec/{!(features)/**/,}*_spec.rb
+
+# Feature specs
+RAILS_ENV=test bundle exec turbo_tests -n 4 {,modules/*/}spec/features/**/*_spec.rb
+```
+
+CI additionally passes `--runtime-log` to balance the spec files across processes by their recorded run time.
 
 ### Running specific tests
 
-If you want to run specific tests (e.g., only those from the team planner module), you can use this command:
+If you want to run specific tests (e.g., only those from the team planner module), pass their paths:
 
 ```shell
-RAILS_ENV=test bundle exec parallel_rspec -- modules/team_planner/spec
+RAILS_ENV=test bundle exec turbo_tests -n 4 modules/team_planner/spec
 ```
 
 ## Automatically run tests when files are modified
@@ -321,68 +289,11 @@ To easily change the RSpec examples being run without relaunching `watchexec` ev
 
 ### Accessing a local OpenProject instance from a VM or mobile phone
 
-If you want to access the development server of OpenProject from a VM or your mobile phone, you need to work around the
-CSP `localhost` restrictions.
+See [Access the development server from another device](../../development-environment/common-setup/#access-the-development-server-from-another-device).
 
-### Old way, fixed compilation
+### LDAP tests
 
-One way is to disable the Angular CLI that serves some of the assets when developing. To do that, run
-
-```shell
-# Precompile the application assets
-./bin/rails openproject:plugins:register_frontend assets:precompile
-
-# Start the application server while disabling the CLI asset host
-OPENPROJECT_CLI_PROXY='' ./bin/rails s -b 0.0.0.0 -p 3000
-```
-
-Now assuming networking is set up in your VM, you can access your app server on `<your local ip>:3000` from it.
-
-### New way, with ng serve
-
-**The better way** when you want to develop against your local setup is to set up your server to allow the CSP to the
-remote host.
-Assuming your openproject is served at `<your local ip>:3000` and your ng serve middleware is running at `<your local ip>:4200`,
-you can access both from inside a VM with nat/bridged networking as follows:
-
-```shell
-# Start ng serve middleware binding to the interface given by FE_HOST or on localhost if not defined
-FE_HOST=<your local IP address> PROXY_HOSTNAME=<your local IP address> npm run serve
-```
-
-On npm run serve, you want to ensure it logs the correct hostname:
-
-```log
-** Angular Live Development Server is listening on <you local IP address>:4200, open your browser on http://<you local IP address>:4200/assets/frontend **
-```
-
-```shell
-# Start your openproject server with the CLI proxy configuration set
-OPENPROJECT_DEV_EXTRA_HOSTS=<your local IP address> OPENPROJECT_HOST_NAME=<your local IP address> OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 3000
-
-# Now access your server from http://<your local ip>:3000 with code reloading
-```
-
-You can also add the environment variables directly to the `.env` file and just run `./bin/rails s -b 0.0.0.0 -p 3000`. Ensure `OPENPROJECT_HTTPS` is set to `false`.
-
-```env
-LOCAL_IP_ADDR='192.168.x.y'
-OPENPROJECT_DEV_EXTRA_HOSTS=$LOCAL_IP_ADDR
-OPENPROJECT_HTTPS=false
-OPENPROJECT_HOST_NAME=$LOCAL_IP_ADDR
-OPENPROJECT_CLI_PROXY="http://$LOCAL_IP_ADDR:4200"
-```
-
-### Legacy LDAP tests
-
-OpenProject supports using LDAP for user authentications. To test LDAP
-with OpenProject, load the LDAP export from `test/fixtures/ldap/test-ldap.ldif`
-into a testing LDAP server. Test that the ldap server can be accessed
-at 127.0.0.1 on port 389.
-
-Setting up the test ldap server is beyond the scope of this documentation.
-The Apache DS project provides a simple LDAP implementation that should work
-good as a test server.
+LDAP specs (the `with temporary LDAP` shared context) start an embedded LDAP server with [ladle](https://github.com/NUBIC/ladle), loading the fixtures from `spec/fixtures/ldap`. Ladle runs ApacheDS internally, so these specs need Java installed.
 
 ## Running tests locally in Docker
 

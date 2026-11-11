@@ -10,7 +10,7 @@ keywords: development setup debian ubuntu linux
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
-This guide assumes that you have a Ubuntu 20.04 installation with administrative rights. This guide will work
+This guide assumes that you have a Ubuntu 24.04 installation with administrative rights. This guide will work
 analogous with all other distributions, but may require slight changes in the required packages. _Please, help us to
 extend this guide with information on other distributions should there be required changes._
 
@@ -25,7 +25,7 @@ request or comment in the [OpenProject forums](https://community.openproject.org
 ## Prepare your environment
 
 We need an active Ruby and Node JS environment to run OpenProject. To this end, we need some packages installed on the
-system.o
+system.
 
 CPU recommendation: 4 CPUs, Memory recommendation: 8 better 16 GB (in general we need double the amount of a normal
 production installation)
@@ -98,12 +98,19 @@ rbenv rehash
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler (remark: if you run into
 an error, first try with a fresh reboot).
 
+```shell
+gem install bundler
+```
+
 If you get `Command 'gem' not found...` here, ensure you followed the instructions `rbenv init` command to ensure it is
 loaded in your shell.
 
 ### Setup PostgreSQL database
 
-Next, install a PostgreSQL database.
+Next, install a PostgreSQL database. OpenProject requires
+[PostgreSQL 16 or above](../../../installation-and-operations/system-requirements/#database). Ubuntu 24.04 ships
+PostgreSQL 16. On older releases, install a supported version from the
+[PostgreSQL apt repository](https://www.postgresql.org/download/linux/ubuntu/).
 
 ```shell
 [dev@debian]# sudo apt-get install postgresql postgresql-client
@@ -184,7 +191,7 @@ ruby --version
 ruby 4.0.9 (2026-10-23 revision 3e93b23afc) +PRISM [arm64-darwin25]
 
 bundler --version
-4.0.21
+# The version listed under BUNDLED WITH at the end of Gemfile.lock
 
 node --version
 v24.22.1
@@ -193,185 +200,7 @@ npm --version
 11.16.0
 ```
 
-## Install OpenProject Sources
+## Install and run OpenProject
 
-In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub
-account.
-This allows you to create branches and push changes and finally opening a pull request for us to review.
-
-To do that, go to [github.com/opf/openproject](https://github.com/opf/openproject) and press "Fork" on the upper right
-corner.
-
-```shell
-# Download the repository
-# If you want to create a pull request, replace the URL with your own fork as described above
-mkdir ~/dev
-cd ~/dev
-git clone https://github.com/opf/openproject.git
-cd openproject
-```
-
-Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in
-the `dev` branch (there is no `master` branch).
-So, if you want to develop a feature, create a feature branch from a current `dev` branch.
-
-### Configure OpenProject
-
-Create and configure the database configuration file in `config/database.yml` (relative to the openproject-directory.
-
-```shell
-[dev@debian]# vim config/database.yml
-```
-
-Now edit the `config/database.yml` file and insert your database credentials.
-It should look like this (just with your database name, username, and password):
-
-```yaml
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  host: localhost
-  username: openproject
-  password: openproject-dev-password
-
-development:
-  <<: *default
-  database: openproject_dev
-
-test:
-  <<: *default
-  database: openproject_test
-```
-
-To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy
-the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be
-automatically loaded to the application's environment.
-
-### Finish the Installation of OpenProject
-
-Install code dependencies, link plugin modules and export translation files.
-
-- gem dependencies (If you get errors here, you're likely missing a development dependency for your distribution)
-- node_modules
-- link plugin frontend modules
-- and export frontend localization files
-
-```shell
-bin/setup_dev
-```
-
-Now, run the following tasks to seed the dev database, and prepare the test setup for running tests locally.
-
-```shell
-RAILS_ENV=development bin/rails db:seed
-```
-
-### Run OpenProject through overmind
-
-You can run all required workers of OpenProject through `overmind`, which combines them in a single tab. Optionally, you
-may also
-run `overmind` as a daemon and connect to services individually.
-The `bin/dev` command will first check if `overmind` is available and run the application via `Procfile.dev`. Otherwise
-it will use `foreman` if it is available.
-
-```shell
-bin/dev
-```
-
-The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.example`
-provided in the root of this
-project as `.env` and [configure values](https://github.com/DarthSim/overmind/tree/v2.4.0#overmind-environment) as
-required.
-
-By default a worker process will also be started. In development asynchronous execution of long-running background
-tasks (sending emails, copying projects,
-etc.) may be of limited use and it has known issues with regards to memory (see background worker section below). To
-disable the worker process:
-
-```shell
-echo "OVERMIND_IGNORED_PROCESSES=worker" >> .overmind.env
-```
-
-For more information refer to the great Overmind
-documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#usage).
-
-You can access the application with the admin-account having the following credentials:
-
-```text
-Username: admin
-Password: admin
-```
-
-### Run OpenProject manually
-
-To run OpenProject manually, you need to run the rails server and the Angular CLI dev server (Vite) to:
-
-#### Rails web server
-
-```shell
-RAILS_ENV=development bin/rails server
-```
-
-This will start the development server on port `3000` by default.
-
-#### Angular frontend
-
-To run the frontend server, please run
-
-```shell
-RAILS_ENV=development npm run serve
-```
-
-This will watch for any changes within the `frontend/` and compile the application javascript bundle on demand. You will
-need to watch this tab for the compilation output,
-should you be working on the TypeScript / Angular frontend part.
-
-You can then access the application either through `localhost:3000` (Rails server) or through the frontend
-proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
-
-#### Background job worker
-
-```shell
-RAILS_ENV=development bundle exec good_job start
-```
-
-This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
-
-### How to access your development environment from another device on the same network
-
-Sometimes it is necessary to test with a real mobile phone. To make this possible, you have to set some environment variables before starting the backend and frontend servers. You need the IP address of the machine that runs the dev server on the network. Then edit your `.env` file like this:
-
-```shell
-DEV_IP=<INSERT YOUR IP HERE>
-# Local backend development host and port
-HOST=$DEV_IP
-PORT=3000
-# Local frontend development host and port
-FE_HOST=$DEV_IP
-FE_PORT=4200
-# Use this variables to configure hostnames for frontend and backend
-OPENPROJECT_DEV_HOST=$DEV_IP
-OPENPROJECT_DEV_URL=http://${OPENPROJECT_DEV_HOST}:${FE_PORT}
-OPENPROJECT_HOST__NAME=$DEV_IP:3000
-# Configure Hocuspocus if you want to use documents
-OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=ws://$DEV_IP:1234
-OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=secret12345
-```
-
-After that, you need to start the backend server like this (if you use overmind or `bin/dev`, edit `Procfile.dev`): `bundle exec rails server --binding=0.0.0.0`
-And the frontend server like this: `DEV_IP=<INSERT YOUR IP HERE> FE_HOST=$DEV_IP PROXY_HOSTNAME=$DEV_IP npm run serve`
-
-Afterwards, you can navigate to `<INSERT YOUR IP HERE>:3000` on a device on the same network (e.g. your mobile phone).
-
-### Known issues
-
-#### Spawning a lot of browser tabs
-
-If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a
-significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs
-before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this
-in a production setting.**
-
-```shell
-RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
-```
+Continue with [Install and run OpenProject from source](../common-setup/), which covers getting the sources, configuring
+OpenProject, and running it.

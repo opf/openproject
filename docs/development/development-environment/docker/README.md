@@ -44,10 +44,12 @@ cp docker-compose.override.example.yml docker-compose.override.yml
 # when present. Safe to run multiple times.
 docker network create gateway 2>/dev/null || true
 
-docker compose run --rm backend setup
-docker compose run --rm frontend npm install
+bin/compose setup
 docker compose up -d backend
 ```
+
+`bin/compose setup` sets up the database and installs the backend, frontend and `hocuspocus` dependencies. It refuses to
+run while a local `config/database.yml` exists.
 
 Optional: In case you want to develop on the OpenProject _BIM edition_ you need
 to install all the required dependencies and command line tools to convert IFC
@@ -112,11 +114,13 @@ directory will not end up with files owned by root.
 
 `docker compose` will load the env from this file.
 
-You also will want to create a `docker-compose.override.yml` file, which can contain the port exposure for your
-containers. Those are excluded from the main compose file `docker-compose.yml` for sanity reasons. If any port is
-already in use, `docker compose` won't start and will require explicit override in the `docker-compose.override.yml`
-file (see instructions for [!reset](https://docs.docker.com/reference/compose-file/merge/#reset-value) and
-[!override](https://docs.docker.com/reference/compose-file/merge/#replace-value)).
+`docker-compose.yml` publishes the `backend` on `PORT` (default `3000`) and the `frontend` on `FE_PORT` (default `4200`).
+If one of these ports is already in use, change `PORT` or `FE_PORT` in your `.env` file.
+
+You also will want to create a `docker-compose.override.yml` file for local changes, e.g. exposing further ports such
+as the database or VNC. To replace a setting from `docker-compose.yml` rather than extending it, see the instructions
+for [!reset](https://docs.docker.com/reference/compose-file/merge/#reset-value) and
+[!override](https://docs.docker.com/reference/compose-file/merge/#replace-value).
 
 There is an example you can use out of the box.
 
@@ -151,7 +155,12 @@ docker compose run --rm backend setup
 
 # This will install the web dependencies
 docker compose run --rm frontend npm install
+
+# This will install the dependencies of the collaborative editing server
+docker compose run --rm hocuspocus npm install
 ```
+
+`bin/compose setup` runs these three commands for you.
 
 ### 5) Start the stack
 
@@ -198,7 +207,8 @@ are cached in a docker volume. Meaning that from the 2nd run onwards it will sta
 
 Wait until you see `✔ Compiled successfully.` in the frontend logs and the success message from Puma in the backend
 logs. This means both frontend and backend have come up successfully. You can now access OpenProject
-under `http://localhost:3000`, and via the live-reloaded under `http://localhost:4200`.
+under `http://localhost:3000`. The `frontend` service on port `4200` only serves the frontend assets, which it rebuilds
+when you change frontend code; it does not serve the application itself.
 
 Again the first request to the server can take some time too. But subsequent requests will be a lot faster.
 
@@ -240,8 +250,8 @@ docker compose exec backend-test bundle exec rspec path/to/some_spec.rb
 
 Tests are run within Selenium containers, on a small local Selenium grid. You can connect to the containers via VNC if
 you want to see what the browsers are doing. `gvncviewer` or `vinagre` on Linux is a good tool for this. Set any port in
-the `docker-compose.override.yml` to access a container of a specific browser. As a default, the `chrome` container is
-exposed on port 5900. The password is `secret` for all.
+the `docker-compose.override.yml` to access a container of a specific browser. The override example contains a
+commented-out mapping that exposes the `chrome` container on port 5900. The password is `secret` for all.
 
 Adding additional external docker networks to the test services like `backend-test` (e.g. inside the
 `docker-compose.override.yml`) breaks the functionality of the Selenium service. This results in failing tests running
