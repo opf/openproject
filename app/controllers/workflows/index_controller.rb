@@ -78,33 +78,11 @@ module Workflows
     def load_query
       @query = ::Queries::Workflows::WorkflowQuery.new
 
-      @query.where(:name, "~", [name_term]) if name_term.present?
-      list_filters.each { |key, ids| @query.where(key, "=", ids) if ids.any? }
+      requested_filters.each do |filter|
+        @query.where(filter[:attribute], filter[:operator], filter[:values])
+      end
 
       @query
-    end
-
-    def list_filters
-      {
-        type_id: filtered_type_ids,
-        project_id: filtered_project_ids,
-        status_id: filtered_status_ids
-      }
-    end
-
-    def name_term = @name_term ||= values_for(::Queries::Workflows::Filters::NameFilter.key).first.to_s.strip
-
-    def filtered_type_ids = @filtered_type_ids ||= values_for(::Queries::Workflows::Filters::TypeFilter.key)
-
-    def filtered_project_ids = @filtered_project_ids ||= values_for(::Queries::Workflows::Filters::ProjectFilter.key)
-
-    def filtered_status_ids = @filtered_status_ids ||= values_for(::Queries::Workflows::Filters::StatusFilter.key)
-
-    def values_for(filter_key)
-      requested_filters
-        .select { |filter| filter[:attribute].to_s == filter_key.to_s }
-        .flat_map { |filter| Array(filter[:values]).map(&:to_s) }
-        .compact_blank
     end
 
     def requested_filters
