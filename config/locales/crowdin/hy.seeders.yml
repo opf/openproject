@@ -117,6 +117,17 @@ hy:
           name: Ֆինանսներ և վարչարարություն
         item_6:
           name: Որակի ապահովում
+      labels:
+        item_0:
+          name: Website
+        item_1:
+          name: Marketing
+        item_2:
+          name: Speakers
+        item_3:
+          name: Security
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: Ցուցադրական նախագիծ

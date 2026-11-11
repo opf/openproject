@@ -131,8 +131,8 @@ el:
     button_confirm: Επιβεβαίωση
     button_continue: Συνέχεια
     button_copy: Αντιγραφή
-    button_copy_link_to_clipboard: Αντιγραφή συνδέσμου στο πρόχειρο
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Αντιγραφή στο πρόχειρο
     button_copy_to_other_project: Duplicate in another project
     button_create: Δημιουργία
@@ -150,6 +150,7 @@ el:
     button_log_time: Ιστορικό χρόνου
     button_more: Περισσότερα
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Άνοιγμα προβολής λεπτομερειών
     button_open_fullscreen: Άνοιγμα προβολής πλήρης οθόνη
     button_quote: Παράθεση
@@ -207,6 +208,7 @@ el:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Η αποθήκευση του αρχείου απέτυχε δίνοντας το ακόλουθο μήνυμα: %{error}'
@@ -566,7 +568,9 @@ el:
     label_show_in_menu: Εμφάνιση προβολής στο μενού
     label_sort_by: Ταξινόμηση κατά
     label_sort_higher: Μετακίνηση προς τα πάνω
+    label_sort_highest: Move to top
     label_sort_lower: Μετακίνηση προς τα κάτω
+    label_sort_lowest: Move to bottom
     label_sorted_by: ταξινομημένο κατά
     label_sorting: Ταξινόμηση
     label_spent_time: Χρόνος που δαπανήθηκε
@@ -818,6 +822,7 @@ el:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

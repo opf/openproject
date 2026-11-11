@@ -27,21 +27,19 @@
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  EditFieldComponent,
-} from 'core-app/shared/components/fields/edit/edit-field.component';
+  AutocompleterEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/autocompleter-edit-field.component';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
-import {
-  ILabelAutocompleteItem,
-} from 'core-app/shared/components/autocompleter/labels-autocompleter/labels-autocompleter.component';
+import { isRecord } from 'core-app/shared/helpers/type-guards';
 
 @Component({
   templateUrl: './labels-edit-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class LabelsEditFieldComponent extends EditFieldComponent {
+export class LabelsEditFieldComponent extends AutocompleterEditFieldComponent {
   readonly halResourceService = inject(HalResourceService);
 
   isNew = isNewResource(this.resource);
@@ -60,9 +58,16 @@ export class LabelsEditFieldComponent extends EditFieldComponent {
     }
   }
 
-  public onModelChange(labels?:ILabelAutocompleteItem[]):void {
-    this.value = (labels ?? []).map(
-      ({ id, name, href }) => this.halResourceService.createHalResourceOfType('Label', { id, name, href }),
+  public onModelChange(labels:unknown):void {
+    if (labels !== undefined && !Array.isArray(labels)) { return; }
+    const values:unknown[] = labels ?? [];
+    if (!values.every(isRecord)) { return; }
+    this.value = values.map(
+      label => this.halResourceService.createHalResourceOfType('Label', {
+        id: label.id,
+        name: label.name,
+        href: label.href,
+      }),
     );
   }
 }

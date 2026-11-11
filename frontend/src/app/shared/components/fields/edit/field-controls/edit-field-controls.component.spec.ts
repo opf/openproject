@@ -30,6 +30,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { CommonModule } from '@angular/common';
+import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { EditFieldControlsComponent } from './edit-field-controls.component';
 
 describe('EditFieldControlsComponent', () => {
@@ -65,5 +67,38 @@ describe('EditFieldControlsComponent', () => {
 
     expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled();
+  });
+});
+
+describe('EditFieldControlsComponent input contracts', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CommonModule, OpTooltipDirective],
+      declarations: [EditFieldControlsComponent, OpIconComponent],
+    }).compileComponents();
+  });
+
+  it('allows an optional relation description without an emptiness callback', () => {
+    const fixture = TestBed.createComponent(EditFieldControlsComponent);
+    fixture.componentRef.setInput('fieldController', { required: false });
+    fixture.componentRef.setInput('saveTitle', 'Save');
+    fixture.componentRef.setInput('cancelTitle', 'Cancel');
+    fixture.detectChanges();
+    const save = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('button')!;
+    const emit = vi.spyOn(fixture.componentInstance.onSave, 'emit');
+
+    expect(save.disabled).toBe(false);
+    save.click();
+    expect(emit).toHaveBeenCalledOnce();
+  });
+
+  it.each([true, false])('disables a required field only when empty (%s)', (empty) => {
+    const fixture = TestBed.createComponent(EditFieldControlsComponent);
+    const isEmpty = vi.fn(() => empty);
+    fixture.componentRef.setInput('fieldController', { required: true, isEmpty });
+    fixture.detectChanges();
+
+    expect((fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('button')!.disabled).toBe(empty);
+    expect(isEmpty).toHaveBeenCalled();
   });
 });

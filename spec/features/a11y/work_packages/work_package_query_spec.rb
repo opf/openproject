@@ -35,8 +35,6 @@ RSpec.describe "Work package index accessibility" do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
-  let(:sort_ascending_selector) { ".icon-sort-ascending" }
-  let(:sort_descending_selector) { ".icon-sort-descending" }
 
   def visit_index_page
     work_packages_page.visit_index
@@ -55,100 +53,51 @@ RSpec.describe "Work package index accessibility" do
   describe "Sort link", :js do
     before { visit_index_page }
 
-    def click_sort_ascending_link
-      expect(page).to have_selector(sort_ascending_selector)
-      element = find(sort_ascending_selector)
-      element.click
-    end
-
-    def click_sort_descending_link
-      expect(page).to have_selector(sort_descending_selector)
-      element = find(sort_descending_selector)
-      element.click
-    end
-
-    shared_examples_for "sort column" do
-      it do
-        expect(page).to have_selector(column_header_selector)
-      end
-    end
-
-    shared_examples_for "unsorted column" do
-      it_behaves_like "sort column"
-    end
-
-    shared_examples_for "ascending sorted column" do
-      it_behaves_like "sort column"
-    end
-
-    shared_examples_for "descending sorted column" do
-      it_behaves_like "sort column"
-    end
-
     shared_examples_for "sortable column" do
-      before { expect(page).to have_selector(column_header_selector) }
-
-      describe "Initial sort" do
-        it_behaves_like "unsorted column"
+      def sort_from_column_menu(item)
+        find(:columnheader, column_name).click_button(column_name)
+        within(:menu, column_name) { find(:menuitem, item).click }
       end
 
-      describe "descending" do
-        before do
-          find(column_header_link_selector).click
-          click_sort_descending_link
-          loading_indicator_saveguard
-        end
+      it "sorts descending from the column menu" do
+        sort_from_column_menu("Sort descending")
 
-        it_behaves_like "descending sorted column"
+        expect(page).to have_selector(:columnheader, column_name, aria: { sort: "descending" })
       end
 
-      describe "ascending" do
-        before do
-          find(column_header_link_selector).click
-          click_sort_ascending_link
-          loading_indicator_saveguard
-        end
+      it "sorts ascending from the column menu" do
+        sort_from_column_menu("Sort ascending")
 
-        it_behaves_like "ascending sorted column"
+        expect(page).to have_selector(:columnheader, column_name, aria: { sort: "ascending" })
       end
     end
 
     describe "id column" do
-      let(:link_caption) { "ID" }
-      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(2)" }
-      let(:column_header_link_selector) { column_header_selector + " a" }
+      let(:column_name) { "ID" }
 
       it_behaves_like "sortable column"
     end
 
     describe "subject column" do
-      let(:link_caption) { "Subject" }
-      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(3)" }
-      let(:column_header_link_selector) { column_header_selector + " #subject" }
+      let(:column_name) { "Subject" }
 
       it_behaves_like "sortable column"
     end
 
     describe "type column" do
-      let(:link_caption) { "Type" }
-      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(4)" }
-      let(:column_header_link_selector) { column_header_selector + " a" }
+      let(:column_name) { "Type" }
 
       it_behaves_like "sortable column"
     end
 
     describe "status column" do
-      let(:link_caption) { "Status" }
-      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(5)" }
-      let(:column_header_link_selector) { column_header_selector + " a" }
+      let(:column_name) { "Status" }
 
       it_behaves_like "sortable column"
     end
 
     describe "assigned to column" do
-      let(:link_caption) { "Assignee" }
-      let(:column_header_selector) { ".work-package-table--container th:nth-of-type(6)" }
-      let(:column_header_link_selector) { column_header_selector + " a" }
+      let(:column_name) { "Assignee" }
 
       it_behaves_like "sortable column"
     end
@@ -207,38 +156,23 @@ RSpec.describe "Work package index accessibility" do
       visit_index_page
     end
 
-    shared_examples_for "context menu" do
-      it "resets the context menu focus properly" do
-        expect(page).to have_selector(source_link)
-        element = find(source_link)
-        element.hover
-        send_keys_without_click(element, keys)
-
-        # Expect to open and focus the menu
-        expect(page).to have_focus_on(target_link) if sets_focus
-        element = find(target_link)
-
-        send_keys_without_click(element, :escape)
-        expect(page).to have_no_selector(target_link)
-
-        # Expect reset focus on originating element
-        expect(page).to have_focus_on(source_link) if sets_focus
-      end
-    end
-
     describe "work package context menu", :js do
-      it_behaves_like "context menu" do
-        let(:target_link) { "#work-package-context-menu a.detailsViewMenuItem" }
-        let(:source_link) { ".work-package-table--container tr.issue .wp-table--cell-td.subject" }
-        let(:keys) { %i[shift alt f10] }
-        let(:sets_focus) { true }
-      end
+      let(:context_menu_label) { I18n.t("js.label_work_package_context_menu") }
+      let(:subject_cell) { ".work-package-table--container tr.issue .wp-table--cell-td.subject" }
 
-      it_behaves_like "context menu" do
-        let(:target_link) { "#work-package-context-menu a.openFullScreenView" }
-        let(:source_link) { ".work-package-table--container tr.issue .wp-table--cell-td.subject" }
-        let(:keys) { %i[shift alt f10] }
-        let(:sets_focus) { false }
+      it "focuses the first item and returns focus to the cell on Escape" do
+        cell = find(subject_cell)
+        cell.hover
+        send_keys_without_click(cell, %i[shift alt f10])
+
+        within(:menu, context_menu_label) do
+          expect(page).to have_selector(:menuitem, I18n.t("js.button_open_details"), focused: true)
+          expect(page).to have_selector(:menuitem, I18n.t("js.button_open_fullscreen"))
+        end
+
+        send_keys_without_click(page.active_element, :escape)
+        expect(page).to have_no_selector(:menu, context_menu_label)
+        expect(page).to have_focus_on(subject_cell)
       end
     end
   end

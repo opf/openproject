@@ -32,6 +32,7 @@ import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { IconModule } from '../icon/icon.module';
 import { AbstractBaseButtonDirective } from './abstract-base-button.directive';
 import { PrimerBaseButtonDirective } from './base-button.directive';
+import { DynamicIconName } from './dynamic-icon-map';
 import { DynamicIconDirective } from './dynamic-icon.directive';
 import { TooltipDirection } from './tool-tip-element';
 import { OpTooltipDirective } from './tooltip.directive';
@@ -49,7 +50,7 @@ export class PrimerIconButtonComponent extends AbstractBaseButtonDirective {
   readonly buttonId = input(generateId('icon-button'));
   readonly buttonClass = input('', { alias: 'button-class' });
 
-  readonly icon = input.required<string>();
+  readonly icon = input.required<DynamicIconName>();
   readonly scheme = input<Scheme>('default');
   readonly size = input<Size>('medium');
 

@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
+RSpec.describe "user deletion:", :js, :selenium do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
 
   include Flash::Expectations

@@ -62,6 +62,12 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
     travel_to(now) { example.run }
   end
 
+  context "when the enterprise token does not allow the sprint report pro widgets", with_ee: [] do
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
+    end
+  end
+
   context "when the sprint has a date range set" do
     before do
       create(:work_package, project:, sprint:, status: open_status,

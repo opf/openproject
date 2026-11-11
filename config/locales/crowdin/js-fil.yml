@@ -131,8 +131,8 @@ fil:
     button_confirm: Kumpirmahin
     button_continue: Magpatuloy
     button_copy: Kopyahin
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopyahin sa clipboard
     button_copy_to_other_project: Duplicate in another project
     button_create: Lumikha
@@ -150,6 +150,7 @@ fil:
     button_log_time: Ang oras ng tala
     button_more: Iba pa
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Buksan ang detalyeng view
     button_open_fullscreen: Buksan ang view ng buong screen
     button_quote: Quote
@@ -207,6 +208,7 @@ fil:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
@@ -566,7 +568,9 @@ fil:
     label_show_in_menu: Show view in menu
     label_sort_by: Pag-uuri sa pamamagitan ng
     label_sort_higher: Lumipat pataas
+    label_sort_highest: Move to top
     label_sort_lower: Ilipat sa ibaba
+    label_sort_lowest: Move to bottom
     label_sorted_by: pinagsunod-sunod ayon sa
     label_sorting: Pag-aayos
     label_spent_time: Nauubos na oras
@@ -818,6 +822,7 @@ fil:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

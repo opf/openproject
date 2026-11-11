@@ -84,7 +84,7 @@ get:
   tags:
     - Documents
   description: ''
-  operationId: View_document
+  operationId: get_document
   summary: View document
 
 patch:
@@ -228,5 +228,5 @@ patch:
   tags:
     - Documents
   description: Updates a document's attributes.
-  operationId: Update_document
+  operationId: update_document
   summary: Update document

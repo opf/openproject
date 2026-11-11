@@ -117,6 +117,17 @@ pt-PT:
           name: Finanças e Administração
         item_6:
           name: Controlo de Qualidade
+      labels:
+        item_0:
+          name: Website
+        item_1:
+          name: Marketing
+        item_2:
+          name: Speakers
+        item_3:
+          name: Security
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: Projeto de demonstração

@@ -62,6 +62,7 @@ module Import
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraFetchProjectIssuesJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, jira_project.id)
               Import::JiraFetchProjectVersionsJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, jira_project.id)
+              Import::JiraFetchProjectBoardsJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 2
@@ -69,6 +70,7 @@ module Import
           batch.enqueue(stage: 3) do
             Import::JiraFetchUsersJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
             Import::JiraFetchCustomFieldJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
+            Import::JiraFetchSprintsJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 3
           Rails.logger.info "Starting stage 4"
@@ -97,6 +99,7 @@ module Import
                 .set(good_job_labels: ["stage_7"])
                 .perform_later(jira_import.id, jira_project.id)
             end
+            Import::JiraCreateSprintsJob.set(good_job_labels: ["stage_7"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 7
           Rails.logger.info "Starting stage 8"

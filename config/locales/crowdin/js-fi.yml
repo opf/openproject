@@ -131,8 +131,8 @@ fi:
     button_confirm: Vahvista
     button_continue: Jatka
     button_copy: Kopioi
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopioi leikepöydälle
     button_copy_to_other_project: Duplicate in another project
     button_create: Uusi
@@ -150,6 +150,7 @@ fi:
     button_log_time: Kirjaa työaika
     button_more: Lisää
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Avaa tiedot
     button_open_fullscreen: Avaa kokonäyttötila
     button_quote: Siteeraa
@@ -207,6 +208,7 @@ fi:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Tallennus epäonnistui: %{error}'
@@ -566,7 +568,9 @@ fi:
     label_show_in_menu: Näytä näkymä valikossa
     label_sort_by: Lajitteluperuste
     label_sort_higher: Siirrä ylös
+    label_sort_highest: Move to top
     label_sort_lower: Siirrä alas
+    label_sort_lowest: Move to bottom
     label_sorted_by: lajiteltu
     label_sorting: Lajittelu
     label_spent_time: Käytetty aika
@@ -818,6 +822,7 @@ fi:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

@@ -131,8 +131,8 @@ ko:
     button_confirm: 확인
     button_continue: 계속
     button_copy: 복사
-    button_copy_link_to_clipboard: 클립보드에 링크 복사
-    button_copy_numeric_id_to_clipboard: 클립보드에 숫자 ID 복사
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: 클립보드 복사
     button_copy_to_other_project: 다른 프로젝트에 복제
     button_create: 만들기
@@ -150,6 +150,7 @@ ko:
     button_log_time: 작업시간 기록
     button_more: 기타
     button_more_actions: 추가 작업
+    button_move: Move
     button_open_details: 자세히 보기
     button_open_fullscreen: 전체화면 보기
     button_quote: 인용
@@ -207,6 +208,7 @@ ko:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor에서 오류가 발생했습니다
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: '다음 오류로 인해 문서를 저장하지 못했습니다: %{error}'
@@ -566,7 +568,9 @@ ko:
     label_show_in_menu: 메뉴에서 보기 표시
     label_sort_by: 정렬 기준
     label_sort_higher: 위로 이동
+    label_sort_highest: Move to top
     label_sort_lower: 아래로 이동
+    label_sort_lowest: Move to bottom
     label_sorted_by: '정렬 :'
     label_sorting: 정렬
     label_spent_time: 소비한 시간
@@ -817,6 +821,7 @@ ko:
         batch_too_large: "%{count}개 항목을 한 번에 이동할 수 없습니다. %{max}개까지만 선택하세요."
         fallback_item_label: 항목
         fallback_list_name: 다른 목록
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
         move_failed_check_positions_batch:
           other: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.

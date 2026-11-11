@@ -131,8 +131,8 @@ nl:
     button_confirm: Accepteren
     button_continue: Ga verder
     button_copy: Kopieer
-    button_copy_link_to_clipboard: Link naar klembord kopiëren
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopiëren naar het klembord
     button_copy_to_other_project: Duplicate in another project
     button_create: Maken
@@ -150,6 +150,7 @@ nl:
     button_log_time: Gelogde tijd
     button_more: Meer
     button_more_actions: Meer acties
+    button_move: Move
     button_open_details: Open detailweergave
     button_open_fullscreen: Open volledig scherm
     button_quote: Citeer
@@ -207,6 +208,7 @@ nl:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Er is een fout opgetreden in CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: Het opslaan van het document is mislukt met de volgende foutmelding:%{error}
@@ -566,7 +568,9 @@ nl:
     label_show_in_menu: Toon overzicht in menu
     label_sort_by: Sorteer op
     label_sort_higher: Omhoog
+    label_sort_highest: Move to top
     label_sort_lower: Omlaag
+    label_sort_lowest: Move to bottom
     label_sorted_by: gesorteerd door
     label_sorting: Sortering
     label_spent_time: Bestede tijd
@@ -818,6 +822,7 @@ nl:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

@@ -7,15 +7,6 @@ GIT
       capybara (~> 3.36)
 
 GIT
-  remote: https://github.com/opf/dentaku
-  revision: 78eece45bf3f4ed021c05dd2f5411d1c3f9b168a
-  ref: 78eece45bf3f4ed021c05dd2f5411d1c3f9b168a
-  specs:
-    dentaku (3.5.7)
-      bigdecimal
-      concurrent-ruby
-
-GIT
   remote: https://github.com/opf/md-to-pdf
   revision: a0c4345367e4b9fc869e0da191ec56bcc24bd877
   ref: a0c4345367e4b9fc869e0da191ec56bcc24bd877
@@ -70,6 +61,16 @@ GIT
       coderay (~> 1.1)
       method_source (~> 1.0)
       reline (>= 0.6.0)
+
+GIT
+  remote: https://github.com/rubysolo/dentaku
+  revision: a43d9e328b800409a7af8f0c5ef072b9a0ae9fee
+  ref: a43d9e328b800409a7af8f0c5ef072b9a0ae9fee
+  specs:
+    dentaku (4.1.0)
+      bigdecimal (>= 3.1)
+      concurrent-ruby (~> 1.1)
+      tsort (>= 0.1.1)
 
 PATH
   remote: modules/auth_plugins
@@ -143,7 +144,6 @@ PATH
   remote: modules/gitlab_integration
   specs:
     openproject-gitlab_integration (3.0.0)
-      openproject-webhooks
 
 PATH
   remote: modules/grids
@@ -212,6 +212,12 @@ PATH
   specs:
     openproject-reporting (1.0.0)
       costs
+
+PATH
+  remote: modules/repositories
+  specs:
+    openproject-repositories (1.0.0)
+      openproject-webhooks
 
 PATH
   remote: modules/resource_management
@@ -394,10 +400,10 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-core-api (4.13.0)
+    axe-core-api (4.14.0)
       dumb_delegator
-    axe-core-rspec (4.13.0)
-      axe-core-api (= 4.13.0)
+    axe-core-rspec (4.14.0)
+      axe-core-api (= 4.14.0)
     base64 (0.3.0)
     bcrypt (3.1.22)
     benchmark (0.5.0)
@@ -1220,7 +1226,7 @@ GEM
       puma (>= 5.0, < 9)
     raabro (1.5.0)
     racc (1.8.1)
-    rack (2.2.24)
+    rack (2.2.25)
     rack-attack (6.8.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.2)
@@ -1635,7 +1641,7 @@ DEPENDENCIES
   dalli (~> 5.2.2)
   date_validator (~> 0.12.0)
   deckar01-task_list (~> 2.3.1)
-  dentaku (~> 3.5)!
+  dentaku (~> 4.1.0)!
   disposable (~> 0.6.2)
   doorkeeper (~> 5.9.9)
   dotenv-rails
@@ -1719,6 +1725,7 @@ DEPENDENCIES
   openproject-primer_view_components (~> 0.96.0)
   openproject-recaptcha!
   openproject-reporting!
+  openproject-repositories!
   openproject-resource_management!
   openproject-storages!
   openproject-team_planner!
@@ -1862,8 +1869,8 @@ CHECKSUMS
   aws-sdk-s3 (1.235.0) sha256=e42c1d4ee18014fe0b7d92267e97f20bb02634e35aa604443f76869255be5660
   aws-sdk-sns (1.124.0) sha256=55fc1dc033f9d2d4aa05455a4f50be5003156348e7b8966b82b3845db0bfc203
   aws-sigv4 (1.12.1) sha256=6973ff95cb0fd0dc58ba26e90e9510a2219525d07620c8babeb70ef831826c00
-  axe-core-api (4.13.0) sha256=6556c36d541090993b0efffd2659e13c289c109a0a6bf65d28271e363fc7ffa3
-  axe-core-rspec (4.13.0) sha256=fc5d5a3911255bb7fd2298890983664ee6419f0d580222c8c5b945287e40a9e8
+  axe-core-api (4.14.0) sha256=61fa8065b6643d3faa82527220fafff5b80d3beed4a19c198782f415d8ad8ac0
+  axe-core-rspec (4.14.0) sha256=c4dc9afc16a82bcbb4351955f12c4ff60ceb9a71307d9b56226ee2f692e06c6d
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.22) sha256=1f0072e88c2d705d94aff7f2c5cb02eb3f1ec4b8368671e19112527489f29032
   benchmark (0.5.0) sha256=465df122341aedcb81a2a24b4d3bd19b6c67c1530713fd533f3ff034e419236c
@@ -1914,7 +1921,7 @@ CHECKSUMS
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
   deckar01-task_list (2.3.4) sha256=66abdc7e009ea759732bb53867e1ea42de550e2aa03ac30a015cbf42a04c1667
   declarative (0.0.20) sha256=8021dd6cb17ab2b61233c56903d3f5a259c5cf43c80ff332d447d395b17d9ff9
-  dentaku (3.5.7)
+  dentaku (4.1.0)
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   disposable (0.6.3) sha256=7f2a3fb251bff6cd83f25b164043d4ec3531209b51b066ed476a9df9c2d384cc
   doorkeeper (5.9.9) sha256=691fc87815c2ea7c075518be26855c2343bb3cf6a41400a92a5782f62786ec86
@@ -2101,6 +2108,7 @@ CHECKSUMS
   openproject-primer_view_components (0.96.0) sha256=6aed686963abab1c9e9ca6cd1a7a1120b109fb4a4f4586bf8630367fc7faae33
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
+  openproject-repositories (1.0.0)
   openproject-resource_management (1.0.0)
   openproject-storages (1.0.0)
   openproject-team_planner (1.0.0)
@@ -2214,7 +2222,7 @@ CHECKSUMS
   puma-plugin-statsd (2.8.0) sha256=e515445f93232b6b3571a23b832f93a776d4ce0fc8a5edee798013b82f3488f3
   raabro (1.5.0) sha256=3f998a7bc84f9c84df3ab580634d2e0a5bda4f0841168d56035f529c9877440a
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
-  rack (2.2.24) sha256=ef16526a0d871c43753452338c754040a664c8b41bf0dd7450b85f7772adca5f
+  rack (2.2.25) sha256=a5b3cd8f2df29c36ede21aa797c21e643f06792fae7487926102e06abe6da0b8
   rack-attack (6.8.0) sha256=f2499fdebf85bcc05573a22dff57d24305ac14ec2e4156cd3c28d47cafeeecf2
   rack-cors (2.0.2) sha256=415d4e1599891760c5dc9ef0349c7fecdf94f7c6a03e75b2e7c2b54b82adda1b
   rack-mini-profiler (5.0.0) sha256=99c5ba087fa91c8d9ba80a43f6b2213f1ebead6e863d49286170129d391302e1

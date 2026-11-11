@@ -142,14 +142,14 @@ because it's still in use by work packages)
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(epic.default_variant)
   end
 
-  it "opens on the type's own configuration, with nothing reported yet" do
+  it "opens on the type's own configuration, previewing the switch to it" do
     settings_page.open_switch_dialog(design)
 
     within(settings_page.switch_dialog) do
       expect(page).to have_text("Epic: Switch variant")
       expect(page).to have_select("Variant", selected: "Epic")
-      expect(page).to have_no_text("Fields that")
     end
+    settings_page.expect_switch_impact("No fields or statuses are affected.")
   end
 
   # Reported under the select rather than as a flash, so the choice can be corrected where it
@@ -183,15 +183,18 @@ because it's still in use by work packages)
       create(:work_package, project:, type: epic)
     end
 
-    it "reports the impact once a different variant is chosen" do
+    it "updates the impact as the chosen variant changes" do
       settings_page.open_switch_dialog(design)
+      settings_page.expect_switch_impact("1 work package will use the new configuration")
+
+      settings_page.choose_switch_target("Epic: Design")
       settings_page.expect_no_switch_impact
 
       settings_page.choose_switch_target("Epic: Blueprint")
 
       settings_page.expect_switch_impact("1 work package will use the new configuration")
-      settings_page.expect_switch_impact("Fields that will no longer be shown")
-      settings_page.expect_switch_impact("Fields that become available")
+      settings_page.expect_switch_impact("Fields that will be removed")
+      settings_page.expect_switch_impact("Fields that will be added")
     end
 
     # The field sections keep their contents behind a disclosure. A status the target
@@ -205,7 +208,7 @@ because it's still in use by work packages)
       settings_page.open_switch_dialog(design)
       settings_page.choose_switch_target("Epic: Blueprint")
 
-      settings_page.expect_switch_impact("Work packages that get stuck")
+      settings_page.expect_switch_impact("Work packages without transitions")
       expect(settings_page.switch_dialog).to have_text("Blocked")
       expect(settings_page.switch_dialog).to have_no_text("Assignee")
     end

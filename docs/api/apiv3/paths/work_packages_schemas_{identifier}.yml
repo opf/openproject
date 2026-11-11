@@ -36,5 +36,5 @@ get:
   tags:
     - Work Packages
   description: ''
-  operationId: View_Work_Package_Schema
+  operationId: get_work_package_schema
   summary: View Work Package Schema

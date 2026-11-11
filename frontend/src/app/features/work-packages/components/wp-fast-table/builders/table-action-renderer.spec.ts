@@ -78,15 +78,18 @@ describe('TableActionRenderer tooltips', () => {
 
       expect(details).toHaveAccessibleDescription('');
       expect(details).toHaveAttribute('title', '');
-      expect(details).toHaveClass('wp-table--details-link', 'wp-table-context-menu-icon', 'hidden-for-mobile');
+      expect(details).toHaveClass('wp-table-context-menu-icon', 'hidden-for-mobile', 'Button', 'Button--iconOnly', 'Button--invisible', 'Button--small');
       expect(details).toHaveAttribute('data-work-package-id', '42');
       expect(details).toHaveAttribute('href', expect.stringContaining('/details/DEMO-7/overview'));
-      expect(details.querySelector('.icon-info2')).toBeInTheDocument();
+      expect(details.querySelector('svg.Button-visual')).toBeInTheDocument();
       expect(details.nextElementSibling?.tagName).toBe('TOOL-TIP');
 
-      const context = within(row).getByRole('link', { name: 'Open context menu' });
+      const context = within(row).getByRole('button', { name: 'Open context menu' });
       expect(context).toHaveAttribute('title', '');
-      expect(context).toHaveClass('wp-table-context-menu-link');
+      expect(context).toHaveClass('wp-table-context-menu-link', 'wp-table-context-menu-icon', 'Button', 'Button--iconOnly', 'Button--invisible', 'Button--small');
+      expect(context).toHaveAttribute('aria-haspopup', 'menu');
+      expect(context).toHaveAttribute('aria-expanded', 'false');
+      expect(context.querySelector('svg.Button-visual')).toBeInTheDocument();
       expect(context.nextElementSibling?.tagName).toBe('TOOL-TIP');
     });
 

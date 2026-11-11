@@ -264,6 +264,44 @@ describe('WorkPackageTable', () => {
     });
   });
 
+  describe('whenRendered', () => {
+    const rows = [{ id: '1' }, { id: '2' }];
+
+    it('resolves after the pending render commits', async () => {
+      harness = buildTable({ workPackages: rows });
+      const frames = harness.holdFrames();
+      const resolved = vi.fn();
+      harness.table.initialSetup(rows.map(buildWorkPackage));
+
+      void harness.table.whenRendered().then(resolved);
+      await Promise.resolve();
+      expect(resolved).not.toHaveBeenCalled();
+
+      frames.commit();
+      await Promise.resolve();
+      expect(resolved).toHaveBeenCalledOnce();
+      frames.release();
+    });
+
+    it('resolves at once without a pending render', async () => {
+      harness = buildTable({ workPackages: rows });
+
+      await expect(harness.table.whenRendered()).resolves.toBeUndefined();
+    });
+
+    it('resolves when the table is destroyed', async () => {
+      harness = buildTable({ workPackages: rows });
+      const frames = harness.holdFrames();
+      harness.table.initialSetup(rows.map(buildWorkPackage));
+      const waiting = harness.table.whenRendered();
+
+      harness.table.destroy();
+
+      await expect(waiting).resolves.toBeUndefined();
+      frames.release();
+    });
+  });
+
   describe('mutate', () => {
     beforeEach(async () => {
       harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });

@@ -61,5 +61,5 @@ get:
   tags:
     - Labels
   description: ''
-  operationId: View_Label
+  operationId: get_label
   summary: View Label
