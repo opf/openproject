@@ -59,7 +59,7 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
     end
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     @possible_values || get_possible_values
   end
 
