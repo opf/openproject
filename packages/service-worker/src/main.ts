@@ -32,7 +32,7 @@
  *   - Push wake-ups: a push carries no content, so the worker fetches the unread summary and
  *     renders one notification per work package.
  *   - Notification clicks open or focus a window on the target page.
- *   - Signing out, or an admin turning push off, clears every notification, the remembered state and the app badge.
+ *   - Signing out clears every notification, the remembered state and the app badge.
  *   - An open page asks the worker to reconcile, which closes notifications that are no longer
  *     unread without showing or alerting anything.
  *   - A page reporting a different signed-in user closes the previous user's notifications.

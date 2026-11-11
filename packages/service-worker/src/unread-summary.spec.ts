@@ -46,14 +46,8 @@ describe('UnreadSummary.fetch', () => {
     expect(await UnreadSummary.fetch()).toEqual({ outcome: 'signedOut' });
   });
 
-  it('reports push as off for 404', async () => {
-    respondWith(new Response(null, { status: 404 }));
-
-    expect(await UnreadSummary.fetch()).toEqual({ outcome: 'pushOff' });
-  });
-
-  it('reports unavailable for a server error', async () => {
-    respondWith(new Response(null, { status: 503 }));
+  it.each([404, 503])('reports unavailable for a %i response', async (status) => {
+    respondWith(new Response(null, { status }));
 
     expect(await UnreadSummary.fetch()).toEqual({ outcome: 'unavailable' });
   });

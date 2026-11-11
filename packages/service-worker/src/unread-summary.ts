@@ -30,7 +30,7 @@ import { FETCH_TIMEOUT_MS } from './constants';
 import type { SummaryGroup, SummaryMore } from './notification-rules';
 
 export type UnreadOutcome =
-  | { outcome:'signedOut'|'pushOff'|'unavailable'|'empty' }
+  | { outcome:'signedOut'|'unavailable'|'empty' }
   | { outcome:'unread'; count:number; groups:SummaryGroup[]; more?:SummaryMore };
 
 interface SummaryResponse {
@@ -50,7 +50,6 @@ export class UnreadSummary {
         signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       });
       if (response.status === 401) return { outcome: 'signedOut' };
-      if (response.status === 404) return { outcome: 'pushOff' };
       if (!response.ok) return { outcome: 'unavailable' };
 
       const data = await response.json() as SummaryResponse|null;

@@ -45,7 +45,7 @@ import { UnreadSummary } from './unread-summary';
  * ```
  * push event ──► queue ──► GET notification summary
  *                            │
- *                            ├─ signed out (401), push off (404)
+ *                            ├─ signed out (401)
  *                            │               clear badge, close and forget all, fallback
  *                            ├─ unavailable .. fallback
  *                            ├─ empty ........ close and forget all, "all read", clear badge
@@ -62,7 +62,7 @@ import { UnreadSummary } from './unread-summary';
  *                                               more behind any push (it may have re-shown some)
  * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
  *
- * reconcile message ──► queue ──► none of its notifications open? stop
+ * reconcile message ──► queue ──► none of its notifications open? refresh the badge only
  *                                  else GET notification summary, same outcomes as a push except that
  *                                  nothing is shown and "all read" is not announced; unavailable
  *                                  does nothing; unread closes unlisted notifications (marked
@@ -74,6 +74,7 @@ import { UnreadSummary } from './unread-summary';
  *                            set the badge from this user's summary
  *                       no (or first message since the worker started): close and forget only
  *                            work package notifications of other users
+ *                       either way, if anything was closed or forgotten: refresh the badge
  * ```
  */
 export class PushHandler {
@@ -135,8 +136,8 @@ export class PushHandler {
     if (changed) this.signOutGeneration += 1;
     this.accountId = userId;
     return this.enqueue(async () => {
-      await this.closeOtherAccounts(userId, changed);
-      if (changed) await this.refreshBadge();
+      const closed = await this.closeOtherAccounts(userId, changed);
+      if (changed || closed) await this.refreshBadge();
     });
   }
 
@@ -160,7 +161,6 @@ export class PushHandler {
 
     switch (summary.outcome) {
       case 'signedOut':
-      case 'pushOff':
         await Badge.clear();
         await this.closeAndForgetAll();
         return Notifications.showFallback();
@@ -178,14 +178,13 @@ export class PushHandler {
 
   async reconcile():Promise<void> {
     const generation = this.signOutGeneration;
-    if ((await Notifications.listOpen()).length === 0) return;
+    if ((await Notifications.listOpen()).length === 0) return this.refreshBadge();
 
     const summary = await UnreadSummary.fetch();
     if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return;
 
     switch (summary.outcome) {
       case 'signedOut':
-      case 'pushOff':
       case 'empty':
         await this.closeAndForgetAll();
         return Badge.clear();
@@ -237,17 +236,20 @@ export class PushHandler {
     await PushState.clear();
   }
 
-  async closeOtherAccounts(userId:string, changed:boolean):Promise<void> {
+  async closeOtherAccounts(userId:string, changed:boolean):Promise<boolean> {
     const isOther = (tag:string) => {
       const owner = Notifications.ownerOf(tag);
       return owner === undefined ? changed : owner !== userId;
     };
     const open = await Notifications.listOpen();
-    Notifications.close(open, open.map((notification) => notification.tag).filter(isOther));
+    const closeTags = open.map((notification) => notification.tag).filter(isOther);
+    Notifications.close(open, closeTags);
 
     const state = await PushState.read();
     const remembered = Object.entries(state).filter(([tag]) => !isOther(tag));
-    if (remembered.length !== Object.keys(state).length) await PushState.write(Object.fromEntries(remembered));
+    const forgot = remembered.length !== Object.keys(state).length;
+    if (forgot) await PushState.write(Object.fromEntries(remembered));
+    return closeTags.length > 0 || forgot;
   }
 
   async clearForSignOut():Promise<void> {
