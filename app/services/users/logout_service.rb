@@ -36,10 +36,10 @@ module Users
       self.cookies = controller.send(:cookies)
     end
 
-    def call!(user, drop_other_sessions: OpenProject::Configuration.drop_old_sessions_on_logout?)
+    def call!(user)
       OpenProject.logger.info { "Logging out ##{user.id}" }
 
-      if drop_other_sessions
+      if OpenProject::Configuration.drop_old_sessions_on_logout?
         remove_all_autologin_tokens! user
         remove_all_sessions! user
       else
