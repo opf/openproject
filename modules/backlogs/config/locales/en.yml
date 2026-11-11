@@ -250,7 +250,7 @@ en:
 
     sprint_reports:
       missing_dates_blankslate_component:
-        description: "Sprint start and finish dates are necessary to show the rest of the widgets."
+        description: "Sprint start and finish dates are necessary for the report to show."
         heading: "Missing sprint dates"
       navigation_component:
         next: "Next"
@@ -268,13 +268,13 @@ en:
               description: "The burndown chart will appear here once the sprint has received a work package with estimated story points."
               heading: "No work to display"
             not_started:
-              description: "The burndown chart will appear here after the sprint start date."
+              description: "The burndown chart will appear here after the sprint starts."
               heading: "No work to display"
             not_started_without_estimated_hours:
-              description: "The burndown chart will appear here after the sprint start date, once the sprint has received a work package with work time estimate."
+              description: "The burndown chart will appear here after the sprint starts, once the sprint has received a work package with work time estimate."
               heading: "No work to display"
             not_started_without_story_points:
-              description: "The burndown chart will appear here after the sprint start date, once the sprint has received a work package with estimated story points."
+              description: "The burndown chart will appear here after the sprint starts, once the sprint has received a work package with estimated story points."
               heading: "No work to display"
             too_long:
               description: "The sprint duration exceeded the 1-year limit of the burndown chart's timespan."
@@ -289,13 +289,13 @@ en:
               description: "The burnup chart will appear here once the sprint has received a work package with estimated story points."
               heading: "No work to display"
             not_started:
-              description: "The burnup chart will appear here after the sprint start date."
+              description: "The burnup chart will appear here after the sprint starts."
               heading: "No work to display"
             not_started_without_estimated_hours:
-              description: "The burnup chart will appear here after the sprint start date, once the sprint has received a work package with work time estimate."
+              description: "The burnup chart will appear here after the sprint starts, once the sprint has received a work package with work time estimate."
               heading: "No work to display"
             not_started_without_story_points:
-              description: "The burnup chart will appear here after the sprint start date, once the sprint has received a work package with estimated story points."
+              description: "The burnup chart will appear here after the sprint starts, once the sprint has received a work package with estimated story points."
               heading: "No work to display"
             too_long:
               description: "The sprint duration exceeded the 1-year limit of the burnup chart's timespan."

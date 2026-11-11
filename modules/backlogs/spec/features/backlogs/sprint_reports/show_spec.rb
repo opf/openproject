@@ -182,8 +182,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         expect(page).to have_css(".widget-boxes .widget-box", text: "Add sprint goal widget")
 
         expect(page).to have_css(".blankslate", text: "Missing sprint dates")
-        expect(page).to have_css(".blankslate",
-                                 text: "Sprint start and finish dates are necessary to show the rest of the widgets.")
+        expect(page).to have_css(".blankslate", text: "Sprint start and finish dates are necessary for the report to show.")
       end
     end
   end
