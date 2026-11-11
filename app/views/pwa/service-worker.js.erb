@@ -40,7 +40,7 @@ const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
  *     unread without showing or alerting anything.
  *   - A page reporting a different signed-in user closes the previous user's notifications.
  *
- *   OpenProject --push--> push service --wake-up--> worker --GET push summary--> OpenProject
+ *   OpenProject --push--> push service --wake-up--> worker --GET notification summary--> OpenProject
  *   worker --show / close--> notifications, app badge
  *   logout navigation --> worker --clears--> notifications, remembered state, app badge
  */
@@ -50,7 +50,7 @@ const Config = Object.freeze({
     offline: <%== pwa_offline_path.to_json %>,
     home: <%== root_path.to_json %>,
     signOut: <%== signout_path.to_json %>,
-    push: <%== pwa_push_notification_path.to_json %>,
+    push: <%== api_v3_paths.notification_summary.to_json %>,
   },
   tags: {
     prefix: "openproject-",
@@ -323,7 +323,7 @@ class NotificationFingerprint {
  * revoke the subscription.
  *
  * ```
- * push event ──► queue ──► GET push summary
+ * push event ──► queue ──► GET notification summary
  *                            │
  *                            ├─ signed out (401), push off (404)
  *                            │               clear badge, close and forget all, fallback
@@ -343,7 +343,7 @@ class NotificationFingerprint {
  * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
  *
  * reconcile message ──► queue ──► none of its notifications open? stop
- *                                  else GET push summary, same outcomes as a push except that
+ *                                  else GET notification summary, same outcomes as a push except that
  *                                  nothing is shown and "all read" is not announced; unavailable
  *                                  does nothing; unread closes unlisted notifications (marked
  *                                  evicted when more are collapsed), sets the badge, saves state

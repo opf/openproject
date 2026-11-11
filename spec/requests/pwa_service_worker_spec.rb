@@ -64,8 +64,9 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("skipWaiting", "clients.claim")
     end
 
-    it "serves the push and notification click handlers" do
-      expect(response.body).to include('addEventListener("push"', 'addEventListener("notificationclick"')
+    it "serves the push and notification click handlers fetching the notification summary" do
+      expect(response.body).to include('addEventListener("push"', 'addEventListener("notificationclick"',
+                                       '"/api/v3/notifications/summary"')
     end
 
     it "precaches the offline page under the configured cache name" do
@@ -73,10 +74,10 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     end
 
     context "when served under a path prefix", with_config: { rails_relative_url_root: "/openproject" } do
-      it "points at the prefixed offline page" do
+      it "points at the prefixed offline page and notification summary" do
         get "/service-worker", env: { "SCRIPT_NAME" => "/openproject" }
 
-        expect(response.body).to include('"/openproject/offline"')
+        expect(response.body).to include('"/openproject/offline"', '"/openproject/api/v3/notifications/summary"')
       end
     end
   end
@@ -132,7 +133,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("openproject-offline-", "unregister")
       expect(response.body).not_to include('addEventListener("fetch"')
       expect(response.body).not_to include('addEventListener("push"', 'addEventListener("notificationclick"',
-                                           "/push-notification", "New activity in OpenProject")
+                                           "/api/v3/notifications/summary", "New activity in OpenProject")
     end
 
     it "registers no worker" do

@@ -36,7 +36,10 @@ RSpec.describe PushSubscriptions::NotificationSummary do
   shared_let(:author) { create(:user, firstname: "Ada", lastname: "Lovelace") }
   shared_let(:work_package) { create(:work_package, project:, subject: "Fix the build") }
 
-  subject(:summary) { described_class.new(user).as_json.deep_stringify_keys }
+  subject(:summary) do
+    service = described_class.new(user)
+    { count: service.count, groups: service.groups.presence, more: service.more }.compact.deep_stringify_keys
+  end
 
   def notify(reason: :mentioned, resource: work_package, journal: nil, **)
     create(:notification, recipient: user, resource:, reason:, actor: author, journal:, **)
@@ -69,7 +72,7 @@ RSpec.describe PushSubscriptions::NotificationSummary do
     other_user = create(:user, member_with_permissions: { project => %i[view_work_packages] })
     create(:notification, recipient: other_user, resource: work_package, reason: :mentioned, actor: author)
 
-    other_tag = described_class.new(other_user).as_json.dig(:groups, 0, :tag)
+    other_tag = described_class.new(other_user).groups.dig(0, :tag)
 
     expect(summary.dig("groups", 0, "tag")).to eq(wp_tag(work_package))
     expect(other_tag).to eq("openproject-#{other_user.id}-wp-#{work_package.id}")

@@ -55,12 +55,6 @@ module PushSubscriptions
       { count: remaining, title: I18n.t("pwa.push.more_title", count: remaining), url: url_helpers.notifications_center_path }
     end
 
-    def as_json(*)
-      return { count: 0 } if rows.empty?
-
-      { count:, groups:, more: }
-    end
-
     private
 
     attr_reader :user
