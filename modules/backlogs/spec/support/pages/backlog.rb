@@ -356,7 +356,7 @@ module Pages
     # Leaves the menu open, for callers that act while it is.
     def open_work_package_menu(work_package)
       within_work_package(work_package) do
-        open_controlled_menu(find(:button, accessible_name: "Work package actions"))
+        open_controlled_menu(find(:button, accessible_name: menu_button_name))
       end
     end
 
@@ -384,7 +384,7 @@ module Pages
 
       if via == :more
         within_work_package(work_package) do
-          expect(page).to have_button(accessible_name: singular_menu_label, focused: true)
+          expect(page).to have_button(accessible_name: menu_button_name, focused: true)
         end
       else
         expect_work_package_card_focused(work_package)
@@ -462,7 +462,7 @@ module Pages
     # whose whole job is to open this menu opens it here too.
     def right_click_work_package_menu_button(work_package)
       within_work_package(work_package) do
-        find(:button, accessible_name: "Work package actions").right_click
+        find(:button, accessible_name: menu_button_name).right_click
       end
     end
 
@@ -673,7 +673,7 @@ module Pages
         }
       ) do
         within_work_package(work_package) do
-          button = find(:button, accessible_name: "Work package actions")
+          button = find(:button, accessible_name: menu_button_name)
           open_controlled_menu(button).find(:menuitem, text: I18n.t(:"js.button_open_details")).click
         end
         expect_details_view(work_package)
@@ -1886,8 +1886,12 @@ module Pages
       page.driver.browser.execute_cdp("Input.dispatchKeyEvent", type: "keyUp", **key)
     end
 
-    def singular_menu_label
-      I18n.t("js.backlogs.action_menu.menu_label", count: 1)
+    # The More button is named after the selection it would act on.
+    def menu_button_name
+      key = "js.backlogs.action_menu.menu_label"
+      batch = Regexp.escape(I18n.t(key, count: 99_999)).sub("99999", "\\d+")
+
+      /\A(?:#{Regexp.escape(I18n.t(key, count: 1))}|#{batch})\z/
     end
 
     def move_direction_labels

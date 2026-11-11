@@ -78,7 +78,7 @@ RSpec.describe "Backlogs batch action menus", :js, :selenium, :settings_reset do
           backlogs_page.dismiss_card_menu(stories[1], via:)
 
           backlogs_page.expect_selected_cards_in_order(stories[0], stories[1])
-          backlogs_page.expect_work_package_menu_button_named(stories[1], "Work package actions")
+          backlogs_page.expect_work_package_menu_button_named(stories[1], "Actions for 2 selected work packages")
         end
 
         it "replaces the selection with an unselected card and opens its own menu", :aggregate_failures do
