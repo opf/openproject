@@ -43,8 +43,7 @@ module CustomFields
           id: "custom_field_project_level_value_management_#{mode}",
           label: attribute_name(:project_level_value_management),
           caption: I18n.t("custom_fields.project_specific_values.project_admins.value_management_caption"),
-          disabled:,
-          data: flag_data
+          disabled:
         )
       end
 
@@ -53,17 +52,12 @@ module CustomFields
         id: "custom_field_allow_additional_project_values_#{mode}",
         label: attribute_name(:allow_additional_project_values),
         caption: I18n.t("custom_fields.project_specific_values.project_admins.additional_values_caption"),
-        disabled:,
-        data: flag_data
+        disabled:
       )
     end
 
     private
 
     attr_reader :mode, :disabled
-
-    def flag_data
-      { action: "admin--project-specific-values#togglePermissionBanner" }
-    end
   end
 end

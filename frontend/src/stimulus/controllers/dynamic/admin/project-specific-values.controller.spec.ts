@@ -33,14 +33,12 @@ const section = (value:string, mode:string, selected:boolean, enterprise:boolean
   const disabled = !selected || !enterprise ? 'disabled' : '';
   const manageCheckbox = mode === 'all'
     ? ''
-    : `<input type="checkbox" aria-label="Manage ${mode}" ${disabled}
-              data-action="admin--project-specific-values#togglePermissionBanner">`;
+    : `<input type="checkbox" aria-label="Manage ${mode}" ${disabled}>`;
 
   return `
     <div data-admin--project-specific-values-target="section" data-value="${value}" ${selected ? '' : 'hidden'}>
       ${manageCheckbox}
-      <input type="checkbox" aria-label="Add ${mode}" ${disabled}
-             data-action="admin--project-specific-values#togglePermissionBanner">
+      <input type="checkbox" aria-label="Add ${mode}" ${disabled}>
     </div>
   `;
 };
@@ -59,7 +57,6 @@ const form = (enterprise:boolean) => `
     ${section('allow', 'allow', false, enterprise)}
     ${radio('block', 'block', false)}
     ${section('block', 'block', false, enterprise)}
-    <div data-admin--project-specific-values-target="permissionBanner" data-testid="banner" hidden></div>
   </form>
 `;
 
@@ -68,7 +65,6 @@ describe('ProjectSpecificValuesController', () => {
 
   const field = (label:string) => ctx.container.querySelector<HTMLInputElement>(`[aria-label="${label}"]`)!;
   const sectionFor = (label:string) => field(label).closest<HTMLElement>('div')!;
-  const banner = () => ctx.container.querySelector<HTMLElement>('[data-testid="banner"]')!;
 
   beforeEach(async () => {
     ctx = await setupStimulusTest({
@@ -94,23 +90,6 @@ describe('ProjectSpecificValuesController', () => {
       expect(field('Add all')).toBeDisabled();
       expect(sectionFor('Manage block').hidden).toBe(true);
       expect(field('Manage block')).toBeDisabled();
-    });
-
-    it('shows the permission info while a setting of the selected mode is checked', async () => {
-      await userEvent.click(field('Add all'));
-      expect(banner().hidden).toBe(false);
-
-      await userEvent.click(field('Add all'));
-      expect(banner().hidden).toBe(true);
-    });
-
-    it('ignores checked settings of modes that are not selected', async () => {
-      await userEvent.click(field('Mode block'));
-      await userEvent.click(field('Manage block'));
-      expect(banner().hidden).toBe(false);
-
-      await userEvent.click(field('Mode all'));
-      expect(banner().hidden).toBe(true);
     });
   });
 

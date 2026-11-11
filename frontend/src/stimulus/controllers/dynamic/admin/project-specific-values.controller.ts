@@ -28,14 +28,13 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class ProjectSpecificValuesController extends Controller {
-  static targets = ['section', 'permissionBanner'];
+  static targets = ['section'];
 
   static values = {
     enterprise: Boolean,
   };
 
   declare readonly sectionTargets:HTMLElement[];
-  declare readonly permissionBannerTarget:HTMLElement;
   declare readonly enterpriseValue:boolean;
 
   selectMode(event:Event) {
@@ -49,14 +48,5 @@ export default class ProjectSpecificValuesController extends Controller {
         section.querySelectorAll('input').forEach((input) => { input.disabled = !selected; });
       }
     });
-
-    this.togglePermissionBanner();
-  }
-
-  togglePermissionBanner() {
-    const visibleSection = this.sectionTargets.find((section) => !section.hidden);
-    const anyChecked = visibleSection?.querySelector('input[type="checkbox"]:checked') != null;
-
-    this.permissionBannerTarget.hidden = !anyChecked;
   }
 }

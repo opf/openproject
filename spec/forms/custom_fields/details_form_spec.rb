@@ -226,10 +226,6 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
         expect(page).to have_field("custom_field_allow_additional_project_values_block", visible: :hidden, disabled: true)
         expect(page).to have_field("custom_field_project_level_value_management_block", visible: :hidden, disabled: true)
       end
-
-      it "hides the permission info" do
-        expect(page).to have_test_selector("project-admin-permission-banner", visible: :hidden)
-      end
     end
 
     context "when allowing values per project", with_ee: %i[project_specific_list_values] do
@@ -243,11 +239,6 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
         expect(page).to have_field("custom_field_allow_additional_project_values_all", visible: :hidden, disabled: true)
         expect(page).to have_field("custom_field_project_level_value_management_block", visible: :hidden, disabled: true)
       end
-
-      it "shows the permission info linking to the roles" do
-        expect(page).to have_test_selector("project-admin-permission-banner")
-        expect(page).to have_link(href: "/admin/roles")
-      end
     end
 
     context "when blocking values per project and project admins can add values",
@@ -258,10 +249,6 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       it "offers both settings below the selected mode", :aggregate_failures do
         expect(page).to have_unchecked_field("custom_field_project_level_value_management_block")
         expect(page).to have_checked_field("custom_field_allow_additional_project_values_block")
-      end
-
-      it "shows the permission info" do
-        expect(page).to have_test_selector("project-admin-permission-banner")
       end
     end
 

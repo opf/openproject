@@ -234,23 +234,6 @@ module CustomFields
         end
 
         details_form.html_content do
-          render(
-            Primer::Alpha::Banner.new(
-              icon: :info,
-              hidden: !project_admin_flag_enabled?,
-              test_selector: "project-admin-permission-banner",
-              data: { "admin--project-specific-values-target": "permissionBanner" }
-            )
-          ) do
-            helpers.link_translate(
-              "custom_fields.project_specific_values.project_admins.permission_info",
-              links: { roles: url_helpers.roles_path },
-              external: false
-            )
-          end
-        end
-
-        details_form.html_content do
           render(EnterpriseEdition::BannerComponent.new(:project_specific_list_values))
         end
 
@@ -400,10 +383,6 @@ module CustomFields
       ) do |builder|
         ProjectAdminSettingsForm.new(builder, mode:, disabled: !selected || !project_specific_values_enterprise?)
       end
-    end
-
-    def project_admin_flag_enabled?
-      model.allow_additional_project_values || model.project_level_value_management
     end
 
     def mode_switch_banner(details_form, mode:, value:)

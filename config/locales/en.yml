@@ -3019,7 +3019,6 @@ en:
         label: "Block filter: Manually choose which values to deactivate for each project"
       project_admins:
         additional_values_caption: "Added values are only available in the project they were created in. You can make them available to all projects later."
-        permission_info: "Project admins also need the “Manage custom field values” permission in their role. You can grant it in [Users and permissions → Roles and permissions](roles)."
         value_management_caption: "Project admins can enable or disable certain values for their project. All global values will be visible to them."
       switch_warning:
         all: "All values will be available in all projects."
