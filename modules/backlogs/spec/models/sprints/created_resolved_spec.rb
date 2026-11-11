@@ -34,7 +34,7 @@ RSpec.describe Sprints::CreatedResolved do
   subject(:created_resolved) { described_class.new(sprint:, project:) }
 
   shared_let(:project) { create(:project) }
-  shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+  shared_let(:role) { create(:project_role, permissions: %i[view_work_packages view_sprints]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
   shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
   shared_let(:done_status) { create(:status, name: "Delivered") }
@@ -205,7 +205,69 @@ RSpec.describe Sprints::CreatedResolved do
         expect(created_resolved).to be_too_long_to_chart
         expect(created_resolved.created).to be_empty
         expect(created_resolved.resolved).to be_empty
-        expect(created_resolved.non_working_intervals).to be_empty
+      end
+    end
+  end
+
+  # A single sprint is too short a stretch for a trend: what the chart is asked for is whether
+  # work has been piling up over the last few of them.
+  describe "the sprints the window spans" do
+    def preceding_sprint(start_date, finish_date = start_date + 11.days)
+      create(:sprint, project:, start_date:, finish_date:, started_at: at_hour(start_date, 9))
+    end
+
+    it "opens with the earliest sprint preceding this one" do
+      preceding_sprint(first_monday - 14.days)
+      preceding_sprint(first_monday - 28.days)
+      earliest = preceding_sprint(first_monday - 42.days)
+
+      expect(created_resolved.created.first.at).to eq earliest.started_at
+    end
+
+    it "opens with the sprint itself when none came before it" do
+      expect(created_resolved.created.first.at).to eq sprint_start
+    end
+
+    it "reaches no further back than six of them" do
+      7.times { preceding_sprint(first_monday - ((it + 1) * 14.days)) }
+      sixth_back = at_hour(first_monday - 84.days, 9)
+
+      expect(created_resolved.created.first.at).to eq sixth_back
+    end
+
+    # Counted from before the window opened, so the series still starts at zero and only the
+    # work package added inside it moves the count.
+    it "counts from the opening of the whole span rather than of this sprint" do
+      preceding_sprint(first_monday - 14.days)
+      counted(at_hour(first_monday - 30.days, 12))
+      counted(at_hour(first_tuesday, 15))
+
+      expect(created_resolved.created.first.value).to eq 0.0
+      expect(created_resolved.created.last.value).to eq 1.0
+    end
+
+    # The preceding sprints have been running all along, so there is something to show even
+    # though this one has not begun.
+    context "when the sprint has not started yet" do
+      let(:started_at) { nil }
+      let(:now) { at_hour(first_monday - 1.day, 12) }
+
+      it "charts what the preceding sprints measured" do
+        earliest = preceding_sprint(first_monday - 14.days)
+        counted(at_hour(first_monday - 7.days, 12))
+
+        expect(created_resolved.created.first.at).to eq earliest.started_at
+        expect(created_resolved.created.last.value).to eq 1.0
+      end
+    end
+
+    context "when the sprints together run longer than a year" do
+      it "drops the ones that do not fit rather than blanking the chart" do
+        preceding_sprint(first_monday - 400.days, first_monday - 380.days)
+        nearest = preceding_sprint(first_monday - 30.days)
+
+        expect(created_resolved).not_to be_too_long_to_chart
+        expect(created_resolved.created.first.at).to eq nearest.started_at
       end
     end
   end

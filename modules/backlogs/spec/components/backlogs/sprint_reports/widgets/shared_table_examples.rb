@@ -97,6 +97,24 @@ RSpec.shared_context "with a sprint report work package table" do
         "includeSubprojects" => false
       }.compact)
     end
+
+    context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+      let(:common_columns) { %w[id subject type status assigned_to] }
+
+      {
+        "story_points" => "story_points",
+        "time" => "estimated_hours",
+        "none" => nil
+      }.each do |unit, unit_column|
+        context "when the project's estimation unit is #{unit}" do
+          before { project.estimation_unit = unit }
+
+          it "renders #{unit_column || 'no'} extra column" do
+            expect(query_props["columns[]"]).to eq(common_columns + Array(unit_column))
+          end
+        end
+      end
+    end
   end
 end
 

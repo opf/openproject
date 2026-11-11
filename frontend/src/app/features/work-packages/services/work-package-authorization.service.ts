@@ -51,8 +51,8 @@ export class WorkPackageAuthorization {
       case 'view_markdown':
         link = this.shortLink({ format: 'md' });
         break;
-      case 'copy_numeric_id_to_clipboard':
-        link = this.workPackage.id!.toString();
+      case 'copy_alphanumeric_id_to_clipboard':
+        link = this.workPackage.displayId;
         break;
       case 'copy_to_other_project':
         link = this.bulkCopyLink();

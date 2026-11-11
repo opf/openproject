@@ -182,7 +182,7 @@ RSpec.describe "Invite user modal", :js do
       assignee_field.expect_active!
 
       assignee_field.openSelectField
-      find(".ng-dropdown-footer button", text: "Invite", wait: 10).click
+      find(".ng-dropdown-footer", wait: 10).click_button("Invite")
 
       modal.run_all_steps
       expect(page).to have_css(".ng-value-label", text: principal.name)
@@ -210,7 +210,7 @@ RSpec.describe "Invite user modal", :js do
         retry_block do
           assignee_field.activate!
         end
-        find(".ng-dropdown-footer button", text: "Invite", wait: 10).click
+        find(".ng-dropdown-footer", wait: 10).click_button("Invite")
       end
 
       context "with an existing user" do

@@ -48,7 +48,7 @@ module Admin
 
       helper_method :index_path, :new_path, :edit_path, :member_path, :delete_option_path, :list_item_path,
                     :reorder_alphabetical_path, :attribute_help_text_path, :update_attribute_help_text_path,
-                    :deletion_dialog_path, :custom_field_page_title, :section_label, :customizable_name
+                    :deletion_dialog_path, :forms_path, :custom_field_page_title, :section_label, :customizable_name
 
       def index
         @custom_fields = custom_field_scope

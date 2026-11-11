@@ -23,6 +23,8 @@ SECRET=secret12345 npm run start
 
 The `SECRET` environment variable is a shared value between this application and OpenProject. Make sure to configure the same value in OpenProject - Settings Hocuspocus secret and in the `SECRET` environment variable of this project.
 
+If the values differ, authentication fails and the logs show `Unsupported state or unable to authenticate data`.
+
 ### Using Docker
 
 ```bash
@@ -91,6 +93,15 @@ npm run test
 
 # Lint code
 npm run lint
+```
+
+### Logs
+
+Note that log lines starting with `OP` come from the OpenProject integration (this repo); all other lines come from Hocuspocus itself.
+
+```
+[<timestamp>] Some log message # this is hocuspocus
+OP [<timestamp>] Some other log message # this message is from this repository
 ```
 
 ## Links

@@ -56,7 +56,7 @@ module API
           route_param :id, type: Integer, desc: "Document ID" do
             helpers do
               def document
-                Document.visible.find(params[:id])
+                @document ||= Document.visible.find(params[:id])
               end
             end
 
@@ -83,6 +83,7 @@ module API
               end
             end
 
+            mount ::API::V3::Documents::CollaborationTokenAPI
             mount ::API::V3::Attachments::AttachmentsByDocumentAPI
           end
         end

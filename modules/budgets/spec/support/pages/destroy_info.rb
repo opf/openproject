@@ -37,7 +37,7 @@ module Pages
 
     def expect_loaded
       expect(page)
-        .to have_content("#{I18n.t(:button_delete)} #{budget.subject}")
+        .to have_text("#{I18n.t(:button_delete)} #{budget.subject}")
     end
 
     def expect_reassign_option

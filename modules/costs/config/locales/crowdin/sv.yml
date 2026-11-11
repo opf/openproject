@@ -78,9 +78,11 @@ sv:
               invalid: måste vara en användare eller en platshållaranvändare.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: "”Loggad för” får inte vara tomt."
-              cannot_log_for_this_work_package: Du har inte behörighet att logga tid för det här arbetspaketet.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: De loggade timmarna får inte överstiga gränsen på %{limit} timmar som är tillgängliga under användarens arbetsdag.
@@ -94,6 +96,9 @@ sv:
             start_time:
               format: "%{message}"
               invalid_time: Ogiltig tid. Tiden måste vara mellan 00:00 och 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: En annan timer körs redan. Endast en timer kan vara aktiv åt gången.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Arbetspaket #%{id} är inte ett giltigt mål för omfördelning av kostnadsposterna.'

@@ -116,7 +116,7 @@ RSpec.describe "Accessible work package table tooltips", :js do
       page.current_window.resize_to(width, 900)
       wp_table.row(parent).hover
 
-      control = wp_table.row(parent).find(:link, accessible_name: "Open context menu", accessible_description: "", exact: true)
+      control = wp_table.row(parent).find(:button, accessible_name: "Open context menu", accessible_description: "", exact: true)
       control.hover
       expect(page).to have_element(:"tool-tip", text: "Open context menu")
 

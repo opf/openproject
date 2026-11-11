@@ -46,5 +46,5 @@ get:
   tags:
     - Budgets
   description: ''
-  operationId: view_Budget
+  operationId: get_budget
   summary: view Budget

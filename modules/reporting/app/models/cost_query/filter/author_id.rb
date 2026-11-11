@@ -33,7 +33,7 @@ class CostQuery::Filter::AuthorId < CostQuery::Filter::UserId
     WorkPackage.human_attribute_name(:author)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     []
   end
 end

@@ -131,8 +131,8 @@ ru:
     button_confirm: Подтвердить
     button_continue: Продолжить
     button_copy: Копировать
-    button_copy_link_to_clipboard: Копировать ссылку в буфер обмена
-    button_copy_numeric_id_to_clipboard: Скопировать числовой идентификатор в буфер обмена
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Копировать в буфер обмена
     button_copy_to_other_project: Дублировать в другой проект
     button_create: Создать
@@ -150,6 +150,7 @@ ru:
     button_log_time: Добавить трудозатраты
     button_more: Ещё
     button_more_actions: Еще действия
+    button_move: Move
     button_open_details: Открыть детальный просмотр
     button_open_fullscreen: Открыть полноэкранный просмотр
     button_quote: Цитировать
@@ -207,6 +208,7 @@ ru:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Произошла ошибка в CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Не удалось сохранить документ по следующей причине: %{error}'
@@ -438,7 +440,6 @@ ru:
     label_assignee: Исполнитель
     label_assignee_alt_text: Этот пакет работ назначен %{name}
     label_attachments: Вложения
-    label_author: 'Автор: %{user}'
     label_avatar: 'Аватар
 
       '
@@ -569,7 +570,9 @@ ru:
     label_show_in_menu: Показать представление в меню
     label_sort_by: Сортировать по
     label_sort_higher: Переместить вверх
+    label_sort_highest: Move to top
     label_sort_lower: Переместить вниз
+    label_sort_lowest: Move to bottom
     label_sorted_by: отсортировано по
     label_sorting: Сортировка
     label_spent_time: Затраченное время
@@ -823,6 +826,7 @@ ru:
         batch_too_large: Нельзя переместить %{count} элементов за один раз. Выберите не более %{max}.
         fallback_item_label: Элемент
         fallback_list_name: другой список
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Не удалось переместить. Проверьте текущую позицию.
         move_failed_check_positions_batch:
           other: Перемещение не удалось. Проверьте текущие позиции элементов.
@@ -1142,7 +1146,6 @@ ru:
         default_mode: Простой список
         display_settings: Настройки отображения
         display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под таблицей результатов.
-        embedded_tab_disabled: Эта вкладка конфигурации недоступна для редактируемого вами вида.
         hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их предками. Иерархии можно разворачивать и сворачивать.
         hierarchy_mode: Иерархия
         highlighting: Выделение

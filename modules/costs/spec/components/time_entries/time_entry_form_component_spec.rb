@@ -51,6 +51,20 @@ RSpec.describe TimeEntries::TimeEntryFormComponent, type: :component do
     end
   end
 
+  context "when the work package has an error" do
+    subject(:rendered_component) do
+      render_inline(described_class.new(time_entry:, show_work_package: true, show_user: false))
+    end
+
+    before do
+      time_entry.errors.add(:entity, :invalid)
+    end
+
+    it "shows the error on the work package field" do
+      expect(rendered_component).to have_css(".FormControl-inlineValidation", text: "is invalid.")
+    end
+  end
+
   describe "time fields layout" do
     let(:time_fields_row) { page.find(".FormControl-horizontalGroup") }
 

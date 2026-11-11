@@ -36,7 +36,11 @@ import {
 } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
+  ContextMenuItemGroups,
+  copyIdActionLabel,
+  isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
+  sortContextMenuActions,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import {
@@ -49,7 +53,6 @@ import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/s
 import { isTimerForWorkPackage, OngoingTimer } from 'core-app/shared/components/time_entries/services/ongoing-timer';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
-import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 @Directive({
@@ -113,6 +116,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     }
 
     switch (key) {
+      case 'copy_alphanumeric_id_to_clipboard':
+        this.copyToClipboardService.copy(this.workPackage.displayId);
+        break;
       case 'copy_to_other_project':
         window.location.href = `${this.PathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${this.workPackage.id!}`;
         break;
@@ -140,9 +146,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         this.copyToClipboardService.copy(url.toString());
         break;
       }
-      case 'copy_numeric_id_to_clipboard':
-        this.copyToClipboardService.copy(`${this.workPackage.id!}`);
-        break;
       default:
         window.location.href = link!;
         break;
@@ -173,13 +176,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     // Add the available actions on timers
     actions = this.addTimerAction(actions);
 
-    // Copying the numeric ID is only useful in semantic mode, where the
-    // displayed identifier (e.g. "PROJ-42") is not the numeric ID itself.
-    actions = actions.filter((action) => (
-      action.key !== 'copy_numeric_id_to_clipboard'
-      || isSemanticWorkPackageId(this.workPackage.displayId)
-    ));
-
     // Splice plugin actions onto the core actions
     this.getPermittedPluginActions(authorization).forEach((action:WorkPackageAction) => {
       const index = action.indexBy ? action.indexBy(actions) : actions.length;
@@ -208,42 +204,40 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   protected buildItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
     const configureFormLink = this.workPackage.configureForm;
 
-    this.items = permittedActions.map((action:WorkPackageAction) => {
-      const { key } = action;
+    const groups = new ContextMenuItemGroups();
 
-      // "Copy numeric ID" copies a plain value rather than navigating anywhere.
-      // Rendering it as a link would show a misleading link preview on hover and
-      // make the clipboard copy originate from an anchor, so render it as a
-      // button (no href).
-      const href = key === 'copy_numeric_id_to_clipboard' || action.turboRequest ? undefined : action.link;
+    sortContextMenuActions(permittedActions)
+      .filter((action) => action.hidden !== true)
+      .forEach((action:WorkPackageAction) => {
+        const { key } = action;
+        const href = isCopyIdAction(key) || action.turboRequest ? undefined : action.link;
 
-      return {
-        disabled: false,
-        hidden: action.hidden === true,
-        linkText: I18n.t(`js.button_${key}`),
-        href,
-        icon: action.icon || `icon-${key}`,
-        onClick: (event:MouseEvent) => {
-          if (href && isClickedWithModifier(event)) {
-            return false;
-          }
+        groups.addAction(key, {
+          disabled: false,
+          linkText: isCopyIdAction(key) ? copyIdActionLabel() : I18n.t(`js.button_${key}`),
+          href,
+          icon: action.icon ?? `icon-${key}`,
+          onClick: (event:MouseEvent) => {
+            if (href && isClickedWithModifier(event)) {
+              return false;
+            }
 
-          this.triggerContextMenuAction(action, key);
-          return true;
-        },
-      };
-    });
+            this.triggerContextMenuAction(action, key);
+            return true;
+          },
+        });
+      });
 
     if (configureFormLink) {
-      this.items.push(
-        {
-          href: configureFormLink.href as string|undefined,
-          icon: 'icon-settings3',
-          linkText: I18n.t('js.button_configure-form'),
-          onClick: () => false,
-        },
-      );
+      groups.append('configure', {
+        href: configureFormLink.href as string|undefined,
+        icon: 'icon-settings3',
+        linkText: I18n.t('js.button_configure-form'),
+        onClick: () => false,
+      });
     }
+
+    this.items = groups.items;
 
     return this.items;
   }

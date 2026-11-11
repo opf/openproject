@@ -8,7 +8,7 @@
       [attr.data-action]="hiddenFieldAction">
   }
   @if (multiple && multipleAsSeparateInputs) {
-    @for (value of mappedInputValue; track value) {
+    @for (value of mappedInputValue; track $index) {
       <input
         type="hidden"
         [attr.name]="inputName+'[]'"
@@ -19,9 +19,9 @@
   <ng-select
     #ngSelectInstance
     [(ngModel)]="model"
-    [items]="results$ | async"
-    [ngClass]="classes"
-    [typeahead]="typeahead"
+    [items]="(results$ | async) ?? []"
+    [ngClass]="classes ?? ''"
+    [typeahead]="typeahead ?? localSearch"
     [clearOnBackspace]="clearOnBackspace"
     [clearSearchOnAdd]="clearSearchOnAdd"
     [hideSelected]="hideSelected"
@@ -34,24 +34,23 @@
     [clearable]="clearable"
     [closeOnSelect]="closeOnSelect"
     [openOnEnter]="openOnEnter"
-    [disabled]="disabled"
-    [name]="name"
+    [disabled]="disabled ?? false"
+    [name]="name ?? ''"
     [id]="id"
     [attr.accesskey]="accesskey||undefined"
-    [bindLabel]="bindLabel"
-    [bindValue]="bindValue"
+    [bindLabel]="bindLabel ?? ''"
+    [bindValue]="bindValue ?? ''"
     [markFirst]="markFirst"
     [notFoundText]="notFoundText"
     [addTagText]="addTagText"
     [loadingText]="loadingText"
-    [clearAllText]="clearAllText"
-    [appearance]="appearance"
+    [clearAllText]="clearAllText ?? ''"
+    [appearance]="appearance ?? ''"
     [dropdownPosition]="dropdownPosition"
     [selectOnTab]="selectOnTab"
     [maxSelectedItems]="maxSelectedItems"
     [placeholder]="placeholder"
-    [groupBy]="groupBy"
-    [groupValue]="groupValue"
+    [groupBy]="groupBy ?? ''"
     [bufferAmount]="bufferAmount"
     [selectableGroup]="selectableGroup"
     [searchable]="searchable"
@@ -74,24 +73,22 @@
     (close)="closed()"
     (blur)="blured($event)"
     (focus)="focused($event)"
-    (clear)="cleared($event)"
+    (clear)="cleared()"
     (keydown)="keydowned($event)"
     (keydown.escape)="canceled($event)"
     (search)="searched($event)"
     (scroll)="scrolled($event)"
-    (scrollToEnd)="scrolledToEnd($event)"
+    (scrollToEnd)="scrolledToEnd()"
     (add)="added($event)"
     (remove)="removed($event)"
     >
     @if (headerTemplate || projectedHeaderTemplate) {
       <ng-template
         ng-header-tmp
-        let-item="item"
-        let-index="index"
         let-search="searchTerm"
       >
         <ng-container [ngTemplateOutlet]="headerTemplate || projectedHeaderTemplate"
-          [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+          [ngTemplateOutletContext]="{ search:search }"
          />
       </ng-template>
     }
@@ -100,12 +97,10 @@
       <ng-template
         ng-label-tmp
         let-item="item"
-        let-index="index"
-        let-search="searchTerm"
         let-clear="clear"
       >
         <ng-container [ngTemplateOutlet]="projectedLabelTemplate || labelTemplate || defaultLabel"
-          [ngTemplateOutletContext]="{$implicit:item, search:search, index:index, clear:clear }"
+          [ngTemplateOutletContext]="{ $implicit:item, clear:clear }"
          />
       </ng-template>
     }
@@ -124,12 +119,10 @@
     @if (footerTemplate || projectedFooterTemplate) {
       <ng-template
         ng-footer-tmp
-        let-item="item"
-        let-index="index"
         let-search="searchTerm"
       >
         <ng-container [ngTemplateOutlet]="footerTemplate || projectedFooterTemplate"
-          [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+          [ngTemplateOutletContext]="{ search:search }"
          />
       </ng-template>
     }
@@ -161,7 +154,7 @@
 <ng-template let-item let-search="search" #defaultOption>
   @switch (true) {
     @case (!resource && !!item.depth) {
-      <span [ngOptionHighlight]="search"
+      <span
         [textContent]="item.name"
         [ngStyle]="{'padding-left.px': item.depth * 16}"
         class="ng-option-label ellipsis">
@@ -182,25 +175,21 @@
       }
       <span
         [attr.data-hover-card-trigger-target]="getHoverCardTriggerTarget(item)"
-        [attr.data-hover-card-url]="getHoverCardUrl(item)"
-      [ngOptionHighlight]="search">{{ item.name }}</span>
+        [attr.data-hover-card-url]="getHoverCardUrl(item)">{{ item.name }}</span>
       @if (item.email) {
         <span
-          class="op-autocompleter__option-principal-email"
-        [ngOptionHighlight]="search">{{ item.email }}</span>
+          class="op-autocompleter__option-principal-email">{{ item.email }}</span>
       }
     }
     @case (resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default' || (!resource && !item.depth)) {
       <span
-        [ngClass]="'ng-option-label ' + (item?.[additionalClassProperty] || '')"
+        [ngClass]="'ng-option-label ' + (additionalClassProperty ? item?.[additionalClassProperty] || '' : '')"
         [attr.data-hover-card-trigger-target]="getHoverCardTriggerTarget(item)"
-        [attr.data-hover-card-url]="getHoverCardUrl(item)"
-        [ngOptionHighlight]="search">{{ item.name }}
+        [attr.data-hover-card-url]="getHoverCardUrl(item)">{{ item.name }}
       </span>
       @if (item.email) {
         <span
-          class="op-autocompleter__option-principal-email"
-        [ngOptionHighlight]="search">{{ item.email }}</span>
+          class="op-autocompleter__option-principal-email">{{ item.email }}</span>
       }
     }
   }
@@ -212,18 +201,15 @@
       @if (item.type) {
         <span
           [ngClass]="highlighting('type', item.type.id)"
-          [ngOptionHighlight]="search"
           [textContent]="item.type.name"
         ></span>
       }
       <span
         class="op-autocompleter--wp-id"
-        [ngOptionHighlight]="search"
       >{{ item.formattedId }}</span>
       @if (item.status) {
         <span
           [ngClass]="highlighting('status', item.status.id)"
-          [ngOptionHighlight]="search"
           [textContent]="item.status.name"
           class="op-autocompleter--wp-status"
         ></span>
@@ -231,14 +217,12 @@
       @if (item.project?.name) {
         <span>-</span>
         <span
-          [ngOptionHighlight]="search"
           [textContent]="item.project.name"
           class="op-autocompleter--wp-project"
         ></span>
       }
     </div>
     <span
-      [ngOptionHighlight]="search"
       [textContent]="item.subject"
       class="op-autocompleter--wp-subject"
     ></span>
@@ -255,7 +239,6 @@
     @if (item.id) {
       <span
         class="ng-value-label"
-        [ngOptionHighlight]="search"
         >
         {{ item.type?.name }} {{ item.formattedId }} {{ item.subject || item.name }}
       </span>
@@ -271,7 +254,6 @@
             (keydown.space)="$event.preventDefault(); clear(item)">×</span>
     }
     <span
-      [ngOptionHighlight]="search"
       [ngClass]=" additionalClassProperty ? item[additionalClassProperty] : ''"
     class="ng-value-label">{{ item.name }}</span>
   }

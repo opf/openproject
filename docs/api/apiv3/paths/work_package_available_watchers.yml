@@ -110,5 +110,5 @@ get:
     - Work Packages
   description: Gets a list of users that are able to be watchers of the specified
     work package.
-  operationId: Available_watchers
+  operationId: list_available_watchers_for_work_package
   summary: Available watchers

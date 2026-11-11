@@ -60,11 +60,11 @@ RSpec.describe "Show/Edit Document View",
      with_settings: { real_time_text_collaboration_enabled: true } do
     visit document_path(document)
 
-    expect(page).to have_content("Collaborative document")
+    expect(page).to have_text("Collaborative document")
 
     aggregate_failures "can see live users" do
       within_test_selector("live-events") do
-        expect(page).to have_content("1 active editor")
+        expect(page).to have_text("1 active editor")
       end
     end
 
@@ -95,12 +95,12 @@ RSpec.describe "Show/Edit Document View",
 
         fill_in "document_title", with: ""
         wait_for_turbo_stream { click_on "Save" }
-        expect(page).to have_content("Title can't be blank")
+        expect(page).to have_text("Title can't be blank")
 
         fill_in "document_title", with: "Updated collaborative document"
         wait_for_turbo_stream { click_on "Save" }
 
-        expect(page).to have_content("Updated collaborative document")
+        expect(page).to have_text("Updated collaborative document")
       end
 
       within_test_selector("document-page-header") do
@@ -109,7 +109,7 @@ RSpec.describe "Show/Edit Document View",
         expect(page).to have_selector :menuitem, "Edit title"
         wait_for_turbo_stream { page.find(:menuitem, "Edit title").click }
         wait_for_turbo_stream { click_on "Cancel" }
-        expect(page).to have_content("Updated collaborative document")
+        expect(page).to have_text("Updated collaborative document")
       end
     end
 
@@ -126,7 +126,7 @@ RSpec.describe "Show/Edit Document View",
       editor = FormFields::Primerized::BlockNoteEditorInput.new
       editor.fill_in("This is the new **content**.")
 
-      expect(editor.element).to have_content("This is the new content.") # bold is applied
+      expect(editor.element).to have_text("This is the new content.") # bold is applied
     end
   end
 
@@ -180,9 +180,9 @@ RSpec.describe "Show/Edit Document View",
     it "renders a notice about collaboration being disabled" do
       visit document_path(document)
 
-      expect(page).to have_content("Unable to open document because real-time text collaboration is disabled. " \
-                                   "Please contact your administrator to enable real-time text collaboration " \
-                                   "if you want to access this document.")
+      expect(page).to have_text("Unable to open document because real-time text collaboration is disabled. " \
+                                "Please contact your administrator to enable real-time text collaboration " \
+                                "if you want to access this document.")
     end
   end
 

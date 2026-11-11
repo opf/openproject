@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Generate PDF
   priority: 400
 description: Configure PDF exports for a work package type in OpenProject.
-keywords: work package PDF, PDF export, work package types, PDF templates, PMflex Artefact, automatic artefact export
+keywords: work package PDF, PDF export, work package types, PDF templates, PMflex Artefact, automatic artefact export, wiki pages
 ---
 
 # Configure PDF exports for work package types
@@ -44,6 +44,26 @@ The available settings depend on the selected template. This is an example of th
 Click **Save** to apply your changes.
 
 Click **Reset to default** to restore the default settings for this template, or **Cancel** to leave the configuration page without saving your changes. 
+
+### Include wiki pages in the PMflex Artefact
+
+The configuration page of the **PMflex Artefact** template additionally lets you append wiki pages to every artefact of this work package type. Use it to keep recurring content such as legal information or data privacy terms in one place instead of repeating it in each work package.
+
+Under **Add wiki pages**, click **Select a wiki page** to open the page picker. Search by name or browse the wikis of the projects you have access to, select a page and click **Add**. The page is appended to the list under **Manage and reorder wiki pages**. Add a further page by opening the picker again.
+
+Each entry in that list can be removed with the **×** next to its name, and dragging an entry changes its position. The order of the list is the order in which the pages are appended to the end of the exported PDF, each under its own title and, where the table of contents is enabled, listed in it.
+
+As with every other setting on this page, your changes take effect when you click **Save**. **Reset to default** also empties the list.
+
+> [!IMPORTANT]
+> Adding a wiki page here makes its content, embedded images included, visible to everyone who can export this artefact - including people who are not allowed to open that wiki page in OpenProject. Treat adding a page as granting access to it.
+
+A page that was deleted in the meantime, or whose project has been archived, is listed as unavailable. Such an entry is skipped when the PDF is generated; remove it and save to clean up the list.
+
+> [!NOTE]
+> Only pages of OpenProject's own wiki can be selected. The list applies to the PMflex Artefact template only, and the [automatic artefact export](#automatic-artefact-export) uses it unchanged.
+
+Users exporting a work package of this type see the configured pages prefilled in the Generate PDF dialog, where they can remove them, reorder them and add further pages they are allowed to read. Those changes affect that single export and are never written back here. See the [work package PDF export guide](../../../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact) for the user side.
 
 ## Automatic artefact export
 

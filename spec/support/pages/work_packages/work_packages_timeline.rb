@@ -55,7 +55,7 @@ module Pages
 
       within(timeline_container) do
         work_packages.each do |wp|
-          expect(page).to have_css(".wp-row-#{wp.id}-timeline", visible: true)
+          expect(page).to have_css(".wp-row-#{wp.id}-timeline", visible: :visible)
         end
       end
     end
@@ -63,7 +63,7 @@ module Pages
     def expect_work_package_not_listed(*work_packages)
       within(timeline_container) do
         work_packages.each do |wp|
-          expect(page).to have_no_css(".wp-row-#{wp.id}-timeline", visible: true)
+          expect(page).to have_no_css(".wp-row-#{wp.id}-timeline", visible: :visible)
         end
       end
     end
@@ -82,7 +82,7 @@ module Pages
       if open
         expect(page).to have_css(".wp-table-timeline--container .wp-timeline-cell", wait: 30)
       else
-        expect(page).to have_no_css(".wp-table-timeline--container .wp-timeline-cell", visible: true)
+        expect(page).to have_no_css(".wp-table-timeline--container .wp-timeline-cell", visible: :visible)
       end
       wait_for_network_idle
     end

@@ -34,6 +34,12 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { zoomLevelOrder } from 'core-app/features/work-packages/components/wp-table/timeline/wp-timeline';
 import { TimelineLabels, TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
 
+const TIMELINE_LABEL_KEYS:Record<keyof TimelineLabels, true> = {
+  left: true,
+  right: true,
+  farRight: true,
+};
+
 @Component({
   templateUrl: './timelines-tab.component.html',
   standalone: false,
@@ -54,7 +60,7 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
 
   public labels:TimelineLabels;
 
-  public availableLabels:string[];
+  public availableLabels:(keyof TimelineLabels)[];
 
   public zoomLevel:TimelineZoomLevel;
 
@@ -96,6 +102,13 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
     });
   }
 
+  public updateZoomLevel(value:string):void {
+    const level = this.availableZoomLevels.find((option) => option === value);
+    if (level !== undefined) {
+      this.zoomLevel = level;
+    }
+  }
+
   public updateLabels(key:keyof TimelineLabels, value:string|null) {
     if (value === '') {
       value = null;
@@ -113,7 +126,9 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
     // Current label models
     const { labels } = this.wpTableTimeline;
     this.labels = { ...labels };
-    this.availableLabels = Object.keys(this.labels);
+    this.availableLabels = Object.keys(this.labels).filter(
+      (key):key is keyof TimelineLabels => Object.hasOwn(TIMELINE_LABEL_KEYS, key),
+    );
 
     // Available labels
     const availableColumns = this.wpTableColumns

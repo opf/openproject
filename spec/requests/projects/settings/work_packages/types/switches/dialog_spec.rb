@@ -58,6 +58,22 @@ RSpec.describe "The variant switch dialog",
     expect(dialog).to have_select("Variant", selected: delivery.composite_name)
   end
 
+  it "previews the switch to the variant it was asked about" do
+    create(:work_package, project:, type: epic)
+
+    open_dialog(target_id: delivery.id)
+
+    expect(dialog).to have_text("1 work package will use the new configuration")
+  end
+
+  it "previews nothing when it opens on the variant in use" do
+    create(:work_package, project:, type: epic)
+
+    open_dialog
+
+    expect(dialog).to have_no_text("will use the new configuration")
+  end
+
   it "does not ask the reader to choose a variant" do
     open_dialog(target_id: delivery.id)
 

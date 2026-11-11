@@ -208,7 +208,8 @@ RSpec.describe "Select work package row", :js do
     expect(page).to have_no_css(".wp-inline-create-row")
     expect_row_checked(1, 2, 3)
 
-    find('[data-test-selector="op-wp-inline-create"]').send_keys :escape
+    expect(page).to have_focus_on('[data-test-selector="op-wp-inline-create"]')
+    page.send_keys :escape
     expect_row_unchecked(1, 2, 3)
   end
 

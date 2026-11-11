@@ -113,7 +113,7 @@ class Report::Filter
     ##
     # Returns an array of [:label_of_value, value]-kind arrays, containing
     # valid id-label combinations of possible filter values
-    def self.available_values(_params = {})
+    def self.available_values(**)
       []
     end
 
@@ -121,7 +121,7 @@ class Report::Filter
     # Returns a [:label_of_value, value]-kind array (as in self.available_values)
     # for the given value
     def self.label_for_value(value)
-      available_values(reverse_search: true).find { |v| v.second == value || v.second.to_s == value }
+      available_values.find { |v| v.second == value || v.second.to_s == value }
     end
 
     def correct_position?

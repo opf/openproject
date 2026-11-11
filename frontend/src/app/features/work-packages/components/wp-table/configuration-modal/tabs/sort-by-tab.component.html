@@ -4,23 +4,26 @@
     data-indicator-name="sorting-modal">
 
     <p [textContent]="text.sorting_mode.description"></p>
-    <div class="form--field -full-width">
-      <div class="form--field-container">
-        <label class="option-label">
-          <input type="radio"
-            [(ngModel)]="sortingMode"
-            (change)="updateSortingMode($event.target.value)"
-            name="sorting_mode_switch"
-            value="manual">
-          {{ text.sorting_mode.manually }}
-        </label>
+    @if (manualSortColumn) {
+      <div class="form--field -full-width">
+        <div class="form--field-container">
+          <label class="option-label">
+            <input type="radio"
+              [(ngModel)]="sortingMode"
+              (change)="updateSortingMode('manual')"
+              name="sorting_mode_switch"
+              value="manual">
+            {{ text.sorting_mode.manually }}
+          </label>
+        </div>
       </div>
-    </div><div class="form--field -full-width">
+    }
+    <div class="form--field -full-width">
     <div class="form--field-container">
       <label class="option-label">
         <input type="radio"
           [(ngModel)]="sortingMode"
-          (change)="updateSortingMode($event.target.value)"
+          (change)="updateSortingMode('automatic')"
           name="sorting_mode_switch"
           value="automatic">
         {{ text.sorting_mode.automatic }}
@@ -32,21 +35,21 @@
   </div>
 
   @if (sortingMode === 'automatic') {
-    @for (sort of sortationObjects; track $index; let index = $index) {
+    @for (sort of sortObjects; track $index; let index = $index) {
       <div class="form--row modal-sorting-row-{{index}}"
         >
         <div class="form--field -full-width">
           <label
             for="modal-sorting-attribute-{{index}}"
-            [textContent]="text['sort_criteria_' + index]"
+            [textContent]="sortCriteriaLabels[index]"
             class="form--label sr-only">
           </label>
           <div class="form--field-container">
             <div class="form--select-container">
-              <select
+              <select #sortSelect
                 id="modal-sorting-attribute-{{index}}"
                 name="modal-sorting-attribute-{{index}}"
-                (change)="updateSelection(sort, $event.target.value)"
+                (change)="updateSelection(sort, sortSelect.value)"
                 class="form--select">
                 @if (!!sort.column.href) {
                   <option

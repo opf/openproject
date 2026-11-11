@@ -110,7 +110,7 @@ RSpec.describe SettingsHelper do
     end
 
     it "outputs element" do
-      expect(output).to have_css 'input[type="checkbox"].form--check-box', count: 3
+      expect(output).to have_field type: "checkbox", class: "form--check-box", count: 3
     end
 
     context "when the setting isn`t writable" do
@@ -122,7 +122,7 @@ RSpec.describe SettingsHelper do
 
       it "is disabled and has no hidden field" do
         expect(output).to have_no_css 'input[type="hidden"][value=""]', visible: :all
-        expect(output).to have_css 'input[type="checkbox"][disabled="disabled"].form--check-box', count: 3
+        expect(output).to have_field type: "checkbox", class: "form--check-box", disabled: true, count: 3
       end
     end
   end

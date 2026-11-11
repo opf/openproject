@@ -131,8 +131,8 @@ vi:
     button_confirm: Xác nhận
     button_continue: tiếp tục
     button_copy: sao chép
-    button_copy_link_to_clipboard: Sao chép liên kết vào bảng tạm
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Sao chép vào khay nhớ tạm
     button_copy_to_other_project: Trùng lặp trong một dự án khác
     button_create: Tạo mới
@@ -150,6 +150,7 @@ vi:
     button_log_time: Đăng nhập thời gian
     button_more: hơn thế nữa
     button_more_actions: Thêm hành động
+    button_move: Move
     button_open_details: Mở thông tin chi tiết xem
     button_open_fullscreen: Mở chế độ toàn màn hình
     button_quote: trích dẫn
@@ -207,6 +208,7 @@ vi:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Đã xảy ra lỗi trong CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lưu tài liệu không thành công với lỗi sau: %{error}'
@@ -438,7 +440,6 @@ vi:
     label_assignee: Người được chuyển nhượng
     label_assignee_alt_text: Gói công việc này được giao cho %{name}
     label_attachments: tệp đính kèm
-    label_author: 'Tác giả: %{user}'
     label_avatar: hình đại diện
     label_between: giữa
     label_board: bảng
@@ -567,7 +568,9 @@ vi:
     label_show_in_menu: Hiển thị chế độ xem trong menu
     label_sort_by: Sắp xếp theo
     label_sort_higher: Di chuyển lên
+    label_sort_highest: Move to top
     label_sort_lower: Dịch xuống
+    label_sort_lowest: Move to bottom
     label_sorted_by: sắp xếp theo
     label_sorting: sắp xếp
     label_spent_time: dành thời gian
@@ -818,6 +821,7 @@ vi:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -1116,7 +1120,6 @@ vi:
         default_mode: Danh sách phẳng
         display_settings: Cài đặt hiển thị
         display_sums_hint: Hiển thị tổng của tất cả các thuộc tính có thể tính tổng trong một hàng bên dưới kết quả của bảng.
-        embedded_tab_disabled: Tab cấu hình này không có sẵn cho chế độ xem được nhúng mà bạn đang chỉnh sửa.
         hierarchy_hint: Tất cả các kết quả bảng đã lọc sẽ được tăng cường với tổ tiên của chúng. Hệ thống phân cấp có thể được mở rộng và thu gọn.
         hierarchy_mode: Hệ thống phân cấp
         highlighting: Làm nổi bật

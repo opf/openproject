@@ -27,11 +27,13 @@
               role="menuitem"
               [ngClass]="item.class"
               [class.inactive]="item.disabled"
+              [class.-danger]="item.scheme === 'danger'"
               [attr.href]="item.href"
               data-turbo="false"
               [attr.aria-disabled]="item.disabled"
               [attr.aria-label]="item.ariaLabel || item.linkText"
-              [attr.title]="item.title || undefined"
+              opTooltip
+              [description]="item.title || undefined"
               (click)="handleClick(item, $event)"
               >
               @if (item.icon) {
@@ -39,8 +41,7 @@
               }
               <span [textContent]="item.linkText"></span>
               @if (item.postIcon) {
-                <op-icon [icon-title]="item.postIconTitle || ''"
-                icon-classes="icon-action-menu-post {{ item.postIcon }}" />
+                <op-icon icon-classes="icon-action-menu-post {{ item.postIcon }}" />
               }
             </a>
           }
@@ -50,9 +51,11 @@
               role="menuitem"
               [ngClass]="item.class"
               [class.inactive]="item.disabled"
+              [class.-danger]="item.scheme === 'danger'"
               [attr.aria-disabled]="item.disabled"
               [attr.aria-label]="item.ariaLabel || item.linkText"
-              [attr.title]="item.title || undefined"
+              opTooltip
+              [description]="item.title || undefined"
               (click)="handleClick(item, $event)"
               >
               @if (item.icon) {
@@ -60,8 +63,7 @@
               }
               <span [textContent]="item.linkText"></span>
               @if (item.postIcon) {
-                <op-icon [icon-title]="item.postIconTitle || ''"
-                icon-classes="icon-action-menu-post {{ item.postIcon }}" />
+                <op-icon icon-classes="icon-action-menu-post {{ item.postIcon }}" />
               }
             </button>
           }

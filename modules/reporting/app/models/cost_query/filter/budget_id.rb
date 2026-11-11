@@ -33,7 +33,7 @@ class CostQuery::Filter::BudgetId < Report::Filter::Base
     Budget.model_name.human
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     Budget
       .visible(User.current)
       .includes(:project)

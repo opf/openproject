@@ -143,6 +143,14 @@ describe('SingleRowBuilder baseline status text', () => {
 
   const baselineCell = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLTableCellElement>('td.op-table-baseline--column-cell')!;
 
+  it('leaves the baseline cell empty for an unchanged work package', async () => {
+    harness = buildTable({ workPackages: [{ id: '5', baseline: 'unchanged' }], baseline: true });
+    await harness.render();
+
+    expect(baselineCell('5')).toBeEmptyDOMElement();
+    expect(harness.row('5')).not.toHaveAccessibleDescription();
+  });
+
   it.each([
     ['1', 'added'],
     ['2', 'removed'],
@@ -367,7 +375,7 @@ describe('SingleRowBuilder refresh with an active editor', () => {
       harness.relationRow('3', '2', 'children').querySelector(':scope > .wp-table--cell-td.subject'),
     ];
 
-    const navigation = harness.table.keyboardNavigation!;
+    const navigation = harness.table.keyboardNavigation;
     navigation.focusPosition(navigation.positionOfCell(origin)!);
     fireEvent.keyDown(origin, { key: 'Enter' });
     const input = await waitFor(() => within(origin).getByRole<HTMLInputElement>('textbox'));

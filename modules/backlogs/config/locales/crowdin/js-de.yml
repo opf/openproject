@@ -23,10 +23,15 @@
 de:
   js:
     backlogs:
+      action_menu:
+        menu_label:
+          one: Work package actions
+          other: Actions for %{count} selected work packages
       announcements:
         batch_too_large: Es ist nicht möglich, %{count} Arbeitspakete auf einmal zu verschieben. Wählen Sie nicht mehr als %{max} aus.
         fallback_item_label: Arbeitspaket
         fallback_list_name: andere Liste
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving work packages.
         move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
         move_failed_check_positions_batch:
           other: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
@@ -57,6 +62,12 @@ de:
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
       story_points: Story-Points
+    burnup_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burnup chart
+      chart_summary: 'Burnup chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
+      story_points: Story points
     created_resolved_chart:
       work_packages: Arbeitspakete
     sprint_charts:

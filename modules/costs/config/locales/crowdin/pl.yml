@@ -78,9 +78,11 @@ pl:
               invalid: musi być użytkownikiem lub użytkownikiem zastępczym.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: Zarejestrowano, ponieważ nie może być pusty.
-              cannot_log_for_this_work_package: Nie masz uprawnień do rejestrowania czasu pracy dla tego pakietu roboczego.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: Liczba zarejestrowanych godzin nie może przekroczyć limitu %{limit} godzin dostępnych w ciągu dnia roboczego użytkownika.
@@ -94,6 +96,9 @@ pl:
             start_time:
               format: "%{message}"
               invalid_time: Nieprawidłowa godzina. Godzina musi mieć wartość od 00:00 do 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: Działa już inny licznik czasu. Aktywny może być tylko jeden licznik czasu naraz.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Zestaw zadań #%{id} nie jest poprawnym celem do ponownego rozpisania kosztów.'

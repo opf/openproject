@@ -318,7 +318,7 @@ RSpec.describe "Meetings CRUD",
     click_on "Create meeting"
 
     # check for dialog form validations
-    expect(page).to have_content "Title can't be blank."
+    expect(page).to have_text "Title can't be blank."
     fill_in "Title", with: "Some title"
     click_on "Create meeting"
     expect_and_dismiss_flash(type: :success, message: I18n.t(:notice_successful_create))

@@ -117,5 +117,5 @@ get:
   tags:
     - Time Entries
   description: ''
-  operationId: View_time_entry_schema
+  operationId: get_time_entry_schema
   summary: View time entry schema

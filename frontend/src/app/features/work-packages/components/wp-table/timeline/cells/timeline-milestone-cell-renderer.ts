@@ -63,7 +63,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   public canMoveDates(wp:WorkPackageResource) {
-    const schema = this.schemaCache.of(wp);
+    const schema = this.schemaCache().of(wp);
     return (schema.date as IOPFieldSchema).writable && schema.isAttributeEditable('date');
   }
 
@@ -258,7 +258,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   protected updateLabels(activeDragNDrop:boolean,
     labels:WorkPackageCellLabels,
     change:WorkPackageChangeset) {
-    const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(change.projectedResource);
+    const labelConfiguration = this.wpTableTimeline().getNormalizedLabels(change.projectedResource);
 
     if (!activeDragNDrop) {
       // normal display

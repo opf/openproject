@@ -140,6 +140,21 @@ RSpec.describe "Backlogs batch move", :js, :selenium, :settings_reset do
     backlogs_page.expect_backlogs_container_not_reloaded
     wait_for { sprint.work_packages_for(project).pluck(:id) }
       .to eq [sprint_wp3.id, sprint_wp1.id, sprint_wp2.id]
+    expect(backlogs_page.selected_card_ids).to eq([sprint_wp1, sprint_wp2].map { it.id.to_s })
+  end
+
+  context "with more cards selected than one batch may move" do
+    before { stub_const("Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE", 2) }
+
+    it "refuses the drag and shows why" do
+      backlogs_page.visit!
+      backlogs_page.send_work_package_card_keys(sprint_wp1, [backlogs_page.multi_select_modifier, "a"])
+
+      backlogs_page.drag_work_package_expecting_refusal(sprint_wp1, after: bucket_wp1)
+
+      backlogs_page.expect_toast(type: :error, message: "Cannot move 3 work packages at once. Select no more than 2.")
+      backlogs_page.expect_sprint_items_in_order(sprint, items: [sprint_wp1, sprint_wp2, sprint_wp3])
+    end
   end
 
   it "moves a batch into an empty list" do

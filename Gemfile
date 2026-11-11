@@ -39,7 +39,7 @@ gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activerecord-import", "~> 3.0.0"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
-gem "rails", "~> 8.1.3", ">= 8.1.3.1"
+gem "rails", "~> 8.1.4", ">= 8.1.4.1"
 gem "responders", "~> 3.2"
 
 gem "ffi", "~> 1.17"
@@ -204,7 +204,7 @@ gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.233"
 
-gem "openproject-token", "~> 8.15.0"
+gem "openproject-token", "~> 8.16.0"
 
 gem "plaintext", "~> 0.4.0"
 
@@ -238,7 +238,7 @@ gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "openproject-octicons", "~>19.38.0"
 gem "openproject-octicons_helper", "~>19.38.0"
-gem "openproject-primer_view_components", "~> 0.95.0"
+gem "openproject-primer_view_components", "~> 0.96.0"
 gem "view_component", "~> 4.16.0"
 
 # Lookbook
@@ -370,16 +370,23 @@ group :development, :test do
 
   # erb linting
   gem "erb_lint", require: false
-  gem "erblint-github", require: false
-
-  # Brakeman scanner
-  gem "brakeman", "~> 8.1.0"
-
-  # i18n-tasks helps find and manage missing and unused translations.
-  gem "i18n-tasks", "~> 1.1.0", require: false
 
   # Active Record Doctor helps to keep the database in good shape.
   gem "active_record_doctor", "~> 2.1.0"
+end
+
+group :development, :test, :brakeman do
+  gem "brakeman", "~> 8.1.0"
+end
+
+group :development, :test, :i18n_tasks do
+  # i18n-tasks helps find and manage missing and unused translations.
+  gem "i18n-tasks", "~> 1.1.0", require: false
+end
+
+group :danger do
+  gem "danger", "~> 9.6.1", require: false
+  gem "git", "~> 5.7.1", require: false
 end
 
 # API gems
@@ -398,7 +405,8 @@ gem "googleauth", require: false
 gem "disposable", "~> 0.6.2"
 
 # Used for formula evaluation of calculated values
-gem "dentaku", "~> 3.5", git: "https://github.com/opf/dentaku", ref: "78eece45bf3f4ed021c05dd2f5411d1c3f9b168a"
+# Pinned to an unreleased commit that loads MUL. Switch back to a release once there is a new one.
+gem "dentaku", "~> 4.1.0", git: "https://github.com/rubysolo/dentaku", ref: "a43d9e328b800409a7af8f0c5ef072b9a0ae9fee"
 
 # Used for more powerful counter caches
 gem "counter_culture", "~> 3.14"

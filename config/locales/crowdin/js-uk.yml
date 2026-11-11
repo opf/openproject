@@ -131,8 +131,8 @@ uk:
     button_confirm: Підтвердити
     button_continue: Продовжити
     button_copy: Копіювати
-    button_copy_link_to_clipboard: Копіювати посилання в буфер обміну
-    button_copy_numeric_id_to_clipboard: Скопіювати числовий ID у буфер обміну
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Копіювати в буфер обміну
     button_copy_to_other_project: Копіювати в інший проєкт
     button_create: Створити
@@ -150,6 +150,7 @@ uk:
     button_log_time: Записування часу
     button_more: Більше
     button_more_actions: Інші дії
+    button_move: Move
     button_open_details: Відкрити докладне подання
     button_open_fullscreen: Відкрити на весь екран
     button_quote: Цитата
@@ -207,6 +208,7 @@ uk:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: У CKEditor сталася помилка
       ckeditor_error_reload: Редактор перестав працювати. Ваш текст ще тут, але його не можна змінювати. Скопіюйте будь-який текст, який ви хочете зберегти, і перезавантажте сторінку.
       error_saving_failed: 'Не вдалося зберегти документ із такою помилкою: %{error}'
@@ -438,7 +440,6 @@ uk:
     label_assignee: Виконавець
     label_assignee_alt_text: 'Пакет робіт призначено цьому користувачу: %{name}'
     label_attachments: Вкладення
-    label_author: 'Автор: %{user}'
     label_avatar: Аватар
     label_between: між ними
     label_board: Дошка
@@ -567,7 +568,9 @@ uk:
     label_show_in_menu: Показати вигляд у меню
     label_sort_by: Сортувати за
     label_sort_higher: Перемістити вгору
+    label_sort_highest: Move to top
     label_sort_lower: Перемістити вниз
+    label_sort_lowest: Move to bottom
     label_sorted_by: відсортовано за
     label_sorting: Сортування
     label_spent_time: Витрачений час
@@ -821,6 +824,7 @@ uk:
         batch_too_large: Неможливо перемістити всі елементи (%{count}) одночасно. Максимальна кількість — %{max}.
         fallback_item_label: Об’єкт
         fallback_list_name: інший список
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Не вдалося перемістити. Перегляньте поточну позицію об’єкта.
         move_failed_check_positions_batch:
           other: Не вдалося перемістити. Перегляньте поточні позиції елементів.
@@ -1140,7 +1144,6 @@ uk:
         default_mode: Плоский список
         display_settings: Параметри дисплея
         display_sums_hint: Відображати суми всіх підсумкових атрибутів під таблицею.
-        embedded_tab_disabled: Ця вкладка конфігурації недоступна для вбудованого режиму перегляду, який ви редагуєте.
         hierarchy_hint: Всі відфільтровані результати таблиці будуть доповнені їхніми предками. Ієрархії можуть бути розширені та згорнуті.
         hierarchy_mode: Ієрархія
         highlighting: Підсвічування

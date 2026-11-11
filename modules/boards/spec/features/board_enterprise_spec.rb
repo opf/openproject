@@ -58,8 +58,8 @@ RSpec.describe "Boards availability", :js do
   end
 
   it "renders action boards without an enterprise banner" do
-    expect(page).to have_content "My board"
-    expect(page).to have_content "Subproject board"
+    expect(page).to have_text "My board"
+    expect(page).to have_text "Subproject board"
 
     board_page = board_index.open_board(manual_board)
     board_page.expect_query "My board"

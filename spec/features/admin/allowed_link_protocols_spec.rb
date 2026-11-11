@@ -46,7 +46,7 @@ RSpec.describe "Allowed link protocols", :js do
 
     scroll_to_element find_by_id("settings_allowed_link_protocols")
 
-    custom_protocols = %w[ftp sftp data]
+    custom_protocols = %w[ftp sftp tel]
     find_by_id("settings_allowed_link_protocols").set(custom_protocols.join("\n"))
 
     click_on "Save"

@@ -2,7 +2,7 @@
 ---
 get:
   summary: View a personal non-working time record
-  operationId: view_user_non_working_time
+  operationId: get_user_non_working_time
   tags:
     - User Working Times
   description: |-

@@ -82,7 +82,9 @@ See COPYRIGHT and LICENSE files for more details.
                   collapsible: true
                 )
               ) do |list| %>
-            <% list.with_header(title: section.heading, count: true, collapsed: true) %>
+            <% list.with_header(title: section.heading, count: true, collapsed: true) do |header| %>
+              <% header.with_description { section.description } %>
+            <% end %>
             <% section.fields.each do |field| %>
               <% list.with_item do %>
                 <%= render(Primer::Beta::Text.new) { field.label } %>
