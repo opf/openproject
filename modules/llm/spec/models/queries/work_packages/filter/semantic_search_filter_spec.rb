@@ -33,8 +33,8 @@ require_module_spec_helper
 RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
   let(:instance) { described_class.create!(name: :semantic_search, operator: "**", values: ["login problems"]) }
 
-  shared_let(:open_status) { create(:status, is_closed: false) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:open_status) { create(:status) }
+  shared_let(:closed_status) { create(:closed_status) }
   shared_let(:similar_open) { create(:work_package, status: open_status) }
   shared_let(:similar_closed) { create(:work_package, status: closed_status) }
   shared_let(:unrelated) { create(:work_package, status: open_status) }
