@@ -38,7 +38,7 @@ module Admin
     before_action :require_admin
     before_action :set_connection
     before_action :require_stored_connection,
-                  only: %i[disconnect disconnect_dialog delete_api_key delete_api_key_dialog]
+                  only: %i[delete_api_key delete_api_key_dialog]
 
     def show; end
 
@@ -49,19 +49,6 @@ module Admin
 
       result.on_success { refresh_models_then_redirect(result.result) }
       result.on_failure { render_form_with_errors }
-    end
-
-    def disconnect_dialog
-      respond_with_dialog LlmConnections::DisconnectDialogComponent.new(@connection)
-    end
-
-    # Clears the credential and switches the AI features off, keeping the endpoint
-    # and the catalogue. Deliberately not a destroy.
-    def disconnect
-      result = ::LlmConnections::DisconnectService.new(@connection).call
-      return redirect_with_error(t(".configured_from_env")) if result.failure?
-
-      redirect_with_notice(t(".success"))
     end
 
     def delete_api_key_dialog

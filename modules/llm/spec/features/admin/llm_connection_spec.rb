@@ -49,16 +49,6 @@ RSpec.describe "LLM connection administration",
          "opce-autocompleter[data-input-name*='default_chat_model_id']")
   end
 
-  # The kebab is a Primer ActionMenu: clicking it before its behavior is
-  # attached silently does nothing, so wait for the page to settle first and
-  # for the item itself to become visible.
-  def choose_action(item)
-    expect(page).to have_test_selector("llm-connection--actions")
-    find_test_selector("llm-connection--actions").click
-    expect(page).to have_test_selector(item)
-    find_test_selector(item).click
-  end
-
   context "when nothing is configured yet" do
     it "renders an accessible, empty settings page" do
       visit llm_connection_path
@@ -140,8 +130,6 @@ RSpec.describe "LLM connection administration",
   context "with a configured connection" do
     let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
-    # Written for real rather than through with_settings:, which stubs
-    # Setting.[] and would hide the write the disconnect example asserts.
     before do
       Setting.llm_features_enabled = true
       mock_llm_models_response(base_url)
@@ -199,7 +187,7 @@ RSpec.describe "LLM connection administration",
       visit llm_connection_path
       expect(page).to have_field("Host URL")
 
-      choose_action("llm-connection--delete-api-key")
+      find_test_selector("llm-connection--remove-api-key").click
 
       within_test_selector("llm-connection--delete-api-key-dialog") do
         # The muted description and the danger button label Primer renders around
@@ -210,23 +198,6 @@ RSpec.describe "LLM connection administration",
 
       wait_for { connection.reload.api_key }.to be_blank
       expect(connection.base_url).to eq(base_url)
-    end
-
-    it "disconnects without losing the configuration" do
-      visit llm_connection_path
-      expect(page).to have_field("Host URL")
-
-      choose_action("llm-connection--disconnect")
-
-      within_test_selector("llm-connection--disconnect-dialog") do
-        expect(page).to be_axe_clean.skipping("color-contrast")
-        click_on "Disconnect"
-      end
-
-      wait_for { Setting.llm_features_enabled? }.to be(false)
-      expect(connection.reload.api_key).to be_blank
-      # The point of disconnecting rather than deleting.
-      expect(connection.models.count).to eq(2)
     end
 
     describe "the health report" do

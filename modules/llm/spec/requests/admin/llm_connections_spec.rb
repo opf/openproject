@@ -61,14 +61,6 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     context "with a connection stored" do
       let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
-      it "does not disconnect" do
-        post disconnect_llm_connection_path
-
-        expect(response).to have_http_status(:not_found)
-        expect(connection.reload.api_key).to eq("sk-original")
-        expect(connection.base_url).to eq(base_url)
-      end
-
       it "does not remove the key" do
         delete api_key_llm_connection_path
 
@@ -731,85 +723,12 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
   end
 
-  describe "the confirmation dialogs on an instance with no connection stored" do
+  describe "the confirmation dialog on an instance with no connection stored" do
     before { login_as admin }
 
-    it "answers 404 for both" do
+    it "answers 404" do
       get delete_api_key_dialog_llm_connection_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
       expect(response).to have_http_status(:not_found)
-
-      get disconnect_dialog_llm_connection_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
-      expect(response).to have_http_status(:not_found)
-    end
-  end
-
-  describe "disconnecting" do
-    let!(:connection) do
-      create(:llm_connection, :with_models,
-             base_url: "https://example.com/v1", api_key: "sk-test")
-    end
-
-    before do
-      login_as admin
-      # Not with_settings:, which stubs Setting.[] and would hide the write.
-      Setting.llm_features_enabled = true
-    end
-
-    it "offers the confirmation, naming what is kept" do
-      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
-
-      get disconnect_dialog_llm_connection_path,
-          headers: { "Accept" => "text/vnd.turbo-stream.html" }
-
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Disconnect from the LLM server?")
-      expect(response.body).to include("Text assistant")
-    end
-
-    it "disconnects and confirms it" do
-      post disconnect_llm_connection_path
-
-      expect(response).to have_http_status(:see_other)
-      expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disconnect.success"))
-      expect(connection.reload.api_key).to be_blank
-    end
-
-    it "refuses when the connection comes from the environment" do
-      connection.update_columns(env_provisioned_at: Time.current)
-      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
-
-      post disconnect_llm_connection_path
-
-      expect(flash[:error]).to eq(I18n.t("admin.llm_connections.disconnect.configured_from_env"))
-      expect(connection.reload.api_key).to eq("sk-test")
-      expect(Setting.llm_features_enabled?).to be(true)
-    end
-
-    it "is refused to a non-admin" do
-      login_as create(:user)
-
-      post disconnect_llm_connection_path
-
-      expect(response).to have_http_status(:forbidden)
-      expect(connection.reload.api_key).to eq("sk-test")
-    end
-
-    it "answers 404 on an instance with no connection stored" do
-      connection.destroy!
-
-      post disconnect_llm_connection_path
-
-      expect(response).to have_http_status(:not_found)
-      expect(LlmConnection.count).to eq(0)
-    end
-
-    it "refuses a non-admin before looking for a stored connection" do
-      connection.destroy!
-      login_as non_admin
-
-      post disconnect_llm_connection_path
-
-      expect(response).to have_http_status(:forbidden)
     end
   end
 
