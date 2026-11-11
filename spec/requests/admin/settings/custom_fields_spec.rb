@@ -130,7 +130,7 @@ RSpec.describe "Admin custom fields dedicated pages",
               custom_field: {
                 custom_options_attributes: {
                   "0" => { id: option_a.id, value: "A" },
-                  "1" => { id: option_b.id, value: "A" }
+                  "1" => { id: option_b.id, value: "" }
                 }
               }
             }
