@@ -61,7 +61,7 @@ const options = {
   format: 'iife',
   platform: 'browser',
   target: 'es2022',
-  tsconfig: path.join(packageDir, 'tsconfig.json'),
+  tsconfig: path.join(packageDir, 'tsconfig.app.json'),
   outdir,
   entryNames: unhashed ? 'service-worker' : 'service-worker-[hash]',
   minify: !dev,
