@@ -4,11 +4,11 @@
           Primer::Beta::Octicon.new(
             icon: :lock,
             size: :xsmall,
-            classes: "op-status-badge--icon",
+            classes: "op-status-label--icon",
             aria: { label: Status.human_attribute_name(:is_readonly) }
           )
         ) -%>
   <%- end -%>
   <%# The name carries its own element so that truncation applies to it alone and cannot swallow the lock %>
-  <%= render(Primer::Beta::Text.new(classes: "op-status-badge--name")) { @status.name } -%>
+  <%= render(Primer::Beta::Text.new(classes: "op-status-label--name")) { @status.name } -%>
 <% end %>

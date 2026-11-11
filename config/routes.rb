@@ -629,6 +629,7 @@ Rails.application.routes.draw do
     end
 
     member do
+      get :hover_card, to: "projects/hover_card#show"
       get "settings", to: redirect("projects/%{id}/settings/general/")
 
       get "export_project_initiation", to: "projects#export_project_initiation_pdf"

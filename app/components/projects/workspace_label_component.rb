@@ -27,25 +27,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  class SprintStatusBadgeComponent < ApplicationComponent
+module Projects
+  class WorkspaceLabelComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(sprint:, **system_arguments)
-      super()
+    def initialize(type:, **system_arguments)
+      super
 
-      @sprint = sprint
-      @system_arguments = system_arguments.merge(bg: status_color)
+      @type = type
+      @system_arguments = system_arguments
     end
 
     private
 
-    def status_color
-      case @sprint.status
-      when "active" then :success
-      when "completed" then :done
-      else :default
-      end
-    end
+    attr_reader :type
+
+    def label = I18n.t(:"label_#{type}")
+
+    def icon_name = helpers.workspace_icon(type)
   end
 end

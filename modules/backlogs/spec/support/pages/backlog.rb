@@ -803,7 +803,7 @@ module Pages
         .to have_css("#{work_package_selector(work_package)}[draggable]")
     end
 
-    # The lock on the status badge is what tells the user why the cross-container
+    # The lock on the status label is what tells the user why the cross-container
     # moves are gone. Without it a read-only card is indistinguishable from a
     # movable one until they try to move it and nothing happens.
     def expect_work_package_locked(work_package)

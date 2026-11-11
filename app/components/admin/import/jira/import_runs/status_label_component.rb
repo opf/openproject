@@ -28,21 +28,37 @@
 #++
 
 module Admin::Import::Jira::ImportRuns
-  class StreamableStatusBadgeComponent < ApplicationComponent
-    include OpTurbo::Streamable
+  class StatusLabelComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-    def initialize(jira_import, **system_arguments)
+    def initialize(status, **system_arguments)
       super
 
-      @jira_import = jira_import
-      @system_arguments = system_arguments
+      @title = I18n.t(status.to_s, default: "", scope: "admin.jira.run.status")
+      @system_arguments = system_arguments.merge(bg: status_color_scheme(status))
     end
 
-    def last_changed_date
-      if @jira_import.last_transition
-        @jira_import.last_transition.created_at
+    def status_color_scheme(status)
+      case status
+      when Import::JiraImportStateMachine::IMPORT_ERROR,
+           Import::JiraImportStateMachine::REVERT_ERROR,
+           Import::JiraImportStateMachine::INSTANCE_META_ERROR,
+           Import::JiraImportStateMachine::PROJECTS_META_ERROR,
+           Import::JiraImportStateMachine::FINALIZING_ERROR
+        :danger
+      when Import::JiraImportStateMachine::FINALIZING_DONE,
+           Import::JiraImportStateMachine::REVERTED
+        :success
+      when Import::JiraImportStateMachine::INSTANCE_META_FETCHING,
+           Import::JiraImportStateMachine::PROJECTS_META_FETCHING,
+           Import::JiraImportStateMachine::IMPORTING,
+           Import::JiraImportStateMachine::FINALIZING,
+           Import::JiraImportStateMachine::REVERTING
+        :accent
+      when Import::JiraImportStateMachine::IMPORT_ABORTING
+        :severe
       else
-        @jira_import.updated_at
+        :attention
       end
     end
   end
