@@ -556,6 +556,11 @@ en:
         labels: "Labels"
         notify: "Notify" # used in custom actions
         observed_in_versions: "Observed in versions"
+        origin: "Origin"
+        origin_host: "Origin host"
+        origin_id: "Origin ID"
+        origin_source: "Origin source"
+        origin_url: "Origin URL"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -1713,6 +1718,10 @@ en:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
             title: "Create work packages for '%{jira_project_name}'"
+          JiraCreateRelationsJob:
+            title: "Create relations for '%{jira_project_name}'"
+          JiraCreateSprintsJob:
+            title: "Create sprints"
           JiraCreateUsersJob:
             title: "Create users"
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1723,12 +1732,16 @@ en:
             title: "Fetch issue types"
           JiraFetchPrioritiesJob:
             title: "Fetch priorities"
+          JiraFetchProjectBoardsJob:
+            title: "Fetch boards for project '%{jira_project_name}'"
           JiraFetchProjectIssuesJob:
             title: "Fetch issues for project '%{jira_project_name}'"
           JiraFetchProjectVersionsJob:
             title: "Fetch versions for project '%{jira_project_name}'"
           JiraFetchProjectsJob:
             title: "Fetch projects"
+          JiraFetchSprintsJob:
+            title: "Fetch sprints"
           JiraFetchStatusesJob:
             title: "Fetch statuses"
           JiraFetchUsersJob:
@@ -1869,10 +1882,16 @@ en:
                 projects:
                   label: "Projects"
                   subtitle: "Selected as scope"
+                sprints:
+                  label: "Sprints"
+                  subtitle: "With goals and work package assignments"
                 title: "Data imported"
                 users_and_groups:
                   label: "Users & groups"
-                  subtitle: "Involved in imported projects "
+                  subtitle: "Involved in imported projects"
+                versions:
+                  label: "Versions"
+                  subtitle: "Of the imported projects"
                 work_packages:
                   label: "Work packages"
                   subtitle: "With attachments and logged time"
@@ -1889,17 +1908,15 @@ en:
               description: "Select what data you want to import from the available data fetched from the host Jira instance."
               elements:
                 custom_fields: "A subset of custom fields"
-                issue_details: "Issue description, history, comments and attachments"
-                issue_ids: "Issue identifiers"
+                issue_details: "Issue identifiers, description, history, comments and attachments"
                 issues: "Issues"
                 logged_time: "Logged time"
                 permissions: "Permissions"
-                project_ids: "Project identifiers"
-                project_versions: "Project versions"
+                project_details: "Project identifiers, description and versions"
                 projects: "Projects"
                 relations: "Relations between issues"
                 schemes: "Schemas"
-                sprints: "Sprint assignments"
+                sprints: "Sprints and sprint assignments"
                 users: "Involved users and groups"
                 workflows: "Project-level workflows"
               label_coming_later: "Coming later"
@@ -1926,17 +1943,20 @@ en:
               rest_line_text: ""
               title: "Fetch Jira configuration"
             "10":
+              rest_line_text: "Creating relations for %{projects_number} more projects"
+              title: "Create relations"
+            "11":
               rest_line_text: "Creating time entries for %{projects_number} more projects"
               title: "Create time entries"
-            "11":
+            "12":
               rest_line_text: "Downloading attachments for %{projects_number} more projects"
               title: "Download attachments"
             "2":
-              rest_line_text: "Fetching issues and versions for %{projects_number} more projects"
-              title: "Fetch project issues and versions"
+              rest_line_text: "Fetching issues, boards and versions for %{projects_number} more projects"
+              title: "Fetch project issues, boards and versions"
             "3":
               rest_line_text: ""
-              title: "Fetch users and custom fields"
+              title: "Fetch users, sprints and custom fields"
             "4":
               rest_line_text: ""
               title: "Create users, groups and memberships"
@@ -1947,8 +1967,8 @@ en:
               rest_line_text: "Creating %{projects_number} more projects"
               title: "Create projects"
             "7":
-              rest_line_text: "Creating versions for %{projects_number} more projects"
-              title: "Create project versions"
+              rest_line_text: "Creating versions and sprints for %{projects_number} more projects"
+              title: "Create project versions and sprints"
             "8":
               rest_line_text: "Creating work packages for %{projects_number} more projects"
               title: "Create work packages"
@@ -6022,7 +6042,7 @@ en:
   project_module_activity: "Activity"
   project_module_forums: "Forums"
   project_module_news: "News"
-  project_module_repository: "Repository"
+  project_module_repository: "SVN/Git Repository (deprecated)"
   project_module_wiki: "Wiki"
   project_module_work_package_tracking: "Work packages"
 

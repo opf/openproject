@@ -413,6 +413,7 @@ de:
       type:
         allow_project_variants: Projektspezifische Varianten erlauben
         color: Farbe
+        description: Description
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_milestone: Ist ein Meilenstein
         project_types: Projekte
@@ -422,6 +423,7 @@ de:
       type_variant:
         attribute_groups: Formular
         default_work_package_description: Standardtext für Beschreibung
+        description: Description
         enabled_in_new_projects: Aktiv in neuen Projekten
         linked_aspects: Vererbte Konfiguration
         patterns: Muster
@@ -702,6 +704,7 @@ de:
               format: "%{message}"
               invalid: Die Formel ist ungültig.
               invalid_tokens: Nur numerische Werte, mathematische Operatoren, Funktionen, Schlüsselworte und Projektattribute vom Typ Integer, Float, Berechneter Wert und Gewichtete Liste sind erlaubt.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: Das Attribut %{custom_fields} kann nicht verwendet werden, da es zu einem Zirkelbezug führt; ein Attribut hängt vom anderen ab.
             project_specific_value_restriction:
               not_supported: ist nur für benutzerdefinierte Felder von Arbeitspaketen der Formate „Liste“, „Hierarchie“ und „gewichtete Elementliste“ verfügbar.
@@ -1471,6 +1474,7 @@ de:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} und %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: Datum gelöscht %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
@@ -1503,7 +1507,7 @@ de:
             name: Logo für Hochkontrastmodus
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Benutzerdefiniertes Touch-Icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2674,6 +2678,7 @@ de:
       disabled_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
       mathematical: Die mathematische Formel führt zu einem Fehler. Bitte überprüfen Sie das Attribut der Projektberechnung und versuchen Sie es erneut.
       missing_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Ein unbekannter Fehler ist aufgetreten. Bitte überprüfen Sie die Formel für diesen Berechneten Wert.
   colors:
     contrast:
@@ -2857,7 +2862,7 @@ de:
       editable:
         all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
-        project: Fügen Sie numerische Werte hinzu oder geben Sie / ein, um nach einem Attribut, einem Operator, einer Funktion oder einem Schlüsselwort zu suchen.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       is_filter:
@@ -3966,6 +3971,7 @@ de:
   label_additional_workflow_transitions_for_author: Zusätzliche Workflow-Übergänge wenn der Nutzer der Autor des Arbeitspakets ist
   label_administration: Administration
   label_age: Geändert vor
+  label_aggregate_function_plural: Aggregate functions
   label_ago: vor (Tage)
   label_all: alle
   label_all_open_wps: Alle offenen
@@ -5919,6 +5925,15 @@ de:
       new:
         placeholder: Neue Projektliste
       shared: Geteilte Projektlisten
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Alles deaktivieren
@@ -7246,6 +7261,7 @@ de:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: Für Projektadministratoren, die über die Berechtigung zur Verwaltung von Varianten verfügen, kann dieser Typ innerhalb eines Projekts erweitert oder geändert werden.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Vom übergeordneten Typ <b>%{type}</b> gesetzt.
         tab: Details
         type_color_text: |-

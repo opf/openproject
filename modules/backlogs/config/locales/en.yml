@@ -41,6 +41,11 @@ en:
         finish_date: "Finish date"
         goal: "Sprint goal"
         name: "Sprint name"
+        origin: "Origin"
+        origin_host: "Origin host"
+        origin_id: "Origin ID"
+        origin_source: "Origin source"
+        origin_url: "Origin URL"
         sharing: "Sharing"
         statuses:
           active: "Active"
@@ -449,10 +454,13 @@ en:
   ee:
     features:
       multiple_active_sprints: "Multiple active sprints"
+      sprint_report_pro_widgets: "Full sprint report"
       sprint_sharing: "Sprint sharing"
     upsell:
       multiple_active_sprints:
         description: "Run multiple sprints in parallel for different teams in your project for more control and flexibility."
+      sprint_report_pro_widgets:
+        description: "Add more charts, customize your report and access in-depth data about planning your team’s work."
       sprint_sharing:
         description: "Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe)."
 

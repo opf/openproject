@@ -150,6 +150,7 @@ th:
     button_log_time: เวลาที่ถูกบันทึก
     button_more: เพิ่มเติม
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Open details view
     button_open_fullscreen: เปิดมุมมองเต็มหน้าจอ
     button_quote: อ้างถึง
@@ -567,7 +568,9 @@ th:
     label_show_in_menu: Show view in menu
     label_sort_by: เรียงลำดับโดย
     label_sort_higher: เลื่อนขึ้น
+    label_sort_highest: Move to top
     label_sort_lower: เลื่อนลง
+    label_sort_lowest: Move to bottom
     label_sorted_by: เรียงลำดับตาม
     label_sorting: การเรียงลำดับ
     label_spent_time: เวลาที่ใช้
@@ -818,6 +821,7 @@ th:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

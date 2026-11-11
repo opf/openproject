@@ -150,6 +150,7 @@ de:
     button_log_time: Zeit buchen
     button_more: Mehr
     button_more_actions: Weitere Aktionen
+    button_move: Move
     button_open_details: Detailansicht öffnen
     button_open_fullscreen: Vollbildansicht öffnen
     button_quote: Zitieren
@@ -567,7 +568,9 @@ de:
     label_show_in_menu: Ansicht im Seitenmenü anzeigen
     label_sort_by: Sortieren nach
     label_sort_higher: Nach oben verschieben
+    label_sort_highest: Move to top
     label_sort_lower: Nach unten verschieben
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortiert nach
     label_sorting: Sortierung
     label_spent_time: Aufgewendete Zeit
@@ -821,6 +824,7 @@ de:
         batch_too_large: Es ist nicht möglich, %{count} Element auf einmal zu verschieben. Wählen Sie nicht mehr als %{max} aus.
         fallback_item_label: Element
         fallback_list_name: andere Liste
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Elements.
         move_failed_check_positions_batch:
           other: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Elements.

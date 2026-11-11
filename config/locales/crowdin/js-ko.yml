@@ -150,6 +150,7 @@ ko:
     button_log_time: 작업시간 기록
     button_more: 기타
     button_more_actions: 추가 작업
+    button_move: Move
     button_open_details: 자세히 보기
     button_open_fullscreen: 전체화면 보기
     button_quote: 인용
@@ -567,7 +568,9 @@ ko:
     label_show_in_menu: 메뉴에서 보기 표시
     label_sort_by: 정렬 기준
     label_sort_higher: 위로 이동
+    label_sort_highest: Move to top
     label_sort_lower: 아래로 이동
+    label_sort_lowest: Move to bottom
     label_sorted_by: '정렬 :'
     label_sorting: 정렬
     label_spent_time: 소비한 시간
@@ -818,6 +821,7 @@ ko:
         batch_too_large: "%{count}개 항목을 한 번에 이동할 수 없습니다. %{max}개까지만 선택하세요."
         fallback_item_label: 항목
         fallback_list_name: 다른 목록
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
         move_failed_check_positions_batch:
           other: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.

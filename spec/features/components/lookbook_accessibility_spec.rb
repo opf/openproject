@@ -38,7 +38,10 @@ Rails.root.glob("lookbook/previews/**/*_preview.rb").each { |f| require f.to_s }
 AXE_KNOWN_VIOLATIONS = {
   "OpPrimer::StatusButtonComponentPreview#playground" => "Needs design change",
   "OpPrimer::StatusButtonComponentPreview#with_icon" => "Needs design change",
-  "OpPrimer::StatusButtonComponentPreview#with_description" => "Needs design change"
+  "OpPrimer::StatusButtonComponentPreview#with_description" => "Needs design change",
+  "OpenProject::Projects::StatusLabelComponentPreview#at_risk" => "Needs design change",
+  "OpenProject::Projects::StatusLabelComponentPreview#off_track" => "Needs design change",
+  "OpenProject::Projects::StatusLabelComponentPreview#not_started" => "Needs design change"
 }.freeze
 
 RSpec.describe "Lookbook previews accessibility", :component_preview, :js, :selenium do

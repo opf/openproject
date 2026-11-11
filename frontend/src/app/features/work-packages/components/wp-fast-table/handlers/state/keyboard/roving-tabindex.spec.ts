@@ -265,18 +265,16 @@ describe('roving tabindex', () => {
   });
 
   describe('navigable cell eligibility', () => {
-    const groupSumsRow = (table:TableHarness) => table.container.querySelector<HTMLTableRowElement>('tbody.work-package--results-tbody tr.wp-table--sums-row')!;
-
     it('marks the same cells navigable in body, group sums and totals rows with drag and drop on', async () => {
       const table = await mount({ dragAndDropEnabled: true });
       const body = navigableCells(table.row('1'));
-      const sums = navigableCells(groupSumsRow(table));
+      const sums = navigableCells(table.groupSums(0));
       const totals = navigableCells(table.totalsRow());
 
       expect(body.length).toBeGreaterThan(0);
       expect(sums).toHaveLength(body.length);
       expect(totals).toHaveLength(body.length);
-      expect(groupSumsRow(table).cells[0]).not.toHaveClass(navigableCellClassName);
+      expect(table.groupSums(0).cells[0]).not.toHaveClass(navigableCellClassName);
     });
 
     it('never marks the drag placeholder before the handle render pass replaces it', async () => {

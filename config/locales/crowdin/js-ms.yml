@@ -150,6 +150,7 @@ ms:
     button_log_time: Masa log
     button_more: Lagi
     button_more_actions: Tindakan lebih lanjut
+    button_move: Move
     button_open_details: Buka paparan butiran
     button_open_fullscreen: Buka paparan skrin penuh
     button_quote: Petikan
@@ -567,7 +568,9 @@ ms:
     label_show_in_menu: Paparkan paparan dalam menu
     label_sort_by: Susun mengikut
     label_sort_higher: Alihkan ke atas
+    label_sort_highest: Move to top
     label_sort_lower: Alih ke bawah
+    label_sort_lowest: Move to bottom
     label_sorted_by: disusun mengikut
     label_sorting: Susunan
     label_spent_time: Masa yang dihabiskan
@@ -818,6 +821,7 @@ ms:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

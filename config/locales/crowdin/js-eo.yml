@@ -150,6 +150,7 @@ eo:
     button_log_time: Tempoprotokolo
     button_more: Pli
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Malfermi detalan vidon
     button_open_fullscreen: Malfermi plenekranan vidon
     button_quote: Citi
@@ -567,7 +568,9 @@ eo:
     label_show_in_menu: Montri ĉiujn vidojn en la menuo
     label_sort_by: Sort by
     label_sort_higher: Move up
+    label_sort_highest: Move to top
     label_sort_lower: Move down
+    label_sort_lowest: Move to bottom
     label_sorted_by: sorted by
     label_sorting: Sorting
     label_spent_time: Uzata tempo
@@ -819,6 +822,7 @@ eo:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

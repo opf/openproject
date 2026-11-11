@@ -150,6 +150,7 @@ ja:
     button_log_time: 時間を記録
     button_more: 続き
     button_more_actions: その他の操作
+    button_move: Move
     button_open_details: 詳細表示を開く
     button_open_fullscreen: 全画面表示を開く
     button_quote: 引用
@@ -567,7 +568,9 @@ ja:
     label_show_in_menu: メニューを表示する
     label_sort_by: 並べ替え
     label_sort_higher: 上へ
+    label_sort_highest: Move to top
     label_sort_lower: 下へ移動
+    label_sort_lowest: Move to bottom
     label_sorted_by: 並べ替えされた
     label_sorting: ソート中
     label_spent_time: 作業時間の記録
@@ -818,6 +821,7 @@ ja:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
