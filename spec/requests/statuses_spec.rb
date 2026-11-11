@@ -209,7 +209,7 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
         expect(response.body).not_to include("status-row-#{a.id}", "status-row-#{e.id}")
       end
 
-      it "refuses an empty page even if its preceding neighbour exists" do
+      it "refuses an empty page even if its preceding neighbor exists" do
         e.destroy!
 
         put move_status_path(c, page: 3, per_page: 2), params: drop_params, as: :turbo_stream

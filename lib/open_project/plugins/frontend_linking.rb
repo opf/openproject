@@ -33,5 +33,9 @@ module ::OpenProject::Plugins
     def self.regenerate!
       Generator.new.regenerate!
     end
+
+    def self.verify_bundle!(stats_path)
+      BundleCheck.new(stats_path, expected: Generator.new.angular_frontend_plugin_names).verify!
+    end
   end
 end

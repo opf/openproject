@@ -10,6 +10,8 @@ blog:
 blog_article_progress_changes:
   href: https://www.openproject.org/blog/updates-to-progress-tracking-in-14-4-based-on-user-feedback/
   label: Significant changes to progress and work estimates
+calculated_value_formula_docs:
+  href: https://www.openproject.org/docs/system-admin-guide/projects/project-attributes/#formula-syntax-reference
 chargebee:
   href: https://js.chargebee.com/v2/chargebee.js
 client_credentials_code_flow:
@@ -66,6 +68,8 @@ enterprise_features:
     href: https://www.openproject.org/docs/user-guide/activity/#internal-comments-enterprise-add-on
   nextcloud_sso:
     href: https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/oidc-sso
+  project_specific_list_values:
+    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/
   readonly_work_packages:
     href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status
   work_package_subject_generation:
@@ -108,6 +112,8 @@ ldap_encryption_documentation:
 manual_installation:
   href: https://www.openproject.org/docs/installation-and-operations/installation/manual/
   label: Manual installation
+mobile_app_play_store:
+  href: https://play.google.com/store/apps/details?id=org.openproject.app
 multiple_versions_documentation:
   href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/versions-and-categories/#multiple-target-versions
 newsletter:
@@ -194,6 +200,8 @@ storage_docs:
 sysadmin_docs:
   roles_and_permissions:
     href: https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions
+  form_configuration:
+    href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/form-configuration/
   ldap:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/ldap-connections/
   ldap_group_sync:
@@ -222,6 +230,8 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/scim/#c-jwt-from-identity-provider
   ssrf_protection:
     href: https://www.openproject.org/docs/installation-and-operations/configuration/ssrf-protection/
+  types:
+    href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/
 terms_of_service:
   href: https://www.openproject.org/terms-of-service/
 text_formatting:
@@ -259,6 +269,9 @@ user_guide:
     import:
       columns:
         href: https://www.openproject.org/docs/user-guide/work-packages/importing/#column-reference
+wcag_contrast_minimum:
+  href: https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html
+  label: colors.contrast.wcag_rule
 webinar_videos:
   href: https://www.youtube.com/watch?v=un6zCm8_FT4
 website:

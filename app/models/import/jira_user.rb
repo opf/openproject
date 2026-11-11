@@ -47,7 +47,8 @@ module Import
         firstname: firstname.presence || I18n.t(FALLBACK_NAME_KEY),
         lastname: lastname.presence || I18n.t(FALLBACK_NAME_KEY),
         mail:,
-        status: :locked
+        status: :locked,
+        pref: { time_zone: }.compact
       }
     end
 
@@ -60,6 +61,20 @@ module Import
     end
 
     private
+
+    def time_zone
+      canonical_time_zone_name.presence_in(assignable_time_zone_names)
+    end
+
+    def canonical_time_zone_name
+      return if payload["timeZone"].blank?
+
+      ActiveSupport::TimeZone[payload["timeZone"]]&.tzinfo&.canonical_identifier
+    end
+
+    def assignable_time_zone_names
+      UserPreferences::UpdateContract.assignable_time_zones.map { |zone| zone.tzinfo.canonical_identifier }
+    end
 
     def sanitize_name(name)
       name.gsub(User::INVALID_NAME_REGEX, "").strip

@@ -63,7 +63,9 @@ module Queries
       def available_advanced_filters
         available_filters.reject do |filter|
           # Skip the name filter as we have it present as a permanent filter with a text input.
-          filter.is_a?(::Queries::Projects::Filters::NameAndIdentifierFilter)
+          filter.is_a?(::Queries::Projects::Filters::NameAndIdentifierFilter) ||
+            # Only used by the projects tab of a custom field.
+            filter.is_a?(::Queries::Projects::Filters::ProjectSpecificValuesFilter)
         end
       end
 

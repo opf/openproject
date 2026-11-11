@@ -11,6 +11,10 @@
   &--grip
     cursor: grab
     user-select: none
+    touch-action: none
+
+    &:active
+      cursor: grabbing
 
   &--grip
     display: inline-flex
@@ -23,6 +27,7 @@
     position: absolute
     display: flex
     line-height: 0
+    touch-action: none
 
     &_left,
     &_right

@@ -141,7 +141,7 @@ RSpec.describe "Backlogs batch selection", :js, :selenium, :settings_reset do
     it "paints a row with a different background once it is selected" do
       # Focus is established first and held constant across both reads: a
       # click would move focus, open the details pane and toggle membership at
-      # once, leaving the colour difference unattributable.
+      # once, leaving the color difference unattributable.
       backlogs_page.focus_work_package_card(story1)
       unselected_color = backlogs_page.row_background_color(story1)
 
@@ -217,7 +217,8 @@ RSpec.describe "Backlogs batch selection", :js, :selenium, :settings_reset do
 
       expect(page).to have_css("[data-batch-selected]", count: 2)
 
-      backlogs_page.open_work_package_details(story3)
+      backlogs_page.send_work_package_card_keys(story3, [:enter])
+      backlogs_page.expect_details_view(story3)
 
       expect(page).to have_css("[data-batch-selected]", count: 2)
       expect(backlogs_page.selected_card_ids).to contain_exactly(story1.id.to_s, story2.id.to_s)

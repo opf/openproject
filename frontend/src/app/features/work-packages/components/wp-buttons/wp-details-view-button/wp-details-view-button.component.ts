@@ -101,7 +101,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     return true;
   }
 
-  public performAction(event:Event) {
+  public performAction(_event:Event) {
     if (this.isActive) {
       this.closeDetailsView();
     } else {

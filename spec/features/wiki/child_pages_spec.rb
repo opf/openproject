@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "wiki child pages", :js, :selenium do
+RSpec.describe "wiki child pages", :js do
   let(:project) { create(:project, :with_internal_wiki).reload }
   let(:user) { create(:user, member_with_roles: { project => role }) }
   let(:role) { create(:project_role, permissions: %i[view_wiki_pages edit_wiki_pages]) }

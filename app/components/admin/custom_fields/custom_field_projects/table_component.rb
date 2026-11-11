@@ -30,7 +30,7 @@
 module Admin
   module CustomFields
     module CustomFieldProjects
-      class TableComponent < Projects::TableComponent
+      class TableComponent < ::Projects::TableComponent
         include ::Projects::Concerns::TableComponent::StreamablePaginationLinksConstraints
 
         def columns

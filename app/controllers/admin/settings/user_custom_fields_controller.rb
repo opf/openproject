@@ -29,8 +29,8 @@
 
 module Admin::Settings
   class UserCustomFieldsController < ::Admin::SettingsController
-    include CustomFields::SharedActions
-    include CustomFields::AttributeHelpTextActions
+    include ::CustomFields::SharedActions
+    include ::CustomFields::AttributeHelpTextActions
     include ::CustomFields::AdminRoutes
     include OpTurbo::ComponentStream
     include FlashMessagesOutputSafetyHelper
@@ -88,7 +88,7 @@ module Admin::Settings
     def list_items; end
 
     def move
-      result = CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
+      result = ::CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
         move_to: params.expect(:move_to)
       )
 
@@ -104,7 +104,7 @@ module Admin::Settings
     end
 
     def drop
-      result = CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
+      result = ::CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
         target_id: params[:target_id],
         position: params[:position]
       )
@@ -125,7 +125,7 @@ module Admin::Settings
     end
 
     def destroy
-      result = CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
+      result = ::CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
 
       if result.success?
         update_section_via_turbo_stream(user_custom_field_section: @custom_field.user_custom_field_section.reload)

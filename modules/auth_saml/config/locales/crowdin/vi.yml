@@ -13,6 +13,7 @@ vi:
         icon: Biểu tượng tùy chỉnh
         identifier: định danh
         idp_cert: Giấy chứng nhận công khai của nhà cung cấp danh tính
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: Identity provider entity ID
         idp_slo_service_url: Điểm cuối đăng xuất của nhà cung cấp danh tính
         idp_sso_service_url: Điểm cuối đăng nhập của nhà cung cấp danh tính
@@ -151,6 +152,9 @@ vi:
       metadata_too_large: The metadata file exceeds the maximum allowed size.
       success: Đã cập nhật thành công cấu hình bằng siêu dữ liệu của nhà cung cấp danh tính.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Ánh xạ thuộc tính
       attribute_mapping_text: 'Các trường sau đây kiểm soát những thuộc tính do nhà cung cấp nhận dạng SAML cung cấp được sử dụng để cung cấp thuộc tính người dùng trong OpenProject
 
@@ -170,9 +174,19 @@ vi:
       label_uid: Id người dùng nội bộ
       metadata:
         dialog: 'Đây là URL có sẵn siêu dữ liệu OpenProject SAML. Tùy chọn sử dụng nó để định cấu hình nhà cung cấp danh tính của bạn:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: Chưa có nhà cung cấp danh tính SAML nào được xác định.
       notice_created: Nhà cung cấp danh tính SAML mới đã được tạo thành công.
       plural: Nhà cung cấp danh tính SAML
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Định dạng thuộc tính
         legend: 'Các thuộc tính này được thêm vào siêu dữ liệu XML SAML để biểu thị cho nhà cung cấp nhận dạng những thuộc tính mà OpenProject yêu cầu. Bạn vẫn có thể cần định cấu hình rõ ràng nhà cung cấp danh tính của mình để gửi các thuộc tính này. Vui lòng tham khảo tài liệu của IdP của bạn.
@@ -196,6 +210,10 @@ vi:
         metadata_form_banner: Việc chỉnh sửa siêu dữ liệu có thể ghi đè các giá trị hiện có trong các phần khác.
         requested_attributes: Xác định tập hợp thuộc tính cần được yêu cầu trong yêu cầu SAML được gửi tới nhà cung cấp danh tính của bạn.
       seeded_from_env: Nhà cung cấp này được chọn từ cấu hình môi trường. Nó không thể được chỉnh sửa.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: Nhà cung cấp danh tính SAML
       upsell:
         description: Kết nối OpenProject với nhà cung cấp danh tính SAML

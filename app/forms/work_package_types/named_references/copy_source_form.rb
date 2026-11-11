@@ -45,8 +45,7 @@ module WorkPackageTypes
       form do |source_form|
         source_form.autocompleter(
           name: :copy_from_id,
-          label: reference_translate("start.copy.panel_label"),
-          visually_hide_label: true,
+          label: reference_translate("selector.prefix"),
           required: true,
           autocomplete_options: {
             placeholder: reference_translate("form.copy_from.placeholder"),

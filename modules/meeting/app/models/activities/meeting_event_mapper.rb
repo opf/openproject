@@ -199,7 +199,7 @@ class Activities::MeetingEventMapper < Activities::EventMapper
     end
   end
 
-  # duplicates necessary behaviour from Activites::Fetcher
+  # duplicates necessary behavior from Activities::Fetcher
   def event_title(_journal, data)
     start_time = data[:meeting_start_time]
     end_time = start_time + data[:meeting_duration].to_f.hours

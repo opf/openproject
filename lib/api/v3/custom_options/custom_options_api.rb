@@ -35,6 +35,8 @@ module API
               requires :id, type: Integer
             end
 
+            helpers ::API::V3::CustomFields::ProjectSpecificValuesHelper
+
             helpers do
               def authorize_custom_option_visibility(custom_option)
                 case custom_option.custom_field
@@ -64,7 +66,7 @@ module API
                   )
                   .exists?(id: custom_option.custom_field_id)
 
-                unless allowed
+                if !allowed || hidden_value?(custom_option, visible_value_ids(custom_option.custom_field))
                   raise API::Errors::NotFound
                 end
               end

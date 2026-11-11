@@ -338,7 +338,7 @@ module OpenProject
 
     describe "#format_date" do
       context "without a date_format setting", with_settings: { date_format: "" } do
-        it "uses the locale formate" do
+        it "uses the locale format" do
           expect(format_date(Time.zone.today))
             .to eql described_class.l(Time.zone.today)
         end
@@ -372,7 +372,7 @@ module OpenProject
       end
     end
 
-    describe "#numer_to_human_size" do
+    describe "#number_to_human_size" do
       valid_languages.each do |lang|
         context "for locale #{lang}" do
           it "does not raise an error" do
@@ -526,6 +526,23 @@ module OpenProject
           expect(format_time(now, include_date: false))
             .to eql "15:45"
         end
+      end
+    end
+
+    describe "#format_time_of_day" do
+      # Kathmandu has a +05:45 offset, so a converted clock would read 08:45
+      current_user { build_stubbed(:user, preferences: { time_zone: "Kathmandu" }) }
+
+      let(:time) { Time.new(2026, 10, 2, 23, 0, 0, "-04:00") }
+
+      it "formats the clock time as given without converting its zone" do
+        expect(format_time_of_day(time, format: "%H:%M"))
+          .to eql "23:00"
+      end
+
+      it "falls back to the locale time format when the format is blank" do
+        expect(format_time_of_day(time, format: ""))
+          .to eql "11:00 PM"
       end
     end
 

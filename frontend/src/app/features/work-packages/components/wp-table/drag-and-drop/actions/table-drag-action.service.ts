@@ -54,13 +54,13 @@ export class TableDragActionService {
   /**
    * Perform a post-order update
    */
-  public onNewOrder(newOrder:string[]):void {
+  public onNewOrder(_newOrder:string[]):void {
   }
 
   /**
    * Returns whether the given work package is movable
    */
-  public canPickup(workPackage:WorkPackageResource):boolean {
+  public canPickup(_workPackage:WorkPackageResource):boolean {
     return true;
   }
 

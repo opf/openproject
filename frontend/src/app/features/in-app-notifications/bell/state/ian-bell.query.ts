@@ -25,7 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { pairwise, filter, map } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  pairwise,
+} from 'rxjs/operators';
 import { Query } from '@datorama/akita';
 import {
   IanBellState,
@@ -34,6 +39,12 @@ import {
 
 export class IanBellQuery extends Query<IanBellState> {
   unread$ = this.select('totalUnread');
+
+  loadedUnread$ = this.select().pipe(
+    filter(({ loaded }) => loaded),
+    map(({ totalUnread }) => totalUnread),
+    distinctUntilChanged(),
+  );
 
   unreadCountChanged$ = this.unread$.pipe(
     pairwise(),

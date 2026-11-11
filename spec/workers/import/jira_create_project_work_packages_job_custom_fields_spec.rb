@@ -222,6 +222,39 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
   end
 
+  describe "datetime field (com.atlassian.jira.plugin.system.customfieldtypes:datetime)" do
+    # Jira value: ISO 8601 timestamp with milliseconds and offset "2024-06-15T14:30:45.123+0200".
+    let!(:jira_field) do
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10262",
+                          payload: {
+                            "id" => "customfield_10262",
+                            "name" => "CF Datetime",
+                            "schema" => {
+                              "type" => "datetime",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datetime",
+                              "customId" => 10262
+                            }
+                          })
+    end
+    let!(:jira_issue) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
+                          payload: issue_payload)
+    end
+
+    before { import_project }
+
+    it "creates a 'datetime' custom field" do
+      expect(WorkPackageCustomField.find_by!(name: "CF Datetime").field_format).to eq("datetime")
+    end
+
+    it "stores the date and time of day in UTC on the work package" do
+      expect(cf_value("CF Datetime")).to eq(Time.utc(2024, 6, 15, 12, 30, 45))
+    end
+  end
+
   describe "URL field (com.atlassian.jira.plugin.system.customfieldtypes:url)" do
     let!(:jira_field) do
       create(:jira_field, jira_import:,
@@ -1049,6 +1082,44 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
   end
 
+  describe "a field whose first value appears on a later issue of an already imported type" do
+    let!(:jira_field) do
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10275",
+                          payload: {
+                            "id" => "customfield_10275",
+                            "name" => "CF Text",
+                            "schema" => {
+                              "type" => "string",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+                              "customId" => 10275
+                            }
+                          })
+    end
+    let!(:jira_issue_without_value) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10199",
+                          jira_project:,
+                          payload: issue_payload.deep_dup.tap do |payload|
+                            payload["key"] = "DYX-3"
+                            payload["fields"]["summary"] = "Issue without the text value"
+                            payload["fields"].delete("customfield_10275")
+                          end)
+    end
+    let!(:jira_issue) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
+                          payload: issue_payload)
+    end
+
+    before { import_project }
+
+    it "sets the field's value on the issue that introduced it" do
+      expect(cf_value("CF Text")).to include("**bold**")
+    end
+  end
+
   describe "all custom field types in a single import run", with_ee: [:custom_field_hierarchies] do
     # Registers all field types at once and verifies the correct number of
     # OP custom fields are created:
@@ -1066,6 +1137,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         { id: "customfield_10261", name: "CF Date",
           schema: { "type" => "date",
                     "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datepicker" } },
+        { id: "customfield_10262", name: "CF Datetime",
+          schema: { "type" => "datetime",
+                    "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datetime" } },
         { id: "customfield_10257", name: "CF URL",
           schema: { "type" => "string",
                     "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:url" } },
@@ -1138,7 +1212,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     it "creates the correct number of OpenProject custom fields" do
       expect { import_project }
-        .to change(WorkPackageCustomField, :count).by(13)
+        .to change(WorkPackageCustomField, :count).by(14)
     end
 
     context "on after the import" do
@@ -1150,6 +1224,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           "CF Text" => "text",
           "CF Number" => "float",
           "CF Date" => "date",
+          "CF Datetime" => "datetime",
           "CF URL" => "link",
           "CF User" => "user",
           "CF Labels" => "list",
@@ -1169,6 +1244,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           expect(cf_value("CF String")).to eq("my plain string value")
           expect(cf_value("CF Number").to_f).to eq(42.5)
           expect(cf_value("CF Date")).to eq(Date.parse("2024-06-15"))
+          expect(cf_value("CF Datetime")).to eq(Time.utc(2024, 6, 15, 12, 30, 45))
           expect(cf_value("CF URL")).to eq("https://example.com")
           expect(cf_value("CF Text")).to include("**bold**")
         end
@@ -1382,6 +1458,63 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         expect(custom_field.hierarchy_root.children.pluck(:label)).to eq(["Critical"])
         expect(custom_field.hierarchy_root.children.sole.children.pluck(:label)).to eq(["Security"])
       end
+    end
+  end
+
+  describe "a custom field an earlier import run had to name with a counter" do
+    let!(:jira_field) do
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10254",
+                          payload: {
+                            "id" => "customfield_10254",
+                            "name" => "CF Number",
+                            "schema" => {
+                              "type" => "number",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:float",
+                              "customId" => 10254
+                            }
+                          })
+    end
+    let!(:jira_issue) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
+                          payload: issue_payload)
+    end
+
+    # An existing field of an incompatible format cannot be reused, so the first run has to fall
+    # back to the next free name.
+    let!(:incompatible_custom_field) { create(:integer_wp_custom_field, name: "CF Number") }
+
+    let(:second_jira_import) do
+      create(:jira_import, jira:, author:,
+                           projects: [{ "id" => jira_project_id, "key" => jira_project_key,
+                                        "name" => jira_project_name }])
+    end
+
+    def run_second_import
+      second_jira_project = create(:jira_project, jira_import: second_jira_import,
+                                                  origin_id: jira_project_id,
+                                                  payload: jira_project_payload)
+      create(:jira_field, jira_import: second_jira_import,
+                          origin_id: jira_field.origin_id,
+                          payload: jira_field.payload)
+      create(:jira_issue, jira_import: second_jira_import,
+                          origin_id: "10200",
+                          jira_project: second_jira_project,
+                          payload: issue_payload)
+      Import::JiraCreateCustomFieldsJob.perform_now(second_jira_import.id)
+    end
+
+    before { import_project }
+
+    it "names it with the next free counter" do
+      expect(WorkPackageCustomField.pluck(:name)).to contain_exactly("CF Number", "CF Number (2)")
+    end
+
+    it "reuses it on a later import run instead of allocating the next counter" do
+      expect { run_second_import }.not_to change(WorkPackageCustomField, :count)
+      expect(WorkPackageCustomField.pluck(:name)).to contain_exactly("CF Number", "CF Number (2)")
     end
   end
 end

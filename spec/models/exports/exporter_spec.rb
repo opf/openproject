@@ -53,4 +53,41 @@ RSpec.describe Exports::Exporter do
       end
     end
   end
+
+  context "with #formatter_for" do
+    let(:exporter_class) { Class.new(described_class) { self.model = WorkPackage } }
+    let(:exporter) { exporter_class.new(nil) }
+
+    it "hands out one instance per attribute and export format" do
+      formatter = exporter.send(:formatter_for, :start_date, :xls)
+
+      expect(exporter.send(:formatter_for, :start_date, :xls)).to be(formatter)
+      expect(exporter.send(:formatter_for, :due_date, :xls)).not_to be(formatter)
+      expect(exporter.send(:formatter_for, :start_date, :csv)).not_to be(formatter)
+    end
+
+    it "keeps the cache to itself" do
+      formatter = exporter.send(:formatter_for, :start_date, :xls)
+
+      expect(exporter_class.new(nil).send(:formatter_for, :start_date, :xls)).not_to be(formatter)
+    end
+
+    it "formats in the exporter's time zone, not the one the thread happens to carry" do
+      exporting_user = build_stubbed(:user, preferences: { time_zone: "Asia/Tokyo" })
+      allow(User).to receive(:current).and_return(build_stubbed(:user, preferences: { time_zone: "Europe/Berlin" }))
+
+      formatted = exporter_class.new(nil, current_user: exporting_user)
+                               .send(:format_attribute, build_stubbed(:work_package), :created_at, :xls)
+
+      expect(formatted.time_zone).to eq(ActiveSupport::TimeZone["Asia/Tokyo"])
+    end
+
+    it "formats every record through that one instance, so a formatter may not memoize a record" do
+      first = build_stubbed(:work_package, start_date: Date.new(2026, 8, 24))
+      second = build_stubbed(:work_package, start_date: Date.new(2026, 9, 1))
+
+      expect(exporter.send(:format_attribute, first, :start_date, :xls)).to eq(Date.new(2026, 8, 24))
+      expect(exporter.send(:format_attribute, second, :start_date, :xls)).to eq(Date.new(2026, 9, 1))
+    end
+  end
 end

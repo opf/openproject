@@ -65,7 +65,7 @@ module DevelopmentData
         project = Project.new project_data(id)
 
         if id == "dev-large-child"
-          project.parent_id = Project.find_by(identifier: "dev-large").id
+          project.parent = seed_data.find_reference(:dev_large)
         end
 
         project.save!

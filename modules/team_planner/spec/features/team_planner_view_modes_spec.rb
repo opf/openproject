@@ -30,7 +30,6 @@ require_relative "shared_context"
 
 RSpec.describe "Team planner",
                :js,
-               :selenium,
                with_ee: %i[team_planner_view] do
   include_context "with team planner full access"
 

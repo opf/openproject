@@ -27,8 +27,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require Rails.root.join("db/migrate/migration_utils/permission_adder")
+
 class RemoveSelectCustomFieldsPermissionFromRoles < ActiveRecord::Migration[8.0]
   def up
+    ::Migration::MigrationUtils::PermissionAdder.add(:select_custom_fields, :manage_project_variants)
     RolePermission.delete_by(permission: "select_custom_fields")
   end
 end

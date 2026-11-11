@@ -35,7 +35,7 @@ import {
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { input } from '@openproject/reactivestates';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -52,7 +52,7 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
   readonly querySpace = inject(IsolatedQuerySpace);
   readonly wpTableFilters = inject(WorkPackageViewFiltersService);
 
-  @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
+  @Output() public deactivateFilter = new EventEmitter<QueryFilterInstanceResource>();
 
   public text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
@@ -100,8 +100,11 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
           });
         } else {
           const filter = this.wpTableFilters.find('search');
+          if (!filter) {
+            return;
+          }
 
-          this.wpTableFilters.remove(filter!);
+          this.wpTableFilters.remove(filter);
 
           this.deactivateFilter.emit(filter);
         }

@@ -37,7 +37,7 @@ class WorkPackageMailer < ApplicationMailer
 
     author = journal.user
 
-    User.execute_as author do
+    User.execute_as recipient do
       set_work_package_headers(@work_package)
 
       message_id journal, recipient

@@ -54,13 +54,13 @@ See COPYRIGHT and LICENSE files for more details.
     <%
       sub_header.with_action_button(
         scheme: :primary,
-        leading_icon: :"op-include-projects",
+        leading_icon: :plus,
         label: t(:label_add_projects),
         tag: :a,
         href: add_path,
         test_selector: "type-projects-add-button",
         data: { controller: "async-dialog" }
-      ) { t(:label_add_projects) }
+      ) { t(:label_project) }
     %>
 
     <% if toggle_all_available? %>

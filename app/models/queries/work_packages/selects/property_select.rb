@@ -55,6 +55,27 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     SQL
   end
 
+  def self.labels_sortable
+    [
+      <<~SQL.squish,
+        (SELECT STRING_AGG(LOWER(l.name), ' ' ORDER BY LOWER(l.name), l.id)
+           FROM labelings lg
+           INNER JOIN labels l ON l.id = lg.label_id
+          WHERE lg.labelable_id = work_packages.id AND lg.labelable_type = 'WorkPackage')
+      SQL
+      labels_groupable
+    ]
+  end
+
+  def self.labels_groupable
+    <<~SQL.squish
+      (SELECT STRING_AGG(l.id::text, '.' ORDER BY LOWER(l.name), l.id)
+         FROM labelings lg
+         INNER JOIN labels l ON l.id = lg.label_id
+        WHERE lg.labelable_id = work_packages.id AND lg.labelable_type = 'WorkPackage')
+    SQL
+  end
+
   self.property_selects = {
     id: {
       sortable: ->(_query = nil) {
@@ -127,6 +148,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       # The lowest-id target version represents the work package, matching the
       # version_id mirror column and the cost report's single-version join;
       # the sort key is that version's name.
+      value_method: :lowest_target_version,
       sortable: <<~SQL.squish,
         (SELECT LOWER(v.name)
            FROM work_package_versions wpv
@@ -215,6 +237,10 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     shared_with_users: {
       sortable: false,
       groupable: false
+    },
+    labels: {
+      sortable: labels_sortable,
+      groupable: labels_groupable
     }
   }
 

@@ -143,13 +143,13 @@ module WorkPackagesHelper
   end
 
   # Presented value for the version(s) attribute, read from target_versions.
-  # Legacy behaviour surfaces the single associated version; with the feature on
+  # Legacy behavior surfaces the single associated version; with the feature on
   # it lists all target versions, ordered by name for a stable rendering.
   def work_package_versions_value(work_package)
     if Setting::WorkPackageMultipleVersions.active?
       work_package.target_versions.sort_by(&:name).join(", ")
     else
-      work_package.target_versions.first
+      work_package.lowest_target_version
     end
   end
 

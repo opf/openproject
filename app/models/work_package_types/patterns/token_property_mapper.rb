@@ -105,14 +105,21 @@ module WorkPackageTypes
             context_name,
             -> { name },
             ->(context) do
-              key = :"custom_field_#{id}"
-              return :attribute_not_available unless context.respond_to?(key)
+              return :attribute_not_available unless custom_values_available?(context, id)
 
-              context.public_send(key)
+              context.public_send(:"custom_field_#{id}")
             end,
             formatter
           )
         end
+      end
+
+      def custom_values_available?(context, custom_field_id)
+        return false unless context.respond_to?(:"custom_field_#{custom_field_id}")
+
+        custom_field = context.all_available_custom_fields.find { it.id == custom_field_id }
+
+        Array(context.custom_value_for(custom_field)).all?(&:available_in_project?)
       end
     end
   end

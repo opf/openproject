@@ -51,7 +51,7 @@ class Workflows::Copies::FromRolesController < ApplicationController
 
   private
 
-  def standalone? = params[:workflow_id].present?
+  def standalone? = variant_scope_project.nil? && params[:workflow_id].present?
 
   # A stale dialog can name a source that is gone; #create answers that with a flash rather
   # than a 404, so a miss has to arrive here as nil.
@@ -90,7 +90,8 @@ class Workflows::Copies::FromRolesController < ApplicationController
     if standalone?
       workflow_matrix_path(@workflow, tab: params[:tab], role_ids:)
     else
-      variant_workflow_matrix_path(variant_scope_project, @source_variant, tab: params[:tab], role_ids:)
+      variant_workflow_matrix_path(variant_scope_project, @source_variant, tab: params[:tab], role_ids:,
+                                                                           wizard: params[:wizard].presence)
     end
   end
 

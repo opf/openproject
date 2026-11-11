@@ -47,6 +47,8 @@ uk:
       draggable_hint: 'Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Цей файл перенесено в карантин, оскільки в ньому знайдено вірус. Його не можна завантажити.
     autocomplete_ng_select:
       add_tag: Додати елемент
@@ -61,6 +63,7 @@ uk:
         single: Виберіть %{name}
       remove: Видалити %{name}
     autocompleter:
+      create_label: Створити етикетку
       notFoundText: Елементів не знайдено
       placeholder: Введіть для пошуку
       project:
@@ -128,8 +131,8 @@ uk:
     button_confirm: Підтвердити
     button_continue: Продовжити
     button_copy: Копіювати
-    button_copy_link_to_clipboard: Копіювати посилання в буфер обміну
-    button_copy_numeric_id_to_clipboard: Скопіювати числовий ID у буфер обміну
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Копіювати в буфер обміну
     button_copy_to_other_project: Копіювати в інший проєкт
     button_create: Створити
@@ -147,6 +150,7 @@ uk:
     button_log_time: Записування часу
     button_more: Більше
     button_more_actions: Інші дії
+    button_move: Move
     button_open_details: Відкрити докладне подання
     button_open_fullscreen: Відкрити на весь екран
     button_quote: Цитата
@@ -162,6 +166,7 @@ uk:
     button_stop_timer: Зупинити таймер
     button_uncheck_all: Зняти усі відмітки
     button_update: Оновити
+    button_view_markdown: View Markdown
     caption_rate_history: Історія рейтингу
     card:
       add_new: Додати нову картку
@@ -201,8 +206,11 @@ uk:
     description_select_work_package: 'Виберіть пакет робіт #%{id}'
     description_subwork_package: 'Нащадок пакету робіт #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: У CKEditor сталася помилка
-      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
+      ckeditor_error_reload: Редактор перестав працювати. Ваш текст ще тут, але його не можна змінювати. Скопіюйте будь-який текст, який ви хочете зберегти, і перезавантажте сторінку.
       error_saving_failed: 'Не вдалося зберегти документ із такою помилкою: %{error}'
       macro:
         attribute_reference:
@@ -359,8 +367,8 @@ uk:
     ical_sharing_modal:
       copy_url_label: Копіювати URL
       description: За допомогою URL-адреси (iCalendar) ви можете підписатися на цей календар у зовнішньому клієнті й переглядати звідти актуальну інформацію про пакети робіт.
-      ical_generation_error_text: Під час створення URL-адреси календаря сталася помилка.
-      inital_setup_error_message: Під час отримання даних сталася помилка.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-адресу «%{name}» скопійовано в буфер обміну. Вставте її в клієнт свого календаря, що завершити створення підписки.
       title: Підписатися на календар
       token_name_description_text: Якщо ви підписані на цей календар на кількох пристроях, це ім’я допоможе вам розрізняти їх у списку <a href="%{myAccessTokensUrl}" target="_blank">маркерів доступу</a>.
@@ -432,7 +440,6 @@ uk:
     label_assignee: Виконавець
     label_assignee_alt_text: 'Пакет робіт призначено цьому користувачу: %{name}'
     label_attachments: Вкладення
-    label_author: 'Автор: %{user}'
     label_avatar: Аватар
     label_between: між ними
     label_board: Дошка
@@ -552,6 +559,8 @@ uk:
     label_reset: Скинути
     label_resize_project_menu: Змінити розмір меню проєкту
     label_save_as: Зберегти як
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Пошук стовпця
     label_select_watcher: Виберіть спостерігача...
     label_selected_filter_list: Вибрані фільтри
@@ -559,7 +568,9 @@ uk:
     label_show_in_menu: Показати вигляд у меню
     label_sort_by: Сортувати за
     label_sort_higher: Перемістити вгору
+    label_sort_highest: Move to top
     label_sort_lower: Перемістити вниз
+    label_sort_lowest: Move to bottom
     label_sorted_by: відсортовано за
     label_sorting: Сортування
     label_spent_time: Витрачений час
@@ -723,7 +734,7 @@ uk:
     placeholders:
       default: "-"
       description: Опис. Натисніть, щоб змінити…
-      description_double_click: 'Description: Double click to edit...'
+      description_double_click: 'Опис: Двічі клацніть для редагування...'
       relation_description: Нажмите, чтобы добавить описание для этой связи
       selection: Будь ласка, виберіть
       subject: Введіть тему тут
@@ -813,6 +824,7 @@ uk:
         batch_too_large: Неможливо перемістити всі елементи (%{count}) одночасно. Максимальна кількість — %{max}.
         fallback_item_label: Об’єкт
         fallback_list_name: інший список
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Не вдалося перемістити. Перегляньте поточну позицію об’єкта.
         move_failed_check_positions_batch:
           other: Не вдалося перемістити. Перегляньте поточні позиції елементів.
@@ -1100,15 +1112,30 @@ uk:
       scheduling:
         is_parent: Дати цього пакета робіт автоматично виводяться з його дочірніх елементів. Активуйте «Ручне планування», щоб установити ці дати.
         is_switched_from_manual_to_automatic: Можливо, дати цього пакета робіт знадобиться перерахувати після переходу з ручного на автоматичне планування через зв’язок з іншими пакетами робіт.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Показувати всіх користувачів, яким надано доступ до пакета робіт
         title: Надати доступ до пакета робіт
       table:
         configure_button: Налаштуйте таблицю робочих пакетів
-        summary: Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт.
-        text_inline_edit: Більшість секцій цієї таблиці - це кнопки, які активують функціонал інлайн-редагування відповідного атрибуту.
-        text_select_hint: Прапорці можуть бути відкриті використовуючи «ALT» та клавіш зі стрілками.
-        text_sort_hint: За допомогою посилань в заголовках таблиці ви можете сортувати, групувати, перевпорядковувати, видаляти та додавати стовпці таблиці.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Налаштуйте цю таблицю робочих пакетів
         choose_display_mode: Display work packages as
@@ -1117,7 +1144,6 @@ uk:
         default_mode: Плоский список
         display_settings: Параметри дисплея
         display_sums_hint: Відображати суми всіх підсумкових атрибутів під таблицею.
-        embedded_tab_disabled: Ця вкладка конфігурації недоступна для вбудованого режиму перегляду, який ви редагуєте.
         hierarchy_hint: Всі відфільтровані результати таблиці будуть доповнені їхніми предками. Ієрархії можуть бути розширені та згорнуті.
         hierarchy_mode: Ієрархія
         highlighting: Підсвічування

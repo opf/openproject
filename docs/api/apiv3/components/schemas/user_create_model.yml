@@ -56,13 +56,13 @@ properties:
   language:
     type: string
 
-example:
-  login: j.sheppard
-  password: idestroyedsouvereign
-  currentPassword: iusedtobuildstarships
-  firstName: John
-  lastName: Sheppard
-  email: shep@mail.com
-  admin: true
-  status: active
-  language: en
+examples:
+  - login: j.sheppard
+    password: idestroyedsouvereign
+    currentPassword: iusedtobuildstarships
+    firstName: John
+    lastName: Sheppard
+    email: shep@mail.com
+    admin: true
+    status: active
+    language: en

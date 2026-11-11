@@ -147,9 +147,13 @@ module OpenProject::TextFormatting
                         anchor:)
               end
 
+        render_link(wiki_title, url, wiki_page)
+      end
+
+      def render_link(wiki_title, url, wiki_page)
         link_to h(wiki_title),
                 url,
-                class: "wiki-page#{wiki_page ? '' : ' new'}"
+                class: ["wiki-page", { new: wiki_page.nil? }]
       end
     end
   end

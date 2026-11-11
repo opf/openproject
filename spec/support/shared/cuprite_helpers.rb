@@ -60,6 +60,33 @@ def warn_about_cuprite_helper_misuse(method_name)
   warn "#{method_name} used in spec not using cuprite (#{cause})"
 end
 
+# Holds the first browser request to `path` until the block continues it.
+# Yields a queue; `held.pop(timeout: ...)` returns the Ferrum request, and
+# `request.continue` releases it. Requests still queued when the block
+# ends are continued.
+def hold_requests(path)
+  held = Queue.new
+  holding = Concurrent::AtomicBoolean.new(true)
+  begin
+    browser = page.driver.browser
+    browser.network.intercept
+    browser.on(:request) { |request| hold_or_continue(request, path, holding, held) }
+    yield held
+  ensure
+    holding.make_false
+    held.pop(true).continue until held.empty?
+  end
+end
+
+def hold_or_continue(request, path, holding, held)
+  if holding.true? && URI(request.url).path == path
+    holding.make_false
+    held << request
+  else
+    request.continue
+  end
+end
+
 # Ferrum is yet support `fill_options` as a Hash
 def clear_input_field_contents(input_element)
   if input_element.is_a? String

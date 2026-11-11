@@ -1,0 +1,20 @@
+# Schema: WorkspacePatchModel
+---
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the workspace.
+  identifier:
+    type: string
+    description: The identifier of the workspace.
+  active:
+    type: boolean
+    description: Set to `false` to archive a workspace, and to `true to reactive it.
+  public:
+    type: boolean
+    description: Whether the workspace is public or not.
+  description:
+    allOf:
+      - $ref: "./formattable.yml"
+      - description: The workspace description

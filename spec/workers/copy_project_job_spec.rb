@@ -204,6 +204,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
     before do
       allow(User).to receive(:current).and_return(admin)
       allow(Projects::CopyService).to receive(:new).and_return(->(*) { raise "Gen. Failure reporting for duty!" })
+      allow(OpenProject.logger).to receive(:error)
     end
 
     it "renders a error when unexpected errors occur" do
@@ -224,6 +225,9 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       expect(copy_job.job_status[:status]).to eq "failure"
       expect(copy_job.job_status[:message]).to include "Cannot copy project #{source_project.name}"
       expect(copy_job.job_status[:payload]).to eq("title" => "Copy project")
+      expect(OpenProject.logger)
+        .to have_received(:error)
+        .with("Failed to finish copy project job", exception: an_instance_of(RuntimeError))
     end
   end
 

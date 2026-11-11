@@ -33,11 +33,9 @@ import { defineConfig } from "eslint/config";
 import stylistic from "@stylistic/eslint-plugin";
 import headers from "eslint-plugin-headers";
 import { copyrightHeaderOptions } from "../../frontend/copyright.mjs";
+import { jsonConfig } from "../../frontend/eslint-json.mjs";
 
 export default defineConfig([
-  {
-    ignores: ["package-lock.json"],
-  },
   tseslint.configs.recommended,
   {
     files: ["**/*.{js,mjs,cjs,ts,tsx,mts,cts}"],
@@ -66,10 +64,5 @@ export default defineConfig([
       "no-undef": "off",
     },
   },
-  {
-    files: ["**/*.json"],
-    plugins: { json },
-    language: "json/json",
-    extends: ["json/recommended"]
-  },
+  jsonConfig(json),
 ]);

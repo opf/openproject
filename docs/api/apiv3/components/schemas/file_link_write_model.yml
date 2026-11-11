@@ -32,16 +32,16 @@ properties:
 
                   **Resource**: N/A
 
-example:
-  originData:
-    id: "5503"
-    name: logo.png
-    mimeType: image/png
-    size: 16042
-    createdAt: '2021-12-19T09:42:10.170Z'
-    lastModifiedAt: '2021-12-20T14:00:13.987Z'
-    createdByName: Luke Skywalker
-    lastModifiedByName: Anakin Skywalker
-  _links:
-    storageUrl:
-      href: 'https://nextcloud.my-deathstar.org'
+examples:
+  - originData:
+      id: "5503"
+      name: logo.png
+      mimeType: image/png
+      size: 16042
+      createdAt: '2021-12-19T09:42:10.170Z'
+      lastModifiedAt: '2021-12-20T14:00:13.987Z'
+      createdByName: Luke Skywalker
+      lastModifiedByName: Anakin Skywalker
+    _links:
+      storageUrl:
+        href: 'https://nextcloud.my-deathstar.org'

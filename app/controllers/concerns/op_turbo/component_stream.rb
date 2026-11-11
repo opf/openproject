@@ -194,6 +194,15 @@ module OpTurbo
         .render_in(view_context)
     end
 
+    # For elements outside the page layout.
+    def append_to_body_via_turbo_stream(component:)
+      turbo_streams << lambda {
+        OpTurbo::StreamComponent
+          .new(action: :append, target: nil, targets: "body", template: component.render_in(view_context))
+          .render_in(view_context)
+      }
+    end
+
     def turbo_streams
       @turbo_streams ||= []
     end

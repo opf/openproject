@@ -36,6 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do %>
   <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::DEFAULTS)) %>
+  <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: @variant, aspect: :defaults)) %>
   <% if @variant.linked?(TypeVariant::DEFAULTS) %>
     <%= render WorkPackageTypes::DefaultsComponent.new(@variant, readonly: true) %>
   <% else %>

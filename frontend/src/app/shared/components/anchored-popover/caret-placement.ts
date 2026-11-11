@@ -34,7 +34,7 @@ export interface CaretPlacement {
 
 const CARET_INSET_IN_PX = 12;
 
-// The caret sits on the popover edge that faces the anchor, centred on the
+// The caret sits on the popover edge that faces the anchor, centered on the
 // anchor along that edge and kept clear of the popover's rounded corners.
 export function caretPlacement(popover:DOMRect, anchor:DOMRect):CaretPlacement {
   const side = caretSide(popover, anchor);

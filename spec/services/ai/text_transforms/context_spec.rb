@@ -41,6 +41,10 @@ RSpec.describe AI::TextTransforms::Context do
       expect(context).to have_attributes(work_package:, project:, type:)
     end
 
+    it "is identified by the work package" do
+      expect(context.ids).to eq(work_package_id: work_package.id)
+    end
+
     it "resolves the type's default variant" do
       expect(context.type_variant).to eq(type.default_variant)
     end
@@ -72,6 +76,10 @@ RSpec.describe AI::TextTransforms::Context do
       expect(context).to have_attributes(work_package: nil, project:, type:)
     end
 
+    it "is identified by the project and the type" do
+      expect(context.ids).to eq(project_id: project.id, type_id: type.id)
+    end
+
     it "resolves the variant through the project" do
       expect(context.type_variant).to eq(project.type_variant(type))
     end
@@ -91,6 +99,28 @@ RSpec.describe AI::TextTransforms::Context do
     end
   end
 
+  describe "#ids" do
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages add_work_packages] })
+    end
+    let(:work_package) { create(:work_package, project:, type:) }
+
+    {
+      "a work package" => -> { described_class.for_work_package(work_package) },
+      "a new work package" => -> { described_class.for_new_work_package(project:, type:) },
+      "no object" => -> { described_class.none }
+    }.each do |name, build_context|
+      it "resolves back to the context of #{name} through the pane parameters" do
+        context = instance_exec(&build_context)
+        params = AI::TextTransforms::PaneParamsContract.new.call(request_id: SecureRandom.uuid, scope: "document", **context.ids)
+
+        expect(params).to be_success
+        resolved = AI::TextTransforms::ResolveContext.new(user:).call(**params.to_h.slice(*context.ids.keys)).result
+        expect(resolved).to have_attributes(work_package: context.work_package, project: context.project, type: context.type)
+      end
+    end
+  end
+
   describe ".none" do
     let(:context) { described_class.none }
 
@@ -98,6 +128,7 @@ RSpec.describe AI::TextTransforms::Context do
       expect(context).to have_attributes(work_package: nil, project: nil, type: nil)
       expect(context.type_variant).to be_nil
       expect(context.template).to be_nil
+      expect(context.ids).to eq({})
     end
   end
 end

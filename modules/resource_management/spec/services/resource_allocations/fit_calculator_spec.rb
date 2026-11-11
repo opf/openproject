@@ -83,7 +83,7 @@ RSpec.describe ResourceAllocations::FitCalculator do
     let(:due_tuesday) { allocation(2, mon, tue, 480) }
     let(:allocations) { [due_monday, due_tuesday] }
 
-    it "prioritises the earlier deadline and shifts the other" do
+    it "prioritizes the earlier deadline and shifts the other" do
       expect(result).to be_feasible
       expect(result.placements).to eq(
         due_monday => { mon => 480 },
@@ -113,7 +113,7 @@ RSpec.describe ResourceAllocations::FitCalculator do
     let(:earlier_start) { allocation(2, mon, wed, 480) }
     let(:allocations) { [later_start, earlier_start] }
 
-    it "prioritises the earlier start" do
+    it "prioritizes the earlier start" do
       expect(result.placements).to eq(earlier_start => { wed => 480 })
       expect(result.overtime).to eq(later_start => { wed => 480 })
     end
@@ -125,7 +125,7 @@ RSpec.describe ResourceAllocations::FitCalculator do
     let(:lower_id) { allocation(1, mon, mon, 480) }
     let(:allocations) { [higher_id, lower_id] }
 
-    it "prioritises the lower id regardless of the given order" do
+    it "prioritizes the lower id regardless of the given order" do
       expect(result.placements).to eq(lower_id => { mon => 480 })
       expect(result.overtime).to eq(higher_id => { mon => 480 })
     end
@@ -137,7 +137,7 @@ RSpec.describe ResourceAllocations::FitCalculator do
     let(:persisted) { allocation(1, mon, mon, 480) }
     let(:allocations) { [unsaved, persisted] }
 
-    it "prioritises the persisted one" do
+    it "prioritizes the persisted one" do
       expect(result.placements).to eq(persisted => { mon => 480 })
       expect(result.overtime).to eq(unsaved => { mon => 480 })
     end

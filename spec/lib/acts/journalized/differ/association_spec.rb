@@ -185,7 +185,7 @@ RSpec.describe Acts::Journalized::Differ::Association do
       end
     end
 
-    # this case should not be needed, added for coverting all cases
+    # this case should not be needed, added for covering all cases
     describe "requesting all values changes as array" do
       let(:multiple_values) { true }
 

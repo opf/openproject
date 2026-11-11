@@ -291,7 +291,7 @@ RSpec.describe AllMeetings::ICalService, type: :model do
         expect(entry.dtend).to eq(meeting.end_time.in_time_zone(user.time_zone))
       end
 
-      context "when the single occurence was cancelled" do
+      context "when the single occurrence was cancelled" do
         before do
           meeting.update_column(:state, Meeting.states[:cancelled])
         end
@@ -339,7 +339,7 @@ RSpec.describe AllMeetings::ICalService, type: :model do
           end
       end
 
-      # Regression: +from_today_or_recently_started+ previously resetted the scope in its .or
+      # Regression: +from_today_or_recently_started+ previously reset the scope in its alternative
       # branch, so a recently started occurrence was output a second time under its own UID next to the series.
       it "does not leak the occurrence back into single_meetings" do
         expect(Meeting.not_recurring.from_today_or_recently_started).not_to include(recent_occurrence)

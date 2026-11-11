@@ -1086,7 +1086,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
           # this works as expected but cannot be tested in test env, reason unknown
           # TODO: fix this part of this spec
           # wp_page.expect_conflict_warning_banner # warning banner is shown as another user has updated the work package
-          # I'm not marking this spec as pending as the following part is testing the crucial behaviour successfully
+          # I'm not marking this spec as pending as the following part is testing the crucial behavior successfully
 
           wp_page.edit_field(:description).save! # user ignores the warning and saves the changes
 

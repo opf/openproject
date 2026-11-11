@@ -48,7 +48,6 @@ RSpec.describe Members::Scopes::Visible do
   let(:user) { create(:user, admin:) }
 
   let(:view_members_project) { create(:project) }
-  let(:manage_members_project) { create(:project) }
   let(:view_shared_work_packages_project) { create(:project) }
 
   let(:work_package_role) { create(:view_work_package_role) }
@@ -56,18 +55,12 @@ RSpec.describe Members::Scopes::Visible do
   let!(:view_members_member) do
     create_member(project: view_members_project, permissions: %i[view_members])
   end
-  let!(:manage_members_member) do
-    create_member(project: manage_members_project, permissions: %i[manage_members])
-  end
   let!(:view_shared_work_packages_member) do
     create_member(project: view_shared_work_packages_project, permissions: %i[view_shared_work_packages])
   end
 
   let!(:view_members_work_package_share) do
     create_work_package_share(project: view_members_project)
-  end
-  let!(:manage_members_work_package_share) do
-    create_work_package_share(project: manage_members_project)
   end
   let!(:view_shared_work_packages_work_package_share) do
     create_work_package_share(project: view_shared_work_packages_project)
@@ -81,10 +74,8 @@ RSpec.describe Members::Scopes::Visible do
 
       it "returns all members" do
         expect(subject).to contain_exactly view_members_member,
-                                           manage_members_member,
                                            view_shared_work_packages_member,
                                            view_members_work_package_share,
-                                           manage_members_work_package_share,
                                            view_shared_work_packages_work_package_share
       end
     end
@@ -94,7 +85,6 @@ RSpec.describe Members::Scopes::Visible do
 
       it "returns only members allowed by permissions" do
         expect(subject).to contain_exactly view_members_member,
-                                           manage_members_member,
                                            view_shared_work_packages_work_package_share
       end
 

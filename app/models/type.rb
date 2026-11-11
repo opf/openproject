@@ -28,6 +28,8 @@
 #++
 
 class Type < ApplicationRecord
+  DESCRIPTION_MAX_LENGTH = 1000
+
   include ::Scopes::Scoped
 
   before_validation :ensure_base_variant, on: :create
@@ -52,6 +54,7 @@ class Type < ApplicationRecord
             presence: true,
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
+  validates :description, length: { maximum: DESCRIPTION_MAX_LENGTH }
 
   scopes :milestone
 
@@ -63,6 +66,18 @@ class Type < ApplicationRecord
     else
       none
     end
+  }
+
+  scope :with_name_like, ->(query) {
+    where("types.name ILIKE :query", query: "%#{sanitize_sql_like(query.to_s.strip)}%")
+  }
+
+  scope :with_own_or_variant_name_like, ->(query) {
+    with_name_like(query).or(where(id: TypeVariant.with_name_like(query).select(:type_id)))
+  }
+
+  scope :with_migrated_variants, -> {
+    where(id: TypeVariant.created_by_migration.select(:type_id))
   }
 
   delegate :to_s, to: :name
@@ -98,7 +113,7 @@ class Type < ApplicationRecord
                    form_configuration: FormConfiguration.new(name: FormConfiguration.implicit_name(name)))
   end
 
-  def check_integrity # rubocop:disable Naming/PredicateMethod
+  def check_integrity
     throw :abort if WorkPackage.exists?(type_id: id)
 
     true

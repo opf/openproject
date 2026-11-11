@@ -41,7 +41,7 @@ RSpec.describe WorkPackagesController do
 
   let(:current_user) { create(:user) }
 
-  def self.requires_permission_in_project(&)
+  def self.requires_permission_in_project(permissions: %i[view_work_packages], &)
     describe "w/o the permission to see the project/work_package" do
       before do
         allow(controller).to receive(:work_package).and_return(nil)
@@ -56,7 +56,7 @@ RSpec.describe WorkPackagesController do
 
     describe "with the permission to see the project " \
              "with having the necessary permissions" do
-      let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+      let(:role) { create(:project_role, permissions:) }
 
       before do
         create(:member, project: work_package.project, principal: current_user, roles: [role])
@@ -287,7 +287,7 @@ RSpec.describe WorkPackagesController do
       allow(exporter).to receive(:new).and_return(exporter_instance)
     end
 
-    requires_permission_in_project do
+    requires_permission_in_project(permissions: %i[view_work_packages export_work_packages]) do
       it "respond with a pdf" do
         pdf_data = "foobar"
         time = DateTime.new(2023, 6, 30, 23, 59)
@@ -311,6 +311,35 @@ RSpec.describe WorkPackagesController do
         end
         call_action
       end
+    end
+  end
+
+  describe "generate_pdf" do
+    let(:role) { create(:project_role, permissions: %i[view_work_packages export_work_packages]) }
+    let(:pdf_result) do
+      instance_double(Exports::Result, content: "%PDF", title: "export.pdf", mime_type: "application/pdf")
+    end
+    let(:exporter_instance) { instance_double(WorkPackage::PDFExport::Artefact, export!: pdf_result) }
+
+    before do
+      create(:member, project:, principal: current_user, roles: [role])
+    end
+
+    it "exports with the exporter of the requested template" do
+      allow(WorkPackage::PDFExport::Artefact).to receive(:new).and_return(exporter_instance)
+
+      post("generate_pdf", params: { id: work_package.id.to_s, template: "artefact" })
+
+      expect(WorkPackage::PDFExport::Artefact).to have_received(:new).with(work_package, anything)
+      expect(response.media_type).to eq("application/pdf")
+    end
+
+    it "exports the attributes template when none is requested" do
+      allow(WorkPackage::PDFExport::WorkPackageToPdf).to receive(:new).and_return(exporter_instance)
+
+      post("generate_pdf", params: { id: work_package.id.to_s })
+
+      expect(WorkPackage::PDFExport::WorkPackageToPdf).to have_received(:new).with(work_package, anything)
     end
   end
 

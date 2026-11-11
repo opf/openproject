@@ -111,7 +111,7 @@ module Meetings
 
         add_attendees(event: e, meeting: recurring_meeting.template)
 
-        # Add all occurence dates to the dates set, so that we bake in all timezone rules correcly
+        # Add all occurrence dates to the dates set, so that we bake in all timezone rules correctly
         if recurring_meeting.end_after_never?
           all_times[recurring_meeting.time_zone].push(5.years.from_now.in_time_zone(recurring_meeting.time_zone))
         else
@@ -128,7 +128,7 @@ module Meetings
       add_instantiated_occurrences(recurring_meeting: recurring_meeting)
 
       # add single events for leftover interim responses
-      add_virtual_occurences_for_interim_responses(recurring_meeting: recurring_meeting)
+      add_virtual_occurrences_for_interim_responses(recurring_meeting: recurring_meeting)
     end
 
     # If a series ever has been rescheduled, we record its past historic schedules.
@@ -434,7 +434,7 @@ module Meetings
       meeting.participants.filter_map { [it.user_id, it.participation_status] if it.user_id }.sort
     end
 
-    def add_virtual_occurences_for_interim_responses(recurring_meeting:) # rubocop:disable Metrics/AbcSize
+    def add_virtual_occurrences_for_interim_responses(recurring_meeting:) # rubocop:disable Metrics/AbcSize
       interim_responses_for(recurring_meeting).each do |start_time, responses|
         next if start_time < recurring_meeting.current_schedule_start
 

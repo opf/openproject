@@ -47,7 +47,7 @@ export default class RepositoryNavigationController extends Controller {
 
   declare readonly tagTarget:HTMLSelectElement;
 
-  declare readonly hasTagTaget:boolean;
+  declare readonly hasTagTarget:boolean;
 
   declare readonly formTarget:HTMLFormElement;
 
@@ -70,7 +70,7 @@ export default class RepositoryNavigationController extends Controller {
     if (this.hasBranchTarget) {
       this.branchTarget.disabled = true;
     }
-    if (this.hasTagTaget) {
+    if (this.hasTagTarget) {
       this.tagTarget.disabled = true;
     }
     this.formTarget.submit();
@@ -78,7 +78,7 @@ export default class RepositoryNavigationController extends Controller {
     if (this.hasBranchTarget) {
       this.branchTarget.disabled = false;
     }
-    if (this.hasTagTaget) {
+    if (this.hasTagTarget) {
       this.tagTarget.disabled = false;
     }
   }
@@ -120,7 +120,7 @@ export default class RepositoryNavigationController extends Controller {
   }
 
   private get tagSelected():boolean {
-    return this.hasTagTaget && this.tagTarget.value === this.revisionTarget.value;
+    return this.hasTagTarget && this.tagTarget.value === this.revisionTarget.value;
   }
 
   /**

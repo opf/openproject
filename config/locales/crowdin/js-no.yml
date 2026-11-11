@@ -47,6 +47,8 @@
       draggable_hint: 'Dra i tekstbehandlerfeltet for å sette inn bilde eller referansevedlegg. Lukket felt i tekstbehandler åpnes mens du fortsetter å dra det.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Filen er satt i karantene fordi et virus ble funnet. Den er ikke tilgjengelig for nedlasting.
     autocomplete_ng_select:
       add_tag: Legg til element
@@ -61,6 +63,7 @@
         single: Velg "%{name}"
       remove: Fjern %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Ingen elementer funnet
       placeholder: Skriv for å søke
       project:
@@ -128,8 +131,8 @@
     button_confirm: Bekreft
     button_continue: Fortsett
     button_copy: Kopier
-    button_copy_link_to_clipboard: Kopier lenke til utklippstavlen
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopier til utklippstavlen
     button_copy_to_other_project: Duplicate in another project
     button_create: Opprett
@@ -147,6 +150,7 @@
     button_log_time: Logg tid
     button_more: Mer
     button_more_actions: Flere handlinger
+    button_move: Move
     button_open_details: Åpne detaljvisning
     button_open_fullscreen: Åpne fullskjermvisning
     button_quote: Sitèr
@@ -161,7 +165,8 @@
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Avmerk alle
-    button_update: Oppdatèr
+    button_update: Oppdater
+    button_view_markdown: View Markdown
     caption_rate_history: Satshistorikk
     card:
       add_new: Legg til nytt kort
@@ -201,6 +206,9 @@
     description_select_work_package: 'Velg arbeidspakke #%{id}'
     description_subwork_package: 'Barn av arbeidspakke #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Det oppstod en feil i CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lagring av dokumentet mislyktes med følgende feil: %{error}'
@@ -359,8 +367,8 @@
     ical_sharing_modal:
       copy_url_label: Kopier URL
       description: Du kan bruke URLen (iCalendar) til å abonnere på denne kalenderen i en ekstern klient og vise oppdatert arbeidspakkeinformasjon derfra.
-      ical_generation_error_text: Det oppstod en feil ved generering av kalenderURL.
-      inital_setup_error_message: En feil oppstod under henting av data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-adressen "%{name}" ble vellykket kopiert til utklippstavlen. Lim den inn i kalenderklienten for å fullføre abonnementet.
       title: Abonner på kalender
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -432,7 +440,6 @@
     label_assignee: Deltaker
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Vedlegg
-    label_author: 'Forfatter: %{user}'
     label_avatar: Profilbilde
     label_between: mellom
     label_board: Tavle
@@ -552,6 +559,8 @@
     label_reset: Nullstill
     label_resize_project_menu: Resize project menu
     label_save_as: Lagre som
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Søk i en kolonne
     label_select_watcher: Velg en overvåker...
     label_selected_filter_list: Valgte filtre
@@ -559,7 +568,9 @@
     label_show_in_menu: Vis visning i meny
     label_sort_by: Sorter på
     label_sort_higher: Flytt opp
+    label_sort_highest: Move to top
     label_sort_lower: Flytt ned
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortert på
     label_sorting: Sortering
     label_spent_time: Tid brukt
@@ -811,6 +822,7 @@
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -1088,15 +1100,26 @@
       scheduling:
         is_parent: Datoene for denne arbeidspakken trekkes automatisk fra de underordnede. Aktiver 'Manuell planlegging' for å angi datoene.
         is_switched_from_manual_to_automatic: Datoene for denne arbeidspakken må eventuelt beregnes på nytt etter å ha byttet fra manual til automatisk planlegging på grunn av relasjoner med andre arbeidspakker.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Vis alle brukere som arbeidspakken er delt med
         title: Del arbeidspakke
       table:
         configure_button: Konfigurer tabell for arbeidspakke
-        summary: Tabell med rader for arbeidspakke og kolonner for arbeidspakkeegenskaper.
-        text_inline_edit: De fleste celler i denne tabellen er knapper som aktiverer inkorporering av funksjonaliteten til den egenskapen.
-        text_select_hint: Velg bokser skal åpnes med 'ALT' og piltaster.
-        text_sort_hint: Med lenkene i tabelloverskriftene kan du sortere, gruppe, omorganisere og legge til tabellkolonner.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Konfigurer tabellen for arbeidspakker
         choose_display_mode: Vis arbeidspakker som
@@ -1105,7 +1128,6 @@
         default_mode: Flat liste
         display_settings: Skjerminnstillinger
         display_sums_hint: Vis summer av alle summerbare egenskaper i en rad under tabellresultatene.
-        embedded_tab_disabled: Denne konfigurasjons-fanen er ikke tilgjengelig for den innebygde visningen du redigerer.
         hierarchy_hint: Alle filtrerte tabellresultater vil bli forsterket med sine overordnede. Hierarkier kan utvides og kollapses.
         hierarchy_mode: Hierarki
         highlighting: Utheving

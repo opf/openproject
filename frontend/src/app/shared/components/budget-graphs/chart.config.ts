@@ -133,7 +133,7 @@ function caretPoint<TType extends 'bar'|'pie'>(context:TooltipContext<TType>):DO
 }
 
 // Chart.js anchors a bar tooltip on the top edge of the hovered segment; the
-// segment's box lets anchored-position centre the popover on it instead.
+// segment's box lets anchored-position center the popover on it instead.
 function barBox(context:TooltipContext<'bar'>):DOMRect {
   const bar = context.tooltip.dataPoints[0]?.element as BarElement|undefined;
   const { x, y, base, width } = bar?.getProps(['x', 'y', 'base', 'width']) ?? {};

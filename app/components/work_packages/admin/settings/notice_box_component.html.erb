@@ -26,7 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(OpPrimer::InsetBoxComponent.new(**system_arguments)) do |box| %>
+<%= render(Primer::OpenProject::InsetBox.new(**system_arguments)) do |box| %>
   <% box.with_title(tag: :h4) { heading } %>
   <% rows.each do |row| %>
     <%= row %>

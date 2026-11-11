@@ -31,14 +31,12 @@
 # a single filter parameterized by the custom field id, in the same way the rest
 # of the Queries:: stack handles custom fields.
 class Queries::CostReports::Filters::CustomFieldFilter < Queries::CostReports::Filters::CostReportFilter
-  KEY = /\Acf_(\d+)\z/
-
   def self.key
-    KEY
+    CustomField::COLUMN_NAME_PATTERN
   end
 
   def self.all_for(context = nil)
-    available_custom_fields.map { |cf| create!(name: :"cf_#{cf.id}", context:) }
+    available_custom_fields.map { |cf| create!(name: cf.column_name.to_sym, context:) }
   end
 
   # Only the formats the engine can generate a join for have a matching
@@ -54,7 +52,7 @@ class Queries::CostReports::Filters::CustomFieldFilter < Queries::CostReports::F
   end
 
   def custom_field_id
-    name.to_s[KEY, 1]
+    CustomField.id_from_column_name(name)
   end
 
   def available?

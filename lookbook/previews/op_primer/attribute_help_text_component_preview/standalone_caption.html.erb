@@ -1,0 +1,10 @@
+<!--
+   There may be times when you need to create a component that has Form-field like behavior or visuals,
+   but that does not use the Primer Forms API (i.e. components that extend
+   `ApplicationComponent`/`ViewComponent::Base` rather than `Primer:Forms::Dsl::Input`).
+   In such cases, you can use `AttributeLabelComponent` directly.
+   For captions you can use `OpPrimer::AttributeHelpTextCaptionComponent`.
+   Please have a look at the pattern page for AttributeHelpTexts.
+   -->
+
+<%= render OpPrimer::AttributeHelpTextCaptionComponent.new(help_text:) %>

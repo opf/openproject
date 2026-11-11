@@ -1,7 +1,7 @@
 # Schema: Types_by_WorkspaceModel
 ---
 allOf:
-  - "$ref": "./collection_model.yml"
+  - $ref: "./collection_model.yml"
   - type: object
     required:
       - _links
@@ -14,10 +14,10 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The types collection
-                  
+
                   **Resource**: TypesCollection
                 readOnly: true
       _embedded:
@@ -28,5 +28,5 @@ allOf:
             readOnly: true
             items:
               allOf:
-                - "$ref": "./type_model.yml"
+                - $ref: "./type_model.yml"
                 - description: Collection of Types

@@ -6,6 +6,7 @@ on:
       - '.yamllint.yml'
       - 'config/locales/en.yml'
       - 'config/locales/js-en.yml'
+      - 'docs/api/apiv3'
       - 'modules/*/config/locales/en.yml'
       - 'modules/*/config/locales/js-en.yml'
 
@@ -13,6 +14,7 @@ jobs:
   yamllint:
     name: Yamllint
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
       checks: write
@@ -22,7 +24,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Run Yamllint
-        uses: reviewdog/action-yamllint@5dd4640db975e4cac6f4e775a401695bafc28068 # v1.25.1
+        uses: reviewdog/action-yamllint@8f84f0fb670d777d3e584ef50faf60eb61605b2a # v1.25.3
         with:
           reporter: github-pr-annotations
           fail_level: any
@@ -30,5 +32,6 @@ jobs:
             .yamllint.yml
             config/locales/en.yml
             config/locales/js-en.yml
+            docs/api/apiv3
             modules/*/config/locales/en.yml
             modules/*/config/locales/js-en.yml

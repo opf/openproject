@@ -130,6 +130,17 @@ module API
           }
         end
 
+        link :exportPdf,
+             cache_if: -> { export_work_packages_allowed? } do
+          next if represented.new_record?
+
+          {
+            href: api_v3_paths.work_package_pdf(represented.id),
+            type: "application/pdf",
+            title: "Export as PDF"
+          }
+        end
+
         link :generate_pdf,
              cache_if: -> { export_work_packages_allowed? } do
           next if represented.new_record?
@@ -149,6 +160,16 @@ module API
             href: work_package_path(id: represented.id, format: :atom),
             type: "application/rss+xml",
             title: "Atom feed"
+          }
+        end
+
+        link :markdown do
+          next if represented.new_record?
+
+          {
+            href: work_package_path(id: represented.id, format: :md),
+            type: "text/markdown",
+            title: I18n.t(:label_markdown_version)
           }
         end
 
@@ -437,6 +458,26 @@ module API
 
         date_time_property :updated_at
 
+        property :origin_source,
+                 as: :originSource,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_id,
+                 as: :originId,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_host,
+                 as: :originHost,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_url,
+                 as: :originUrl,
+                 render_nil: false,
+                 writable: false
+
         property :relations,
                  embedded: true,
                  exec_context: :decorator,
@@ -504,8 +545,9 @@ module API
                                                                .to_s
                  end
 
-        link :projectPhaseDefinition do
-          if phase_set_and_active? && view_project_phase_allowed?
+        link(:projectPhaseDefinition,
+             cache_if: -> { view_project_phase_allowed? }) do
+          if phase_set_and_active?
             {
               href: api_v3_paths.project_phase_definition(represented.project_phase_definition_id),
               title: project_phase.name
@@ -539,7 +581,7 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
-        # Deprecated in favour of `targetVersions`
+        # Deprecated in favor of `targetVersions`
         # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,
@@ -622,17 +664,14 @@ module API
                              end
 
         associated_resources :labels,
-                             skip_render: ->(*) { !OpenProject::FeatureDecisions.work_package_labels_active? },
                              getter: ->(*) {
                                next unless embed_link?(:labels)
 
-                               represented.effective_labels.map do |label|
+                               represented.effective_labels.reject(&:new_record?).map do |label|
                                  ::API::V3::Labels::LabelRepresenter.create(label, current_user:)
                                end
                              },
                              link: ->(*) {
-                               next unless OpenProject::FeatureDecisions.work_package_labels_active?
-
                                represented.effective_labels.map do |label|
                                  ::API::Decorators::LinkObject
                                    .new(label,
@@ -642,7 +681,14 @@ module API
                                         title_attribute: :name)
                                    .to_hash
                                end
-                             }
+                             },
+                             setter: ->(fragment:, **) do
+                               with_href, without_href = fragment.partition { |link| link["href"].present? }
+                               represented.label_ids = parse_link_ids_from_fragment(with_href, :label)
+
+                               names = without_href.filter_map { |link| link["title"].presence if link["title"].is_a?(String) }
+                               represented.label_names = names if names.any?
+                             end
 
         associated_resource :parent,
                             v3_path: :work_package,

@@ -374,7 +374,7 @@ RSpec.describe "Work package sharing",
         # false positives on the button not being rendered because
         # its request is still pending.
         wait_for_network_idle(timeout: 10)
-        expect(page).to have_no_button("Share")
+        expect(page).to have_no_button(accessible_name: "Share")
       end
     end
   end
@@ -444,7 +444,7 @@ RSpec.describe "Work package sharing",
     end
 
     it "shows an error message when inviting an existing locked user" do
-      skip "This behavios is broken by loading the user through the visible scope, don't know yet how to fix it"
+      skip "This behavior is broken by loading the user through the visible scope, don't know yet how to fix it"
 
       share_modal.expect_shared_count_of(6)
 

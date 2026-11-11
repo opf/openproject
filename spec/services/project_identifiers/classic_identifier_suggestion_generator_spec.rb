@@ -59,7 +59,7 @@ RSpec.describe ProjectIdentifiers::ClassicIdentifierSuggestionGenerator do
     end
 
     context "when the name produces a blank slug" do
-      it "falls back to a randomised project-XXXXXX identifier" do
+      it "falls back to a randomized project-XXXXXX identifier" do
         expect(described_class.new.suggest_identifier("!!!")).to match(/\Aproject-[a-z0-9]{5}\z/)
       end
 
@@ -73,7 +73,7 @@ RSpec.describe ProjectIdentifiers::ClassicIdentifierSuggestionGenerator do
     end
 
     context "when the name is all-numeric" do
-      it "falls back to a randomised project-XXXXXX identifier" do
+      it "falls back to a randomized project-XXXXXX identifier" do
         expect(described_class.new.suggest_identifier("12345")).to match(/\Aproject-[a-z0-9]{5}\z/)
       end
     end

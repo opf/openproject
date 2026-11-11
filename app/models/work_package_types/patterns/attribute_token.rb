@@ -41,6 +41,8 @@ module WorkPackageTypes
 
       def call(context, format_param)
         value = resolve_fn.call(context)
+        return value if value == :attribute_not_available
+
         formatter.call(value, format_param)
       end
 

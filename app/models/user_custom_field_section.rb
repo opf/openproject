@@ -49,7 +49,7 @@ class UserCustomFieldSection < CustomFieldSection
   # Returns [[section, [ordered_cfs]], ...] for the given user's filled, visible
   # custom fields.  Pass visible_on_user_card: true to restrict to hover-card fields.
   # Two SQL queries: one for sections, one for the relevant CFs (both use filled_cf_ids
-  # as a subquery so no values are materialised into Ruby memory).
+  # as a subquery so no values are materialized into Ruby memory).
   def self.with_filled_fields_for(user, visible_on_user_card: nil) # rubocop:disable Metrics/AbcSize
     cf_scope = UserCustomField.visible(User.current)
     cf_scope = cf_scope.where(visible_on_user_card: true) if visible_on_user_card

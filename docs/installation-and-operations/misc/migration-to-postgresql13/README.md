@@ -163,7 +163,7 @@ sudo yum remove pgsql10
 > Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/).
 > Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 
-You can find the upgrade instructions for your docker-compose setup in the [openproject-docker-compose](https://github.com/opf/openproject-docker-compose/blob/stable/17/control/README.md#upgrade) repository.
+You can find the upgrade instructions for your docker-compose setup in the [openproject-docker-compose](https://github.com/opf/openproject-docker-compose/blob/stable/18/control/README.md#upgrade) repository.
 
 Remember that you need to have checked out that repository and work in the `compose` directory for the instructions to work.
 
@@ -188,7 +188,7 @@ Once the docker has stopped, you are ready to run the upgrade command. In this c
 docker run --rm -it \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/pgdata-next:/var/openproject/pgdata-next \
-  openproject/openproject:17 root ./docker/prod/postgres-db-upgrade
+  openproject/openproject:18 root ./docker/prod/postgres-db-upgrade
 ```
 
 If everything goes well, the process should end with a message as follows:
@@ -218,7 +218,7 @@ docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=<your-secret-key-
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   [...]
-  openproject/openproject:17
+  openproject/openproject:18
 ```
 
 If your new installation looks fine, you can then choose to remove `/var/lib/openproject/pgdata-prev`:

@@ -60,8 +60,9 @@ module Admin
       updates = params[:mcp_configurations]
       updates.transform_values! { |hash| hash.permit(:title, :description, :enabled) }
 
+      configurations = McpConfiguration.where(identifier: updates.keys).index_by(&:identifier)
       updates.each do |identifier, attributes|
-        McpConfiguration.find_by!(identifier:).update!(attributes)
+        configurations.fetch(identifier) { raise ActiveRecord::RecordNotFound }.update!(attributes)
       end
 
       flash[:notice] = t(".success")

@@ -498,7 +498,7 @@ fa:
     oauth_grant_nudge_modal:
       cancel_button_label: بعداً انجام می‌دهم
       heading: ورود به %{provider_type} الزامی است
-      login_button_aria_label: ورود به %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: ورود به %{provider_type}
       project_settings:
         description: برای دسترسی به پوشهٔ پروژه باید وارد %{storage} شوید.

@@ -31,10 +31,10 @@ class Budget < ApplicationRecord
   has_many :work_packages, dependent: :nullify
   has_many :material_budget_items, -> {
     includes(:cost_type).order(Arel.sql("material_budget_items.id ASC"))
-  }, dependent: :destroy
+  }, dependent: :destroy, validate: false
   has_many :labor_budget_items, -> {
     includes(:principal).order(Arel.sql("labor_budget_items.id ASC"))
-  }, dependent: :destroy
+  }, dependent: :destroy, validate: false
 
   validates_associated :material_budget_items
   validates_associated :labor_budget_items

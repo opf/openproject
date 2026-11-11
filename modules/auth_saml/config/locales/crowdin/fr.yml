@@ -13,6 +13,7 @@ fr:
         icon: Icône personnalisée
         identifier: Identifiant
         idp_cert: Certificat public du fournisseur d'identité
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: ID d'entité du fournisseur d'identité
         idp_slo_service_url: Point de terminaison de déconnexion du fournisseur d'identité
         idp_sso_service_url: Point de terminaison de connexion du fournisseur d'identité
@@ -152,6 +153,9 @@ fr:
       metadata_too_large: Le fichier de métadonnées dépasse la taille maximale autorisée.
       success: Mise à jour réussie de la configuration à l'aide des métadonnées du fournisseur d'identité.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Mapping des attributs
       attribute_mapping_text: 'Les champs suivants contrôlent quels attributs fournis par le fournisseur d''identité SAML sont utilisés pour fournir des attributs d''utilisateur dans OpenProject
 
@@ -171,9 +175,19 @@ fr:
       label_uid: Identifiant de l'utilisateur interne
       metadata:
         dialog: 'Il s''agit de l''URL où les métadonnées SAML d''OpenProject sont disponibles. Vous pouvez également l''utiliser pour configurer votre fournisseur d''identité :'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: Aucun fournisseur d'identité SAML n'a encore été défini.
       notice_created: Un nouveau fournisseur d'identité SAML a été créé avec succès.
       plural: Fournisseurs d'identité SAML
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Format des attributs
         legend: 'Ces attributs sont ajoutés aux métadonnées XML SAML pour indiquer au fournisseur d''identité les attributs dont OpenProject a besoin. Il se peut que vous deviez configurer explicitement votre fournisseur d''identité pour qu''il envoie ces attributs. Veuillez vous référer à la documentation de votre fournisseur d''identité.
@@ -197,6 +211,10 @@ fr:
         metadata_form_banner: 'La modification des métadonnées peut remplacer des valeurs existantes dans d''autres sections. '
         requested_attributes: Définissez l'ensemble des attributs à demander dans la requête SAML envoyée à votre fournisseur d'identité.
       seeded_from_env: Ce fournisseur a été ajouté à partir de la configuration de l'environnement. Il ne peut pas être modifié.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: Fournisseur d'identité SAML
       upsell:
         description: Connecter OpenProject à un fournisseur d'identité SAML

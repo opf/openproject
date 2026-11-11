@@ -118,7 +118,7 @@ RSpec.describe ForumsController do
 
       context "when requesting JSON format" do
         it "renders the messages in the correct order as JSON" do
-          # JSON rendering was disfunctional because the template does not exist
+          # JSON rendering was dysfunctional because the template does not exist
 
           expect do
             get :show, params: { project_id: project.id, id: forum.id }, format: :json

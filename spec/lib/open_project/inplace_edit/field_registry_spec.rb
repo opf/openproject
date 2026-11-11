@@ -51,13 +51,57 @@ RSpec.describe OpenProject::InplaceEdit::FieldRegistry do
 
     it "falls back to TextInputComponent if attribute is not registered" do
       expect(registry.fetch(:unknown))
-        .to eq(OpenProject::Common::InplaceEditFields::TextInputComponent)
+        .to eq(OpPrimer::InplaceEditFields::TextInputComponent)
     end
 
     it "normalizes attribute names to strings" do
       registry.register("description", rich_text_component)
 
       expect(registry.fetch(:description)).to eq(rich_text_component)
+    end
+  end
+
+  describe "#registered?" do
+    before do
+      registry.register(:description, rich_text_component)
+    end
+
+    it "is true for a registered attribute" do
+      expect(registry.registered?(:description)).to be(true)
+    end
+
+    it "is true for a registered attribute given as a string" do
+      expect(registry.registered?("description")).to be(true)
+    end
+
+    it "is false for an unregistered attribute" do
+      expect(registry.registered?(:destroy)).to be(false)
+    end
+  end
+
+  describe "#editable?" do
+    before do
+      registry.register(:description, rich_text_component)
+    end
+
+    it "is true for a registered attribute" do
+      expect(registry.editable?(:description)).to be(true)
+    end
+
+    it "is true for a custom field attribute" do
+      expect(registry.editable?(:custom_field_12)).to be(true)
+    end
+
+    it "is false for an unregistered attribute" do
+      expect(registry.editable?(:destroy)).to be(false)
+    end
+
+    it "is false for a custom comment attribute" do
+      expect(registry.editable?("custom_comment_12")).to be(false)
+    end
+
+    it "is false for a malformed custom field attribute" do
+      expect(registry.editable?("custom_field_12_foo")).to be(false)
     end
   end
 
@@ -83,12 +127,12 @@ RSpec.describe OpenProject::InplaceEdit::FieldRegistry do
 
     it "falls back to TextInputComponent when the format has no mapping" do
       expect(registry.fetch_for_custom_field_format("unknown_format"))
-        .to eq(OpenProject::Common::InplaceEditFields::TextInputComponent)
+        .to eq(OpPrimer::InplaceEditFields::TextInputComponent)
     end
 
     it "falls back to TextInputComponent when field_format is nil" do
       expect(registry.fetch_for_custom_field_format(nil))
-        .to eq(OpenProject::Common::InplaceEditFields::TextInputComponent)
+        .to eq(OpPrimer::InplaceEditFields::TextInputComponent)
     end
   end
 end

@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   before_action :authorize_global, except: %i[show deletion_info destroy]
   before_action :prevent_response_caching, only: :edit
 
-  # rubocop:disable Rails/LexicallyScopedActionFilter
+  # rubocop:disable-next Rails/LexicallyScopedActionFilter
   before_action :find_user, only: %i[show
                                      edit
                                      update
@@ -57,7 +57,6 @@ class UsersController < ApplicationController
                                      destroy
                                      deletion_info
                                      resend_invitation]
-  # rubocop:enable Rails/LexicallyScopedActionFilter
   # should also contain destroy but post data can not be redirected
   before_action :require_login, only: [:deletion_info]
   before_action :authorize_for_user, only: [:destroy]

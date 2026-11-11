@@ -75,7 +75,7 @@ module OpenProject
         <<~SVG
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
             <rect width="64" height="64" fill="#{escape(color)}" />
-            <text x="32" y="34" text-anchor="middle" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#{text_color_for(color)}">#{escape(initials)}</text>
+            <text x="32" y="34" text-anchor="middle" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-size="28" text-rendering="geometricPrecision" fill="#{text_color_for(color)}">#{escape(initials)}</text>
           </svg>
         SVG
       end

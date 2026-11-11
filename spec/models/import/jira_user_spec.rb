@@ -107,6 +107,22 @@ RSpec.describe Import::JiraUser do
         expect(attributes[:lastname]).to eq(fallback)
       end
     end
+
+    context "with a time zone OpenProject offers under another name" do
+      let(:payload) { { "displayName" => "Alice Smith", "name" => "asmith", "timeZone" => "Asia/Calcutta" } }
+
+      it "sets the time zone by its canonical name" do
+        expect(attributes[:pref]).to eq(time_zone: "Asia/Kolkata")
+      end
+    end
+
+    context "with a time zone OpenProject does not offer" do
+      let(:payload) { { "displayName" => "Alice Smith", "name" => "asmith", "timeZone" => "America/Toronto" } }
+
+      it "leaves the time zone to OpenProject's default" do
+        expect(attributes[:pref]).to be_empty
+      end
+    end
   end
 
   describe "#try_to_find_existing_op_user_by_mail" do

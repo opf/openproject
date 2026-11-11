@@ -70,10 +70,7 @@ export class RowsTransformer {
     this.states.workPackages.observeChange()
       .pipe(
         takeUntilDestroyed(table.destroyRef),
-        filter(() => {
-          const rendered = this.querySpace.tableRendered.getValueOr([]);
-          return rendered && rendered.length > 0;
-        }),
+        filter(() => table.hasPendingRender || this.querySpace.tableRendered.getValueOr([]).length > 0),
       )
       .subscribe(([, wp]) => {
         if (wp === undefined) {

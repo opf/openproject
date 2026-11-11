@@ -62,7 +62,7 @@ export abstract class DialogPreviewController extends Controller {
     // element, it also keeps the `aria-describedby` attribute which references
     // caption and validation element ids. As these elements are morphed and get
     // new ids, the ids referenced by `aria-describedby` are stale. This makes
-    // caption and validation message unaccessible for screen readers and other
+    // caption and validation message inaccessible for screen readers and other
     // assistive technologies. This is why morph cannot be used here.
     this.frameMorphRenderer = (event:TurboBeforeFrameRenderEvent) => {
       const target = event.target as FrameElement;

@@ -13,6 +13,7 @@ pl:
         icon: Ikona niestandardowa
         identifier: Identyfikator
         idp_cert: Publiczny certyfikat dostawcy tożsamości
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: Identyfikator podmiotu dostawcy tożsamości
         idp_slo_service_url: Punkt końcowy wylogowania dostawcy tożsamości
         idp_sso_service_url: Punkt końcowy logowania dostawcy tożsamości
@@ -154,6 +155,9 @@ pl:
       metadata_too_large: Plik metadanych przekracza maksymalny dozwolony rozmiar.
       success: Pomyślnie zaktualizowano konfigurację, używając metadanych dostawcy tożsamości.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Mapowanie atrybutów
       attribute_mapping_text: 'Następujące pola kontroli atrybutów dostarczonych przez dostawcę tożsamości SAML są używane do dostarczania atrybutów użytkownika w OpenProject
 
@@ -173,9 +177,19 @@ pl:
       label_uid: Wewnętrzny identyfikator użytkownika
       metadata:
         dialog: 'To jest adres URL, gdzie dostępne są metadane OpenProject SAML. Opcjonalnie użyj go, aby skonfigurować swojego dostawcę tożsamości:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: Jeszcze nie zdefiniowano żadnych dostawców tożsamości SAML.
       notice_created: Nowy dostawca tożsamości SAML został utworzony.
       plural: Dostawcy tożsamości SAML
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Format atrybutu
         legend: 'Te atrybuty są dodawane do metadanych SAML XML, aby pokazać dostawcy tożsamości, które atrybuty są wymagane przez OpenProject. Nadal może być konieczne jednoznaczne skonfigurowanie dostawcy tożsamości do wysyłania tych atrybutów. Zapoznaj się z dokumentacją swojego dostawcy tożsamości.
@@ -199,6 +213,10 @@ pl:
         metadata_form_banner: 'Edycja metadanych może zastąpić istniejące wartości w innych sekcjach. '
         requested_attributes: Zdefiniuj zestaw atrybutów, które będą wysłane w zapytaniu SAML do dostawcy tożsamości.
       seeded_from_env: Ten dostawca został zainicjowany z konfiguracji środowiska. Nie można go edytować.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: Dostawca tożsamości SAML
       upsell:
         description: Połącz OpenProject z dostawcą tożsamości SAML

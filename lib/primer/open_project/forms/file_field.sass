@@ -1,0 +1,70 @@
+.FormControl-file-field-wrap
+  position: relative
+
+  // Only rendered server-side for an already-persisted image (see preview_url in
+  // file_field.rb), so it needs no visibility toggling of its own.
+  .FormControl-file-field-menu
+    position: absolute
+    top: var(--base-size-8)
+    right: var(--base-size-8)
+
+  // Toggled via a modifier class rather than the `hidden` attribute: Primer's own
+  // `.octicon { display: ... }` rule has the same specificity as the browser's `[hidden]`
+  // default and loads later, so it silently wins and the icon stays visible.
+  .FormControl-file-field-preview
+    display: none
+
+  .FormControl-file-field-placeholder
+    display: contents
+
+  &--has-preview
+    .FormControl-file-field-preview
+      display: block
+
+    .FormControl-file-field-placeholder
+      display: none
+
+.FormControl-file-field-drop-zone
+  @include unset-button-styles
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: var(--stack-gap-condensed)
+  width: 100%
+  padding: var(--stack-padding-normal)
+  border: var(--borderWidth-thin, 1px) dashed var(--borderColor-default)
+  border-radius: var(--borderRadius-medium)
+  text-align: center
+  cursor: pointer
+
+  &:hover,
+  &--dragging-over
+    border-color: var(--borderColor-accent-emphasis)
+    background-color: var(--bgColor-accent-muted)
+
+  &--dragging-over-forbidden
+    cursor: not-allowed
+    border-color: var(--borderColor-neutral-muted)
+    background-color: var(--bgColor-neutral-muted)
+
+  &:focus-visible
+    outline: 2px solid var(--focus-outlineColor)
+    outline-offset: 2px
+
+  &[disabled]
+    cursor: not-allowed
+    opacity: 0.5
+
+.FormControl-file-field-icon
+  fill: currentColor
+
+.FormControl-file-field-preview
+  max-width: 100%
+  max-height: 200px
+  border-radius: var(--borderRadius-medium)
+  object-fit: contain
+
+.FormControl-file-field-label
+  font-weight: var(--base-text-weight-semibold, 600)
+  color: var(--fgColor-default)

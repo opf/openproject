@@ -50,6 +50,16 @@ RSpec.describe AttributeHelpTextsController do
       expect(response).to be_successful
       expect(assigns(:attribute_help_texts).count).to eq(1)
     end
+
+    context "with an unknown tab" do
+      before do
+        get :index, params: { tab: "Unknown" }
+      end
+
+      it "returns 404" do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 
   describe "#show_dialog" do

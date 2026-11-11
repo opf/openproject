@@ -35,7 +35,7 @@ import {
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ProjectStatusDisplayField extends DisplayField {
-  public render(element:HTMLElement, displayText:string):void {
+  public render(element:HTMLElement, _displayText:string):void {
     const code = (this.value as HalResource|null|undefined)?.id;
 
     const label = document.createElement('span');

@@ -58,7 +58,7 @@ export class WorkPackagesListChecksumService {
    * Instance-scoped (not a module-level global): pages like BIM/BCF mount two
    * independent isolated query-space islands at once, each with its own instance of
    * this service - a shared global flag would let one island's self-initiated write
-   * be (mis)consumed by the other island's listener.
+   * be wrongly consumed by the other island's listener.
    */
   private selfInitiatedUrlChange = false;
 

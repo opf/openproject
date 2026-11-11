@@ -23,8 +23,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@ end
 Pair = Data.define(:key, :value)
 
 # Text of a node's content, with block mappings recursively sorted. A blank run
-# between pairs belongs to both neighbours (bottom of one, top of the next) and
+# between pairs belongs to both neighbors (bottom of one, top of the next) and
 # is re-inserted at the new boundaries, each gap at most once; comment lines
 # above a key move with it
 def sorted(node, lines) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity

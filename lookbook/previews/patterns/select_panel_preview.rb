@@ -34,5 +34,10 @@ module Patterns
     def footer_buttons
       render_with_template
     end
+
+    # @display min_height 400px
+    def grouped_items
+      render_with_template
+    end
   end
 end

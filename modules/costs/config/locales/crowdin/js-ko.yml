@@ -23,6 +23,13 @@
 ko:
   js:
     button_log_costs: 단위 비용 기록
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: 시간
     label_hours: 시간
     text_are_you_sure: 계속하시겠습니까?

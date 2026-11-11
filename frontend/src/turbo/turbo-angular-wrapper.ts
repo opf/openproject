@@ -62,7 +62,6 @@ export function addTurboAngularWrapper(options:AngularTurboBridgeOptions = {}) {
     windowTarget = window,
     signal,
     getPluginContext = () => window.OpenProject.getPluginContext(),
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     bootstrap = () => {},
     visit = (location, visitOptions) => Turbo.visit(location, visitOptions),
   } = options;

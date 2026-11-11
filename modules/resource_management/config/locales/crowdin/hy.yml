@@ -173,7 +173,7 @@ hy:
     label_new_resource_planner: Նոր ռեսուրսների պլանավորիչ
     label_resource_planner: Ռեսուրսների պլանավորիչ
     label_resource_planner_plural: Ռեսուրսների պլանավորիչներ
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Ավելացնել տեսք

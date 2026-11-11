@@ -386,7 +386,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
         end
 
         context "with a provided value" do
-          # It is imporant for the keys to be strings
+          # It is important for the keys to be strings
           # as that is what will come from the client
           let(:params) { { "offset" => 3 } }
 
@@ -410,7 +410,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
         end
 
         context "with a provided value" do
-          # It is imporant for the keys to be strings
+          # It is important for the keys to be strings
           # as that is what will come from the client
           let(:params) { { "pageSize" => 100 } }
 

@@ -147,7 +147,7 @@ RSpec.describe WorkPackages::Import::CSV::ReportComponent, type: :component do
       expect(page).to have_text("Imported from sprint-43-scope.csv on 09/21/2026 at", normalize_ws: true)
     end
 
-    it "summarises the run exactly as the check did" do
+    it "summarizes the run exactly as the check did" do
       render_outcome("imported", "dry_run" => false)
 
       expect(page).to have_text("Work packages 142", normalize_ws: true)

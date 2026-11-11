@@ -60,7 +60,7 @@ module Storages
           end
 
           operation_result
-        # HTTPX default behaviour is to return error responses and not raise errors unless
+        # HTTPX default behavior is to return error responses and not raise errors unless
         # explicitly asked by using the `#raise_for_status`method.
         #
         # On Storages codebase we handle the error responses, but the OAuth

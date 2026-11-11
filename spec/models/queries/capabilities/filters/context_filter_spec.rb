@@ -78,7 +78,7 @@ RSpec.describe Queries::Capabilities::Filters::ContextFilter do
         end
       end
 
-      context "with malfomed values" do
+      context "with malformed values" do
         let(:values) { ["a5"] }
 
         it "is invalid" do

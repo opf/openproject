@@ -1,5 +1,5 @@
 <%=
-  render OpenProject::Common::InplaceEditFieldComponent.new(
+  render OpPrimer::InplaceEditFieldComponent.new(
     model: @project,
     attribute: @project_custom_field.attribute_name.to_sym,
     open_in_dialog: limited_space?,

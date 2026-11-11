@@ -63,6 +63,24 @@ RSpec.describe WorkPackage::Exports::Attributes do
         end
       end
     end
+
+    describe "parent" do
+      it "is visible when the user can see the parent" do
+        child = create(:work_package, project:, parent: create(:work_package, project:))
+
+        expect(exporter.allowed_to_view_attribute?(child, :parent)).to be(true)
+      end
+
+      it "is hidden when the parent lives in a project the user cannot see" do
+        child = create(:work_package, project:, parent: create(:work_package))
+
+        expect(exporter.allowed_to_view_attribute?(child, :parent)).to be(false)
+      end
+
+      it "is allowed on a work package without a parent" do
+        expect(exporter.allowed_to_view_attribute?(work_package, :parent)).to be(true)
+      end
+    end
   end
 
   describe ".add_attribute_visibility_check" do

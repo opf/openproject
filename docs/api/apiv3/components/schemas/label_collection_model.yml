@@ -12,14 +12,14 @@ allOf:
         required:
           - self
         properties:
-            self:
-              allOf:
-                - $ref: "./link.yml"
-                - description: |-
-                    This label collection
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This label collection
 
-                    **Resource**: LabelCollectionModel
-                  readOnly: true
+                  **Resource**: LabelCollectionModel
+                readOnly: true
       _embedded:
         type: object
         required:

@@ -84,6 +84,42 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         expect(rendered_component).to have_text("8 points", normalize_ws: true)
       end
 
+      it "keeps the story points total and its unit on one line" do
+        expect(rendered_component.css(".velocity").text.strip).to eq("8 points")
+      end
+
+      context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+        before do
+          project.update!(estimation_unit: "time")
+          work_package1.update!(estimated_hours: 5)
+          work_package2.update!(estimated_hours: 3)
+        end
+
+        it "renders the estimated hours total instead of the story points total" do
+          expect(rendered_component).to have_no_text("points")
+          expect(rendered_component).to have_text(DurationConverter.output(8))
+        end
+
+        context "when the estimated hours total is zero" do
+          before do
+            work_package1.update!(estimated_hours: nil)
+            work_package2.update!(estimated_hours: nil)
+          end
+
+          it "renders no velocity total" do
+            expect(rendered_component).to have_no_css(".velocity")
+          end
+        end
+      end
+
+      context "when the project estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+        before { project.update!(estimation_unit: "none") }
+
+        it "renders no velocity total" do
+          expect(rendered_component).to have_no_css(".velocity")
+        end
+      end
+
       it "renders the inferred work-package count in the header" do
         expect(rendered_component).to have_css(
           ".Counter",
@@ -184,7 +220,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
     end
 
-    describe "sprint status badge in header description" do
+    describe "sprint status label in header description" do
       context "when the sprint is in planning" do
         let(:sprint) do
           create(:sprint, project:, name: "Sprint 1",
@@ -192,7 +228,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "in_planning")
         end
 
-        it "renders the status badge" do
+        it "renders the status label" do
           expect(rendered_component).to have_css(".Label", text: "In planning")
         end
       end
@@ -204,7 +240,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "active")
         end
 
-        it "renders the status badge" do
+        it "renders the status label" do
           expect(rendered_component).to have_css(".Label", text: "Active")
         end
       end
@@ -216,7 +252,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "completed")
         end
 
-        it "renders the status badge" do
+        it "renders the status label" do
           expect(rendered_component).to have_css(".Label", text: "Completed")
         end
       end
@@ -367,6 +403,16 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           # The three item groups are separated by presentation-only dividers.
           expect(page).to have_css('li[role="presentation"]:nth-child(2)')
           expect(page).to have_css('li[role="presentation"]:nth-child(5)')
+        end
+
+        context "when the project estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+          before { project.update!(estimation_unit: "none") }
+
+          it "hides the burndown chart menu item, since there is nothing to burn down" do
+            rendered_component
+
+            expect(menu_items).not_to include("Burndown chart")
+          end
         end
       end
 

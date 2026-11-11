@@ -36,41 +36,41 @@ RSpec.describe Grids::Widgets::TimeEntriesCurrentUserController do
     login_as user
   end
 
-  def rendered_mode
-    modes = []
+  def rendered(option)
+    values = []
 
     allow(Grids::Widgets::TimeEntriesCurrentUser)
       .to receive(:new).and_wrap_original do |original, **args|
-        modes << args[:mode]
+        values << args[option]
         original.call(**args)
       end
 
     yield
 
-    modes.last
+    values.last
   end
 
   describe "the mode the widget shows" do
     it "defaults to the work week" do
-      expect(rendered_mode { get :show }).to eq(:workweek)
+      expect(rendered(:mode) { get :show }).to eq(:workweek)
     end
 
     it "follows the mode the user last settled on" do
-      user.pref.update(my_work_mode: "week")
+      user.pref.update(my_time_management_mode: "week")
 
-      expect(rendered_mode { get :show }).to eq(:week)
+      expect(rendered(:mode) { get :show }).to eq(:week)
     end
 
     it "falls back to the work week for a mode it cannot stack" do
-      user.pref.update(my_work_mode: "month")
+      user.pref.update(my_time_management_mode: "month")
 
-      expect(rendered_mode { get :show }).to eq(:workweek)
+      expect(rendered(:mode) { get :show }).to eq(:workweek)
     end
 
     it "prefers the requested mode over the remembered one" do
-      user.pref.update(my_work_mode: "week")
+      user.pref.update(my_time_management_mode: "week")
 
-      expect(rendered_mode { get :show, params: { mode: "day" } }).to eq(:day)
+      expect(rendered(:mode) { get :show, params: { mode: "day" } }).to eq(:day)
     end
   end
 
@@ -78,15 +78,25 @@ RSpec.describe Grids::Widgets::TimeEntriesCurrentUserController do
     it "keeps the mode the widget was stepped to" do
       get :show, params: { mode: "week" }
 
-      expect(user.reload.pref.my_work_mode).to eq("week")
+      expect(user.reload.pref.my_time_management_mode).to eq("week")
     end
 
     it "leaves the remembered mode alone when none is requested" do
-      user.pref.update(my_work_mode: "day")
+      user.pref.update(my_time_management_mode: "day")
 
       get :show
 
-      expect(user.reload.pref.my_work_mode).to eq("day")
+      expect(user.reload.pref.my_time_management_mode).to eq("day")
+    end
+  end
+
+  describe "the date the widget shows" do
+    let(:user) { create(:user, preferences: { time_zone: "America/New_York" }) }
+
+    it "is the user's date while it is already the next day in UTC" do
+      travel_to Time.utc(2026, 11, 2, 0, 14) do
+        expect(rendered(:date) { get :show }).to eq(Date.new(2026, 11, 1))
+      end
     end
   end
 end

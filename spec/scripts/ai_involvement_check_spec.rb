@@ -69,7 +69,7 @@ RSpec.describe "script/ci/ai_involvement_check.sh", :aggregate_failures do # rub
     expect(run_check(body)).to eq("status" => "ok", "level" => "None/Assisted")
   end
 
-  it "normalises a bare None or Assisted to None/Assisted" do
+  it "normalizes a bare None or Assisted to None/Assisted" do
     expect(run_check(pr_body("None"))).to eq("status" => "ok", "level" => "None/Assisted")
     expect(run_check(pr_body("Assisted"))).to eq("status" => "ok", "level" => "None/Assisted")
   end

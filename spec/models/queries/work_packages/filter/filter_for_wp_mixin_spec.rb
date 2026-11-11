@@ -65,6 +65,25 @@ RSpec.describe Queries::WorkPackages::Filter::FilterForWpMixin do
         expect(query_scope).to have_received(:relatable).with(work_package, Relation::TYPE_BLOCKS)
       end
     end
+
+    context "with a semantic identifier as value" do
+      subject(:filter) do
+        Queries::WorkPackages::Filter::RelatableFilter.create!(name: :relatable, operator: Relation::TYPE_BLOCKS,
+                                                               values: ["PROJ-1"])
+      end
+
+      before do
+        allow(WorkPackage).to receive(:ids_by_display_id).with(["PROJ-1"]).and_return("PROJ-1" => work_package.id)
+      end
+
+      it "resolves the work package" do
+        allow(query_scope).to receive(:relatable)
+
+        filter.apply_to(query_scope)
+
+        expect(query_scope).to have_received(:relatable).with(work_package, Relation::TYPE_BLOCKS)
+      end
+    end
   end
 
   describe "#autocomplete_options" do
@@ -75,7 +94,7 @@ RSpec.describe Queries::WorkPackages::Filter::FilterForWpMixin do
         # The candidate set is too large to enumerate (`allowed_values`
         # intentionally raises), so the filter must render as a server-side
         # autocompleter against the work_packages resource. Matches the
-        # Angular `op-filter-searchable-multiselect-value` behaviour.
+        # Angular `op-filter-searchable-multiselect-value` behavior.
         expect(filter.autocomplete_options).to eq(
           component: "opce-autocompleter",
           resource: "work_packages",

@@ -29,8 +29,9 @@ require_relative "../../spec_helper"
 
 RSpec.describe "Create viewpoint from BCF details page",
                :js,
-               :selenium,
                with_config: { edition: "bim" } do
+  include_context "with axe on Cuprite"
+
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:user) { create(:admin) }
 
@@ -51,7 +52,7 @@ RSpec.describe "Create viewpoint from BCF details page",
   end
 
   shared_examples "can create a viewpoint from the BCF details page" do
-    it do
+    it "creates a viewpoint" do
       show_model_page.visit!
       show_model_page.finished_loading
       card_view.expect_work_package_listed(work_package)
@@ -74,12 +75,15 @@ RSpec.describe "Create viewpoint from BCF details page",
       text = item.text
       checkbox.uncheck
 
+      expect(page).to have_button("Viewpoint", accessible_description: "Add viewpoint")
+      expect(page).to be_axe_clean.within(".attributes-group.description-group .button")
       bcf_details.add_viewpoint
       bcf_details.expect_viewpoint_count(1)
 
-      page.driver.browser.navigate.refresh
+      page.refresh
 
       bcf_details.ensure_page_loaded
+      show_model_page.finished_loading
       bcf_details.expect_viewpoint_count(1)
       bcf_details.show_current_viewpoint
 

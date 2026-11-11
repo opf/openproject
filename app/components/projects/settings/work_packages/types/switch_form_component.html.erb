@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(Primer::Alpha::Dialog::Body.new) do %>
       <%= render(
             Projects::Settings::WorkPackages::Types::SwitchFieldsComponent.new(
-              form:, targets: available_targets, selected:, validation_message:
+              form:, targets: available_targets, selected:, validation_message:, impact:
             )
           ) %>
     <% end %>

@@ -76,6 +76,10 @@ module OpenProject
       result
     end
 
+    def advisory_lock_name(name)
+      "op_#{name}"
+    end
+
     def debug_log(action, lock_name)
       message = <<~MESSAGE
         #{action}:

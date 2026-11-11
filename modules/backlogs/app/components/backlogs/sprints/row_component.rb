@@ -46,7 +46,7 @@ module Backlogs
       end
 
       def status
-        render(SprintStatusBadgeComponent.new(sprint:))
+        render(SprintStatusLabelComponent.new(sprint:))
       end
 
       def start_date

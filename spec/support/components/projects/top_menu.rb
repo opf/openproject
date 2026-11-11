@@ -121,7 +121,7 @@ module Components
       end
 
       def expect_no_result(name)
-        expect(page).to have_no_selector("#{results_selector} #{item_selector}", text: name, wait: 5)
+        expect(page).to have_no_css("#{results_selector} #{item_selector}", text: name, wait: 5)
       end
 
       def expect_blankslate

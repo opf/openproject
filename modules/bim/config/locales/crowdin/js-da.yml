@@ -4,14 +4,14 @@ da:
     bcf:
       add_viewpoint: Tilføj synsvinkel
       delete_viewpoint: Slet synsvinkel
-      export: Eksport
+      export: Eksportér
       export_bcf_xml_file: Eksporter BCF XML-fil (BCF version 2.1)
-      import: Import
+      import: Importér
       import_bcf_xml_file: Importér BCF XML-fil (BCF version 2.1)
       label_bcf: BCF
       management: BCF håndtering
-      refresh: Opfrisk
-      refresh_work_package: Opfrisk arbejdspakke
+      refresh: Opdater
+      refresh_work_package: Opdater arbejdspakke
       show_viewpoint: Vis synsvinkel
       viewpoint: Synsvinkel
     ifc_models:

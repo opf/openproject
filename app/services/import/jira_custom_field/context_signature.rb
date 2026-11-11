@@ -29,7 +29,7 @@
 
 module Import
   module JiraCustomField
-    # Identifies a Jira field context by the option set it allows, so that a context group can be recognised across rebuilds
+    # Identifies a Jira field context by the option set it allows, so that a context group can be recognized across rebuilds
     module ContextSignature
       module_function
 

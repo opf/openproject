@@ -167,8 +167,8 @@ zh-TW:
     label_new_resource_planner: 新的資源規劃師
     label_resource_planner: 資源規劃師
     label_resource_planner_plural: 資源規劃師
-    my_work:
-      hidden_work_package: 您無法查看此工作包
+    my_time_management:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: 新增檢視
     public_caption: 將此檢視設為對專案所有成員公開。此設定不會影響工作包的可見性，工作包的可見性仍取決於各使用者的權限。

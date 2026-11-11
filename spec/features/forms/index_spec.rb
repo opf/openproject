@@ -99,6 +99,34 @@ RSpec.describe "Forms index", :js do
     end
   end
 
+  it "opens a dialog listing and linking the dependent types" do
+    visit form_configurations_path
+
+    wait_for_turbo_stream { within(row_for("Bug form")) { click_on "2 types" } }
+
+    within("dialog#form_configuration-#{bug.default_variant.form_configuration.id}-types-dialog") do
+      expect(page).to have_css("strong", text: "Bug form")
+
+      within_test_selector("types-dialog-types") do
+        expect(page).to have_link("Bug")
+        expect(page).to have_link("Task")
+      end
+    end
+  end
+
+  it "distinguishes a dependent variant from its type in the dialog" do
+    visit form_configurations_path
+
+    wait_for_turbo_stream { within(row_for("Hardware form")) { click_on "1 type (including 1 variant)" } }
+
+    within("dialog#form_configuration-#{hardware_form.id}-types-dialog") do
+      within_test_selector("types-dialog-variants") do
+        expect(page).to have_link("Hardware")
+        expect(page).to have_text("Variant of Bug")
+      end
+    end
+  end
+
   it "narrows the list as a name is typed" do
     visit form_configurations_path
 

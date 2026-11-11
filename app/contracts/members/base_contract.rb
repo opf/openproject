@@ -81,7 +81,6 @@ module Members
     end
 
     def user_allowed_to_manage? # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-      # rubocop:disable Performance/RedundantEqualityComparisonBlock
       if model.project.present? && model.roles.empty?
         user.allowed_in_any_project?(:manage_members)
       elsif model.project.present? && model.roles.all? { |r| r.is_a?(ProjectRole) }
@@ -93,7 +92,6 @@ module Members
         # but we cannot tell whether the user is allowed to manage members for this.
         true
       end
-      # rubocop:enable Performance/RedundantEqualityComparisonBlock
     end
 
     def project_manageable_or_blank?

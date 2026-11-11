@@ -61,6 +61,16 @@ module Workflows
              layout: false
     end
 
+    def types_dialog
+      record = ::Workflow.find(params.expect(:id))
+
+      respond_with_dialog(
+        WorkPackageTypes::NamedReferences::Index::TypesDialogComponent.new(
+          record:, model_class:, variants: ordered_variants.where(workflow_id: record.id)
+        )
+      )
+    end
+
     private
 
     def model_class = ::Workflow
@@ -69,10 +79,17 @@ module Workflows
       @query = ::Queries::Workflows::WorkflowQuery.new
 
       @query.where(:name, "~", [name_term]) if name_term.present?
-      @query.where(:type_id, "=", filtered_type_ids) if filtered_type_ids.any?
-      @query.where(:project_id, "=", filtered_project_ids) if filtered_project_ids.any?
+      list_filters.each { |key, ids| @query.where(key, "=", ids) if ids.any? }
 
       @query
+    end
+
+    def list_filters
+      {
+        type_id: filtered_type_ids,
+        project_id: filtered_project_ids,
+        status_id: filtered_status_ids
+      }
     end
 
     def name_term = @name_term ||= values_for(::Queries::Workflows::Filters::NameFilter.key).first.to_s.strip
@@ -80,6 +97,8 @@ module Workflows
     def filtered_type_ids = @filtered_type_ids ||= values_for(::Queries::Workflows::Filters::TypeFilter.key)
 
     def filtered_project_ids = @filtered_project_ids ||= values_for(::Queries::Workflows::Filters::ProjectFilter.key)
+
+    def filtered_status_ids = @filtered_status_ids ||= values_for(::Queries::Workflows::Filters::StatusFilter.key)
 
     def values_for(filter_key)
       requested_filters
@@ -111,20 +130,22 @@ module Workflows
 
     def workflows
       @workflows ||= begin
-        page = @query.results.includes(:project).page(page_param).per_page(per_page_param)
+        page = @query.results.page(page_param).per_page(per_page_param)
         page = page.page(page.total_pages) if page.out_of_bounds? && page.total_pages.positive?
         page
       end
     end
 
     def workflow_variants
-      @workflow_variants ||= TypeVariant
-                               .where(workflow_id: workflow_ids)
-                               .includes(:type, :projects)
-                               .joins(:type)
-                               .merge(::Type.order(:position))
-                               .in_display_order
-                               .group_by(&:workflow_id)
+      @workflow_variants ||= ordered_variants.where(workflow_id: workflow_ids).group_by(&:workflow_id)
+    end
+
+    def ordered_variants
+      TypeVariant
+        .includes(:type, :projects)
+        .joins(:type)
+        .merge(::Type.order(:position))
+        .in_display_order
     end
 
     def workflow_role_counts

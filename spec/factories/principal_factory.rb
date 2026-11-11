@@ -38,7 +38,7 @@ FactoryBot.define do
       member_with_permissions { {} }
 
       # example:
-      #   member_wih_roles: {
+      #   member_with_roles: {
       #     project => role1,
       #     work_package => [role2, role3]
       #   }

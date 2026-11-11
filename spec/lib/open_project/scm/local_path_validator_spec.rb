@@ -64,7 +64,7 @@ RSpec.describe OpenProject::SCM::LocalPathValidator do
     context "with triple-slash bare path (///path)" do
       let(:value) { "///srv/openproject/git/myproject.git" }
 
-      it "normalises to a single leading slash" do
+      it "normalizes to a single leading slash" do
         expect(subject).to eq("/srv/openproject/git/myproject.git")
       end
     end
@@ -72,7 +72,7 @@ RSpec.describe OpenProject::SCM::LocalPathValidator do
     context "with double-slash bare path (//path)" do
       let(:value) { "//srv/openproject/git/myproject.git" }
 
-      it "normalises to a single leading slash" do
+      it "normalizes to a single leading slash" do
         expect(subject).to eq("/srv/openproject/git/myproject.git")
       end
     end
@@ -80,7 +80,7 @@ RSpec.describe OpenProject::SCM::LocalPathValidator do
     context "with file URL containing quadruple slashes (file:////path)" do
       let(:value) { "file:////srv/openproject/git/myproject.git" }
 
-      it "normalises to a single leading slash" do
+      it "normalizes to a single leading slash" do
         expect(subject).to eq("/srv/openproject/git/myproject.git")
       end
     end

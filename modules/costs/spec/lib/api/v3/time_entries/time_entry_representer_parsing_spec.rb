@@ -136,12 +136,9 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "parsing" do
         api_v3_paths.meeting(meeting.id)
       end
 
-      context "entity" do
-        it "updates the meeting" do
-          time_entry = representer.from_hash(hash)
-          expect(time_entry.entity_id).to eql(meeting.id)
-          expect(time_entry.entity_type).to eql("Meeting")
-        end
+      it "rejects the meeting" do
+        expect { representer.from_hash(hash) }
+          .to raise_error(API::Errors::InvalidResourceLink)
       end
     end
   end

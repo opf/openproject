@@ -260,7 +260,7 @@ module ::TwoFactorAuthentication
     end
 
     ##
-    # In case of mis-configuration, block all logins
+    # In case of misconfiguration, block all logins
     def ensure_valid_configuration
       if manager.invalid_configuration?
         render_500 message: I18n.t("two_factor_authentication.error_is_enforced_not_active")

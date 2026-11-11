@@ -30,6 +30,12 @@
 class CustomField < ApplicationRecord
   include CustomField::OrderStatements
   include CustomField::CalculatedValue
+  include CustomField::ProjectSpecificValues
+  include Lists::MoveAfterAnchor
+
+  SORTABLE_LIST_TYPE = "custom_field"
+  ATTRIBUTE_NAME_PATTERN = /\Acustom_field_(?<id>\d+)\z/
+  COLUMN_NAME_PATTERN = /\Acf_(?<id>\d+)\z/
 
   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
 
@@ -314,7 +320,25 @@ class CustomField < ApplicationRecord
   end
 
   def self.custom_field_attribute?(attribute_name)
-    /custom_field_\d+/.match?(attribute_name.to_s)
+    ATTRIBUTE_NAME_PATTERN.match?(attribute_name.to_s)
+  end
+
+  def self.id_from_attribute_name(attribute_name)
+    match = ATTRIBUTE_NAME_PATTERN.match(attribute_name.to_s)
+    match[:id].to_i if match
+  end
+
+  def self.column_name?(name)
+    COLUMN_NAME_PATTERN.match?(name.to_s)
+  end
+
+  def self.id_from_column_name(name)
+    match = COLUMN_NAME_PATTERN.match(name.to_s)
+    match[:id].to_i if match
+  end
+
+  def self.column_name_pattern_for(ids)
+    /\Acf_(?<id>#{ids.map(&:to_i).join('|')})\z/
   end
 
   # to move in project_custom_field
@@ -407,7 +431,7 @@ class CustomField < ApplicationRecord
   end
 
   def multi_value_possible?
-    format_definition&.multi_value_possible?
+    format_definition&.multi_value_possible?(self.class.customized_class&.name)
   end
 
   def numeric_bounds_possible?

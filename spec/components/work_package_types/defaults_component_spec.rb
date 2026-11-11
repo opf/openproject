@@ -71,7 +71,7 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
 
         it "must have generated option checked and pattern input filled" do
           expect(page.find("input[type=radio][value=generated]")).to be_checked
-          expect(page.find(hidden_input_field_selector, visible: false).value).to eq("Created by {{assignee}}")
+          expect(page.find(hidden_input_field_selector, visible: :all).value).to eq("Created by {{assignee}}")
         end
       end
     end
@@ -102,17 +102,18 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
 
         it "must have generated option checked and pattern input filled" do
           expect(page.find("input[type=radio][value=generated]")).to be_checked
-          expect(page.find(hidden_input_field_selector, visible: false).value).to eq("Created by {{assignee}}")
+          expect(page.find(hidden_input_field_selector, visible: :all).value).to eq("Created by {{assignee}}")
         end
       end
     end
   end
 
   context "when enterprise edition is not activated", with_ee: %i[] do
-    it "shows the medium enterprise banner above the form" do
+    it "shows the inline enterprise banner above the form" do
       render_component
 
-      expect(page).to have_enterprise_banner(:professional, class: "op-enterprise-banner_medium")
+      expect(page).to have_enterprise_banner(:professional)
+      expect(page).to have_no_css(".op-enterprise-banner_medium")
     end
 
     it "keeps the Community-only default description reachable" do
@@ -128,7 +129,8 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
       it "shows the inline enterprise banner" do
         render_component
 
-        expect(page).to have_enterprise_banner(:professional, class: "op-enterprise-banner_medium")
+        expect(page).to have_enterprise_banner(:professional)
+        expect(page).to have_no_css(".op-enterprise-banner_medium")
       end
 
       it "enables mode selectors", :aggregate_failures do
@@ -164,7 +166,7 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
     it "shows the subject pattern of the linked source" do
       render_readonly
 
-      expect(page.find(hidden_input_field_selector, visible: false).value).to eq("Created by {{assignee}}")
+      expect(page.find(hidden_input_field_selector, visible: :all).value).to eq("Created by {{assignee}}")
     end
 
     context "and when subjects are manually editable" do

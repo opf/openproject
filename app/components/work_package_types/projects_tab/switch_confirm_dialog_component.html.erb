@@ -1,0 +1,63 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(
+      Primer::OpenProject::DangerDialog.new(
+        id: DIALOG_ID,
+        test_selector: DIALOG_ID,
+        title: t("types.edit.projects.switch_dialog.title"),
+        size: :medium_portrait,
+        confirm_button_text: t(:button_change),
+        form_arguments: {
+          action: url,
+          method: :post,
+          data: { turbo_stream: true }
+        }
+      )
+    ) do |dialog| %>
+  <% dialog.with_confirmation_message do |message| %>
+    <% message.with_heading(tag: :h2) { t("types.edit.projects.switch_dialog.title") } %>
+    <% message.with_description_content(description) %>
+  <% end %>
+
+  <% dialog.with_additional_details(display: :block) do %>
+    <%= render(Primer::OpenProject::InsetBox.new(test_selector: "type-projects-switching")) do %>
+      <% switching.each do |project_type| %>
+        <%= render(Primer::Beta::Text.new(tag: :div)) do %>
+          <%= project_type.project.name %>
+          <%= render(Primer::Beta::Text.new(color: :subtle)) { project_type.variant.display_name } %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% project_ids.each do |project_id| %>
+      <%= hidden_field_tag "project_ids[]", node_payload(project_id), id: nil %>
+    <% end %>
+    <%= hidden_field_tag :confirm_switch, "1" %>
+  <% end %>
+<% end %>

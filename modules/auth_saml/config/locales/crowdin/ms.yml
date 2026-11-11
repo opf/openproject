@@ -13,6 +13,7 @@ ms:
         icon: Ikon tersuai
         identifier: Pengenalan
         idp_cert: Sijil awam pemberi identiti
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: Identity provider entity ID
         idp_slo_service_url: Titik akhir logout pembekal identiti
         idp_sso_service_url: Titik akhir log masuk pembekal identiti
@@ -149,6 +150,9 @@ ms:
       metadata_too_large: The metadata file exceeds the maximum allowed size.
       success: Berjaya mengemas kini konfigurasi menggunakan metadata pembekal identiti.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Pemetaan atribut
       attribute_mapping_text: 'Medan berikut mengawal atribut yang disediakan oleh pembekal identiti SAML digunakan untuk menyediakan atribut pengguna dalam OpenProject
 
@@ -168,9 +172,19 @@ ms:
       label_uid: Id pengguna dalaman
       metadata:
         dialog: 'Ini ialah URL tempat metadata SAML OpenProject tersedia. Gunakan pilihan ini untuk mengkonfigurasi pembekal identiti anda:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: Tiada pembekal identiti SAML telah ditakrifkan lagi.
       notice_created: A new SAML identity provider was successfully created.
       plural: Pembekal identiti SAML
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Format atribut
         legend: 'Atribut ini ditambahkan pada metadata XML SAML untuk menandakan kepada pembekal mengenal pasti yang memerlukan atribut OpenProject. Anda mungkin masih perlu mengkonfigurasi pembekal identiti anda secara eksplisit untuk menghantar atribut ini. Sila rujuk kepada dokumentasi IdP anda.
@@ -194,6 +208,10 @@ ms:
         metadata_form_banner: Mengedit metadata mungkin mengatasi nilai sedia ada dalam bahagian lain.
         requested_attributes: Tentukan set atribut yang akan diminta dalam permintaan SAML yang dihantar kepada pembekal identiti anda.
       seeded_from_env: Pembekal ini telah dipilih daripada konfigurasi persekitaran. Ia tidak boleh disunting.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: Pembekal identiti SAML
       upsell:
         description: Sambungkan OpenProject kepada pembekal identiti SAML

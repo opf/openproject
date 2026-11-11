@@ -23,7 +23,7 @@ end
 %>
 ```
 
-By default, the trigger element is disabled (via `aria-disabled`) while the request is in flight, preventing double-clicks from opening the dialog twice. This is especially useful when the dialog content is expensive to render. To opt out of this behaviour, set the `data-async-dialog-disable-during-load-value` attribute to `false`:
+By default, the trigger element is disabled (via `aria-disabled`) while the request is in flight, preventing double-clicks from opening the dialog twice. This is especially useful when the dialog content is expensive to render. To opt out of this behavior, set the `data-async-dialog-disable-during-load-value` attribute to `false`:
 
 ```erb
 <%%= render(Primer::Beta::Button.new(
@@ -41,7 +41,7 @@ On the Rails controller you wish to render the dialog, you need to respond to th
 The async-controller stimulus controller will ensure that a loading progress bar will be shown on the top of the page.
 
 ```ruby
-class TestController < ApplicationControler
+class TestController < ApplicationController
   # include the helper module
   include OpTurbo::ComponentStream
 
@@ -56,7 +56,7 @@ end
 For this to work, the `OpTurbo::Streamable` module needs to be included in the modal component, along with the `OpTurbo::ComponentStream` module in the corresponding controller:
 
 ```ruby
-class MyDialogComponent < ApplicationControler
+class MyDialogComponent < ApplicationComponent
   # include the module
   include OpTurbo::Streamable
 
@@ -83,7 +83,7 @@ Assuming the MyDialogComponent template looks like this:
 You can also render the dialog in a manual turbo_stream template:
 
 ```ruby
-class TestController < ApplicationControler
+class TestController < ApplicationController
   # ...
 
   def dialog; end
@@ -154,7 +154,7 @@ In order for the dialog to not be closed, the rendering has to happen with an er
 Referring to the example above (see "Dialogs with separate forms"), a controller which renders validation errors inside a dialog could look like that:
 
 ```ruby
-class TestController < ApplicationControler
+class TestController < ApplicationController
   # include the helper module
   include OpTurbo::ComponentStream
 
@@ -174,7 +174,7 @@ end
 
 ### Dialogs that should stay open on form submission
 
-Because we normally want to close the dialog when a form is submitted successfully, we have implemented this as the default behaviour.  As described in the last section,
+Because we normally want to close the dialog when a form is submitted successfully, we have implemented this as the default behavior.  As described in the last section,
 when the submission returns a 4xx or 5xx status code, the dialog will stay open and display the validation errors and will be closed when the form is submitted successfully.
 
 If you want to keep a dialog open even after a successful form submission, you can use the `data-keep-open-on-submit="true"` attribute on the dialog. This will prevent the dialog
@@ -244,7 +244,7 @@ or cancel the action.
 
 The primer specification [suggests a pattern](/lookbook/inspect/primer/alpha/dialog/with_form) for rendering such dialogs.
 It consists of a form spanning both the body as well as the footer of the dialog. This has the drawback of the footer
-potentially being rendered outside of the dialog. That behaviour is undesirable. Primer defines to cope with longer
+potentially being rendered outside of the dialog. That behavior is undesirable. Primer defines to cope with longer
 content by scrolling the body.
 
 In order for this to happen, the form should only be rendered inside the body. The submit button can be logically put inside

@@ -106,11 +106,11 @@ Redmine::MenuManager.map :top_menu do |menu|
               User.current.logged?
             end
 
-  menu.push :my_work,
-            { controller: "/my/work", action: "index" },
+  menu.push :my_time,
+            { controller: "/my/time_management", action: "index" },
             after: :my_page,
             context: :my,
-            caption: :label_my_work,
+            caption: :label_my_time,
             if: ->(*) do
               User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
             end,
@@ -240,10 +240,10 @@ Redmine::MenuManager.map :global_menu do |menu|
             icon: "person",
             caption: I18n.t("my_page.label")
 
-  menu.push :my_work,
-            { controller: "/my/work", action: "index", date: "today" },
+  menu.push :my_time,
+            { controller: "/my/time_management", action: "index", date: "today" },
             after: :my_page,
-            caption: :label_my_work,
+            caption: :label_my_time,
             if: ->(*) do
               User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
             end,
@@ -253,7 +253,7 @@ Redmine::MenuManager.map :global_menu do |menu|
             { controller: "/portfolios", action: "index" },
             caption: I18n.t("label_portfolio_plural"),
             icon: "briefcase",
-            after: :my_work,
+            after: :my_time,
             if: ->(_) {
               (User.current.logged? || !Setting.login_required?) &&
                 (User.current.allowed_globally?(:add_portfolios) ||
@@ -460,21 +460,21 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/admin/settings/work_packages_general", action: :show },
+            { controller: "/work_package_types/types" },
             if: ->(_) { User.current.admin? },
             caption: :label_work_package_plural,
             icon: "op-view-list"
-
-  menu.push :work_packages_general,
-            { controller: "/admin/settings/work_packages_general", action: :show },
-            if: ->(_) { User.current.admin? },
-            caption: :label_general,
-            parent: :admin_work_packages
 
   menu.push :types,
             { controller: "/work_package_types/types" },
             if: ->(_) { User.current.admin? },
             caption: :label_type_plural,
+            parent: :admin_work_packages
+
+  menu.push :work_packages_general,
+            { controller: "/admin/settings/work_packages_general", action: :show },
+            if: ->(_) { User.current.admin? },
+            caption: :label_general,
             parent: :admin_work_packages
 
   menu.push :form_configurations,
@@ -579,7 +579,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :labels,
             { controller: "/admin/labels", action: :index },
             after: :custom_fields,
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.work_package_labels_active? },
+            if: ->(_) { User.current.admin? },
             caption: :label_label_plural,
             icon: "tag"
 
@@ -603,15 +603,16 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "calendar"
 
   menu.push :ai,
-            { controller: "/admin/mcp_configurations", action: :index },
+            ->(_) { AdminHelper.ai_landing_path },
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.ai"),
             icon: :sparkle
 
-  menu.push :llm_connection,
-            { controller: "/admin/llm_connections", action: :show },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.llm_connection_active? },
-            caption: I18n.t("menus.admin.llm_connection"),
+  menu.push :text_actions,
+            { controller: "/admin/text_actions", action: :index },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_text_actions_active? },
+            caption: :"menus.admin.text_actions",
+            enterprise_feature: "text_assistant",
             parent: :ai
 
   menu.push :mcp_configurations,
@@ -619,12 +620,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.mcp_configurations"),
             enterprise_feature: "mcp_server",
-            parent: :ai
-
-  menu.push :text_transform_actions,
-            { controller: "/admin/text_transform_actions", action: :index },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_text_transform_actions_active? },
-            caption: :"menus.admin.text_transform_actions",
             parent: :ai
 
   menu.push :working_days_and_hours,
@@ -802,13 +797,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :import,
-            { controller: "/admin/import/jira/instances", action: :index },
+            { controller: "/admin/import/jira", action: :index },
             if: ->(_) { User.current.admin? },
             caption: :label_import,
             icon: "desktop-download"
 
   menu.push :jira_import,
-            { controller: "/admin/import/jira/instances", action: :index },
+            { controller: "/admin/import/jira", action: :index },
             if: ->(_) { User.current.admin? },
             caption: :label_jira_import,
             parent: :import

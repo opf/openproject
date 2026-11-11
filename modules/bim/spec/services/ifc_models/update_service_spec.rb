@@ -164,7 +164,7 @@ RSpec.describe Bim::IfcModels::UpdateService do
         subject
       end
 
-      it "sets the model's converstion_status to pending" do
+      it "sets the model's conversion_status to pending" do
         expect(model).to be_pending
         expect(model.conversion_error_message).to be_nil
       end

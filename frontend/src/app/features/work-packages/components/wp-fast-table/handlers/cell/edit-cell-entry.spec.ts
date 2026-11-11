@@ -27,6 +27,7 @@
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { readOnlyClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../testing/table-harness';
 
 describe('Edit cell entry', () => {
@@ -38,7 +39,7 @@ describe('Edit cell entry', () => {
     harness.click('2');
   };
 
-  const subjectField = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>('td.subject .inline-edit--display-field')!;
+  const subjectField = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject .inline-edit--display-field')!;
 
   afterEach(() => harness.destroy());
 
@@ -52,6 +53,17 @@ describe('Edit cell entry', () => {
       expect(within(harness.row('2')).queryByRole('textbox')).not.toBeInTheDocument();
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
       expect(harness.focus.focusedWorkPackage).toBe('2');
+    });
+
+    it('abandons an activation when the table is torn down mid-load', async () => {
+      const field = subjectField('1');
+
+      fireEvent.click(field);
+      harness.table.destroy();
+      await new Promise((resolve) => { setTimeout(resolve, 50); });
+
+      expect(field).not.toHaveClass(readOnlyClassName);
+      expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
     });
 
     it('opens the editor on Enter', async () => {
@@ -116,7 +128,7 @@ describe('Edit cell entry', () => {
     });
 
     it('selects the row when clicking elsewhere in the cell', () => {
-      fireEvent.click(harness.row('1').querySelector('td.subject')!);
+      fireEvent.click(harness.row('1').querySelector(':scope > .wp-table--cell-td.subject')!);
 
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
       expect(harness.focus.focusedWorkPackage).toBe('1');

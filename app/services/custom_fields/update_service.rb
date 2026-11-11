@@ -34,6 +34,7 @@ module CustomFields
     def after_perform(service_call)
       super.tap do
         enqueue_recalculate_values if recalculate_values?
+        model.project_specific_value_restrictions.delete_all if model.project_specific_value_restriction_previously_changed?
       end
     end
 
@@ -51,9 +52,14 @@ module CustomFields
     end
 
     def recalculate_values?
-      return false unless model.field_format_calculated_value?
-
-      model.formula_previously_changed? || (model.is_required_previously_changed? && model.is_required?)
+      case model.field_format
+      when "calculated_value"
+        model.formula_previously_changed? || (model.is_required_previously_changed? && model.is_required?)
+      when "weighted_item_list"
+        model.multi_value_previously_changed? && CustomField.with_formula_referencing(model.id).any?
+      else
+        false
+      end
     end
   end
 end

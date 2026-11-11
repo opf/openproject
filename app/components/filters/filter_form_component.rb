@@ -42,7 +42,7 @@
 #     <%= render(Filters::FilterFormComponent.new(builder: f, query: @query)) %>
 #   <% end %>
 #
-# Customise the set of advertised filters by passing `allowed_filters:` (used
+# Customize the set of advertised filters by passing `allowed_filters:` (used
 # by `Filter::FilterComponent` subclasses that restrict or reorder the list).
 # To keep the default set but drop a few entries, pass `excluded_filters:` a
 # list of filter names (e.g. `%i[project_id]`); they are removed from the

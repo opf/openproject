@@ -84,6 +84,12 @@ sv:
         primary_action: Aktivera samarbete i realtid
         success: Samarbetet i realtid har aktiverats.
     button_add_type: Typ
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Detta kommer att ta bort detta dokument permanent och alla bifogade filer. Är du säker på att du vill göra detta?
       heading: Radera detta dokument?

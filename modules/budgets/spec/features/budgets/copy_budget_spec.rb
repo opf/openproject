@@ -47,7 +47,7 @@ RSpec.describe "Copying a budget", :js do
     create(:cost_type, name: "Post-war", unit: "cap", unit_plural: "caps")
   end
   let!(:cost_type_rate) { create(:cost_rate, cost_type:, rate: 50.0) }
-  let!(:default_hourly_rate) { create(:default_hourly_rate, user: original_author, rate: 25.0) }
+  let!(:default_hourly_rate) { create(:default_hourly_rate, principal: original_author, rate: 25.0) }
   let!(:material_budget_item) do
     create(:material_budget_item,
            units: 3,
@@ -65,7 +65,7 @@ RSpec.describe "Copying a budget", :js do
   let!(:labor_budget_item) do
     create(:labor_budget_item,
            hours: 5,
-           user: original_author,
+           principal: original_author,
            budget:)
   end
   let(:budget_page) { Pages::EditBudget.new budget.id }

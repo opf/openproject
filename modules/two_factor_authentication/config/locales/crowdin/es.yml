@@ -133,7 +133,7 @@ es:
     error_invalid_backup_code: Código de copia de seguridad 2FA no válido
     error_is_enforced_not_active: 'Error de configuración: se ha aplicado la autenticación de dos factores, pero no existen estrategias activas.'
     error_no_device: No se ha encontrado ningún dispositivo 2FA registrado para este usuario, a pesar de ser necesario para esta instancia.
-    error_no_matching_strategy: No hay una estrategia 2FA coincidente disponible para este usuario. Por favor, póngase en contacto con su administrador.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: El administrador ha habilitado la autenticación de dos factores para esta instancia. Para iniciar sesión, añade un método de autenticación de dos factores.
     label_2fa_disabled: Autenticación de dos factores no está activa

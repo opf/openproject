@@ -4,7 +4,7 @@
       if OpenProject::FeatureDecisions.built_in_oauth_applications_active?
         index_container.with_row do
           render(
-            OpenProject::Common::BorderBoxListComponent.new(
+            OpPrimer::BorderBoxListComponent.new(
               container: "op-admin-oauth--built-in-applications",
               position: :relative,
               mb: 4,
@@ -24,7 +24,7 @@
 
       index_container.with_row do
         render(
-          OpenProject::Common::BorderBoxListComponent.new(
+          OpPrimer::BorderBoxListComponent.new(
             container: "op-admin-oauth--other-applications",
             position: :relative,
             mb: 4

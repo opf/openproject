@@ -33,9 +33,10 @@ module OpenProject::Projects
     # !! Currently nothing happens when changing the status!!
     # @display min_height 400px
     # @param size [Symbol] select [small, medium, large]
-    def playground(size: :medium)
+    # @param status_code [Symbol] select [on_track, at_risk, off_track, not_started, finished, discontinued]
+    def playground(size: :medium, status_code: :on_track)
       user = FactoryBot.build_stubbed(:admin)
-      project = FactoryBot.build_stubbed(:project, :with_status)
+      project = FactoryBot.build_stubbed(:project, status_code:, status_explanation: "some explanation")
       render(Projects::StatusButtonComponent.new(project:, user:, size:))
     end
   end

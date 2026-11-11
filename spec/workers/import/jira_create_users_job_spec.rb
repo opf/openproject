@@ -103,6 +103,7 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
         mail: email,
         status: "locked"
       )
+      expect(user.pref.time_zone).to eq("Europe/Berlin")
     end
 
     it "creates a reference between Jira user and OpenProject user" do

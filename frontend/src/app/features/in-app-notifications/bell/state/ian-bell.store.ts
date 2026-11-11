@@ -32,11 +32,13 @@ import {
 
 export interface IanBellState {
   totalUnread:number;
+  loaded:boolean;
 }
 
 export function createInitialState():IanBellState {
   return {
     totalUnread: 0,
+    loaded: false,
   };
 }
 

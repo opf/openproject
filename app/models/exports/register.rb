@@ -65,7 +65,7 @@ module Exports
           hash[model_key] = []
         end
 
-        @formatters[model.to_s] << formatter
+        @formatters[model.to_s] << formatter unless @formatters[model.to_s].include?(formatter)
       end
 
       def list_exporter(model, format)

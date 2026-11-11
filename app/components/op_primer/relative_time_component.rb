@@ -29,7 +29,7 @@
 
 #
 module OpPrimer
-  class RelativeTimeComponent < Primer::Component
+  class RelativeTimeComponent < Primer::Component # rubocop:disable OpenProject/AddPreviewForViewComponent
     def initialize(datetime:, **system_arguments)
       super()
       @system_arguments = deny_tag_argument(**system_arguments)

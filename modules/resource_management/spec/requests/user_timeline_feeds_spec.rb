@@ -155,7 +155,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
       expect(event["resourceId"]).to eq(assignee.id)
       expect(event).to include("start" => "2026-06-01", "end" => "2026-06-06")
       expect(event.dig("extendedProps", "html")).to include("Develop route optimization")
-      # Carries its work package's status colour on the bar's top edge.
+      # Carries its work package's status color on the bar's top edge.
       expect(event.dig("extendedProps", "html")).to include("op-rm-timeline-bar_status")
     end
 
@@ -276,7 +276,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
         .select { |e| e["resourceId"] == user.id }
     end
 
-    it "emits a blue normal event for a user's time off, labelled with the working days lost" do
+    it "emits a blue normal event for a user's time off, labeled with the working days lost" do
       create(:user_non_working_time, user: assignee,
                                      start_date: Date.new(2026, 6, 29), end_date: Date.new(2026, 7, 3))
 

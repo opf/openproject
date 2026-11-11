@@ -1,6 +1,6 @@
 <%=
   component_wrapper do
-    render(OpPrimer::InsetBoxComponent.new(border: false, classes: "outcome-container")) do
+    render(Primer::OpenProject::InsetBox.new(border: false, classes: "outcome-container")) do
       grid_layout("op-meeting-outcome-notes", tag: :div, id: "outcome-#{@meeting_outcome.id}") do |grid|
         grid.with_area(:title, tag: :span, classes: "title") do
           if multiple_outcomes?

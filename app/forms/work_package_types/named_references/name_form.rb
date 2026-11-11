@@ -84,7 +84,7 @@ module WorkPackageTypes
       attr_reader :model_class, :copy_from_id, :ask_copy_source
 
       def copy_sources
-        @copy_sources ||= model_class.available_in(model.try(:project)).in_display_order.to_a
+        @copy_sources ||= model_class.in_display_order.to_a
       end
     end
   end

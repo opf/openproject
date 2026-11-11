@@ -81,7 +81,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, "cost eage
   end
   let(:user_rates) do
     create(:hourly_rate,
-           user:,
+           principal: user,
            project:)
   end
   let(:cost_rate) do

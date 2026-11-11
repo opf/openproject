@@ -139,8 +139,8 @@ RSpec.describe "Workflows index", :js do
     end
   end
 
-  def current_url_filters
-    Rack::Utils.parse_query(URI(page.current_url).query).fetch("filters", "")
+  def url_filters_including(*names)
+    a_hash_including("filters" => a_string_including(*names.map { /\b#{Regexp.escape(it)}\b/ }))
   end
 
   def open_row_menu(name)
@@ -205,7 +205,7 @@ RSpec.describe "Workflows index", :js do
     search_workflows("Hardw")
 
     expect_listed("Hardware flow")
-    expect(current_url_filters).to include("name")
+    expect(page).to have_current_query_params(url_filters_including("name"))
   end
 
   it "keeps the workflow when filtering by a type that only references it" do
@@ -214,7 +214,7 @@ RSpec.describe "Workflows index", :js do
     keep_only_types(milestone)
 
     expect_listed("Bug flow")
-    expect(current_url_filters).to include("type_id")
+    expect(page).to have_current_query_params(url_filters_including("type_id"))
   end
 
   it "filters by the projects a workflow is active in" do
@@ -223,7 +223,7 @@ RSpec.describe "Workflows index", :js do
     filter_by_projects(on_hardware)
 
     expect_listed("Hardware flow")
-    expect(current_url_filters).to include("project_id")
+    expect(page).to have_current_query_params(url_filters_including("project_id"))
   end
 
   it "reaches a sub-project's workflow when picking its parent with sub-items" do
@@ -253,7 +253,7 @@ RSpec.describe "Workflows index", :js do
       within(".op-pagination") { click_link_or_button "2" }
 
       expect(page).to have_css("#{results} .name a", count: 1)
-      expect(current_url_filters).to include("name")
+      expect(page).to have_current_query_params(url_filters_including("name"))
     end
   end
 
@@ -268,15 +268,49 @@ RSpec.describe "Workflows index", :js do
     expect(page).to have_current_path(workflow_summary_types_path)
   end
 
-  it "marks a workflow a project owns and links to that project" do
-    create(:project_owned_workflow, project: on_bug, name: "Bookshop flow")
-
+  it "opens a dialog listing and linking the dependent types" do
     visit workflows_path
 
-    row = page.find(".Box-row", text: "Bookshop flow")
-    expect(row).to have_text("Created in Bookshop")
-    expect(row).to have_link("Bookshop", href: project_settings_work_packages_types_path(on_bug))
+    expect_listed(*all_workflows)
+    expect(page).to have_no_link("Task")
 
-    expect(page.find(".Box-row", text: "Bug flow")).to have_no_text("Created in")
+    wait_for_turbo_stream { within(row_for("Bug flow")) { click_on "3 types" } }
+
+    within("dialog#workflow-#{bug_base.workflow.id}-types-dialog") do
+      expect(page).to have_css("strong", text: "Bug flow")
+
+      within_test_selector("types-dialog-types") do
+        expect(page).to have_link("Bug")
+        expect(page).to have_link("Task")
+        expect(page).to have_link("Milestone")
+      end
+    end
+  end
+
+  it "distinguishes a dependent variant from its type in the dialog" do
+    visit workflows_path
+
+    wait_for_turbo_stream { within(row_for("Hardware flow")) { click_on "1 type (including 1 variant)" } }
+
+    within("dialog#workflow-#{hardware_flow.id}-types-dialog") do
+      within_test_selector("types-dialog-variants") do
+        expect(page).to have_link("Hardware")
+        expect(page).to have_text("Variant of Bug")
+      end
+    end
+  end
+
+  it "links the project count to the project list filtered by the workflow's variants" do
+    visit workflows_path
+
+    within(row_for("Bug flow")) do
+      href = find_link("2 projects")[:href]
+      filters = JSON.parse(Rack::Utils.parse_query(URI(href).query).fetch("filters"))
+      type_variant = filters.find { |filter| filter.key?("type_variant_id") }
+
+      expect(URI(href).path).to eq(projects_path)
+      expect(type_variant["type_variant_id"]["values"])
+        .to match_array(bug_base.workflow.type_variants.ids)
+    end
   end
 end

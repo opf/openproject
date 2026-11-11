@@ -33,7 +33,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
                :js,
                :with_cuprite,
                with_settings: { work_packages_identifier: "semantic" } do
-  # Classic mode is a behavioural no-op for each of these fixes:
+  # Classic mode is a behavioral no-op for each of these fixes:
   # `workPackage.displayId` and `resolveRoutingId(...)` both collapse to the
   # numeric id when semantic mode is off. Covering semantic-only where the
   # bugs manifest.
@@ -61,7 +61,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       semantic_id = work_package.reload.identifier
 
       details_anchor = within(wp_table.row(work_package)) do
-        find_link(title: "Open details view", visible: :all)
+        find(:link, accessible_name: "Open details view", exact: true, visible: :all)
       end
 
       expect(details_anchor[:href]).to include("/details/#{semantic_id}")
@@ -90,7 +90,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     end
   end
 
-  describe "right-click context menu 'Copy link to clipboard' item" do
+  describe "right-click context menu 'Copy link' item" do
     it "copies a URL containing the semantic identifier" do
       semantic_id = work_package.reload.identifier
 
@@ -106,7 +106,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       JS
 
       context_menu.open_for(work_package)
-      context_menu.choose("Copy link to clipboard")
+      context_menu.choose("Copy link")
 
       copied = nil
       retry_block do
@@ -119,13 +119,12 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     end
   end
 
-  describe "right-click context menu 'Copy numeric ID to clipboard' item" do
-    it "copies the numeric id and does not navigate away (regression: used to 404)" do
-      numeric_id = work_package.id.to_s
+  describe "right-click context menu 'Copy ID' item" do
+    it "copies the semantic id and does not navigate away" do
       semantic_id = work_package.reload.identifier
 
       # Spy directly on navigator.clipboard.writeText (see the sibling
-      # 'Copy link to clipboard' example for why the flash matcher won't do).
+      # 'Copy link' example for why the flash matcher won't do).
       page.execute_script(<<~JS)
         window.__lastCopiedText = null;
         navigator.clipboard.writeText = function(text) {
@@ -135,7 +134,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       JS
 
       context_menu.open_for(work_package)
-      context_menu.choose("Copy numeric ID to clipboard")
+      context_menu.choose("Copy ID (\"#{semantic_id}\")")
 
       copied = nil
       retry_block do
@@ -143,11 +142,8 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
         raise "clipboard write not yet observed" if copied.nil?
       end
 
-      expect(copied).to eq(numeric_id)
-      expect(copied).not_to eq(semantic_id)
+      expect(copied).to eq(semantic_id)
 
-      # The action used to fall through to `window.location.href = undefined`,
-      # navigating to a non-existent URL. It must stay on the table instead.
       wp_table.expect_work_package_listed(work_package, other_wp)
     end
   end
@@ -157,10 +153,10 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     # format, so the uppercase semantic identifier used above is invalid here.
     let(:project) { create(:project, identifier: "navfollow") }
 
-    describe "right-click context menu 'Copy numeric ID to clipboard' item" do
-      it "is not offered (the displayed id is already the numeric id)" do
+    describe "right-click context menu 'Copy ID' item" do
+      it "shows the numeric id" do
         context_menu.open_for(work_package)
-        context_menu.expect_no_options("Copy numeric ID to clipboard")
+        context_menu.expect_options("Copy ID (\"#{work_package.id}\")")
       end
     end
   end

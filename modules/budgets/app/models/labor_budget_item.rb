@@ -100,7 +100,7 @@ class LaborBudgetItem < ApplicationRecord
   def user_is_member_of_budget_project
     return if principal.nil? || budget&.project.nil?
 
-    unless Principal.possible_assignee(budget.project).exists?(id: principal.id)
+    unless Member.of_project(budget.project).exists?(user_id: principal.id)
       errors.add(:principal, :not_a_member_of_budget_project)
     end
   end

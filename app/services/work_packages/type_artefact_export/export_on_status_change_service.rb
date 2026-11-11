@@ -43,12 +43,12 @@ module WorkPackages
         return false if changes["status_id"].blank?
         return false unless work_package.type_variant.artefact_export_enabled?
 
-        # The creation wizard runs its own export for its artifact work package;
+        # The creation wizard runs its own export for its artefact work package;
         # skip it here to avoid generating the PDF twice.
-        !creation_wizard_artifact_work_package?(work_package)
+        !creation_wizard_artefact_work_package?(work_package)
       end
 
-      def self.creation_wizard_artifact_work_package?(work_package)
+      def self.creation_wizard_artefact_work_package?(work_package)
         work_package.project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
       end
 

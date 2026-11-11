@@ -575,6 +575,154 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context "on label changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:label) { create(:label) }
+      shared_let(:other_label) { create(:label) }
+
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def set_labels(labels)
+        journable.labelings.destroy_all
+        labels.each { journable.labelings.create!(label: it) }
+        journable.save!
+      end
+
+      context "when setting labels" do
+        it "creates a new journal listing the labels in the details" do
+          expect { set_labels([label, other_label]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([nil, [label.id, other_label.id].sort.join(",")])
+        end
+
+        it "journals labels assigned through label_id_replacements in the same save" do
+          journable.label_id_replacements = [label.id, other_label.id]
+
+          expect { journable.save! }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([nil, [label.id, other_label.id].sort.join(",")])
+          expect(Journal::LabelJournal.where(journal: journable.last_journal).pluck(:label_id))
+            .to contain_exactly(label.id, other_label.id)
+        end
+
+        it "touches the journable to match the journal's timestamp" do
+          expect { set_labels([label]) }
+            .to change { journable.reload.updated_at }
+
+          expect(journable.updated_at).to eq(journable.last_journal.updated_at)
+        end
+      end
+
+      context "on work package creation" do
+        it "creates an initial journal listing the labels in the details" do
+          work_package = create(:work_package, labels: [label])
+
+          expect(work_package.journals.count).to eq(1)
+          expect(work_package.last_journal.details["labels"])
+            .to eq([nil, label.id.to_s])
+          expect(Journal::LabelJournal.where(journal_id: work_package.last_journal.id).count)
+            .to eq(1)
+        end
+      end
+
+      context "when replacing a label" do
+        before do
+          set_labels([label])
+        end
+
+        it "creates a new journal with the old and new labels in the details" do
+          expect { set_labels([other_label]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([label.id.to_s, other_label.id.to_s])
+        end
+      end
+
+      context "when removing all labels" do
+        before do
+          set_labels([label])
+        end
+
+        it "creates a new journal with an empty new value in the details" do
+          expect { set_labels([]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([label.id.to_s, nil])
+        end
+      end
+
+      context "when saving with unchanged labels" do
+        before do
+          set_labels([label])
+        end
+
+        it "creates no journal and does not touch the journable" do
+          expect { set_labels([label]) }
+            .to not_change { journable.journals.count }
+            .and(not_change { journable.reload.updated_at })
+        end
+      end
+
+      context "when another labelable shares the work package's id" do
+        it "journals only the work package's own labels" do
+          Labeling.create!(label:, labelable_type: "Project", labelable_id: journable.id)
+
+          expect { set_labels([other_label]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([nil, other_label.id.to_s])
+        end
+      end
+
+      context "within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
+        # The initial journal lies outside the aggregation window so that only
+        # the journals created by the examples can aggregate with each other.
+        shared_let(:journable) do
+          create(:work_package,
+                 subject: "Initial subject",
+                 journals: { 10.minutes.ago => { user: } })
+        end
+
+        context "when changing labels again" do
+          before do
+            set_labels([label])
+          end
+
+          it "aggregates into the previous journal with cumulative details" do
+            expect { set_labels([label, other_label]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["labels"])
+              .to eq([nil, [label.id, other_label.id].sort.join(",")])
+          end
+        end
+
+        context "when changing labels shortly after another change" do
+          before do
+            journable.update!(subject: "Changed subject")
+          end
+
+          it "aggregates into one journal capturing both changes" do
+            expect { set_labels([label]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["subject"])
+              .to eq(["Initial subject", "Changed subject"])
+            expect(journable.last_journal.details["labels"])
+              .to eq([nil, label.id.to_s])
+          end
+        end
+      end
+    end
+
     context "on observed in version changes", with_settings: { journal_aggregation_time_minutes: 0 } do
       shared_let(:journable) do
         create(:work_package)
@@ -950,10 +1098,7 @@ RSpec.describe WorkPackage do
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {},
                        expected_cause: {
@@ -967,16 +1112,16 @@ RSpec.describe WorkPackage do
       shared_let(:journable) do
         create(:work_package,
                journals: {
-                 4.minutes.ago => { user:, cause: "XYZ" }
+                 4.minutes.ago => { user:, cause: { "type" => "import" } }
                })
       end
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC"
+                         "journal_cause" => CauseOfChange::Base.new("system_update")
                        },
                        expected_values: {},
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: true
     end
 
@@ -986,20 +1131,20 @@ RSpec.describe WorkPackage do
                subject: "Initial subject",
                journals: {
                  10.minutes.ago => { user: },
-                 4.minutes.ago => { user:, cause: "ABC" }
+                 4.minutes.ago => { user:, cause: { "type" => "system_update" } }
                })
       end
 
       # Adding the change to subject here to show that the whole change is aggregated
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC",
+                         "journal_cause" => CauseOfChange::Base.new("system_update"),
                          "subject" => "Changed subject"
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
                        },
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: false
     end
 
@@ -1009,7 +1154,7 @@ RSpec.describe WorkPackage do
                subject: "Initial subject",
                journals: {
                  10.minutes.ago => { user: },
-                 4.minutes.ago => { user:, cause: "ABC" }
+                 4.minutes.ago => { user:, cause: { "type" => "system_update" } }
                })
       end
 
@@ -1026,7 +1171,46 @@ RSpec.describe WorkPackage do
         journable.subject = "Changed subject"
         journable.save!
 
-        expect(journable.journals.reload[-2].cause).to eq("ABC")
+        expect(journable.journals.reload[-2].cause).to eq("type" => "system_update")
+      end
+    end
+
+    context "on consecutive label deletions within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
+      shared_let(:journable) do
+        create(:work_package, journals: { 10.minutes.ago => { user: } })
+      end
+
+      def journalize(cause)
+        Journals::CreateService.new(journable, user).call(cause:)
+      end
+
+      before do
+        journalize(Journal::CausedByLabelDeletion.new(label_ids: [1], label_names: ["A"]))
+      end
+
+      it "aggregates consecutive label deletions into one journal listing every label" do
+        expect { journalize(Journal::CausedByLabelDeletion.new(label_ids: [2], label_names: ["B"])) }
+          .not_to change { journable.journals.count }
+
+        expect(journable.journals.reload.last.cause)
+          .to eq("type" => "label_deleted", "label_ids" => [1, 2], "label_names" => %w[A B])
+      end
+
+      it "keeps one name per deleted label when labels share a name" do
+        journalize(Journal::CausedByLabelDeletion.new(label_ids: [2], label_names: ["A"]))
+
+        expect(journable.journals.reload.last.cause)
+          .to eq("type" => "label_deleted", "label_ids" => [1, 2], "label_names" => %w[A A])
+      end
+
+      it "does not aggregate an unrelated cause into the label deletion journal" do
+        expect { journalize(Journal::CausedByWorkPackageParentDeletion.new) }
+          .to change { journable.journals.count }.by(1)
+
+        expect(journable.journals.reload[-2].cause)
+          .to eq("type" => "label_deleted", "label_ids" => [1], "label_names" => ["A"])
+        expect(journable.journals.reload.last.cause)
+          .to eq(Journal::CausedByWorkPackageParentDeletion.new.to_hash)
       end
     end
 
@@ -1071,10 +1255,7 @@ RSpec.describe WorkPackage do
                        new_values_set: {
                          "subject" => "Changed subject",
                          "journal_notes" => "Some notes",
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
@@ -1101,10 +1282,7 @@ RSpec.describe WorkPackage do
                        new_values_set: {
                          "subject" => "Changed subject",
                          "journal_notes" => "Some notes",
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
@@ -1131,10 +1309,7 @@ RSpec.describe WorkPackage do
                        new_values_set: {
                          "subject" => "Changed subject",
                          "journal_notes" => "Some notes",
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
@@ -1196,10 +1371,10 @@ RSpec.describe WorkPackage do
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC"
+                         "journal_cause" => CauseOfChange::Base.new("system_update")
                        },
                        expected_values: {},
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: true
     end
 
@@ -1215,10 +1390,10 @@ RSpec.describe WorkPackage do
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC"
+                         "journal_cause" => CauseOfChange::Base.new("system_update")
                        },
                        expected_values: {},
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: true,
                        expect_journable_update_at_changed: false
     end

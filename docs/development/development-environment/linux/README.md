@@ -40,10 +40,10 @@ sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev 
 Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
 Ruby.
 You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `4.0.7`, which we also require.
+At the time of this writing, the latest stable version is `4.0.9`, which we also require.
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.7` and install that version.
+Read the first line e.g. `4.0.9` and install that version.
 
 #### Install rbenv and ruby-build
 
@@ -80,18 +80,18 @@ With both installed, we can now install ruby.
 You can check available ruby versions with `rbenv install --list`.
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.7` and install that version.
+Read the first line e.g. `4.0.9` and install that version.
 
 ```shell
 # Install the required version as read from the .ruby-version file
-rbenv install 4.0.7
+rbenv install 4.0.9
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to
 globally activate this version
 
 ```shell
-rbenv global 4.0.7
+rbenv global 4.0.9
 rbenv rehash
 ```
 
@@ -161,11 +161,11 @@ git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-b
 
 You can find the latest LTS version here: [nodejs.org/en/download/](https://nodejs.org/en/download/)
 
-At the time of writing this is v24.18.0 Install and activate it with:
+At the time of writing this is v24.22.1 Install and activate it with:
 
 ```shell
-nodenv install 24.18.0
-nodenv global 24.18.0
+nodenv install 24.22.1
+nodenv global 24.22.1
 nodenv rehash
 ```
 
@@ -181,13 +181,13 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```shell
 ruby --version
-ruby 4.0.7 (2026-09-15 revision 229531a6cf) +PRISM [arm64-darwin25]
+ruby 4.0.9 (2026-10-23 revision 3e93b23afc) +PRISM [arm64-darwin25]
 
 bundler --version
 4.0.21
 
 node --version
-v24.18.0
+v24.22.1
 
 npm --version
 11.16.0

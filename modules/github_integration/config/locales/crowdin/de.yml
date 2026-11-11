@@ -43,7 +43,7 @@ de:
     changed_files_count: Geänderte Dateien
     comments_count: Anzahl der Kommentare
     deletions_count: Anzahl der Löschungen
-    github: GitHub identifer
+    github: GitHub identifier
     github_app_owner_avatar_url: Avatar-URL des Besitzers
     github_avatar_url: Avatar-URL
     github_html_url: Pull-Request URL

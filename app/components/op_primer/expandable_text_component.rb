@@ -72,7 +72,7 @@ module OpPrimer
     #   `Primer::Alpha::HiddenTextExpander`.
     # @param system_arguments [Hash] forwarded to the wrapping
     #   `Primer::BaseComponent`.
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def initialize(
       truncate: TRUNCATE_DEFAULT,
       lines: LINES_DEFAULT,
@@ -118,7 +118,6 @@ module OpPrimer
 
       set_expander_arguments!(expander_arguments)
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 

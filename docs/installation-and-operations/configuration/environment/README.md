@@ -93,7 +93,7 @@ OPENPROJECT_ENTERPRISE_FAIL__FAST=true
 
 OPENPROJECT_ENTERPRISE="{ fail_fast: true }"
 
-# in the old configration.yml it looked like this
+# in the old configuration.yml it looked like this
 
 enterprise:
   fail_fast: true
@@ -128,7 +128,6 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_ADDITIONAL__HOST__NAMES` | `[]` | Additional allowed host names for the application. |
 | `OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL` | `nil` | URL users logging in for the first time will be redirected to (e.g., a help screen) |
 | `OPENPROJECT_AFTER__LOGIN__DEFAULT__REDIRECT__URL` | `nil` | Override URL to which logged in users are redirected instead of the Home page |
-| `OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED` | `false` | Enable AI text transform actions in the rich text editor |
 | `OPENPROJECT_AI__TEXT__TRANSFORM__RUN__RETENTION__SECONDS` | `3600` | How long AI text transform runs and their events are kept before a cron job removes them. Applies to finished runs from their finish time and to unfinished runs from their creation time. |
 | `OPENPROJECT_ALLOW__TRACKING__START__AND__END__TIMES` | `false` | Allow start and finish times |
 | `OPENPROJECT_ALLOWED__LINK__PROTOCOLS` | `[]` | Allowed protocols for links in the WYSIWYG editor and formatted texts |
@@ -196,12 +195,14 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_CSP__IMG__SRC` | `["*", "data:", "blob:"]` | Allowed sources for the CSP img-src directive. |
 | `OPENPROJECT_CSV__ESCAPE__FORMULAS` | `true` | Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@) |
 | `OPENPROJECT_DATABASE__CIPHER__KEY` | `nil` | Encryption key for repository credentials |
+| `OPENPROJECT_DATABASE__ENCRYPTION__KEY` | `nil` | Secret for data that OpenProject encrypts in the database. Defaults to SECRET_KEY_BASE. The encryption key is derived from this value |
+| `OPENPROJECT_DATABASE__ENCRYPTION__PREVIOUS__KEY` | `nil` | Old value of SECRET_KEY_BASE or of the database encryption key, used to decrypt data while you rotate that key |
 | `OPENPROJECT_DATE__FORMAT` | `nil` | Date |
 | `OPENPROJECT_DAYS__PER__MONTH` | `20` | This will define what is considered a “month” when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months. |
 | `OPENPROJECT_DEFAULT__AUTO__HIDE__POPUPS` | `true` | Whether to automatically hide success notifications by default |
 | `OPENPROJECT_DEFAULT__COMMENT__SORT__ORDER` | `"asc"` | Default sort order for activities |
 | `OPENPROJECT_DEFAULT__LANGUAGE` | `"en"` | Default language |
-| `OPENPROJECT_DEFAULT__PROJECTS__MODULES` | `["calendar", "board_view", "work_package_tracking", "gantt", "news", "costs"]` | Default enabled modules for new projects |
+| `OPENPROJECT_DEFAULT__PROJECTS__MODULES` | `["work_package_tracking", "news", "costs", "backlogs", "board_view", "meetings", "calendar_view", "gantt"]` | Default enabled modules for new projects |
 | `OPENPROJECT_DEFAULT__PROJECTS__PUBLIC` | `false` | New projects are public by default |
 | `OPENPROJECT_DEFAULT__PROJECTS__WIKI` | `true` | Enable wiki functionality for new projects by default |
 | `OPENPROJECT_DEMO__PROJECTS__AVAILABLE` | `false` |  |
@@ -253,11 +254,13 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_GOOD__JOB__MAX__CACHE` | `10000` |  |
 | `OPENPROJECT_GOOD__JOB__MAX__THREADS` | `20` |  |
 | `OPENPROJECT_GOOD__JOB__QUEUES` | `"*"` |  |
+| `OPENPROJECT_GOOD__JOB__SHUTDOWN__TIMEOUT` | `30` | Seconds that the worker waits for running jobs to finish before it stops them. Set it to less than the time the container platform waits before it kills the worker. |
 | `OPENPROJECT_GRAVATAR__FALLBACK__IMAGE` | `"404"` | Set default gravatar image fallback |
 | `OPENPROJECT_HASHED__TOKEN__PEPPER` | `<randomly generated>` | Pepper used for HMAC-SHA256 hashing of hashed tokens (e.g. API tokens). Auto-initialized on first use. Changing this invalidates all existing hashed tokens. |
 | `OPENPROJECT_HEALTH__CHECKS__AUTHENTICATION__PASSWORD` | `nil` | Add an authentication challenge for the /health_check endpoint |
 | `OPENPROJECT_HEALTH__CHECKS__BACKLOG__THRESHOLD` | `20` | Set threshold of outstanding HTTP requests to fail health check |
 | `OPENPROJECT_HEALTH__CHECKS__JOBS__NEVER__RAN__MINUTES__AGO` | `5` | Set threshold of outstanding background jobs to fail health check |
+| `OPENPROJECT_HELPDESK__ENABLED` | `false` | Enables/disables help desk functionality. |
 | `OPENPROJECT_HIDDEN__MENU__ITEMS` | `{}` | Hide menu items in the menu sidebar for each main menu (such as Administration and Projects). |
 | `OPENPROJECT_HOME__URL` | `nil` | Override default link when clicking on the top menu logo (Homescreen by default). |
 | `OPENPROJECT_HOST__NAME` | `nil` | Host name |

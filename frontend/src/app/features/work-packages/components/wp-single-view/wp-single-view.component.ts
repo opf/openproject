@@ -56,11 +56,12 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalSource } from 'core-app/features/hal/interfaces';
 
 export interface FieldDescriptor {
   name:string;
   label:string;
-  field?:DisplayField;
+  field:DisplayField;
   fields?:DisplayField[];
   spanAll:boolean;
   multiple:boolean;
@@ -75,6 +76,21 @@ export interface GroupDescriptor {
   isolated:boolean;
   type:string;
 }
+
+interface WorkPackageFormAttributeGroup {
+  _type:'WorkPackageFormAttributeGroup';
+  name:string;
+  attributes:string[];
+}
+
+interface WorkPackageFormQueryGroup {
+  _type:'WorkPackageFormChildrenQueryGroup'|'WorkPackageFormRelationQueryGroup';
+  name:string;
+  relationType?:string;
+  _embedded:{ query:HalSource };
+}
+
+type FormAttributeGroup = WorkPackageFormAttributeGroup|WorkPackageFormQueryGroup;
 
 export interface ResourceContextChange {
   isNew:boolean;
@@ -144,6 +160,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       createdBy: this.I18n.t('js.label_created_by'),
       lastUpdatedOn: this.I18n.t('js.label_last_updated_on'),
     },
+    origin: {
+      label: this.I18n.t('js.label_origin'),
+      source: this.I18n.t('js.label_origin_source'),
+      id: this.I18n.t('js.label_origin_id'),
+      jiraDataCenter: this.I18n.t('js.label_origin_jira_data_center'),
+    },
   };
 
   public isNewResource:boolean;
@@ -181,7 +203,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     if (!resource.project) {
       this.projectContext = { matches: false, href: null, id: null };
     } else {
-      const project = resource.project as unknown&{ href:string, id:string };
+      const project = resource.project as { href:string, id:string };
       const workPackageId = this.workPackage.id;
       if (!workPackageId) {
         throw new Error('work package id is invalid');
@@ -198,8 +220,11 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       this.updateWorkPackageCreationState(change);
     }
 
-    // eslint-disable-next-line no-underscore-dangle
-    this.groupedFields = this.rebuildGroupedFields(change, this.schema(resource)._attributeGroups) as GroupDescriptor[];
+    this.groupedFields = this.rebuildGroupedFields(
+      change,
+      // eslint-disable-next-line no-underscore-dangle
+      this.schema(resource)._attributeGroups as FormAttributeGroup[]|undefined,
+    ) as GroupDescriptor[];
     this.cdRef.detectChanges();
   }
 
@@ -213,7 +238,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     if (resource.project === null) {
       this.projectStorages.next([]);
     } else {
-      const project = resource.project as unknown&{ href:string, id:string };
+      const project = resource.project as { href:string, id:string };
       combineLatest([
         this.projectsResourceService.requireEntity(project.href),
         this.projectStoragesService.requireCollection({ filters: [['projectId', '=', [project.id]]] }),
@@ -289,6 +314,18 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return !this.isNewResource && this.projectContext && !this.projectContext.matches;
   }
 
+  public hasOrigin():boolean {
+    return !this.isNewResource && !!this.workPackage.originSource;
+  }
+
+  public get originSourceLabel():string {
+    const source = this.workPackage.originSource as string | undefined;
+    if (source === 'jira_data_center') {
+      return this.text.origin.jiraDataCenter;
+    }
+    return source ?? '';
+  }
+
   public get switchToProjectPath():string {
     const id = idFromLink(this.workPackage.project.href);
     return this.PathHelper.projectPath(id);
@@ -298,12 +335,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return this.element.getBoundingClientRect().width > 750;
   }
 
-  private rebuildGroupedFields(change:WorkPackageChangeset, attributeGroups:any) {
+  private rebuildGroupedFields(change:WorkPackageChangeset, attributeGroups:FormAttributeGroup[]|undefined) {
     if (!attributeGroups) {
       return [];
     }
 
-    return attributeGroups.map((group:any) => {
+    return attributeGroups.map((group) => {
       const groupId = this.getAttributesGroupId(group);
 
       if (group._type === 'WorkPackageFormAttributeGroup') {
@@ -364,20 +401,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * combined 'start' and 'due' date field.
    */
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
-    const object:FieldDescriptor = {
+    return {
       name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
       spanAll: false,
       multiple: false,
+      field: this.displayField(change, change.schema.ofProperty('date') ? 'date' : 'combinedDate'),
     };
-
-    if (change.schema.ofProperty('date')) {
-      object.field = this.displayField(change, 'date');
-    } else {
-      object.field = this.displayField(change, 'combinedDate');
-    }
-
-    return object;
   }
 
   /**

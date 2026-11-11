@@ -55,7 +55,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:spent_hours) { 0 }
   let(:derived_start_date) { Time.zone.today - 4.days }
   let(:derived_due_date) { Time.zone.today - 5.days }
-  let(:budget) { build_stubbed(:budget, project: workspace) }
   let(:duration) { nil }
   let(:ignore_non_working_days) { true }
   let(:work_package) do
@@ -74,7 +73,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                   responsible:,
                   estimated_hours:,
                   derived_estimated_hours:,
-                  budget:,
                   ignore_non_working_days:,
                   status:) do |wp|
       allow(wp).to receive_messages(available_custom_fields:,
@@ -918,6 +916,63 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "projectPhaseDefinition" do
+      let(:link) { "projectPhaseDefinition" }
+
+      context "with a phase being set" do
+        it_behaves_like "has a titled link" do
+          let(:href) { "/api/v3/project_phase_definitions/#{work_package.project_phase_definition_id}" }
+          let(:title) { work_package.project_phase_definition.name }
+        end
+      end
+
+      context "without a phase being set" do
+        before do
+          work_package.project_phase_definition = nil
+        end
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { nil }
+        end
+      end
+
+      context "with the phase not existing in the project" do
+        let(:project_phases) { [other_project_phase] }
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { nil }
+        end
+      end
+
+      context "with the phase being inactive in the project" do
+        let(:project_phase) { build_stubbed(:project_phase, active: false, definition: project_phase_definition) }
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { nil }
+        end
+      end
+
+      context "without the user being allowed to see the reference" do
+        let(:permissions) { all_permissions - [:view_project_phases] }
+
+        it_behaves_like "has no link"
+      end
+
+      context "with caching where the first user is allowed and the second is not allowed to see the reference" do
+        let(:permissions) { all_permissions - [:view_project_phases] }
+        let(:admin) { build_stubbed(:admin) }
+        let(:cache_enabled) { true }
+
+        before do
+          described_class
+            .create(work_package, current_user: admin, embed_links:, timestamps:, query:)
+            .to_json
+        end
+
+        it_behaves_like "has no link"
+      end
+    end
+
     describe "category" do
       let(:embedded_path) { "_embedded/category" }
       let(:href_path) { "_links/category/href" }
@@ -959,74 +1014,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       it "has the priority embedded" do
         expect(subject).to be_json_eql("Priority".to_json).at_path("_embedded/priority/_type")
         expect(subject).to be_json_eql(priority.name.to_json).at_path("_embedded/priority/name")
-      end
-    end
-
-    describe "budget" do
-      context "with the user having the view_budgets permission" do
-        let(:permissions) { [:view_budgets] }
-
-        it_behaves_like "has a titled link" do
-          let(:link) { "budget" }
-          let(:href) { "/api/v3/budgets/#{budget.id}" }
-          let(:title) { budget.subject }
-        end
-
-        it "has the budget embedded" do
-          expect(subject)
-            .to be_json_eql(budget.subject.to_json)
-                  .at_path("_embedded/budget/subject")
-        end
-
-        context "when a non-privileged user's response is cached before the current user reads it" do
-          let(:non_privileged_user) { build_stubbed(:user) }
-          let(:non_privileged_representer) do
-            described_class.create(work_package, current_user: non_privileged_user, embed_links:)
-          end
-
-          before do
-            # Non-privileged user renders first, warming the shared cache key
-            non_privileged_representer.to_json
-          end
-
-          it "still renders the budget link for the user having view_budgets (regression AGILE-296)" do
-            expect(subject).to have_json_path("_links/budget")
-          end
-        end
-      end
-
-      context "with the user lacking the view_budgets permission" do
-        it "has no link to the budget" do
-          expect(subject)
-            .not_to have_json_path("_links/budget")
-        end
-
-        it "has no budget embedded" do
-          expect(subject)
-            .not_to have_json_path("_embedded/budget")
-        end
-
-        it "does not instantiate a budget representer" do
-          allow(API::V3::Budgets::BudgetRepresenter).to receive(:create)
-          subject
-          expect(API::V3::Budgets::BudgetRepresenter).not_to have_received(:create)
-        end
-      end
-
-      context "when a privileged user's response is cached before the current user reads it" do
-        let(:privileged_user) { build_stubbed(:admin) }
-        let(:privileged_representer) do
-          described_class.create(work_package, current_user: privileged_user, embed_links:)
-        end
-
-        before do
-          # Privileged user renders first, warming the shared cache key
-          privileged_representer.to_json
-        end
-
-        it "does not leak the budget link to the user lacking view_budgets (regression AGILE-296)" do
-          expect(subject).not_to have_json_path("_links/budget")
-        end
       end
     end
 
@@ -1416,6 +1403,15 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "exportPdf" do
+      it_behaves_like "has a titled action link" do
+        let(:link) { "exportPdf" }
+        let(:permission) { :export_work_packages }
+        let(:href) { api_v3_paths.work_package_pdf(work_package.id) }
+        let(:title) { "Export as PDF" }
+      end
+    end
+
     describe "atom" do
       context "with feeds enabled", with_settings: { feeds_enabled?: true } do
         it_behaves_like "has a titled action link" do
@@ -1435,10 +1431,22 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "markdown" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "markdown" }
+        let(:href) { "/work_packages/#{work_package.id}.md" }
+        let(:title) { "Markdown version" }
+      end
+
+      it "has the Markdown media type" do
+        expect(subject).to be_json_eql("text/markdown".to_json).at_path("_links/markdown/type")
+      end
+    end
+
     # The HAL contract surface stays numeric in semantic mode so clients
     # can correlate work packages by comparing href strings (one
     # resource's `self` === another's `parent`, etc.). Auxiliary
-    # endpoints (`pdf`, `generate_pdf`, `atom`) follow the same convention.
+    # endpoints (`pdf`, `generate_pdf`, `atom`, `markdown`) follow the same convention.
     context "with semantic identifier mode active",
             with_settings: { work_packages_identifier: "semantic", feeds_enabled?: true } do
       let(:work_package) { build_stubbed(:work_package, identifier: "PROJ-7", project: workspace) }
@@ -1462,6 +1470,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       it "atom href stays numeric" do
         expect(subject).to be_json_eql("/work_packages/#{work_package.id}.atom".to_json)
                              .at_path("_links/atom/href")
+      end
+
+      it "markdown href stays numeric" do
+        expect(subject).to be_json_eql("/work_packages/#{work_package.id}.md".to_json)
+                             .at_path("_links/markdown/href")
       end
     end
 
@@ -1596,7 +1609,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     describe "customActions" do
       it "has a collection of customActions" do
         unassign_action = build_stubbed(:automation, :with_button_trigger,
-                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
+                                        actions: [Automations::Actions::AssignedTo.new],
                                         name: "Unassign")
         allow(work_package)
           .to receive(:automations)
@@ -1711,7 +1724,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     describe "customActions" do
       it "has an array of customActions" do
         unassign_action = build_stubbed(:automation, :with_button_trigger,
-                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
+                                        actions: [Automations::Actions::AssignedTo.new],
                                         name: "Unassign")
         allow(work_package)
           .to receive(:automations)
@@ -1760,54 +1773,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:permissions) { all_permissions - [:view_project_phases] }
 
         it_behaves_like "has the resource not embedded"
-      end
-    end
-
-    describe "projectPhaseDefinition" do
-      context "with a phase being set" do
-        it_behaves_like "has a titled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { "/api/v3/project_phase_definitions/#{work_package.project_phase_definition_id}" }
-          let(:title) { work_package.project_phase_definition.name }
-        end
-      end
-
-      context "without a phase being set" do
-        before do
-          work_package.project_phase_definition = nil
-        end
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
-      end
-
-      context "with the phase not existing in the project" do
-        let(:project_phases) { [other_project_phase] }
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
-      end
-
-      context "with the phase being inactive in the project" do
-        let(:project_phase) { build_stubbed(:project_phase, active: false, definition: project_phase_definition) }
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
-      end
-
-      context "without the user being allowed to see the reference" do
-        let(:permissions) { all_permissions - [:view_project_phases] }
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
       end
     end
 

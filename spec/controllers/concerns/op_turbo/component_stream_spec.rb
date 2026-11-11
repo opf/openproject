@@ -35,10 +35,15 @@ RSpec.describe OpTurbo::ComponentStream do
   controller(ApplicationController) do
     include described_module
 
-    no_authorization_required! :update, :set_page_title
+    no_authorization_required! :update, :set_page_title, :append_to_body
 
     def update
       dispatch_event_via_turbo_stream(params[:event_name], detail: { work_package_id: 42 })
+      respond_to_with_turbo_streams
+    end
+
+    def append_to_body
+      append_to_body_via_turbo_stream(component: Primer::Beta::Octicon.new(icon: :sparkle, id: "appended"))
       respond_to_with_turbo_streams
     end
 
@@ -55,6 +60,17 @@ RSpec.describe OpTurbo::ComponentStream do
     routes.draw do
       get "update" => "anonymous#update"
       get "set_page_title" => "anonymous#set_page_title"
+      get "append_to_body" => "anonymous#append_to_body"
+    end
+  end
+
+  describe "#append_to_body_via_turbo_stream" do
+    it "renders an append turbo stream targeting the body" do
+      get :append_to_body, as: :turbo_stream
+
+      stream = Nokogiri::HTML5.fragment(response.body).at_css('turbo-stream[action="append"]')
+      expect(stream["targets"]).to eq("body")
+      expect(stream.at_css("template svg#appended")).to be_present
     end
   end
 

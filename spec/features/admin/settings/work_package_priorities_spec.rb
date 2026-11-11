@@ -40,8 +40,8 @@ RSpec.describe "Work package priorities", :js do
     list_page.visit!
 
     list_page.within_row(default_priority) do
-      expect(page).to have_content("Normal")
-      expect(page).to have_content("Default")
+      expect(page).to have_text("Normal")
+      expect(page).to have_text("Default")
     end
 
     page.find_test_selector("add-enumeration-button").click
@@ -59,14 +59,14 @@ RSpec.describe "Work package priorities", :js do
 
     # The new priority is shown in the list as the default priority
     list_page.within_row(new_priority) do
-      expect(page).to have_content("Immediate")
-      expect(page).to have_content("Default")
+      expect(page).to have_text("Immediate")
+      expect(page).to have_text("Default")
     end
 
     # Since the new priority is now the default, the former default looses that flag
     list_page.within_row(default_priority) do
-      expect(page).to have_content("Normal")
-      expect(page).to have_no_content("Default")
+      expect(page).to have_text("Normal")
+      expect(page).to have_no_text("Default")
     end
 
     # It allows editing (Regression #62459)
@@ -78,8 +78,8 @@ RSpec.describe "Work package priorities", :js do
     expect_and_dismiss_flash(message: "Successful update.")
 
     list_page.within_row(new_priority.reload) do
-      expect(page).to have_content("Urgent")
-      expect(page).to have_content("Default")
+      expect(page).to have_text("Urgent")
+      expect(page).to have_text("Default")
     end
 
     expect(IssuePriority).to exist(name: "Urgent")
@@ -92,12 +92,12 @@ RSpec.describe "Work package priorities", :js do
 
     expect_and_dismiss_flash(message: "Successful deletion.")
 
-    expect(page).to have_no_content("Urgent")
+    expect(page).to have_no_text("Urgent")
 
     # Since the old default is deleted another is now the default.
     list_page.within_row(default_priority) do
-      expect(page).to have_content("Normal")
-      expect(page).to have_no_content("Default")
+      expect(page).to have_text("Normal")
+      expect(page).to have_no_text("Default")
     end
   end
 

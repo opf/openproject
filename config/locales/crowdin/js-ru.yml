@@ -47,6 +47,8 @@ ru:
       draggable_hint: 'Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Этот файл помещен в карантин, так как в нем обнаружен вирус. Он недоступен для загрузки.
     autocomplete_ng_select:
       add_tag: Добавить элемент
@@ -61,6 +63,7 @@ ru:
         single: Выберите "%{name}"
       remove: Удалить %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Элементов не найдено
       placeholder: Введите для поиска
       project:
@@ -128,8 +131,8 @@ ru:
     button_confirm: Подтвердить
     button_continue: Продолжить
     button_copy: Копировать
-    button_copy_link_to_clipboard: Копировать ссылку в буфер обмена
-    button_copy_numeric_id_to_clipboard: Скопировать числовой идентификатор в буфер обмена
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Копировать в буфер обмена
     button_copy_to_other_project: Дублировать в другой проект
     button_create: Создать
@@ -147,6 +150,7 @@ ru:
     button_log_time: Добавить трудозатраты
     button_more: Ещё
     button_more_actions: Еще действия
+    button_move: Move
     button_open_details: Открыть детальный просмотр
     button_open_fullscreen: Открыть полноэкранный просмотр
     button_quote: Цитировать
@@ -161,7 +165,8 @@ ru:
     button_start_timer: Запустить таймер
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
-    button_update: Обновление
+    button_update: Обновить
+    button_view_markdown: View Markdown
     caption_rate_history: История оценок
     card:
       add_new: Добавить новую карту
@@ -201,6 +206,9 @@ ru:
     description_select_work_package: 'Выберите пакет работ #%{id}'
     description_subwork_package: 'Дочерний пакет работ #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Произошла ошибка в CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Не удалось сохранить документ по следующей причине: %{error}'
@@ -359,8 +367,8 @@ ru:
     ical_sharing_modal:
       copy_url_label: Копировать URL
       description: Вы можете использовать URL-адрес (iCalendar), чтобы подписаться на этот календарь во внешнем клиенте и просматривать информацию о рабочем пакете отсюда.
-      ical_generation_error_text: Произошла ошибка при генерации URL-адреса календаря.
-      inital_setup_error_message: Произошла ошибка при получении данных.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-адрес "%{name}" был успешно скопирован в ваш буфер обмена. Вставьте его в свой клиент календаря, чтобы завершить подписку.
       title: Подписаться на календарь
       token_name_description_text: Если Вы подписаны на этот календарь с нескольких устройств, это имя поможет Вам различать их в списке <a href="%{myAccessTokensUrl}" target="_blank">токенов доступа</a>.
@@ -432,7 +440,6 @@ ru:
     label_assignee: Исполнитель
     label_assignee_alt_text: Этот пакет работ назначен %{name}
     label_attachments: Вложения
-    label_author: 'Автор: %{user}'
     label_avatar: 'Аватар
 
       '
@@ -554,6 +561,8 @@ ru:
     label_reset: Сброс
     label_resize_project_menu: Изменить размер меню проекта
     label_save_as: Сохранить как
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Поиск столбца
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры
@@ -561,7 +570,9 @@ ru:
     label_show_in_menu: Показать представление в меню
     label_sort_by: Сортировать по
     label_sort_higher: Переместить вверх
+    label_sort_highest: Move to top
     label_sort_lower: Переместить вниз
+    label_sort_lowest: Move to bottom
     label_sorted_by: отсортировано по
     label_sorting: Сортировка
     label_spent_time: Затраченное время
@@ -815,6 +826,7 @@ ru:
         batch_too_large: Нельзя переместить %{count} элементов за один раз. Выберите не более %{max}.
         fallback_item_label: Элемент
         fallback_list_name: другой список
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Не удалось переместить. Проверьте текущую позицию.
         move_failed_check_positions_batch:
           other: Перемещение не удалось. Проверьте текущие позиции элементов.
@@ -1102,15 +1114,30 @@ ru:
       scheduling:
         is_parent: Даты этого пакета работ выводятся автоматически из дочерних узлов. Используйте «Ручной планировщик», чтобы установить даты.
         is_switched_from_manual_to_automatic: Даты этого пакета работ могут быть пересчитаны после переключения с ручного на автоматическое планирование из-за связей с другими пакетами работ.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Показать всех пользователей, которым был предоставлен общий доступ к пакету работ
         title: Поделиться пакетом работ
       table:
         configure_button: Настроить таблицу пакета работ
-        summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах.
-        text_inline_edit: Большинство ячеек этой таблицы являются кнопками, которые активируют встроенную функцию редактирования этого атрибута.
-        text_select_hint: Чек-боксы могут быть открыты с использованием «ALT» и клавиш со стрелками.
-        text_sort_hint: Ссылки в заголовках таблиц позволяют сортировать, группировать, реорганизовывать, удалять и добавлять столбцы.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Настроить эту таблицу пакета работ
         choose_display_mode: Отображать пакеты работ как
@@ -1119,7 +1146,6 @@ ru:
         default_mode: Простой список
         display_settings: Настройки отображения
         display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под таблицей результатов.
-        embedded_tab_disabled: Эта вкладка конфигурации недоступна для редактируемого вами вида.
         hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их предками. Иерархии можно разворачивать и сворачивать.
         hierarchy_mode: Иерархия
         highlighting: Выделение

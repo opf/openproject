@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-# Pins the server behaviour that Backlogs::Concerns::WorkPackageMovability
+# Pins the server behavior that Backlogs::Concerns::WorkPackageMovability
 # renders decisions from. The card surfaces hide every movement action for a
 # read-only work package; these examples record what the server would actually
 # have done, so a change on either side is visible against the other.

@@ -113,6 +113,19 @@ RSpec.describe Exports::Formatters::HierarchyFormatter, with_ee: [:custom_field_
       end
     end
 
+    context "with a value that is no longer available in the project" do
+      let(:custom_value) { CustomValue.new(custom_field:, value: bart.id) }
+      let(:custom_values) { [custom_value] }
+
+      before do
+        allow(custom_value).to receive(:available_in_project?).and_return(false)
+      end
+
+      it "returns the placeholder instead of the item" do
+        expect(formatter.format(work_package, custom_field)).to eq(I18n.t(:label_custom_value_no_longer_available))
+      end
+    end
+
     context "with a blank value (empty hierarchy field, regression for OP-19798)" do
       let(:custom_values) { [CustomValue.new(custom_field:, value: nil)] }
 

@@ -29,6 +29,8 @@ require "spec_helper"
 
 RSpec.describe "Work package timeline navigation",
                :js do
+  include_context "with axe on Cuprite"
+
   let(:user) { create(:admin) }
   let(:enabled_module_names) { %i[work_package_tracking gantt] }
   let(:project) { create(:project, enabled_module_names:) }
@@ -130,7 +132,7 @@ RSpec.describe "Work package timeline navigation",
       wp_table.expect_work_package_listed work_package
       wp_table.ensure_work_package_not_listed! work_package2
 
-      # Navigate to the Gantt module agin
+      # Navigate to the Gantt module again
       find(".main-menu--arrow-left-to-project").click
       page.find_test_selector("main-menu-toggler--gantt").click
 
@@ -155,9 +157,9 @@ RSpec.describe "Work package timeline navigation",
       wp_timeline.ensure_work_package_not_listed! work_package
 
       retry_block do
+        context_menu.close_if_open
         find(".wp-row-#{work_package2.id}-timeline").right_click
-        find(".menu-item", text: "Add predecessor")
-        find(".menu-item", text: "Add successor")
+        context_menu.expect_options "Add predecessor", "Add successor"
       end
     end
   end
@@ -205,7 +207,10 @@ RSpec.describe "Work package timeline navigation",
     wp_timeline.expect_zoom_at :auto
 
     # Zooming in = days
-    expect(wp_timeline.zoom_in_button).to be_disabled
+    expect(page).to have_css("#work-packages-timeline-zoom-in-button[aria-disabled='true']")
+    expect(page).to be_axe_clean.within("#work-packages-timeline-mode-selection")
+    wp_timeline.zoom_in
+    wp_timeline.expect_zoom_at :auto
     wp_timeline.zoom_out
     wp_timeline.expect_zoom_at :weeks
 
@@ -389,9 +394,7 @@ RSpec.describe "Work package timeline navigation",
       group_by.enable_via_menu "Project"
 
       # Collapse Foo section
-      find(".wp-table--group-header", text: "My Project No.")
-        .find(".expander")
-        .click
+      within(".wp-table--group-header", text: "My Project No.") { find(".expander").click }
 
       # Folding will lead to having milestones presented within the group row
       expect(page).to have_css(".-group-row .timeline-element.milestone")
@@ -407,9 +410,7 @@ RSpec.describe "Work package timeline navigation",
       expect(milestone).to have_css(".labelFarRight", visible: :hidden)
 
       # Unfold Group rows
-      find(".wp-table--group-header", text: "My Project No.")
-        .find(".expander")
-        .click
+      within(".wp-table--group-header", text: "My Project No.") { find(".expander").click }
 
       expect(page).to have_no_css(".-group-row .timeline-element")
 

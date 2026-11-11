@@ -35,9 +35,9 @@ RSpec.describe "Cost Report", "calculations", :js do
   let(:work_package) { create(:work_package, project:) }
 
   def create_hourly_rates
-    create(:default_hourly_rate, user:, rate: 1.00,  valid_from: 1.year.ago)
-    create(:default_hourly_rate, user:, rate: 5.00,  valid_from: 2.years.ago)
-    create(:default_hourly_rate, user:, rate: 10.00, valid_from: 3.years.ago)
+    create(:default_hourly_rate, principal: user, rate: 1.00,  valid_from: 1.year.ago)
+    create(:default_hourly_rate, principal: user, rate: 5.00,  valid_from: 2.years.ago)
+    create(:default_hourly_rate, principal: user, rate: 10.00, valid_from: 3.years.ago)
   end
 
   def create_time_entries_on(*timestamps_of_recordings)

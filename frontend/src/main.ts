@@ -67,6 +67,6 @@ void initializeLocale()
   .then(() => {
     initializeGlobalListeners();
 
-    // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
+    // Due to the behavior of the Edge browser we need to wait for 'DOM ready'
     void platformBrowser().bootstrapModule(OpenProjectModule, { applicationProviders: [provideZonelessChangeDetection()], });
   });

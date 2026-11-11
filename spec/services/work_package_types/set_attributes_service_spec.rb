@@ -46,7 +46,7 @@ module WorkPackageTypes
         expect(result).to be_failure
       end
 
-      it "adds an error on the patterns atrribute" do
+      it "adds an error on the patterns attribute" do
         result = service.call(params)
         expect(result.errors.details).to eq(patterns: [{ error: :is_invalid }])
       end

@@ -50,7 +50,7 @@ module OpenProject::Backlogs
              author_url: "https://www.openproject.org",
              bundled: true,
              settings:) do
-      project_module :backlogs, dependencies: :work_package_tracking do
+      project_module :backlogs, dependencies: %i[work_package_tracking board_view] do
         enabled_by_default!
 
         permission :view_sprints,
@@ -149,7 +149,9 @@ module OpenProject::Backlogs
 
     assets %w(enterprise/multiple-active-sprints-light.png enterprise/multiple-active-sprints-dark.png)
 
-    patches %i[WorkPackage Project]
+    patches %i[PermittedParams
+               WorkPackage
+               Project]
 
     patch_with_namespace :Projects, :CopyService
     patch_with_namespace :Projects, :SetAttributesService

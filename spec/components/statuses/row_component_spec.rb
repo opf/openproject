@@ -37,14 +37,15 @@ RSpec.describe Statuses::RowComponent, type: :component do
   end
 
   let(:table) do
-    Statuses::TableComponent.new(rows: Status.all, query:, page_args: { page: 1, per_page: 20 })
+    Statuses::TableComponent.new(rows: Status.all, query:, page_args: { page: 1, per_page: 20 },
+                                 workflow_counts: Status.workflow_counts(Status.all))
   end
   let(:query) { Queries::Statuses::StatusQuery.new(user: User.current) }
   let(:status) { create(:status, name: "In progress", default_done_ratio: 40) }
   let(:position) { 2 }
 
   # The menu offers a direction only while there is somewhere to go, so the row needs
-  # a neighbour on either side.
+  # a neighbor on either side.
   before do
     create(:status, name: "Above").update_column(:position, 1)
     status.update_column(:position, position)
@@ -55,7 +56,7 @@ RSpec.describe Statuses::RowComponent, type: :component do
     expect(rendered_component).to have_link("In progress", href: "/statuses/#{status.id}/edit")
   end
 
-  it "shows the colour beside the name rather than in a column of its own" do
+  it "shows the color beside the name rather than in a column of its own" do
     status.update!(color: create(:color, name: "Blue", hexcode: "#1F83D6"))
 
     expect(rendered_component).to have_css(".op-border-box-grid__row-item--main-column .color--preview")

@@ -29,21 +29,25 @@
 
 module Statuses
   class TableComponent < OpPrimer::BorderBoxTableComponent
-    columns :name, :done_ratio, :closed, :readonly
+    columns :name, :done_ratio, :closed, :readonly, :workflows
     main_column :name
     mobile_columns :name
 
     options :query
     options :page_args
+    options :workflow_counts
 
     def headers
       [
         [:name, { caption: Status.human_attribute_name(:name) }],
         ([:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }] if show_done_ratio?),
         [:closed, { caption: t("statuses.index.headers.is_closed") }],
-        [:readonly, { caption: t("statuses.index.headers.is_readonly") }]
+        [:readonly, { caption: t("statuses.index.headers.is_readonly") }],
+        [:workflows, { caption: t(:label_workflow_plural) }]
       ].compact
     end
+
+    def workflow_count_for(status) = workflow_counts.fetch(status.id, 0)
 
     def skip_column?(column)
       column == :done_ratio && !show_done_ratio?
@@ -58,7 +62,7 @@ module Statuses
     def container_class = "op-statuses-table"
 
     # Positions are global while a filtered list shows a non-contiguous subset, so a
-    # drop would resolve against neighbours the list does not display.
+    # drop would resolve against neighbors the list does not display.
     def reorderable?
       query.filters.empty?
     end

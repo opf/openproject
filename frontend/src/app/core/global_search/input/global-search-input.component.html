@@ -5,8 +5,8 @@
       (click)="toggleMobileSearch()"
       class="top-menu-search--back-button"
       href="#"
-      [attr.title]="text.close_search"
-      [attr.aria-label]="text.close_search"
+      opTooltip
+      [label]="text.close_search"
       >
       <i class="icon-arrow-left1" aria-hidden="true"></i>
     </button>
@@ -16,8 +16,8 @@
     #btn
     id="top-menu-search-button"
     class="top-menu-search--button search-form-normal"
-    [attr.title]="text.search"
-    [attr.aria-label]="text.search"
+    opTooltip
+    [label]="text.search"
     [class.-input-focused]="expanded"
     (click)="handleClick($event)"
     tabindex="-1"
@@ -39,6 +39,7 @@
     [classes]="{'top-menu-search--input': true, '-markable': markable, '-expanded': expanded, 'ng-select--primerized': true }"
     [inputAttrs]="{ 'class': 'global-search--input', 'name': 'global-search--input', autocomplete: 'off'}"
     [openOnEnter]="true"
+    [deferFetchUntilOpened]="true"
     [labelRequired]="false"
     [clearAllText]="text.close_search"
     [focusDirectly]="isFocusedDirectly"
@@ -47,7 +48,7 @@
     [virtualScroll]="false"
     (focus)="onFocus()"
     (blur)="onFocusOut()"
-    (search)="search($event)"
+    (search)="search()"
     (close)="onClose()"
     (change)="followItem($event)"
     (keydown.enter)="onEnterBeforeResultsLoaded()"
@@ -63,8 +64,8 @@
         <div>{{text.recently_viewed}}</div>
       }
     </ng-template>
-    <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="searchTerm">
-      @if (!item.id) {
+    <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="search">
+      @if (isSearchOption(item)) {
         <div>
           <a tabindex="0"
              href="#"
@@ -76,7 +77,7 @@
             <div class="global-search--project-scope" title="{{ item.projectScope }}">{{ item.text }} ↵</div>
           </a>
         </div>
-      } @else {
+      } @else if (isWorkPackage(item)) {
         <a
           class="global-search--option"
           [href]="wpPath(item.displayId)"

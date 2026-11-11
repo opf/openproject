@@ -33,8 +33,7 @@ require_module_spec_helper
 require_relative "support/documents_index_page"
 
 RSpec.describe "Create Document",
-               :js,
-               :selenium do
+               :js do
   shared_let(:project) { create(:project) }
   shared_let(:manager_role) { create(:existing_project_role, permissions: %i[view_documents manage_documents]) }
   shared_let(:viewer_role) { create(:existing_project_role, permissions: [:view_documents]) }
@@ -63,12 +62,12 @@ RSpec.describe "Create Document",
 
           fill_in "document_title", with: ""
           click_on "Save"
-          expect(page).to have_content("Title can't be blank")
+          expect(page).to have_text("Title can't be blank")
 
           fill_in "document_title", with: "My collaborative document"
           click_on "Save"
 
-          expect(page).to have_content("My collaborative document")
+          expect(page).to have_text("My collaborative document")
         end
       end
     end

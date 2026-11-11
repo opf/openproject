@@ -29,6 +29,8 @@
 
 module Backlogs
   module CommonHelper
+    include PermittedParamsHelper
+
     def user_allowed?(permission, project: nil)
       current_user.allowed_in_project?(permission, project || self.project)
     end
@@ -58,7 +60,7 @@ module Backlogs
 
     def backlog_filters
       RequestStore.fetch(:backlog_filters) do
-        Backlogs::BacklogFilters.from_params(params.permit(:all, :filters, bucket_ids: [], sprint_ids: []))
+        Backlogs::BacklogFilters.from_params(permitted_params.backlog_filters)
       end
     end
 
@@ -66,23 +68,30 @@ module Backlogs
       backlog_filters.to_h
     end
 
+    # A morph refresh only reloads the container frame in place when its src is unchanged, character
+    # for character. The filters form sets it client-side, and re-encoding the params here would
+    # differ (e.g. `~` vs `%7E`), so keep the query exactly as the browser sent it. This will make
+    # Turbo to reload the frame in place instead of replacing the whole frame, losing scroll position.
+    def backlogs_container_src(project)
+      [project_backlogs_backlog_path(project), request.query_string.presence].compact.join("?")
+    end
+
     def all_sprints_for(project)
-      Sprint.for_project(project).not_completed.order_by_date.includes(:project, :task_boards, :goals)
+      Sprint.assignable(project:).order_by_date
+    end
+
+    def filtered_sprints_for(project)
+      relation = all_sprints_for(project).includes(:project, :task_boards, :goals)
+      backlog_filters.sprint_ids.present? ? relation.where(id: backlog_filters.sprint_ids) : relation
     end
 
     def all_buckets_for(project)
       BacklogBucket.for_project(project)
     end
 
-    def filtered_sprints_for(project)
-      relation = all_sprints_for(project)
-      backlog_filters.sprint_ids.present? ? relation.where(id: backlog_filters.sprint_ids) : relation
-    end
-
     def filtered_buckets_for(project)
-      return all_buckets_for(project) if backlog_filters.bucket_ids.nil?
-
-      all_buckets_for(project).where(id: backlog_filters.bucket_ids_without_inbox)
+      relation = all_buckets_for(project)
+      backlog_filters.bucket_ids.present? ? relation.where(id: backlog_filters.bucket_ids_without_inbox) : relation
     end
 
     def backlogs_move_url_template(project)

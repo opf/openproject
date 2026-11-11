@@ -37,7 +37,7 @@ RSpec.describe Projects::IdentifierValidator do
     project.errors[:identifier]
   end
 
-  # Mode-agnostic behaviours — validator runs the same checks before mode dispatch
+  # Mode-agnostic behaviors — validator runs the same checks before mode dispatch
   # (blank short-circuit, reserved keyword) and after it (historical reservation).
   # Each mode context below includes these shared examples to confirm both branches
   # exercise them.
@@ -178,7 +178,7 @@ RSpec.describe Projects::IdentifierValidator do
     end
   end
 
-  # Tests the override-from-classic behaviour wired through the concern's
+  # Tests the override-from-classic behavior wired through the concern's
   # `validation_context` getter. Stays its own block (not a mode context)
   # because the point is precisely that the global mode is classic.
   describe ":semantic_conversion validation context",

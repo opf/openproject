@@ -56,6 +56,36 @@ RSpec.describe "Work Package table child relations",
     login_as(user)
   end
 
+  it "toggles a relation once with Enter and restores its cell focus" do
+    wp_table.visit_query(query)
+    wp_table.expect_work_package_listed(parent)
+    columns.add("Children")
+    wp_table.focus_cell_by_keyboard(parent, :relationChild)
+
+    wp_table.press_keys(:enter)
+    expect(wp_table.row(parent))
+      .to have_button(accessible_name: "Relations in Children for ##{parent.id}", aria: { expanded: true }, count: 1)
+    wp_table.expect_focus_on_cell(parent, :relationChild)
+
+    wp_table.press_keys(:enter)
+    expect(wp_table.row(parent))
+      .to have_button(accessible_name: "Relations in Children for ##{parent.id}", aria: { expanded: false }, count: 1)
+    wp_table.expect_focus_on_cell(parent, :relationChild)
+  end
+
+  it "walks the relation expander from its cell before the row actions" do
+    wp_table.visit_query(query)
+    wp_table.expect_work_package_listed(parent)
+    columns.add("Children")
+    wp_table.focus_cell_by_keyboard(parent, :relationChild)
+
+    wp_table.press_keys(:tab)
+    expect(wp_table.row(parent))
+      .to have_button(accessible_name: "Relations in Children for ##{parent.id}", focused: true)
+    wp_table.press_keys(:tab)
+    wp_table.expect_focus_on_control(parent, "Open details view")
+  end
+
   it "displays expandable relation columns for the children of a work package" do
     # Now visiting the query for category
     wp_table.visit_query(query)
@@ -82,5 +112,25 @@ RSpec.describe "Work Package table child relations",
     # Collapse
     parent_row.find(".relationChild .wp-table--relation-indicator").click
     expect(page).to have_no_css(".__relations-expanded-from-#{parent.id}")
+  end
+
+  it "opens the relation column menu from its header button by keyboard", :selenium do
+    wp_table.visit_query(query)
+    wp_table.expect_work_package_listed(parent)
+
+    columns.add("Children")
+
+    expect(page).to have_button(accessible_name: /\Achildren\z/i)
+    expect(page).to be_axe_clean.within(".wp-table--table-header:has(.relations-header--icon)")
+
+    find(:columnheader, "Children").send_keys(:enter)
+    within(:menu, "Children") do
+      expect(page).to have_selector(:menuitem, focused: true)
+      expect(page).to have_selector(:menuitem, text: "Insert columns")
+    end
+
+    page.send_keys(:escape)
+    expect(page).to have_no_menu("Children")
+    wp_table.expect_focus_on_column_header("Children")
   end
 end

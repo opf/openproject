@@ -31,7 +31,6 @@ require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
   let(:user) { build_stubbed(:user) }
-  let(:pemissions) { [:view_work_package_watchers] }
 
   describe "#autocomplete_options" do
     let(:project) { create(:project) }

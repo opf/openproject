@@ -51,7 +51,7 @@ RSpec.describe CostQuery::CustomFieldMixin, :reporting_query_helper do
     end
 
     it "uses field.id in the SQL comment and does not include the field name" do
-      query.filter custom_field.attribute_name, operator: "=", value: "test"
+      query.filter custom_field.column_name, operator: "=", value: "test"
       sql = query.sql_statement.to_s
 
       expect(sql).to include("-- BEGIN Custom Field Join: cf_#{custom_field.id}")

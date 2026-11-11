@@ -39,6 +39,10 @@ module CustomField::OrderStatements
     %w[hierarchy weighted_item_list] => :join_for_order_by_hierarchy_sql
   ).freeze
 
+  # Sorts values that are not usable in the work package's project after all others. As positions are
+  # also grouped by, it has to be beyond any actual position, hence the largest bigint.
+  UNAVAILABLE_VALUE_POSITION = (2**63) - 1
+
   # Returns the expression to use in ORDER BY clause to sort objects by their
   # value of the custom field.
   def order_statement
@@ -147,9 +151,12 @@ module CustomField::OrderStatements
   end
 
   def join_for_order_by_list_sql
+    position = disclosed_sql("co.position", UNAVAILABLE_VALUE_POSITION)
+    value_id = disclosed_sql("cv.value", "'#{CustomField::UnavailableValue::GROUP_KEY}'")
+
     join_for_order_sql(
-      value: multi_value? ? "ARRAY_AGG(co.position ORDER BY co.position)" : "co.position",
-      add_select: "#{multi_value? ? "ARRAY_TO_STRING(ARRAY_AGG(cv.value ORDER BY co.position), '.')" : 'cv.value'} ids",
+      value: multi_value? ? "ARRAY_AGG(#{position} ORDER BY #{position})" : position,
+      add_select: "#{multi_value? ? "ARRAY_TO_STRING(ARRAY_AGG(#{value_id} ORDER BY #{position}), '.')" : value_id} ids",
       join: "INNER JOIN #{CustomOption.quoted_table_name} co ON co.id = cv.value::bigint",
       multi_value:
     )
@@ -178,11 +185,24 @@ module CustomField::OrderStatements
   end
 
   def join_for_order_by_hierarchy_sql
+    position = disclosed_sql("item.position_cache", UNAVAILABLE_VALUE_POSITION)
+    value_id = disclosed_sql("cv.value", "'#{CustomField::UnavailableValue::GROUP_KEY}'")
+
     join_for_order_sql(
-      value: multi_value? ? "ARRAY_AGG(item.position_cache ORDER BY item.position_cache)" : "item.position_cache",
-      add_select: "#{multi_value? ? "ARRAY_TO_STRING(ARRAY_AGG(cv.value ORDER BY item.position_cache), '.')" : 'cv.value'} ids",
+      value: multi_value? ? "ARRAY_AGG(#{position} ORDER BY #{position})" : position,
+      add_select: "#{multi_value? ? "ARRAY_TO_STRING(ARRAY_AGG(#{value_id} ORDER BY #{position}), '.')" : value_id} ids",
       join: "INNER JOIN #{CustomField::Hierarchy::Item.quoted_table_name} item ON item.id = cv.value::bigint",
       multi_value:
     )
+  end
+
+  # Values not usable in the project of the customized work package sort and group together as a
+  # single value that does not reveal which values they are.
+  def disclosed_sql(expression, replacement)
+    return expression if project_specific_value_restriction.nil?
+
+    project_sql = "SELECT project_id AS id FROM #{WorkPackage.quoted_table_name} WHERE id = cv.customized_id"
+
+    "CASE WHEN #{usable_value_condition('cv.value::bigint', project_sql)} THEN #{expression} ELSE #{replacement} END"
   end
 end

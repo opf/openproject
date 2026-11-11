@@ -69,7 +69,9 @@ module Import
              :deletable?,
              to: :state_machine
 
-    delegate :client, to: :jira
+    delegate :client,
+             :exclude_resolution_fields?,
+             to: :jira
 
     def find_op_leg(jira_leg)
       Import::JiraOpenProjectReference
@@ -78,6 +80,18 @@ module Import
                jira_import_id: id)
         .first
         &.op_leg
+    end
+
+    def find_op_leg!(jira_leg)
+      op_leg = find_op_leg(jira_leg)
+
+      return op_leg if op_leg
+
+      message = "Reference was expected to be found, but it was not. #{jira_leg.class} with id #{jira_leg.id}"
+
+      Rails.logger.error message
+
+      raise ActiveRecord::RecordNotFound, message
     end
 
     def find_jira_leg(op_leg)
@@ -95,13 +109,17 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def destroy_jira_objects
+      Import::JiraAttachment.where(jira_import_id: id).destroy_all
+      Import::JiraBoard.where(jira_import_id: id).destroy_all
       Import::JiraField.where(jira_import_id: id).destroy_all
       Import::JiraIssue.where(jira_import_id: id).destroy_all
       Import::JiraIssueType.where(jira_import_id: id).destroy_all
       Import::JiraPriority.where(jira_import_id: id).destroy_all
       Import::JiraProject.where(jira_import_id: id).destroy_all
+      Import::JiraSprint.where(jira_import_id: id).destroy_all
       Import::JiraStatus.where(jira_import_id: id).destroy_all
       Import::JiraUser.where(jira_import_id: id).destroy_all
+      Import::JiraVersion.where(jira_import_id: id).destroy_all
     end
 
     def set_job_cursor(job, cursor)

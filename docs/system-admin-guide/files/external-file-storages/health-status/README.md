@@ -40,7 +40,7 @@ There are several possible errors that can occur during the connection test. Whi
 
 | Error code         | Error description                         | Possible reasons                                                            | Next steps and solutions                                                                                                                 |
 |--------------------|-------------------------------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| ERR_NOT_CONFIGURED | The file storage is not fully configured. | Important data is missing, so that the file storage is labelled incomplete. | Check the input fields and fill in the missing data.                                                                                     |
+| ERR_NOT_CONFIGURED | The file storage is not fully configured. | Important data is missing, so that the file storage is labeled incomplete. | Check the input fields and fill in the missing data.                                                                                     |
 | ERR_UNKNOWN_ERROR  | An unknown error occurred.                | There can be multiple reasons and the error source was not foreseen.        | Errors of this kind are logged to the server logs. Look for a log entry starting with `Connection validation failed with unknown error:` |
 
 ### Error codes specific to OneDrive and SharePoint

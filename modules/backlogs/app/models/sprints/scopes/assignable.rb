@@ -31,10 +31,13 @@ module Sprints::Scopes::Assignable
   extend ActiveSupport::Concern
 
   class_methods do
+    # Sprints that work packages of the project can be assigned to.
+    # Viewing sprints in the project covers all of its sprints, including the ones
+    # shared into it, so there is no need for the more expensive .visible scope.
     def assignable(project:, user: User.current)
-      for_project(project)
-        .visible(user)
-        .not_completed
+      return none unless user.allowed_in_project?(:view_sprints, project)
+
+      for_project(project).not_completed
     end
   end
 end

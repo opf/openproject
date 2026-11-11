@@ -31,6 +31,13 @@ Rails.application.routes.draw do
   root to: "homescreen#index", as: "home"
   rails_relative_url_root = OpenProject::Configuration["rails_relative_url_root"] || ""
 
+  constraints(->(_) { OpenProject::FeatureDecisions.progressive_web_app_active? }) do
+    get "manifest" => "pwa/manifest#show", as: :pwa_manifest, format: false
+    get "offline" => "pwa/offline#show", as: :pwa_offline, format: false
+  end
+
+  get "service-worker" => "pwa/service_worker#show", as: :pwa_service_worker, format: false
+
   # Route for error pages
   get "/404", to: "errors#not_found"
   get "/422", to: "errors#unacceptable"
@@ -65,7 +72,8 @@ Rails.application.routes.draw do
   # Redirect wp short url for work packages to full URL
   get "/wp(/)" => redirect("#{rails_relative_url_root}/work_packages")
   get "/wp/*rest" => redirect { |params, _req|
-    "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    target = "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    params[:format].to_s.match?(/\A[A-Za-z0-9]+\z/) ? "#{target}.#{params[:format]}" : target
   }, as: :work_package_short
 
   # Add catch method for Rack OmniAuth to allow route helpers
@@ -165,7 +173,7 @@ Rails.application.routes.draw do
     resources :settings, controller: "settings_tab", only: %i[index]
 
     if administration
-      resource :projects, controller: "projects_tab", only: %i[edit update] do
+      resource :projects, controller: "projects_tab", only: %i[edit] do
         collection do
           post :enable_all, to: "projects_tab#enable_all_projects"
 
@@ -235,22 +243,26 @@ Rails.application.routes.draw do
       get :change_dialog
       patch :change
 
-      get :start_dialog
-      post :start
-
       if administration
+        get :start_dialog
+        post :start
+
         get :configure_dialog
         post :configure
         post :create
       end
 
-      resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
-        get :status_dialog
-        post :confirm_statuses
+      resource :matrix, only: administration ? %i[show update] : %i[show], controller: "/workflows/matrix" do
+        if administration
+          get :status_dialog
+          post :confirm_statuses
+        end
       end
 
-      resource :copy, only: %i[new], controller: "/workflows/copies" do
-        resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
+      if administration
+        resource :copy, only: %i[new], controller: "/workflows/copies" do
+          resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
+        end
       end
     end
 
@@ -269,7 +281,9 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+    resource :creation_wizard, controller: "creation_wizard", only: %i[show update] do
+      get :projects if administration
+    end
   end
 
   resources :types, module: "work_package_types", only: %i[index destroy] do
@@ -346,6 +360,9 @@ Rails.application.routes.draw do
     collection do
       get :projects_tree
     end
+    member do
+      get :types_dialog
+    end
   end
 
   resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
@@ -356,6 +373,7 @@ Rails.application.routes.draw do
 
     member do
       get :edit_dialog
+      get :deletion_dialog
     end
 
     resource :matrix, only: %i[show update], controller: "workflows/matrix" do
@@ -371,6 +389,9 @@ Rails.application.routes.draw do
   resources :form_configurations, path: "forms", only: %i[index], controller: "form_configurations/index" do
     collection do
       get :projects_tree
+    end
+    member do
+      get :types_dialog
     end
   end
 
@@ -388,17 +409,22 @@ Rails.application.routes.draw do
     resource :group, only: %i[create edit update destroy], controller: "form_configurations/groups" do
       post :add_group
       post :cancel_edit
-      put :drop
-      put :move
       patch :update_query
     end
 
-    resources :rows, only: %i[destroy], controller: "form_configurations/rows", param: :row_key do
+    resources :groups, only: [], controller: "form_configurations/groups" do
       member do
-        put :drop
         put :move
       end
     end
+
+    resources :attributes, only: [], controller: "form_configurations/attributes" do
+      member do
+        put :move
+      end
+    end
+
+    resources :rows, only: %i[destroy], controller: "form_configurations/rows", param: :row_key
   end
 
   get "custom_style/:digest/logo/:field/:filename" => "custom_styles#logo_download",
@@ -485,6 +511,15 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :ai do
+    resources :text_transform_panes, only: %i[create show destroy], param: :uuid do
+      member do
+        post :apply
+        post :cancel
+      end
+    end
+  end
+
   namespace :projects do
     resource :menu, only: %i[show]
     resource :filters, only: %i[show]
@@ -529,7 +564,7 @@ Rails.application.routes.draw do
           post :toggle
           post :update_name_settings
           post :update_submission_settings
-          post :update_artifact_export_settings
+          post :update_artefact_export_settings
           post :refresh_submission_form
           post :toggle_project_custom_field
           put :enable_all_of_section
@@ -567,6 +602,7 @@ Rails.application.routes.draw do
             end
           end
           resource :categories, only: %i[show update]
+          resource :custom_fields, only: %i[show]
         end
         resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
           member do
@@ -593,6 +629,7 @@ Rails.application.routes.draw do
     end
 
     member do
+      get :hover_card, to: "projects/hover_card#show"
       get "settings", to: redirect("projects/%{id}/settings/general/")
 
       get "export_project_initiation", to: "projects#export_project_initiation_pdf"
@@ -776,6 +813,7 @@ Rails.application.routes.draw do
     member do
       get "/hover_card" => "project_phases/hover_card#show", as: "hover_card"
     end
+    resource :status, only: :update, controller: "project_phases/status"
   end
 
   resources :admin, controller: :admin, only: :index do
@@ -869,35 +907,6 @@ Rails.application.routes.draw do
         get :test_connection
       end
     end
-
-    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
-      collection do
-        delete :api_key, action: :delete_api_key
-        get :delete_api_key_dialog
-        get :disconnect_dialog
-        post :disconnect
-      end
-
-      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
-        post :create_health_status_report
-      end
-    end
-
-    resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
-      collection do
-        get :search, defaults: { format: :turbo_stream }
-        post :refresh
-        patch :defaults, action: :update_defaults
-      end
-
-      member do
-        get :delete_dialog
-      end
-    end
-
-    # Keyed by feature key rather than by record id: the binding is an attribute
-    # of a registered feature, and a feature may not have a row yet.
-    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
 
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
@@ -1074,6 +1083,14 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+          get :projects
+          get "projects/:project_id", action: :project_values, as: :project_values
+          post "projects/:project_id/values/:value_id", action: :toggle_project_value, as: :toggle_project_value
+          post "projects/:project_id/enable_all", action: :enable_all_project_values, as: :enable_all_project_values
+          post "projects/:project_id/disable_all", action: :disable_all_project_values, as: :disable_all_project_values
+
+          get :forms
+          get :types_and_variants
 
           get :deletion_dialog
         end
@@ -1083,6 +1100,7 @@ Rails.application.routes.draw do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
           post :reorder_alphabetical
+          put :drop
 
           get :attribute_help_text
           put :update_attribute_help_text
@@ -1097,6 +1115,7 @@ Rails.application.routes.draw do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
           post :reorder_alphabetical
+          put :drop
 
           get :attribute_help_text
           put :update_attribute_help_text
@@ -1133,12 +1152,12 @@ Rails.application.routes.draw do
 
     namespace :import do
       get "/", to: redirect("/admin/import/jira")
-      resources :jira, controller: "/admin/import/jira/instances" do
+      resources :jira, controller: "/admin/import/jira" do
         collection do
-          post :test
+          post :test_connection
         end
         member do
-          delete :delete_token
+          delete :clear_credential
         end
         resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: %i[new index] do
           member do
@@ -1181,7 +1200,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :text_transform_actions, except: :show do
+    resources :text_actions, except: :show do
       member do
         get :deletion_dialog
         post :toggle
@@ -1191,7 +1210,6 @@ Rails.application.routes.draw do
       collection do
         put :enable_all
         put :disable_all
-        post :toggle_setting
       end
     end
 
@@ -1487,19 +1505,19 @@ Rails.application.routes.draw do
       delete :revoke_ical_meeting_token
     end
 
-    get "/work/(:mode-:view_mode)(/:date)" => "work#index",
-        as: :work,
+    get "/time/(:mode-:view_mode)(/:date)" => "time_management#index",
+        as: :time,
         constraints: {
           mode: /day|week|workweek|month/,
           view_mode: /list|calendar|stack/,
           date: /(\d{4}-\d{2}-\d{2}|today)/
         }
-    get "/work/refresh" => "work#refresh",
-        as: :work_refresh
+    get "/time/refresh" => "time_management#refresh",
+        as: :time_refresh
 
-    get "/time-tracking(/)" => redirect("#{rails_relative_url_root}/my/work")
+    get "/time-tracking(/)" => redirect("#{rails_relative_url_root}/my/time")
     get "/time-tracking/*rest" => redirect { |params, _req|
-      "#{rails_relative_url_root}/my/work/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+      "#{rails_relative_url_root}/my/time/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
     }
   end
 

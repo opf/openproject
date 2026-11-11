@@ -116,19 +116,21 @@ module Reporting
     # Renders the option tags for the available values of a single filter.
     def available_values
       return head :bad_request if params[:filter_name].blank?
+      return head :not_found if requested_filter_class.nil?
 
-      canvas = ActiveSupport::SafeBuffer.new
-      render_widget Widget::Filters::Option, requested_filter, to: canvas
-
-      render html: canvas, layout: !request.xhr?
+      render Widget::Filters::Option.new(requested_filter), layout: !request.xhr?
     end
 
     private
 
     def requested_filter
-      filter_class(params[:filter_name]).new.tap do |filter|
+      requested_filter_class.new.tap do |filter|
         filter.values = requested_filter_values if params[:values].present?
       end
+    end
+
+    def requested_filter_class
+      ::CostQuery::Filter.named(params[:filter_name])
     end
 
     def requested_filter_values
@@ -146,6 +148,7 @@ module Reporting
 
     def find_report
       @report = CostReport.visible(current_user).find(params.expect(:id))
+      return render_404 unless @report.visible?(current_user)
 
       if configured_by_params?
         ::CostReports::ParamsToReport.new(params, project: @project, user: current_user).call(@report)
@@ -179,7 +182,7 @@ module Reporting
     end
 
     def render_table
-      self.response_body = render_widget(Widget::Table, @report)
+      render Widget::Table.new(@report), layout: false
     end
 
     def export(format)
@@ -224,10 +227,6 @@ module Reporting
     def load_all
       ::CostQuery::GroupBy.all
       ::CostQuery::Filter.all
-    end
-
-    def filter_class(name)
-      ::CostQuery::Filter.all.detect { |filter| filter.underscore_name == name }
     end
 
     def make_public?

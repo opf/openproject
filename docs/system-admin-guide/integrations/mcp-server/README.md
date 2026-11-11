@@ -100,12 +100,14 @@ MCP tools allow connected clients to perform operations in OpenProject. Each too
 | `current_user` | Current user | Returns the currently authenticated user. Also available as an MCP resource. |
 | `delete_time_entry` | Delete time entry | Delete an existing time entry. |
 | `delete_work_package_relation` | Delete work package relation | Delete an existing relation between two work packages. |
+| `get_work_package_form` | Get work package form | Describes a work package for creating or updating it. Pass project_id and type_id for a new work package, or work_package_id for an existing one. Returns the default or current values, including the description template of a new work package, and the writable fields with their types, required flags and allowed values. Call this before create_work_package or update_work_package. |
 | `list_statuses` | List statuses | Lists all work package statuses available on this OpenProject instance. Also available as an MCP resource. |
 | `list_types` | List types | Lists all work package types available on this OpenProject instance. Also available as an MCP resource. |
 | `list_work_package_comments` | List work package comments | List comments of the given work package. |
 | `list_work_package_relations` | List work package relations | List relations of the given work package towards other work packages. |
 | `search_custom_field_items` | Search custom field items | Access items available as values for the given custom field. Usable for hierarchy and weighted item list custom fields. |
 | `search_custom_fields` | Search custom fields | Show details of the custom fields matching given criteria. |
+| `search_labels` | Search labels | Search work package labels matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 40 labels. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_portfolios` | Search portfolios | Search portfolios matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 portfolios. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_programs` | Search programs | Search programs matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 programs. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_projects` | Search projects | Search projects matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 projects. To get the rest of the results, call the tool again with a page number of 1 or higher. |
@@ -127,6 +129,7 @@ MCP resources allow connected clients to access OpenProject data. Each resource 
 | --- | --- | --- |
 | `current_user` | Current user | Representation of the currently authenticated user. |
 | `custom_field` | Custom field | Access custom fields of this OpenProject instance. |
+| `label` | Work Package Label | Access work package labels of this OpenProject instance. |
 | `project` | Project | Access projects of this OpenProject instance. |
 | `status` | Work Package Status | Access work package statuses of this OpenProject instance. |
 | `status_list` | Work Package Statuses List | A list of all work package statuses configured in this OpenProject instance. |
@@ -161,6 +164,16 @@ The compact response includes:
 The work package description and other additional attributes are not included in the compact response.
 
 If the MCP client needs complete work package information, it can request the expanded response through the corresponding `search_work_packages` input parameter. The tool schema and description exposed to the MCP client provide the available parameter and its usage.
+
+#### Work package form
+
+Before creating or updating a work package, an MCP client can call `get_work_package_form` to see what the work package form looks like for the given project and type. This helps the MCP client fill required fields and choose valid values on the first attempt.
+
+The response includes:
+
+-   The fields shown in the form configuration of the type, and which of them are required
+-   The allowed values, for example the statuses the authenticated user can select
+-   The default values of a new work package, such as the description template of the type, or the current values of an existing work package
 
 ### Time tracking
 

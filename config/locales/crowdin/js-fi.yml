@@ -47,6 +47,8 @@ fi:
       draggable_hint: 'Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -61,6 +63,7 @@ fi:
         single: Select "%{name}"Valitse
       remove: Remove %{name} Poista
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Haku
       project:
@@ -128,8 +131,8 @@ fi:
     button_confirm: Vahvista
     button_continue: Jatka
     button_copy: Kopioi
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopioi leikepöydälle
     button_copy_to_other_project: Duplicate in another project
     button_create: Uusi
@@ -147,6 +150,7 @@ fi:
     button_log_time: Kirjaa työaika
     button_more: Lisää
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Avaa tiedot
     button_open_fullscreen: Avaa kokonäyttötila
     button_quote: Siteeraa
@@ -162,6 +166,7 @@ fi:
     button_stop_timer: Stop timer
     button_uncheck_all: Poista valinnat
     button_update: Päivitä
+    button_view_markdown: View Markdown
     caption_rate_history: Tuntihinnan historia
     card:
       add_new: Uusi kortti
@@ -201,6 +206,9 @@ fi:
     description_select_work_package: 'Valitse tehtävä #%{id}'
     description_subwork_package: 'Tehtävän #%{id} alitehtävä'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Tallennus epäonnistui: %{error}'
@@ -359,8 +367,8 @@ fi:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -432,7 +440,6 @@ fi:
     label_assignee: Työn suorittaja
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Liitteet
-    label_author: 'Tekijä: %{user}'
     label_avatar: Kuva
     label_between: välillä
     label_board: Taulu
@@ -552,6 +559,8 @@ fi:
     label_reset: Nollaus
     label_resize_project_menu: Resize project menu
     label_save_as: Tallenna nimellä
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Valitse seuraaja...
     label_selected_filter_list: Valitut suodattimet
@@ -559,7 +568,9 @@ fi:
     label_show_in_menu: Näytä näkymä valikossa
     label_sort_by: Lajitteluperuste
     label_sort_higher: Siirrä ylös
+    label_sort_highest: Move to top
     label_sort_lower: Siirrä alas
+    label_sort_lowest: Move to bottom
     label_sorted_by: lajiteltu
     label_sorting: Lajittelu
     label_spent_time: Käytetty aika
@@ -811,6 +822,7 @@ fi:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -1088,15 +1100,26 @@ fi:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Configure work package table
-        summary: Taulukko jossa tehtävät riveinä ja ominaisuudet sarakkeina.
-        text_inline_edit: Useimmat tämän taulukon soluista ovat nappeja jotka aktivoivat suoran syöttömahdollisuuden kentän arvoon.
-        text_select_hint: Valintalaatikot tulisi avata "Alt" tai nuolinäppäimillä.
-        text_sort_hint: Taulukon otsikon linkkien avulla voit lajitella, ryhmitellä, järjestellä, poistaa ja lisätä taulukon sarakkeita.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Configure this work package table
         choose_display_mode: Näytä tehtävät
@@ -1105,7 +1128,6 @@ fi:
         default_mode: Listanäkymä
         display_settings: Näyttöasetukset
         display_sums_hint: Näytä kokonaismäärät taulukon alapuolella.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Kaikki suoratetut tulokset näytetään taulukossa ylätehtävän kera. Hierarkioita voidaan avata ja sulkea.
         hierarchy_mode: Hierarkia
         highlighting: Korostus

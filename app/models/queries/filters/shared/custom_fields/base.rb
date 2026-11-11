@@ -143,6 +143,12 @@ module Queries::Filters::Shared
       def type_strategy_class
         strategies[type] || strategies[:inexistent]
       end
+
+      def projects_of_query
+        return if project.nil?
+
+        context.include_subprojects? ? project.self_and_descendants : Project.where(id: project)
+      end
     end
   end
 end

@@ -43,12 +43,12 @@ RSpec.describe Storages::Admin::StorageAudienceInfoComponent, type: :component d
     render_component
 
     expect(page).to have_test_selector("storage-audience-label")
-    expect(page).to have_content("Token Exchange")
+    expect(page).to have_text("Token Exchange")
   end
 
   it "indicates the name of the selected audience" do
     render_component
-    expect(page).to have_content('Exchanging tokens for audience "Alice".')
+    expect(page).to have_text('Exchanging tokens for audience "Alice".')
   end
 
   context "when audience is empty string" do
@@ -56,7 +56,7 @@ RSpec.describe Storages::Admin::StorageAudienceInfoComponent, type: :component d
 
     it "indicates that no audience has been selected" do
       render_component
-      expect(page).to have_content("No audience has been configured.")
+      expect(page).to have_text("No audience has been configured.")
     end
   end
 
@@ -65,7 +65,7 @@ RSpec.describe Storages::Admin::StorageAudienceInfoComponent, type: :component d
 
     it "indicates that no audience has been selected" do
       render_component
-      expect(page).to have_content("No audience has been configured.")
+      expect(page).to have_text("No audience has been configured.")
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe Storages::Admin::StorageAudienceInfoComponent, type: :component d
 
     it "indicates that the IDP audience has been selected" do
       render_component
-      expect(page).to have_content("Using access token obtained by identity provider during login, regardless of audience.")
+      expect(page).to have_text("Using access token obtained by identity provider during login, regardless of audience.")
     end
   end
 end

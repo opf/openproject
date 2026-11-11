@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package Parent field ranks exact matches first", :js, :selenium do
+RSpec.describe "Work package Parent field ranks exact matches first", :js do
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages manage_subtasks]) }

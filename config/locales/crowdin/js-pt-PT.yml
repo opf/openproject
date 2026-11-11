@@ -47,6 +47,8 @@ pt-PT:
       draggable_hint: 'Arraste para o campo do editor para inserir uma imagem ou um anexo de referência em linha. Os campos do editor fechados são abertos enquanto continuar a arrastar.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: O ficheiro está em quarentena porque foi encontrado um vírus. Não está disponível para transferência.
     autocomplete_ng_select:
       add_tag: Adicionar item
@@ -61,6 +63,7 @@ pt-PT:
         single: Selecionar "%{name}"
       remove: Remover %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nenhum elemento encontrado
       placeholder: Digite para pesquisar
       project:
@@ -128,8 +131,8 @@ pt-PT:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copiar link para a área de transferência
-    button_copy_numeric_id_to_clipboard: Copiar o ID numérico para a área de transferência
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copiar para a área de transferência
     button_copy_to_other_project: Duplicar noutro projeto
     button_create: Criar
@@ -147,6 +150,7 @@ pt-PT:
     button_log_time: Hora de registo
     button_more: Mais
     button_more_actions: Mais ações
+    button_move: Move
     button_open_details: Abrir vista de detalhes
     button_open_fullscreen: Abrir vista em ecrã inteiro
     button_quote: Citação
@@ -162,6 +166,7 @@ pt-PT:
     button_stop_timer: Parar temporizador
     button_uncheck_all: Desmarcar tudo
     button_update: Atualizar
+    button_view_markdown: View Markdown
     caption_rate_history: Histórico de tarifas
     card:
       add_new: Adicionar novo cartão
@@ -201,6 +206,9 @@ pt-PT:
     description_select_work_package: 'Selecionar pacote de trabalho #%{id}'
     description_subwork_package: 'Filho de pacote de trabalho #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Ocorreu um erro no CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Ao guardar o documento, ocorreu o seguinte erro: %{error}'
@@ -359,8 +367,8 @@ pt-PT:
     ical_sharing_modal:
       copy_url_label: Copiar URL
       description: Pode utilizar o URL (iCalendar) para subscrever este calendário num cliente externo e ver informações atualizadas sobre o pacote de trabalho a partir daí.
-      ical_generation_error_text: Ocorreu um erro ao gerar o URL do calendário.
-      inital_setup_error_message: Ocorreu um erro ao recuperar os dados.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: O URL "%{name}" foi copiado com sucesso para a área de transferência. Cole-o no seu cliente de Calendários para concluir a subscrição.
       title: Subscrever o calendário
       token_name_description_text: Se subscrever este calendário a partir de vários dispositivos, este nome irá ajudar a distinguir entre eles na sua lista de <a href="%{myAccessTokensUrl}" target="_blank">tokens de acesso</a>.
@@ -432,7 +440,6 @@ pt-PT:
     label_assignee: Responsável
     label_assignee_alt_text: Este pacote de trabalho é atribuído a %{name}
     label_attachments: Anexos
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: entre
     label_board: Quadro
@@ -552,6 +559,8 @@ pt-PT:
     label_reset: Repor
     label_resize_project_menu: Redimensionar menu do projeto
     label_save_as: Guardar como
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Pesquisar uma coluna
     label_select_watcher: Selecionar um observador...
     label_selected_filter_list: Filtros selecionados
@@ -559,7 +568,9 @@ pt-PT:
     label_show_in_menu: Mostrar vista no menu
     label_sort_by: Ordenar por
     label_sort_higher: Mover para cima
+    label_sort_highest: Move to top
     label_sort_lower: Mover para baixo
+    label_sort_lowest: Move to bottom
     label_sorted_by: ordenado por
     label_sorting: Ordenação
     label_spent_time: Tempo gasto
@@ -811,6 +822,7 @@ pt-PT:
         batch_too_large: Não é possível mover %{count} elementos de uma só vez. Selecione, no máximo, %{max}.
         fallback_item_label: Elemento
         fallback_list_name: outra lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Erro ao mover. Verifique a posição atual do elemento.
         move_failed_check_positions_batch:
           other: Erro ao mover. Verifique as posições atuais dos elementos.
@@ -1088,15 +1100,26 @@ pt-PT:
       scheduling:
         is_parent: As datas deste pacote de trabalho são deduzidas automaticamente a partir dos seus elementos subordinados. Ative a opção 'Agendamento manual' para definir as datas.
         is_switched_from_manual_to_automatic: As datas deste pacote de trabalho poderão ter de ser recalculadas após a transição da programação manual para a automática, devido às relações com outros pacotes de trabalho.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Mostrar todos os utilizadores com quem o pacote de trabalho foi partilhado
         title: Partilhar pacote de trabalho
       table:
         configure_button: Configurar tabela de pacote de trabalho
-        summary: Tabela com linhas de pacotes de trabalho e colunas de atributos dos pacotes de trabalho.
-        text_inline_edit: A maioria das células desta tabela são botões que ativam a funcionalidade de edição direta desse atributo.
-        text_select_hint: As caixas de seleção devem ser abertas com a tecla 'ALT' e as teclas de seta.
-        text_sort_hint: Com os links nos cabeçalhos da tabela pode classificar, agrupar, reordenar, remover e adicionar colunas da tabela.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Configurar esta tabela de pacote de trabalho
         choose_display_mode: Mostrar pacotes de trabalho como
@@ -1105,7 +1128,6 @@ pt-PT:
         default_mode: Lista plana
         display_settings: Definições do ecrã
         display_sums_hint: Apresentar os totais de todos os atributos que podem ser somados numa linha abaixo dos resultados da tabela.
-        embedded_tab_disabled: Esta aba de configuração não está disponível no modo de visualização incorporado que está a editar.
         hierarchy_hint: Todos os resultados filtrados da tabela serão complementados com os seus antecessores. As hierarquias podem ser expandidas e recolhidas.
         hierarchy_mode: Hierarquia
         highlighting: Destaque

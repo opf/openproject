@@ -26,7 +26,7 @@
 //++
 
 // FLIP: run a DOM mutation, then slide each affected element from where it was
-// to where it landed. Honours prefers-reduced-motion by applying the mutation
+// to where it landed. Honors prefers-reduced-motion by applying the mutation
 // without animation.
 export function flipMove(elements:HTMLElement[], mutate:() => void, durationMs = 200):void {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

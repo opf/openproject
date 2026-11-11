@@ -146,6 +146,19 @@ export function orderedSelectedItemElements(root:HTMLElement, keys:ReadonlySet<S
   });
 }
 
+// One document query per call; never kept, so a morph cannot leave it
+// stale. Keyed on type as well as id: ids collide across source tables.
+export function itemElementsByKey(root:HTMLElement):Map<SelectionKey, HTMLElement> {
+  const map = new Map<SelectionKey, HTMLElement>();
+  orderedItemElements(root).forEach((element) => {
+    const identity = itemIdentity(element);
+    if (identity) {
+      map.set(selectionKey(identity), element);
+    }
+  });
+  return map;
+}
+
 export function liveOrderableItems(root:HTMLElement):SelectionItem[] {
   return orderedItemElements(root)
     .filter(isOrderableItem)
@@ -316,7 +329,7 @@ function listItems(root:HTMLElement, from:HTMLElement):HTMLElement[] {
 
 // Arrows step through the list as rendered, fixed cards included. Not
 // symmetric with listBoundaryItem below, which does filter.
-export function neighbourItem(root:HTMLElement, from:HTMLElement, offset:1|-1):HTMLElement|null {
+export function neighborItem(root:HTMLElement, from:HTMLElement, offset:1|-1):HTMLElement|null {
   const items = listItems(root, from);
   const index = items.indexOf(from);
 

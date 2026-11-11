@@ -33,6 +33,8 @@ module Backlogs
       :all_sprints
     end
 
-    def show; end
+    def show
+      @breakdown = ::Sprints::WorkPackageBreakdown.new(sprint: @sprint, project: @project)
+    end
   end
 end

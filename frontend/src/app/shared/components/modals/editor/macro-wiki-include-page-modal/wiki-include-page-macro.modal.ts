@@ -50,7 +50,7 @@ export class WikiIncludePageMacroModalComponent extends OpModalComponent impleme
 
   @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef<HTMLInputElement>;
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.editor.macro.wiki_page_include.button'),
     hint: this.I18n.t('js.editor.macro.wiki_page_include.hint'),
     page: this.I18n.t('js.editor.macro.wiki_page_include.page'),
@@ -62,7 +62,7 @@ export class WikiIncludePageMacroModalComponent extends OpModalComponent impleme
   constructor() {
     super();
 
-    this.selectedPage = this.page = this.locals.page;
+    this.selectedPage = this.page = this.locals.page as string;
 
     // We could provide an autocompleter here to get correct page names
   }

@@ -29,37 +29,47 @@
 
 module Backlogs
   class WorkPackageCardComponent < ApplicationComponent
-    attr_reader :work_package, :menu_src
+    attr_reader :work_package, :project, :menu_src
 
     delegate :with_menu, :with_metric, to: :card
 
-    def initialize(work_package:, menu_src: nil, **system_arguments)
+    def initialize(work_package:, project:, menu_src: nil, **system_arguments)
       super()
 
       @work_package = work_package
+      @project = project
       @menu_src = menu_src
       @system_arguments = system_arguments
     end
 
     def call
       render(card) do |common_card|
-        unless common_card.metric?
-          common_card.with_metric do
-            render(Backlogs::StoryPointsComponent.new(work_package:))
-          end
-        end
+        render_metric(common_card) unless common_card.metric?
       end
     end
 
     private
 
+    def render_metric(common_card)
+      case project.estimation_unit
+      when Project::BACKLOGS_UNIT_STORY_POINTS
+        common_card.with_metric { render(Backlogs::StoryPointsComponent.new(work_package:)) }
+      when Project::BACKLOGS_UNIT_TIME
+        return unless work_package.estimated_hours.to_f.positive?
+
+        common_card.with_metric { render(Backlogs::EstimatedHoursComponent.new(work_package:)) }
+      end
+    end
+
     def card
-      @card ||= OpenProject::Common::WorkPackageCardComponent.new(
+      @card ||= OpPrimer::WorkPackageCardComponent.new(
         work_package:,
         menu_src:,
         show_assignee: true,
         show_priority: true,
         show_parent: true,
+        link_subject: false,
+        link_parent: false,
         status_scheme: :secondary,
         **@system_arguments
       )

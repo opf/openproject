@@ -120,6 +120,28 @@ RSpec.describe McpTools::SearchCustomFieldItems do
       it_behaves_like "MCP tool execution error response"
     end
 
+    context "with project-specific values" do
+      let(:type) { create(:type) }
+      let(:project) { create(:project, types: [type]) }
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+      let(:items) { parsed_results.dig("structuredContent", "items") }
+
+      before do
+        custom_field.update!(project_specific_value_restriction: "allow")
+        type.default_variant.custom_field_ids |= [custom_field.id]
+
+        green_item = custom_field.hierarchy_root.children.find_by!(label: "the green item")
+        create(:project_specific_value_restriction, project:, hierarchy_item: green_item)
+      end
+
+      it "only finds the items the user may see without linking hidden children" do
+        mcp_request
+
+        expect(items.pluck("label")).to contain_exactly(nil, "the green item")
+        expect(items.find { it["label"].nil? }.dig("_links", "children").pluck("title")).to eq(["the green item"])
+      end
+    end
+
     context "when filtering by label" do
       let(:call_args) { { custom_field_id: custom_field.id, label: "the green item" } }
 

@@ -113,19 +113,7 @@ describe('HookService', () => {
       shouldBehaveLikeResultWithElements(validId, 1);
     });
 
-    describe('function that returns something that is not undefined', () => {
-      beforeEach(() => {
-        callback = vi.fn().mockReturnValue({});
-
-        service.register('myValidCallbacks', callback);
-      });
-
-      shouldBehaveLikeCalledCallback(validId);
-
-      shouldBehaveLikeResultWithElements(validId, 1);
-    });
-
-    describe('function that returns something that is not undefined', () => {
+    describe('callbacks registered for another hook', () => {
       beforeEach(() => {
         callback = vi.fn();
         invalidCallback = vi.fn();
@@ -140,7 +128,7 @@ describe('HookService', () => {
       shouldBehaveLikeUncalledCallback(validId);
     });
 
-    describe('function that returns something that is not undefined', () => {
+    describe('two functions that return something', () => {
       let callback1;
       let callback2;
 

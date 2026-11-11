@@ -48,8 +48,11 @@ export class WorkPackageAuthorization {
       case 'copy_link_to_clipboard':
         link = this.shortLink();
         break;
-      case 'copy_numeric_id_to_clipboard':
-        link = this.workPackage.id!.toString();
+      case 'view_markdown':
+        link = this.shortLink({ format: 'md' });
+        break;
+      case 'copy_alphanumeric_id_to_clipboard':
+        link = this.workPackage.displayId;
         break;
       case 'copy_to_other_project':
         link = this.bulkCopyLink();
@@ -87,8 +90,8 @@ export class WorkPackageAuthorization {
     return this.PathHelper.workPackageCopyPath(this.project.identifier, this.workPackage.displayId);
   }
 
-  private shortLink() {
-    return this.PathHelper.workPackageShortPath(this.workPackage.displayId);
+  private shortLink(options?:{ format?:string }) {
+    return this.PathHelper.workPackageShortPath(this.workPackage.displayId, options);
   }
 
   private bulkCopyLink():string {

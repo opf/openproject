@@ -66,10 +66,53 @@ RSpec.describe "Statuses administration" do
 
       it "list statuses" do
         visit statuses_path
-        expect(page).to have_content("I am new")
-        expect(page).to have_content("Working on it")
-        expect(page).to have_content("Job finished")
+        expect(page).to have_text("I am new")
+        expect(page).to have_text("Working on it")
+        expect(page).to have_text("Job finished")
       end
+
+      it "links a status's workflow count to the filtered workflows list" do
+        workflow = create(:named_workflow, name: "Review flow")
+        create(:status_transition, workflow:, old_status: in_progress_status)
+        create(:named_workflow, name: "Unrelated flow")
+
+        visit statuses_path
+
+        within(".Box-row", text: "Working on it") do
+          click_link I18n.t("statuses.index.workflows_count", count: 1)
+        end
+
+        expect(page).to have_current_path(/workflows/)
+        expect(page).to have_text("Review flow")
+        expect(page).to have_no_text("Unrelated flow")
+      end
+    end
+  end
+
+  describe "Edit status page" do
+    let(:status) { create(:status, name: "In progress") }
+
+    it "shows a usage banner linking to the filtered list of workflows" do
+      workflow = create(:named_workflow, name: "Review flow")
+      create(:status_transition, workflow:, old_status: status)
+      create(:named_workflow, name: "Unrelated flow")
+
+      visit edit_status_path(status)
+
+      expect(page).to have_text("This status is used by 1 workflow.")
+
+      click_link "View workflows"
+
+      expect(page).to have_current_path(/workflows/)
+      expect(page).to have_text("Review flow")
+      expect(page).to have_no_text("Unrelated flow")
+    end
+
+    it "shows no banner when no workflow uses the status" do
+      visit edit_status_path(status)
+
+      expect(page).to have_text("In progress")
+      expect(page).to have_no_text("This status is used by")
     end
   end
 end

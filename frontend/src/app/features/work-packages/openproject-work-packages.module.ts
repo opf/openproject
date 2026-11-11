@@ -49,9 +49,6 @@ import {
   OpTypesContextMenuDirective,
 } from 'core-app/shared/components/op-context-menu/handlers/op-types-context-menu.directive';
 import {
-  OpColumnsContextMenu,
-} from 'core-app/shared/components/op-context-menu/handlers/op-columns-context-menu.directive';
-import {
   OpSettingsMenuDirective,
 } from 'core-app/shared/components/op-context-menu/handlers/op-settings-dropdown-menu.directive';
 import {
@@ -303,6 +300,7 @@ import { WorkPackagesGridComponent } from 'core-app/features/work-packages/compo
 import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 import { OpSortableListsListDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-list.directive';
 import { OpSortableListsItemDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-item.directive';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import {
   WorkPackageSplitViewToolbarComponent,
 } from 'core-app/features/work-packages/components/wp-details/wp-details-toolbar.component';
@@ -446,6 +444,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     OpSortableListsDirective,
     OpSortableListsListDirective,
     OpSortableListsItemDirective,
+    OpTooltipDirective,
   ],
   providers: [
     // Notification service
@@ -546,7 +545,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
 
     // Context menus
     OpTypesContextMenuDirective,
-    OpColumnsContextMenu,
     OpSettingsMenuDirective,
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,

@@ -32,6 +32,7 @@ import {
   TriggerActionsEntryComponent,
 } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { CommonModule } from '@angular/common';
 import {
   StopExistingTimerModalComponent,
@@ -43,6 +44,7 @@ import {
     CommonModule,
     OpSharedModule,
     OpenprojectModalModule,
+    OpTooltipDirective,
   ],
   declarations: [
     TriggerActionsEntryComponent,

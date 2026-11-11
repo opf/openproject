@@ -1,0 +1,178 @@
+{
+  "id": "11400",
+  "key": "DPPP-7",
+  "self": "https://jira-dc.openproject.org/rest/api/2/issue/11400",
+  "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+  "fields": {
+    "parent": {
+      "id": "10405",
+      "key": "DPPP-6",
+      "self": "https://jira-dc.openproject.org/rest/api/2/issue/10405",
+      "fields": {
+        "summary": "Demo bug with a lot of formatted text",
+        "status": {
+          "self": "https://jira-dc.openproject.org/rest/api/2/status/3",
+          "description": "This issue is being actively worked on at the moment by the assignee.",
+          "iconUrl": "https://jira-dc.openproject.org/images/icons/statuses/inprogress.png",
+          "name": "In Progress",
+          "id": "3",
+          "statusCategory": {
+            "self": "https://jira-dc.openproject.org/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "inprogress",
+            "name": "In Progress"
+          }
+        },
+        "priority": {
+          "self": "https://jira-dc.openproject.org/rest/api/2/priority/1",
+          "iconUrl": "https://jira-dc.openproject.org/images/icons/priorities/highest.svg",
+          "name": "Highest",
+          "id": "1"
+        },
+        "issuetype": {
+          "self": "https://jira-dc.openproject.org/rest/api/2/issuetype/10004",
+          "id": "10004",
+          "description": "(ou défaut) Imperfection dans un composant ou un système qui peut conduire à ce qu'un composant ou un système n'exécute pas les fonctions requises.",
+          "iconUrl": "https://jira-dc.openproject.org/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+          "name": "Bug",
+          "subtask": false,
+          "avatarId": 10303
+        }
+      }
+    },
+    "votes": {
+      "self": "https://jira-dc.openproject.org/rest/api/2/issue/DPPP-7/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "labels": [],
+    "status": {
+      "self": "https://jira-dc.openproject.org/rest/api/2/status/10003",
+      "description": "",
+      "iconUrl": "https://jira-dc.openproject.org/",
+      "name": "TO DO",
+      "id": "10003",
+      "statusCategory": {
+        "self": "https://jira-dc.openproject.org/rest/api/2/statuscategory/2",
+        "id": 2,
+        "key": "new",
+        "colorName": "default",
+        "name": "To Do"
+      }
+    },
+    "comment": {
+      "total": 0,
+      "startAt": 0,
+      "comments": [],
+      "maxResults": 1000
+    },
+    "created": "2026-10-27T10:00:00.000+0000",
+    "creator": {
+      "key": "JIRAUSER10000",
+      "name": "pavel.balashou",
+      "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+      "active": true,
+      "timeZone": "Etc/UTC",
+      "avatarUrls": {
+        "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+        "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+        "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+        "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+      },
+      "displayName": "Pavel Balashou",
+      "emailAddress": "p.balashou@openproject.com"
+    },
+    "duedate": null,
+    "project": {
+      "id": "10012",
+      "key": "DPPP",
+      "name": "Demo project",
+      "self": "https://jira-dc.openproject.org/rest/api/2/project/10012",
+      "avatarUrls": {
+        "16x16": "https://jira-dc.openproject.org/secure/projectavatar?size=xsmall&avatarId=10324",
+        "24x24": "https://jira-dc.openproject.org/secure/projectavatar?size=small&avatarId=10324",
+        "32x32": "https://jira-dc.openproject.org/secure/projectavatar?size=medium&avatarId=10324",
+        "48x48": "https://jira-dc.openproject.org/secure/projectavatar?avatarId=10324"
+      },
+      "projectTypeKey": "software"
+    },
+    "summary": "Bug sub task",
+    "updated": "2026-10-27T10:00:00.000+0000",
+    "watches": {
+      "self": "https://jira-dc.openproject.org/rest/api/2/issue/DPPP-7/watchers",
+      "isWatching": false,
+      "watchCount": 0
+    },
+    "worklog": {
+      "total": 0,
+      "startAt": 0,
+      "worklogs": [],
+      "maxResults": 20
+    },
+    "assignee": null,
+    "priority": {
+      "self": "https://jira-dc.openproject.org/rest/api/2/priority/3",
+      "iconUrl": "https://jira-dc.openproject.org/images/icons/priorities/medium.svg",
+      "name": "Medium",
+      "id": "3"
+    },
+    "progress": {
+      "total": 0,
+      "progress": 0
+    },
+    "reporter": {
+      "key": "JIRAUSER10000",
+      "name": "pavel.balashou",
+      "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+      "active": true,
+      "timeZone": "Etc/UTC",
+      "avatarUrls": {
+        "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+        "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+        "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+        "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+      },
+      "displayName": "Pavel Balashou",
+      "emailAddress": "p.balashou@openproject.com"
+    },
+    "subtasks": [],
+    "versions": [],
+    "issuetype": {
+      "self": "https://jira-dc.openproject.org/rest/api/2/issuetype/10003",
+      "id": "10003",
+      "description": "The sub-task of the issue",
+      "iconUrl": "https://jira-dc.openproject.org/secure/viewavatar?size=xsmall&avatarId=10316&avatarType=issuetype",
+      "name": "Sub-task",
+      "subtask": true,
+      "avatarId": 10316
+    },
+    "timespent": null,
+    "workratio": -1,
+    "attachment": [],
+    "components": [],
+    "issuelinks": [],
+    "lastViewed": null,
+    "resolution": null,
+    "description": "This is a subtask of the demo bug.",
+    "environment": null,
+    "fixVersions": [],
+    "timeestimate": null,
+    "resolutiondate": null,
+    "aggregateprogress": {
+      "total": 0,
+      "progress": 0
+    },
+    "aggregatetimespent": null,
+    "timeoriginalestimate": null,
+    "aggregatetimeestimate": null,
+    "aggregatetimeoriginalestimate": null
+  },
+  "changelog": {
+    "total": 0,
+    "startAt": 0,
+    "histories": [],
+    "maxResults": 0
+  },
+  "renderedFields": null
+}

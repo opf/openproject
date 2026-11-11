@@ -103,7 +103,7 @@ but if that is a non-trivial task, we might ask you to create another PR for tha
 
 We want to keep the Pull request list as tidy as possible - we will aim close pull requests
 after an **inactivity period of 30 days** (no comments, no further pushes)
-which are not labelled as `work in progress` by us.
+which are not labeled as `work in progress` by us.
 
 ## Security
 

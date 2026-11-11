@@ -59,21 +59,26 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     this.element.addEventListener('click', (evt) => {
       evt.preventDefault();
 
-      // When clicking the same trigger twice, close the element instead.
-      if (this.opContextMenu.isActive(this)) {
-        this.opContextMenu.close();
-      } else {
-        this.open(evt);
-      }
+      if (!this.isAriaDisabled) this.toggle(evt);
     });
 
     // Open with keyboard combination as well
-    Mousetrap(this.element).bind('shift+alt+f10', (evt:any) => {
-      this.open(evt);
+    Mousetrap(this.element).bind('shift+alt+f10', (evt) => {
+      if (!this.isAriaDisabled) {
+        this.open(evt);
+      }
     });
   }
 
-  public computePosition(floating:HTMLElement, openerEvent:Event):Promise<ComputePositionReturn> {
+  protected toggle(evt:MouseEvent):void {
+    if (this.opContextMenu.isActive(this)) {
+      this.opContextMenu.close();
+    } else {
+      this.open(evt);
+    }
+  }
+
+  public computePosition(floating:HTMLElement, _openerEvent:Event):Promise<ComputePositionReturn> {
     return computePosition(this.element, floating, {
       placement: this.placement,
       middleware: [
@@ -81,5 +86,9 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
         shift({ padding: 10 }),
       ],
     });
+  }
+
+  private get isAriaDisabled():boolean {
+    return this.element.getAttribute('aria-disabled') === 'true';
   }
 }

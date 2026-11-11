@@ -167,7 +167,7 @@ vi:
     label_new_resource_planner: New resource planner
     label_resource_planner: Resource Planner
     label_resource_planner_plural: Resource Planners
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Add View

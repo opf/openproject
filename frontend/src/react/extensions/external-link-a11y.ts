@@ -106,7 +106,7 @@ function buildWidget():HTMLElement {
   // region, so users cannot place their caret inside it or delete it.
   span.setAttribute('contenteditable', 'false');
   // Reuse the same translated string the body-level ExternalLinksController
-  // references via aria-describedby, keeping i18n centralised in Rails.
+  // references via aria-describedby, keeping i18n centralized in Rails.
   // Captured at decoration-creation time, so a mid-session locale change
   // keeps stale text until the next rebuild. Leading NBSP is a separator
   // for the link's computed accessible name — without it, AT can announce

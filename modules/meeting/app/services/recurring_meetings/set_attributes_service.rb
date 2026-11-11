@@ -44,7 +44,7 @@ module RecurringMeetings
     end
 
     # current_schedule_start is used as the DTSTART of the ICS series event.
-    # As a result, it needs to be conencted to the UID.
+    # As a result, it needs to be connected to the UID.
     # If DTSTART moves while the UID stays the same, some clients delete all earlier
     # occurrences
     #

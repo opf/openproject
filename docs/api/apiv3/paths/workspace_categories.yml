@@ -46,7 +46,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/categories_by_workspace_model.yml"
+            $ref: "../components/schemas/categories_by_workspace_model.yml"
       description: OK
       headers: {}
     '404':
@@ -72,5 +72,5 @@ get:
   tags:
     - Categories
   description: 'List all categories of a project'
-  operationId: List_categories_of_a_workspace
+  operationId: list_categories_of_a_workspace
   summary: List categories of a workspace

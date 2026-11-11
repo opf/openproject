@@ -48,7 +48,7 @@ lv:
     changed_files_count: Changed files
     comments_count: Comments count
     deletions_count: Number of deletions
-    github: GitHub identifer
+    github: GitHub identifier
     github_app_owner_avatar_url: Owner avatar URL
     github_avatar_url: Avatar URL
     github_html_url: Pull Request URL

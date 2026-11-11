@@ -49,6 +49,25 @@ module AI
       private
 
       attr_reader :pane
+
+      def wrapper_data
+        {
+          test_selector: "ai-text-transform-result",
+          controller: STIMULUS_CONTROLLER,
+          ai_text_transform_pane_close_form_value: CLOSE_FORM_ID,
+          ai_text_transform_pane_editor_gone_value: label(:editor_gone),
+          ai_text_transform_pane_selection_gone_value: label(:selection_gone),
+          ai_text_transform_pane_request_failed_value: label(:request_failed),
+          **action(close: "keydown.esc",
+                   keepInViewport: "resize@window",
+                   submitStarted: "turbo:submit-start",
+                   submitEnded: "turbo:submit-end",
+                   rememberFocus: "turbo:before-stream-render@document",
+                   accepted: "#{AI::TextTransformPanesController::ACCEPTED_EVENT}@document",
+                   applied: "#{APPLIED_EVENT}@window",
+                   abandon: "pagehide@window")
+        }
+      end
     end
   end
 end

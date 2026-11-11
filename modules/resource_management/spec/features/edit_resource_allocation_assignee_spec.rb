@@ -64,12 +64,14 @@ RSpec.describe "Editing the assignee of a resource allocation", :js, with_ee: %i
     wp_page.visit!
     within(allocated_time_field.field_container) { click_button I18n.t("js.resource_management.show_allocations") }
 
-    within("##{ResourceAllocations::ListDialogComponent::DIALOG_ID}") do
+    list_dialog = find("##{ResourceAllocations::ListDialogComponent::DIALOG_ID}")
+    wait_for_size_animation_completion(list_dialog)
+    within(list_dialog) do
       all(:button) { it.has_selector?("svg.octicon-kebab-horizontal") }.first.click
     end
     find(:menuitem, I18n.t(:button_edit)).click
 
-    expect(page).to have_css(edit_dialog_selector)
+    wait_for_size_animation_completion(edit_dialog_selector)
   end
 
   def save_with_hours(hours)
@@ -119,12 +121,15 @@ RSpec.describe "Editing the assignee of a resource allocation", :js, with_ee: %i
       end
 
       search_autocomplete(autocompleter, query: "e", results_selector: edit_dialog_selector)
+      expect_ng_option(autocompleter, assignee.name, results_selector: edit_dialog_selector)
       expect_ng_option(autocompleter, other_member.name, results_selector: edit_dialog_selector)
       expect_no_ng_option(autocompleter, non_candidate.name, results_selector: edit_dialog_selector)
       expect_no_ng_option(autocompleter, placeholder.name, results_selector: edit_dialog_selector)
 
-      select_autocomplete(autocompleter, query: other_member.lastname, select_text: other_member.name,
-                                         results_selector: edit_dialog_selector)
+      search_autocomplete(autocompleter, query: other_member.lastname, results_selector: edit_dialog_selector)
+      expect_no_ng_option(autocompleter, assignee.name, results_selector: edit_dialog_selector)
+      within(edit_dialog_selector) { find(".ng-option", text: other_member.name).click }
+      expect_current_autocompleter_value(autocompleter, other_member.name)
       save_with_hours("8h")
 
       allocation.reload

@@ -103,7 +103,7 @@ export abstract class ResourceStoreService<T extends { id:ID }> {
 
   /**
    * Require a single entity to be loaded.
-   * Returnes the cached entity if it was loaded already
+   * Returns the cached entity if it was loaded already
    *
    * @param href {string}
    */

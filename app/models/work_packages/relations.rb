@@ -32,7 +32,7 @@ module WorkPackages::Relations
 
   included do
     # All relations of the work package in both directions.
-    # rubocop:disable Rails/InverseOf
+    # rubocop:disable-next Rails/InverseOf
     has_many :relations,
              ->(work_package) {
                unscope(:where)
@@ -57,7 +57,6 @@ module WorkPackages::Relations
         merge(visible_relations).where(old_constraints)
       end
     end
-    # rubocop:enable Rails/InverseOf
 
     # Relations where the current work package follows another one.
     # In this case,

@@ -41,40 +41,45 @@ module Grids
         t(".title")
       end
 
-      def members_by_role
+      def members_by_role # rubocop:disable Metrics/AbcSize
+        # Sanity check: If we can't view members, we can return immediatly.
+        # This way we don't need to check if current_user is allowed to view_members
+        # multiple times.
+        return [] unless can_view_members?
+
         @members_by_role ||= ProjectRole
-          .where(id: member_role_ids)
+          .joins(:members)
+          .where(members: { project_id: project.id })
+          .group(:id, :name)
           .order(name: :asc)
-          .map do |role|
-          members_query = members_for_role(role.id)
-          total_count = members_query.count
-          members = members_query.limit(limit).to_a.map(&:principal)
+          .count
+          .filter_map do |(id, name), total_count|
+            members = principals_for_role(id).limit(limit).load
+            next if members.none?
 
-          {
-            role:,
-            members:,
-            total_count:,
-            remaining: [total_count - limit, 0].max,
-            has_more: total_count > limit
-          }
-        end
+            {
+              id:,
+              name:,
+              members:,
+              total_count: total_count,
+              remaining: [total_count - limit, 0].max,
+              has_more: total_count > limit
+            }
+          end
       end
 
-      def members_for_role(role_id)
-        project
-          .members
-          .visible(current_user)
-          .joins(:member_roles)
+      def principals_for_role(role_id)
+        # NOTE: The principals scope on Project joins members and
+        #       since we need also member_roles, we would need to
+        #       join members again, resulting in principals being
+        #       included multiple times (e.g. when having the same
+        #       role in multiple projects).
+        Principal
+          .not_locked
+          .joins(members: :member_roles)
+          .where(members: { project: })
           .where(member_roles: { role_id: })
-          .includes(:principal)
-          .order(created_at: :desc)
-      end
-
-      def member_role_ids
-        MemberRole
-          .where(member_id: project.members.select(:id))
-          .select(:role_id)
-          .distinct
+          .order(members: { created_at: :desc })
       end
 
       def can_view_members?
@@ -82,7 +87,7 @@ module Grids
       end
 
       def can_manage_members?
-        current_user.allowed_in_project?(:manage_members, project)
+        @can_manage_members ||= current_user.allowed_in_project?(:manage_members, project)
       end
     end
   end

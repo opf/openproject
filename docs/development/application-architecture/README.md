@@ -44,7 +44,7 @@ flowchart TD
 
   openproject <-->|"TCP requests"| services
   openproject -->|"HTTPS requests"| integrations
-  loadbalancer <-->|"HTTPS requsts"| integrations
+  loadbalancer <-->|"HTTPS requests"| integrations
   
   subgraph localclients[Local Client / User device]
   direction TB
@@ -96,7 +96,7 @@ OpenProject is continuously tested, developed, and distributed using the followi
 | Production<br>(Docker images) | [Official public OpenProject docker images](https://hub.docker.com/r/openproject/openproject/)<br>Continuous delivery for development versions using `dev-*`tags.<br>Stable releases through major, minor, or patch level tags.                            | Development (`dev`, `dev-slim` tag)<br>Stable releases (`X`, `X.Y`, `X.Y.Z`, `X-slim`, `X.Y-slim`, `X.Y.Z-slim`)                                                 | Automatically on new releases of the OpenProject application                                                                     |
 | Production<br>(Packages)      | [Official public OpenProject Linux packages](../../installation-and-operations/installation/packaged/) <br><br>Stable releases for supported distributions                                                                                                 | Stable releases                                                                                                                                                  | Automatically on new releases of the OpenProject application                                                                     |
 | Production<br>(Helm chart)    | [Official public OpenProject Helm charts](../../installation-and-operations/installation/helm-chart/)<br>Stable releases                                                                                                                                   | Stable releases (configurable through container tags)                                                                                                            | Updates to Helm chart are manual, underlying deployment uses OpenProject docker images                                           |
-| PullPreview                   | Temporary instances for development of features scope to a pull request.                                                                                                                                                                                   | Feature branches                                                                                                                                                 | Automatically deployed when developers/QA request a pull preview instance by labelling pull requests with the `PullPreview` tag. |
+| PullPreview                   | Temporary instances for development of features scope to a pull request.                                                                                                                                                                                   | Feature branches                                                                                                                                                 | Automatically deployed when developers/QA request a pull preview instance by labeling pull requests with the `PullPreview` tag.  |
 
 ## Patch and change management
 
@@ -232,3 +232,7 @@ The monolith was turned into a hybrid application with semi-separated JavaScript
 Due to performance issues with AngularJS digest cycles and a large number of components, the work package table was [refactored into a plain JavaScript renderer](https://github.com/opf/openproject/pull/5117) end of 2016. Finally, in early 2018, the application frontend was [migrated from AngularJS to Angular](https://github.com/opf/openproject/pull/5984) during the course of a few releases.
 
 [In early 2019](https://github.com/opf/openproject/pull/7385), the rest of AngularJS code was removed and the frontend switched to the Angular CLI with Ahead-of-Time compilation (AOT).
+
+## Service objects
+
+Service objects return results using [ServiceResult](https://github.com/opf/openproject/blob/dev/app/services/service_result.rb), which represents success or failure and carries the resulting object and errors. Some services use [dry-monads](https://github.com/dry-rb/dry-monads) for result modeling.

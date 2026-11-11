@@ -34,7 +34,7 @@ module Backlogs
       if sprint.active? && sprint_board(sprint, project).present?
         project_backlogs_sprint_taskboard_path(project, sprint)
       elsif sprint.in_planning?
-        project_backlogs_backlog_path(project, sprint_ids: [sprint.id])
+        project_backlogs_backlog_path(project, sprint_ids: [sprint.id.to_s].to_json)
       elsif sprint.completed?
         sprint_work_packages_path(sprint, project)
       end
@@ -52,13 +52,22 @@ module Backlogs
       query_props = {
         f: [{ n: "sprintId", o: "=", v: [sprint.id.to_s] }] + extra_filters,
         t: "position:asc",
-        c: default_columns | ["sprint"]
+        c: default_columns | ["sprint", *estimation_column(project)],
+        is: false
       }
       if timestamps.present?
         query_props[:ts] = API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
       end
 
       project_work_packages_path(project, query_props: query_props.to_json)
+    end
+
+    def estimation_column(project = self.project)
+      if project.estimation_unit_story_points?
+        "story_points"
+      elsif project.estimation_unit_time?
+        "estimated_hours"
+      end
     end
   end
 end

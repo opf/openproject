@@ -1,0 +1,24 @@
+<% helpers.html_title t(:label_my_time), "#{t("label_#{mode}")} #{t(:label_list)} #{helpers.format_date(date)}" -%>
+<%= render(My::TimeManagement::ViewFrameComponent.new) do %>
+  <%= component_wrapper(tag: "div", data: wrapper_data) do %>
+    <%= render(My::TimeManagement::HeaderComponent.new(mode:, date:, entries:, view_mode: :list)) %>
+    <%= render(My::TimeManagement::SubHeaderComponent.new(mode:, date:, entries:, view_mode: :list)) %>
+
+    <%= flex_layout(classes: ["my-time-management-list-view"]) do |flex| %>
+      <% range.each do |date| %>
+        <% flex.with_row do %>
+          <%= render(Primer::OpenProject::CollapsibleSection.new(test_selector: "section-#{date.iso8601}", collapsed: collapsed_state(date))) do |section| %>
+            <% section.with_title { date_title(date) } %>
+            <% section.with_caption { date_caption(date) } %>
+            <% section.with_additional_information do %>
+              <%= render(My::TimeManagement::ListStatsComponent.new(time_entries: grouped_time_entries[date], allocations:, date:, mode:)) %>
+            <% end %>
+            <% section.with_collapsible_content do %>
+              <%= render(My::TimeManagement::ListWrapperComponent.new(time_entries: grouped_time_entries[date], allocations:, date:, mode:)) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

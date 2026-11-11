@@ -29,7 +29,7 @@
 
 class WorkPackages::MovesController < ApplicationController
   include WorkPackages::BulkErrorMessage
-  include WorkPackages::VersionIdsNormalization
+  include WorkPackages::IdListNormalization
   include OpTurbo::ComponentStream
 
   default_search_scope :work_packages
@@ -65,14 +65,14 @@ class WorkPackages::MovesController < ApplicationController
   end
 
   def perform_operation
-    if within_frontend_treshold?
+    if within_frontend_threshold?
       perform_in_frontend
     else
       perform_in_background
     end
   end
 
-  def within_frontend_treshold?
+  def within_frontend_threshold?
     WorkPackageHierarchy.where(ancestor_id: @work_packages).count <= Setting.work_packages_bulk_request_limit
   end
 
@@ -156,18 +156,13 @@ class WorkPackages::MovesController < ApplicationController
 
   def attributes_for_create
     attributes = permitted_params.move_work_package
-    # target_version_ids and observed_in_version_ids are array params and must not be run through
-    # the scalar "none"/blank magic value transforms below.
-    target_version_ids = normalized_target_version_ids(attributes.delete(:target_version_ids))
-    observed_in_version_ids = normalized_observed_in_version_ids(attributes.delete(:observed_in_version_ids))
+    id_lists = extract_normalized_id_lists(attributes)
 
-    attributes = attributes
+    attributes
       .compact_blank
       # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
       .transform_values { |v| v == "none" ? nil : v }
       .to_h
-    attributes[:target_version_ids] = target_version_ids unless target_version_ids.nil?
-    attributes[:observed_in_version_ids] = observed_in_version_ids unless observed_in_version_ids.nil?
-    attributes
+      .merge(id_lists)
   end
 end

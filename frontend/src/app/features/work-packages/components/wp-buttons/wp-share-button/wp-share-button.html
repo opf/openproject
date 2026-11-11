@@ -1,7 +1,9 @@
+@let shareCount = shareCount$ | async;
 <button
   class="button toolbar-icon"
   data-test-selector="op-wp-share-button"
-  [title]="text.share"
+  opTooltip
+  [label]="shareCount ? text.share + ' ' + shareCount : text.share"
   (click)="openModal()"
   >
   <svg
@@ -9,7 +11,7 @@
     class="button--icon"
     size="small"
   ></svg>
-  @if ((shareCount$ | async); as shareCount) {
+  @if (shareCount) {
     <span class="button--text">
       <span class="badge"
       [textContent]="shareCount"></span>

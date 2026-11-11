@@ -26,11 +26,33 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { title }
-    header.with_description { description }
-    header.with_breadcrumbs(breadcrumb_items)
-    helpers.render_tab_header_nav(header, @tabs)
-  end
-%>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title do %>
+    <%= title %>
+    <% if show_variant_suffix? %>
+      <%= render(Primer::Beta::Text.new(color: :muted)) { variant_suffix } %>
+    <% end %>
+  <% end %>
+  <% header.with_description { description } %>
+  <% header.with_breadcrumbs(breadcrumb_items) %>
+
+  <% if convert_to_global_action? %>
+    <% header.with_action_menu(
+         menu_arguments: { anchor_align: :end },
+         button_arguments: {
+           icon: "kebab-horizontal",
+           "aria-label": t(:label_more)
+         }
+       ) do |menu| %>
+      <% menu.with_item(
+           label: t("types.index.convert_to_global"),
+           href: convert_to_global_dialog_path,
+           content_arguments: { data: { controller: "async-dialog" } }
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :"stack-check") %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% helpers.render_tab_header_nav(header, @tabs) %>
+<% end %>

@@ -79,7 +79,7 @@ ko:
       group_regexes: 라인별로 하나의 정규 표현식 패턴을 사용하세요. 작업 방법에 대한 자세한 내용은 [설명서](docs_url)를 참조하세요.
       group_regexes_detail_html: 선택적으로 정규 표현식을 사용하여 그룹 클레임의 그룹 이름과 일치하는 패턴을 정의할 수 있습니다. 예를 들어, <code>^Level1/Level2/([\w/]+)$</code> 같은 패턴을 입력하면 응답에서 “Level1/Level2/GroupName/SubGroup”을 포함한 “Groupname/SubGroup” 그룹이 추출됩니다. 일치하는 패턴이 없으면 해당 그룹은 무시됩니다. 전체 그룹 이름을 사용하여 모든 그룹을 동기화하려면 비워 두세요.
       group_regexes_testing: "'패턴 테스트'를 클릭하여 샘플 OIDC 사용자 정보에 대해 정규 표현식 패턴을 테스트하세요."
-      group_sync: ID 공급자로부터 그룹 멤버십 정보를 자동으로 추출하고 동기화합니다.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: 사용자가 속한 그룹 이름을 나타내는 클레임의 이름을 지정합니다.
       limit_self_registration: 활성화된 경우, 사용자는 공급자 측의 구성에서 허용하는 경우에만 이 공급자를 사용하여 등록할 수 있습니다.
       mapping_admin: '관리자 상태에 사용할 사용자 정보 응답에 사용자 지정 매핑을 제공합니다. 부울 특성이 반환될 것으로 예상됩니다.

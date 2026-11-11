@@ -13,6 +13,7 @@ tr:
         icon: Özel simge
         identifier: Tanımlayıcı
         idp_cert: Kamu kimlik belgesi sağlayıcısı.
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: Identity provider entity ID
         idp_slo_service_url: Kimlik sağlayıcı oturum kapatma uç noktası
         idp_sso_service_url: Kimlik sağlayıcı oturum açma uç noktası
@@ -148,6 +149,9 @@ tr:
       metadata_too_large: The metadata file exceeds the maximum allowed size.
       success: Kimlik sağlayıcı meta verilerini kullanarak yapılandırma başarıyla güncelledi.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Öznitelik eşlemesi
       attribute_mapping_text: 'Aşağıdaki alanlar SAML kimlik sağlayıcısı tarafından sağlanan hangi özniteliklerin OpenProject''te kullanıcı öznitelikleri sağlamak için kullanılacağını kontrol eder
 
@@ -167,9 +171,19 @@ tr:
       label_uid: Dahili kullanıcı kimliği
       metadata:
         dialog: 'Bu, OpenProject SAML meta verilerinin mevcut olduğu URL''dir. İsteğe bağlı olarak kimlik sağlayıcınızı yapılandırmak için kullanın:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: Henüz hiçbir SAML kimlik sağlayıcısı tanımlanmamış.
       notice_created: Yeni bir SAML kimlik sağlayıcısı başarıyla oluşturuldu.
       plural: SAML kimlik sağlayıcıları
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Öznitelik biçimi
         legend: 'Bu öznitelikler (attributes), OpenProject’in ihtiyaç duyduğu özniteliklerin kimlik sağlayıcı (Identity Provider – IdP) tarafından anlaşılabilmesi amacıyla SAML XML meta verisine eklenmektedir. Bununla birlikte, ilgili özniteliklerin IdP tarafından gönderilebilmesi için kimlik sağlayıcı üzerinde ayrıca açık bir yapılandırma yapılması gerekebilir. Ayrıntılı yapılandırma adımları için lütfen IdP dokümantasyonunu inceleyiniz.
@@ -193,6 +207,10 @@ tr:
         metadata_form_banner: 'Metaverileri düzenlemek diğer bölümlerde var olan değerlerin üstüne yazılmasına neden olabilir. '
         requested_attributes: Kimlik sağlayıcınıza gönderilen SAML isteğinde talep edilecek öznitelik kümesini tanımlayın.
       seeded_from_env: Bu kimlik sağlayıcı, ortam yapılandırması üzerinden ön tanımlı olarak oluşturulmuştur ve değiştirilemez.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: SAML kimlik sağlayıcısı
       upsell:
         description: OpenProject'i bir SAML kimlik sağlayıcısına bağlama

@@ -59,7 +59,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
       # `displayId` collapses to the numeric id in classic mode and to the
       # semantic identifier in semantic mode. The CKEditor mention plugin
       # reads it to insert `#PROJ-7` (or `#1234`) into the markdown source.
-      # Stringified for parity with APIv3 (`WorkPackageRepresenter` serialises
+      # Stringified for parity with APIv3 (`WorkPackageRepresenter` serializes
       # `displayId` as a string).
       work_package.attributes.merge(
         "to_s" => work_package.to_s,

@@ -32,7 +32,7 @@ require "spec_helper"
 require "features/work_packages/shared_contexts"
 require "features/work_packages/details/inplace_editor/shared_examples"
 
-RSpec.describe "activity comments", :js, :selenium do
+RSpec.describe "activity comments", :js do
   let(:project) { create(:project, public: true) }
   let!(:work_package) do
     create(:work_package,

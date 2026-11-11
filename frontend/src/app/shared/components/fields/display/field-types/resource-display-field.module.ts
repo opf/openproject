@@ -27,6 +27,10 @@
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  isUndisclosed,
+  undisclosedValueNode,
+} from 'core-app/shared/components/fields/display/field-types/undisclosed-value';
 
 export class ResourceDisplayField extends DisplayField {
   public get value() {
@@ -34,5 +38,15 @@ export class ResourceDisplayField extends DisplayField {
       return (this.attribute as HalResource|null|undefined)?.name;
     }
     return null;
+  }
+
+  public render(element:HTMLElement, displayText:string, options:Record<string, unknown> = {}):void {
+    if (isUndisclosed(this.attribute as HalResource|null|undefined)) {
+      element.innerHTML = '';
+      element.appendChild(undisclosedValueNode(displayText));
+      return;
+    }
+
+    super.render(element, displayText, options);
   }
 }

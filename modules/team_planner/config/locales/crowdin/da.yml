@@ -5,12 +5,12 @@ da:
       team_planner_view: Teamplanlægger
     upsell:
       team_planner_view:
-        description: Få et komplet overblik over dit teams planlægning med Teamplanlægger. Udvid, forkort og træk-og-slip arbejdspakker for at ændre datoer, flytte dem eller ændre modtagere.
+        description: Få et komplet overblik over dit teams planlægning med teamplanlæggeren. Stræk, forkort, og træk og slip arbejdspakker for at ændre datoer, flytte dem eller skifte tildelt.
         title: Teamplanlægger
   permission_manage_team_planner: Administrer teamplanlægger
   permission_view_team_planner: Vis teamplanlægger
   plugin_openproject_team_planner:
-    description: Provides team planner views.
+    description: Giver visninger med teamplanlægger.
     name: OpenProject Team Planner
   project_module_team_planner_view: Teamplanlæggere
   team_planner:

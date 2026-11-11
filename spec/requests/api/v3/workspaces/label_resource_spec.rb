@@ -31,7 +31,7 @@
 require "spec_helper"
 require "rack/test"
 
-RSpec.describe "GET workspaces/:id/labels", with_flag: :work_package_labels do
+RSpec.describe "GET workspaces/:id/labels" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -118,16 +118,6 @@ RSpec.describe "GET workspaces/:id/labels", with_flag: :work_package_labels do
       end
 
       it_behaves_like "unauthorized access"
-    end
-
-    context "with the feature flag inactive", with_flag: { work_package_labels: false } do
-      current_user { permitted_user }
-
-      before do
-        get get_path
-      end
-
-      it_behaves_like "not found"
     end
   end
 

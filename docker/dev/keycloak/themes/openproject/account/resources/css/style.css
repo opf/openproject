@@ -1,6 +1,6 @@
 :root body {
-  --pf-v5-global--primary-color--100: #1A67A3;
-  --pf-v5-global--primary-color--200: #1c77bd;
+  --pf-v5-global--primary-color--100: #0F41B5;
+  --pf-v5-global--primary-color--200: #114ACF;
 }
 
 :root body .pf-v5-c-nav {
@@ -9,7 +9,7 @@
 }
 
 :root body .pf-v5-c-masthead {
-  --pf-v5-c-masthead--BackgroundColor: #1A67A3;
+  --pf-v5-c-masthead--BackgroundColor: #0F41B5;
 }
 
 :root body .pf-v5-c-masthead .pf-v5-c-button {
@@ -18,7 +18,7 @@
 }
 
 :root body .pf-v5-c-masthead .pf-v5-c-toolbar {
-  --pf-v5-c-masthead--c-toolbar--BackgroundColor: #1A67A3;
+  --pf-v5-c-masthead--c-toolbar--BackgroundColor: #0F41B5;
 }
 
 body {
@@ -28,5 +28,5 @@ body {
 .pf-v5-c-brand {
   font-size: 2em;
   font-weight: bold;
-  color: #1A67A3;
+  color: #0F41B5;
 }

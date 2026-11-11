@@ -59,7 +59,7 @@ module Storages
               let(:parent_location) { "/Folder" }
               let(:path) { "/Folder/#{folder_name}" }
 
-              # If you need to re-record this VCR cassete, execute "when folder already exists" first to make sure the
+              # If you need to re-record this VCR cassette, execute "when folder already exists" first to make sure the
               # parent folder already exists
 
               it_behaves_like "adapter create_folder_command: successful folder creation"

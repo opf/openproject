@@ -509,7 +509,7 @@ RSpec.describe UsersController do
         expect(affected_user).to be_locked
       end
 
-      context "when trying to modifiy yourself" do
+      context "when trying to modify yourself" do
         let(:affected_user) { acting_user }
 
         it "does not allow changing own status" do
@@ -593,7 +593,7 @@ RSpec.describe UsersController do
         end
       end
 
-      context "when trying to modifiy yourself" do
+      context "when trying to modify yourself" do
         let(:affected_user) { acting_user }
 
         it "does not allow changing own status" do
@@ -647,7 +647,7 @@ RSpec.describe UsersController do
         end
       end
 
-      context "when trying to modifiy yourself" do
+      context "when trying to modify yourself" do
         let(:affected_user) { acting_user }
 
         it "does not allow changing own status" do

@@ -64,6 +64,6 @@ RSpec.describe "Logout",
       .to have_current_path /login/
 
     expect(page)
-      .to have_field("Username")
+      .to have_field("Username or email")
   end
 end

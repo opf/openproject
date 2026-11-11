@@ -102,8 +102,8 @@ function renderFinishBy(allocation:ResourceAllocationEvent, day:string, today:st
     <div class="te-entry-card--finish-by ${allocation.finishBy === day ? 'te-entry-card--finish-by-attention' : ''}">
       ${icon(calendarIconData)}
       ${allocation.finishBy === today
-        ? I18n.t('js.resource_management.my_work.finish_today')
-        : I18n.t('js.resource_management.my_work.finish_by', { date: allocation.formattedFinishBy })}
+        ? I18n.t('js.resource_management.my_time_management.finish_today')
+        : I18n.t('js.resource_management.my_time_management.finish_by', { date: allocation.formattedFinishBy })}
     </div>`;
 }
 

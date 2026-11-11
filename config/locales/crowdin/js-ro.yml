@@ -47,6 +47,8 @@ ro:
       draggable_hint: 'Trage pe câmpul editorului pentru a introduce o imagine sau un atașament de referință. Câmpurile de editor închise vor fi deschise în timp ce continui să tragi.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Fișierul este în carantină, deoarece a fost găsit un virus. Acesta nu este disponibil pentru descărcare.
     autocomplete_ng_select:
       add_tag: Adaugă element
@@ -61,6 +63,7 @@ ro:
         single: Selectează "%{name}"
       remove: Elimină ”%{name}”
     autocompleter:
+      create_label: Create label
       notFoundText: Niciun articol găsit
       placeholder: Tastează pentru a căuta
       project:
@@ -128,8 +131,8 @@ ro:
     button_confirm: Confirmă
     button_continue: Continuă
     button_copy: Copiază
-    button_copy_link_to_clipboard: Copiază link-ul în clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copiză în clipboard
     button_copy_to_other_project: Copiază în alt proiect
     button_create: Creează
@@ -147,6 +150,7 @@ ro:
     button_log_time: Înregistrare timp
     button_more: Mai mult
     button_more_actions: Mai multe acțiuni
+    button_move: Move
     button_open_details: Deschide vizualizare detaliată
     button_open_fullscreen: Afișează pe tot ecranul
     button_quote: Citat
@@ -161,7 +165,8 @@ ro:
     button_start_timer: Pornește cronometrul
     button_stop_timer: Oprește cronometrul
     button_uncheck_all: Deselectează tot
-    button_update: Actualizare
+    button_update: Actualizează
+    button_view_markdown: View Markdown
     caption_rate_history: Istoric cotă
     card:
       add_new: Adaugă card nou
@@ -201,6 +206,9 @@ ro:
     description_select_work_package: 'Selectează pachet de lucru #%{id}'
     description_subwork_package: 'Copil al pachetului de lucru #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: A apărut o eroare în cadrul CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Salvarea documentului a eșuat cu următoarea eroare: %{error}'
@@ -359,8 +367,8 @@ ro:
     ical_sharing_modal:
       copy_url_label: Copiază URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: A apărut o eroare la preluarea datelor.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-ul "%{name}" a fost copiat cu succes în clipboard-ul tău. Lipiți-l în clientul calendar pentru a finaliza abonamentul.
       title: Abonează-te la calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -432,7 +440,6 @@ ro:
     label_assignee: Executant
     label_assignee_alt_text: Acest pachet de lucru este atribuit %{name}
     label_attachments: Atașamente
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: între
     label_board: Tablă
@@ -552,6 +559,8 @@ ro:
     label_reset: Resetare
     label_resize_project_menu: Resize project menu
     label_save_as: Salvează ca
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Caută o coloană
     label_select_watcher: Selectează un observator...
     label_selected_filter_list: Filtre selectate
@@ -559,7 +568,9 @@ ro:
     label_show_in_menu: Vizualizează configurația în meniu
     label_sort_by: Sortează după
     label_sort_higher: Mută în sus
+    label_sort_highest: Move to top
     label_sort_lower: Mută în jos
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortează după
     label_sorting: Sortare
     label_spent_time: Timp consumat
@@ -812,6 +823,7 @@ ro:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -1094,15 +1106,28 @@ ro:
       scheduling:
         is_parent: Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați "Programare manuală" pentru a stabili datele.
         is_switched_from_manual_to_automatic: Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Arată toți utilizatorilor cu care pachetul de lucru a fost partajat
         title: Share work package
       table:
         configure_button: Configurarea tabelului pachetului de lucru
-        summary: Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane.
-        text_inline_edit: Majoritatea celulelor din acest tabel sunt butoane care activează editarea "inline" a câmpului respectiv.
-        text_select_hint: Casetele de selectare ar trebui să fie deschise cu 'ALT' si tastele săgeată.
-        text_sort_hint: Cu link-urile din capul de tabel poți sorta, grupa, reordona, elimina și adăuga coloane la tabel.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Configurează acest tabel al pachetului de lucru
         choose_display_mode: Afișare pachete de lucru din subproiecte pe pagina proiectului principal
@@ -1111,7 +1136,6 @@ ro:
         default_mode: Listă
         display_settings: Setări afișare
         display_sums_hint: Afișarea sumelor tuturor atributelor însumabile pe un rând sub rezultatele tabelului.
-        embedded_tab_disabled: Această filă de configurare nu este disponibilă pentru vizualizarea încorporată pe care o editezi.
         hierarchy_hint: Toate rezultatele tabelelor filtrate vor fi completate cu strămoșii lor. Ierarhiile pot fi extinse și restrânse.
         hierarchy_mode: Ierarhie
         highlighting: Evidențiere

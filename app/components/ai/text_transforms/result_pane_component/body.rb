@@ -51,12 +51,13 @@ module AI
           %w[generating done].include?(state)
         end
 
-        def done?
-          state == "done"
+        def mentions_converted?
+          done? && pane.mentions_converted?
         end
 
         def output
-          helpers.format_text(pane.text, object: pane.work_package)
+          helpers.format_text(pane.applicable_text, object: pane.work_package, project: pane.project,
+                                                    untrusted_source: true, disable_macro_expansion: true)
         end
       end
     end

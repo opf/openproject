@@ -35,3 +35,4 @@
 Rails.application.config.filter_parameters += %i[
   passw mail secret token _key crypt salt certificate otp ssn cvv cvc
 ]
+Rails.application.config.filter_parameters += [/\Akey\z/]

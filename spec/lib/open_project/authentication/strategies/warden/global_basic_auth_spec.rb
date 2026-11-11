@@ -53,7 +53,7 @@ RSpec.describe Strategies::GlobalBasicAuth do
     end
   end
 
-  context "with an empty pasword" do
+  context "with an empty password" do
     let(:password) { "" }
 
     it "raises an error" do

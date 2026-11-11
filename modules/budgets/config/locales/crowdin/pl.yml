@@ -114,7 +114,7 @@ pl:
   events:
     budget: Budżet edytowany
   help_click_to_edit: Kliknij tutaj aby edytować.
-  help_currency_format: Format wyświetlanej waluty %n jest zastąpiony przez wartość waluty, %u którą jest zastąpiony jednostką walutową.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Podaj wartość tutaj aby zastąpić domyślną stawkę.
   label_budget_available: Dostępny budżet
   label_budget_details: Szczegóły budżetu

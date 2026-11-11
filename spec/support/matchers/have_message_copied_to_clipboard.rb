@@ -27,7 +27,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# It's actually a bit random to test if the URL was actuall copied to the
+# It's actually a bit random to test if the URL was actually copied to the
 # clipboard, because copying to clipboard may not work with headless browsers,
 # probably due to missing clipboard permissions of the headless browser.
 #

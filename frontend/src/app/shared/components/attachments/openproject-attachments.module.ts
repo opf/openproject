@@ -29,15 +29,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 
 import { OpAttachmentsComponent } from './attachments.component';
 import { OpAttachmentListComponent } from './attachment-list/attachment-list.component';
 import { OpAttachmentListItemComponent } from './attachment-list/attachment-list-item.component';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 
 @NgModule({
   imports: [
     CommonModule,
     IconModule,
+    OpSpotModule,
+    OpTooltipDirective,
   ],
   declarations: [
     OpAttachmentsComponent,

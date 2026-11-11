@@ -44,7 +44,8 @@ module WorkPackageTypes
           pattern: values[:pattern],
           default_work_package_description: variant.default_work_package_description,
           suggestions: suggestions_for(variant),
-          validation_errors: variant.errors
+          validation_errors: variant.errors,
+          named_variant: variant.is_a?(TypeVariant) && !variant.is_default_variant?
         )
       end
 
@@ -118,13 +119,17 @@ module WorkPackageTypes
         }
       end
 
-      def initialize(subject_configuration:, pattern:, suggestions:, default_work_package_description: nil, validation_errors: {})
+      def initialize(subject_configuration:, pattern:, suggestions:, default_work_package_description: nil, validation_errors: {},
+                     named_variant: false)
         @subject_configuration = subject_configuration
         @pattern = pattern
         @default_work_package_description = default_work_package_description
         @suggestions = suggestions
         @validation_errors = validation_errors
+        @named_variant = named_variant
       end
+
+      def named_variant? = @named_variant
     end
   end
 end

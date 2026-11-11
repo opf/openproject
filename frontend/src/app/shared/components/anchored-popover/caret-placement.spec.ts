@@ -31,7 +31,7 @@ describe('caretPlacement', () => {
   const rect = (left:number, top:number, width:number, height:number) => new DOMRect(left, top, width, height);
   const anchor = rect(100, 100, 10, 10);
 
-  it('puts the caret on the bottom edge, centred on the anchor, when the popover is above', () => {
+  it('puts the caret on the bottom edge, centered on the anchor, when the popover is above', () => {
     expect(caretPlacement(rect(55, 20, 100, 60), anchor)).toEqual({ side: 'bottom', offset: 50 });
   });
 

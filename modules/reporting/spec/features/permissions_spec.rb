@@ -42,8 +42,8 @@ RSpec.describe "Cost report calculations", :js do
   end
 
   let(:work_package) { create(:work_package, project:) }
-  let!(:hourly_rate_admin) { create(:default_hourly_rate, user: admin, rate: 1.00, valid_from: 1.year.ago) }
-  let!(:hourly_rate_user) { create(:default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago) }
+  let!(:hourly_rate_admin) { create(:default_hourly_rate, principal: admin, rate: 1.00, valid_from: 1.year.ago) }
+  let!(:hourly_rate_user) { create(:default_hourly_rate, principal: user, rate: 1.00, valid_from: 1.year.ago) }
 
   let(:report_page) { Pages::CostReportPage.new project }
 
@@ -84,8 +84,8 @@ RSpec.describe "Cost report calculations", :js do
     let(:current_user) { User.anonymous }
 
     it "is redirect to login" do
-      expect(page).to have_content "Username"
-      expect(page).to have_content "Password"
+      expect(page).to have_text "Username"
+      expect(page).to have_text "Password"
     end
   end
 
@@ -93,13 +93,13 @@ RSpec.describe "Cost report calculations", :js do
     let(:current_user) { admin }
 
     it "shows everything" do
-      expect(page).to have_content "5.00 hours"
-      expect(page).to have_content "10.00 hours"
+      expect(page).to have_text "5.00 hours"
+      expect(page).to have_text "10.00 hours"
 
       report_page.switch_to_type "Translations"
 
-      expect(page).to have_content "3.0 plural_unit"
-      expect(page).to have_content "21.00 €"
+      expect(page).to have_text "3.0 plural_unit"
+      expect(page).to have_text "21.00 €"
     end
   end
 
@@ -112,8 +112,8 @@ RSpec.describe "Cost report calculations", :js do
     end
 
     it "shows everything" do
-      expect(page).to have_content "5.00 hours"
-      expect(page).to have_content "10.00 hours"
+      expect(page).to have_text "5.00 hours"
+      expect(page).to have_text "10.00 hours"
       report_page.switch_to_type "Translations"
       expect(page).to have_css("td.units", text: "3.0 plural_unit", wait: 10)
     end
@@ -135,8 +135,8 @@ RSpec.describe "Cost report calculations", :js do
     end
 
     it "shows his own costs" do
-      expect(page).to have_content "5.00 hours"
-      expect(page).to have_no_content "10.00 hours"
+      expect(page).to have_text "5.00 hours"
+      expect(page).to have_no_text "10.00 hours"
       report_page.switch_to_type "Translations"
       expect(page).to have_css("td.units", text: "3.0 plural_unit", wait: 10)
     end
@@ -149,8 +149,8 @@ RSpec.describe "Cost report calculations", :js do
     end
 
     it "shows his own time only" do
-      expect(page).to have_content "5.00 hours"
-      expect(page).to have_no_content "10.00 hours"
+      expect(page).to have_text "5.00 hours"
+      expect(page).to have_no_text "10.00 hours"
 
       report_page.switch_to_type "Translations"
       expect(page).to have_css(".generic-table--no-results-title")
@@ -166,8 +166,8 @@ RSpec.describe "Cost report calculations", :js do
 
     it "shows his own costs" do
       expect(page).to have_css(".generic-table--no-results-title")
-      expect(page).to have_no_content "5.00 hours"
-      expect(page).to have_no_content "10.00 hours"
+      expect(page).to have_no_text "5.00 hours"
+      expect(page).to have_no_text "10.00 hours"
       report_page.switch_to_type "Translations"
       expect(page).to have_no_css("td.unit", text: "3.0 plural_unit")
     end

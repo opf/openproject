@@ -96,7 +96,7 @@ module ScimV2
         nested =
           map
             .find_all { |_, v| v.is_a? Hash }
-            .flat_map { |parent, childs| childs.map { |child, _| "#{parent}.#{child}" } }
+            .flat_map { |parent, children| children.map { |child, _| "#{parent}.#{child}" } }
 
         map.keys.map(&:to_s) + nested
       end

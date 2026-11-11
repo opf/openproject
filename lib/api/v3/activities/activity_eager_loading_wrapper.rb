@@ -150,7 +150,7 @@ module API
                 SQL
               )
               .includes(:attachable_journals, :customizable_journals, :storable_journals, :target_version_journals,
-                        :observed_in_version_journals)
+                        :label_journals, :observed_in_version_journals)
           end
         end
       end

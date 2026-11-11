@@ -32,7 +32,7 @@ module Grids
   # Base class for any grid-based model's copy service.
   class CopyService < ::BaseServices::Copy
     ##
-    # DependentServices can be specialised through a class in the
+    # DependentServices can be specialized through a class in the
     # concrete model's namespace, e.g. Boards::Copy::WidgetsDependentService.
     def self.copy_dependencies
       [

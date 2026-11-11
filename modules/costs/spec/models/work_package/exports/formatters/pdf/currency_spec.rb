@@ -40,6 +40,12 @@ RSpec.describe WorkPackage::Exports::Formatters::PDF::Currency,
       end
     end
 
+    it "returns true for the cost attributes and md format", :aggregate_failures do
+      %i[material_costs labor_costs overall_costs].each do |attribute|
+        expect(described_class.apply?(attribute, :md)).to be true
+      end
+    end
+
     it "returns false for labor_costs and csv format" do
       expect(described_class.apply?(:labor_costs, :csv)).to be false
     end
@@ -52,6 +58,10 @@ RSpec.describe WorkPackage::Exports::Formatters::PDF::Currency,
   describe "registration" do
     it "is the formatter picked for cost attributes in pdf exports" do
       expect(Exports::Register.formatter_for(WorkPackage, :overall_costs, :pdf)).to be_a(described_class)
+    end
+
+    it "is the formatter picked for cost attributes in md exports" do
+      expect(Exports::Register.formatter_for(WorkPackage, :overall_costs, :md)).to be_a(described_class)
     end
   end
 

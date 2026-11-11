@@ -68,7 +68,7 @@ RSpec.shared_examples_for "is a countable repository" do
         allow(repository).to receive(:storage_updated_at).and_return(24.hours.ago)
       end
 
-      it "sucessfuly updates the count to what the adapter returns" do
+      it "successfully updates the count to what the adapter returns" do
         expect(repository.required_storage_bytes).to eq 0
         expect(repository.update_required_storage).to be true
 

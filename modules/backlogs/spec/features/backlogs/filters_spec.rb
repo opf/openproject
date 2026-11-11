@@ -96,6 +96,19 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
     backlogs_page.expect_inbox_work_package_count(1)
   end
 
+  it "shows the loading spinner while the subject quick search is in flight" do
+    visit backlogs_page.path
+
+    backlogs_page.expect_no_loading_spinner
+
+    # Not using `apply_subject_filter`, as it waits for the network to go
+    # idle, which would hide the very state under test here.
+    expand_sub_header_search("Search work packages by subject")
+    fill_in "Search work packages by subject", with: "Needle"
+
+    backlogs_page.expect_loading_spinner
+  end
+
   it "narrows the listings when an advanced filter is applied" do
     backlogs_page.expect_bucket_items(bucket, items: status_b_bucket_wp)
     backlogs_page.expect_sprint_items(sprint, items: status_b_sprint_wp)
@@ -335,7 +348,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.clear_subject_filter
       backlogs_page.expect_inbox_items(items: matching_inbox_wp)
       backlogs_page.expect_inbox_show_more
-      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+      expect(page).to have_no_current_query_params(a_hash_including("all"))
 
       backlogs_page.click_inbox_show_more
       backlogs_page.expect_no_inbox_show_more
@@ -343,7 +356,7 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       backlogs_page.apply_status_filter(status_a)
       backlogs_page.expect_no_inbox_items(items: status_b_inbox_wp)
       backlogs_page.expect_inbox_show_more
-      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+      expect(page).to have_no_current_query_params(a_hash_including("all"))
     end
   end
 end

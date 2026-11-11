@@ -70,7 +70,7 @@ RSpec.describe Queries::Capabilities::Filters::ActionFilter do
         end
       end
 
-      context "with malfomed values" do
+      context "with malformed values" do
         let(:values) { ["foo/5"] }
 
         it "is invalid" do

@@ -26,14 +26,14 @@
 #++
 
 class Widget::Filters::Label < Widget::Filters::Base
-  def render
+  def render_filter
     options = {
       id: filter_class.underscore_name,
       class: "advanced-filters--filter-name",
-      title: h(filter_class.label)
+      title: filter_class.label
     }
-    write(content_tag(:label, options) do
-      h(filter_class.label)
-    end)
+    content_tag(:label, options) do
+      filter_class.label
+    end
   end
 end

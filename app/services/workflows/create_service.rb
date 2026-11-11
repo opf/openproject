@@ -38,7 +38,7 @@ module Workflows
     def set_attributes_params(params) = super.except(:copy_from_id)
 
     def after_perform(service_call)
-      source = Workflow.available_in(service_call.result.project).find_by(id: params[:copy_from_id])
+      source = Workflow.find_by(id: params[:copy_from_id])
       Workflows::StatusTransition.copy(source, nil, service_call.result, nil) if source
 
       service_call

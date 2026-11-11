@@ -31,20 +31,26 @@ module CustomStyles
   class DesignColorDialogComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    attr_reader :design_color, :color_label, :instruction, :hexcode
+    attr_reader :variable, :color_label, :instruction, :value, :placeholder,
+                :form_url, :form_method, :param_name, :scope_name_to_model, :field_data
 
-    def initialize(design_color:, label:, instruction:, hexcode:)
+    def initialize(variable:, label:, instruction:, value:, placeholder:, form_url:, param_name:,
+                   form_method: :post, scope_name_to_model: false, field_data: {})
       super()
 
-      @design_color = design_color
+      @variable = variable
       @color_label = label
       @instruction = instruction
-      @hexcode = hexcode
+      @value = value
+      @placeholder = placeholder
+      @form_url = form_url
+      @form_method = form_method
+      @param_name = param_name
+      @scope_name_to_model = scope_name_to_model
+      @field_data = field_data
     end
 
     private
-
-    def variable = design_color.variable
 
     def dialog_id = "design-color-#{variable}-dialog"
 
@@ -52,8 +58,8 @@ module CustomStyles
 
     def form_arguments
       {
-        url: url_helpers.update_design_colors_path,
-        method: :post,
+        url: form_url,
+        method: form_method,
         id: form_id,
         data: { turbo: false }
       }
@@ -61,16 +67,16 @@ module CustomStyles
 
     def field_arguments
       {
-        name: "design_colors[]#{variable}",
+        name: param_name,
         id: "design_colors_#{variable}",
         label: color_label,
         visually_hide_label: true,
         caption: instruction,
-        value: design_color.hexcode,
-        placeholder: hexcode,
+        value:,
+        placeholder:,
         input_width: :medium,
-        scope_name_to_model: false,
-        data: { variable_name: variable }
+        scope_name_to_model:,
+        data: field_data
       }
     end
   end

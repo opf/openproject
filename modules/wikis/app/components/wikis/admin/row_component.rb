@@ -40,13 +40,11 @@ module Wikis::Admin
     end
 
     def provider_type
-      render(Primer::Beta::Text.new(color: :subtle)) { I18n.t("wikis.provider_types.#{wiki_provider}.name") }
+      I18n.t("wikis.provider_types.#{wiki_provider}.name")
     end
 
     def created_at
-      render(Primer::Beta::Text.new(color: :subtle)) do
-        I18n.t("activity.item.created_on", datetime: helpers.format_time(wiki_provider.created_at)).capitalize
-      end
+      I18n.t("activity.item.created_on", datetime: helpers.format_time(wiki_provider.created_at)).capitalize
     end
 
     private

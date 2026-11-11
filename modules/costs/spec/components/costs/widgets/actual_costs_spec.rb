@@ -53,7 +53,7 @@ RSpec.describe Costs::Widgets::ActualCosts, type: :component do
     let(:work_package) { create(:work_package, project:, budget:) }
     let!(:hourly_rate) do
       create(:hourly_rate,
-             user: current_user,
+             principal: current_user,
              project: project,
              rate: 50.0,
              valid_from: 1.month.ago)
@@ -152,7 +152,7 @@ RSpec.describe Costs::Widgets::ActualCosts, type: :component do
     let(:work_package) { create(:work_package, project:, budget:) }
     let!(:hourly_rate) do
       create(:hourly_rate,
-             user: current_user,
+             principal: current_user,
              project: project,
              rate: 50.0,
              valid_from: 2.years.ago)

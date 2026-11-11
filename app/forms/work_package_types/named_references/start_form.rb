@@ -61,7 +61,7 @@ module WorkPackageTypes
               }
             ) do |radio|
               radio.nested_form(
-                classes: "mt-2",
+                classes: "mt-1",
                 data: { "named-references--start-choice-target": "copySource" }
               ) do |builder|
                 CopySourceForm.new(builder, model_class:, candidates:, selected: candidates.first.id, type_record_id:)

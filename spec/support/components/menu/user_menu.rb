@@ -32,9 +32,11 @@ module Components
     include Capybara::DSL
     include Capybara::RSpecMatchers
     include RSpec::Matchers
+    include WaitHelpers
 
     def open
       page.find_test_selector("op-app-header--user-menu-button").click
+      wait_for_size_animation_completion(page.find("dialog[open]:has(.op-app-header--modules-menu-header)"))
     end
 
     def close

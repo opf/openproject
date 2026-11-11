@@ -33,7 +33,7 @@ RSpec.describe Backlogs::SelectionDescriptionComponent, type: :component do
   subject(:rendered_component) { render_inline(described_class.new) && page }
 
   # `visible: :all` because the element is permanently `hidden`, which is the
-  # one form of invisibility Capybara::Node::Simple does honour.
+  # one form of invisibility Capybara::Node::Simple does honor.
 
   it "renders the description every selected card points at" do
     expect(rendered_component)

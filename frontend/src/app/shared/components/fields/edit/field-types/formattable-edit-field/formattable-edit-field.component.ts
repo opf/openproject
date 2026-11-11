@@ -65,8 +65,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     previewContext: this.previewContext,
     options: { rtl: this.schema.options?.rtl },
     type: 'constrained',
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-    ...this.resource.getEditorContext(this.field.name),
+    ...(this.resource.getEditorContext(this.field.name) as Partial<ICKEditorContext>),
   } as ICKEditorContext;
 
   ngOnInit():void {
@@ -135,8 +134,9 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public get rawValue():string {
-    if (this.value?.raw) {
-      return this.value.raw;
+    const value = this.value as api.v3.Formattable|null|undefined;
+    if (value?.raw) {
+      return value.raw;
     }
     return '';
   }
@@ -146,7 +146,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public isEmpty():boolean {
-    return !(this.value?.raw);
+    return !((this.value as api.v3.Formattable|null|undefined)?.raw);
   }
 
   protected initialize():void {

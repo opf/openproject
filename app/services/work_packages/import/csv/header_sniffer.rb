@@ -31,7 +31,7 @@ module WorkPackages
   module Import
     module CSV
       # Finds the header row of a CSV and the separator it was written with, by reading the first
-      # populated row with each candidate and counting the headers a HeaderMap recognises.
+      # populated row with each candidate and counting the headers a HeaderMap recognizes.
       class HeaderSniffer
         # Excel writes ; on a German locale and \t when saving as "Unicode text".
         SEPARATORS = %W[, ; \t].freeze

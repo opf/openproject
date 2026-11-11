@@ -85,7 +85,7 @@ pl:
       group_regexes: Jeden wzorzec wyrażenia regularnego w wierszu. Przeczytaj [dokumentację](docs_url), aby uzyskać więcej informacji na temat tego, jak to zrobić.
       group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Kliknij przycisk „Testuj wzorzec”, aby przetestować wzorzec wyrażenia regularnego na przykładowych informacjach o użytkowniku OIDC.
-      group_sync: Automatycznie wyodrębniaj i synchronizuj informacje o członkostwie w grupie od dostawcy tożsamości.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Określ nazwę oświadczenia, które ma wskazywać nazwy grup, których użytkownik jest członkiem.
       limit_self_registration: Jeśli opcja jest włączona, użytkownicy mogą rejestrować się przy użyciu tego dostawcy tylko wtedy, gdy pozwala na to konfiguracja po stronie dostawcy.
       mapping_admin: 'Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do statusu administratora. Oczekuje ono zwrócenia atrybutu logicznego.

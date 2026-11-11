@@ -28,9 +28,7 @@
 #++
 
 module Meetings
-  # rubocop:disable OpenProject/AddPreviewForViewComponent
   class IndexSubHeaderComponent < ApplicationComponent
-    # rubocop:enable OpenProject/AddPreviewForViewComponent
     include OpTurbo::Streamable
     include ApplicationHelper
 

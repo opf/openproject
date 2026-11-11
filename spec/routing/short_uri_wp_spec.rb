@@ -56,6 +56,24 @@ RSpec.describe "routes for old issue uris", type: :request do
       expect(last_response.location).to end_with "/work_packages/1234"
     end
 
+    it "keeps a format suffix" do
+      get("/wp/1234.md")
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with "/work_packages/1234.md"
+    end
+
+    it "drops a format suffix that is not alphanumeric" do
+      get("/wp/1234.m%20d")
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with "/work_packages/1234"
+    end
+
+    it "drops a format suffix with a bracket" do
+      get("/wp/1234.md%5B")
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with "/work_packages/1234"
+    end
+
     it "has a path helper" do
       expect(work_package_short_path("123")).to eq("/wp/123")
       expect(work_package_short_path(%w[123 a_tab foo])).to eq("/wp/123/a_tab/foo")

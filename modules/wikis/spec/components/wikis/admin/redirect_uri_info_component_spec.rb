@@ -63,7 +63,7 @@ RSpec.describe Wikis::Admin::RedirectUriInfoComponent, type: :component do
       expect(subject).to have_text(I18n.t(:label_completed))
     end
 
-    it "renders the labelled redirect uri" do
+    it "renders the labeled redirect uri" do
       expect(subject).to have_text(
         "#{I18n.t('wikis.admin.redirect_uri_info_component.label_uri')}: #{oauth_client.redirect_uri}"
       )

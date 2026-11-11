@@ -1,0 +1,5 @@
+---
+description: |-
+  A request body to archive a workspace.
+value:
+  active: false

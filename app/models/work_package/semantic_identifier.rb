@@ -214,7 +214,7 @@ module WorkPackage::SemanticIdentifier
   # Override ActiveRecord's default `to_param` so Rails URL helpers
   # (work_package_path, polymorphic_path, form_for, etc.) automatically
   # produce semantic-id URLs in semantic mode. In classic mode display_id
-  # returns the integer primary key, so this is behaviourally identical
+  # returns the integer primary key, so this is behaviorally identical
   # to the inherited `id&.to_s`.
   #
   # API v3 deliberately bypasses this by passing `id:` kwargs explicitly

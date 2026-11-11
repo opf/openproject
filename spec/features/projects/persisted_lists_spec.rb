@@ -37,7 +37,7 @@ RSpec.describe "Persisted lists on projects index page",
 
   shared_let(:manager)   { create(:project_role, name: "Manager") }
   # The permission is not necessary for any of the tests. But it enables one more code path
-  # where a regression occured before (#72362).
+  # where a regression occurred before (#72362).
   shared_let(:developer) { create(:project_role, name: "Developer", permissions: %i(export_projects)) }
 
   shared_let(:custom_field) { create(:text_project_custom_field) }
@@ -250,7 +250,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
 
-      wait_for_reload # chnaging filters is still done via page reload
+      wait_for_reload # changing filters is still done via page reload
 
       projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
@@ -347,7 +347,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
 
-      wait_for_reload # chnaging filters is still done via page reload
+      wait_for_reload # changing filters is still done via page reload
 
       # Rename menu item is now shown after applying filters
       projects_page.expect_no_menu_item("Rename", visible: false)
@@ -611,9 +611,9 @@ RSpec.describe "Persisted lists on projects index page",
       visit projects_path(query_id: another_users_projects_list.id)
 
       expect(page)
-        .to have_no_text(another_users_projects_list.name)
-      expect(page)
         .to have_text("You are not authorized to access this page.")
+      expect(page)
+        .to have_no_text(another_users_projects_list.name)
     end
 
     it "can search for a query in the sidebar" do

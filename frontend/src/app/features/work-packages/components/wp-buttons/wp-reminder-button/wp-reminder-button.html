@@ -2,7 +2,8 @@
   <button
     class="button toolbar-icon"
     data-test-selector="op-wp-reminder-button"
-    [attr.title]="buttonTitle"
+    opTooltip
+    [label]="buttonTitle"
     (click)="openModal()"
     >
     <svg op-alarm-set-icon class="button--icon" size="small"></svg>
@@ -11,7 +12,8 @@
   <button
     class="button toolbar-icon"
     data-test-selector="op-wp-reminder-button"
-    [attr.title]="buttonTitle"
+    opTooltip
+    [label]="buttonTitle"
     wpReminderContextMenu
     [wpReminderContextMenu-workPackage]="workPackage"
     >

@@ -48,6 +48,7 @@ module Queries::Projects
     filter Filters::PortfolioFilter
     filter Filters::PrincipalFilter
     filter Filters::ProgramFilter
+    filter Filters::ProjectSpecificValuesFilter
     filter Filters::ProjectStatusFilter
     filter Filters::PublicFilter
     filter Filters::TemplatedFilter

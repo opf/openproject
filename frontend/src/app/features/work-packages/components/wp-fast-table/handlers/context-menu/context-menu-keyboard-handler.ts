@@ -27,6 +27,7 @@
 
 import { Injector } from '@angular/core';
 import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
+import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
@@ -44,33 +45,48 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
   }
 
   public handleEvent(component:TableEventComponent, evt:KeyboardEvent):boolean {
-    if (!component.workPackageTable.configuration.contextMenuEnabled) {
+    const { configuration } = component.workPackageTable;
+    if (!configuration.contextMenuEnabled) {
       return false;
     }
 
     const target = evt.target as HTMLElement;
 
-    if (!(evt.key === 'F10' && evt.shiftKey && evt.altKey)) {
+    if (!this.isMenuChord(evt) || this.isEditing(target) || target.closest(`.${uiStateLinkClass}`)) {
       return true;
     }
 
-    const row = target.closest<HTMLTableRowElement>(this.SELECTOR)!;
+    const row = target.closest<HTMLTableRowElement>(this.SELECTOR);
 
-    if (!row.dataset.workPackageId || this.isUnsavedRow(row)) {
+    if (!row?.dataset.workPackageId || this.isUnsavedRow(row)) {
       return true;
     }
 
     evt.preventDefault();
     evt.stopPropagation();
 
+    if (evt.repeat) {
+      this.refreshKeyboardOpen(component.workPackageTable, row);
+      return false;
+    }
+
     super.openContextMenu(
       component.workPackageTable,
       evt,
       row,
-      // Set position args to open at element
-      { placement: 'bottom-start', reference: target }
+      { placement: 'bottom-start', reference: target },
+      { anchor: target, align: 'start' },
     );
+    this.noteKeyboardOpen(component.workPackageTable, row);
 
     return false;
+  }
+
+  private isMenuChord(evt:KeyboardEvent):boolean {
+    if (evt.key === 'ContextMenu') {
+      return true;
+    }
+
+    return evt.key === 'F10' && evt.shiftKey && !evt.ctrlKey && !evt.metaKey;
   }
 }

@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Wysiwyg code block macro", :js, :selenium do
+RSpec.describe "Wysiwyg code block macro", :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
   let(:project) { create(:project, :with_internal_wiki) }
@@ -174,7 +174,7 @@ RSpec.describe "Wysiwyg code block macro", :js, :selenium do
           expect(container).to have_css(".op-uc-code-block--language", text: "ruby")
 
           widget = container.find(".op-uc-code-block")
-          page.driver.browser.action.double_click(widget.native).perform
+          widget.double_click
           expect(page).to have_css(".spot-modal")
 
           expect(page).to have_css(".op-uc-code-block--language", text: "ruby")

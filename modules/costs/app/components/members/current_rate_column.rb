@@ -53,7 +53,7 @@ module Members::CurrentRateColumn
   #   2) a user's rate in one of the given project's parents
   #   3) a user's default rate
   #
-  # This mirrors the behaviour as implemented in `HourlyRate#at_date_for_user_in_project`.
+  # This mirrors the behavior as implemented in `HourlyRate#at_date_for_user_in_project`.
   def join_rate(query)
     query.joins(
       ActiveRecord::Base.sanitize_sql_array(

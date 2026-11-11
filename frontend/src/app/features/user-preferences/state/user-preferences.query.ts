@@ -26,7 +26,6 @@
 //++
 
 import { groupBy } from 'lodash-es';
-import { Injectable } from '@angular/core';
 
 import { Query } from '@datorama/akita';
 import {

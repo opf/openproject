@@ -66,7 +66,7 @@ describe('chart tooltip renderer', () => {
       opacity,
       caretX,
       caretY: 40,
-      dataPoints: [{ label: 'Labour', parsed: 1234 }],
+      dataPoints: [{ label: 'Labor', parsed: 1234 }],
       labelColors: [{ backgroundColor: '#123456' }],
     },
   }) as unknown as Parameters<ReturnType<typeof createPieTooltipRenderer>>[0];
@@ -79,7 +79,7 @@ describe('chart tooltip renderer', () => {
     renderTooltip(context(1));
 
     expect(popover().matches(':popover-open')).toBe(true);
-    expect(within(host).getByText('Labour')).toBeInTheDocument();
+    expect(within(host).getByText('Labor')).toBeInTheDocument();
     expect(within(host).getByText('€1234')).toBeInTheDocument();
 
     await nextFrame();
@@ -131,7 +131,7 @@ describe('chart tooltip renderer', () => {
     expect(popover().matches(':popover-open')).toBe(false);
   });
 
-  it('centres a bar tooltip on the hovered segment', () => {
+  it('centers a bar tooltip on the hovered segment', () => {
     const renderTooltip = createBarTooltipRenderer(host, (v) => `${v}`);
     renderers.push(renderTooltip);
     renderTooltip({
@@ -142,7 +142,7 @@ describe('chart tooltip renderer', () => {
         caretY: 20,
         dataPoints: [{
           parsed: { x: 0, y: 10 },
-          dataset: { label: 'Labour' },
+          dataset: { label: 'Labor' },
           element: { getProps: () => ({ x: 50, y: 20, base: 120, width: 30 }) },
         }],
         labelColors: [{ backgroundColor: '#123456' }],

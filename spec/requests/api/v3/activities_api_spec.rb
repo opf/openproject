@@ -161,7 +161,7 @@ RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
         end
       end
 
-      context "when editing OTHERs internal journals" do
+      context "when editing other users' internal journals" do
         let(:other_user) { create(:user, member_with_permissions: { project => permissions }) }
 
         context "and the user has permission to edit others internal journals" do

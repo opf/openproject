@@ -49,4 +49,7 @@ Rails.application.reloader.to_prepare do
   ActionDispatch::Session::ActiveRecordStore.session_class = Sessions::SqlBypass
   # Continue to use marshal serialization to retain symbols and whatnot
   ActiveRecord::SessionStore::Session.serializer = :marshal
+
+  # The OmniAuth request phase checks the CSRF token with the configuration of ActionController::Base.
+  ActionController::Base.csrf_token_storage_strategy = Sessions::CsrfTokenCookieStore.new
 end

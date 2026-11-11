@@ -23,6 +23,7 @@ jobs:
   notify:
     name: Notify
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Send mail
         uses: dawidd6/action-send-mail@67ce3558d613188179559c61d3565140cf389968 # v22

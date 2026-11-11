@@ -73,7 +73,7 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
       end
     end
 
-    context "when the work package is the creation wizard artifact work package" do
+    context "when the work package is the creation wizard artefact work package" do
       before do
         type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
         project.update!(project_creation_wizard_artifact_work_package_id: work_package.id)

@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -73,8 +73,8 @@ fr:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is %{count} work package that was not completed in this sprint.
-                other: There are %{count} work packages that were not completed in this sprint.
+                one: Il y a un lot de travail, le « %{count} », qui n'a pas été mené à bien au cours de ce sprint.
+                other: Il y a %{count} lots de travail qui n'ont pas été menés à bien au cours de ce sprint.
             status:
               not_active: n'est pas actif et ne peut donc pas être fermé.
         sprint_goal:
@@ -135,9 +135,20 @@ fr:
       details: Le bucket de backlog « %{name} » sera supprimé et tous les lots de travaux seront déplacés vers la boîte de réception du backlog. Aucun lot de travaux ne sera supprimé.
       title: Supprimer le bucket de backlog ?
     burndown_chart:
+      series:
+        guideline: Lignes directrices
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Définissez les dates de début et de fin du sprint afin de générer un graphique burndown.
         blankslate_title: Aucune donnée de burndown disponible
+    created_resolved_chart:
+      series:
+        created: Created
+        resolved: Resolved
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Unités
     excluded_work_package_types_caption: 'Choisissez les types de lots de travaux à masquer dans le backlog. Les éléments des types sélectionnés n''apparaîtront pas automatiquement dans le backlog, ce qui permet de le concentrer sur le travail pertinent pour votre équipe. Par exemple, des types comme les epics ou les jalons, gérés à un niveau supérieur, peuvent être masqués afin de conserver dans le backlog les éléments sur lesquels l''équipe peut agir.
 
@@ -161,8 +172,8 @@ fr:
       drop_zone_label: Déposez ici pour ajouter cet élément
       label_actions: Actions de la boîte de réception
       show_more:
-        one: Show %{count} more item
-        other: Show %{count} more items
+        one: Afficher %{count} d'autres articles
+        other: Afficher %{count} d'autres articles
       title: Boîte de réception
     index_subheader_component:
       label_search_by_subject: Rechercher des lots de travaux par objet
@@ -184,9 +195,11 @@ fr:
     rebuild: Reconstruire
     rebuild_positions: Reconstruire les positions
     remaining_hours: Travail restant
+    selected_work_packages_component:
+      label:
+        one: "%{count} selected work package"
+        other: "%{count} selected work packages"
     sharing: Partage de sprint
-    show_burndown_chart: Graphique burndown
-    show_work_package_overview: Lots de travaux du sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Ajouter un lot de travaux existant
@@ -209,10 +222,51 @@ fr:
       shared_sprint_info_banner: Il s'agit d'un sprint partagé. Les modifications seront répercutées dans tous les projets qui l'utilisent.
       shared_sprint_warning_banner: Il s'agit d'un sprint partagé. Vous ne disposez pas des autorisations nécessaires pour le modifier.
     sprint_reports:
+      navigation_component:
+        next: Suivante
+        previous: Précédent
       page_header_component:
         breadcrumb: Rapport
         title: Rapport de %{sprint}
       widgets:
+        burndown_chart:
+          title: Burndown chart
+        burnup_chart:
+          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
+          blankslate_title: No burnup data available
+          series:
+            completed: Completed work
+            guideline: Guideline
+            projection: Total work scope (projection)
+            scope: Total work scope
+          title: Burnup chart
+        created_resolved_chart:
+          title: Created vs resolved work packages
+        epic_progress:
+          card:
+            progress_label:
+              one: "%{epic}: %{completed} of %{count} work package completed"
+              other: "%{epic}: %{completed} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+            work_package_counts:
+              one: "%{completed} / %{count} work package"
+              other: "%{completed} / %{count} work packages"
+          title: Epic progress
+        velocity_chart:
+          average:
+            one: 'Average of previous sprint:'
+            other: 'Average of previous %{count} sprints:'
+          average_legend: Moyenne
+          committed: Committed
+          completed: Terminé
+          story_points: "%{value} SP"
+          summary:
+            one: Diagramme à barres représentant les points de story engagés et réalisés lors du dernier sprint.
+            other: Diagramme à barres représentant les points d'histoire engagés et achevés au cours des %{count} derniers sprints.
+          summary_average: 'Vélocité moyenne : %{average}.'
+          title: Graphique de vélocité
+          velocity: "%{sprint} :"
+          y_axis_title: Story points
         work_package_graph:
           title: Graphique des lots de travaux
         work_package_overview:
@@ -221,9 +275,9 @@ fr:
             heading: Aucune donnée de sprint disponible
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: Modification du périmètre
-              story_points_change: "+%{added} / -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
             completed:
               heading: Terminés
             initially_planned:
@@ -233,10 +287,59 @@ fr:
           breakdown_block:
             blocks:
               show_all: Tout afficher
+              show_all_label: 'View all: %{heading}'
           closed_work_packages: Lots de travaux fermés
+          completed_estimated_time: Completed estimated time
+          completed_story_points: Completed story points
           resolved_summary:
-            one: "%{percentage}% (%{resolved} sur %{total} lot de travaux)"
-            other: "%{percentage}% (%{resolved} sur %{total} lots de travaux)"
+            story_points:
+              one: "%{percentage} (%{resolved} of %{total} story point)"
+              other: "%{percentage} (%{resolved} of %{total} story points)"
+            time: "%{percentage} (%{resolved} of %{total})"
+            work_packages:
+              one: "%{percentage} (%{resolved} of %{total} work package)"
+              other: "%{percentage} (%{resolved} of %{total} work packages)"
+          title: Work packages within the sprint
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Les lots de travaux qui ont été ajoutés après la date de début du sprint apparaîtront ici.
+              no_dates:
+                description: Les dates de début et de fin de sprint sont nécessaires pour afficher les lots de travaux ajoutés.
+              not_started:
+                description: Les lots de travaux ajoutés apparaîtront ici après le démarrage du sprint.
+            title: Augmentation du périmètre après le démarrage du sprint
+          blankslate:
+            heading: Aucun lot de travaux à afficher
+          completed:
+            blankslate:
+              empty:
+                description: Work packages that were completed in the sprint will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show completed work packages.
+              not_started:
+                description: Completed work packages will appear here after the sprint starts.
+            title: Travail terminé
+          removed:
+            blankslate:
+              empty:
+                description: Work packages that were removed after the sprint start date will appear here.
+              no_dates:
+                description: Sprint start and finish dates are necessary to show removed work packages.
+              not_started:
+                description: Removed work packages will appear here after the sprint starts.
+            title: Scope decrease after sprint start
+          unfinished:
+            blankslate:
+              empty:
+                description: All work packages in this sprint are completed.
+                heading: Wow, all done!
+              no_dates:
+                description: Sprint start and finish dates are necessary to show unfinished work packages.
+              not_started:
+                description: Unfinished work packages will appear here after the sprint starts.
+            title: Unfinished work
     sprints:
       row_component:
         action_menu:
@@ -271,6 +374,8 @@ fr:
         move_to_backlog_bucket: Déplacer vers un bucket de backlog
         move_to_inbox: Déplacer vers le backlog d'entrée
         move_to_sprint: Déplacer vers le sprint
+        no_batch_actions: No actions available for the selected work packages.
+        stale_selection: The selection has changed. Refresh it before moving work packages.
     work_package_is_closed: Le lot de travaux est fait lorsque
     work_packages:
       add_existing_dialog:
@@ -284,17 +389,21 @@ fr:
         unexpected_failure: Les lots de travaux n'ont pas pu être déplacés. Réessayez.
       move:
         moved_announcement: "%{label} a été déplacé vers %{list}, à la position %{position} sur %{total}"
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: La liste des lots de travaux à déplacer n'est pas valide.
         member_failed: "%{work_package} : %{reason}"
+        moved_announcement:
+          one: "%{count} work package moved to %{list}, position %{first} of %{total}"
+          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
         too_many_work_packages: Il est impossible de déplacer plus de %{max} lots de travaux à la fois.
         work_packages_not_found: Au moins un lot de travaux est introuvable dans ce projet.
       update_service:
         invalid_target_type: 'list_type doit être l''une des valeurs suivantes : backlog_bucket avec un list_id, sprint avec un list_id ou inbox sans list_id.'
         missing_target: list_type ou list_id doit être présent.
-  burndown:
-    story_points: Story points
-    story_points_ideal: Story points (idéal)
   ee:
     features:
       multiple_active_sprints: Plusieurs sprints actifs

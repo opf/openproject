@@ -49,9 +49,10 @@ export function setPosition(element:HTMLInputElement, offset:number):void {
  */
 export function getPosition(evt:MouseEvent):number {
   try {
-    if ((evt as any).rangeParent) {
+    const geckoEvent = evt as MouseEvent & { rangeParent?:Node|null, rangeOffset:number };
+    if (geckoEvent.rangeParent) {
       const range = document.createRange();
-      range.setStart((evt as any).rangeParent, (evt as any).rangeOffset);
+      range.setStart(geckoEvent.rangeParent, geckoEvent.rangeOffset);
       return range.startOffset;
     }
 

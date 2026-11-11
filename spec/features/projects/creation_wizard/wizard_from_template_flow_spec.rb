@@ -190,8 +190,8 @@ RSpec.describe "Project creation wizard from a template",
     project.reload
     expect(project.project_creation_wizard_artifact_work_package_id).to be_present
     artefact_wp = WorkPackage.find(project.project_creation_wizard_artifact_work_package_id)
-    artifact_page = Pages::FullWorkPackage.new(artefact_wp)
-    artifact_page.expect_current_path
+    artefact_page = Pages::FullWorkPackage.new(artefact_wp)
+    artefact_page.expect_current_path
 
     # Verify the work package was created correctly
     expect(artefact_wp).to be_present

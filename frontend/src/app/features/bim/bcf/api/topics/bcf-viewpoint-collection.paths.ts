@@ -42,14 +42,14 @@ export class BcfTopicCollectionPath extends BcfResourceCollectionPath<BcfTopicPa
     super(injector, basePath, segment, BcfTopicPaths);
   }
 
-  get(params:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}) {
+  get(_params:HTTPClientParamMap = {}, _headers:HTTPClientHeaders = {}) {
     throw new Error('Not implemented');
   }
 
   /**
    * Create a topic from its to-be-associated work package
    */
-  post(payload:any):Observable<BcfTopicResource> {
+  post(payload:unknown):Observable<BcfTopicResource> {
     return this
       .bcfTopicService
       .request(

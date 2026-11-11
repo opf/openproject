@@ -87,7 +87,7 @@ RSpec.describe "My Account 2FA configuration",
     click_button I18n.t(:button_continue)
 
     expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.confirm_device"))
-    expect(page).to have_css("input#otp")
+    expect(page).to have_field("otp")
 
     expect_flash(type: :error, message: I18n.t("two_factor_authentication.devices.registration_failed_token_invalid"))
 
@@ -119,7 +119,7 @@ RSpec.describe "My Account 2FA configuration",
 
     # Confirm token
     expect(page).to have_css("h2", text: I18n.t("two_factor_authentication.devices.confirm_device"))
-    expect(page).to have_css("input#otp")
+    expect(page).to have_field("otp")
 
     device = user.otp_devices.order(:id).last
     expect(device.identifier).to eq "custom identifier"
@@ -195,7 +195,7 @@ RSpec.describe "My Account 2FA configuration",
     it "loads the page correctly (Regression #41719)" do
       visit my_security_path
 
-      expect(page).to have_content device.identifier
+      expect(page).to have_text device.identifier
     end
   end
 end

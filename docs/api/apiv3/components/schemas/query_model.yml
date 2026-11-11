@@ -2,8 +2,8 @@
 ---
 type: object
 required:
-- createdAt
-- updatedAt
+  - createdAt
+  - updatedAt
 properties:
   id:
     type: integer
@@ -85,41 +85,41 @@ properties:
     properties:
       star:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Elevates the query to the status of 'starred'
+          - $ref: "./link.yml"
+          - description: |-
+              Elevates the query to the status of 'starred'
 
-            # Conditions
+              # Conditions
 
-            **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is not yet starred
-          readOnly: true
+              **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is not yet starred
+            readOnly: true
       unstar:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Removes the 'starred' status
+          - $ref: "./link.yml"
+          - description: |-
+              Removes the 'starred' status
 
-            # Conditions
+              # Conditions
 
-            **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is starred
-          readOnly: true
+              **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is starred
+            readOnly: true
       update:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Use the Form based process to verify the query before persisting
+          - $ref: "./link.yml"
+          - description: |-
+              Use the Form based process to verify the query before persisting
 
-            # Conditions
+              # Conditions
 
-            **Permission**: view work packages
-          readOnly: true
+              **Permission**: view work packages
+            readOnly: true
       updateImmediately:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Persist the query without using a Form based process for guidance
+          - $ref: "./link.yml"
+          - description: |-
+              Persist the query without using a Form based process for guidance
 
-            # Conditions
+              # Conditions
 
-            **Permission**: save queries for own queries, manage public queries for public queries;
-          readOnly: true
+              **Permission**: save queries for own queries, manage public queries for public queries;
+            readOnly: true

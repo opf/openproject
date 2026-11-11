@@ -1,0 +1,216 @@
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AlertIcon, SyncIcon, XIcon } from '@primer/octicons-react';
+import type { WorkPackage } from '../../openProjectTypes';
+import { useColors } from '../../services/colors';
+import { linkToNewWorkPackage } from '../../services/openProjectApi';
+import { projectIdFromHref } from '../../utils/id';
+import { dependencyOf, writable } from './formSchema';
+import type { FormField } from './formSchema';
+import { controlIdOf, FormFieldControl, SUBJECT_KEY } from './FormFieldControl';
+import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
+import { useGrowthTransition } from './useGrowthTransition';
+import { FullPagePortal, keepFocusInside, usePageScrollLock } from '../Shared/modal';
+import { Button } from '../Shared/Button';
+import {
+  Body,
+  BodyContent,
+  Footer,
+  Header,
+  HeaderTitle,
+  IconButton,
+  Notice,
+  Overlay,
+  Panel,
+} from '../Shared/atoms';
+import {
+  Divider,
+  FooterStatus,
+  Form,
+  NoticeLink,
+  Spinner,
+} from './atoms';
+
+const Alert = ({ children, ...rest }:{ children:React.ReactNode } & React.ComponentProps<typeof Notice>) => (
+  <Notice $error {...rest}>
+    <AlertIcon size={14} />
+    <span>{children}</span>
+  </Notice>
+);
+
+const controlIn = (panel:HTMLElement | null, key:string):HTMLElement | null =>
+  panel?.querySelector<HTMLElement>(`[id="${controlIdOf(key)}"]`) ?? null;
+
+export interface CreateWorkPackageModalProps {
+  anchorEl?:HTMLElement | null;
+  initialSubject?:string;
+  onCreated:(workPackage:WorkPackage) => void;
+  onCancel:() => void;
+}
+
+export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, onCancel }:CreateWorkPackageModalProps) => {
+  const { t } = useTranslation();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const focusGiven = useRef(false);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const bodyContentRef = useRef<HTMLDivElement>(null);
+  usePageScrollLock();
+  useEffect(() => { panelRef.current?.focus(); }, []);
+  useGrowthTransition({ panelRef, bodyRef, contentRef: bodyContentRef });
+  useColors();
+  const {
+    primaryFields,
+    extraFields,
+    values,
+    valueLabels,
+    setValue,
+    projectHref,
+    typeHref,
+    isDirty,
+    subjectClipped,
+    loading,
+    initializing,
+    loadError,
+    notAllowed,
+    submitting,
+    submitError,
+    fieldErrors,
+    valueProblems,
+    unsupportedFields,
+    submitEnabled,
+    attemptSubmit,
+  } = useCreateWorkPackageForm(onCreated, initialSubject);
+
+  const showField = (key:string) => {
+    const control = controlIn(panelRef.current, key);
+    control?.focus();
+    control?.scrollIntoView({ block: 'nearest' });
+  };
+
+  const offersSubject = primaryFields.some((field) => field.key === SUBJECT_KEY && writable(field));
+  useEffect(() => {
+    if (focusGiven.current || !offersSubject) return;
+
+    focusGiven.current = true;
+    controlIn(panelRef.current, SUBJECT_KEY)?.focus();
+  }, [offersSubject]);
+
+  // A long form scrolls the message on top out of view, so it only points down.
+  const formError = [
+    Object.keys(fieldErrors).length > 0 ? t('createWorkPackage.validationFailed') : null,
+    submitError,
+  ].filter(Boolean).join(' ');
+
+  // Remounts a control when the selection its values came from changes.
+  const keyOf = (key:string) => {
+    const dependsOn = dependencyOf(key);
+    if (!dependsOn) return key;
+    return dependsOn === 'project' ? `${key}:${projectHref}` : `${key}:${projectHref}:${typeHref}`;
+  };
+
+  const hintFor = (field:FormField) => (field.key === SUBJECT_KEY && subjectClipped && writable(field)
+    ? t('createWorkPackage.subjectClipped', { limit: field.maxLength })
+    : undefined);
+
+  const renderField = (field:FormField) => (
+    <FormFieldControl
+      key={keyOf(field.key)}
+      field={field}
+      value={values[field.key]}
+      valueLabel={valueLabels[field.key]}
+      error={fieldErrors[field.key]}
+      problem={valueProblems[field.key]}
+      hint={hintFor(field)}
+      onChange={(value, label) => setValue(field.key, value, label)}
+    />
+  );
+
+  return (
+    <FullPagePortal anchorEl={anchorEl}>
+      <Overlay
+        onMouseDown={() => { if (!isDirty) onCancel(); }}
+      >
+        <Panel
+          ref={panelRef}
+          tabIndex={-1}
+          aria-label={t('createWorkPackage.title')}
+          onMouseDown={(event) => event.stopPropagation()}
+          onKeyDown={(event) => {
+            event.stopPropagation();
+            if (event.key === 'Escape' && !isDirty) onCancel();
+            if (event.key === 'Tab') keepFocusInside(panelRef.current, event);
+          }}
+        >
+          <Header>
+            <HeaderTitle>{t('createWorkPackage.title')}</HeaderTitle>
+            <IconButton type="button" aria-label={t('createWorkPackage.close')} onClick={onCancel}>
+              <XIcon size={16} />
+            </IconButton>
+          </Header>
+
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (!submitEnabled) return;
+
+              const blocking = attemptSubmit();
+              if (blocking) showField(blocking);
+            }}
+          >
+            <Body ref={bodyRef}>
+              <BodyContent ref={bodyContentRef}>
+                {notAllowed && <Alert>{t('createWorkPackage.notAllowed')}</Alert>}
+
+                {loadError && <Alert>{t('createWorkPackage.loadFailed', { message: loadError })}</Alert>}
+
+                {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
+
+                {primaryFields
+                  .filter((field) => !initializing || !dependencyOf(field.key))
+                  .map(renderField)}
+
+                {!initializing && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
+
+                {!initializing && extraFields.map(renderField)}
+
+                {!initializing && unsupportedFields.length > 0 && (
+                  <Notice>
+                    <AlertIcon size={14} />
+                    <span>
+                      {t('createWorkPackage.unsupportedRequired')}{' '}
+                      <NoticeLink
+                        href={linkToNewWorkPackage(projectIdFromHref(projectHref))}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {t('createWorkPackage.createInOpenProject')}
+                      </NoticeLink>
+                    </span>
+                  </Notice>
+                )}
+              </BodyContent>
+            </Body>
+
+            <Footer>
+              {loading && (
+                <FooterStatus data-testid="create-wp-loading">
+                  <Spinner><SyncIcon size={14} /></Spinner>
+                  {t('createWorkPackage.loading')}
+                </FooterStatus>
+              )}
+              <Button type="button" onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>
+              <Button
+                type="submit"
+                $primary
+                data-testid="create-wp-submit"
+                disabled={!submitEnabled}
+              >
+                {submitting ? t('createWorkPackage.creating') : t('createWorkPackage.create')}
+              </Button>
+            </Footer>
+          </Form>
+        </Panel>
+      </Overlay>
+    </FullPagePortal>
+  );
+};

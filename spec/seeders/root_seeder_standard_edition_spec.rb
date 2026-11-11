@@ -229,12 +229,12 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
     include_examples "it creates records", model: Workflows::StatusTransition, expected_count: 1758
     include_examples "it creates records", model: RecurringMeeting, expected_count: 1
-    include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
+    include_examples "it creates records", model: AI::TextAction, expected_count: 11
     include_examples "it is compatible with the automatic scheduling mode"
   end
 
   # The fictional company staff is development data, and the demo data referencing it (project
-  # members, work package assignees, meeting participants) only materialises alongside it.
+  # members, work package assignees, meeting participants) only materializes alongside it.
   shared_examples "creates the company staff and the demo data referencing it" do
     it "creates the company departments with their member users" do
       departments = Group.organizational_units

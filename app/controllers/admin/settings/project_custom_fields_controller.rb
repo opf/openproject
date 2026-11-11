@@ -29,12 +29,15 @@
 
 module Admin::Settings
   class ProjectCustomFieldsController < ::Admin::SettingsController
-    include CustomFields::SharedActions
-    include CustomFields::AttributeHelpTextActions
+    include ::CustomFields::SharedActions
+    include ::CustomFields::AttributeHelpTextActions
     include ::CustomFields::AdminRoutes
     include OpTurbo::ComponentStream
     include FlashMessagesOutputSafetyHelper
     include Admin::Settings::ProjectCustomFields::ComponentStreams
+    include ::SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: "custom_field", list_id_scoped: true
 
     helper_method :delete_option_path
 
@@ -88,7 +91,7 @@ module Admin::Settings
     end
 
     def update_role_assignment
-      call = CustomFields::LinkWithRoleService
+      call = ::CustomFields::LinkWithRoleService
         .new(user: current_user, model: @custom_field)
         .call(role_assignment_params)
 
@@ -145,7 +148,7 @@ module Admin::Settings
     end
 
     def move
-      result = CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
+      result = ::CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
         move_to: params.expect(:move_to)
       )
 
@@ -163,7 +166,7 @@ module Admin::Settings
     def drop
       return render_invalid_drop_request unless valid_drop_request?
 
-      result = CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
+      result = ::CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
         list_id: drop_params[:list_id],
         prev_id: drop_params[:prev_id]
       )
@@ -185,7 +188,7 @@ module Admin::Settings
     end
 
     def destroy
-      result = CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
+      result = ::CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
 
       if result.success?
         update_section_via_turbo_stream(project_custom_field_section: @custom_field.project_custom_field_section.reload)
@@ -272,21 +275,6 @@ module Admin::Settings
 
     def find_custom_field
       @custom_field = ProjectCustomField.find(params.expect(:id))
-    end
-
-    # Ids must be scalar strings: a collection-valued list_id would pick an
-    # arbitrary target section out of an IN lookup, and a collection-valued
-    # prev_id would 500 instead of answering the promised 422. permit's
-    # scalar filter drops collection values, so the presence checks below
-    # reject them alongside genuinely missing parameters.
-    def valid_drop_request?
-      drop_params[:list_type] == "custom_field" &&
-        drop_params[:list_id].present? &&
-        drop_params.key?(:prev_id)
-    end
-
-    def drop_params
-      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
     end
 
     def render_invalid_drop_request

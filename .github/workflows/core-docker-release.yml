@@ -24,6 +24,7 @@ jobs:
     permissions:
       contents: none
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Dispatch flavours core-docker-release workflow
         env:

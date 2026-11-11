@@ -5,7 +5,7 @@ lt:
     resource_management:
       create_placeholder_user: Create placeholder user with filter criteria
       hidden_user: Hidden user
-      my_work:
+      my_time_management:
         finish_by: Finish by %{date}
         finish_today: Finish today
       show_allocations: Show resource allocations

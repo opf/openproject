@@ -73,7 +73,7 @@ export function openTimeEntryDialog(turboRequests:TurboRequestsService, url:stri
     .finally(() => { awaitingDialog = false; });
 }
 
-export function reloadMyWorkView(element:Element):void {
+export function reloadMyTimeManagementView(element:Element):void {
   const frame = element.closest<FrameElement>('turbo-frame');
 
   if (!frame) {

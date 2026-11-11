@@ -9,7 +9,7 @@ reference that description through `aria-describedby` on their focus host.
 
 Items declare `mobility`: `fixed`, `confined`, or `free`. Mobility gates dragging,
 selection eligibility, and positional moves. A missing value defaults to `free`;
-an unrecognised value resolves to `fixed`. Structural rows such as “Show more”
+an unrecognized value resolves to `fixed`. Structural rows such as “Show more”
 are not sortable items and do not participate in selection.
 
 ## Model and ownership
@@ -60,9 +60,10 @@ reconciliation preserves it.
 
 ## Batch movement
 
-Dragging a selected item moves the whole batch. The root freezes the batch in
-the preview callback (`freezeDragBatch`) and marks its rows at drag start
-(`markDragBatch`), so later selection changes do not change the submitted items.
+Dragging a selected item moves the whole batch. The drag session
+([drag-session.ts](drag-session.ts)) resolves the batch when the drag is first
+permitted, freezes it in the preview callback and marks its rows at drag
+start, so later selection changes do not change the submitted items.
 Dragging an unselected item selects it, collapsing any wider selection.
 
 A batch may drop only on a destination every member accepts. A `confined` member
@@ -75,6 +76,17 @@ collection move action for one dragged item or many. The root's
 `moveAnnouncementScope` sets the translation vocabulary for move announcements,
 independently of the selection's `announcementScope`.
 
+A batch reordered within its list, by drag or by the move menu, stays selected
+with its anchor so it can be moved again. A single item, a move to another list
+and a move through a destination dialog clear the selection. A consumer whose
+server reports moves made outside the root binds that event to
+`sortable-lists#clearSelectionAfterMove`; the root skips the event for moves it
+requested itself, so every successful Turbo Stream move response must carry it.
+
+With `maxBatchSize` set, a drag of more items is refused before it starts and
+the `batch_too_large` message of `moveAnnouncementScope` is shown as an error
+toast.
+
 ## Presentation and feedback
 
 `data-batch-selected` belongs on the sortable item element. In Backlogs this is
@@ -82,6 +94,20 @@ the row, while `aria-current` belongs on the card inside it and represents the
 work package open in the details pane. Styles must account for those distinct
 elements and states. Updating the current work package does not change batch
 membership.
+
+The drag states these controllers write — `data-drop-container` on the list,
+`data-dragging` and `data-drop-position` on the item — are styled in
+[drag_and_drop.sass](../../../../global_styles/content/drag_and_drop.sass),
+keyed on the contract attributes rather than on any list's own markup. The
+Angular directives in
+[sortable-lists-engine.ts](../../../../common/drag-and-drop/sortable-lists-engine.ts)
+write the same attributes onto hosts that carry none of those contract
+attributes, and keep their own component styles.
+
+A list that spaces its items apart has to publish the spacing as `--op-sortable-drop-gap`
+for the drop indicator to be laid out in the gap instead of on an item's own
+edge. We already integrate with `Primer::Alpha::Stack` which accepts a `gap:`
+parameter.
 
 Selection gestures announce membership changes, including changes that retain
 the same count. Plain navigation clicks announce only when a wider batch

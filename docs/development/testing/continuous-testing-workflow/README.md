@@ -72,6 +72,15 @@ If you want to run the tests directly to rspec, you can use this command:
 
 Some tests can fail on GitHub actions CI, and pass locally which makes them harder to reproduce, diagnose, and fix.
 
+To reproduce the CI environment:
+
+- Run with `CI=true` to enable CI-specific test configuration, including eager loading.
+- Compare the `OPENPROJECT_*` environment variables with those set by the failing workflow.
+- Reuse the random seed from the failing job, for example `bundle exec rspec --seed 18352`. Use RSpec's `--bisect` option to investigate order-dependent failures.
+- For browser failures, use `OPENPROJECT_TESTING_NO_HEADLESS=1` to [watch the browser locally](../running-tests-locally/#headless-testing).
+
+The [workflow definitions](https://github.com/opf/openproject/tree/dev/.github/workflows) are the source for current job names, timeouts, and commands. Parallel jobs can use different random seeds; use the seed reported by the failing job.
+
 These are flaky tests and should be fixed as soon as possible as they undermine the trust we have in our test results. [Follow our advice on handling flaky tests](../handling-flaky-tests/) for more information.
 
 ### Skip test execution on GitHub Actions CI

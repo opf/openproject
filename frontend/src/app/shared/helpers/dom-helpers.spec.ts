@@ -33,6 +33,7 @@ import {
   toggleEnabled,
   enableElement,
   disableElement,
+  setInputFiles,
 } from './dom-helpers';
 
 describe('dom-helpers', () => {
@@ -534,6 +535,31 @@ describe('dom-helpers', () => {
 
         expect(input.disabled).toBe(true);
       });
+    });
+  });
+
+  describe('setInputFiles', () => {
+    it('puts the given file on the input', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      const file = new File(['content'], 'contract.pdf', { type: 'application/pdf' });
+
+      setInputFiles(input, file);
+
+      expect(input.files).toHaveLength(1);
+      expect(input.files?.[0]).toBe(file);
+    });
+
+    it('replaces a previously set file rather than appending to it', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      setInputFiles(input, new File(['first'], 'first.pdf', { type: 'application/pdf' }));
+
+      const second = new File(['second'], 'second.pdf', { type: 'application/pdf' });
+      setInputFiles(input, second);
+
+      expect(input.files).toHaveLength(1);
+      expect(input.files?.[0]).toBe(second);
     });
   });
 });

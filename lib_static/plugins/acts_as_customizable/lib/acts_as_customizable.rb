@@ -110,8 +110,8 @@ module Redmine
         # The role of this method is to provide flexibility on enabling just a subset of
         # available_custom_fields on the UI while enabling all_available_custom_fields via the api.
         # A good example is the Project's attributes, the UI allows the enabled attributes only,
-        # and the Projects API still provides the old behaviour where all the custom fields are available.
-        # Once the api behaviour is aligned to the UI behaviour, this method can be removed in favor of
+        # and the Projects API still provides the old behavior where all the custom fields are available.
+        # Once the api behavior is aligned to the UI behavior, this method can be removed in favor of
         # the available_custom_fields method.
         def all_available_custom_fields
           @all_available_custom_fields ||= available_custom_fields
@@ -428,15 +428,21 @@ module Redmine
         end
 
         def build_default_custom_values(custom_field)
-          if custom_field.multi_value? && custom_field.default_value.present?
-            custom_field.default_value.map do |value|
+          default_value = default_custom_field_value(custom_field)
+
+          if custom_field.multi_value? && default_value.present?
+            default_value.map do |value|
               build_custom_value(custom_field, value:)
             end
-          elsif custom_field.multi_value? && custom_field.default_value.blank?
+          elsif custom_field.multi_value? && default_value.blank?
             build_custom_value(custom_field, value: nil)
           else
-            build_custom_value(custom_field, value: custom_field.default_value)
+            build_custom_value(custom_field, value: default_value)
           end
+        end
+
+        def default_custom_field_value(custom_field)
+          custom_field.default_value
         end
 
         def build_custom_value(custom_field, value:)

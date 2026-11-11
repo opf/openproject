@@ -33,7 +33,7 @@ RSpec.describe "Work package card ID link uses displayId",
                :js,
                :with_cuprite,
                with_settings: { work_packages_identifier: "semantic" } do
-  # Classic mode is a behavioural no-op here: the card href is built via
+  # Classic mode is a behavioral no-op here: the card href is built via
   # `workPackage.displayId`, which returns the numeric id in classic mode — i.e.
   # the same value the pre-fix code (`workPackage.id`) used. Covering only
   # semantic mode where the bug actually manifests.

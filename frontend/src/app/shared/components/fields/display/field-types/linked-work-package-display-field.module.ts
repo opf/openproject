@@ -50,7 +50,7 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams);
 
-  public render(element:HTMLElement, displayText:string):void {
+  public render(element:HTMLElement, _displayText:string):void {
     if (this.isEmpty()) {
       element.innerText = this.placeholder;
       return;
@@ -69,11 +69,11 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     title.textContent = ` ${truncate(titleText, { length: 40 })}`;
 
     element.innerHTML = '';
-    element.appendChild(link);
+    element.appendChild(link.element);
     element.appendChild(title);
   }
 
-  public get writable():boolean {
+  public override get writable():boolean {
     return false;
   }
 

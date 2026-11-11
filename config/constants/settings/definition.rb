@@ -47,10 +47,6 @@ module Settings
         format: :string,
         default: nil
       },
-      ai_text_transform_actions_enabled: {
-        description: "Enable AI text transform actions in the rich text editor",
-        default: false
-      },
       ai_text_transform_run_retention_seconds: {
         description: "How long AI text transform runs and their events are kept before a cron job removes them. " \
                      "Applies to finished runs from their finish time and to unfinished runs from their creation time.",
@@ -348,6 +344,20 @@ module Settings
         writable: false,
         secret: true
       },
+      database_encryption_key: {
+        description: "Secret for data that OpenProject encrypts in the database. Defaults to SECRET_KEY_BASE. The encryption key is derived from this value",
+        format: :string,
+        default: nil,
+        writable: false,
+        secret: true
+      },
+      database_encryption_previous_key: {
+        description: "Old value of SECRET_KEY_BASE or of the database encryption key, used to decrypt data while you rotate that key",
+        format: :string,
+        default: nil,
+        writable: false,
+        secret: true
+      },
       date_format: {
         format: :string,
         default: nil,
@@ -611,6 +621,13 @@ module Settings
         writable: false,
         default: true
       },
+      good_job_shutdown_timeout: {
+        description: "Seconds that the worker waits for running jobs to finish before it stops them. " \
+                     "Set it to less than the time the container platform waits before it kills the worker.",
+        format: :integer,
+        writable: false,
+        default: 30
+      },
       good_job_cleanup_preserved_jobs_before_seconds_ago: {
         description: "",
         format: :integer,
@@ -756,18 +773,6 @@ module Settings
       },
       ldap_users_sync_status: {
         description: "Enable user status (locked/unlocked) synchronization from LDAP",
-        format: :boolean,
-        default: false
-      },
-      llm_connection: {
-        description: "Configure the connection to an OpenAI-API-compatible LLM server through environment variables",
-        writable: false,
-        default: {},
-        format: :hash,
-        string_values: true
-      },
-      llm_features_enabled: {
-        description: "Enable the AI features backed by the configured LLM connection",
         format: :boolean,
         default: false
       },

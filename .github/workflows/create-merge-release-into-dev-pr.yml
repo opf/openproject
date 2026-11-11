@@ -12,6 +12,7 @@ jobs:
   setup:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
     steps:
@@ -85,7 +86,7 @@ jobs:
             git merge --no-commit --no-ff "$RELEASE_BRANCH" || true
 
             # ignore crowdin translations
-            git restore --source=HEAD --staged --worktree -- "config/locales/crowdin/*.yml" "modules/*/config/locales/crowdin/*.yml"
+            git restore --source=HEAD --staged --worktree -- "config/locales/crowdin/*.yml" "modules/*/config/locales/crowdin/*.yml" "extensions/blocknote-extensions/lib/locales/crowdin/*.ts"
 
             if git diff --cached --quiet; then
               echo "Nothing to merge from $RELEASE_BRANCH into $BASE_BRANCH, besides ignored crowdin translations"
@@ -110,7 +111,7 @@ jobs:
               # If merge failed, abort it and add a commit that removes crowdin translation changes
               if git merge --abort; then
                 git switch -c "$TEMP_BRANCH" "$RELEASE_BRANCH"
-                git restore --source="$BASE_BRANCH" --staged --worktree -- "config/locales/crowdin/*.yml" "modules/*/config/locales/crowdin/*.yml"
+                git restore --source="$BASE_BRANCH" --staged --worktree -- "config/locales/crowdin/*.yml" "modules/*/config/locales/crowdin/*.yml" "extensions/blocknote-extensions/lib/locales/crowdin/*.ts"
                 if ! git diff --cached --quiet; then
                   git commit -m "use crowdin translations from $BASE_BRANCH"
                 fi

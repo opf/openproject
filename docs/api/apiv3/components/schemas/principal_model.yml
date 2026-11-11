@@ -45,9 +45,9 @@ properties:
           - $ref: './link.yml'
           - description: |-
               An href to the collection of the principal's memberships.
-              
+
               # Conditions:
-              
+
               - user has permission `view_members` or `manage_members` in any project
-              
+
               **Resource**: Collection

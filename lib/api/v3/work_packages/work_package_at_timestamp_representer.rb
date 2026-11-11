@@ -38,23 +38,33 @@ module API
         # List of properties that are currently supported by this representer.
         # Probably, way more, maybe even all properties are supported but that is untested.
         SUPPORTED_NON_LINK_PROPERTIES = %w[
-          subject
-          start_date
-          due_date
           date
+          derived_estimated_time
+          due_date
+          estimated_time
+          start_date
+          subject
+          story_points
         ].freeze
 
         SUPPORTED_LINK_PROPERTIES = %w[
           assignee
-          responsible
-          project
-          status
-          priority
-          type
-          version
-          target_versions
+          labels
           observed_in_versions
           parent
+          priority
+          project
+          responsible
+          status
+          target_versions
+          type
+          version
+        ].freeze
+
+        MULTI_VALUED_LINK_PROPERTIES = %w[
+          labels
+          observed_in_versions
+          target_versions
         ].freeze
 
         SUPPORTED_CUSTOM_PROPERTIES = [/^custom_field_\d+$/].freeze
@@ -104,7 +114,7 @@ module API
         # contains the lower camel-cased names.
         def rendered_properties_for_links
           @rendered_properties_for_links ||= rendered_properties.map do |property|
-            if property.starts_with?("custom_field_") || %w[target_versions observed_in_versions].include?(property)
+            if property.starts_with?("custom_field_") || MULTI_VALUED_LINK_PROPERTIES.include?(property)
               API::Utilities::PropertyNameConverter.from_ar_name(property)
             else
               property
@@ -116,6 +126,7 @@ module API
           # This conversion is good enough for the set of supported properties as it
           # * Converts assigned_to_id to assignee
           # * does not mess with `start_date` and `due_date`
+          # * renders own and derived work together, as one cell displays both
           if represented.exists_at_current_timestamp?
             represented
               .attributes_changed_to_baseline
@@ -124,6 +135,8 @@ module API
                 API::Utilities::PropertyNameConverter.from_ar_name(property)
               elsif %w[start_date due_date].include?(property)
                 ["date", property]
+              elsif %w[estimated_hours derived_estimated_hours].include?(property)
+                %w[estimated_time derived_estimated_time]
               else
                 property
               end

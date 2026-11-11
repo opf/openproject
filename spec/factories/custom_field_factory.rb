@@ -221,6 +221,14 @@ FactoryBot.define do
       end
     end
 
+    trait :project_specific_allowlist do
+      project_specific_value_restriction { "allow" }
+    end
+
+    trait :project_specific_blocklist do
+      project_specific_value_restriction { "block" }
+    end
+
     factory :project_custom_field, class: "ProjectCustomField" do
       project_custom_field_section
 

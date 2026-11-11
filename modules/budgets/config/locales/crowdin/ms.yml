@@ -105,7 +105,7 @@ ms:
   events:
     budget: Anggaran yang telah diedit
   help_click_to_edit: Klik sini untuk mengedit.
-  help_currency_format: Format nilai mata wang yang dipaparkan. %n digantikan dengan nilai mata wang, %u digantikan dengan unit mata wang.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Masukkan nilai disini untuk gantikan kadar default.
   label_budget_available: Budget available
   label_budget_details: Budget details

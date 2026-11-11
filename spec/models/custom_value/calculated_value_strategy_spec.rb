@@ -168,7 +168,7 @@ RSpec.describe CustomValue::CalculatedValueStrategy do
       context "with #{value.inspect}" do
         let(:value) { value }
 
-        it "normalises to the DB true value" do
+        it "normalizes to the DB true value" do
           expect(subject).to eql OpenProject::Database::DB_VALUE_TRUE
         end
       end
@@ -178,7 +178,7 @@ RSpec.describe CustomValue::CalculatedValueStrategy do
       context "with #{value.inspect}" do
         let(:value) { value }
 
-        it "normalises to the DB false value" do
+        it "normalizes to the DB false value" do
           expect(subject).to eql OpenProject::Database::DB_VALUE_FALSE
         end
       end

@@ -115,7 +115,7 @@ export class GridDragAndDropService implements OnDestroy {
   public start(area:GridWidgetArea) {
     this.placeholderArea = new GridWidgetArea(area.widget);
     // TODO find an angular way to do this that ideally does not require passing the element from the grid component
-    this.draggedHeight = (document as any).getElementById(area.guid).offsetHeight - 2; // border width * 2
+    this.draggedHeight = document.getElementById(area.guid)!.offsetHeight - 2; // border width * 2
     this.draggedArea = area;
   }
 

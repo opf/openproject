@@ -62,7 +62,7 @@ RSpec.describe AI::TextTransformRunEvent do
     end
   end
 
-  describe "append-only behaviour" do
+  describe "append-only behavior" do
     subject(:event) { create(:ai_text_transform_run_event) }
 
     it "refuses updates once persisted" do

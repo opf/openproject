@@ -28,9 +28,7 @@
 #++
 
 module Filter
-  # rubocop:disable OpenProject/AddPreviewForViewComponent
   class FilterButtonComponent < ApplicationComponent
-    # rubocop:enable OpenProject/AddPreviewForViewComponent
     include OpTurbo::Streamable
 
     options :query

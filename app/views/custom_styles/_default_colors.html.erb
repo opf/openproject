@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("admin.custom_styles.default_colors.description") } %>
 
 <%= render(
-      OpenProject::Common::BorderBoxListComponent.new(
+      OpPrimer::BorderBoxListComponent.new(
         container: :default_colors,
         mb: 3,
         test_selector: "default-colors-list"
@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% list.with_item(display: :flex, justify_content: :space_between, align_items: :center) do %>
       <%= render(Primer::Beta::Link.new(href: edit_color_path(color), font_weight: :bold)) { color.name } %>
       <%= render(Primer::Beta::Text.new(display: :flex, align_items: :center, font_size: :small)) do %>
-        <%= render(Colors::SwatchComponent.new(hexcode: color.hexcode, show_value: true)) %>
+        <%= render(Primer::OpenProject::ColorSwatch.new(hexcode: color.hexcode, show_value: true)) %>
       <% end %>
     <% end %>
   <% end %>

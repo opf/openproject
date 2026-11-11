@@ -35,6 +35,7 @@ import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.s
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { selectionGesture } from '../state/selection-feedback';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
@@ -79,12 +80,17 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     const workPackageId = element.dataset.workPackageId;
 
     // Normal link processing if there are no state and work package information
-    if (!state || !workPackageId) {
+    if ((state !== 'split' && state !== 'show') || !workPackageId) {
       return true;
     }
 
-    // Blur the target to avoid focus being kept there
-    target.closest('a')?.blur();
+    const navigation = view.workPackageTable.keyboardNavigation;
+    const origin = navigation.originForControl(element);
+    if (origin) {
+      navigation.focusPosition(origin);
+    } else {
+      target.closest('a')?.blur();
+    }
 
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.
@@ -94,7 +100,9 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     if (!row) { return true; }
 
     this.wpTableFocus.updateFocus(workPackageId, false, false);
-    this.selectionGestures.replace(workPackageId, view.workPackageTable.renderedRows, row.dataset.classIdentifier);
+    selectionGesture(view.workPackageTable, 'navigation', () => {
+      this.selectionGestures.replace(workPackageId, view.workPackageTable.renderedRows, row.dataset.classIdentifier);
+    });
 
     view.stateLinkClicked.emit({ workPackageId, requestedState: state });
 

@@ -233,7 +233,7 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
       // Reset dirtiness status for next time
       this.hasCheckboxChangesValue = false;
       this.hasStatusChangesValue = false;
-      // Let default behaviour behave…
+      // Let default behavior behave…
     }
   };
 

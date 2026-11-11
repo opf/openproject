@@ -37,6 +37,7 @@ module Exports
 
       def format_hierarchy_item_for_export(item_value)
         return nil if item_value.value.blank?
+        return I18n.t(:label_custom_value_no_longer_available) unless item_value.available_in_project?
 
         item = ::CustomField::Hierarchy::Item.find_by(id: item_value.value.to_s)
         return "#{item_value} #{I18n.t(:label_not_found)}" unless item

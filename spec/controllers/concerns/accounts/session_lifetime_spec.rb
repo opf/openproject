@@ -85,6 +85,19 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
         expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, ttl_time: Setting.session_ttl))
       end
     end
+
+    context "and the request was authenticated by API key" do
+      it "neither logs out nor refreshes the session" do
+        allow(controller).to receive_messages(api_key_authenticated?: true)
+        last_seen = 3.hours.ago
+        session[:updated_at] = last_seen
+
+        get :index
+
+        expect(response).to have_http_status(:ok)
+        expect(session[:updated_at]).to eq(last_seen)
+      end
+    end
   end
 
   context "with a short TTL", with_settings: { session_ttl_enabled?: true, session_ttl: "5" } do
@@ -125,6 +138,17 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
       get :index
 
       expect(session[:updated_at]).to eq(last_seen)
+    end
+  end
+
+  context "when the user is anonymous", with_settings: { login_required?: false } do
+    before { session.delete(:user_id) }
+
+    it "does not write a session timestamp" do
+      get :index
+
+      expect(response).to have_http_status(:ok)
+      expect(session[:updated_at]).to be_nil
     end
   end
 end

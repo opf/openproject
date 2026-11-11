@@ -1,0 +1,761 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { waitFor, within } from '@testing-library/dom';
+import { firstValueFrom } from 'rxjs';
+import { map, skip, take } from 'rxjs/operators';
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { buildQuery, buildTable, initializeViewServices, TableHarness, TableHarnessOptions } from '../testing/table-harness';
+import { buildWorkPackage, WorkPackageFixture } from '../testing/work-package-fixture';
+import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { navigableCellClassName } from '../handlers/state/keyboard/roving-tabindex';
+import { groupOccurrenceKey, placeholderOccurrenceKey, relationOccurrenceKey, wpOccurrenceKey } from '../rendered-occurrence-ledger';
+
+import { paintRowRole } from './treegrid-semantics';
+
+const newStatus = { href: '/api/v3/statuses/1' };
+const inProgressStatus = { href: '/api/v3/statuses/2' };
+
+const groupedFixtures:Pick<TableHarnessOptions, 'workPackages'|'groups'> = {
+  workPackages: [
+    { id: '1', attributes: { status: newStatus } },
+    { id: '2', attributes: { status: newStatus } },
+    { id: '3', attributes: { status: inProgressStatus } },
+  ],
+  groups: [
+    { value: 'New', href: newStatus.href, count: 2, sums: { storyPoints: 5 } },
+    { value: 'In progress', href: inProgressStatus.href, count: 1, sums: { storyPoints: 8 } },
+  ],
+};
+
+const relationColumn = { id: 'relationsOfTypeFollows', relationType: 'follows' };
+const parent:WorkPackageFixture = { id: '1' };
+const child:WorkPackageFixture = { id: '2', ancestors: [parent] };
+
+describe('TreegridSemantics', () => {
+  let harness:TableHarness;
+
+  const mount = (options:Partial<TableHarnessOptions> = {}) => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
+      ...options,
+      configuration: { ...options.configuration },
+    });
+    return harness;
+  };
+
+  const element = (key:string) => harness.table.ledger.byKey(key)!.element!;
+  const groupHeader = (index:number) => element(groupOccurrenceKey(index, 'header'));
+  const sumsRow = (index:number) => element(groupOccurrenceKey(index, 'sums'));
+  const groupIdentifier = (index:number) => harness.groupHeader(index).dataset.groupIdentifier!;
+  const toggleGroup = (index:number) => harness.injector.get(WorkPackageViewCollapsedGroupsService)
+    .toggleGroupCollapseState(groupIdentifier(index));
+  const hierarchies = () => harness.injector.get(WorkPackageViewHierarchiesService);
+  const resource = (id:string) => harness.injector.get(States).workPackages.get(id).value!;
+
+  const atNextPublication = <T>(read:() => T):Promise<T> => firstValueFrom(
+    harness.querySpace.tableRendered.values$().pipe(skip(1), take(1), map(read)),
+  );
+
+  const atNextRefresh = <T>(read:() => T):Promise<T> => harness.nextMutation().then(read);
+
+  const expectHidden = (row:HTMLElement) => expect(row).toHaveAttribute('aria-hidden', 'true');
+  const expectExposed = (row:HTMLElement) => expect(row).not.toHaveAttribute('aria-hidden');
+  const expectCollapsed = (row:HTMLElement) => {
+    expect(row).not.toBeVisible();
+    expect(row).not.toHaveAttribute('aria-hidden');
+  };
+  const expectShown = (row:HTMLElement) => {
+    expect(row).toBeVisible();
+    expect(row).not.toHaveAttribute('aria-hidden');
+  };
+
+  afterEach(() => harness.destroy());
+
+  it.each([
+    { columns: ['id', 'subject', 'status'], header: 'subject', name: 'Alpha' },
+    { columns: ['status', 'subject', 'id'], header: 'subject', name: 'Alpha' },
+    { columns: ['subject', 'id', 'status'], header: 'subject', name: 'Alpha' },
+    { columns: ['status', 'id'], header: 'id', name: '17' },
+  ])('chooses the row header for $columns', async ({ columns, header, name }) => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns });
+    await harness.render();
+
+    const row = harness.row('17');
+    const headers = within(row).queryAllByRole('rowheader');
+    expect(headers).toHaveLength(1);
+    expect(headers[0].tagName).toBe('TH');
+    expect(headers[0]).toHaveAttribute('scope', 'row');
+    expect(headers[0]).not.toHaveAttribute('role');
+    expect(headers[0]).toHaveClass(header);
+    expect(headers[0]).toHaveAccessibleName(name);
+    expect(row).toHaveAttribute('aria-labelledby', headers[0].id);
+    expect(row).toHaveAccessibleName(name);
+
+    Array.from(row.cells).filter((cell) => !headers.includes(cell)).forEach((cell) => {
+      expect(cell).toHaveAttribute('role', 'gridcell');
+      expect(cell).not.toHaveAttribute('aria-label');
+      expect(cell).not.toHaveAttribute('aria-labelledby');
+    });
+  });
+
+  it('leaves rows without Subject or ID with grid cells only', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['status'] });
+    await harness.render();
+    const row = harness.row('17');
+    expect(within(row).queryAllByRole('rowheader')).toEqual([]);
+    expect(row.querySelectorAll(':scope > th')).toHaveLength(0);
+    expect(row).not.toHaveAttribute('aria-labelledby');
+    Array.from(row.cells).forEach((cell) => {
+      expect(cell).toHaveAttribute('role', 'gridcell');
+      expect(cell).not.toHaveAttribute('aria-label');
+      expect(cell).not.toHaveAttribute('aria-labelledby');
+    });
+  });
+
+  it('preserves the native header and unrelated cell names when repainting', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject', 'status'] });
+    await harness.render();
+    const row = harness.row('17');
+    const subject = row.cells[1];
+    const status = row.cells[2];
+    const statusText = document.createElement('span');
+    statusText.id = 'row-header-test-status';
+    statusText.textContent = 'Status context';
+    status.append(statusText);
+    status.setAttribute('aria-label', 'Retained status label');
+    status.setAttribute('aria-labelledby', statusText.id);
+    subject.setAttribute('aria-labelledby', statusText.id);
+
+    paintRowRole(row, 1);
+    paintRowRole(row, 1);
+    expect(within(row).getByRole('rowheader')).toBe(subject);
+    expect(subject.tagName).toBe('TH');
+    expect(subject).toHaveAccessibleName('Alpha');
+    expect(subject).toHaveAttribute('scope', 'row');
+    expect(subject).not.toHaveAttribute('role');
+    expect(subject).not.toHaveAttribute('aria-labelledby');
+    expect(status).toHaveAttribute('aria-label', 'Retained status label');
+    expect(status).toHaveAttribute('aria-labelledby', statusText.id);
+    expect(status).toHaveAccessibleName('Status context');
+  });
+
+  it('replaces Subject with ID, removes the header and restores Subject', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject', 'status'] });
+    await harness.render();
+    expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+    expect(harness.row('17')).toHaveAccessibleName('Alpha');
+
+    let rendered = harness.nextRender();
+    harness.setColumns(['status', 'id']);
+    await rendered;
+    expect(within(harness.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+    expect(within(harness.row('17')).queryByRole('rowheader', { name: 'Alpha', hidden: true })).toBeNull();
+    expect(harness.row('17')).toHaveAccessibleName('17');
+
+    rendered = harness.nextRender();
+    harness.setColumns(['status']);
+    await rendered;
+    expect(within(harness.row('17')).queryAllByRole('rowheader', { hidden: true })).toEqual([]);
+    expect(harness.row('17')).not.toHaveAttribute('aria-labelledby');
+    Array.from(harness.row('17').cells).forEach((cell) => {
+      expect(cell).toHaveAttribute('role', 'gridcell');
+      expect(cell).not.toHaveAttribute('aria-label');
+      expect(cell).not.toHaveAttribute('aria-labelledby');
+    });
+
+    rendered = harness.nextRender();
+    harness.setColumns(['status', 'subject', 'id']);
+    await rendered;
+    expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+    expect(harness.row('17')).toHaveAccessibleName('Alpha');
+  });
+
+  it('reprojects names when query view services are reinitialized', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }] });
+    await harness.render();
+    const idQuery = buildQuery(['status', 'id'], null, false, false);
+    harness.querySpace.query.putValue(idQuery);
+    initializeViewServices(harness.injector, idQuery);
+    await harness.render();
+    expect(within(harness.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+    expect(within(harness.row('17')).queryByRole('rowheader', { name: 'Alpha', hidden: true })).toBeNull();
+
+    const subjectQuery = buildQuery(['subject', 'id'], null, false, false);
+    harness.querySpace.query.putValue(subjectQuery);
+    initializeViewServices(harness.injector, subjectQuery);
+    await harness.render();
+    expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+  });
+
+  it('hides the totals row and its section while none of its cells is navigable', async () => {
+    mount({ productionMarkup: true });
+    await harness.render();
+    const section = harness.totalsRow().parentElement!;
+    expect(harness.totalsRow()).not.toHaveAttribute('aria-hidden');
+    expect(section).toHaveAttribute('role', 'rowgroup');
+    expect(section).not.toHaveAttribute('aria-hidden');
+
+    harness.totalsRow().replaceChildren(document.createElement('td'));
+    harness.table.painter.paint('positions');
+
+    expect(harness.totalsRow()).toHaveAttribute('aria-hidden', 'true');
+    expect(section).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('names only work package cells after repeated paints', async () => {
+    mount({ ...groupedFixtures, productionMarkup: true });
+    await harness.render();
+    harness.table.painter.paint();
+    harness.table.painter.paint(harness.table.ledger.keysOf('1'));
+    expect(within(harness.row('1')).getByRole('rowheader', { name: 'Work package 1' })).toHaveClass('subject');
+    [groupHeader(0), groupHeader(1), sumsRow(0), sumsRow(1), harness.totalsRow(), harness.headerRow()]
+      .forEach((row) => {
+        expect(within(row).queryAllByRole('rowheader', { hidden: true })).toEqual([]);
+        expect(row).not.toHaveAttribute('aria-labelledby');
+      });
+    expect(within(harness.headerRow()).getAllByRole('columnheader').length).toBeGreaterThan(0);
+  });
+
+  it('derives row name ids from the table and occurrence so rebuilt rows keep them', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject'] });
+    await harness.render();
+    const header = harness.row('17').cells[1];
+    expect(header.id).toBe(`${harness.table.domId}-${wpOccurrenceKey('17')}-header`);
+    expect(harness.row('17')).toHaveAttribute('aria-labelledby', header.id);
+
+    harness.table.refreshRows(resource('17'));
+
+    expect(harness.row('17').cells[1]).not.toBe(header);
+    expect(harness.row('17').cells[1].id).toBe(header.id);
+    expect(harness.row('17')).toHaveAttribute('aria-labelledby', header.id);
+  });
+
+  it('drops a stale row name from column header and header-less rows', async () => {
+    mount({ workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject'] });
+    await harness.render();
+    const row = harness.row('17');
+    row.setAttribute('aria-labelledby', 'stale');
+    paintRowRole(row, 1, 'columnheader');
+    expect(row).not.toHaveAttribute('aria-labelledby');
+
+    const sums = harness.tbody.insertRow();
+    sums.insertCell().textContent = '42';
+    sums.setAttribute('aria-labelledby', 'stale');
+    paintRowRole(sums, 1);
+    expect(sums).not.toHaveAttribute('aria-labelledby');
+  });
+
+  it('excludes hierarchy and baseline decoration from the name', async () => {
+    const ancestor:WorkPackageFixture = { id: '1', subject: 'Ancestor', baseline: 'updated' };
+    mount({
+      workPackages: [{ id: '2', subject: 'Child', ancestors: [ancestor], baseline: 'updated' }],
+      showHierarchies: true,
+      baseline: true,
+    });
+    await harness.render();
+
+    expect(within(harness.row('1')).getByRole('rowheader', { name: 'Ancestor' })).toHaveClass('subject');
+    expect(within(harness.row('2')).getByRole('rowheader', { name: 'Child' })).toHaveClass('subject');
+    expect(within(harness.row('1')).getByRole('button', { name: /children_expanded/ })).toBeInTheDocument();
+  });
+
+  it('uses displayed text safely and retains Subject for an empty value', async () => {
+    mount({ workPackages: [{ id: '1', subject: '<b>Alpha</b> & "quoted"' }, { id: '2', subject: '' }] });
+    await harness.render();
+    expect(within(harness.row('1')).getByRole('rowheader', { name: '<b>Alpha</b> & "quoted"' })).toHaveClass('subject');
+    expect(within(harness.row('2')).getByRole('rowheader', { name: '-' })).toHaveClass('subject');
+  });
+
+  it('keeps different row-header choices scoped across tables sharing a resource cache', async () => {
+    const states = new States();
+    mount({ states, workPackages: [{ id: '17', subject: 'Alpha' }], columns: ['id', 'subject'] });
+    const second = buildTable({
+      states,
+      workPackages: [{ id: '17', subject: 'Alpha' }],
+      columns: ['id', 'status'],
+    });
+    try {
+      await harness.render();
+      await second.render();
+
+      expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
+      expect(within(second.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+      expect(harness.row('17').getAttribute('aria-labelledby')).not.toBe(second.row('17').getAttribute('aria-labelledby'));
+      expect(harness.row('17')).toHaveAccessibleName('Alpha');
+      expect(second.row('17')).toHaveAccessibleName('17');
+
+      states.workPackages.get('17').putValue(buildWorkPackage({ id: '17', subject: 'Renamed' }));
+
+      await waitFor(() => {
+        expect(within(harness.row('17')).getByRole('rowheader', { name: 'Renamed' })).toHaveClass('subject');
+        expect(within(second.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+      });
+      expect(harness.row('17')).toHaveAccessibleName('Renamed');
+
+      const rendered = harness.nextRender();
+      harness.setColumns(['status']);
+      await rendered;
+
+      expect(within(harness.row('17')).queryAllByRole('rowheader', { hidden: true })).toEqual([]);
+      expect(within(second.row('17')).getByRole('rowheader', { name: '17' })).toHaveClass('id');
+
+      const previousSecondHeader = within(second.row('17')).getByRole('rowheader', { name: '17' });
+      await harness.destroy();
+
+      states.workPackages.get('17').putValue(buildWorkPackage({ id: '17', subject: 'After teardown' }));
+
+      await waitFor(() => {
+        const currentSecondHeader = within(second.row('17')).getByRole('rowheader', { name: '17' });
+        expect(currentSecondHeader).not.toBe(previousSecondHeader);
+        expect(currentSecondHeader).toHaveClass('id');
+        expect(second.row('17')).toHaveAttribute('aria-labelledby', currentSecondHeader.id);
+      });
+    } finally {
+      await second.destroy();
+    }
+  });
+
+  it('paints rows, levels and cell roles after a full render', async () => {
+    mount({
+      ...groupedFixtures,
+      baseline: true,
+      configuration: { dragAndDropEnabled: true },
+    });
+    await harness.render();
+
+    const nested = document.createElement('table');
+    nested.innerHTML = '<tbody><tr><td>Editor</td></tr></tbody>';
+    harness.row('1').lastElementChild!.append(nested);
+    harness.table.setHidden(new Map([[wpOccurrenceKey('1'), false]]));
+
+    expect(harness.row('1')).toHaveAttribute('role', 'row');
+    expect(harness.row('1')).toHaveAttribute('aria-level', '2');
+    expect(groupHeader(0)).toHaveAttribute('role', 'row');
+    expect(groupHeader(0)).toHaveAttribute('aria-level', '1');
+    expect(sumsRow(0)).toHaveAttribute('aria-level', '2');
+
+    const subject = within(harness.row('1')).getByRole('rowheader', { name: 'Work package 1' });
+    expect(subject).toHaveClass('subject');
+    expect(within(harness.row('1')).getAllByRole('rowheader')).toHaveLength(1);
+    Array.from(harness.row('1').cells).filter((cell) => cell !== subject)
+      .forEach((cell) => expect(cell).toHaveAttribute('role', 'gridcell'));
+    [groupHeader(0), sumsRow(0)].forEach((row) => {
+      Array.from(row.cells).forEach((cell) => expect(cell).toHaveAttribute('role', 'gridcell'));
+    });
+    expect(harness.row('1').querySelector('.__internal-sorthandle')).toHaveAttribute('role', 'gridcell');
+    expect(harness.row('1').querySelector('.op-table-baseline--column-cell')).toHaveAttribute('role', 'gridcell');
+    expect(groupHeader(0).cells[0]).toHaveAttribute('colspan');
+    expect(nested.querySelector('tr')).not.toHaveAttribute('role');
+    expect(nested.querySelector('td')).not.toHaveAttribute('role');
+  });
+
+  it('paints selection and pressed markers as classes and attributes from one place', async () => {
+    mount();
+    await harness.render();
+    harness.selection.replaceSelection('2');
+    harness.injector.get(WorkPackageViewFocusService).updateFocus('2', false, false);
+
+    expect(harness.row('2')).toHaveAttribute('aria-selected', 'true');
+    expect(harness.row('2')).toHaveClass('-checked', '-pressed');
+    expect(harness.row('2')).toHaveAttribute('data-pressed');
+    expect(harness.row('1')).toHaveAttribute('aria-selected', 'false');
+    expect(harness.row('1')).not.toHaveClass('-checked');
+    expect(harness.row('1')).not.toHaveAttribute('data-pressed');
+  });
+
+  it('exposes selection only on work package occurrences', async () => {
+    mount({
+      ...groupedFixtures,
+      relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', relationColumn],
+    });
+    harness.expand('1', relationColumn.id);
+    await harness.render();
+    const relationRow = harness.relationRow('1', '2');
+
+    harness.click('2');
+
+    await waitFor(() => expect(harness.row('2')).toHaveAttribute('aria-selected', 'true'));
+    expect(relationRow).toHaveAttribute('aria-selected', 'true');
+    expect(harness.row('1')).toHaveAttribute('aria-selected', 'false');
+    expect(harness.row('3')).toHaveAttribute('aria-selected', 'false');
+    [groupHeader(0), groupHeader(1), sumsRow(0), sumsRow(1)]
+      .forEach((row) => expect(row).not.toHaveAttribute('aria-selected'));
+
+    harness.selection.reset();
+
+    await waitFor(() => expect(harness.row('2')).toHaveAttribute('aria-selected', 'false'));
+    expect(relationRow).toHaveAttribute('aria-selected', 'false');
+  });
+
+  it('exposes expansion on groups only', async () => {
+    mount(groupedFixtures);
+    await harness.render();
+
+    expect(groupHeader(0)).toHaveAttribute('aria-expanded', 'true');
+    [harness.row('1'), sumsRow(0)].forEach((row) => expect(row).not.toHaveAttribute('aria-expanded'));
+
+    toggleGroup(0);
+    await waitFor(() => expect(groupHeader(0)).toHaveAttribute('aria-expanded', 'false'));
+    expect(groupHeader(1)).toHaveAttribute('aria-expanded', 'true');
+
+    toggleGroup(0);
+    await waitFor(() => expect(groupHeader(0)).toHaveAttribute('aria-expanded', 'true'));
+  });
+
+  it('exposes expansion on hierarchy parents only', async () => {
+    mount({
+      workPackages: [parent, child, { id: '3' }],
+      relations: [{ from: '1', to: '3', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', relationColumn],
+      showHierarchies: true,
+    });
+    harness.expand('1', relationColumn.id);
+    await harness.render();
+
+    expect(harness.row('1')).toHaveAttribute('aria-expanded', 'true');
+    [harness.row('2'), harness.row('3'), harness.relationRow('1', '3')]
+      .forEach((row) => expect(row).not.toHaveAttribute('aria-expanded'));
+
+    hierarchies().toggle('1');
+    await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false'));
+
+    hierarchies().toggle('1');
+    await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'true'));
+  });
+
+  it('hides collapsed occurrences before publication', async () => {
+    mount({
+      ...groupedFixtures,
+      relations: [{ from: '1', to: '3', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', relationColumn],
+    });
+    harness.expand('1', relationColumn.id);
+    await harness.render();
+    harness.click('1');
+    const relationKey = relationOccurrenceKey('ofType', '1', '3');
+    const groupMembers = () => [harness.row('1'), harness.row('2'), element(relationKey), sumsRow(0)];
+    const exposure = () => groupMembers().map((row) => [getComputedStyle(row).display, row.getAttribute('aria-hidden')]);
+
+    const collapsed = atNextPublication(exposure);
+    toggleGroup(0);
+    expect(await collapsed).toEqual(Array(4).fill(['none', null]));
+    expectShown(groupHeader(0));
+    expectShown(harness.row('3'));
+    expectShown(sumsRow(1));
+    expect(harness.selection.isSelected('1')).toBe(true);
+    expect(harness.row('1')).toHaveAttribute('aria-selected', 'true');
+
+    const expanded = atNextPublication(exposure);
+    toggleGroup(0);
+    expect(await expanded).toEqual(Array(4).fill(['table-row', null]));
+    expect(harness.selection.isSelected('1')).toBe(true);
+  });
+
+  it('repaints replacement group headers with an empty visibility map', async () => {
+    mount(groupedFixtures);
+    await harness.render();
+    const headerKey = groupOccurrenceKey(0, 'header');
+    const header = groupHeader(0);
+    const headerOnly = harness.table.ledger.beginRender();
+    headerOnly.append({ ...harness.table.ledger.byKey(headerKey)!, additionalClasses: [], workPackage: null });
+    harness.tbody.replaceChildren(header);
+    harness.table.ledger.commit(headerOnly);
+    header.removeAttribute('role');
+    header.removeAttribute('aria-level');
+    header.removeAttribute('aria-expanded');
+
+    const replaced = atNextPublication(() => {
+      const current = groupHeader(0);
+      return {
+        size: harness.table.ledger.size,
+        replaced: current !== header,
+        role: current.getAttribute('role'),
+        level: current.getAttribute('aria-level'),
+        expanded: current.getAttribute('aria-expanded'),
+      };
+    });
+    toggleGroup(0);
+
+    expect(await replaced).toEqual({
+      size: 1, replaced: true, role: 'row', level: '1', expanded: 'false',
+    });
+  });
+
+  it('paints initially collapsed groups', async () => {
+    mount(groupedFixtures);
+    harness.querySpace.collapsedGroups.putValue({ [harness.querySpace.groups.value![0].identifier]: true });
+    await harness.render();
+
+    expect(groupHeader(0)).toHaveAttribute('aria-expanded', 'false');
+    expectCollapsed(harness.row('1'));
+    expectCollapsed(sumsRow(0));
+    expectShown(harness.row('3'));
+  });
+
+  it('paints initially collapsed hierarchy structures', async () => {
+    mount({
+      workPackages: [parent, child, { id: '3', ancestors: [parent, child] }, { id: '4' }],
+      showHierarchies: true,
+    });
+    hierarchies().collapse('2');
+    hierarchies().collapse('1');
+    await harness.render();
+
+    expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false');
+    expectCollapsed(harness.row('2'));
+    expectCollapsed(harness.row('3'));
+    expectShown(harness.row('4'));
+
+    hierarchies().expand('1');
+
+    await waitFor(() => expectShown(harness.row('2')));
+    expect(harness.row('1')).toHaveAttribute('aria-expanded', 'true');
+    expect(harness.row('2')).toHaveAttribute('aria-expanded', 'false');
+    expect(harness.row('2')).toHaveAttribute('aria-level', '2');
+    expectCollapsed(harness.row('3'));
+    expect(harness.row('3')).toHaveAttribute('aria-level', '3');
+  });
+
+  it('stops painting after teardown', async () => {
+    mount(groupedFixtures);
+    await harness.render();
+    const row = harness.row('1');
+    const workPackage = resource('1');
+    expect(row).toHaveAttribute('aria-selected', 'false');
+
+    harness.table.redrawTable();
+    expect(harness.table.hasPendingRender).toBe(true);
+    harness.table.destroy();
+    await new Promise((resolve) => { requestAnimationFrame(resolve); });
+    row.removeAttribute('aria-level');
+    harness.selection.replaceSelection('1');
+    const before = harness.tbody.outerHTML;
+
+    harness.table.refreshRows(workPackage);
+    const { painter } = harness.table;
+    painter.paint();
+    painter.paint(harness.table.ledger.keysOf('1'));
+
+    expect(row).not.toHaveAttribute('aria-level');
+    expect(row).toHaveAttribute('aria-selected', 'false');
+    expect(harness.tbody.outerHTML).toBe(before);
+  });
+
+  it('keeps hidden state and level when a hidden occurrence refreshes', async () => {
+    mount(groupedFixtures);
+    await harness.render();
+    toggleGroup(0);
+    await waitFor(() => expectCollapsed(harness.row('1')));
+    const previousCells = Array.from(harness.row('1').cells);
+
+    const refreshed = atNextRefresh(() => {
+      const row = harness.row('1');
+      const cells = Array.from(row.cells);
+      return {
+        rebuiltCells: cells.some((cell) => !previousCells.includes(cell)),
+        cellRoles: cells.map((cell) => ({ tag: cell.tagName, scope: cell.getAttribute('scope'), role: cell.getAttribute('role') })),
+        hidden: row.getAttribute('aria-hidden'),
+        display: getComputedStyle(row).display,
+        level: row.getAttribute('aria-level'),
+        role: row.getAttribute('role'),
+        selected: row.getAttribute('aria-selected'),
+      };
+    });
+    harness.table.refreshRows(resource('1'));
+
+    expect(await refreshed).toEqual({
+      rebuiltCells: true, cellRoles: [{ tag: 'TD', scope: null, role: 'gridcell' }, { tag: 'TH', scope: 'row', role: null }], hidden: null, display: 'none', level: '2', role: 'row', selected: 'false',
+    });
+    expect(within(harness.row('1')).getByRole('rowheader', { hidden: true })).toBe(harness.row('1').cells[1]);
+    expect(harness.row('1').cells[1]).toHaveAttribute('aria-label', 'Work package 1');
+    expect(document.getElementById(harness.row('1').getAttribute('aria-labelledby')!)).toBe(harness.row('1').cells[1]);
+  });
+
+  it('hides the results rowgroup when it holds only the drag placeholder', async () => {
+    mount({ workPackages: [], configuration: { dragAndDropEnabled: true } });
+    await harness.render();
+
+    expectHidden(element(placeholderOccurrenceKey()));
+    ['role', 'aria-level', 'aria-selected', 'aria-expanded']
+      .forEach((name) => expect(element(placeholderOccurrenceKey())).not.toHaveAttribute(name));
+    expect(harness.tbody).toHaveAttribute('role', 'rowgroup');
+    expectHidden(harness.tbody);
+
+    await harness.render([{ id: '1' }]);
+    expectExposed(harness.tbody);
+    expect(within(harness.tbody).getAllByRole('row')).toEqual([harness.row('1')]);
+
+    await harness.render([]);
+    expectHidden(harness.tbody);
+  });
+
+  it.each<[string, Partial<TableHarnessOptions>]>([
+    ['expansion', { workPackages: [parent, child], showHierarchies: true }],
+    ['placeholder and section visibility', { workPackages: [], configuration: { dragAndDropEnabled: true } }],
+  ])('leaves unchanged %s untouched when repainting', async (_, options) => {
+    mount(options);
+    await harness.render();
+    const observer = new MutationObserver(() => undefined);
+    observer.observe(harness.tbody, { subtree: true, attributes: true, attributeFilter: ['aria-expanded', 'aria-hidden'] });
+    harness.table.painter.paint();
+    const records = observer.takeRecords();
+    observer.disconnect();
+    expect(records).toEqual([]);
+  });
+
+  it('pins relation rows of a collapsed hierarchy parent', async () => {
+    mount({
+      workPackages: [parent, child, { id: '3' }],
+      relations: [{ from: '1', to: '3', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', relationColumn],
+      showHierarchies: true,
+    });
+    harness.expand('1', relationColumn.id);
+    await harness.render();
+
+    hierarchies().collapse('1');
+
+    await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false'));
+    expectShown(harness.relationRow('1', '3'));
+    expect(harness.relationRow('1', '3')).toHaveAttribute('aria-level', '2');
+    expectCollapsed(harness.row('2'));
+  });
+
+  it('keeps the cell role on drag handles that replace the first cell', async () => {
+    let resolvePositions:(positions:QueryOrder) => void = () => undefined;
+    mount({ configuration: { dragAndDropEnabled: true } });
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor')
+      .mockReturnValue(new Promise<QueryOrder>((resolve) => { resolvePositions = resolve; }));
+    await harness.render();
+    const placeholderCell = harness.row('1').cells[0];
+
+    resolvePositions({ 1: 0, 2: 1, 3: 2 });
+
+    await waitFor(() => expect(harness.row('1').cells[0]).not.toBe(placeholderCell));
+    expect(harness.row('1').cells[0]).toHaveClass('wp-table--sort-td');
+    expect(harness.row('1').cells[0]).toHaveAttribute('role', 'gridcell');
+    expect(harness.row('1').cells[0]).not.toHaveClass(navigableCellClassName);
+  });
+
+  describe('when a collapse lands on a queued render', () => {
+    const holdFrames = () => {
+      const frames:(() => void)[] = [];
+      vi.spyOn(harness.table.uiWork, 'frame').mockImplementation((callback) => { frames.push(callback); });
+      return () => frames.splice(0).forEach((callback) => callback());
+    };
+
+    const queueRedraw = (redraw:() => void = () => harness.table.redrawTable()) => {
+      const release = holdFrames();
+      redraw();
+      return release;
+    };
+
+    const collapseState = (parentRow:() => HTMLElement, childId:string, before:HTMLElement) => () => ({
+      committed: harness.row(childId) !== before,
+      expanded: parentRow().getAttribute('aria-expanded'),
+      hidden: harness.row(childId).getAttribute('aria-hidden'),
+      ledgerHidden: harness.table.ledger.byWorkPackageId(childId)[0].hidden,
+      display: getComputedStyle(harness.row(childId)).display,
+    });
+
+    const collapsed = {
+      committed: true, expanded: 'false', hidden: null, ledgerHidden: true, display: 'none',
+    };
+
+    const releaseAfter = async <T>(state:() => T, collapse:() => void, release:() => void) => {
+      collapse();
+      const published = atNextPublication(state);
+      release();
+      return { published: await published, final: state() };
+    };
+
+    it('publishes a collapsed group with its rows hidden', async () => {
+      mount(groupedFixtures);
+      await harness.render();
+      const state = collapseState(() => groupHeader(0), '1', harness.row('1'));
+
+      expect(await releaseAfter(state, () => toggleGroup(0), queueRedraw())).toEqual({ published: collapsed, final: collapsed });
+    });
+
+    it('publishes a collapsed hierarchy parent with its children hidden', async () => {
+      mount({ workPackages: [parent, child], showHierarchies: true });
+      await harness.render();
+      const state = collapseState(() => harness.row('1'), '2', harness.row('2'));
+
+      expect(await releaseAfter(state, () => hierarchies().collapse('1'), queueRedraw())).toEqual({ published: collapsed, final: collapsed });
+    });
+
+    describe('with the timeline shown', () => {
+      const redrawWithTimeline = () => harness.table.redrawTableAndTimeline();
+
+      it('hides the timeline cells of a collapsed group', async () => {
+        mount({ ...groupedFixtures, timelineVisible: true });
+        await harness.render();
+        const state = collapseState(() => groupHeader(0), '1', harness.row('1'));
+        const timelineBefore = harness.timelineRow('1');
+
+        expect(await releaseAfter(state, () => toggleGroup(0), queueRedraw(redrawWithTimeline))).toEqual({ published: collapsed, final: collapsed });
+        expect(harness.timelineRow('1')).not.toBe(timelineBefore);
+        expect(harness.timelineRow('1')).not.toBeVisible();
+        expect(harness.timelineRow('3')).toBeVisible();
+      });
+
+      it('hides the timeline cells of a collapsed hierarchy parent', async () => {
+        mount({ workPackages: [parent, child], showHierarchies: true, timelineVisible: true });
+        await harness.render();
+        const state = collapseState(() => harness.row('1'), '2', harness.row('2'));
+        const timelineBefore = harness.timelineRow('2');
+
+        expect(await releaseAfter(state, () => hierarchies().collapse('1'), queueRedraw(redrawWithTimeline))).toEqual({ published: collapsed, final: collapsed });
+        expect(harness.timelineRow('2')).not.toBe(timelineBefore);
+        expect(harness.timelineRow('2')).not.toBeVisible();
+        expect(harness.timelineRow('1')).toBeVisible();
+      });
+    });
+
+    it('hides a child that arrives only with the queued render', async () => {
+      mount({ workPackages: [parent], showHierarchies: true });
+      await harness.render();
+      const release = holdFrames();
+      const rendered = harness.render([parent, child]);
+      expect(harness.table.ledger.byWorkPackageId('2')).toEqual([]);
+
+      hierarchies().collapse('1');
+      release();
+      await rendered;
+
+      expect(getComputedStyle(harness.row('2')).display).toBe('none');
+      expect(harness.table.ledger.byWorkPackageId('2')[0].hidden).toBe(true);
+    });
+  });
+});

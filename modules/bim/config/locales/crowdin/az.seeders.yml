@@ -61,7 +61,7 @@ az:
         item_2:
           name: BIM Managers
         item_3:
-          name: BIM Modellers
+          name: BIM Modelers
         item_4:
           name: Lead BIM Coordinators
         item_5:
@@ -511,17 +511,17 @@ az:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Modeling initial BIM model
                   description: |-
                     # Goal
 
-                    *   Modelling the initial BIM model
+                    *   Modeling the initial BIM model
                     *   Creating a BIM model for the whole project team
 
                     # Description
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: Initial, internal model check and revising
@@ -538,7 +538,7 @@ az:
                   subject: Submitting initial BIM model
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
-              subject: Modelling, first cycle
+              subject: Modeling, first cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -551,10 +551,10 @@ az:
 
                     # Description
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: Modeling the BIM model
                   description: |-
                     # Goal
 
@@ -602,19 +602,19 @@ az:
                   subject: Finishing coordination, first cycle
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_6:
-              subject: Modelling & coordinating, second cycle
+              subject: Modeling & coordinating, second cycle
               description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
+              subject: Modeling & coordinating, ... cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
+              subject: Modeling & coordinating n-th cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
+              subject: Finishing modeling & coordinating, n-th cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_11:
               subject: Use model for construction phase

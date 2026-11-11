@@ -40,7 +40,7 @@ class WorkPackages::UpdateAncestorsService < BaseServices::BaseCallable
   def perform(attributes)
     updated_work_packages = update_current_and_former_ancestors(attributes)
 
-    set_journal_note(ancestors(updated_work_packages))
+    set_journal_cause(ancestors(updated_work_packages))
     success = save_updated_work_packages(updated_work_packages)
 
     result = ServiceResult.new(success:, result: initiator_work_package)
@@ -120,11 +120,9 @@ class WorkPackages::UpdateAncestorsService < BaseServices::BaseCallable
     end
   end
 
-  def set_journal_note(work_packages)
-    work_packages.each do |wp|
-      wp.journal_notes = I18n.t("work_package.updated_automatically_by_child_changes",
-                                child: "##{initiator_work_package.id}")
-    end
+  def set_journal_cause(work_packages)
+    cause = Journal::CausedByWorkPackageChildValuesChange.new(initiator_work_package)
+    work_packages.each { |wp| wp.journal_cause = cause }
   end
 
   def derive_done_ratio(ancestor, loader)

@@ -145,7 +145,7 @@ lt:
     error_invalid_backup_code: Netinkamas 2FA atsarginis kodas
     error_is_enforced_not_active: 'Konfigūracijos klaida: dviejų veiksnių autentifikacija buvo įjungta, bet nėra aktyvių strategijų.'
     error_no_device: Šiam naudotojui nerastas joks 2FA įrenginys, nors tai ir reikalaujama.
-    error_no_matching_strategy: Nėra atitinkančios 2FA strategijos šiam naudotojui. Prašome susisiekti su administratoriumi.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Dviejų veiksnių autentifikacija neaktyvi

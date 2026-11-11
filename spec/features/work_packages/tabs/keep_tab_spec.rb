@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Keep current details tab", :js, :selenium do
+RSpec.describe "Keep current details tab", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let!(:wp1) { create(:work_package, project:) }

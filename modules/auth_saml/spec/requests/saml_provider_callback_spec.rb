@@ -76,7 +76,7 @@ RSpec.describe "SAML provider callback",
   end
 
   shared_examples "request succeeds" do
-    it "redirects user when no errors occured" do
+    it "redirects user when no errors occurred" do
       expect(subject.status).to eq(302)
       expect(subject.headers["Location"]).to eq("http://#{Setting.host_name}/two_factor_authentication/request")
     end

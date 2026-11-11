@@ -38,7 +38,7 @@ RSpec.describe "Listing SCIM clients", :js, :selenium, driver: :firefox_de do
     it "renders an enterprise banner and no table" do
       visit admin_scim_clients_path
 
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
 
       expect(page).to have_enterprise_banner(:corporate)
       expect(page).to have_no_test_selector("Admin::ScimClients::TableComponent")
@@ -57,8 +57,8 @@ RSpec.describe "Listing SCIM clients", :js, :selenium, driver: :firefox_de do
 
       expect(page).not_to have_enterprise_banner
       within_test_selector("Admin::ScimClients::TableComponent") do
-        expect(page).to have_content("No SCIM clients configured yet")
-        expect(page).to have_content("Add clients to see them here")
+        expect(page).to have_text("No SCIM clients configured yet")
+        expect(page).to have_text("Add clients to see them here")
       end
 
       within(".SubHeader") do
@@ -79,8 +79,8 @@ RSpec.describe "Listing SCIM clients", :js, :selenium, driver: :firefox_de do
 
       expect(page).not_to have_enterprise_banner
       within_test_selector("Admin::ScimClients::TableComponent") do
-        within(".name") { expect(page).to have_content(sso_client.name) }
-        within(".authentication_method") { expect(page).to have_content("JWT from identity provider") }
+        within(".name") { expect(page).to have_text(sso_client.name) }
+        within(".authentication_method") { expect(page).to have_text("JWT from identity provider") }
 
         click_on(sso_client.name)
       end

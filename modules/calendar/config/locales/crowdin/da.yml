@@ -7,6 +7,6 @@ da:
   permission_share_calendars: Abonner på iCalendars
   permission_view_calendar: Vis kalendere
   plugin_openproject_calendar:
-    description: Provides calendar views.
+    description: Giver kalendervisninger.
     name: OpenProject Calendar
   project_module_calendar_view: Kalendere

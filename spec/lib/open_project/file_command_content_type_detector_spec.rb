@@ -116,7 +116,7 @@ RSpec.describe OpenProject::FileCommandContentTypeDetector do
       expect(detect("text/plain; charset=")).to eq(["text/plain", nil])
     end
 
-    it "ignores unrecognised parameters before charset" do
+    it "ignores unrecognized parameters before charset" do
       expect(detect("text/plain; taste=banana; charset=iso-8859-1")).to eq(["text/plain", "iso-8859-1"])
     end
   end

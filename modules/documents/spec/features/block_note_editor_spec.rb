@@ -67,7 +67,35 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     visit document_path(document)
 
     expect(page).to have_test_selector("blocknote-document-description")
-    expect(find("op-block-note", visible: false)["project-id"]).to eq(document.project_id.to_s)
+    expect(find("op-block-note", visible: :all)["project-id"]).to eq(document.project_id.to_s)
+  end
+
+  it "formats tables with header rows, cell colors and merged cells" do
+    visit document_path(document)
+    expect(page).to have_test_selector("blocknote-document-description")
+
+    editor.insert_table
+    send_keys("Name", :tab, "Status", :tab, "Owner")
+
+    editor.open_table_row_menu
+    editor.click_table_menu_item("Header row")
+    expect(editor.element).to have_css("table th", count: 3)
+
+    editor.open_table_cell_menu(editor.element.find("table th", text: "Status"))
+    editor.pick_table_cell_color("Blue", background: true)
+    editor.open_table_cell_menu(editor.element.find("table th", text: "Owner"))
+    editor.pick_table_cell_color("Red")
+
+    editor.element.first("table td").click
+    send_keys(%i[shift right])
+    editor.click_formatting_toolbar_button("Merge cells")
+
+    page.refresh
+    expect(page).to have_test_selector("blocknote-document-description")
+    expect(editor.element).to have_css("table th", count: 3)
+    expect(editor.element).to have_css("table th[data-background-color='blue']", text: "Status")
+    expect(editor.element).to have_css("table th[data-text-color='red']", text: "Owner")
+    expect(editor.element).to have_css("table td[colspan='2']")
   end
 
   context "when real time text collaboration is disabled",
@@ -120,7 +148,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     it "renders the BlockNote shadow-DOM stylesheet urls prefixed with the relative url root" do
       visit document_path(document)
 
-      block_note_element = find("op-block-note", visible: false)
+      block_note_element = find("op-block-note", visible: :all)
       expect(block_note_element["blocknote-stylesheet-url"])
         .to match(%r{\A/openproject/assets/frontend/blocknote(.*)\.css\z})
       expect(block_note_element["shadow-dom-stylesheet-url"])
@@ -128,13 +156,13 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     end
   end
 
-  describe "with op-blocknote-extensions" do
+  describe "with blocknote-extensions" do
     it "renders the BlockNote editor with custom menu entries for work package linking" do
       visit document_path(document)
 
       expect(page).to have_test_selector("blocknote-document-description")
       editor.fill_in("/openproject")
-      expect(editor.content).to have_content("Link existing work package")
+      expect(editor.content).to have_text("Link existing work package")
     end
 
     it "orders results of the work package search by updated at DESC" do
@@ -283,6 +311,57 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
           expect(editor.element).to have_no_text(/##{work_package.display_id}/)
         end
+      end
+    end
+
+    context "when inserting a work package attribute" do
+      let(:status) { create(:status, name: "Open") }
+      let!(:work_package) do
+        create(:work_package,
+               project: document.project,
+               subject: "pet a tiger",
+               status:,
+               description: "Bring **treats** for the tiger")
+      end
+
+      def pick_attribute(name)
+        fill_in "Work package", with: "tiger"
+        find("[role='option']", text: "pet a tiger").click
+        find_field("Attribute").click
+        find("[role='option']", exact_text: name).click
+      end
+
+      it "inserts the chosen attribute, which the document saves as an attribute macro" do
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.open_insert_attribute_dialog
+        within editor.insert_attribute_dialog do
+          pick_attribute("Status")
+          click_on "Label + value"
+          expect(page).to have_text("Status: Open")
+
+          click_on "Insert"
+        end
+
+        expect(editor.element).to have_text("Status: Open")
+        macro = %(workPackageLabel:#{work_package.display_id}:"status": workPackageValue:#{work_package.display_id}:"status")
+        editor.wait_for_autosave { document.reload.description&.include?(macro) }
+      end
+
+      it "inserts the description as a block" do
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.open_insert_attribute_dialog
+        within editor.insert_attribute_dialog do
+          pick_attribute("Description")
+          click_on "Insert"
+        end
+
+        expect(editor.element).to have_text("Bring treats for the tiger")
+        macro = %(workPackageValue:#{work_package.display_id}:"description")
+        editor.wait_for_autosave { document.reload.description&.include?(macro) }
       end
     end
 

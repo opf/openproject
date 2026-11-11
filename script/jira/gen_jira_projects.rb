@@ -234,7 +234,7 @@ class JiraProjectCreator
     "Feature Creep Chronicles",
     "The Spaghetti Untangler",
     "Quantum Bug Squasher",
-    "Legacy Code Archaelogy",
+    "Legacy Code Archaeology",
     "The Memory Leak Saga",
     "Operation Stack Overflow",
     "Project Copy-Paste",
@@ -323,7 +323,7 @@ class JiraProjectCreator
     upload validation webhook workflow analytics dashboard metrics monitoring
     backup integration migration scheduling templating versioning filtering
     routing session token encryption hashing compression serialization
-    deserialization marshalling unmarshalling encoding decoding parsing
+    deserialization marshaling unmarshaling encoding decoding parsing
     formatting rendering templating caching queuing messaging streaming
     batching throttling limiting retrying timeout connection pooling
     transaction locking concurrency threading parallelism asynchronous
