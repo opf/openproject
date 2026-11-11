@@ -38,6 +38,7 @@ module Backlogs
 
         def chart_data
           {
+            unit:,
             step: burnup.step,
             range: charted_range,
             series: series,
@@ -54,6 +55,8 @@ module Backlogs
         end
 
         private
+
+        def unit = project.estimation_unit_time? ? :time : :story_points
 
         def burnup
           return nil unless sprint.date_range_set?

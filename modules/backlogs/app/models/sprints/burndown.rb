@@ -31,8 +31,8 @@
 # The Burndown class is responsible for providing the data for what the chart draws:
 # three series of Points, each a value at an instant, and the non working days.
 #
-# - +remaining+ -- the story points still open, summed from the work package journals at every
-#   tick between the sprint's start and now.
+# - +remaining+ -- the story points or estimated hours still open, summed from the work package journals
+#   at every tick between the sprint's start and now. Without an estimation unit, the open work packages are counted.
 # - +guideline+ -- the constant reduction the sprint was planned with, declining from what was
 #   open at the start to zero on the planned finish date. Time passing does not move it, and a
 #   sprint that finished early leaves it stopped above zero rather than redrawn steeper.
@@ -54,9 +54,8 @@ module Sprints
       @user = user
     end
 
-    # The story points still open, sampled up to now.
     def remaining
-      @remaining ||= series.sums(open_sprint_journals, :story_points)
+      @remaining ||= series.estimates(open_sprint_journals, project)
     end
 
     # The constant reduction the sprint was planned with, pinned to what it started with and

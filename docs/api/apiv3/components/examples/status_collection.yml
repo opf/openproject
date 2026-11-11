@@ -10,6 +10,7 @@ value:
       - _type: Status
         id: 1
         name: New
+        category: to_do
         isClosed: false
         color: '#3997AD'
         isDefault: true
@@ -23,6 +24,7 @@ value:
       - _type: Status
         id: 3
         name: Resolved
+        category: to_do
         isClosed: false
         color: '#93D2AE'
         isDefault: false
@@ -36,6 +38,7 @@ value:
       - _type: Status
         id: 4
         name: Feedback
+        category: to_do
         isClosed: false
         color: '#A96FFE'
         isDefault: false
@@ -49,6 +52,7 @@ value:
       - _type: Status
         id: 5
         name: Closed
+        category: closed
         isClosed: true
         color: '#DF6DA1'
         isDefault: false
@@ -62,6 +66,7 @@ value:
       - _type: Status
         id: 6
         name: Rejected
+        category: closed
         isClosed: true
         color: '#D32937'
         isDefault: false
@@ -75,6 +80,7 @@ value:
       - _type: Status
         id: 2
         name: In Progress
+        category: in_progress
         isClosed: false
         color: '#3852C6'
         isDefault: false

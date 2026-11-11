@@ -69,6 +69,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       expect(rendered_component).to have_element(:"opce-burndown-chart")
     end
 
+    it "sends the unit" do
+      expect(chart_data["unit"]).to eq "story_points"
+    end
+
     it "carries each series under a stable id and a translated label" do
       expect(chart_data["series"].pluck("id", "label"))
         .to eq([["remaining", "Remaining story points"],
@@ -132,11 +136,47 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
     end
   end
 
-  context "when the project has no estimation unit set", with_flag: { project_settings_estimation_unit: true } do
-    before { project.estimation_unit = "none" }
+  context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+    before { project.estimation_unit = estimation_unit }
 
-    it "renders nothing" do
-      expect(rendered_component.to_s).to be_empty
+    context "when estimation unit is story points" do
+      let(:estimation_unit) { "story_points" }
+
+      it "renders the widget" do
+        expect(rendered_component).to have_element(:"opce-burndown-chart")
+      end
+    end
+
+    context "when estimation unit is time" do
+      let(:estimation_unit) { "time" }
+
+      before do
+        create(:work_package, project:, sprint:, status: open_status,
+                              journals: { monday.in_time_zone + 9.hours => { estimated_hours: 10 } })
+      end
+
+      it "renders the widget" do
+        expect(rendered_component).to have_element(:"opce-burndown-chart")
+      end
+
+      it "sends the unit" do
+        expect(chart_data["unit"]).to eq "time"
+      end
+
+      it "labels the series in estimated time" do
+        expect(chart_data["series"].pluck("id", "label"))
+          .to eq([["remaining", "Remaining estimated time"],
+                  ["guideline", "Guideline"],
+                  ["projection", "Remaining estimated time (projection)"]])
+      end
+    end
+
+    context "when estimation unit is none" do
+      let(:estimation_unit) { "none" }
+
+      it "renders nothing" do
+        expect(rendered_component.to_s).to be_empty
+      end
     end
   end
 end
