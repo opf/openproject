@@ -74,7 +74,8 @@ module McpTools
       elsif project_id && type_id && work_package_id.nil?
         create_form(project_id, type_id)
       else
-        Failure("Pass either work_package_id, or project_id and type_id.")
+        Failure("Pass project_id and type_id for a new work package, or work_package_id for an existing one. " \
+                "Add type_id to work_package_id to describe a type change.")
       end
     end
 

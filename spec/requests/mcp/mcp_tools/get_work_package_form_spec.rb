@@ -237,35 +237,33 @@ RSpec.describe McpTools::GetWorkPackageForm do
       end
     end
 
+    shared_examples "an invalid combination of arguments" do
+      it "responds with an error naming the accepted combinations" do
+        mcp_request
+
+        expect(result_item.fetch("error"))
+          .to eq("Pass project_id and type_id for a new work package, or work_package_id for an existing one. " \
+                 "Add type_id to work_package_id to describe a type change.")
+      end
+    end
+
     context "when not passing any arguments" do
       let(:call_args) { {} }
 
-      it "responds with an error" do
-        mcp_request
-
-        expect(result_item.fetch("error")).to eq("Pass either work_package_id, or project_id and type_id.")
-      end
+      it_behaves_like "an invalid combination of arguments"
     end
 
     context "when passing only the project" do
       let(:call_args) { { project_id: project.id } }
 
-      it "responds with an error" do
-        mcp_request
-
-        expect(result_item.fetch("error")).to eq("Pass either work_package_id, or project_id and type_id.")
-      end
+      it_behaves_like "an invalid combination of arguments"
     end
 
     context "when passing both a work package and a project" do
       let(:work_package) { create(:work_package, project:, type:) }
       let(:call_args) { { work_package_id: work_package.id, project_id: project.id, type_id: type.id } }
 
-      it "responds with an error" do
-        mcp_request
-
-        expect(result_item.fetch("error")).to eq("Pass either work_package_id, or project_id and type_id.")
-      end
+      it_behaves_like "an invalid combination of arguments"
     end
 
     context "when the type is not enabled in the project" do
