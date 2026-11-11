@@ -36,30 +36,57 @@ module Llm
       Readiness.new(ready, ready ? nil : resolution.status)
     end
 
-    def stream(system:, user:, timeout:)
-      consumer_error = nil
-      answer = chat(system:, timeout:).ask(user) do |chunk|
-        yield chunk.content.to_s
-      rescue StandardError => e
-        consumer_error = e
-        raise
-      end
-      text = answer.content.to_s
+    def stream(system:, user:, timeout:, &)
+      text = complete(system:, user:, timeout:, &).content.to_s
       raise AI::TextTransforms::Errors::Upstream, "empty completion" if text.strip.empty?
 
       text
     rescue Llm::Errors::Error => e
-      raise consumer_error || translate(e)
+      raise translate(e)
     end
 
     private
+
+    class ReasoningRejected < StandardError; end
+    private_constant :ReasoningRejected
 
     def resolution
       @resolution ||= Llm::Runtime.for(FEATURE)
     end
 
+    def complete(system:, user:, timeout:, &)
+      ask(chat(system:, timeout:).with_thinking(effort: :none), user, &)
+    rescue ReasoningRejected
+      ask(chat(system:, timeout:), user, &)
+    end
+
     def chat(system:, timeout:)
       resolution.chat(timeout:, max_retries: 0).with_instructions(system)
+    end
+
+    def ask(chat, user)
+      streamed = false
+      consumer_error = nil
+      chat.ask(user) do |chunk|
+        streamed = true
+        yield chunk.content.to_s
+      rescue StandardError => e
+        consumer_error = e
+        raise
+      end
+    rescue Llm::Errors::Error => e
+      raise consumer_error if consumer_error
+      raise ReasoningRejected if !streamed && reasoning_rejected?(e)
+
+      raise
+    end
+
+    # Llm::Errors drops the server's message, so the parameter it names is only
+    # found on the original RubyLLM error.
+    def reasoning_rejected?(error)
+      error.instance_of?(Llm::Errors::ApiError) &&
+        error.status == 400 &&
+        error.cause&.message.to_s.match?(/reasoning_effort|thinking/i)
     end
 
     def translate(error)
