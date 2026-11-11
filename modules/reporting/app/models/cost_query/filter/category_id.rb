@@ -34,7 +34,7 @@ class CostQuery::Filter::CategoryId < Report::Filter::Base
     WorkPackage.human_attribute_name(:category)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     Category
       .where(project_id: Project.visible.map(&:id))
       .map { |c| ["#{c.project.name} - #{c.name} ", c.id] }

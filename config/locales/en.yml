@@ -401,10 +401,14 @@ en:
         authentication_method: "Authentication method"
         jwt_sub: "Subject claim"
       status:
+        category: "Category"
         default_done_ratio: "% Complete"
         excluded_from_totals: "Exclude from calculation of totals in hierarchy"
-        is_closed: "Work package closed"
         is_readonly: "Work package read-only"
+      status/category:
+        closed: "Closed"
+        in_progress: "In progress"
+        to_do: "To-do"
       subproject_template_assignment:
         workspace_type: "Workspace type"
       time_entry:
@@ -2163,10 +2167,6 @@ en:
       user_custom_field_sections:
         destroy:
           error: "The section could not be deleted."
-        drop:
-          error: "The section could not be reordered."
-        move:
-          error: "The section could not be reordered."
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2284,6 +2284,8 @@ en:
       blankslate:
         description: "Add statuses to start configuring workflows for this role"
         linked_description: "This type reuses the workflows of its linked source type, which has no status transitions configured"
+        readonly_description: "Select other roles to view configured transitions"
+        readonly_title: "No status transitions configured for the selected roles"
         title: "No status transitions configured"
       leave_confirmation:
         description: "You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?"
@@ -2935,7 +2937,7 @@ en:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
-    contained_in_type: "Contained in type"
+    contained_in: "Contained in"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:
@@ -4089,7 +4091,7 @@ en:
   label_active_in_new_projects: "Active in new projects"
   label_activity: "Activity"
   label_add_another_file: "Add another file"
-  label_add_column: "Add column"
+  label_add_column: "Add columns"
   label_add_columns: "Add selected columns"
   label_add_edit_translations: "Add and edit translations"
   label_add_note: "Add a note"
@@ -4225,7 +4227,7 @@ en:
   label_custom_export_footer: "Footer image"
   label_custom_export_logo: "Logo"
   label_custom_favicon: "Custom favicon"
-  label_custom_field_add_no_type: "Add this field to a work package type"
+  label_custom_field_add_no_form: "Add this field to a form"
   label_custom_field_default_type: "Empty type"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
@@ -4320,7 +4322,7 @@ en:
   label_filter: "Filters"
   label_filter_add: "Add filter"
   label_filter_any_name_attribute: "Name attributes"
-  label_filter_by: "Filter by"
+  label_filter_by_column: "Filter by %{column}"
   label_filter_plural: "Filters"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"
@@ -4371,6 +4373,7 @@ en:
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
+  label_in_progress_work_packages: "in progress"
   label_inactive: "Inactive"
   label_include_sub_projects: Include sub-projects
   label_includes: "includes"
@@ -4523,7 +4526,7 @@ en:
   label_on: "on"
   label_open: "open"
   label_open_menu: "Open menu"
-  label_open_work_packages: "open"
+  label_open_work_packages: "open (to-do + in progress)"
   label_open_work_packages_plural: "open"
   label_openproject_website: "OpenProject website"
   label_operator_all: "is not empty"
@@ -4730,6 +4733,7 @@ en:
   label_time_entry_plural: "Spent time"
   label_timer_since: "Started at %{time}"
   label_title: "Title"
+  label_to_do_work_packages: "to-do"
   label_today: "today"
   label_today_as_date: "Select today as date."
   label_today_as_due_date: "Select today as finish date."
@@ -4843,6 +4847,13 @@ en:
     one: "%{count} file"
     other: "%{count} files"
     zero: "no files"
+  label_x_in_progress_work_packages_abbr:
+    one: "1 in progress"
+    other: "%{count} in progress"
+    zero: "0 in progress"
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4858,6 +4869,10 @@ en:
     one: "%{count} project"
     other: "%{count} projects"
     zero: "no projects"
+  label_x_to_do_work_packages_abbr:
+    one: "1 to-do"
+    other: "%{count} to-do"
+    zero: "0 to-do"
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} work packages"
@@ -7006,6 +7021,7 @@ en:
         label_built_in_attribute_actions: "Built-in attribute actions"
       custom_field_row_component:
         label_user_custom_field_actions: "User attribute actions"
+      label_move_to_section: "Move to %{name}"
       show_component:
         label_add_attribute: "Add a user attribute"
         label_edit_section: "Edit title"
@@ -7127,6 +7143,11 @@ en:
 
   statuses:
     edit:
+      captions:
+        category:
+          closed: "Work that has been completed."
+          in_progress: "Work that is actively being worked on."
+          to_do: "Work that has not yet started."
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -7631,7 +7652,7 @@ en:
         actions:
           confirm_remove: "Remove the type %{type} from %{project}?"
           remove_from_project: "Remove from project"
-          switch_variant: "Change variant"
+          switch_variant: "Switch variant"
         add_dialog:
           no_projects_selected: "Please select at least one project."
           search_placeholder: "Search projects"

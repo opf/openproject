@@ -192,6 +192,7 @@ describe('SortHeaderDirective', () => {
 
       expect(columnName(host)).toHaveClass('sort', shown);
       expect(columnName(host)).not.toHaveClass(hidden);
+      expect(host.querySelector('.wp-table--column-sort-indicator')).toHaveClass(`octicon-sort-${shown}`);
     });
 
     it('shows no direction as a secondary criterion or once sorting is cleared', async () => {
@@ -208,6 +209,7 @@ describe('SortHeaderDirective', () => {
       sortBy();
       await mounted.whenStable();
       expect(columnName(host)).not.toHaveClass('sort');
+      expect(host.querySelector('.wp-table--column-sort-indicator')).toBeNull();
     });
 
     it('settles on the republished sort after a reload clears the view state', async () => {
@@ -611,7 +613,7 @@ describe('SortHeaderDirective column menu', () => {
   it('builds the items when the menu opens and clears them when it closes', async () => {
     const items = await open('subject');
 
-    expect(items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' })).toBeInTheDocument();
+    expect(items.getByRole('menuitem', { name: 'js.work_packages.query.remove_column' })).toBeInTheDocument();
     expect(button('subject')).toHaveAttribute('aria-expanded', 'true');
 
     fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
@@ -627,8 +629,9 @@ describe('SortHeaderDirective column menu', () => {
 
     const items = await open('id');
 
-    expect(items.queryByRole('menuitem', { name: /sort_|query.group/ })).toBeNull();
-    expect(items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' })).toBeInTheDocument();
+    expect(items.queryByRole('menuitemradio', { name: /sort_/ })).toBeNull();
+    expect(items.queryByRole('menuitemcheckbox', { name: /query.group_by_column/ })).toBeNull();
+    expect(items.getByRole('menuitem', { name: 'js.work_packages.query.remove_column' })).toBeInTheDocument();
   });
 
   it('rebuilds the items while the menu is open once a column becomes groupable', async () => {
@@ -636,26 +639,26 @@ describe('SortHeaderDirective column menu', () => {
     available.putValue([]);
 
     const items = await open('status');
-    expect(items.queryByRole('menuitemcheckbox', { name: 'js.work_packages.query.group' })).toBeNull();
+    expect(items.queryByRole('menuitemcheckbox', { name: 'js.work_packages.query.group_by_column' })).toBeNull();
 
     available.putValue([{ id: 'status' } as QueryGroupByResource]);
     await nextTask();
 
-    expect(items.getByRole('menuitemcheckbox', { name: 'js.work_packages.query.group' })).toHaveAttribute('aria-checked', 'false');
+    expect(items.getByRole('menuitemcheckbox', { name: 'js.work_packages.query.group_by_column' })).toHaveAttribute('aria-checked', 'false');
     expect(button('status')).toHaveAttribute('aria-expanded', 'true');
   });
 
   it('keeps focus on the same item when sorting arrives while the menu is open', async () => {
     const isSortable = vi.spyOn(harness.injector.get(WorkPackageViewSortByService), 'isSortable').mockReturnValue(false);
     const items = await open('status');
-    items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' }).focus();
+    items.getByRole('menuitem', { name: 'js.work_packages.query.remove_column' }).focus();
 
     isSortable.mockReturnValue(true);
     harness.injector.get(IsolatedQuerySpace).available.sortBy.putValue([]);
     await nextTask();
 
-    expect(document.activeElement).toHaveTextContent('js.work_packages.query.hide_column');
-    expect(items.getAllByRole('menuitem')[0]).toHaveTextContent('js.work_packages.query.sort_descending');
+    expect(document.activeElement).toHaveTextContent('js.work_packages.query.remove_column');
+    expect(items.getAllByRole('menuitemradio')[0]).toHaveTextContent('js.work_packages.query.sort_descending');
   });
 
   it('requests the query form when the menu opens before the form has loaded', async () => {
@@ -737,7 +740,7 @@ describe('SortHeaderDirective column menu', () => {
     vi.spyOn(columns(), 'removeColumn').mockImplementation(() => undefined);
     const items = await open('status');
 
-    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' }));
+    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.remove_column' }));
     await settle();
 
     await waitFor(() => expect(header(1)).toHaveFocus());
@@ -750,7 +753,7 @@ describe('SortHeaderDirective column menu', () => {
     vi.spyOn(columns(), 'removeColumn').mockImplementation(() => undefined);
     const items = await open('id');
 
-    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.hide_column' }));
+    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.remove_column' }));
     await settle();
 
     await waitFor(() => expect(header(1)).toHaveFocus());
@@ -763,7 +766,7 @@ describe('SortHeaderDirective column menu', () => {
     const sort = vi.spyOn(sortBy, 'setAsSingleSortCriteria').mockImplementation(() => undefined);
     const items = await open('subject');
 
-    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.sort_descending' }));
+    fireEvent.click(items.getByRole('menuitemradio', { name: 'js.work_packages.query.sort_descending' }));
 
     expect(menuOpenWhenCalled).toEqual([false]);
     await waitFor(() => expect(sort).toHaveBeenCalledTimes(1));
@@ -779,7 +782,7 @@ describe('SortHeaderDirective column menu', () => {
     });
     const items = await open('subject');
 
-    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.insert_columns' }));
+    fireEvent.click(items.getByRole('menuitem', { name: 'js.work_packages.query.add_columns' }));
     await settle();
 
     expect(menuOpenWhenCalled).toEqual([false]);

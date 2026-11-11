@@ -374,7 +374,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
     it "moves a work package down with the keyboard" do
       open_menu_by_keyboard(work_package1)
-      context_menu.choose_in_submenu "Move", "Move down"
+      context_menu.choose_in_submenu "Move to position", "Move down"
 
       wp_table.expect_work_package_order work_package2, work_package1, work_package3, work_package4
       expect_query_order(query, [work_package2, work_package1, work_package3, work_package4].map(&:id))
@@ -387,7 +387,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       wp_table.expect_work_package_order work_package1, work_package2, work_package3, work_package4
 
       open_menu_by_keyboard(work_package1)
-      context_menu.choose_in_submenu "Move", "Move down"
+      context_menu.choose_in_submenu "Move to position", "Move down"
       wp_table.expect_work_package_order work_package2, work_package1, work_package3, work_package4
 
       wp_table.visit_query query
@@ -396,7 +396,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
     it "moves a work package to the bottom and keeps focus on it" do
       open_menu_by_keyboard(work_package1)
-      context_menu.choose_in_submenu "Move", "Move to bottom"
+      context_menu.choose_in_submenu "Move to position", "Move to bottom"
 
       wp_table.expect_work_package_order work_package2, work_package3, work_package4, work_package1
       expect_query_order(query, [work_package2, work_package3, work_package4, work_package1].map(&:id))
@@ -405,9 +405,9 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
     it "disables moving the first work package up" do
       open_menu_by_keyboard(work_package1)
-      context_menu.open_submenu "Move"
+      context_menu.open_submenu "Move to position"
 
-      within(:menu, "Move") do
+      within(:menu, "Move to position") do
         expect(page).to have_menuitem("Move up", disabled: true)
         expect(page).to have_menuitem("Move to top", disabled: true)
         expect(page).to have_menuitem("Move down", disabled: false)
@@ -418,7 +418,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
     it "moves a non-contiguous keyboard selection as one block and keeps focus" do
       wp_table.focus_row_by_keyboard(work_package2)
       wp_table.press_keys(%i[shift space], :down, :down, %i[shift space], %i[shift f10])
-      context_menu.choose_in_submenu "Move", "Move to top"
+      context_menu.choose_in_submenu "Move to position", "Move to top"
 
       wp_table.expect_work_package_order work_package2, work_package4, work_package1, work_package3
       wp_table.expect_focus_on_row(work_package4)
@@ -434,7 +434,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
       it "moves within the group and keeps the work package type" do
         open_menu_by_keyboard(work_package2)
-        context_menu.choose_in_submenu "Move", "Move to top"
+        context_menu.choose_in_submenu "Move to position", "Move to top"
 
         wp_table.expect_work_package_order work_package2, work_package1, work_package3, work_package4
         wp_table.expect_focus_on_row(work_package2)
@@ -450,7 +450,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
       it "moves a root with its descendants and preserves parents after reloading" do
         open_menu_by_keyboard(work_package1)
-        context_menu.choose_in_submenu "Move", "Move down"
+        context_menu.choose_in_submenu "Move to position", "Move down"
 
         wp_table.expect_work_package_order work_package3, work_package4, work_package1, work_package2
         wp_table.expect_focus_on_row(work_package1)
@@ -467,7 +467,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       it "offers no move actions" do
         open_menu_by_keyboard(work_package2)
 
-        context_menu.expect_no_submenu "Move"
+        context_menu.expect_no_submenu "Move to position"
       end
     end
 
@@ -477,7 +477,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       it "offers no move actions" do
         open_menu_by_keyboard(work_package2)
 
-        context_menu.expect_no_submenu "Move"
+        context_menu.expect_no_submenu "Move to position"
       end
     end
   end

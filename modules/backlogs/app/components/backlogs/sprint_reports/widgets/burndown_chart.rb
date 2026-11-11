@@ -40,6 +40,7 @@ module Backlogs
         # period ends, so the chart needs the step to label them the way a reader expects.
         def chart_data
           {
+            unit:,
             step: burndown.step,
             range: charted_range,
             series: series,
@@ -57,6 +58,8 @@ module Backlogs
 
         private
 
+        def unit = project.estimation_unit_time? ? :time : :story_points
+
         def burndown
           return nil unless sprint.date_range_set?
 
@@ -68,11 +71,15 @@ module Backlogs
             guideline: burndown.guideline,
             projection: burndown.projection }
             .reject { |_, points| points.empty? }
-            .map { |id, points| { id:, label: t("backlogs.burndown_chart.series.#{id}"), data: points_for(points) } }
+            .map { |id, points| { id:, label: series_label(id), data: points_for(points) } }
+        end
+
+        def series_label(id)
+          t(id == :guideline ? ".series.#{id}" : ".series.#{id}.#{unit}")
         end
 
         # Both coordinates are cut to what the chart can read: milliseconds, and a thousandth of a
-        # story point. The guideline and the projection divide a sum across the working days left,
+        # unit. The guideline and the projection divide a sum across the working days left,
         # so without the rounding they would go out carrying every digit that division produced into the JSON.
         def points_for(points)
           points.map { { x: it.at.utc.iso8601(3), y: it.value.round(3) } }

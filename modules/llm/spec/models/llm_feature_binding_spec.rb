@@ -28,6 +28,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe LlmFeatureBinding do
   let(:connection) { create(:llm_connection, :with_models) }
@@ -88,40 +89,31 @@ RSpec.describe LlmFeatureBinding do
       expect(binding.resolved_model_id).to eq("qwen3.6-27b")
       expect(binding).not_to be_dangling
     end
+  end
 
-    it "writes that identifier down when the binding is locked" do
-      binding = create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search")
+  describe "the Semantic Index for an embedding feature" do
+    include_context "with an embedding model offered"
 
-      binding.update!(locked_at: Time.current)
+    let(:binding) { connection.feature_bindings.new(feature_key: "semantic_search") }
 
-      expect(binding.reload.model_id).to eq("bge-m3")
+    %w[ready not_indexed indexing failed].each do |state|
+      it "may be #{state.humanize(capitalize: false)}" do
+        binding.semantic_index = create(:semantic_index, state:)
+
+        expect(binding).to be_valid
+      end
     end
   end
 
-  describe "a binding locked on one deployment" do
-    let(:binding) do
-      bind("qwen3.6-27b").tap(&:save!).tap { it.update!(locked_at: Time.current) }
-    end
+  describe "the Semantic Index for a chat feature" do
+    include_context "with an embedding model offered"
 
-    it "remembers which deployment it was locked on" do
-      expect(binding.locked_deployment_fingerprint).to eq(connection.settings_fingerprint)
-    end
+    it "is rejected" do
+      binding = connection.feature_bindings.new(feature_key: "description_assistant",
+                                                semantic_index: create(:semantic_index, state: "ready"))
 
-    it "is intact while the connection still points there" do
-      expect(binding).not_to be_dangling
-    end
-
-    it "dangles once the connection points elsewhere, although the model name is still offered" do
-      binding
-      connection.update_columns(base_url: "https://elsewhere.example/v1")
-
-      expect(binding.reload).to be_dangling
-    end
-
-    it "dangles when the lock does not say which deployment it was taken on" do
-      binding.update_columns(locked_deployment_fingerprint: nil)
-
-      expect(binding.reload).to be_dangling
+      expect(binding).not_to be_valid
+      expect(binding.errors.details[:semantic_index]).to contain_exactly({ error: :not_for_chat_feature })
     end
   end
 end
