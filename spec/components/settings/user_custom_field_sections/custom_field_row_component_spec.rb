@@ -88,10 +88,13 @@ RSpec.describe Settings::UserCustomFieldSections::CustomFieldRowComponent, type:
       subject
 
       item = page.find(:menuitem, "Move to #{other_section.name}")
-      form = item.ancestor("form")
+      form = page.find("form##{item[:form]}", visible: :all)
+
+      expect(item[:name]).to eq("list_id")
+      expect(item[:value]).to eq(other_section.id.to_s)
       expect(form[:action]).to eq(drop_admin_settings_user_custom_field_section_field_path(field.id))
       expect(form).to have_css("input[name='list_type'][value='user_field']", visible: :all)
-      expect(form).to have_css("input[name='list_id'][value='#{other_section.id}']", visible: :all)
+      expect(form).to have_css("input[name='prev_id'][value='']", visible: :all)
     end
   end
 
@@ -102,6 +105,7 @@ RSpec.describe Settings::UserCustomFieldSections::CustomFieldRowComponent, type:
       expect(page).to have_css("li[data-sortable-lists--item-target='moveItem']",
                                count: SortableLists::MoveMenu::DIRECTIONS.size)
       expect(page).to have_selector(:menuitem, count: SortableLists::MoveMenu::DIRECTIONS.size + 2)
+      expect(page).to have_no_css("form", visible: :all)
     end
   end
 end

@@ -34,6 +34,28 @@ module Settings
     module MoveBetweenSections
       private
 
+      # One form per row rather than one per destination: a form per menu item
+      # multiplies across every row and every section the page renders.
+      def move_to_section_form(key)
+        form_with(
+          url: drop_admin_settings_user_custom_field_section_field_path(key),
+          method: :put,
+          id: move_to_section_form_id(key),
+          html: { hidden: true, role: :none }
+        ) do
+          safe_join(
+            [
+              hidden_field_tag("list_type", UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE, id: nil),
+              hidden_field_tag("prev_id", "", id: nil) # Move to top of section
+            ]
+          )
+        end
+      end
+
+      def move_to_section_form_id(key)
+        "move-user-field-#{key}-to-section"
+      end
+
       def with_move_to_section_items(menu, key:, other_sections:)
         other_sections.each do |section|
           move_to_section_item(menu, key:, section:)
@@ -44,14 +66,11 @@ module Settings
         menu.with_item(
           label: t("settings.user_custom_field_sections.label_move_to_section", name: section.name),
           tag: :button,
-          href: drop_admin_settings_user_custom_field_section_field_path(key),
-          form_arguments: {
-            method: :put,
-            inputs: [
-              { name: "list_type", value: "user_field" },
-              { name: "list_id", value: section.id },
-              { name: "prev_id", value: "" } # Move to top of section
-            ]
+          content_arguments: {
+            type: :submit,
+            form: move_to_section_form_id(key),
+            name: "list_id",
+            value: section.id
           }
         ) do |item|
           item.with_leading_visual_icon(icon: :"arrow-right")
