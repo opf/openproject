@@ -43,7 +43,7 @@ import {
   openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
-  useHashWpMenu,
+  OpenProjectHashMenu,
 } from '@openproject/blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
@@ -159,7 +159,6 @@ export function OpBlockNoteEditor({
     ...getDefaultReactSlashMenuItems(editorInstance),
     ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
-  const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
   return (
     <>
@@ -176,11 +175,7 @@ export function OpBlockNoteEditor({
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
         />
-        <SuggestionMenuController
-          triggerCharacter="#"
-          getItems={getHashItems}
-          suggestionMenuComponent={HashWpMenu}
-        />
+        <OpenProjectHashMenu />
       </BlockNoteView>
     </>
   );
