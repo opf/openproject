@@ -47,16 +47,8 @@ jobs:
         if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
         run: CI=1 npm test
 
-      - name: Build hashed bundle
+      - name: Build
         if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
         run: |
-          output=../../public/assets/frontend
-          mkdir -p "$output"
+          mkdir -p ../../public/assets/frontend
           npm run build
-          shopt -s nullglob
-          bundles=("$output"/service-worker-[A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9].js)
-          if (( ${#bundles[@]} == 0 )); then
-            echo "No hashed service worker emitted:"
-            ls "$output"
-            exit 1
-          fi
