@@ -58,6 +58,7 @@ class AccountController < ApplicationController
   before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
   before_action :check_internal_login_enabled, only: :internal_login
+  before_action :clear_site_data, only: :logout
 
   layout "no_menu"
 
@@ -512,6 +513,16 @@ class AccountController < ApplicationController
 
   def check_internal_login_enabled
     render_404 unless omniauth_direct_login? || Users::PasswordLogin.internal_login_available?
+  end
+
+  # Actively expire our local storage when logging out actively
+  # We cannot use all features of the header:
+  # - "cache": This freezes Chrome until the cache is cleared, possibly for minutes in my testing
+  # (https://crbug.com/40233601).
+  #
+  # - "cookies": The browser removes the cookies of the full main domain that we may have no control over.
+  def clear_site_data
+    response.headers["Clear-Site-Data"] = '"storage"'
   end
 
   def auth_source_sso_failure_user(failure)

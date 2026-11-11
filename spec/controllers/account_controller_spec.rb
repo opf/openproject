@@ -386,6 +386,14 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(response).to be_redirect
       end
 
+      it "tells the browser to clear site storage" do
+        login_as admin
+
+        get :logout
+
+        expect(response.headers["Clear-Site-Data"]).to eq('"storage"')
+      end
+
       context "with a user with an SSO provider attached" do
         let(:user) { build_stubbed(:user, login: "bob", authentication_provider: sso_provider) }
         let(:slo_callback) { nil }
