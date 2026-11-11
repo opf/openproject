@@ -96,8 +96,8 @@ describe('SprintWorkPackageGraphComponent', () => {
     const referenced = (attribute:string) => document.getElementById(canvas().getAttribute(attribute)!)!;
 
     it('exposes the canvas as an image named by the summary', () => {
-      expect(canvas().getAttribute('role')).toBe('img');
-      expect(referenced('aria-labelledby').textContent.trim()).toBe(summary);
+      expect(canvas()).toHaveRole('img');
+      expect(referenced('aria-labelledby')).toHaveTextContent(summary);
     });
 
     it('describes the canvas with a data table of all statuses', () => {
@@ -124,8 +124,8 @@ describe('SprintWorkPackageGraphComponent', () => {
     });
 
     it('hides the summary and table visually', () => {
-      expect(referenced('aria-labelledby').classList).toContain('sr-only');
-      expect(referenced('aria-describedby').classList).toContain('sr-only');
+      expect(referenced('aria-labelledby')).toHaveClass('sr-only');
+      expect(referenced('aria-describedby')).toHaveClass('sr-only');
     });
 
     it('gives every chart instance its own ids', () => {
@@ -134,8 +134,8 @@ describe('SprintWorkPackageGraphComponent', () => {
       other.detectChanges();
 
       const otherCanvas = (other.nativeElement as HTMLElement).querySelector('canvas')!;
-      expect(otherCanvas.getAttribute('aria-labelledby')).not.toBe(canvas().getAttribute('aria-labelledby'));
-      expect(otherCanvas.getAttribute('aria-describedby')).not.toBe(canvas().getAttribute('aria-describedby'));
+      expect(otherCanvas).not.toHaveAttribute('aria-labelledby', canvas().getAttribute('aria-labelledby'));
+      expect(otherCanvas).not.toHaveAttribute('aria-describedby', canvas().getAttribute('aria-describedby'));
     });
   });
 });
