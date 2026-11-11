@@ -1,24 +1,24 @@
 ---
 sidebar_navigation:
-  title: My work
+  title: My time
   priority: 950
-description: Get an overview of time logs and resource allocations in a calendar, list or stack view. Easily log time directly from the My work page.
-keywords: my work, time tracking, log time, time spent, calendar, time spent calendar, time logs, stack, resource allocations
+description: Get an overview of time logs and resource allocations in a calendar, list or stack view. Easily log time directly from the My time page.
+keywords: my time, time tracking, log time, time spent, calendar, time spent calendar, time logs, stack, resource allocations
 ---
 
-# My work
+# My time
 
 ## Overview
 
-The _My work_ module offers a clear overview of your personal time entries and the work that is [allocated to you](#resource-allocations-in-my-work). You can quickly log time directly from this page. To access it, select **My work** from the left-hand menu.
+The _My time_ module offers a clear overview of your personal time entries and the work that is [allocated to you](#resource-allocations-in-my-work). You can quickly log time directly from this page. To access it, select **My time** from the left-hand menu.
 
-Alternatively, click the grid icon in the top left corner and select _My work_ from the overlay menu that will open.
+Alternatively, click the grid icon in the top left corner and select _My time_ from the overlay menu that will open.
 
-![My work page overview in OpenProject](openproject_user_guide_my_time_tracking_module_overview.png)
+![My time page overview in OpenProject](openproject_user_guide_my_time_tracking_module_overview.png)
 
-### My work page filters
+### My time page filters
 
-1. On the _My work_ page, you’ll find the following interface elements:
+1. On the _My time_ page, you’ll find the following interface elements:
    1. **Zen mode** button — toggles a distraction-free view.
    2. **Tab selector** — switch between [_Calendar_](#calendar-view), [_List_](#list-view) and [_Stack_](#stack-view) views.
    3. **Zoom level dropdown menu** — choose the time scale for the view. Following options are available:
@@ -31,7 +31,7 @@ Alternatively, click the grid icon in the top left corner and select _My work_ f
    6. **Today** button — jump directly to the current day.
    7. **+ Log time** button — add a new time entry.
 
-![My work module filters explained](openproject_user_guide_my_time_tracking_module_filters_explained.png)
+![My time module filters explained](openproject_user_guide_my_time_tracking_module_filters_explained.png)
 
 If [Resource management](../../resource-management/) is available, an additional dropdown menu next to the zoom level lets you choose which entries are displayed:
 
@@ -39,7 +39,7 @@ If [Resource management](../../resource-management/) is available, an additional
 - **Logged time only**
 - **Allocations only**
 
-OpenProject remembers the view and zoom level you used last and it will be used when coming back to the **My Work** section.
+OpenProject remembers the view and zoom level you used last and it will be used when coming back to the **My time** section.
 
 ### Calendar view
 
@@ -53,7 +53,7 @@ You can log time by selecting a time range anywhere on the calendar or by using 
 
 You can drag and drop time entries to reposition them within the same day or move them to a different day. To adjust the duration of an entry, drag the top or bottom edge of the time entry up or down.
 
-![Example of logging time in OpenProject My work module](openproject-my-time-tracking-page.gif)
+![Example of logging time in OpenProject My time module](openproject-my-time-tracking-page.gif)
 
 To edit a time entry, click it in the calendar, make your changes, and save. You can also delete it from the same menu.
 
@@ -61,11 +61,11 @@ If work is allocated to you in [Resource management](../../resource-management/)
 
 At the bottom of each day a sum of hours per day is displayed. If work is allocated to you, it also shows the allocated hours and compares the sum of logged and allocated hours with your working hours of that day, for example *9h/8h*. This value is shown in red if you are planned for more than your working hours. If week or month is selected, a total of the logged hours is also shown in the bottom right corner.
 
-![Sums of hours displayed at the bottom of the Calendar tab under My work module in OpenProject](openproject_user_guide_my_time_tracking_module_calendar_tab_total_sums.png)
+![Sums of hours displayed at the bottom of the Calendar tab under My time module in OpenProject](openproject_user_guide_my_time_tracking_module_calendar_tab_total_sums.png)
 
 If you are currently tracking time with a timer for a specific work package, you will also see the ongoing time tracking timer for the respective work package. The work package in question also has a different background color for easier differentiation.
 
-![Active time tracking for a work package displayed on My work page in OpenProject](openproject_user_guide_my_time_tracking_module_active_time_tracking_icon.png)
+![Active time tracking for a work package displayed on My time page in OpenProject](openproject_user_guide_my_time_tracking_module_active_time_tracking_icon.png)
 
 ### List view
 
@@ -97,11 +97,11 @@ To log time in _List_ view, you can either:
 - Click the **+ Log Time** button to add a time entry for any date outside the currently displayed range.
 - Use the **+** icon in the table to log time directly for a specific day.
 
-![List view under My work module in OpenProject](openproject_user_guide_my_time_tracking_module_list_view_overview.png)
+![List view under My time module in OpenProject](openproject_user_guide_my_time_tracking_module_list_view_overview.png)
 
 To edit or delete a time entry in the _List_ view, click the **More** (three dots) icon at the end of the entry’s row in the table, then select the **Edit** (pencil) or **Delete** icon respectively.
 
-![Icon to edit or delete a time entry under List tab of the My work module in OpenProject](openproject_user_guide_my_time_tracking_module_list_view_edit_icon.png)
+![Icon to edit or delete a time entry under List tab of the My time module in OpenProject](openproject_user_guide_my_time_tracking_module_list_view_edit_icon.png)
 
 ### Stack view
 
@@ -111,7 +111,7 @@ You can select the zoom level **Day**, **Work week** or **Week**. The **Month** 
 
 Time entries are displayed at the bottom of each day, followed by a running timer if there is one. [Resource allocations](#resource-allocations-in-my-work) are stacked on top.
 
-![Stack view under My work module in OpenProject](openproject_user_guide_my_work_stack_view.png)
+![Stack view under My time module in OpenProject](openproject_user_guide_my_work_stack_view.png)
 
 To log time, select a range in a day. The **Hours** field is pre-filled with the length of the selected range. You can also use the **+ Log time** button.
 
@@ -125,9 +125,9 @@ At the bottom of each day you see:
 
 The sum is shown in red if logged and allocated hours together exceed your working hours.
 
-## Resource allocations in My work
+## Resource allocations in My time
 
-If work is allocated to you in [Resource management](../../resource-management/), your allocations are displayed in all views of the _My work_ page.
+If work is allocated to you in [Resource management](../../resource-management/), your allocations are displayed in all views of the _My time_ page.
 
 OpenProject distributes the hours of an allocation over your working days within the allocated dates. Time you have already logged on the same work package on that day is subtracted, so you only see the hours that are still left.
 
@@ -139,11 +139,11 @@ Allocations have a dashed border. Each allocation shows:
 
 In the _Calendar_ view, allocations are displayed in the area at the top of each day.
 
-![Resource allocations in the Calendar view of My work](openproject_user_guide_my_work_allocations_calendar.png)
+![Resource allocations in the Calendar view of My time](openproject_user_guide_my_work_allocations_calendar.png)
 
 In the _List_ view, allocations are listed together with your time entries. The **Type** column shows **Resource Allocation** for them.
 
-![Resource allocations in the List view of My work](openproject_user_guide_my_work_allocations_list.png)
+![Resource allocations in the List view of My time](openproject_user_guide_my_work_allocations_list.png)
 
 Click an allocation to see the available actions:
 
@@ -152,14 +152,14 @@ Click an allocation to see the available actions:
 - **Assign work package to me** – only shown if you are not the assignee of the work package.
 - **Log time from allocation** – opens the log time dialog with the work package, date and remaining hours already filled in.
 
-![Actions for a resource allocation in My work](openproject_user_guide_my_work_allocation_menu.png)
+![Actions for a resource allocation in My time](openproject_user_guide_my_work_allocation_menu.png)
 
 > [!NOTE]
 > The _My spent time_ widget on [My page](../../../getting-started/my-page/) also uses the stack view, but only shows your logged time.
 
-## Log time in My work module
+## Log time in My time module
 
-To log time on the _My work_ page, click the **+ Log time** button. A modal window will appear with the following fields:
+To log time on the _My time_ page, click the **+ Log time** button. A modal window will appear with the following fields:
 
 - **Date** – Select the day for the time entry.
 
@@ -187,4 +187,4 @@ To log time on the _My work_ page, click the **+ Log time** button. A modal wind
 
 Don't forget to click the **Log** button to save your time entry.
 
-![Modal to log time from My work module in OpenProject](openproject_user_guide_my_time_tracking_module_logging_modal.png)
+![Modal to log time from My time module in OpenProject](openproject_user_guide_my_time_tracking_module_logging_modal.png)
