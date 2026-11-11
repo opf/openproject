@@ -23,6 +23,8 @@ are not sortable items and do not participate in selection.
   through a narrow host interface and imports no Stimulus.
 - [menu-events.ts](menu-events.ts) reports when a card menu is opening, has
   opened and has closed, to the menu source and to each item.
+- [rendered-menu-scope.ts](rendered-menu-scope.ts) is the scope a menu was
+  rendered for: its count, and whether it still matches the live items.
 
 Selection identity is `(type, id)`. Each root must render exactly one instance
 of each pair, and an item without a type is not a selection candidate. The

@@ -63,6 +63,7 @@ import type { ActionScope } from './selection-orchestrator';
 import type { DestinationIdentity } from './list-dom';
 import { type SelectionItem } from 'core-common/batch-selection';
 import { DragSession, type DragSessionHost } from './drag-session';
+import { RenderedMenuScope } from './rendered-menu-scope';
 import { type Mock } from 'vitest';
 
 // The method is a mock property rather than a method signature, so tests
@@ -1919,7 +1920,8 @@ describe('Sortable lists item controller', () => {
 
       liFor(el, 'down').click();
 
-      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', scopeOwner);
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', RenderedMenuScope.of(scopeOwner));
+      expect(RenderedMenuScope.of(scopeOwner)?.matches([el])).toBe(true);
     });
 
     function appendDestinationItem(el:HTMLElement):{ li:HTMLElement; form:HTMLFormElement } {

@@ -60,12 +60,12 @@ import {
   resolveItemLabel,
   sortableItemSelector,
   sortableLockedAttribute,
-  sortableScopeCountAttribute,
   type DestinationIdentity,
 } from './list-dom';
 import { webLinkHref } from './external-data';
 import { MenuEvents } from './menu-events';
 import { renderDragPreview } from './preview';
+import { RenderedMenuScope } from './rendered-menu-scope';
 
 type CleanupFn = () => void;
 
@@ -167,8 +167,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
-      const scopeOwner = item.closest(`[${sortableScopeCountAttribute}]`);
-      this.root?.moveInDirection(this.element, direction, scopeOwner instanceof HTMLElement ? scopeOwner : null);
+      this.root?.moveInDirection(this.element, direction, RenderedMenuScope.of(item));
     }
   }
 

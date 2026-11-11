@@ -31,6 +31,7 @@ import type { RootAwareChild, SortableListsRoot } from './drag-and-drop';
 import { relativeUrl } from './url';
 import { resolveClosestItemElement, resolveItemId } from './list-dom';
 import { MenuEvents } from './menu-events';
+import { RenderedMenuScope } from './rendered-menu-scope';
 
 const SINGULAR_COUNT = 1;
 
@@ -82,7 +83,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
 
     list.setAttribute('aria-labelledby', tooltip.id);
     if (menu === this.openMenu) {
-      this.rename(menu, this.scopeCountOf(list));
+      this.rename(menu, RenderedMenuScope.of(list)?.count ?? SINGULAR_COUNT);
     }
   }
 
@@ -101,7 +102,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     this.openMenu = menu;
     const loadedList = this.menuTargets.find((list) => menu.contains(list));
     if (loadedList) {
-      this.rename(menu, this.scopeCountOf(loadedList));
+      this.rename(menu, RenderedMenuScope.of(loadedList)?.count ?? SINGULAR_COUNT);
     }
   };
 
@@ -127,13 +128,6 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     this.openMenu = null;
     this.rename(menu, SINGULAR_COUNT);
   };
-
-  // The server decides between the batch and the singular menu, so the list
-  // it renders carries the count the name reports.
-  private scopeCountOf(list:HTMLElement):number {
-    const count = Number.parseInt(list.dataset.sortableListsScopeCount ?? '', 10);
-    return Number.isNaN(count) ? SINGULAR_COUNT : count;
-  }
 
   // Primer's IconButton drops its aria-label in favor of aria-labelledby at
   // the label tooltip, so the tooltip text is the name.
