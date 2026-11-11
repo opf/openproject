@@ -57,6 +57,12 @@ da:
       chart_summary: 'Data i burndown-diagrammet: %{days}.'
       chart_value: "%{label}: %{value}"
       story_points: Story points
+    burnup_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burnup chart
+      chart_summary: 'Burnup chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
+      story_points: Story points
     created_resolved_chart:
       work_packages: Arbejdspakker
     sprint_charts:

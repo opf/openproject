@@ -181,7 +181,7 @@ RSpec.describe "Relation query group keyboard navigation", :js do
     wp_table.press_keys(:enter)
     expect(page).to have_field(accessible_name: "Search", focused: true)
     wp_table.press_keys(:tab)
-    expect(wp_table.table_container).to have_button("Abort", focused: true)
+    expect(wp_table.table_container).to have_button(accessible_name: "Abort", focused: true)
     wp_table.press_keys(:enter)
 
     expect(page).to have_no_test_selector("wp-relations-autocomplete")
@@ -209,7 +209,7 @@ RSpec.describe "Relation query group keyboard navigation", :js do
     wp_table.press_keys(:right)
 
     wp_table.expect_focus_on_cell(rows.first, :id)
-    expect(wp_table.table_container).to have_no_css(".hierarchy-header--icon")
+    expect(wp_table.table_container).to have_no_octicon("op-hierarchy")
     expect(wp_table.treegrid).to have_no_selector(:element, "tr", "aria-expanded": /./, visible: :all)
     wp_table.ensure_work_package_not_listed!(grandchild)
   end

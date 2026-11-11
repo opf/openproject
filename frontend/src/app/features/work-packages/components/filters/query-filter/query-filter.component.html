@@ -107,17 +107,18 @@
            />
         }
         @default {
-          @if (filter.currentSchema.loadedAllowedValues()) {
-            <op-filter-toggled-multiselect-value (filterChanged)="onFilterUpdated($event)"
-              [shouldFocus]="shouldFocus"
-              [filter]="filter"
-             />
-          }
-          @if (!filter.currentSchema.loadedAllowedValues()) {
-            <op-filter-searchable-multiselect-value (filterChanged)="onFilterUpdated($event)"
-              [shouldFocus]="shouldFocus"
-              [filter]="filter"
-             />
+          @if (filter.currentSchema; as schema) {
+            @if (schema.loadedAllowedValues()) {
+              <op-filter-toggled-multiselect-value (filterChanged)="onFilterUpdated($event)"
+                [shouldFocus]="shouldFocus"
+                [filter]="filter"
+               />
+            } @else {
+              <op-filter-searchable-multiselect-value (filterChanged)="onFilterUpdated($event)"
+                [shouldFocus]="shouldFocus"
+                [filter]="filter"
+               />
+            }
           }
         }
       }
@@ -134,7 +135,8 @@
     <button
       type="button"
       class="spot-link"
-      [title]="text.button_delete"
+      opTooltip
+      [label]="text.button_delete"
       (click)="removeThisFilter()"
       >
       <op-icon icon-classes="icon-close advanced-filters--remove-filter-icon" />

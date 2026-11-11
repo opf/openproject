@@ -80,7 +80,7 @@ module Calendar
     end
 
     def summary_value(work_package)
-      strip_tags work_package.name
+      CGI.unescapeHTML(strip_tags(work_package.name))
     end
 
     def dtstamp_value(work_package)
@@ -141,10 +141,8 @@ module Calendar
     def truncated_work_package_description_value(work_package)
       return if work_package.description.blank?
 
-      stripped_text = truncate_formatted_text(
-        work_package.description.to_s,
-        length: 250,
-        replace_newlines: false
+      stripped_text = CGI.unescapeHTML(
+        truncate_formatted_text(work_package.description.to_s, length: 250, replace_newlines: false)
       )
 
       "\n#{WorkPackage.human_attribute_name(:description)}:\n#{stripped_text}"

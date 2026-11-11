@@ -131,8 +131,8 @@ hy:
     button_confirm: Հաստատել
     button_continue: Շարունակել
     button_copy: Պատճենել
-    button_copy_link_to_clipboard: Պատճենել հղումը փոխանակման բուֆերում
-    button_copy_numeric_id_to_clipboard: Պատճենել թվային ID-ն փոխանակման բուֆեր
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Պատճենել փոխանակման բուֆերում
     button_copy_to_other_project: Կրկնօրինակել այլ նախագծում
     button_create: Ստեղծել
@@ -207,6 +207,7 @@ hy:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor-ում սխալ է տեղի ունեցել
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: Փաստաթղթի պահպանումը ձախողվեց հետևյալ սխալով՝ %{error}
@@ -438,7 +439,6 @@ hy:
     label_assignee: Պատասխանատու
     label_assignee_alt_text: Այս աշխատանքային փաթեթը նշանակված է %{name}-ին
     label_attachments: Կցորդներ
-    label_author: Հեղինակ՝ %{user}
     label_avatar: Ավատար
     label_between: միջև
     label_board: Տախտակ
@@ -1124,7 +1124,6 @@ hy:
         default_mode: Հարթ ցանկ
         display_settings: Ցուցադրման կարգավորումներ
         display_sums_hint: Ցուցադրել բոլոր գումարվող հատկանիշների գումարներն աղյուսակի արդյունքների տակ գտնվող տողում։
-        embedded_tab_disabled: Կազմաձևման այս ներդիրը հասանելի չէ Ձեր խմբագրած ներդրված տեսքի համար։
         hierarchy_hint: Աղյուսակի բոլոր զտված արդյունքները կլրացվեն իրենց նախնիներով։ Հիերարխիաները կարելի է ընդարձակել և ծալել։
         hierarchy_mode: Հիերարխիա
         highlighting: Ընդգծում

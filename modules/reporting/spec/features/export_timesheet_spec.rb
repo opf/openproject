@@ -47,7 +47,7 @@ RSpec.describe "Timesheet PDF export", :js do
     new_window = window_opened_by do
       click_on I18n.t("export.timesheet.button")
 
-      expect(page).to have_content I18n.t("job_status_dialog.generic_messages.in_queue")
+      expect(page).to have_text I18n.t("job_status_dialog.generic_messages.in_queue")
 
       perform_enqueued_jobs
 

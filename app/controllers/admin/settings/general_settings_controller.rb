@@ -33,9 +33,7 @@ module Admin::Settings
 
     def settings_params
       super.tap do |settings|
-        settings["allowed_link_protocols"] = settings["allowed_link_protocols"]
-          .split(/\r?\n/)
-          .map { |protocol| protocol.strip.downcase.gsub(/[^a-z0-9+\-.]+/, "") }
+        settings["allowed_link_protocols"] = Setting::AllowedLinkProtocols.parse(settings["allowed_link_protocols"])
       end
     end
 

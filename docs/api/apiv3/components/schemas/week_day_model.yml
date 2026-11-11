@@ -29,12 +29,12 @@ properties:
   _links:
     allOf:
       - $ref: './week_day_self_link_model.yml'
-example:
-  _type: WeekDay
-  day: 5
-  name: Friday
-  working: false
-  _links:
-    self:
-      href: /api/v3/day/week/5
-      title: Friday
+examples:
+  - _type: WeekDay
+    day: 5
+    name: Friday
+    working: false
+    _links:
+      self:
+        href: /api/v3/day/week/5
+        title: Friday

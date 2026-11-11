@@ -81,7 +81,7 @@ module Sprints
 
     attr_reader :sprint, :project, :user
 
-    delegate :charted_from, :charted_until, :planned_finish, :zone, to: :window, private: true
+    delegate :planned_finish, to: :window, private: true
 
     def window
       @window ||= ChartWindow.new(sprint, zone: user.time_zone)
@@ -102,66 +102,12 @@ module Sprints
         remaining.last.at < planned_finish
     end
 
-    # One straight line, measured in working days rather than in clock time: +drop+ is what a whole
-    # day takes, and every point is that slope applied to the distance still to run.
-    # Non working days are no distance at all, which is what leaves them flat.
-    # Only two points can land inside a day -- the one the series opens on (sprint start or end of remaining) and,
-    # where the chart closes before the plan does, the one it closes on.
     def decline_from(origin)
-      origin_from = origin.at.in_time_zone(zone)
-      days = days_until_planned_finish(origin_from)
-
-      return [origin] if days.none?(&:working)
-
-      drop = origin.value / still_ahead(days, days.first, origin_from)
-
-      points = decline_samples(days).map do |day, at|
-        ChartPoint.new(at:, value: drop * still_ahead(days, day, at))
-      end
-
-      points.prepend(origin)
+      line.from(origin, to: 0)
     end
 
-    # What the plan has left to spend after +from+, which falls inside +day+. Taken at the
-    # origin it is the whole capacity, and at the last sample it is nothing.
-    def still_ahead(days, day, from)
-      working_days_after(days, day.date) + part_of_day_after(day, from)
-    end
-
-    # Each day paired with the last moment the series has a value in it: the day's close, or where
-    # the chart closes when that comes first. Days lying wholly beyond the close drop out.
-    def decline_samples(days)
-      days.filter_map do |day|
-        end_of_day = day.date.in_time_zone(zone).end_of_day
-
-        if end_of_day <= charted_until
-          [day, end_of_day]
-        elsif day.date <= charted_until.to_date
-          [day, charted_until]
-        end
-      end
-    end
-
-    # The number of working days the plan still has after +date+.
-    def working_days_after(days, date)
-      days.count { it.working && it.date > date }
-    end
-
-    # The part of +day+ lying after +from+, as a fraction of a whole one. It is zero at a day's
-    # close, which is where every sample sits but the two that can fall inside a day: the one the
-    # series opens on and, where the chart closes before the plan does, the one it closes on.
-    def part_of_day_after(day, from)
-      return 0.0 unless day.working
-
-      (from.end_of_day - from) / 1.day.to_i
-    end
-
-    def days_until_planned_finish(from)
-      planned_days.select { it.date >= from.to_date }
-    end
-
-    def planned_days
-      @planned_days ||= Day.from_range(from: charted_from.to_date, to: planned_finish.to_date).to_a
+    def line
+      @line ||= WorkingDayLine.new(window:, finish: planned_finish)
     end
   end
 end

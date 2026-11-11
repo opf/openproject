@@ -40,7 +40,7 @@ get:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The requested resource could not be found.
-            
+
 patch:
   summary: Update workspace
   operationId: update_workspace
@@ -48,9 +48,9 @@ patch:
     - Workspace
   description: |-
     Updates a single workspace identified by its id.
-    
+
     It can be used to archive/reactivate a workspace, sending only the `active` attribute.
-    
+
     It can be used to edit the workspace information and or the workspace attributes, which both require a different
     set of permissions.
   parameters:
@@ -141,4 +141,3 @@ delete:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The requested resource could not be found.
-            

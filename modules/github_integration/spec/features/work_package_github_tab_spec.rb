@@ -105,8 +105,8 @@ RSpec.describe "Open the GitHub tab", :js do
         work_package_page.visit!
         work_package_page.switch_to_tab(tab: "github")
         tabs.expect_no_counter(github_tab_element)
-        expect(page).to have_content("There are no pull requests")
-        expect(page).to have_content("Link an existing PR by using the code OP##{work_package.id}")
+        expect(page).to have_text("There are no pull requests")
+        expect(page).to have_text("Link an existing PR by using the code OP##{work_package.id}")
       end
     end
 

@@ -75,7 +75,7 @@ RSpec.describe "Upload attachment to work package", :js, :selenium do
         field.submit_by_click
 
         expect(field.display_element).to have_css("img")
-        expect(field.display_element).to have_content("Some image caption")
+        expect(field.display_element).to have_text("Some image caption")
       end
     end
 

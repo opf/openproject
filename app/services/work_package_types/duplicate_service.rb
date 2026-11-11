@@ -67,6 +67,7 @@ module WorkPackageTypes
         .new(user:)
         .call(
           name: duplicated_name,
+          description: source.description,
           color_id: source.color_id,
           is_milestone: source.is_milestone,
           is_in_roadmap: source.is_in_roadmap,

@@ -31,7 +31,7 @@ import { server } from './mocks/node.js';
 // define the secret used in tests
 process.env["SECRET"] = "secret12345";
  
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+beforeAll(() => server.listen({ onUnhandledFrame: 'error' }));
 afterEach(() => {
   server.resetHandlers();
   server.events.removeAllListeners();

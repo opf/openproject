@@ -9,20 +9,16 @@ properties:
   id:
     type: string
     description: "Emoji reaction id (format: reactable_id-reaction)"
-    example: "1-thumbs_up"
   reaction:
     type: string
     description: The reaction identifier
-    example: "thumbs_up"
   emoji:
     type: string
     description: The emoji character
-    example: "👍"
   reactionsCount:
     type: integer
     description: Number of users who reacted with this emoji
     minimum: 1
-    example: 3
   firstReactionAt:
     type: string
     format: date-time
@@ -44,22 +40,22 @@ properties:
           allOf:
             - $ref: './link.yml'
             - description: The users who reacted with this emoji
-example:
-  _type: "EmojiReaction"
-  id: "1-thumbs_up"
-  reaction: "thumbs_up"
-  emoji: "👍"
-  reactionsCount: 3
-  firstReactionAt: "2024-04-08T15:37:19.275Z"
-  _links:
-    self:
-      href: "/api/v3/emoji_reactions/1-thumbs_up"
-    reactable:
-      href: "/api/v3/activities/1"
-    reactingUsers:
-      - href: "/api/v3/users/435"
-        title: "John Doe"
-      - href: "/api/v3/users/436"
-        title: "Jane Smith"
-      - href: "/api/v3/users/437"
-        title: "Bob Johnson"
+examples:
+  - _type: "EmojiReaction"
+    id: "1-thumbs_up"
+    reaction: "thumbs_up"
+    emoji: "👍"
+    reactionsCount: 3
+    firstReactionAt: "2024-04-08T15:37:19.275Z"
+    _links:
+      self:
+        href: "/api/v3/emoji_reactions/1-thumbs_up"
+      reactable:
+        href: "/api/v3/activities/1"
+      reactingUsers:
+        - href: "/api/v3/users/435"
+          title: "John Doe"
+        - href: "/api/v3/users/436"
+          title: "Jane Smith"
+        - href: "/api/v3/users/437"
+          title: "Bob Johnson"

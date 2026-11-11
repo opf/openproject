@@ -83,6 +83,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   describe "GET /admin/llm_feature_bindings" do
     before { login_as admin }
 
+    it "shows the shared header description" do
+      create(:llm_connection, :with_models, base_url:)
+
+      get llm_feature_bindings_path
+
+      expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
+    end
+
     it "sends the administrator to the settings while no connection is stored" do
       get llm_feature_bindings_path
 
@@ -107,8 +115,23 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("Feature configuration")
-        expect(response.body).to include("Description assistant")
+        expect(response.body).to include("Text assistant")
         expect(response.body).to include("Semantic search")
+      end
+
+      it "links the text actions in the caption when they are active",
+         with_flag: { llm_connection: true, ai_text_actions: true } do
+        get llm_feature_bindings_path
+
+        expect(page).to have_link("text actions", href: admin_text_actions_path)
+      end
+
+      it "names the text actions without a link when they are inactive",
+         with_flag: { llm_connection: true, ai_text_actions: false } do
+        get llm_feature_bindings_path
+
+        expect(page).to have_text("Runs the text actions users apply to work package descriptions")
+        expect(page).to have_no_link("text actions")
       end
 
       # Semantic search is registered but not built, so it carries a flag of its
@@ -118,7 +141,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         get llm_feature_bindings_path
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Description assistant")
+        expect(response.body).to include("Text assistant")
         expect(response.body).not_to include("Semantic search")
       end
 
@@ -130,11 +153,13 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_feature_bindings_path}']")
       end
 
-      it "points at the page where the default models are chosen" do
+      it "labels the model options with the model name and submits the external id" do
+        connection.models.find_by!(external_id: "qwen3.6-27b").update!(display_name: "Qwen 3.6")
+
         get llm_feature_bindings_path
 
-        expect(response.body).to include("use the default models set on the")
-        expect(response.body).to include(llm_models_path)
+        items = page.find("form[action='#{llm_feature_binding_path(:description_assistant)}'] opce-autocompleter")["data-items"]
+        expect(JSON.parse(items)).to include(a_hash_including("id" => "qwen3.6-27b", "name" => "Qwen 3.6"))
       end
 
       it "names the default model a feature inherits" do

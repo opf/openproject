@@ -156,7 +156,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
     end
   end
 
-  describe "labels", with_flag: { work_package_labels: true } do
+  describe "labels" do
     let(:label) { build_stubbed(:label) }
     let(:other_label) { build_stubbed(:label) }
     let(:labels_links) { [] }
@@ -197,20 +197,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
     context "with an empty array" do
       it "clears the ids" do
         expect(subject.label_ids).to eq([])
-      end
-    end
-
-    context "with the feature flag off", with_flag: { work_package_labels: false } do
-      let(:labels_links) do
-        [
-          { "href" => api_v3_paths.label(label.id) },
-          { "href" => nil, "title" => "Needs triage" }
-        ]
-      end
-
-      it "ignores the labels links" do
-        expect(subject.label_ids).to be_nil
-        expect(subject.label_names).to be_nil
       end
     end
   end

@@ -131,8 +131,8 @@ zh-CN:
     button_confirm: 确认
     button_continue: 继续
     button_copy: 复制
-    button_copy_link_to_clipboard: 将链接复制到剪贴板
-    button_copy_numeric_id_to_clipboard: 将数字 ID 复制到剪贴板
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: 复制到剪贴板
     button_copy_to_other_project: 复制到其他项目
     button_create: 创建
@@ -207,6 +207,7 @@ zh-CN:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor 发生错误
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
@@ -438,7 +439,6 @@ zh-CN:
     label_assignee: 指定
     label_assignee_alt_text: 此工作包被指定至 %{name}
     label_attachments: 附件
-    label_author: '作者: %{user}'
     label_avatar: 头像
     label_between: 介于
     label_board: 面板
@@ -1116,7 +1116,6 @@ zh-CN:
         default_mode: 扁平列表
         display_settings: 显示设置
         display_sums_hint: 在表结果下方一行中显示所有可累加属性的总和。
-        embedded_tab_disabled: 此配置选项卡不适用于您正在编辑的嵌入式视图。
         hierarchy_hint: 所有过滤的表结果都将使用其上级进行扩充。 可以展开和折叠层次结构。
         hierarchy_mode: 层次结构
         highlighting: 突出显示

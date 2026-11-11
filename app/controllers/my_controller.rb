@@ -197,13 +197,13 @@ class MyController < ApplicationController
   end
 
   # On the self-service account page only custom fields the user is allowed to
-  # edit themselves (editable: true) may be changed. Drop the rest so a crafted
+  # edit themselves (user_self_editable: true) may be changed. Drop the rest so a crafted
   # request cannot persist values the UI renders read-only.
   def drop_non_editable_custom_field_values(attributes)
     values = attributes["custom_field_values"]
     return attributes if values.blank?
 
-    editable_ids = current_user.available_custom_fields.select(&:editable?).map { |cf| cf.id.to_s }
+    editable_ids = current_user.available_custom_fields.select(&:user_self_editable?).map { |cf| cf.id.to_s }
     attributes["custom_field_values"] = values.slice(*editable_ids)
     attributes
   end

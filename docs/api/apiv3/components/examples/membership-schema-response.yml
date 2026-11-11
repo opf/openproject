@@ -1,36 +1,37 @@
+---
 description: |-
   A simple schema response example.
 value:
   _type: 'Schema'
-  _dependencies: [ ]
+  _dependencies: []
   id:
     type: 'Integer'
     name: 'ID'
     required: true
     hasDefault: false
     writable: false
-    options: { }
+    options: {}
   createdAt:
     type: 'DateTime'
     name: 'Created on'
     required: true
     hasDefault: false
     writable: false
-    options: { }
+    options: {}
   updatedAt:
     type: 'DateTime'
     name: 'Updated on'
     required: true
     hasDefault: false
     writable: false
-    options: { }
+    options: {}
   notificationMessage:
     type: 'Formattable'
     name: 'Message'
     required: false
     hasDefault: false
     writable: true
-    options: { }
+    options: {}
     location: '_meta'
   project:
     type: 'Project'

@@ -54,14 +54,22 @@ class Queries::WorkPackages::Filter::PrincipalLoader
     @principal_values ||= principals.map { |_, id| [nil, id.to_s] }
   end
 
+  def principal_ids_among(ids)
+    principal_scope.where(id: ids).pluck(:id)
+  end
+
   private
 
   def principals
+    principal_scope.pluck(:type, :id)
+  end
+
+  def principal_scope
     if project
       project.principals
     else
       Principal.visible.not_builtin
-    end.pluck(:type, :id)
+    end
   end
 
   def principals_by_class

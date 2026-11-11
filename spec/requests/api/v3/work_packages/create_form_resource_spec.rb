@@ -149,7 +149,7 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
     end
   end
 
-  describe "labels", with_flag: :work_package_labels do
+  describe "labels" do
     let(:parameters) do
       {
         _links: {

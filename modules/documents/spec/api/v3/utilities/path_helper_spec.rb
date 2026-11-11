@@ -43,4 +43,10 @@ RSpec.describe API::V3::Utilities::PathHelper do
 
     it { is_expected.to eql("/api/v3/documents/42/attachments/prepare") }
   end
+
+  describe "#document_collaboration_token" do
+    subject { helper.document_collaboration_token 42 }
+
+    it { is_expected.to eql("/api/v3/documents/42/collaboration_token") }
+  end
 end

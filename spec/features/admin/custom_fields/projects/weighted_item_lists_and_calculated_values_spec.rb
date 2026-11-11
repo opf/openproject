@@ -45,20 +45,15 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
   end
 
   context "with sufficient permissions" do
-    before do
+    it "shows a correct breadcrumb menu and tab navigation" do
       visit edit_admin_settings_project_custom_field_path(weighted_item_list)
-    end
 
-    it "shows a correct breadcrumb menu" do
       within ".PageHeader-breadcrumbs" do
         expect(page).to have_link("Administration")
         expect(page).to have_link("Projects")
         expect(page).to have_link("Project attributes")
         expect(page).to have_text(weighted_item_list.name)
       end
-    end
-
-    it "shows tab navigation" do
       within_test_selector("project_attribute_detail_header") do
         expect(page).to have_link("Details")
         expect(page).to have_link("Projects")
@@ -79,6 +74,7 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
       before do
         project.custom_values.create!(custom_field: weighted_item_list, value: one.id)
         project.custom_values.create!(custom_field: calculated_value, value: "2.0")
+        visit edit_admin_settings_project_custom_field_path(weighted_item_list)
       end
 
       it "when updating a weight" do
@@ -112,6 +108,58 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
         expect(page).to have_no_selector(row_selector(one))
 
         expect(project.reload.custom_value_for(calculated_value).value).to be_nil
+      end
+    end
+
+    describe "toggling multi-select on a weighted item list used outside of an aggregate function" do
+      let(:overview_page) { Pages::Projects::Show.new(project) }
+      let(:error_message) { I18n.t("calculated_values.errors.multi_value_list", custom_field_name: weighted_item_list.name) }
+
+      before do
+        project.custom_values.create!(custom_field: weighted_item_list, value: one.id)
+        project.custom_values.create!(custom_field: calculated_value, value: "2.0")
+      end
+
+      it "sets the calculated value to nil and reports an error" do
+        overview_page = Pages::Projects::Show.new(project)
+        error_message = I18n.t("calculated_values.errors.multi_value_list", custom_field_name: weighted_item_list.name)
+
+        overview_page.visit_page
+        overview_page.within_project_attributes_sidebar do
+          overview_page.within_custom_field_container(calculated_value) do
+            expect(page).to have_text("2.0")
+            expect(page).to have_no_text(error_message)
+          end
+        end
+
+        visit edit_admin_settings_project_custom_field_path(weighted_item_list)
+        check "Allow multi-select"
+        click_on "Save"
+
+        expect(page).to have_text("Successful update")
+        perform_enqueued_jobs
+
+        overview_page.visit_page
+        overview_page.within_project_attributes_sidebar do
+          overview_page.within_custom_field_container(calculated_value) do
+            expect(page).to have_text(error_message)
+          end
+        end
+
+        visit edit_admin_settings_project_custom_field_path(weighted_item_list)
+        uncheck "Allow multi-select"
+        click_on "Save"
+
+        expect(page).to have_text("Successful update")
+        perform_enqueued_jobs
+
+        overview_page.visit_page
+        overview_page.within_project_attributes_sidebar do
+          overview_page.within_custom_field_container(calculated_value) do
+            expect(page).to have_text("2.0")
+            expect(page).to have_no_text(error_message)
+          end
+        end
       end
     end
   end

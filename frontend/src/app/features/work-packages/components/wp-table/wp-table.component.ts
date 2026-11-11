@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { WorkPackageStateLinkEvent } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewEncapsulation, OnDestroy, DestroyRef, inject } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -42,6 +43,7 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { createScrollSync, ScrollSync } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
 import { WpTableHoverSync } from 'core-app/features/work-packages/components/wp-table/wp-table-hover-sync';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
+import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -90,14 +92,14 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   readonly wpTableSums = inject(WorkPackageViewSumService);
   readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
 
-  @Input() projectIdentifier:string;
+  @Input() projectIdentifier:string|null|undefined;
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
-  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
+  @Output() stateLinkClicked = new EventEmitter<WorkPackageStateLinkEvent>();
 
   public configuration:WorkPackageTableConfiguration;
 
@@ -256,8 +258,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     this.workPackageTable.colspan = this.numTableColumns;
 
     this.tbody = tbody;
-    controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this);
+    controller.workPackageTable = this.workPackageTable;
 
     // Locate table and timeline elements
     const tableAndTimeline = this.getTableAndTimelineElement();
@@ -276,12 +278,19 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   }
 
   private renderHeader():void {
-    this.cdRef.detectChanges();
-    this.workPackageTable?.painter.paint(new Set());
+    if (!this.workPackageTable) {
+      this.cdRef.detectChanges();
+      return;
+    }
+    this.workPackageTable.mutate(new Set([headerRowKey]), () => this.cdRef.detectChanges());
   }
 
   public get isEmbedded() {
     return this.configuration.isEmbedded;
+  }
+
+  public get tableDomId():string|null {
+    return this.workPackageTable ? this.workPackageTable.domId : null;
   }
 
   public get sortDescriptionId():string|null {

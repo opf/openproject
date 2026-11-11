@@ -1,126 +1,126 @@
 export const en = {
   translation: {
     'slashMenu': {
-      'title': 'Link existing work package',
-      'subtext': 'Add a dynamic link to a single work package',
+      'title': "پیوند به بسته کاری موجود",
+      'subtext': "افزودن پیوند پویا به یک بسته کاری",
       'create': {
-        'title': 'Create new work package',
-        'subtext': 'Create a work package and link it here'
+        'title': "ایجاد بسته کاری جدید",
+        'subtext': "ایجاد بسته کاری و پیونددادن آن در اینجا"
       },
       'aliases': {
-        'workpackage': 'workpackage',
-        'work package': 'work package',
-        'wp': 'wp',
-        'link': 'link',
-        'create': 'create'
+        'workpackage': "بسته‌کاری",
+        'work package': "بسته کاری",
+        'wp': "ب‌ک",
+        'link': "پیوند",
+        'create': "ایجاد"
       }
     },
     'formattingToolbar': {
-      'createWorkPackage': 'Create work package'
+      'createWorkPackage': "ایجاد بسته کاری"
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
-      'creating': 'Creating…',
-      'selectPlaceholder': 'Please select…',
-      'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
-      'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
-      'deselect': 'Remove selection',
-      'removeValue': 'Remove {{value}}',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
-      'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
-      'projectPlaceholder': 'Select a project…',
-      'loadFailed': 'The work package form could not be loaded: {{message}}',
-      'notAllowed': 'You are not allowed to create work packages.',
-      'validationFailed': 'Please correct the highlighted fields below.',
-      'requiredField': 'This field is required.',
-      'notANumber': 'Please enter a number.',
-      'notAWholeNumber': 'Please enter a whole number, without a decimal separator.',
-      'unsupportedField': '"{{field}}" cannot be set here.',
-      'unsupportedRequired': 'This work package requires a field that cannot be set here.',
-      'createInOpenProject': 'Create it in OpenProject'
+      'title': "ایجاد بسته کاری جدید",
+      'close': "بستن",
+      'cancel': "لغو",
+      'create': "ایجاد",
+      'creating': "در حال ایجاد…",
+      'selectPlaceholder': "لطفاً انتخاب کنید…",
+      'searchPlaceholder': "برای جستجو تایپ کنید…",
+      'loading': "در حال بارگذاری…",
+      'noResults': "نتیجه‌ای یافت نشد",
+      'filterBy': "فیلترکردن فهرست",
+      'allValues': "همه",
+      'favorites': "موارد دلخواه",
+      'clear': "پاک‌کردن",
+      'deselect': "حذف انتخاب",
+      'removeValue': "حذف {{value}}",
+      'openOptions': "نمایش گزینه‌ها",
+      'closeOptions': "پنهان‌کردن گزینه‌ها",
+      'subjectPlaceholder': "عنوان را اینجا وارد کنید",
+      'subjectClipped': "متن انتخاب‌شده بیش از حد طولانی بود و به {{limit}} نویسه نخست کوتاه شد.",
+      'projectPlaceholder': "یک پروژه انتخاب کنید…",
+      'loadFailed': "فرم بسته کاری بارگذاری نشد: {{message}}",
+      'notAllowed': "مجوز ایجاد بسته کاری را ندارید.",
+      'validationFailed': "لطفاً فیلدهای مشخص‌شده در زیر را اصلاح کنید.",
+      'requiredField': "این فیلد الزامی است.",
+      'notANumber': "لطفاً یک عدد وارد کنید.",
+      'notAWholeNumber': "لطفاً عدد صحیح و بدون جداکننده اعشار وارد کنید.",
+      'unsupportedField': "امکان تنظیم «{{field}}» در اینجا وجود ندارد.",
+      'unsupportedRequired': "این بسته کاری به فیلدی نیاز دارد که در اینجا قابل تنظیم نیست.",
+      'createInOpenProject': "آن را در OpenProject ایجاد کنید"
     },
     'search': {
-      'label': 'Link existing work package',
-      'placeholder': 'Search by work package ID or subject',
-      'dropdownAriaLabel': 'Work package search results',
-      'noResults': 'No results',
-      'error': 'Error. Unable to load content.',
-      'createWorkPackage': 'Create new work package'
+      'label': "پیوند به بسته کاری موجود",
+      'placeholder': "جستجو بر اساس شناسه یا عنوان بسته کاری",
+      'dropdownAriaLabel': "نتایج جستجوی بسته کاری",
+      'noResults': "نتیجه‌ای یافت نشد",
+      'error': "خطا. بارگذاری محتوا ممکن نشد.",
+      'createWorkPackage': "ایجاد بسته کاری جدید"
     },
     'unavailableWorkPackage': {
       'loading': {
-        'header': 'Loading',
-        'message': 'Please wait'
+        'header': "در حال بارگذاری",
+        'message': "لطفاً منتظر بمانید"
       },
       'unauthorized': {
-        'header': 'Linked work package unavailable',
-        'message': 'You do not have permission to see this',
-        'short_message': 'Work package unavailable: no permission'
+        'header': "بسته کاری پیوندشده در دسترس نیست",
+        'message': "مجوز مشاهده این مورد را ندارید",
+        'short_message': "بسته کاری در دسترس نیست: بدون مجوز"
       },
       'error': {
-        'header': 'Error',
-        'message': 'Could not load work package',
-        'short_message': 'Unavailable: error'
+        'header': "خطا",
+        'message': "بارگذاری بسته کاری ممکن نشد",
+        'short_message': "در دسترس نیست: خطا"
       }
     },
     'options': {
-      'openInNewTab': 'Open in new tab',
-      'open': 'Open',
-      'changeSize': 'Change size',
-      'changeSizeAriaLabel': 'Change size: {{size}}',
-      'menuAriaLabel': 'Options for work package {{id}}',
-      'selectedAnnouncement': '{{description}}. Press Enter to open its options.',
-      'remove': 'Remove',
-      'removeAriaLabel': 'Remove work package',
-      'openAriaLabel': 'Open work package {{id}} in new tab',
-      'inlineSizeLabel': 'Inline size',
-      'blockSizeLabel': 'Block size',
-      'chipAriaLabel': 'Work package {{id}}'
+      'openInNewTab': "بازکردن در زبانه جدید",
+      'open': "باز",
+      'changeSize': "تغییر اندازه",
+      'changeSizeAriaLabel': "تغییر اندازه: {{size}}",
+      'menuAriaLabel': "گزینه‌های بسته کاری {{id}}",
+      'selectedAnnouncement': "{{description}}. برای بازکردن گزینه‌های آن، Enter را فشار دهید.",
+      'remove': "حذف",
+      'removeAriaLabel': "حذف بسته کاری",
+      'openAriaLabel': "بازکردن بسته کاری {{id}} در زبانه جدید",
+      'inlineSizeLabel': "اندازه درون‌خطی",
+      'blockSizeLabel': "اندازه بلوکی",
+      'chipAriaLabel': "بسته کاری {{id}}"
     },
     'preview': {
-      'showAriaLabel': 'Show details of work package {{id}}'
+      'showAriaLabel': "نمایش جزئیات بسته کاری {{id}}"
     },
     'sizes': {
       'xxs': {
-        'label': 'Tiny',
-        'desc': 'Identifier'
+        'label': "بسیار کوچک",
+        'desc': "شناسه"
       },
       'xs': {
-        'label': 'Compact',
-        'desc': 'Type, Identifier, Subject'
+        'label': "فشرده",
+        'desc': "نوع، شناسه، عنوان"
       },
       's': {
-        'label': 'Regular',
-        'desc': 'Status, Type, Identifier, Subject'
+        'label': "معمولی",
+        'desc': "وضعیت، نوع، شناسه، عنوان"
       },
       'm': {
-        'label': 'Compact card',
-        'desc': 'Status, Type, Identifier, Subject'
+        'label': "کارت فشرده",
+        'desc': "وضعیت، نوع، شناسه، عنوان"
       },
       'l': {
-        'label': 'Regular card',
-        'desc': 'Identifier, Subject, Type, Status, Parent, Project'
+        'label': "کارت معمولی",
+        'desc': "شناسه، عنوان، نوع، وضعیت، والد، پروژه"
       },
       'xl': {
-        'label': 'Full card',
-        'desc': 'Identifier, Subject, Type, Status, Parent, Project, Description'
+        'label': "کارت کامل",
+        'desc': "شناسه، عنوان، نوع، وضعیت، والد، پروژه، توضیحات"
       }
     },
     'hashMenu': {
-      'typeToSearch': 'Type to search work packages…'
+      'typeToSearch': "برای جستجوی بسته‌های کاری تایپ کنید…"
     },
     'spinner': {
-      'ariaLabel': 'Loading'
+      'ariaLabel': "در حال بارگذاری"
     }
   }
 };

@@ -131,8 +131,8 @@ pl:
     button_confirm: Potwierdź
     button_continue: Kontynuuj
     button_copy: Kopiuj
-    button_copy_link_to_clipboard: Kopiuj link do schowka
-    button_copy_numeric_id_to_clipboard: Skopiuj identyfikator numeryczny do schowka
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Skopiuj do schowka
     button_copy_to_other_project: Zduplikuj w innym projekcie
     button_create: Utwórz
@@ -207,6 +207,7 @@ pl:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Wystąpił błąd w CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Zapisywanie dokumentu nie powiodło się, błąd: %{error}'
@@ -438,7 +439,6 @@ pl:
     label_assignee: Przypisana osoba
     label_assignee_alt_text: Ten pakiet roboczy jest przypisany do %{name}
     label_attachments: Załączniki
-    label_author: 'Autor: %{user}'
     label_avatar: Awatar
     label_between: pomiędzy
     label_board: Tablica
@@ -1140,7 +1140,6 @@ pl:
         default_mode: Płaska lista
         display_settings: Ustawienia wyświetlania
         display_sums_hint: Wyświetlaj sumy wszystkich sumowanych atrybutów w wierszu pod wynikami tabeli.
-        embedded_tab_disabled: Ta karta konfiguracji nie jest dostępna dla widoku osadzonego, który edytujesz.
         hierarchy_hint: Wszystkie przefiltrowane wyniki z tabeli będą poszerzane o ich przodków. Hierarchie można rozwijać i zwijać.
         hierarchy_mode: Hierarchia
         highlighting: Wyróżnianie

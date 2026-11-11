@@ -61,6 +61,23 @@ RSpec.describe AnnouncementMailer do
         .to contain_exactly(recipient.mail)
     end
 
+    context "with HTML-significant characters in the texts" do
+      subject(:mail) do
+        described_class.announce(recipient,
+                                 subject: announcement_subject,
+                                 body: %(Tom's R&D "plan"),
+                                 body_header: %(Tom's header),
+                                 body_subheader: %(Tom's subheader))
+      end
+
+      it "keeps them as plain text in the text part" do
+        expect(mail.text_part.body.decoded)
+          .to include(%(Tom's R&D "plan"))
+          .and include("Tom's header")
+          .and include("Tom's subheader")
+      end
+    end
+
     context "when user is locked" do
       let(:recipient) { build_stubbed(:user, status: Principal.statuses[:locked]) }
 

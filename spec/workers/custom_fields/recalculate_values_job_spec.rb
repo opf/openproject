@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe CustomFields::RecalculateValuesJob, type: :model do
-  describe "#perform", with_ee: %i[calculated_values] do
+  describe "#perform", with_ee: %i[calculated_values weighted_item_lists] do
     using CustomFieldFormulaReferencing
 
     shared_let(:user) { create(:admin) }
@@ -47,18 +47,16 @@ RSpec.describe CustomFields::RecalculateValuesJob, type: :model do
       let(:custom_field_id) { 999999 }
 
       it "does nothing" do
-        expect { subject }
-          .not_to change { Project.pluck(:updated_at) }
+        expect { subject }.not_to change { Project.pluck(:updated_at) }
       end
     end
 
-    context "when custom field is not calculated value" do
+    context "when custom field is not a calculated value or weighted item list" do
       let!(:custom_field) { create(:integer_project_custom_field) }
       let(:custom_field_id) { custom_field.id }
 
       it "does nothing" do
-        expect { subject }
-          .not_to change { Project.pluck(:updated_at) }
+        expect { subject }.not_to change { Project.pluck(:updated_at) }
       end
     end
 
@@ -167,6 +165,40 @@ RSpec.describe CustomFields::RecalculateValuesJob, type: :model do
               .and change { project4.reload.updated_at }
           end
         end
+      end
+    end
+
+    context "when custom field is a weighted item list" do
+      let(:projects) { [project1, project2] }
+      let(:cf_list1) { create(:weighted_item_list_project_custom_field, projects:) }
+      let(:cf_list2) { create(:weighted_item_list_project_custom_field, projects:) }
+      let(:item) { create(:hierarchy_item, parent: cf_list1.hierarchy_root, weight: 15) }
+      let(:cf_calc) { create(:calculated_value_project_custom_field, projects:, formula: "SUM(#{cf_list1})") }
+      let(:cf_calc2) { create(:calculated_value_project_custom_field, projects:, formula: "SUM(1, 2, 3)") }
+      let(:custom_field_id) { cf_list1.id }
+
+      before do
+        create(:custom_value, customized: project1, custom_field: cf_calc, value: 66)
+        create(:custom_value, customized: project1, custom_field: cf_calc2, value: 1)
+        create(:custom_value, customized: project1, custom_field: cf_list1, value: item)
+      end
+
+      it "updates only affected projects" do
+        expect { subject }
+          .to change { project1.reload.updated_at }
+          .and change { project2.reload.updated_at }
+          .and not_change { project3.reload.updated_at }
+          .and(not_change { project4.reload.updated_at })
+      end
+
+      it "updates the affected calculated values" do
+        expect(project1.custom_value_attributes).to eq(
+          { cf_list1.id => item.id.to_s, cf_calc.id => "66", cf_calc2.id => "1" }
+        )
+        subject
+        expect(project1.reload.custom_value_attributes).to eq(
+          { cf_list1.id => item.id.to_s, cf_calc.id => "15.0", cf_calc2.id => "1" }
+        )
       end
     end
   end

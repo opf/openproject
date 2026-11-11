@@ -34,14 +34,15 @@ import type { WorkPackageTable } from '../wp-fast-table';
 import { classifyRow, isExposedRow, type TableRowKind } from '../helpers/structural-rows';
 import { expansionStateOf } from '../helpers/row-expansion';
 import { navigableCells } from '../handlers/state/keyboard/roving-tabindex';
+import { emptyResultsRowKey, headerRowKey, inlineCreateRowKey, totalsRowKey } from '../row-keys';
 
 export type RowRecordKind = TableRowKind|'header';
 
 const edgeRowKeys = {
-  header: 'header',
-  totals: 'totals',
-  inlineCreate: 'inlineCreate',
-  emptyResults: 'emptyResults',
+  header: headerRowKey,
+  totals: totalsRowKey,
+  inlineCreate: inlineCreateRowKey,
+  emptyResults: emptyResultsRowKey,
 } as const;
 
 type EdgeRowKind = keyof typeof edgeRowKeys;

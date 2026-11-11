@@ -131,8 +131,8 @@ sk:
     button_confirm: Potvrdiť
     button_continue: Pokračovať
     button_copy: Kopírovať
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopírovať do schránky
     button_copy_to_other_project: Duplicate in another project
     button_create: Vytvoriť
@@ -207,6 +207,7 @@ sk:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uloženie dokumentu zlyhalo s nasledujúcou chybou: %{error}'
@@ -438,7 +439,6 @@ sk:
     label_assignee: Priradené
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Prílohy
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: medzi
     label_board: Nástenka
@@ -1140,7 +1140,6 @@ sk:
         default_mode: Plochý zoznam
         display_settings: Zobraziť nastavenia
         display_sums_hint: Zobraziť súčty všetkých sčitateľných atribútov v riadku pod tabuľkou výsledkov.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Všetky filtrované výsledky z tabuľky budú rozšírené o ich predkov. Hierarchie je možné rozbaliť a zbaliť.
         hierarchy_mode: Hierarchia
         highlighting: Zvýraznenie
