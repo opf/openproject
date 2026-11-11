@@ -66,9 +66,11 @@ module Admin
         end
 
         def drop_success_streams(call)
-          update_section_via_turbo_stream(user_custom_field_section: call.result[:current_section])
+          sections = UserCustomFieldSection.all.to_a
+
+          update_section_via_turbo_stream(user_custom_field_section: call.result[:current_section], sections:)
           if call.result[:section_changed]
-            update_section_via_turbo_stream(user_custom_field_section: call.result[:old_section])
+            update_section_via_turbo_stream(user_custom_field_section: call.result[:old_section], sections:)
           end
         end
       end

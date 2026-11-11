@@ -95,7 +95,10 @@ module Admin::Settings
       result = ::CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
 
       if result.success?
-        update_section_via_turbo_stream(user_custom_field_section: @custom_field.user_custom_field_section.reload)
+        update_section_via_turbo_stream(
+          user_custom_field_section: @custom_field.user_custom_field_section.reload,
+          sections: UserCustomFieldSection.all.to_a
+        )
       else
         render_error_flash_message_via_turbo_stream(
           message: join_flash_messages(result.errors)
