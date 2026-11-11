@@ -99,21 +99,10 @@ class WorkPackage < ApplicationRecord
     end
   }
 
-  scope :with_status_open, -> {
-    joins(:status).where("#{Status.table_name}.category IS DISTINCT FROM 'closed'")
-  }
-
-  scope :with_status_to_do, -> {
-    joins(:status).merge(Status.to_do)
-  }
-
-  scope :with_status_in_progress, -> {
-    joins(:status).merge(Status.in_progress)
-  }
-
-  scope :with_status_closed, -> {
-    joins(:status).merge(Status.closed)
-  }
+  scope :with_status_open, -> { where(status: Status.not_closed) }
+  scope :with_status_to_do, -> { where(status: Status.to_do) }
+  scope :with_status_in_progress, -> { where(status: Status.in_progress) }
+  scope :with_status_closed, -> { where(status: Status.closed) }
 
   scope :with_limit, ->(limit) {
     limit(limit)
