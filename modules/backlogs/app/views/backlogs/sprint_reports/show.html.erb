@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% grid.with_widget(Backlogs::SprintReports::Widgets::BurnupChart, @sprint, @project) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::CreatedResolvedChart, @sprint, @project) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::EpicProgress, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageGraph, @sprint, @project) %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageGraph, @sprint, @project, @breakdown) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::CompletedTable, @sprint, @project, @breakdown) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::UnfinishedTable, @sprint, @project, @breakdown) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::AddedTable, @sprint, @project, @breakdown) %>
