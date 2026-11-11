@@ -40,7 +40,8 @@
 // Primer's DragHandle ships `cursor: move`; grab/grabbing signals dragging
 // better. Only the press is stylable — once the native drag is under way the
 // browser owns the cursor.
-.DragHandle[data-sortable-lists--item-target~="handle"]
+.DragHandle[data-sortable-lists--item-target~="handle"],
+.DragHandle.wp-table--drag-and-drop-handle
   cursor: grab
 
   &:active

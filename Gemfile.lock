@@ -144,7 +144,6 @@ PATH
   remote: modules/gitlab_integration
   specs:
     openproject-gitlab_integration (3.0.0)
-      openproject-webhooks
 
 PATH
   remote: modules/grids
@@ -213,6 +212,12 @@ PATH
   specs:
     openproject-reporting (1.0.0)
       costs
+
+PATH
+  remote: modules/repositories
+  specs:
+    openproject-repositories (1.0.0)
+      openproject-webhooks
 
 PATH
   remote: modules/resource_management
@@ -1723,6 +1728,7 @@ DEPENDENCIES
   openproject-primer_view_components (~> 0.96.0)
   openproject-recaptcha!
   openproject-reporting!
+  openproject-repositories!
   openproject-resource_management!
   openproject-storages!
   openproject-team_planner!
@@ -2106,6 +2112,7 @@ CHECKSUMS
   openproject-primer_view_components (0.96.0) sha256=6aed686963abab1c9e9ca6cd1a7a1120b109fb4a4f4586bf8630367fc7faae33
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
+  openproject-repositories (1.0.0)
   openproject-resource_management (1.0.0)
   openproject-storages (1.0.0)
   openproject-team_planner (1.0.0)

@@ -38,8 +38,8 @@ describe('Inline chip - identical chips in the same paragraph', () => {
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
     await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
-    // Only the second chip shrank to XXS (no status badge); the first chip
-    // stays at S and keeps its status badge.
+    // Only the second chip shrank to XXS (no status label); the first chip
+    // stays at S and keeps its status label.
     const statusBadges = page.getByText('In Progress');
     expect((await statusBadges.all()).length).toBe(1);
     expect((await page.getByText('#123').all()).length).toBe(2);

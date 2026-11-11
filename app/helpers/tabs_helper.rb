@@ -38,12 +38,14 @@ module TabsHelper
     end
   end
 
-  def render_tab_header_nav(header, tabs, test_selector: nil)
+  def render_tab_header_nav(header, tabs, selected: params[:tab], test_selector: nil)
     return if tabs.blank?
+
+    current_tab = selected_tab(tabs, selected)
 
     header.with_tab_nav(label: nil, test_selector:) do |tab_nav|
       tabs.each do |tab|
-        tab_nav.with_tab(selected: selected_tab(tabs) == tab, href: tab[:path], data: tab[:data]) do |t|
+        tab_nav.with_tab(selected: current_tab == tab, href: tab[:path], data: tab[:data]) do |t|
           feature = tab[:enterprise_feature]
 
           if feature && !EnterpriseToken.allows_to?(feature)
@@ -63,8 +65,8 @@ module TabsHelper
     end
   end
 
-  def selected_tab(tabs)
-    selected = tabs.detect { |t| t[:name].to_s == params[:tab].to_s } || tabs.detect { tab_route_shown?(it) }
+  def selected_tab(tabs, name = params[:tab])
+    selected = tabs.detect { |t| t[:name].to_s == name.to_s } || tabs.detect { tab_route_shown?(it) }
     return selected unless selected.nil?
 
     tabs.first
