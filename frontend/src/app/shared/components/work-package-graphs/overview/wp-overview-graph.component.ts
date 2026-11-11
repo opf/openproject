@@ -73,8 +73,6 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
 
   readonly groupBy = model('status');
 
-  readonly showGroupByOptions = input(true, { transform: booleanAttribute });
-
   readonly chartOptions:InputSignal<ChartOptions> = input<ChartOptions>({ maintainAspectRatio: false });
 
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];

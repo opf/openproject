@@ -42,10 +42,8 @@ module Backlogs
         def title = t(".title")
 
         def render?
-          user_allowed?(:view_sprints)
+          sprint.date_range_set? && user_allowed?(:view_sprints)
         end
-
-        def show_widget_content? = sprint.date_range_set?
 
         def show_secondary_metric?
           !project.estimation_unit_none?

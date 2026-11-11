@@ -375,4 +375,35 @@ RSpec.describe Sprints::Burnup do
       it { expect(burnup.guideline).to be_empty }
     end
   end
+
+  describe "#anything_to_chart?" do
+    it "is true when story points were in the sprint within the window" do
+      story_pointed(sprint_start => { story_points: 10 })
+
+      expect(burnup).to be_anything_to_chart
+    end
+
+    it "is true when the story points in the sprint were closed throughout the window" do
+      story_pointed(sprint_start => { story_points: 5, status_id: closed_status.id })
+
+      expect(burnup).to be_anything_to_chart
+    end
+
+    it "is false when the work packages in the sprint have no story points" do
+      story_pointed(sprint_start => { story_points: nil })
+
+      expect(burnup).not_to be_anything_to_chart
+    end
+
+    context "when the sprint has not started yet" do
+      let(:started_at) { nil }
+      let(:now) { at_hour(first_monday - 7.days, 12) }
+
+      it "is false, as there is nothing measured yet" do
+        story_pointed(now - 1.hour => { story_points: 10 })
+
+        expect(burnup).not_to be_anything_to_chart
+      end
+    end
+  end
 end

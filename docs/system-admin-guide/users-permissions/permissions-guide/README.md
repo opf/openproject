@@ -135,7 +135,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 ## Backlogs permissions
 
 - **View sprints** – Allows users to view sprints.
-- **Select backlog types and statuses** – Allows users to configure which work package types appear in the backlog and which statuses are considered completed.
+- **Manage backlogs configuration** – Allows users to configure the backlogs module, including which work package types are hidden from the backlog, which statuses represent a closed or finished state, and the unit used for velocity.
 - **Create sprints** – Allows users to create sprints.
 - **Start/complete sprint** – Allows users to start and complete sprints.
 - **Manage sprint items** – Allows users to manage sprint contents.

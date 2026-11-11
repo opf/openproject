@@ -123,6 +123,16 @@ RSpec.describe SemanticIndex do
     end
   end
 
+  describe "#searchable?" do
+    it "is true in every state except not_indexed" do
+      %w[indexing ready failed].each do |state|
+        expect(create(:semantic_index, state:)).to be_searchable, "expected #{state} to be searchable"
+      end
+
+      expect(create(:semantic_index, state: "not_indexed")).not_to be_searchable
+    end
+  end
+
   describe "#active?" do
     let(:semantic_index) { create(:semantic_index, state: "ready") }
 

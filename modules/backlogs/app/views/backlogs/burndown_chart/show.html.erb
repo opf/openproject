@@ -47,4 +47,8 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render(Backlogs::SprintReports::Widgets::BurndownChart.new(@sprint, @project)) %>
+<% if @sprint.date_range_set? %>
+  <%= render(Backlogs::SprintReports::Widgets::BurndownChart.new(@sprint, @project)) %>
+<% else %>
+  <%= render(Backlogs::SprintReports::MissingDatesBlankslateComponent.new) %>
+<% end %>
