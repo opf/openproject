@@ -39,7 +39,7 @@ RSpec.describe Backlogs::Projects::BacklogsTypesAndStatusesContract, type: :mode
   let(:other_type) { create(:type_task) }
 
   let(:project) { create(:project, types: [allowed_type]) }
-  let(:permissions) { %i[select_backlog_types_and_statuses] }
+  let(:permissions) { %i[manage_backlogs_configuration] }
 
   subject(:contract) { described_class.new(project, current_user) }
 

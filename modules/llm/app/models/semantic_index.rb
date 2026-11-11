@@ -74,6 +74,8 @@ class SemanticIndex < ApplicationRecord
 
   def indexable? = INDEXABLE_STATES.include?(state)
 
+  def searchable? = !not_indexed?
+
   def start_indexing!
     with_lock do
       raise InvalidTransitionError, "cannot start indexing from #{state}" unless indexable?
