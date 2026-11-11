@@ -31,7 +31,7 @@ describe('UnreadSummary.fetch', () => {
   let UnreadSummary:typeof UnreadSummaryType;
 
   beforeAll(async () => {
-    vi.stubGlobal('OP_SW', { urls: { push: '/push-notification' } });
+    vi.stubGlobal('OP_SW', { urls: { push: '/api/v3/notifications/summary' } });
     ({ UnreadSummary } = await import('./unread-summary'));
   });
 

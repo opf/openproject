@@ -43,7 +43,7 @@ import { UnreadSummary } from './unread-summary';
  * revoke the subscription.
  *
  * ```
- * push event ──► queue ──► GET push summary
+ * push event ──► queue ──► GET notification summary
  *                            │
  *                            ├─ signed out (401), push off (404)
  *                            │               clear badge, close and forget all, fallback
@@ -63,7 +63,7 @@ import { UnreadSummary } from './unread-summary';
  * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
  *
  * reconcile message ──► queue ──► none of its notifications open? stop
- *                                  else GET push summary, same outcomes as a push except that
+ *                                  else GET notification summary, same outcomes as a push except that
  *                                  nothing is shown and "all read" is not announced; unavailable
  *                                  does nothing; unread closes unlisted notifications (marked
  *                                  evicted when more are collapsed), sets the badge, saves state

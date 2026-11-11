@@ -54,7 +54,7 @@ module PwaHelper
         offline: pwa_offline_path,
         home: root_path,
         signOut: signout_path,
-        push: pwa_push_notification_path
+        push: api_v3_paths.notification_summary
       },
       push: {
         fallbackTitle: I18n.t("pwa.push.fallback_title", locale: Setting.default_language),

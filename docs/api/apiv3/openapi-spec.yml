@@ -355,6 +355,8 @@ paths:
     $ref: "./paths/notifications_read.yml"
   "/api/v3/notifications/unread_ian":
     $ref: "./paths/notifications_unread.yml"
+  "/api/v3/notifications/summary":
+    $ref: "./paths/notification_summary.yml"
   "/api/v3/notifications/{id}":
     $ref: "./paths/notification.yml"
   "/api/v3/notifications/{notification_id}/details/{id}":
@@ -1042,6 +1044,8 @@ components:
       $ref: "./components/schemas/notification_collection_model.yml"
     NotificationModel:
       $ref: "./components/schemas/notification_model.yml"
+    NotificationSummaryModel:
+      $ref: "./components/schemas/notification_summary_model.yml"
     OAuthApplicationReadModel:
       $ref: "./components/schemas/oauth_application_read_model.yml"
     OAuthClientCredentialsReadModel:

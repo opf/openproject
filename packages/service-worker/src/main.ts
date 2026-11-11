@@ -37,7 +37,7 @@
  *     unread without showing or alerting anything.
  *   - A page reporting a different signed-in user closes the previous user's notifications.
  *
- *   OpenProject --push--> push service --wake-up--> worker --GET push summary--> OpenProject
+ *   OpenProject --push--> push service --wake-up--> worker --GET notification summary--> OpenProject
  *   worker --show / close--> notifications, app badge
  *   logout navigation --> worker --clears--> notifications, remembered state, app badge
  */

@@ -82,7 +82,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       config = worker_config
 
       expect(config.dig("urls", "offline")).to eq("/offline")
-      expect(config.dig("urls", "push")).to eq("/push-notification")
+      expect(config.dig("urls", "push")).to eq("/api/v3/notifications/summary")
       expect(config.dig("urls", "signOut")).to eq("/logout")
       expect(config.dig("urls", "home")).to eq("/")
       expect(config["cache"]).to include("name" => ApplicationController.helpers.pwa_cache_name,
@@ -100,7 +100,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
         get "/service-worker", env: { "SCRIPT_NAME" => "/openproject" }
 
         expect(worker_config["urls"]).to include("offline" => "/openproject/offline",
-                                                 "push" => "/openproject/push-notification")
+                                                 "push" => "/openproject/api/v3/notifications/summary")
         expect(response.body).to match(%r{importScripts\("[^"]*/openproject/assets/frontend/service-worker})
       end
     end
