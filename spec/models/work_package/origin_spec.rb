@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage::Origin do
-  let(:work_package) { create(:work_package) }
+  let(:work_package) { build_stubbed(:work_package) }
 
   describe "validations" do
     it "allows nil origin_source" do
@@ -85,6 +85,24 @@ RSpec.describe WorkPackage::Origin do
       work_package.origin_source = nil
       work_package.origin_id = nil
       expect(work_package).to be_valid
+    end
+
+    it "rejects invalid origin_url" do
+      work_package.origin_source = "jira_data_center"
+      work_package.origin_id = "123"
+      work_package.origin_url = "not-a-valid-url"
+      work_package.origin_host = "https://jira.example.com"
+      expect(work_package).not_to be_valid
+      expect(work_package.errors[:origin_url]).to include("is not a valid URL")
+    end
+
+    it "rejects invalid origin_host" do
+      work_package.origin_source = "jira_data_center"
+      work_package.origin_id = "123"
+      work_package.origin_url = "https://jira.example.com/browse/PROJ-123"
+      work_package.origin_host = "not-a-valid-url"
+      expect(work_package).not_to be_valid
+      expect(work_package.errors[:origin_host]).to include("is not a valid URL")
     end
   end
 end

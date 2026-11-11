@@ -63,11 +63,19 @@ RSpec.describe Import::JiraCreateRelationsJob,
       end
 
       it "creates a 'relates' relation with description for unmapped link types" do
+        # jira_issue (DPPP-6) has inwardIssue pointing to jira_linked_issue (KIWNEU1-1)
+        # with type "Tests" and inward label "tested by"
+        # This means: "KIWNEU1-1 tests DPPP-6" (or "DPPP-6 is tested by KIWNEU1-1")
         expect { create_relations }.to change(Relation, :count).by(1)
+
+        current_wp = jira_import.find_op_leg(jira_issue)
+        linked_wp = jira_import.find_op_leg(jira_linked_issue)
 
         relation = Relation.last
         expect(relation.relation_type).to eq(Relation::TYPE_RELATES)
-        expect(relation.description).to eq("Tests: tested by")
+        expect(relation.description).to eq("#{current_wp.formatted_id} tested by #{linked_wp.formatted_id}")
+        expect(relation.from_id).to eq(linked_wp.id)
+        expect(relation.to_id).to eq(current_wp.id)
       end
 
       it "is idempotent - running twice does not create duplicate relations" do
@@ -78,21 +86,21 @@ RSpec.describe Import::JiraCreateRelationsJob,
     end
 
     context "with a Blocks link type" do
-      let(:blocking_issue_payload) do
+      let(:blocked_issue_payload) do
         jira_issue_payload.deep_dup.tap do |payload|
           payload["id"] = "10500"
           payload["key"] = "DPPP-10"
-          payload["fields"]["summary"] = "Blocking issue"
+          payload["fields"]["summary"] = "Blocked issue"
           payload["fields"]["issuelinks"] = []
         end
       end
 
-      let!(:jira_blocking_issue) do
+      let!(:jira_blocked_issue) do
         create(:jira_issue,
                jira_import:,
                origin_id: "10500",
                jira_project:,
-               payload: blocking_issue_payload)
+               payload: blocked_issue_payload)
       end
 
       let(:issue_with_blocks_link) do
@@ -110,7 +118,7 @@ RSpec.describe Import::JiraCreateRelationsJob,
                 "id" => "10500",
                 "key" => "DPPP-10",
                 "fields" => {
-                  "summary" => "Blocking issue"
+                  "summary" => "Blocked issue"
                 }
               }
             }
@@ -123,12 +131,20 @@ RSpec.describe Import::JiraCreateRelationsJob,
         Import::JiraCreateProjectWorkPackagesJob.perform_now(jira_import.id, jira_project.id)
       end
 
-      it "creates a 'blocks' relation" do
+      it "creates a 'blocks' relation with correct direction" do
+        # jira_issue (DPPP-6) has outwardIssue pointing to jira_blocked_issue (DPPP-10)
+        # with type "Blocks" and outward label "blocks"
+        # This means: "DPPP-6 blocks DPPP-10"
         expect { create_relations }.to change(Relation, :count).by(1)
+
+        blocker_wp = jira_import.find_op_leg(jira_issue)
+        blocked_wp = jira_import.find_op_leg(jira_blocked_issue)
 
         relation = Relation.last
         expect(relation.canonical_type).to eq(Relation::TYPE_BLOCKS)
         expect(relation.description).to be_nil
+        expect(relation.from_id).to eq(blocker_wp.id)
+        expect(relation.to_id).to eq(blocked_wp.id)
       end
     end
 
@@ -178,12 +194,20 @@ RSpec.describe Import::JiraCreateRelationsJob,
         Import::JiraCreateProjectWorkPackagesJob.perform_now(jira_import.id, jira_project.id)
       end
 
-      it "creates a 'duplicates' relation" do
+      it "creates a 'duplicates' relation with correct direction" do
+        # jira_issue (DPPP-6) has outwardIssue pointing to jira_duplicate_issue (DPPP-11)
+        # with type "Duplicate" and outward label "duplicates"
+        # This means: "DPPP-6 duplicates DPPP-11"
         expect { create_relations }.to change(Relation, :count).by(1)
+
+        current_wp = jira_import.find_op_leg(jira_issue)
+        duplicate_wp = jira_import.find_op_leg(jira_duplicate_issue)
 
         relation = Relation.last
         expect(relation.canonical_type).to eq(Relation::TYPE_DUPLICATES)
         expect(relation.description).to be_nil
+        expect(relation.from_id).to eq(current_wp.id)
+        expect(relation.to_id).to eq(duplicate_wp.id)
       end
     end
 

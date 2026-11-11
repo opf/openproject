@@ -35,7 +35,9 @@ module WorkPackage::Origin
   included do
     validates :origin_source, inclusion: { in: SOURCES, allow_nil: true }
     validates :origin_id, presence: { if: -> { origin_source.present? } }
-    validates :origin_url, presence: { if: -> { origin_source.present? } }
-    validates :origin_host, presence: { if: -> { origin_source.present? } }
+    validates :origin_url, presence: { if: -> { origin_source.present? } },
+                           url: { if: -> { origin_url.present? } }
+    validates :origin_host, presence: { if: -> { origin_source.present? } },
+                            url: { if: -> { origin_host.present? } }
   end
 end

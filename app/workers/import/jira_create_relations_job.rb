@@ -31,12 +31,9 @@ module Import
   class JiraCreateRelationsJob < ProgressableJob
     include Import::JiraJobUtils
 
-    # Maps Jira link type name to OpenProject relation types.
-    # For outward: current issue -> linked issue (e.g., "DPPP-6 blocks ZBA2-1")
-    # For inward: linked issue -> current issue (e.g., "ZBA2-1 is blocked by DPPP-6")
     JIRA_TO_OP_RELATIONS_MAPPING = {
-      "Blocks" => { outward: Relation::TYPE_BLOCKS, inward: Relation::TYPE_BLOCKED },
-      "Duplicate" => { outward: Relation::TYPE_DUPLICATES, inward: Relation::TYPE_DUPLICATED }
+      "Blocks" => Relation::TYPE_BLOCKS,
+      "Duplicate" => Relation::TYPE_DUPLICATES
     }.freeze
 
     on_complete do
@@ -106,45 +103,44 @@ module Import
 
       return if current_wp.nil?
 
-      issue_links.each do |link|
-        process_link(link, current_wp)
-      end
+      issue_links.each { |link| process_link(link, current_wp) }
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def process_link(link, current_wp)
       jira_link_type = link["type"]
-      type_name = jira_link_type["name"]
+      from_wp, to_wp = resolve_link_direction(link, current_wp)
 
+      return log_missing_work_package(link) if to_wp.nil? || from_wp.nil?
+      return log_self_referential(from_wp) if from_wp.id == to_wp.id
+
+      create_relation(
+        from_wp,
+        to_wp,
+        relation_type: JIRA_TO_OP_RELATIONS_MAPPING.fetch(jira_link_type["name"], Relation::TYPE_RELATES),
+        description: build_description(jira_link_type, from_wp, to_wp)
+      )
+    end
+
+    def log_missing_work_package(link)
+      linked_issue_data = link["outwardIssue"] || link["inwardIssue"]
+      linked_key = linked_issue_data&.dig("key") || linked_issue_data&.dig("id")
+      Rails.logger.warn "Cannot create relation: target work package not found for Jira issue #{linked_key}"
+    end
+
+    def log_self_referential(work_package)
+      Rails.logger.warn "Skipping self-referential relation for work package #{work_package.id}"
+    end
+
+    def resolve_link_direction(link, current_wp)
       if link["outwardIssue"]
         # Current issue -> linked issue (e.g., "DPPP-6 blocks ZBA2-1")
-        linked_issue_data = link["outwardIssue"]
-        direction = :outward
-        from_wp = current_wp
-        to_wp = find_linked_work_package(linked_issue_data)
+        linked_wp = find_linked_work_package(link["outwardIssue"])
+        [current_wp, linked_wp]
       else
         # Linked issue -> current issue (e.g., "KIWNEU1-1 tests DPPP-6")
-        linked_issue_data = link["inwardIssue"]
-        direction = :inward
-        from_wp = find_linked_work_package(linked_issue_data)
-        to_wp = current_wp
+        linked_wp = find_linked_work_package(link["inwardIssue"])
+        [linked_wp, current_wp]
       end
-
-      if to_wp.nil? || from_wp.nil?
-        linked_key = linked_issue_data&.dig("key") || linked_issue_data&.dig("id")
-        Rails.logger.warn "Cannot create relation: target work package not found for Jira issue #{linked_key}"
-        return
-      end
-
-      if from_wp.id == to_wp.id
-        Rails.logger.warn "Skipping self-referential relation for work package #{from_wp.id}"
-        return
-      end
-
-      relation_type = map_link_type(type_name, direction)
-      description = build_description(type_name, jira_link_type, direction)
-
-      create_relation(from_wp, to_wp, relation_type, description:)
     end
 
     def find_linked_work_package(linked_issue_data)
@@ -171,43 +167,32 @@ module Import
       )
     end
 
-    def map_link_type(type_name, direction)
-      if JIRA_TO_OP_RELATIONS_MAPPING.key?(type_name)
-        JIRA_TO_OP_RELATIONS_MAPPING[type_name][direction]
-      else
-        Relation::TYPE_RELATES
-      end
+    def build_description(jira_link_type, from_wp, to_wp)
+      return nil if JIRA_TO_OP_RELATIONS_MAPPING.key?(jira_link_type["name"])
+
+      # Format: "TO-ID is tested by FROM-ID" (using the inward label from Jira)
+      "#{to_wp.formatted_id} #{jira_link_type['inward']} #{from_wp.formatted_id}"
     end
 
-    def build_description(type_name, jira_link_type, direction)
-      return nil if JIRA_TO_OP_RELATIONS_MAPPING.key?(type_name)
-
-      direction_label = direction == :outward ? jira_link_type["outward"] : jira_link_type["inward"]
-      "#{type_name}: #{direction_label}"
-    end
-
-    def create_relation(from_wp, to_wp, relation_type, description: nil)
-      # Check if relation already exists (in either direction)
-      existing = Relation.find_by(from: from_wp, to: to_wp) ||
-                 Relation.find_by(from: to_wp, to: from_wp)
-
-      if existing
-        Rails.logger.debug { "Relation already exists between #{from_wp.id} and #{to_wp.id}" }
+    def create_relation(from_wp, to_wp, relation_type:, description:)
+      if relation_exists?(from_wp, to_wp)
+        Rails.logger.warn { "Relation already exists between #{from_wp.id} and #{to_wp.id}" }
         return
       end
 
-      call = Relations::CreateService
-               .new(user: User.system)
-               .call(
-                 from: from_wp,
-                 to: to_wp,
-                 relation_type:,
-                 description:
-               )
+      call = Relations::CreateService.new(user: User.system).call(
+        from: from_wp, to: to_wp, relation_type:, description:
+      )
 
-      return if call.success?
+      Rails.logger.error "Failed to create relation: #{call.message}" unless call.success?
+    end
 
-      Rails.logger.error "Failed to create relation: #{call.message}"
+    def relation_exists?(from_wp, to_wp)
+      # OpenProject allows only one relation between any two work packages.
+      # Check both directions since (A→B) and (B→A) are considered the same pair.
+      Relation.where(from_id: from_wp.id, to_id: to_wp.id)
+              .or(Relation.where(from_id: to_wp.id, to_id: from_wp.id))
+              .exists?
     end
 
     def issues_with_links_scope(jira_import_id, jira_project_id)

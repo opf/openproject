@@ -26,7 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-class AddOriginColumnsToWorkPackages < ActiveRecord::Migration[7.1]
+class AddOriginColumnsToWorkPackages < ActiveRecord::Migration[8.1]
   def change
     change_table :work_packages, bulk: true do |t|
       t.string :origin_source, null: true
