@@ -100,7 +100,7 @@ MCP tools allow connected clients to perform operations in OpenProject. Each too
 | `current_user` | Current user | Returns the currently authenticated user. Also available as an MCP resource. |
 | `delete_time_entry` | Delete time entry | Delete an existing time entry. |
 | `delete_work_package_relation` | Delete work package relation | Delete an existing relation between two work packages. |
-| `get_work_package_schema` | Get work package schema | Describes a new work package of the given type in the given project. Returns the default values, including the description template, and the writable fields with their types, required flags and allowed values. Call this before create_work_package. |
+| `get_work_package_form` | Get work package form | Describes a work package for creating or updating it. Pass project_id and type_id for a new work package, or work_package_id for an existing one. Returns the default or current values, including the description template of a new work package, and the writable fields with their types, required flags and allowed values. Call this before create_work_package or update_work_package. |
 | `list_statuses` | List statuses | Lists all work package statuses available on this OpenProject instance. Also available as an MCP resource. |
 | `list_types` | List types | Lists all work package types available on this OpenProject instance. Also available as an MCP resource. |
 | `list_work_package_comments` | List work package comments | List comments of the given work package. |
@@ -165,13 +165,15 @@ The work package description and other additional attributes are not included in
 
 If the MCP client needs complete work package information, it can request the expanded response through the corresponding `search_work_packages` input parameter. The tool schema and description exposed to the MCP client provide the available parameter and its usage.
 
-#### Work package schema
+#### Work package form
 
-Before creating a work package, an MCP client can call `get_work_package_schema` with a project and a type. The response describes a new work package of that type in that project, as configured in OpenProject:
+Before creating or updating a work package, an MCP client can call `get_work_package_form` to see what the work package form looks like for the given project and type. This helps the MCP client fill required fields and choose valid values on the first attempt.
 
--   The default values, including the description template of the type, the default status and priority, and custom field defaults
--   The writable fields shown in the form of the type, with their type and whether they are required.
--   The allowed values of a field, for example the statuses allowed by the workflow for the authenticated user. For fields such as users or hierarchy items, only a link to the list of allowed values is returned.
+The response includes:
+
+-   The fields shown in the form configuration of the type, and which of them are required
+-   The allowed values, for example the statuses the authenticated user can select
+-   The default values of a new work package, such as the description template of the type, or the current values of an existing work package
 
 ### Time tracking
 

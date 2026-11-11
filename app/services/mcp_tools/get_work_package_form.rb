@@ -28,15 +28,15 @@
 #++
 
 module McpTools
-  class GetWorkPackageSchema < Base
-    default_title "Get work package schema"
+  class GetWorkPackageForm < Base
+    default_title "Get work package form"
     default_description "Describes a work package for creating or updating it. Pass project_id and type_id for a new " \
                         "work package, or work_package_id for an existing one. Returns the default or current values, " \
                         "including the description template of a new work package, and the writable fields with their " \
                         "types, required flags and allowed values. Call this before create_work_package or " \
                         "update_work_package."
 
-    name "get_work_package_schema"
+    name "get_work_package_form"
     annotations read_only: true, idempotent: true, destructive: false
 
     input_schema(

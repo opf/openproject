@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::GetWorkPackageSchema do
+RSpec.describe McpTools::GetWorkPackageForm do
   subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
@@ -43,7 +43,7 @@ RSpec.describe McpTools::GetWorkPackageSchema do
       id: "Test-Request",
       method: "tools/call",
       params: {
-        name: "get_work_package_schema",
+        name: "get_work_package_form",
         arguments: call_args
       }
     }
