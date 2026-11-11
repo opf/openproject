@@ -41,7 +41,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
     let(:feature_key) { :spec_only_unavailable_feature }
 
     before do
-      OpenProject::Llm::Features.register(feature_key, kind: :chat, available: -> { false })
+      OpenProject::Llm::Features.register(feature_key, kind: :chat, enabled: -> { false })
       create(:llm_connection, :with_models, default_chat_model_identifier: "qwen3.6-27b")
     end
 
