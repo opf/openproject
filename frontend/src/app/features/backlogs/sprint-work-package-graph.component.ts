@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Signal, computed, input } from '@angular/core';
+import { Component, Signal, computed, input } from '@angular/core';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import { color } from 'chart.js/helpers';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -90,7 +90,6 @@ function barChartOptions():ChartOptions<'bar'> {
   templateUrl: './sprint-work-package-graph.component.html',
   imports: [BaseChartDirective],
   providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SprintWorkPackageGraphComponent {
   readonly chartData = input.required<string>();
