@@ -146,6 +146,10 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
       let(:expected_widgets) { core_widgets }
 
       it_behaves_like "sprint report widgets"
+
+      it "closes the report with an upsell for the widgets that are missing" do
+        expect(page).to have_test_selector("op-enterprise-banner", text: "Full sprint report")
+      end
     end
 
     context "with baseline_comparison", with_ee: :baseline_comparison do
@@ -159,6 +163,10 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
       let(:expected_widgets) { all_widgets }
 
       it_behaves_like "sprint report widgets"
+
+      it "has nothing left to upsell" do
+        expect(page).to have_no_test_selector("op-enterprise-banner")
+      end
     end
   end
 
