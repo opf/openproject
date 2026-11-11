@@ -79,7 +79,10 @@ module Workflows
       @query = ::Queries::Workflows::WorkflowQuery.new
 
       @query.where(:name, "~", [name_term]) if name_term.present?
-      list_filters.each { |key, ids| @query.where(key, "=", ids) if ids.any? }
+      list_filters.each do |key, ids|
+        operator = operator_for(key)
+        @query.where(key, operator, ids) if operator && (ids.any? || !operator_requires_value?(operator))
+      end
 
       @query
     end
@@ -90,6 +93,14 @@ module Workflows
         project_id: filtered_project_ids,
         status_id: filtered_status_ids
       }
+    end
+
+    def operator_for(filter_key)
+      requested_filters.find { |filter| filter[:attribute].to_s == filter_key.to_s }&.fetch(:operator)&.to_s
+    end
+
+    def operator_requires_value?(operator)
+      ::Queries::Operators::OPERATORS[operator]&.requires_value? != false
     end
 
     def name_term = @name_term ||= values_for(::Queries::Workflows::Filters::NameFilter.key).first.to_s.strip
