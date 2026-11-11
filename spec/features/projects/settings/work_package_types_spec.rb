@@ -122,6 +122,48 @@ because it's still in use by work packages)
     end
   end
 
+  describe "variants a migration created" do
+    shared_let(:converted) do
+      create(:type_variant, type: epic, variant_name: "Converted", created_by_migration: true)
+    end
+
+    def filter_migrated
+      within_test_selector("project-types-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.migrated")
+      end
+    end
+
+    it "labels them, leaving the authored ones unlabeled" do
+      within_test_selector("project-types-variant-#{converted.id}") do
+        expect(page).to have_css(".Label--attention", text: I18n.t("types.index.created_by_migration"))
+      end
+
+      within_test_selector("project-types-variant-#{design.id}") do
+        expect(page).to have_no_css(".Label--attention")
+      end
+    end
+
+    it "filters the list down to them and back out again" do
+      filter_migrated
+
+      expect(page).to have_text(converted.variant_name)
+      expect(page).to have_no_text(design.variant_name)
+      expect(page).to have_css(".SegmentedControl-item--selected",
+                               text: I18n.t("types.edit.variants.created_by_migration_filter.migrated"))
+
+      within_test_selector("project-types-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.all")
+      end
+
+      expect(page).to have_text(design.variant_name)
+      expect(page).to have_text(converted.variant_name)
+    end
+  end
+
+  it "leaves the migration filter out when no variant came from a migration" do
+    expect(page).to have_no_test_selector("project-types-migration-filter")
+  end
+
   it "switches the project to a sibling variant" do
     work_package = create(:work_package, project:, type: epic)
 

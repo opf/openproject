@@ -61,6 +61,8 @@ module Sprints
       @resolved ||= rebased(series.counts(project_journals.where(status_id: project.statuses_considered_closed)))
     end
 
+    def anything_to_chart? = [created, resolved].any? { |points| points.any? { !it.value.zero? } }
+
     delegate :step, :too_long_to_chart?, :charted_range, to: :window
 
     private

@@ -1,0 +1,56 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(
+    Primer::OpenProject::DangerDialog.new(
+      title: t(".title"),
+      size: dialog_size,
+      confirm_button_text: t(".confirm"),
+      form_arguments:,
+      test_selector: "squashtm--delete-project-link-dialog"
+    )
+  ) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { t(".heading", name: project_link.squashtm_project_name) }
+      message.with_description_content(t(".description"))
+    end
+
+    if work_packages_linked?
+      dialog.with_additional_details(display: :block, test_selector: "squashtm--linked-work-packages") do
+        render(linked_work_packages_component)
+      end
+
+      dialog.with_confirmation_check_box_content(t(".unlink_work_packages", count: linked_work_package_count))
+    else
+      dialog.with_additional_details(display: :block, test_selector: "squashtm--no-linked-work-packages") do
+        render(Primer::Beta::Text.new(tag: :p, color: :muted, text_align: :center)) { t(".no_work_packages_linked") }
+      end
+    end
+  end
+%>

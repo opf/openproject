@@ -27,7 +27,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples "a sortable-lists root" do |wrapper_id:, move_url_template:|
+# `move_url_template` stays nil for roots that address several list types
+# through the plural `move-url-templates` map instead.
+RSpec.shared_examples "a sortable-lists root" do |wrapper_id:, move_url_template: nil|
   it "wires ##{wrapper_id} as the sortable-lists root" do
     expect(rendered_component).to have_css("##{wrapper_id}") do |root|
       expect(root["data-controller"]).to eq("sortable-lists")

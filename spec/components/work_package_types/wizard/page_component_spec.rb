@@ -82,6 +82,28 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
     end
   end
 
+  describe "sidebar navigation" do
+    it "renders no clickable step before the record exists", :aggregate_failures do
+      render_inline(described_class.new(type: build(:type), current_step: :start))
+
+      expect(page).to have_css(".op-work-package-types-wizard--sidebar-static")
+      %i[start details defaults].each do |step|
+        expect(find_test_selector("wizard-step-#{step}").tag_name).to eq("div")
+      end
+    end
+
+    it "links each step once the record exists", :aggregate_failures do
+      variant = create(:type_variant, type:)
+
+      render_inline(described_class.new(type:, current_step: :details, variant:))
+
+      expect(page).to have_no_css(".op-work-package-types-wizard--sidebar-static")
+      node = find_test_selector("wizard-step-defaults")
+      expect(node.tag_name).to eq("a")
+      expect(node[:href]).to be_present
+    end
+  end
+
   describe "cancel and close targets" do
     let(:url_helpers) { Rails.application.routes.url_helpers }
 

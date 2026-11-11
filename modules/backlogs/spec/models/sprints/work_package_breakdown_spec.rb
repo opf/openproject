@@ -54,7 +54,7 @@ RSpec.describe Sprints::WorkPackageBreakdown do
   let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:type_feature) { create(:type_feature) }
   let(:issue_open) { create(:status, name: "Open", is_default: true) }
-  let(:issue_closed) { create(:status, name: "Closed", is_closed: true) }
+  let(:issue_closed) { create(:status, name: "Closed", category: "closed") }
 
   current_user { create(:user, member_with_roles: { project => role }) }
 
@@ -119,6 +119,23 @@ RSpec.describe Sprints::WorkPackageBreakdown do
       )
       expect(breakdown.added_after_start_ids).to be_empty
       expect(breakdown.removed_after_start_ids).to be_empty
+    end
+  end
+
+  describe "work packages without estimates" do
+    let(:sprint) do
+      create(:sprint, project:, start_date: Time.zone.today + 3.days, finish_date: Time.zone.today + 10.days)
+    end
+
+    before do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: nil,
+                            estimated_hours: nil)
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            estimated_hours: 8)
+    end
+
+    it "counts them without adding to the sums" do
+      expect(breakdown.initially_planned).to have_attributes(work_package_count: 2, story_points: 5, estimated_hours: 8)
     end
   end
 

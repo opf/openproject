@@ -126,20 +126,10 @@ table.generic-table
         .generic-table--sort-header
           max-width: none
 
-    .sort
-      &.asc:after
-        @include icon-font-common
-        @include icon-mixin-sort-ascending
-        margin-left: 5px
-        font-size: 1.2em
-        vertical-align: text-bottom
-
-      &.desc:after
-        @include icon-font-common
-        @include icon-mixin-sort-descending
-        margin-left: 5px
-        font-size: 1.2em
-        vertical-align: text-bottom
+    .generic-table--sort-indicator
+      flex: 0 0 auto
+      margin-inline-start: var(--base-size-12)
+      vertical-align: text-bottom
 
   tfoot
     td

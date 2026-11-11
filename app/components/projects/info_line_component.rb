@@ -41,11 +41,13 @@ class Projects::InfoLineComponent < ApplicationComponent
     @system_arguments[:flex_wrap] ||= :wrap
   end
 
-  private
-
-  attr_reader :project
-
-  def workspace_type_label = I18n.t(:"label_#{project.workspace_type}")
-
-  def workspace_type_icon = helpers.workspace_icon(project.workspace_type)
+  def name_attributes
+    {
+      font_weight: :bold,
+      data: {
+        "hover-card-url" => hover_card_project_path(@project),
+        "hover-card-trigger-target" => "trigger"
+      }
+    }
+  end
 end

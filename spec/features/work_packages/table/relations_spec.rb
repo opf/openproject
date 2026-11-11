@@ -126,7 +126,7 @@ RSpec.describe "Work Package table child relations",
     find(:columnheader, "Children").send_keys(:enter)
     within(:menu, "Children") do
       expect(page).to have_selector(:menuitem, focused: true)
-      expect(page).to have_selector(:menuitem, text: "Insert columns")
+      expect(page).to have_selector(:menuitem, text: "Add columns")
     end
 
     page.send_keys(:escape)

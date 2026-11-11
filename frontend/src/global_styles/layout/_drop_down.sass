@@ -98,6 +98,11 @@
   LI > .inactive
     color: var(--fgColor-muted)
 
+  LI > .-danger:not(.inactive)
+    &,
+    &:hover
+      color: var(--fgColor-danger)
+
   LI > .selected
     background: var(--drop-down-selected-bg-color)
     font-weight: var(--base-text-weight-bold)

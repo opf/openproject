@@ -37,11 +37,11 @@ module Sprints
     end
 
     def scope
-      @scope ||= series.sums(sprint_journals, :story_points)
+      @scope ||= series.estimates(sprint_journals, project)
     end
 
     def completed
-      @completed ||= series.sums(sprint_journals.where(status_id: project.statuses_considered_closed), :story_points)
+      @completed ||= series.estimates(sprint_journals.where(status_id: project.statuses_considered_closed), project)
     end
 
     def scope_projection

@@ -38,7 +38,7 @@ class CostQuery::Filter::WorkPackageId < Report::Filter::Base
     ["=", "!", "=_child_work_packages", "!_child_work_packages"].map(&:to_operator)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     []
   end
 

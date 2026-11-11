@@ -51,6 +51,7 @@ module Queries::Operators
     Queries::Operators::Includes,
     Queries::Operators::InLessThan,
     Queries::Operators::InMoreThan,
+    Queries::Operators::InProgressWorkPackages,
     Queries::Operators::LessOrEqual,
     Queries::Operators::LessOrEqualDate,
     Queries::Operators::LessThan,
@@ -75,6 +76,7 @@ module Queries::Operators
     Queries::Operators::StartsWith,
     Queries::Operators::ThisWeek,
     Queries::Operators::Today,
+    Queries::Operators::ToDoWorkPackages,
     Queries::Operators::Unset,
     Queries::Operators::Upcoming,
     Queries::Operators::WorkPackageWithDescendants

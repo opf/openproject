@@ -42,7 +42,7 @@ module Components
           open_table_column_context_menu(name, button_name)
           raise Capybara::ElementNotFound unless page.has_selector?(:menu, wait: 2)
 
-          within_column_context_menu { find(:menuitem, text).click }
+          within_column_context_menu { find(:role, "menuitemradio", text:).click }
         end
         SeleniumHubWaiter.wait unless using_cuprite?
 

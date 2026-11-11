@@ -143,6 +143,14 @@ describe('SingleRowBuilder baseline status text', () => {
 
   const baselineCell = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLTableCellElement>('td.op-table-baseline--column-cell')!;
 
+  it('leaves the baseline cell empty for an unchanged work package', async () => {
+    harness = buildTable({ workPackages: [{ id: '5', baseline: 'unchanged' }], baseline: true });
+    await harness.render();
+
+    expect(baselineCell('5')).toBeEmptyDOMElement();
+    expect(harness.row('5')).not.toHaveAccessibleDescription();
+  });
+
   it.each([
     ['1', 'added'],
     ['2', 'removed'],

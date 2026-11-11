@@ -78,26 +78,11 @@ module FormConfigurations
     def load_query
       @query = ::Queries::FormConfigurations::FormConfigurationQuery.new
 
-      @query.where(:name, "~", [name_term]) if name_term.present?
-      @query.where(:type_id, "=", filtered_type_ids) if filtered_type_ids.any?
-      @query.where(:project_id, "=", filtered_project_ids) if filtered_project_ids.any?
+      requested_filters.each do |filter|
+        @query.where(filter[:attribute], filter[:operator], filter[:values])
+      end
 
       @query
-    end
-
-    def name_term = @name_term ||= values_for(::Queries::FormConfigurations::Filters::NameFilter.key).first.to_s.strip
-
-    def filtered_type_ids = @filtered_type_ids ||= values_for(::Queries::FormConfigurations::Filters::TypeFilter.key)
-
-    def filtered_project_ids
-      @filtered_project_ids ||= values_for(::Queries::FormConfigurations::Filters::ProjectFilter.key)
-    end
-
-    def values_for(filter_key)
-      requested_filters
-        .select { |filter| filter[:attribute].to_s == filter_key.to_s }
-        .flat_map { |filter| Array(filter[:values]).map(&:to_s) }
-        .compact_blank
     end
 
     def requested_filters
