@@ -37,6 +37,8 @@ jobs:
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
           PR_TITLE: ${{ github.event.pull_request.title }}
+          BASE_REF: ${{ github.base_ref }}
+          UNFROZEN_RELEASE_BRANCHES: ${{ vars.UNFROZEN_RELEASE_BRANCHES }}
         run: ./script/ci/work_package_check.sh
 
       - name: Add comment if no work package is linked
@@ -87,6 +89,21 @@ jobs:
 
              - The work package Enterprise plan field is set
 
+      - name: Add comment if a feature targets a frozen release branch
+        if: steps.work-package-check.outputs.frozen_release_feature == 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: frozen-release-feature-comment
+          message: |
+            > [!WARNING]
+            > `${{ github.base_ref }}` is frozen for features.
+
+            This pull request links features:
+
+            ${{ steps.work-package-check.outputs.frozen_release_feature_details }}
+
+            Please talk to a release manager and/or @opf/devops before you merge it.
+
       - name: Version check passed
         if: |
           steps.work-package-check.outputs.behind_feature_flag == 'true' ||
@@ -103,4 +120,11 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: enterprise-plan-missing-comment
+          delete: true
+
+      - name: Frozen release branch check passed
+        if: steps.work-package-check.outputs.frozen_release_feature != 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: frozen-release-feature-comment
           delete: true
