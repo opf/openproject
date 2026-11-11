@@ -48,10 +48,12 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        container.with_row(mt: 4) do
-          render(Primer::Beta::Button.new(**test_connection_button_arguments)) do |button|
-            button.with_leading_visual_icon(icon: :plug)
-            I18n.t("admin.jira.form.button_test_connection")
+        if test_connection?
+          container.with_row(mt: 4) do
+            render(Primer::Beta::Button.new(**test_connection_button_arguments)) do |button|
+              button.with_leading_visual_icon(icon: :plug)
+              I18n.t("admin.jira.form.button_test_connection")
+            end
           end
         end
       end

@@ -1748,6 +1748,7 @@ en:
         blank:
           description: "Create an import run to start importing information from this Jira instance"
           title: "No import runs set up yet"
+        connection_check_error: "The connection check failed, so no data was fetched. The side panel shows what failed."
         history: "History"
         import_blocked_error: "Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import."
         index:
@@ -1805,9 +1806,6 @@ en:
             title: "Fetching meta data about selected projects"
           JiraRevertImportJob:
             title: "Reverting this Jira import run"
-        not_administrator_error:
-          basic: "Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again."
-          bearer: "Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again."
         project_identifier_taken: "You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry."
         remove_error: "A Jira import run cannot be removed while it is running"
         side_panel:

@@ -42,7 +42,7 @@ module Admin::Import::Jira::ImportRuns
             method: "morph"
           )
           update_via_turbo_stream(
-            component: ::Admin::Import::Jira::ImportRuns::StreamableStatusLabelComponent.new(@jira_import),
+            component: ::Admin::Import::Jira::ImportRuns::SidePanelComponent.new(@jira_import),
             method: "morph"
           )
           render turbo_stream: resolve_turbo_streams

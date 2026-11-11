@@ -2,8 +2,9 @@
   render(Primer::OpenProject::SidePanel::Section.new) do |section|
     section.with_title { I18n.t(:"admin.jira.run.side_panel.run_status") }
     flex_layout do |flex|
-      flex.with_row do
-        render(Admin::Import::Jira::ImportRuns::StreamableStatusLabelComponent.new(jira_import))
+      flex.with_row(display: :flex, align_items: :center) do
+        concat(render(Primer::Beta::Text.new(mr: 2)) { helpers.format_time(last_changed_date) })
+        concat(render(Admin::Import::Jira::ImportRuns::StatusLabelComponent.new(jira_import.current_state)))
       end
       flex.with_row(mt: 3) do
         render(

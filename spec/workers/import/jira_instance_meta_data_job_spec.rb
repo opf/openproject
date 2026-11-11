@@ -65,32 +65,33 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
       expect(jira_import.reload.current_state).to eq("instance_meta_done")
       expect(jira_import.available).to include("total_issues" => 5, "total_users" => 2, "server_info" => server_info)
     end
-  end
 
-  context "when the personal access token does not belong to a Jira administrator" do
-    let(:administrator) { false }
-
-    it "fails the run asking for an admin token without fetching any instance meta data" do
+    it "stores the passed connection check" do
       perform_job
 
-      expect(jira_import.reload.current_state).to eq("instance_meta_error")
-      expect(jira_import.last_transition.metadata["error"])
-        .to eq(I18n.t(:"admin.jira.run.not_administrator_error.bearer"))
-      expect(jira_client).not_to have_received(:projects)
-      expect(jira_import.available).to be_empty
+      expect(jira.latest_health_report).to be_healthy
     end
   end
 
-  context "when the basic auth user is not a Jira administrator" do
-    let(:jira) { create(:jira, :with_basic_auth) }
+  context "when the Jira user is not an administrator" do
     let(:administrator) { false }
 
-    it "fails the run asking for administrator credentials" do
+    it "fails the run without fetching any instance meta data" do
       perform_job
 
       expect(jira_import.reload.current_state).to eq("instance_meta_error")
-      expect(jira_import.last_transition.metadata["error"])
-        .to eq(I18n.t(:"admin.jira.run.not_administrator_error.basic"))
+      expect(jira_import.last_transition.metadata["error"]).to eq(I18n.t(:"admin.jira.run.connection_check_error"))
+      expect(jira_client).not_to have_received(:projects)
+      expect(jira_import.available).to be_empty
+    end
+
+    it "records the failed connection check on the run, without a backtrace" do
+      perform_job
+
+      report = jira.latest_health_report
+      expect(report.group("authorization")["administrator"]).to be_failure
+      expect(jira_import.reload.last_transition.metadata).to include("health_report_id" => report.id)
+      expect(jira_import.last_transition.metadata).not_to have_key("error_backtrace")
     end
   end
 end

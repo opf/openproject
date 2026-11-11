@@ -56,6 +56,13 @@ RSpec.describe Admin::Import::Jira::ConnectionCheckComponent, type: :component d
       expect(page).to have_text("ERR_NOT_ADMINISTRATOR")
       expect(page).to have_css("button[formaction='/admin/import/jira/#{jira.id}/test_connection']")
     end
+
+    it "leaves out the Test connection button when asked to" do
+      render_inline(described_class.new(jira, test_connection: false))
+
+      expect(page).to have_text("ERR_NOT_ADMINISTRATOR")
+      expect(page).to have_no_button("Test Connection")
+    end
   end
 
   context "with a report of the form values" do

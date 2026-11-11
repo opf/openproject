@@ -107,6 +107,11 @@ module Import
       (projects || []).pluck("id")
     end
 
+    def failed_connection_check
+      report_id = last_transition&.metadata&.dig("health_report_id")
+      HealthReport.find_by(id: report_id) if report_id
+    end
+
     # rubocop:disable-next Metrics/AbcSize
     def destroy_jira_objects
       Import::JiraAttachment.where(jira_import_id: id).destroy_all

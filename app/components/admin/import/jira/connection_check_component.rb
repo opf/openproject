@@ -34,14 +34,17 @@ module Admin::Import::Jira
 
     alias_method :jira, :model
 
-    def initialize(jira, report: jira.latest_health_report)
+    def initialize(jira, report: jira.latest_health_report, test_connection: true)
       super(jira)
       @report = report
+      @test_connection = test_connection
     end
 
     private
 
     attr_reader :report
+
+    def test_connection? = @test_connection
 
     def report_state
       if report.nil?
