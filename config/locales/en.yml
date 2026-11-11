@@ -556,6 +556,11 @@ en:
         labels: "Labels"
         notify: "Notify" # used in custom actions
         observed_in_versions: "Observed in versions"
+        origin: "Origin"
+        origin_host: "Origin host"
+        origin_id: "Origin ID"
+        origin_source: "Origin source"
+        origin_url: "Origin URL"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -1713,6 +1718,8 @@ en:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
             title: "Create work packages for '%{jira_project_name}'"
+          JiraCreateRelationsJob:
+            title: "Create relations for '%{jira_project_name}'"
           JiraCreateSprintsJob:
             title: "Create sprints"
           JiraCreateUsersJob:
@@ -1936,9 +1943,12 @@ en:
               rest_line_text: ""
               title: "Fetch Jira configuration"
             "10":
+              rest_line_text: "Creating relations for %{projects_number} more projects"
+              title: "Create relations"
+            "11":
               rest_line_text: "Creating time entries for %{projects_number} more projects"
               title: "Create time entries"
-            "11":
+            "12":
               rest_line_text: "Downloading attachments for %{projects_number} more projects"
               title: "Download attachments"
             "2":
