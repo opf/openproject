@@ -206,11 +206,11 @@ This will result in a page on which the work package table has been rendered by 
 
 #### Exemplary Rails view request augmented by Stimulus
 
-A response that is fully controlled by Rails and enhanced by Stimulus might look as follows. Let's take a look at the request to [edit a type's form configuration](../../system-admin-guide/manage-work-packages/work-package-types/form-configuration/) `/types/1/form_configuration/edit`:
+A response that is fully controlled by Rails and enhanced by Stimulus might look as follows. Let's take a look at the request to [edit a form configuration](../../system-admin-guide/manage-work-packages/work-package-types/form-configuration/) `/forms/1/edit`:
 
-1. Rails receives the request and according to its [`config/routes.rb`](https://github.com/opf/openproject/blob/dev/config/routes.rb), will handle the request with the [WorkPackageTypes::FormConfigurationTabController#edit action](https://github.com/opf/openproject/blob/dev/app/controllers/work_package_types/form_configuration_tab_controller.rb).
+1. Rails receives the request and according to its [`config/routes.rb`](https://github.com/opf/openproject/blob/dev/config/routes.rb), will handle the request with the [FormConfigurations::FormConfigurationsController#edit action](https://github.com/opf/openproject/blob/dev/app/controllers/form_configurations/form_configurations_controller.rb).
 
-2. This controller responds with [an edit template](https://github.com/opf/openproject/blob/dev/app/views/work_package_types/form_configuration_tab/edit.html.erb) that renders the [`WorkPackageTypes::FormConfigurationComponent`](https://github.com/opf/openproject/blob/dev/app/components/work_package_types/form_configuration_component.rb) and its [child components](https://github.com/opf/openproject/tree/dev/app/components/work_package_types/form_configuration), built with Primer ViewComponents.
+2. This controller responds with [an edit template](https://github.com/opf/openproject/blob/dev/app/views/form_configurations/form_configurations/edit.html.erb) that renders the [`WorkPackageTypes::FormConfigurationComponent`](https://github.com/opf/openproject/blob/dev/app/components/work_package_types/form_configuration_component.rb) and its [child components](https://github.com/opf/openproject/tree/dev/app/components/work_package_types/form_configuration), built with Primer ViewComponents.
 
 3. The component attaches the `admin--type-form-configuration--main` Stimulus controller, which is loaded on demand from [`frontend/src/stimulus/controllers/dynamic/admin/type-form-configuration/main.controller.ts`](https://github.com/opf/openproject/blob/dev/frontend/src/stimulus/controllers/dynamic/admin/type-form-configuration/main.controller.ts). Together with the `sortable-lists` controllers, it provides the drag & drop organization of attributes, and changes are sent back to Rails, which responds with Turbo Streams.
 
