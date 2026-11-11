@@ -73,9 +73,9 @@ See COPYRIGHT and LICENSE files for more details.
           ) { t("contextual_help.expand") } %>
     </nav>
     <%= helpers.turbo_frame_tag Help::DocumentationDialogComponent.frame_id(@context),
-                        src: initial_article_path,
-                        loading: :lazy,
-                        data: { "documentation-help-target": "frame" } do %>
+                                src: initial_article_path,
+                                loading: :lazy,
+                                data: { "documentation-help-target": "frame" } do %>
       <div class="contextual-help-loading" role="status">
         <%= render Primer::Beta::Spinner.new %>
         <%= t("contextual_help.loading") %>
