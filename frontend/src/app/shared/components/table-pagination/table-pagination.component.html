@@ -63,8 +63,6 @@
             <span class="sr-only" [textContent]="text.pages_skipped"></span>
             <span aria-hidden="true">…</span>
           </li>
-        }
-        @if (postPageNumbers.length) {
           @for (pageNumber of postPageNumbers; track pageNumber) {
             <li class="op-pagination--item op-pagination--item_number">
               <button
