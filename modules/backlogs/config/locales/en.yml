@@ -260,6 +260,8 @@ en:
       shared_sprint_warning_banner: "This is a shared sprint. You do not have the necessary permissions to edit it."
 
     sprint_reports:
+      header_infoline_component:
+        planned_html: "Planned: %{range}"
       navigation_component:
         next: "Next"
         previous: "Previous"
