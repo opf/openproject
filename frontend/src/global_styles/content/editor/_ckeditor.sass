@@ -124,7 +124,7 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   @include text-shortener
 
 .ck.ck-list.ck-mentions
-  --ck-list-padding: var(--ck-spacing-small, var(--ck-spacing-sm)) 0
+  --ck-list-padding: var(--ck-spacing-sm) 0
   --ck-list-item-outer-padding: 0
   --ck-list-item-min-width: 15em
 
@@ -134,12 +134,9 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
     line-height: 1.84615
 
   > .ck-list__item.ck-mentions__item_focused > .ck-button
-    &,
-    &:hover:not(.ck-disabled)
-      background: var(--ck-color-list-button-on-background, var(--ck-list-button-on-background-color))
-      color: var(--ck-color-list-button-on-text, var(--ck-list-button-on-text-color))
-      border-color: transparent
-      box-shadow: none
+    background: var(--ck-color-list-button-on-background, var(--ck-list-button-on-background-color))
+    color: var(--ck-color-list-button-on-text, var(--ck-list-button-on-text-color))
+    box-shadow: none
 
 // Document editor styles
 .document-editor
