@@ -610,6 +610,168 @@ describe('Sortable lists menu source controller', () => {
       overlayOf(item).dispatchEvent(new ToggleEvent('toggle', { newState: 'closed', oldState: 'open' }));
     };
 
+    describe('before any menu opens', () => {
+      const batchName = (count:number) => `Actions for ${count} selected work packages`;
+
+      it('names selected cards after the batch', async () => {
+        const { items } = await renderNamedRoot(['1', '2', '3']);
+
+        click(items[0], { ctrlKey: true });
+        click(items[2], { ctrlKey: true });
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(batchName(2));
+        expect(buttonOf(items[1])).toHaveAccessibleName(singularName);
+        expect(buttonOf(items[2])).toHaveAccessibleName(batchName(2));
+      });
+
+      it('renames every selected card when the count changes', async () => {
+        const { items } = await renderNamedRoot(['1', '2', '3']);
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        click(items[2], { ctrlKey: true });
+
+        items.forEach((item) => expect(buttonOf(item)).toHaveAccessibleName(batchName(3)));
+      });
+
+      it('reverts a deselected card to the singular label', async () => {
+        const { items } = await renderNamedRoot(['1', '2', '3']);
+        items.forEach((item) => click(item, { ctrlKey: true }));
+
+        click(items[2], { ctrlKey: true });
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(batchName(2));
+        expect(buttonOf(items[2])).toHaveAccessibleName(singularName);
+      });
+
+      it('uses the singular label for a selection of one', async () => {
+        const { items } = await renderNamedRoot(['1', '2']);
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        click(items[1], { ctrlKey: true });
+
+        expect(isSelected(items[0])).toBe(true);
+        expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
+      });
+
+      it('relabels to singular when the selection is cleared', async () => {
+        const { items } = await renderNamedRoot(['1', '2']);
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        fireEvent.keyDown(document, { key: 'Escape' });
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
+        expect(buttonOf(items[1])).toHaveAccessibleName(singularName);
+      });
+
+      it('relabels a card replaced by a morph', async () => {
+        const { root, items } = await renderNamedRoot(['1', '2']);
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        items[1].outerHTML = namedCard('2');
+        fireEvent(root, new CustomEvent('turbo:morph-element', { bubbles: true }));
+
+        const replaced = root.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!;
+        await waitFor(() => expect(buttonOf(replaced)).toHaveAccessibleName(batchName(2)));
+      });
+
+      it('labels the current selection when the menu source connects', async () => {
+        const { root, items } = await renderNamedRoot(['1', '2']);
+        root.setAttribute('data-controller', 'sortable-lists');
+        await ctx.nextFrame();
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        root.setAttribute('data-controller', 'sortable-lists sortable-lists--menu-source');
+
+        await waitFor(() => expect(buttonOf(items[0])).toHaveAccessibleName(batchName(2)));
+        expect(buttonOf(items[1])).toHaveAccessibleName(batchName(2));
+      });
+
+      it('names a card whose invoker sits outside the menu', async () => {
+        const separateInvokerCard = (id:string) => `
+          <li data-controller="sortable-lists--item"
+              data-sortable-lists--item-id-value="${id}"
+              data-sortable-lists--item-type-value="work_package">
+            <button id="menu-${id}-button" type="button" popovertarget="menu-${id}-overlay"
+                    aria-labelledby="menu-${id}-tooltip"></button>
+            <tool-tip id="menu-${id}-tooltip" for="menu-${id}-button" popover="manual">${singularName}</tool-tip>
+            <action-menu src="${menuUrl}?ids%5B%5D=${id}&amp;invoker_id=${id}">
+              <anchored-position id="menu-${id}-overlay" popover="auto"></anchored-position>
+            </action-menu>
+          </li>
+        `;
+        const { items } = await renderRoot(
+          [separateInvokerCard('1'), separateInvokerCard('2')],
+          `data-sortable-lists--menu-source-menu-label-key-value="${menuLabelKey}"`,
+        );
+
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(batchName(2));
+      });
+
+      it('finds an invoker inside its menu without searching the document', async () => {
+        const { items } = await renderNamedRoot(['1', '2']);
+        const documentQuery = vi.spyOn(Document.prototype, 'querySelector');
+
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(batchName(2));
+        expect(documentQuery.mock.calls.filter(([selector]) => selector.includes('popovertarget'))).toEqual([]);
+      });
+
+      it('names a card whose invoker still references a replaced tooltip', async () => {
+        const { items } = await renderNamedRoot(['1', '2']);
+        buttonOf(items[0]).setAttribute('aria-labelledby', 'menu-1-stale-tooltip menu-1-tooltip');
+
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(batchName(2));
+      });
+
+      it('counts a selected card whose tooltip cannot be found', async () => {
+        const { items } = await renderNamedRoot(['1', '2']);
+        items[1].querySelector('tool-tip')!.remove();
+
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(batchName(2));
+      });
+
+      it('leaves card tooltips alone without a label key', async () => {
+        const { items } = await renderNamedRoot(['1', '2'], { withKey: false });
+
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        expect(buttonOf(items[0])).toHaveAccessibleName(singularName);
+      });
+
+      it('leaves a list header menu with its own label', async () => {
+        const { root, items } = await renderNamedRoot(['1', '2']);
+        root.insertAdjacentHTML('afterbegin', `
+          <action-menu>
+            <button id="header-button" type="button" aria-labelledby="header-tooltip"></button>
+            <tool-tip id="header-tooltip" for="header-button" popover="manual">Sprint actions</tool-tip>
+          </action-menu>
+        `);
+
+        click(items[0], { ctrlKey: true });
+        click(items[1], { ctrlKey: true });
+
+        expect(within(root.querySelector<HTMLElement>(':scope > action-menu')!).getByRole('button'))
+          .toHaveAccessibleName('Sprint actions');
+      });
+    });
+
     it('renames the More tooltip to the batch label while open', async () => {
       const { items } = await renderNamedRoot(['1', '2', '3']);
       click(items[0], { ctrlKey: true });

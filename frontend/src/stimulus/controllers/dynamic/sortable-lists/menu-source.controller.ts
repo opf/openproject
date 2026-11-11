@@ -27,15 +27,16 @@
 
 import { Controller } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
-import type { RootAwareChild, SortableListsRoot } from './drag-and-drop';
+import type { SelectionAwareChild, SortableListsRoot } from './drag-and-drop';
 import { relativeUrl } from './url';
 import { resolveClosestItemElement, resolveItemId } from './list-dom';
 import { MenuEvents } from './menu-events';
 import { RenderedMenuScope } from './rendered-menu-scope';
+import { batchSelectedAttribute } from './selection';
 
 const SINGULAR_COUNT = 1;
 
-export default class MenuSourceController extends Controller<HTMLElement> implements RootAwareChild {
+export default class MenuSourceController extends Controller<HTMLElement> implements SelectionAwareChild {
   static values = { url: String, menuLabelKey: String };
 
   static targets = ['menu'];
@@ -166,6 +167,51 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
 
   connectRoot(root:SortableListsRoot):void {
     this.root = root;
+    this.selectionPresented();
+  }
+
+  // A card's menu opens on the whole selection only when that card is part
+  // of a selection of two or more, so only those cards take the batch name.
+  selectionPresented():void {
+    if (!this.hasMenuLabelKeyValue) {
+      return;
+    }
+
+    const selectedCount = this.element.querySelectorAll(`[${batchSelectedAttribute}]`).length;
+    const singularLabel = I18n.t(this.menuLabelKeyValue, { count: SINGULAR_COUNT });
+    const batchLabel = selectedCount > 1 ? I18n.t(this.menuLabelKeyValue, { count: selectedCount }) : singularLabel;
+    this.cardTooltips().forEach(([item, tooltip]) => {
+      const label = item.hasAttribute(batchSelectedAttribute) ? batchLabel : singularLabel;
+      if (tooltip.textContent !== label) {
+        tooltip.textContent = label;
+      }
+    });
+  }
+
+  private cardTooltips():[item:HTMLElement, tooltip:HTMLElement][] {
+    return Array.from(this.element.querySelectorAll<HTMLElement>('action-menu'))
+      .flatMap((menu) => {
+        const item = resolveClosestItemElement(menu, this.element);
+        const tooltip = item && this.invokerTooltipOf(menu);
+        return item && tooltip ? [[item, tooltip] as [HTMLElement, HTMLElement]] : [];
+      });
+  }
+
+  // The invoker need not sit inside its action-menu.
+  private invokerTooltipOf(menu:HTMLElement):HTMLElement|null {
+    const overlayId = menu.querySelector('anchored-position')?.id;
+    if (!overlayId) {
+      return null;
+    }
+
+    const invokerSelector = `[popovertarget="${CSS.escape(overlayId)}"]`;
+    const invoker = menu.querySelector(invokerSelector) ?? menu.ownerDocument.querySelector(invokerSelector);
+    // A morph can leave the id of a replaced tooltip in the invoker's
+    // aria-labelledby next to the live one.
+    const labelIds = invoker?.getAttribute('aria-labelledby')?.split(/\s+/) ?? [];
+    return labelIds
+      .map((id) => menu.ownerDocument.getElementById(id))
+      .find((label):label is HTMLElement => label?.localName === 'tool-tip') ?? null;
   }
 
   disconnectRoot():void {

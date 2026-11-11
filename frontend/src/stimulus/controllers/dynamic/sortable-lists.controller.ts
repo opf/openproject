@@ -45,6 +45,7 @@ import {
   singleItemBatch,
   type RootAwareChild,
   type RegisteredRootAwareChild,
+  type SelectionAwareChild,
   type SortableListData,
   type SortableListsRoot,
 } from './sortable-lists/drag-and-drop';
@@ -101,7 +102,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
   declare readonly sortableListsItemOutlets:(RegisteredRootAwareChild & { focusItem():void })[];
   declare readonly sortableListsScrollableOutlets:RegisteredRootAwareChild[];
-  declare readonly sortableListsMenuSourceOutlets:RootAwareChild[];
+  declare readonly sortableListsMenuSourceOutlets:SelectionAwareChild[];
 
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
@@ -219,6 +220,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   private readonly onSelectionEscape = (event:KeyboardEvent):void => {
     this.selection?.handleEscape(event);
   };
+
+  selectionPresented():void {
+    this.sortableListsMenuSourceOutlets.forEach((menuSource) => {
+      if (this.element.contains(menuSource.element)) menuSource.selectionPresented();
+    });
+  }
 
   get rootElement():HTMLElement {
     return this.element;

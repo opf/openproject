@@ -62,6 +62,7 @@ describe('SelectionOrchestrator', () => {
       announcementScope: 'js.sortable_lists.selection',
       descriptionId: 'selection-description',
       focusItem: (item) => { focused = item; },
+      selectionPresented: () => {},
       ownerRowsContainer: (item) => {
         const list = item.closest<HTMLElement>('[data-controller~="sortable-lists--list"]');
         return list ? (list.querySelector<HTMLElement>(':scope > ul') ?? list) : null;
