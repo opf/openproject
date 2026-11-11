@@ -38,6 +38,8 @@ module SquashTMIntegration
       delegate :url, to: :test_case
 
       def description
+        return if test_case.description.blank?
+
         helpers.sanitize(test_case.description)
       end
 

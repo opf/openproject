@@ -30,7 +30,6 @@
 require "open_project/plugins"
 
 require_relative "patches/api/work_package_representer"
-require_relative "patches/cause_formatter_patch"
 
 module OpenProject::SquashTMIntegration
   class Engine < ::Rails::Engine
@@ -49,12 +48,6 @@ module OpenProject::SquashTMIntegration
 
         parts.map { |part| part == "squashtm" ? "SquashTM" : default_inflect(part, abspath) }.join
       end
-    end
-
-    config.to_prepare do
-      patch = OpenProject::SquashTMIntegration::Patches::CauseFormatterPatch
-      formatter = OpenProject::JournalFormatter::Cause
-      formatter.prepend(patch) unless formatter.ancestors.include?(patch)
     end
 
     register "openproject-squashtm_integration",
@@ -101,6 +94,8 @@ module OpenProject::SquashTMIntegration
                    dependencies: :manage_squashtm_requirements
       end
     end
+
+    prepend_module "OpenProject::JournalFormatter::SquashTMCauseRendering", into: "OpenProject::JournalFormatter::Cause"
 
     extend_api_response(:v3, :work_packages, :work_package,
                         &::OpenProject::SquashTMIntegration::Patches::API::WorkPackageRepresenter.extension)

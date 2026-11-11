@@ -31,6 +31,7 @@ class WorkPackageSquashTMTabController < ApplicationController
   include OpTurbo::ComponentStream
 
   load_and_authorize_with_permission_in_project :view_squashtm
+  authorize_with_permission :manage_squashtm_requirements, only: %i[requirement_options]
 
   before_action :set_work_package
   before_action :set_view_model
@@ -56,7 +57,6 @@ class WorkPackageSquashTMTabController < ApplicationController
 
   def requirement_options
     return render_404 unless @view_model.status == :not_linked
-    return render_403 unless @view_model.can_manage_links?
 
     requirement_options = requirement_loader.load_project_requirements(@view_model.project_link.squashtm_project_id)
     render(SquashTMIntegration::WorkPackageTab::RequirementLinkFormComponent.new(@view_model, requirement_options:),
