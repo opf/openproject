@@ -77,6 +77,13 @@ RSpec.describe Settings::UserCustomFieldSections::ShowComponent, type: :componen
     )
   end
 
+  it "narrows the filter text of every row to its attribute name, so the move-to-section items are not matched" do
+    filter_texts = rendered_component.css("[data-filter--filter-list-target='searchItem'] .filter-target-visible-text")
+
+    expect(filter_texts.map { |node| node.text.strip })
+      .to contain_exactly(User.human_attribute_name(:login), field_a.name, field_b.name)
+  end
+
   # Not the shared items contract: a built-in attribute owns no record, so the
   # row is keyed by its attribute name and labelled from the User model.
   it "wires the built-in attribute row as a sortable-lists item of type user_field" do
