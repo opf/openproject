@@ -86,7 +86,7 @@ RSpec.describe "Work package graph widget", :js, with_flag: :sprint_reports do
     expect(page).to have_element(:"opce-sprint-work-package-graph")
 
     expect_chart_summary(
-      "Bar chart showing work packages which are " \
+      "Bar chart of the work packages currently in the sprint, by status: " \
       "3 #{status_new.name}; 1 #{status_in_progress.name}; 2 #{status_closed.name}."
     )
   end
@@ -106,7 +106,10 @@ RSpec.describe "Work package graph widget", :js, with_flag: :sprint_reports do
     it "charts the statuses the work packages held at completion, not since" do
       visit_sprint_report(completed_sprint)
 
-      expect_chart_summary("Bar chart showing work packages which are 1 #{status_closed.name}.")
+      expect_chart_summary(
+        "Bar chart of the work packages in the sprint when it was completed, by status: " \
+        "1 #{status_closed.name}."
+      )
     end
   end
 end

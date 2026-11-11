@@ -72,7 +72,18 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
 
   it "passes an accessible summary of the chart" do
     expect(chart_data["summary"])
-      .to eq "Bar chart showing work packages which are 3 New; 1 In progress; 2 Closed."
+      .to eq "Bar chart of the work packages currently in the sprint, by status: " \
+             "3 New; 1 In progress; 2 Closed."
+  end
+
+  context "when the sprint has been completed" do
+    let(:sprint) { create(:sprint, :completed, project:) }
+
+    it "says the summary describes the moment the sprint was completed" do
+      expect(chart_data["summary"])
+        .to eq "Bar chart of the work packages in the sprint when it was completed, by status: " \
+               "3 New; 1 In progress; 2 Closed."
+    end
   end
 
   it "passes the headers of the accessible data table" do

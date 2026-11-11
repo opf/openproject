@@ -75,8 +75,11 @@ module Backlogs
                           .map { Bar.new(label: it.name, count: breakdown.status_counts[it.id], color: it.color&.hexcode) }
         end
 
+        # The chart is frozen once the sprint is completed, so the summary names that moment
+        # rather than claiming to describe the sprint as it stands.
         def summary
-          t(".summary", description: bars.map { "#{it.count} #{it.label}" }.join("; "))
+          t(".summary.#{sprint.completed_at? ? 'completed' : 'current'}",
+            description: bars.map { "#{it.count} #{it.label}" }.join("; "))
         end
       end
     end
