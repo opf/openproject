@@ -23,17 +23,15 @@
   text-align: center !important
 
 .wp-table--cancel-create-host
-  display: flex
-  align-items: center
+  --wp-inline-create-cancel-width: var(--control-medium-size)
+  --wp-inline-create-cancel-gap: var(--base-size-4)
+  position: relative
+  padding-inline-end: calc(var(--wp-inline-create-cancel-width) + 2 * var(--wp-inline-create-cancel-gap)) !important
 
-  .wp-table--cell-container
-    flex: 1 1 auto
-    width: auto
-    min-width: 0
-
-.wp-table--cancel-create-link
-  &:before
-    color: var(--body-font-color)
-    padding: 0 0 0 0.2rem
-  &:hover
-    text-decoration: none
+  .wp-table--cancel-create-link
+    position: absolute
+    top: 50%
+    inset-inline-end: var(--wp-inline-create-cancel-gap)
+    width: var(--wp-inline-create-cancel-width)
+    transform: translateY(-50%)
+    display: flex
