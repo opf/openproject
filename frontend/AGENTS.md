@@ -9,22 +9,13 @@
 
 Where a given module belongs is explained in [doc/README.md](./doc/README.md#directory-structure).
 
-## Version Requirements
-
-- Node: `^24.22.1` (see `engines` in the repository root `../package.json`)
-
 ## Commands
 
-```bash
-npm ci               # install packages
-npx eslint src/      # lint
-npm run typecheck    # typecheck application and spec sources
-npm test             # run the specs
-```
+Check Node.js and npm against `engines` in [package.json](./package.json) and the repository root [package.json](../package.json). Lint, typecheck, and test commands: [frontend tests](../docs/development/testing/running-tests-locally/README.md#frontend-tests) and [code format](../docs/development/style-guide/frontend/README.md#code-format).
 
 ## Code Style
 
-New development uses Hotwire (Turbo + Stimulus) with server-rendered HTML and [Primer](https://primer.style/product/) via ViewComponent; the Angular tree is legacy. Prefer TypeScript over JavaScript.
+New UI uses Hotwire (Turbo + Stimulus) with server-rendered HTML and [Primer](https://primer.style/product/) via ViewComponent. Remaining Angular components are being migrated to custom elements in the meantime. Prefer TypeScript over JavaScript.
 
 Patterns and formatting conventions: [frontend style guide](../docs/development/style-guide/frontend/README.md).
 Components and design system: [design system](../docs/development/design-system/README.md).

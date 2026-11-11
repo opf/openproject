@@ -4,10 +4,4 @@
 - UI strings must use translation keys (never hard-coded)
 - Source translations in `**/config/locales/en.yml` can be modified directly
 - Other translations managed via Crowdin
-
-```bash
-bundle exec i18n-tasks missing                        # Show missing translation keys
-bundle exec i18n-tasks unused                         # Show unused translation keys
-bundle exec i18n-tasks normalize                      # Fix/normalize translation files
-bundle exec i18n-tasks check-consistent-interpolations  # Check interpolation consistency
-```
+- Check keys with i18n-tasks: see [checking translations with i18n-tasks](../docs/development/concepts/translations/README.md#checking-translations-with-i18n-tasks)

@@ -5,11 +5,8 @@
 Don't try to use prettier!
 
 ## Pull requests and commits
-- Use the form "[<ticket ID>] description" for commit and pull request titles
-- Keep commit and pull request descriptions short and concise
-    - Include at least one body line unless the commit is a one-line mechanical
-      change with no useful rationale to record.
-    - Focus on *why*, not *what* in the PR description (the diff shows what). Don't enumerate implementation details.
+- Follow the general [commit message convention](../../docs/development/code-review-guidelines/README.md#structure-of-commit-messages); use the same work package prefix for pull request titles
+- Keep pull request descriptions short: focus on *why*, not *what* (the diff shows what). Don't enumerate implementation details.
 - For bug fixes, always put root cause and the chosen solution in the commit description
 
 ## Coding guidelines
