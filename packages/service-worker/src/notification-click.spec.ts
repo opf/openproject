@@ -35,12 +35,13 @@ describe('NotificationClick.sameOriginUrl', () => {
     ({ NotificationClick } = await import('./notification-click'));
   });
 
-  it('resolves a relative path against the worker origin', () => {
-    expect(NotificationClick.sameOriginUrl('/work_packages/7')).toBe('https://openproject.test/work_packages/7');
-  });
-
-  it('falls back to the home page for a foreign origin', () => {
-    expect(NotificationClick.sameOriginUrl('https://evil.example/phish')).toBe('https://openproject.test/');
+  it.each([
+    ['a relative path', '/work_packages/7', 'https://openproject.test/work_packages/7'],
+    ['a foreign origin', 'https://evil.example/phish', 'https://openproject.test/'],
+    ['a protocol-relative URL', '//evil.example/phish', 'https://openproject.test/'],
+    ['a javascript: URL', 'javascript:alert(1)', 'https://openproject.test/'],
+  ])('resolves %s to a same-origin page', (_case, url, expected) => {
+    expect(NotificationClick.sameOriginUrl(url)).toBe(expected);
   });
 });
 
