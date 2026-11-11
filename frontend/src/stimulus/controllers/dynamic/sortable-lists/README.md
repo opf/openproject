@@ -25,6 +25,8 @@ are not sortable items and do not participate in selection.
   opened and has closed, to the menu source and to each item.
 - [rendered-menu-scope.ts](rendered-menu-scope.ts) is the scope a menu was
   rendered for: its count, and whether it still matches the live items.
+- [move-menu.ts](move-menu.ts) is one card menu's move actions: which are
+  shown, disabled, explained or locked for a given availability.
 
 Selection identity is `(type, id)`. Each root must render exactly one instance
 of each pair, and an item without a type is not a selection candidate. The
