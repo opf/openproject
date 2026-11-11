@@ -54,7 +54,8 @@ OpenProject::FeatureDecisions.add :wiki_enhancements,
 
 OpenProject::FeatureDecisions.add :sprint_reports,
                                   description: "Enables sprint reporting within the backlogs module. " \
-                                               "It shows a dashboard with various widgets regarding the sprint progress."
+                                               "It shows a dashboard with various widgets regarding the sprint progress.",
+                                  force_active: true
 
 OpenProject::FeatureDecisions.add :ai_text_actions,
                                   description: "Enables the admin UI to manage AI text actions."
