@@ -269,7 +269,7 @@ class UnreadSummary {
         headers: { Accept: "application/json" },
         signal: AbortSignal.timeout(Config.push.fetchTimeoutMs),
       });
-      if (response.status === 401) return { outcome: "signedOut" };
+      if (response.status === 401 || response.status === 403) return { outcome: "signedOut" };
       if (!response.ok) return { outcome: "unavailable" };
 
       const data = await response.json();
@@ -324,7 +324,7 @@ class NotificationFingerprint {
  * ```
  * push event ──► queue ──► GET notification summary
  *                            │
- *                            ├─ signed out (401)
+ *                            ├─ signed out (401/403)
  *                            │               clear badge, close and forget all, fallback
  *                            ├─ unavailable .. fallback
  *                            ├─ empty ........ close and forget all, "all read", clear badge

@@ -30,12 +30,22 @@ get:
             $ref: '../components/schemas/notification_summary_model.yml'
     '401':
       description: |-
-        Returned if the request is not made by an active, signed-in user, for example because the browser session has
-        expired.
+        Returned if the request is not made by an active user, or the instance requires users to sign in and the request
+        is anonymous, for example because the browser session has expired.
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/error_response.yml'
+    '403':
+      description: Returned if the request is anonymous and the instance does not require users to sign in.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to view this resource.
     '404':
       description: Returned if the notification summary is not available on the instance.
       content:
