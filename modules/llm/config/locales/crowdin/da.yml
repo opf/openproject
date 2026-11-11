@@ -21,12 +21,12 @@ da:
         model: Model
       llm_model:
         admin_context_window: Kontekstvindue
-        capability_function_calling: Tool calling
-        capability_reasoning: Reasoning
-        capability_structured_output: Structured output
-        capability_vision: Vision
+        capability_function_calling: Værktøjskald
+        capability_reasoning: Ræsonnering
+        capability_structured_output: Struktureret output
+        capability_vision: Billedforståelse
         display_name: Visningsnavn
-        manual: Entered by hand
+        manual: Angivet manuelt
         raw_metadata: Metadata
         external: Modelnavn
     errors:
@@ -69,13 +69,13 @@ da:
         llm_model:
           attributes:
             base:
-              configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
-              discovered: Only models entered by hand can be removed. The LLM server manages the models it reports.
+              configured_from_env: Modellen er konfigureret som standard via miljøet, så den kan ikke fjernes eller omdøbes her.
+              discovered: Kun modeller, der er angivet manuelt, kan fjernes. LLM-serveren styrer de modeller, den oplyser.
             external_id:
               conflicting_capabilities: har gemte oplysninger om egenskaber, der er i modstrid med denne models.
   admin:
     llm_connections:
-      header_description: Connect OpenProject to an LLM server and review the models it offers.
+      header_description: Forbind OpenProject til en LLM-server, og se de modeller, den tilbyder.
       delete_api_key:
         configured_from_env: Forbindelsen er konfigureret via miljøet og kan ikke ændres her.
         description: OpenProject holder op med at sende en API-nøgle med forespørgslerne. Funktionerne virker kun fortsat, hvis serveren ikke kræver godkendelse. Du kan til enhver tid angive en ny nøgle.
@@ -235,9 +235,9 @@ da:
       server: oplyst af serveren
     features:
       description_assistant:
-        caption: Runs the text actions users apply to work package descriptions, such as proofreading, rewriting and structuring.
-        caption_with_link: Runs the [text actions](text_actions_url) users apply to work package descriptions, such as proofreading, rewriting and structuring.
-        label: Text assistant
+        caption: Udfører de teksthandlinger, som brugerne anvender på arbejdspakkers beskrivelser, fx korrekturlæsning, omskrivning og strukturering.
+        caption_with_link: Udfører de [teksthandlinger](text_actions_url), som brugerne anvender på arbejdspakkers beskrivelser, fx korrekturlæsning, omskrivning og strukturering.
+        label: Tekstassistent
       semantic_search:
         caption: Indekserer arbejdspakker, så de kan findes ud fra betydning frem for nøgleord.
         label: Semantisk søgning

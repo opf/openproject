@@ -50,5 +50,5 @@ get:
   description: |-
     Returns the configuration scoped to a specific project, including all global
     configuration properties plus project-specific settings.
-  operationId: View_project_configuration
+  operationId: get_project_configuration
   summary: View project configuration

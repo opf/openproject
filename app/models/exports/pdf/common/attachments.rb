@@ -216,7 +216,7 @@ module Exports::PDF::Common::Attachments
     attachments_id = src.scan(attachment_regex).first.first
     attachment = Attachment.find_by(id: attachments_id.to_i)
     return if attachment.nil?
-    return unless attachment.visible?
+    return unless attachment_visible?(attachment)
     return unless upload_completed?(attachment)
 
     attachment
@@ -224,6 +224,11 @@ module Exports::PDF::Common::Attachments
     # if the attachment is not found or the id is invalid, we return nil
     Rails.logger.error "Failed to access attachment #{src}"
     nil
+  end
+
+  # Seam for exports that embed content the reader may not open on its own.
+  def attachment_visible?(attachment)
+    attachment.visible?
   end
 
   def upload_completed?(attachment)

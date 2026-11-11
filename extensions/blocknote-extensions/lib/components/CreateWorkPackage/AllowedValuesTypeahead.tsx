@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XCircleFillIcon } from '@primer/octicons-react';
-import { PickerToggle, toggleList } from './PickerToggle';
-import { Suggestions, usePickerMotion } from './Suggestions';
+import { PickerToggle, toggleList } from '../Shared/PickerToggle';
+import { Suggestions, usePickerMotion } from '../Shared/Suggestions';
 import { usePickerOptions } from './usePickerOptions';
 import { isNested } from './formSchema';
-import type { AllowedValue } from './formSchema';
+import type { AllowedValue } from '../Shared/options';
 import {
   ACTION_ICON_SIZE,
   TextControl,
   TrailingActions,
   TrailingButton,
   TypeaheadWrapper,
-} from './atoms';
+} from '../Shared/atoms';
 
 const BLUR_DELAY = 150;
 

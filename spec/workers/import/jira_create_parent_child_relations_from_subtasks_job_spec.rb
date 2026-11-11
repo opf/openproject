@@ -84,6 +84,13 @@ RSpec.describe Import::JiraCreateParentChildRelationsFromSubtasksJob,
       expect(child_wp.parent).to eq(parent_wp)
     end
 
+    it "keeps the update times of the subtask and its parent from Jira", :aggregate_failures do
+      create_parent_child_relations
+
+      expect(WorkPackage.find("DPPP-7").updated_at).to eq(Time.zone.parse(subtask_issue_payload["fields"]["updated"]))
+      expect(WorkPackage.find("DPPP-6").updated_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["updated"]))
+    end
+
     it "does not modify work packages without a parent field" do
       parent_wp = WorkPackage.find("DPPP-6")
 

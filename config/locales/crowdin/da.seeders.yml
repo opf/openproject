@@ -73,13 +73,13 @@ da:
           name: Global standardrolle
       ai_text_actions:
         item_0:
-          label: Fix grammar
+          label: Ret grammatik
         item_1:
-          label: Make concise
+          label: Gør kortere
         item_2:
-          label: Translate to English
+          label: Oversæt til engelsk
         item_3:
-          label: Sort into template
+          label: Sortér efter skabelon
     standard:
       project_phases:
         item_0:
@@ -117,6 +117,17 @@ da:
           name: Økonomi og administration
         item_6:
           name: Kvalitetssikring
+      labels:
+        item_0:
+          name: Websted
+        item_1:
+          name: Marketing
+        item_2:
+          name: Talere
+        item_3:
+          name: Sikkerhed
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: Demoprojekt

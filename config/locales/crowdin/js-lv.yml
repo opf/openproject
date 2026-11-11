@@ -131,8 +131,8 @@ lv:
     button_confirm: Confirm
     button_continue: Continue
     button_copy: Copy
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopēt uz starpliktuvi
     button_copy_to_other_project: Duplicate in another project
     button_create: Izveidot
@@ -150,6 +150,7 @@ lv:
     button_log_time: Log time
     button_more: More
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Atvērt detalizēto skatu
     button_open_fullscreen: Atvērt pilnekrāna skatā
     button_quote: Citēt
@@ -207,6 +208,7 @@ lv:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
@@ -566,7 +568,9 @@ lv:
     label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sort_higher: Move up
+    label_sort_highest: Move to top
     label_sort_lower: Move down
+    label_sort_lowest: Move to bottom
     label_sorted_by: sorted by
     label_sorting: Sorting
     label_spent_time: Pavadīts laiks
@@ -819,6 +823,7 @@ lv:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

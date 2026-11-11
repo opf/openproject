@@ -33,10 +33,19 @@ module Overviews
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
 
+      attr_reader :phase, :user
+
+      def initialize(phase:, user:)
+        super()
+
+        @phase = phase
+        @user = user
+      end
+
       private
 
       def date_range_not_set?
-        model.date_range_not_set?
+        phase.date_range_not_set?
       end
 
       def icon
@@ -44,21 +53,21 @@ module Overviews
       end
 
       def icon_color_class
-        helpers.hl_foreground_class("project_phase_definition", model.definition)
+        helpers.hl_foreground_class("project_phase_definition", phase.definition)
       end
 
       def text
-        model.name
+        phase.name
       end
 
       def authorized_edit_link
         if allowed_to_edit?
           Primer::Beta::Link.new(
-            href: edit_project_phase_path(model),
+            href: edit_project_phase_path(phase),
             classes: "hover-input",
             data: { controller: "async-dialog" },
             aria: { label: I18n.t(:label_edit) },
-            test_selector: "project-life-cycle-edit-button-#{model.id}"
+            test_selector: "project-life-cycle-edit-button-#{phase.id}"
           )
         else
           Primer::Content.new
@@ -66,7 +75,7 @@ module Overviews
       end
 
       def allowed_to_edit?
-        User.current.allowed_in_project?(:edit_project_phases, model.project)
+        user.allowed_in_project?(:edit_project_phases, phase.project)
       end
     end
   end

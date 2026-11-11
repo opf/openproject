@@ -47,6 +47,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Resolution                                         | (Appended to status)      | Jira tracks *why* an issue was closed (Fixed, Won't Fix, Duplicate, Cannot Reproduce) separately from its workflow state (Status). The "Resolution" concept does not exist in OpenProject. Each resolution value is mapped to a dedicated status, where the name is a combination of Status and Resolution (e.g. "Done - Fixed"). Can be turned off per import configuration, in which case only the status name is used. Broader native support is tracked as [FND-231](https://community.openproject.org/projects/FND/work_packages/FND-231). |
 | Resolution date                                    | Resolution Date           | Imported as a *datetime* custom field, when any issue in the project has a resolution date set. It is displayed in the "Jira Import" section of each work package. Can be turned off per import configuration. |
 | Security Level                                     | **Not migrated**          | —                                                            |
+| Sprint                                             | Sprint                    | Only the sprint the issue is currently in. See [Sprints](#sprints) |
 | Status                                             | Status                    | Matched by name (not case-sensitive); created automatically if missing. The status category is set based on Jira's status category: "new" → to-do, "indeterminate" → in progress, "done" → closed, "undefined" → no category. Note that this only happens the *first* time a status with that name is created. If the same status name already exists (e.g. reused across projects with inconsistent status categories), it is reused and the existing category value is kept. |
 | Sub-tasks / parent-child links                     | **Not migrated**          | — (planned: [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75)) |
 | Summary                                            | Subject                   | -                                                            |
@@ -54,6 +55,69 @@ Every migrated project is created **private** and **active**, with no parent —
 | Watchers                                           | Watchers                  | Users who only watch an issue are imported as well. All users are added as watchers without receiving a notification. |
 | Web link                                           | **Not migrated**          | Does not exist in OpenProject (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)) |
 
+
+## Sprints
+
+Jira sprints become native OpenProject [sprints](../../../user-guide/backlogs-scrum/), not custom fields.
+
+| Jira sprint     | Becomes in OpenProject | What you should know                                         |
+| --------------- | ---------------------- | ------------------------------------------------------------ |
+| Name            | Name                   | A sprint without a name is called `Sprint <Jira sprint id>`  |
+| State: future   | Status: in planning    | -                                                            |
+| State: active   | Status: active         | An active sprint without a start or end date is imported as in planning, since an active sprint in OpenProject needs both |
+| State: closed   | Status: completed      | -                                                            |
+| Start date      | Start date             | -                                                            |
+| End date        | Finish date            | An end date before the start date is set to the start date   |
+| Activated date  | Started at             | -                                                            |
+| Complete date   | Completed at           | -                                                            |
+| Goal            | Sprint goal            | Stored as the goal of the owning project. Goals longer than 500 characters are shortened |
+| Board           | **Not migrated**       | See [Agile data that is not migrated](#agile-data-that-is-currently-not-migrated) |
+
+### Requirements in Jira
+
+- **Jira Software with a valid license.** Sprints are only available through the Jira Software (Agile) API. On Jira without Jira Software, or with an expired Jira Software license, the import still completes, but without any sprints. The only trace is a warning in the server log: `Jira Agile API unavailable, no sprints are imported`.
+- **The token user must be able to see the boards.** A Jira administrator cannot see every board automatically: a board is visible to a user only if its saved filter is shared with them. The migrator finds sprints through the boards the token user can see. It also fetches sprints by id when an imported issue names one, but Jira refuses that too when the token user cannot see the board the sprint was created on. Such sprints are skipped with a `Skipping sprint` warning in the server log, and their issues are imported without a sprint. Before migrating, make sure the token user can open every Scrum board of the projects you import.
+- **The Sprint field must be on the issues.** Sprints and assignments are read from the Sprint field of the imported issues. If the field is hidden in a project's field configuration, that project gets no sprints.
+
+### Which sprints are imported
+
+- A sprint is imported when at least one imported issue is in it, or was in it. Sprints without any imported issue, for example empty future sprints, are not imported.
+- Each work package gets the sprint its issue is currently in: the open (future or active) sprint if there is one, otherwise the sprint that was completed last. Earlier sprints of an issue remain visible in the imported change history only.
+- Kanban boards have no sprints, so they add nothing.
+
+### Sprints that span several projects
+
+A Jira board can show issues of several projects, so a sprint can contain issues of several imported projects. In OpenProject, every sprint belongs to exactly one project:
+
+- The sprint belongs to the project with the most issues in it. On a tie, it belongs to the project whose Jira key comes first alphabetically.
+- Work packages of the other projects keep their sprint, and the sprint appears in those projects because their work packages are in it. Sprint sharing is not set up by the import.
+- If these projects are imported in separate runs, the first run creates the sprint and later runs reuse it: their work packages are assigned to the existing sprint, which keeps its project, name, dates and goal. Reuse works as long as the sprint still exists in OpenProject and the Jira connection uses the same URL.
+- If the last work package of such a project is removed from the sprint, the sprint is no longer available in that project. Set up [sprint sharing](../../../user-guide/projects/project-settings/backlogs-settings/#sharing-sprints) (Enterprise add-on) if these projects should keep planning in shared sprints.
+
+### Several active sprints in one project
+
+Jira allows one active sprint per board, so a project covered by several boards can have several active sprints. OpenProject allows this only when [multiple active sprints](../../../user-guide/projects/project-settings/backlogs-settings/#multiple-active-sprints) is enabled for the project. The import enables it on every project that ends up with more than one active sprint, also on the Community edition, and logs a warning. Enabling the setting again later requires the Enterprise add-on. While it is enabled, the project's sprint sharing cannot be changed, and it can only be disabled once at most one sprint of the project is active.
+
+### Project setup and permissions
+
+- The **Backlogs** module is enabled in every project that owns or shows an imported sprint.
+- The `JiraMember` role created by the import can view sprints, backlogs and boards. It cannot move work packages between sprints, because that also requires permission to edit work packages. Grant those permissions to the role, or use another role, where members should plan sprints.
+- If a `JiraMember` role already exists from an earlier import, it is reused unchanged and does not get the sprint permissions. Add **View sprints** and **View boards** to it manually.
+- Reverting the import deletes the sprints it created together with the imported projects. A sprint reused from an earlier import stays, only the work packages of the reverted projects leave it. If a later import still uses a sprint of the reverted import, the sprint moves to the project with most of its remaining work packages instead of being deleted.
+
+### Agile data that is currently not migrated
+
+The migrator imports sprints and the current sprint of each issue. Everything else around Jira Software boards and planning is not migrated for now:
+
+- **Boards**: Scrum and Kanban boards with their filters, columns, column constraints (WIP limits), swimlanes, quick filters, card layout and estimation settings. Recreate them with OpenProject's [Backlogs](../../../user-guide/backlogs-scrum/) or [Agile boards](../../../user-guide/agile-boards/) (planned: [JIM-106](https://community.openproject.org/projects/JIM/work_packages/JIM-106)).
+- **Backlog order**: the Jira rank of issues is not migrated, so backlogs and sprints in OpenProject do not show Jira's order.
+- **Sprint history**: only the current sprint of an issue is assigned. Earlier sprints, and work moved between sprints, are visible in the imported change history only.
+- **Sprints without imported issues**, for example empty future sprints.
+- **Time of day of sprint dates**: the planned start and end become dates without a time. When the sprint was actually started and completed is kept with the time.
+- **Reports**: sprint reports, burndown, burnup, velocity and control charts, cumulative flow diagrams.
+- **Epics**: Epic Link, Epic Name, Epic Status and Epic Color. Epic issues themselves are imported as work packages of the type "Epic", but their issues are not linked to them.
+- **Story points**: the Jira "Story Points" field is a number field and is imported as a custom field of the same name, not into OpenProject's own story points attribute. Backlogs and burndown charts therefore show no story points.
+- **Advanced Roadmaps data**: Parent Link, Target start, Target end, Original story points, plans, teams and releases of plans.
 
 ## Users & groups
 

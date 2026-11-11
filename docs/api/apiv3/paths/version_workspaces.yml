@@ -71,5 +71,5 @@ get:
 
     The workspaces returned depend on the sharing settings of the given version,
     but are also limited to the workspaces that the current user is allowed to see.
-  operationId: List_workspaces_with_version
+  operationId: list_workspaces_with_version
   summary: List workspaces having version

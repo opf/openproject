@@ -131,8 +131,8 @@ sv:
     button_confirm: Bekräfta
     button_continue: Fortsätt
     button_copy: Kopiera
-    button_copy_link_to_clipboard: Kopiera länk till urklipp
-    button_copy_numeric_id_to_clipboard: Kopiera numeriskt ID till urklipp
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopiera till urklipp
     button_copy_to_other_project: Duplicera i ett annat projekt
     button_create: Skapa
@@ -150,6 +150,7 @@ sv:
     button_log_time: Logga tid
     button_more: Mer
     button_more_actions: Fler åtgärder
+    button_move: Move
     button_open_details: Öppna detaljvyn
     button_open_fullscreen: Öppna fullskärmsläge
     button_quote: Citat
@@ -207,6 +208,7 @@ sv:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Ett fel inträffade inom CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Misslyckades med att spara dokumentet på grund av följande fel: %{error}'
@@ -566,7 +568,9 @@ sv:
     label_show_in_menu: Visa vyn i menyn
     label_sort_by: Sortera efter
     label_sort_higher: Flytta upp
+    label_sort_highest: Move to top
     label_sort_lower: Flytta ned
+    label_sort_lowest: Move to bottom
     label_sorted_by: sorterad efter
     label_sorting: Sortering
     label_spent_time: Förbrukad tid
@@ -818,6 +822,7 @@ sv:
         batch_too_large: Det går inte att flytta %{count} objekt samtidigt. Välj högst %{max}.
         fallback_item_label: Objekt
         fallback_list_name: en annan lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Flytten misslyckades. Kontrollera postens aktuella position.
         move_failed_check_positions_batch:
           other: Flytten misslyckades. Kontrollera objektens aktuella positioner.

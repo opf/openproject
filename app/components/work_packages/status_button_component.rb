@@ -43,7 +43,7 @@ class WorkPackages::StatusButtonComponent < OpPrimer::StatusButtonComponent
     )
   end
 
-  def default_button_title
+  def default_button_description
     I18n.t("js.label_edit_status")
   end
 

@@ -78,9 +78,11 @@ de:
               invalid: muss ein Benutzer oder ein Platzhalter sein.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: Das Feld darf nicht leer sein.
-              cannot_log_for_this_work_package: Sie haben keine Berechtigung, Zeiten für dieses Arbeitspaket zu erfassen.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: Die erfassten Stunden dürfen das Limit von %{limit} Stunden am Arbeitstag des Benutzers nicht überschreiten.
@@ -94,6 +96,9 @@ de:
             start_time:
               format: "%{message}"
               invalid_time: Ungültige Zeit. Die Zeit muss zwischen 00:00 und 23:59 liegen.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: Ein weiterer Timer läuft bereits. Es kann jeweils nur ein Timer aktiv sein.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge.'

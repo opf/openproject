@@ -131,8 +131,8 @@ ro:
     button_confirm: Confirmă
     button_continue: Continuă
     button_copy: Copiază
-    button_copy_link_to_clipboard: Copiază link-ul în clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copiză în clipboard
     button_copy_to_other_project: Copiază în alt proiect
     button_create: Creează
@@ -150,6 +150,7 @@ ro:
     button_log_time: Înregistrare timp
     button_more: Mai mult
     button_more_actions: Mai multe acțiuni
+    button_move: Move
     button_open_details: Deschide vizualizare detaliată
     button_open_fullscreen: Afișează pe tot ecranul
     button_quote: Citat
@@ -207,6 +208,7 @@ ro:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: A apărut o eroare în cadrul CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Salvarea documentului a eșuat cu următoarea eroare: %{error}'
@@ -566,7 +568,9 @@ ro:
     label_show_in_menu: Vizualizează configurația în meniu
     label_sort_by: Sortează după
     label_sort_higher: Mută în sus
+    label_sort_highest: Move to top
     label_sort_lower: Mută în jos
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortează după
     label_sorting: Sortare
     label_spent_time: Timp consumat
@@ -819,6 +823,7 @@ ro:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

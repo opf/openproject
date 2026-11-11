@@ -137,8 +137,8 @@ hu:
     button_confirm: Jóváhagy
     button_continue: Folytatás
     button_copy: Másol
-    button_copy_link_to_clipboard: Hivatkozás másolása a vágólapra
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Másolás a vágólapra
     button_copy_to_other_project: Duplicate in another project
     button_create: Létrehoz
@@ -156,6 +156,7 @@ hu:
     button_log_time: Eltöltött idő rögzítése
     button_more: További
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Részletes nézet megnyitása
     button_open_fullscreen: Teljes képernyős nézet
     button_quote: Idéz
@@ -217,6 +218,7 @@ hu:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: 'Hiba történt a CKEditorban
 
         '
@@ -582,7 +584,9 @@ hu:
     label_show_in_menu: Nézet megjelenítése a Menüben
     label_sort_by: Rendezés a következő szerint
     label_sort_higher: Mozgatás felfelé
+    label_sort_highest: Move to top
     label_sort_lower: Mozgás lefelé
+    label_sort_lowest: Move to bottom
     label_sorted_by: rendezve
     label_sorting: Rendezés
     label_spent_time: Eltöltött idő
@@ -852,6 +856,7 @@ hu:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.

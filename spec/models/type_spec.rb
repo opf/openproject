@@ -453,6 +453,7 @@ RSpec.describe Type do
           .to eq(toc: WorkPackage::PDFExport::Artefact::DEFAULT_TOC,
                  include_lifecycle: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE,
                  include_budget: WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET,
+                 wiki_pages: [],
                  hyphenation: false,
                  hyphenation_language: "en")
       end
@@ -595,6 +596,21 @@ RSpec.describe Type do
         expect(variant.reload.pdf_export_templates.settings_for("contract"))
           .to eq(footer_text_center: "Variant's own contract footer")
       end
+    end
+  end
+
+  describe "description length" do
+    it "accepts a description up to the maximum length" do
+      type.description = "a" * Type::DESCRIPTION_MAX_LENGTH
+
+      expect(type).to be_valid
+    end
+
+    it "rejects a description longer than the maximum length" do
+      type.description = "a" * (Type::DESCRIPTION_MAX_LENGTH + 1)
+
+      expect(type).not_to be_valid
+      expect(type.errors[:description]).to be_present
     end
   end
 end

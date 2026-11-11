@@ -629,6 +629,7 @@ Rails.application.routes.draw do
     end
 
     member do
+      get :hover_card, to: "projects/hover_card#show"
       get "settings", to: redirect("projects/%{id}/settings/general/")
 
       get "export_project_initiation", to: "projects#export_project_initiation_pdf"
@@ -812,6 +813,7 @@ Rails.application.routes.draw do
     member do
       get "/hover_card" => "project_phases/hover_card#show", as: "hover_card"
     end
+    resource :status, only: :update, controller: "project_phases/status"
   end
 
   resources :admin, controller: :admin, only: :index do

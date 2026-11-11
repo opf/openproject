@@ -782,7 +782,7 @@ describe('CellInteraction', () => {
     trigger.className = 'inline-edit--display-trigger';
     const toggle = within(parent).getByRole('button', { name: /children_expanded/ });
     const expander = within(parent).getByRole('button', { name: 'js.work_packages.table.relations_button' });
-    const menu = within(parent).getByRole('link', { name: 'js.label_open_context_menu' });
+    const menu = within(parent).getByRole('button', { name: 'js.label_open_context_menu' });
     expect(parent.querySelector('.wp-table--drag-and-drop-handle')).not.toBeNull();
 
     expect(rowControls(parent, table.table)).toEqual([idLink, toggle, expander, menu]);
@@ -790,7 +790,7 @@ describe('CellInteraction', () => {
     const child = table.row('2');
     expect(child.querySelector('.wp-table--leaf-indicator')).not.toBeNull();
     expect(child.querySelector('td.relationsOfTypeFollows button')).toBeNull();
-    expect(rowControls(child, table.table)).toEqual([within(child).getByRole('link', { name: 'js.label_open_context_menu' })]);
+    expect(rowControls(child, table.table)).toEqual([within(child).getByRole('button', { name: 'js.label_open_context_menu' })]);
 
     table.table.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
     await userEvent.tab();

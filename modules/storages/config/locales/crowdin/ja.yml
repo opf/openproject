@@ -492,7 +492,7 @@ ja:
     oauth_grant_nudge_modal:
       cancel_button_label: 後でやります
       heading: "%{provider_type} へのログインが必要です"
-      login_button_aria_label: "%{storage} にログイン"
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} ログイン"
       project_settings:
         description: プロジェクトフォルダにアクセスするには、 %{storage}にログインする必要があります。

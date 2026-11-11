@@ -80,7 +80,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     const workPackageId = element.dataset.workPackageId;
 
     // Normal link processing if there are no state and work package information
-    if (!state || !workPackageId) {
+    if ((state !== 'split' && state !== 'show') || !workPackageId) {
       return true;
     }
 

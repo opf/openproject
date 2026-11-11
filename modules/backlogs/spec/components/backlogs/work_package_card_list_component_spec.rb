@@ -133,7 +133,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
       )
       expect(rendered_component).to have_element(
         "action-menu",
-        src: menu_project_backlogs_work_package_path(project, work_package)
+        src: menu_project_backlogs_work_packages_path(project, ids: [work_package.id], invoker_id: work_package.id)
       )
     end
   end
