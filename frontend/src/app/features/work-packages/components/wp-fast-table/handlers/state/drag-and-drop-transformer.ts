@@ -351,7 +351,7 @@ export class DragAndDropTransformer implements RowMover {
   }
 
   private collapseSelectionTo(row:HTMLElement):void {
-    if (this.table.destroyed) return;
+    if (this.table.destroyed || !this.table.configuration.selectionEnabled) return;
     const wpId = row.dataset.workPackageId;
     if (wpId) {
       selectionGesture(this.table, 'navigation', () => {
