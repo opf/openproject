@@ -302,6 +302,33 @@ RSpec.describe Sprint do
     end
   end
 
+  describe "#received_work_packages?" do
+    let(:sprint) { create(:sprint, project:) }
+    let(:other_project) { create(:project) }
+
+    it "is false when the sprint never held a work package" do
+      expect(sprint.received_work_packages?(project)).to be false
+    end
+
+    it "is true when the sprint holds a work package of the project" do
+      create(:work_package, project:, sprint:)
+
+      expect(sprint.received_work_packages?(project)).to be true
+    end
+
+    it "is true when a work package of the project was in the sprint but has been removed since" do
+      create(:work_package, project:, journals: { 2.days.ago => { sprint_id: sprint.id }, 1.day.ago => {} })
+
+      expect(sprint.received_work_packages?(project)).to be true
+    end
+
+    it "is false when only work packages of another project were in the sprint" do
+      create(:work_package, project: other_project, sprint:)
+
+      expect(sprint.received_work_packages?(project)).to be false
+    end
+  end
+
   describe "#owned_by?" do
     let(:sprint) { create(:sprint, project:) }
     let(:other_project) { create(:project) }

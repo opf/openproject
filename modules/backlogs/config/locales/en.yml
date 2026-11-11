@@ -156,18 +156,10 @@ en:
       details: "The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted."
       title: "Delete backlog bucket?"
 
-    burndown_chart:
-      show:
-        blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
-        blankslate_title: "No burndown data available"
-
     created_resolved_chart:
       series:
         created: "Created"
         resolved: "Resolved"
-      show:
-        blankslate_description: "Set start and end date for the sprint to generate a created vs resolved chart."
-        blankslate_title: "No created vs resolved chart data available"
 
     estimation_unit: "Units"
     excluded_work_package_types_caption: >
@@ -258,6 +250,9 @@ en:
     sprint_reports:
       header_infoline_component:
         planned_html: "Planned: %{range}"
+      missing_dates_blankslate_component:
+        description: "Sprint start and finish dates are necessary for the report to show."
+        heading: "Missing sprint dates"
       navigation_component:
         next: "Next"
         previous: "Previous"
@@ -266,6 +261,19 @@ en:
         title: "%{sprint} report"
       widgets:
         burndown_chart:
+          blankslate:
+            no_estimated_hours:
+              description: "The burndown chart will appear here once the sprint has an open work package with work time estimate."
+              heading: "No work to display"
+            no_story_points:
+              description: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+              heading: "No work to display"
+            not_started:
+              description: "The burndown chart will appear here after the sprint starts."
+              heading: "No work to display"
+            too_long:
+              description: "The sprint duration exceeded the 1-year limit of the burndown chart's timespan."
+              heading: "No chart to display"
           series:
             guideline: "Guideline"
             projection:
@@ -276,8 +284,19 @@ en:
               time: "Remaining estimated time"
           title: "Burndown chart"
         burnup_chart:
-          blankslate_description: "Set start and end date for the sprint to generate a burnup chart."
-          blankslate_title: "No burnup data available"
+          blankslate:
+            no_estimated_hours:
+              description: "The burnup chart will appear here once the sprint has received a work package with work time estimate."
+              heading: "No work to display"
+            no_story_points:
+              description: "The burnup chart will appear here once the sprint has received a work package with estimated story points."
+              heading: "No work to display"
+            not_started:
+              description: "The burnup chart will appear here after the sprint starts."
+              heading: "No work to display"
+            too_long:
+              description: "The sprint duration exceeded the 1-year limit of the burnup chart's timespan."
+              heading: "No chart to display"
           series:
             completed: "Completed work"
             guideline: "Guideline"
@@ -285,8 +304,22 @@ en:
             scope: "Total work scope"
           title: "Burnup chart"
         created_resolved_chart:
+          blankslate:
+            no_work:
+              description: "The created vs resolved chart will appear here once a work package has been created or resolved within the sprint."
+              heading: "No work to display"
+            too_long:
+              description: "The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan."
+              heading: "No chart to display"
           title: "Created vs resolved work packages"
         epic_progress:
+          blankslate:
+            no_epics:
+              description: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
+              heading: "No epics to display"
+            no_work:
+              description: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
+              heading: "No work to display"
           card:
             progress:
               story_points:
@@ -328,11 +361,12 @@ en:
             story_points: "Story points"
             time: "Estimated time"
         work_package_graph:
+          blankslate:
+            no_work:
+              description: "The work package graph will appear here once the sprint has received a work package."
+              heading: "No work to display"
           title: "Work packages graph"
         work_package_overview:
-          blankslate:
-            description: "Set start and end date for the sprint to generate the work package overview."
-            heading: "No sprint data available"
           blocks:
             changed_after_start:
               change_html: "+%{added} %{divider} -%{removed}"
@@ -365,8 +399,6 @@ en:
             blankslate:
               empty:
                 description: "Work packages that were added after the sprint start date will appear here."
-              no_dates:
-                description: "Sprint start and finish dates are necessary to show added work packages."
               not_started:
                 description: "Added work packages will appear here after the sprint starts."
             title: "Scope increase after sprint start"
@@ -376,8 +408,6 @@ en:
             blankslate:
               empty:
                 description: "Work packages that were completed in the sprint will appear here."
-              no_dates:
-                description: "Sprint start and finish dates are necessary to show completed work packages."
               not_started:
                 description: "Completed work packages will appear here after the sprint starts."
             title: "Completed work"
@@ -385,8 +415,6 @@ en:
             blankslate:
               empty:
                 description: "Work packages that were removed after the sprint start date will appear here."
-              no_dates:
-                description: "Sprint start and finish dates are necessary to show removed work packages."
               not_started:
                 description: "Removed work packages will appear here after the sprint starts."
             title: "Scope decrease after sprint start"
@@ -395,8 +423,6 @@ en:
               empty:
                 description: "All work packages in this sprint are completed."
                 heading: "Wow, all done!"
-              no_dates:
-                description: "Sprint start and finish dates are necessary to show unfinished work packages."
               not_started:
                 description: "Unfinished work packages will appear here after the sprint starts."
             title: "Unfinished work"

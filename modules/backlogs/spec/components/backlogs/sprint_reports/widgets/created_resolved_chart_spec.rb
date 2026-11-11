@@ -136,20 +136,51 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
       end
       let(:now) { monday.in_time_zone - 7.days }
 
-      # Nothing has been created in a sprint that has not begun, and a flat zero would invite the
-      # reader to believe that was measured. The frontend turns the empty payload into a blankslate.
-      it "leaves out both series rather than sending a measured zero" do
-        expect(chart_data["series"]).to be_empty
+      it "renders a blankslate instead of the chart" do
+        expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
+        expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       end
+    end
+  end
+
+  context "when nothing was created or resolved within the charted window" do
+    before do
+      create(:work_package, project:, sprint:, status: open_status,
+                            journals: { sprint_start - 1.day => { subject: "Created before" } })
+    end
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The created vs resolved chart will appear here once a work package has been created or resolved within the sprint."
+      )
+    end
+  end
+
+  context "when the sprint takes more than a year" do
+    let(:sprint) do
+      create(:sprint, project:, start_date: monday, finish_date: monday + 13.months, started_at: monday.in_time_zone + 9.hours)
+    end
+
+    before { create(:work_package, project:, sprint:) }
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No chart to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan."
+      )
     end
   end
 
   context "when the sprint has no date range set" do
     let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
 
-    it "renders a blankslate instead of the chart" do
-      expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
-      expect(rendered_component).to have_text("No created vs resolved chart data available")
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
     end
   end
 end

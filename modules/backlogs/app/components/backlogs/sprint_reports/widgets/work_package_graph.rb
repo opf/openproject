@@ -32,6 +32,7 @@ module Backlogs
     module Widgets
       class WorkPackageGraph < Grids::WidgetComponent
         include Backlogs::CommonHelper
+        include ChartBlankslate
 
         param :sprint
         param :project
@@ -44,22 +45,30 @@ module Backlogs
           { full_width: true }
         end
 
-        def render? = user_allowed?(:view_sprints)
+        def render? = sprint.date_range_set? && user_allowed?(:view_sprints)
 
         def call
           widget_wrapper do |widget|
             widget.with_body do
-              helpers.angular_component_tag(
-                "opce-wp-overview-graph",
-                "global-scope": false,
-                "initial-filters": graph_filters.to_json,
-                "show-group-by-options": false
-              )
+              chart_available? ? graph : blankslate
             end
           end
         end
 
         private
+
+        def blankslate_reason
+          :no_work unless sprint.received_work_packages?(project)
+        end
+
+        def graph
+          helpers.angular_component_tag(
+            "opce-wp-overview-graph",
+            "global-scope": false,
+            "initial-filters": graph_filters.to_json,
+            "show-group-by-options": false
+          )
+        end
 
         def graph_filters
           [

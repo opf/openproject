@@ -379,6 +379,46 @@ RSpec.describe Sprints::Burndown do
     end
   end
 
+  describe "#anything_to_chart?" do
+    it "is true when story points were open within the window" do
+      story_pointed(sprint_start => { story_points: 10 })
+
+      expect(burndown).to be_anything_to_chart
+    end
+
+    it "is false when the work packages in the sprint have no story points" do
+      story_pointed(sprint_start => { story_points: nil })
+
+      expect(burndown).not_to be_anything_to_chart
+    end
+
+    it "is false when the sprint only held story points before the window" do
+      create(:work_package, project:, status: open_status,
+                            journals: { at_hour(first_monday - 3.days, 12) => { sprint_id: sprint.id, story_points: 5 },
+                                        at_hour(first_monday - 2.days, 12) => {} })
+
+      expect(burndown).not_to be_anything_to_chart
+    end
+
+    # Only open work burns down, so a sprint whose work was done throughout leaves nothing to draw.
+    it "is false when the story points in the sprint were closed throughout the window" do
+      story_pointed(sprint_start => { story_points: 5, status_id: closed_status.id })
+
+      expect(burndown).not_to be_anything_to_chart
+    end
+
+    context "when the sprint has not started yet" do
+      let(:started_at) { nil }
+      let(:now) { at_hour(first_monday - 7.days, 12) }
+
+      it "is false, as there is nothing measured yet" do
+        story_pointed(now - 1.hour => { story_points: 10 })
+
+        expect(burndown).not_to be_anything_to_chart
+      end
+    end
+  end
+
   # Nothing stops a sprint being started after the date it was planned to finish on. The plan has
   # no capacity left to spend by then, so there is no decline to draw against it.
   describe "a sprint started after its planned finish date" do

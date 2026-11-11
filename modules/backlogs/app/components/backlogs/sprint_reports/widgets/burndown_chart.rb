@@ -31,6 +31,8 @@ module Backlogs
   module SprintReports
     module Widgets
       class BurndownChart < Grids::WidgetComponent
+        include BurnChartBlankslate
+
         param :sprint
         param :project
 
@@ -53,16 +55,16 @@ module Backlogs
         end
 
         def render?
-          !project.estimation_unit_none?
+          sprint.date_range_set? && !project.estimation_unit_none?
         end
 
         private
 
         def unit = project.estimation_unit_time? ? :time : :story_points
 
-        def burndown
-          return nil unless sprint.date_range_set?
+        delegate :too_long_to_chart?, :anything_to_chart?, to: :burndown, private: true
 
+        def burndown
           @burndown ||= ::Sprints::Burndown.new(sprint:, project:)
         end
 
