@@ -72,65 +72,56 @@ RSpec.describe McpTools::UpdateWorkPackage do
     work_package.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
+
+  it "updates the work package" do
+    expect { mcp_request }.not_to change(WorkPackage, :count)
+
+    expect(work_package.reload.subject).to eq("The new subject")
+  end
+
+  it "responds with a properly formatted work package" do
+    mcp_request
+
+    expect(result_item.to_json).to match_json_schema.from_docs("work_package_model")
+  end
+
+  context "when using a wrong lock version" do
+    let(:call_args) do
+      {
+        id: work_package.id,
+        data: {
+          subject: "My new subject",
+          lockVersion: work_package.lock_version + 42
+        }
+      }
+    end
+
+    it "responds with an error" do
+      mcp_request
+      expect(result_item.fetch("error")).to eq("Information has been updated by at least one other user in the meantime.")
+    end
+
+    it "does not update the work package" do
+      expect { mcp_request }.not_to change { work_package.reload.subject }
+    end
+  end
+
+  context "when finding the work package via its semantic identifier" do
+    let(:call_args) do
+      {
+        id: work_package.identifier,
+        data: {
+          lockVersion: work_package.lock_version,
+          subject: "The new subject"
+        }
+      }
+    end
 
     it "updates the work package" do
       expect { mcp_request }.not_to change(WorkPackage, :count)
 
       expect(work_package.reload.subject).to eq("The new subject")
-    end
-
-    it "responds with a properly formatted work package" do
-      mcp_request
-
-      expect(result_item.to_json).to match_json_schema.from_docs("work_package_model")
-    end
-
-    context "when using a wrong lock version" do
-      let(:call_args) do
-        {
-          id: work_package.id,
-          data: {
-            subject: "My new subject",
-            lockVersion: work_package.lock_version + 42
-          }
-        }
-      end
-
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("Information has been updated by at least one other user in the meantime.")
-      end
-
-      it "does not update the work package" do
-        expect { mcp_request }.not_to change { work_package.reload.subject }
-      end
-    end
-
-    context "when finding the work package via its semantic identifier" do
-      let(:call_args) do
-        {
-          id: work_package.identifier,
-          data: {
-            lockVersion: work_package.lock_version,
-            subject: "The new subject"
-          }
-        }
-      end
-
-      it "updates the work package" do
-        expect { mcp_request }.not_to change(WorkPackage, :count)
-
-        expect(work_package.reload.subject).to eq("The new subject")
-      end
-    end
-  end
-
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
     end
   end
 end

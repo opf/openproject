@@ -67,82 +67,73 @@ RSpec.describe McpTools::SearchCustomFields do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "finds all custom fields without filters" do
-      mcp_request
-      expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
-    end
+  it "finds all custom fields without filters" do
+    mcp_request
+    expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
+  end
 
-    it "responds with properly formatted custom fields" do
-      mcp_request
-      parsed_results.dig("structuredContent", "items").each do |cf|
-        expect(cf.to_json).to match_json_schema.from_docs("custom_field_model")
-      end
-    end
-
-    context "when filtering by the full custom field name" do
-      let(:call_args) { { name: "One custom field" } }
-
-      it "finds the custom field" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-        expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(custom_field_one.id)
-      end
-    end
-
-    context "when filtering on a partial, wrongly-cased term" do
-      let(:call_args) { { name: "cUstom" } }
-
-      it "finds the custom field" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-        expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(custom_field_one.id)
-      end
-    end
-
-    context "when not allowed to see the custom field" do
-      let(:user) { create(:user) }
-
-      it "does not find the custom field" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(0)
-      end
-    end
-
-    describe "pagination" do
-      let(:page_size) { 10 }
-      let(:overspilling_fields) { 5 }
-      let(:field_count) { page_size + overspilling_fields }
-      let(:call_args) { { name: "user custom" } }
-
-      before do
-        allow(described_class).to receive(:page_size).and_return(page_size)
-
-        create_list(:user_custom_field, field_count)
-      end
-
-      it "returns only results up to the page size" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(page_size)
-      end
-
-      context "if another page is requested" do
-        let(:call_args) { { name: "user custom", page: 2 } }
-
-        it "returns the requested page" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items").size).to eq(overspilling_fields)
-        end
-      end
+  it "responds with properly formatted custom fields" do
+    mcp_request
+    parsed_results.dig("structuredContent", "items").each do |cf|
+      expect(cf.to_json).to match_json_schema.from_docs("custom_field_model")
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+  context "when filtering by the full custom field name" do
+    let(:call_args) { { name: "One custom field" } }
+
+    it "finds the custom field" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
+      expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(custom_field_one.id)
+    end
+  end
+
+  context "when filtering on a partial, wrongly-cased term" do
+    let(:call_args) { { name: "cUstom" } }
+
+    it "finds the custom field" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
+      expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(custom_field_one.id)
+    end
+  end
+
+  context "when not allowed to see the custom field" do
+    let(:user) { create(:user) }
+
+    it "does not find the custom field" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(0)
+    end
+  end
+
+  describe "pagination" do
+    let(:page_size) { 10 }
+    let(:overspilling_fields) { 5 }
+    let(:field_count) { page_size + overspilling_fields }
+    let(:call_args) { { name: "user custom" } }
+
+    before do
+      allow(described_class).to receive(:page_size).and_return(page_size)
+
+      create_list(:user_custom_field, field_count)
+    end
+
+    it "returns only results up to the page size" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(page_size)
+    end
+
+    context "if another page is requested" do
+      let(:call_args) { { name: "user custom", page: 2 } }
+
+      it "returns the requested page" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "items").size).to eq(overspilling_fields)
+      end
     end
   end
 end
