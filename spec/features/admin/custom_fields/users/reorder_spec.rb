@@ -161,6 +161,23 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
     end
   end
 
+  # The destination move posts the item's own form rather than going through
+  # the sortable controller, so it ends in a morph that replaces the control
+  # that submitted it: no move announcement, and focus falls to the body.
+  # Covered here as far as the move itself.
+  it "moves a field to another section with the keyboard alone" do
+    cf_index_page.visit!
+
+    move_field_to_section_by_keyboard(string_user_custom_field, section: section_for_select_fields)
+
+    expect_no_field_in_section(section_for_input_fields, string_user_custom_field)
+    expect_field_in_section(section_for_select_fields, string_user_custom_field)
+
+    cf_index_page.visit!
+
+    expect_field_in_section(section_for_select_fields, string_user_custom_field)
+  end
+
   # helper methods:
 
   def within_user_custom_field_section_container(section, &)
@@ -217,6 +234,16 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
   def move_field_to_section(custom_field, section:)
     within_user_custom_field_menu(custom_field) do
       wait_for_turbo_stream { find(:menuitem, "Move to #{section.name}", exact: true).click }
+    end
+  end
+
+  def move_field_to_section_by_keyboard(custom_field, section:)
+    within_user_custom_field_container(custom_field) do
+      page.find_test_selector("user-custom-field-action-menu").find("button").send_keys(:enter)
+
+      within("anchored-position") do
+        wait_for_turbo_stream { find(:menuitem, "Move to #{section.name}", exact: true).send_keys(:enter) }
+      end
     end
   end
 
