@@ -117,7 +117,7 @@ directory will not end up with files owned by root.
 `docker-compose.yml` publishes the `backend` on `PORT` (default `3000`) and the `frontend` on `FE_PORT` (default `4200`).
 If one of these ports is already in use, change `PORT` or `FE_PORT` in your `.env` file.
 
-You also will want to create a `docker-compose.override.yml` file for local changes, e.g. exposing further ports such
+You will also want to create a `docker-compose.override.yml` file for local changes, e.g. exposing further ports such
 as the database or VNC. To replace a setting from `docker-compose.yml` rather than extending it, see the instructions
 for [!reset](https://docs.docker.com/reference/compose-file/merge/#reset-value) and
 [!override](https://docs.docker.com/reference/compose-file/merge/#replace-value).

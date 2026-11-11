@@ -14,7 +14,7 @@ This page continues the [macOS](../macos) and [Debian / Ubuntu](../linux) develo
 
 ## Get the sources
 
-In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub account. This allows you to create branches and push changes and finally opening a pull request for us to review. To do that, go to [github.com/opf/openproject](https://github.com/opf/openproject) and press "Fork" on the upper right corner.
+In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub account. This allows you to create branches and push changes and finally open a pull request for us to review. To do that, go to [github.com/opf/openproject](https://github.com/opf/openproject) and press "Fork" on the upper right corner.
 
 ```shell
 # Download the repository
@@ -80,7 +80,7 @@ You can run all required processes of OpenProject through `overmind`, which comb
 bin/dev
 ```
 
-The application will be available at `http://localhost:3000`. To customize bind address and port copy the `.env.example` provided in the root of this project as `.env` and [configure values](https://github.com/DarthSim/overmind/tree/v2.4.0#overmind-environment) as required.
+The application will be available at `http://localhost:3000`. To customize bind address and port, copy the `.env.example` provided in the root of this project as `.env` and [configure values](https://github.com/DarthSim/overmind/tree/v2.4.0#overmind-environment) as required.
 
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects, etc.) may be of limited use and it has known issues with regards to memory. To disable the worker process:
 
@@ -90,7 +90,7 @@ echo "OVERMIND_IGNORED_PROCESSES=worker" >> .overmind.env
 
 For more information refer to the great Overmind documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#usage).
 
-You can access the application with the admin-account having the following credentials:
+You can access the application with the admin account having the following credentials:
 
 ```text
 Username: admin

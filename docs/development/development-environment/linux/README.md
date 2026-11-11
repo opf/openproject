@@ -10,7 +10,7 @@ keywords: development setup debian ubuntu linux
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
-This guide assumes that you have a Ubuntu 24.04 installation with administrative rights. This guide will work
+This guide assumes that you have an Ubuntu 24.04 installation with administrative rights. This guide will work
 analogous with all other distributions, but may require slight changes in the required packages. _Please, help us to
 extend this guide with information on other distributions should there be required changes._
 
