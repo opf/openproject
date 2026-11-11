@@ -35,7 +35,7 @@ In order to understand Inline Editing, you will need the following concepts:
 
 Inline editing as described here is an Angular concept used by work packages and other HAL resources with a schema.
 
-- **New screens and features:** build forms server-side with Primer forms and ViewComponents, and use Hotwire for partial updates. See [Using Hotwire with ViewComponents](../hotwire-view-components).
+- **New screens and features:** build forms server-side with Primer forms and ViewComponents, and use Hotwire for partial updates. See [Using Hotwire with ViewComponents](../hotwire-view-components). For inline editing of individual attributes in Rails-rendered pages, use [`OpPrimer::InplaceEditFieldComponent`](https://github.com/opf/openproject/blob/dev/app/components/op_primer/inplace_edit_field_component.rb) and its field components in [`app/components/op_primer/inplace_edit_fields/`](https://github.com/opf/openproject/tree/dev/app/components/op_primer/inplace_edit_fields).
 - **Existing Angular screens:** new Angular components that integrate with inline editing (for example in the work package table or work package editing) are still fine. Write them with `inject()`, signal inputs, and Signals wherever RxJS is not the right mental model, as in the examples below.
 
 ## Components overview

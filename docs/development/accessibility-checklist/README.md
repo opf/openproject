@@ -6,6 +6,8 @@ For every new OpenProject release we need to ensure accessibility for all newly 
 
 To help development teams prioritize accessibility implementation and remediation efforts we strive for Level AA (indicates overall accessibility and removal of significant barriers to accessing content).
 
+Some of these checks are automated: [Herb](https://herb-tools.dev) lints ERB templates with the accessibility rules configured in [`.herb.yml`](https://github.com/opf/openproject/blob/dev/.herb.yml) (run `npm run herb:lint`, checked in CI by the `herb-lint` job in [`erb-lint-core.yml`](https://github.com/opf/openproject/blob/dev/.github/workflows/erb-lint-core.yml)), and feature specs can assert `be_axe_clean` using [axe-core-rspec](https://github.com/dequelabs/axe-core-gems) (see [`spec/support/a11y.rb`](https://github.com/opf/openproject/blob/dev/spec/support/a11y.rb)). Automated checks do not replace this checklist.
+
 ## 1. Perceivable - Using senses for web content (sight, hearing and/or touch)
 
 ### 1.1. Graphics
@@ -25,8 +27,9 @@ To help development teams prioritize accessibility implementation and remediatio
 - Instructions do not rely upon shape, size, or visual location (e.g., "Click the square icon to continue" or "Instructions are in the right-hand column").
 - Color is not used as the sole method of conveying content or distinguishing visual elements.
 - The contrast is sufficient
-  - Text and images of text have a contrast ratio of at least 7:1.
-  - Large text (over 18 point or 14 point bold) has a contrast ratio of at least 4.5:1
+  - Text and images of text have a contrast ratio of at least 4.5:1.
+  - Large text (over 18 point or 14 point bold) has a contrast ratio of at least 3:1
+  - User interface components and meaningful graphics have a contrast ratio of at least 3:1 against adjacent colors.
 - The page is readable and functional when the text size is doubled.
 - If the same visual presentation can be made using text alone, an image is not used to present that text.
 
@@ -41,8 +44,8 @@ To help development teams prioritize accessibility implementation and remediatio
 
 ### 2.2. Enough time
 
+- Content and functionality avoid time limits where possible.
 - If a page or application has a time limit, the user is given options to turn off, adjust, or extend that time limit.
-- The content and functionality has no time limits or constraints.
 - If an authentication session expires, the user can re-authenticate and continue the activity without losing any data from the current page.
 
 ### 2.3. Navigation
