@@ -67,6 +67,7 @@ RSpec.describe WorkPackage do
     it { is_expected.to belong_to(:type) }
     it { is_expected.to belong_to(:status) }
     it { is_expected.to belong_to(:author) }
+    it { is_expected.to belong_to(:reporter) }
     it { is_expected.to belong_to(:assigned_to).class_name("Principal").optional }
     it { is_expected.to belong_to(:responsible).class_name("Principal").optional }
     it { is_expected.to belong_to(:project_phase_definition).class_name("Project::PhaseDefinition").optional }

@@ -50,6 +50,7 @@ FactoryBot.define do
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user
+    reporter { author }
     created_at { now }
     updated_at { now }
     start_date do
