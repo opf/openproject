@@ -62,10 +62,12 @@ module Backlogs
 
         private
 
+        delegate :too_long_to_chart?, :anything_to_chart?, to: :created_resolved, private: true
+
         def blankslate_reason
-          if created_resolved.too_long_to_chart?
+          if too_long_to_chart?
             :too_long
-          elsif [created_resolved.created, created_resolved.resolved].none? { |points| points.any? { !it.value.zero? } }
+          elsif !anything_to_chart?
             :no_work
           end
         end

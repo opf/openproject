@@ -209,6 +209,37 @@ RSpec.describe Sprints::CreatedResolved do
     end
   end
 
+  describe "#anything_to_chart?" do
+    it "is true when a work package was created within the window" do
+      counted(at_hour(first_tuesday, 15))
+
+      expect(created_resolved).to be_anything_to_chart
+    end
+
+    it "is true when a work package was only resolved within the window" do
+      journalled(before_sprint => {}, at_hour(first_tuesday, 15) => { status_id: closed_status.id })
+
+      expect(created_resolved).to be_anything_to_chart
+    end
+
+    it "is false when nothing changed within the window" do
+      counted(before_sprint)
+
+      expect(created_resolved).not_to be_anything_to_chart
+    end
+
+    context "when the sprint has not started yet" do
+      let(:started_at) { nil }
+      let(:now) { before_sprint }
+
+      it "is false, as there is nothing measured yet" do
+        counted(before_sprint - 1.day)
+
+        expect(created_resolved).not_to be_anything_to_chart
+      end
+    end
+  end
+
   # A single sprint is too short a stretch for a trend: what the chart is asked for is whether
   # work has been piling up over the last few of them.
   describe "the sprints the window spans" do
