@@ -57,7 +57,7 @@ You can drag and drop time entries to reposition them within the same day or mov
 
 To edit a time entry, click it in the calendar, make your changes, and save. You can also delete it from the same menu.
 
-If work is allocated to you in [Resource management](../../resource-management/), your [resource allocations](#resource-allocations-in-my-work) are displayed in the area at the top of each day, next to time entries without start and finish time. Allocations have a dashed border and show the hours you are expected on that work package on that day. They cannot be moved or resized. Click an allocation to open the work package or to log time from it.
+If work is allocated to you in [Resource management](../../resource-management/), your [resource allocations](#resource-allocations-in-my-time) are displayed in the area at the top of each day, next to time entries without start and finish time. Allocations have a dashed border and show the hours you are expected on that work package on that day. They cannot be moved or resized. Click an allocation to open the work package or to log time from it.
 
 At the bottom of each day a sum of hours per day is displayed. If work is allocated to you, it also shows the allocated hours and compares the sum of logged and allocated hours with your working hours of that day, for example *9h/8h*. This value is shown in red if you are planned for more than your working hours. If week or month is selected, a total of the logged hours is also shown in the bottom right corner.
 

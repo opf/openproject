@@ -281,7 +281,7 @@ Select **Allocate**.
 
 The new allocation is immediately displayed in the planner. Allocated hours and utilization are updated automatically.
 
-The allocated user also sees the allocation on their [My work](../time-and-costs/my-work/#resource-allocations-in-my-work) page. OpenProject distributes the allocated hours over the user's working days within the allocation dates, so they can see how many hours per day they are expected to work on which work package. Time they log on the work package reduces the remaining hours.
+The allocated user also sees the allocation on their [My time](../time-and-costs/my-time/#resource-allocations-in-my-time) page. OpenProject distributes the allocated hours over the user's working days within the allocation dates, so they can see how many hours per day they are expected to work on which work package. Time they log on the work package reduces the remaining hours.
 
 > [!TIP]
 > If the selected user would be allocated beyond their working hours, OpenProject asks you to confirm. Select **Allocate overtime** to save the allocation anyway and schedule overtime on the user or **Back** to change it.
