@@ -581,18 +581,10 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   }
 
   describe('sort headers', () => {
-    function makeSortable(...ids:string[]) {
-      querySpace.available.sortBy.putValue(ids.map((id) => ({
-        column: { id, name: id, href: `/api/v3/queries/columns/${id}` },
-        direction: { href: QUERY_SORT_BY_ASC },
-      }) as unknown as QuerySortByResource));
-    }
-
     const subjectHeader = () => within(headerRow()).getByRole('columnheader', { name: 'subject' });
     const subjectName = () => subjectHeader().querySelector('.wp-table--column-menu-name');
 
     it('keeps following the sort after the table is replaced', async () => {
-      makeSortable('id', 'subject');
       const component = await mount({});
       const body = document.createElement('div');
       component.timeline.append(body);
@@ -605,7 +597,6 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     });
 
     it('keeps the sort on headers rebuilt from replacement columns', async () => {
-      makeSortable('id', 'subject');
       await mount({});
       sortBy(['subject', QUERY_SORT_BY_ASC]);
       await fixture.whenStable();
@@ -618,7 +609,6 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     });
 
     it('keeps header focus when the sort changes', async () => {
-      makeSortable('id', 'subject');
       await mount({});
       const header = subjectHeader();
       header.focus();

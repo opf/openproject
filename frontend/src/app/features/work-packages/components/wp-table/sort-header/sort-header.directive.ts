@@ -38,7 +38,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { combineLatest, map, merge, Subscription } from 'rxjs';
+import { map, merge, Subscription } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   QueryColumn, queryColumnTypes,
@@ -108,10 +108,7 @@ export class SortHeaderDirective implements ColumnMenuHost {
     baselineIncompatible: this.I18n.t('js.work_packages.baseline.column_incompatible'),
   };
 
-  private readonly sortState = toSignal(combineLatest([
-    this.wpTableSortBy.onReadyWithAvailable(),
-    this.wpTableSortBy.live$(),
-  ]).pipe(map(() => ({}))));
+  private readonly sortState = toSignal(this.wpTableSortBy.live$().pipe(map(() => ({}))));
 
   private readonly hierarchyEnabled = toSignal(
     this.wpTableHierarchies.live$().pipe(map(() => this.wpTableHierarchies.isEnabled)),

@@ -88,7 +88,6 @@ describe('SortHeaderDirective', () => {
       },
     }).compileComponents();
     initializeViewServices(TestBed.inject(Injector), buildQuery(['id', 'subject'], null, false, false));
-    TestBed.inject(IsolatedQuerySpace).available.sortBy.putValue([]);
     harness = buildTable({ workPackages: [], configuration: { hierarchyToggleEnabled: true } });
     tables.push(harness);
   });
@@ -107,12 +106,6 @@ describe('SortHeaderDirective', () => {
     if (table) mounted.componentRef.setInput('table', table);
     mounted.detectChanges();
     return { mounted, host: mounted.nativeElement as HTMLElement };
-  }
-
-  function makeSortable(...columns:QueryColumn[]) {
-    TestBed.inject(IsolatedQuerySpace).available.sortBy.putValue(
-      columns.map((column) => ({ column, direction: { href: QUERY_SORT_BY_ASC } }) as QuerySortByResource),
-    );
   }
 
   function sortBy(...criteria:[QueryColumn, string][]) {
@@ -192,7 +185,6 @@ describe('SortHeaderDirective', () => {
       [QUERY_SORT_BY_ASC, 'asc', 'desc'],
       [QUERY_SORT_BY_DESC, 'desc', 'asc'],
     ])('shows the primary %s direction', async (href, shown, hidden) => {
-      makeSortable(status);
       const { mounted, host } = mount(status);
 
       sortBy([status, href]);
@@ -203,7 +195,6 @@ describe('SortHeaderDirective', () => {
     });
 
     it('shows no direction as a secondary criterion or once sorting is cleared', async () => {
-      makeSortable(status, subject);
       const { mounted, host } = mount(status);
 
       sortBy([subject, QUERY_SORT_BY_ASC], [status, QUERY_SORT_BY_DESC]);
@@ -220,7 +211,6 @@ describe('SortHeaderDirective', () => {
     });
 
     it('settles on the republished sort after a reload clears the view state', async () => {
-      makeSortable(status);
       const { mounted, host } = mount(status);
       sortBy([status, QUERY_SORT_BY_ASC]);
       await mounted.whenStable();
@@ -268,16 +258,16 @@ describe('SortHeaderDirective', () => {
       tables.push(replacement);
       const log = trackSubscriptions();
       const { mounted } = mount(subject);
-      expect([...log].sort()).toEqual(['+baseline', '+hierarchy', '+ready', '+sort']);
+      expect([...log].sort()).toEqual(['+baseline', '+hierarchy', '+sort']);
 
       mounted.componentRef.setInput('table', replacement.table);
       mounted.detectChanges();
       harness.table.destroy();
       await mounted.whenStable();
-      expect(log).toHaveLength(4);
+      expect(log).toHaveLength(3);
 
       mounted.destroy();
-      expect(log.slice(4).sort()).toEqual(['-baseline', '-hierarchy', '-ready', '-sort']);
+      expect(log.slice(3).sort()).toEqual(['-baseline', '-hierarchy', '-sort']);
     });
   });
 });
