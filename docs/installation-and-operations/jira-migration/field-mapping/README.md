@@ -91,6 +91,7 @@ A Jira board can show issues of several projects, so a sprint can contain issues
 
 - The sprint belongs to the project with the most issues in it. On a tie, it belongs to the project whose Jira key comes first alphabetically.
 - Work packages of the other projects keep their sprint, and the sprint appears in those projects because their work packages are in it. Sprint sharing is not set up by the import.
+- If these projects are imported in separate runs, the first run creates the sprint and later runs reuse it: their work packages are assigned to the existing sprint, which keeps its project, name, dates and goal. Reuse works as long as the sprint still exists in OpenProject and the Jira connection uses the same URL.
 - If the last work package of such a project is removed from the sprint, the sprint is no longer available in that project. Set up [sprint sharing](../../../user-guide/projects/project-settings/backlogs-settings/#sharing-sprints) (Enterprise add-on) if these projects should keep planning in shared sprints.
 
 ### Several active sprints in one project
@@ -102,7 +103,7 @@ Jira allows one active sprint per board, so a project covered by several boards 
 - The **Backlogs** module is enabled in every project that owns or shows an imported sprint.
 - The `JiraMember` role created by the import can view sprints, backlogs and boards. It cannot move work packages between sprints, because that also requires permission to edit work packages. Grant those permissions to the role, or use another role, where members should plan sprints.
 - If a `JiraMember` role already exists from an earlier import, it is reused unchanged and does not get the sprint permissions. Add **View sprints** and **View boards** to it manually.
-- Reverting the import deletes the imported sprints together with the imported projects.
+- Reverting the import deletes the sprints it created together with the imported projects. A sprint reused from an earlier import stays, only the work packages of the reverted projects leave it.
 
 ### Agile data that is currently not migrated
 
