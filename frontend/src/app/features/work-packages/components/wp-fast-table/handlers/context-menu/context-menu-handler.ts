@@ -126,9 +126,11 @@ export abstract class ContextMenuHandler implements TableEventHandler {
     }
 
     const workPackageId = row.dataset.workPackageId!;
-    selectionGesture(table, 'navigation', () => {
-      this.selectionGestures.handleContextMenu(workPackageId, table.renderedRows, row.dataset.classIdentifier);
-    });
+    if (table.configuration.selectionEnabled) {
+      selectionGesture(table, 'navigation', () => {
+        this.selectionGestures.handleContextMenu(workPackageId, table.renderedRows, row.dataset.classIdentifier);
+      });
+    }
 
     const handler = new WorkPackageTableContextMenu(this.injector, workPackageId, control, positionArgs, table);
     this.actionMenu.show(handler, evt, options);

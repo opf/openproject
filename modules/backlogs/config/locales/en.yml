@@ -251,6 +251,8 @@ en:
       missing_dates_blankslate_component:
         description: "Sprint start and finish dates are necessary for the report to show."
         heading: "Missing sprint dates"
+      header_infoline_component:
+        planned_html: "Planned: %{range}"
       navigation_component:
         next: "Next"
         previous: "Previous"
@@ -426,6 +428,8 @@ en:
             title: "Unfinished work"
 
     sprints:
+      date_cell_component:
+        planned: "(planned)"
       row_component:
         action_menu:
           edit_sprint: "Edit sprint"

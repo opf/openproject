@@ -66,76 +66,67 @@ RSpec.describe McpTools::SearchLabels do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "finds all labels ordered by name without filters" do
-      mcp_request
-      expect(result_items.pluck("id")).to eq([frontend.id, urgent.id])
-    end
+  it "finds all labels ordered by name without filters" do
+    mcp_request
+    expect(result_items.pluck("id")).to eq([frontend.id, urgent.id])
+  end
 
-    it "responds with properly formatted labels" do
-      mcp_request
-      result_items.each do |label|
-        expect(label.to_json).to match_json_schema.from_docs("label_model")
-      end
-    end
-
-    context "when passing a partial name" do
-      let(:call_args) { { name: "ront" } }
-
-      it "finds the matching label" do
-        mcp_request
-        expect(result_items.pluck("id")).to contain_exactly(frontend.id)
-      end
-    end
-
-    context "when the user cannot view work packages anywhere" do
-      let(:user) { create(:user) }
-
-      it "does not find any labels" do
-        mcp_request
-        expect(result_items).to be_empty
-      end
-    end
-
-    describe "pagination" do
-      let(:page_size) { 10 }
-      let(:overspilling_labels) { 5 }
-      let(:label_count) { page_size + overspilling_labels }
-      let(:call_args) { { name: "Paginated" } }
-
-      before do
-        allow(described_class).to receive(:page_size).and_return(page_size)
-
-        label_count.times { |idx| create(:label, name: "Paginated #{idx}") }
-      end
-
-      it "returns only results up to the page size" do
-        mcp_request
-        expect(result_items.count).to eq(page_size)
-      end
-
-      it "indicates the total number of results" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "total")).to eq(label_count)
-      end
-
-      context "if another page is requested" do
-        let(:call_args) { { name: "Paginated", page: 2 } }
-
-        it "returns the requested page" do
-          mcp_request
-          expect(result_items.count).to eq(overspilling_labels)
-        end
-      end
+  it "responds with properly formatted labels" do
+    mcp_request
+    result_items.each do |label|
+      expect(label.to_json).to match_json_schema.from_docs("label_model")
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
+  context "when passing a partial name" do
+    let(:call_args) { { name: "ront" } }
+
+    it "finds the matching label" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(result_items.pluck("id")).to contain_exactly(frontend.id)
+    end
+  end
+
+  context "when the user cannot view work packages anywhere" do
+    let(:user) { create(:user) }
+
+    it "does not find any labels" do
+      mcp_request
+      expect(result_items).to be_empty
+    end
+  end
+
+  describe "pagination" do
+    let(:page_size) { 10 }
+    let(:overspilling_labels) { 5 }
+    let(:label_count) { page_size + overspilling_labels }
+    let(:call_args) { { name: "Paginated" } }
+
+    before do
+      allow(described_class).to receive(:page_size).and_return(page_size)
+
+      label_count.times { |idx| create(:label, name: "Paginated #{idx}") }
+    end
+
+    it "returns only results up to the page size" do
+      mcp_request
+      expect(result_items.count).to eq(page_size)
+    end
+
+    it "indicates the total number of results" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "total")).to eq(label_count)
+    end
+
+    context "if another page is requested" do
+      let(:call_args) { { name: "Paginated", page: 2 } }
+
+      it "returns the requested page" do
+        mcp_request
+        expect(result_items.count).to eq(overspilling_labels)
+      end
     end
   end
 end

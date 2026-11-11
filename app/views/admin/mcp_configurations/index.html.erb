@@ -40,57 +40,50 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= with_enterprise_banner_guard(
-  :mcp_server,
-  variant: :large,
-  video: "enterprise/mcp-server.mp4"
-) do %>
+<%= settings_primer_form_with(model: @server_config, data: { test_selector: "mcp-configuration--server-config-form" }) { |f| render(McpConfigurations::ServerForm.new(f)) } %>
 
-  <%= settings_primer_form_with(model: @server_config, data: { test_selector: "mcp-configuration--server-config-form" }) { |f| render(McpConfigurations::ServerForm.new(f)) } %>
-
-  <% if @server_config.enabled? %>
-    <%=
-      render(Primer::Beta::Subhead.new(mt: 4)) do |component|
-        component.with_heading(tag: :h3) { t(".tools_heading") }
-        component.with_description do
-          link_translate(
-            "admin.mcp_configurations.index.tools_description",
-            links: { docs_url: %i[sysadmin_docs mcp_tools] },
-            external: true
-          )
-        end
-      end
-    %>
-
-    <%=
-      render(
-        McpConfigurations::MultipleConfigurationsComponent.new(
-          @tool_configs,
-          submit_label: t(".tools_submit")
+<% if @server_config.enabled? %>
+  <%=
+    render(Primer::Beta::Subhead.new(mt: 4)) do |component|
+      component.with_heading(tag: :h3) { t(".tools_heading") }
+      component.with_description do
+        link_translate(
+          "admin.mcp_configurations.index.tools_description",
+          links: { docs_url: %i[sysadmin_docs mcp_tools] },
+          external: true
         )
-      )
-    %>
-
-    <%=
-      render(Primer::Beta::Subhead.new(mt: 4)) do |component|
-        component.with_heading(tag: :h3) { t(".resources_heading") }
-        component.with_description do
-          link_translate(
-            "admin.mcp_configurations.index.resources_description",
-            links: { docs_url: %i[sysadmin_docs mcp_resources] },
-            external: true
-          )
-        end
       end
-    %>
+    end
+  %>
 
-    <%=
-      render(
-        McpConfigurations::MultipleConfigurationsComponent.new(
-          @resource_configs,
-          submit_label: t(".resources_submit")
-        )
+  <%=
+    render(
+      McpConfigurations::MultipleConfigurationsComponent.new(
+        @tool_configs,
+        submit_label: t(".tools_submit")
       )
-    %>
-  <% end %>
+    )
+  %>
+
+  <%=
+    render(Primer::Beta::Subhead.new(mt: 4)) do |component|
+      component.with_heading(tag: :h3) { t(".resources_heading") }
+      component.with_description do
+        link_translate(
+          "admin.mcp_configurations.index.resources_description",
+          links: { docs_url: %i[sysadmin_docs mcp_resources] },
+          external: true
+        )
+      end
+    end
+  %>
+
+  <%=
+    render(
+      McpConfigurations::MultipleConfigurationsComponent.new(
+        @resource_configs,
+        submit_label: t(".resources_submit")
+      )
+    )
+  %>
 <% end %>
