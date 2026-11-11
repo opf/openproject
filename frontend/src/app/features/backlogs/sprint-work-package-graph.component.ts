@@ -28,10 +28,9 @@
 import { ChangeDetectionStrategy, Component, Signal, computed, input } from '@angular/core';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { uniqueId } from 'lodash-es';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
-import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
+import { generateId, getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 interface SprintWorkPackageGraphData {
   labels:string[];
@@ -62,8 +61,8 @@ export class SprintWorkPackageGraphComponent {
 
   readonly plugins:Plugin<'bar'>[] = [ChartDataLabels];
 
-  readonly summaryId = uniqueId('op-sprint-work-package-graph-summary-');
-  readonly tableId = uniqueId('op-sprint-work-package-graph-table-');
+  readonly summaryId = generateId('op-sprint-work-package-graph-summary');
+  readonly tableId = generateId('op-sprint-work-package-graph-table');
 
   readonly parsedData:Signal<SprintWorkPackageGraphData> = computed(
     () => JSON.parse(this.chartData()) as SprintWorkPackageGraphData,
