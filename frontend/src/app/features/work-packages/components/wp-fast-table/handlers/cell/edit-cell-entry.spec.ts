@@ -43,6 +43,17 @@ describe('Edit cell entry', () => {
 
   const subjectField = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject .inline-edit--display-field')!;
 
+  const controlNestedInOpenEditor = async (workPackageId:string) => {
+    fireEvent.click(subjectField(workPackageId));
+    const textbox = await within(harness.row(workPackageId)).findByRole('textbox');
+    const host = document.createElement('div');
+    host.classList.add(activeFieldClassName);
+    const nested = document.createElement('button');
+    host.append(nested);
+    textbox.closest('td, th')!.append(host);
+    return nested;
+  };
+
   afterEach(() => harness.destroy());
 
   describe('with an editable subject', () => {
@@ -78,17 +89,20 @@ describe('Edit cell entry', () => {
     it('does not open the work package when double clicking a control nested in the open editor', async () => {
       const itemClicked = vi.fn();
       harness.outputs.itemClicked.subscribe(itemClicked);
-      fireEvent.click(subjectField('1'));
-      const textbox = await within(harness.row('1')).findByRole('textbox');
-      const host = document.createElement('div');
-      host.classList.add(activeFieldClassName);
-      const nested = document.createElement('button');
-      host.append(nested);
-      textbox.closest('td, th')!.append(host);
+      const nested = await controlNestedInOpenEditor('1');
 
       fireEvent.dblClick(nested);
 
       expect(itemClicked).not.toHaveBeenCalled();
+    });
+
+    it('leaves selection and the current work package alone when clicking a control nested in the open editor', async () => {
+      const nested = await controlNestedInOpenEditor('1');
+
+      fireEvent.click(nested);
+
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+      expect(harness.focus.focusedWorkPackage).toBe('2');
     });
   });
 
