@@ -210,6 +210,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def set_default_attributes(attributes)
     set_default_priority
     set_default_author
+    set_default_reporter
     set_default_status
     set_default_start_date(attributes)
     set_default_due_date(attributes)
@@ -221,6 +222,10 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def set_default_author
     work_package.author ||= user
+  end
+
+  def set_default_reporter
+    work_package.reporter ||= work_package.author
   end
 
   def set_default_status

@@ -504,6 +504,55 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
   end
 
+  context "for reporter" do
+    let(:call_attributes) { {} }
+    let(:expected_attributes) { {} }
+
+    context "with no value set before for a new work package" do
+      let(:work_package) { new_work_package }
+
+      it_behaves_like "service call" do
+        it "sets the reporter to the author (service user)" do
+          expect(subject.result.reporter).to eq(user)
+          expect(subject.result.reporter).to eq(subject.result.author)
+        end
+
+        it "notes the reporter to be system changed" do
+          expect(subject.result.changed_by_system["reporter_id"]).to eql [nil, user.id]
+        end
+      end
+    end
+
+    context "with no value set on an existing work package" do
+      before { work_package.reporter = nil }
+
+      it_behaves_like "service call" do
+        it "stays nil" do
+          expect(subject.result.reporter).to be_nil
+        end
+      end
+    end
+
+    context "with an author but no reporter passed for a new work package" do
+      let(:author) { build_stubbed(:user) }
+      let(:call_attributes) { { author: } }
+      let(:expected_attributes) { { author:, reporter: author } }
+      let(:work_package) { new_work_package }
+
+      it_behaves_like "service call"
+    end
+
+    context "when setting author and reporter via attributes" do
+      let(:author) { build_stubbed(:user) }
+      let(:reporter) { build_stubbed(:user) }
+      let(:call_attributes) { { author:, reporter: } }
+      let(:expected_attributes) { call_attributes }
+      let(:work_package) { new_work_package }
+
+      it_behaves_like "service call"
+    end
+  end
+
   context "with the actual contract" do
     let(:invalid_wp) do
       build(:work_package, subject: "").tap do |wp|
