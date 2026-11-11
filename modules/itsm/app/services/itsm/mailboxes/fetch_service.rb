@@ -100,7 +100,7 @@ module ITSM
       def fetch_failed(error)
         Rails.logger.warn { ["Fetching from #{server_address} failed (#{error.code})", error.payload].compact.join(": ") }
         mailbox.fetch_failed!(error.code)
-        service_failure(error.code, result: mailbox)
+        service_failure(error.code, result: mailbox, server_message: error.payload)
       end
     end
   end

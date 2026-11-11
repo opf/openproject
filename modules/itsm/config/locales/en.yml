@@ -42,10 +42,10 @@ en:
           attributes:
             base:
               address_not_allowed: "The mail server resolves to a blocked address. If it runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable."
-              authentication_failed: "The mail server rejected the username or password."
+              authentication_failed: "The mail server rejected the login: %{server_message}"
               fetch_in_progress: "The mailbox is already being checked."
               inactive: "The mailbox is paused."
-              server_error: "The mail server returned an error. Check the OpenProject worker logs for details."
+              server_error: "The mail server returned an error: %{server_message}"
               timeout: "The mail server stopped responding."
               tls_failed: "No secure connection to the mail server could be established. Check its certificate."
               unreachable: "The mail server could not be reached."

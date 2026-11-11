@@ -31,6 +31,6 @@ module ITSM
   module ServiceFailure
     private
 
-    def service_failure(code, result:) = ServiceResult.failure(result:).tap { it.errors.add(:base, code) }
+    def service_failure(code, result:, **details) = ServiceResult.failure(result:).tap { it.errors.add(:base, code, **details) }
   end
 end
