@@ -47,8 +47,8 @@ describe('BurndownChartComponent', () => {
         'js.burndown_chart.chart_label': 'Burndown chart',
         'js.burndown_chart.chart_summary': `Burndown chart data: ${options.days}.`,
         'js.burndown_chart.chart_value': `${options.label}: ${options.value}`,
-        'js.burndown_chart.y_axis_title.story_points': 'Story points',
-        'js.burndown_chart.y_axis_title.time': 'Estimated time',
+        'js.sprint_charts.y_axis_title.story_points': 'Story points',
+        'js.sprint_charts.y_axis_title.time': 'Estimated time',
       };
 
       return translations[key] ?? key;

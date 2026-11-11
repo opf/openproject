@@ -46,8 +46,8 @@ describe('BurnupChartComponent', () => {
         'js.burnup_chart.chart_label': 'Burnup chart',
         'js.burnup_chart.chart_summary': `Burnup chart data: ${options.days}.`,
         'js.burnup_chart.chart_value': `${options.label}: ${options.value}`,
-        'js.burnup_chart.y_axis_title.story_points': 'Story points',
-        'js.burnup_chart.y_axis_title.time': 'Estimated time',
+        'js.sprint_charts.y_axis_title.story_points': 'Story points',
+        'js.sprint_charts.y_axis_title.time': 'Estimated time',
         'js.sprint_charts.non_working_day': 'Non-working day',
       };
 

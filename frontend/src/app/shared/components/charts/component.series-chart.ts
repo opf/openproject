@@ -147,7 +147,9 @@ export abstract class SeriesChartComponent<Key extends string> {
   protected abstract readonly seriesStyle:Record<Key, SeriesStyle<Key>>
   & Partial<Record<NonWorkingKey, SeriesStyle<Key>>>;
 
-  protected abstract readonly yAxisTitle:string;
+  protected get yAxisTitle():string {
+    return this.i18n.t(`js.sprint_charts.y_axis_title.${this.parsedInput().unit ?? 'story_points'}`);
+  }
 
   protected abstract readonly interaction:ChartOptions<'line'>['interaction'];
 
