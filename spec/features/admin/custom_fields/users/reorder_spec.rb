@@ -279,12 +279,6 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
 
   # Drags a custom field row via its drag handle. Exactly one of before:,
   # after: or into: (an empty section) must be given.
-  #
-  # Retries on a stale reference: a drop can trigger a Turbo morph mid-drag
-  # bookkeeping (e.g. re-locating the target after a previous drag in the same
-  # example), and this suite runs Selenium only, so the Selenium-specific
-  # error is what actually surfaces here (unlike Cuprite-driven specs
-  # elsewhere, which raise Capybara::Cuprite::ObsoleteNode instead).
   def drag_field(custom_field, before: nil, after: nil, into: nil)
     drag_item(custom_field, before:, after:, into:)
   end
@@ -294,13 +288,10 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
   end
 
   def drag_item(custom_field_or_key, before: nil, after: nil, into: nil)
-    attempts ||= 0
-
     unless [before, after, into].compact.one?
       raise ArgumentError, "You must specify exactly one of before, after or into"
     end
 
-    attempts += 1
     handle = drag_handle(field_item(custom_field_or_key))
 
     target_element, edge =
@@ -313,37 +304,27 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
       end
 
     wait_for_turbo_stream { drag_via_handle(handle:, target_element:, edge:) }
-  rescue Selenium::WebDriver::Error::StaleElementReferenceError
-    retry if attempts < 3
-    raise
   end
 
   def drag_section(section, before: nil, after: nil)
-    attempts ||= 0
-
     unless [before, after].compact.one?
       raise ArgumentError, "You must specify exactly one of before or after"
     end
 
-    attempts += 1
     handle = drag_handle(section_item(section))
     target_element, edge = before ? [section_item(before), :top] : [section_item(after), :bottom]
 
     wait_for_turbo_stream { drag_via_handle(handle:, target_element:, edge:) }
-  rescue Selenium::WebDriver::Error::StaleElementReferenceError
-    retry if attempts < 3
-    raise
   end
 
   def drag_via_handle(handle:, target_element:, edge: nil)
     offset_x, offset_y = selenium_target_offset(target_element.native.rect, edge:)
     perform_native_drag(source: handle, target: target_element, offset_x:, offset_y:)
 
-    # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
-    # a cleanup, so a regression that leaves the overlay stuck is caught here
-    # instead of being masked by the JS removal below.
+    # Pragmatic DnD tears its own honey-pot overlay down after the drop. One
+    # left behind swallows the next gesture's pointer events, so fail on it
+    # here rather than in whatever drag comes next.
     expect(page).to have_no_css("[data-pdnd-honey-pot]", wait: 2, visible: :all)
-    clear_pragmatic_dnd_honey_pot
   end
 
   def selenium_target_offset(rect, edge:)
@@ -360,13 +341,5 @@ RSpec.describe "Reordering user attribute sections and fields", :js, :selenium d
         0
       end
     ].map(&:round)
-  end
-
-  def clear_pragmatic_dnd_honey_pot
-    page.execute_script(<<~JS)
-      document
-        .querySelectorAll('[data-pdnd-honey-pot]')
-        .forEach((element) => element.remove());
-    JS
   end
 end
