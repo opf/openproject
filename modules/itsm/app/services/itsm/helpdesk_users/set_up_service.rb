@@ -54,7 +54,19 @@ module ITSM
 
       def new_user = ServiceAccount.new(name: translated(:label_helpdesk_user))
 
-      def create(record, setting) = record.tap { Setting[setting] = it.id if it.save }
+      def create(record, setting)
+        definition = Settings::Definition[setting]
+        return configured_record_missing(record, definition) unless definition.writable?
+
+        record.tap { Setting[setting] = it.id if it.save }
+      end
+
+      def configured_record_missing(record, definition)
+        message = I18n.t("itsm.helpdesk_users.configured_record_missing",
+                         variable: definition.possible_env_names.first,
+                         id: definition.value)
+        record.tap { it.errors.add(:base, message) }
+      end
 
       def locked(&) = OpenProject::Mutex.with_advisory_lock(ServiceAccount, "itsm_helpdesk_user", transaction: true, &)
 
