@@ -2,14 +2,13 @@
 
 PostgreSQL addon for pkgr.
 
-If autoinstall mode is selected, it will attempt to setup a PostgreSQL v17 cluster, using the packages from https://www.postgresql.org/download/linux/.
+New autoinstallations provision PostgreSQL 18 with pgvector available using packages from https://www.postgresql.org/download/linux/.
 
-Supported distributions:
+Existing configured installations retain their PostgreSQL major and are only checked for connectivity. Reused external databases are not modified. Install the matching pgvector package for existing databases. OpenProject handles extension creation during application migrations.
 
-- SLES12
-- Enterprise Linux 7, Enterprise Linux 7
-- Ubuntu 14.04, 16.04, 18.04, 20.04
-- Debian 7, 8, 9, 10
+OpenProject packages use this vendored addon, not the upstream `pkgr/addon-postgres` repository.
+
+Automatic installation is supported for OpenProject's Debian 11/12, Ubuntu 22.04, and Enterprise Linux 9 package targets. SLES requires a separately managed PostgreSQL installation.
 
 ## Development
 
@@ -23,3 +22,7 @@ Supported distributions:
 
     sudo -E INSTALLER_DEBUG=no WIZ_RECONFIGURE=no DATABASE=/tmp/test1 ./bin/configure
     sudo -E INSTALLER_DEBUG=no WIZ_RECONFIGURE=no DATABASE=/tmp/test1 ./bin/preinstall
+
+## Tests
+
+See [the test instructions](tests/README.md) for provisioning and Debian package installation checks.

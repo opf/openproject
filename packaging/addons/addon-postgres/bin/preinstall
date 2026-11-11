@@ -58,19 +58,18 @@ install_postgres_server() {
 			esac
 
 		if [ "$codename" != "" ]; then
-			if ! wiz_check_package "postgresql-17" ; then
+			if ! wiz_check_package "postgresql-18" ; then
 				_ensure_port_available
 				echo "deb https://apt.postgresql.org/pub/repos/apt/ ${codename}-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 				echo -n "INFO: Adding repository signing key from PostgreSQL... "
 				wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-				echo "INFO: Installing PostgreSQL v17..."
+				echo "INFO: Installing PostgreSQL v18..."
 				apt-get update -qq
-				DEBIAN_FRONTEND=noninteractive apt-get install postgresql-17 -y
+				DEBIAN_FRONTEND=noninteractive apt-get install postgresql-18 postgresql-18-pgvector -y
 
-				su - postgres -c "/usr/lib/postgresql/17/bin/pg_ctl -D /var/lib/postgresql/17/main -w -t 10 stop || true"
-				_configure_postgres_server "/etc/postgresql/17/main"
-				sleep 3
-				su - postgres -c "/usr/lib/postgresql/17/bin/pg_ctl -D /var/lib/postgresql/17/main -w -t 10 -l logfile restart"
+				pg_ctlcluster 18 main stop || true
+				_configure_postgres_server "/etc/postgresql/18/main"
+				pg_ctlcluster 18 main start
 			else
 				_error_if_conflicting_install
 			fi
@@ -99,16 +98,16 @@ install_postgres_server() {
 					;;
 			esac
 
-		if ! wiz_check_package "postgresql17-server" ; then
+		if ! wiz_check_package "postgresql18-server" ; then
 			_ensure_port_available
-			echo "INFO: Installing PostgreSQL v17..."
+			echo "INFO: Installing PostgreSQL v18..."
 			yum install -y "$repo"
-			yum install -y postgresql17-server postgresql17 postgresql17-contrib
-			PGSETUP_INITDB_OPTIONS="--auth-local peer --auth-host md5" /usr/pgsql-17/bin/postgresql-17-setup initdb
+			yum install -y postgresql18-server postgresql18 postgresql18-contrib pgvector_18
+			PGSETUP_INITDB_OPTIONS="--auth-local peer --auth-host md5" /usr/pgsql-18/bin/postgresql-18-setup initdb
 
-			_configure_postgres_server "/var/lib/pgsql/17/data"
-			wiz_service_enable postgresql-17
-			wiz_service_restart postgresql-17
+			_configure_postgres_server "/var/lib/pgsql/18/data"
+			wiz_service_enable postgresql-18
+			wiz_service_restart postgresql-18
 		else
 			_error_if_conflicting_install
 		fi
@@ -177,8 +176,15 @@ function _configure_database_and_user() {
 	fi
 	su - postgres -c "psql -p $PGPORT --no-readline --no-password -c \"alter user $PGUSER with encrypted password '$PGPASSWORD';\""
 
-	if su - postgres -c "createdb -p $PGPORT -O $PGUSER $PGDATABASE 2>&1 || true" | grep -q "already exists" ; then
+	local database_exists
+	database_exists=$(runuser -u postgres -- psql -p "$PGPORT" -d postgres -At -v ON_ERROR_STOP=1 -v database="$PGDATABASE" <<'SQL'
+SELECT 1 FROM pg_database WHERE datname = :'database';
+SQL
+)
+	if [ "$database_exists" = 1 ]; then
 		echo "INFO: database $PGDATABASE already exists"
+	else
+		runuser -u postgres -- createdb -p "$PGPORT" -O "$PGUSER" -- "$PGDATABASE"
 	fi
 }
 
@@ -187,7 +193,7 @@ case "$(wiz_get "postgres/autoinstall")" in
 		echo "INFO: autoinstall=skip. Skipping to next step."
 		;;
 	"install")
-		echo "INFO: autoinstall=install. A new PostgreSQL v17 server will be installed locally unless a conflicting installation is found."
+		echo "INFO: autoinstall=install. A new PostgreSQL v18 server will be installed locally unless a conflicting installation is found."
 		if [ -f "$CONF_FILE" ]; then
 			echo "INFO: existing installation found. Skipping to next step."
 			_ensure_connection_ok

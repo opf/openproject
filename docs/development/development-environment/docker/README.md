@@ -16,6 +16,10 @@ The quickest way to get started developing OpenProject is to use the docker setu
 
 And nothing else!
 
+## Existing PostgreSQL data
+
+The development databases now use PostgreSQL 18 with pgvector. Existing PostgreSQL 17 volumes require an explicit upgrade or a PostgreSQL 17 image and mount override. Follow the [PostgreSQL 18 migration guide](../../../installation-and-operations/misc/migration-to-postgresql18/) before starting the new containers. Apply the instructions to both `db` and `db-test`, and rebuild the backend image for PostgreSQL 18 client tools.
+
 ## Quick start
 
 To get right into it and just start the application you can just do the following:

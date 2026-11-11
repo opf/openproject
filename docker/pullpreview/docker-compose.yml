@@ -50,7 +50,7 @@ services:
       - "./Caddyfile:/etc/caddy/Caddyfile:ro"
 
   db:
-    image: postgres:17
+    image: pgvector/pgvector:pg18-bookworm
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: p4ssw0rd
@@ -58,7 +58,7 @@ services:
     networks:
       - backend
     volumes:
-      - "postgres_data:/var/lib/postgresql/data"
+      - "postgres_data:/var/lib/postgresql"
     expose:
       - "5432"
     healthcheck:

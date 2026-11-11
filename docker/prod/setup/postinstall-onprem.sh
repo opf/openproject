@@ -26,7 +26,7 @@ apt-get install -y  \
 
 # Install postgres server versions
 for version in $PGVERSION_CHOICES ; do
-	apt-get install -yq --no-install-recommends postgresql-$version
+	apt-get install -yq --no-install-recommends postgresql-$version postgresql-$version-pgvector
 done
 
 # remove any existing cluster

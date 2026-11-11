@@ -113,11 +113,11 @@ services:
       - "${FE_PORT:-4200}:4200"
 
   db:
-    image: postgres:17
+    image: pgvector/pgvector:pg${POSTGRES_VERSION:-18}-bookworm
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
-      - "pgdata:/var/lib/postgresql/data"
+      - "pgdata:/var/lib/postgresql"
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
@@ -145,10 +145,10 @@ services:
   ######### Testing stuff below ############
 
   db-test:
-    image: postgres:17
+    image: pgvector/pgvector:pg${POSTGRES_VERSION:-18}-bookworm
     stop_grace_period: "3s"
     volumes:
-      - "pgdata-test:/var/lib/postgresql/data"
+      - "pgdata-test:/var/lib/postgresql"
     environment:
       POSTGRES_DB: openproject
       POSTGRES_USER: openproject

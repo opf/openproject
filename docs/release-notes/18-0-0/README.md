@@ -19,7 +19,17 @@ In these Release Notes, we will give an overview of important feature changes. A
 
 ## Important updates and breaking changes
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+### PostgreSQL 18 and pgvector
+
+New packaged, all-in-one (AIO), and Docker Compose installations now default to PostgreSQL 18 with pgvector available. OpenProject handles extension creation during application migrations. Compose uses the upstream `pgvector/pgvector` image. AIO bundles only PostgreSQL 17 and 18; PostgreSQL 13 and 15 users must migrate before switching images.
+
+Existing databases are **not upgraded automatically**. Packaged installations retain their current database server. AIO now stops on a database-version mismatch instead of automatically selecting the older server; set `PGVERSION=17` to keep using PostgreSQL 17 data.
+
+Compose users must upgrade their database or retain both their current image and volume mount. Setting `POSTGRES_VERSION=17` alone is insufficient because PostgreSQL 18 uses a different container data layout. Existing databases do not require pgvector for this application update.
+
+Follow the [PostgreSQL 18 migration guide](../../installation-and-operations/misc/migration-to-postgresql18/) before updating. It includes backup, restore, pgvector activation, and stay-on-current-version instructions.
+
+Helm users should pin their current PostgreSQL image repository and complete tag, including a PostgreSQL 17 tag if that is their running major. Do not replace the Bitnami image with an upstream pgvector image in the existing chart.
 
 <!-- BEGIN SECURITY FIXES AUTOMATED SECTION -->
 

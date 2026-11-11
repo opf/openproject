@@ -141,6 +141,8 @@ postgres_13_upgrade:
   href: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql13/
 postgres_17_upgrade:
   href: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql17/
+postgres_18_upgrade:
+  href: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql18/
 postgres_migration:
   href: https://www.openproject.org/docs/installation-and-operations/misc/packaged-postgresql-migration/
   label: :homescreen.links.postgres_migration
