@@ -74,9 +74,9 @@ zh-CN:
         title: 资源管理
   label_resource_management: 资源管理
   permission_allocate_user_resources: 分配用户资源
-  permission_allocate_user_resources_explanation: 允许用户在资源规划工具中创建、更新和删除资源分配。这包括为规划工具分配用户（或用户筛选器），以及调整分配的时间和日期范围。
-  permission_assign_users_to_generic_allocations: 将用户指定给通用分配
-  permission_assign_users_to_generic_allocations_explanation: 允许用户使用“人员配置”视图，将真实用户指定给尚未拥有用户的通用（基于筛选器的）资源分配。该功能不支持创建或编辑分配。
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: 管理公开的全局资源规划工具
   permission_manage_public_global_resource_planners_explanation: 允许用户发布自己的全局资源规划工具，并管理其他用户已公开共享的全局资源规划工具。不允许用户查看未公开共享的全局资源规划工具。
   permission_manage_public_resource_planners: 管理公开的资源规划工具
@@ -127,9 +127,9 @@ zh-CN:
     assignment_dialog:
       available: "%{hours}可用"
       confirm_overtime: 仍然指定
-      filter_criteria: 筛选条件
+      filter_criteria: Criteria
       no_candidates:
-        description: 没有项目成员符合此分配的筛选条件。
+        description: No project member matches the criteria of this placeholder user.
         title: 没有匹配的成员
       no_schedule: 此用户未设置工作时间表，因此我们无法确定此分配是否合适。
       overbooked_detail: 此用户在此期间的可用量为 %{available}，该工作包需要 %{requested}。
@@ -180,7 +180,7 @@ zh-CN:
     staffing:
       assign: 指定用户
       blank:
-        description: 此项目中的所有通用分配都指定了用户。
+        description: All placeholder user allocations in this project have a user assigned.
         title: 无需配置人员
       columns:
         dates: 日期
@@ -322,7 +322,7 @@ zh-CN:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          other: 此项目的 %{count} 个成员符合该分配的筛选条件。
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: 添加工作包
         configure_view: 配置视图

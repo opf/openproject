@@ -33,6 +33,8 @@ module CustomField::ProjectSpecificValues
 
   included do
     enum :project_specific_value_restriction, { allow: "allow", block: "block" }, prefix: true, validate: { allow_nil: true }
+    store_attribute :settings, :allow_additional_project_values, :boolean, default: false
+    store_attribute :settings, :project_level_value_management, :boolean, default: false
     has_many :project_specific_value_restrictions,
              class_name: "CustomField::ProjectSpecificValueRestriction",
              dependent: :delete_all
@@ -47,7 +49,7 @@ module CustomField::ProjectSpecificValues
   end
 
   def visible_values_for(user, within: nil)
-    return restrictable_values if user.admin?
+    return restrictable_values if user.admin? && within.nil?
 
     projects = Project.with_visible_work_packages(user)
     projects = projects.where(id: within) if within

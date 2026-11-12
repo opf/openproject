@@ -82,7 +82,7 @@ RSpec.describe "Authentication with an API key",
     end
   end
 
-  describe "MCP", with_ee: %i[mcp_server] do
+  describe "MCP" do
     let(:mcp_request_body) { { jsonrpc: "2.0", id: "api-key-auth", method: "tools/list", params: {} }.to_json }
 
     before do

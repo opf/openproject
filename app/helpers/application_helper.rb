@@ -327,12 +327,21 @@ module ApplicationHelper
       theme_options[:auto_theme_switcher_force_light_contrast_value] = pref.force_light_theme_contrast?
       theme_options[:auto_theme_switcher_force_dark_contrast_value] = pref.force_dark_theme_contrast?
     else
-      theme_options[:color_mode] = theme
-      theme_options[:"#{theme}_theme"] = theme
-      theme_options[:auto_theme_switcher_increase_contrast_value] = pref.increase_theme_contrast?
+      theme_options.merge!(explicit_theme_data_attributes(pref))
     end
 
     theme_options
+  end
+
+  def explicit_theme_data_attributes(pref)
+    theme = pref.theme
+    high_contrast = pref.increase_theme_contrast?
+
+    {
+      color_mode: theme,
+      "#{theme}_theme": high_contrast ? "#{theme}_high_contrast" : theme,
+      auto_theme_switcher_increase_contrast_value: high_contrast
+    }
   end
 
   def labelled_tabular_form_for(record, options = {}, &)

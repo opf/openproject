@@ -74,9 +74,9 @@ ko:
         title: 리소스 관리
   label_resource_management: 리소스 관리
   permission_allocate_user_resources: 사용자 리소스 할당
-  permission_allocate_user_resources_explanation: 사용자가 리소스 플래너 내에서 리소스 할당을 만들고, 업데이트하고, 삭제할 수 있습니다. 여기에는 플래너에 사용자(또는 사용자 필터)를 할당하고 할당된 시간 및 날짜 범위를 조정하는 것이 포함됩니다.
-  permission_assign_users_to_generic_allocations: 사용자를 일반 할당에 배정
-  permission_assign_users_to_generic_allocations_explanation: 사용자가 스태핑 보기를 사용하여 아직 사용자가 없는 일반(필터 기반) 리소스 할당에 실제 사용자를 할당할 수 있습니다. 할당 생성 또는 편집은 허용되지 않습니다.
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: 공개 글로벌 리소스 플래너 관리
   permission_manage_public_global_resource_planners_explanation: 사용자가 고유한 글로벌 리소스 플래너를 게시하고, 다른 사용자가 공개적으로 공유한 글로벌 리소스 플래너를 관리할 수 있게 합니다. 단, 공개적으로 공유되지 않은 글로벌 리소스 플래너는 사용자가 볼 수 없습니다.
   permission_manage_public_resource_planners: 공개 리소스 플래너 관리
@@ -127,9 +127,9 @@ ko:
     assignment_dialog:
       available: "%{hours} 사용 가능"
       confirm_overtime: 그래도 할당
-      filter_criteria: 필터 기준
+      filter_criteria: Criteria
       no_candidates:
-        description: 이 할당의 필터 기준에 맞는 프로젝트 멤버가 없습니다.
+        description: No project member matches the criteria of this placeholder user.
         title: 일치하는 멤버 없음
       no_schedule: 이 사용자에게는 근무 스케줄이 설정되어 있지 않으므로, 이 할당이 적합한지 여부를 확인할 수 없습니다.
       overbooked_detail: 이 사용자는 해당 기간 동안 %{available}을(를) 사용할 수 있으며, 작업 패키지에는 %{requested}이(가) 필요합니다.
@@ -180,7 +180,7 @@ ko:
     staffing:
       assign: 사용자 할당
       blank:
-        description: 이 프로젝트의 모든 일반 할당에는 사용자가 할당되어 있습니다.
+        description: All placeholder user allocations in this project have a user assigned.
         title: 스태핑할 사항 없음
       columns:
         dates: 날짜
@@ -322,7 +322,7 @@ ko:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          other: 이 프로젝트의 멤버 %{count}명이 할당의 필터 기준에 맞습니다.
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: 작업 패키지 추가
         configure_view: 보기 구성

@@ -62,29 +62,22 @@ module LlmConnections
       end
     end
 
-    def locked? = binding&.locked?
+    def caption
+      if linkable_caption?
+        helpers.link_translate("#{feature.i18n_scope}.caption_with_link",
+                               links: { text_actions_url: helpers.admin_text_actions_path })
+      else
+        feature.caption
+      end
+    end
 
     def dangling? = binding&.dangling?
 
-    # What the embeddings probe last saw, offered as information. Never filled
-    # into the field: the server decides the vector size at index time.
-    def probed_dimensions
-      return unless feature.embedding?
-
-      model_id = binding&.resolved_model_id
-      return if model_id.blank?
-
-      connection.capability_verdicts.for_model(model_id).for_capability(:embeddings).first&.dimensions
-    end
-
-    def locked_values
-      [
-        [LlmFeatureBinding.human_attribute_name(:model_id), binding.model_id],
-        [LlmFeatureBinding.human_attribute_name(:dimensions), binding.dimensions || "—"]
-      ]
-    end
-
     private
+
+    def linkable_caption?
+      feature.key == :description_assistant && OpenProject::FeatureDecisions.ai_text_actions_active?
+    end
 
     attr_reader :feature, :connection, :binding
 

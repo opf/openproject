@@ -88,4 +88,15 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
     expect(rendered).to have_text("Hardware")
     expect(rendered).to have_no_link("Hardware")
   end
+
+  it "renders the variant description when present" do
+    variant.update!(description: "Hardware-specific variant")
+
+    expect(rendered_component).to have_text("Hardware-specific variant")
+  end
+
+  it "renders nothing for a blank description" do
+    expect(variant.description).to be_blank
+    expect(rendered_component).to have_no_css("[data-controller~='expandable-text']")
+  end
 end

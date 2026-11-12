@@ -95,7 +95,7 @@ module Admin
 
         def change_parent
           parse_parent_input(new_parent_params)
-            .bind { item_service.move_item(item: @active_item, new_parent: it) }
+            .bind { |new_parent| move_active_item(new_parent) }
             .either(
               ->(result) do
                 redirect_to action: :show,
@@ -144,6 +144,12 @@ module Admin
 
         def item_service
           ::CustomFields::Hierarchy::HierarchicalItemService.new
+        end
+
+        def move_active_item(new_parent)
+          item_service
+            .move_item(item: @active_item, new_parent:)
+            .alt_map { |validation_result| validation_result.errors(full: true).to_h.values.flatten.to_sentence }
         end
 
         def insert_item_input

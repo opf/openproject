@@ -33,12 +33,14 @@ module Backlogs
     module Widgets
       class WorkPackageTable < Grids::WidgetComponent
         include Backlogs::CommonHelper
+        include Backlogs::SprintsHelper
 
         param :sprint
         param :project
         param :breakdown
 
         def render?
+          sprint.date_range_set? &&
           EnterpriseToken.allows_to?(:baseline_comparison) &&
           EnterpriseToken.allows_to?(:sprint_report_pro_widgets) &&
           user_allowed?(:view_sprints)
@@ -55,7 +57,7 @@ module Backlogs
         def query_props
           {
             filters: filters.to_json,
-            "columns[]": %w[id subject type status assigned_to story_points],
+            "columns[]": %w[id subject type status assigned_to] + Array(estimation_column),
             sortBy: [%w[position asc]].to_json,
             showHierarchies: false,
             includeSubprojects: false,
@@ -65,11 +67,13 @@ module Backlogs
 
         def table_configuration
           {
+            labelledBy: "#{wrapper_key}-header",
             projectContext: false, # Project filter is added explicitly
             actionsColumnEnabled: false,
             columnMenuEnabled: false,
             contextMenuEnabled: false,
-            inlineCreateEnabled: false
+            inlineEditEnabled: false,
+            selectionEnabled: false
           }
         end
 
@@ -83,9 +87,7 @@ module Backlogs
 
         def state
           @state ||=
-            if !sprint.date_range_set?
-              :no_dates
-            elsif !sprint.started_at?
+            if !sprint.started_at?
               :not_started
             elsif empty?
               :empty

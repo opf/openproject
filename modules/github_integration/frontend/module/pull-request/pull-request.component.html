@@ -39,13 +39,13 @@
 <op-github-pull-request-state class='op-pull-request--state'
   [state]="state" />
 
-@if (pullRequest._embedded.checkRuns?.length) {
+@if (pullRequest._embedded.checkRuns.length) {
   <span class="op-pull-request--checks-label"
     [textContent]="text.label_actions"
   ></span>
 }
 
-@if (pullRequest._embedded.checkRuns?.length) {
+@if (pullRequest._embedded.checkRuns.length) {
   <ul
     [attr.aria-label]="text.label_actions"
     class='op-pull-request--checks'

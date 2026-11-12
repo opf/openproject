@@ -125,42 +125,42 @@ properties:
               attachment resides in remote storage, otherwise identical to `staticDownloadLocation`.
 
               **Resource**: -
-example:
-  _type: AttachmentUpload
-  id: 42
-  fileName: cat.png
-  description:
-    format: plain
-    raw: ''
-    html: ''
-  createdAt: '2014-05-21T08:51:20.396Z'
-  _links:
-    self:
-      href: "/api/v3/attachment_upload/42"
-      title: cat.png
-    author:
-      href: "/api/v3/users/1"
-    container:
-      href: "/api/v3/work_packages/1"
-    addAttachment:
-      href: "https://my-bucket.s3.amazonaws.com/"
-      method: post
-      form_fields:
-        key: uploads/42/cat.png
-        acl: private
-        success_action_status: '201'
-        Content-Type: image/png
-        X-Amz-Credential: AKIAIOSFODNN7EXAMPLE/20260101/eu-west-1/s3/aws4_request
-        X-Amz-Algorithm: AWS4-HMAC-SHA256
-        X-Amz-Date: 20260101T000000Z
-        policy: eyJleHBpcmF0aW9uIjogIjIwMjYtMDEtMDFUMDE6MDA6MDBaIiwgImNvbmRpdGlvbnMiOiBbXX0=
-        X-Amz-Signature: abcdef0123456789
-    completeUpload:
-      href: "/api/v3/attachments/42/uploaded"
-    delete:
-      href: "/api/v3/attachments/42"
-      method: delete
-    staticDownloadLocation:
-      href: "/api/v3/attachments/42/content"
-    downloadLocation:
-      href: "/api/v3/attachments/42/content"
+examples:
+  - _type: AttachmentUpload
+    id: 42
+    fileName: cat.png
+    description:
+      format: plain
+      raw: ''
+      html: ''
+    createdAt: '2014-05-21T08:51:20.396Z'
+    _links:
+      self:
+        href: "/api/v3/attachment_upload/42"
+        title: cat.png
+      author:
+        href: "/api/v3/users/1"
+      container:
+        href: "/api/v3/work_packages/1"
+      addAttachment:
+        href: "https://my-bucket.s3.amazonaws.com/"
+        method: post
+        form_fields:
+          key: uploads/42/cat.png
+          acl: private
+          success_action_status: '201'
+          Content-Type: image/png
+          X-Amz-Credential: AKIAIOSFODNN7EXAMPLE/20260101/eu-west-1/s3/aws4_request
+          X-Amz-Algorithm: AWS4-HMAC-SHA256
+          X-Amz-Date: 20260101T000000Z
+          policy: eyJleHBpcmF0aW9uIjogIjIwMjYtMDEtMDFUMDE6MDA6MDBaIiwgImNvbmRpdGlvbnMiOiBbXX0=
+          X-Amz-Signature: abcdef0123456789
+      completeUpload:
+        href: "/api/v3/attachments/42/uploaded"
+      delete:
+        href: "/api/v3/attachments/42"
+        method: delete
+      staticDownloadLocation:
+        href: "/api/v3/attachments/42/content"
+      downloadLocation:
+        href: "/api/v3/attachments/42/content"

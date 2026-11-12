@@ -85,7 +85,7 @@ RSpec.describe "delete placeholder user", :js do
 
     it "returns an error when trying to delete and disables the button" do
       visit deletion_info_placeholder_user_path(placeholder_user)
-      expect(page).to have_content I18n.t("placeholder_users.right_to_manage_members_missing").strip
+      expect(page).to have_text I18n.t("placeholder_users.right_to_manage_members_missing").strip
 
       visit placeholder_user_path(placeholder_user)
 

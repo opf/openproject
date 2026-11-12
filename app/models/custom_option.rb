@@ -32,8 +32,11 @@
 # which is restricted to a set of specific values.
 class CustomOption < ApplicationRecord
   belongs_to :custom_field, touch: true
+  belongs_to :project, optional: true
 
   validates :value, presence: true, length: { maximum: 255 }
+  validates :default_value, absence: true, if: :project_id?
+  validate :validate_value_unique
 
   before_destroy :assure_at_least_one_option
 
@@ -51,5 +54,21 @@ class CustomOption < ApplicationRecord
     errors.add(:base, I18n.t(:"activerecord.errors.models.custom_field.at_least_one_custom_option"))
 
     throw :abort
+  end
+
+  private
+
+  def validate_value_unique
+    options_with_same_value = CustomOption
+                                .where(custom_field_id:)
+                                .where("LOWER(#{CustomOption.table_name}.value) = LOWER(?)", value)
+                                .where.not(id:)
+    conflicting_options = if project_id
+                            options_with_same_value.where(project_id: [nil, project_id])
+                          else
+                            options_with_same_value
+                          end
+
+    errors.add(:value, :taken) if conflicting_options.exists?
   end
 end

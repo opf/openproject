@@ -36,6 +36,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { ComponentType } from '@angular/cdk/portal';
 import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import { WpGraphConfiguration } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
@@ -105,8 +106,11 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(tab:TabInterface):void {
-    this.tabPortalHost.switchTo(tab);
+  public switchTo(tab:TabDefinition):void {
+    const definition = this.availableTabs.find((available) => available.id === tab.id);
+    if (definition) {
+      this.tabPortalHost.switchTo(definition);
+    }
   }
 
   public saveChanges():void {

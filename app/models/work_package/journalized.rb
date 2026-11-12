@@ -30,6 +30,46 @@
 module WorkPackage::Journalized
   extend ActiveSupport::Concern
 
+  # This one is here only to ease reading
+  module JournalizedProcs
+    def self.event_title
+      Proc.new do |o|
+        title = o.to_s
+        title += " (#{o.status.name})" if o.status.present?
+
+        title
+      end
+    end
+
+    def self.event_name
+      Proc.new do |o|
+        I18n.t(o.event_type.underscore, scope: "events")
+      end
+    end
+
+    def self.event_type
+      Proc.new do |o|
+        journal = o.last_journal
+        t = "work_package"
+
+        t += if journal && journal.details.empty? && !journal.initial?
+               "-note"
+             else
+               status = Status.find_by(id: o.status_id)
+
+               status.try(:closed?) ? "-closed" : "-edit"
+             end
+        t
+      end
+    end
+
+    def self.event_url
+      Proc.new do |o|
+        { controller: :work_packages, action: :show, id: o.display_id }
+      end
+    end
+  end
+
   included do
     acts_as_journalized journals_association_extension: proc {
       def internal_visible
@@ -42,46 +82,6 @@ module WorkPackage::Journalized
         end
       end
     }
-
-    # This one is here only to ease reading
-    module JournalizedProcs
-      def self.event_title
-        Proc.new do |o|
-          title = o.to_s
-          title += " (#{o.status.name})" if o.status.present?
-
-          title
-        end
-      end
-
-      def self.event_name
-        Proc.new do |o|
-          I18n.t(o.event_type.underscore, scope: "events")
-        end
-      end
-
-      def self.event_type
-        Proc.new do |o|
-          journal = o.last_journal
-          t = "work_package"
-
-          t += if journal && journal.details.empty? && !journal.initial?
-                 "-note"
-               else
-                 status = Status.find_by(id: o.status_id)
-
-                 status.try(:is_closed?) ? "-closed" : "-edit"
-               end
-          t
-        end
-      end
-
-      def self.event_url
-        Proc.new do |o|
-          { controller: :work_packages, action: :show, id: o.display_id }
-        end
-      end
-    end
 
     acts_as_event title: JournalizedProcs.event_title,
                   type: JournalizedProcs.event_type,
@@ -104,7 +104,9 @@ module WorkPackage::Journalized
     register_journal_formatted_fields "ignore_non_working_days", formatter_key: :ignore_non_working_days
     register_journal_formatted_fields "cause", formatter_key: :cause
     register_journal_formatted_fields /\Afile_links_?\d+\z/, formatter_key: :file_link
-    register_journal_formatted_fields "project_phase_definition_id", formatter_key: :project_phase_definition
+    register_journal_formatted_fields "project_phase_definition_id",
+                                      formatter_key: :project_phase_definition,
+                                      view_permission: :view_project_phases
     register_journal_formatted_fields "target_versions", formatter_key: :target_versions
     register_journal_formatted_fields "observed_in_versions", formatter_key: :observed_in_versions
     register_journal_formatted_fields "labels", formatter_key: :labels

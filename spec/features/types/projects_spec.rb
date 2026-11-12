@@ -75,8 +75,30 @@ RSpec.describe "Work package type projects tab", :js do
     end
   end
 
-  def current_url_filters
-    Rack::Utils.parse_query(URI(page.current_url).query).fetch("filters", "")
+  def url_filters_including(*names)
+    a_hash_including("filters" => a_string_including(*names.map { /\b#{Regexp.escape(it)}\b/ }))
+  end
+
+  def in_project_row(project, &)
+    page.within_test_selector("type-projects-row-#{project.id}", &)
+  end
+
+  def in_project_hover_card(project, &)
+    page.within_test_selector("project-hover-card-#{project.id}", wait: 5, &)
+  end
+
+  context "when showing hover cards" do
+    it "shows more information when hovering over a project name" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      in_project_row(on_hardware) do |row|
+        row.find("a", text: on_hardware.name).hover
+      end
+
+      in_project_hover_card(on_hardware) do
+        expect(page).to have_heading(text: on_hardware.name, level: 2)
+      end
+    end
   end
 
   it "lists every variant's projects at type level and narrows to one inside a variant" do
@@ -94,7 +116,7 @@ RSpec.describe "Work package type projects tab", :js do
     search_projects("Labor")
 
     expect_listed(on_firmware)
-    expect(current_url_filters).to include("name_and_identifier")
+    expect(page).to have_current_query_params(url_filters_including("name_and_identifier"))
   end
 
   it "narrows the table to the variants picked in the quick filter" do
@@ -103,7 +125,7 @@ RSpec.describe "Work package type projects tab", :js do
     keep_only(firmware)
 
     expect_listed(on_firmware)
-    expect(current_url_filters).to include("type_variant_id")
+    expect(page).to have_current_query_params(url_filters_including("type_variant_id"))
   end
 
   # The two controls write the one filters param, so each has to narrow what the other left rather
@@ -119,7 +141,7 @@ RSpec.describe "Work package type projects tab", :js do
       expect(page).to have_text(I18n.t("types.edit.projects.empty_state.no_results"))
     end
     expect_listed
-    expect(current_url_filters).to include("name_and_identifier", "type_variant_id")
+    expect(page).to have_current_query_params(url_filters_including("name_and_identifier", "type_variant_id"))
   end
 
   it "keeps the typed name when a variant is picked afterwards" do
@@ -133,7 +155,7 @@ RSpec.describe "Work package type projects tab", :js do
     keep_only(firmware)
 
     expect_listed(on_firmware)
-    expect(current_url_filters).to include("name_and_identifier", "type_variant_id")
+    expect(page).to have_current_query_params(url_filters_including("name_and_identifier", "type_variant_id"))
   end
 
   it "keeps the picked variants when the name is cleared again" do
@@ -150,8 +172,8 @@ RSpec.describe "Work package type projects tab", :js do
     find_by_id("type-projects-filters-clear-button").click
 
     expect_listed(on_hardware)
-    expect(current_url_filters).to include("type_variant_id")
-    expect(current_url_filters).not_to include("name_and_identifier")
+    expect(page).to have_current_query_params(url_filters_including("type_variant_id"))
+    expect(page).to have_no_current_query_params(url_filters_including("name_and_identifier"))
   end
 
   it "says nothing matched rather than inviting an add, once a search has been made" do

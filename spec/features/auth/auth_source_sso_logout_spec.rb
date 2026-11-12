@@ -62,6 +62,6 @@ RSpec.describe "Login with auth source SSO",
 
     visit signout_path
 
-    expect(current_url).to eq "http://google.com/"
+    expect(page).to have_current_path "http://google.com/"
   end
 end

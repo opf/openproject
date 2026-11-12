@@ -30,6 +30,7 @@ import { States } from 'core-app/core/states/states.service';
 import { within } from '@testing-library/dom';
 import { buildTable, TableHarness } from '../../testing/table-harness';
 import { buildWorkPackage } from '../../testing/work-package-fixture';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 describe('RelationsRenderPass', () => {
   let harness:TableHarness;
@@ -202,6 +203,29 @@ describe('RelationsRenderPass', () => {
 
       expect(within(harness.row('1')).getByRole('button', { name: 'Relations in follows for #1' })).toHaveAttribute('aria-expanded', 'true');
       expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    it('requests child targets again after a failed load', async () => {
+      const requireAll = vi.fn<(ids:string[]) => Promise<WorkPackageResource[]>>()
+        .mockRejectedValueOnce(new Error('offline'))
+        .mockImplementation(() => new Promise(() => undefined));
+      harness = buildTable({
+        workPackages: [{ id: '1', children: [{ id: '3' }] }],
+        columns: ['id', 'subject', { id: 'children', children: true }],
+        loadChildren: false,
+        translations,
+        requireAll,
+      });
+      harness.expand('1', 'children');
+      await harness.render();
+      await new Promise((resolve) => { setTimeout(resolve, 0); });
+
+      const redrawn = harness.nextRender();
+      harness.table.redrawTable();
+      await redrawn;
+
+      expect(requireAll).toHaveBeenCalledTimes(2);
+      expect(requireAll).toHaveBeenNthCalledWith(2, ['3']);
     });
 
     it('redraws the expanded state once asynchronous child loading completes', async () => {

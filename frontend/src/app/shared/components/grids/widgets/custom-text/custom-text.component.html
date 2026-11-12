@@ -7,7 +7,7 @@
     [resource]="resource" />
 </widget-header>
 
-<ng-template #text>
+<ng-template #displayText>
   <span #displayContainer
     class="inline-edit--formattable-display-text -default">
     @if (!textEmpty) {
@@ -52,11 +52,11 @@
             (click)="activate($event)"
             [ngClass]="inplaceEditClasses"
             >
-            <ng-container *ngTemplateOutlet="text" />
+            <ng-container *ngTemplateOutlet="displayText" />
           </button>
         }
         @if (!isTextEditable) {
-          <ng-container *ngTemplateOutlet="text" />
+          <ng-container *ngTemplateOutlet="displayText" />
         }
       </div>
     }

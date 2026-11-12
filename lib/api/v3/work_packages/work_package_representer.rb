@@ -129,6 +129,17 @@ module API
           }
         end
 
+        link :exportPdf,
+             cache_if: -> { export_work_packages_allowed? } do
+          next if represented.new_record?
+
+          {
+            href: api_v3_paths.work_package_pdf(represented.id),
+            type: "application/pdf",
+            title: "Export as PDF"
+          }
+        end
+
         link :generate_pdf,
              cache_if: -> { export_work_packages_allowed? } do
           next if represented.new_record?
@@ -446,6 +457,26 @@ module API
 
         date_time_property :updated_at
 
+        property :origin_source,
+                 as: :originSource,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_id,
+                 as: :originId,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_host,
+                 as: :originHost,
+                 render_nil: false,
+                 writable: false
+
+        property :origin_url,
+                 as: :originUrl,
+                 render_nil: false,
+                 writable: false
+
         property :relations,
                  embedded: true,
                  exec_context: :decorator,
@@ -513,8 +544,9 @@ module API
                                                                .to_s
                  end
 
-        link :projectPhaseDefinition do
-          if phase_set_and_active? && view_project_phase_allowed?
+        link(:projectPhaseDefinition,
+             cache_if: -> { view_project_phase_allowed? }) do
+          if phase_set_and_active?
             {
               href: api_v3_paths.project_phase_definition(represented.project_phase_definition_id),
               title: project_phase.name
@@ -631,7 +663,6 @@ module API
                              end
 
         associated_resources :labels,
-                             skip_render: ->(*) { !OpenProject::FeatureDecisions.work_package_labels_active? },
                              getter: ->(*) {
                                next unless embed_link?(:labels)
 
@@ -640,8 +671,6 @@ module API
                                end
                              },
                              link: ->(*) {
-                               next unless OpenProject::FeatureDecisions.work_package_labels_active?
-
                                represented.effective_labels.map do |label|
                                  ::API::Decorators::LinkObject
                                    .new(label,
@@ -653,8 +682,6 @@ module API
                                end
                              },
                              setter: ->(fragment:, **) do
-                               next unless OpenProject::FeatureDecisions.work_package_labels_active?
-
                                with_href, without_href = fragment.partition { |link| link["href"].present? }
                                represented.label_ids = parse_link_ids_from_fragment(with_href, :label)
 

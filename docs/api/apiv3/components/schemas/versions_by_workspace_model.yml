@@ -17,7 +17,7 @@ allOf:
               - $ref: "./link.yml"
               - description: |-
                   The versions collection
-                  
+
                   **Resource**: VersionsCollection
                 readOnly: true
       _embedded:

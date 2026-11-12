@@ -60,6 +60,7 @@ export interface DisplayFieldContextOptions {
   layout?:string;
   dateFormat?:string;
   colorize?:boolean;
+  historic?:boolean;
 }
 
 export interface DisplayFieldContext {

@@ -286,8 +286,8 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.press_keys(:right, :right, :up, :up, :up)
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
-      within "#column-context-menu" do
-        click_on "Sort descending"
+      within(:menu, "Subject") do
+        find(:role, "menuitemradio", text: "Sort descending").click
       end
 
       wp_table.expect_work_package_order(echo, delta, charlie, bravo, alpha)
@@ -300,8 +300,8 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.press_keys(:right, :right, :up, :up)
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
-      within "#column-context-menu" do
-        click_on "Move column left"
+      within(:menu, "Subject") do
+        find(:menuitem, "Move column left").click
       end
 
       wp_table.expect_focus_on_column_header("Subject")
@@ -314,8 +314,8 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.press_keys(:right, :right, :up, :up)
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
-      within "#column-context-menu" do
-        click_on "Hide column"
+      within(:menu, "Subject") do
+        find(:menuitem, "Remove column").click
       end
 
       wp_table.expect_focus_on_column_header("ID")
@@ -389,6 +389,13 @@ RSpec.describe "Work package table keyboard selection", :js do
       expect(wp_table.treegrid).to have_selector(:row, alpha.subject, aria: { selected: true })
       expect(wp_table.treegrid).to have_selector(:row, aria: { selected: true }, count: 1)
       live_region.expect_announcement("1 work package selected.")
+    end
+
+    it "marks a clicked first row as the current work package" do
+      wp_table.click_on_row(alpha)
+
+      expect_selection(alpha)
+      wp_table.expect_current_row(alpha)
     end
 
     it "announces the remaining selection when a plain click collapses a batch" do

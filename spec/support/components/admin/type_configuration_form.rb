@@ -150,20 +150,7 @@ module Components
       def edit_query_group(name)
         wait_for_turbo
 
-        group_key = find_group(name)["data-group-key"]
-        menu_id = open_query_menu(name)
-        page.find("##{menu_id}", visible: :all)
-            .find(:test_id, "type-form-configuration-edit-query-#{group_key}", visible: :all)
-            .click
-        expect(page).to have_css(".wp-table--configuration-modal")
-      end
-
-      def edit_query_group_via_link(name)
-        wait_for_turbo
-
-        group = find_group(name)
-        label = I18n.t("types.edit.form_configuration.query_group_label")
-        group.click_button(label)
+        within(find_group(name)) { click_on accessible_name: I18n.t("types.edit.form_configuration.edit_query") }
         expect(page).to have_css(".wp-table--configuration-modal")
       end
 
@@ -227,17 +214,12 @@ module Components
 
       def group_order
         page.within_test_selector("type-form-configuration-groups-container") do
-          all(":scope > [data-group-key] .Box-header span.text-bold", visible: true).map(&:text)
+          all(":scope > [data-group-key] .Box-header span.text-bold", visible: :visible).map(&:text)
         end
       end
 
       def open_attribute_menu(attribute)
         open_menu("type-form-configuration-attribute-actions-#{attribute}")
-      end
-
-      def open_query_menu(name)
-        group_key = find_group(name)["data-group-key"]
-        open_menu("type-form-configuration-query-actions-#{group_key}")
       end
 
       def invoke_group_action(name, label)

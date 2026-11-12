@@ -47,8 +47,8 @@ fa:
       draggable_hint: 'برای درج تصویر یا ارجاع پیوست، فایل را روی فیلد ویرایشگر بکشید. تا زمانی که در حال کشیدن هستید، فیلدهای ویرایشگر بسته باز خواهند شد.
 
         '
-      import_failed_hint: The file could not be imported. It is not available for download.
-      import_prepared_hint: The file is still being imported. It is not available for download yet.
+      import_failed_hint: فایل وارد نشد و برای دریافت در دسترس نیست.
+      import_prepared_hint: واردسازی فایل هنوز ادامه دارد؛ این فایل فعلاً برای دریافت در دسترس نیست.
       quarantined_hint: فایل به‌دلیل شناسایی ویروس قرنطینه شده است و برای دانلود در دسترس نیست.
     autocomplete_ng_select:
       add_tag: افزودن مورد
@@ -63,7 +63,7 @@ fa:
         single: انتخاب «%{name}»
       remove: حذف %{name}
     autocompleter:
-      create_label: Create label
+      create_label: ایجاد برچسب
       notFoundText: موردی یافت نشد
       placeholder: برای جستجو تایپ کنید
       project:
@@ -131,10 +131,10 @@ fa:
     button_confirm: تأیید
     button_continue: ادامه
     button_copy: کپی
-    button_copy_link_to_clipboard: کپی پیوند در کلیپ‌بورد
-    button_copy_numeric_id_to_clipboard: کپی شناسه عددی در کلیپ‌بورد
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: کپی در کلیپ‌بورد
     button_copy_to_other_project: تکثیر در پروژه دیگر
+    button_copy_work_package_id: Copy work package ID
     button_create: ایجاد
     button_custom-fields: فیلدهای سفارشی
     button_delete: حذف
@@ -150,6 +150,7 @@ fa:
     button_log_time: ثبت زمان
     button_more: بیشتر
     button_more_actions: اقدام‌های بیشتر
+    button_move_to_position: Move to position
     button_open_details: بازکردن نمای جزئیات
     button_open_fullscreen: بازکردن نمای تمام‌صفحه
     button_quote: نقل‌قول
@@ -165,7 +166,7 @@ fa:
     button_stop_timer: توقف تایمر
     button_uncheck_all: لغو انتخاب همه
     button_update: به روز رسانی
-    button_view_markdown: View Markdown
+    button_view_markdown: نمایش Markdown
     caption_rate_history: تاریخچه نرخ
     card:
       add_new: افزودن کارت جدید
@@ -206,9 +207,10 @@ fa:
     description_subwork_package: 'فرزند بسته کاری #%{id}'
     editor:
       ai_actions:
-        caption: Assistant
+        caption: دستیار
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: خطایی در CKEditor رخ داد
-      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
+      ckeditor_error_reload: ویرایشگر از کار افتاده است. متن شما همچنان وجود دارد، اما نمی‌توانید آن را تغییر دهید. متن موردنیاز خود را کپی کنید و سپس صفحه را دوباره بارگذاری کنید.
       error_saving_failed: 'ذخیره سند با خطای زیر ناموفق بود: %{error}'
       macro:
         attribute_reference:
@@ -348,6 +350,8 @@ fa:
       direct_hit_available: بسته کاری با شناسه دقیق یافت شد. برای بازکردن آن Enter را فشار دهید.
       items_available: "%{count} مورد در دسترس"
       recently_viewed: اخیراً مشاهده‌شده
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: جستجوی بسته‌های کاری بر اساس موضوع، پروژه، نوع، وضعیت یا شناسه
       title:
         all_projects: همه پروژه‌ها
@@ -365,8 +369,8 @@ fa:
     ical_sharing_modal:
       copy_url_label: کپی URL
       description: می‌توانید از URL (iCalendar) برای اشتراک این تقویم در یک کلاینت خارجی استفاده کنید و اطلاعات به‌روز بسته‌های کاری را از آنجا ببینید.
-      ical_generation_error_text: An error occurred while generating the calendar URL.
-      inital_setup_error_message: An error occurred while fetching data.
+      ical_generation_error_text: هنگام ایجاد نشانی تقویم خطایی رخ داد.
+      inital_setup_error_message: هنگام دریافت داده‌ها خطایی رخ داد.
       success_message: URL «%{name}» با موفقیت در کلیپ‌بورد کپی شد. برای تکمیل اشتراک آن را در کلاینت تقویم خود جای‌گذاری کنید.
       title: اشتراک در تقویم
       token_name_description_text: اگر از چند دستگاه در این تقویم مشترک شوید، این نام کمک می‌کند آن‌ها را در فهرست <a href="%{myAccessTokensUrl}" target="_blank">توکن‌های دسترسی</a> از هم تشخیص دهید.
@@ -438,7 +442,6 @@ fa:
     label_assignee: مسئول انجام
     label_assignee_alt_text: این بسته کاری به %{name} تخصیص یافته است
     label_attachments: پیوست‌ها
-    label_author: 'ایجادکننده: %{user}'
     label_avatar: آواتار
     label_between: بین
     label_board: برد
@@ -502,6 +505,7 @@ fa:
     label_in: در
     label_in_less_than: کمتر از
     label_in_more_than: بیشتر از
+    label_in_progress_work_packages: in progress
     label_incoming_emails: ایمیل‌های ورودی
     label_infinity: بی‌نهایت
     label_information_plural: اطلاعات
@@ -534,6 +538,10 @@ fa:
     label_open_context_menu: بازکردن منوی زمینه
     label_open_menu: بازکردن منو
     label_open_work_packages: باز
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: گذرواژه
     label_per_page: 'در هر صفحه:'
     label_please_wait: لطفاً صبر کنید
@@ -558,8 +566,8 @@ fa:
     label_reset: بازنشانی
     label_resize_project_menu: تغییر اندازه منوی پروژه
     label_save_as: ذخیره به‌عنوان
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: پیمایش به چپ
+    label_scroll_right: پیمایش به راست
     label_search_columns: جستجوی ستون
     label_select_watcher: انتخاب دنبال‌کننده...
     label_selected_filter_list: فیلترهای انتخاب‌شده
@@ -567,7 +575,9 @@ fa:
     label_show_in_menu: نمایش نما در منو
     label_sort_by: مرتب‌سازی بر اساس
     label_sort_higher: انتقال به بالا
+    label_sort_highest: Move to top
     label_sort_lower: انتقال به پایین
+    label_sort_lowest: Move to bottom
     label_sorted_by: مرتب‌شده بر اساس
     label_sorting: مرتب‌سازی
     label_spent_time: زمان صرف‌شده
@@ -578,6 +588,7 @@ fa:
     label_sum_for: جمع برای
     label_this_week: این هفته
     label_time_entry_plural: زمان صرف‌شده
+    label_to_do_work_packages: to-do
     label_today: امروز
     label_total_amount: 'مجموع: %{amount}'
     label_total_progress: "%{percent}% پیشرفت کل"
@@ -632,8 +643,8 @@ fa:
     notifications:
       center:
         and_more_users:
-          one: and %{count} other
-          other: and %{count} others
+          one: و %{count} نفر دیگر
+          other: و %{count} نفر دیگر
         empty_state:
           no_notification: به نظر می‌رسد همه‌چیز را بررسی کرده‌اید.
           no_notification_for_filter: به نظر می‌رسد همه موارد این فیلتر را بررسی کرده‌اید.
@@ -729,7 +740,7 @@ fa:
     placeholders:
       default: "-"
       description: 'توضیحات: برای ویرایش کلیک کنید...'
-      description_double_click: 'Description: Double click to edit...'
+      description_double_click: 'توضیحات: برای ویرایش دوبار کلیک کنید…'
       relation_description: برای افزودن توضیح به این رابطه کلیک کنید
       selection: لطفاً انتخاب کنید
       subject: موضوع را اینجا وارد کنید
@@ -819,6 +830,7 @@ fa:
         batch_too_large: امکان جابه‌جایی %{count} مورد به‌صورت هم‌زمان وجود ندارد. حداکثر %{max} مورد را انتخاب کنید.
         fallback_item_label: مورد
         fallback_list_name: فهرست دیگر
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: انتقال ناموفق بود. موقعیت فعلی مورد را بررسی کنید.
         move_failed_check_positions_batch:
           other: جابه‌جایی ناموفق بود. موقعیت فعلی موارد را بررسی کنید.
@@ -836,12 +848,12 @@ fa:
         not_selectable: انتخاب بدون تغییر ماند. این مورد در ترتیب این فهرست نقشی ندارد.
         range_blocked: انتخاب بدون تغییر ماند. این بازه شامل موردی است که در ترتیب این فهرست نقشی ندارد.
         range_restarted:
-          one: Could not extend the range. %{count} item selected.
-          other: Could not extend the range. %{count} items selected.
+          one: گسترش محدوده انتخاب ممکن نشد. %{count} مورد انتخاب شد.
+          other: گسترش بازه ممکن نشد. %{count} مورد انتخاب شدند.
         range_unavailable: انتخاب بدون تغییر ماند. برای انتخاب آن بازه، این فهرست را گسترش دهید.
         selected:
-          one: "%{count} item selected."
-          other: "%{count} items selected."
+          one: "%{count} مورد انتخاب‌شده"
+          other: "%{count} مورد انتخاب شدند."
     spot:
       drop_modal:
         close: بستن پنجره Modal
@@ -890,20 +902,20 @@ fa:
       label_two_factor_authentication: احراز هویت دومرحله‌ای
     units:
       child_work_packages:
-        one: "%{count} child work package"
-        other: "%{count} work package children"
+        one: "%{count} بسته کاری فرزند"
+        other: "%{count} بسته کاری فرزند"
       day:
-        one: "%{count} day"
+        one: "%{count} روز"
         other: "%{count} روز"
         zero: ۰ روز
       hour:
-        one: "%{count} h"
+        one: "%{count} ساعت"
         other: "%{count} ساعت"
         zero: ۰ ساعت
       hour_string: "%{hours} ساعت"
       word:
-        one: "%{count} word"
-        other: "%{count} words"
+        one: "%{count} واژه"
+        other: "%{count} واژه"
       workPackage:
         one: بسته کاری
         other: بسته‌های کاری
@@ -962,6 +974,7 @@ fa:
         all_open: همه موارد باز
         assigned_to_me: تخصیص‌یافته به من
         created_by_me: ایجادشده توسط من
+        in_progress: In progress
         latest_activity: آخرین فعالیت
         manually_sorted: پرس‌وجوی جدید با مرتب‌سازی دستی
         overdue: عقب‌افتاده
@@ -969,6 +982,7 @@ fa:
         shared_with_me: اشتراک‌گذاری‌شده با من
         shared_with_users: اشتراک‌گذاری‌شده با کاربران
         summary: خلاصه
+        to_do: To-do
       description_enter_text: متن را وارد کنید
       description_filter: فیلتر
       description_options_hide: پنهان‌کردن گزینه‌ها
@@ -1056,6 +1070,7 @@ fa:
         other: سایر
         people: افراد
       query:
+        add_columns: Add columns
         click_to_edit_query_name: برای ویرایش عنوان این نما کلیک کنید.
         column_names: ستون‌ها
         confirm_edit_cancel: مطمئنید می‌خواهید ویرایش نام این نما را لغو کنید؟ عنوان به مقدار قبلی بازمی‌گردد.
@@ -1065,17 +1080,16 @@ fa:
           not_found: چنین نمایی وجود ندارد
           unretrievable_query: بازیابی نما از URL ممکن نبود
         filters: فیلترها
-        group: گروه‌بندی بر اساس
         group_by: گروه‌بندی نتایج بر اساس
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: گروه‌بندی به‌دلیل فعال‌بودن حالت سلسله‌مراتب غیرفعال است.
-        hide_column: پنهان‌کردن ستون
         hierarchy_disabled_by_group_by: حالت سلسله‌مراتب به‌دلیل گروه‌بندی نتایج بر اساس %{column} غیرفعال است.
-        insert_columns: درج ستون‌ها
         move_column_left: انتقال ستون به چپ
         move_column_right: انتقال ستون به راست
         public_text: 'این نما را منتشر کنید تا کاربران دیگر به آن دسترسی داشته باشند. کاربران دارای مجوز «مدیریت نماهای عمومی» می‌توانند Query عمومی را تغییر یا حذف کنند. این کار بر قابلیت مشاهده نتایج بسته کاری در آن نما اثر نمی‌گذارد و بسته به مجوزها، کاربران ممکن است نتایج متفاوتی ببینند.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: نام این نما
         sort_ascending: مرتب‌سازی صعودی
         sort_descending: مرتب‌سازی نزولی
@@ -1098,24 +1112,24 @@ fa:
         is_switched_from_manual_to_automatic: پس از تغییر از زمان‌بندی دستی به خودکار، ممکن است تاریخ‌های این بسته کاری به‌دلیل روابط با سایر بسته‌های کاری دوباره محاسبه شوند.
       selection:
         all_selected:
-          one: All %{count} work package on this page selected.
-          other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+          one: همه %{count} بسته کاری این صفحه انتخاب شدند.
+          other: همه %{count} بسته کاری این صفحه انتخاب شدند.
+        cleared: انتخاب پاک شد.
         selected:
-          one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          one: "%{count} بسته کاری انتخاب‌شده"
+          other: "%{count} بسته کاری انتخاب شدند."
       sharing:
         show_all_users: نمایش همهٔ کاربرانی که بستهٔ کاری با آن‌ها به اشتراک گذاشته شده است
         title: اشتراک‌گذاری بسته کاری
       table:
         configure_button: پیکربندی جدول بسته کاری
-        grid_actions_header: Actions
-        grid_baseline_header: Comparison status
-        relations_button: Relations in %{column} for %{work_package}
-        sort_criterion_ascending: "%{column} ascending"
-        sort_criterion_descending: "%{column} descending"
-        sorted_by: Sorted by %{criteria}.
-        sorted_manually: Sorted manually.
+        grid_actions_header: عملیات
+        grid_baseline_header: وضعیت مقایسه
+        relations_button: روابط در %{column} برای %{work_package}
+        sort_criterion_ascending: "%{column} به ترتیب صعودی"
+        sort_criterion_descending: "%{column} به ترتیب نزولی"
+        sorted_by: مرتب‌شده بر اساس %{criteria}.
+        sorted_manually: مرتب‌شده به‌صورت دستی.
       table_configuration:
         button: پیکربندی این جدول بسته کاری
         choose_display_mode: نمایش بسته‌های کاری به‌شکل
@@ -1124,7 +1138,6 @@ fa:
         default_mode: فهرست تخت
         display_settings: تنظیمات نمایش
         display_sums_hint: مجموع همه ویژگی‌های قابل جمع را در سطری زیر نتایج جدول نمایش دهید.
-        embedded_tab_disabled: این زبانه پیکربندی برای نمای جاسازی‌شده‌ای که ویرایش می‌کنید در دسترس نیست.
         hierarchy_hint: همه نتایج فیلترشده جدول همراه با اجدادشان تکمیل می‌شوند. سلسله‌مراتب‌ها قابل باز و جمع‌کردن هستند.
         hierarchy_mode: سلسله‌مراتب
         highlighting: برجسته‌سازی

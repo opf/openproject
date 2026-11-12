@@ -101,7 +101,7 @@ module DevelopmentData
         {
           name: "Job title",
           field_format: "list",
-          editable: false,
+          user_self_editable: false,
           possible_values: JOB_TITLES,
           # Only claim the semantic key when no other field already owns it.
           semantic_key: UserCustomField.for_semantic_key(:job_title) ? nil : "job_title"
@@ -110,20 +110,20 @@ module DevelopmentData
           name: "Spoken languages",
           field_format: "list",
           multi_value: true,
-          editable: true,
+          user_self_editable: true,
           possible_values: SPOKEN_LANGUAGES
         },
         {
           name: "Key skills",
           field_format: "list",
           multi_value: true,
-          editable: true,
+          user_self_editable: true,
           possible_values: KEY_SKILLS
         },
         {
           name: "Job start date",
           field_format: "date",
-          editable: false
+          user_self_editable: false
         }
       ]
     end

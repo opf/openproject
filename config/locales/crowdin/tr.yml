@@ -83,7 +83,7 @@ tr:
         dependencies: Bağımlılıklar
   activerecord:
     attributes:
-      ai/text_transform_action:
+      ai/text_action:
         active: Active
         injects_type_template: Insert work package type template
         label: Label
@@ -137,10 +137,10 @@ tr:
         commented: Yorumlananlar
       custom_field:
         admin_only: Yalnızca yönetici
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Açık olmayan sürümlere izin ver
         content_right_to_left: Sağdan Sola içerik
         default_value: Varsayılan değer
-        editable: Düzenlenebilir
         field_format: Biçim
         formula: Formül
         has_comment: Bir yorum metin alanı ekleyin
@@ -153,10 +153,12 @@ tr:
         min_value: Minimum value
         multi_value: Çoklu seçime izin ver
         possible_values: Olası değerler
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Düzenli ifade
         searchable: Aranabilir
         semantic_key: Semantic meaning
+        user_self_editable: Editable
         visible_on_user_card: Show on user card
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -395,10 +397,14 @@ tr:
         authentication_method: Kimlik doğrulama yöntemi
         jwt_sub: Konuyu talep et
       status:
+        category: Category
         default_done_ratio: Tamamlanma yüzdesi
         excluded_from_totals: Hiyerarşideki toplamların hesaplanmasından hariç tut
-        is_closed: İş paketi kapalı
         is_readonly: İş paketi salt okunur
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Çalışma Alanı türü
       time_entry:
@@ -417,6 +423,7 @@ tr:
       type:
         allow_project_variants: Allow project-specific variants
         color: Renk
+        description: Description
         is_in_roadmap: Yol haritasında varsayılan olarak gösterilsin
         is_milestone: Kilometre taşı
         project_types: Projects
@@ -426,6 +433,7 @@ tr:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -548,6 +556,11 @@ tr:
         labels: Labels
         notify: Bildirim
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Üst
         parent_issue: Üst
         parent_work_package: Üst
@@ -710,7 +723,10 @@ tr:
               format: "%{message}"
               invalid: Formül geçersiz.
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
@@ -723,6 +739,10 @@ tr:
           attributes:
             project_ids:
               blank: Lütfen bir proje seçin.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -822,7 +842,7 @@ tr:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Tüm alt projeleri arşivlemek için gereken izinlere sahip değilsiniz. Lütfen bir yönetici ile iletişime geçin.
-              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artifact work package.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: "'%{module}' modülü buna bağlı olduğundan, '%{dependency}' modülünün de etkinleştirilmesi gerekiyor."
               format: "%{message}"
@@ -836,7 +856,7 @@ tr:
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
               switch_target_not_in_family: Can only switch to another type of the same family
-          cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Soyundan gelmeyen projelerdeki iş paketleri, projenin veya soyundan gelenlerin referans versiyonlarını referans alır.
         project/phase:
           attributes:
@@ -1096,9 +1116,9 @@ tr:
       action:
         one: Action
         other: Actions
-      ai/text_transform_action:
-        one: Text transform action
-        other: Text transform actions
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Text transform run
         other: Text transform runs
@@ -1483,6 +1503,7 @@ tr:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, ve %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: "%{date} tarihinde silindi"
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
@@ -1515,7 +1536,7 @@ tr:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -1651,6 +1672,10 @@ tr:
         button_delete_personal_access_token: Delete PAT
         button_save: Yapılandırmayı kaydet
         button_test_connection: Test Connection
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1662,6 +1687,7 @@ tr:
           personal_access_token: Personal access token (PAT)
           url: Jira Sunucusu/Veri Merkezi URL'si
         label_testing: Yapılandırma test ediliyor...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1693,6 +1719,10 @@ tr:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1703,12 +1733,16 @@ tr:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1719,6 +1753,9 @@ tr:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
         side_panel:
@@ -1780,6 +1817,9 @@ tr:
             projects:
               one: "%{count} project"
               other: "%{count} projects"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} statuses"
@@ -1809,6 +1849,7 @@ tr:
               label_available_data: Data to be imported
               label_import_data: Şu anda içe aktarılıyor
               label_progress: İçe aktarma devam ediyor...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Veriyi içe aktar
             fetch_data:
@@ -1841,10 +1882,16 @@ tr:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -1861,17 +1908,15 @@ tr:
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
-                issue_ids: Issue identifiers
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issues
                 logged_time: Logged time
                 permissions: Permissions
-                project_ids: Project identifiers
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projects
                 relations: Relations between issues
                 schemes: Şemalar
-                sprints: Sprint assignments
+                sprints: Sprints and sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
               label_coming_later: Coming later
@@ -1898,17 +1943,20 @@ tr:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1919,8 +1967,8 @@ tr:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -1935,10 +1983,12 @@ tr:
         error: Bağlantı test edilirken beklenmeyen bir hata oluştu
         failed: 'Bağlantı başarısız oldu: Sunucu bilgileri alınamıyor'
         invalid_url: Lütfen geçerli bir URL giriniz
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Failed to parse the response from the server. The server may not be a valid Jira instance.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: "%{server} adresine başarıyla bağlandı (sürüm %{version})"
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: Unknown
@@ -2140,10 +2190,6 @@ tr:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2219,11 +2265,11 @@ tr:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
         description: Users will no longer be able to run this action in the rich text editor.
         heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete text transform action
+        title: Delete action
       form:
         injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
         label_caption: This is the name that will be visible to users in the editor.
@@ -2231,19 +2277,20 @@ tr:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
         label_add_action: Action
-        label_aria_add_action: Add text transform action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
           description: Add an action to see it here
-          title: No text transform actions configured yet
-        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
         label_disable_all: Disable all
         label_enable_all: Enable all
-        title: Actions
+        title: Action
       new:
-        title: New text transform action
+        title: New text action
       row_component:
         label_actions: Action menu
         label_toggle: Toggle %{label}
@@ -2258,6 +2305,8 @@ tr:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2307,7 +2356,7 @@ tr:
       errors:
         connection_failed: The AI service could not be reached.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: The AI assistant is not available.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
@@ -2319,7 +2368,9 @@ tr:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2351,6 +2402,8 @@ tr:
         emoji_reactions_activity_type_not_supported: This activity type does not support emoji reactions.
         invalid_link: The link under key '%{key}' is not valid.
         links_not_an_object: _links must be a JSON object.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Geçersiz istek: %{message}'
       code_401: Bu kaynağa erişim sağlayabilmeniz için yetkilendirilmiş olmalısınız
       code_401_wrong_credentials: Doğru kimlik bilgilerini sağlamadınız.
@@ -2700,8 +2753,25 @@ tr:
       disabled_value: '"%{custom_field_name}" özniteliği bu Hesaplanan değer için gereklidir, ancak proje için devre dışı bırakılmıştır.'
       mathematical: Matematiksel formül bir hataya yol açıyor. Lütfen proje hesaplama özelliğini gözden geçirin ve tekrar deneyin.
       missing_value: '"%{custom_field_name}" özniteliği bu Hesaplanan değer için gereklidir, ancak boştur.'
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Bilinmeyen bir hata oluştu. Lütfen bu Hesaplanan değerin formülünü gözden geçirin.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Renk Düzenle
     form:
@@ -2729,7 +2799,7 @@ tr:
     failure_message: Rıza alımı başarısız oldu, işlenemedi.
     not_yet_consented: Kullanıcı henüz [yapılandırılmış rıza bilgisi metninize] (consent_settings) onay vermedi. Bir sonraki girişlerinde kendisine hatırlatılacak.
     text_update_consent_time: Kullanıcıları tekrar onaylamaya zorlamak için bu kutuyu işaretleyin. Yukarıdaki izin bilgilerinin yasal yönünü değiştirdiğinizde etkinleştirin.
-    title: Kullanıcı Rızası
+    title: User consent
     update_consent_last_time: 'Rıza son güncelleme: %{update_time}'
     user_has_consented: Kullanıcı [yapılandırılmış rıza bilgisi metninize] (consent_settings) onay verdi.
   copy_project:
@@ -2796,6 +2866,8 @@ tr:
           item:
             description: Başka bir listenin içinde alt öğeler oluşturmak için bu listeye öğeler ekleyin
             title: Bu öğenin altında herhangi bir hiyerarşi düzeyi yoktur
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Hiyerarşi türündeki özel alana öğeler ekleyerek başlayın. Her öğe, altında bir hiyerarşi oluşturmak için kullanılabilir. Bir hiyerarşi içinde gezinmek ve alt öğeler oluşturmak için oluşturulan öğeye tıklayın.
             title: Öge listeniz boş
@@ -2858,16 +2930,14 @@ tr:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: Düzenlenemez öznitelik. Bu değer otomatik olarak hesaplanır.
     confirm_destroy_option: Bir seçeneğin silinmesi, kullanıldığı her yerden (örneğin iş paketleri) silinmesine neden olur. Silmek istediğinizden emin misiniz?
-    contained_in_type: Kullanıldığı tipler
+    contained_in: Contained in
     enabled_in_project: Projede etkin
     instructions:
       admin_only:
         all: Bu özel alanın yalnızca yöneticiler tarafından görülebilmesi için işaretleyin. Yönetici hakları olmayan kullanıcılar bu alanı görüntüleyemez veya düzenleyemez.
         project: Bu niteliğin yalnızca yöneticilere görünür kılmak için işaretleyin. Yönetici hakları olmayan kullanıcılar bunu görüntüleyemez veya düzenleyemez.
-      editable:
-        all: Alanın kullanıcılar tarafından düzenlenebilir olmasına izin verin.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Kullanıcının, projeye genel bakışta değeri seçerken proje niteliğiyle ilgili bir yorum eklemesine olanak tanır.
       is_filter:
@@ -2895,6 +2965,8 @@ tr:
       searchable:
         all: Genel arama işlevini kullanırken alan değerlerini ekleyin.
         project: Bu niteliği proje listelerinde filtre olarak kullanmak için işaretleyin.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     is_enabled_globally: Genel için etkinleştirildi
@@ -2916,6 +2988,11 @@ tr:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -3189,7 +3266,6 @@ tr:
       gantt_pdf_export: Gantt PDF Dışa Aktarma
       internal_comments: Dahili Yorumlar
       ldap_groups: LDAP kullanıcıları ve grup senkronizasyonu
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Nextcloud Storage için Tek Oturum Açma
       one_drive_sharepoint_file_storage: OneDrive/SharePoint Dosya Depolama
@@ -3202,6 +3278,7 @@ tr:
       scim_api: SCIM sunucu API'si
       sso_auth_providers: Tek Oturum Açma
       team_planner_view: Takım Planlayıcı Görünümü
+      text_assistant: Text assistant
       virus_scanning: Antivirüs Taraması
       weighted_item_lists: Ağırlıklı öğe listeleri
       work_package_query_relation_columns: İş Paketi Sorgu İlişkisi Sütunları
@@ -3282,8 +3359,6 @@ tr:
       internal_comments_inline:
         description: " "
         title: Sadece küçük bir grubun görebileceği iç yorumlar yazın
-      mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
       meeting_templates:
         description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
       nextcloud_sso:
@@ -3314,6 +3389,9 @@ tr:
       sso_auth_providers:
         description: Enable users to log in via external SSO providers using SAML or OpenID Connect for seamless access and integration with existing identity systems.
         title: Tek Oturum Açma (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Kurumsal eklenti
       trial_text: This feature is included in your active Enterprise trial.
       unlimited: Sınırsız
@@ -3570,6 +3648,7 @@ tr:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3577,7 +3656,7 @@ tr:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -3919,6 +3998,7 @@ tr:
       comment_retracted: Comment retracted
       dates_changed: Tarihler değişti
       default_attribute_written: Salt okunur öznitelikler yazıldı
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       label_deleted: 'Label removed:'
@@ -3957,7 +4037,7 @@ tr:
   label_active_in_new_projects: Yeni projelerde etkin
   label_activity: Etkinlik
   label_add_another_file: Başka bir dosya ekle
-  label_add_column: Sütun ekle
+  label_add_column: Add columns
   label_add_columns: Seçilen sütunları ekle
   label_add_edit_translations: Çeviri ekle ve düzenle
   label_add_note: Not ekle
@@ -3972,6 +4052,7 @@ tr:
   label_additional_workflow_transitions_for_author: Kullanıcı oluşturan olduğunda izin verilen ek geçişler
   label_administration: Yönetim
   label_age: Yaş
+  label_aggregate_function_plural: Aggregate functions
   label_ago: gün önce
   label_all: tüm
   label_all_open_wps: Tüm açık
@@ -4061,7 +4142,7 @@ tr:
   label_completed: Tamamlandı
   label_configuration: konfigürasyon
   label_confirmation: Onay
-  label_consent_settings: Kullanıcı Rızası
+  label_consent_settings: User consent
   label_constant_plural: Constants
   label_contains: içerir
   label_content: İçerik
@@ -4092,7 +4173,7 @@ tr:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Özel favicon
-  label_custom_field_add_no_type: Bu alanı bir iş paketi türüne ekleyin
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Boş tür
   label_custom_field_new: Yeni özel alan
   label_custom_field_plural: Özel alanlar
@@ -4186,7 +4267,7 @@ tr:
   label_filter: Filtreler
   label_filter_add: Filtre ekle
   label_filter_any_name_attribute: Ad özniteliği
-  label_filter_by: Şuna göre filtrele
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Filtreler
   label_filters_toggle: Filtreleri göster / gizle
   label_float: Ondalık
@@ -4237,6 +4318,7 @@ tr:
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
+  label_in_progress_work_packages: in progress
   label_inactive: Etkin değil
   label_include_sub_projects: Alt projeleri dahil et
   label_includes: içerir
@@ -4388,7 +4470,7 @@ tr:
   label_on: açık
   label_open: aç
   label_open_menu: Menüyü Aç
-  label_open_work_packages: açık
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: açık
   label_openproject_website: OpenProject web sitesi
   label_operator_all: boş değil
@@ -4595,6 +4677,7 @@ tr:
   label_time_entry_plural: Harcanan zaman
   label_timer_since: "%{time} zamanında başladı"
   label_title: Başlık
+  label_to_do_work_packages: to-do
   label_today: bugün
   label_today_as_date: Tarih olarak bugünü seçin.
   label_today_as_due_date: Bitiş tarihi olarak bugünü seçin.
@@ -4708,6 +4791,13 @@ tr:
     one: "%{count} file"
     other: "%{count} dosya"
     zero: dosya yok
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4723,6 +4813,10 @@ tr:
     one: "%{count} project"
     other: "%{count} proje"
     zero: proje yok
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} iş paketi"
@@ -5063,7 +5157,7 @@ tr:
       mails_and_notifications: E-postalar ve bildirimler
       mcp_configurations: Model Bağlam Protokolü (MCP)
       push_notifications: Browser notifications
-      text_transform_actions: Text transform actions
+      text_actions: Text assistant
     quick_add:
       label: Ekle…
   more_actions: Daha fazla işlev
@@ -5544,6 +5638,9 @@ tr:
           not_unique: aynı hiyerarşi seviyesi içinde benzersiz olmalıdır.
         parent:
           not_descendant: hiyerarşi kökünü takip etmeli.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: aynı hiyerarşi seviyesi içinde benzersiz olmalıdır.
       str?: bir dize olmalıdır.
@@ -5623,10 +5720,19 @@ tr:
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Sayfa %{page} / %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: Nitelikler ve açıklama
@@ -5870,7 +5976,7 @@ tr:
   project_module_activity: Etkinlik
   project_module_forums: Forumlar
   project_module_news: Haberler
-  project_module_repository: Depo
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Viki
   project_module_work_package_tracking: İş paketleri
   projects:
@@ -5914,6 +6020,15 @@ tr:
       new:
         placeholder: Yeni proje listesi
       shared: Paylaşılan proje listeleri
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Tümünü devre dışı bırak
@@ -5939,11 +6054,11 @@ tr:
           no_status_when_submitted: "%{type} iş paketi türü kendisiyle ilişkilendirilmiş en az bir durum gerektirdiğinden proje başlatma talebi etkinleştirilemedi. Lütfen bu iş paketi türü için en az bir durum iş akışını etkinleştirin."
           no_work_package_type: Proje başlatma isteği etkinleştirilemedi, en az bir iş paketi türü gerekiyor. Lütfen bu projeye en az bir iş paketi türü ekleyin.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Yapılandırılmış harici dosya depolarından hangisinin kullanılacağını seçin.
           external_file_storage: Harici dosya depolama
-          label_artifact_export: Artifact export
+          label_artefact_export: Artefact export
           label_attachment_export: İş paketi dosyası eki olarak kaydet
           label_file_link_export: Dosyayı harici dosya depolama alanına yükleyin ve dosya bağlantısını iş paketine ekleyin
           pdf_file_storage: PDF dosya depolama
@@ -6049,10 +6164,12 @@ tr:
         switch:
           apply: Apply
           impact:
-            hidden_heading: Fields that will no longer be shown
-            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
-            missing_statuses_heading: Work packages that get stuck
-            new_heading: Fields that become available
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: No fields or statuses are affected.
             status_count:
               one: "%{count} work package"
@@ -6082,14 +6199,14 @@ tr:
     status:
       button_edit: Durumu düzenle
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Bu özniteliğin tanımlanmış bir yardım metni yoktur.
       progress_label: "%{current} / %{total}"
       sections: Bölümler
       sidebar_content_title: İçerik
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Proje başlatma talebi
   pwa:
     offline:
@@ -6115,6 +6232,22 @@ tr:
         automatic:
           description: Order the %{plural} by one or more sorting criteria. You will lose the previous sorting.
           heading: Otomatik
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6319,7 +6452,6 @@ tr:
   setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: İzin verilen bağlantı protokolleri
   setting_allowed_link_protocols_text_html: Bu protokollerin iş paketi açıklamalarında, uzun metin alanlarında ve yorumlarda bağlantı olarak gösterilmesine izin verin. Örneğin, %{tel_code} veya %{element_code}. Her satıra bir protokol girin. <br/> %{http_code}, %{https_code} ve %{mailto_code} protokollerine her zaman izin verilir.
   setting_antivirus_scan_action: Etkilenen dosya eylemi
@@ -6677,12 +6809,12 @@ tr:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Proje oluşturma sihirbazı
           project_initiation_request: Proje başlatma talebi
@@ -6702,8 +6834,8 @@ tr:
           **%{project_name}** için bir proje başlatma talebi gönderdiniz. Şu anda incelenmeyi bekliyor.
           Talebinizi içeren iş paketine erişmek için aşağıdaki bağlantıya tıklayın.
         confirmation_email_text: Onay e-posta metni
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Teslim edildiğinde durum
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -6711,7 +6843,7 @@ tr:
         work_package_comment_caption: Yukarıda seçilen atanan kişi yorumda otomatik olarak @bahsedilecektir.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -6752,6 +6884,7 @@ tr:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -6864,6 +6997,11 @@ tr:
   status_registered: kayıtlı
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Bu durumun rengini atamak veya değiştirmek için tıklayın.
         Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
@@ -7063,6 +7201,9 @@ tr:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: ös
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: bitiş
     show: Zaman aralığını göster
@@ -7226,6 +7367,7 @@ tr:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
@@ -7238,13 +7380,13 @@ tr:
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: No PDF is generated automatically.
             label: 'Off'
-          section_title: Automatic artifact export
+          section_title: Automatic artefact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         pdf_export_templates:
           actions:
@@ -7256,7 +7398,6 @@ tr:
         tab: PDF oluşturma
         templates:
           readonly_error: Cannot be changed while linked to a source type.
-          section_title: PDF export templates
           settings:
             edit_link: Edit settings
             reset_to_default: Reset to default
@@ -7278,7 +7419,6 @@ tr:
         empty_group_hint: Drag attributes here
         exclusions:
           attribute_label: Inherit %{attribute}
-          excluded: Hidden
           section_label: Inherit section %{section}
         filter_inactive: Filter attributes
         group_actions: Section actions
@@ -7291,6 +7431,11 @@ tr:
         no_inactive_attributes: No inactive attributes
         not_found: The requested form item could not be found.
         query_group_label: Related work packages table
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Remove from section
         rename_group: Rename section
         required:
@@ -7332,7 +7477,6 @@ tr:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
         filter: Search by section or name
@@ -7342,7 +7486,7 @@ tr:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects
@@ -7352,8 +7496,6 @@ tr:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: Tüm projeler için etkinleştir
-        select_projects: Projeleri seçin
-        select_projects_description: Bu türü kullanmak istediğiniz projeleri seçin.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?
@@ -7412,14 +7554,14 @@ tr:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
             empty:
               caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
+              label: Start from scratch
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (parent)"
@@ -7470,7 +7612,7 @@ tr:
           one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
-      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Copy of %{name}
@@ -8167,8 +8309,6 @@ tr:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             other: Successfully copied workflow to %{count} roles.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8186,6 +8326,7 @@ tr:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Description
@@ -8201,7 +8342,7 @@ tr:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow

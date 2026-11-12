@@ -70,117 +70,108 @@ RSpec.describe McpTools::SearchUsers do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "finds all users without filters" do
+  it "finds all users without filters" do
+    mcp_request
+    expect(parsed_results.dig("structuredContent", "items").size).to eq(3)
+  end
+
+  it "responds with properly formatted users" do
+    mcp_request
+    parsed_results.dig("structuredContent", "items").each do |u|
+      expect(u.to_json).to match_json_schema.from_docs("user_model")
+    end
+  end
+
+  context "when filtering by first name and last name" do
+    let(:call_args) { { search_term: "Karl Kabauter" } }
+
+    it "finds the user" do
       mcp_request
-      expect(parsed_results.dig("structuredContent", "items").size).to eq(3)
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
+      expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_karl.id)
     end
+  end
 
-    it "responds with properly formatted users" do
+  context "when filtering by last name and first name" do
+    let(:call_args) { { search_term: "Kabauter Karl" } }
+
+    it "finds the user" do
       mcp_request
-      parsed_results.dig("structuredContent", "items").each do |u|
-        expect(u.to_json).to match_json_schema.from_docs("user_model")
-      end
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
+      expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_karl.id)
+    end
+  end
+
+  context "when filtering by email address" do
+    let(:call_args) { { search_term: "klko@example.com" } }
+
+    it "finds the user" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
+      expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_klara.id)
     end
 
-    context "when filtering by first name and last name" do
-      let(:call_args) { { search_term: "Karl Kabauter" } }
+    context "when user lacks view_user_email global permission" do
+      let(:global_permissions) { %i[view_all_principals] }
 
-      it "finds the user" do
+      it "finds the no one" do
         mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-        expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_karl.id)
-      end
-    end
-
-    context "when filtering by last name and first name" do
-      let(:call_args) { { search_term: "Kabauter Karl" } }
-
-      it "finds the user" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-        expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_karl.id)
-      end
-    end
-
-    context "when filtering by email address" do
-      let(:call_args) { { search_term: "klko@example.com" } }
-
-      it "finds the user" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-        expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_klara.id)
-      end
-
-      context "when user lacks view_user_email global permission" do
-        let(:global_permissions) { %i[view_all_principals] }
-
-        it "finds the no one" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items").size).to eq(0)
-        end
-      end
-    end
-
-    context "when filtering on a partial, wrongly-cased term" do
-      let(:call_args) { { search_term: "kaba" } }
-
-      it "finds the user" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-        expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_karl.id)
-      end
-    end
-
-    context "when not allowed to see users" do
-      let(:global_permissions) { %i[] }
-
-      it "only finds itself" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-        expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(user.id)
-      end
-    end
-
-    describe "pagination" do
-      let(:page_size) { 10 }
-      let(:overspilling_users) { 5 }
-      let(:user_count) { page_size + overspilling_users }
-      let(:call_args) { { search_term: "Konrad" } }
-
-      before do
-        allow(described_class).to receive(:page_size).and_return(page_size)
-
-        create_list(:user, user_count, firstname: "Konrad")
-      end
-
-      it "returns only results up to the page size" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(page_size)
-      end
-
-      it "indicates the total number of results" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "total")).to eq(user_count)
-      end
-
-      context "if another page is requested" do
-        let(:call_args) { { search_term: "Konrad", page: 2 } }
-
-        it "returns the requested page" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items").size).to eq(overspilling_users)
-        end
+        expect(parsed_results.dig("structuredContent", "items").size).to eq(0)
       end
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+  context "when filtering on a partial, wrongly-cased term" do
+    let(:call_args) { { search_term: "kaba" } }
+
+    it "finds the user" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
+      expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(other_user_karl.id)
+    end
+  end
+
+  context "when not allowed to see users" do
+    let(:global_permissions) { %i[] }
+
+    it "only finds itself" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
+      expect(parsed_results.dig("structuredContent", "items").first.fetch("id")).to eq(user.id)
+    end
+  end
+
+  describe "pagination" do
+    let(:page_size) { 10 }
+    let(:overspilling_users) { 5 }
+    let(:user_count) { page_size + overspilling_users }
+    let(:call_args) { { search_term: "Konrad" } }
+
+    before do
+      allow(described_class).to receive(:page_size).and_return(page_size)
+
+      create_list(:user, user_count, firstname: "Konrad")
+    end
+
+    it "returns only results up to the page size" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(page_size)
+    end
+
+    it "indicates the total number of results" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "total")).to eq(user_count)
+    end
+
+    context "if another page is requested" do
+      let(:call_args) { { search_term: "Konrad", page: 2 } }
+
+      it "returns the requested page" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "items").size).to eq(overspilling_users)
+      end
     end
   end
 end

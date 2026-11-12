@@ -249,8 +249,6 @@ RSpec.describe "Work Package highlighting fields", :js do
 
     query_title.expect_not_changed
 
-    url = URI.parse(page.current_url).query
-    expect(url).to include("query_id=#{query.id}")
-    expect(url).not_to match(/query_props=.+/)
+    expect(page).to have_current_query_params("query_id" => query.id.to_s)
   end
 end

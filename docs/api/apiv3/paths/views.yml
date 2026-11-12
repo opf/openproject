@@ -23,7 +23,7 @@ get:
         application/hal+json:
           examples:
             Queries:
-              "$ref": "../components/examples/views.yml"
+              $ref: "../components/examples/views.yml"
       description: OK
       headers: {}
     '400':
@@ -31,6 +31,6 @@ get:
   tags:
     - Views
   description: Returns a collection of Views. The collection can be filtered via
-    query parameters similar to how work packages are filtered. 
-  operationId: List_views
+    query parameters similar to how work packages are filtered.
+  operationId: list_views
   summary: List views

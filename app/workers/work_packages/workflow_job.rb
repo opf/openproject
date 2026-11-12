@@ -57,7 +57,7 @@ module WorkPackages
 
     def applicable_services(work_package, changes)
       [
-        Projects::CreationWizard::ReuploadArtifactOnStatusChangesService,
+        Projects::CreationWizard::ReuploadArtefactOnStatusChangesService,
         WorkPackages::TypeArtefactExport::ExportOnStatusChangeService
       ].select { |service| service.applicable?(work_package:, changes:) }
     end

@@ -131,10 +131,10 @@ tr:
     button_confirm: Onayla
     button_continue: Devam et
     button_copy: Kopyala
-    button_copy_link_to_clipboard: Bağlantıyı panoya kopyala
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Panoya kopyala
     button_copy_to_other_project: Başka projeye çoğalt
+    button_copy_work_package_id: Copy work package ID
     button_create: Oluştur
     button_custom-fields: Özel alanlar
     button_delete: Sil
@@ -150,6 +150,7 @@ tr:
     button_log_time: Zaman kaydet
     button_more: Daha
     button_more_actions: Daha fazla eylem
+    button_move_to_position: Move to position
     button_open_details: Ayrıntılar görünümünü aç
     button_open_fullscreen: Tam ekran görünümünü aç
     button_quote: Alıntı
@@ -207,6 +208,7 @@ tr:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor içinde bir hata oluştu
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
@@ -348,6 +350,8 @@ tr:
       direct_hit_available: Tam kimliğe sahip iş paketi bulundu. Açmak için Enter tuşuna basın.
       items_available: "%{count} mevcut ürün"
       recently_viewed: Son görüntülenenler
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: İş paketlerini konu, proje, tür, durum veya kimliğe göre arama
       title:
         all_projects: tüm projeler
@@ -438,7 +442,6 @@ tr:
     label_assignee: Atanan
     label_assignee_alt_text: Bu iş paketi %{name} ne atanmıştır.
     label_attachments: Ekler
-    label_author: 'Yazar: %{user}'
     label_avatar: Avatar
     label_between: arasında
     label_board: Pano
@@ -502,6 +505,7 @@ tr:
     label_in: şurada
     label_in_less_than: daha azdır
     label_in_more_than: daha fazla
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Gelen e-postalar
     label_infinity: Infinity
     label_information_plural: Bilgi
@@ -534,6 +538,10 @@ tr:
     label_open_context_menu: Bağlam menüsünü aç
     label_open_menu: Menüyü Aç
     label_open_work_packages: açık
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Parola
     label_per_page: 'Sayfa başına:'
     label_please_wait: Lütfen bekleyin
@@ -567,7 +575,9 @@ tr:
     label_show_in_menu: Görünümü menüde göster
     label_sort_by: Sıralama şekli
     label_sort_higher: Yukarı taşı
+    label_sort_highest: Move to top
     label_sort_lower: Aşağı taşı
+    label_sort_lowest: Move to bottom
     label_sorted_by: sıralayan
     label_sorting: Sıralama
     label_spent_time: Harcanan zaman
@@ -578,6 +588,7 @@ tr:
     label_sum_for: Toplam
     label_this_week: bu hafta
     label_time_entry_plural: Harcanan zaman
+    label_to_do_work_packages: to-do
     label_today: Bugün
     label_total_amount: 'Toplam: %{amount}'
     label_total_progress: Toplam ilerleme %{percent}%
@@ -819,6 +830,7 @@ tr:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -962,6 +974,7 @@ tr:
         all_open: Tüm açık
         assigned_to_me: Bana atananlar
         created_by_me: Benim oluşturduklarım
+        in_progress: In progress
         latest_activity: En son etkinlik
         manually_sorted: Elle sıralanmış yeni sorgu
         overdue: Süresi geçmiş
@@ -969,6 +982,7 @@ tr:
         shared_with_me: Benimle paylaşılanlar
         shared_with_users: Kullanıcılarla paylaşanlar
         summary: Özet
+        to_do: To-do
       description_enter_text: Metin girin
       description_filter: Filtre
       description_options_hide: Seçenekleri gizle
@@ -1056,6 +1070,7 @@ tr:
         other: Diğer
         people: Kişiler
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Bu görünümün başlığını düzenlemek için tıklayın.
         column_names: Sütunlar
         confirm_edit_cancel: Bu görünümün adını düzenlemeyi iptal etmek istediğinizden emin misiniz? Başlık önceki değere ayarlanacaktır.
@@ -1065,17 +1080,16 @@ tr:
           not_found: Böyle bir görünüm bulunmamakta
           unretrievable_query: URL’den görünüm alınamadı
         filters: Filtreler
-        group: Grupla
         group_by: Sonuçları grupla
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Hiyerarşi durumu etkin olduğundan Gruplama özelliği devre dışı.
-        hide_column: Sütunu gizle
         hierarchy_disabled_by_group_by: Sonuşlar %{column} sütununa göre gruplandığından, hiyerarşi modu devre dışı.
-        insert_columns: Sütun ekle
         move_column_left: Sütunu sola taşı
         move_column_right: Sütunu sağa taşı
         public_text: 'Diğer kullanıcıların görünümünüze erişmesine izin vererek bu görünümü yayınlayın. ''Genel görünümleri yönet'' iznine sahip kullanıcılar genel sorguyu değiştirebilir veya kaldırabilir. Bu, iş paketi sonuçlarının görünürlüğünü bu görünümde etkilemez ve izinlerine bağlı olarak, kullanıcılar farklı sonuçlar görebilir.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Bu görünümüm adı
         sort_ascending: Artan sırala
         sort_descending: Azalan sırala
@@ -1124,7 +1138,6 @@ tr:
         default_mode: Düz liste
         display_settings: Görünüm ayarları
         display_sums_hint: Tüm toplanabilir özelliklerin toplamlarını, tablonun sonuçlarının altındaki bir satırda görüntüleyin.
-        embedded_tab_disabled: Bu yapılandırma sekmesi, düzenlemekte olduğunuz gömülü görünüm için kullanılamaz.
         hierarchy_hint: Filtrelenen tüm tablo sonuçları atalarıyla artırılacaktır. Hiyerarşiler genişletilebilir ve daraltılabilir.
         hierarchy_mode: Hiyerarşi
         highlighting: Vurgulama

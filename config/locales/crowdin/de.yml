@@ -83,12 +83,12 @@ de:
         dependencies: Abhängigkeiten
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Aktiv
-        injects_type_template: Vorlage für Arbeitspaket-Typ einfügen
-        label: Bezeichnung
-        prompt: Eingabe
-        types: Arbeitspaket-Typen
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
         usage_scope: Scope
       ai/text_transform_run:
         action: Aktion
@@ -137,10 +137,10 @@ de:
         commented: Kommentiert
       custom_field:
         admin_only: Nur für Administratoren
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Erlaube nicht-offene Versionen
         content_right_to_left: Linksläufiger Inhalt
         default_value: Standardwert
-        editable: Bearbeitbar
         field_format: Format
         formula: Formel
         has_comment: Ein Kommentarfeld hinzufügen
@@ -153,10 +153,12 @@ de:
         min_value: Minimal erlaubter Wert
         multi_value: Mehrfachauswahl zulassen
         possible_values: Mögliche Werte
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Projektspezifische Werte
         regexp: Regulärer Ausdruck
         searchable: Durchsuchbar
         semantic_key: Semantische Bedeutung
+        user_self_editable: Editable
         visible_on_user_card: Auf Benutzerkarte anzeigen
       custom_field/project_specific_value_restriction:
         restriction: Beschränkung
@@ -395,10 +397,14 @@ de:
         authentication_method: Authentifizierungsmethode
         jwt_sub: Subject claim
       status:
+        category: Category
         default_done_ratio: "% abgeschlossen"
         excluded_from_totals: Von der Berechnung der Gesamtsumme in der Hierarchie ausschließen
-        is_closed: Arbeitspaket geschlossen
         is_readonly: Arbeitspakete schreibgeschützt
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Arbeitsbereichstyp
       time_entry:
@@ -417,6 +423,7 @@ de:
       type:
         allow_project_variants: Projektspezifische Varianten erlauben
         color: Farbe
+        description: Description
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_milestone: Ist ein Meilenstein
         project_types: Projekte
@@ -426,6 +433,7 @@ de:
       type_variant:
         attribute_groups: Formular
         default_work_package_description: Standardtext für Beschreibung
+        description: Description
         enabled_in_new_projects: Aktiv in neuen Projekten
         linked_aspects: Vererbte Konfiguration
         patterns: Muster
@@ -548,6 +556,11 @@ de:
         labels: Bezeichnungen
         notify: Benachrichtigung
         observed_in_versions: Festgestellt in Versionen
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Übergeordnetes Arbeitspaket
         parent_issue: Übergeordnetes Arbeitspaket
         parent_work_package: Übergeordnetes Arbeitspaket
@@ -706,7 +719,10 @@ de:
               format: "%{message}"
               invalid: Die Formel ist ungültig.
               invalid_tokens: Nur numerische Werte, mathematische Operatoren, Funktionen, Schlüsselworte und Projektattribute vom Typ Integer, Float, Berechneter Wert und Gewichtete Liste sind erlaubt.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: Das Attribut %{custom_fields} kann nicht verwendet werden, da es zu einem Zirkelbezug führt; ein Attribut hängt vom anderen ab.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: ist nur für benutzerdefinierte Felder von Arbeitspaketen der Formate „Liste“, „Hierarchie“ und „gewichtete Elementliste“ verfügbar.
             required:
@@ -719,6 +735,10 @@ de:
           attributes:
             project_ids:
               blank: Bitte wählen Sie ein Projekt aus.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -818,7 +838,7 @@ de:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Sie haben nicht die erforderlichen Berechtigungen, um alle Unterprojekte zu archivieren. Bitte kontaktieren Sie einen Administrator.
-              project_initiation_request_disabled: Die Anfrage zur Projektinitiierung ist deaktiviert. Sie muss aktiviert sein, um das Artefakt-Arbeitspaket zu erstellen.
+              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
             enabled_modules:
               dependency_missing: Das Modul "%{dependency}" muss ebenfalls aktiviert sein, da das Modul "%{module}" dieses benötigt.
               format: "%{message}"
@@ -832,7 +852,7 @@ de:
               switch_target_blank: Wählen Sie die Variante aus, zu der Sie wechseln möchten
               switch_target_identical: Der Zieltyp muss sich von dem Typ unterscheiden, den das Projekt derzeit verwendet
               switch_target_not_in_family: Es ist nur möglich, zu einer anderen Variante desselben Typs zu wechseln
-          cannot_be_assigned_to_artifact_work_package: Der gewählte Nutzer darf im Arbeitspaket nicht zugewiesen werden.
+          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.
         project/phase:
           attributes:
@@ -1092,9 +1112,9 @@ de:
       action:
         one: Aktion
         other: Aktionen
-      ai/text_transform_action:
-        one: Text-Bearbeitung
-        other: Text-Bearbeitungen
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Text-Bearbeitung
         other: Text-Bearbeitungen
@@ -1479,6 +1499,7 @@ de:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} und %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: Datum gelöscht %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
@@ -1511,7 +1532,7 @@ de:
             name: Logo für Hochkontrastmodus
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Benutzerdefiniertes Touch-Icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -1647,6 +1668,10 @@ de:
         button_delete_personal_access_token: PAT löschen
         button_save: Konfiguration speichern
         button_test_connection: Verbindung testen
+        credential_requirements:
+          administrator: The user must be a Jira administrator.
+          project_member: The user must be a member of every Jira project you want to migrate.
+          title: Requirements for the Jira user behind the credentials
         delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
@@ -1658,6 +1683,7 @@ de:
           personal_access_token: Personal access token (PAT)
           url: Jira Server/Datencenter URL
         label_testing: Teste Konfiguration...
+        personal_access_token_caption: The token must belong to a Jira administrator.
       personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
@@ -1689,6 +1715,10 @@ de:
             title: Versionen für ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectWorkPackagesJob:
             title: Arbeitspakete für ‚%{jira_project_name}‘ erstellen
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Benutzer erstellen
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1699,12 +1729,16 @@ de:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Prioritäten abrufen
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Versionen für das Projekt ‚%{jira_project_name}‘ abrufen
           JiraFetchProjectsJob:
             title: Projekte abrufen
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Status abrufen
           JiraFetchUsersJob:
@@ -1715,6 +1749,9 @@ de:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
+        not_administrator_error:
+          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
+          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Sie versuchen ein Projekt mit einem bereits verwendeten Identifikator zu importieren: %{taken_identifier}. Bitte aktualisieren Sie die Projektkennung in Jira und klicken Sie dann auf Wiederholen.'
         remove_error: Ein Jira-Import kann nicht entfernt werden während er läuft
         side_panel:
@@ -1776,6 +1813,9 @@ de:
             projects:
               one: "%{count} Projekt"
               other: "%{count} Projekte"
+            resolutions:
+              one: "%{count} resolution"
+              other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
               other: "%{count} Statusse"
@@ -1805,6 +1845,7 @@ de:
               label_available_data: Zu importierende Daten
               label_import_data: Wird gerade importiert
               label_progress: Import läuft...
+              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
               label_users_import_explanation: Nutzer, die an ausgewählten Projekten beteiligt sind (einschließlich Gruppenmitgliedschaften)
               title: Daten importieren
             fetch_data:
@@ -1837,10 +1878,16 @@ de:
                 projects:
                   label: Projekte
                   subtitle: Als Umfang ausgewählt
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Daten importiert
                 users_and_groups:
                   label: Benutzer & Gruppen
-                  subtitle: 'An importierten Projekten beteiligt '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Arbeitspakete
                   subtitle: With attachments and logged time
@@ -1857,17 +1904,15 @@ de:
               description: Wählen Sie aus den verfügbaren Daten, die Sie aus der Host-Jira-Instanz abrufen, die Daten aus, die Sie importieren möchten.
               elements:
                 custom_fields: Ein Teil der benutzerdefinierten Felder
-                issue_details: Beschreibung, Verlauf, Kommentare und Anhänge
-                issue_ids: Ticketkennungen
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Tickets
                 logged_time: Erfasste Zeit
                 permissions: Berechtigungen
-                project_ids: Projektkennungen
-                project_versions: Projektversionen
+                project_details: Project identifiers, description and versions
                 projects: Projekte
                 relations: Beziehungen zwischen Tickets
                 schemes: Schemas
-                sprints: Sprint-Zuweisungen
+                sprints: Sprints and sprint assignments
                 users: Beteiligte Benutzer und Gruppen
                 workflows: Workflows auf Projektebene
               label_coming_later: Kommt später
@@ -1894,17 +1939,20 @@ de:
               rest_line_text: ''
               title: Jira-Konfiguration abrufen
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Anhänge herunterladen
+              title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Benutzer und benutzerdefinierte Felder abrufen
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Benutzer, Gruppen und Mitgliedschaften erstellen
@@ -1915,8 +1963,8 @@ de:
               rest_line_text: "%{projects_number} weitere Projekte erstellen"
               title: Projekte erstellen
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Projektversionen erstellen
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Arbeitspakete erstellen
@@ -1931,10 +1979,12 @@ de:
         error: Beim Testen der Verbindung ist ein unerwarteter Fehler aufgetreten
         failed: 'Verbindung fehlgeschlagen: Serverinformationen können nicht abgerufen werden'
         invalid_url: Bitte eine gültige URL eingeben
+        not_administrator:
+          basic: Basic auth user must be a Jira administrator.
+          bearer: Personal Access Token must be an admin token.
         parse_error: Die Antwort des Servers konnte nicht gelesen werden. Der Server ist möglicherweise keine gültige Jira-Instanz.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Erfolgreich verbunden mit %{server} (Version %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
       user:
         unknown_name: Unbekannt
@@ -2136,10 +2186,6 @@ de:
       user_custom_field_sections:
         destroy:
           error: Der Abschnitt konnte nicht gelöscht werden.
-        drop:
-          error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
-        move:
-          error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
       versions_and_categories:
         banner:
           button_more_information: Weitere Informationen
@@ -2215,45 +2261,48 @@ de:
         page_header:
           description: Wählen Sie zwischen einfachen numerischen Arbeitspaket- oder projektspezifischen Kennungen, bei denen die Projektkennung der Arbeitspaket-ID vorangestellt wird.
         success_banner: Das Format der Arbeitspaket-Kennung wurde erfolgreich aktualisiert.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Benutzer können diese Aktion im Rich-Text-Editor nicht mehr ausführen.
-        heading: Sind Sie sicher, dass Sie die Aktion %{label} löschen möchten?
-        title: Textumwandlungsaktion löschen
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Bei aktiviertem Kontrollkästchen, wird die Beschreibungsvorlage des Arbeitspaket-Typs automatisch in die Eingabeaufforderung eingefügt. Die Eingabeaufforderung sollte Anweisungen dazu enthalten, wie mit der Vorlage verfahren werden soll.
-        label_caption: Dies ist der Name, der den Benutzern im Editor angezeigt wird.
-        select_types: Typen auswählen
-        types_caption: Fügen Sie Arbeitspakettypen hinzu, für die diese Aktion verfügbar sein soll. Alle verfügbaren Varianten eines Typs werden automatisch hinzugefügt.
-        usage_scope_caption: 'Sie können festlegen, wo diese Aktion sichtbar sein soll: überall (einschließlich Kommentaren, Wikis und benutzerdefinierten Feldern), für alle Arten von Arbeitspaketen oder für bestimmte Arten von Arbeitspaketen.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Aktion
-        label_aria_add_action: Text-Bearbeitungs-Aktion hinzufügen
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Füge hier eine Aktion hinzu, um sie hier zu sehen
-          title: Noch keine Textumwandlungsaktionen konfiguriert
-        disabled_warning: Aktionen zur Textumwandlung sind deaktiviert. Die folgenden Aktionen stehen an keiner Stelle zur Verfügung.
-        label_disable_all: Alles deaktivieren
-        label_enable_all: Alles aktivieren
-        title: Aktionen
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Neue Textumwandlungsaktion
+        title: New text action
       row_component:
-        label_actions: Aktionsmenü
-        label_toggle: "%{label} umschalten"
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} Arbeitspakettyp"
-          other: "%{count} Arbeitspakettypen"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Alle Arbeitspakettypen
-        everywhere: Überall
-        specific_work_package_types: Bestimmte Arbeitspakettypen
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Status hinzufügen, um mit der Konfiguration von Arbeitsabläufen für diese Rolle zu beginnen
         linked_description: Dieser Typ übernimmt die Workflows seines verknüpften Quelltyps, für den keine Statusübergänge konfiguriert sind
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: Keine Statusübergänge konfiguriert
       leave_confirmation:
         description: Sie sind dabei, diese Seite zu verlassen, haben aber noch nicht gespeicherte Änderungen. Möchten Sie diese vor dem Fortfahren speichern?
@@ -2303,7 +2352,7 @@ de:
       errors:
         connection_failed: Der KI-Dienst konnte nicht erreicht werden.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: Der KI-Assistent ist nicht verfügbar.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Der KI-Dienst hat nicht rechtzeitig geantwortet.
         upstream_error: Der KI-Dienst hat eine Fehlermeldung zurückgegeben.
@@ -2315,7 +2364,9 @@ de:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Ersetzen
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2347,6 +2398,8 @@ de:
         emoji_reactions_activity_type_not_supported: Dieser Aktivitätstyp unterstützt keine Emoji-Reaktionen.
         invalid_link: Der Link unter dem Schlüssel '%{key}' ist nicht gültig.
         links_not_an_object: _links muss ein JSON-Objekt sein.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Ungültige Anfrage: %{message}'
       code_401: Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können.
       code_401_wrong_credentials: Die von Ihnen benutzten Zugangsdaten sind nicht korrekt.
@@ -2694,8 +2747,25 @@ de:
       disabled_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
       mathematical: Die mathematische Formel führt zu einem Fehler. Bitte überprüfen Sie das Attribut der Projektberechnung und versuchen Sie es erneut.
       missing_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Ein unbekannter Fehler ist aufgetreten. Bitte überprüfen Sie die Formel für diesen Berechneten Wert.
   colors:
+    contrast:
+      background: Background
+      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
+      dark: Dark mode
+      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
+      fail: Fail
+      foreground: Foreground
+      light: Light mode
+      pass: Pass
+      ratio: Contrast ratio
+      sample: Sample text
+      text: Text
+      title: Contrast preview
+      used_as_background: Used as background
+      used_as_foreground: Used as foreground
+      wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Farbe bearbeiten
     form:
@@ -2723,7 +2793,7 @@ de:
     failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
     not_yet_consented: Der Benutzer hat seine Einwilligung zu Ihrem [konfigurierten Einwilligungstext](consent_settings) noch nicht gegeben. Er wird bei der nächsten Anmeldung daran erinnert werden.
     text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
-    title: Nutzer-Einwilligung
+    title: User consent
     update_consent_last_time: 'Letzte Änderung der Einwilligungsinformationen: %{update_time}'
     user_has_consented: Der Benutzer hat Ihrem [konfigurierten Einwilligungstext](consent_settings) zugestimmt.
   copy_project:
@@ -2790,6 +2860,8 @@ de:
           item:
             description: Füge Elemente zu dieser Liste hinzu, um Unterelemente innerhalb eines anderen zu erstellen
             title: Dieses Element hat keine untergeordnete Hierarchieebene
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Beginnen Sie mit dem Hinzufügen von Elementen in das selbstdefinierte Feld der Typ-Hierarchie. Jedes Element kann verwendet werden, um eine Hierarchie darunter zu erstellen. Um Unterelemente innerhalb einer Hierarchie zu navigieren und zu erstellen, klicken Sie auf das erstellte Element.
             title: Ihre Liste der Elemente ist leer
@@ -2852,16 +2924,14 @@ de:
         warning: Je nach der unten ausgewählten Rolle kann der Benutzer, der diesem Projektattribut zugewiesen ist, wesentlich mehr Berechtigungen erhalten, als er zuvor hatte. Dies könnte bedeuten, dass er seine eigene Rolle und verknüpfte Berechtigungen ausweitet.
     calculated_field_not_editable: Nicht editierbares Attribut. Dieser Wert wird automatisch berechnet.
     confirm_destroy_option: Löschen eines Werts entfernt alle bereits gesetzten Werte (z.B. bei Arbeitspaketen). Sind Sie sicher, dass Sie den Wert löschen möchten?
-    contained_in_type: In Typ enthalten
+    contained_in: Contained in
     enabled_in_project: Im Projekt aktiviert
     instructions:
       admin_only:
         all: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
         project: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
-      editable:
-        all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
-        project: Fügen Sie numerische Werte hinzu oder geben Sie / ein, um nach einem Attribut, einem Operator, einer Funktion oder einem Schlüsselwort zu suchen.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       is_filter:
@@ -2889,6 +2959,8 @@ de:
       searchable:
         all: Inkludiert die Werte des Feldes in die globale Suche.
         project: Das Attribut kann als Filter in Projektlisten ausgewählt werden.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: Wenn diese Option aktiviert ist, wird der Wert dieses Feldes in der Benutzerinformationskarte angezeigt, wenn Sie über einen Benutzer in der Anwendung bewegen.
     is_enabled_globally: Für alle Projekte aktiviert
@@ -2910,6 +2982,11 @@ de:
       block:
         caption: Standardmäßig stehen alle Werte für alle Projekte zur Verfügung; Sie können jedoch bestimmte Werte für einzelne Projekte manuell deaktivieren.
         label: 'Werte deaktivieren: Wählen Sie für jedes Projekt manuell aus, welche Werte deaktiviert werden sollen'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: Alle Werte stehen in allen Projekten zur Verfügung.
         allow: In keinem Projekt werden Werte für dieses benutzerdefinierte Feld angeboten, bis sie einzelne Werte für einzelne Projekte zugelassen haben.
@@ -3183,7 +3260,6 @@ de:
       gantt_pdf_export: Gantt PDF Export
       internal_comments: Interne Kommentare
       ldap_groups: LDAP-Benutzer- und Gruppensynchronisation
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Wiederverwendbare Besprechungs-Vorlagen
       nextcloud_sso: Single Sign-On für Nextcloud-Speicher
       one_drive_sharepoint_file_storage: OneDrive/SharePoint-Datei-Speicher
@@ -3196,6 +3272,7 @@ de:
       scim_api: SCIM-Server-API
       sso_auth_providers: Single-Sign-On
       team_planner_view: Teamplaner
+      text_assistant: Text assistant
       virus_scanning: Antivirus-Überprüfung
       weighted_item_lists: Gewichtete Listen
       work_package_query_relation_columns: Arbeitspaket-Relationsspalten
@@ -3276,8 +3353,6 @@ de:
       internal_comments_inline:
         description: " "
         title: Interne Kommentare schreiben, die nur für ausgewählte Mitglieder sichtbar ist.
-      mcp_server:
-        description: Integrieren Sie OpenProject mittels eines sicheren MCP-Servers in Ihren KI-Workflows.
       meeting_templates:
         description: Definieren Sie Besprechungsvorlagen mit einer festen Agenda-Struktur und sparen Sie Zeit, indem Sie sie bei der Erstellung neuer Besprechungen wiederverwenden.
       nextcloud_sso:
@@ -3308,6 +3383,9 @@ de:
       sso_auth_providers:
         description: Ermöglichen Sie es Benutzern, sich über externe SSO-Anbieter mit SAML oder OpenID Connect anzumelden, um einen nahtlosen Zugriff und die Integration mit bestehenden Identitätssystemen zu ermöglichen.
         title: Single Sign-On (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise Add-on
       trial_text: Diese Funktion ist in Ihrer aktiven Enterprise-Testversion enthalten.
       unlimited: Unbegrenzt
@@ -3562,6 +3640,7 @@ de:
         caption: Das neue Formular beginnt mit einer Kopie der Gruppen und Felder dieses Formulars.
         label: Kopieren von
         placeholder: Formular auswählen…
+      copy_title: Copy form %{name}
       description:
         caption: Fügen Sie eine kurze Beschreibung hinzu, wo und wie dieses Formular verwendet wird.
         label: Beschreibung
@@ -3569,7 +3648,7 @@ de:
       name:
         caption: Wählen Sie einen Namen, anhand dessen Sie dieses Formular später an anderer Stelle wiedererkennen können.
         label: Formularname
-      new_title: Formular anlegen
+      save_title: Save form
     index:
       actions:
         edit: Formular bearbeiten
@@ -3911,6 +3990,7 @@ de:
       comment_retracted: Comment retracted
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
+      email_html: "<strong>Via email</strong> from %{sender}"
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importiert
       label_deleted: 'Label removed:'
@@ -3949,7 +4029,7 @@ de:
   label_active_in_new_projects: Aktiv in neuen Projekten
   label_activity: Aktivität
   label_add_another_file: Eine weitere Datei hinzufügen
-  label_add_column: Spalte hinzufügen
+  label_add_column: Add columns
   label_add_columns: Ausgewählte Spalten hinzufügen
   label_add_edit_translations: Hinzufügen und Bearbeiten von Übersetzungen
   label_add_note: Kommentar hinzufügen
@@ -3964,6 +4044,7 @@ de:
   label_additional_workflow_transitions_for_author: Zusätzliche Workflow-Übergänge wenn der Nutzer der Autor des Arbeitspakets ist
   label_administration: Administration
   label_age: Geändert vor
+  label_aggregate_function_plural: Aggregate functions
   label_ago: vor (Tage)
   label_all: alle
   label_all_open_wps: Alle offenen
@@ -4053,7 +4134,7 @@ de:
   label_completed: Abgeschlossen
   label_configuration: Konfiguration
   label_confirmation: Bestätigung
-  label_consent_settings: Nutzer-Einwilligung
+  label_consent_settings: User consent
   label_constant_plural: Konstanten
   label_contains: enthält
   label_content: Inhalt
@@ -4084,7 +4165,7 @@ de:
   label_custom_export_footer: Fußzeilenbild
   label_custom_export_logo: Logo
   label_custom_favicon: Benutzerdefiniertes Favicon
-  label_custom_field_add_no_type: Dieses Feld zu einem Arbeitspaket-Typ hinzufügen
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Leerer Typ
   label_custom_field_new: Neues benutzerdefiniertes Feld
   label_custom_field_plural: Benutzerdefinierte Felder
@@ -4178,7 +4259,7 @@ de:
   label_filter: Filter
   label_filter_add: Filter hinzufügen
   label_filter_any_name_attribute: Namensattribute
-  label_filter_by: Filtern nach
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Filter
   label_filters_toggle: Filter ein-/ausblenden
   label_float: Gleitkommazahl
@@ -4229,6 +4310,7 @@ de:
   label_in: an
   label_in_less_than: in weniger als
   label_in_more_than: in mehr als
+  label_in_progress_work_packages: in progress
   label_inactive: Inaktiv
   label_include_sub_projects: Unterprojekte einbeziehen
   label_includes: enthält
@@ -4380,7 +4462,7 @@ de:
   label_on: am
   label_open: Offen
   label_open_menu: Menü öffnen
-  label_open_work_packages: Offen
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: offen
   label_openproject_website: OpenProject Webseite
   label_operator_all: ist nicht leer
@@ -4587,6 +4669,7 @@ de:
   label_time_entry_plural: Aufgewendete Zeit
   label_timer_since: Begonnen um %{time}
   label_title: Titel
+  label_to_do_work_packages: to-do
   label_today: heute
   label_today_as_date: Heute als Datum wählen.
   label_today_as_due_date: Heute als Enddatum wählen.
@@ -4700,6 +4783,13 @@ de:
     one: "%{count} Datei"
     other: "%{count} Dateien"
     zero: keine Dateien
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} Element"
     other: "%{count} Elemente"
@@ -4715,6 +4805,10 @@ de:
     one: "%{count} Projekt"
     other: "%{count} Projekte"
     zero: Keine Projekte
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} Arbeitspaket"
     other: "%{count} Arbeitspakete"
@@ -5054,7 +5148,7 @@ de:
       mails_and_notifications: E-Mails und Benachrichtigungen
       mcp_configurations: Model Context Protocol (MCP)
       push_notifications: Browser notifications
-      text_transform_actions: Textumwandlungsaktionen
+      text_actions: Text assistant
     quick_add:
       label: Hinzufügen…
   more_actions: Weitere Funktionen
@@ -5539,6 +5633,9 @@ de:
           not_unique: muss innerhalb der gleichen Hierarchieebene eindeutig sein.
         parent:
           not_descendant: muss ein Unterelement der Hierarchiewurzel sein.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: muss innerhalb der gleichen Hierarchieebene eindeutig sein.
       str?: muss eine Zeichenkette sein.
@@ -5618,10 +5715,19 @@ de:
       toc:
         caption: Fügen Sie ein Inhaltsverzeichnis ein, in dem die Überschriften der Abschnitte aufgeführt sind.
         label: Inhaltsverzeichnis
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Seite %{page} von %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Alle Attribute, die in der aktuellen Formularkonfiguration des Standardtemplates vorhanden sind.
       label: Attribute und Beschreibung
@@ -5865,7 +5971,7 @@ de:
   project_module_activity: Aktivität
   project_module_forums: Foren
   project_module_news: Neuigkeiten
-  project_module_repository: Projektarchiv
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Arbeitspakete
   projects:
@@ -5909,6 +6015,15 @@ de:
       new:
         placeholder: Neue Projektliste
       shared: Geteilte Projektlisten
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Alles deaktivieren
@@ -5934,11 +6049,11 @@ de:
           no_status_when_submitted: Der Antrag auf Projektinitiierung konnte nicht aktiviert werden, da für den Arbeitspaket-Typ %{type} mindestens ein Status erforderlich ist, der mit ihm verknüpft ist. Bitte aktivieren Sie mindestens einen Status-Workflow für diesen Arbeitspaket-Typ.
           no_work_package_type: Die Anfrage zur Projektinitiierung konnte nicht aktiviert werden, da dafür mindestens ein aktiver Arbeitspaket-Typ erforderlich ist und dieses Projekt keinen hat. Bitte fügen Sie diesem Projekt mindestens einen Arbeitspaket-Typ hinzu.
         export:
-          description_attachment_export: Das erzeugte Artefakt wird als PDF-Anhang zum erstellten Arbeitspaket gespeichert.
-          description_file_link_export: Das erstellte Arbeitspaket enthält einen Dateilink zu einer PDF-Datei, die in einem externen Dateispeicher gespeichert ist. Erfordert einen aktiven Dateispeicher mit automatisch verwalteten Projektordnern. Im Moment werden nur Nextcloud-Dateispeicher unterstützt.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Wählen Sie, welcher der konfigurierten externen Dateispeicher verwendet werden soll.
           external_file_storage: Externe Dateispeicher
-          label_artifact_export: Artefakt-Export
+          label_artefact_export: Artefact export
           label_attachment_export: Als Dateianhang des Arbeitspakets speichern
           label_file_link_export: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
           pdf_file_storage: PDF-Datei-Speicherort
@@ -6044,10 +6159,12 @@ de:
         switch:
           apply: Anwenden
           impact:
-            hidden_heading: Felder, die nicht mehr angezeigt werden
-            missing_statuses_description: Der Arbeitsablauf, zu dem Sie wechseln, sieht keinen Übergang aus diesen Status vor, sodass niemand diese Arbeitspakete weiterbearbeiten kann.
-            missing_statuses_heading: Arbeitspakete, die in eine Sackgasse geraten
-            new_heading: Felder, die verfügbar werden
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: Es sind keine Felder oder Status betroffen.
             status_count:
               one: "%{count} Arbeitspaket"
@@ -6077,14 +6194,14 @@ de:
     status:
       button_edit: Status bearbeiten
     wizard:
-      create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
-      create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
+      create_artefact_storage_error: Failed to store artefact in file storage
+      create_artefact_work_package_error: Failed to create artefact work package
       no_custom_fields_html: Für dieses Projekt sind keine Projektattribute für den Assistenten aktiviert. Bitte aktivieren Sie mindestens eines davon in den <a href="%{link}">Projekteinstellungen</a>.
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
       sidebar_content_title: Inhalt
-      success: Projektattribute gespeichert und Artefakt der Anfrage als Arbeitspaket erstellt.
+      success: Project attributes saved and artefact work package created successfully.
       title: Projektinitiierungsantrag
   pwa:
     offline:
@@ -6110,6 +6227,22 @@ de:
         automatic:
           description: Ordnen Sie %{plural} nach einem oder mehreren Sortierkriterien. Die vorherige Sortierung geht dabei verloren.
           heading: Automatisch
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6312,7 +6445,6 @@ de:
   setting_after_login_default_redirect_url_example_html: 'Legen Sie einen Standardpfad fest, zu dem nach der Anmeldung weitergeleitet wird, wenn kein Back-Link vorhanden ist. Falls nicht gesetzt, wird zur Startseite weitergeleitet. <br/> Beispiel: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Textumwandlungsaktionen aktivieren
   setting_allowed_link_protocols: Erlaubte Link-Protokolle
   setting_allowed_link_protocols_text_html: Erlauben Sie es, diese Protokolle als Links in Arbeitspaket-Beschreibungen, langen Textfeldern und Kommentaren darzustellen. Zum Beispiel %{tel_code} oder %{element_code}. Geben Sie ein Protokoll pro Zeile ein. <br/> Protokolle %{http_code}, %{https_code} und %{mailto_code} sind immer erlaubt.
   setting_antivirus_scan_action: Aktion für infizierte Datei
@@ -6672,12 +6804,12 @@ de:
         confirmation_message: Der Projektinitiierungsantrag wird für neue Projekte, die auf dieser Vorlage basieren, nicht mehr verfügbar sein. Projektmanager und Projektverantwortliche müssen die entsprechenden Informationen in der Projektübersicht manuell konfigurieren und ausfüllen.
         heading: Diesen Projektinitiationsantrag deaktivieren?
         title: Projektinitiierungsantrag deaktivieren
-      header_description: 'OpenProject kann einen Schritt-für-Schritt-Assistenten erstellen, der beim Ausfüllen eines Projektinitiierungsantrags unterstützt. Sie können die abgefragten Projektattribute wählen und ein Artefakt als Ergebnis erzeugen lassen.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Name des Artefakts
-        artifact_name_caption: Wählen Sie den Namen für dieses Artefakt, passend zu Ihrer Projektmanagement-Methodik.
+        artefact_name: Artefact name
+        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Projekterstellungs-Assistent
           project_initiation_request: Projektinitiierungsantrag
@@ -6697,8 +6829,8 @@ de:
           Sie haben einen Antrag auf Projektinitiierung für **%{project_name}** eingereicht. Dieser wartet nun auf seine Überprüfung.
           Klicken Sie auf den untenstehenden Link, um das Arbeitspaket mit Ihrem Antrag aufzurufen.
         confirmation_email_text: Text der Bestätigungs-E-Mail
-        description: Wenn ein Benutzer eine Anfrage zur Projektinitiierung einreicht, wird ein neues Arbeitspaket erstellt, an das ein Artefakt der Anfrage als PDF-Datei angehängt wird. Die folgenden Einstellungen definieren den Typ, den Status und den Empfänger für dieses neue Arbeitspaket.
-        description_template: "**Dieses Arbeitspaket wurde automatisch nach Abschluss des %{wizard_name} Workflows erstellt.** Ein PDF-Artefakt mit allen eingereichten Informationen wurde generiert und zu Referenz- und Prüfzwecken an dieses Arbeitspaket angehängt. Wenn Sie die Einleitungsschritte aktualisieren oder erneut ausführen müssen, können Sie den Assistenten jederzeit über den unten stehenden Link erneut öffnen:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Senden Sie eine Bestätigungs-E-Mail an den Benutzer, der den Projektinitiierungsantrag gestellt hat
         status_when_submitted: Status bei Einreichung
         status_when_submitted_caption: Der Status, in den das erstellte Arbeitspaket übergeht, sobald der Antrag eingereicht wird.
@@ -6706,7 +6838,7 @@ de:
         work_package_comment_caption: Der oben ausgewählte Empfänger wird automatisch in dem Kommentar @erwähnt.
         work_package_comment_default: Ein Antrag auf Projektinitiierung für **%{project_name}** wurde eingereicht und wartet auf seine Prüfung.
         work_package_type: Arbeitspaket-Typ
-        work_package_type_caption: Der Arbeitspaket-Typ, der zum Speichern des Artefakts verwendet wird.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Projekterstellungs-Assistent öffnen
         project_initiation_request: Projektinitiierungsantrag öffnen
@@ -6747,6 +6879,7 @@ de:
         label_built_in_attribute_actions: Vordefinierte Attribut-Aktionen
       custom_field_row_component:
         label_user_custom_field_actions: Aktionen für Benutzerattribute
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Benutzerattribut hinzufügen
         label_edit_section: Titel bearbeiten
@@ -6859,6 +6992,11 @@ de:
   status_registered: angemeldet
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Status. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
 
         '
@@ -7059,6 +7197,9 @@ de:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: nachmittags
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: bis
     show: Zeitausschnitt anzeigen
@@ -7222,6 +7363,7 @@ de:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: Für Projektadministratoren, die über die Berechtigung zur Verwaltung von Varianten verfügen, kann dieser Typ innerhalb eines Projekts erweitert oder geändert werden.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Vom übergeordneten Typ <b>%{type}</b> gesetzt.
         tab: Details
         type_color_text: |-
@@ -7236,13 +7378,13 @@ de:
           file_link:
             caption: Die erstellte PDF-Datei wird in den automatisch verwalteten Nextcloud-Speicher des Projekts hochgeladen und vom Arbeitspaket aus verlinkt. Arbeitspakete in Projekten ohne einen solchen Speicher werden übersprungen.
             label: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
-          intro: Automatisch ein PDF-Artefakt eines Arbeitspakets dieses Typs generieren, wenn sich dessen Status ändert.
-          invalid_mode: Ungültiger Artefakt-Exportmodus.
-          label: Automatischer Export von Artefakten
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
           off_mode:
             caption: Es wird kein PDF automatisch generiert.
             label: Aus
-          section_title: Automatischer Export von Artefakten
+          section_title: Automatic artefact export
           unavailable: Nicht verfügbar, es ist kein automatisch verwalteter Nextcloud-Speicher konfiguriert
         pdf_export_templates:
           actions:
@@ -7254,7 +7396,6 @@ de:
         tab: PDF generieren
         templates:
           readonly_error: Kann nicht geändert werden, solange eine Verknüpfung zu einem Quelltyp besteht.
-          section_title: PDF-Exportvorlagen
           settings:
             edit_link: Einstellungen bearbeiten
             reset_to_default: Auf Standard zurücksetzen
@@ -7276,7 +7417,6 @@ de:
         empty_group_hint: Attribute hierher ziehen
         exclusions:
           attribute_label: "%{attribute} erben"
-          excluded: Ausgeblendet
           section_label: Übernommener Abschnitt %{section}
         filter_inactive: Attribute filtern
         group_actions: Abschnittsoptionen
@@ -7289,6 +7429,11 @@ de:
         no_inactive_attributes: Keine inaktiven Attribute
         not_found: Das angeforderte Formularfeld konnte nicht gefunden werden.
         query_group_label: Zugehörige Arbeitspaket-Tabelle
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
         required:
@@ -7330,7 +7475,6 @@ de:
           manual:
             description: Sobald Sie [Projektattribute anlegen](administration_url), werden diese hier angezeigt und können einem Typ hinzugefügt werden.
             title: Es sind keine Projektattribute verfügbar
-        disabled: Deaktiviert
         exclusions:
           attribute_label: "%{attribute} erben"
         filter: Nach Abschnitt oder Name suchen
@@ -7340,7 +7484,7 @@ de:
         actions:
           confirm_remove: Den Typ %{type} von %{project} entfernen?
           remove_from_project: Aus dem Projekt entfernen
-          switch_variant: Aktive Variante ändern
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Bitte wählen Sie mindestens ein Projekt.
           search_placeholder: Projekte suchen
@@ -7350,8 +7494,6 @@ de:
           no_results: Keine übereinstimmenden Projekte.
           title: Wird in keinem Projekt verwendet
         enable_all: Für alle Projekte aktivieren
-        select_projects: Projekt auswählen
-        select_projects_description: Wählen Sie die Projekte aus, in denen Sie diesen Typ verwenden möchten.
         switch_dialog:
           description: Die folgenden Projekte verwenden bereits andere Varianten für „ %{type}“. Sind Sie sicher, dass Sie diese durch „%{variant}“ ersetzen möchten? Dies hat Auswirkungen auf Formulare und Workflows in all diesen Projekten.
           title: Varianten ersetzen?
@@ -7410,14 +7552,14 @@ de:
           mode_label: Diese Seite manuell konfigurieren
           modes:
             copy:
-              caption: Beginnen Sie mit einer einmaligen Kopie der Einstellungen, die diese Konfiguration derzeit übernimmt.
-              label: Vererbte Einstellungen kopieren
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Standardeinstellungen für neue Typen verwenden.
               label: Standardeinstellungen
             empty:
               caption: Richten Sie alles von Grund auf ein, beginnend mit einer leeren Konfiguration.
-              label: Leer
+              label: Start from scratch
           success: Der Konfigurationsmodus wurde gewechselt.
           title: Manuelle Konfiguration
         parent_suffix: " (übergeordneter Typ)"
@@ -7468,7 +7610,7 @@ de:
           one: 'Der Typ wird aus %{count} Projekt entfernt:'
           other: 'Der Typ wird aus %{count} Projekten entfernt:'
         title: Typ löschen
-      description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Kopie von %{name}
@@ -8163,8 +8305,6 @@ de:
           notice:
             one: Workflow erfolgreich in die Rolle '%{role_name}' kopiert.
             other: Workflow erfolgreich in %{count} Rollen kopiert.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: Dieser Workflow wird derzeit von %{count} Typ oder der Variante verwendet. Bitte wählen Sie einen neuen Workflow aus, durch den dieser ersetzt werden soll.
@@ -8182,6 +8322,7 @@ de:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Kopieren von
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Beschreibung
@@ -8197,7 +8338,7 @@ de:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow

@@ -27,7 +27,11 @@
 
 import { computePosition, ComputePositionReturn, flip, Placement, shift } from '@floating-ui/dom';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import {
+  OpContextMenuCloseReason,
+  OpContextMenuItem,
+  OpContextMenuLocalsMap,
+} from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 /**
@@ -80,7 +84,7 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
   /**
    * Get the locals passed to the op-context-menu component
    */
-  public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
+  public get locals():OpContextMenuLocalsMap {
     return {
       items: this.items,
     };

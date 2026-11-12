@@ -7,5 +7,5 @@ properties:
     description: Query name.
   # There are additional properties not mentioned here
 
-example:
-  name: Updated query name
+examples:
+  - name: Updated query name

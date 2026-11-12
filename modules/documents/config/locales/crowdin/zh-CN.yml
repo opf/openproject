@@ -78,6 +78,12 @@ zh-CN:
         primary_action: 启用实时协作
         success: 实时协作已启用。
     button_add_type: 类型
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: 这将永久删除此文档和所有文件附件。确定要这样做吗？
       heading: 是否删除此文档？

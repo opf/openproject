@@ -248,7 +248,7 @@ RSpec.describe MyController do
     context "with render_views" do
       render_views
       it "renders editable custom fields" do
-        expect(response.body).to have_content(custom_field.name)
+        expect(response.body).to have_text(custom_field.name)
       end
     end
   end
@@ -317,8 +317,8 @@ RSpec.describe MyController do
   end
 
   describe "updating custom field values" do
-    let!(:editable_cf) { create(:user_custom_field, :string, editable: true) }
-    let!(:readonly_cf) { create(:user_custom_field, :string, editable: false) }
+    let!(:editable_cf) { create(:user_custom_field, :string, user_self_editable: true) }
+    let!(:readonly_cf) { create(:user_custom_field, :string, user_self_editable: false) }
 
     it "persists editable custom fields but ignores non-editable ones" do
       as_logged_in_user user do

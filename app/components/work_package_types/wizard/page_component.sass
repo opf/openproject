@@ -39,6 +39,15 @@
     padding: var(--base-size-16)
     border-radius: var(--borderRadius-medium)
 
+  // Before the record exists the steps are not navigable yet, so strip the
+  // hover highlight and pointer cursor that would make them look pressable.
+  &--sidebar-static
+    .TreeViewRootUlStyles .TreeViewItemContainer:hover
+      background-color: transparent
+
+    .TreeViewRootUlStyles .TreeViewItemContent
+      cursor: default
+
   &--sidebar,
   &--main
     overflow: auto
@@ -56,3 +65,35 @@
 
 .op-fluid-radio-group .FormControl-advanced-radio-group-list
   align-items: start
+  grid-template-columns: repeat(2, minmax(0, 1fr))
+
+  .FormControl-advanced-radio-nested
+    min-width: 0
+
+    .Button
+      min-width: 0
+      max-width: 100%
+
+    .Button-content
+      min-width: 0
+      flex-shrink: 1
+
+    .Button-label
+      min-width: 0
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+
+.op-workflow-role-select-button
+  min-width: 0
+  max-width: 250px
+
+  .Button-content
+    min-width: 0
+    flex-shrink: 1
+
+  .Button-label
+    min-width: 0
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap

@@ -435,7 +435,7 @@ RSpec.describe PermittedParams do
     let(:attribute) { :custom_field }
 
     let(:hash) do
-      { "editable" => "0", "admin_only" => "0" }
+      { "user_self_editable" => "0", "admin_only" => "0" }
     end
 
     it_behaves_like "allows params"
@@ -929,8 +929,8 @@ RSpec.describe PermittedParams do
       it_behaves_like "allows params"
     end
 
-    describe "is_closed" do
-      let(:hash) { { "is_closed" => "true" } }
+    describe "category" do
+      let(:hash) { { "category" => "closed" } }
 
       it_behaves_like "allows params"
     end

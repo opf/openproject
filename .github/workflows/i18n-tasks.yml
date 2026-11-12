@@ -31,21 +31,21 @@ jobs:
     name: I18n inconsistency check
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      BUNDLE_ONLY: i18n_tasks
     steps:
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
-
-      - name: Setup i18n-tasks
-        run: |
-          gem install i18n-tasks
+        uses: ruby/setup-ruby@v1.335.0
+        with:
+          bundler-cache: true
 
       - name: Run inconsistent translations check
         run: |
-          i18n-tasks \
+          bundle exec i18n-tasks \
             check-consistent-interpolations \
             --config config/i18n-tasks-all-files.yml

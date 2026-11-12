@@ -320,7 +320,7 @@ module SortHelper
   #
   def sort_header_tag(column, allowed_params: nil, **)
     with_sort_header_options(column, with_title: true, allowed_params:, **) do |col, cap, default_order, **opts|
-      sort_link(col, cap, default_order, **opts)
+      sort_link(col, cap, default_order, **opts) + sort_indicator(col)
     end
   end
 
@@ -410,7 +410,7 @@ module SortHelper
 
       # Some columns are not sortable or do not offer a suitable filter. Omit those actions for them.
       sort_actions(menu, attribute, default_order, content_args:, allowed_params:, **html_options) if sortable
-      filter_action(menu, attribute, filter, content_args:) if filter
+      filter_action(menu, attribute, caption, filter, content_args:) if filter
 
       move_column_actions(menu, attribute, table_columns, content_args:, allowed_params:, **html_options)
       add_and_remove_column_actions(menu, attribute, table_columns, content_args:, allowed_params:, **html_options)
@@ -433,7 +433,7 @@ module SortHelper
         button.with_leading_visual_icon(**column.visual_icon) if column.respond_to?(:visual_icon)
         button.with_trailing_action_icon(icon: :"triangle-down")
 
-        h(caption).to_s
+        h(caption) + sort_indicator(column.attribute)
       end
     end
   end
@@ -442,23 +442,29 @@ module SortHelper
     desc_sort_link = projects_path(sort_by_options(column, "desc", default_order, allowed_params:, **html_options))
     asc_sort_link = projects_path(sort_by_options(column, "asc", default_order, allowed_params:, **html_options))
 
-    menu.with_item(**menu_options(label: t(:label_sort_descending),
-                                  content_args:,
-                                  data: { "test-selector" => "#{column}-sort-desc" },
-                                  href: desc_sort_link)) do |item|
-      item.with_leading_visual_icon(icon: :"sort-desc")
-    end
-    menu.with_item(**menu_options(label: t(:label_sort_ascending),
-                                  content_args:,
-                                  data: { "test-selector" => "#{column}-sort-asc" },
-                                  href: asc_sort_link)) do |item|
-      item.with_leading_visual_icon(icon: :"sort-asc")
-    end
+    sort_action(menu, label: t(:label_sort_descending), icon: :"sort-desc", checked: sorted_by?(column, asc: false),
+                      content_args:, data: { "test-selector" => "#{column}-sort-desc" }, href: desc_sort_link)
+    sort_action(menu, label: t(:label_sort_ascending), icon: :"sort-asc", checked: sorted_by?(column, asc: true),
+                      content_args:, data: { "test-selector" => "#{column}-sort-asc" }, href: asc_sort_link)
     menu.with_divider
   end
 
-  def filter_action(menu, column, filter, content_args:)
-    menu.with_item(**menu_options(label: t(:label_filter_by),
+  def sort_action(menu, label:, icon:, checked:, content_args:, **)
+    options = menu_options(label:, content_args:, role: :menuitemradio, **)
+    options[:content_arguments] = options[:content_arguments].merge(aria: { checked: })
+
+    menu.with_item(**options) do |item|
+      item.with_private_leading_action_icon(icon: :check, classes: "ActionListItem-singleSelectCheckmark")
+      item.with_leading_visual_icon(icon:)
+    end
+  end
+
+  def sorted_by?(column, asc:)
+    column.to_s == @sort_criteria.first_key && @sort_criteria.first_asc? == asc
+  end
+
+  def filter_action(menu, column, caption, filter, content_args:)
+    menu.with_item(**menu_options(label: t(:label_filter_by_column, column: caption),
                                   content_args:,
                                   data: {
                                     "test-selector" => "#{column}-filter-by",
@@ -516,15 +522,13 @@ module SortHelper
                                   href: config_view_modal_link)) do |item|
       item.with_leading_visual_icon(icon: :columns)
     end
-    menu.with_divider
     menu.with_item(**menu_options(label: t(:label_remove_column),
                                   content_args:,
                                   data: {
                                     "test-selector" => "#{column}-remove-column"
                                   },
-                                  scheme: :danger,
                                   href: rm_column_link)) do |item|
-      item.with_leading_visual_icon(icon: :trash)
+      item.with_leading_visual_icon(icon: :"x-circle")
     end
   end
 
@@ -556,6 +560,13 @@ module SortHelper
     end
 
     { label:, content_arguments: }.merge(extra_args)
+  end
+
+  def sort_indicator(column)
+    order = order_string(column)
+    return "".html_safe if order.nil?
+
+    render Primer::Beta::Octicon.new(icon: :"sort-#{order}", size: :small, classes: "generic-table--sort-indicator")
   end
 
   def sort_class(column)

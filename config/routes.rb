@@ -173,7 +173,7 @@ Rails.application.routes.draw do
     resources :settings, controller: "settings_tab", only: %i[index]
 
     if administration
-      resource :projects, controller: "projects_tab", only: %i[edit update] do
+      resource :projects, controller: "projects_tab", only: %i[edit] do
         collection do
           post :enable_all, to: "projects_tab#enable_all_projects"
 
@@ -281,7 +281,9 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+    resource :creation_wizard, controller: "creation_wizard", only: %i[show update] do
+      get :projects if administration
+    end
   end
 
   resources :types, module: "work_package_types", only: %i[index destroy] do
@@ -562,7 +564,7 @@ Rails.application.routes.draw do
           post :toggle
           post :update_name_settings
           post :update_submission_settings
-          post :update_artifact_export_settings
+          post :update_artefact_export_settings
           post :refresh_submission_form
           post :toggle_project_custom_field
           put :enable_all_of_section
@@ -627,6 +629,7 @@ Rails.application.routes.draw do
     end
 
     member do
+      get :hover_card, to: "projects/hover_card#show"
       get "settings", to: redirect("projects/%{id}/settings/general/")
 
       get "export_project_initiation", to: "projects#export_project_initiation_pdf"
@@ -810,6 +813,7 @@ Rails.application.routes.draw do
     member do
       get "/hover_card" => "project_phases/hover_card#show", as: "hover_card"
     end
+    resource :status, only: :update, controller: "project_phases/status"
   end
 
   resources :admin, controller: :admin, only: :index do
@@ -1031,8 +1035,6 @@ Rails.application.routes.draw do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
           post :reorder_alphabetical
-          put :move
-          put :drop
 
           get :attribute_help_text
           put :update_attribute_help_text
@@ -1058,20 +1060,18 @@ Rails.application.routes.draw do
       resources :user_custom_field_sections, controller: "/admin/settings/user_custom_field_sections",
                                              only: %i[create update destroy] do
         member do
-          put :move
           put :drop
         end
         collection do
           get :new_link
         end
-        resources :built_in_attributes,
-                  controller: "/admin/settings/user_custom_field_sections/built_in_attributes",
-                  param: :key,
-                  only: [] do
-          member do
-            put :move
-            put :drop
-          end
+      end
+
+      resources :user_custom_field_section_fields,
+                controller: "/admin/settings/user_custom_field_sections/fields",
+                param: :key, only: [] do
+        member do
+          put :drop
         end
       end
 
@@ -1201,7 +1201,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :text_transform_actions, except: :show do
+    resources :text_actions, except: :show do
       member do
         get :deletion_dialog
         post :toggle
@@ -1211,7 +1211,6 @@ Rails.application.routes.draw do
       collection do
         put :enable_all
         put :disable_all
-        post :toggle_setting
       end
     end
 

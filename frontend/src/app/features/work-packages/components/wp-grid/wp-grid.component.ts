@@ -36,7 +36,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { WorkPackageStateLinkEvent, WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -91,7 +91,7 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
-  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
+  @Output() stateLinkClicked = new EventEmitter<WorkPackageStateLinkEvent>();
 
   public canDragOutOf:() => boolean;
 

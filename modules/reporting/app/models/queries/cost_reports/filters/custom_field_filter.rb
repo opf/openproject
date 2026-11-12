@@ -36,7 +36,7 @@ class Queries::CostReports::Filters::CustomFieldFilter < Queries::CostReports::F
   end
 
   def self.all_for(context = nil)
-    available_custom_fields.map { |cf| create!(name: :"cf_#{cf.id}", context:) }
+    available_custom_fields.map { |cf| create!(name: cf.column_name.to_sym, context:) }
   end
 
   # Only the formats the engine can generate a join for have a matching
@@ -91,7 +91,7 @@ class Queries::CostReports::Filters::CustomFieldFilter < Queries::CostReports::F
     when "bool"
       [[I18n.t(:general_text_yes), "t"], [I18n.t(:general_text_no), "f"]]
     when "list"
-      custom_field.possible_values.map { |option| [option.value, option.value] }
+      engine_filter.available_values(project: context&.project)
     end
   end
 end

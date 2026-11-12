@@ -72,8 +72,35 @@ RSpec.describe McpTools::CreateTimeEntry do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
+
+  it "creates a new time entry" do
+    expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
+
+    entry = TimeEntry.first
+    expect(entry.entity).to eq(work_package)
+    expect(entry.user).to eq(user)
+    expect(entry.spent_on).to eq(Time.zone.today)
+    expect(entry.hours).to eq(2.5)
+  end
+
+  it "responds with a properly formatted time entry" do
+    mcp_request
+
+    expect(result_item.to_json).to match_json_schema.from_docs("time_entry_model")
+  end
+
+  context "when specifying the work package URL using the semantic identifier" do
+    let(:call_args) do
+      {
+        data: {
+          hours: "PT2H30M",
+          _links: {
+            entity: { href: "/api/v3/work_packages/#{work_package.identifier}" }
+          }
+        }
+      }
+    end
 
     it "creates a new time entry" do
       expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
@@ -84,105 +111,69 @@ RSpec.describe McpTools::CreateTimeEntry do
       expect(entry.spent_on).to eq(Time.zone.today)
       expect(entry.hours).to eq(2.5)
     end
+  end
 
-    it "responds with a properly formatted time entry" do
-      mcp_request
-
-      expect(result_item.to_json).to match_json_schema.from_docs("time_entry_model")
-    end
-
-    context "when specifying the work package URL using the semantic identifier" do
-      let(:call_args) do
-        {
-          data: {
-            hours: "PT2H30M",
-            _links: {
-              entity: { href: "/api/v3/work_packages/#{work_package.identifier}" }
-            }
+  context "when passing a user" do
+    let(:assigned_user) { create(:user, member_with_permissions: { work_package.project => %i[view_work_packages] }) }
+    let(:call_args) do
+      {
+        data: {
+          hours: "PT2H30M",
+          _links: {
+            entity: { href: "/api/v3/work_packages/#{work_package.id}" },
+            user: { href: "/api/v3/users/#{assigned_user.id}" }
           }
         }
-      end
-
-      it "creates a new time entry" do
-        expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
-
-        entry = TimeEntry.first
-        expect(entry.entity).to eq(work_package)
-        expect(entry.user).to eq(user)
-        expect(entry.spent_on).to eq(Time.zone.today)
-        expect(entry.hours).to eq(2.5)
-      end
+      }
     end
 
-    context "when passing a user" do
-      let(:assigned_user) { create(:user, member_with_permissions: { work_package.project => %i[view_work_package] }) }
-      let(:call_args) do
-        {
-          data: {
-            hours: "PT2H30M",
-            _links: {
-              entity: { href: "/api/v3/work_packages/#{work_package.id}" },
-              user: { href: "/api/v3/users/#{assigned_user.id}" }
-            }
-          }
-        }
-      end
+    it "creates a time entry for the given user" do
+      expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
 
-      it "creates a time entry for the given user" do
-        expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
-
-        entry = TimeEntry.first
-        expect(entry.user).to eq(assigned_user)
-      end
-    end
-
-    context "when passing spentOn" do
-      let(:call_args) do
-        {
-          data: {
-            hours: "PT2H30M",
-            spentOn: "2026-07-13",
-            _links: {
-              entity: { href: "/api/v3/work_packages/#{work_package.id}" }
-            }
-          }
-        }
-      end
-
-      it "creates a time entry for the given date" do
-        expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
-
-        entry = TimeEntry.first
-        expect(entry.spent_on).to eq(Date.iso8601("2026-07-13"))
-      end
-    end
-
-    context "when passing a comment" do
-      let(:call_args) do
-        {
-          data: {
-            hours: "PT2H30M",
-            comment: { raw: "My fancy comment" },
-            _links: {
-              entity: { href: "/api/v3/work_packages/#{work_package.id}" }
-            }
-          }
-        }
-      end
-
-      it "creates a time entry with the given comment" do
-        expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
-
-        entry = TimeEntry.first
-        expect(entry.comments).to eq("My fancy comment")
-      end
+      entry = TimeEntry.first
+      expect(entry.user).to eq(assigned_user)
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
+  context "when passing spentOn" do
+    let(:call_args) do
+      {
+        data: {
+          hours: "PT2H30M",
+          spentOn: "2026-07-13",
+          _links: {
+            entity: { href: "/api/v3/work_packages/#{work_package.id}" }
+          }
+        }
+      }
+    end
+
+    it "creates a time entry for the given date" do
+      expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
+
+      entry = TimeEntry.first
+      expect(entry.spent_on).to eq(Date.iso8601("2026-07-13"))
+    end
+  end
+
+  context "when passing a comment" do
+    let(:call_args) do
+      {
+        data: {
+          hours: "PT2H30M",
+          comment: { raw: "My fancy comment" },
+          _links: {
+            entity: { href: "/api/v3/work_packages/#{work_package.id}" }
+          }
+        }
+      }
+    end
+
+    it "creates a time entry with the given comment" do
+      expect { mcp_request }.to change(TimeEntry, :count).from(0).to(1)
+
+      entry = TimeEntry.first
+      expect(entry.comments).to eq("My fancy comment")
     end
   end
 end

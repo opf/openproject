@@ -132,9 +132,9 @@ ar:
     button_continue: Continue
     button_copy: انسخ
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: نسخ إلى الحافظة
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: إنشاء
     button_custom-fields: الحقول المخصصة
     button_delete: احذف
@@ -150,6 +150,7 @@ ar:
     button_log_time: وقت السجل
     button_more: المزيد
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: عرض التفاصيل المفتوحة
     button_open_fullscreen: فتح عرض كامل الشاشة
     button_quote: اقتباس
@@ -207,6 +208,7 @@ ar:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
@@ -348,6 +350,8 @@ ar:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: all projects
@@ -438,7 +442,6 @@ ar:
     label_assignee: المُسند إليه
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: المرفقات
-    label_author: الكاتب%{user}
     label_avatar: الصورة الرمزية
     label_between: بين
     label_board: لوحة
@@ -502,6 +505,7 @@ ar:
     label_in: في
     label_in_less_than: في أقل من
     label_in_more_than: في أكثر من
+    label_in_progress_work_packages: in progress
     label_incoming_emails: رسائل البريد الالكتروني الواردة
     label_infinity: Infinity
     label_information_plural: معلومات
@@ -534,6 +538,10 @@ ar:
     label_open_context_menu: Open context menu
     label_open_menu: فتح القائمة
     label_open_work_packages: افتح
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: كلمة المرور
     label_per_page: 'لكل صفحة:'
     label_please_wait: الرجاء الانتظار
@@ -567,7 +575,9 @@ ar:
     label_show_in_menu: Show view in menu
     label_sort_by: التصنيف حسب
     label_sort_higher: تحريك للأعلى
+    label_sort_highest: Move to top
     label_sort_lower: تحريك للأسفل
+    label_sort_lowest: Move to bottom
     label_sorted_by: مرتبة حسب
     label_sorting: جاري الترتيب
     label_spent_time: الوقت المستهلك
@@ -578,6 +588,7 @@ ar:
     label_sum_for: مجموع ال
     label_this_week: هذا الأسبوع
     label_time_entry_plural: الوقت المستهلك
+    label_to_do_work_packages: to-do
     label_today: اليوم
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent} من التقدم الكلي"
@@ -823,6 +834,7 @@ ar:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -986,6 +998,7 @@ ar:
         all_open: كل المفتوح
         assigned_to_me: مخصص لي
         created_by_me: Created by me
+        in_progress: In progress
         latest_activity: Latest activity
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -993,6 +1006,7 @@ ar:
         shared_with_me: Shared with me
         shared_with_users: مشترك مع المستخدمين
         summary: مُلخّص
+        to_do: To-do
       description_enter_text: ادخل نصا
       description_filter: فلترة
       description_options_hide: إخفاء الخيارات
@@ -1080,6 +1094,7 @@ ar:
         other: اخرى
         people: الناس
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Click to edit title of this view.
         column_names: الأعمدة
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1089,17 +1104,16 @@ ar:
           not_found: There is no such view
           unretrievable_query: Unable to retrieve view from URL
         filters: عوامل التصفية
-        group: تصنيف حسب
         group_by: نتائج المجموعة حسب
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: إخفاء العمود
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
         move_column_left: انقل العمود لليسار
         move_column_right: انقل العمود لليمين
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name of this view
         sort_ascending: ترتيب تصاعدي
         sort_descending: ترتيب تنازلي
@@ -1156,7 +1170,6 @@ ar:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarchy
         highlighting: Highlighting

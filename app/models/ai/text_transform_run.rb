@@ -34,8 +34,8 @@ module AI
 
     belongs_to :user
     belongs_to :action,
-               class_name: "AI::TextTransformAction",
-               foreign_key: :ai_text_transform_action_id,
+               class_name: "AI::TextAction",
+               foreign_key: :ai_text_action_id,
                inverse_of: false
     has_many :events,
              class_name: "AI::TextTransformRunEvent",

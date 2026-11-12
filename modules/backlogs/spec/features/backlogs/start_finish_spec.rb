@@ -136,6 +136,8 @@ RSpec.describe "Start and finish sprints", :js do
     it "completes the sprint and returns to the backlog" do
       planning_page.click_complete_sprint_button(first_sprint)
 
+      planning_page.expect_loading_skeleton
+
       planning_page.expect_current_path
       expect_and_dismiss_flash type: :success, message: "The sprint was completed."
       expect(first_sprint.reload).to be_completed
@@ -143,7 +145,7 @@ RSpec.describe "Start and finish sprints", :js do
     end
 
     context "with unfinished work packages" do
-      let(:closed_status) { create(:status, is_closed: true) }
+      let(:closed_status) { create(:status, category: "closed") }
       let!(:closed_work_package) do
         create(:work_package,
                project:,

@@ -498,7 +498,7 @@ de:
     oauth_grant_nudge_modal:
       cancel_button_label: Das mache ich später
       heading: Anmeldung bei %{provider_type} erforderlich
-      login_button_aria_label: Bei %{storage} anmelden
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} anmelden"
       project_settings:
         description: Um Zugriff auf den Projektordner zu erhalten, müssen Sie sich bei %{storage} anmelden.

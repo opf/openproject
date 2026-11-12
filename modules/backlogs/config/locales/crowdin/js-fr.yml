@@ -23,10 +23,15 @@
 fr:
   js:
     backlogs:
+      action_menu:
+        menu_label:
+          one: Work package actions
+          other: Actions for %{count} selected work packages
       announcements:
         batch_too_large: Impossible de déplacer %{count} lots de travaux à la fois. Sélectionnez-en au maximum %{max}.
         fallback_item_label: Lot de travaux
         fallback_list_name: une autre liste
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving work packages.
         move_failed_check_position: Échec du déplacement. Vérifiez la position actuelle du lot de travaux.
         move_failed_check_positions_batch:
           other: Échec du déplacement. Vérifiez les positions actuelles des lots de travaux.
@@ -56,11 +61,18 @@ fr:
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
+    burnup_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burnup chart
+      chart_summary: 'Burnup chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
     created_resolved_chart:
       work_packages: Work packages
     sprint_charts:
       non_working_day: Non-working day
+      y_axis_title:
+        story_points: Story points
+        time: Estimated time
     work_packages:
       properties:
         storyPoints: Story points

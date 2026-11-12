@@ -40,10 +40,14 @@ import {
   Chart, ChartData, ChartDataset, ChartOptions, LegendItem, PointStyle, TooltipItem,
 } from 'chart.js';
 import 'chartjs-adapter-luxon';
+import moment from 'moment-timezone';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
-import { ChartStep, formattedTick, timeChartOptions } from 'core-app/shared/components/charts/options.time-chart';
+import {
+  ChartStep, YTicks, formattedTick, timeChartOptions,
+} from 'core-app/shared/components/charts/options.time-chart';
 
 export interface SeriesPoint {
   x:string;
@@ -70,10 +74,17 @@ export interface ChartedRange {
 }
 
 export interface SeriesChartData<Key extends string> {
+  unit?:'story_points'|'time';
   step:ChartStep;
   range:ChartedRange;
   series:ChartSeries<Key>[];
-  nonWorkingIntervals:NonWorkingInterval[];
+  nonWorkingIntervals?:NonWorkingInterval[];
+}
+
+export interface DayDescriptionKeys {
+  summary:string;
+  day:string;
+  value:string;
 }
 
 export interface SeriesColor {
@@ -81,13 +92,22 @@ export interface SeriesColor {
   background?:string;
 }
 
-export interface SeriesStyle {
+// Define how to paint the area between this series and another one. Depending on whether which series is ahead,
+// a different color can be chosen. The colors are read on demand for the reason the series colors are.
+export interface SeriesBand<Key extends string> {
+  to:Key;
+  above:() => string;
+  below:() => string;
+}
+
+export interface SeriesStyle<Key extends string = string> {
   swatch:PointStyle;
   borderWidth:number;
   borderDash?:number[];
   order?:number;
   stepped?:'after';
   fill?:boolean;
+  band?:SeriesBand<Key>;
   pointRadius?:number;
   pointHitRadius?:number;
   pointHoverRadius?:number;
@@ -105,35 +125,45 @@ const Y_AXIS_HEADROOM = 1.1;
 const SWATCH_WIDTH = 24;
 
 // True of every line, and overridable by any of them: the points are never drawn, but they stay
-// wide enough to be found by a cursor that is not exactly on one.
+// wide enough to be found by a cursor that is not exactly on one. Chart.js reads a missing `fill`
+// off the background color, so a line that is not meant to fill has to say so.
 const SERIES_DEFAULTS:Omit<Partial<SeriesStyle>, 'swatch'|'color'> = {
   pointRadius: 0,
   pointHitRadius: 8,
+  fill: false,
 };
 
 @Directive()
 export abstract class SeriesChartComponent<Key extends string> {
   readonly i18n = inject(I18nService);
   readonly timezoneService = inject(TimezoneService);
+  readonly configurationService = inject(ConfigurationService);
 
   readonly chartData = input.required<string>();
 
   // Everything that tells the series apart, so that a line and its swatch cannot drift. The order
-  // the entries are declared in is the order the legend and the tooltip read them in.
-  protected abstract readonly seriesStyle:Record<Key|NonWorkingKey, SeriesStyle>;
+  // the entries are declared in is the order the legend and the tooltip read them in. A chart
+  // drawn over a span too long for single days to mean anything leaves the non-working ones out.
+  protected abstract readonly seriesStyle:Record<Key, SeriesStyle<Key>>
+  & Partial<Record<NonWorkingKey, SeriesStyle<Key>>>;
 
-  protected abstract readonly yAxisTitle:string;
+  protected get yAxisTitle():string {
+    return this.i18n.t(`js.sprint_charts.y_axis_title.${this.parsedInput().unit ?? 'story_points'}`);
+  }
 
   protected abstract readonly interaction:ChartOptions<'line'>['interaction'];
 
   protected readonly parsedInput = computed(() => JSON.parse(this.chartData()) as SeriesChartData<Key>);
 
-  // The non-working days join the series they are drawn among, without data points but present, so
-  // that the legend and its toggle reach them through chart.js.
-  protected readonly series = computed<ChartSeries<Key|NonWorkingKey>[]>(() => {
-    const { series, nonWorkingIntervals } = this.parsedInput();
+  protected readonly nonWorkingIntervals = computed(() => this.parsedInput().nonWorkingIntervals ?? []);
 
-    if (nonWorkingIntervals.length === 0) {
+  // The non-working days join the series they are drawn among, without data points but present, so
+  // that the legend and its toggle reach them through chart.js. Only for a chart that styled them:
+  // the rest have nothing to put in that legend entry and nothing to paint under it.
+  protected readonly series = computed<ChartSeries<Key|NonWorkingKey>[]>(() => {
+    const { series } = this.parsedInput();
+
+    if (this.nonWorkingIntervals().length === 0 || this.seriesStyle[NON_WORKING_KEY] === undefined) {
       return series;
     }
 
@@ -177,6 +207,7 @@ export abstract class SeriesChartComponent<Key extends string> {
         zone,
         range: this.chartedRange(),
         yTitle: this.yAxisTitle,
+        yTicks: this.yTicks(),
         suggestedMax: this.yAxisMaximum(),
         formatDate: (iso) => this.timezoneService.formattedDatetimeAsDate(iso),
       }),
@@ -186,7 +217,7 @@ export abstract class SeriesChartComponent<Key extends string> {
         // these charts set deliberately, on every layout.
         'primer-colors': { enabled: false },
         'non-working-days': {
-          intervals: this.parsedInput().nonWorkingIntervals,
+          intervals: this.nonWorkingIntervals(),
           zone,
           datasetIndex: this.nonWorkingDatasetIndex(),
         },
@@ -209,18 +240,52 @@ export abstract class SeriesChartComponent<Key extends string> {
     };
   });
 
+  // Spoken a day at a time, however finely the series are sampled. Each one is reported by the
+  // value it closed at, so an hourly series says what the day ended on rather than reading out
+  // two dozen numbers, and a series sampled daily already has only that one.
+  protected describedByDay(keys:DayDescriptionKeys):string {
+    const closing = this.closingValuesPerDay();
+    const days = [...new Set(closing.flatMap(({ byDay }) => [...byDay.keys()]))].sort();
+
+    const described = days.map((day, index) => {
+      const values = closing.flatMap(({ label, byDay }) => {
+        const value = byDay.get(day);
+
+        return value === undefined
+          ? []
+          : this.i18n.t(keys.value, { label, value: this.formatValue(value) });
+      });
+
+      return this.i18n.t(keys.day, { day: index + 1, values: values.join(', ') });
+    });
+
+    return this.i18n.t(keys.summary, { days: described.join('; ') });
+  }
+
   protected tooltipTitle(items:TooltipItem<'line'>[]):string {
     const dated = items.at(0);
 
     return dated ? this.formattedTick(dated) : '';
   }
 
-  // Values divided across working days carry a fraction; counts and story points do not, and are
-  // left as they are.
   protected tooltipLabel(item:TooltipItem<'line'>):string {
-    const value = (item.parsed.y ?? 0).toLocaleString(undefined, { maximumFractionDigits: 1 });
+    return `${item.dataset.label ?? ''}: ${this.formatValue(item.parsed.y ?? 0)}`;
+  }
 
-    return `${item.dataset.label ?? ''}: ${value}`;
+  private formatValue(value:number):string {
+    if (this.parsedInput().unit === 'time') {
+      return this.timezoneService.formattedChronicDurationFromHours(value);
+    }
+
+    return new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 2 }).format(value);
+  }
+
+  private yTicks():YTicks {
+    if (this.parsedInput().unit === 'time') {
+      return { stepSize: this.configurationService.hoursPerDay(), format: (value) => this.formatValue(value) };
+    }
+
+    return {};
   }
 
   protected formattedTick(item:TooltipItem<'line'>):string {
@@ -231,10 +296,26 @@ export abstract class SeriesChartComponent<Key extends string> {
     return datasetIndex === undefined ? undefined : this.series()[datasetIndex]?.id;
   }
 
+  private closingValuesPerDay():{ label:string, byDay:Map<string, number> }[] {
+    const zone = this.timezoneService.userTimezone();
+
+    return this.series()
+      .filter((series) => series.data.length > 0)
+      .map((series) => {
+        const byDay = new Map<string, number>();
+
+        series.data.forEach((point) => byDay.set(moment.tz(point.x, zone).format('YYYY-MM-DD'), point.y));
+
+        return { label: series.label, byDay };
+      });
+  }
+
   // Everything the style holds but the swatch, which belongs to the legend, is already a dataset
   // property under its own name.
   private datasetFor(series:ChartSeries<Key|NonWorkingKey>):ChartDataset<'line', SeriesPoint[]> {
-    const { swatch: _swatch, color, ...dataset } = this.seriesStyle[series.id];
+    const {
+      swatch: _swatch, color, band, ...dataset
+    } = this.seriesStyle[series.id];
     const datasetColor = color?.();
 
     return {
@@ -242,9 +323,20 @@ export abstract class SeriesChartComponent<Key extends string> {
       data: series.data,
       ...SERIES_DEFAULTS,
       ...dataset,
+      ...this.bandFill(band),
       borderColor: datasetColor?.border,
       backgroundColor: datasetColor?.background,
     };
+  }
+
+  private bandFill(band:SeriesBand<Key>|undefined):Pick<ChartDataset<'line'>, 'fill'>|undefined {
+    if (band === undefined) {
+      return undefined;
+    }
+
+    const target = this.series().findIndex((series) => series.id === band.to);
+
+    return { fill: target === -1 ? false : { target, above: band.above(), below: band.below() } };
   }
 
   private legendLabels(chart:Chart):LegendItem[] {

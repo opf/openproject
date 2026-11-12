@@ -52,11 +52,13 @@ module CustomFields
       # @param weight [Decimal] a numeric value for the node
       # @param before [Integer] the position where to prepend the item. If not set or the position does not exist,
       #   the item is inserted at the end.
+      # @param project [Project] the project adding a project-specific value. Project values are kept after the
+      #   global values of the same parent.
       # @return [Success(CustomField::Hierarchy::Item), Failure(Dry::Validation::Result), Failure(ActiveModel::Errors)]
-      def insert_item(contract_class:, parent:, label:, short: nil, weight: nil, before: nil)
+      def insert_item(contract_class:, parent:, label:, short: nil, weight: nil, before: nil, project: nil)
         contract_class
           .new
-          .call({ parent:, label:, short:, weight: })
+          .call({ parent:, label:, short:, weight:, project: })
           .to_monad
           .bind { |validation| create_child_item(validation:, before:) }
       end
@@ -135,12 +137,13 @@ module CustomFields
       # Move an item/node to a new parent item/node
       # @param item [CustomField::Hierarchy::Item] the parent of the node
       # @param new_parent [CustomField::Hierarchy::Item] the new parent of the node
-      # @return [Success(CustomField::Hierarchy::Item)]
+      # @return [Success(CustomField::Hierarchy::Item), Failure(Dry::Validation::Result)]
       def move_item(item:, new_parent:)
-        updated_item = new_parent.append_child(item)
-        update_position_cache(new_parent.root)
-
-        Success(updated_item)
+        CustomFields::Hierarchy::MoveItemContract
+          .new
+          .call({ item:, parent: new_parent })
+          .to_monad
+          .bind { append_to_new_parent(item:, new_parent:) }
       end
 
       # Reorder the item along its siblings.
@@ -196,7 +199,7 @@ module CustomFields
       def create_child_item(validation:, before:)
         item = CustomField::Hierarchy::Item.new(**validation.to_h.except(:parent))
         parent = validation[:parent]
-        relative_sibling = parent.children.find_by(sort_order: before)
+        relative_sibling = relative_sibling_in_band(parent:, item:, before:)
 
         if relative_sibling.present?
           relative_sibling.prepend_sibling(item)
@@ -208,6 +211,27 @@ module CustomFields
 
         update_position_cache(item.root)
         Success(item.reload)
+      end
+
+      def append_to_new_parent(item:, new_parent:)
+        relative_sibling = relative_sibling_in_band(parent: new_parent, item:, before: nil)
+
+        if relative_sibling.present?
+          relative_sibling.prepend_sibling(item)
+        else
+          new_parent.append_child(item)
+        end
+
+        update_position_cache(new_parent.root)
+        Success(item.reload)
+      end
+
+      def relative_sibling_in_band(parent:, item:, before:)
+        requested = parent.children.find_by(sort_order: before)
+        return requested if requested && requested.project_id.nil? == item.project_id.nil?
+        return if item.project_id
+
+        parent.children.where.not(project_id: nil).first
       end
 
       def remove_assigned_custom_values(custom_field_id:, item_ids:)

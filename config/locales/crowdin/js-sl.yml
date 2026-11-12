@@ -132,9 +132,9 @@ sl:
     button_continue: Nadaljuj
     button_copy: Kopiraj
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Kopiraj v odložišče
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Ustvari
     button_custom-fields: Polja po meri
     button_delete: Izbriši
@@ -150,6 +150,7 @@ sl:
     button_log_time: Beleži čas
     button_more: več
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Prikaži pogled podrobnosti
     button_open_fullscreen: Odptri celozaslonski pogled
     button_quote: Citiraj
@@ -207,6 +208,7 @@ sl:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Shranjevanje dokumenta ni uspelo zaradi napake: %{error}'
@@ -348,6 +350,8 @@ sl:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: Vsi projekti
@@ -438,7 +442,6 @@ sl:
     label_assignee: Prevzemnik
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Priponka
-    label_author: 'Avtor: %{user}'
     label_avatar: Avatar
     label_between: med
     label_board: Board
@@ -502,6 +505,7 @@ sl:
     label_in: v
     label_in_less_than: v manj kot
     label_in_more_than: v več kot
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Prihajajoča e-pošta
     label_infinity: Infinity
     label_information_plural: Informacije
@@ -534,6 +538,10 @@ sl:
     label_open_context_menu: Odpri kontekstni meni
     label_open_menu: Odpri meni
     label_open_work_packages: odpri
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Geslo
     label_per_page: 'Na stran:'
     label_please_wait: Prosimo, počakajte
@@ -567,7 +575,9 @@ sl:
     label_show_in_menu: Prikaži pogled v meniju
     label_sort_by: Sortiraj po
     label_sort_higher: Premakni gor
+    label_sort_highest: Move to top
     label_sort_lower: Premakni dol
+    label_sort_lowest: Move to bottom
     label_sorted_by: Razvrščeno po
     label_sorting: Razvrščanje
     label_spent_time: Porabljen čas
@@ -578,6 +588,7 @@ sl:
     label_sum_for: Vsota za
     label_this_week: ta teden
     label_time_entry_plural: Porabljen čas
+    label_to_do_work_packages: to-do
     label_today: Danes
     label_total_amount: 'Skupaj: %{amount}'
     label_total_progress: "%{percent}% Napredek"
@@ -823,6 +834,7 @@ sl:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -978,6 +990,7 @@ sl:
         all_open: Vse odprto
         assigned_to_me: Dodeljeno meni
         created_by_me: Ustvaril jaz
+        in_progress: In progress
         latest_activity: Zadnja dejavnost
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -985,6 +998,7 @@ sl:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Povzetek
+        to_do: To-do
       description_enter_text: Vnesite besedilo
       description_filter: Filtriraj
       description_options_hide: Skrij možnosti
@@ -1078,6 +1092,7 @@ sl:
         other: Drugo
         people: Ljudje
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Kliknite za urejanje naslova tega pogleda.
         column_names: Stolpci
         confirm_edit_cancel: Ali ste prepričani, da želite preklicati urejanje tega pogleda? Naslov bo spremenjen nazaj v prejšnjega.
@@ -1089,17 +1104,16 @@ sl:
 
             '
         filters: Filtri
-        group: Razvrsti po
         group_by: Rezultati grupirani po
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Skupina je onemogočena, ker je aktiven hierarhijski način.
-        hide_column: Skrij stolpec
         hierarchy_disabled_by_group_by: Hirarhični pogled je onemogočen zaradi grupiranja po %{column}.
-        insert_columns: Insert columns
         move_column_left: Premakni stolpec v levo
         move_column_right: Premakni stolpec v desno
         public_text: 'Objavite ta pogled in drugim uporabnikom omogočite dostop do vašega pogleda. Uporabniki z dovoljenjem »Upravljanje javnih pogledov« lahko spremenijo ali odstranijo javno poizvedbo. To v tem pogledu ne vpliva na vidnost rezultatov delovnega paketa in uporabniki lahko glede na svoja dovoljenja vidijo različne rezultate.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Ime tega pogleda
         sort_ascending: Sortiraj naraščajoče
         sort_descending: Razvrsti padajoče
@@ -1154,7 +1168,6 @@ sl:
           '
         display_settings: Prikaži nastavitve
         display_sums_hint: Prikažite vsote vseh atributov, ki seštevajo v vrstici pod rezultati tabele.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Vsi rezultati filtrirane tabele bodo dopolnjeni s svojimi predniki. Hierarhijo je mogoče razširiti in strniti.
         hierarchy_mode: Hierarhija
         highlighting: Poudarjanje

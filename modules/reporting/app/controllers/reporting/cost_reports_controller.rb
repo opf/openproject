@@ -118,7 +118,7 @@ module Reporting
       return head :bad_request if params[:filter_name].blank?
       return head :not_found if requested_filter_class.nil?
 
-      render Widget::Filters::Option.new(requested_filter), layout: !request.xhr?
+      render Widget::Filters::Option.new(requested_filter, project: @project), layout: !request.xhr?
     end
 
     private
@@ -148,6 +148,7 @@ module Reporting
 
     def find_report
       @report = CostReport.visible(current_user).find(params.expect(:id))
+      return render_404 unless @report.visible?(current_user)
 
       if configured_by_params?
         ::CostReports::ParamsToReport.new(params, project: @project, user: current_user).call(@report)

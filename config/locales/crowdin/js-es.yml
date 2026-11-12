@@ -129,10 +129,10 @@ es:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copiar enlace al portapapeles
-    button_copy_numeric_id_to_clipboard: Copiar ID numérico al portapapeles
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Copiar en el portapapeles
     button_copy_to_other_project: Duplicar en otro proyecto
+    button_copy_work_package_id: Copy work package ID
     button_create: Crear
     button_custom-fields: Campos personalizados
     button_delete: Eliminar
@@ -148,6 +148,7 @@ es:
     button_log_time: Registro de tiempo
     button_more: Más
     button_more_actions: Más acciones
+    button_move_to_position: Move to position
     button_open_details: Abrir vista detallada
     button_open_fullscreen: Abrir en pantalla completa
     button_quote: presupuesto
@@ -205,6 +206,7 @@ es:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Se ha producido un error dentro de CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
@@ -346,6 +348,8 @@ es:
       direct_hit_available: Se ha encontrado el paquete de trabajo con el ID exacto. Pulsa «Intro» para abrirlo.
       items_available: "%{count} elementos disponibles"
       recently_viewed: Vistos recientemente
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Buscar paquetes de trabajo por asunto, proyecto, tipo, estado o ID
       title:
         all_projects: todos los proyectos
@@ -436,7 +440,6 @@ es:
     label_assignee: Asignado a
     label_assignee_alt_text: Este paquete de trabajo está asignado a %{name}
     label_attachments: Archivos adjuntos
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: entre
     label_board: Tablero
@@ -500,6 +503,7 @@ es:
     label_in: en
     label_in_less_than: en menos de
     label_in_more_than: en más de
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Correos electrónicos entrantes
     label_infinity: Infinito
     label_information_plural: Información
@@ -532,6 +536,10 @@ es:
     label_open_context_menu: Abrir menú contextual
     label_open_menu: Abrir menú
     label_open_work_packages: abrir
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Contraseña
     label_per_page: 'Por pagina:'
     label_please_wait: Por favor, espere
@@ -565,7 +573,9 @@ es:
     label_show_in_menu: Mostrar vista en menú
     label_sort_by: Ordenar por
     label_sort_higher: Mover hacia arriba
+    label_sort_highest: Move to top
     label_sort_lower: Mover hacia abajo
+    label_sort_lowest: Move to bottom
     label_sorted_by: ordenados por
     label_sorting: Orden
     label_spent_time: Tiempo invertido
@@ -576,6 +586,7 @@ es:
     label_sum_for: Suma para
     label_this_week: esta semana
     label_time_entry_plural: Tiempo invertido
+    label_to_do_work_packages: to-do
     label_today: Hoy
     label_total_amount: 'Total: %{amount}'
     label_total_progress: 'Progreso total: %{percent}%'
@@ -817,6 +828,7 @@ es:
         batch_too_large: No se pueden trasladar %{count} elementos a la vez. Seleccione no más de %{max}.
         fallback_item_label: Elemento
         fallback_list_name: otra lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: No se ha podido trasladar. Comprueba la posición actual del elemento.
         move_failed_check_positions_batch:
           other: No se ha podido trasladar. Compruebe las posiciones actuales de los elementos.
@@ -960,6 +972,7 @@ es:
         all_open: Todo abierto
         assigned_to_me: Asignado a mí
         created_by_me: Creado por mí
+        in_progress: In progress
         latest_activity: Actividad reciente
         manually_sorted: Nueva consulta clasificada manualmente
         overdue: Vencido
@@ -967,6 +980,7 @@ es:
         shared_with_me: Compartido conmigo
         shared_with_users: Compartido con usuarios
         summary: Resumen
+        to_do: To-do
       description_enter_text: Introducir texto
       description_filter: Filtro
       description_options_hide: Ocultar opciones
@@ -1054,6 +1068,7 @@ es:
         other: Otros
         people: Personas
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Haga clic para editar el título de esta vista.
         column_names: Columnas
         confirm_edit_cancel: "¿Está seguro de que quiere cancelar la edición del nombre de esta vista? El título volverá a establecerse con el valor anterior."
@@ -1063,17 +1078,16 @@ es:
           not_found: No existe la vista
           unretrievable_query: No se puede recuperar la vista de la URL
         filters: Filtros
-        group: Agrupar por
         group_by: Resultados de grupo por
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: La agrupación está deshabilitada, puesto que está activo el modo de jerarquía.
-        hide_column: Esconder columna
         hierarchy_disabled_by_group_by: El modo de jerarquía está deshabilitado, puesto que los resultados están agrupan por %{column}.
-        insert_columns: Insertar columnas
         move_column_left: Mover columna a la izquierda
         move_column_right: Mover columna a la derecha
         public_text: 'Publique esta vista para que otros usuarios puedan acceder a esta. Los usuarios con el permiso “Administrar vistas públicas” puede modificar o quitar vistas públicas. Esto no afecta a la visibilidad de los resultados de paquetes de trabajo en esa vista y, según sus permisos, los usuarios pueden ver resultados distintos.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Nombre de la vista
         sort_ascending: Ordenar ascendente
         sort_descending: Ordenar descendente
@@ -1122,7 +1136,6 @@ es:
         default_mode: Lista plana
         display_settings: Configuración de visualización
         display_sums_hint: Muestra las sumas de todos los atributos que pueden sumarse en una fila debajo de los resultados de la tabla.
-        embedded_tab_disabled: Esta pestaña de configuración no está disponible para la vista insertada que está editando.
         hierarchy_hint: A todos los resultados de la tabla filtrada se le añadirán sus antecesores. Las jerarquías se pueden expandir y contraer.
         hierarchy_mode: Jerarquía
         highlighting: Resaltado

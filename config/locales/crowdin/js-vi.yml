@@ -131,10 +131,10 @@ vi:
     button_confirm: Xác nhận
     button_continue: tiếp tục
     button_copy: sao chép
-    button_copy_link_to_clipboard: Sao chép liên kết vào bảng tạm
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Sao chép vào khay nhớ tạm
     button_copy_to_other_project: Trùng lặp trong một dự án khác
+    button_copy_work_package_id: Copy work package ID
     button_create: Tạo mới
     button_custom-fields: Tùy chỉnh mục
     button_delete: xóa
@@ -150,6 +150,7 @@ vi:
     button_log_time: Đăng nhập thời gian
     button_more: hơn thế nữa
     button_more_actions: Thêm hành động
+    button_move_to_position: Move to position
     button_open_details: Mở thông tin chi tiết xem
     button_open_fullscreen: Mở chế độ toàn màn hình
     button_quote: trích dẫn
@@ -207,6 +208,7 @@ vi:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Đã xảy ra lỗi trong CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lưu tài liệu không thành công với lỗi sau: %{error}'
@@ -348,6 +350,8 @@ vi:
       direct_hit_available: Gói công việc có ID chính xác được tìm thấy. Nhấn Enter để mở nó.
       items_available: "%{count} mặt hàng có sẵn"
       recently_viewed: Đã xem gần đây
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Tìm kiếm các gói công việc theo chủ đề, dự án, loại, trạng thái hoặc ID
       title:
         all_projects: mọi dự án
@@ -438,7 +442,6 @@ vi:
     label_assignee: Người được chuyển nhượng
     label_assignee_alt_text: Gói công việc này được giao cho %{name}
     label_attachments: tệp đính kèm
-    label_author: 'Tác giả: %{user}'
     label_avatar: hình đại diện
     label_between: giữa
     label_board: bảng
@@ -502,6 +505,7 @@ vi:
     label_in: trong
     label_in_less_than: ít hơn
     label_in_more_than: trong hơn
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Các thư đến
     label_infinity: Infinity
     label_information_plural: thông tin
@@ -534,6 +538,10 @@ vi:
     label_open_context_menu: Mở menu ngữ cảnh
     label_open_menu: Mở trình đơn
     label_open_work_packages: mở
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Mật khẩu
     label_per_page: 'Mỗi trang:'
     label_please_wait: Vui lòng chờ
@@ -567,7 +575,9 @@ vi:
     label_show_in_menu: Hiển thị chế độ xem trong menu
     label_sort_by: Sắp xếp theo
     label_sort_higher: Di chuyển lên
+    label_sort_highest: Move to top
     label_sort_lower: Dịch xuống
+    label_sort_lowest: Move to bottom
     label_sorted_by: sắp xếp theo
     label_sorting: sắp xếp
     label_spent_time: dành thời gian
@@ -578,6 +588,7 @@ vi:
     label_sum_for: Tổng hợp cho
     label_this_week: tuần này
     label_time_entry_plural: dành thời gian
+    label_to_do_work_packages: to-do
     label_today: hôm nay
     label_total_amount: 'Tổng cộng: %{amount}'
     label_total_progress: "%{percent}% Tổng tiến độ"
@@ -818,6 +829,7 @@ vi:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -956,6 +968,7 @@ vi:
         all_open: Tất cả đều mở
         assigned_to_me: Đã giao cho tôi
         created_by_me: Được tạo bởi tôi
+        in_progress: In progress
         latest_activity: Hoạt động mới nhất
         manually_sorted: Truy vấn được sắp xếp thủ công mới
         overdue: quá hạn
@@ -963,6 +976,7 @@ vi:
         shared_with_me: Đã chia sẻ với tôi
         shared_with_users: Được chia sẻ với người dùng
         summary: Tóm tắt
+        to_do: To-do
       description_enter_text: Nhập văn bản
       description_filter: bộ lọc
       description_options_hide: Ẩn tùy chọn
@@ -1050,6 +1064,7 @@ vi:
         other: khác
         people: mọi người
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Nhấp vào chỉnh sửa tiêu đề của trình bày này.
         column_names: Cột
         confirm_edit_cancel: Bạn có chắc chắn muốn hủy chỉnh sửa tên của chế độ xem này không? Tiêu đề sẽ được đặt trở lại giá trị trước đó.
@@ -1059,17 +1074,16 @@ vi:
           not_found: Không có quan điểm như vậy
           unretrievable_query: Không thể đọc trình bày từ URL
         filters: Bộ lọc
-        group: Nhóm theo
         group_by: Nhóm kết quả bởi
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Nhóm theo bị tắt do chế độ phân cấp đang hoạt động.
-        hide_column: Ẩn cột
         hierarchy_disabled_by_group_by: Chế độ phân cấp bị tắt do kết quả được nhóm theo %{column}.
-        insert_columns: Chèn cột
         move_column_left: Di chuyển cột sang trái
         move_column_right: Di chuyển cột sang phải
         public_text: 'Xuất bản chế độ xem này, cho phép người dùng khác truy cập vào chế độ xem của bạn. Người dùng có quyền ''Quản lý chế độ xem công khai'' có thể sửa đổi hoặc xóa truy vấn công khai. Điều này không ảnh hưởng đến khả năng hiển thị của kết quả gói công việc trong chế độ xem đó và tùy thuộc vào quyền của họ, người dùng có thể thấy các kết quả khác nhau.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Tên của trình bày
         sort_ascending: Sắp xếp tăng dần
         sort_descending: Sắp xếp giảm dần
@@ -1116,7 +1130,6 @@ vi:
         default_mode: Danh sách phẳng
         display_settings: Cài đặt hiển thị
         display_sums_hint: Hiển thị tổng của tất cả các thuộc tính có thể tính tổng trong một hàng bên dưới kết quả của bảng.
-        embedded_tab_disabled: Tab cấu hình này không có sẵn cho chế độ xem được nhúng mà bạn đang chỉnh sửa.
         hierarchy_hint: Tất cả các kết quả bảng đã lọc sẽ được tăng cường với tổ tiên của chúng. Hệ thống phân cấp có thể được mở rộng và thu gọn.
         hierarchy_mode: Hệ thống phân cấp
         highlighting: Làm nổi bật

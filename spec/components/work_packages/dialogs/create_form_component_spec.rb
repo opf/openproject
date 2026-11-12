@@ -41,7 +41,7 @@ RSpec.describe WorkPackages::Dialogs::CreateFormComponent, type: :component do
 
   it "enables the subject input" do
     render_component
-    expect(page.find('input[name="work_package[subject]"]')).not_to be_disabled
+    expect(page).to have_field(name: "work_package[subject]", disabled: false)
   end
 
   context "when the user has no edit permissions" do
@@ -49,7 +49,7 @@ RSpec.describe WorkPackages::Dialogs::CreateFormComponent, type: :component do
 
     it "disables the subject input" do
       render_component
-      expect(page.find('input[name="work_package[subject]"]')).to be_disabled
+      expect(page).to have_field(name: "work_package[subject]", disabled: true)
     end
   end
 
@@ -59,7 +59,7 @@ RSpec.describe WorkPackages::Dialogs::CreateFormComponent, type: :component do
 
     it "disables the subject input" do
       render_component
-      expect(page.find('input[name="work_package[subject]"]')).to be_disabled
+      expect(page).to have_field(name: "work_package[subject]", disabled: true)
     end
   end
 end

@@ -50,7 +50,7 @@ RSpec.describe "my access tokens", :js do
         visit my_access_tokens_path
 
         within "#api-token-component" do
-          expect(page).to have_content("API tokens are not enabled by the administrator.")
+          expect(page).to have_text("API tokens are not enabled by the administrator.")
           expect(page).not_to have_test_selector("api-token-add", text: "API token")
         end
       end
@@ -60,7 +60,8 @@ RSpec.describe "my access tokens", :js do
       it "API tokens can be generated and revoked" do
         visit my_access_tokens_path
 
-        expect(page).to have_no_content("API tokens are not enabled by the administrator.")
+        expect(page).to have_heading("Access tokens")
+        expect(page).to have_no_text("API tokens are not enabled by the administrator.")
 
         within "#api-token-component" do
           expect(page).to have_test_selector("api-token-add", text: "API token")
@@ -75,11 +76,11 @@ RSpec.describe "my access tokens", :js do
         wait_for_turbo_stream { find_test_selector("create-api-token-button").click }
 
         within("dialog#api-created-dialog") do
-          expect(page).to have_content "The API token has been generated"
+          expect(page).to have_text "The API token has been generated"
           expect(page).to have_field("openproject_api_access_token", with: %r{[a-f0-9]{64}}, readonly: true)
           click_on "Close"
         end
-        expect(page).to have_content("Testing Token")
+        expect(page).to have_text("Testing Token")
 
         User.current.reload
         visit my_access_tokens_path
@@ -96,14 +97,14 @@ RSpec.describe "my access tokens", :js do
           end
         end
 
-        expect(page).to have_content "The API token has been deleted."
+        expect(page).to have_text "The API token has been deleted."
 
         User.current.reload
         visit my_access_tokens_path
 
         within "#api-token-component" do
           # make sure the token is not there anymore
-          expect(page).to have_no_content("Testing Token")
+          expect(page).to have_no_text("Testing Token")
 
           # API token can be created again
           expect(page).to have_test_selector("api-token-add", text: "API token")
@@ -118,7 +119,7 @@ RSpec.describe "my access tokens", :js do
         visit my_access_tokens_path
 
         within "#rss-token-component" do
-          expect(page).to have_content("RSS tokens are not enabled by the administrator.")
+          expect(page).to have_text("RSS tokens are not enabled by the administrator.")
           expect(page).not_to have_test_selector("rss-token-add", text: "RSS token")
         end
       end
@@ -128,14 +129,15 @@ RSpec.describe "my access tokens", :js do
       it "in Access tokens they can generate and revoke their RSS key" do
         visit my_access_tokens_path
 
-        expect(page).to have_no_content("RSS tokens are not enabled by the administrator.")
+        expect(page).to have_heading("Access tokens")
+        expect(page).to have_no_text("RSS tokens are not enabled by the administrator.")
 
         within "#rss-token-component" do
           expect(page).to have_test_selector("rss-token-add", text: "RSS token")
           find_test_selector("rss-token-add").click
         end
 
-        expect(page).to have_content "The RSS token has been generated"
+        expect(page).to have_text "The RSS token has been generated"
 
         User.current.reload
         visit my_access_tokens_path
@@ -152,7 +154,7 @@ RSpec.describe "my access tokens", :js do
           end
         end
 
-        expect(page).to have_content "The RSS token has been deleted."
+        expect(page).to have_text "The RSS token has been deleted."
 
         User.current.reload
         visit my_access_tokens_path
@@ -171,7 +173,7 @@ RSpec.describe "my access tokens", :js do
         visit my_access_tokens_path
 
         within "#icalendar-token-section" do
-          expect(page).to have_content("iCalendar subscriptions are not enabled by the administrator.")
+          expect(page).to have_text("iCalendar subscriptions are not enabled by the administrator.")
         end
       end
     end
@@ -182,7 +184,7 @@ RSpec.describe "my access tokens", :js do
           visit my_access_tokens_path
 
           within "#icalendar-token-section" do
-            expect(page).to have_content("To add an iCalendar token") # ...
+            expect(page).to have_text("To add an iCalendar token") # ...
           end
         end
       end
@@ -198,7 +200,8 @@ RSpec.describe "my access tokens", :js do
         it "shows iCalendar tokens with their calender and project info" do
           visit my_access_tokens_path
 
-          expect(page).to have_no_content("To add an iCalendar token") # ...
+          expect(page).to have_heading("Access tokens")
+          expect(page).to have_no_text("To add an iCalendar token") # ...
 
           within "#icalendar-token-section" do
             [
@@ -226,7 +229,7 @@ RSpec.describe "my access tokens", :js do
             end
           end
 
-          expect(page).to have_content "The iCalendar URL with this token is now invalid."
+          expect(page).to have_text "The iCalendar URL with this token is now invalid."
 
           User.current.reload
           visit my_access_tokens_path
@@ -245,7 +248,8 @@ RSpec.describe "my access tokens", :js do
         visit my_access_tokens_path
 
         within "#ical_meeting-token-component" do
-          expect(page).to have_content("iCalendar meeting subscriptions are not enabled by the administrator. Please contact your administrator to use this feature.")
+          expect(page).to have_text("iCalendar meeting subscriptions are not enabled by the administrator. " \
+                                    "Please contact your administrator to use this feature.")
           expect(page).not_to have_test_selector("ical_meeting-token-add", text: "Subscribe to calendar")
         end
       end
@@ -255,7 +259,9 @@ RSpec.describe "my access tokens", :js do
       it "iCal tokens can be generated and revoked" do
         visit my_access_tokens_path
 
-        expect(page).to have_no_content("iCalendar meeting subscriptions are not enabled by the administrator. Please contact your administrator to use this feature.")
+        expect(page).to have_heading("Access tokens")
+        expect(page).to have_no_text("iCalendar meeting subscriptions are not enabled by the administrator. " \
+                                     "Please contact your administrator to use this feature.")
 
         within "#ical_meeting-token-component" do
           expect(page).to have_test_selector("ical_meeting-token-add", text: "Subscribe to calendar")
@@ -270,13 +276,13 @@ RSpec.describe "my access tokens", :js do
         find_test_selector("create-api-token-button").click
 
         within("dialog#ical_meeting-created-dialog") do
-          expect(page).to have_content "An iCal meeting subscription token has been generated"
+          expect(page).to have_text "An iCal meeting subscription token has been generated"
           expect(page).to have_field("openproject_api_access_token",
                                      with: %r{http(s?)://[^/]+/meetings/ical/[a-f0-9]{64}.ics},
                                      readonly: true)
           click_on "Close"
         end
-        expect(page).to have_content("Testing Token")
+        expect(page).to have_text("Testing Token")
 
         User.current.reload
         visit my_access_tokens_path
@@ -293,14 +299,14 @@ RSpec.describe "my access tokens", :js do
           end
         end
 
-        expect(page).to have_content I18n.t("my.access_token.revocation.token/ical_meeting.notice_success")
+        expect(page).to have_text I18n.t("my.access_token.revocation.token/ical_meeting.notice_success")
 
         User.current.reload
         visit my_access_tokens_path
 
         within "#ical_meeting-token-component" do
           # make sure the token is not there anymore
-          expect(page).to have_no_content("Testing Token")
+          expect(page).to have_no_text("Testing Token")
 
           # API token can be created again
           expect(page).to have_test_selector("ical_meeting-token-add", text: "Subscribe to calendar")
@@ -315,7 +321,7 @@ RSpec.describe "my access tokens", :js do
         visit my_access_tokens_path
 
         within "#oauth-application-token-section" do
-          expect(page).to have_content("There is no third-party application access configured and active for you")
+          expect(page).to have_text("There is no third-party application access configured and active for you")
         end
       end
     end

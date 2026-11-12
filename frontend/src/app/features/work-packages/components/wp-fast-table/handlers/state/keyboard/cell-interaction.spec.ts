@@ -27,11 +27,12 @@
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
-import { buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
+import { buildTable, TableHarness, TableHarnessOptions, scopeKeys } from '../../../testing/table-harness';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { States } from 'core-app/core/states/states.service';
 import { insideGrid, navigableCells } from './roving-tabindex';
 import { cellTargets, rowControls } from './cell-interaction';
+import { headerRowKey } from '../../../row-keys';
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { OpUnlinkTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/unlink-table-action';
@@ -52,7 +53,7 @@ describe('CellInteraction', () => {
     return table;
   };
 
-  const positionOf = (table:TableHarness, cell:HTMLElement) => table.table.keyboardNavigation!.positionOfCell(cell)!;
+  const positionOf = (table:TableHarness, cell:HTMLElement) => table.table.keyboardNavigation.positionOfCell(cell)!;
 
   afterEach(async () => {
     await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
@@ -97,7 +98,7 @@ describe('CellInteraction', () => {
     link.href = '#';
     cell.append(link);
     const click = vi.spyOn(link, 'click').mockImplementation(() => undefined);
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
 
     fireEvent.keyDown(cell, { key: 'Enter' });
 
@@ -120,7 +121,7 @@ describe('CellInteraction', () => {
         }],
       });
       const link = within(table.row('1')).getByRole('link', { name: 'Remove child' });
-      table.table.keyboardNavigation!.focusPosition(positionOf(table, link.closest('td, th')!));
+      table.table.keyboardNavigation.focusPosition(positionOf(table, link.closest('td, th')!));
       return { table, unlink, link, cell: link.closest('td, th')! };
     };
 
@@ -178,7 +179,7 @@ describe('CellInteraction', () => {
       idLink.href = '#';
       idLink.textContent = '1';
       const click = vi.spyOn(idLink, 'click').mockImplementation(() => undefined);
-      table.table.keyboardNavigation!.focusPosition(positionOf(table, idCell));
+      table.table.keyboardNavigation.focusPosition(positionOf(table, idCell));
 
       await userEvent.keyboard('{Enter}');
 
@@ -193,19 +194,19 @@ describe('CellInteraction', () => {
     const first = document.createElement('button');
     const second = document.createElement('button');
     cell.append(first, second);
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
 
     fireEvent.keyDown(cell, { key: 'Enter' });
 
     expect(first).toHaveFocus();
     expect(second).not.toHaveFocus();
-    expect(table.table.keyboardNavigation!.position).toEqual(positionOf(table, cell));
+    expect(table.table.keyboardNavigation.position).toEqual(positionOf(table, cell));
   });
 
   it.each(['Enter', 'F2'])('opens an editable cell with %s', async (key) => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
 
     fireEvent.keyDown(cell, { key });
 
@@ -215,13 +216,13 @@ describe('CellInteraction', () => {
   it('reuses an already-open editor with its instance and draft', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     const input = await waitFor(() => within(cell).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const handler = table.table.editing.forms['1'].activeFields.subject;
     input.value = 'Draft';
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
 
     fireEvent.keyDown(cell, { key: 'F2' });
 
@@ -229,13 +230,13 @@ describe('CellInteraction', () => {
     expect(within(cell).getByRole('textbox')).toBe(input);
     expect(input).toHaveFocus();
     expect(input).toHaveValue('Draft');
-    expect(table.table.keyboardNavigation!.position).toEqual(positionOf(table, cell));
+    expect(table.table.keyboardNavigation.position).toEqual(positionOf(table, cell));
   });
 
   it('focuses an open editor overlay instead of its trigger on re-entry', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const handler = table.table.editing.forms['1'].activeFields.subject;
@@ -254,7 +255,7 @@ describe('CellInteraction', () => {
   it('does nothing for F2 on a non-editable cell', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[0];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
 
     expect(fireEvent.keyDown(cell, { key: 'F2' })).toBe(true);
     expect(cell.querySelector('input')).toBeNull();
@@ -267,7 +268,7 @@ describe('CellInteraction', () => {
     });
     const group = table.groupHeader(0);
     const cell = navigableCells(group)[0];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
 
     fireEvent.keyDown(cell, { key: 'Enter' });
 
@@ -290,8 +291,8 @@ describe('CellInteraction', () => {
     const create = within(table.container).getByRole('button', { name: 'Create new work package' });
     const before = document.createElement('button');
     table.table.tableAndTimelineContainer.before(before);
-    table.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
-    const originalPosition = table.table.keyboardNavigation!.position;
+    table.table.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    const originalPosition = table.table.keyboardNavigation.position;
     const selection = table.selection.getSelectedWorkPackageIds();
 
     await userEvent.tab();
@@ -302,7 +303,7 @@ describe('CellInteraction', () => {
     expect(menu).toHaveFocus();
     await userEvent.tab();
     expect(create).toHaveFocus();
-    expect(table.table.keyboardNavigation!.position).toEqual(originalPosition);
+    expect(table.table.keyboardNavigation.position).toEqual(originalPosition);
     expect(table.selection.getSelectedWorkPackageIds()).toEqual(selection);
     expect(table.row('1')).toHaveAttribute('tabindex', '0');
 
@@ -334,7 +335,7 @@ describe('CellInteraction', () => {
     cells[0].append(idLink);
     cells[1].append(details, menu);
     const create = within(table.container).getByRole('button', { name: 'Create new work package' });
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cells[1]));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cells[1]));
 
     await userEvent.tab();
     expect(details).toHaveFocus();
@@ -359,7 +360,7 @@ describe('CellInteraction', () => {
     const cells = navigableCells(table.row('1'));
     const control = document.createElement('button');
     cells[0].append(control);
-    table.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    table.table.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
     table.click('1');
     await userEvent.tab();
     expect(control).toHaveFocus();
@@ -374,10 +375,94 @@ describe('CellInteraction', () => {
     expect(table.row('2')).toHaveFocus();
   });
 
+  describe('walk key matrix', () => {
+    const walk = async () => {
+      const table = await mount({ workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }] });
+      const origin = navigableCells(table.row('2'))[0];
+      const control = document.createElement('button');
+      origin.append(control);
+      table.table.keyboardNavigation.focusPosition(positionOf(table, origin));
+      await userEvent.tab();
+      expect(control).toHaveFocus();
+      return { table, origin, control };
+    };
+
+    const withAltGraph = (init:KeyboardEventInit) => {
+      const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...init });
+      vi.spyOn(event, 'getModifierState').mockImplementation((key) => key === 'AltGraph');
+      return event;
+    };
+
+    it('moves from the origin with a plain ArrowDown', async () => {
+      const { table, control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'ArrowDown' })).toBe(false);
+
+      expect(navigableCells(table.row('3'))[0]).toHaveFocus();
+    });
+
+    it('returns to the origin with Escape', async () => {
+      const { origin, control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'Escape' })).toBe(false);
+
+      expect(origin).toHaveFocus();
+    });
+
+    it.each<[string, KeyboardEventInit]>([
+      ['Ctrl', { ctrlKey: true }],
+      ['Meta', { metaKey: true }],
+    ])('returns to the origin on a command arrow inside a walk: %s', async (_name, init) => {
+      const { origin, control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'ArrowDown', ...init })).toBe(false);
+
+      expect(origin).toHaveFocus();
+    });
+
+    it('stays on the control while composing inside a walk', async () => {
+      const { control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'ArrowDown', isComposing: true })).toBe(true);
+
+      expect(control).toHaveFocus();
+    });
+
+    it('stays on the control with AltGraph inside a walk', async () => {
+      const { control } = await walk();
+      const event = withAltGraph({ key: 'ArrowDown' });
+
+      control.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(control).toHaveFocus();
+    });
+
+    it.each<[string, KeyboardEventInit]>([
+      ['Ctrl+Alt', { ctrlKey: true, altKey: true }],
+      ['Shift', { shiftKey: true }],
+      ['Alt', { altKey: true }],
+    ])('leaves a %s arrow to the control inside a walk', async (_name, init) => {
+      const { control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'ArrowDown', ...init })).toBe(true);
+
+      expect(control).toHaveFocus();
+    });
+
+    it('moves to the first cell of the first row with Ctrl+Home inside a walk', async () => {
+      const { table, control } = await walk();
+
+      expect(fireEvent.keyDown(control, { key: 'Home', ctrlKey: true })).toBe(false);
+
+      expect(table.table.keyboardNavigation.position).toEqual({ key: headerRowKey, cell: 0, desiredColumn: 0 });
+    });
+  });
+
   it('parks an editor at the Tab boundary and re-engages the same instance', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const handler = table.table.editing.forms['1'].activeFields.subject;
@@ -390,7 +475,7 @@ describe('CellInteraction', () => {
     expect(cell).toHaveFocus();
     expect(input).toHaveAttribute('tabindex', '-1');
     expect(input).toHaveValue('Parked draft');
-    expect(table.table.keyboardNavigation!.position).toEqual(positionOf(table, cell));
+    expect(table.table.keyboardNavigation.position).toEqual(positionOf(table, cell));
 
     await userEvent.tab();
     expect(within(table.container).getByRole('button', { name: 'Create new work package' })).toHaveFocus();
@@ -407,7 +492,7 @@ describe('CellInteraction', () => {
   it('parks on Shift+Tab from the first input inside the editor form', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const input = within(cell).getByRole<HTMLInputElement>('textbox');
@@ -449,7 +534,7 @@ describe('CellInteraction', () => {
   it('does not land in an editor opened in a later row during native exit', async () => {
     const table = await mount({ workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }] });
     const editorCell = navigableCells(table.row('3'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, editorCell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, editorCell));
     fireEvent.keyDown(editorCell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['3'].activeFields.subject).toBeDefined());
     const input = within(editorCell).getByRole('textbox');
@@ -457,7 +542,7 @@ describe('CellInteraction', () => {
     const control = document.createElement('button');
     cells[0].append(control);
     const create = within(table.container).getByRole('button', { name: 'Create new work package' });
-    table.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    table.table.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
 
     await userEvent.tab();
     expect(control).toHaveFocus();
@@ -473,13 +558,13 @@ describe('CellInteraction', () => {
       groups: [{ value: 'New', href: '/api/v3/statuses/1', count: 1 }],
     });
     const group = table.groupHeader(0);
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, group));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, group));
 
     await userEvent.tab();
 
     expect(insideGrid(table.table.scrollContainer, document.activeElement)).toBe(false);
     const totals = navigableCells(table.totalsRow())[0];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, totals));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, totals));
     await userEvent.tab();
     expect(insideGrid(table.table.scrollContainer, document.activeElement)).toBe(false);
   });
@@ -487,7 +572,7 @@ describe('CellInteraction', () => {
   it('re-engages a parked invalid field before validation focus', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const form = table.table.editing.forms['1'];
@@ -509,7 +594,7 @@ describe('CellInteraction', () => {
   it.each([false, true])('leaves Tab native inside an owned overlay (shift: %s)', async (shiftKey) => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const handler = table.table.editing.forms['1'].activeFields.subject;
@@ -531,7 +616,7 @@ describe('CellInteraction', () => {
   it('does not move inline-create focus into the grid on a full render', async () => {
     const table = await mount();
     const remembered = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, remembered));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, remembered));
     const row = table.addInlineCreateRow();
     const form = Object.values(table.table.editing.forms)[0];
     const handler = await form.activate('subject');
@@ -546,7 +631,7 @@ describe('CellInteraction', () => {
   it('restores the cell of a parked editor after a full render', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('2'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(within(cell).getByRole('textbox')).toHaveFocus());
     await userEvent.tab();
@@ -560,7 +645,7 @@ describe('CellInteraction', () => {
   it('parks an engaged editor when a pointer moves focus to another cell', async () => {
     const table = await mount();
     const editorCell = navigableCells(table.row('2'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, editorCell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, editorCell));
     fireEvent.keyDown(editorCell, { key: 'Enter' });
     const input = await waitFor(() => within(editorCell).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(input).toHaveFocus());
@@ -581,7 +666,7 @@ describe('CellInteraction', () => {
   it('parks an engaged editor when focus leaves the table for an outside control', async () => {
     const table = await mount();
     const editorCell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, editorCell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, editorCell));
     fireEvent.keyDown(editorCell, { key: 'Enter' });
     const input = await waitFor(() => within(editorCell).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(input).toHaveFocus());
@@ -594,14 +679,40 @@ describe('CellInteraction', () => {
     outside.remove();
   });
 
-  it('returns Escape to the cell of an editor re-engaged after a pointer opened another', async () => {
+  it('repaints the edited row and tells navigation before focus returns on cancel', async () => {
     const table = await mount();
     const cellA = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cellA));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cellA));
     fireEvent.keyDown(cellA, { key: 'Enter' });
     const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(inputA).toHaveFocus());
-    const handlerA = table.table.editing.forms['1'].activeFields.subject;
+    const navigation = table.table.keyboardNavigation;
+    const events:string[] = [];
+    const rowsChanged = navigation.rowsChanged.bind(navigation);
+    vi.spyOn(navigation, 'rowsChanged').mockImplementation((exit) => {
+      events.push(`rowsChanged:${exit.rendered}:${scopeKeys(exit.scope).join(',')}`);
+      rowsChanged(exit);
+    });
+    const returnFocus = navigation.returnFocus.bind(navigation);
+    vi.spyOn(navigation, 'returnFocus').mockImplementation((origin, closing) => {
+      events.push('returnFocus');
+      return returnFocus(origin, closing);
+    });
+
+    fireEvent.keyDown(inputA, { key: 'Escape' });
+
+    expect(events).toEqual([`rowsChanged:false:${Array.from(table.table.ledger.keysOf('1')).join(',')}`, 'returnFocus']);
+    expect(navigableCells(table.row('1'))[1]).toHaveFocus();
+    expect(within(table.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
+  });
+
+  it('returns Escape to the cell of an editor re-engaged after a pointer opened another', async () => {
+    const table = await mount();
+    const cellA = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cellA));
+    fireEvent.keyDown(cellA, { key: 'Enter' });
+    const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
+    await waitFor(() => expect(inputA).toHaveFocus());
     const cellB = navigableCells(table.row('2'))[1];
     fireEvent.mouseDown(cellB, { button: 0 });
     cellB.focus();
@@ -615,7 +726,7 @@ describe('CellInteraction', () => {
     fireEvent.mouseUp(inputA, { button: 0 });
     expect(inputA).toHaveFocus();
 
-    handlerA.handleUserCancel();
+    fireEvent.keyDown(inputA, { key: 'Escape' });
 
     expect(navigableCells(table.row('1'))[1]).toHaveFocus();
   });
@@ -623,12 +734,12 @@ describe('CellInteraction', () => {
   it.each(['Enter', 'pointer'])('returns Escape to the cell of a programmatically opened field entered by %s', async (entry) => {
     const table = await mount({ columns: ['id', 'subject', 'status'], editing: { fields: ['subject', 'status'] } });
     const cellA = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cellA));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cellA));
     fireEvent.keyDown(cellA, { key: 'Enter' });
     const inputA = await waitFor(() => within(cellA).getByRole<HTMLInputElement>('textbox'));
     await waitFor(() => expect(inputA).toHaveFocus());
     const form = table.table.editing.forms['1'];
-    const handlerC = (await form.activate('status'))!;
+    await form.activate('status');
     const cellC = navigableCells(table.row('1'))[2];
     const inputC = within(cellC).getByRole<HTMLInputElement>('textbox');
     await userEvent.tab();
@@ -645,7 +756,7 @@ describe('CellInteraction', () => {
     }
     expect(inputC).toHaveFocus();
 
-    handlerC.handleUserCancel();
+    fireEvent.keyDown(inputC, { key: 'Escape' });
 
     expect(navigableCells(table.row('1'))[2]).toHaveFocus();
   });
@@ -671,7 +782,7 @@ describe('CellInteraction', () => {
     trigger.className = 'inline-edit--display-trigger';
     const toggle = within(parent).getByRole('button', { name: /children_expanded/ });
     const expander = within(parent).getByRole('button', { name: 'js.work_packages.table.relations_button' });
-    const menu = within(parent).getByRole('link', { name: 'js.label_open_context_menu' });
+    const menu = within(parent).getByRole('button', { name: 'js.label_open_context_menu' });
     expect(parent.querySelector('.wp-table--drag-and-drop-handle')).not.toBeNull();
 
     expect(rowControls(parent, table.table)).toEqual([idLink, toggle, expander, menu]);
@@ -679,9 +790,9 @@ describe('CellInteraction', () => {
     const child = table.row('2');
     expect(child.querySelector('.wp-table--leaf-indicator')).not.toBeNull();
     expect(child.querySelector('td.relationsOfTypeFollows button')).toBeNull();
-    expect(rowControls(child, table.table)).toEqual([within(child).getByRole('link', { name: 'js.label_open_context_menu' })]);
+    expect(rowControls(child, table.table)).toEqual([within(child).getByRole('button', { name: 'js.label_open_context_menu' })]);
 
-    table.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    table.table.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
     await userEvent.tab();
     expect(idLink).toHaveFocus();
     await userEvent.tab();
@@ -699,7 +810,7 @@ describe('CellInteraction', () => {
     const cell = navigableCells(table.row('1'))[0];
     const control = cell.appendChild(document.createElement('button'));
     cell.appendChild(document.createElement('button'));
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     expect(control).toHaveFocus();
     const selection = table.selection.getSelectedWorkPackageIds();
@@ -712,10 +823,85 @@ describe('CellInteraction', () => {
     expect(table.selection.getSelectedWorkPackageIds()).toEqual(selection);
   });
 
+  it('leaves Tab before the editor\'s last control to the browser and parks nothing', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const input = within(cell).getByRole<HTMLInputElement>('textbox');
+    const extra = input.closest('form')!.appendChild(document.createElement('button'));
+    extra.setAttribute('tabindex', '0');
+    input.focus();
+
+    expect(fireEvent.keyDown(input, { key: 'Tab' })).toBe(true);
+
+    expect(input).not.toHaveAttribute('tabindex', '-1');
+    expect(extra).toHaveAttribute('tabindex', '0');
+  });
+
+  it('restores the tabindex of a parked overlay root on re-entry', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const handler = table.table.editing.forms['1'].activeFields.subject;
+    const overlay = document.body.appendChild(document.createElement('div'));
+    overlay.setAttribute('tabindex', '0');
+    overlay.appendChild(document.createElement('button'));
+    handler.registerOverlay(overlay);
+    try {
+      cell.focus();
+      table.table.keyboardNavigation.repaintCurrentPosition();
+      expect(overlay).toHaveAttribute('tabindex', '-1');
+
+      fireEvent.keyDown(cell, { key: 'Enter' });
+
+      expect(overlay).toHaveAttribute('tabindex', '0');
+      expect(overlay).not.toHaveAttribute('data-op-original-tabindex');
+    } finally {
+      overlay.remove();
+    }
+  });
+
+  it('focuses an overlay without a usable control itself on re-entry', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const handler = table.table.editing.forms['1'].activeFields.subject;
+    const overlay = document.body.appendChild(document.createElement('div'));
+    overlay.tabIndex = -1;
+    handler.registerOverlay(overlay);
+    try {
+      cell.focus();
+
+      fireEvent.keyDown(cell, { key: 'Enter' });
+
+      expect(overlay).toHaveFocus();
+    } finally {
+      overlay.remove();
+    }
+  });
+
+  it('leaves Tab from a control that is not a walk target native', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    const disabled = cell.appendChild(document.createElement('button'));
+    disabled.setAttribute('aria-disabled', 'true');
+    disabled.focus();
+
+    expect(fireEvent.keyDown(disabled, { key: 'Tab' })).toBe(true);
+
+    expect(disabled).toHaveFocus();
+  });
+
   it('restores an explicit tabindex when a parked editor is re-engaged', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const input = within(cell).getByRole<HTMLInputElement>('textbox');
@@ -736,7 +922,7 @@ describe('CellInteraction', () => {
   it('focuses the input of a parked editor whose field host is not focusable', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const input = within(cell).getByRole<HTMLInputElement>('textbox');
@@ -758,7 +944,7 @@ describe('CellInteraction', () => {
   it('focuses the input of a parked invalid field whose host is not focusable', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const form = table.table.editing.forms['1'];
@@ -782,7 +968,7 @@ describe('CellInteraction', () => {
   it('restores a control that was disabled while its editor was parked', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
     const input = within(cell).getByRole<HTMLInputElement>('textbox');
@@ -824,7 +1010,7 @@ describe('CellInteraction', () => {
     const table = await mount({ configuration: { actionsColumnEnabled: true } });
     const cell = navigableCells(table.row('1')).at(-1)!;
     cell.append(document.createElement('button'), document.createElement('button'));
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     const control = document.activeElement as HTMLElement;
     expect(cell).toContainElement(control);
@@ -841,7 +1027,7 @@ describe('CellInteraction', () => {
     const cell = navigableCells(table.row('1'))[0];
     const first = cell.appendChild(document.createElement('button'));
     cell.appendChild(document.createElement('button'));
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     expect(first).toHaveFocus();
 
@@ -854,11 +1040,11 @@ describe('CellInteraction', () => {
   it('uses the occurrence key when recording re-entry origin', async () => {
     const table = await mount();
     const cell = navigableCells(table.row('1'))[1];
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
     fireEvent.keyDown(cell, { key: 'Enter' });
     await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
-    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
-    table.table.keyboardNavigation!.recordPosition({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
+    table.table.keyboardNavigation.focusPosition(positionOf(table, cell));
+    table.table.keyboardNavigation.recordPosition({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
     const outside = document.body.appendChild(document.createElement('button'));
     outside.focus();
     cell.focus();
@@ -866,6 +1052,6 @@ describe('CellInteraction', () => {
     fireEvent.keyDown(cell, { key: 'Enter' });
     outside.remove();
 
-    expect(table.table.keyboardNavigation!.position).toEqual(positionOf(table, cell));
+    expect(table.table.keyboardNavigation.position).toEqual(positionOf(table, cell));
   });
 });

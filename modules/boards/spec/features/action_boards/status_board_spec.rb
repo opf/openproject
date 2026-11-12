@@ -55,7 +55,7 @@ RSpec.describe "Status action board",
   let!(:priority) { create(:default_priority) }
   let!(:open_status) { create(:default_status, name: "Open") }
   let!(:whatever_status) { create(:status, name: "Whatever") }
-  let!(:closed_status) { create(:status, is_closed: true, name: "Closed") }
+  let!(:closed_status) { create(:status, category: "closed", name: "Closed") }
   let!(:work_package) { create(:work_package, project:, subject: "Foo", status: whatever_status) }
 
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -106,6 +106,30 @@ RSpec.describe "Status action board",
 
       board_page.add_list option: "Closed", query: "closed"
       board_page.expect_list "Closed"
+    end
+
+    it "keeps a moved card in place and still shows changes made elsewhere (OP-20534)" do
+      create(:work_package, project:, type:, subject: "Task 1", status: open_status)
+      board_index.visit!
+      board_page = board_index.create_board action: "Kanban"
+      board_page.expect_list "Open"
+      board_page.add_list option: "Closed"
+      board_page.expect_list "Closed"
+      board_page.expect_card "Open", "Task 1"
+      board_page.wait_for_lists_reload
+
+      board_page.move_card_by_name("Task 1", from: "Open", to: "Closed")
+      board_page.expect_card("Open", "Task 1", present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
+
+      open_query = board_page.board(reload: true).contained_queries.find_by(name: "Open")
+      added_elsewhere = create(:work_package, project:, type:, subject: "Added elsewhere", status: open_status)
+      open_query.ordered_work_packages.create!(work_package: added_elsewhere, position: 0)
+      open_query.touch
+
+      board_page.expect_card("Open", "Added elsewhere", present: true)
+      board_page.expect_card("Open", "Task 1", present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
     end
 
     it "does not change moving card project when filtering on projects (Bug #44895)" do
@@ -273,9 +297,7 @@ RSpec.describe "Status action board",
       board_page.expect_card("Closed", "Task 1", present: true)
       board_page.expect_card("Whatever", work_package.subject, present: false)
 
-      # Expect query props to be present
-      url = URI.parse(page.current_url).query
-      expect(url).to include("query_props=")
+      expect(page).to have_current_query_params("query_props" => be_present)
 
       # Save that filter
       board_page.save

@@ -76,7 +76,8 @@ module WorkPackageTypes
       end
 
       def named_reference_mode(reference, key)
-        t("types.edit.overview.mode.#{key}", name: reference_link(reference.name, yield(reference), reachable: admin_context?))
+        t("types.edit.overview.mode.#{key}",
+          name: reference_link(reference.name, yield(reference), reachable: admin_context? || User.current.admin?))
       end
 
       def muted_mode(key) = muted(t("types.edit.overview.mode.#{key}"))

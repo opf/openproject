@@ -46,6 +46,17 @@ RSpec.describe "Backlogs::BurndownChart", :skip_csrf, type: :rails_request do
       expect(response).to be_successful
       expect(response).to render_template("backlogs/burndown_chart/show")
     end
+
+    context "when the sprint has no date range set" do
+      let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
+
+      it "renders the missing dates blankslate" do
+        get "/projects/#{project.identifier}/backlogs/sprints/#{sprint.id}/burndown_chart"
+
+        expect(response).to be_successful
+        expect(response.body).to include("Missing sprint dates")
+      end
+    end
   end
 
   describe "legacy (version 17.3) sprint burndown route" do

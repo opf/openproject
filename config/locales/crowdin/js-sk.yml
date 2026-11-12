@@ -132,9 +132,9 @@ sk:
     button_continue: Pokračovať
     button_copy: Kopírovať
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Kopírovať do schránky
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Vytvoriť
     button_custom-fields: Vlastné polia
     button_delete: Odstrániť
@@ -150,6 +150,7 @@ sk:
     button_log_time: Zaprotokoluj čas
     button_more: Viac
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Zobraziť podrobnosti
     button_open_fullscreen: Otvorené zobrazenie na celú obrazovku
     button_quote: Citovať
@@ -207,6 +208,7 @@ sk:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uloženie dokumentu zlyhalo s nasledujúcou chybou: %{error}'
@@ -348,6 +350,8 @@ sk:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: všetky projekty
@@ -438,7 +442,6 @@ sk:
     label_assignee: Priradené
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Prílohy
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: medzi
     label_board: Nástenka
@@ -502,6 +505,7 @@ sk:
     label_in: v
     label_in_less_than: v menej ako
     label_in_more_than: vo viac ako
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Prichádzajúce e-maily
     label_infinity: Infinity
     label_information_plural: Informácie
@@ -534,6 +538,10 @@ sk:
     label_open_context_menu: Otvoriť kontextové menu
     label_open_menu: Otvorte menu
     label_open_work_packages: otvorené
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Heslo
     label_per_page: 'Na stranu:'
     label_please_wait: Prosím, čakajte
@@ -567,7 +575,9 @@ sk:
     label_show_in_menu: Zobraziť pohľad v menu
     label_sort_by: Zoradiť podľa
     label_sort_higher: Presunúť vyššie
+    label_sort_highest: Move to top
     label_sort_lower: Presunúť nižšie
+    label_sort_lowest: Move to bottom
     label_sorted_by: zoradené podľa
     label_sorting: Zoradenie
     label_spent_time: Strávený čas
@@ -578,6 +588,7 @@ sk:
     label_sum_for: Súčet pre
     label_this_week: tento týždeň
     label_time_entry_plural: Strávený čas
+    label_to_do_work_packages: to-do
     label_today: Dnes
     label_total_amount: 'Celkom: %{amount}'
     label_total_progress: "%{percent}% celkový priebeh"
@@ -821,6 +832,7 @@ sk:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -974,6 +986,7 @@ sk:
         all_open: Všetky otvorené
         assigned_to_me: Priradené mne
         created_by_me: Vytvorené mnou
+        in_progress: In progress
         latest_activity: Posledná aktivita
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -981,6 +994,7 @@ sk:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Zhrnutie
+        to_do: To-do
       description_enter_text: Zadajte text
       description_filter: Filtrovať
       description_options_hide: Skryť možnosti
@@ -1068,6 +1082,7 @@ sk:
         other: Ostatné
         people: Ľudia
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Kliknutím upravíte názov tohto zobrazenia.
         column_names: Stĺpce
         confirm_edit_cancel: Naozaj chcete zrušiť premenovanie tohto zobrazenia? Názov sa obnoví na poslednú uloženú hodnotu.
@@ -1077,17 +1092,16 @@ sk:
           not_found: Toto zobrazenie sa nepodarilo nájsť
           unretrievable_query: Nepodarilo sa načítať zobrazenie z adresy URL
         filters: Filtre
-        group: Zoskupiť podľa
         group_by: zoskupiť výsledky podľa
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Skupina je zakázaná v dôsledku aktívneho režimu hierarchie.
-        hide_column: Skryť stĺpec
         hierarchy_disabled_by_group_by: Režim hierarchie je zakázaný, pretože výsledky sú zoskupené podľa %{column}.
-        insert_columns: Insert columns
         move_column_left: Presunúť stĺpec vľavo
         move_column_right: Premiestniť stĺpec vpravo
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Názov tohto zobrazenia
         sort_ascending: Zoradiť vzostupne
         sort_descending: Zoradiť zostupne
@@ -1140,7 +1154,6 @@ sk:
         default_mode: Plochý zoznam
         display_settings: Zobraziť nastavenia
         display_sums_hint: Zobraziť súčty všetkých sčitateľných atribútov v riadku pod tabuľkou výsledkov.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Všetky filtrované výsledky z tabuľky budú rozšírené o ich predkov. Hierarchie je možné rozbaliť a zbaliť.
         hierarchy_mode: Hierarchia
         highlighting: Zvýraznenie

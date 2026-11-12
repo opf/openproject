@@ -131,10 +131,10 @@ nl:
     button_confirm: Accepteren
     button_continue: Ga verder
     button_copy: Kopieer
-    button_copy_link_to_clipboard: Link naar klembord kopiëren
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Kopiëren naar het klembord
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Maken
     button_custom-fields: Aangepaste velden
     button_delete: Verwijderen
@@ -150,6 +150,7 @@ nl:
     button_log_time: Gelogde tijd
     button_more: Meer
     button_more_actions: Meer acties
+    button_move_to_position: Move to position
     button_open_details: Open detailweergave
     button_open_fullscreen: Open volledig scherm
     button_quote: Citeer
@@ -207,6 +208,7 @@ nl:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Er is een fout opgetreden in CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: Het opslaan van het document is mislukt met de volgende foutmelding:%{error}
@@ -348,6 +350,8 @@ nl:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recent bekeken
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: alle projecten
@@ -438,7 +442,6 @@ nl:
     label_assignee: Toegewezene
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Bijlagen
-    label_author: 'Auteur: %{user}'
     label_avatar: Avatar
     label_between: tussen
     label_board: Bord
@@ -502,6 +505,7 @@ nl:
     label_in: in
     label_in_less_than: in minder dan
     label_in_more_than: in meer dan
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Inkomende e-mails
     label_infinity: Infinity
     label_information_plural: Informatie
@@ -534,6 +538,10 @@ nl:
     label_open_context_menu: Toon context menu
     label_open_menu: Menu openen
     label_open_work_packages: Open
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Wachtwoord
     label_per_page: 'Per pagina:'
     label_please_wait: Een ogenblik geduld
@@ -567,7 +575,9 @@ nl:
     label_show_in_menu: Toon overzicht in menu
     label_sort_by: Sorteer op
     label_sort_higher: Omhoog
+    label_sort_highest: Move to top
     label_sort_lower: Omlaag
+    label_sort_lowest: Move to bottom
     label_sorted_by: gesorteerd door
     label_sorting: Sortering
     label_spent_time: Bestede tijd
@@ -578,6 +588,7 @@ nl:
     label_sum_for: Som voor
     label_this_week: deze week
     label_time_entry_plural: Bestede tijd
+    label_to_do_work_packages: to-do
     label_today: Vandaag
     label_total_amount: 'Totaal: %{amount}'
     label_total_progress: "%{percent}% totale vooruitgang"
@@ -819,6 +830,7 @@ nl:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -962,6 +974,7 @@ nl:
         all_open: Alles open
         assigned_to_me: Toegewezen aan mij
         created_by_me: Gemaakt door mijzelf
+        in_progress: In progress
         latest_activity: Laatste Activiteit
         manually_sorted: Nieuwe handmatig gesorteerde query
         overdue: Te laat
@@ -969,6 +982,7 @@ nl:
         shared_with_me: Shared with me
         shared_with_users: Gedeeld met gebruikers
         summary: Samenvatting
+        to_do: To-do
       description_enter_text: Tekst invoeren
       description_filter: Filter
       description_options_hide: Verberg opties
@@ -1056,6 +1070,7 @@ nl:
         other: Overige
         people: Mensen
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Klik om de titel van de weergave te bewerken.
         column_names: Kolommen
         confirm_edit_cancel: Weet u zeker dat u wilt stoppen met het bewerken van de naam van deze weergave? De Titel zal terug naar vorige waarde worden ingesteld.
@@ -1065,17 +1080,16 @@ nl:
           not_found: Deze weergave bestaat niet
           unretrievable_query: Het is onmogelijk om de weergave van de url op te halen
         filters: Filters
-        group: Groeperen op
         group_by: Groepeer resultaten op
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Groeperen is uitgeschakeld als gevolg van de hiërarchie-modus actief.
-        hide_column: Verberg kolom
         hierarchy_disabled_by_group_by: Hiërarchie-modus is uitgeschakeld als gevolg van de resultaten die worden gegroepeerd op %{column}.
-        insert_columns: Kolommen invoegen
         move_column_left: Verplaats kolom naar links
         move_column_right: Verplaats kolom naar rechts
         public_text: 'Publiceer deze weergave zodat andere gebruikers er toegang tot hebben. Gebruikers met de ''Openbare weergave beheren'' rechten kunnen openbare query wijzigen of verwijderen. Dit heeft geen invloed op de zichtbaarheid van werkpakket resultaten in die weergave en afhankelijk van hun permissies, kunnen gebruikers verschillende resultaten zien.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Naam van deze weergave
         sort_ascending: Sorteer opgaand
         sort_descending: Sorteer afgaand
@@ -1124,7 +1138,6 @@ nl:
         default_mode: Platte lijst
         display_settings: Weergave-instellingen
         display_sums_hint: Waarden van alle optelbare attributen in een rij onder de tabel resultaten weergeven.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
         hierarchy_mode: Hiërarchie
         highlighting: Markering

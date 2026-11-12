@@ -57,9 +57,8 @@ Help OpenProject reach more users by engaging with our content and sharing it wi
   
       [Follow us on Fosstodon](https://fosstodon.org/@openproject)
   
-      [Follow us on Twitter/X](https://twitter.com/openproject)
+      [Follow us on Bluesky](https://bsky.app/profile/openproject.org).
   
-      [Follow us on Bluesky](https://bsky.app/profile/openproject.bsky.social)
 - **Add a backlink to your website**
   Include a link to OpenProject’s website on your blog, portfolio, or company website to help more people discover our tool.
 - **Write a Review**

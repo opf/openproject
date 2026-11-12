@@ -916,6 +916,63 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "projectPhaseDefinition" do
+      let(:link) { "projectPhaseDefinition" }
+
+      context "with a phase being set" do
+        it_behaves_like "has a titled link" do
+          let(:href) { "/api/v3/project_phase_definitions/#{work_package.project_phase_definition_id}" }
+          let(:title) { work_package.project_phase_definition.name }
+        end
+      end
+
+      context "without a phase being set" do
+        before do
+          work_package.project_phase_definition = nil
+        end
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { nil }
+        end
+      end
+
+      context "with the phase not existing in the project" do
+        let(:project_phases) { [other_project_phase] }
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { nil }
+        end
+      end
+
+      context "with the phase being inactive in the project" do
+        let(:project_phase) { build_stubbed(:project_phase, active: false, definition: project_phase_definition) }
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { nil }
+        end
+      end
+
+      context "without the user being allowed to see the reference" do
+        let(:permissions) { all_permissions - [:view_project_phases] }
+
+        it_behaves_like "has no link"
+      end
+
+      context "with caching where the first user is allowed and the second is not allowed to see the reference" do
+        let(:permissions) { all_permissions - [:view_project_phases] }
+        let(:admin) { build_stubbed(:admin) }
+        let(:cache_enabled) { true }
+
+        before do
+          described_class
+            .create(work_package, current_user: admin, embed_links:, timestamps:, query:)
+            .to_json
+        end
+
+        it_behaves_like "has no link"
+      end
+    end
+
     describe "category" do
       let(:embedded_path) { "_embedded/category" }
       let(:href_path) { "_links/category/href" }
@@ -1346,6 +1403,15 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "exportPdf" do
+      it_behaves_like "has a titled action link" do
+        let(:link) { "exportPdf" }
+        let(:permission) { :export_work_packages }
+        let(:href) { api_v3_paths.work_package_pdf(work_package.id) }
+        let(:title) { "Export as PDF" }
+      end
+    end
+
     describe "atom" do
       context "with feeds enabled", with_settings: { feeds_enabled?: true } do
         it_behaves_like "has a titled action link" do
@@ -1574,7 +1640,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to be_json_eql(status.name.to_json).at_path("_embedded/status/name") }
 
       it {
-        expect(subject).to be_json_eql(status.is_closed.to_json).at_path("_embedded/status/isClosed")
+        expect(subject).to be_json_eql(status.closed?.to_json).at_path("_embedded/status/isClosed")
       }
     end
 
@@ -1707,54 +1773,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:permissions) { all_permissions - [:view_project_phases] }
 
         it_behaves_like "has the resource not embedded"
-      end
-    end
-
-    describe "projectPhaseDefinition" do
-      context "with a phase being set" do
-        it_behaves_like "has a titled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { "/api/v3/project_phase_definitions/#{work_package.project_phase_definition_id}" }
-          let(:title) { work_package.project_phase_definition.name }
-        end
-      end
-
-      context "without a phase being set" do
-        before do
-          work_package.project_phase_definition = nil
-        end
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
-      end
-
-      context "with the phase not existing in the project" do
-        let(:project_phases) { [other_project_phase] }
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
-      end
-
-      context "with the phase being inactive in the project" do
-        let(:project_phase) { build_stubbed(:project_phase, active: false, definition: project_phase_definition) }
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
-      end
-
-      context "without the user being allowed to see the reference" do
-        let(:permissions) { all_permissions - [:view_project_phases] }
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
       end
     end
 

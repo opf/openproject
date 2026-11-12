@@ -132,9 +132,9 @@ kk:
     button_continue: Continue
     button_copy: Copy
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Create
     button_custom-fields: Custom fields
     button_delete: Delete
@@ -150,6 +150,7 @@ kk:
     button_log_time: Log time
     button_more: More
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Open details view
     button_open_fullscreen: Open fullscreen view
     button_quote: Quote
@@ -207,6 +208,7 @@ kk:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
@@ -348,6 +350,8 @@ kk:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: all projects
@@ -438,7 +442,6 @@ kk:
     label_assignee: Assignee
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Attachments
-    label_author: 'Author: %{user}'
     label_avatar: Аватар
     label_between: between
     label_board: Board
@@ -502,6 +505,7 @@ kk:
     label_in: in
     label_in_less_than: in less than
     label_in_more_than: in more than
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Incoming emails
     label_infinity: Infinity
     label_information_plural: Information
@@ -534,6 +538,10 @@ kk:
     label_open_context_menu: Open context menu
     label_open_menu: Open menu
     label_open_work_packages: open
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Password
     label_per_page: 'Per page:'
     label_please_wait: Please wait
@@ -567,7 +575,9 @@ kk:
     label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sort_higher: Move up
+    label_sort_highest: Move to top
     label_sort_lower: Move down
+    label_sort_lowest: Move to bottom
     label_sorted_by: sorted by
     label_sorting: Sorting
     label_spent_time: Spent time
@@ -578,6 +588,7 @@ kk:
     label_sum_for: Sum for
     label_this_week: this week
     label_time_entry_plural: Spent time
+    label_to_do_work_packages: to-do
     label_today: Today
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent}% Total progress"
@@ -819,6 +830,7 @@ kk:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -962,6 +974,7 @@ kk:
         all_open: All open
         assigned_to_me: Assigned to me
         created_by_me: Created by me
+        in_progress: In progress
         latest_activity: Latest activity
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -969,6 +982,7 @@ kk:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Summary
+        to_do: To-do
       description_enter_text: Enter text
       description_filter: Filter
       description_options_hide: Hide options
@@ -1056,6 +1070,7 @@ kk:
         other: Other
         people: People
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Click to edit title of this view.
         column_names: Columns
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1065,17 +1080,16 @@ kk:
           not_found: There is no such view
           unretrievable_query: Unable to retrieve view from URL
         filters: Filters
-        group: Group by
         group_by: Group results by
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: Hide column
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
         move_column_left: Move column left
         move_column_right: Move column right
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name of this view
         sort_ascending: Sort ascending
         sort_descending: Sort descending
@@ -1124,7 +1138,6 @@ kk:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarchy
         highlighting: Highlighting

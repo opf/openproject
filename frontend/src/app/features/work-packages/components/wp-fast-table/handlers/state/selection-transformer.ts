@@ -33,7 +33,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { selectionGesture, TableSelectionFeedback } from './selection-feedback';
+import { selectionGesture } from './selection-feedback';
 import { registerWorkPackageDeselectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export class SelectionTransformer {
@@ -47,8 +47,7 @@ export class SelectionTransformer {
     public readonly table:WorkPackageTable) {
     const destroyRef = table.destroyRef;
 
-    const selectionFeedback = new TableSelectionFeedback(this.wpTableSelection, destroyRef);
-    table.selectionFeedback = selectionFeedback;
+    const { selectionFeedback } = table;
 
     this.querySpace.tableRendered.values$()
       .pipe(
@@ -58,6 +57,7 @@ export class SelectionTransformer {
         if (table.ledger.generation > 0) {
           selectionFeedback.prune(() => this.wpTableSelection.retainRendered(rows));
         }
+        this.painted = this.currentMarkers();
       });
 
     this.wpTableSelection.live$()
@@ -80,7 +80,33 @@ export class SelectionTransformer {
     onDestroySafely(destroyRef, unregisterDeselectAll);
   }
 
+  private painted:SelectionMarkers = { selected: new Set(), focused: null };
+
+  /** Repaints the rows whose selection or focus marker changed since the last paint; the render path paints every row, so a render resets the baseline. */
   private paintRows():void {
-    this.table.painter.paint();
+    if (this.table.ledger.generation === 0) return;
+    const current = this.currentMarkers();
+    const changed = new Set<string>();
+    this.painted.selected.forEach((id) => { if (!current.selected.has(id)) changed.add(id); });
+    current.selected.forEach((id) => { if (!this.painted.selected.has(id)) changed.add(id); });
+    if (this.painted.focused !== current.focused) {
+      [this.painted.focused, current.focused].forEach((id) => { if (id) changed.add(id); });
+    }
+    this.painted = current;
+    const keys = this.table.ledger.keysOfAll(changed);
+    if (keys.size === 0) return;
+    this.table.mutate(keys.size > this.table.ledger.size / 2 ? 'all' : keys, () => undefined);
   }
+
+  private currentMarkers():SelectionMarkers {
+    return {
+      selected: new Set(this.wpTableSelection.getSelectedWorkPackageIds()),
+      focused: this.wpTableFocus.explicitlyFocusedWorkPackage,
+    };
+  }
+}
+
+interface SelectionMarkers {
+  readonly selected:ReadonlySet<string>;
+  readonly focused:string|null;
 }
