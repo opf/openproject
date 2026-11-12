@@ -34,7 +34,7 @@ module Admin
       class ValuesComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
 
-        Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific?)
+        Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific?, :required?)
 
         MAX_INDENTATION = 12
 
@@ -56,7 +56,7 @@ module Admin
         def option_rows
           custom_field.custom_options.where(project_id: [nil, project.id]).map do |option|
             Row.new(id: option.id, label: option.value, depth: 0, caption: nil, enabled: enabled?(option),
-                    project_specific?: option.project_id.present?)
+                    project_specific?: option.project_id.present?, required?: false)
           end
         end
 
@@ -72,7 +72,11 @@ module Admin
 
         def item_row(item, depth)
           Row.new(id: item.id, label: item.label, depth:, caption: item_caption(item), enabled: enabled?(item),
-                  project_specific?: item.project_id.present?)
+                  project_specific?: item.project_id.present?, required?: required_item_ids.include?(item.id))
+        end
+
+        def required_item_ids
+          @required_item_ids ||= custom_field.required_value_ids_in(project).to_set
         end
 
         def hierarchy_items

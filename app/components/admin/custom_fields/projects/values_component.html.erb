@@ -115,7 +115,7 @@ See COPYRIGHT and LICENSE files for more details.
                   src: toggle_path(row),
                   csrf_token: helpers.form_authenticity_token,
                   checked: row.enabled,
-                  enabled: manageable?,
+                  enabled: manageable? && !row.required?,
                   size: :small,
                   aria: { label: row.label }
                 )

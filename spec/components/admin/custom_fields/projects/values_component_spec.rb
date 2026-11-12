@@ -117,6 +117,15 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
       expect(row.call(global_item).css("toggle-switch")).to be_present
       expect(row.call(own_item).css("toggle-switch")).to be_empty
     end
+
+    context "with another global value" do
+      let!(:other_global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Other global") }
+
+      it "does not allow to disable the parents of the values of the project" do
+        expect(row.call(global_item).css("toggle-switch button[disabled]")).to be_present
+        expect(row.call(other_global_item).css("toggle-switch button[disabled]")).to be_empty
+      end
+    end
   end
 
   context "for a list custom field only allowing additional project values",
