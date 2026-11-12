@@ -20,11 +20,11 @@ jobs:
       checks: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
       - name: Run Yamllint
-        uses: reviewdog/action-yamllint@8f84f0fb670d777d3e584ef50faf60eb61605b2a # v1.25.3
+        uses: reviewdog/action-yamllint@v1.25.3
         with:
           reporter: github-pr-annotations
           fail_level: any
