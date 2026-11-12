@@ -54,12 +54,12 @@ module Admin::Import
 
     def create
       result = ::Import::Jiras::CreateService.new(user: User.current).call(jira_params)
-      handle_service_result(result, success_path: -> { admin_import_jira_path(result.result.id) }, failure_view: :new)
+      handle_service_result(result, notice: :notice_successful_create, failure_view: :new)
     end
 
     def update
       result = ::Import::Jiras::UpdateService.new(user: User.current, model: @jira).call(jira_params)
-      handle_service_result(result, success_path: -> { admin_import_jira_path(result.result.id) }, failure_view: :edit)
+      handle_service_result(result, notice: :notice_successful_update, failure_view: :edit)
     end
 
     def destroy
@@ -123,14 +123,37 @@ module Admin::Import
       permitted
     end
 
-    def handle_service_result(result, success_path:, failure_view:)
+    def handle_service_result(result, notice:, failure_view:)
+      @jira = result.result
+
       if result.failure?
-        @jira = result.result
         stream_form_component { |format| format.html { render failure_view } }
+      elsif @jira.saved_change_to_connection?
+        redirect_after_connection_check(notice:)
       else
-        flash[:notice] = t(action_name == "create" ? :notice_successful_create : :notice_successful_update)
-        redirect_to success_path.call
+        redirect_to_saved_configuration(notice:)
       end
+    end
+
+    def redirect_after_connection_check(notice:)
+      report = Import::Jiras::CheckConnectionService.new(@jira).call.result
+
+      if report.unhealthy?
+        redirect_to_connection_check_dialog(report)
+      else
+        redirect_to_saved_configuration(notice:)
+      end
+    end
+
+    def redirect_to_saved_configuration(notice:)
+      flash[:notice] = t(notice)
+      redirect_to admin_import_jira_path(@jira)
+    end
+
+    def redirect_to_connection_check_dialog(report)
+      flash_op_modal(component: Admin::Import::Jira::ConnectionCheckDialogComponent,
+                     parameters: { health_report_id: report.id })
+      redirect_to edit_admin_import_jira_path(@jira)
     end
 
     def stream_form_component(&)

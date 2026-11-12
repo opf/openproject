@@ -112,6 +112,8 @@ The panel shows the result as a report with three groups of checks:
 
 The checks after a failed check are skipped, and the groups after a failed group do not run. When Jira only answers to accepted credentials, _Responds as Jira_ is skipped and the _Authorization_ group reports the credentials.
 
+When you save a new configuration, or change the URL, the authentication method or the credentials of an existing one, OpenProject saves it and then runs the same checks. The result is stored and shown in the panel. If a check fails, the configuration stays saved and a dialog names the failed check. Click **Fix configuration** to stay on the form, or **Continue anyway** to go to the configuration. Fetching data fails until the checks pass.
+
 When an import run checks the available data, it runs the same checks first. The result is stored, and the edit form of the configuration shows it with the time of the last check. If a check fails, no data is fetched and the side panel of the import run shows the report under _Run status_. Click **Retry** to run the checks again.
 
 A failed check shows one of these error codes:

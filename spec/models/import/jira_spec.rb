@@ -64,4 +64,44 @@ RSpec.describe Import::Jira do
       end
     end
   end
+
+  describe "#saved_change_to_connection?" do
+    let(:url) { "https://jira.example.com" }
+
+    before { jira.save! }
+
+    context "when the configuration was created" do
+      it { is_expected.to be_saved_change_to_connection }
+    end
+
+    context "when only the name and the options changed" do
+      before { jira.update!(name: "Renamed", exclude_resolution_fields: true) }
+
+      it { is_expected.not_to be_saved_change_to_connection }
+    end
+
+    context "when the form sent the blank username of the hidden basic auth fields" do
+      before { jira.update!(basic_auth_username: "") }
+
+      it { is_expected.not_to be_saved_change_to_connection }
+    end
+
+    context "when the URL changed" do
+      before { jira.update!(url: "https://other.example.com") }
+
+      it { is_expected.to be_saved_change_to_connection }
+    end
+
+    context "when the personal access token changed" do
+      before { jira.update!(personal_access_token: "new_token") }
+
+      it { is_expected.to be_saved_change_to_connection }
+    end
+
+    context "when the configuration switched to basic auth" do
+      before { jira.update!(auth_method: "basic", basic_auth_username: "user", basic_auth_password: "secret") }
+
+      it { is_expected.to be_saved_change_to_connection }
+    end
+  end
 end

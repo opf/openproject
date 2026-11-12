@@ -42,8 +42,12 @@ RSpec.describe Admin::Import::JiraController do
     }
   end
 
+  let(:connection_check) { ServiceResult.success(result: instance_double(HealthReport, unhealthy?: false)) }
+
   before do
     login_as(admin)
+    allow(Import::Jiras::CheckConnectionService).to receive(:new)
+      .and_return(instance_double(Import::Jiras::CheckConnectionService, call: connection_check))
   end
 
   describe "authorization" do
@@ -218,6 +222,24 @@ RSpec.describe Admin::Import::JiraController do
         expect(Import::Jiras::CreateService).to have_received(:new).with(user: admin)
         expect(create_service).to have_received(:call)
       end
+
+      it "checks the connection of the saved configuration" do
+        post :create, params: { import_jira: jira_params }
+        expect(Import::Jiras::CheckConnectionService).to have_received(:new).with(jira)
+      end
+
+      context "when the connection check fails" do
+        let(:connection_check) { ServiceResult.failure(result: instance_double(HealthReport, id: 42, unhealthy?: true)) }
+
+        it "opens the failed connection check on the edit page of the saved configuration" do
+          post :create, params: { import_jira: jira_params }
+
+          expect(response).to redirect_to(edit_admin_import_jira_path(jira))
+          expect(flash[:op_modal]).to eq(component: Admin::Import::Jira::ConnectionCheckDialogComponent.name,
+                                         parameters: { health_report_id: 42 })
+          expect(flash[:notice]).to be_nil
+        end
+      end
     end
 
     context "when creation fails" do
@@ -295,6 +317,46 @@ RSpec.describe Admin::Import::JiraController do
         patch :update, params: { id: jira.id, import_jira: update_params }
         expect(Import::Jiras::UpdateService).to have_received(:new).with(user: admin, model: jira)
         expect(update_service).to have_received(:call)
+      end
+    end
+
+    context "when saving changed connection settings" do
+      let(:jira) { create(:jira, name: "My Jira") }
+
+      before { allow(Import::Jiras::UpdateService).to receive(:new).and_call_original }
+
+      it "checks the connection of the saved configuration" do
+        patch :update, params: { id: jira.id, import_jira: { url: "https://updated.example.com" } }
+
+        expect(Import::Jiras::CheckConnectionService).to have_received(:new).with(jira)
+        expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
+        expect(response).to redirect_to(admin_import_jira_path(jira.id))
+      end
+
+      context "when the connection check fails" do
+        let(:connection_check) { ServiceResult.failure(result: instance_double(HealthReport, id: 42, unhealthy?: true)) }
+
+        it "opens the failed connection check on the edit page" do
+          patch :update, params: { id: jira.id, import_jira: { url: "https://updated.example.com" } }
+
+          expect(response).to redirect_to(edit_admin_import_jira_path(jira))
+          expect(flash[:op_modal]).to eq(component: Admin::Import::Jira::ConnectionCheckDialogComponent.name,
+                                         parameters: { health_report_id: 42 })
+          expect(flash[:notice]).to be_nil
+        end
+      end
+    end
+
+    context "when saving only a new name" do
+      before { allow(Import::Jiras::UpdateService).to receive(:new).and_call_original }
+
+      it "saves without checking the connection" do
+        patch :update, params: { id: jira.id, import_jira: { name: "Renamed" } }
+
+        expect(Import::Jiras::CheckConnectionService).not_to have_received(:new)
+        expect(jira.reload.name).to eq("Renamed")
+        expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
+        expect(response).to redirect_to(admin_import_jira_path(jira.id))
       end
     end
 
