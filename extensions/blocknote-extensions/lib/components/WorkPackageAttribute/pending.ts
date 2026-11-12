@@ -1,7 +1,7 @@
 import type { AnyEditor } from '../../editorTypes';
-import { canBlockWorkPackageReplaceCurrentBlock } from '../../utils/blockContent';
 import { BLOCK_WP_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
 import { createPendingRegistry } from '../../utils/pending';
+import { insertBlockInLine } from '../../utils/blockInLine';
 import { findPendingInline, inPlaceHandlers, insertPendingInline, rangeWithSpacer } from '../../utils/pendingInline';
 import { attributeInlineConfig } from './inlineConfig';
 import type { AttributeNodeKind } from './externalHtml';
@@ -32,20 +32,11 @@ export function insertPendingAttribute(editor:AnyEditor):void {
   });
 }
 
-// A long text takes the place of the placeholder's line, or follows it when that line holds more.
 function replaceWithBlock(editor:AnyEditor, pendingWpid:string, choice:AttributeChoice):void {
   const found = findPendingInline(editor.prosemirrorState.doc, pendingWpid, attributeInlineConfig.type);
   if (!found) return;
 
   editor.focus();
   const [from, to] = rangeWithSpacer(editor.prosemirrorState.doc, found);
-  editor.transact(() => {
-    editor.transact((tr) => {
-      tr.delete(from, to);
-    });
-    const line = editor.getTextCursorPosition().block;
-    const block = { type: BLOCK_WP_ATTRIBUTE_TYPE, props: choice } as Parameters<typeof editor.insertBlocks>[0][number];
-    if (canBlockWorkPackageReplaceCurrentBlock(editor)) editor.replaceBlocks([line], [block]);
-    else editor.insertBlocks([block], line, 'after');
-  });
+  insertBlockInLine(editor, { from, to }, { type: BLOCK_WP_ATTRIBUTE_TYPE, props: { ...choice } });
 }
