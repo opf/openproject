@@ -137,10 +137,10 @@ he:
         commented: תגובות
       custom_field:
         admin_only: Admin-only
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Allow non-open versions
         content_right_to_left: Right-to-Left content
         default_value: ערך ברירת המחדל
-        editable: ניתן לעריכה
         field_format: תצורה
         formula: Formula
         has_comment: Add a comment text field
@@ -153,10 +153,12 @@ he:
         min_value: Minimum value
         multi_value: Allow multi-select
         possible_values: הערכים האפשריים
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: ביטוי רגולרי
         searchable: ניתן לחיפוש
         semantic_key: Semantic meaning
+        user_self_editable: Editable
         visible_on_user_card: Show on user card
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -342,6 +344,10 @@ he:
         custom_field_section: Section
       project_type:
         variant: Variant
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: Child work packages
         column_names: עמודות
@@ -715,6 +721,8 @@ he:
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
@@ -728,6 +736,10 @@ he:
           attributes:
             project_ids:
               blank: Please select a project.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -860,6 +872,10 @@ he:
             variant:
               must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -2257,6 +2273,37 @@ he:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
@@ -2938,6 +2985,8 @@ he:
           item:
             description: Add items to this list to create sub-items inside another one
             title: This item doesn't have any hierarchy level below
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item.
             title: Your list of items is empty
@@ -3006,8 +3055,6 @@ he:
       admin_only:
         all: Check to make this custom field only visible to administrators. Users without admin rights will not be able to view or edit it.
         project: Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it.
-      editable:
-        all: Allow the field to be editable by users themselves.
       formula:
         project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
@@ -3037,6 +3084,8 @@ he:
       searchable:
         all: Include the field values when using the global search functionality.
         project: Check to make this attribute available as a filter in project lists.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     is_enabled_globally: Is enabled globally
@@ -3058,6 +3107,11 @@ he:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -5267,6 +5321,7 @@ he:
       mail_notification: התראות דוא"ל
       mails_and_notifications: Emails and notifications
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: Add…
@@ -5751,6 +5806,9 @@ he:
           not_unique: must be unique within the same hierarchy level.
         parent:
           not_descendant: must be a descendant of the hierarchy root.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: must be unique within the same hierarchy level.
       str?: must be a string.
@@ -6783,6 +6841,12 @@ he:
   setting_user_format: Users name format
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Display welcome block on homescreen
   setting_welcome_text: Welcome block text
   setting_welcome_title: Welcome block title

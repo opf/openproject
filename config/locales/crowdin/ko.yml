@@ -137,10 +137,10 @@ ko:
         commented: 덧글을 달았습니다.
       custom_field:
         admin_only: 관리자 전용
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: 비공개 버전 허용
         content_right_to_left: 오른쪽에서 왼쪽 콘텐츠
         default_value: 기본값
-        editable: 편집 가능
         field_format: 형식
         formula: 공식
         has_comment: 코멘트 텍스트 필드 추가
@@ -153,10 +153,12 @@ ko:
         min_value: 최소값
         multi_value: 다중 선택 허용
         possible_values: 가능한 값
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: 정규 표현식
         searchable: 검색가능한
         semantic_key: 시맨틱 의미
+        user_self_editable: Editable
         visible_on_user_card: 사용자 카드에 표시
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -342,6 +344,10 @@ ko:
         custom_field_section: 섹션
       project_type:
         variant: 변형
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: 자식 작업 패키지
         column_names: 컬럼
@@ -715,6 +721,8 @@ ko:
               invalid_tokens: 정수, 부동 소수점, 계산된 값 및 가중치 목록 유형의 숫자 값, 연산자, 함수, 키워드 및 프로젝트 특성만 허용됩니다.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: "%{custom_fields} 특성은 순환 참조로 이어지기 때문에 사용할 수 없습니다. 한 특성이 다른 특성에 종속됩니다."
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
@@ -726,6 +734,10 @@ ko:
           attributes:
             project_ids:
               blank: 프로젝트를 선택하세요.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -858,6 +870,10 @@ ko:
             variant:
               must_be_owned_by_the_project: "- 다른 프로젝트가 소유하고 있는 변형이 아니어야 합니다."
               must_belong_to_the_type: "- 프로젝트에서 사용하는 유형의 변형이어야 합니다."
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -2015,6 +2031,37 @@ ko:
           error: 해당 섹션의 순서를 변경할 수 없습니다.
         move:
           error: 해당 섹션의 순서를 변경할 수 없습니다.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: 해당 섹션을 삭제할 수 없습니다.
@@ -2686,6 +2733,8 @@ ko:
           item:
             description: 이 목록에 항목을 추가하여 다른 목록 내에서 하위 항목을 만듭니다
             title: 이 항목에는 아래 계층 수준이 없습니다
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: 먼저 유형 계층의 사용자 지정 필드에 항목을 추가하여 시작하세요. 각 항목을 사용하여 그 아래에 계층을 만들 수 있습니다. 계층 내에서 탐색하고 하위 항목을 만들려면 생성된 항목을 클릭하세요.
             title: 항목 목록이 비어 있습니다
@@ -2754,8 +2803,6 @@ ko:
       admin_only:
         all: 이 사용자 지정 필드를 관리자에게만 표시하려면 선택합니다. 관리자 권한이 없는 사용자는 이 특성을 보거나 편집할 수 없습니다.
         project: 이 특성을 관리자에게만 표시하려면 선택합니다. 관리자 권한이 없는 사용자는 이 특성을 보거나 편집할 수 없습니다.
-      editable:
-        all: 사용자가 필드를 편집할 수 있도록 허용합니다.
       formula:
         project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
@@ -2785,6 +2832,8 @@ ko:
       searchable:
         all: 글로벌 검색 기능을 사용할 때 필드 값을 포함합니다.
         project: 프로젝트 목록에서 이 특성을 필터로 사용 가능하게 설정하려면 선택합니다.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: 이 항목을 선택하면, 애플리케이션 전반에서 사용자 위에 마우스를 올렸을 때 사용자 정보 카드에 이 필드의 값이 표시됩니다.
     is_enabled_globally: 는 세계적으로 사용 가능합니다.
@@ -2806,6 +2855,11 @@ ko:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -4923,6 +4977,7 @@ ko:
       mail_notification: 이메일 알림
       mails_and_notifications: 이메일 및 알림
       mcp_configurations: 모델 컨텍스트 프로토콜(MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: 추가…
@@ -5403,6 +5458,9 @@ ko:
           not_unique: "- 동일한 계층 수준 내에서 고유해야 합니다."
         parent:
           not_descendant: "- 계층 루트의 하위 항목이어야 합니다."
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: "- 동일한 계층 수준 내에서 고유해야 합니다."
       str?: "- 문자열이어야 합니다."
@@ -6404,6 +6462,12 @@ ko:
   setting_user_format: 사용자 이름 형식
   setting_users_deletable_by_admins: 관리자가 삭제 가능한 사용자 계정
   setting_users_deletable_by_self: 자신의 계정을 삭제하도록 허용된 사용자
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: 홈 화면에 환영 블록 표시
   setting_welcome_text: 환영 블록 텍스트
   setting_welcome_title: 환영 블록 제목

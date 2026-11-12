@@ -137,10 +137,10 @@ es:
         commented: Comentado
       custom_field:
         admin_only: Solo administradores
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Permitir versiones no abiertas
         content_right_to_left: Contenido de derecha a izquierda
         default_value: Valor predeterminado
-        editable: Editable
         field_format: Formato
         formula: Fórmula
         has_comment: Añadir un campo de texto de comentario
@@ -153,10 +153,12 @@ es:
         min_value: Valor mínimo
         multi_value: Permitir selección múltiple
         possible_values: Valores posibles
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Expresión regular
         searchable: Buscable
         semantic_key: Significado semántico
+        user_self_editable: Editable
         visible_on_user_card: Mostrar en la ficha de usuario
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -342,6 +344,10 @@ es:
         custom_field_section: Sección
       project_type:
         variant: Variante
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: Paquetes de trabajo secundarios
         column_names: Columnas
@@ -715,6 +721,8 @@ es:
               invalid_tokens: Solo se permiten valores numéricos, operadores, funciones, palabras clave y atributos de proyecto de tipo entero, flotante, valor calculado y lista ponderada.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: El atributo %{custom_fields} no se puede usar porque conduce a una referencia circular; un atributo depende del otro.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
@@ -727,6 +735,10 @@ es:
           attributes:
             project_ids:
               blank: Seleccione un proyecto.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -859,6 +871,10 @@ es:
             variant:
               must_be_owned_by_the_project: no debe ser una variante de otro proyecto propio.
               must_belong_to_the_type: debe ser una variante del tipo que se utiliza en el proyecto.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -2136,6 +2152,37 @@ es:
           error: No se ha podido reordenar la sección.
         move:
           error: No se ha podido reordenar la sección.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: No se ha podido eliminar la sección.
@@ -2809,6 +2856,8 @@ es:
           item:
             description: Añada elementos a esta lista para crear subelementos dentro de otra
             title: Este elemento no tiene ningún nivel de jerarquía inferior
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Comience añadiendo elementos al campo personalizado de tipo jerarquía. Cada elemento puede utilizarse para crear una jerarquía debajo de él. Para navegar y crear subelementos dentro de una jerarquía, haga clic en el elemento creado.
             title: Su lista de artículos está vacía
@@ -2877,8 +2926,6 @@ es:
       admin_only:
         all: Marque para que este campo personalizado solo sea visible para los administradores. Los usuarios sin derechos de administrador no podrán verlo ni editarlo.
         project: Marque esta casilla para que este atributo solo sea visible para los administradores. Los usuarios sin derechos de administrador no podrán verlo ni editarlo.
-      editable:
-        all: Permitir que el campo sea editable por los propios usuarios.
       formula:
         project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
@@ -2908,6 +2955,8 @@ es:
       searchable:
         all: Incluye los valores de los campos al usar la funcionalidad de búsqueda global.
         project: Marque esta casilla para que este atributo esté disponible como filtro en las listas de proyectos.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: Si se marca esta casilla, el valor de este campo aparecerá en la ficha de información del usuario al pasar el cursor por encima de un usuario en cualquier parte de la aplicación.
     is_enabled_globally: Está activado a nivel global
@@ -2929,6 +2978,11 @@ es:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -5085,6 +5139,7 @@ es:
       mail_notification: Notificaciones de correo electrónico
       mails_and_notifications: Correos electrónicos y notificaciones
       mcp_configurations: Protocolo de contexto de modelo (MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: Añadir…
@@ -5566,6 +5621,9 @@ es:
           not_unique: debe ser único dentro del mismo nivel de jerarquía.
         parent:
           not_descendant: debe ser descendiente de la raíz de la jerarquía.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: debe ser único dentro del mismo nivel de jerarquía.
       str?: debe ser una cadena.
@@ -6581,6 +6639,12 @@ es:
   setting_user_format: Formato de nombre de usuarios
   setting_users_deletable_by_admins: Cuentas de usuario eliminables por administradores
   setting_users_deletable_by_self: Permitir a los usuarios eliminar sus propias cuentas
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Mostrar bloque de bienvenida en la pagina de inicio
   setting_welcome_text: Bloque de texto de bienvenida
   setting_welcome_title: Título del bloque de bienvenida
@@ -7979,7 +8043,7 @@ es:
           automatic_with_children: Fechas determinadas por paquetes de trabajo secundarios.
           automatic_with_predecessor: La fecha de inicio la fija un predecesor.
           manual_mobile: Programado manualmente.
-          manually_scheduled: Programado manualmente. No afectadas por relaciones.
+          manually_scheduled: Programado manualmente. Fechas no afectadas por relaciones.
       blankslate:
         description: Para activar la programación automática, este paquete de trabajo debe tener al menos un predecesor. Entonces se programará automáticamente para que comience después del predecesor más cercano.
         title: Sin predecesores

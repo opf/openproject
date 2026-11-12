@@ -137,10 +137,10 @@ fa:
         commented: دارای دیدگاه
       custom_field:
         admin_only: فقط مدیر
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: اجازه نسخه‌های بازنشده
         content_right_to_left: محتوای راست‌به‌چپ
         default_value: مقدار پیش فرض
-        editable: قابل ویرایش
         field_format: قالب‎بندی
         formula: فرمول
         has_comment: افزودن فیلد متنی دیدگاه
@@ -153,10 +153,12 @@ fa:
         min_value: حداقل مقدار
         multi_value: اجازه انتخاب چندگانه
         possible_values: مقادیر ممکن
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: مقادیر ویژه هر پروژه
         regexp: عبارت منظم
         searchable: قابل جستجو
         semantic_key: معنای معنایی
+        user_self_editable: Editable
         visible_on_user_card: نمایش در کارت کاربر
       custom_field/project_specific_value_restriction:
         restriction: محدودیت
@@ -342,6 +344,10 @@ fa:
         custom_field_section: بخش
       project_type:
         variant: گونه
+      push_subscription:
+        created_at: افزوده‌شده
+        endpoint: نقطه پایانی
+        session_id: نشست
       query:
         child_work_packages: بسته‌های کاری فرزند
         column_names: ستون‌ها
@@ -713,6 +719,8 @@ fa:
               invalid_tokens: فقط مقادیر عددی، عملگرها، توابع، کلیدواژه‌ها و ویژگی‌های پروژه از نوع عدد صحیح، اعشاری، مقدار محاسبه‌شده و فهرست وزن‌دار مجاز هستند.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: ویژگی %{custom_fields} قابل استفاده نیست، زیرا باعث ارجاع دوری می‌شود؛ یک ویژگی به دیگری وابسته است.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: تنها برای فیلدهای سفارشی بسته کاری با قالب‌های فهرست، سلسله‌مراتب و فهرست اقلام وزن‌دار در دسترس است.
             required:
@@ -725,6 +733,10 @@ fa:
           attributes:
             project_ids:
               blank: لطفاً یک پروژه انتخاب کنید.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -857,6 +869,10 @@ fa:
             variant:
               must_be_owned_by_the_project: نباید گونه‌ای باشد که متعلق به پروژه دیگری است.
               must_belong_to_the_type: باید گونه‌ای از نوع مورد استفاده پروژه باشد.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: فقط %{count} دستگاه می‌توانند هم‌زمان اعلان‌های پوش مرورگر را دریافت کنند.
         queries/filters/base:
           attributes:
             values:
@@ -2134,6 +2150,37 @@ fa:
           error: ترتیب بخش تغییر نکرد.
         move:
           error: ترتیب بخش تغییر نکرد.
+      push_notifications:
+        checking: در حال بررسی…
+        description: کاربران می‌توانند نسخه برنامه وب پیش‌رونده (PWA) از OpenProject را در مرورگرهای جدید نصب کنند و در این صورت اعلان‌های بومی سیستم‌عامل درباره فعالیت‌های OpenProject را نیز دریافت کنند.
+        hosts_intro: 'OpenProject اعلان‌های پوش را از طریق سرویس پوشی ارسال می‌کند که مرورگر هر کاربر در آن عضو شده است. بررسی زیر با سرویس‌های پوش مرورگرهای اصلی و همه سرویس‌هایی که اشتراک فعالی دارند ارتباط برقرار می‌کند:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: کلید امضای پوش از طریق متغیر محیطی OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY تأمین می‌شود. برای نوسازی آن، مقدار متغیر را تغییر دهید.
+        key_renewed: کلید امضای پوش نوسازی شد. همه دستگاه‌ها باید دوباره اعلان‌های مرورگر را فعال کنند.
+        key_unreadable: کلید امضای پوش قابل خواندن نبود. برای بازیابی اعلان‌های مرورگر آن را نوسازی کنید؛ سپس همه دستگاه‌ها باید دوباره اعلان‌های مرورگر را فعال کنند.
+        reachable: قابل دسترسی
+        reasons:
+          connection: اتصال برقرار نشد
+          filtered: درخواست به‌وسیله محافظت SSRF مسدود شد
+          invalid_host: نام میزبان معتبر نیست
+          private_address: نام میزبان به یک نشانی خصوصی تبدیل شد
+          sample_unresolved: نام میزبان نمونه قابل تبدیل به نشانی نبود؛ نتیجه قطعی نیست
+          timeout: تا %{seconds} ثانیه پاسخی دریافت نشد
+          tls: دست‌دهی TLS ناموفق بود
+          unresolved: نام میزبان قابل تبدیل به نشانی نبود
+        renew_key: نوسازی کلیدها
+        renew_key_dialog:
+          confirm_button: نوسازی کلید
+          confirmation: می‌دانم که همه دستگاه‌ها باید اعلان‌های مرورگر را دوباره فعال کنند.
+          description:
+            one: 'OpenProject هر اعلان مرورگر را با این کلید (VAPID) امضا می‌کند تا سرویس پوش هر مرورگر به آن اعتماد کند. کلید جدید اتصال همه دستگاه‌ها را قطع می‌کند: یک اشتراک موجود حذف می‌شود و همه کاربران باید در هر دستگاه اعلان‌های مرورگر را دوباره فعال کنند.'
+            other: 'OpenProject هر اعلان مرورگر را با این کلید (VAPID) امضا می‌کند تا سرویس پوش هر مرورگر به آن اعتماد کند. کلید جدید اتصال همه دستگاه‌ها را قطع می‌کند: %{count} اشتراک حذف می‌شوند و همه کاربران باید در هر دستگاه اعلان‌های مرورگر را دوباره فعال کنند.'
+            zero: 'OpenProject هر اعلان مرورگر را با این کلید (VAPID) امضا می‌کند تا سرویس پوش هر مرورگر به آن اعتماد کند. کلید جدید اتصال همه دستگاه‌ها را قطع می‌کند: هنوز اشتراکی وجود ندارد، اما همه کاربران باید در هر دستگاه اعلان‌های مرورگر را دوباره فعال کنند.'
+          heading: کلید امضای پوش نوسازی شود؟
+          title: نوسازی کلیدها
+        unreachable: غیرقابل دسترسی
+        verify_reachability: بررسی دسترسی‌پذیری
+        verify_reachability_description: برای بررسی اعلان‌ها، OpenProject یک اعلان پوش بیدارباش بدون محتوا می‌فرستد. سپس PWA نصب‌شده تعداد موارد خوانده‌نشده را از طریق نشست کاربر دریافت می‌کند. سرویس‌های پوش زیر می‌توانند نقطه پایانی اشتراک، نشانی این سامانه، کلید عمومی و زمان هر اعلان پوش را ببینند.
       user_custom_field_sections:
         destroy:
           error: بخش حذف نشد.
@@ -2427,7 +2474,7 @@ fa:
     body: بدنه
     category: دسته‌بندی
     color: رنگ
-    comment: دیدگاه
+    comment: نظر
     comments: دیدگاه
     content: محتوا
     created_at: ایجادشده در
@@ -2811,6 +2858,8 @@ fa:
           item:
             description: برای ایجاد زیرمورد داخل مورد دیگر، موارد را به این فهرست اضافه کنید
             title: این مورد هیچ سطح سلسله‌مراتبی پایین‌تری ندارد
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: با افزودن موارد به فیلد سفارشی از نوع سلسله‌مراتب شروع کنید. هر مورد می‌تواند برای ایجاد سلسله‌مراتب زیر آن استفاده شود. برای پیمایش و ایجاد زیرمورد در یک سلسله‌مراتب روی مورد ایجادشده کلیک کنید.
             title: فهرست موارد شما خالی است
@@ -2877,8 +2926,6 @@ fa:
       admin_only:
         all: برای اینکه این فیلد سفارشی فقط برای مدیران قابل مشاهده باشد این گزینه را فعال کنید. کاربران بدون دسترسی مدیر امکان مشاهده یا ویرایش آن را نخواهند داشت.
         project: برای اینکه این ویژگی فقط برای مدیران قابل مشاهده باشد این گزینه را فعال کنید. کاربران بدون دسترسی مدیر امکان مشاهده یا ویرایش آن را نخواهند داشت.
-      editable:
-        all: اجازه دهید فیلد توسط خود کاربران قابل ویرایش باشد.
       formula:
         project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
@@ -2908,6 +2955,8 @@ fa:
       searchable:
         all: هنگام استفاده از جستجوی سراسری، مقادیر فیلد را در جستجو لحاظ کنید.
         project: برای در دسترس قراردادن این ویژگی به‌عنوان فیلتر در فهرست پروژه‌ها این گزینه را فعال کنید.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: در صورت فعال‌بودن، مقدار این فیلد هنگام قرارگرفتن نشانگر روی کاربر در سراسر برنامه، در کارت اطلاعات کاربر نمایش داده می‌شود.
     is_enabled_globally: به‌صورت سراسری فعال است
@@ -2929,6 +2978,11 @@ fa:
       block:
         caption: به‌صورت پیش‌فرض، همه مقادیر در همه پروژه‌ها در دسترس هستند، اما می‌توانید مقادیر مشخصی را برای هر پروژه به‌صورت دستی غیرفعال کنید.
         label: 'فیلتر مسدودسازی: مقادیری را که باید برای هر پروژه غیرفعال شوند، به‌صورت دستی انتخاب کنید'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: همه مقادیر در همه پروژه‌ها در دسترس خواهند بود.
         allow: تا زمانی که مقادیر را برای هر پروژه جداگانه و به‌صورت دستی فعال نکنید، هیچ مقداری در هیچ پروژه‌ای در دسترس نخواهد بود.
@@ -5090,6 +5144,7 @@ fa:
       mail_notification: اعلان‌های ایمیلی
       mails_and_notifications: ایمیل‌ها و اعلان‌ها
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: اعلان‌های مرورگر
       text_actions: دستیار متن
     quick_add:
       label: افزودن…
@@ -5571,6 +5626,9 @@ fa:
           not_unique: باید در همان سطح سلسله‌مراتب یکتا باشد.
         parent:
           not_descendant: باید فرزند ریشه سلسله‌مراتب باشد.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: باید در همان سطح سلسله‌مراتب یکتا باشد.
       str?: باید رشته باشد.
@@ -6592,6 +6650,12 @@ fa:
   setting_user_format: قالب نام کاربران
   setting_users_deletable_by_admins: امکان حذف حساب کاربران توسط مدیران
   setting_users_deletable_by_self: اجازه کاربران برای حذف حساب خود
+  setting_web_push_enabled: اعلان‌های مرورگر
+  setting_web_push_enabled_caption: به کاربرانی که OpenProject را به‌صورت برنامه وب پیش‌رونده نصب کرده‌اند اجازه می‌دهد هنگام داشتن اعلان خوانده‌نشده، اعلان سیستم‌عامل دریافت کنند.
+  setting_web_push_enabled_false: اعلان‌های مرورگر مجاز نباشد
+  setting_web_push_enabled_false_caption: کاربران حتی با داشتن PWA نصب‌شده نمی‌توانند اعلان‌های مرورگر را در تنظیمات حسابشان فعال کنند.
+  setting_web_push_enabled_true: اجازه اعلان‌های مرورگر
+  setting_web_push_enabled_true_caption: کاربران در صورت نصب PWA می‌توانند اعلان‌های مرورگر را در تنظیمات حساب خود فعال کنند.
   setting_welcome_on_homescreen: نمایش بلوک خوش‌آمدگویی در صفحه خانه
   setting_welcome_text: متن بلوک خوش‌آمدگویی
   setting_welcome_title: عنوان بلوک خوش‌آمدگویی

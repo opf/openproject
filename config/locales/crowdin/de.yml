@@ -137,10 +137,10 @@ de:
         commented: Kommentiert
       custom_field:
         admin_only: Nur für Administratoren
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Erlaube nicht-offene Versionen
         content_right_to_left: Linksläufiger Inhalt
         default_value: Standardwert
-        editable: Bearbeitbar
         field_format: Format
         formula: Formel
         has_comment: Ein Kommentarfeld hinzufügen
@@ -153,10 +153,12 @@ de:
         min_value: Minimal erlaubter Wert
         multi_value: Mehrfachauswahl zulassen
         possible_values: Mögliche Werte
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Projektspezifische Werte
         regexp: Regulärer Ausdruck
         searchable: Durchsuchbar
         semantic_key: Semantische Bedeutung
+        user_self_editable: Editable
         visible_on_user_card: Auf Benutzerkarte anzeigen
       custom_field/project_specific_value_restriction:
         restriction: Beschränkung
@@ -342,8 +344,12 @@ de:
         custom_field_section: Abschnitt
       project_type:
         variant: Variante
+      push_subscription:
+        created_at: Hinzugefügt
+        endpoint: Endpunkt
+        session_id: Sitzung
       query:
-        child_work_packages: Unteraufgaben
+        child_work_packages: Kinder
         column_names: Spalten
         columns: Spalten
         display_representation: Anzeigemodus
@@ -715,6 +721,8 @@ de:
               invalid_tokens: Nur numerische Werte, mathematische Operatoren, Funktionen, Schlüsselworte und Projektattribute vom Typ Integer, Float, Berechneter Wert und Gewichtete Liste sind erlaubt.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: Das Attribut %{custom_fields} kann nicht verwendet werden, da es zu einem Zirkelbezug führt; ein Attribut hängt vom anderen ab.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: ist nur für benutzerdefinierte Felder von Arbeitspaketen der Formate „Liste“, „Hierarchie“ und „gewichtete Elementliste“ verfügbar.
             required:
@@ -727,6 +735,10 @@ de:
           attributes:
             project_ids:
               blank: Bitte wählen Sie ein Projekt aus.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -859,6 +871,10 @@ de:
             variant:
               must_be_owned_by_the_project: Es darf sich nicht um eine Variante handeln, die zu einem anderen Projekt gehört.
               must_belong_to_the_type: muss eine Variante des Typs sein, den das Projekt verwendet.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1083,7 +1099,7 @@ de:
             target_versions:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
-              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unteraufgaben besitzt.
+              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unterelemente besitzt.
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge.'
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
           target_versions_only_allow_single_value: Zielversionen können nur einen einzigen Wert enthalten.
@@ -1560,7 +1576,7 @@ de:
         heading: Farbschema ändern?
         title: Farbschema ändern
     enterprise:
-      add_token: Enterprise-Edition Support Token hochladen
+      add_token: Enterprise edition Support Token hochladen
       book_now: Jetzt buchen
       buttons:
         contact: Kontaktieren Sie uns für eine Demo
@@ -1577,9 +1593,9 @@ de:
       enterprise_link: Klicken Sie hier für weitere Informationen.
       get_quote: Angebot anfordern
       order: Enterprise on-premises bestellen
-      paste: Enterprise-Edition Support Token hier einfügen
+      paste: Enterprise edition Support Token hier einfügen
       replace_token: Aktuellen Enterprise edition Support Token ersetzen
-      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar.
+      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar.
       start_trial: Kostenlose Testversion starten
       status:
         expired: Abgelaufen
@@ -2136,6 +2152,37 @@ de:
           error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
         move:
           error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: Der Abschnitt konnte nicht gelöscht werden.
@@ -2813,6 +2860,8 @@ de:
           item:
             description: Füge Elemente zu dieser Liste hinzu, um Unterelemente innerhalb eines anderen zu erstellen
             title: Dieses Element hat keine untergeordnete Hierarchieebene
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Beginnen Sie mit dem Hinzufügen von Elementen in das selbstdefinierte Feld der Typ-Hierarchie. Jedes Element kann verwendet werden, um eine Hierarchie darunter zu erstellen. Um Unterelemente innerhalb einer Hierarchie zu navigieren und zu erstellen, klicken Sie auf das erstellte Element.
             title: Ihre Liste der Elemente ist leer
@@ -2881,8 +2930,6 @@ de:
       admin_only:
         all: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
         project: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
-      editable:
-        all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
         project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
@@ -2912,6 +2959,8 @@ de:
       searchable:
         all: Inkludiert die Werte des Feldes in die globale Suche.
         project: Das Attribut kann als Filter in Projektlisten ausgewählt werden.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: Wenn diese Option aktiviert ist, wird der Wert dieses Feldes in der Benutzerinformationskarte angezeigt, wenn Sie über einen Benutzer in der Anwendung bewegen.
     is_enabled_globally: Für alle Projekte aktiviert
@@ -2933,6 +2982,11 @@ de:
       block:
         caption: Standardmäßig stehen alle Werte für alle Projekte zur Verfügung; Sie können jedoch bestimmte Werte für einzelne Projekte manuell deaktivieren.
         label: 'Werte deaktivieren: Wählen Sie für jedes Projekt manuell aus, welche Werte deaktiviert werden sollen'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: Alle Werte stehen in allen Projekten zur Verfügung.
         allow: In keinem Projekt werden Werte für dieses benutzerdefinierte Feld angeboten, bis sie einzelne Werte für einzelne Projekte zugelassen haben.
@@ -3384,7 +3438,7 @@ de:
   error_custom_option_not_found: Option ist nicht vorhanden.
   error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten.
   error_enterprise_plan_needed: Sie benötigen den Enterprise-Plan %{plan}, um diese Aktion durchzuführen.
-  error_enterprise_token_invalid_domain: Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
+  error_enterprise_token_invalid_domain: Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
   error_external_authentication_failed_message: 'Die externe Authentifizierung ist fehlgeschlagen: %{message}'
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_in_dependent: 'Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
@@ -3898,7 +3952,7 @@ de:
       meeting_series_backlog_html: Backlog der Terminserie %{link}
       meeting_series_template_html: Vorlage der Terminserie %{link}
       meeting_template_html: Besprechungsvorlage %{link}
-      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-bezogen gesetzt
+      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
       status_percent_complete_changed: "% abgeschlossen von %{old_value}% auf %{new_value} % geändert"
@@ -4176,7 +4230,7 @@ de:
   label_end_to_start: Ende - Anfang
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: Enterprise Edition
+  label_enterprise_edition: Enterprise edition
   label_enterprise_support: Enterprise Support
   label_enumeration_new: Neuer Aufzählungswert
   label_enumeration_value: Aufzählungswert
@@ -5093,6 +5147,7 @@ de:
       mail_notification: Mailbenachrichtigung
       mails_and_notifications: E-Mails und Benachrichtigungen
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: Hinzufügen…
@@ -5578,6 +5633,9 @@ de:
           not_unique: muss innerhalb der gleichen Hierarchieebene eindeutig sein.
         parent:
           not_descendant: muss ein Unterelement der Hierarchiewurzel sein.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: muss innerhalb der gleichen Hierarchieebene eindeutig sein.
       str?: muss eine Zeichenkette sein.
@@ -6297,7 +6355,7 @@ de:
       not_available: Genutzter Festplattenspeicher ist nicht für dieses Projektarchiv verfügbar.
       oauth_application_details_html: 'Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:'
       oauth_application_details_link_text: Zu den Einstellungen gehen
-      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Dateispeichers benötigen, konsultieren Sie bitte die Dokumentation: '
+      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: '
       setup_documentation_details_link_text: Dateispeicher einrichten
       show_warning_details: Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren.
       update_timeout: |-
@@ -6597,6 +6655,12 @@ de:
   setting_user_format: Format des Benutzernamens
   setting_users_deletable_by_admins: Admins können Nutzeraccounts löschen
   setting_users_deletable_by_self: Nutzer können ihren Account löschen
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_welcome_text: Text für Willkommens-Block
   setting_welcome_title: Titel des Willkommens-Block
@@ -7803,7 +7867,7 @@ de:
   warning_user_limit_reached_admin_html: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte [aktualisieren Sie Ihr Abonnement](upgrade_url) um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
 
     '
-  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
 
     '
   wiki:
@@ -7880,7 +7944,7 @@ de:
       blocked_by_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocked_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocks_description: Das verknüpfte Arbeitspaket kann erst geschlossen werden, wenn dieses Arbeitspaket geschlossen ist
-      child: Unteraufgabe
+      child: Kind
       child_description: Macht das zugehörige Arbeitspaket zu einer Unteraufgabe des aktuellen (übergeordneten) Arbeitspakets
       duplicated_by_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
       duplicated_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
@@ -7993,7 +8057,7 @@ de:
           manual_with_children: Hat Unteraufgaben aber ihre Startdaten werden ignoriert.
         title:
           automatic_mobile: Automatisch geplant.
-          automatic_with_children: Unteraufgaben bestimmen Termine.
+          automatic_with_children: Die Termine sind durch untergeordnete Arbeitspakete bestimmt.
           automatic_with_predecessor: Der Anfangstermin wird von einem Vorgänger festgelegt.
           manual_mobile: Manuell geplant.
           manually_scheduled: Manuell geplant – Daten unabhängig von Beziehungen.

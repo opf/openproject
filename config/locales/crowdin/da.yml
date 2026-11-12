@@ -137,10 +137,10 @@ da:
         commented: Kommenterede
       custom_field:
         admin_only: Kun for administratorer
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Tillad versioner, der ikke er åbne
         content_right_to_left: Indhold fra højre mod venstre
         default_value: Forhåndsvalgt værdi
-        editable: Redigerbar
         field_format: Format
         formula: Formel
         has_comment: Tilføj et tekstfelt til en kommentar
@@ -153,10 +153,12 @@ da:
         min_value: Mindste værdi
         multi_value: Tillad flere valg
         possible_values: Mulige værdier
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Projektspecifikke værdier
         regexp: Regulært udtryk
         searchable: Søgbar
         semantic_key: Semantisk betydning
+        user_self_editable: Redigerbar
         visible_on_user_card: Vis på brugerkortet
       custom_field/project_specific_value_restriction:
         restriction: Begrænsning
@@ -342,6 +344,10 @@ da:
         custom_field_section: Afsnit
       project_type:
         variant: Variant
+      push_subscription:
+        created_at: Tilføjet
+        endpoint: Endepunkt
+        session_id: Session
       query:
         child_work_packages: Underordnede arbejdspakker
         column_names: Kolonner
@@ -715,6 +721,8 @@ da:
               invalid_tokens: Kun talværdier, operatorer, funktioner, nøgleord og projektattributter af typen heltal, decimaltal, beregnet værdi og vægtet liste er tilladt.
               multi_value_list_not_aggregated: Attributter med flere valg (%{custom_fields}) kan kun bruges i aggregeringsfunktioner.
               not_allowed_custom_fields_referenced: 'Attributten %{custom_fields} kan ikke bruges, fordi den fører til en cirkulær reference: Den ene attribut afhænger af den anden.'
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: er kun tilgængelig for brugerdefinerede felter til arbejdspakker af formaterne liste, hierarki og vægtet liste.
             required:
@@ -727,6 +735,10 @@ da:
           attributes:
             project_ids:
               blank: Vælg et projekt.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -859,6 +871,10 @@ da:
             variant:
               must_be_owned_by_the_project: må ikke være en variant, som et andet projekt ejer.
               must_belong_to_the_type: skal være en variant af den type, projektet bruger.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Kun %{count} enheder kan få browsernotifikationer på samme tid.
         queries/filters/base:
           attributes:
             values:
@@ -2136,6 +2152,37 @@ da:
           error: Afsnittets placering kunne ikke ændres.
         move:
           error: Afsnittets placering kunne ikke ændres.
+      push_notifications:
+        checking: Tjekker …
+        description: Brugerne kan vælge at installere OpenProject som en progressiv webapp (PWA) i moderne browsere. Gør de det, kan de også få notifikationer fra styresystemet om aktivitet i OpenProject.
+        hosts_intro: 'OpenProject sender push til den push-tjeneste, som den enkelte brugers browser abonnerer via. Tjekket nedenfor kontakter de store browseres push-tjenester og alle tjenester, som et eksisterende abonnement bruger:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: Push-signeringsnøglen angives med miljøvariablen OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY. Skift variablen for at forny nøglen.
+        key_renewed: Push-signeringsnøglen er fornyet. Alle enheder skal slå browsernotifikationer til igen.
+        key_unreadable: Push-signeringsnøglen kunne ikke læses. Forny den for at få browsernotifikationerne tilbage. Derefter skal alle enheder slå browsernotifikationer til igen.
+        reachable: Kan nås
+        reasons:
+          connection: Forbindelsen mislykkedes
+          filtered: Anmodningen blev blokeret af SSRF-beskyttelsen
+          invalid_host: Værtsnavnet er ugyldigt
+          private_address: Værten peger på en privat adresse
+          sample_unresolved: Eksempelværten kunne ikke slås op; resultatet er ikke entydigt
+          timeout: Intet svar inden for %{seconds} sekunder
+          tls: TLS-handshake mislykkedes
+          unresolved: Værtsnavnet kunne ikke slås op
+        renew_key: Forny nøgler
+        renew_key_dialog:
+          confirm_button: Forny nøglen
+          confirmation: Jeg forstår, at alle enheder skal slå browsernotifikationer til igen.
+          description:
+            one: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: det ene eksisterende abonnement slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            other: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: %{count} abonnementer slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            zero: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: der findes endnu ingen abonnementer, men alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+          heading: Vil du forny push-signeringsnøglen?
+          title: Forny nøgler
+        unreachable: Kan ikke nås
+        verify_reachability: Tjek, om tjenesterne kan nås
+        verify_reachability_description: For at tjekke for notifikationer sender OpenProject en push uden indhold, der vækker appen. Den installerede PWA henter derefter antallet af ulæste over brugerens session. Følgende push-tjenester ser abonnementets endepunkt, denne installations adresse og offentlige nøgle samt tidspunktet for hver push.
       user_custom_field_sections:
         destroy:
           error: Afsnittet kunne ikke slettes.
@@ -2813,6 +2860,8 @@ da:
           item:
             description: Tilføj elementer til listen for at oprette underelementer i et andet element
             title: Elementet har ikke noget hierarkiniveau under sig
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Begynd med at tilføje elementer til hierarkiet. Hvert element kan have sine egne underelementer. Klik på et element for at åbne det og tilføje underelementer.
             title: Din liste over elementer er tom
@@ -2881,8 +2930,6 @@ da:
       admin_only:
         all: Markér feltet for kun at vise det brugerdefinerede felt for administratorer. Brugere uden administratorrettigheder kan hverken se eller redigere det.
         project: Markér feltet for kun at vise attributten for administratorer. Brugere uden administratorrettigheder kan hverken se eller redigere den.
-      editable:
-        all: Lad brugerne selv redigere feltet.
       formula:
         project: Tilføj talværdier, eller skriv / for at søge efter en attribut, operator, funktion eller et andet element. Se [dokumentationen om formelsyntaks](docs_url) for at få en oversigt.
       has_comment:
@@ -2912,6 +2959,8 @@ da:
       searchable:
         all: Medtag feltets værdier, når der søges med den globale søgning.
         project: Markér feltet for at gøre attributten tilgængelig som filter i projektlister.
+      user_self_editable:
+        all: Lad brugerne selv redigere feltet.
       visible_on_user_card:
         all: Når feltet er markeret, vises værdien på brugerens informationskort, når man holder musen over en bruger i programmet.
     is_enabled_globally: Er aktiveret globalt
@@ -2933,6 +2982,11 @@ da:
       block:
         caption: Som standard er alle værdier tilgængelige for alle projekter, men du kan manuelt deaktivere bestemte værdier for enkelte projekter.
         label: 'Blokeringsfilter: Vælg manuelt, hvilke værdier der skal deaktiveres for hvert projekt'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: Alle værdier bliver tilgængelige i alle projekter.
         allow: Ingen værdier bliver tilgængelige for noget projekt, medmindre du aktiverer dem manuelt i hvert enkelt projekt.
@@ -4166,7 +4220,7 @@ da:
   label_duplicate: dublet
   label_duplicated_by: dubleret af
   label_duplicates: dublerer
-  label_edit: Rediger
+  label_edit: Redigér
   label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
   label_enable_multi_select: Slå flervalg til/fra
@@ -5095,6 +5149,7 @@ da:
       mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browsernotifikationer
       text_actions: Tekstassistent
     quick_add:
       label: Tilføj …
@@ -5574,6 +5629,9 @@ da:
           not_unique: skal være entydig på samme niveau i hierarkiet.
         parent:
           not_descendant: skal ligge under hierarkiets rod.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: skal være entydig på samme niveau i hierarkiet.
       str?: skal være en streng.
@@ -6589,6 +6647,12 @@ da:
   setting_user_format: Format for brugernavne
   setting_users_deletable_by_admins: Brugerens konti kan slettes af administratorer
   setting_users_deletable_by_self: Brugererne kan selv slette deres konti
+  setting_web_push_enabled: Browsernotifikationer
+  setting_web_push_enabled_caption: Lader brugere, der har installeret OpenProject som en progressiv webapp, få notifikationer fra styresystemet, når de har ulæste notifikationer i OpenProject.
+  setting_web_push_enabled_false: Tillad ikke browsernotifikationer
+  setting_web_push_enabled_false_caption: Brugerne kan ikke slå browsernotifikationer til i deres kontoindstillinger, heller ikke hvis de har installeret PWA'en
+  setting_web_push_enabled_true: Tillad browsernotifikationer
+  setting_web_push_enabled_true_caption: Brugerne kan slå browsernotifikationer til i deres kontoindstillinger, hvis de har installeret PWA'en
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel
