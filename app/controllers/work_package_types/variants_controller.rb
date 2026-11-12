@@ -55,12 +55,14 @@ module WorkPackageTypes
 
     def deletion_dialog
       variant = named_variant
-      targets = variant.migration_targets.in_display_order
 
-      respond_with_dialog Types::VariantDeletionDialogComponent.new(
-        variant:, targets:, selected: targets.first, impact: deletion_impact(variant, targets.first),
-        url: type_variant_path(type_id: variant.type_id, id: variant.id)
-      )
+      if variant.project_types.exists?
+        respond_with_dialog migration_deletion_dialog(variant)
+      else
+        respond_with_dialog Types::UnusedVariantDeletionDialogComponent.new(
+          variant:, url: deletion_path(variant)
+        )
+      end
     end
 
     def deletion_preview
@@ -144,6 +146,19 @@ module WorkPackageTypes
       addressable.find(params.expect(:id))
     end
 
+    def migration_deletion_dialog(variant)
+      targets = variant.migration_targets.in_display_order
+
+      Types::VariantDeletionDialogComponent.new(
+        variant:, targets:, selected: targets.first, impact: deletion_impact(variant, targets.first),
+        url: deletion_path(variant)
+      )
+    end
+
+    def deletion_path(variant)
+      type_variant_path(type_id: variant.type_id, id: variant.id, back_url: params[:back_url])
+    end
+
     def chosen_target(variant)
       return if params[:target_id].blank?
 
@@ -171,7 +186,7 @@ module WorkPackageTypes
         component: Types::DeletionFormComponent.new(
           variant:, targets: variant.migration_targets.in_display_order, selected: target,
           impact: deletion_impact(variant, target),
-          url: type_variant_path(type_id: variant.type_id, id: variant.id),
+          url: deletion_path(variant),
           validation_message: service_call.errors.full_messages.to_sentence
         )
       )

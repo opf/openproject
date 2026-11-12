@@ -7743,6 +7743,10 @@ en:
         delete:
           description: "The projects using this variant will be switched to the variant you choose below before this variant is deleted."
           title: "Delete %{name}"
+          unused:
+            description: "The variant will be deleted permanently. This action cannot be undone."
+            heading: "Delete variant '%{name}'?"
+            title: "Delete variant"
         filter: "Filter by text"
         filter_no_results: "No variants match this filter"
         global_section:
