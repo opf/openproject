@@ -107,11 +107,18 @@ module WorkPackageTypes
         @exclusion_toggle ||= ExclusionToggleComponent.new(
           exclusions: @context.exclusions,
           element_key: @attribute[:key],
-          label: t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation])
+          label: t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation]),
+          enabled: !required_and_included?
         )
       end
 
       private
+
+      def required_and_included?
+        @attribute[:is_cf] &&
+          (@attribute[:required_globally] || @attribute[:required_for_variant]) &&
+          !@context.exclusions&.excluded?(@attribute[:key])
+      end
 
       def sortable?
         !readonly? && sortable_attribute?(@attribute)

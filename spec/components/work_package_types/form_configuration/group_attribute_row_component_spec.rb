@@ -110,6 +110,44 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
         expect(toggle["aria-label"]).to eq("Inherit Assignee")
         expect(toggle["aria-pressed"]).to eq("true")
       end
+
+      describe "for a custom field" do
+        let(:custom_field_toggle) do
+          page.find("[data-test-selector='toggle-form-config-exclusion-custom_field_5'] > button")
+        end
+
+        def render_custom_field_row(**flags)
+          render_row(attribute: { id: 2, key: "custom_field_5", is_cf: true, required_globally: false,
+                                  required_for_variant: false, translation: "Alt description", **flags })
+        end
+
+        it "can be switched off while optional" do
+          render_custom_field_row
+
+          expect(custom_field_toggle).not_to be_disabled
+        end
+
+        it "cannot be switched off while required for all types" do
+          render_custom_field_row(required_globally: true)
+
+          expect(custom_field_toggle).to be_disabled
+        end
+
+        it "cannot be switched off while required for this type" do
+          render_custom_field_row(required_for_variant: true)
+
+          expect(custom_field_toggle).to be_disabled
+        end
+
+        it "can be switched back on once off, even when required for all types" do
+          exclude_configuration_elements(variant, aspect: TypeVariant::FORM_CONFIGURATION,
+                                                  elements: %w[custom_field_5])
+
+          render_custom_field_row(required_globally: true)
+
+          expect(custom_field_toggle).not_to be_disabled
+        end
+      end
     end
   end
 

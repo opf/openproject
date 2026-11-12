@@ -33,12 +33,13 @@ module WorkPackageTypes
     class ExclusionToggleComponent < WorkPackageTypes::ExclusionToggleComponent
       ASPECT = TypeVariant::FORM_CONFIGURATION
 
-      def initialize(exclusions:, element_key:, label:)
+      def initialize(exclusions:, element_key:, label:, enabled: true)
         super(
           exclusions:,
           element_key:,
           label:,
           aspect: ASPECT,
+          enabled:,
           test_selector: "toggle-form-config-exclusion-#{element_key}"
         )
       end
