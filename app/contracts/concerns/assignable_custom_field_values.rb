@@ -34,7 +34,7 @@ module AssignableCustomFieldValues
     def assignable_custom_field_values(custom_field)
       case custom_field.field_format
       when "list"
-        if custom_field.project_specific_value_restriction
+        if custom_field.project_specific_values_supported?
           custom_field.usable_values_in(project)
         else
           custom_field.possible_values
