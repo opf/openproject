@@ -37,6 +37,8 @@ module Components
       include RSpec::Matchers
       include Toasts::Expectations
 
+      MENU_LABEL = "More actions"
+
       def open_and_save_query(name)
         open_and_choose("Save")
         within_modal_fill_in_and_save(name:)
@@ -48,45 +50,45 @@ module Components
       end
 
       def open_and_choose(name)
-        retry_block do
-          open!
-          choose(name)
-        end
+        open!
+        choose(name)
       end
 
       def open!
-        click_on "work-packages-settings-button"
+        find_by_id("work-packages-settings-button").click
         dropdown_menu
       end
 
       def dropdown_menu
-        page.find(selector)
+        page.find(:menu, MENU_LABEL)
       end
 
       def expect_open
-        expect(page).to have_selector(selector)
+        expect(page).to have_selector(:menu, MENU_LABEL)
       end
 
       def expect_closed
-        expect(page).to have_no_selector(selector)
+        expect(page).to have_no_selector(:menu, MENU_LABEL)
       end
 
       def choose(target)
-        find("#{selector} .menu-item", text: target, match: :prefer_exact).click
+        within(:menu, MENU_LABEL) do
+          if target.is_a?(Regexp)
+            find(:menuitem, text: target).click
+          else
+            find(:menuitem, target, exact: true).click
+          end
+        end
       end
 
       def expect_options(*options)
         expect_open
         options.each do |text|
-          expect(page).to have_css("#{selector} a", text:)
+          expect(page).to have_selector(:menuitem, text, exact: true)
         end
       end
 
       private
-
-      def selector
-        "#settingsDropdown"
-      end
 
       def within_modal_fill_in_and_save(name:)
         modal.within_modal do

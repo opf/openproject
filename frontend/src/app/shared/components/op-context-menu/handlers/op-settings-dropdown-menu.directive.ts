@@ -28,9 +28,9 @@
 import { Directive, Injector, Input, AfterViewInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import {
-  OpContextMenuTrigger,
-} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { withOcticon } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-menu-octicons';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -62,9 +62,8 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 
 @Directive({
   selector: '[opSettingsContextMenu]',
-  standalone: false,
 })
-export class OpSettingsMenuDirective extends OpContextMenuTrigger implements AfterViewInit {
+export class OpSettingsMenuDirective extends OpActionMenuItems implements AfterViewInit {
   readonly opModalService = inject(OpModalService);
   readonly wpListService = inject(WorkPackagesListService);
   readonly authorisationService = inject(AuthorisationService);
@@ -87,11 +86,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
 
   private loadingPromise:PromiseLike<unknown>;
 
-  override readonly placement = 'bottom-end';
-
   ngAfterViewInit():void {
-    super.ngAfterViewInit();
-
     this.querySpace.query.values$()
       .pipe(
         this.untilDestroyed(),
@@ -111,24 +106,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
       });
   }
 
-  protected open(evt:Event) {
-    this.loadingPromise.then(() => {
-      this.buildItems();
-      this.opContextMenu.show(this, evt);
-    });
-  }
-
-  public get locals() {
-    return {
-      contextMenuId: 'settingsDropdown',
-      items: this.items,
-    };
-  }
-
-  public onClose(focus:boolean) {
-    if (focus) {
-      this.afterFocusOn.focus();
-    }
+  protected buildItems():PromiseLike<OpContextMenuItem[]> {
+    return this.loadingPromise.then(() => this.menuItems().map(withOcticon));
   }
 
   private allowQueryAction(event:Event, action:string) {
@@ -182,8 +161,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
     return this.opStaticQueries.getStaticName(query);
   }
 
-  private buildItems() {
-    this.items = [
+  private menuItems():OpContextMenuItem[] {
+    return [
       {
         // Configuration modal
         disabled: false,
@@ -191,7 +170,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
         hidden: this.hideTableOptions,
         icon: 'icon-settings',
         onClick: (_event:MouseEvent) => {
-          this.opContextMenu.close();
           this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
 
           return true;
@@ -302,7 +280,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
         hidden: !this.showCalendarSharingOption,
         disabled: this.authorisationService.cannot('query', 'icalUrl'),
         linkText: this.I18n.t('js.toolbar.settings.share_calendar'),
-        icon: 'icon-link', // TODO: find sharing icons
+        icon: 'icon-link',
         onClick: () => {
           if (this.authorisationService.can('query', 'icalUrl')) {
             this.opModalService.show(QueryGetIcalUrlModalComponent, this.injector);
