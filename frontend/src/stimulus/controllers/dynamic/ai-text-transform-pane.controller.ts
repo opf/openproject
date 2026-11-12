@@ -33,7 +33,7 @@ import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 const EDGE_MARGIN = 8;
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 240;
-const GEOMETRY_PROPERTIES = ['left', 'top', 'right', 'bottom', 'width', 'height', 'maxWidth', 'maxHeight'] as const;
+const GEOMETRY_PROPERTIES = ['left', 'top', 'right', 'bottom', 'width', 'height', 'minHeight', 'maxWidth', 'maxHeight'] as const;
 const POLL_MIN = 400;
 const POLL_MAX = 1000;
 const POLL_BACKOFF = 1.5;
@@ -398,6 +398,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
     if (edge.startsWith('bottom')) {
       style.height = `${clamp(height + (event.clientY - y), MIN_HEIGHT, window.innerHeight - top - EDGE_MARGIN)}px`;
+      style.minHeight = `${MIN_HEIGHT}px`;
       style.maxHeight = `calc(100vh - ${2 * EDGE_MARGIN}px)`;
     }
   }
