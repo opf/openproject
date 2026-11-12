@@ -140,6 +140,14 @@ module OpPrimer
       "--op-border-box-grid-tracks: #{column_track_count};" if has_actions?
     end
 
+    def padding
+      :default
+    end
+
+    def centered_rows?
+      false
+    end
+
     def has_header?
       true
     end

@@ -39,6 +39,10 @@ module Admin
 
       def has_actions? = true
 
+      def padding = :condensed
+
+      def centered_rows? = true
+
       def headers
         [
           [:name,  { caption: t(".headers.name") }],
