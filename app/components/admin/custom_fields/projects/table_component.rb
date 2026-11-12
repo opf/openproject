@@ -79,7 +79,7 @@ module Admin
           @usable_value_counts ||= custom_field.usable_value_counts_in(Project.where(id: rows.map(&:id)))
         end
 
-        def has_actions? = project_specific_values?
+        def has_actions? = project_specific_values? || custom_field.allow_additional_project_values?
 
         def mobile_title = I18n.t(:label_project_plural)
 
