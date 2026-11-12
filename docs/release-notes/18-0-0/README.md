@@ -14,6 +14,10 @@ We released [OpenProject 18.0.0](https://community.openproject.org/versions/2250
 The release contains several bug fixes and we recommend updating to the newest version.
 In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
+Take a look at our release video showing the most important features introduced in OpenProject 18.0:
+
+![Release video of OpenProject 18.0](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_18_0_release.mp4)
+
 ## Important feature changes
 
 OpenProject 18.0 is a particularly feature-rich release, introducing substantial improvements across project management, agile planning, resource management, collaboration, and administration. To make it easier to find the changes most relevant to you, we have organized the release notes into feature areas rather than presenting every improvement individually.
