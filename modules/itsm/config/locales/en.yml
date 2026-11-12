@@ -5,6 +5,7 @@ en:
       itsm/email_message:
         direction: Direction
         from_address: From
+        journal: Journal
         message_id: Message ID
         status: Status
         subject: Subject
@@ -81,6 +82,7 @@ en:
         description: Configure the SMTP server to reply emails directly from the work packages activity.
         edit: Edit SMTP server configuration
         title: SMTP server configuration
+  label_email_without_subject: "(no subject)"
   label_helpdesk: Help desk
   permission_manage_helpdesk: Manage help desk
   project_module_helpdesk: Help desk
