@@ -30,7 +30,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.335.0
+        uses: ruby/setup-ruby@v1.336.0
 
       - name: Verify work package fields are set (linked version matches core version and Enterprise field is set)
         id: work-package-check

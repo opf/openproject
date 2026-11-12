@@ -15,7 +15,7 @@ workflows:
     '.github/workflows/brakeman-scan-core.yml':
         - 'actions/checkout@v7.0.1'
         - 'github/codeql-action@v4.39.3'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/cla.yml':
         - 'contributor-assistant/github-action@v2.6.1'
     '.github/workflows/codeql-scan-core.yml':
@@ -30,16 +30,16 @@ workflows:
     '.github/workflows/crowdin.yml':
         - 'actions/checkout@v7.0.1'
         - 'crowdin/github-action@v3.5.0'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/danger.yml':
         - 'actions/checkout@v7.0.1'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/dependency-review.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/dependency-review-action@v5.0.0'
     '.github/workflows/docs.yaml':
         - 'actions/checkout@v7.0.1'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/downstream-ci.yml': []
     '.github/workflows/email-notification.yml':
         - 'dawidd6/action-send-mail@v22'
@@ -47,7 +47,7 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
         - 'opf/action-erblint@main'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/eslint-core.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
@@ -61,18 +61,18 @@ workflows:
         - 'marocchino/sticky-pull-request-comment@v3.0.5'
     '.github/workflows/i18n-tasks.yml':
         - 'actions/checkout@v7.0.1'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/label-contribution.yml': []
     '.github/workflows/migrate-without-optional-extensions.yml':
         - 'actions/checkout@v7.0.1'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/npm-audit.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
     '.github/workflows/openapi.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/packager.yml':
         - 'actions/checkout@v7.0.1'
         - 'pkgr/action@v1'
@@ -82,10 +82,10 @@ workflows:
     '.github/workflows/rubocop-core.yml':
         - 'actions/checkout@v7.0.1'
         - 'reviewdog/action-rubocop@v2.22.0'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/seed-all-locales.yml':
         - 'actions/checkout@v7.0.1'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/semgrep-scan-core.yml':
         - 'actions/checkout@v7.0.1'
         - 'github/codeql-action@v4.39.3'
@@ -103,8 +103,9 @@ workflows:
         - 'reviewdog/action-setup@v1.5.0'
     '.github/workflows/work-package-check.yml':
         - 'actions/checkout@v7.0.1'
+        - 'marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88'
         - 'marocchino/sticky-pull-request-comment@v3.0.5'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/yamllint-core.yml':
         - 'actions/checkout@v7.0.1'
         - 'reviewdog/action-yamllint@v1.25.3'
@@ -162,6 +163,11 @@ dependencies:
         commit: 'sha1-33d7b85da1a04171e211befe2c739303b9a4c066'
         owner_id: 9919
         repo_id: 259445878
+    'marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88':
+        ref: 'v3.0.5'
+        commit: 'sha1-5770ad5eb8f42dd2c4f34da00c94c5381e49af88'
+        owner_id: 128431
+        repo_id: 223043916
     'marocchino/sticky-pull-request-comment@v3.0.5':
         ref: 'v3.0.5'
         commit: 'sha1-5770ad5eb8f42dd2c4f34da00c94c5381e49af88'
@@ -204,9 +210,9 @@ dependencies:
         commit: 'sha1-8f84f0fb670d777d3e584ef50faf60eb61605b2a'
         owner_id: 48765237
         repo_id: 233270440
-    'ruby/setup-ruby@v1.335.0':
-        ref: 'v1.335.0'
-        commit: 'sha1-7f797815d8adceb1c412e7abefdd1ab4abc47a5f'
+    'ruby/setup-ruby@v1.336.0':
+        ref: 'v1.336.0'
+        commit: 'sha1-de492cf36cbab201753d720ce4f4e336cd688c94'
         owner_id: 210414
         repo_id: 231208785
     'runs-on/action@v2.5.0':

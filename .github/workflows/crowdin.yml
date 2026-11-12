@@ -45,7 +45,7 @@ jobs:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
           token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
-      - uses: ruby/setup-ruby@v1.335.0
+      - uses: ruby/setup-ruby@v1.336.0
         with:
           bundler-cache: true
       - name: "Set crowdin branch name"
