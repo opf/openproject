@@ -200,6 +200,7 @@
     <div class="op-autocompleter--wp-line">
       @if (item.type) {
         <span
+          class="op-autocompleter--wp-type"
           [ngClass]="highlighting('type', item.type.id)"
           [textContent]="item.type.name"
         ></span>
