@@ -82,15 +82,6 @@ function assertOk(response:{ ok:boolean; statusCode:number }):void {
  * a browser subscription (the browser deactivates it when notification
  * permission is revoked) is revoked.
  *
- * Flow
- *
- * - connect: reconcile the browser's subscription with the server list and
- *   render enabled, disabled, blocked (permission denied), unsupported or error.
- * - enable: ensure permission is granted, subscribe through the browser's push
- *   service within a deadline, then register the endpoint with the server. A
- *   failed or late subscription is dropped, so the two sides never disagree.
- * - disable: revoke on the server first, then in the browser.
- *
  * A run counter stops a reconcile that is still in flight from overwriting the
  * result of a later click, or rendering into an element that left the page.
  */
