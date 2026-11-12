@@ -41,6 +41,13 @@ RSpec.describe ITSM::HelpdeskUsers::AddToProjectService, with_flag: { helpdesk: 
     expect(member.roles).to contain_exactly(ITSM.helpdesk_role)
   end
 
+  it "lets the help desk user create work packages in the project" do
+    result
+
+    expect(ITSM.helpdesk_user).to be_allowed_in_project(:add_work_packages, project)
+    expect(ITSM.helpdesk_user).not_to be_allowed_in_project(:edit_work_packages, project)
+  end
+
   context "when the help desk user cannot be created" do
     before { create(:project_role, name: "Help desk") }
 

@@ -35,8 +35,8 @@ RSpec.describe ITSM do
     before { ITSM::HelpdeskUsers::SetUpService.new.call }
 
     it "finds the help desk user and role" do
-      expect(described_class.helpdesk_user).to have_attributes(name: "Help desk", id: Setting.helpdesk_user_id)
-      expect(described_class.helpdesk_role).to have_attributes(name: "Help desk", id: Setting.helpdesk_role_id)
+      expect(described_class.helpdesk_user).to be_a(ServiceAccount).and have_attributes(name: "Help desk")
+      expect(described_class.helpdesk_role).to be_a(ProjectRole).and have_attributes(name: "Help desk")
     end
   end
 

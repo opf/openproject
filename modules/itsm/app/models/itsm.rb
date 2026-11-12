@@ -32,7 +32,7 @@ module ITSM
     "itsm_"
   end
 
-  def self.helpdesk_user = ServiceAccount.find_by(id: Setting.helpdesk_user_id)
+  def self.helpdesk_user = ServiceAccountAssociation.find_by(service: helpdesk_role)&.service_account
 
-  def self.helpdesk_role = ProjectRole.find_by(id: Setting.helpdesk_role_id)
+  def self.helpdesk_role = ProjectRole.find_by(builtin: Role::BUILTIN_HELPDESK)
 end

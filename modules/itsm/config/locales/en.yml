@@ -69,8 +69,6 @@ en:
         description: Configure the SMTP server to reply emails directly from the work packages activity.
         edit: Edit SMTP server configuration
         title: SMTP server configuration
-    helpdesk_users:
-      configured_record_missing: "%{variable} is set to %{id}, but nothing with that id exists."
   label_helpdesk: Help desk
   label_helpdesk_role: Help desk
   label_helpdesk_user: Help desk

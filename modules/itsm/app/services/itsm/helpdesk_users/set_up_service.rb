@@ -43,29 +43,20 @@ module ITSM
       private
 
       def create_missing
-        role = ITSM.helpdesk_role || create(new_role, :helpdesk_role_id)
+        role = ITSM.helpdesk_role || new_role.tap(&:save)
         return ServiceResult.failure(errors: role.errors) unless role.persisted?
 
-        user = ITSM.helpdesk_user || create(new_user, :helpdesk_user_id)
+        user = ITSM.helpdesk_user || new_user(role).tap(&:save)
         user.persisted? ? ServiceResult.success : ServiceResult.failure(errors: user.errors)
       end
 
-      def new_role = ProjectRole.new(name: translated(:label_helpdesk_role), permissions: PERMISSIONS)
-
-      def new_user = ServiceAccount.new(name: translated(:label_helpdesk_user))
-
-      def create(record, setting)
-        definition = Settings::Definition[setting]
-        return configured_record_missing(record, definition) unless definition.writable?
-
-        record.tap { Setting[setting] = it.id if it.save }
+      def new_role
+        ProjectRole.new(name: translated(:label_helpdesk_role), permissions: PERMISSIONS, builtin: Role::BUILTIN_HELPDESK)
       end
 
-      def configured_record_missing(record, definition)
-        message = I18n.t("itsm.helpdesk_users.configured_record_missing",
-                         variable: definition.possible_env_names.first,
-                         id: definition.value)
-        record.tap { it.errors.add(:base, message) }
+      def new_user(role)
+        ServiceAccount.new(name: translated(:label_helpdesk_user),
+                           service_account_association: ServiceAccountAssociation.new(service: role))
       end
 
       def locked(&) = OpenProject::Mutex.with_advisory_lock(ServiceAccount, "itsm_helpdesk_user", transaction: true, &)

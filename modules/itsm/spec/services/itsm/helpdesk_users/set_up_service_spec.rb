@@ -49,11 +49,18 @@ RSpec.describe ITSM::HelpdeskUsers::SetUpService do
     expect(role.permissions).to match_array(%i[view_work_packages add_work_packages add_work_package_comments])
   end
 
-  it "remembers the account and the role" do
+  it "links the account to the role as its service" do
     result
 
-    expect(Setting.helpdesk_user_id).to eq(user.id)
-    expect(Setting.helpdesk_role_id).to eq(role.id)
+    expect(user.service).to eq(role)
+  end
+
+  it "creates a built-in role that cannot be deleted or given to other members" do
+    result
+
+    expect(role).to be_builtin
+    expect(role).not_to be_deletable
+    expect(ProjectRole.givable).not_to include(role)
   end
 
   it "does not count the account as a user of the instance" do
@@ -115,27 +122,6 @@ RSpec.describe ITSM::HelpdeskUsers::SetUpService do
       expect { result }.not_to change(Principal, :count)
       expect(result).to be_failure
       expect(result.errors.symbols_for(:name)).to eq([:taken])
-    end
-  end
-
-  context "when the configured role does not exist", :settings_reset do
-    before { Settings::Definition[:helpdesk_role_id].override_value(0) }
-
-    it "fails without creating anything" do
-      expect { result }.not_to change(Principal, :count)
-      expect(result).to be_failure
-      expect(result.message).to eq("OPENPROJECT_HELPDESK__ROLE__ID is set to 0, but nothing with that id exists.")
-      expect(ProjectRole.where(name: "Help desk")).not_to exist
-    end
-  end
-
-  context "when the configured account does not exist", :settings_reset do
-    before { Settings::Definition[:helpdesk_user_id].override_value(0) }
-
-    it "fails and rolls back the role" do
-      expect(result).to be_failure
-      expect(result.message).to eq("OPENPROJECT_HELPDESK__USER__ID is set to 0, but nothing with that id exists.")
-      expect(ProjectRole.where(name: "Help desk")).not_to exist
     end
   end
 end

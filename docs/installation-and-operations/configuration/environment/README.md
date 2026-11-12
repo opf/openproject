@@ -261,8 +261,6 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_HEALTH__CHECKS__BACKLOG__THRESHOLD` | `20` | Set threshold of outstanding HTTP requests to fail health check |
 | `OPENPROJECT_HEALTH__CHECKS__JOBS__NEVER__RAN__MINUTES__AGO` | `5` | Set threshold of outstanding background jobs to fail health check |
 | `OPENPROJECT_HELPDESK__ENABLED` | `false` | Enables/disables help desk functionality. |
-| `OPENPROJECT_HELPDESK__ROLE__ID` | `nil` | Role of the help desk user. Set by OpenProject when the help desk is turned on, do not configure. |
-| `OPENPROJECT_HELPDESK__USER__ID` | `nil` | Help desk user. Set by OpenProject when the help desk is turned on, do not configure. |
 | `OPENPROJECT_HIDDEN__MENU__ITEMS` | `{}` | Hide menu items in the menu sidebar for each main menu (such as Administration and Projects). |
 | `OPENPROJECT_HOME__URL` | `nil` | Override default link when clicking on the top menu logo (Homescreen by default). |
 | `OPENPROJECT_HOST__NAME` | `nil` | Host name |
