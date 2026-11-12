@@ -49,7 +49,7 @@ describe('AiTextTransformPaneController', () => {
     <div>
       <span data-testid="grip" ${action('pointerdown', 'beginDrag')}></span>
     </div>
-    <span data-testid="resize-left" data-edge="left" ${action('pointerdown', 'beginResize')}></span>
+    <span data-testid="resize-bottom-left" data-edge="bottom-left" ${action('pointerdown', 'beginResize')}></span>
     <span data-testid="resize-bottom-right" data-edge="bottom-right" ${action('pointerdown', 'beginResize')}></span>
   </div>
 </div>`;
@@ -178,9 +178,9 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().bottom).toBe(window.innerHeight - 8);
     });
 
-    it('moves only the left edge with the left handle', () => {
+    it('moves only the left edge with the bottom-left handle', () => {
       const before = rect();
-      dragBy(byTestId('resize-left'), -30, 0);
+      dragBy(byTestId('resize-bottom-left'), -30, 0);
 
       expect(rect().left).toBe(before.left - 30);
       expect(rect().width).toBe(before.width + 30);
@@ -188,9 +188,9 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().height).toBe(before.height);
     });
 
-    it('keeps the right edge when the left handle grows past the stylesheet max-width', () => {
+    it('keeps the right edge when the bottom-left handle grows past the stylesheet max-width', () => {
       const before = rect();
-      dragBy(byTestId('resize-left'), -5000, 0);
+      dragBy(byTestId('resize-bottom-left'), -5000, 0);
 
       expect(rect().left).toBe(8);
       expect(rect().right).toBe(before.right);

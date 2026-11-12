@@ -35,8 +35,6 @@ module AI
       include ResultPaneHelpers
 
       RESIZE_HANDLES = {
-        "left" => :"op-resizer-vertical-lines",
-        "right" => :"op-resizer-vertical-lines",
         "bottom-left" => :"op-resizer-bottom-right",
         "bottom-right" => :"op-resizer-bottom-right"
       }.freeze
