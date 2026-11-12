@@ -46,7 +46,7 @@ dependsOn:
     - name: PostgreSQL
       versionMin: '13'
 maintenance:
-  type: contract
+  type: internal
   contacts:
     - name: OpenProject GmbH
       email: sales@openproject.com
