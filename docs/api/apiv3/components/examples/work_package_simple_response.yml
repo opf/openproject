@@ -52,6 +52,9 @@ value:
     author:
       href: "/api/v3/users/1"
       title: OpenProject Admin - admin
+    reporter:
+      href: "/api/v3/users/1"
+      title: OpenProject Admin - admin
     customActions:
       - href: "/api/v3/work_packages/1528/custom_actions/153/execute"
         method: post

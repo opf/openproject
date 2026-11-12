@@ -386,6 +386,13 @@ allOf:
                   The person that created the work package
 
                   **Resource**: User
+          reporter:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  The person that reported the work package
+
+                  **Resource**: User
           assignee:
             allOf:
               - $ref: "./link.yml"
