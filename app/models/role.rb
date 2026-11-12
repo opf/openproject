@@ -42,6 +42,7 @@ class Role < ApplicationRecord
   BUILTIN_PROJECT_QUERY_VIEW = 6
   BUILTIN_PROJECT_QUERY_EDIT = 7
   BUILTIN_STANDARD_GLOBAL = 8
+  BUILTIN_HELPDESK = 9
 
   HIDDEN_ROLE_TYPES = [
     "WorkPackageRole",
@@ -103,7 +104,8 @@ class Role < ApplicationRecord
           Role::BUILTIN_WORK_PACKAGE_EDITOR,
           Role::BUILTIN_PROJECT_QUERY_VIEW,
           Role::BUILTIN_PROJECT_QUERY_EDIT,
-          Role::BUILTIN_STANDARD_GLOBAL
+          Role::BUILTIN_STANDARD_GLOBAL,
+          Role::BUILTIN_HELPDESK
         ]
       )
       .order(Arel.sql("position"))
