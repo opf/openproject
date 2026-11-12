@@ -66,6 +66,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         expect(work_package.status.name).to eq("In Progress")
         expect(work_package.status).not_to be_closed
         expect(work_package.priority.name).to eq("Highest")
+        expect(work_package.author).to eq(op_user)
+        expect(work_package.reporter).to eq(op_user)
         expect(work_package.assigned_to).to eq(op_user)
         expect(work_package.identifier).to eq("DPPP-6")
         expect(work_package.sequence_number).to eq(6)
@@ -537,12 +539,14 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           allow(Rails.logger).to receive(:warn)
         end
 
-        it "uses DeletedUser as a fallback for author and assignee" do
+        it "uses DeletedUser as a fallback for author, assignee and reporter" do
           create_work_packages
+          deleted_user = DeletedUser.first
 
           work_package = WorkPackage.find("DPPP-6")
-          expect(work_package.author).to eq(DeletedUser.first)
-          expect(work_package.assigned_to).to eq(DeletedUser.first)
+          expect(work_package.author).to eq(deleted_user)
+          expect(work_package.reporter).to eq(deleted_user)
+          expect(work_package.assigned_to).to eq(deleted_user)
         end
 
         it "logs a warning about the missing user" do
@@ -977,6 +981,41 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
               work_package = WorkPackage.find("DPPP-6")
               expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
             end
+          end
+        end
+      end
+
+      context "with reporter" do
+        context "with a reporter set" do
+          let(:op_reporter) { create(:user, status: :locked) }
+          let(:jira_reporter) { create(:jira_user, jira_import:, origin_id: "JIRAUSER_REPORTER", payload: jira_user_payload) }
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "reporter" => { "key" => jira_reporter.origin_id } }) }
+
+          before do
+            create(:jira_open_project_reference,
+                   jira_import:,
+                   jira_entity_class: "Import::JiraUser",
+                   jira_entity_id: jira_reporter.id.to_s,
+                   op_entity_class: "User",
+                   op_entity_id: op_reporter.id.to_s)
+          end
+
+          it "sets the reporter on the work package" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.author).to eq(op_user)
+            expect(work_package.reporter).to eq(op_reporter)
+          end
+        end
+
+        context "with no reporter set" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "reporter" => nil }) }
+
+          it "sets the reporter to the same user as the author" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.author).to eq(op_user)
+            expect(work_package.reporter).to eq(op_user)
           end
         end
       end
