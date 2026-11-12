@@ -2946,6 +2946,10 @@ en:
           They are included in forms, which are then used in different types and variants. The
           following list shows projects that use types or variants using forms including this custom field.
         configure: "Configure project-specific values for %{project}"
+        delete_value_dialog:
+          description: "This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted."
+          heading: "Delete project-specific value?"
+          title: "Delete project-specific value"
         disable_all: "Disable all"
         edit_value: "Edit value"
         editing_values_notice: "You are currently editing the list of values visible for this custom field in the project [%{project}](project_url)."

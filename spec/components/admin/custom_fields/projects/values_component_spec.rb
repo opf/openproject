@@ -51,17 +51,17 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     it "offers to enable and to disable all values" do
       expect(rendered).to have_link(
         I18n.t("custom_fields.admin.projects.enable_all"),
-        href: enable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+        href: enable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
       )
       expect(rendered).to have_link(
         I18n.t("custom_fields.admin.projects.disable_all"),
-        href: disable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+        href: disable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
       )
     end
 
     it "toggles each value on its own" do
       expect(row.call(option_a).css("toggle-switch").attr("src").value)
-        .to eq(toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, project, option_a.id))
+        .to eq(toggle_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, option_a.id))
     end
 
     it "lists the options in order with whether they are enabled in the project" do
@@ -167,6 +167,16 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
 
       it "offers all actions for the values of the project" do
         expect(menu_items.call(own_item)).to eq(own_value_actions)
+      end
+
+      it "opens a dialog to delete a value of the project" do
+        delete_link = row.call(own_item).css("a[data-controller='async-dialog']")
+
+        dialog_path = deletion_dialog_admin_settings_work_package_custom_field_project_specific_value_path(
+          custom_field, project, own_item.id
+        )
+
+        expect(delete_link.attr("href").value).to eq(dialog_path)
       end
     end
 

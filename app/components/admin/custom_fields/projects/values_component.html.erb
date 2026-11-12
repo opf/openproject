@@ -151,7 +151,13 @@ See COPYRIGHT and LICENSE files for more details.
                         tag: :a,
                         href: "#"
                       )
-                      menu.with_item(label: t(:button_delete), tag: :a, href: "#", scheme: :danger)
+                      menu.with_item(
+                        label: t(:button_delete),
+                        tag: :a,
+                        href: deletion_dialog_path(row),
+                        scheme: :danger,
+                        content_arguments: { data: { controller: "async-dialog" } }
+                      )
                     end
                   end
                 end

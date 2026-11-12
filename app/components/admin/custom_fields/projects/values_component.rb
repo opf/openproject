@@ -124,19 +124,23 @@ module Admin
         end
 
         def values_path
-          project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+          admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
         end
 
         def toggle_path(row)
-          toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, project, row.id)
+          toggle_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
+        end
+
+        def deletion_dialog_path(row)
+          deletion_dialog_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
         end
 
         def enable_all_path
-          enable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+          enable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
         end
 
         def disable_all_path
-          disable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+          disable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
         end
       end
     end
