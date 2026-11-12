@@ -2,15 +2,15 @@
 sidebar_navigation:
   title: Jira migration
   priority: 90
-description: Step-by-step guide for migrating from Jira Data Center to OpenProject using the Jira Migrator. Supported data types, limitations, and best practices for a successful migration.
-keywords: Jira, Jira Migrator, Jira migration, Jira Data Center, Import tool, Migration, Migration guide 
+description: Step-by-step guide for migrating from Jira Server and Data Center to OpenProject using the Jira Migrator. Supported data types, limitations, and best practices for a successful migration.
+keywords: Jira, Jira Migrator, Jira migration, Jira Server, Jira Data Center, Import tool, Migration, Migration guide 
 ---
 
 # Migrating from Jira to OpenProject
 
-Last edited on: November 10, 2026.
+Last edited on: November 12, 2026.
 
-The OpenProject team is actively developing the Jira Migrator, an import tool for Jira Data Center. This feature is under active development. We add new features with each release. Information on this page may change as new migration options become available.
+The OpenProject team is actively developing the Jira Migrator, an import tool for Jira Server and Data Center. This feature is under active development. We add new features with each release. Information on this page may change as new migration options become available.
 
 Take a look at this video introducing the Jira Migrator.
 
@@ -60,8 +60,11 @@ See [the field mapping reference](./field-mapping/) for details.
 
 ## Supported Jira versions
 
-- We currently only support Jira Data Center versions 10.x and 11.x.
+- We support Jira Server and Data Center versions 8.14 to 11.x.
+- Jira 8 requires basic auth instead of a personal access token.
 - Cloud instances are **not** supported at this time.
+
+For other versions, the [connection check](#connection-check) shows a warning.
 
 ## Import preparation
 
@@ -86,7 +89,9 @@ Provide the following details:
 
 - A name for the import configuration
 - Your Jira URL
-- A Personal Access Token. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
+- An authentication method:
+  - **Personal access token (PAT)**, recommended. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
+  - **Basic auth** with the username and password of a Jira administrator. Use basic auth for Jira 8, or if your Jira instance is configured behind a proxy.
 
 > [!IMPORTANT]
 > Admin permissions are not enough to import sprints. The token user must also be able to see the Scrum boards of the projects you import, which in Jira depends on the sharing of each board's filter. Sprints the token user cannot see in Jira are skipped, and their issues are imported without a sprint. See [Sprints](./field-mapping/#sprints) for all requirements.
@@ -101,20 +106,24 @@ Click **Test Connection** in the _Connection check_ panel next to the form to ch
 
 The panel shows the result as a report with three groups of checks:
 
-| Group         | Check                | What it verifies                                                          |
-|---------------|----------------------|---------------------------------------------------------------------------|
-| Configuration | Jira URL             | The URL starts with `http://` or `https://`.                              |
-| Configuration | Credentials          | The credentials of the chosen authentication method are filled in.        |
-| Jira server   | Server reachable     | OpenProject can reach a server at the URL.                                |
-| Jira server   | Responds as Jira     | The server answers with Jira's server information.                        |
-| Authorization | Credentials accepted | Jira accepts the credentials.                                             |
-| Authorization | Jira administrator   | The Jira user behind the credentials is a Jira administrator.             |
+| Group         | Check                 | What it verifies                                                          |
+|---------------|-----------------------|---------------------------------------------------------------------------|
+| Configuration | Jira URL              | The URL starts with `http://` or `https://`.                              |
+| Configuration | Credentials           | The credentials of the chosen authentication method are filled in.        |
+| Jira server   | Server reachable      | OpenProject can reach a server at the URL.                                |
+| Jira server   | Responds as Jira      | The server answers with Jira's server information.                        |
+| Jira server   | Supported version     | The Jira version is one of the supported versions.                        |
+| Jira server   | Authentication method | The authentication method works with this Jira version.                   |
+| Authorization | Credentials accepted  | Jira accepts the credentials.                                             |
+| Authorization | Jira administrator    | The Jira user behind the credentials is a Jira administrator.             |
 
-The checks after a failed check are skipped, and the groups after a failed group do not run. When Jira only answers to accepted credentials, _Responds as Jira_ is skipped and the _Authorization_ group reports the credentials.
+The checks after a failed check are skipped, and the groups after a failed group do not run. When Jira only answers to accepted credentials, the remaining checks of the _Jira server_ group are skipped and the _Authorization_ group reports the credentials.
 
-When you save a new configuration, or change the URL, the authentication method or the credentials of an existing one, OpenProject saves it and then runs the same checks. The result is stored and shown in the panel. If a check fails, the configuration stays saved and a dialog names the failed check. Click **Fix configuration** to stay on the form, or **Continue anyway** to go to the configuration. Fetching data fails until the checks pass.
+A check can also end with a warning. A warning does not stop the other checks, and you can continue at your own risk. _Supported version_ warns when the Jira version is not supported or cannot be determined.
 
-When an import run checks the available data, it runs the same checks first. The result is stored, and the edit form of the configuration shows it with the time of the last check. If a check fails, no data is fetched and the side panel of the import run shows the report under _Run status_. Click **Retry** to run the checks again.
+When you save a new configuration, or change the URL, the authentication method or the credentials of an existing one, OpenProject saves it and then runs the same checks. The result is stored and shown in the panel. If a check fails or warns, the configuration stays saved and a dialog names the check. Click **Fix configuration** to stay on the form, or **Continue anyway** to go to the configuration. Fetching data fails until no check fails.
+
+When an import run checks the available data, it runs the same checks first. The result is stored, and the edit form of the configuration shows it with the time of the last check. If a check fails, no data is fetched and the side panel of the import run shows the report under _Run status_. Click **Retry** to run the checks again. If a check only warns, the data is fetched and the side panel keeps showing the warning for the rest of the import run.
 
 A failed check shows one of these error codes:
 
@@ -132,9 +141,17 @@ A failed check shows one of these error codes:
 | `ERR_INVALID_RESPONSE`              | The server at the URL did not answer with JSON. Check the URL.                                 |
 | `ERR_NOT_JIRA`                      | The server at the URL did not answer like Jira. Check the URL.                                 |
 | `ERR_API_ERROR`                     | Jira answered with an unexpected HTTP status. Check the URL and that Jira is running.          |
+| `ERR_BASIC_AUTH_REQUIRED`           | Jira 8 does not work with a personal access token. Use basic auth instead.                     |
 | `ERR_CREDENTIALS_REJECTED`          | Check that the credentials are correct and have not expired.                                   |
 | `ERR_NOT_ADMINISTRATOR`             | Use the credentials of a Jira administrator.                                                   |
 | `ERR_UNEXPECTED_ERROR`              | Jira answered in a way OpenProject did not expect. Check that the URL points to Jira.          |
+
+A check with a warning shows one of these warning codes:
+
+| Warning code              | What it means                                                                            |
+|---------------------------|------------------------------------------------------------------------------------------|
+| `WRN_UNSUPPORTED_VERSION` | The Jira version is not supported. The import might not work as expected.                |
+| `WRN_UNKNOWN_VERSION`     | OpenProject could not determine the Jira version. The import might not work as expected. |
 
 > [!IMPORTANT]
 > If your Jira instance is hosted on a private or internal network (e.g., a corporate intranet), the connection check fails with `ERR_SSRF_BLOCKED`, because OpenProject blocks outbound requests to non-public IP addresses by default. This is a security measure to prevent SSRF attacks. To allow connections to internal IP addresses, configure the `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST` environment variable and restart OpenProject. See [SSRF protection](../configuration/ssrf-protection/) for details.

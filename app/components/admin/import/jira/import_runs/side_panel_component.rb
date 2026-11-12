@@ -38,5 +38,12 @@ module Admin::Import::Jira::ImportRuns
 
       @jira_import = jira_import
     end
+
+    private
+
+    def connection_check_with_findings
+      report = @jira_import.connection_check_report
+      report if report && (report.unhealthy? || report.warning?)
+    end
   end
 end

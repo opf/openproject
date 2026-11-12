@@ -110,7 +110,7 @@ We do not provide a direct integration between OpenProject and JIRA ourselves.
 
 If you want to migrate from JIRA to OpenProject, you can use the **[OpenProject Jira Migrator](https://www.openproject.org/jira-migrator/)**. The built-in migration tool guides you through importing your Jira data into OpenProject and is being continuously expanded with additional migration capabilities.
 
-The Jira Migrator is currently in beta and should only be used in test setups. It currently supports Jira Data Center versions 10.x and 11.x and can import basic data such as projects, issues, users, statuses, types and supported custom fields.
+The Jira Migrator is currently in beta and should only be used in test setups. It supports [these Jira Server and Data Center versions](https://www.openproject.org/docs/installation-and-operations/jira-migration/#supported-jira-versions) and can import basic data such as projects, issues, users, statuses, types and supported custom fields.
 
 For supported data, current limitations and step-by-step instructions, see the **[Jira migration guide](https://www.openproject.org/docs/installation-and-operations/jira-migration/)**. 
 

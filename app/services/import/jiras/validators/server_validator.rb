@@ -31,14 +31,23 @@ module Import
   module Jiras
     module Validators
       class ServerValidator < HealthReports::ValidatorGroup
+        SUPPORTED_VERSIONS = Gem::Requirement.new(">= 8.14", "< 12")
+        BASIC_AUTH_ONLY_VERSIONS = Gem::Requirement.new("< 9")
+
         def self.key = :server
 
         private
 
         def validate
-          register_checks(:reachable, :responds_as_jira)
+          register_checks(:reachable, :responds_as_jira, :version_supported, :auth_method_supported)
           check_reachable
+          # Jira 10 rejects wrong credentials here, but Jira 8 answers anyway.
+          # The authorization group checks the credentials on both.
+          return if credentials_rejected?
+
           check_responds_as_jira
+          check_version_supported
+          check_auth_method_supported
         end
 
         def check_reachable
@@ -51,14 +60,42 @@ module Import
           pass_check(:reachable)
         end
 
+        def credentials_rejected?
+          @server_error&.reason == :credentials_rejected
+        end
+
         def check_responds_as_jira
           return pass_check(:responds_as_jira) if @server_info.is_a?(Hash) && @server_info.key?("version")
           return fail_check(:responds_as_jira, :not_jira) if @server_error.nil?
-          # Jira 10 rejects wrong credentials here, but Jira 8 answers anyway.
-          # The authorization group checks the credentials on both.
-          return if @server_error.reason == :credentials_rejected
 
           fail_check(:responds_as_jira, @server_error.reason, context: @server_error.context)
+        end
+
+        def check_version_supported
+          return warn_check(:version_supported, :unknown_version) if version.nil?
+          return pass_check(:version_supported) if SUPPORTED_VERSIONS.satisfied_by?(version)
+
+          warn_check(:version_supported, :unsupported_version, context: { version: version.to_s })
+        end
+
+        def check_auth_method_supported
+          if subject.auth_method_bearer? && basic_auth_only_version?
+            fail_check(:auth_method_supported, :basic_auth_required, context: { version: version.to_s })
+          else
+            pass_check(:auth_method_supported)
+          end
+        end
+
+        def basic_auth_only_version?
+          version && BASIC_AUTH_ONLY_VERSIONS.satisfied_by?(version)
+        end
+
+        def version
+          Gem::Version.new(reported_version) if reported_version.present? && Gem::Version.correct?(reported_version)
+        end
+
+        def reported_version
+          Array(@server_info["versionNumbers"]).join(".").presence || @server_info["version"].to_s
         end
       end
     end

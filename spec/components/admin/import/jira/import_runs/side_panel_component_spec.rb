@@ -54,6 +54,36 @@ RSpec.describe Admin::Import::Jira::ImportRuns::SidePanelComponent, type: :compo
     end
   end
 
+  context "when the connection check warned before the data was fetched" do
+    before do
+      warning = HealthReport::Result.warning(:version_supported, :unsupported_version, { "version" => "12.0.0" })
+      report = jira.health_reports.create!(results: [HealthReport::ResultGroup.new(key: :server, results: [warning])])
+      jira_import.transition_to!(:instance_meta_done, health_report_id: report.id)
+      jira_import.transition_to!(:configuring)
+      render_inline(described_class.new(jira_import))
+    end
+
+    it "keeps showing the warning under the run status" do
+      expect(page).to have_text("Connection check")
+      expect(page).to have_text("WRN_UNSUPPORTED_VERSION")
+      expect(page).to have_text("Jira 12.0.0 is not a supported version.")
+    end
+  end
+
+  context "when the connection check passed before the data was fetched" do
+    before do
+      success = HealthReport::Result.success(:version_supported)
+      report = jira.health_reports.create!(results: [HealthReport::ResultGroup.new(key: :server, results: [success])])
+      jira_import.transition_to!(:instance_meta_done, health_report_id: report.id)
+      render_inline(described_class.new(jira_import))
+    end
+
+    it "shows only the run status" do
+      expect(page).to have_text("Run status")
+      expect(page).to have_no_text("Connection check")
+    end
+  end
+
   context "when the run failed for another reason" do
     before do
       jira_import.transition_to!(:instance_meta_error, error: "failed")

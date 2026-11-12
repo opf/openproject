@@ -138,7 +138,7 @@ module Admin::Import
     def redirect_after_connection_check(notice:)
       report = Import::Jiras::CheckConnectionService.new(@jira).call.result
 
-      if report.unhealthy?
+      if report.unhealthy? || report.warning?
         redirect_to_connection_check_dialog(report)
       else
         redirect_to_saved_configuration(notice:)
