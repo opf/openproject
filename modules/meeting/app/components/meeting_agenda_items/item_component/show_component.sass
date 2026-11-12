@@ -5,7 +5,7 @@ $meeting-agenda-item--presenter-width--mobile: 150px
 
 .op-meeting-agenda-item
   display: grid
-  grid-template-columns: 20px auto 1fr fit-content($meeting-agenda-item--presenter-width) fit-content(40px)
+  grid-template-columns: 20px minmax(0, auto) minmax(0, 1fr) fit-content($meeting-agenda-item--presenter-width) fit-content(40px)
   grid-template-areas: "drag-handle content duration presenter actions" ". title title title title" ". notes notes notes notes" ". outcomes outcomes outcomes outcomes"
 
   &--drag-handle,
@@ -44,8 +44,8 @@ $meeting-agenda-item--presenter-width--mobile: 150px
     padding-bottom: 0
 
   @media screen and (max-width: $breakpoint-lg)
-    grid-template-columns: 20px auto 1fr auto 50px
-    grid-template-areas: "drag-handle content content content actions" ". title title title title" ". presenter duration . ."  ". notes notes notes notes" ". outcomes outcomes outcomes outcomes"
+    grid-template-columns: 20px minmax(0, auto) minmax(0, 1fr) minmax(0, auto) 50px
+    grid-template-areas: "drag-handle content content content actions" ". title title title title" ". presenter duration . ." ". notes notes notes notes" ". outcomes outcomes outcomes outcomes"
 
     &--author
       justify-self: stretch
