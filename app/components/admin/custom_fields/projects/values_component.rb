@@ -34,7 +34,8 @@ module Admin
       class ValuesComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
 
-        Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific?, :required?)
+        Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific?, :required?,
+                          :parent_project_specific?)
 
         MAX_INDENTATION = 12
 
@@ -56,23 +57,24 @@ module Admin
         def option_rows
           custom_field.custom_options.where(project_id: [nil, project.id]).map do |option|
             Row.new(id: option.id, label: option.value, depth: 0, caption: nil, enabled: enabled?(option),
-                    project_specific?: option.project_id.present?, required?: false)
+                    project_specific?: option.project_id.present?, required?: false, parent_project_specific?: false)
           end
         end
 
-        # The items come in pre-order, so every parent's depth is known before its children.
+        # The items come in pre-order, so every parent's row is known before its children.
         def item_rows
-          depths = { custom_field.hierarchy_root.id => -1 }
+          rows = { custom_field.hierarchy_root.id => nil }
 
           hierarchy_items.map do |item|
-            depths[item.id] = depths.fetch(item.parent_id) + 1
-            item_row(item, depths[item.id])
+            rows[item.id] = item_row(item, rows.fetch(item.parent_id))
           end
         end
 
-        def item_row(item, depth)
-          Row.new(id: item.id, label: item.label, depth:, caption: item_caption(item), enabled: enabled?(item),
-                  project_specific?: item.project_id.present?, required?: required_item_ids.include?(item.id))
+        def item_row(item, parent_row)
+          Row.new(id: item.id, label: item.label, depth: parent_row ? parent_row.depth + 1 : 0,
+                  caption: item_caption(item), enabled: enabled?(item),
+                  project_specific?: item.project_id.present?, required?: required_item_ids.include?(item.id),
+                  parent_project_specific?: parent_row&.project_specific? || false)
         end
 
         def required_item_ids
@@ -133,6 +135,10 @@ module Admin
 
         def new_sub_value_path(row)
           new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, parent_id: row.id)
+        end
+
+        def make_global_path(row)
+          make_global_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
         end
 
         def deletion_dialog_path(row)

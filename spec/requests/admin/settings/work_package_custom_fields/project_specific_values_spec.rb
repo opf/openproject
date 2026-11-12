@@ -213,6 +213,44 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
       end
     end
 
+    describe "making a value of a project available to all projects" do
+      let(:custom_field) do
+        create(:list_wp_custom_field, types: [feature], possible_values: %w[A], allow_additional_project_values: true)
+      end
+      let(:make_global_path) do
+        lambda do |value|
+          make_global_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project,
+                                                                                           value.id)
+        end
+      end
+
+      it "makes the value global" do
+        own_option = custom_field.custom_options.create!(value: "Own", project: using_project)
+
+        post make_global_path.call(own_option)
+
+        expect(response).to redirect_to(values_path)
+        expect(own_option.reload.project_id).to be_nil
+      end
+
+      it "shows the error when the value cannot be made global" do
+        own_option = custom_field.custom_options.create!(value: "Own", project: using_project)
+        custom_field.custom_options.create!(value: "Own", project: other_project)
+
+        post make_global_path.call(own_option)
+
+        expect(response).to redirect_to(values_path)
+        expect(flash[:error]).to be_present
+        expect(own_option.reload.project).to eq(using_project)
+      end
+
+      it "does not find a global value" do
+        post make_global_path.call(custom_field.custom_options.find_by!(value: "A"))
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
     describe "deleting a value of a project" do
       context "for a list custom field" do
         let(:custom_field) do

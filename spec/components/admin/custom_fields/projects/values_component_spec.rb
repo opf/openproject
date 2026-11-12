@@ -177,6 +177,28 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
         expect(row.call(global_item).css("a[href='#{dialog_path}'][data-controller='async-dialog']")).to be_present
       end
 
+      it "asks for confirmation before making a value of the project available to all projects" do
+        make_global_path = make_global_admin_settings_work_package_custom_field_project_specific_value_path(
+          custom_field, project, own_item.id
+        )
+        link = row.call(own_item).css("a[href='#{make_global_path}'][data-turbo-method='post']")
+
+        expect(link.attr("data-turbo-confirm").value)
+          .to eq(I18n.t("custom_fields.admin.projects.make_available_to_all_projects_confirm", value: "Own"))
+      end
+
+      context "with a value below a value of the project" do
+        let!(:own_sub_item) { create(:hierarchy_item, parent: own_item, label: "Own sub", project:) }
+
+        it "does not offer to make it available to all projects" do
+          make_global_item = row.call(own_sub_item).css(".ActionListItem").find do |item|
+            item.text.include?(I18n.t("custom_fields.admin.projects.make_available_to_all_projects"))
+          end
+
+          expect(make_global_item.classes).to include("ActionListItem--disabled")
+        end
+      end
+
       it "opens a dialog to delete a value of the project" do
         dialog_path = deletion_dialog_admin_settings_work_package_custom_field_project_specific_value_path(
           custom_field, project, own_item.id

@@ -737,6 +737,7 @@ en:
             required:
               cannot_be_true: "cannot be set to true."
             value:
+              parent_only_in_project: "cannot be made available to all projects, as its parent is only available in this project."
               required_by_project_values: "cannot be disabled, as the project added values below it."
           previous_custom_field_recalculation_unprocessed: "The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes."
           referenced_in_other_fields_html:
@@ -2966,6 +2967,7 @@ en:
           description: "Change the filters to see more projects."
           title: "No projects match this filter"
         make_available_to_all_projects: "Make available to all projects"
+        make_available_to_all_projects_confirm: "Make “%{value}” available to all projects?"
         new_value: "Value"
         new_value_dialog:
           name: "Name"
