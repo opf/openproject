@@ -26,7 +26,9 @@
 //++
 
 import { Directive, inject } from '@angular/core';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { withOcticon } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-menu-octicons';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { States } from 'core-app/core/states/states.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
@@ -34,35 +36,31 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpCreateSettingsMenu]',
-  standalone: false,
 })
-export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger {
+export class WorkPackageCreateSettingsMenuDirective extends OpActionMenuItems {
   readonly states = inject(States);
   readonly halEditing = inject(HalResourceEditingService);
 
-  override readonly placement = 'bottom-end';
-
-  protected open(evt:Event) {
+  protected buildItems():Promise<OpContextMenuItem[]> {
     const wp = this.states.workPackages.get('new').value;
 
-    if (wp) {
-      const change = this.halEditing.changeFor(wp);
-      change.getForm().then(
-        (loadedForm:FormResource) => {
-          this.buildItems(loadedForm);
-          this.opContextMenu.show(this, evt);
-        },
-      );
+    if (!wp) {
+      return Promise.resolve([]);
     }
+
+    return this.halEditing
+      .changeFor(wp)
+      .getForm()
+      .then((form:FormResource) => this.formItems(form).map(withOcticon));
   }
 
-  private buildItems(form:FormResource) {
-    this.items = [];
+  private formItems(form:FormResource):OpContextMenuItem[] {
+    const items:OpContextMenuItem[] = [];
     const configureFormLink = form.configureForm;
     const queryCustomFields = form.customFields;
 
     if (queryCustomFields) {
-      this.items.push({
+      items.push({
         href: queryCustomFields.href as string|undefined,
         icon: 'icon-custom-fields',
         linkText: queryCustomFields.name,
@@ -71,12 +69,14 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     }
 
     if (configureFormLink) {
-      this.items.push({
+      items.push({
         href: configureFormLink.href as string|undefined,
         icon: 'icon-settings3',
         linkText: configureFormLink.name,
         onClick: () => false,
       });
     }
+
+    return items;
   }
 }
