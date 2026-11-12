@@ -72,7 +72,10 @@ module Admin::Import::Jira
         required: true,
         input_width: :large,
         type: :url,
-        data: { "admin--jira-configuration-form-target": "url" }
+        data: {
+          "admin--jira-configuration-form-target": "url",
+          action: "change->admin--jira-configuration-form#allowPersonalAccessToken"
+        }
       )
 
       f.radio_button_group(

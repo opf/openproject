@@ -10,7 +10,7 @@ keywords: Jira, Jira Migrator, Jira migration, Jira Data Center, Import tool, Mi
 
 Last edited on: November 10, 2026.
 
-The OpenProject team is actively developing the Jira Migrator, an import tool for Jira Data Center. This feature is under active development. We add new features with each release. Information on this page may change as new migration options become available.
+The OpenProject team is actively developing the Jira Migrator, an import tool for Jira Server and Data Center. This feature is under active development. We add new features with each release. Information on this page may change as new migration options become available.
 
 Take a look at this video introducing the Jira Migrator.
 
@@ -60,8 +60,11 @@ See [the field mapping reference](./field-mapping/) for details.
 
 ## Supported Jira versions
 
-- We currently only support Jira Data Center versions 10.x and 11.x.
+- We support Jira Server and Data Center versions 8.14 to 11.x.
+- Jira 8 requires basic auth. Personal access tokens cannot be used with Jira 8.
 - Cloud instances are **not** supported at this time.
+
+The Jira Migrator checks the version of your Jira instance when you test the configuration and when you check the available data of an import run. If the version is not supported or cannot be determined, a warning is shown. You can still continue at your own risk.
 
 ## Import preparation
 
@@ -86,7 +89,9 @@ Provide the following details:
 
 - A name for the import configuration
 - Your Jira URL
-- A Personal Access Token. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
+- An authentication method:
+  - **Personal access token (PAT)**, recommended. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
+  - **Basic auth** with the username and password of a Jira administrator. Use basic auth for Jira 8 or if your Jira instance is configured behind a proxy.
 
 > [!IMPORTANT]
 > Admin permissions are not enough to import sprints. The token user must also be able to see the Scrum boards of the projects you import, which in Jira depends on the sharing of each board's filter. Sprints the token user cannot see in Jira are skipped, and their issues are imported without a sprint. See [Sprints](./field-mapping/#sprints) for all requirements.
@@ -98,7 +103,7 @@ Optionally, select **Exclude resolution fields for this configuration** if you d
 Click **Test configuration** to verify the connection.
 
 ![Define new Jira import in OpenProject administration](openproject_admin_import_jira_import_new_config.png)
-If the connection is successful, a confirmation banner will appear.
+If the connection is successful, a confirmation banner will appear. If the Jira version is not supported or cannot be determined, an additional warning appears. If you test a personal access token against Jira 8, the test asks you to use basic auth and selects it in the form.
 
 > [!IMPORTANT]
 > If your Jira instance is hosted on a private or internal network (e.g., a corporate intranet), the connection test may fail because OpenProject blocks outbound requests to non-public IP addresses by default. This is a security measure to prevent SSRF attacks. To allow connections to internal IP addresses, configure the `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST` environment variable. See [SSRF protection](../configuration/ssrf-protection/) for details.
@@ -122,6 +127,8 @@ In the _Get base data_ section, click **Check available data** to retrieve metad
 ![Checking available Jira data for import](openproject_admin_import_jira_import_check_data.png)
 
 Once fetched, you will see which data can and cannot be imported. Click **Continue**.
+
+If the Jira version is not supported or cannot be determined, a warning is shown above the available data. You can still continue at your own risk. If the configuration uses a personal access token with Jira 8, fetching the data fails until you change the configuration to basic auth.
 
 ### Configure import
 

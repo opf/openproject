@@ -33,6 +33,8 @@ module Admin::Import::Jira
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
+    BASIC_AUTH_REQUIRED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}jira-configuration:basic-auth-required".freeze
+
     def self.wrapper_key = :jira_form
 
     private
@@ -41,6 +43,7 @@ module Admin::Import::Jira
       data = {
         controller: "admin--jira-configuration-form " \
                     "show-when-value-selected",
+        action: "#{BASIC_AUTH_REQUIRED_EVENT}@document->admin--jira-configuration-form#requireBasicAuth",
         "admin--jira-configuration-form-test-connection-path-value": test_connection_admin_import_jira_index_path
       }
       data[:"admin--jira-configuration-form-jira-id-value"] = model.id.to_s if model.persisted?

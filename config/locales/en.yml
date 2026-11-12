@@ -1625,7 +1625,7 @@ en:
       banner:
         contribution_callout: >
           Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
-        description: "This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time."
+        description: "This Jira Migrator is currently in beta. We currently support Jira Server/Data Center versions 8.14 to 11.x. Jira 8 requires basic auth. Cloud instances are not supported at this time."
         title: "Beta - Try it out!"
       basic_auth_password_deleted: "Basic auth password was successfully deleted."
       blank:
@@ -1696,6 +1696,7 @@ en:
         actions:
           button_edit: "Edit run"
           button_open_history: "Open run history"
+        basic_auth_required_error: "Jira %{version} requires basic auth. Please edit the configuration to use basic auth and try again."
         blank:
           description: "Create an import run to start importing information from this Jira instance"
           title: "No import runs set up yet"
@@ -1979,9 +1980,13 @@ en:
             "9":
               rest_line_text: "Creating parent-child relations from subtasks for %{projects_number} more projects"
               title: "Create parent-child relations from subtasks"
+      server_version:
+        unknown: "The Jira version could not be determined. The migration might not work as expected. Proceed at your own risk."
+        unsupported: "Jira %{version} is not a supported version. The migration might not work as expected. Proceed at your own risk."
       test:
         api_error: "Jira API returned error status %{status}. Please check your Jira instance URL and credentials."
         basic_auth_password_invalid: "Invalid basic auth password. Please check your credentials in the configuration."
+        basic_auth_required: "Jira %{version} requires basic auth. Please use basic auth instead of a personal access token (PAT)."
         basic_auth_username_invalid: "Invalid basic auth username. Please check your credentials in the configuration."
         connection_error: "Connection error: %{message}"
         error: "An unexpected error occurred while testing the connection"

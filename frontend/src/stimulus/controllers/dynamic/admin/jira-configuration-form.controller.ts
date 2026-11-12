@@ -82,6 +82,29 @@ export default class extends Controller {
       return this.authMethodGroupTarget.querySelector<HTMLInputElement>('input:checked')?.value;
     }
 
+    requireBasicAuth():void {
+      this.selectBasicAuth();
+      this.disablePersonalAccessToken();
+    }
+
+    allowPersonalAccessToken():void {
+      this.authMethodOption('bearer').disabled = false;
+    }
+
+    private selectBasicAuth():void {
+      const basicAuthOption = this.authMethodOption('basic');
+      basicAuthOption.checked = true;
+      basicAuthOption.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    private disablePersonalAccessToken():void {
+      this.authMethodOption('bearer').disabled = true;
+    }
+
+    private authMethodOption(value:string):HTMLInputElement {
+      return this.authMethodGroupTarget.querySelector<HTMLInputElement>(`input[value="${value}"]`)!;
+    }
+
     async testConnection(event:Event):Promise<void> {
       event.preventDefault();
 

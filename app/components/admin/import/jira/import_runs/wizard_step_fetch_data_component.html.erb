@@ -111,6 +111,12 @@ See COPYRIGHT and LICENSE files for more details.
           )
         end
       elsif model.in_state?(:instance_meta_done)
+        server_version_warning = model.server_version.warning
+        if server_version_warning
+          box.with_row(mb: 3) do
+            render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert)) { server_version_warning }
+          end
+        end
         box.with_row(mb: 3) do
           flex_layout do |flex|
             flex.with_column(flex: 1, mr: 1) do

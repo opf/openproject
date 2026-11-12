@@ -51,6 +51,8 @@ module Import
         jira_import = Import::JiraImport.find(jira_import_id)
         jira = jira_import.jira
         @client = jira.client
+        log_server_version
+        ensure_auth_method_supported!(jira)
         ensure_administrator_credentials!(jira)
         jira_import.update!(available: collect_metadata)
         jira_import.transition_to!(:instance_meta_done)
@@ -63,10 +65,28 @@ module Import
       jira_import&.transition_to!(:instance_meta_error, error: e.message, error_backtrace: e.backtrace)
     end
 
+    def log_server_version
+      Rails.logger.info "Jira server version '#{server_version}' is #{server_version.status}"
+    end
+
+    def ensure_auth_method_supported!(jira)
+      return if server_version.supports_auth_method?(jira.auth_method)
+
+      raise I18n.t(:"admin.jira.run.basic_auth_required_error", version: server_version)
+    end
+
     def ensure_administrator_credentials!(jira)
       return if @client.administrator?
 
       raise I18n.t(:"admin.jira.run.not_administrator_error.#{jira.auth_method}")
+    end
+
+    def server_version
+      @server_version ||= Import::JiraServerVersion.from_server_info(server_info)
+    end
+
+    def server_info
+      @server_info ||= @client.server_info
     end
 
     def collect_metadata
@@ -78,7 +98,6 @@ module Import
         users_count + application["userCount"]
       end
       projects = collect_projects
-      server_info = @client.server_info
       {
         "projects" => projects,
         "total_issues" => issues_count,

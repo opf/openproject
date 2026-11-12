@@ -586,6 +586,78 @@ RSpec.describe Admin::Import::JiraController do
       end
     end
 
+    context "when checking the server version" do
+      let(:bearer_params) do
+        { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }
+      end
+      let(:basic_auth_params) do
+        { url: "https://jira.example.com", auth_method: "basic", basic_auth_username: "user", basic_auth_password: "pass" }
+      end
+
+      before do
+        allow(jira_client).to receive(:server_info).and_return(server_info)
+      end
+
+      context "with a supported version" do
+        let(:server_info) { { "serverTitle" => "Jira", "version" => "11.3.3" } }
+
+        it "does not warn" do
+          post :test_connection, params: bearer_params, format: :turbo_stream
+
+          expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: "Jira", version: "11.3.3"))
+          expect(response.body).not_to include("Proceed at your own risk")
+        end
+      end
+
+      context "with an unsupported version" do
+        let(:server_info) { { "serverTitle" => "Jira", "version" => "12.0.0" } }
+
+        it "connects and warns about the version" do
+          post :test_connection, params: bearer_params, format: :turbo_stream
+
+          expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: "Jira", version: "12.0.0"))
+          expect(response.body).to include(I18n.t(:"admin.jira.server_version.unsupported", version: "12.0.0"))
+        end
+
+        it "replaces the warning of an earlier test instead of adding another one" do
+          post :test_connection, params: bearer_params, format: :turbo_stream
+
+          expect(response.body).to include('data-unique-key="jira-server-version-warning"')
+        end
+      end
+
+      context "with an unknown version" do
+        let(:server_info) { { "serverTitle" => "Jira" } }
+
+        it "connects and warns that the version is unknown" do
+          post :test_connection, params: bearer_params, format: :turbo_stream
+
+          expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: "Jira", version: "?"))
+          expect(response.body).to include(I18n.t(:"admin.jira.server_version.unknown"))
+        end
+      end
+
+      context "with Jira 8" do
+        let(:server_info) { { "serverTitle" => "Jira", "version" => "8.20.30" } }
+        let(:basic_auth_required_event) { Admin::Import::Jira::FormComponent::BASIC_AUTH_REQUIRED_EVENT }
+
+        it "asks for basic auth before checking the administrator when using a personal access token" do
+          post :test_connection, params: bearer_params, format: :turbo_stream
+
+          expect(response.body).to include(I18n.t(:"admin.jira.test.basic_auth_required", version: "8.20.30"))
+          expect(response.body).to include(basic_auth_required_event)
+          expect(jira_client).not_to have_received(:administrator?)
+        end
+
+        it "connects when using basic auth" do
+          post :test_connection, params: basic_auth_params, format: :turbo_stream
+
+          expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: "Jira", version: "8.20.30"))
+          expect(response.body).not_to include(basic_auth_required_event)
+        end
+      end
+    end
+
     context "when using stored credentials from existing jira" do
       let(:jira_with_token) { create(:jira, personal_access_token: "stored_token") }
       let(:jira_with_basic) do

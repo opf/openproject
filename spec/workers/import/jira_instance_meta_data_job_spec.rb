@@ -65,6 +65,38 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
       expect(jira_import.reload.current_state).to eq("instance_meta_done")
       expect(jira_import.available).to include("total_issues" => 5, "total_users" => 2, "server_info" => server_info)
     end
+
+    it "fetches the server info once" do
+      perform_job
+
+      expect(jira_client).to have_received(:server_info).once
+    end
+  end
+
+  context "with Jira 8" do
+    let(:server_info) { { "serverTitle" => "Jira", "version" => "8.20.30" } }
+    let(:administrator) { true }
+
+    context "when configured with a personal access token" do
+      it "fails the run asking for basic auth before checking the administrator" do
+        perform_job
+
+        expect(jira_import.reload.current_state).to eq("instance_meta_error")
+        expect(jira_import.last_transition.metadata["error"])
+          .to eq(I18n.t(:"admin.jira.run.basic_auth_required_error", version: "8.20.30"))
+        expect(jira_client).not_to have_received(:administrator?)
+      end
+    end
+
+    context "when configured with basic auth" do
+      let(:jira) { create(:jira, :with_basic_auth) }
+
+      it "stores the instance meta data" do
+        perform_job
+
+        expect(jira_import.reload.current_state).to eq("instance_meta_done")
+      end
+    end
   end
 
   context "when the personal access token does not belong to a Jira administrator" do

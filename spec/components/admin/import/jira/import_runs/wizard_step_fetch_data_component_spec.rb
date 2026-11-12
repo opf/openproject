@@ -56,4 +56,46 @@ RSpec.describe Admin::Import::Jira::ImportRuns::WizardStepFetchDataComponent, ty
       expect(labels).not_to include("4 resolutions")
     end
   end
+
+  describe "server version warning" do
+    shared_let(:author) { create(:admin) }
+
+    let(:jira_import) { create(:jira_import, jira: create(:jira), author:, available:) }
+    let(:available) { { "server_info" => server_info } }
+
+    before do
+      allow(Import::JiraImportStateMachine).to receive(:enqueued_job_id).and_return("stubbed-job-id")
+      jira_import.transition_to!(:instance_meta_fetching)
+      jira_import.transition_to!(:instance_meta_done)
+
+      render_inline(described_class.new(jira_import))
+    end
+
+    context "with a supported version" do
+      let(:server_info) { { "version" => "11.3.3" } }
+
+      it "shows no warning" do
+        expect(page).to have_no_css(".Banner--warning")
+      end
+    end
+
+    context "with an unsupported version" do
+      let(:server_info) { { "version" => "7.13.18" } }
+
+      it "warns but lets the import continue" do
+        expect(page).to have_css(".Banner--warning",
+                                 text: I18n.t(:"admin.jira.server_version.unsupported", version: "7.13.18"))
+        expect(page).to have_link(I18n.t(:"admin.jira.run.wizard.sections.fetch_data.button_continue"))
+      end
+    end
+
+    context "with an unknown version" do
+      let(:server_info) { { "serverTitle" => "Jira" } }
+
+      it "warns but lets the import continue" do
+        expect(page).to have_css(".Banner--warning", text: I18n.t(:"admin.jira.server_version.unknown"))
+        expect(page).to have_link(I18n.t(:"admin.jira.run.wizard.sections.fetch_data.button_continue"))
+      end
+    end
+  end
 end
