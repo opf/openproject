@@ -140,7 +140,11 @@ a.button
   &.-narrow
     margin-bottom: 0em
     margin-right: 0.25rem
-    padding: 0.3128em 0.55555em
+    height: var(--control-small-size)
+    padding: 0 var(--control-small-paddingInline-condensed)
+    font-size: var(--text-body-size-small)
+    font-weight: var(--base-text-weight-medium)
+    line-height: calc(var(--control-small-size) - 2 * var(--borderWidth-thin))
 
   &_no-margin
     margin: 0
