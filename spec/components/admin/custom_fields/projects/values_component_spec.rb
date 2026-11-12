@@ -143,6 +143,59 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     end
   end
 
+  describe "the value menu", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
+    let(:menu_items) do
+      ->(value) { row.call(value).css(".ActionListItem-label").map { it.text.strip } }
+    end
+    let(:own_value_actions) do
+      [I18n.t("custom_fields.admin.projects.edit_value"),
+       I18n.t(:button_add_sub_value),
+       I18n.t("custom_fields.admin.projects.make_available_to_all_projects"),
+       I18n.t(:button_delete)]
+    end
+
+    context "for a hierarchy custom field allowing additional project values" do
+      let(:custom_field) do
+        create(:hierarchy_wp_custom_field, :project_specific_allowlist, allow_additional_project_values: true)
+      end
+      let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
+      let!(:own_item) { create(:hierarchy_item, parent: global_item, label: "Own", project:) }
+
+      it "only offers to add sub-values to global values" do
+        expect(menu_items.call(global_item)).to eq([I18n.t(:button_add_sub_value)])
+      end
+
+      it "offers all actions for the values of the project" do
+        expect(menu_items.call(own_item)).to eq(own_value_actions)
+      end
+    end
+
+    context "for a list custom field allowing additional project values" do
+      let(:custom_field) do
+        create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A],
+                                                                   allow_additional_project_values: true)
+      end
+      let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+
+      it "offers no actions for global values" do
+        expect(row.call(custom_field.custom_options.find_by!(value: "A")).css("action-menu")).to be_empty
+      end
+
+      it "offers all actions but adding sub-values for the values of the project" do
+        expect(menu_items.call(own_option)).to eq(own_value_actions - [I18n.t(:button_add_sub_value)])
+      end
+    end
+
+    context "for a hierarchy custom field not allowing additional project values" do
+      let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
+      let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
+
+      it "offers no actions" do
+        expect(row.call(global_item).css("action-menu")).to be_empty
+      end
+    end
+  end
+
   context "when the enterprise plan does not include project-specific values" do
     let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A]) }
     let(:option) { custom_field.custom_options.first }

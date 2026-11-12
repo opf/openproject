@@ -108,18 +108,54 @@ See COPYRIGHT and LICENSE files for more details.
             )
           end
 
-          if restricted? && !row.project_specific?
-            line.with_column do
-              render(
-                Primer::Alpha::ToggleSwitch.new(
-                  src: toggle_path(row),
-                  csrf_token: helpers.form_authenticity_token,
-                  checked: row.enabled,
-                  enabled: manageable? && !row.required?,
-                  size: :small,
-                  aria: { label: row.label }
-                )
-              )
+          line.with_column do
+            flex_layout(align_items: :center) do |actions|
+              if restricted? && !row.project_specific?
+                actions.with_column do
+                  render(
+                    Primer::Alpha::ToggleSwitch.new(
+                      src: toggle_path(row),
+                      csrf_token: helpers.form_authenticity_token,
+                      checked: row.enabled,
+                      enabled: manageable? && !row.required?,
+                      size: :small,
+                      aria: { label: row.label }
+                    )
+                  )
+                end
+              end
+
+              if value_menu?(row)
+                actions.with_column(ml: 2) do
+                  render(
+                    Primer::Alpha::ActionMenu.new(
+                      menu_id: "custom-field-project-value-menu-#{row.id}",
+                      test_selector: "custom-field-project-value-menu"
+                    )
+                  ) do |menu|
+                    menu.with_show_button(
+                      icon: "kebab-horizontal",
+                      scheme: :invisible,
+                      "aria-label": t("custom_fields.admin.projects.value_actions")
+                    )
+
+                    if row.project_specific?
+                      menu.with_item(label: t("custom_fields.admin.projects.edit_value"), tag: :a, href: "#")
+                    end
+                    if custom_field.hierarchical_list?
+                      menu.with_item(label: t(:button_add_sub_value), tag: :a, href: "#")
+                    end
+                    if row.project_specific?
+                      menu.with_item(
+                        label: t("custom_fields.admin.projects.make_available_to_all_projects"),
+                        tag: :a,
+                        href: "#"
+                      )
+                      menu.with_item(label: t(:button_delete), tag: :a, href: "#", scheme: :danger)
+                    end
+                  end
+                end
+              end
             end
           end
         end
