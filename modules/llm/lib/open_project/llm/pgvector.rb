@@ -91,9 +91,14 @@ module OpenProject
           failure
         end
 
+        # The extension lives in pg_catalog, so once installed it is shared by every schema
+        # and need not be checked for installability again.
         def migrate_pending_if_installable!
-          failure = include_migrations_path_if_installable!
-          return if failure
+          if extension_installed?
+            include_migrations_path!
+          elsif include_migrations_path_if_installable!
+            return
+          end
 
           migration_context.migrate
         rescue ActiveRecord::ConnectionNotEstablished, ActiveRecord::NoDatabaseError
@@ -134,32 +139,29 @@ module OpenProject
 
         def check_if_installable
           return Failure.new(reason: :unavailable, detail: nil) unless extension_available?
-          return Failure.new(reason: :read_only, detail: nil) if read_only?
-          return Failure.new(reason: :insufficient_privilege, detail: nil) unless may_create_extension?
+
+          try_creating_extension
+        end
+
+        # Managed services such as AWS RDS grant extensions through their own roles and allow lists,
+        # which the catalog does not reflect. Only actually creating the extension tells.
+        def try_creating_extension
+          connection.transaction(requires_new: true) do
+            connection.execute("CREATE EXTENSION IF NOT EXISTS #{EXTENSION} WITH SCHEMA pg_catalog")
+            raise ActiveRecord::Rollback
+          end
 
           nil
+        rescue ActiveRecord::StatementInvalid => e
+          Failure.new(reason: creation_failure_reason(e.cause), detail: e.message)
         end
 
-        def read_only?
-          connection.select_value("SELECT pg_is_in_recovery() OR current_setting('transaction_read_only') = 'on'")
-        end
-
-        def may_create_extension?
-          row = connection.select_one(<<~SQL.squish)
-            SELECT ext.superuser AS needs_superuser,
-                   roles.rolsuper AS user_is_superuser,
-                   has_database_privilege(current_user, current_database(), 'CREATE') AS may_create_on_database
-            FROM pg_available_extension_versions ext
-            CROSS JOIN pg_roles roles
-            WHERE ext.name = '#{EXTENSION}'
-              AND roles.rolname = current_user
-            ORDER BY ext.version DESC
-            LIMIT 1
-          SQL
-
-          return false if row.nil?
-
-          row["user_is_superuser"] || (!row["needs_superuser"] && row["may_create_on_database"])
+        def creation_failure_reason(error)
+          case error
+          when PG::InsufficientPrivilege then :insufficient_privilege
+          when PG::ReadOnlySqlTransaction then :read_only
+          else :error
+          end
         end
 
         def failure_explanation(failure)
