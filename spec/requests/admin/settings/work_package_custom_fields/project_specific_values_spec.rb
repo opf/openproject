@@ -157,7 +157,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
           get new_path, as: :turbo_stream
 
           expect(response).to have_http_status(:ok)
-          expect(response.body).to include("custom-field-project-value-new-dialog")
+          expect(response.body).to include("custom-field-project-value-dialog")
         end
 
         it "adds the value to the project" do
@@ -209,6 +209,73 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
           get new_path, as: :turbo_stream
 
           expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    describe "editing a value of a project" do
+      let(:edit_path) do
+        lambda do |value|
+          edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project, value.id)
+        end
+      end
+      let(:update_path) do
+        ->(value) { admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project, value.id) }
+      end
+
+      context "for a list custom field" do
+        let(:custom_field) do
+          create(:list_wp_custom_field, types: [feature], possible_values: %w[A], allow_additional_project_values: true)
+        end
+        let!(:own_option) { custom_field.custom_options.create!(value: "Own", project: using_project) }
+
+        it "edits the value in a dialog" do
+          get edit_path.call(own_option), as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include("custom-field-project-value-dialog")
+        end
+
+        it "renames the value" do
+          patch update_path.call(own_option), params: { label: "Renamed" }
+
+          expect(response).to redirect_to(values_path)
+          expect(own_option.reload.value).to eq("Renamed")
+        end
+
+        it "shows the errors in the dialog" do
+          patch update_path.call(own_option), params: { label: "A" }, as: :turbo_stream
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(own_option.reload.value).to eq("Own")
+        end
+
+        it "does not find a global value" do
+          get edit_path.call(custom_field.custom_options.find_by!(value: "A")), as: :turbo_stream
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
+        let(:custom_field) do
+          create(:hierarchy_wp_custom_field, types: [feature], allow_additional_project_values: true)
+        end
+        let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
+        let!(:own_item) { create(:hierarchy_item, parent: global_item, label: "Own", project: using_project) }
+
+        it "renames the value" do
+          patch update_path.call(own_item), params: { label: "Renamed", short: "RN" }
+
+          expect(response).to redirect_to(values_path)
+          expect(own_item.reload).to have_attributes(label: "Renamed", short: "RN")
+        end
+
+        it "shows the errors in the dialog" do
+          patch update_path.call(own_item), params: { label: "" }, as: :turbo_stream
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(own_item.reload.label).to eq("Own")
         end
       end
     end

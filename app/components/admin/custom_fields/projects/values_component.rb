@@ -137,6 +137,10 @@ module Admin
           new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, parent_id: row.id)
         end
 
+        def edit_path(row)
+          edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
+        end
+
         def make_global_path(row)
           make_global_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
         end

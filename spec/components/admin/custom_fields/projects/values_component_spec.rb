@@ -169,6 +169,14 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
         expect(menu_items.call(own_item)).to eq(own_value_actions)
       end
 
+      it "opens a dialog to edit a value of the project" do
+        dialog_path = edit_admin_settings_work_package_custom_field_project_specific_value_path(
+          custom_field, project, own_item.id
+        )
+
+        expect(row.call(own_item).css("a[href='#{dialog_path}'][data-controller='async-dialog']")).to be_present
+      end
+
       it "opens a dialog to add a sub-value" do
         dialog_path = new_admin_settings_work_package_custom_field_project_specific_value_path(
           custom_field, project, parent_id: global_item.id

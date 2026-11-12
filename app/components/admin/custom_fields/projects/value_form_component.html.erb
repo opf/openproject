@@ -27,17 +27,29 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(
-    Primer::Alpha::Dialog.new(
-      id: DIALOG_ID,
-      title:,
-      size: :medium_portrait,
-      data: { "keep-open-on-submit": true },
-      test_selector: "custom-field-project-value-new-dialog"
-    )
-  ) do
-    render(
-      Admin::CustomFields::Projects::NewValueFormComponent.new(custom_field:, project:, values: { parent_id: parent&.id })
-    )
+  component_wrapper do
+    primer_form_with(**form_arguments) do |f|
+      component_collection do |collection|
+        collection.with_component(Primer::Alpha::Dialog::Body.new) do
+          render(::CustomFields::ProjectSpecificValues::ValueForm.new(f, custom_field:, project:, value:, values:, errors:))
+        end
+
+        collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+          component_collection do |footer|
+            footer.with_component(
+              Primer::Beta::Button.new(
+                data: { close_dialog_id: Admin::CustomFields::Projects::ValueDialogComponent::DIALOG_ID }
+              )
+            ) do
+              t(:button_cancel)
+            end
+
+            footer.with_component(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do
+              submit_label
+            end
+          end
+        end
+      end
+    end
   end
 %>

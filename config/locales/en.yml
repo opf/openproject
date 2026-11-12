@@ -2969,18 +2969,19 @@ en:
         make_available_to_all_projects: "Make available to all projects"
         make_available_to_all_projects_confirm: "Make “%{value}” available to all projects?"
         new_value: "Value"
-        new_value_dialog:
+        quick_filter:
+          all: "All projects"
+          with_project_specific_values: "With project-specific values"
+        types_column: "Displayed in type"
+        value_actions: "Value actions"
+        value_dialog:
+          edit_title: "Edit value"
           name: "Name"
           name_caption: "Only available in %{project}."
           parent: "Add to parent"
           title: "Add project-specific value"
           title_with_parent: "Add project-specific value to “%{parent}”"
           top_level: "Top level"
-        quick_filter:
-          all: "All projects"
-          with_project_specific_values: "With project-specific values"
-        types_column: "Displayed in type"
-        value_actions: "Value actions"
         values_empty_state:
           description: "Add values to this custom field to choose which of them are available in this project."
           title: "This custom field has no values yet"
