@@ -154,7 +154,17 @@ See COPYRIGHT and LICENSE files for more details.
                       menu.with_item(
                         label: t("custom_fields.admin.projects.make_available_to_all_projects"),
                         tag: :a,
-                        href: "#"
+                        href: make_global_path(row),
+                        disabled: row.parent_project_specific?,
+                        content_arguments: {
+                          data: {
+                            turbo_method: :post,
+                            turbo_confirm: t(
+                              "custom_fields.admin.projects.make_available_to_all_projects_confirm",
+                              value: row.label
+                            )
+                          }
+                        }
                       )
                       menu.with_item(
                         label: t(:button_delete),

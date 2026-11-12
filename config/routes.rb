@@ -1098,6 +1098,7 @@ Rails.application.routes.draw do
                   only: %i[index new create destroy] do
           member do
             post :toggle
+            post :make_global
             get :deletion_dialog
           end
           collection do

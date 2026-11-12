@@ -36,11 +36,11 @@ module Admin
         menu_item :work_package_custom_fields
 
         before_action :find_custom_field
-        before_action :require_project_specific_values, only: %i[index deletion_dialog destroy]
+        before_action :require_project_specific_values, only: %i[index make_global deletion_dialog destroy]
         before_action :require_project_specific_value_restriction, only: %i[toggle enable_all disable_all]
         before_action :require_additional_project_values, only: %i[new create]
         before_action :find_project_using_custom_field
-        before_action :find_own_value, only: %i[deletion_dialog destroy]
+        before_action :find_own_value, only: %i[make_global deletion_dialog destroy]
         before_action :find_parent, only: %i[new create]
 
         helper_method :custom_field_page_title, :section_label
@@ -86,6 +86,20 @@ module Admin
 
         def disable_all
           update_all(::CustomFields::ProjectSpecificValues::DisableAllService)
+        end
+
+        def make_global
+          call = ::CustomFields::ProjectSpecificValues::MakeGlobalService
+                   .new(user: current_user, model: @custom_field)
+                   .call(project: @configured_project, value: @value)
+
+          if call.success?
+            flash[:notice] = I18n.t(:notice_successful_update)
+          else
+            flash[:error] = call.message
+          end
+
+          redirect_to_index
         end
 
         def deletion_dialog
