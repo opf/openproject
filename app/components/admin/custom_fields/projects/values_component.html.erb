@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Beta::Text.new(font_weight: :bold)) { custom_field.name }
         end
 
-        if manageable? && rows.any?
+        if restricted? && manageable? && rows.any?
           header.with_column do
             safe_join(
               [
@@ -98,7 +98,7 @@ See COPYRIGHT and LICENSE files for more details.
             safe_join(
               [
                 render(Primer::Beta::Text.new) { row.label },
-                if row.project_specific
+                if row.project_specific?
                   render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) do
                     t("custom_fields.project_specific_values.label")
                   end
@@ -108,17 +108,19 @@ See COPYRIGHT and LICENSE files for more details.
             )
           end
 
-          line.with_column do
-            render(
-              Primer::Alpha::ToggleSwitch.new(
-                src: toggle_path(row),
-                csrf_token: helpers.form_authenticity_token,
-                checked: row.enabled,
-                enabled: manageable?,
-                size: :small,
-                aria: { label: row.label }
+          if restricted? && !row.project_specific?
+            line.with_column do
+              render(
+                Primer::Alpha::ToggleSwitch.new(
+                  src: toggle_path(row),
+                  csrf_token: helpers.form_authenticity_token,
+                  checked: row.enabled,
+                  enabled: manageable?,
+                  size: :small,
+                  aria: { label: row.label }
+                )
               )
-            )
+            end
           end
         end
       end

@@ -34,7 +34,7 @@ module Admin
       class ValuesComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
 
-        Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific)
+        Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific?)
 
         MAX_INDENTATION = 12
 
@@ -56,7 +56,7 @@ module Admin
         def option_rows
           custom_field.custom_options.where(project_id: [nil, project.id]).map do |option|
             Row.new(id: option.id, label: option.value, depth: 0, caption: nil, enabled: enabled?(option),
-                    project_specific: option.project_id.present?)
+                    project_specific?: option.project_id.present?)
           end
         end
 
@@ -72,7 +72,7 @@ module Admin
 
         def item_row(item, depth)
           Row.new(id: item.id, label: item.label, depth:, caption: item_caption(item), enabled: enabled?(item),
-                  project_specific: item.project_id.present?)
+                  project_specific?: item.project_id.present?)
         end
 
         def hierarchy_items
@@ -93,6 +93,10 @@ module Admin
 
         def manageable?
           EnterpriseToken.allows_to?(:project_specific_list_values)
+        end
+
+        def restricted?
+          custom_field.project_specific_value_restriction.present?
         end
 
         def indentation(row)
