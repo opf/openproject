@@ -66,88 +66,88 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
 
       WorkPackage.where(id: work_package.id).update_all(status_id: new_status.id)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the status" do
       work_package.status.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the author id" do
       WorkPackage.where(id: work_package.id).update_all(author_id: 0)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the author" do
       work_package.author.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
+    end
+
+    it "produces a different checksum on changes to the reporter id" do
+      WorkPackage.where(id: work_package.id).update_all(reporter_id: 0)
+
+      expect(new_checksum).not_to eql orig_checksum
+    end
+
+    it "produces a different checksum on changes to the reporter" do
+      work_package.reporter.update_attribute(:updated_at, 10.seconds.from_now)
+
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the assigned_to id" do
       WorkPackage.where(id: work_package.id).update_all(assigned_to_id: 0)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the assigned_to" do
       work_package.assigned_to.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the responsible id" do
       WorkPackage.where(id: work_package.id).update_all(responsible_id: 0)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the responsible" do
       work_package.responsible.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on reassigning the target version" do
       other_version = create(:version, project:)
       work_package.work_package_versions.where(kind: "target").update_all(version_id: other_version.id)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the target version" do
       work_package.target_versions.first.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to an additional target version" do
       other_version = create(:version, project:)
       work_package.work_package_versions.create!(version: other_version, kind: "target")
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to an additional observed_in version" do
       other_version = create(:version, project:)
       work_package.work_package_versions.create!(version: other_version, kind: "observed_in")
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to an observed_in version" do
@@ -161,58 +161,50 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
 
       other_version.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(new_checksum)
-        .not_to eql previous_checksum
+      expect(new_checksum).not_to eql previous_checksum
     end
 
     it "produces a different checksum on moving a version between kinds" do
       work_package.work_package_versions.where(kind: "target").update_all(kind: "observed_in")
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the type id" do
       new_type = create(:type)
       WorkPackage.where(id: work_package.id).update_all(type_id: new_type.id)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the type" do
       work_package.type.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the priority id" do
       WorkPackage.where(id: work_package.id).update_all(priority_id: 0)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the priority" do
       work_package.priority.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the category id" do
       WorkPackage.where(id: work_package.id).update_all(category_id: 0)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum on changes to the category" do
       work_package.category.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum when a label is added to the work package" do
@@ -220,8 +212,7 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
 
       create(:labeling, labelable: work_package, label:)
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      expect(new_checksum).not_to eql orig_checksum
     end
 
     it "produces a different checksum when a label is removed from the work package" do
@@ -235,8 +226,7 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
 
       labeling.destroy!
 
-      expect(new_checksum)
-        .not_to eql previous_checksum
+      expect(new_checksum).not_to eql previous_checksum
     end
 
     it "produces a different checksum when an assigned label is renamed" do
@@ -250,8 +240,7 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
 
       label.update_attribute(:name, "Renamed label #{label.id}")
 
-      expect(new_checksum)
-        .not_to eql previous_checksum
+      expect(new_checksum).not_to eql previous_checksum
     end
 
     it "produces the same checksum when a label not assigned to the work package changes" do
@@ -267,8 +256,7 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
 
       unassigned_label.update_attribute(:name, "Renamed label #{unassigned_label.id}")
 
-      expect(new_checksum)
-        .to eql previous_checksum
+      expect(new_checksum).to eql previous_checksum
     end
   end
 
@@ -293,8 +281,7 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
 
       project.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(checksum)
-        .not_to eql orig_checksum
+      expect(checksum).not_to eql orig_checksum
     end
 
     it "does not include changes to associations that were not added" do
@@ -302,16 +289,14 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
 
       project.update_attribute(:updated_at, 10.seconds.from_now)
 
-      expect(checksum)
-        .to eql orig_checksum
+      expect(checksum).to eql orig_checksum
     end
 
     it "adds an association only once" do
       described_class.add_checksum_associations(:project)
       described_class.add_checksum_associations(:project)
 
-      expect(described_class.checksum_associations.count(:project))
-        .to eq 1
+      expect(described_class.checksum_associations.count(:project)).to eq 1
     end
   end
 end

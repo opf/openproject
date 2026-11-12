@@ -231,6 +231,11 @@ module API
                  location: :link,
                  writable: false
 
+          schema :reporter,
+                 type: "User",
+                 location: :link,
+                 writable: false
+
           schema_with_allowed_link :project,
                                    type: "Project",
                                    required: true,
