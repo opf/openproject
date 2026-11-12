@@ -62,14 +62,14 @@
     <edit-form [resource]="workPackage"
       [inEditMode]="isNewResource(workPackage)"
       >
-      <div class="op-wp-single-card-content -new">
+      <div class="op-wp-single-card--content -new">
         <op-editable-attribute-field [resource]="workPackage"
           [wrapperClasses]="'work-packages--type-selector'"
           [fieldName]="'type'"
-          class="op-wp-single-card-content--type" />
+          class="op-wp-single-card--content-type" />
         <op-editable-attribute-field [resource]="workPackage"
           fieldName="subject"
-          class="op-wp-single-card-content--subject -bold" />
+          class="op-wp-single-card--content-subject -bold" />
       </div>
     </edit-form>
   }
