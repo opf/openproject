@@ -49,7 +49,7 @@ module CustomField::ProjectSpecificValues
   end
 
   def visible_values_for(user, within: nil)
-    return restrictable_values if user.admin?
+    return restrictable_values if user.admin? && within.nil?
 
     projects = Project.with_visible_work_packages(user)
     projects = projects.where(id: within) if within

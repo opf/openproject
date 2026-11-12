@@ -4898,13 +4898,13 @@ en:
     one: "%{count} file"
     other: "%{count} files"
     zero: "no files"
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: "1 in progress"
     other: "%{count} in progress"
     zero: "0 in progress"
-  label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
