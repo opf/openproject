@@ -379,7 +379,7 @@ class RecurringMeetingsController < ApplicationController
   end
 
   def find_recurring_meeting
-    @recurring_meeting = visible_recurring_meetings_scope.find(params[:id])
+    @recurring_meeting = visible_recurring_meetings_scope.joins(:template).find(params.expect(:id))
   end
 
   def convert_params
