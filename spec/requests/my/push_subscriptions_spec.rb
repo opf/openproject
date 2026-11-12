@@ -188,6 +188,15 @@ RSpec.describe "My::PushSubscriptionsController",
           expect(response).to have_http_status(:not_found)
         end
       end
+
+      context "with the feature flag off", with_flag: { progressive_web_app: false } do
+        it "is not found" do
+          subscribe(endpoint)
+
+          expect(response).to have_http_status(:not_found)
+          expect(PushSubscription.count).to eq(0)
+        end
+      end
     end
 
     context "with forgery protection", skip_csrf: false do
