@@ -55,7 +55,16 @@ describe('PushSubscriptionController', () => {
     timeout: 'Timeout message',
   };
   const currentKey = { applicationServerKey: new Uint8Array([0xfb, 0xff]) };
-  const known = { endpoint: 'https://push.example/known', revokeUrl: '/my/push_subscriptions/1' };
+  const knownEndpoint = 'https://push.example/known';
+  const known = {
+    endpointDigest: '2a1143e85659150e2dcda3d20b3bdb847b14b345f3626e0bdd1fc061105fafb0',
+    revokeUrl: '/my/push_subscriptions/1',
+  };
+  const mine = {
+    endpointDigest: '98b94751a384272cceb4f1fbe35870ea6fd8b81dd7a32b773903d585772f369f',
+    revokeUrl: '/my/push_subscriptions/2',
+    current: true,
+  };
 
   const visibleBanners = () => Array.from(
     document.querySelectorAll<HTMLElement>('[data-my--push-subscription-target="banner"]:not([hidden])'),
@@ -156,7 +165,7 @@ describe('PushSubscriptionController', () => {
 
   it('waits for a registration that is still installing and shows its subscription', async () => {
     getRegistration.mockResolvedValue(undefined);
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
     await mount();
 
     expect(status()).toBe(MESSAGES.enabled);
@@ -219,7 +228,7 @@ describe('PushSubscriptionController', () => {
   });
 
   it('shows the enabled state for a subscription known to the server', async () => {
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
     await mount();
 
     expect(status()).toBe(MESSAGES.enabled);
@@ -240,7 +249,7 @@ describe('PushSubscriptionController', () => {
 
   it('drops a subscription bound to a previous VAPID key and shows the disabled state', async () => {
     const previousKey = { applicationServerKey: new Uint8Array([0x01, 0x02]) };
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: previousKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: previousKey });
     await mount();
 
     expect(unsubscribe).toHaveBeenCalled();
@@ -251,7 +260,7 @@ describe('PushSubscriptionController', () => {
   });
 
   it('keeps a subscription whose key is unavailable', async () => {
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: { applicationServerKey: null } });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: { applicationServerKey: null } });
     await mount();
 
     expect(unsubscribe).not.toHaveBeenCalled();
@@ -259,7 +268,6 @@ describe('PushSubscriptionController', () => {
   });
 
   it('revokes the server row for this device when the browser lost its subscription', async () => {
-    const mine = { endpoint: 'https://push.example/mine', revokeUrl: '/my/push_subscriptions/2', current: true };
     getSubscription.mockResolvedValue(null);
     await mount({ subscriptions: [known, mine] });
 
@@ -273,7 +281,6 @@ describe('PushSubscriptionController', () => {
   });
 
   it('revokes the server row for this device when notifications are blocked', async () => {
-    const mine = { endpoint: 'https://push.example/mine', revokeUrl: '/my/push_subscriptions/2', current: true };
     vi.stubGlobal('Notification', { permission: 'denied' });
     await mount({ subscriptions: [mine] });
 
@@ -479,7 +486,7 @@ describe('PushSubscriptionController', () => {
   });
 
   it('sends a DELETE to the revoke url of the current subscription on disable', async () => {
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
     await mount();
     disableButton().click();
     await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
@@ -491,7 +498,7 @@ describe('PushSubscriptionController', () => {
   });
 
   it('unsubscribes the browser and shows the disabled state after a successful disable', async () => {
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
     await mount();
     disableButton().click();
 
@@ -502,7 +509,7 @@ describe('PushSubscriptionController', () => {
   });
 
   it('shows the error banner when the DELETE fails', async () => {
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
     fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 500 })));
     await mount();
     disableButton().click();
@@ -514,7 +521,7 @@ describe('PushSubscriptionController', () => {
   });
 
   it('unsubscribes and shows the disabled state when the row was already revoked elsewhere', async () => {
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
     fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 404 })));
     await mount();
     disableButton().click();
@@ -525,7 +532,7 @@ describe('PushSubscriptionController', () => {
   });
 
   it('sends no request when the current subscription has no known revoke url', async () => {
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
     await mount();
     getSubscription.mockResolvedValue({ endpoint: 'https://push.example/other', unsubscribe });
     disableButton().click();
@@ -553,7 +560,7 @@ describe('PushSubscriptionController', () => {
   });
 
   it('announces the same error again after a retry fails the same way', async () => {
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
     fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 500 })));
     await mount();
     disableButton().click();
@@ -568,7 +575,7 @@ describe('PushSubscriptionController', () => {
   });
 
   it('retries the disable when a disable failed', async () => {
-    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
     fetchMock
       .mockResolvedValueOnce(new Response('', { status: 500 }))
       .mockResolvedValueOnce(new Response('', { status: 200 }));

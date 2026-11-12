@@ -31,7 +31,7 @@ import { LIVE_REGION_ANNOUNCEMENT_DELAY } from '../../flash.controller';
 import { destroy, post } from '@rails/request.js';
 
 interface KnownSubscription {
-  endpoint:string;
+  endpointDigest:string;
   revokeUrl:string;
   current?:boolean;
 }
@@ -60,6 +60,11 @@ function decodeBase64Url(value:string):Uint8Array<ArrayBuffer> {
   // The key is base64url without padding; atob only accepts standard base64.
   const base64 = value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=');
   return Uint8Array.from(atob(base64), (char) => char.charCodeAt(0));
+}
+
+async function sha256Hex(value:string):Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
 function assertOk(response:{ ok:boolean; statusCode:number }):void {
@@ -182,7 +187,9 @@ export default class PushSubscriptionController extends Controller {
       const subscription = await registration?.pushManager.getSubscription();
       if (!isLatestRun()) return;
 
-      const known = this.knownToServer(subscription);
+      const known = subscription ? await this.knownToServer(subscription) : undefined;
+      if (!isLatestRun()) return;
+
       if (!subscription || !known) {
         this.lastAttempt = 'sync';
         this.render('error');
@@ -232,7 +239,10 @@ export default class PushSubscriptionController extends Controller {
     const subscription = await registration.pushManager.getSubscription();
     if (!isLatestRun()) return;
 
-    if (subscription && this.knownToServer(subscription) && this.boundToCurrentKey(subscription)) {
+    const known = subscription ? await this.knownToServer(subscription) : undefined;
+    if (!isLatestRun()) return;
+
+    if (subscription && known && this.boundToCurrentKey(subscription)) {
       this.render('enabled');
       return;
     }
@@ -328,8 +338,9 @@ export default class PushSubscriptionController extends Controller {
     await subscription?.unsubscribe().catch(() => false);
   }
 
-  private knownToServer(subscription:PushSubscription|null|undefined):KnownSubscription|undefined {
-    return this.subscriptionsValue.find((entry) => entry.endpoint === subscription?.endpoint);
+  private async knownToServer(subscription:PushSubscription):Promise<KnownSubscription|undefined> {
+    const digest = await sha256Hex(subscription.endpoint);
+    return this.subscriptionsValue.find((entry) => entry.endpointDigest === digest);
   }
 
   private boundToCurrentKey(subscription:PushSubscription):boolean {

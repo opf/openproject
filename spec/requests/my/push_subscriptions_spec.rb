@@ -78,6 +78,13 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(PushSubscription.sole).to have_attributes(user:, endpoint:, session: current_session_row)
       end
 
+      it "renders only a digest of the endpoint into the replaced component" do
+        subscribe(endpoint)
+
+        expect(response.body).not_to include(endpoint)
+        expect(response.body).to include(Digest::SHA256.hexdigest(endpoint))
+      end
+
       it "refuses an endpoint held by another user" do
         existing = create(:push_subscription, endpoint:)
 
