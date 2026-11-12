@@ -110,6 +110,24 @@ RSpec.describe "form configuration required attributes", :js do
       expect(page).to have_no_test_selector("type-form-configuration-toggle-required-priority")
     end
 
+    it "disables the action while the field is switched off, keeping focus on the switch" do
+      switch_selector = "toggle-form-config-exclusion-#{custom_field.attribute_name}"
+      disabled_action = "#{test_selector("type-form-configuration-toggle-required-#{custom_field.attribute_name}")}" \
+                        "[aria-disabled='true']"
+      focused_test_selector = "document.activeElement.closest('[data-test-selector]')?.dataset.testSelector"
+
+      page.find_test_selector(switch_selector).click_button
+
+      expect(page).to have_css(disabled_action, text: mark)
+      expect(page.evaluate_script(focused_test_selector)).to eq(switch_selector)
+
+      page.find_test_selector(switch_selector).click_button
+
+      expect(page).to have_no_css(disabled_action)
+      expect(required_action(custom_field.attribute_name)).to have_text(mark)
+      expect(page.evaluate_script(focused_test_selector)).to eq(switch_selector)
+    end
+
     it "places the action left of the exclusion toggle" do
       action = required_action(custom_field.attribute_name)
       toggle = page.find_test_selector("toggle-form-config-exclusion-#{custom_field.attribute_name}")

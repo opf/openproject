@@ -89,6 +89,18 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
         expect(page).to have_test_selector("type-form-configuration-toggle-required-custom_field_5", visible: :all)
       end
 
+      it "disables the required toggle while the field is switched off, saying why", :aggregate_failures do
+        exclude_configuration_elements(variant, aspect: TypeVariant::FORM_CONFIGURATION,
+                                                elements: %w[custom_field_5])
+
+        render_row
+
+        action = page.find(:test_id, "type-form-configuration-toggle-required-custom_field_5", visible: :all)
+        expect(action[:"aria-disabled"]).to eq("true")
+        expect(page).to have_css("tool-tip[for='#{action[:id]}']",
+                                 visible: :all, text: "Switch this custom field on before requiring it for this type.")
+      end
+
       it "offers, disabled, to stop requiring a field required for all types", :aggregate_failures do
         render_row(attribute: attribute.merge(required_globally: true))
 

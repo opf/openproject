@@ -60,7 +60,7 @@ module WorkPackageTypes
       end
 
       def required_action_disabled?
-        @attribute[:required_globally].present?
+        @attribute[:required_globally].present? || excluded?
       end
 
       def toggle_required_label
@@ -74,7 +74,9 @@ module WorkPackageTypes
       end
 
       def toggle_required_hint
-        t("types.edit.form_configuration.required.globally_hint")
+        key = @attribute[:required_globally] ? "globally_hint" : "excluded"
+
+        t("types.edit.form_configuration.required.#{key}")
       end
 
       def toggle_required_button_id
