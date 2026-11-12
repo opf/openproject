@@ -32,11 +32,23 @@ module ProjectSpecificValuesHelpers
     items.each { create(:project_specific_value_restriction, project:, hierarchy_item: it) }
   end
 
-  def insert_project_item(parent:, label:, project:)
-    CustomFields::Hierarchy::HierarchicalItemService
-      .new
-      .insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent:, label:, project:)
-      .value!
+  def insert_project_item(parent:, label:, project:, user:)
+    CustomFields::Hierarchy::Items::CreateService
+      .new(user:)
+      .call(parent:, label:, project:)
+      .result
+  end
+
+  def move_item(item, new_parent:, user:)
+    CustomFields::Hierarchy::Items::UpdateService
+      .new(user:, model: item)
+      .call(parent: new_parent)
+  end
+
+  def delete_item(item, user:)
+    CustomFields::Hierarchy::Items::DeleteService
+      .new(user:, model: item)
+      .call
   end
 
   def toggle_project_value(custom_field, project:, value:, enabled:, user:)

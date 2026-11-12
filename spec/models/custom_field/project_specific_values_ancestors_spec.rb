@@ -45,7 +45,6 @@ RSpec.describe CustomField::ProjectSpecificValues, "ancestors of project-specifi
   let!(:france) { create(:hierarchy_item, parent: europe, label: "France") }
   let!(:asia) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Asia") }
 
-  let(:item_service) { CustomFields::Hierarchy::HierarchicalItemService.new }
   let(:usable_values) { custom_field.reload.usable_values_in(project) }
 
   before { User.current = admin }
@@ -55,7 +54,7 @@ RSpec.describe CustomField::ProjectSpecificValues, "ancestors of project-specifi
 
     context "and no values enabled in the project" do
       it "enables the whole ancestor chain when the project adds a value" do
-        own_item = insert_project_item(parent: berlin, label: "Adlershof Lab", project:)
+        own_item = insert_project_item(parent: berlin, label: "Adlershof Lab", project:, user: admin)
 
         expect(usable_values).to contain_exactly(europe, germany, berlin, own_item)
       end
@@ -67,7 +66,7 @@ RSpec.describe CustomField::ProjectSpecificValues, "ancestors of project-specifi
       before { restrict_items_in(project, asia) }
 
       it "enables the whole ancestor chain when the value is moved below a disabled parent" do
-        item_service.move_item(item: own_item, new_parent: berlin).value!
+        expect(move_item(own_item, new_parent: berlin, user: admin)).to be_success
 
         expect(usable_values).to include(europe, germany, berlin, own_item)
       end
@@ -83,7 +82,7 @@ RSpec.describe CustomField::ProjectSpecificValues, "ancestors of project-specifi
       end
 
       it "enables the new ancestor chain in each of those projects when the global value is moved" do
-        item_service.move_item(item: germany, new_parent: asia).value!
+        expect(move_item(germany, new_parent: asia, user: admin)).to be_success
 
         expect(usable_values).to include(asia, germany, berlin, own_item)
         expect(custom_field.reload.usable_values_in(other_project)).to include(asia, germany, berlin, other_item)
@@ -101,7 +100,7 @@ RSpec.describe CustomField::ProjectSpecificValues, "ancestors of project-specifi
       end
 
       it "keeps the parents enabled when the value is deleted" do
-        item_service.delete_branch(item: own_item).value!
+        expect(delete_item(own_item, user: admin)).to be_success
 
         expect(usable_values).to contain_exactly(europe, germany, berlin)
       end
@@ -151,7 +150,7 @@ RSpec.describe CustomField::ProjectSpecificValues, "ancestors of project-specifi
       before { restrict_items_in(project, germany) }
 
       it "enables the ancestor chain, but not its other values, when the project adds a value" do
-        own_item = insert_project_item(parent: berlin, label: "Adlershof Lab", project:)
+        own_item = insert_project_item(parent: berlin, label: "Adlershof Lab", project:, user: admin)
 
         expect(usable_values).to include(europe, germany, berlin, own_item)
         expect(usable_values).not_to include(munich)

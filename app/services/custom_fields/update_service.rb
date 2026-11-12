@@ -34,8 +34,21 @@ module CustomFields
     def after_perform(service_call)
       super.tap do
         enqueue_recalculate_values if recalculate_values?
-        model.project_specific_value_restrictions.delete_all if model.project_specific_value_restriction_previously_changed?
+        reset_project_specific_value_restrictions if model.project_specific_value_restriction_previously_changed?
       end
+    end
+
+    def reset_project_specific_value_restrictions
+      model.project_specific_value_restrictions.delete_all
+      return unless model.project_specific_value_restriction_allow? && model.hierarchical_list?
+
+      projects_with_own_values.find_each do |project|
+        ProjectSpecificValues::EnableRequiredValuesService.new(model:).call(project:)
+      end
+    end
+
+    def projects_with_own_values
+      Project.where(id: model.restrictable_values.where.not(project_id: nil).select(:project_id))
     end
 
     private

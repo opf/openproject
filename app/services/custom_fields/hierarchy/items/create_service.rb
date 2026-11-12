@@ -48,7 +48,13 @@ module CustomFields
         end
 
         def after_perform(service_result)
-          service_result.merge!(RebuildPositionCacheService.new(user:, model: service_result.result).call)
+          item = service_result.result
+          service_result.merge!(RebuildPositionCacheService.new(user:, model: item).call)
+          return service_result if item.project.nil?
+
+          service_result.merge!(
+            ProjectSpecificValues::EnableRequiredValuesService.new(model: item.root.custom_field).call(project: item.project)
+          )
         end
 
         def instance_class
