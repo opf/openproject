@@ -14,13 +14,13 @@ workflows:
         - 'actions/setup-node@v7.1.0'
     '.github/workflows/brakeman-scan-core.yml':
         - 'actions/checkout@v7.0.1'
-        - 'github/codeql-action@v4.39.0'
+        - 'github/codeql-action@v4.39.3'
         - 'ruby/setup-ruby@v1.335.0'
     '.github/workflows/cla.yml':
         - 'contributor-assistant/github-action@v2.6.1'
     '.github/workflows/codeql-scan-core.yml':
         - 'actions/checkout@v7.0.1'
-        - 'github/codeql-action@v4.39.0'
+        - 'github/codeql-action@v4.39.3'
     '.github/workflows/continuous-delivery.yml': []
     '.github/workflows/core-docker-release.yml': []
     '.github/workflows/create-merge-from-previous-release-branch-pr.yml':
@@ -88,7 +88,7 @@ workflows:
         - 'ruby/setup-ruby@v1.335.0'
     '.github/workflows/semgrep-scan-core.yml':
         - 'actions/checkout@v7.0.1'
-        - 'github/codeql-action@v4.39.1'
+        - 'github/codeql-action@v4.39.3'
     '.github/workflows/sync-internal-fork.yml':
         - 'actions/checkout@v7.0.1'
     '.github/workflows/test-core.yml':
@@ -157,14 +157,9 @@ dependencies:
         commit: 'sha1-9b3254085494b55a0f7c4c2b3d2d52cc712ce370'
         owner_id: 9919
         repo_id: 259445878
-    'github/codeql-action@v4.39.0':
-        ref: 'v4.39.0'
-        commit: 'sha1-6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee'
-        owner_id: 9919
-        repo_id: 259445878
-    'github/codeql-action@v4.39.1':
-        ref: 'v4.39.1'
-        commit: 'sha1-9b3254085494b55a0f7c4c2b3d2d52cc712ce370'
+    'github/codeql-action@v4.39.3':
+        ref: 'v4.39.3'
+        commit: 'sha1-33d7b85da1a04171e211befe2c739303b9a4c066'
         owner_id: 9919
         repo_id: 259445878
     'marocchino/sticky-pull-request-comment@v3.0.5':
