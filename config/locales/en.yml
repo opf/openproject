@@ -5833,7 +5833,7 @@ en:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Duplicate projects"
-  permission_copy_projects_explanation: "In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template."
+  permission_copy_projects_explanation: "Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates."
   permission_copy_work_packages: "Duplicate work packages"
   permission_create_backup: "Create backups"
   permission_create_user: "Create users"

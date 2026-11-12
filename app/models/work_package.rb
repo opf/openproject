@@ -145,7 +145,11 @@ class WorkPackage < ApplicationRecord
                                "#{table_name}.description",
                                {
                                  name: "#{Journal.table_name}.notes",
-                                 scope: -> { Journal.for_work_package.where("journable_id = #{table_name}.id") }
+                                 scope: -> {
+                                   Journal.for_work_package
+                                          .where("journable_id = #{table_name}.id")
+                                          .where(internal_journals_visible_condition)
+                                 }
                                }],
                      tsv_columns: [
                        {

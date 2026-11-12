@@ -95,8 +95,10 @@ Administrators can add new roles with custom permissions or configure existing o
 
 The **Duplicate projects** permission allows users to create a new project by duplicating an existing one.
 
-> [!NOTE]
-> A user copying a project is assigned the configured **New role for users that create projects** in the new project. This role may grant additional permissions compared to the user's role in the source project.
+> [!IMPORTANT]
+> All selected project data is copied, including content and attachments the user cannot view in the source project. Users who are not instance administrators receive the configured **New role for users that create projects** in the copied project. This role can grant access to all copied data, independently of their permissions in the source project.
+>
+> Grant **Copy projects** only to users who are authorized to access all data that can be copied from the source project. Review the [role assigned to project creators](../../projects/new-project/) alongside this permission.
 
 To access the **Duplicate** action from a project's settings, users must also be able to open the project settings (typically by having the **Edit project** permission). Alternatively, users can create a new project from a project template, if available.
 
