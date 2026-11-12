@@ -34,7 +34,7 @@ module Admin
       class ValuesComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
 
-        Row = Data.define(:id, :label, :depth, :caption, :enabled)
+        Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific)
 
         MAX_INDENTATION = 12
 
@@ -54,8 +54,9 @@ module Admin
         end
 
         def option_rows
-          custom_field.custom_options.map do |option|
-            Row.new(id: option.id, label: option.value, depth: 0, caption: nil, enabled: enabled?(option))
+          custom_field.custom_options.where(project_id: [nil, project.id]).map do |option|
+            Row.new(id: option.id, label: option.value, depth: 0, caption: nil, enabled: enabled?(option),
+                    project_specific: option.project_id.present?)
           end
         end
 
@@ -70,21 +71,20 @@ module Admin
         end
 
         def item_row(item, depth)
-          Row.new(id: item.id, label: item.label, depth:, caption: item_caption(item), enabled: enabled?(item))
+          Row.new(id: item.id, label: item.label, depth:, caption: item_caption(item), enabled: enabled?(item),
+                  project_specific: item.project_id.present?)
         end
 
         def hierarchy_items
           ::CustomFields::Hierarchy::HierarchicalItemService
             .new
             .get_descendants(item: custom_field.hierarchy_root, include_self: false)
+            .fmap { it.where(project_id: [nil, project.id]) }
             .value_or([])
         end
 
         def item_caption(item)
-          parts = []
-          parts << NumberFormatHelper.number_with_limit(item.weight) if custom_field.field_format_weighted_item_list?
-          parts << I18n.t("custom_fields.admin.hierarchy.subitems", count: item.children_count) if item.children_count.positive?
-          parts.join(" · ").presence
+          NumberFormatHelper.number_with_limit(item.weight) if custom_field.field_format_weighted_item_list?
         end
 
         def enabled?(value)
