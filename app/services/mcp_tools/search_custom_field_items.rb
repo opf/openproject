@@ -31,7 +31,7 @@ module McpTools
   class SearchCustomFieldItems < Base
     default_title "Custom Field Items"
     default_description "Access items available as values for the given custom field. Usable for hierarchy and " \
-                        "weighted item list custom fields."
+                        "weighted list custom fields."
 
     name "search_custom_field_items"
     annotations read_only: true, idempotent: true, destructive: false

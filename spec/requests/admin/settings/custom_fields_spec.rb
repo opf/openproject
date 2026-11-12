@@ -136,7 +136,7 @@ RSpec.describe "Admin custom fields dedicated pages",
             }
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(Capybara.string(response.body)).to have_css("[aria-current='page']", text: I18n.t(:label_item_plural))
+      expect(Capybara.string(response.body)).to have_css("[aria-current='page']", text: I18n.t(:label_value_plural))
     end
   end
 

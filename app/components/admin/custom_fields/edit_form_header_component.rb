@@ -53,9 +53,9 @@ module Admin
 
       def items_tab
         if @custom_field.hierarchical_list?
-          { name: "items", path: custom_field_items_path(@custom_field), label: t(:label_item_plural) }
+          { name: "items", path: custom_field_items_path(@custom_field), label: t(:label_value_plural) }
         elsif @custom_field.list?
-          { name: "items", path: list_item_path(@custom_field), label: t(:label_item_plural) }
+          { name: "items", path: list_item_path(@custom_field), label: t(:label_value_plural) }
         end
       end
 

@@ -105,7 +105,7 @@ MCP tools allow connected clients to perform operations in OpenProject. Each too
 | `list_types` | List types | Lists all work package types available on this OpenProject instance. Also available as an MCP resource. |
 | `list_work_package_comments` | List work package comments | List comments of the given work package. |
 | `list_work_package_relations` | List work package relations | List relations of the given work package towards other work packages. |
-| `search_custom_field_items` | Search custom field items | Access items available as values for the given custom field. Usable for hierarchy and weighted item list custom fields. |
+| `search_custom_field_items` | Search custom field items | Access items available as values for the given custom field. Usable for hierarchy and weighted list custom fields. |
 | `search_custom_fields` | Search custom fields | Show details of the custom fields matching given criteria. |
 | `search_labels` | Search labels | Search work package labels matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 40 labels. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_portfolios` | Search portfolios | Search portfolios matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 portfolios. To get the rest of the results, call the tool again with a page number of 2 or higher. |
