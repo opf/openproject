@@ -52,9 +52,8 @@ fix command does not stage changes automatically.
 - Subject line: at most 50 characters, in the imperative mood ("Remove foo", not "Removed foo").
 - Blank line.
 - Body: wrapped at 72 characters so the text is readable in `git log`. Explain why the change is made, not what it does; the diff shows what.
-- Work package prefix: start the subject with the ID of the work package the commit is about. Write semantic IDs without `#` (e.g. `[DREAM-863] Cover grouped collapse`) and numeric IDs with `#` (e.g. `[#12345] Remove foo`).
-- A prefixed commit ends with the work package URL as the last line of the body, after the prose.
-- Omit the prefix on follow-up commits that are not about that work package.
+- Work package reference: link the work package the commit is about. A link in the body is enough.
+- Optionally, also prefix the subject with the work package ID. Write semantic IDs without `#` (e.g. `[DREAM-863] Cover grouped collapse`) and numeric IDs with `#` (e.g. `[#12345] Remove foo`), and omit the prefix on follow-up commits that are not about that work package.
 
 ```text
 [DREAM-863] Cover grouped collapse
@@ -67,8 +66,6 @@ https://community.openproject.org/wp/DREAM-863
 ```
 
 See the [Git Book](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#Commit-Guidelines).
-
-Use `[skip ci]` in the commit message to suppress builds which are not necessary (e.g. after fixing a typo in a `README`).
 
 ### Pull Request description
 
