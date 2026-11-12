@@ -131,10 +131,10 @@ ka:
     button_confirm: დადასტურება
     button_continue: გაგრძელება
     button_copy: კოპირება
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: შექმნა
     button_custom-fields: მორგებადი ველები
     button_delete: წაშლა
@@ -150,7 +150,7 @@ ka:
     button_log_time: ჟურნალში დროის ჩაწერა
     button_more: კიდევ
     button_more_actions: მეტი ქმედება
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Open details view
     button_open_fullscreen: Open fullscreen view
     button_quote: ციტატა
@@ -350,6 +350,8 @@ ka:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: ყველა პროექტი
@@ -503,6 +505,7 @@ ka:
     label_in: სად
     label_in_less_than: ნაკლებია, ვიდრე
     label_in_more_than: მეტია, ვიდრე
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Incoming emails
     label_infinity: Infinity
     label_information_plural: ინფორმაცია
@@ -535,6 +538,10 @@ ka:
     label_open_context_menu: Open context menu
     label_open_menu: მენიუს გახსნა
     label_open_work_packages: გახსნა
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: პაროლი
     label_per_page: 'თითოეულ გვერდზე:'
     label_please_wait: გთხოვთ, მოითმინოთ
@@ -581,6 +588,7 @@ ka:
     label_sum_for: ჯამი
     label_this_week: 'ამ კვირაში '
     label_time_entry_plural: დახარჯული დრო
+    label_to_do_work_packages: to-do
     label_today: დღეს
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent}% Total progress"
@@ -966,6 +974,7 @@ ka:
         all_open: ყველა ღია
         assigned_to_me: ჩემზე მონიჭებული
         created_by_me: ჩემი შექმნილები
+        in_progress: In progress
         latest_activity: Latest activity
         manually_sorted: New manually sorted query
         overdue: ვადაგადაცილებული
@@ -973,6 +982,7 @@ ka:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: შეჯამება
+        to_do: To-do
       description_enter_text: შეიყვანეთ ტექსტი
       description_filter: ფილტრი
       description_options_hide: პარამეტრების დამალვა
@@ -1060,6 +1070,7 @@ ka:
         other: სხვა
         people: ხალხი
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Click to edit title of this view.
         column_names: სვეტები
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1069,17 +1080,16 @@ ka:
           not_found: There is no such view
           unretrievable_query: Unable to retrieve view from URL
         filters: ფილტრები
-        group: დაჯგუფება
         group_by: Group results by
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: სვეტის დამალვა
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: სვეტების ჩასმა
         move_column_left: Move column left
         move_column_right: Move column right
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name of this view
         sort_ascending: ზრდის მიხედვით დალაგება
         sort_descending: Sort descending

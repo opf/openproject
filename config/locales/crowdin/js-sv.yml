@@ -131,10 +131,10 @@ sv:
     button_confirm: Bekräfta
     button_continue: Fortsätt
     button_copy: Kopiera
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Kopiera till urklipp
     button_copy_to_other_project: Duplicera i ett annat projekt
+    button_copy_work_package_id: Copy work package ID
     button_create: Skapa
     button_custom-fields: Anpassade fält
     button_delete: Ta bort
@@ -150,7 +150,7 @@ sv:
     button_log_time: Logga tid
     button_more: Mer
     button_more_actions: Fler åtgärder
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Öppna detaljvyn
     button_open_fullscreen: Öppna fullskärmsläge
     button_quote: Citat
@@ -350,6 +350,8 @@ sv:
       direct_hit_available: Arbetspaket med exakt ID hittades. Tryck på Retur för att öppna det.
       items_available: "%{count} poster tillgängliga"
       recently_viewed: Nyligen visade
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Sök arbetspaket efter rubrik, projekt, typ, status eller ID
       title:
         all_projects: alla projekt
@@ -503,6 +505,7 @@ sv:
     label_in: i
     label_in_less_than: i mindre än
     label_in_more_than: i mer än
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Inkommande E-post
     label_infinity: Oändlighet
     label_information_plural: Information
@@ -535,6 +538,10 @@ sv:
     label_open_context_menu: Öppna kontextmenyn
     label_open_menu: Öppna meny
     label_open_work_packages: öppen
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Lösenord
     label_per_page: 'Per sida:'
     label_please_wait: Vänligen vänta
@@ -581,6 +588,7 @@ sv:
     label_sum_for: Summa för
     label_this_week: denna vecka
     label_time_entry_plural: Förbrukad tid
+    label_to_do_work_packages: to-do
     label_today: I dag
     label_total_amount: 'Totalt: %{amount}'
     label_total_progress: "%{percent}% totalt klart"
@@ -966,6 +974,7 @@ sv:
         all_open: Alla öppna
         assigned_to_me: Tilldelad till mig
         created_by_me: Skapad av mig
+        in_progress: In progress
         latest_activity: Senaste aktivitet
         manually_sorted: Ny manuellt sorterad fråga
         overdue: Försenad
@@ -973,6 +982,7 @@ sv:
         shared_with_me: Delat med mig
         shared_with_users: Delade med användare
         summary: Sammanfattning
+        to_do: To-do
       description_enter_text: Ange text
       description_filter: Filter
       description_options_hide: Dölj alternativ
@@ -1060,6 +1070,7 @@ sv:
         other: Andra
         people: Personer
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Klicka för att redigera titeln på denna vy.
         column_names: Kolumner
         confirm_edit_cancel: Är du säker på att du vill avbryta redigering av namnet på den här vyn? Titeln kommer att återställas till föregående värde.
@@ -1069,17 +1080,16 @@ sv:
           not_found: Det finns ingen sådan vy
           unretrievable_query: Det gick inte att hämta vyn från URL
         filters: Filter
-        group: Gruppera efter
         group_by: Gruppera resultat efter
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Gruppering är inaktiverat när hierarkiläget är aktivt.
-        hide_column: Dölj kolumn
         hierarchy_disabled_by_group_by: Hierarkiläget är inaktiverat då resultaten är grupperade efter %{column}.
-        insert_columns: Infoga kolumner
         move_column_left: Flytta kolumnen till vänster
         move_column_right: Flytta kolumnen till höger
         public_text: 'Publicera den här vyn så att andra användare kan komma åt den. Användare med behörigheten ''Hantera offentliga vyer'' kan ändra eller ta bort offentliga frågor. Detta påverkar inte synligheten för arbetspaketsresultaten i vyn; beroende på sina behörigheter kan användare se olika resultat.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Namn på denna vy
         sort_ascending: Sortera stigande
         sort_descending: Sortera fallande

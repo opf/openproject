@@ -131,10 +131,10 @@ hi:
     button_confirm: Confirm
     button_continue: Continue
     button_copy: प्रतिलिपि बनाएँ
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: रचना करें
     button_custom-fields: Custom fields
     button_delete: मिटाएँ
@@ -150,7 +150,7 @@ hi:
     button_log_time: लॉग समय
     button_more: More
     button_more_actions: More actions
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: विवरण दृश्य खोलें
     button_open_fullscreen: Open fullscreen view
     button_quote: उद्धरण
@@ -350,6 +350,8 @@ hi:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: all projects
@@ -503,6 +505,7 @@ hi:
     label_in: में
     label_in_less_than: से भी कम समय में
     label_in_more_than: से अधिक में
+    label_in_progress_work_packages: in progress
     label_incoming_emails: आने वाली ईमेल
     label_infinity: Infinity
     label_information_plural: जानकारी
@@ -535,6 +538,10 @@ hi:
     label_open_context_menu: Open context menu
     label_open_menu: मेनू खोलें
     label_open_work_packages: खोलें
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: पासवर्ड
     label_per_page: प्रति पृष्ठ
     label_please_wait: Please wait
@@ -581,6 +588,7 @@ hi:
     label_sum_for: के लिए योग
     label_this_week: इस सप्ताह
     label_time_entry_plural: समय बिताया
+    label_to_do_work_packages: to-do
     label_today: Today
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent}% कुल प्रगति"
@@ -966,6 +974,7 @@ hi:
         all_open: सभी खुले
         assigned_to_me: मुझे सौपा गया
         created_by_me: मेरे द्वारा सृजनित
+        in_progress: In progress
         latest_activity: Latest activity
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -973,6 +982,7 @@ hi:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: सारांश
+        to_do: To-do
       description_enter_text: Enter text
       description_filter: Filter
       description_options_hide: Hide options
@@ -1060,6 +1070,7 @@ hi:
         other: अन्य
         people: People
       query:
+        add_columns: Add columns
         click_to_edit_query_name: इस दृश्य का शीर्षक संपादित करने के लिए क्लिक करें ।
         column_names: स्तंभ
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1069,17 +1080,16 @@ hi:
           not_found: ऐसा कोई दृश्य नहीं है
           unretrievable_query: URL से दृश्य पुनर्प्राप्त करने में असमर्थ
         filters: फ़िल्टर
-        group: द्वारा समूहीकृत
         group_by: द्वारा परिणाम समूह
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: स्तंभ छुपाएं
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
         move_column_left: Move column left
         move_column_right: Move column right
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: इस दृश्य का नाम
         sort_ascending: Sort ascending
         sort_descending: Sort descending

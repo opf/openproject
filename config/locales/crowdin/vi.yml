@@ -391,10 +391,14 @@ vi:
         authentication_method: Phương thức xác thực
         jwt_sub: Chủ đề yêu cầu bồi thường
       status:
+        category: Category
         default_done_ratio: "% Hoàn thành"
         excluded_from_totals: Loại trừ khỏi việc tính tổng theo thứ bậc
-        is_closed: Work package đã đóng
         is_readonly: Work package chỉ đọc
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Loại không gian làm việc
       time_entry:
@@ -546,6 +550,11 @@ vi:
         labels: Labels
         notify: thông báo
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Cha
         parent_issue: cha mẹ
         parent_work_package: cha mẹ
@@ -1580,6 +1589,10 @@ vi:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1590,12 +1603,16 @@ vi:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1727,10 +1744,16 @@ vi:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -1746,17 +1769,15 @@ vi:
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
-                issue_ids: Issue identifiers
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issues
                 logged_time: Logged time
                 permissions: Permissions
-                project_ids: Project identifiers
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projects
                 relations: Relations between issues
                 schemes: Schemas
-                sprints: Sprint assignments
+                sprints: Sprints and sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
               label_coming_later: Coming later
@@ -1783,17 +1804,20 @@ vi:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1804,8 +1828,8 @@ vi:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -1994,10 +2018,6 @@ vi:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2111,6 +2131,8 @@ vi:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2728,7 +2750,7 @@ vi:
         warning: Tùy thuộc vào vai trò được chọn bên dưới, người dùng được chỉ định cho thuộc tính dự án này có thể nhận được nhiều quyền hơn đáng kể so với trước đây, bao gồm khả năng thêm thành viên mới và nâng cao vai trò của họ.
     calculated_field_not_editable: Thuộc tính không thể chỉnh sửa. Giá trị này được tính toán tự động.
     confirm_destroy_option: Xóa một tùy chọn sẽ xóa tất cả các sự kiện của nó (ví dụ như trong các gói công việc). Bạn có chắc bạn muốn xóa bỏ nó?
-    contained_in_type: Chứa trong loại
+    contained_in: Contained in
     enabled_in_project: Đã bật trong dự án
     instructions:
       admin_only:
@@ -3039,7 +3061,6 @@ vi:
       gantt_pdf_export: Xuất PDF Gantt
       internal_comments: Bình luận nội bộ
       ldap_groups: Đồng bộ hóa nhóm và người dùng LDAP
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Đăng nhập một lần để lưu trữ Nextcloud
       one_drive_sharepoint_file_storage: Lưu trữ tệp OneDrive/SharePoint
@@ -3132,8 +3153,6 @@ vi:
       internal_comments_inline:
         description: " "
         title: Viết bình luận nội bộ chỉ một nhóm nhỏ mới có thể xem
-      mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
       meeting_templates:
         description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
       nextcloud_sso:
@@ -3799,7 +3818,7 @@ vi:
   label_active_in_new_projects: Tích cực trong các dự án mới
   label_activity: hoạt động
   label_add_another_file: Thêm tập tin khác
-  label_add_column: Thêm cột
+  label_add_column: Add columns
   label_add_columns: Thêm cột đang chọn
   label_add_edit_translations: Thêm và chỉnh sửa bản dịch
   label_add_note: Thêm ghi chú
@@ -3935,7 +3954,7 @@ vi:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Favicon tuỳ chỉnh
-  label_custom_field_add_no_type: Thêm trường này vào một loại work package
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Kiểu rỗng
   label_custom_field_new: Thêm mục tùy biến
   label_custom_field_plural: Trường tùy chỉnh
@@ -4029,7 +4048,7 @@ vi:
   label_filter: Bộ lọc
   label_filter_add: Thêm bộ lọc
   label_filter_any_name_attribute: Thuộc tính tên
-  label_filter_by: Lọc theo
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Bộ lọc
   label_filters_toggle: Hiển thị/ẩn bộ lọc
   label_float: Số thực
@@ -4080,6 +4099,7 @@ vi:
   label_in: trong
   label_in_less_than: ít hơn
   label_in_more_than: nhiều hơn
+  label_in_progress_work_packages: in progress
   label_inactive: Không hoạt động
   label_include_sub_projects: Bao gồm các tiểu dự án
   label_includes: bao gồm
@@ -4231,7 +4251,7 @@ vi:
   label_on: trên
   label_open: mở
   label_open_menu: Mở trình đơn
-  label_open_work_packages: mở
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: mở
   label_openproject_website: Trang web OpenProject
   label_operator_all: không trống
@@ -4438,6 +4458,7 @@ vi:
   label_time_entry_plural: dành thời gian
   label_timer_since: Bắt đầu lúc %{time}
   label_title: tiêu đề
+  label_to_do_work_packages: to-do
   label_today: hôm nay
   label_today_as_date: Chọn hôm nay làm ngày.
   label_today_as_due_date: Chọn hôm nay làm ngày kết thúc.
@@ -4550,6 +4571,12 @@ vi:
     one: "%{count} file"
     other: "%{count} tệp"
     zero: không có tập tin
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4564,6 +4591,10 @@ vi:
     one: "%{count} project"
     other: "%{count} dự án"
     zero: Không có dự án
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} gói công việc"
@@ -5714,7 +5745,7 @@ vi:
   project_module_activity: hoạt động
   project_module_forums: diễn đàn
   project_module_news: tin tức
-  project_module_repository: kho lưu trữ
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: wiki
   project_module_work_package_tracking: Work Packages
   projects:
@@ -6608,6 +6639,7 @@ vi:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -6720,6 +6752,11 @@ vi:
   status_registered: đã đăng ký
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Nhấn vào đây để gán hoặc thay đổi màu sắc của trạng thái này.
         Nó được hiển thị trong nút trạng thái và có thể được sử dụng để đánh dấu các gói công việc trong bảng.
@@ -7207,7 +7244,7 @@ vi:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects

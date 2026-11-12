@@ -131,10 +131,10 @@ ru:
     button_confirm: Подтвердить
     button_continue: Продолжить
     button_copy: Копировать
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Копировать в буфер обмена
     button_copy_to_other_project: Дублировать в другой проект
+    button_copy_work_package_id: Copy work package ID
     button_create: Создать
     button_custom-fields: Настраиваемые поля
     button_delete: Удалить
@@ -150,7 +150,7 @@ ru:
     button_log_time: Добавить трудозатраты
     button_more: Ещё
     button_more_actions: Еще действия
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Открыть детальный просмотр
     button_open_fullscreen: Открыть полноэкранный просмотр
     button_quote: Цитировать
@@ -350,6 +350,8 @@ ru:
       direct_hit_available: Пакет работ с точным идентификатором найден. Нажмите Enter для его открытия.
       items_available: "%{count} доступных элементов"
       recently_viewed: Недавно просмотренные
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Поиск пакетов работ по темам, проекту, типу, статусу или идентификатору
       title:
         all_projects: все проекты
@@ -505,6 +507,7 @@ ru:
     label_in: в
     label_in_less_than: менее чем
     label_in_more_than: более чем
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Входящие письма
     label_infinity: Бесконечность
     label_information_plural: Информация
@@ -537,6 +540,10 @@ ru:
     label_open_context_menu: Открыть контекстное меню
     label_open_menu: Открыть меню
     label_open_work_packages: открыто
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Пароль
     label_per_page: 'На странице:'
     label_please_wait: Пожалуйста, подождите
@@ -583,6 +590,7 @@ ru:
     label_sum_for: Сумма для
     label_this_week: на этой неделе
     label_time_entry_plural: Затраченное время
+    label_to_do_work_packages: to-do
     label_today: Сегодня
     label_total_amount: 'Всего: %{amount}'
     label_total_progress: "%{percent}% общего прогресса"
@@ -980,6 +988,7 @@ ru:
         all_open: Все открытые
         assigned_to_me: Я исполнитель
         created_by_me: Создано мной
+        in_progress: In progress
         latest_activity: Последние действия
         manually_sorted: Новый запрос с ручной сортировкой
         overdue: Просрочено
@@ -987,6 +996,7 @@ ru:
         shared_with_me: Поделились со мной
         shared_with_users: Доступно пользователям
         summary: Сводка
+        to_do: To-do
       description_enter_text: Введите текст
       description_filter: Фильтр
       description_options_hide: Скрыть параметры
@@ -1074,6 +1084,7 @@ ru:
         other: Другие
         people: Люди
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Нажмите, чтобы изменить заголовок этого представления.
         column_names: Столбцы
         confirm_edit_cancel: Уверены, что хотите отменить редактирование названия этого представления? Заголовку будет возвращено его прежнее название.
@@ -1083,17 +1094,16 @@ ru:
           not_found: Нет такого представления
           unretrievable_query: Не удается получить представление из URL-адреса
         filters: Фильтры
-        group: Группировать по
         group_by: Группировать результаты по
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: В режиме иерархии группировка отключена.
-        hide_column: Скрыть столбец
         hierarchy_disabled_by_group_by: Режим иерархии отключен из-за группировки результатов по %{column}.
-        insert_columns: Вставить столбцы
         move_column_left: Переместить столбец влево
         move_column_right: Переместить столбец вправо
         public_text: 'Опубликовать это представление, дав к нему доступ другим пользователям. Пользователи с правом доступа «Управление публичными представлениями» могут изменить или удалить публичный запрос. Это не влияет на видимость результатов пакета работ в этом представлении, и в зависимости от своих прав пользователи могут видеть разные результаты.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Название этого представления
         sort_ascending: Сортировать по возрастанию
         sort_descending: Сортировать по убыванию

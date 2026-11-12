@@ -393,10 +393,14 @@ hu:
         authentication_method: Authentication method
         jwt_sub: Subject claim
       status:
+        category: Category
         default_done_ratio: "% Complete"
         excluded_from_totals: Exclude from calculation of totals in hierarchy
-        is_closed: Lezárt feladatcsoport
         is_readonly: Munkacsomag csak olvasható
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Workspace type
       time_entry:
@@ -548,6 +552,11 @@ hu:
         labels: Labels
         notify: Értesítés
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Szülő
         parent_issue: Szülő
         parent_work_package: Szülő
@@ -1724,6 +1733,10 @@ hu:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1734,12 +1747,16 @@ hu:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1879,10 +1896,16 @@ hu:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -1899,17 +1922,15 @@ hu:
               description: Válassza ki, hogy a gazda Jira-példányból letöltött rendelkezésre álló adatok közül melyeket szeretné importálni.
               elements:
                 custom_fields: Az egyéni mezők egy részhalmaza
-                issue_details: A probléma leírása, előzményei, megjegyzések és mellékletek
-                issue_ids: Issue identifiers
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Problémák
                 logged_time: Logged time
                 permissions: Jogosultságok
-                project_ids: Projektazonosítók
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projektek
                 relations: Relations between issues
                 schemes: Schemas
-                sprints: Sprint-feladatok
+                sprints: Sprints and sprint assignments
                 users: Érintett felhasználók és csoportok
                 workflows: Projektszintű munkafolyamatok
               label_coming_later: Később érkezik
@@ -1936,17 +1957,20 @@ hu:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1957,8 +1981,8 @@ hu:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2149,10 +2173,6 @@ hu:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2268,6 +2288,8 @@ hu:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2893,7 +2915,7 @@ hu:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: Egy opció törlése az összes eddigi használatánál (úgy, mint munkacsomagok) is törlődnek. Biztosan törölni szeretné?
-    contained_in_type: A típus tartalmazza
+    contained_in: Contained in
     enabled_in_project: Engedélyezve a projektben
     instructions:
       admin_only:
@@ -3234,7 +3256,6 @@ hu:
       gantt_pdf_export: Gantt PDF Export
       internal_comments: Internal Comments
       ldap_groups: LDAP users and group sync
-      mcp_server: Modellkontextus-protokoll (MCP)
       meeting_templates: Újrafelhasználható értekezlet-sablonok
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
@@ -3330,8 +3351,6 @@ hu:
       internal_comments_inline:
         description: " "
         title: Write internal comments only a small group can see
-      mcp_server:
-        description: Integrálja az OpenProjectet a mesterséges intelligencia-alapú munkafolyamataiba egy biztonságos MCP-kiszolgáló segítségével.
       meeting_templates:
         description: Határozzon meg olyan megbeszélés sablonokat, amelyeknek rögzített napirend szerkezete van, és időt takaríthat meg azzal, hogy új megbeszélések létrehozásakor újra felhasználja őket.
       nextcloud_sso:
@@ -4014,7 +4033,7 @@ hu:
   label_active_in_new_projects: Új projektekben aktív
   label_activity: Tevékenység
   label_add_another_file: Másik file hozzáadása
-  label_add_column: Add column
+  label_add_column: Add columns
   label_add_columns: A kiválasztott oszlopok hozzáadása
   label_add_edit_translations: Fordítások hozzáadása és szerkesztése
   label_add_note: Jegyzet hozzáadása
@@ -4150,7 +4169,7 @@ hu:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Egyedi favicon
-  label_custom_field_add_no_type: Mező hozzáadása egy feladatcsoport típushoz
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Üres típus
   label_custom_field_new: Új választható mező
   label_custom_field_plural: Választható mezők
@@ -4244,7 +4263,7 @@ hu:
   label_filter: Szürő
   label_filter_add: Szűrő hozzáadása
   label_filter_any_name_attribute: Name attributes
-  label_filter_by: Filter by
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Szűrők
   label_filters_toggle: Szűrők mutatása/elrejtése
   label_float: Mozgó
@@ -4295,6 +4314,7 @@ hu:
   label_in: in
   label_in_less_than: kevesebb, mint
   label_in_more_than: több mint
+  label_in_progress_work_packages: in progress
   label_inactive: Inaktív
   label_include_sub_projects: Include sub-projects
   label_includes: tartalmazza
@@ -4446,7 +4466,7 @@ hu:
   label_on: be
   label_open: nyitva
   label_open_menu: Menü megnyitása
-  label_open_work_packages: nyitott
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: nyitott
   label_openproject_website: OpenProject honlap
   label_operator_all: is not empty
@@ -4653,6 +4673,7 @@ hu:
   label_time_entry_plural: Eltöltött idő
   label_timer_since: Elkezdődött %{time}-kor
   label_title: Cím
+  label_to_do_work_packages: to-do
   label_today: Ma
   label_today_as_date: Select today as date.
   label_today_as_due_date: Select today as finish date.
@@ -4766,6 +4787,13 @@ hu:
     one: "%{count} file"
     other: "%{count} files"
     zero: no files
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4781,6 +4809,10 @@ hu:
     one: "%{count} project"
     other: "%{count} projekt"
     zero: nincsenek projektek
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} work packages"
@@ -5974,7 +6006,7 @@ hu:
   project_module_activity: Tevékenység
   project_module_forums: Fórumok
   project_module_news: Hírek
-  project_module_repository: Csomagtároló
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Munkacsomagok
   projects:
@@ -6888,6 +6920,7 @@ hu:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -7000,6 +7033,11 @@ hu:
   status_registered: regisztrált
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Ide kattintva rendelhet vagy változtathatja meg a színét az állapotnak.
         Az állapot gomb látható és kiemelhető a feladatcsoport táblázatban.
@@ -7484,7 +7522,7 @@ hu:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects

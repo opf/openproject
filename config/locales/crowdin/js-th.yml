@@ -131,10 +131,10 @@ th:
     button_confirm: ยืนยัน
     button_continue: Continue
     button_copy: คัดลอก
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: คัดลอกไปยังคลิปบอร์ด
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: สร้าง
     button_custom-fields: ฟิลด์ที่กำหนดเอง
     button_delete: ลบ
@@ -150,7 +150,7 @@ th:
     button_log_time: เวลาที่ถูกบันทึก
     button_more: เพิ่มเติม
     button_more_actions: More actions
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Open details view
     button_open_fullscreen: เปิดมุมมองเต็มหน้าจอ
     button_quote: อ้างถึง
@@ -350,6 +350,8 @@ th:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: all projects
@@ -503,6 +505,7 @@ th:
     label_in: ใน
     label_in_less_than: ในไม่เกิน
     label_in_more_than: ในมากกว่า
+    label_in_progress_work_packages: in progress
     label_incoming_emails: อีเมลขาเข้า
     label_infinity: Infinity
     label_information_plural: ข้อมูล
@@ -535,6 +538,10 @@ th:
     label_open_context_menu: Open context menu
     label_open_menu: เปิดเมนู
     label_open_work_packages: เปิด
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: รหัสผ่าน
     label_per_page: ต่อหน้า
     label_please_wait: กรุณารอสักครู่
@@ -581,6 +588,7 @@ th:
     label_sum_for: ผลรวมสำหรับ
     label_this_week: สัปดาห์นี้
     label_time_entry_plural: เวลาที่ใช้
+    label_to_do_work_packages: to-do
     label_today: Today
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent}% Total progress"
@@ -960,6 +968,7 @@ th:
         all_open: All open
         assigned_to_me: Assigned to me
         created_by_me: Created by me
+        in_progress: In progress
         latest_activity: Latest activity
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -967,6 +976,7 @@ th:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: สรุป
+        to_do: To-do
       description_enter_text: ป้อนข้อความ
       description_filter: ตัวกรอง
       description_options_hide: ซ่อนตัวเลือก
@@ -1054,6 +1064,7 @@ th:
         other: อื่น ๆ
         people: People
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Click to edit title of this view.
         column_names: คอลัมน์
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1063,17 +1074,16 @@ th:
           not_found: There is no such view
           unretrievable_query: Unable to retrieve view from URL
         filters: ตัวกรอง
-        group: Group by
         group_by: จัดกลุ่มผลลัพธ์โดย
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: ซ่อนคอลัมน์
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
         move_column_left: ย้ายคอลัมน์ไปทางซ้าย
         move_column_right: ย้ายคอลัมน์ไปทางขวา
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name of this view
         sort_ascending: Sort ascending
         sort_descending: Sort descending

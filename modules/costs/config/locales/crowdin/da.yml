@@ -79,8 +79,8 @@ da:
         time_entry:
           attributes:
             base:
-              cannot_edit_time_entry: You don't have permissions to edit this time entry.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              cannot_edit_time_entry: Du har ikke tilladelse til at redigere denne tidsregistrering.
+              cannot_log_for_this_work_package: Du har ikke tilladelse til at registrere tid på denne arbejdspakke.
             entity:
               blank: Registreret for skal udfyldes.
               format: "%{message}"
@@ -98,7 +98,7 @@ da:
               invalid_time: Ugyldigt tidspunkt. Tidspunktet skal være mellem 00:00 og 23:59.
             user_id:
               format: "%{message}"
-              no_access_to_entity: The selected user doesn't have access to this work package.
+              no_access_to_entity: Den valgte bruger har ikke adgang til denne arbejdspakke.
           duplicate_ongoing: En anden tidtagning kører allerede. Der kan kun være én aktiv tidtagning ad gangen.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Arbejdspakke #%{id} er ikke et gyldigt mål til omfordeling af omkostningsangivelser.'

@@ -391,10 +391,14 @@ si:
         authentication_method: Authentication method
         jwt_sub: Subject claim
       status:
+        category: Category
         default_done_ratio: "% Complete"
         excluded_from_totals: Exclude from calculation of totals in hierarchy
-        is_closed: වැඩ පැකේජය වසා
         is_readonly: වැඩ පැකේජය කියවීමට-පමණි
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Workspace type
       time_entry:
@@ -546,6 +550,11 @@ si:
         labels: Labels
         notify: Notify
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: මාපිය
         parent_issue: මාපිය
         parent_work_package: මාපිය
@@ -1690,6 +1699,10 @@ si:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1700,12 +1713,16 @@ si:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1845,10 +1862,16 @@ si:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -1865,17 +1888,15 @@ si:
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
-                issue_ids: Issue identifiers
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issues
                 logged_time: Logged time
                 permissions: Permissions
-                project_ids: Project identifiers
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projects
                 relations: Relations between issues
                 schemes: Schemas
-                sprints: Sprint assignments
+                sprints: Sprints and sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
               label_coming_later: Coming later
@@ -1902,17 +1923,20 @@ si:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1923,8 +1947,8 @@ si:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2115,10 +2139,6 @@ si:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2234,6 +2254,8 @@ si:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2853,7 +2875,7 @@ si:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: 'විකල්පයක් මකා දැමීමෙන් එහි සියලු සිදුවීම් මකා දමනු ඇත (උදා: වැඩ පැකේජවල). ඔබට එය මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?'
-    contained_in_type: වර්ගය අඩංගු
+    contained_in: Contained in
     enabled_in_project: ව්යාපෘතිය සක්රීය කිරීම
     instructions:
       admin_only:
@@ -3184,7 +3206,6 @@ si:
       gantt_pdf_export: Gantt PDF Export
       internal_comments: Internal Comments
       ldap_groups: LDAP users and group sync
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
@@ -3278,8 +3299,6 @@ si:
       internal_comments_inline:
         description: " "
         title: Write internal comments only a small group can see
-      mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
       meeting_templates:
         description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
       nextcloud_sso:
@@ -3958,7 +3977,7 @@ si:
   label_active_in_new_projects: නව ව්යාපෘතිවල ක්රියාකාරී වේ
   label_activity: ක්‍රියාකාරකම
   label_add_another_file: තවත් ගොනුවක් එකතු කරන්න
-  label_add_column: Add column
+  label_add_column: Add columns
   label_add_columns: තෝරාගත් තීරු එකතු කරන්න
   label_add_edit_translations: පරිවර්තන එකතු කරන්න සහ සංස්කරණය කරන්න
   label_add_note: සටහනක් එකතු කරන්න
@@ -4094,7 +4113,7 @@ si:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: අභිරුචි ප්රියතම
-  label_custom_field_add_no_type: වැඩ පැකේජ වර්ගයකට මෙම ක්ෂේත්රය එක් කරන්න
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: හිස් වර්ගය
   label_custom_field_new: නව අභිරුචි ක්ෂේත්රයේ
   label_custom_field_plural: අභිරුචි ක්ෂේත්ර
@@ -4188,7 +4207,7 @@ si:
   label_filter: පෙරහන්
   label_filter_add: පෙරහන් එකතු කරන්න
   label_filter_any_name_attribute: Name attributes
-  label_filter_by: Filter by
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: පෙරහන්
   label_filters_toggle: පෙරහන් පෙන්වන්න/සඟවන්න
   label_float: පාවෙන
@@ -4239,6 +4258,7 @@ si:
   label_in: තුළ
   label_in_less_than: වඩා අඩු
   label_in_more_than: වඩා වැඩි
+  label_in_progress_work_packages: in progress
   label_inactive: අක්රිය
   label_include_sub_projects: Include sub-projects
   label_includes: ඇතුළත් වේ
@@ -4390,7 +4410,7 @@ si:
   label_on: මත
   label_open: විවෘත
   label_open_menu: මෙනුව විවෘත කරන්න
-  label_open_work_packages: විවෘත
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: විවෘත
   label_openproject_website: Openව්යාපෘති වෙබ් අඩවිය
   label_operator_all: is not empty
@@ -4597,6 +4617,7 @@ si:
   label_time_entry_plural: වැය කළ කාලය
   label_timer_since: Started at %{time}
   label_title: මාතෘකාව
+  label_to_do_work_packages: to-do
   label_today: අද
   label_today_as_date: Select today as date.
   label_today_as_due_date: Select today as finish date.
@@ -4710,6 +4731,13 @@ si:
     one: "%{count} file"
     other: "%{count} files"
     zero: no files
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4725,6 +4753,10 @@ si:
     one: "%{count} project"
     other: "%{count} ව්යාපෘති"
     zero: ව්යාපෘති නොමැත
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} work packages"
@@ -5880,7 +5912,7 @@ si:
   project_module_activity: ක්‍රියාකාරකම
   project_module_forums: සංසද
   project_module_news: පුවත්
-  project_module_repository: ගබඩාව
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: විකි
   project_module_work_package_tracking: වැඩ පැකේජ
   projects:
@@ -6784,6 +6816,7 @@ si:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -6896,6 +6929,11 @@ si:
   status_registered: ලියාපදිංචි
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         මෙම තත්වයේ වර්ණය පැවරීම හෝ වෙනස් කිරීම සඳහා ක්ලික් කරන්න.
         එය තත්ව බොත්තමෙහි පෙන්වා ඇති අතර වගුවේ වැඩ පැකේජ ඉස්මතු කිරීම සඳහා භාවිතා කළ හැකිය.
@@ -7386,7 +7424,7 @@ si:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects

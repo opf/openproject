@@ -61,17 +61,18 @@ pt-BR:
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     burnup_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burnup chart
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     created_resolved_chart:
       work_packages: Work packages
     sprint_charts:
       non_working_day: Non-working day
+      y_axis_title:
+        story_points: Story points
+        time: Estimated time
     work_packages:
       properties:
         storyPoints: Pontos de História

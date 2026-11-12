@@ -391,10 +391,14 @@ zh-CN:
         authentication_method: 身份验证方式
         jwt_sub: 主体声明
       status:
+        category: Category
         default_done_ratio: "% 完成"
         excluded_from_totals: 从层次结构的总计中排除
-        is_closed: 工作包已关闭
         is_readonly: 只读工作包
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: 工作空间类型
       time_entry:
@@ -546,6 +550,11 @@ zh-CN:
         labels: Labels
         notify: 通知
         observed_in_versions: 在版本中发现
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: 父级
         parent_issue: 父级
         parent_work_package: 父级
@@ -1580,6 +1589,10 @@ zh-CN:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1590,12 +1603,16 @@ zh-CN:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1727,10 +1744,16 @@ zh-CN:
                 projects:
                   label: 项目
                   subtitle: 已选作范围
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: 数据已导入
                 users_and_groups:
                   label: 用户和群组
-                  subtitle: '参与导入的项目 '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: 工作包
                   subtitle: With attachments and logged time
@@ -1746,17 +1769,15 @@ zh-CN:
               description: 在从主机 Jira 实例获取的可用数据中选择要导入的数据。
               elements:
                 custom_fields: 自定义字段的子集
-                issue_details: 问题描述、历史、评论和附件
-                issue_ids: 问题标识符
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: 问题
                 logged_time: Logged time
                 permissions: 权限
-                project_ids: 项目标识符
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: 项目
                 relations: 问题之间的关系
                 schemes: 方案
-                sprints: 冲刺任务
+                sprints: Sprints and sprint assignments
                 users: 参与的用户和组
                 workflows: 项目级工作流
               label_coming_later: 稍后推出
@@ -1783,17 +1804,20 @@ zh-CN:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1804,8 +1828,8 @@ zh-CN:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -1994,10 +2018,6 @@ zh-CN:
       user_custom_field_sections:
         destroy:
           error: 此分区无法删除。
-        drop:
-          error: 此分区无法重新排序。
-        move:
-          error: 此分区无法重新排序。
       versions_and_categories:
         banner:
           button_more_information: 更多信息
@@ -2109,6 +2129,8 @@ zh-CN:
       blankslate:
         description: 添加状态，以开始为此角色配置工作流
         linked_description: 此类型会重复使用其关联的源类型的工作流，而该工作流未配置任何状态过渡
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: 未配置状态过渡
       leave_confirmation:
         description: 您即将离开本页面，但您有未保存的更改。是否要保存更改后再继续？
@@ -2724,7 +2746,7 @@ zh-CN:
         warning: 根据下面选择的角色，被指定至此项目特性的用户可能会获得比以前更多的权限，包括添加新成员和提升其角色。
     calculated_field_not_editable: 不可编辑属性。此值是自动计算的。
     confirm_destroy_option: 删除某个选项将会删除其所有实例 (例如, 在工作包中)。确定要删除？
-    contained_in_type: 已包含在类型中
+    contained_in: Contained in
     enabled_in_project: 已在项目中启用
     instructions:
       admin_only:
@@ -3035,7 +3057,6 @@ zh-CN:
       gantt_pdf_export: 甘特图 PDF 导出
       internal_comments: 内部评论
       ldap_groups: LDAP 用户和群组同步
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: 可重用会议模板
       nextcloud_sso: Nextcloud存储的单点登录(SSO)
       one_drive_sharepoint_file_storage: OneDrive/SharePoint 文件存储
@@ -3128,8 +3149,6 @@ zh-CN:
       internal_comments_inline:
         description: " "
         title: 编写只有小部分群体能看见的内部评论
-      mcp_server:
-        description: 通过安全的 MCP 服务器将 OpenProject 引入您的 AI 工作流。
       meeting_templates:
         description: 定义具有设定的议程结构的会议模板，并在创建新会议时重复使用这些模板，从而节省时间。
       nextcloud_sso:
@@ -3795,7 +3814,7 @@ zh-CN:
   label_active_in_new_projects: 新项目动态
   label_activity: 活动
   label_add_another_file: 添加另一个文件
-  label_add_column: 添加列
+  label_add_column: Add columns
   label_add_columns: 添加所选的列
   label_add_edit_translations: 添加和编辑翻译
   label_add_note: 添加注释
@@ -3931,7 +3950,7 @@ zh-CN:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: 自定义图标
-  label_custom_field_add_no_type: 将此字段添加到工作包类型中
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: 空类型
   label_custom_field_new: 新的自定义字段
   label_custom_field_plural: 自定义字段
@@ -4025,7 +4044,7 @@ zh-CN:
   label_filter: 筛选器
   label_filter_add: 添加筛选器
   label_filter_any_name_attribute: 名称属性
-  label_filter_by: 筛选条件：
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: 筛选器
   label_filters_toggle: 显示/隐藏筛选器
   label_float: 浮点数
@@ -4076,6 +4095,7 @@ zh-CN:
   label_in: 在
   label_in_less_than: 在小于
   label_in_more_than: 在多于
+  label_in_progress_work_packages: in progress
   label_inactive: 非活动
   label_include_sub_projects: 包含子项目
   label_includes: 包括
@@ -4227,7 +4247,7 @@ zh-CN:
   label_on: 于
   label_open: 打开
   label_open_menu: 打开菜单
-  label_open_work_packages: 打开
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: 打开
   label_openproject_website: OpenProject 网站
   label_operator_all: 不为空
@@ -4434,6 +4454,7 @@ zh-CN:
   label_time_entry_plural: 已耗工时
   label_timer_since: "%{time} 开始"
   label_title: 标题
+  label_to_do_work_packages: to-do
   label_today: 今天
   label_today_as_date: 选择今天为日期。
   label_today_as_due_date: 选择今天为结束日期。
@@ -4546,6 +4567,12 @@ zh-CN:
     one: "%{count} file"
     other: "%{count} 个文件"
     zero: 无文件
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} 个项目"
@@ -4560,6 +4587,10 @@ zh-CN:
     one: "%{count} project"
     other: "%{count} 个项目"
     zero: 没有项目
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} 个工作包"
@@ -5700,7 +5731,7 @@ zh-CN:
   project_module_activity: 活动
   project_module_forums: 论坛
   project_module_news: 新闻
-  project_module_repository: 存储库
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: 维基
   project_module_work_package_tracking: 工作包
   projects:
@@ -6584,6 +6615,7 @@ zh-CN:
         label_built_in_attribute_actions: 内置特性操作
       custom_field_row_component:
         label_user_custom_field_actions: 用户特性操作
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: 添加用户特性
         label_edit_section: 编辑标题
@@ -6696,6 +6728,11 @@ zh-CN:
   status_registered: 已注册
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         单击可以分配或更改此状态的颜色。
         颜色显示在状态按钮中，可用于突出显示表中的工作包。
@@ -7182,7 +7219,7 @@ zh-CN:
         actions:
           confirm_remove: 是否从 %{project} 中移除类型“%{type}”？
           remove_from_project: 从项目中移除
-          switch_variant: 更改变体
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: 请至少选择一个项目。
           search_placeholder: 搜索项目
