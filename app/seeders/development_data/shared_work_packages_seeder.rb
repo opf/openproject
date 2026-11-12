@@ -76,6 +76,7 @@ module DevelopmentData
         {
           project:,
           author:,
+          reporter: author,
           subject: "[dev] Save Gotham",
           reference: :save_gotham,
           description: "Gotham is in trouble. It's your job to save it!",
@@ -86,6 +87,7 @@ module DevelopmentData
         {
           project:,
           author:,
+          reporter: author,
           subject: "[dev] Defeat Bane",
           reference: :defeat_bane,
           description: "Must be stopped before Gotham is doomed.",
@@ -96,6 +98,7 @@ module DevelopmentData
         {
           project:,
           author:,
+          reporter: author,
           subject: "[dev] Find Waldo",
           reference: :find_waldo,
           status: seed_data.find_reference(:default_status_new),
@@ -106,6 +109,7 @@ module DevelopmentData
         {
           project:,
           author:,
+          reporter: author,
           subject: "[dev] Organize game night",
           reference: :organize_game_night,
           description: "Find a time that suits everyone.",
