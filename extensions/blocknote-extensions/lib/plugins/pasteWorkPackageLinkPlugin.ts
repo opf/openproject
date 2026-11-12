@@ -5,7 +5,9 @@ import type { InlineContent, StyleSchema, StyledText } from '@blocknote/core';
 import type { AnyEditor } from '../editorTypes';
 import type { WorkPackageBlockProps } from '../components/BlockWorkPackage/externalHtml';
 import { fetchWorkPackage, parseWorkPackageUrl } from '../services/openProjectApi';
-import { canBlockWorkPackageReplaceCurrentBlock, isCurrentBlockEmpty } from '../utils/blockContent';
+import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent';
+import { insertBlockInLine } from '../utils/blockInLine';
+import { BLOCK_WP_TYPE } from '../utils/nodeTypes';
 import { moveCursorAfterBlock } from '../utils/cursor';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,7 +45,7 @@ export function pasteWorkPackageLinkPlugin(editor:AnyEditor):Plugin {
         if (card) {
           const target = editor.getTextCursorPosition()?.block;
           if (!target || target.type === 'codeBlock') return false;
-          return insertPastedCard(editor, card, target.id);
+          return insertPastedCard(editor, card);
         }
 
         const pasted = singlePastedTextblock(slice.content);
@@ -73,25 +75,18 @@ export function pasteWorkPackageLinkPlugin(editor:AnyEditor):Plugin {
 function solePastedCard(fragment:Fragment):Node | null {
   if (fragment.childCount !== 1) return null;
   const child = fragment.child(0);
-  if (child.type.name === 'openProjectWorkPackageBlock') return child;
+  if (child.type.name === BLOCK_WP_TYPE) return child;
   if (child.isText || child.isTextblock) return null;
   return solePastedCard(child.content);
 }
 
-/**
- * The default paste nests the card inside the block it is dropped into and selects it as
- * a node, leaving no caret; hence the sibling insert and the explicit cursor move.
- */
-function insertPastedCard(editor:AnyEditor, card:Node, blockId:string):boolean {
+// The default paste nests the card inside the block it is dropped into and selects it as a node, leaving no caret.
+function insertPastedCard(editor:AnyEditor, card:Node):boolean {
   const props = card.attrs as WorkPackageBlockProps;
   if (!props.wpid) return false;
 
-  const node = { type: 'openProjectWorkPackageBlock', props } as Parameters<typeof editor.insertBlocks>[0][number];
-  const [inserted] = isCurrentBlockEmpty(editor)
-    ? editor.replaceBlocks([blockId], [node]).insertedBlocks
-    : editor.insertBlocks([node], blockId, 'after');
-
-  moveCursorAfterBlock(editor, inserted.id);
+  const range = editor.transact(({ selection }) => ({ from: selection.from, to: selection.to }));
+  insertBlockInLine(editor, range, { type: BLOCK_WP_TYPE, props: { ...props } });
   return true;
 }
 
@@ -205,7 +200,7 @@ async function insertBlockWorkPackage(editor:AnyEditor, reference:Reference, blo
     return;
   }
   const { insertedBlocks } = editor.replaceBlocks([blockId], [{
-    type: 'openProjectWorkPackageBlock',
+    type: BLOCK_WP_TYPE,
     props: { wpid: resolved.wpid, displayId: resolved.displayId },
   } as Parameters<typeof editor.replaceBlocks>[1][number]]);
 

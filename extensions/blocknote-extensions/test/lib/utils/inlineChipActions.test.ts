@@ -8,6 +8,7 @@ import {
 import { BLOCK_WP_TYPE, INLINE_WP_TYPE } from '../../../lib/utils/nodeTypes';
 import {
   blockContent,
+  blockTypes,
   chipContent,
   createHeadlessEditor,
   createHeadlessEditorWithBlocks,
@@ -69,6 +70,16 @@ describe('promoteInlineChipToBlockAt', () => {
     expect(blocks[1].type).toBe(BLOCK_WP_TYPE);
     expect(blocks[2].type).toBe('paragraph');
     expect(blockContent(editor, 2)[0].text).toBe(' after');
+  });
+
+  it('keeps the type of the line on both sides of the block', () => {
+    const editor = createHeadlessEditorWithBlocks([
+      { type: 'heading', props: { level: 2 }, content: [textContent('before '), chipContent('7'), textContent(' after')] },
+    ]);
+
+    promoteInlineChipToBlockAt(editor, nthChipPosition(editor, 0), 'm');
+
+    expect(blockTypes(editor)).toEqual(['heading', BLOCK_WP_TYPE, 'heading']);
   });
 
   it('promotes the correct chip when identical chips share the paragraph', () => {

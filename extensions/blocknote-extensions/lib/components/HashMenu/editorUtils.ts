@@ -1,16 +1,15 @@
+import type { Node } from 'prosemirror-model';
 import type { AnyEditor } from '../../editorTypes';
 import type { WorkPackage } from '../../openProjectTypes';
-import { chipContentOf, promoteInlineChipToBlockAt } from '../../utils/inlineChipActions';
+import { chipContentOf } from '../../utils/inlineChipActions';
+import { insertBlockInLine } from '../../utils/blockInLine';
 import { insertPendingInline, removePendingInline } from '../../utils/pendingInline';
-import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
+import { BLOCK_WP_TYPE, INLINE_WP_TYPE } from '../../utils/nodeTypes';
 import { subjectOf } from '../../utils/subject';
 import { pendingWorkPackages } from '../InlineWorkPackage/pending';
 import type { PendingWorkPackage } from '../InlineWorkPackage/pending';
 import type { BlockWpSize, InlineWpSize } from '../WorkPackage/types';
 import type { HashTarget } from './hashTrigger';
-
-// Discarded right away, so the cheapest chip to render will do.
-const SPLIT_MARKER_SIZE:InlineWpSize = 'xxs';
 
 export function insertWpForTarget(
   editor:AnyEditor,
@@ -72,12 +71,12 @@ function insertWpBlockCard(
   workPackage:WorkPackage,
   size:BlockWpSize
 ):void {
-  editor.transact(() => {
-    const chipPosition = insertChipAtCursor(editor, workPackage, SPLIT_MARKER_SIZE, {
-      withTrailingSpace: false,
-    });
-    promoteInlineChipToBlockAt(editor, chipPosition, size);
+  const range = editor.transact((tr) => {
+    const to = tr.selection.from;
+    return { from: triggerStartBefore(tr.doc, to), to };
   });
+  const props = { wpid: workPackage.id, size, displayId: workPackage.displayId };
+  insertBlockInLine(editor, range, { type: BLOCK_WP_TYPE, props });
 }
 
 function insertChipAtCursor(
@@ -108,17 +107,16 @@ export function restoreHashQuery(editor:AnyEditor, query:string):void {
  */
 export function removeTriggerBeforeChip(editor:AnyEditor, chipPosition:number):number {
   return editor.transact((tr) => {
-    const chipNode = tr.doc.nodeAt(chipPosition);
-    if (chipNode?.type.name !== INLINE_WP_TYPE) return chipPosition;
+    if (tr.doc.nodeAt(chipPosition)?.type.name !== INLINE_WP_TYPE) return chipPosition;
 
-    const nodeBeforeChip = tr.doc.resolve(chipPosition).nodeBefore;
-    if (!nodeBeforeChip?.isText || nodeBeforeChip.text == null) return chipPosition;
-
-    const match = /#+$/.exec(nodeBeforeChip.text);
-    if (!match) return chipPosition;
-
-    const triggerStart = chipPosition - (nodeBeforeChip.text.length - match.index);
-    tr.delete(triggerStart, chipPosition);
+    const triggerStart = triggerStartBefore(tr.doc, chipPosition);
+    if (triggerStart < chipPosition) tr.delete(triggerStart, chipPosition);
     return triggerStart;
   });
+}
+
+function triggerStartBefore(doc:Node, position:number):number {
+  const textBefore = doc.resolve(position).nodeBefore?.text ?? '';
+  const trigger = /#+$/.exec(textBefore);
+  return trigger ? position - trigger[0].length : position;
 }
