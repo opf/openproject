@@ -9,15 +9,18 @@
     <svg op-alarm-set-icon class="button--icon" size="small"></svg>
   </button>
 } @else {
-  <button
-    class="button toolbar-icon"
-    data-test-selector="op-wp-reminder-button"
-    opTooltip
-    [label]="buttonTitle"
+  <op-action-menu
     wpReminderContextMenu
     [wpReminderContextMenu-workPackage]="workPackage"
-    >
-    <svg op-alarm-icon class="button--icon" size="small"></svg>
-  </button>
+    [label]="menuTitle">
+    <button
+      class="button toolbar-icon"
+      type="button"
+      data-test-selector="op-wp-reminder-button"
+      opActionMenuTrigger
+      opTooltip
+      [label]="buttonTitle">
+      <svg op-alarm-icon class="button--icon" size="small"></svg>
+    </button>
+  </op-action-menu>
 }
-

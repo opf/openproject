@@ -378,11 +378,10 @@ RSpec.describe "Work package reminder modal",
         work_package_page.visit!
         work_package_page.click_reminder_button
 
-        within "#reminder-dropdown-menu" do
-          expect(page).to have_css(".dropdown-menu", aria: { label: "Set a reminder" })
-          expect(page).to have_css(".op-menu--headline", text: "SET A REMINDER", aria: { hidden: true })
+        within(:menu, "Set a reminder") do
+          expect(page).to have_selector(:menuitem, count: 5)
 
-          click_link_or_button "Tomorrow"
+          find(:menuitem, "Tomorrow").click
         end
 
         wait_for_network_idle
