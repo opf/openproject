@@ -3,26 +3,28 @@
 .wp-new-top-row
   color: var(--accent-color)
   display: flex
+  gap: 5px
   align-items: center
   font-size: 24px
 
-  // Add some minor margin between active status and type field
-  .wp-new-top-row--type ng-select,
-  .work-packages--type-selector
-    margin-left: 5px
+  .work-packages--status-selector
+    min-width: max-content
 
   // Fix display left padding of type
   .inline-edit--display-field
     padding-left: 0 !important
 
-  // Disable text decoration from toolbar span
-  .inline-edit--display-field:hover
-    text-decoration: none
+    // Disable text decoration from toolbar span
+    &:hover
+      text-decoration: none
 
-  .wp-new-top-row--status,
-  .wp-new-top-row--type
-    .inline-edit--field
-      min-width: 125px
+.wp-new-top-row--status,
+.wp-new-top-row--type
+  .inline-edit--field
+    min-width: 125px
+
+.wp-new-top-row--element
+  @include text-shortener
 
 // Avoid visual jump by making them the same height as the toolbar inputs
 .work-packages--type-selector,
