@@ -419,6 +419,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageSingleContextMenuDirective,
     OpTypesContextMenuDirective,
     OpSettingsMenuDirective,
+    WorkPackageReminderContextMenuDirective,
     NgSelectModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
@@ -606,7 +607,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
     WorkPackageReminderButtonComponent,
-    WorkPackageReminderContextMenuDirective,
     WorkPackageShareButtonComponent,
     WorkPackageSubjectComponent,
 
