@@ -65,4 +65,58 @@ RSpec.describe "Work package details toolbar", :js do
       expect(page).to be_axe_clean.within(".work-packages--details-toolbar")
     end
   end
+
+  describe "More menu" do
+    let(:user) { create(:admin) }
+    let(:split_view) { Pages::SplitWorkPackage.new(work_package, project) }
+    let(:more_button) { find_test_selector("wp-details-toolbar--show-more-button") }
+
+    def focus_more_button
+      page.execute_script("document.querySelector('[data-test-selector=wp-details-toolbar--show-more-button]').focus()")
+    end
+
+    before do
+      login_as(user)
+      work_packages_page.visit_index(work_package)
+      split_view.expect_open
+    end
+
+    it "opens with Enter, moves with arrow keys and returns focus to the button on Escape" do
+      focus_more_button
+      page.send_keys(:enter)
+
+      expect(page).to have_selector(:menu, "More")
+      expect(page).to have_selector(:menuitem, "Copy link to clipboard", focused: true)
+
+      page.send_keys(:down)
+      page.send_keys(:down)
+      expect(page).to have_selector(:menuitem, focused: true, text: "Log time")
+
+      page.send_keys(:escape)
+      expect(page).to have_no_selector(:menu, "More")
+      expect(page).to have_focus_on("[data-test-selector='wp-details-toolbar--show-more-button']")
+    end
+
+    it "opens with the m shortcut and moves with arrow keys" do
+      page.send_keys("m")
+
+      expect(page).to have_selector(:menu, "More")
+      expect(page).to have_selector(:menuitem, "Copy link to clipboard", focused: true)
+
+      page.send_keys(:down)
+      expect(page).to have_selector(:menuitem, "Copy work package ID", focused: true)
+    end
+
+    it "moves focus into the Delete dialog and back to the button on cancel" do
+      more_button.click
+      find(:menuitem, "Delete").click
+
+      within_dialog do
+        expect(page).to have_css(":focus")
+        click_on "Cancel"
+      end
+
+      expect(page).to have_focus_on("[data-test-selector='wp-details-toolbar--show-more-button']")
+    end
+  end
 end

@@ -51,8 +51,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
     end
 
     it "does not show the user autocompleter" do
@@ -111,8 +110,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
     end
 
     it "shows the user autocompleter and prefills it with the current user" do
@@ -133,8 +131,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
     end
 
     it "normalizes the hour input", with_settings: { hours_per_day: 8, days_per_month: 20 } do
@@ -237,8 +234,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
       time_logging_modal.is_visible(true)
       time_logging_modal.update_field("hours_display", "2")
     end
@@ -273,8 +269,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
       time_logging_modal.is_visible(true)
     end
 
