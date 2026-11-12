@@ -61,6 +61,7 @@ WP_COUNT=$(printf '%s\n' "$WP_URLS" | grep -c '[^[:space:]]' || true)
 
 VERSION_MISMATCH_DETAILS=""
 ENTERPRISE_MISSING_DETAILS=""
+FROZEN_RELEASE_FEATURE_DETAILS=""
 ANY_BEHIND_FLAG=false
 
 while IFS= read -r WP_URL; do
@@ -77,6 +78,13 @@ while IFS= read -r WP_URL; do
     echo "::warning::API request for work package ${WORK_PACKAGE_ID} failed with status code $HTTP_STATUS. Skipping."
     cat response.json || true
     continue
+  fi
+
+  TYPE_FROM_API=$(jq -r '._links.type.title // "not set"' response.json)
+
+  if [[ "$TYPE_FROM_API" =~ ^(Feature|Epic)$ && "$BASE_REF" == release/* && " $UNFROZEN_RELEASE_BRANCHES " != *" $BASE_REF "* ]]; then
+    echo "::warning::Work package ${WORK_PACKAGE_ID} is a ${TYPE_FROM_API} and targets the frozen release branch ${BASE_REF}."
+    FROZEN_RELEASE_FEATURE_DETAILS+=" - ${WP_URL}"$'\n'
   fi
 
   # Extract and compare the versions from the api response.
@@ -128,7 +136,6 @@ while IFS= read -r WP_URL; do
 
   # Extract and check the presence of an Enterprise plan field from the api response
   ENTERPRISE_PLAN_FROM_API=$(jq -r '._links.customField426.title // "not set"' response.json)
-  TYPE_FROM_API=$(jq -r '._links.type.title // "not set"' response.json)
 
   if [[ ! "$TYPE_FROM_API" =~ ^(Feature|Epic)$ ]]; then
     echo "Work package with type $TYPE_FROM_API does not require an Enterprise plan field to be set."
@@ -173,6 +180,15 @@ if [ -n "$ENTERPRISE_MISSING_DETAILS" ]; then
       echo "WP_EOF"
     } >> "$GITHUB_OUTPUT"
   fi
+fi
+
+if [ -n "$FROZEN_RELEASE_FEATURE_DETAILS" ]; then
+  echo "frozen_release_feature=true" >> "$GITHUB_OUTPUT"
+  {
+    echo "frozen_release_feature_details<<WP_EOF"
+    printf '%s' "$FROZEN_RELEASE_FEATURE_DETAILS"
+    echo "WP_EOF"
+  } >> "$GITHUB_OUTPUT"
 fi
 
 # Only report behind_feature_flag when it is the sole reason the version check did

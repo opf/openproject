@@ -38,7 +38,7 @@ module Backlogs::Projects
     private
 
     def validate_permissions
-      unless user.allowed_in_project?(:select_backlog_types_and_statuses, model)
+      unless user.allowed_in_project?(:manage_backlogs_configuration, model)
         errors.add :base, :error_unauthorized
       end
     end

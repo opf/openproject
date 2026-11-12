@@ -79,7 +79,8 @@ describe('Context menu entry', () => {
   it('renders known table actions as Octicons and preserves custom visuals', () => {
     vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
       { key: 'delete' },
-      { key: 'log_costs', icon: 'icon-projects' },
+      { key: 'log_costs', icon: 'icon-budget' },
+      { key: 'relation-precedes' },
       { key: 'custom', icon: 'icon-custom' },
     ]);
 
@@ -88,9 +89,37 @@ describe('Context menu entry', () => {
     expect(opened.mock.calls[0][0].locals.items).toEqual(expect.arrayContaining([
       expect.objectContaining({ octicon: 'op-view-split' }),
       expect.objectContaining({ octicon: 'trash' }),
-      expect.objectContaining({ icon: 'icon-projects', octicon: undefined }),
+      expect.objectContaining({ octicon: 'op-budget' }),
+      expect.objectContaining({ octicon: 'package-dependents' }),
       expect.objectContaining({ icon: 'icon-custom', octicon: undefined }),
     ]));
+  });
+
+  it('separates the action groups with dividers and marks deletion as dangerous', () => {
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+      { key: 'copy_link_to_clipboard', text: 'Copy link to clipboard' },
+      { key: 'log_time', text: 'Log time' },
+      { key: 'change_project', text: 'Move to another project' },
+      { key: 'generate_pdf', text: 'Generate PDF' },
+      { key: 'delete', text: 'Delete' },
+    ]);
+
+    fireEvent.contextMenu(harness.row('1'));
+
+    const items = opened.mock.calls[0][0].locals.items;
+
+    expect(items.slice(2).map((item) => (item.divider ? '---' : item.linkText))).toEqual([
+      'Copy link to clipboard',
+      '---',
+      'Log time',
+      '---',
+      'Move to another project',
+      '---',
+      'Generate PDF',
+      '---',
+      'Delete',
+    ]);
+    expect(items.filter((item) => item.scheme === 'danger').map((item) => item.linkText)).toEqual(['Delete']);
   });
 
   it('uses the duplicate Octicon for the bulk copy action', () => {
@@ -153,6 +182,16 @@ describe('Context menu entry', () => {
     expect(opened).toHaveBeenCalledTimes(1);
   });
 
+  it('opens the menu for the row without selecting it when selection is disabled', async () => {
+    await harness.destroy();
+    await mount({ configuration: { contextMenuEnabled: true, selectionEnabled: false } });
+
+    expect(fireEvent.contextMenu(harness.row('1'))).toBe(false);
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual([]);
+    expect(menuTargets).toEqual([['1']]);
+  });
+
   it('keeps a batch selection and opens the menu for the whole batch', () => {
     harness.click('1');
     harness.click('2', { shiftKey: true });
@@ -211,7 +250,7 @@ describe('Context menu entry', () => {
       if (!call) throw new Error('No menu was opened');
       return call[0].locals.items;
     };
-    const moveMenu = () => menuItems().find((item) => item.children && item.linkText === 'Move');
+    const moveMenu = () => menuItems().find((item) => item.children && item.linkText === 'Move to position');
     const moveItems = () => moveMenu()?.children ?? [];
     const hasMoveSubmenu = () => moveMenu() !== undefined;
 
@@ -221,7 +260,7 @@ describe('Context menu entry', () => {
       window.I18n.store({
         en: {
           js: {
-            button_move: 'Move',
+            button_move_to_position: 'Move to position',
             label_sort_highest: 'Move to top',
             label_sort_higher: 'Move up',
             label_sort_lower: 'Move down',

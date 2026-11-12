@@ -131,10 +131,10 @@ fr:
     button_confirm: Confirmer
     button_continue: Continuer
     button_copy: Copier
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Copier dans le presse-papiers
     button_copy_to_other_project: Dupliquer dans un autre projet
+    button_copy_work_package_id: Copy work package ID
     button_create: Créer
     button_custom-fields: Champs personnalisés
     button_delete: Supprimer
@@ -150,6 +150,7 @@ fr:
     button_log_time: Consigner du temps
     button_more: Plus
     button_more_actions: Plus d'actions
+    button_move_to_position: Move to position
     button_open_details: Ouvrir la vue détaillée
     button_open_fullscreen: Ouvrir l'affichage plein écran
     button_quote: Citer
@@ -349,6 +350,8 @@ fr:
       direct_hit_available: Lot de travaux avec ID exact trouvé. Appuyez sur Entrée pour l'ouvrir.
       items_available: "%{count} éléments disponibles"
       recently_viewed: Consultés récemment
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Rechercher des lots de travaux par objet, projet, type, statut ou ID
       title:
         all_projects: tous les projets
@@ -502,6 +505,7 @@ fr:
     label_in: dans
     label_in_less_than: dans moins de
     label_in_more_than: dans plus de
+    label_in_progress_work_packages: in progress
     label_incoming_emails: E-mails entrants
     label_infinity: Infini
     label_information_plural: Informations
@@ -534,6 +538,10 @@ fr:
     label_open_context_menu: Ouvrir le menu contextuel
     label_open_menu: Ouvrir le menu
     label_open_work_packages: ouverts
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Mot de passe
     label_per_page: 'Par page :'
     label_please_wait: Veuillez patienter
@@ -567,7 +575,9 @@ fr:
     label_show_in_menu: Afficher la vue dans le menu
     label_sort_by: Trier par
     label_sort_higher: Déplacer vers le haut
+    label_sort_highest: Move to top
     label_sort_lower: Déplacer vers le bas
+    label_sort_lowest: Move to bottom
     label_sorted_by: trié par
     label_sorting: Tri
     label_spent_time: Temps passé
@@ -578,6 +588,7 @@ fr:
     label_sum_for: Somme pour
     label_this_week: cette semaine
     label_time_entry_plural: Temps passé
+    label_to_do_work_packages: to-do
     label_today: Aujourd'hui
     label_total_amount: 'Total : %{amount}'
     label_total_progress: "%{percent}% de progression totale"
@@ -819,6 +830,7 @@ fr:
         batch_too_large: Impossible de déplacer %{count} éléments à la fois. Sélectionnez-en au maximum %{max}.
         fallback_item_label: Élément
         fallback_list_name: une autre liste
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Le déplacement a échoué. Vérifiez la position actuelle de l'élément.
         move_failed_check_positions_batch:
           other: Échec du déplacement. Vérifiez les positions actuelles des éléments.
@@ -962,6 +974,7 @@ fr:
         all_open: Tous les éléments ouverts
         assigned_to_me: Qui me sont assignés
         created_by_me: Créés par moi
+        in_progress: In progress
         latest_activity: Dernière activité
         manually_sorted: Nouvelle requête triée manuellement
         overdue: En retard
@@ -969,6 +982,7 @@ fr:
         shared_with_me: Partagés avec moi
         shared_with_users: Partagés avec des utilisateurs
         summary: Résumé
+        to_do: To-do
       description_enter_text: Saisir du texte
       description_filter: Filtrer
       description_options_hide: Masquer les options
@@ -1056,6 +1070,7 @@ fr:
         other: Autre
         people: Personnes
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Cliquez pour modifier le titre de cette vue.
         column_names: Colonnes
         confirm_edit_cancel: Voulez-vous vraiment annuler la modification du nom de cette vue ? Le titre sera rétabli à sa valeur précédente.
@@ -1065,17 +1080,16 @@ fr:
           not_found: Cette vue n'existe pas
           unretrievable_query: Impossible de récupérer la vue à partir de l'URL
         filters: Filtres
-        group: Grouper par
         group_by: Grouper les résultats par
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: L'option « Grouper par » est désactivée, car le mode hiérarchie est activé.
-        hide_column: Masquer la colonne
         hierarchy_disabled_by_group_by: Le mode hiérarchie est désactivé, car les résultats sont groupés par %{column}.
-        insert_columns: Insérer des colonnes
         move_column_left: Déplacer la colonne vers la gauche
         move_column_right: Déplacer la colonne vers la droite
         public_text: 'Publiez cette vue pour permettre aux autres utilisateurs d''y accéder. Les utilisateurs disposant de l''autorisation « Gérer les vues publiques » peuvent modifier ou supprimer une requête publique. Cela n''affecte pas la visibilité des résultats des lots de travaux dans cette vue et, selon leurs autorisations, les utilisateurs peuvent voir des résultats différents.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Nom de cette vue
         sort_ascending: Trier par ordre croissant
         sort_descending: Trier par ordre décroissant

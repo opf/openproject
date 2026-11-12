@@ -60,7 +60,7 @@ There are multiple format options for custom fields in OpenProject. You can sele
 - **Date** - creates a custom field, which allows selecting dates from a date picker.
 - **Date and time** - creates a custom field for work packages, which stores a date together with a time of day. See more in the section below.
 - **Float** - creates a custom field for rational numbers.
-- **Hierarchy (Enterprise add-on)** - creates a custom field, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the _Items_ tab of the custom field. See more in the section below.
+- **Hierarchy (Enterprise add-on)** - creates a custom field, which allows selecting one or multiple values from a hierarchical list structure. The structure can be created in the _Values_ tab of the custom field. See more in the section below.
 - **Integer** - creates a custom field for integers.
 - **Link (URL)** - creates a custom field for URLs.
 - **List** - creates a custom field with flat list options. 
@@ -68,7 +68,7 @@ There are multiple format options for custom fields in OpenProject. You can sele
 - **Long text** - creates a custom field for cases where longer text needs to entered.
 - **User** - creates a custom field, which allows selecting users that are allowed to access the entity containing the custom field.
 - **Version** - creates a custom field, which allows selecting one or multiple versions. Versions are created on the project level in _Backlogs_ module.
-- **Weighted item list (Enterprise add-on)** - creates a custom field similar to the _Hierarchy_ type, which allows selecting one or multiple items, but with underlying numerical values used for project evaluation (e.g., [calculated values project attributes](../projects/project-attributes/)).
+- **Weighted list (Enterprise add-on)** - creates a custom field similar to the _Hierarchy_ type, which allows selecting one or multiple values, but with underlying numerical values used for project evaluation (e.g., [calculated values project attributes](../projects/project-attributes/)).
 
 ### Date and time custom field
 
@@ -91,52 +91,52 @@ You can edit the name and initial settings under the _Details_ tab at any time.
 
 ![Hierarchy custom field details in OpenProject administration](openproject_system_guide_new_custom_hierarchy_details_tab.png)
 
-Under the _Items_ tab you can specify which hierarchy items should be selectable for this specific custom field. Initially the list of items will be empty. To add items, click the **+Item** button. 
+Under the _Values_ tab you can specify which hierarchy values should be selectable for this specific custom field. Initially the list of values will be empty. To add values, click the **+Value** button. 
 
 ![Items tab for a hierarchy custom field in OpenProject administration](openproject_system_guide_hierarchy_field_add_item_button.png)
 
-You can then specify **labels** and **short names** for each item you want to add. The short name can be used, for example, as an abbreviation or an alternative description. It is optional and will be displayed next to the item label in brackets.
+You can then specify **labels** and **short names** for each value you want to add. The short name can be used, for example, as an abbreviation or an alternative description. It is optional and will be displayed next to the value label in brackets.
 
 > [!TIP]
 >
-> Short names are searchable in work package forms. This is especially useful when a custom field has many items, making it easier to find the right one quickly.
+> Short names are searchable in work package forms. This is especially useful when a custom field has many values, making it easier to find the right one quickly.
 
 ![Add an item to the hierarchy custom field in OpenProject administration](openproject_system_guide_hierarchy_field_add_item_form.png)
 
-All items you add here will constitute one hierarchical level. Once added, all items will be displayed in the hierarchy tree on the left side for easier navigation. 
+All values you add here will constitute one hierarchical level. Once added, all values will be displayed in the hierarchy tree on the left side for easier navigation. 
 
-You can add further levels to each of the items. Here you can edit the items, change the position in the list or delete the items. To do that click the icon with the three dots on the far right and select the respective option. You can also re-arrange the items by dragging and dropping.
+You can add further levels to each of the values. Here you can edit the values, change the position in the list or delete the values. To do that click the icon with the three dots on the far right and select the respective option. You can also re-arrange the values by dragging and dropping.
 
 ![Edit items for hierarchy custom fields in OpenProject administration](openproject_system_guide_hierarchy_field_edit_items.png)
 
-You can add further hierarchical levels by clicking on the name of the item and adding the items same way you did on the first level. 
+You can add further hierarchical levels by clicking on the name of the value and adding the values same way you did on the first level. 
 
 ![Add further hierarchy levels for custom fields in OpenProject](openproject_system_guide_hierarchy_field_add_further_levels.png)
 
-Once you have added sub-items, the number of nested items will appear next to the name of the parent item. In the hierarchy tree on the left, an **arrow icon** will be shown next to any item that contains sub-items. By default, these sub-menus are collapsed. Clicking the arrow icon will expand the view to show all associated sub-items.
+Once you have added sub-values, the number of nested values will appear next to the name of the parent value. In the hierarchy tree on the left, an **arrow icon** will be shown next to any value that contains sub-values. By default, these sub-menus are collapsed. Clicking the arrow icon will expand the view to show all associated sub-values.
 
 ![Number of sub-items for a hierarchy value in OpenProject custom fields](openproject_system_guide_custom_field_new_hierarchy_subitems.png)
 
-You can add as many sub-times and hierarchy levels as you need. You can always navigate to the level you need by clicking the respective option from the hierarchy tree on the left or in the path displayed above the items.
+You can add as many sub-values and hierarchy levels as you need. You can always navigate to the level you need by clicking the respective option from the hierarchy tree on the left or in the path displayed above the values.
 
 ![Navigation path for nested Hierarchy custom field items](openproject_system_guide_new_custom_field_path.png)
 
-Once you have specified all items for the hierarchy custom field, you need to: 
+Once you have specified all values for the hierarchy custom field, you need to: 
 
 1. [Activate this custom field for projects under the _Projects_ tab](#add-a-custom-field-to-one-or-multiple-projects)
 2. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/form-configuration/#add-table-of-related-work-packages-to-a-work-package-form-enterprise-add-on) 
 
-### Weighted item list custom field (Enterprise add-on)
+### Weighted list custom field (Enterprise add-on)
 
 [feature: weighted_item_lists ]
 
-Weighted item list custom fields work much like the **Hierarchy** type. They also allow you to create a hierarchical structure of items for selection. To create a custom field of type **Weighted item list**, follow the same steps as when [creating a standard custom field](#add-a-new-custom-field) and select **Weighted item list** format.
+Weighted list custom fields work much like the **Hierarchy** type. They also allow you to create a hierarchical structure of values for selection. To create a custom field of type **Weighted list**, follow the same steps as when [creating a standard custom field](#add-a-new-custom-field) and select **Weighted list** format.
 
-Creating and editing items in a weighted item list work exactly like with a hierarchy custom field. Unlike **Hierarchy**, the items of a weighted item list do not have a **Short**, but instead have a **Weight**. 
+Creating and editing values in a weighted list work exactly like with a hierarchy custom field. Unlike **Hierarchy**, the values of a weighted list do not have a **Short**, but instead have a **Weight**. 
 
 ![Specify weight for an item in a custom field of type "weighted item list" in OpenProject administration](openproject_system_guide_new_custom_field_weighted_item_list.png)
 
-This underlying numerical value is mandatory, and can be used for calculation - for example for the project attribute of type [**Calculated value**](../projects/project-attributes/). Weighted item lists can also be configured to be [multi-select](#create-a-multi-select-custom-field).
+This underlying numerical value is mandatory, and can be used for calculation - for example for the project attribute of type [**Calculated value**](../projects/project-attributes/). Weighted lists can also be configured to be [multi-select](#create-a-multi-select-custom-field).
 
 ## Required custom fields
 
@@ -159,9 +159,9 @@ Generally speaking, OpenProject will enforce the _required_ characteristic whene
 
 ## Create a multi-select custom field
 
-For work package custom fields of type **List**, **User**, **Version**, **Hierarchy** and **Weighted item list** you may also select **multi-select custom fields** to select more than one value at once.
+For work package custom fields of type **List**, **User**, **Version**, **Hierarchy** and **Weighted list** you may also select **multi-select custom fields** to select more than one value at once.
 
-To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format **List**, **User**, **Version**, **Hierarchy** or **Weighted item list** and check the option _Allow multi-select_.
+To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format **List**, **User**, **Version**, **Hierarchy** or **Weighted list** and check the option _Allow multi-select_.
 
 ![Enable multi-select for a custom field in OpenProject administration](system-admin-allow-multi-select.png)
 

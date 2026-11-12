@@ -131,10 +131,10 @@ pl:
     button_confirm: Potwierdź
     button_continue: Kontynuuj
     button_copy: Kopiuj
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Skopiuj do schowka
     button_copy_to_other_project: Zduplikuj w innym projekcie
+    button_copy_work_package_id: Copy work package ID
     button_create: Utwórz
     button_custom-fields: Pola niestandardowe
     button_delete: Usuń
@@ -150,6 +150,7 @@ pl:
     button_log_time: Rejestruj czas pracy
     button_more: Więcej
     button_more_actions: Więcej działań
+    button_move_to_position: Move to position
     button_open_details: Otwórz szczegóły widoku
     button_open_fullscreen: Otwórz widok pełnoekranowy
     button_quote: Cytat
@@ -349,6 +350,8 @@ pl:
       direct_hit_available: Znaleziono pakiet roboczy o dokładnym identyfikatorze. Aby go otworzyć, naciśnij klawisz Enter.
       items_available: 'Dostępne elementy: %{count}'
       recently_viewed: Ostatnio wyświetlane
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Wyszukuj pakiety robocze według tematu, projektu, typu, statusu lub identyfikatora
       title:
         all_projects: Wszystkie projekty
@@ -502,6 +505,7 @@ pl:
     label_in: w
     label_in_less_than: w mniej niż
     label_in_more_than: w ponad
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Przychodzące e-maile
     label_infinity: Nieskończoność
     label_information_plural: Informacje
@@ -534,6 +538,10 @@ pl:
     label_open_context_menu: Otwórz menu kontekstowe
     label_open_menu: Otwórz menu
     label_open_work_packages: Otwarte
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Hasło
     label_per_page: 'Na stronie:'
     label_please_wait: Zaczekaj
@@ -567,7 +575,9 @@ pl:
     label_show_in_menu: Pokaż widok w menu
     label_sort_by: Sortuj według
     label_sort_higher: Przenieś wyżej
+    label_sort_highest: Move to top
     label_sort_lower: Przenieś niżej
+    label_sort_lowest: Move to bottom
     label_sorted_by: posortowane według
     label_sorting: Sortowanie
     label_spent_time: Czas pracy
@@ -578,6 +588,7 @@ pl:
     label_sum_for: Suma dla
     label_this_week: ten tydzień
     label_time_entry_plural: Czas pracy
+    label_to_do_work_packages: to-do
     label_today: Dzisiaj
     label_total_amount: 'Łącznie: %{amount}'
     label_total_progress: "%{percent}% Całkowitego postępu"
@@ -821,6 +832,7 @@ pl:
         batch_too_large: Nie można przenieść %{count} elementów naraz. Wybierz nie więcej niż %{max}.
         fallback_item_label: Element
         fallback_list_name: inna lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Przeniesienie nie powiodło się. Sprawdź bieżącą pozycję elementu.
         move_failed_check_positions_batch:
           other: Przeniesienie nie powiodło się. Sprawdź bieżące pozycje elementów.
@@ -974,6 +986,7 @@ pl:
         all_open: Wszystkie otwarte
         assigned_to_me: Przypisane do mnie
         created_by_me: Utworzone przeze mnie
+        in_progress: In progress
         latest_activity: Ostatnia aktywność
         manually_sorted: Nowe ręcznie sortowane zapytanie
         overdue: Przekroczony termin
@@ -981,6 +994,7 @@ pl:
         shared_with_me: Udostępnione dla mnie
         shared_with_users: Udostępnione użytkownikom
         summary: Podsumowanie
+        to_do: To-do
       description_enter_text: Wpisz tekst
       description_filter: Filtr
       description_options_hide: Ukryj opcje
@@ -1068,6 +1082,7 @@ pl:
         other: Inne
         people: Ludzie
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Kliknij, aby edytować tytuł tego widoku.
         column_names: Kolumny
         confirm_edit_cancel: Czy na pewno chcesz anulować edycję nazwy tego widoku? Przywrócona zostanie poprzednia wartość tytułu.
@@ -1077,17 +1092,16 @@ pl:
           not_found: Nie ma takiego widoku
           unretrievable_query: Nie można pobrać widoku z adresu URL
         filters: Filtry
-        group: Grupuj według
         group_by: Grupuj wyniki
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Przy aktywnym trybie hierarchii grupowanie jest wyłączone.
-        hide_column: Ukryj kolumnę
         hierarchy_disabled_by_group_by: Tryb hierarchii jest wyłączony z powodu grupowania wyników wg %{column}.
-        insert_columns: Wstaw kolumny
         move_column_left: Przenieść kolumnę w lewo
         move_column_right: Przenieść kolumnę w prawo
         public_text: 'Opublikuj ten widok, aby umożliwić dostęp do niego innym użytkownikom. Użytkownicy z uprawnieniami „Zarządzaj widokami publicznymi” mogą zmodyfikować lub usunąć zapytanie publiczne. Nie ma to wpływu na widoczność wyników pakietu roboczego w tym widoku, a użytkownicy mogą widzieć różne wyniki, w zależności od ich uprawnień.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Nazwa tego widoku
         sort_ascending: Sortuj rosnąco
         sort_descending: Sortuj malejąco

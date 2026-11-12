@@ -98,14 +98,14 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
       render_inline(described_class.new(allocation:, visible_principal_ids: Set.new, candidate_count: 3))
 
       expect(page).to have_css(".op-rm-timeline-bar--badge", text: "3")
-      expect(page).to have_css("tool-tip", text: "3 members of this project match the allocation's filter criteria.")
+      expect(page).to have_css("tool-tip", text: "3 members of this project match the criteria of the placeholder user.")
     end
 
     it "describes a single match in the singular" do
       render_inline(described_class.new(allocation:, visible_principal_ids: Set.new, candidate_count: 1))
 
       expect(page).to have_css(".op-rm-timeline-bar--badge", text: "1")
-      expect(page).to have_css("tool-tip", text: "1 member of this project matches the allocation's filter criteria.")
+      expect(page).to have_css("tool-tip", text: "1 member of this project matches the criteria of the placeholder user.")
     end
 
     it "is omitted when nothing matches" do

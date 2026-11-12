@@ -50,7 +50,7 @@ RSpec.describe "Multi-value custom fields creation", :js, :selenium do
     click_on "Save"
     index_cf_page.expect_flash(message: "Successful creation.")
 
-    click_link "Items"
+    click_link "Values"
     wait_for_network_idle
 
     expect(page).to have_field("custom_field_custom_options_attributes_0_value")

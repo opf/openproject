@@ -92,9 +92,9 @@ uk:
         title: Керування ресурсами
   label_resource_management: Керування ресурсами
   permission_allocate_user_resources: Призначати ресурси користувачів
-  permission_allocate_user_resources_explanation: Дозволяє користувачам створювати, оновлювати й видаляти виділення ресурсів у планувальнику ресурсів. Це, зокрема, стосується призначення користувачів (або фільтрів користувачів) планувальнику й коригування виділеного часу й діапазону дат.
-  permission_assign_users_to_generic_allocations: Призначити користувачів для загальних виділень ресурсів
-  permission_assign_users_to_generic_allocations_explanation: Дає змогу використовувати подання «Забезпечення кадрами», щоб призначати реальних користувачів для загальних (на основі фільтрів) виділень ресурсів, яким ще не призначено користувачів. Ця функція не дозволяє створювати або редагувати виділення.
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: Керувати загальнодоступними глобальними планувальниками ресурсів
   permission_manage_public_global_resource_planners_explanation: Дозволяє користувачам публікувати власні глобальні планувальники ресурсів та керувати глобальними планувальниками ресурсів, які оприлюднили інші користувачі. Не дозволяє користувачам переглядати глобальні планувальники ресурсів, які не оприлюднені.
   permission_manage_public_resource_planners: Керувати загальнодоступними планувальниками ресурсів
@@ -145,9 +145,9 @@ uk:
     assignment_dialog:
       available: Доступно %{hours}
       confirm_overtime: Усе одно призначити
-      filter_criteria: Критерії фільтрування
+      filter_criteria: Criteria
       no_candidates:
-        description: Немає учасників проєкту, які відповідають критеріям фільтрування, вибраним для цього виділення ресурсів.
+        description: No project member matches the criteria of this placeholder user.
         title: Не знайдено відповідних учасників
       no_schedule: У цього користувача немає розкладу роботи, тому ми не можемо визначити, чи впишеться в нього це виділення ресурсів.
       overbooked_detail: 'Користувач має в цей період стільки вільних годин: %{available}. Однак пакет робіт вимагає %{requested}.'
@@ -198,7 +198,7 @@ uk:
     staffing:
       assign: Призначити користувача
       blank:
-        description: Для всіх загальних виділень ресурсів у цьому проєкті призначено користувача.
+        description: All placeholder user allocations in this project have a user assigned.
         title: Кадри не потрібні
       columns:
         dates: Дати
@@ -343,10 +343,10 @@ uk:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} учасник цього проєкту відповідає критеріям фільтрації виділення."
-          few: "%{count} учасники цього проєкту відповідають критеріям фільтрації виділення."
-          many: "%{count} учасників цього проєкту відповідають критеріям фільтрації виділення."
-          other: "%{count} учасника цього проєкту відповідають критеріям фільтрації виділення."
+          one: "%{count} member of this project matches the criteria of the placeholder user."
+          few: "%{count} members of this project match the criteria of the placeholder user."
+          many: "%{count} members of this project match the criteria of the placeholder user."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: Додати пакет робіт
         configure_view: Налаштувати подання

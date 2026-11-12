@@ -513,6 +513,8 @@ class PermittedParams
           :user_self_editable,
           :visible_on_user_card,
           :project_specific_value_restriction,
+          :allow_additional_project_values,
+          :project_level_value_management,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
@@ -617,13 +619,14 @@ class PermittedParams
           scope
           filter
           submit
+          search_mode
         ),
         status: %i(
           name
           color_id
           default_done_ratio
           excluded_from_totals
-          is_closed
+          category
           is_default
           is_readonly
           move_to

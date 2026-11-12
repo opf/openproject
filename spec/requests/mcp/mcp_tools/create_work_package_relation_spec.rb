@@ -77,128 +77,119 @@ RSpec.describe McpTools::CreateWorkPackageRelation do
     create(:member, project: disallowed_project, user:, roles: [create(:project_role, permissions: %i[])])
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
+
+  it "creates a work package relation" do
+    expect { mcp_request }.to change(Relation, :count).from(0).to(1)
+
+    expect(Relation.first).to have_attributes(from: work_package_a, to: work_package_b, relation_type: "relates")
+  end
+
+  it "responds with a properly formatted relation" do
+    mcp_request
+    expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("relation_read_model")
+  end
+
+  context "when setting all attributes" do
+    let(:call_args) do
+      {
+        from_work_package_id: work_package_a.id,
+        to_work_package_id: work_package_b.id,
+        type: "follows",
+        lag: 5,
+        description: "A follows B."
+      }
+    end
 
     it "creates a work package relation" do
       expect { mcp_request }.to change(Relation, :count).from(0).to(1)
 
-      expect(Relation.first).to have_attributes(from: work_package_a, to: work_package_b, relation_type: "relates")
-    end
-
-    it "responds with a properly formatted relation" do
-      mcp_request
-      expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("relation_read_model")
-    end
-
-    context "when setting all attributes" do
-      let(:call_args) do
-        {
-          from_work_package_id: work_package_a.id,
-          to_work_package_id: work_package_b.id,
-          type: "follows",
-          lag: 5,
-          description: "A follows B."
-        }
-      end
-
-      it "creates a work package relation" do
-        expect { mcp_request }.to change(Relation, :count).from(0).to(1)
-
-        expect(Relation.first).to have_attributes(
-          from: work_package_a,
-          to: work_package_b,
-          relation_type: "follows",
-          lag: 5,
-          description: "A follows B."
-        )
-      end
-    end
-
-    context "when defining work package via semantic identifier" do
-      let(:call_args) do
-        {
-          from_work_package_id: work_package_a.identifier,
-          to_work_package_id: work_package_b.identifier,
-          type: "follows",
-          lag: 5,
-          description: "A follows B."
-        }
-      end
-
-      it "creates a work package relation" do
-        expect { mcp_request }.to change(Relation, :count).from(0).to(1)
-
-        expect(Relation.first).to have_attributes(
-          from: work_package_a,
-          to: work_package_b,
-          relation_type: "follows",
-          lag: 5,
-          description: "A follows B."
-        )
-      end
-    end
-
-    context "when setting an invalid type" do
-      let(:call_args) do
-        {
-          from_work_package_id: work_package_a.id,
-          to_work_package_id: work_package_b.id,
-          type: "likes"
-        }
-      end
-
-      it_behaves_like "MCP tool execution error response"
-    end
-
-    context "when setting lag on an invalid type" do
-      let(:call_args) do
-        {
-          from_work_package_id: work_package_a.id,
-          to_work_package_id: work_package_b.id,
-          type: "blocks",
-          lag: 5
-        }
-      end
-
-      # I personally would've expected that the underlying services stop this and we receive an error instead
-      # However, this isn't the case. We create the bogus relation and render a success... This is unexpected,
-      # but I am not really here to change existing business logic.
-      it "creates a weird relation" do
-        expect { mcp_request }.to change(Relation, :count).from(0).to(1)
-
-        expect(Relation.first).to have_attributes(
-          from: work_package_a,
-          to: work_package_b,
-          relation_type: "blocks",
-          lag: 5
-        )
-      end
-    end
-
-    context "when not allowed to see 'from' work package" do
-      let(:work_package_a) { create(:work_package, project: disallowed_project) }
-
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("The given work package could not be found.")
-      end
-    end
-
-    context "when not allowed to see 'to' work package" do
-      let(:work_package_b) { create(:work_package, project: disallowed_project) }
-
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("The given work package could not be found.")
-      end
+      expect(Relation.first).to have_attributes(
+        from: work_package_a,
+        to: work_package_b,
+        relation_type: "follows",
+        lag: 5,
+        description: "A follows B."
+      )
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
+  context "when defining work package via semantic identifier" do
+    let(:call_args) do
+      {
+        from_work_package_id: work_package_a.identifier,
+        to_work_package_id: work_package_b.identifier,
+        type: "follows",
+        lag: 5,
+        description: "A follows B."
+      }
+    end
+
+    it "creates a work package relation" do
+      expect { mcp_request }.to change(Relation, :count).from(0).to(1)
+
+      expect(Relation.first).to have_attributes(
+        from: work_package_a,
+        to: work_package_b,
+        relation_type: "follows",
+        lag: 5,
+        description: "A follows B."
+      )
+    end
+  end
+
+  context "when setting an invalid type" do
+    let(:call_args) do
+      {
+        from_work_package_id: work_package_a.id,
+        to_work_package_id: work_package_b.id,
+        type: "likes"
+      }
+    end
+
+    it_behaves_like "MCP tool execution error response"
+  end
+
+  context "when setting lag on an invalid type" do
+    let(:call_args) do
+      {
+        from_work_package_id: work_package_a.id,
+        to_work_package_id: work_package_b.id,
+        type: "blocks",
+        lag: 5
+      }
+    end
+
+    # I personally would've expected that the underlying services stop this and we receive an error instead
+    # However, this isn't the case. We create the bogus relation and render a success... This is unexpected,
+    # but I am not really here to change existing business logic.
+    it "creates a weird relation" do
+      expect { mcp_request }.to change(Relation, :count).from(0).to(1)
+
+      expect(Relation.first).to have_attributes(
+        from: work_package_a,
+        to: work_package_b,
+        relation_type: "blocks",
+        lag: 5
+      )
+    end
+  end
+
+  context "when not allowed to see 'from' work package" do
+    let(:work_package_a) { create(:work_package, project: disallowed_project) }
+
+    it "responds with an error" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(result_item.fetch("error")).to eq("The given work package could not be found.")
+    end
+  end
+
+  context "when not allowed to see 'to' work package" do
+    let(:work_package_b) { create(:work_package, project: disallowed_project) }
+
+    it "responds with an error" do
+      mcp_request
+      expect(result_item.fetch("error")).to eq("The given work package could not be found.")
     end
   end
 end

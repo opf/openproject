@@ -78,9 +78,11 @@ tr:
               invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: Logged for can't be blank.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
@@ -94,6 +96,9 @@ tr:
             start_time:
               format: "%{message}"
               invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'İş numarası # {id}, maliyet girişlerini yeniden atamak için geçerli bir hedef değil.%{id}.'

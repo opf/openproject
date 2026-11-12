@@ -137,6 +137,7 @@ tr:
         commented: Yorumlananlar
       custom_field:
         admin_only: Yalnızca yönetici
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Açık olmayan sürümlere izin ver
         content_right_to_left: Sağdan Sola içerik
         default_value: Varsayılan değer
@@ -152,6 +153,7 @@ tr:
         min_value: Minimum value
         multi_value: Çoklu seçime izin ver
         possible_values: Olası değerler
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Düzenli ifade
         searchable: Aranabilir
@@ -395,10 +397,14 @@ tr:
         authentication_method: Kimlik doğrulama yöntemi
         jwt_sub: Konuyu talep et
       status:
+        category: Category
         default_done_ratio: Tamamlanma yüzdesi
         excluded_from_totals: Hiyerarşideki toplamların hesaplanmasından hariç tut
-        is_closed: İş paketi kapalı
         is_readonly: İş paketi salt okunur
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Çalışma Alanı türü
       time_entry:
@@ -417,6 +423,7 @@ tr:
       type:
         allow_project_variants: Allow project-specific variants
         color: Renk
+        description: Description
         is_in_roadmap: Yol haritasında varsayılan olarak gösterilsin
         is_milestone: Kilometre taşı
         project_types: Projects
@@ -426,6 +433,7 @@ tr:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -548,6 +556,11 @@ tr:
         labels: Labels
         notify: Bildirim
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Üst
         parent_issue: Üst
         parent_work_package: Üst
@@ -710,7 +723,10 @@ tr:
               format: "%{message}"
               invalid: Formül geçersiz.
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
@@ -723,6 +739,10 @@ tr:
           attributes:
             project_ids:
               blank: Lütfen bir proje seçin.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -1483,6 +1503,7 @@ tr:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, ve %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: "%{date} tarihinde silindi"
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
@@ -1698,6 +1719,10 @@ tr:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1708,12 +1733,16 @@ tr:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1853,10 +1882,16 @@ tr:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -1873,17 +1908,15 @@ tr:
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
-                issue_ids: Issue identifiers
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issues
                 logged_time: Logged time
                 permissions: Permissions
-                project_ids: Project identifiers
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projects
                 relations: Relations between issues
                 schemes: Şemalar
-                sprints: Sprint assignments
+                sprints: Sprints and sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
               label_coming_later: Coming later
@@ -1910,17 +1943,20 @@ tr:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1931,8 +1967,8 @@ tr:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2154,10 +2190,6 @@ tr:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2273,6 +2305,8 @@ tr:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2719,6 +2753,7 @@ tr:
       disabled_value: '"%{custom_field_name}" özniteliği bu Hesaplanan değer için gereklidir, ancak proje için devre dışı bırakılmıştır.'
       mathematical: Matematiksel formül bir hataya yol açıyor. Lütfen proje hesaplama özelliğini gözden geçirin ve tekrar deneyin.
       missing_value: '"%{custom_field_name}" özniteliği bu Hesaplanan değer için gereklidir, ancak boştur.'
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Bilinmeyen bir hata oluştu. Lütfen bu Hesaplanan değerin formülünü gözden geçirin.
   colors:
     contrast:
@@ -2831,6 +2866,8 @@ tr:
           item:
             description: Başka bir listenin içinde alt öğeler oluşturmak için bu listeye öğeler ekleyin
             title: Bu öğenin altında herhangi bir hiyerarşi düzeyi yoktur
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Hiyerarşi türündeki özel alana öğeler ekleyerek başlayın. Her öğe, altında bir hiyerarşi oluşturmak için kullanılabilir. Bir hiyerarşi içinde gezinmek ve alt öğeler oluşturmak için oluşturulan öğeye tıklayın.
             title: Öge listeniz boş
@@ -2893,14 +2930,14 @@ tr:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: Düzenlenemez öznitelik. Bu değer otomatik olarak hesaplanır.
     confirm_destroy_option: Bir seçeneğin silinmesi, kullanıldığı her yerden (örneğin iş paketleri) silinmesine neden olur. Silmek istediğinizden emin misiniz?
-    contained_in_type: Kullanıldığı tipler
+    contained_in: Contained in
     enabled_in_project: Projede etkin
     instructions:
       admin_only:
         all: Bu özel alanın yalnızca yöneticiler tarafından görülebilmesi için işaretleyin. Yönetici hakları olmayan kullanıcılar bu alanı görüntüleyemez veya düzenleyemez.
         project: Bu niteliğin yalnızca yöneticilere görünür kılmak için işaretleyin. Yönetici hakları olmayan kullanıcılar bunu görüntüleyemez veya düzenleyemez.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Kullanıcının, projeye genel bakışta değeri seçerken proje niteliğiyle ilgili bir yorum eklemesine olanak tanır.
       is_filter:
@@ -2951,6 +2988,11 @@ tr:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -3224,7 +3266,6 @@ tr:
       gantt_pdf_export: Gantt PDF Dışa Aktarma
       internal_comments: Dahili Yorumlar
       ldap_groups: LDAP kullanıcıları ve grup senkronizasyonu
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Nextcloud Storage için Tek Oturum Açma
       one_drive_sharepoint_file_storage: OneDrive/SharePoint Dosya Depolama
@@ -3318,8 +3359,6 @@ tr:
       internal_comments_inline:
         description: " "
         title: Sadece küçük bir grubun görebileceği iç yorumlar yazın
-      mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
       meeting_templates:
         description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
       nextcloud_sso:
@@ -3998,7 +4037,7 @@ tr:
   label_active_in_new_projects: Yeni projelerde etkin
   label_activity: Etkinlik
   label_add_another_file: Başka bir dosya ekle
-  label_add_column: Sütun ekle
+  label_add_column: Add columns
   label_add_columns: Seçilen sütunları ekle
   label_add_edit_translations: Çeviri ekle ve düzenle
   label_add_note: Not ekle
@@ -4013,6 +4052,7 @@ tr:
   label_additional_workflow_transitions_for_author: Kullanıcı oluşturan olduğunda izin verilen ek geçişler
   label_administration: Yönetim
   label_age: Yaş
+  label_aggregate_function_plural: Aggregate functions
   label_ago: gün önce
   label_all: tüm
   label_all_open_wps: Tüm açık
@@ -4133,7 +4173,7 @@ tr:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Özel favicon
-  label_custom_field_add_no_type: Bu alanı bir iş paketi türüne ekleyin
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Boş tür
   label_custom_field_new: Yeni özel alan
   label_custom_field_plural: Özel alanlar
@@ -4227,7 +4267,7 @@ tr:
   label_filter: Filtreler
   label_filter_add: Filtre ekle
   label_filter_any_name_attribute: Ad özniteliği
-  label_filter_by: Şuna göre filtrele
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Filtreler
   label_filters_toggle: Filtreleri göster / gizle
   label_float: Ondalık
@@ -4278,6 +4318,7 @@ tr:
   label_in: şurada
   label_in_less_than: daha azdır
   label_in_more_than: daha fazla
+  label_in_progress_work_packages: in progress
   label_inactive: Etkin değil
   label_include_sub_projects: Alt projeleri dahil et
   label_includes: içerir
@@ -4429,7 +4470,7 @@ tr:
   label_on: açık
   label_open: aç
   label_open_menu: Menüyü Aç
-  label_open_work_packages: açık
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: açık
   label_openproject_website: OpenProject web sitesi
   label_operator_all: boş değil
@@ -4636,6 +4677,7 @@ tr:
   label_time_entry_plural: Harcanan zaman
   label_timer_since: "%{time} zamanında başladı"
   label_title: Başlık
+  label_to_do_work_packages: to-do
   label_today: bugün
   label_today_as_date: Tarih olarak bugünü seçin.
   label_today_as_due_date: Bitiş tarihi olarak bugünü seçin.
@@ -4749,6 +4791,13 @@ tr:
     one: "%{count} file"
     other: "%{count} dosya"
     zero: dosya yok
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4764,6 +4813,10 @@ tr:
     one: "%{count} project"
     other: "%{count} proje"
     zero: proje yok
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} iş paketi"
@@ -5585,6 +5638,9 @@ tr:
           not_unique: aynı hiyerarşi seviyesi içinde benzersiz olmalıdır.
         parent:
           not_descendant: hiyerarşi kökünü takip etmeli.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: aynı hiyerarşi seviyesi içinde benzersiz olmalıdır.
       str?: bir dize olmalıdır.
@@ -5920,7 +5976,7 @@ tr:
   project_module_activity: Etkinlik
   project_module_forums: Forumlar
   project_module_news: Haberler
-  project_module_repository: Depo
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Viki
   project_module_work_package_tracking: İş paketleri
   projects:
@@ -5964,6 +6020,15 @@ tr:
       new:
         placeholder: Yeni proje listesi
       shared: Paylaşılan proje listeleri
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Tümünü devre dışı bırak
@@ -6819,6 +6884,7 @@ tr:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -6931,6 +6997,11 @@ tr:
   status_registered: kayıtlı
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Bu durumun rengini atamak veya değiştirmek için tıklayın.
         Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
@@ -7296,6 +7367,7 @@ tr:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
@@ -7414,7 +7486,7 @@ tr:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects

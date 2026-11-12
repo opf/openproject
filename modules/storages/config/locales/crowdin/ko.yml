@@ -492,7 +492,7 @@ ko:
     oauth_grant_nudge_modal:
       cancel_button_label: 나중에 하겠습니다
       heading: "%{provider_type}에 로그인 필요"
-      login_button_aria_label: "%{storage}에 로그인"
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} 로그인"
       project_settings:
         description: 프로젝트 폴더에 액세스하려면 %{storage}에 로그인해야 합니다.

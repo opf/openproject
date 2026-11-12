@@ -80,9 +80,9 @@ hy:
         title: Ռեսուրսների կառավարում
   label_resource_management: Ռեսուրսների կառավարում
   permission_allocate_user_resources: Հատկացնել օգտատերերի ռեսուրսները
-  permission_allocate_user_resources_explanation: Թույլ է տալիս օգտատերերին ստեղծել, թարմացնել և ջնջել ռեսուրսների հատկացումները ռեսուրսների պլանավորիչի ներսում։ Սա ներառում է օգտատերերի (կամ օգտատերերի զտիչների) նշանակումը պլանավորիչին և հատկացված ժամանակի ու ամսաթվերի միջակայքի ճշգրտումը։
-  permission_assign_users_to_generic_allocations: Նշանակել օգտատերերին ընդհանրական հատկացումներին
-  permission_assign_users_to_generic_allocations_explanation: Թույլ է տալիս օգտատերերին օգտագործել Կադրերի համալրման տեսքը՝ իրական օգտատերերին նշանակելու այն ընդհանրական (զտիչի վրա հիմնված) ռեսուրսների հատկացումներին, որոնք դեռ օգտատեր չունեն։ Այն թույլ չի տալիս ստեղծել կամ խմբագրել հատկացումներ։
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: Manage public global resource planners
   permission_manage_public_global_resource_planners_explanation: Allows users to publish their own global resource planners and to manage global resource planners that other users have shared publicly. It does not allow users to view global resource planners that are not shared publicly.
   permission_manage_public_resource_planners: Կառավարել հանրային ռեսուրսների պլանավորիչները
@@ -133,9 +133,9 @@ hy:
     assignment_dialog:
       available: "%{hours} հասանելի"
       confirm_overtime: Այնուամենայնիվ նշանակել
-      filter_criteria: Զտիչի չափանիշներ
+      filter_criteria: Criteria
       no_candidates:
-        description: Նախագծի ոչ մի անդամ չի համապատասխանում այս հատկացման զտիչի չափանիշներին։
+        description: No project member matches the criteria of this placeholder user.
         title: Համապատասխան անդամներ չկան
       no_schedule: Այս օգտատերը սահմանված աշխատանքային ժամանակացույց չունի, ուստի հնարավոր չէ որոշել՝ արդյոք այս հատկացումը տեղավորվում է։
       overbooked_detail: Այս օգտատերն այս ժամանակահատվածում ունի %{available} հասանելի ժամանակ, իսկ աշխատանքային փաթեթը պահանջում է %{requested}։
@@ -186,7 +186,7 @@ hy:
     staffing:
       assign: Նշանակել օգտատեր
       blank:
-        description: Այս նախագծի բոլոր ընդհանրական հատկացումներն ունեն նշանակված օգտատեր։
+        description: All placeholder user allocations in this project have a user assigned.
         title: Համալրելու ոչինչ չկա
       columns:
         dates: Ամսաթվեր
@@ -329,8 +329,8 @@ hy:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} member of this project matches the criteria of the placeholder user."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: Ավելացնել աշխատանքային փաթեթ
         configure_view: Կազմաձևել տեսքը

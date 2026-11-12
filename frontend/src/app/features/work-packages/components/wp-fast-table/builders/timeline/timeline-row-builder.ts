@@ -53,19 +53,4 @@ export class TimelineRowBuilder {
 
     return cell;
   }
-
-  /**
-   * Build and insert a timeline row for the given work package using the additional classes.
-   * @param workPackage
-   * @param timelineBody
-   * @param rowClasses
-   */
-  public insert(workPackageId:string|null,
-    timelineBody:DocumentFragment|HTMLElement,
-    rowClasses:string[] = []) {
-    const cell = this.build(workPackageId);
-    cell.classList.add(...rowClasses);
-
-    timelineBody.appendChild(cell);
-  }
 }

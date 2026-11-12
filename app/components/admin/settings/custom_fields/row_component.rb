@@ -75,14 +75,11 @@ module Admin
           reach.zero? ? warning(label) : label
         end
 
-        def contained_in_type
-          type_links = variant_links
+        def contained_in
+          count = table.form_counts[custom_field.id].to_i
+          return no_forms_warning if count.zero?
 
-          if type_links.empty?
-            warning(render(Primer::Beta::Link.new(href: types_path)) { t(:label_custom_field_add_no_type) })
-          else
-            render(OpPrimer::ExpandableTextComponent.new) { safe_join(type_links, ", ") }
-          end
+          render(Primer::Beta::Link.new(href: helpers.forms_path(custom_field))) { t(:label_x_forms, count:) }
         end
 
         def button_links
@@ -91,12 +88,10 @@ module Admin
 
         private
 
-        def variant_links
-          custom_field.type_variants.map do |variant|
-            render(Primer::Beta::Link.new(href: helpers.edit_variant_form_configuration_path(nil, variant))) do
-              variant.composite_name
-            end
-          end
+        def no_forms_warning
+          warning(render(Primer::Beta::Link.new(href: helpers.forms_path(custom_field))) do
+            t(:label_custom_field_add_no_form)
+          end)
         end
 
         def movable?

@@ -29,6 +29,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseChartDirective } from 'ng2-charts';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { VelocityChartComponent } from './velocity-chart.component';
 import AverageLinePlugin, { isAverageLineVisible } from './plugin.average-line';
 
@@ -49,13 +50,20 @@ describe('VelocityChartComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [VelocityChartComponent],
-      providers: [{ provide: I18nService, useValue: { locale: 'de' } }],
+      providers: [
+        { provide: I18nService, useValue: { locale: 'de' } },
+        {
+          provide: ConfigurationService,
+          useValue: { durationFormat: () => 'hours_only', hoursPerDay: () => 8, daysPerMonth: () => 20 },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(VelocityChartComponent);
     element = fixture.nativeElement as HTMLElement;
 
     fixture.componentRef.setInput('chartData', JSON.stringify({
+      unit: 'story_points',
       labels: ['Sprint 1', 'A sprint with a very long name'],
       datasets: [
         { label: 'Committed', data: [21, 13] },
@@ -227,7 +235,7 @@ describe('VelocityChartComponent', () => {
   });
 
   it('limits the y axis to three ticks', () => {
-    expect(options().scales!.y!.ticks).toEqual(expect.objectContaining({ maxTicksLimit: 3 }));
+    expect(options().scales!.y!.ticks).toEqual(expect.objectContaining({ maxTicksLimit: 3, stepSize: undefined }));
   });
 
   describe('x axis labels', () => {
@@ -248,6 +256,52 @@ describe('VelocityChartComponent', () => {
 
     it('truncates long sprint names with an ellipsis', () => {
       expect(tickLabel('A sprint with a very long name')).toBe('A sprint with…');
+    });
+  });
+
+  describe('with unit time', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('chartData', JSON.stringify({
+        ...fixture.componentInstance.parsedData(),
+        unit: 'time',
+        datasets: [
+          { label: 'Committed', data: [21.25, 13] },
+          { label: 'Completed', data: [20, 8.5] },
+        ],
+      }));
+      fixture.detectChanges();
+    });
+
+    it('steps the y axis ticks in multiples of a working day', () => {
+      expect(options().scales!.y!.ticks).toEqual(expect.objectContaining({ stepSize: 8 }));
+    });
+
+    it('formats the y axis ticks as durations', () => {
+      const yTickFormatter = options().scales!.y!.ticks!.callback as unknown as (value:number) => string;
+
+      expect(yTickFormatter(40)).toBe('40h');
+    });
+
+    it('formats the bar labels as durations', () => {
+      const barLabelFormatter = options().plugins!.datalabels!.formatter as unknown as (value:number) => string;
+
+      expect(barLabelFormatter(21.25)).toBe('21.25h');
+    });
+
+    it('formats the tooltip values as durations', () => {
+      const tooltipLabelFormatter = options().plugins!.tooltip!.callbacks!.label as unknown as (item:object) => string;
+
+      expect(tooltipLabelFormatter({ dataset: { label: 'Committed' }, parsed: { y: 21.25 } })).toBe('Committed: 21.25h');
+    });
+
+    it('formats the average line label as a duration', () => {
+      expect(options().plugins!.averageLine).toEqual(expect.objectContaining({ label: '14.5h' }));
+    });
+
+    it('formats the data table cells as durations', () => {
+      const cells = Array.from(element.querySelectorAll('tbody td')).map((cell) => cell.textContent.trim());
+
+      expect(cells).toEqual(['21.25h', '20h', '13h', '8.5h']);
     });
   });
 });

@@ -1,0 +1,29 @@
+<div class="position-relative mx-auto op-sprint-chart--canvas">
+  <canvas baseChart
+    role="img"
+    [attr.aria-labelledby]="summaryId"
+    [attr.aria-describedby]="tableId"
+    [data]="barChartData()"
+    [options]="barChartOptions"
+    [plugins]="plugins"
+    [type]="'bar'"></canvas>
+</div>
+
+<p [id]="summaryId" class="sr-only">{{ parsedData().summary }}</p>
+
+<table [id]="tableId" class="sr-only">
+  <thead>
+    <tr>
+      <th scope="col">{{ parsedData().statusColumnTitle }}</th>
+      <th scope="col">{{ parsedData().countColumnTitle }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (label of parsedData().labels; track $index; let statusIndex = $index) {
+      <tr>
+        <th scope="row">{{ label }}</th>
+        <td>{{ parsedData().data[statusIndex] }}</td>
+      </tr>
+    }
+  </tbody>
+</table>

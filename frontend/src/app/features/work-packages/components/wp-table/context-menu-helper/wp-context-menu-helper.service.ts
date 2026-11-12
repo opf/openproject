@@ -34,6 +34,7 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { sortContextMenuActions } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 
 export interface WorkPackageAction {
   text?:string;
@@ -99,7 +100,7 @@ export class WorkPackageContextMenuHelperService {
 
     allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
 
-    allowedActions.forEach((allowedAction) => {
+    sortContextMenuActions(allowedActions).forEach((allowedAction) => {
       singularPermittedActions.push({
         key: allowedAction.key,
         text: allowedAction.text,
@@ -136,7 +137,7 @@ export class WorkPackageContextMenuHelperService {
     const possibleActions:WorkPackageAction[] = this.BULK_ACTIONS.concat(this.HookService.call('workPackageBulkContextMenu'));
     const permittedActions = possibleActions.filter((action) => workPackages.every((workPackage:WorkPackageResource) => this.isActionAllowed(workPackage, action)));
 
-    permittedActions.forEach((permittedAction) => {
+    sortContextMenuActions(permittedActions).forEach((permittedAction) => {
       bulkPermittedActions.push({
         key: permittedAction.key,
         text: permittedAction.text,
