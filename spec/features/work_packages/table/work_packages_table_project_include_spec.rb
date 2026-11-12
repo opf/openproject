@@ -81,6 +81,16 @@ RSpec.describe "Work package project include", :js, :selenium do
       dropdown.expect_closed
     end
 
+    it "closes when the More actions menu is opened next to the baseline drop modal" do
+      click_button("Baseline")
+      expect(page).to have_field("Show changes since")
+
+      find(:button, accessible_name: "More actions").click
+
+      expect(page).to have_selector(:menu, "More actions")
+      expect(page).to have_no_field("Show changes since")
+    end
+
     it "creates new work packages in the host project of the work package view (regression #42271)" do
       dropdown.expect_count 1
 
