@@ -48,6 +48,7 @@ jobs:
         uses: actions/checkout@v7.0.1
         with:
           ref: ${{ env.BASE_BRANCH }}
+          token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
 
       - name: Fetch dev branch upto release branch
         run: git fetch --shallow-exclude "$RELEASE_BRANCH" origin "$BASE_BRANCH" || git fetch --depth 1 origin "$BASE_BRANCH"
