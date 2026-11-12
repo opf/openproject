@@ -64,13 +64,13 @@ module WorkPackageTypes
       end
 
       def toggle_required_label
-        key = @attribute[:required_for_variant] ? "unmark" : "mark"
+        key = required? ? "unmark" : "mark"
 
         t("types.edit.form_configuration.required.#{key}")
       end
 
       def toggle_required_icon
-        @attribute[:required_for_variant] ? "circle-slash" : "check-circle"
+        required? ? "circle-slash" : "check-circle"
       end
 
       def toggle_required_hint
@@ -115,9 +115,15 @@ module WorkPackageTypes
       private
 
       def required_and_included?
-        @attribute[:is_cf] &&
-          (@attribute[:required_globally] || @attribute[:required_for_variant]) &&
-          !@context.exclusions&.excluded?(@attribute[:key])
+        @attribute[:is_cf] && required? && !excluded?
+      end
+
+      def required?
+        @attribute[:required_globally] || @attribute[:required_for_variant]
+      end
+
+      def excluded?
+        @context.exclusions&.excluded?(@attribute[:key])
       end
 
       def sortable?

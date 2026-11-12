@@ -88,6 +88,14 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
         expect(page).to have_css(".color-fg-muted.text-small", text: attribute[:field_format_label])
         expect(page).to have_test_selector("type-form-configuration-toggle-required-custom_field_5", visible: :all)
       end
+
+      it "offers, disabled, to stop requiring a field required for all types", :aggregate_failures do
+        render_row(attribute: attribute.merge(required_globally: true))
+
+        action = page.find(:test_id, "type-form-configuration-toggle-required-custom_field_5", visible: :all)
+        expect(action).to have_text("Do not require for this type")
+        expect(action[:"aria-disabled"]).to eq("true")
+      end
     end
   end
 

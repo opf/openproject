@@ -129,7 +129,7 @@ RSpec.describe "form configuration required attributes", :js do
 
       action = required_action(custom_field.attribute_name)
 
-      expect(action).to have_text(mark)
+      expect(action).to have_text(unmark)
       expect(action.tag_name).to eq("button")
       expect(action[:"aria-disabled"]).to eq("true")
 
