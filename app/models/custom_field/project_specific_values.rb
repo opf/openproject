@@ -100,9 +100,7 @@ module CustomField::ProjectSpecificValues
   # The restrictions are evaluated per project of the reach, so the rows of different projects
   # never combine into making a value usable that is usable in none of them.
   def usable_values_in_reach(reach_sql)
-    if project_specific_value_restriction.nil?
-      return restrictable_values.where("#{values_table}.project_id IS NULL OR #{values_table}.project_id IN (#{reach_sql})")
-    end
+    return global_and_reach_values(reach_sql) if project_specific_value_restriction.nil?
 
     restrictable_values.where(<<~SQL.squish)
       EXISTS (
@@ -111,6 +109,12 @@ module CustomField::ProjectSpecificValues
           OR (#{values_table}.project_id IS NULL AND #{list? ? usable_option_condition : usable_item_condition})
       )
     SQL
+  end
+
+  def global_and_reach_values(reach_sql)
+    project_id = restrictable_values.arel_table[:project_id]
+
+    restrictable_values.where(project_id.eq(nil).or(project_id.in(Arel.sql(reach_sql))))
   end
 
   def values_table
