@@ -55,11 +55,11 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemsComponent, type: :component,
       expect(page).to have_no_css(new_item_link)
     end
 
-    it "explains that only the project can add sub-items", :aggregate_failures do
+    it "explains that only the project can add sub-values", :aggregate_failures do
       expect(page).to have_test_selector(
         "op-custom-fields--hierarchy-items-blankslate",
-        text: "This value belongs to the project Scrum project. It cannot have global sub-items. " \
-              "Sub-items can only be added in the project administration."
+        text: "This value belongs to the project Scrum project. It cannot have global sub-values. " \
+              "Sub-values can only be added in the project administration."
       )
       expect(page).to have_link("project administration")
     end
