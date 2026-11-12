@@ -78,7 +78,7 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
       end
 
       it "when updating a weight" do
-        click_on "Items"
+        click_on "Values"
 
         open_action_menu(one)
         click_on "Edit"
@@ -94,7 +94,7 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
       end
 
       it "when deleting an item" do
-        click_on "Items"
+        click_on "Values"
 
         open_action_menu(one)
         click_on "Delete"

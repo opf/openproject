@@ -16,9 +16,9 @@ fa:
         env_provisioned_at: اعمال‌شده از محیط
         llm_features_enabled: فعال‌کردن مدل‌های زبانی بزرگ (LLM) برای این نمونه
       llm_feature_binding:
-        dimensions: ابعاد
         feature_key: قابلیت
         model: مدل
+        semantic_index: Semantic Index
       llm_model:
         admin_context_window: پنجره زمینه
         capability_function_calling: فراخوانی ابزار
@@ -29,7 +29,17 @@ fa:
         manual: واردشده به‌صورت دستی
         raw_metadata: فراداده
         external: نام مدل
+      semantic_index:
+        context_token_length: Context length
+        description: Description
+        embedding_vector_dimensions: Dimensions
+        llm_feature_bindings: Feature configuration
+        model: Model
+        state: Status
+        title: Display name
     errors:
+      messages:
+        semantic_search_unavailable: is currently unavailable.
       models:
         llm_connection:
           attributes:
@@ -58,14 +68,12 @@ fa:
               requires_connection: پیش از پیکربندی اتصال نمی‌توان آن را فعال کرد.
         llm_feature_binding:
           attributes:
-            dimensions:
-              locked: تا زمانی که داده‌های ایندکس‌شده با آن وجود دارد، قابل تغییر نیست. برای تغییر، ایندکس‌گذاری مجدد کنید.
-              not_for_chat_feature: فقط برای قابلیت‌هایی کاربرد دارد که embedding تولید می‌کنند.
             feature_key:
               not_registered: به هیچ قابلیت شناخته‌شده هوش مصنوعی تعلق ندارد.
             model_id:
-              locked: تا زمانی که داده‌های ایندکس‌شده با آن وجود دارد، قابل تغییر نیست. برای تعویض مدل، ایندکس‌گذاری مجدد کنید.
               not_available: در سرور LLM پیکربندی‌شده ارائه نمی‌شود.
+            semantic_index:
+              not_for_chat_feature: only applies to features that create embeddings.
         llm_model:
           attributes:
             base:
@@ -73,7 +81,70 @@ fa:
               discovered: فقط مدل‌هایی را می‌توان حذف کرد که دستی وارد شده‌اند. مدیریت مدل‌های اعلام‌شده سرور بر عهده خود سرور LLM است.
             external_id:
               conflicting_capabilities: دارای اطلاعات ثبت‌شده‌ای درباره قابلیت‌هاست که با قابلیت‌های این مدل تعارض دارند.
+        semantic_index:
+          attributes:
+            base:
+              active: The semantic index is active. Activate another semantic index first.
+              locked_while_indexing: cannot be changed while it is being indexed.
+            model_id:
+              not_offered: is not an embedding model offered by the configured LLM server.
   admin:
+    semantic_indexes:
+      activate:
+        body_html: Semantic search will use <b>%{title}</b> immediately.
+        body_switch_html: Semantic search switches from <b>%{current}</b> to <b>%{title}</b> immediately. %{current} stays ready and can be reactivated.
+        button: Activate
+        confirm: Activate
+        success: '"%{title}" is now the active semantic index.'
+        title: Activate "%{title}"?
+      active: Active
+      box:
+        empty_description: Create a new semantic index to make work packages findable by meaning.
+        empty_title: No semantic index yet
+        new: Semantic index
+        title: Semantic indexes
+      destroy:
+        description: The semantic index and its settings will be removed. This cannot be undone.
+        heading: Delete %{title}?
+        title: Delete semantic index
+      dialog:
+        edit_title: Edit "%{title}"
+        new_title: New semantic index
+      form:
+        context_token_length_caption: Maximum number of tokens embedded per work package.
+        embedding_vector_dimensions_caption: Must match the selected model.
+        immutable: Model, context length and dimensions can't be changed after creation. Create a new semantic index to use different parameters.
+        model_caption: Only models known to create embeddings are offered.
+        option_unqualified: "%{model} (no longer eligible)"
+      indexing:
+        failed_requests:
+          one: 1 request failed.
+          other: "%{count} requests failed."
+        not_ready:
+          model_missing: The model %{model} is no longer offered by the connection.
+          no_connection: No active LLM connection is configured.
+          pgvector_missing: The pgvector extension is not installed. Install it and run the migrations again to start indexing.
+        progress: "%{percentage}% done"
+      menu:
+        delete: Delete
+        locked_while_active: Cannot be deleted while it is active.
+        locked_while_indexing: Cannot be deleted while indexing.
+      start_indexing:
+        button:
+          failed: Retry indexing
+          not_indexed: Start indexing
+          ready: Re-index
+        not_indexable: This semantic index is already being indexed.
+        started: Indexing of "%{title}" has started.
+      states:
+        failed: Failed
+        indexing: Indexing
+        not_indexed: Not indexed
+        ready: Ready
+      stop_indexing:
+        button: Stop
+        not_indexing: This semantic index is not being indexed.
+        stopped: Indexing of "%{title}" was stopped.
     llm_connections:
       header_description: OpenProject را به سرور LLM متصل کنید و مدل‌های ارائه‌شده آن را بررسی کنید.
       delete_api_key:
@@ -119,14 +190,9 @@ fa:
     llm_feature_bindings:
       dangling: مدل %{model} دیگر در سرور LLM ارائه نمی‌شود. تا انتخاب مدل دیگری، این قابلیت اجرا نخواهد شد.
       form:
-        dimensions_caption: تعداد اعداد موجود در هر بردار. برای استفاده از مقدار بازگشتی سرور این قسمت را خالی بگذارید.
-        dimensions_caption_probed: سرور برای این مدل بردارهایی با %{dimensions} بُعد برگرداند. برای استفاده از مقدار بازگشتی هنگام ایندکس‌گذاری، این قسمت را خالی بگذارید.
-        model_caption_embedding: فقط مدل‌هایی نمایش داده می‌شوند که توانایی تولید embedding آن‌ها مشخص است. [درباره انواع مدل‌ها بیشتر بخوانید](docs_url).
         model_caption_ruled_out: مدل‌هایی که مشخص شده است قابلیت موردنیاز این بخش را ندارند، نمایش داده نمی‌شوند.
       inherit_with_default: استفاده از پیش‌فرض (%{model})
       inherit_without_default: استفاده از پیش‌فرض (تعیین نشده)
-      locked: مدل %{model} در داده‌های ایندکس‌شده استفاده شده و در اینجا قابل تغییر نیست. برای تعویض مدل، ایندکس‌گذاری مجدد کنید.
-      locked_values_heading: مقادیر تثبیت‌شده توسط ایندکس موجود
       option_unqualified: "%{model} (دیگر برای این قابلیت مناسب نیست)"
       update:
         model_incapable: مدل قابلیت %{feature} ذخیره شد، اما سرور تازه گزارش داده که از %{capability} پشتیبانی نمی‌کند. مدل دیگری انتخاب کنید یا اگر مطمئن هستید، قابلیت مذکور را برای مدل به‌صورت دستی تأیید کنید.
@@ -204,6 +270,9 @@ fa:
         success: فهرست مدل‌ها تازه‌سازی شد.
       update:
         success: مدل %{model} به‌روزرسانی شد.
+  attributes:
+    semantic_similarity: Similarity
+  label_search_by_meaning: Search by meaning
   llm:
     api_formats:
       anthropic: Anthropic
@@ -265,7 +334,6 @@ fa:
         features_model_missing: قابلیت‌های %{features} به مدلی اشاره می‌کنند که سرور دیگر ارائه نمی‌دهد.
         features_unbound: هنوز هیچ مدلی برای قابلیت‌های %{features} انتخاب نشده است.
         invalid_api_key: سرور کلید API ذخیره‌شده را رد کرد.
-        locked_model_missing: قابلیت‌های %{features} داده‌ها را با مدلی ایندکس کرده‌اند که سرور دیگر ارائه نمی‌دهد. تا بازسازی ایندکس نمی‌توان داده‌های جدیدی به آن افزود.
         model_not_served: سرور برای %{model} مسیر معتبری ندارد (404). بررسی کنید که مدل هنوز برای حساب شما ارائه می‌شود و نشانی میزبان شامل بخش نسخه API است.
         models_endpoint_missing: سرور در این نشانی فهرست مدل ندارد؛ بنابراین کلید API نیز قابل بررسی نبود. مطمئن شوید نشانی شامل بخش نسخه API است (برای مثال https://example.com/v1).
         no_model_to_test: مدلی برای آزمایش در دسترس نیست. ابتدا مدلی اضافه کنید یا پیش‌فرضی انتخاب کنید.
@@ -274,13 +342,14 @@ fa:
         not_configured: هیچ نقطه پایانی پیکربندی نشده است.
         not_openai_compatible: نقطه پایانی فهرست مدل معتبری برنگرداند. مطمئن شوید به نقطه پایانی سازگار با OpenAI API اشاره می‌کند و بخش نسخه API را شامل می‌شود.
         request_timed_out: سرور در زمان مقرر پاسخ نداد.
+        semantic_index_model_missing: The active semantic index "%{title}" was built with %{model}, which the server no longer offers. Activate another semantic index to keep search by meaning working.
         server_error: سرور وضعیت %{status} را برگرداند.
         ssrf_filtered: نشانی نقطه پایانی به نشانی مسدودشده تبدیل می‌شود.
         unsupported_api_format: قالب %{api_format} به اعتبارنامه‌هایی نیاز دارد که OpenProject نمی‌تواند ذخیره کند.
       features:
+        active_semantic_index_intact: The active semantic index still has its model
         bindings_resolvable: هر قابلیت مدل قابل استفاده‌ای دارد
         header: قابلیت‌های هوش مصنوعی
-        locked_bindings_intact: داده‌های ایندکس‌شده همچنان مدل خود را دارند
       inference:
         chat_round_trip: سرور به درخواست پاسخ می‌دهد
         header: استنتاج
@@ -300,6 +369,9 @@ fa:
     model_kinds:
       chat: گفت‌وگو
       embedding: تعبیه‌سازی
+    pgvector:
+      admin_check: Database extension pgvector enabled (optional)
+      unavailable: Semantic search is unavailable because the pgvector extension is not set up in the database. Install pgvector for PostgreSQL and run the database migrations again. [Learn more](docs_url)
     verdict_states:
       supported: پشتیبانی‌شده
       unknown: تأییدنشده

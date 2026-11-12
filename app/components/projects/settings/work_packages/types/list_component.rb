@@ -36,21 +36,34 @@ module Projects
           include OpTurbo::Streamable
           include WorkPackageTypes::VariantRoutes
 
-          def initialize(project:)
+          FRAME_ID = "project-types-list"
+
+          def initialize(project:, created_by_migration: false)
             super()
 
             @project = project
+            @created_by_migration = created_by_migration
           end
 
           private
 
-          attr_reader :project
+          attr_reader :project, :created_by_migration
+
+          def migration_filter? = created_by_migration
 
           def active_project_types
-            @active_project_types ||= project
-                                        .project_types
-                                        .includes(:variant, type: :color)
-                                        .sort_by { |project_type| project_type.type.position }
+            @active_project_types ||= begin
+              project_types = project
+                                .project_types
+                                .includes(:variant, type: :color)
+                                .sort_by { |project_type| project_type.type.position }
+
+              if migration_filter?
+                project_types.select { |project_type| selectable_variants(project_type).any? }
+              else
+                project_types
+              end
+            end
           end
 
           def manages_types?
@@ -74,7 +87,9 @@ module Projects
           end
 
           def selectable_variants(project_type)
-            project_type.type.variants.non_default_variants.available_in(project).in_display_order
+            scope = project_type.type.variants.non_default_variants.available_in(project)
+            scope = scope.created_by_migration if migration_filter?
+            scope.in_display_order
           end
 
           def in_use?(project_type, variant)
@@ -83,6 +98,18 @@ module Projects
 
           def base_type_in_use?(project_type)
             project_type.variant.default?
+          end
+
+          def collapsed?(project_type) = !migration_filter? && base_type_in_use?(project_type)
+
+          def empty_state_arguments
+            if migration_filter?
+              { title: t("types.index.filter_no_results"), icon: :search }
+            else
+              { title: t("projects.settings.types.empty_state.title"),
+                description: t("projects.settings.types.empty_state.description"),
+                icon: :rows }
+            end
           end
 
           # Left out rather than shown as zero, so the badge never labels a type with nothing to

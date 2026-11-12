@@ -396,7 +396,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
     end
 
     context "when a later moved member has a globally closed status the project did not mark done" do
-      let(:closed_status) { create(:status, is_closed: true) }
+      let(:closed_status) { create(:status, category: "closed") }
       let!(:closed_member) { create(:work_package, sprint:, position: 2, status: closed_status, type:, project:) }
 
       it "flashes the singular invisible-after-move notice instead of an impossible range" do

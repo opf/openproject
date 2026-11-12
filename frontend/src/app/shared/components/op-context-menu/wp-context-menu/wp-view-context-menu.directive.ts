@@ -37,11 +37,9 @@ import {
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpContextMenuLocalsMap } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
-  OpContextMenuItem,
-  OpContextMenuLocalsMap,
-} from 'core-app/shared/components/op-context-menu/op-context-menu.types';
-import {
+  ContextMenuItemGroups,
   copyIdActionLabel,
   isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
@@ -83,7 +81,9 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     this.allowSplitScreenActions,
   );
 
-  protected items = this.buildItems();
+  protected itemGroups = this.buildItemGroups();
+
+  protected items = this.itemGroups.items;
 
   private copyToClipboardService:CopyToClipboardService;
 
@@ -205,30 +205,33 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     return this.wpTableSelection.getSelectedWorkPackages();
   }
 
-  protected buildItems():OpContextMenuItem[] {
+  protected buildItemGroups():ContextMenuItemGroups {
     const selected = this.getSelectedWorkPackages();
+    const groups = new ContextMenuItemGroups();
 
-    const items = this.permittedActions.map((action:WorkPackageAction) => ({
-      class: undefined as string | undefined,
-      disabled: false,
-      linkText: isCopyIdAction(action.key) ? copyIdActionLabel(this.workPackage) : action.text,
-      href: action.href,
-      icon: action.icon != null ? action.icon : `icon-${action.key}`,
-      onClick: (event:MouseEvent) => {
-        if (action.href && isClickedWithModifier(event)) {
-          return false;
-        }
+    this.permittedActions.forEach((action:WorkPackageAction) => {
+      groups.addAction(action.key, {
+        disabled: false,
+        linkText: isCopyIdAction(action.key) ? copyIdActionLabel() : action.text,
+        href: action.href,
+        icon: action.icon ?? `icon-${action.key}`,
+        onClick: (event:MouseEvent) => {
+          if (action.href && isClickedWithModifier(event)) {
+            return false;
+          }
 
-        this.triggerContextMenuAction(action);
-        return true;
-      },
-    }));
+          this.triggerContextMenuAction(action);
+          return true;
+        },
+      });
+    });
+
 
     if (selected.length === 1 && !isNewResource(this.workPackage)) {
       const projectIdentifier = this.currentProject.identifier;
       const link = this.pathHelper.genericWorkPackagePath(projectIdentifier, this.workPackage.displayId) + window.location.search;
 
-      items.unshift({
+      groups.prepend('open', {
         disabled: false,
         icon: 'icon-view-fullscreen',
         class: 'openFullScreenView',
@@ -248,7 +251,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       if (selected.length === 1 && this.allowSplitScreenActions) {
         const splitViewHref = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}${window.location.search}`;
 
-        items.unshift({
+        groups.prepend('open', {
           disabled: false,
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
@@ -266,6 +269,6 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       }
     }
 
-    return items;
+    return groups;
   }
 }

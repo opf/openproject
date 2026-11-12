@@ -213,6 +213,7 @@ import { BurndownChartComponent } from './features/backlogs/burndown-chart.compo
 import { BurnupChartComponent } from './features/backlogs/burnup-chart.component';
 import { CreatedResolvedComponent } from './features/backlogs/created-resolved-chart.component';
 import { VelocityChartComponent } from './features/backlogs/velocity-chart.component';
+import { SprintWorkPackageGraphComponent } from './features/backlogs/sprint-work-package-graph.component';
 import { BudgetByCostTypeComponent } from './shared/components/budget-graphs/overview/budget-by-cost-type.component';
 import { ActualCostsComponent } from './shared/components/budget-graphs/overview/actual-costs.component';
 import { ProjectTimelineGraphComponent } from './shared/components/project-timeline-graph/project-timeline-graph.component';
@@ -432,6 +433,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-burnup-chart', BurnupChartComponent, { injector });
     registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector });
     registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector });
+    registerCustomElement('opce-sprint-work-package-graph', SprintWorkPackageGraphComponent, { injector });
     registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
     registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector });
     registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector });

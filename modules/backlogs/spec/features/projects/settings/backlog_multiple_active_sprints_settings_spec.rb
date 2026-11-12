@@ -31,7 +31,7 @@ require "rails_helper"
 
 RSpec.describe "Backlogs project settings multiple active sprints", :js do
   let(:project) { create(:project) }
-  let(:permissions) { %i[create_sprints select_backlog_types_and_statuses share_sprint] }
+  let(:permissions) { %i[create_sprints manage_backlogs_configuration share_sprint] }
   let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before { login_as current_user }
@@ -46,7 +46,7 @@ RSpec.describe "Backlogs project settings multiple active sprints", :js do
   end
 
   context "without share_sprint permission" do
-    let(:permissions) { %i[create_sprints select_backlog_types_and_statuses] }
+    let(:permissions) { %i[create_sprints manage_backlogs_configuration] }
 
     it "does not show the multiple active sprints tab in the navigation" do
       visit project_settings_backlogs_path(project)

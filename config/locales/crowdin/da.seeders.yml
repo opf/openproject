@@ -73,13 +73,27 @@ da:
           name: Global standardrolle
       ai_text_actions:
         item_0:
-          label: Ret grammatik
+          label: Structure
         item_1:
-          label: Gør kortere
+          label: Proofread
         item_2:
-          label: Oversæt til engelsk
+          label: Rewrite
         item_3:
-          label: Sortér efter skabelon
+          label: Friendly
+        item_4:
+          label: Professional
+        item_5:
+          label: Concise
+        item_6:
+          label: Summarize
+        item_7:
+          label: Key points
+        item_8:
+          label: List
+        item_9:
+          label: Table
+        item_10:
+          label: Suggest subject
     standard:
       project_phases:
         item_0:
@@ -119,13 +133,13 @@ da:
           name: Kvalitetssikring
       labels:
         item_0:
-          name: Website
+          name: Websted
         item_1:
           name: Marketing
         item_2:
-          name: Speakers
+          name: Talere
         item_3:
-          name: Security
+          name: Sikkerhed
         item_4:
           name: UX
       projects:

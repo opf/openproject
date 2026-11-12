@@ -54,7 +54,7 @@ RSpec.describe CustomFields::Hierarchy::UpdateWeightedItemContract do
       it("is invalid") do
         result = subject.call(params)
         expect(result).to be_failure
-        expect(result.errors.to_h).to include(item: ["cannot be a root item."])
+        expect(result.errors.to_h).to include(item: ["cannot be a root value."])
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.describe CustomFields::Hierarchy::UpdateWeightedItemContract do
       it "is invalid" do
         result = subject.call(params)
         expect(result).to be_failure
-        expect(result.errors[:item]).to match_array("must be an already existing item.")
+        expect(result.errors[:item]).to match_array("must be an already existing value.")
       end
     end
 
@@ -88,6 +88,53 @@ RSpec.describe CustomFields::Hierarchy::UpdateWeightedItemContract do
         expect(result).to be_failure
 
         expect(result.errors[:label]).to match_array("must be unique within the same hierarchy level.")
+      end
+    end
+
+    context "when the label only differs in case from a label in the same hierarchy level" do
+      let(:params) { { item: high, label: "MIDDLE", weight: 1.17e-12 } }
+
+      it "is invalid" do
+        expect(subject.call(params).errors[:label]).to match_array("must be unique within the same hierarchy level.")
+      end
+    end
+
+    context "when only the case of the item's own label changes" do
+      let(:params) { { item: high, label: "High", weight: 1.17e-12 } }
+
+      it "is valid" do
+        expect(subject.call(params)).to be_success
+      end
+    end
+
+    context "with project items" do
+      let(:project) { create(:project) }
+      let(:other_project) { create(:project) }
+      let!(:urgent) { create(:hierarchy_item, label: "Urgent", weight: 2, parent: impact, project:) }
+      let!(:critical) { create(:hierarchy_item, label: "Critical", weight: 3, parent: impact, project: other_project) }
+      let!(:minor) { create(:hierarchy_item, label: "Minor", weight: 0.5, parent: impact, project:) }
+
+      it "allows a project item to use the label of another project's sibling" do
+        expect(subject.call(item: minor, label: "Critical", weight: 0.5)).to be_success
+      end
+
+      it "does not allow a project item to use the label of a sibling of the same project" do
+        expect(subject.call(item: minor, label: "Urgent", weight: 0.5).errors[:label])
+          .to match_array("must be unique within the same hierarchy level.")
+      end
+
+      it "does not allow a project item to use the label of a global sibling" do
+        expect(subject.call(item: minor, label: "Middle", weight: 0.5).errors[:label])
+          .to match_array("must be unique within the same hierarchy level.")
+      end
+
+      it "does not allow a project item to use the label of a sibling of the same project in a different case" do
+        expect(subject.call(item: minor, label: "URGENT", weight: 0.5).errors[:label])
+          .to match_array("must be unique within the same hierarchy level.")
+      end
+
+      it "allows a project item to use the label of another project's sibling in a different case" do
+        expect(subject.call(item: minor, label: "critical", weight: 0.5)).to be_success
       end
     end
 

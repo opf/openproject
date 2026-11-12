@@ -69,36 +69,27 @@ RSpec.describe McpTools::DeleteTimeEntry do
     time_entry.save! # making sure creation already happens before expect blocks
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "deletes the time entry" do
-      expect { mcp_request }.to change(TimeEntry, :count).from(1).to(0)
-    end
-
-    it "responds with a properly formatted time entry" do
-      mcp_request
-      expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("time_entry_model")
-    end
-
-    context "when deleting a non-existing entry" do
-      let(:call_args) do
-        {
-          id: time_entry.id + 100
-        }
-      end
-
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("The given time entry could not be found.")
-      end
-    end
+  it "deletes the time entry" do
+    expect { mcp_request }.to change(TimeEntry, :count).from(1).to(0)
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
+  it "responds with a properly formatted time entry" do
+    mcp_request
+    expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("time_entry_model")
+  end
+
+  context "when deleting a non-existing entry" do
+    let(:call_args) do
+      {
+        id: time_entry.id + 100
+      }
+    end
+
+    it "responds with an error" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(result_item.fetch("error")).to eq("The given time entry could not be found.")
     end
   end
 end

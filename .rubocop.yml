@@ -364,6 +364,9 @@ RSpec/SpecFilePathFormat:
     OAuthClients: oauth_clients
     XWiki: xwiki
     XWikiProviders: xwiki_providers
+    SquashTMIntegration: squashtm_integration
+    WorkPackageSquashTMTabViewModel: work_package_squashtm_tab_view_model
+    WorkPackageSquashTMTabComponent: work_package_squashtm_tab_component
   EnforcedInflector: active_support
   IgnoreMethods: true
 

@@ -23,10 +23,14 @@
 zh-CN:
   js:
     backlogs:
+      action_menu:
+        menu_label:
+          other: Actions for %{count} selected work packages
       announcements:
         batch_too_large: 无法一次性移动 %{count} 个工作包。选择的工作包数量不得超过 %{max} 个。
         fallback_item_label: 工作包
         fallback_list_name: 另一个列表
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving work packages.
         move_failed_check_position: 移动失败。请检查工作包的当前位置。
         move_failed_check_positions_batch:
           other: 移动失败。请检查工作包的当前位置。
@@ -54,17 +58,18 @@ zh-CN:
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     burnup_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burnup chart
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     created_resolved_chart:
       work_packages: Work packages
     sprint_charts:
       non_working_day: Non-working day
+      y_axis_title:
+        story_points: Story points
+        time: Estimated time
     work_packages:
       properties:
         storyPoints: 故事点

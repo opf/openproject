@@ -35,13 +35,15 @@ module Queries::NamedReferences::Filters::MemberExists
   end
 
   def member_exists_sql(condition, extra_joins: nil)
+    value_condition = operator_strategy.requires_value? ? "AND #{condition}" : ""
+
     <<~SQL.squish
       EXISTS (
         SELECT 1
         FROM type_variants members
         #{extra_joins}
         WHERE members.#{model.variant_reflection.foreign_key} = #{model.table_name}.id
-          AND #{condition}
+          #{value_condition}
       )
     SQL
   end
@@ -51,7 +53,7 @@ module Queries::NamedReferences::Filters::MemberExists
   end
 
   def negated?
-    operator_strategy == Queries::Operators::NotEquals
+    [Queries::Operators::NotEquals, Queries::Operators::None].include?(operator_strategy)
   end
 
   def integer_values

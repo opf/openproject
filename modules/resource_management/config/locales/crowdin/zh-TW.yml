@@ -74,9 +74,9 @@ zh-TW:
         title: 資源管理
   label_resource_management: 資源管理
   permission_allocate_user_resources: 分配使用者資源
-  permission_allocate_user_resources_explanation: 允許使用者在資源規劃器中建立、更新及刪除資源分配。這包括將使用者（或使用者篩選條件）指派至規劃器，以及調整已分配的時間與日期範圍。
-  permission_assign_users_to_generic_allocations: 將使用者指派至通用配額
-  permission_assign_users_to_generic_allocations_explanation: 允許使用者透過「人力配置」檢視，將實際使用者指派至尚未分配使用者的通用（基於篩選條件）資源配置。此功能不允許建立或編輯資源配置。
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: 管理公開的全域資源規劃器
   permission_manage_public_global_resource_planners_explanation: 允許使用者發佈自己的全球資源規劃表，並管理其他使用者公開分享的全球資源規劃表。但使用者無法檢視未公開分享的全球資源規劃表。
   permission_manage_public_resource_planners: 管理公共資源規劃人員
@@ -127,9 +127,9 @@ zh-TW:
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      filter_criteria: Criteria
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
+        description: No project member matches the criteria of this placeholder user.
         title: No matching members
       no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
       overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
@@ -180,7 +180,7 @@ zh-TW:
     staffing:
       assign: 指派使用者
       blank:
-        description: 本專案中所有通用配額均已指派使用者。
+        description: All placeholder user allocations in this project have a user assigned.
         title: 無需安排人員
       columns:
         dates: 日期
@@ -322,7 +322,7 @@ zh-TW:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          other: "%{count} members of this project match the allocation's filter criteria."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: Add work package
         configure_view: Configure view

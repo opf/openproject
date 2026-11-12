@@ -27,6 +27,7 @@
 
 import { usePlatform } from 'core-common/testing/platform';
 import { fireEvent } from '@testing-library/dom';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { buildTable, TableHarness } from '../../testing/table-harness';
 
 describe('RowClickHandler', () => {
@@ -199,6 +200,48 @@ describe('RowClickHandler', () => {
     fireEvent.doubleClick(harness.row('2').querySelector('td')!);
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
     expect(harness.focus.focusedWorkPackage).toBe('2');
+  });
+
+  describe('with the details pane open', () => {
+    const openOn = async (routingId:string) => {
+      await harness.destroy();
+      harness = buildTable({
+        workPackages: [{ id: '1' }, { id: '2' }],
+        providers: [{
+          provide: UrlParamsService,
+          useValue: {
+            currentDetailsRouteParams: () => ({ routingId, tab: 'activity' }),
+            basePathWithoutDetails: () => '/work_packages',
+          },
+        }],
+      });
+      await harness.render();
+      return vi.spyOn(Turbo, 'visit').mockImplementation(() => undefined);
+    };
+
+    it('switches it to the clicked row and keeps the tab', async () => {
+      const visit = await openOn('1');
+      try {
+        harness.click('2');
+
+        expect(visit).toHaveBeenCalledOnce();
+        expect(visit.mock.calls[0][0]).toContain('/work_packages/details/2/activity');
+        expect(visit.mock.calls[0][1]).toMatchObject({ frame: 'content-bodyRight', action: 'advance' });
+      } finally {
+        visit.mockRestore();
+      }
+    });
+
+    it('leaves it alone when the clicked row is already shown', async () => {
+      const visit = await openOn('1');
+      try {
+        harness.click('1');
+
+        expect(visit).not.toHaveBeenCalled();
+      } finally {
+        visit.mockRestore();
+      }
+    });
   });
 
   it('marks the clicked row as the current work package', () => {

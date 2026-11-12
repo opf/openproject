@@ -23,10 +23,15 @@
 sv:
   js:
     backlogs:
+      action_menu:
+        menu_label:
+          one: Work package actions
+          other: Actions for %{count} selected work packages
       announcements:
         batch_too_large: Det går inte att flytta %{count} arbetspaket samtidigt. Välj högst %{max}.
         fallback_item_label: Arbetspaket
         fallback_list_name: en annan lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving work packages.
         move_failed_check_position: Flytten misslyckades. Kontrollera arbetspaketets aktuella position.
         move_failed_check_positions_batch:
           other: Flytten misslyckades. Kontrollera arbetspaketens aktuella positioner.
@@ -56,17 +61,18 @@ sv:
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     burnup_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burnup chart
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     created_resolved_chart:
       work_packages: Work packages
     sprint_charts:
       non_working_day: Non-working day
+      y_axis_title:
+        story_points: Story points
+        time: Estimated time
     work_packages:
       properties:
         storyPoints: Berättelsepoäng

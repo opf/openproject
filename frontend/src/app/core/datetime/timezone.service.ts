@@ -29,7 +29,7 @@ import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import moment, { Moment, MomentInput } from 'moment-timezone';
-import { outputChronicDuration } from '../../shared/helpers/chronic_duration';
+import { ChronicDurationOptions, outputChronicDuration } from '../../shared/helpers/chronic_duration';
 
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
@@ -168,14 +168,20 @@ export class TimezoneService {
     }
   }
 
-  public formattedChronicDuration(durationString:string, opts = {
+  public formattedChronicDuration(durationString:string, opts?:ChronicDurationOptions):string {
+    return this.formattedChronicDurationFromSeconds(this.toSeconds(durationString), opts);
+  }
+
+  public formattedChronicDurationFromHours(hours:number, opts?:ChronicDurationOptions):string {
+    return this.formattedChronicDurationFromSeconds(Math.round(hours * 3600), opts);
+  }
+
+  public formattedChronicDurationFromSeconds(seconds:number, opts:ChronicDurationOptions = {
     format: this.configurationService.durationFormat(),
     hoursPerDay: this.configurationService.hoursPerDay(),
     daysPerMonth: this.configurationService.daysPerMonth(),
   }):string {
     // Keep in sync with app/services/duration_converter#output
-    const seconds = this.toSeconds(durationString);
-
     return outputChronicDuration(seconds, opts) || '0h';
   }
 

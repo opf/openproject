@@ -131,10 +131,10 @@ ko:
     button_confirm: 확인
     button_continue: 계속
     button_copy: 복사
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: 클립보드 복사
     button_copy_to_other_project: 다른 프로젝트에 복제
+    button_copy_work_package_id: Copy work package ID
     button_create: 만들기
     button_custom-fields: 사용자 정의 필드
     button_delete: 삭제
@@ -150,6 +150,7 @@ ko:
     button_log_time: 작업시간 기록
     button_more: 기타
     button_more_actions: 추가 작업
+    button_move_to_position: Move to position
     button_open_details: 자세히 보기
     button_open_fullscreen: 전체화면 보기
     button_quote: 인용
@@ -349,6 +350,8 @@ ko:
       direct_hit_available: 정확한 ID를 가진 작업 패키지를 찾았습니다. Enter 키를 눌러 여세요.
       items_available: "%{count}개 항목 사용 가능"
       recently_viewed: 최근에 조회됨
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: 제목, 프로젝트, 유형, 상태 또는 ID로 작업 패키지 검색
       title:
         all_projects: 모든 프로젝트
@@ -502,6 +505,7 @@ ko:
     label_in: "-"
     label_in_less_than: 보다 작음
     label_in_more_than: 보다 큼
+    label_in_progress_work_packages: in progress
     label_incoming_emails: 들어오는 이메일
     label_infinity: 무한대
     label_information_plural: 정보
@@ -534,6 +538,10 @@ ko:
     label_open_context_menu: 콘텍스트 메뉴 열기
     label_open_menu: 메뉴 열기
     label_open_work_packages: 열기
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: 암호
     label_per_page: '페이지 당:'
     label_please_wait: 잠시 기다려 주세요.
@@ -567,7 +575,9 @@ ko:
     label_show_in_menu: 메뉴에서 보기 표시
     label_sort_by: 정렬 기준
     label_sort_higher: 위로 이동
+    label_sort_highest: Move to top
     label_sort_lower: 아래로 이동
+    label_sort_lowest: Move to bottom
     label_sorted_by: '정렬 :'
     label_sorting: 정렬
     label_spent_time: 소비한 시간
@@ -578,6 +588,7 @@ ko:
     label_sum_for: '합계 '
     label_this_week: 이번 주
     label_time_entry_plural: 소비한 시간
+    label_to_do_work_packages: to-do
     label_today: 오늘
     label_total_amount: '합계: %{amount}'
     label_total_progress: "%{percent}% 진행"
@@ -818,6 +829,7 @@ ko:
         batch_too_large: "%{count}개 항목을 한 번에 이동할 수 없습니다. %{max}개까지만 선택하세요."
         fallback_item_label: 항목
         fallback_list_name: 다른 목록
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
         move_failed_check_positions_batch:
           other: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
@@ -956,6 +968,7 @@ ko:
         all_open: 모두 열림
         assigned_to_me: 내게 할당됨
         created_by_me: 내가 만듦
+        in_progress: In progress
         latest_activity: 최근 활동
         manually_sorted: 새로운 수동 정렬 쿼리
         overdue: 기한 지남
@@ -963,6 +976,7 @@ ko:
         shared_with_me: 나와 공유됨
         shared_with_users: 사용자와 공유됨
         summary: 요약
+        to_do: To-do
       description_enter_text: 텍스트 입력
       description_filter: 필터
       description_options_hide: 옵션 숨기기
@@ -1050,6 +1064,7 @@ ko:
         other: 기타
         people: 사용자
       query:
+        add_columns: Add columns
         click_to_edit_query_name: 이 보기의 제목을 편집하려면 클릭하세요.
         column_names: 컬럼
         confirm_edit_cancel: 이 보기 이름 편집을 취소하시겠습니까? 제목이 이전 값으로 다시 설정됩니다.
@@ -1059,17 +1074,16 @@ ko:
           not_found: 해당 보기가 없습니다.
           unretrievable_query: URL에서 보기를 검색할 수 없음
         filters: 필터
-        group: 그룹화 기준
         group_by: 그룹 결과
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: 계층 모드가 활성화되어서 그룹화가 불가능합니다.
-        hide_column: 열 숨기기
         hierarchy_disabled_by_group_by: 결과가 %{column} 에 의해 그룹화되어서 계층 모드가 불가능합니다.
-        insert_columns: 열 삽입
         move_column_left: 왼쪽으로 열 이동
         move_column_right: 오른쪽으로 열 이동
         public_text: '다른 사용자가 이 보기에 액세스할 수 있도록 하려면 이 보기를 게시하십시오. "공용 보기 관리" 권한을 가진 사용자가 공용 쿼리를 수정 또는 제거할 수 있습니다. 이는 해당 보기에서 작업 패키지 결과의 표시 여부에 영향을 주지 않기 때문에 사용자의 권한에 따라 다른 결과가 표시될 수 있습니다.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: 이 보기의 이름
         sort_ascending: 오름차순 정렬
         sort_descending: 내림차순 정렬

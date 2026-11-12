@@ -33,6 +33,14 @@ module CustomFields
       form do |item_form|
         item_form.hidden name: :sort_order, value: @target_item.sort_order
 
+        if errors_without_input.any?
+          item_form.html_content do
+            render(Primer::Alpha::Banner.new(scheme: :danger, test_selector: "op-hierarchy-item-form--errors")) do
+              errors_without_input.to_sentence
+            end
+          end
+        end
+
         item_form.group(layout: :horizontal) do |input_group|
           input_group.text_field(
             name: :label,
@@ -125,6 +133,10 @@ module CustomFields
 
       def validation_message_for(attribute)
         @target_item.errors.messages_for(attribute).to_sentence.presence
+      end
+
+      def errors_without_input
+        @target_item.errors.messages.except(:label, :short, :weight).values.flatten
       end
     end
   end

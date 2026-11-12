@@ -11,6 +11,7 @@ Don't try to use prettier!
       change with no useful rationale to record.
     - Focus on *why*, not *what* in the PR description (the diff shows what). Don't enumerate implementation details.
 - For bug fixes, always put root cause and the chosen solution in the commit description
+- Add an entry for every user-facing change to the `Unreleased` section of [CHANGELOG.md](CHANGELOG.md) in the same pull request
 
 ## Coding guidelines
 - Always add tests for all changes. For new features, also always add an integration (browser) test. For bugs it can be sufficient to only add a unit test (depending on the bug).

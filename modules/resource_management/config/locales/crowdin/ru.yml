@@ -92,9 +92,9 @@ ru:
         title: Управление ресурсами
   label_resource_management: Управление ресурсами
   permission_allocate_user_resources: Распределение пользовательских ресурсов
-  permission_allocate_user_resources_explanation: Позволяет пользователям создавать, обновлять и удалять распределение ресурсов в планировщике ресурсов. Сюда входит назначение пользователей (или фильтров) на планировщик и корректировка выделенного времени и диапазона дат.
-  permission_assign_users_to_generic_allocations: Назначить пользователей общим распределением
-  permission_assign_users_to_generic_allocations_explanation: Позволяет пользователям использовать режим штатного расписания для назначения реальных пользователей общим (основанным на фильтрах) распределением ресурсов, которые еще не имеют пользователя. Он не позволяет создавать или редактировать назначения.
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: Управление глобальными общедоступными планировщиками ресурсов
   permission_manage_public_global_resource_planners_explanation: Позволяет пользователям публиковать и управлять собственными глобальными планами, которые другие пользователи сделали общедоступными. Не позволяет пользователям просматривать глобальные ресурсные планы, которые не являются общедоступными.
   permission_manage_public_resource_planners: Управление общедоступными планировщиками ресурсов
@@ -145,9 +145,9 @@ ru:
     assignment_dialog:
       available: "%{hours} доступно"
       confirm_overtime: Назначить всё равно
-      filter_criteria: Критерии фильтрации
+      filter_criteria: Criteria
       no_candidates:
-        description: Ни один из участников проекта не соответствует критериям фильтрации этого распределения.
+        description: No project member matches the criteria of this placeholder user.
         title: Нет подходящих участников
       no_schedule: Этот пользователь не имеет графика работы, поэтому мы не можем определить, подходит ли это распределение.
       overbooked_detail: У этого пользователя есть %{available}, пакет работ требует %{requested}.
@@ -198,7 +198,7 @@ ru:
     staffing:
       assign: Назначить пользователя
       blank:
-        description: Все общие назначения в этом проекте имеют назначенного пользователя.
+        description: All placeholder user allocations in this project have a user assigned.
         title: Нечего распределять
       columns:
         dates: Даты
@@ -343,10 +343,10 @@ ru:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} участник этого проекта соответствует критериям фильтрации."
-          few: "%{count} участника этого проекта соответствует критериям фильтрации."
-          many: "%{count} участников этого проекта соответствует критериям фильтрации."
-          other: "%{count} участников этого проекта соответствует критериям фильтрации."
+          one: "%{count} member of this project matches the criteria of the placeholder user."
+          few: "%{count} members of this project match the criteria of the placeholder user."
+          many: "%{count} members of this project match the criteria of the placeholder user."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: Добавить пакет работ
         configure_view: Настроить представление

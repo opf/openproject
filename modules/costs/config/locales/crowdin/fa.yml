@@ -78,9 +78,11 @@ fa:
               invalid: باید یک کاربر یا کاربر فرضی باشد.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: "«ثبت‌شده برای» نمی‌تواند خالی باشد."
-              cannot_log_for_this_work_package: شما مجوز ثبت زمان برای این بسته کاری را ندارید.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: ساعات ثبت‌شده نمی‌تواند از سقف %{limit} ساعتِ در دسترس در روز کاری کاربر بیشتر باشد.
@@ -94,6 +96,9 @@ fa:
             start_time:
               format: "%{message}"
               invalid_time: زمان نامعتبر است. زمان باید بین 00:00 و 23:59 باشد.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: تایمر دیگری در حال اجراست. در هر لحظه فقط یک تایمر می‌تواند فعال باشد.
         work_package:
           is_not_a_valid_target_for_cost_entries: پکیج‌کاری شماره %{id} به عنوان مقصد معتبری برای تخصیص موارد هزینه نمی‌باشد.

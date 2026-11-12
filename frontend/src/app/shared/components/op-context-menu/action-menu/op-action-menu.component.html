@@ -75,10 +75,14 @@
               </anchored-position>
             </li>
           } @else {
-            <li role="none" class="ActionListItem" [class]="item.class" [class.ActionListItem--disabled]="item.disabled">
+            <li role="none"
+              class="ActionListItem"
+              [class]="item.class"
+              [class.ActionListItem--disabled]="item.disabled"
+              [class.ActionListItem--danger]="item.scheme === 'danger'">
               @if (item.href) {
                 <a tabindex="-1"
-                  [attr.role]="item.checked === undefined ? 'menuitem' : 'menuitemcheckbox'"
+                  [attr.role]="itemRole(item)"
                   [attr.aria-checked]="item.checked ?? null"
                   [attr.href]="item.href"
                   data-turbo="false"
@@ -94,7 +98,7 @@
               } @else {
                 <button type="button"
                   tabindex="-1"
-                  [attr.role]="item.checked === undefined ? 'menuitem' : 'menuitemcheckbox'"
+                  [attr.role]="itemRole(item)"
                   [attr.aria-checked]="item.checked ?? null"
                   [attr.aria-disabled]="item.disabled || null"
                   [attr.aria-label]="item.ariaLabel || null"
