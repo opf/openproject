@@ -129,10 +129,10 @@ module API
       end
 
       def column_name(column)
-        match = /cf_(\d+)/.match(column.name.to_s)
+        custom_field_id = CustomField.id_from_column_name(column.name)
 
-        if match
-          "custom_field_#{match[1]}"
+        if custom_field_id
+          "custom_field_#{custom_field_id}"
         else
           column.name.to_s
         end

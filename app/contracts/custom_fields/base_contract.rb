@@ -32,11 +32,13 @@ module CustomFields
     include RequiresAdminGuard
 
     attribute :admin_only
-    attribute :allow_non_open_versions
-    attribute :content_right_to_left
+    stored_attribute :allow_additional_project_values, store: :settings do
+      validate_project_admin_flag_enterprise(:allow_additional_project_values)
+    end
+    stored_attribute :allow_non_open_versions, store: :settings
+    stored_attribute :content_right_to_left, store: :settings
     attribute :custom_field_section_id
-    attribute :default_value
-    attribute :editable
+    stored_attribute :default_value, store: :settings
     attribute :field_format
     attribute :formula
     attribute :has_comment
@@ -45,18 +47,22 @@ module CustomFields
     attribute :is_required do
       validate_non_true_for_some_formats
     end
-    attribute :max_length
-    attribute :min_length
-    attribute :max_value
-    attribute :min_value
+    stored_attribute :max_length, store: :settings
+    stored_attribute :min_length, store: :settings
+    stored_attribute :max_value, store: :settings
+    stored_attribute :min_value, store: :settings
     attribute :multi_value
     attribute :name
     attribute :possible_values
+    stored_attribute :project_level_value_management, store: :settings do
+      validate_project_level_value_management
+    end
     attribute :project_specific_value_restriction do
       validate_project_specific_value_restriction
     end
-    attribute :regexp
+    stored_attribute :regexp, store: :settings
     attribute :searchable
+    stored_attribute :user_self_editable, store: :settings, readable: false
     attribute :visible_on_user_card
     attribute :type
 
@@ -75,6 +81,21 @@ module CustomFields
         errors.add(:project_specific_value_restriction, :error_enterprise_only,
                    action: I18n.t("ee.features.project_specific_list_values"))
       end
+    end
+
+    def validate_project_level_value_management
+      if project_level_value_management && project_specific_value_restriction.nil?
+        errors.add(:project_level_value_management, :not_available_for_all_values)
+      end
+
+      validate_project_admin_flag_enterprise(:project_level_value_management)
+    end
+
+    def validate_project_admin_flag_enterprise(flag)
+      return unless model.public_send(flag) && model.public_send(:"#{flag}_changed?")
+      return if EnterpriseToken.allows_to?(:project_specific_list_values)
+
+      errors.add(flag, :error_enterprise_only, action: I18n.t("ee.features.project_specific_list_values"))
     end
   end
 end

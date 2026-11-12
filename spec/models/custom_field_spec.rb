@@ -254,7 +254,10 @@ RSpec.describe CustomField do
         field.min_length = "a"
       end
 
-      it { expect(field).not_to be_valid }
+      it "casts the length to zero" do
+        expect(field).to be_valid
+        expect(field.min_length).to eq(0)
+      end
     end
 
     describe "WITH a text field WITH maximum length not an integer" do
@@ -263,7 +266,10 @@ RSpec.describe CustomField do
         field.max_length = "a"
       end
 
-      it { expect(field).not_to be_valid }
+      it "casts the length to zero" do
+        expect(field).to be_valid
+        expect(field.max_length).to eq(0)
+      end
     end
 
     describe "WITH a text field WITH minimum length greater than maximum length" do
@@ -378,9 +384,9 @@ RSpec.describe CustomField do
             field.min_value = "abc"
           end
 
-          it "is invalid" do
-            expect(field).not_to be_valid
-            expect(field.errors.symbols_for(:min_value)).to include(:not_a_number)
+          it "casts the bound to zero" do
+            expect(field).to be_valid
+            expect(field.min_value).to eq(0.0)
           end
         end
 

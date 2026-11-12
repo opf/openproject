@@ -33,6 +33,8 @@ module Notifications
   class ScheduleDateAlertsNotificationsJob < ApplicationJob
     include Cron::QuarterHourScheduleJob
 
+    queue_as :transactional
+
     def perform
       Service.new(every_quarter_hour_between_predecessor_cron_at_and_own_cron_at).call
     end

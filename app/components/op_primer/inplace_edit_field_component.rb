@@ -236,7 +236,7 @@ module OpPrimer
     def custom_field
       return @custom_field if defined?(@custom_field)
 
-      @custom_field = CustomField.find_by(id: attribute.to_s.sub("custom_field_", "").to_i)
+      @custom_field = CustomField.find_by(id: CustomField.id_from_attribute_name(attribute))
     end
   end
 end

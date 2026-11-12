@@ -177,7 +177,7 @@ As OpenProject may handle and distribute sensitive user data, attack vectors suc
   - Whitelist for uploads can be provided by MIME type, rejecting any non-matching files
   - OpenProject currently does not provide a built-in virus scanner. However, using [webhooks](../../../system-admin-guide/api-and-webhooks/#webhooks) and the [attachments API](../../../api/endpoints/attachments/), users can plug existing virus scanning tools and scrub any uploaded files.
 - _Malware in software_:
-  - OpenProject uses static code analysis (CodeQL and Brakeman) on every change provided to the application, checks dependencies with `npm audit` and GitHub dependency review, and scans the artifacts generated from the source code (such as Docker Scout for Docker images). See [security tests](../../testing/#security-tests).
+  - OpenProject uses static code analysis (CodeQL, Brakeman, and Semgrep) on every change provided to the application, checks dependencies with `npm audit` and GitHub dependency review, and scans the artifacts generated from the source code (such as Docker Scout for Docker images). See [security tests](../../testing/#security-tests).
   - We recommend users to perform their own vulnerability scanning of the deployed images and their dependencies.
 
 ## Logging and Error Handling

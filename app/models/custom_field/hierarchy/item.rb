@@ -31,10 +31,13 @@ class CustomField::Hierarchy::Item < ApplicationRecord
   self.table_name = "hierarchical_items"
 
   belongs_to :custom_field
+  belongs_to :project, optional: true
   has_closure_tree order: "sort_order", numeric_order: true, dont_order_roots: true, dependent: :destroy
   counter_culture :parent, column_name: :children_count
 
   scope :including_children, -> { includes(children: :children) }
+  scope :with_label_ignoring_case, ->(label) { where("LOWER(#{table_name}.label) = LOWER(?)", label) }
+  scope :with_short_ignoring_case, ->(short) { where("LOWER(#{table_name}.short) = LOWER(?)", short) }
 
   def to_s = formatter.format(item: self)
 

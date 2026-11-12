@@ -20,7 +20,7 @@ beforeEach(async () => {
 });
 
 beforeAll(async () => {
-  await worker.start({ onUnhandledRequest: 'bypass' });
+  await worker.start({ onUnhandledFrame: 'bypass' });
   initializeOpBlockNoteExtensions({ baseUrl: 'http://localhost:3000', locale: 'en' });
   await whenCreateWorkPackagePermissionKnown();
 });

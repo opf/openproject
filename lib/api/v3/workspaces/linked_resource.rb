@@ -32,7 +32,10 @@ module API
     module Workspaces
       module LinkedResource
         extend ActiveSupport::Concern
-        include API::Decorators::LinkedResource
+
+        included do
+          include API::Decorators::LinkedResource
+        end
 
         def project_link(project, name:, getter: "#{name}_id")
           if project_invisible?(project)
