@@ -88,6 +88,11 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
       expect(row.call(custom_field.custom_options.find_by!(value: "A")).text)
         .not_to include(I18n.t("custom_fields.project_specific_values.label"))
     end
+
+    it "only allows to enable or disable the global values" do
+      expect(row.call(custom_field.custom_options.find_by!(value: "A")).css("toggle-switch")).to be_present
+      expect(row.call(own_option).css("toggle-switch")).to be_empty
+    end
   end
 
   context "for a hierarchy custom field with values added by projects",
@@ -106,6 +111,26 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     it "marks the values of the project as project-specific" do
       expect(row.call(own_item).text).to include(I18n.t("custom_fields.project_specific_values.label"))
       expect(row.call(global_item).text).not_to include(I18n.t("custom_fields.project_specific_values.label"))
+    end
+
+    it "only allows to enable or disable the global values" do
+      expect(row.call(global_item).css("toggle-switch")).to be_present
+      expect(row.call(own_item).css("toggle-switch")).to be_empty
+    end
+  end
+
+  context "for a list custom field only allowing additional project values",
+          with_ee: %i[project_specific_list_values] do
+    let(:custom_field) do
+      create(:list_wp_custom_field, possible_values: %w[A], allow_additional_project_values: true)
+    end
+    let(:option) { custom_field.custom_options.first }
+
+    it "lists the values without allowing to enable or disable them" do
+      expect(row.call(option)).to be_present
+      expect(row.call(option).css("toggle-switch")).to be_empty
+      expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
+      expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.disable_all"))
     end
   end
 
