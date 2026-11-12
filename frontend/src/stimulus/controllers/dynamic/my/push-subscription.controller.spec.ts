@@ -25,7 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { vi } from 'vitest';
+import { vi, type MockInstance } from 'vitest';
+import { LiveRegionElement } from '@primer/live-region-element';
 import { setupStimulusTest, type StimulusTestContext } from '../../../test-helpers';
 import PushSubscriptionController from './push-subscription.controller';
 
@@ -33,6 +34,7 @@ type AsyncSpy = ReturnType<typeof vi.fn<(...args:unknown[]) => Promise<unknown>>
 
 describe('PushSubscriptionController', () => {
   let ctx:StimulusTestContext;
+  let announceSpy:MockInstance<typeof LiveRegionElement.prototype.announce>;
   let fetchMock:AsyncSpy;
   let unsubscribe:ReturnType<typeof vi.fn>;
   let subscribe:AsyncSpy;
@@ -61,7 +63,6 @@ describe('PushSubscriptionController', () => {
   const status = () => document
     .querySelector('[data-my--push-subscription-target="banner"]:not([hidden]) [data-my--push-subscription-target="message"]')!
     .textContent;
-  const liveRegion = () => document.querySelector('[data-my--push-subscription-target="liveRegion"]')!;
   const expectOnlyBanner = (scheme:string) => {
     expect(visibleBanners().map((banner) => banner.dataset.scheme)).toEqual([scheme]);
   };
@@ -87,7 +88,6 @@ describe('PushSubscriptionController', () => {
            data-my--push-subscription-create-url-value="/my/push_subscriptions"
            data-my--push-subscription-subscriptions-value='${JSON.stringify(subscriptions)}'
            data-my--push-subscription-messages-value='${JSON.stringify(MESSAGES)}'>
-        <div data-my--push-subscription-target="liveRegion" role="status">${initialMessage}</div>
         ${banner('default')}
         ${banner('warning', { id: 'enable', handler: 'enable' })}
         ${banner('success', { id: 'disable', handler: 'disable' })}
@@ -104,6 +104,8 @@ describe('PushSubscriptionController', () => {
   };
 
   beforeEach(() => {
+    document.body.appendChild(document.createElement('live-region'));
+    announceSpy = vi.spyOn(LiveRegionElement.prototype, 'announce');
     unsubscribe = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue(true);
     subscribe = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue({ endpoint: 'https://push.example/new', unsubscribe });
     requestPermission = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue('granted');
@@ -125,6 +127,7 @@ describe('PushSubscriptionController', () => {
 
   afterEach(() => {
     ctx.dispose();
+    document.body.querySelector('live-region')?.remove();
     vi.useRealTimers();
     vi.unstubAllGlobals();
     delete (navigator as { serviceWorker?:unknown }).serviceWorker;
@@ -533,15 +536,35 @@ describe('PushSubscriptionController', () => {
     expect(retryButton().hidden).toBe(false);
   });
 
-  it('mirrors the message into the live region and clears the message of hidden banners', async () => {
+  it('clears the message of hidden banners and announces a state change politely', async () => {
     await mount();
-
-    expect(liveRegion().textContent).toBe(MESSAGES.disabled);
     enableButton().click();
-    await vi.waitFor(() => expect(liveRegion().textContent).toBe(MESSAGES.enabled));
+    await vi.waitFor(() => expect(announceSpy).toHaveBeenCalledWith(MESSAGES.enabled, expect.objectContaining({ politeness: 'polite' })));
 
     const warningMessage = document.querySelector('[data-my--push-subscription-target="message"][data-scheme="warning"]')!;
     expect(warningMessage.textContent).toBe('');
+  });
+
+  it('stays silent when the first sync lands on the server-rendered state', async () => {
+    await mount();
+
+    expect(status()).toBe(MESSAGES.disabled);
+    expect(announceSpy).not.toHaveBeenCalled();
+  });
+
+  it('announces the same error again after a retry fails the same way', async () => {
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 500 })));
+    await mount();
+    disableButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+    await settled();
+    announceSpy.mockClear();
+
+    retryButton().click();
+
+    await vi.waitFor(() => expect(announceSpy).toHaveBeenCalledTimes(1));
+    expect(announceSpy).toHaveBeenCalledWith(MESSAGES.error, expect.objectContaining({ politeness: 'polite' }));
   });
 
   it('retries the disable when a disable failed', async () => {

@@ -26,6 +26,8 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { announce } from '@primer/live-region-element';
+import { LIVE_REGION_ANNOUNCEMENT_DELAY } from '../../flash.controller';
 import { destroy, post } from '@rails/request.js';
 
 interface KnownSubscription {
@@ -95,7 +97,7 @@ export default class PushSubscriptionController extends Controller {
     messages: Object,
   };
 
-  static targets = ['banner', 'message', 'action', 'liveRegion'];
+  static targets = ['banner', 'message', 'action'];
 
   declare readonly vapidPublicKeyValue:string;
   declare readonly createUrlValue:string;
@@ -104,12 +106,13 @@ export default class PushSubscriptionController extends Controller {
   declare readonly bannerTargets:HTMLElement[];
   declare readonly messageTargets:HTMLElement[];
   declare readonly actionTargets:HTMLButtonElement[];
-  declare readonly liveRegionTarget:HTMLElement;
 
   private generation = 0;
   private lastAttempt:Attempt = 'sync';
+  private announced = '';
 
   connect():void {
+    this.announced = this.messageTargets.find((target) => target.textContent)?.textContent ?? '';
     this.setBusy(true);
     void this.sync();
   }
@@ -119,7 +122,7 @@ export default class PushSubscriptionController extends Controller {
   }
 
   retry():Promise<void> {
-    this.liveRegionTarget.textContent = '';
+    this.announced = '';
 
     switch (this.lastAttempt) {
       case 'enable':
@@ -353,6 +356,12 @@ export default class PushSubscriptionController extends Controller {
     this.actionTargets.forEach((action) => { action.disabled = busy; });
   }
 
+  private announce(message:string):void {
+    if (document.documentElement.hasAttribute('data-turbo-preview')) return;
+
+    void announce(message, { politeness: 'polite', delayMs: LIVE_REGION_ANNOUNCEMENT_DELAY });
+  }
+
   private render(state:State):void {
     if (!this.element.isConnected) return;
 
@@ -363,7 +372,10 @@ export default class PushSubscriptionController extends Controller {
     this.messageTargets.forEach((target) => {
       target.textContent = target.dataset.scheme === scheme ? message : '';
     });
-    this.liveRegionTarget.textContent = message;
+    if (message !== this.announced) {
+      this.announced = message;
+      this.announce(message);
+    }
     this.actionTargets.forEach((action) => {
       if (action.dataset.scheme === 'warning') action.hidden = state === 'blocked';
     });
