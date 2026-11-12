@@ -2947,6 +2947,7 @@ en:
           following list shows projects that use types or variants using forms including this custom field.
         configure: "Configure project-specific values for %{project}"
         disable_all: "Disable all"
+        edit_value: "Edit value"
         editing_values_notice: "You are currently editing the list of values visible for this custom field in the project [%{project}](project_url)."
         empty_state:
           description: "Add this custom field to the form of a type that is used in a project."
@@ -2960,10 +2961,12 @@ en:
         filter_no_results:
           description: "Change the filters to see more projects."
           title: "No projects match this filter"
+        make_available_to_all_projects: "Make available to all projects"
         quick_filter:
           all: "All projects"
           with_project_specific_values: "With project-specific values"
         types_column: "Displayed in type"
+        value_actions: "Value actions"
         values_empty_state:
           description: "Add values to this custom field to choose which of them are available in this project."
           title: "This custom field has no values yet"

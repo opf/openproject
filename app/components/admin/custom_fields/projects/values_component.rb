@@ -103,6 +103,10 @@ module Admin
           custom_field.project_specific_value_restriction.present?
         end
 
+        def value_menu?(row)
+          custom_field.allow_additional_project_values? && (row.project_specific? || custom_field.hierarchical_list?)
+        end
+
         def indentation(row)
           [row.depth * 3, MAX_INDENTATION].min
         end
