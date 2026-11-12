@@ -70,8 +70,7 @@ Example:
 
 - If applicable, a screenshot should be added to the bug report in order to explain the bug visually.
   - The unintended behavior should be marked in the screenshot (e.g. by using red color).
-- The screenshot can be attached as a file and can be integrated in the description with the following syntax: "!Name_of_screenshot.png!" (without quotation marks)
-(Notice: _Name_of_screenshot_ should be replaced with the respective name of the file. The file ending (here: _.png_) has to be adjusted to the appropriate file type of the screenshot.)
+- The screenshot can be pasted or dragged and dropped directly into the description editor, which attaches it to the work package and embeds it in the text.
 
 ### Example of bug reporting
 

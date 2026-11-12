@@ -13,6 +13,7 @@ keywords: development setup
 | [Docker](docker)               | Development setup via Docker (quickest) |
 | [Docker (macOS)](docker-macos) | macOS specific docker topics                                                      |
 | [macOS](macos)                     | Development setup on macOS                                                            |
+| [Install and run from source](common-setup) | Shared steps for macOS and Linux: configure, install, and run OpenProject |
 
 ## Start coding
 
