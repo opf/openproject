@@ -193,6 +193,8 @@ RSpec.describe "Create work package", :js do
         click_on "Create"
       end
 
+      backlogs_page.expect_no_loading_skeleton
+
       expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
 
       backlogs_page.expect_inbox_items(items: WorkPackage.last)

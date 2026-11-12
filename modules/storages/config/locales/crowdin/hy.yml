@@ -498,7 +498,7 @@ hy:
     oauth_grant_nudge_modal:
       cancel_button_label: Կանեմ ավելի ուշ
       heading: Պահանջվում է մուտք %{provider_type}-ում
-      login_button_aria_label: Մտնել %{storage}-ում
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: Մուտք %{provider_type}-ում
       project_settings:
         description: Նախագծի պանակին հասանելիություն ստանալու համար անհրաժեշտ է մտնել %{storage}-ում։

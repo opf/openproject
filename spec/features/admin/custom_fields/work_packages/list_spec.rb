@@ -53,7 +53,7 @@ RSpec.describe "work package list custom fields", :js do
       click_on custom_field.name
       wait_for_reload
 
-      click_link "Items"
+      click_link "Values"
       wait_for_reload
     end
 

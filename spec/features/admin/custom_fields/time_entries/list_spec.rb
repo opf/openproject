@@ -53,7 +53,7 @@ RSpec.describe "List custom fields edit", :js do
 
     index_cf_page.expect_flash(message: "Successful creation.")
 
-    click_link "Items"
+    click_link "Values"
 
     expect(page).to have_field("custom_field_custom_options_attributes_0_value")
     fill_in "custom_field_custom_options_attributes_0_value", with: "A"

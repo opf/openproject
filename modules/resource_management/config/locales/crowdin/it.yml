@@ -80,9 +80,9 @@ it:
         title: Gestione risorse
   label_resource_management: Gestione risorse
   permission_allocate_user_resources: Allocazione delle risorse utente
-  permission_allocate_user_resources_explanation: Consente di creare, aggiornare ed eliminare allocazioni delle risorse all'interno di un pianificatore risorse. Ciò include l'assegnazione di utenti o filtri utente a un pianificatore e la regolazione del tempo allocato e dell'intervallo di date.
-  permission_assign_users_to_generic_allocations: Assegna utenti alle allocazioni generiche
-  permission_assign_users_to_generic_allocations_explanation: Consente agli utenti di utilizzare la vista Staffing per assegnare utenti reali ad allocazioni di risorse generiche, basate su filtri, a cui non è ancora associato alcun utente. Non consente di creare o modificare le allocazioni.
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: Gestisci pianificatori globali delle risorse pubblici
   permission_manage_public_global_resource_planners_explanation: Consente agli utenti di pubblicare i propri pianificatori globali delle risorse e di gestire quelli che altri utenti hanno condiviso pubblicamente. Non consente di visualizzare i pianificatori globali delle risorse che non sono condivisi pubblicamente.
   permission_manage_public_resource_planners: Gestire i pianificatori di risorse pubbliche
@@ -133,9 +133,9 @@ it:
     assignment_dialog:
       available: "%{hours} disponibili"
       confirm_overtime: Assegna comunque
-      filter_criteria: Criteri di filtro
+      filter_criteria: Criteria
       no_candidates:
-        description: Nessun membro del progetto soddisfa i criteri di filtro di questa allocazione.
+        description: No project member matches the criteria of this placeholder user.
         title: Nessun membro corrispondente
       no_schedule: Per questo utente non è stato impostato alcun orario di lavoro, pertanto non siamo in grado di stabilire se tale allocazione sia adeguata.
       overbooked_detail: Questo utente dispone di %{available} in questo periodo; la macro-attività richiede %{requested}.
@@ -186,7 +186,7 @@ it:
     staffing:
       assign: Assegna utente
       blank:
-        description: A tutte le allocazioni generiche di questo progetto è stato assegnato un utente.
+        description: All placeholder user allocations in this project have a user assigned.
         title: Nessuna allocazione da assegnare
       columns:
         dates: Date
@@ -329,8 +329,8 @@ it:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} membro di questo progetto corrisponde ai criteri di filtro dell'allocazione."
-          other: "%{count} membri di questo progetto corrispondono ai criteri di filtro dell'allocazione."
+          one: "%{count} member of this project matches the criteria of the placeholder user."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: Aggiungi macro-attività
         configure_view: Configura vista

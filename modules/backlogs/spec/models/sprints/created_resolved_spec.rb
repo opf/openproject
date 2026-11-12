@@ -36,7 +36,7 @@ RSpec.describe Sprints::CreatedResolved do
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role, permissions: %i[view_work_packages view_sprints]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
-  shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
+  shared_let(:closed_status) { create(:status, name: "Closed", category: "closed") }
   shared_let(:done_status) { create(:status, name: "Delivered") }
 
   let(:first_monday) { Date.new(2026, 10, 12) }
@@ -205,6 +205,37 @@ RSpec.describe Sprints::CreatedResolved do
         expect(created_resolved).to be_too_long_to_chart
         expect(created_resolved.created).to be_empty
         expect(created_resolved.resolved).to be_empty
+      end
+    end
+  end
+
+  describe "#anything_to_chart?" do
+    it "is true when a work package was created within the window" do
+      counted(at_hour(first_tuesday, 15))
+
+      expect(created_resolved).to be_anything_to_chart
+    end
+
+    it "is true when a work package was only resolved within the window" do
+      journalled(before_sprint => {}, at_hour(first_tuesday, 15) => { status_id: closed_status.id })
+
+      expect(created_resolved).to be_anything_to_chart
+    end
+
+    it "is false when nothing changed within the window" do
+      counted(before_sprint)
+
+      expect(created_resolved).not_to be_anything_to_chart
+    end
+
+    context "when the sprint has not started yet" do
+      let(:started_at) { nil }
+      let(:now) { before_sprint }
+
+      it "is false, as there is nothing measured yet" do
+        counted(before_sprint - 1.day)
+
+        expect(created_resolved).not_to be_anything_to_chart
       end
     end
   end

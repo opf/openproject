@@ -45,7 +45,7 @@ jobs:
       # No ref: under pull_request_target this checks out the base branch, so the
       # script cannot be tampered with by the pull request it is checking.
       - name: Checkout the check script
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
           sparse-checkout: script/ci/ai_involvement_check.sh
@@ -140,7 +140,7 @@ jobs:
       # on contributor pull requests.
       - name: Sync the comment
         if: env.ENFORCE == 'true' || steps.ai-involvement-check.outputs.status == 'ok'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: ai-involvement-comment
           path: ${{ steps.comment.outputs.file }}

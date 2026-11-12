@@ -492,7 +492,7 @@ zh-CN:
     oauth_grant_nudge_modal:
       cancel_button_label: 稍后再操作
       heading: 需要登录 %{provider_type}
-      login_button_aria_label: 登录到 %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} 登录"
       project_settings:
         description: 要获取对项目文件夹的访问权限，您需要登录 %{storage} 。

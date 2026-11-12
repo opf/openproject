@@ -111,7 +111,7 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
 
     WorkPackageCustomField
       .where(id: values.keys)
-      .where.not(project_specific_value_restriction: nil)
+      .select(&:project_specific_values_supported?)
       .each_with_object(values) do |custom_field, usable_values|
         usable_values[custom_field.id] = custom_field.keep_usable_values(usable_values[custom_field.id], project)
       end

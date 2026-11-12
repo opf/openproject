@@ -131,10 +131,10 @@ el:
     button_confirm: Επιβεβαίωση
     button_continue: Συνέχεια
     button_copy: Αντιγραφή
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Αντιγραφή στο πρόχειρο
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Δημιουργία
     button_custom-fields: Προσαρμοσμένα πεδία
     button_delete: Διαγραφή
@@ -150,6 +150,7 @@ el:
     button_log_time: Ιστορικό χρόνου
     button_more: Περισσότερα
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Άνοιγμα προβολής λεπτομερειών
     button_open_fullscreen: Άνοιγμα προβολής πλήρης οθόνη
     button_quote: Παράθεση
@@ -349,6 +350,8 @@ el:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: όλα τα έργα
@@ -502,6 +505,7 @@ el:
     label_in: σε
     label_in_less_than: σε λιγότερο από
     label_in_more_than: σε περισσότερο από
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Εισερχόμενα email
     label_infinity: Infinity
     label_information_plural: Πληροφορίες
@@ -534,6 +538,10 @@ el:
     label_open_context_menu: Άνοιγμα του μενού πλαισίου
     label_open_menu: Άνοιγμα μενού
     label_open_work_packages: ανοιχτό
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Κωδικός
     label_per_page: 'Ανά σελίδα:'
     label_please_wait: Παρακαλώ περιμένετε
@@ -567,7 +575,9 @@ el:
     label_show_in_menu: Εμφάνιση προβολής στο μενού
     label_sort_by: Ταξινόμηση κατά
     label_sort_higher: Μετακίνηση προς τα πάνω
+    label_sort_highest: Move to top
     label_sort_lower: Μετακίνηση προς τα κάτω
+    label_sort_lowest: Move to bottom
     label_sorted_by: ταξινομημένο κατά
     label_sorting: Ταξινόμηση
     label_spent_time: Χρόνος που δαπανήθηκε
@@ -578,6 +588,7 @@ el:
     label_sum_for: Άθροισμα του
     label_this_week: αυτή την εβδομάδα
     label_time_entry_plural: Χρόνος που δαπανήθηκε
+    label_to_do_work_packages: to-do
     label_today: 'Σήμερα '
     label_total_amount: 'Σύνολο: %{amount}'
     label_total_progress: "%{percent}% Συνολική πρόοδος"
@@ -819,6 +830,7 @@ el:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -962,6 +974,7 @@ el:
         all_open: Όλα τα ανοιχτά
         assigned_to_me: Έχουν ανατεθεί σε εμένα
         created_by_me: Δημιουργήθηκε από εμένα
+        in_progress: In progress
         latest_activity: Τελευταία δραστηριότητα
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -969,6 +982,7 @@ el:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Περίληψη
+        to_do: To-do
       description_enter_text: Εισάγετε κείμενο
       description_filter: Φίλτρο
       description_options_hide: Απόκρυψη επιλογών
@@ -1056,6 +1070,7 @@ el:
         other: Άλλο
         people: Άτομα
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Κάντε κλικ για να επεξεργαστείτε τον τίτλο αυτής της προβολής.
         column_names: Στήλες
         confirm_edit_cancel: Είστε βέβαιοι ότι θέλετε να ακυρώσετε την επεξεργασία του ονόματος αυτής της προβολής; Ο τίτλος θα επανέλθει στην προηγούμενη τιμή του.
@@ -1065,17 +1080,16 @@ el:
           not_found: Δεν υπάρχει τέτοια προβολή
           unretrievable_query: Δεν ήταν δυνατή η ανάκτηση της προβολής από τον σύνδεσμο URL
         filters: Φίλτρα
-        group: Ομαδοποίηση κατά
         group_by: Ομαδοποίηση αποτελεσμάτων κατά
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Η ομαδοποίηση είναι απενεργοποιημένη επειδή είναι ενεργή η λειτουργία ιεραρχίας.
-        hide_column: Απόκρυψη στήλης
         hierarchy_disabled_by_group_by: Η λειτουργία ιεραρχίας είναι απενεργοποιημένη επειδή τα αποτελέσματα είναι ομαδοποιημένα κατά %{column}.
-        insert_columns: Insert columns
         move_column_left: Μετακίνηση στήλης αριστερά
         move_column_right: Μετακίνηση στήλης δεξιά
         public_text: 'Δημοσιεύστε αυτή την προβολή, επιτρέποντας σε άλλους χρήστες να έχουν πρόσβαση στην προβολή σας. Οι χρήστες με δικαίωμα ''Διαχείρισης δημόσιων προβολών'' μπορούν να τροποποιήσουν ή να αφαιρέσουν τις δημόσιες αναζητήσεις. Αυτό δεν επηρεάζει την ορατότητα των αποτελεσμάτων πακέτων εργασίας σε αυτή την προβολή και ανάλογα με τα δικαιώματα τους, οι χρήστες μπορεί να βλέπουν διαφορετικά αποτελέσματα.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Το όνομα αυτής της προβολής
         sort_ascending: Αύξουσα ταξινόμηση
         sort_descending: Φθίνουσα ταξινόμηση

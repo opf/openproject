@@ -37,10 +37,8 @@ RSpec.describe API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresente
   let(:custom_field) do
     cf = build_stubbed(:list_wp_custom_field)
 
-    allow(cf)
-      .to receive(:custom_options)
-      .and_return([build_stubbed(:custom_option),
-                   build_stubbed(:custom_option)])
+    custom_options = [build_stubbed(:custom_option), build_stubbed(:custom_option)]
+    allow(cf).to receive_messages(custom_options:, visible_values_for: custom_options)
     cf
   end
   let(:filter) do

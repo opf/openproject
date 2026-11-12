@@ -147,6 +147,7 @@ en:
         commented: "Commented" # an object that this comment belongs to
       custom_field:
         admin_only: "Admin-only"
+        allow_additional_project_values: "Project admins can add project-specific values"
         allow_non_open_versions: "Allow non-open versions"
         content_right_to_left: "Right-to-Left content"
         default_value: "Default value"
@@ -162,6 +163,7 @@ en:
         min_value: "Minimum value"
         multi_value: "Allow multi-select"
         possible_values: "Possible values"
+        project_level_value_management: "Project admins can manage values at a project level"
         project_specific_value_restriction: "Project-specific values"
         regexp: "Regular expression"
         searchable: "Searchable"
@@ -404,10 +406,14 @@ en:
         authentication_method: "Authentication method"
         jwt_sub: "Subject claim"
       status:
+        category: "Category"
         default_done_ratio: "% Complete"
         excluded_from_totals: "Exclude from calculation of totals in hierarchy"
-        is_closed: "Work package closed"
         is_readonly: "Work package read-only"
+      status/category:
+        closed: "Closed"
+        in_progress: "In progress"
+        to_do: "To-do"
       subproject_template_assignment:
         workspace_type: "Workspace type"
       time_entry:
@@ -559,6 +565,11 @@ en:
         labels: "Labels"
         notify: "Notify" # used in custom actions
         observed_in_versions: "Observed in versions"
+        origin: "Origin"
+        origin_host: "Origin host"
+        origin_id: "Origin ID"
+        origin_source: "Origin source"
+        origin_url: "Origin URL"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -718,8 +729,10 @@ en:
               invalid_tokens: "Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed."
               multi_value_list_not_aggregated: "Multi-select attributes (%{custom_fields}) can only be used within aggregate functions."
               not_allowed_custom_fields_referenced: "The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other."
+            project_level_value_management:
+              not_available_for_all_values: "is only available when values are restricted per project."
             project_specific_value_restriction:
-              not_supported: "is only available for work package custom fields of the formats list, hierarchy and weighted item list."
+              not_supported: "is only available for work package custom fields of the formats list, hierarchy and weighted list."
             required:
               cannot_be_true: "cannot be set to true."
           previous_custom_field_recalculation_unprocessed: "The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes."
@@ -730,6 +743,10 @@ en:
           attributes:
             project_ids:
               blank: "Please select a project."
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: "cannot add values to this custom field."
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -1168,8 +1185,8 @@ en:
         one: "Custom field"
         other: "Custom fields"
       custom_field/hierarchy/item:
-        one: "Hierarchy item"
-        other: "Hierarchy items"
+        one: "Hierarchy value"
+        other: "Hierarchy values"
       custom_field_section:
         one: "Custom field section"
         other: "Custom field sections"
@@ -1720,6 +1737,10 @@ en:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
             title: "Create work packages for '%{jira_project_name}'"
+          JiraCreateRelationsJob:
+            title: "Create relations for '%{jira_project_name}'"
+          JiraCreateSprintsJob:
+            title: "Create sprints"
           JiraCreateUsersJob:
             title: "Create users"
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1730,12 +1751,16 @@ en:
             title: "Fetch issue types"
           JiraFetchPrioritiesJob:
             title: "Fetch priorities"
+          JiraFetchProjectBoardsJob:
+            title: "Fetch boards for project '%{jira_project_name}'"
           JiraFetchProjectIssuesJob:
             title: "Fetch issues for project '%{jira_project_name}'"
           JiraFetchProjectVersionsJob:
             title: "Fetch versions for project '%{jira_project_name}'"
           JiraFetchProjectsJob:
             title: "Fetch projects"
+          JiraFetchSprintsJob:
+            title: "Fetch sprints"
           JiraFetchStatusesJob:
             title: "Fetch statuses"
           JiraFetchUsersJob:
@@ -1876,10 +1901,16 @@ en:
                 projects:
                   label: "Projects"
                   subtitle: "Selected as scope"
+                sprints:
+                  label: "Sprints"
+                  subtitle: "With goals and work package assignments"
                 title: "Data imported"
                 users_and_groups:
                   label: "Users & groups"
-                  subtitle: "Involved in imported projects "
+                  subtitle: "Involved in imported projects"
+                versions:
+                  label: "Versions"
+                  subtitle: "Of the imported projects"
                 work_packages:
                   label: "Work packages"
                   subtitle: "With attachments and logged time"
@@ -1896,17 +1927,15 @@ en:
               description: "Select what data you want to import from the available data fetched from the host Jira instance."
               elements:
                 custom_fields: "A subset of custom fields"
-                issue_details: "Issue description, history, comments and attachments"
-                issue_ids: "Issue identifiers"
+                issue_details: "Issue identifiers, description, history, comments and attachments"
                 issues: "Issues"
                 logged_time: "Logged time"
                 permissions: "Permissions"
-                project_ids: "Project identifiers"
-                project_versions: "Project versions"
+                project_details: "Project identifiers, description and versions"
                 projects: "Projects"
                 relations: "Relations between issues"
                 schemes: "Schemas"
-                sprints: "Sprint assignments"
+                sprints: "Sprints and sprint assignments"
                 users: "Involved users and groups"
                 workflows: "Project-level workflows"
               label_coming_later: "Coming later"
@@ -1933,17 +1962,20 @@ en:
               rest_line_text: ""
               title: "Fetch Jira configuration"
             "10":
+              rest_line_text: "Creating relations for %{projects_number} more projects"
+              title: "Create relations"
+            "11":
               rest_line_text: "Creating time entries for %{projects_number} more projects"
               title: "Create time entries"
-            "11":
+            "12":
               rest_line_text: "Downloading attachments for %{projects_number} more projects"
               title: "Download attachments"
             "2":
-              rest_line_text: "Fetching issues and versions for %{projects_number} more projects"
-              title: "Fetch project issues and versions"
+              rest_line_text: "Fetching issues, boards and versions for %{projects_number} more projects"
+              title: "Fetch project issues, boards and versions"
             "3":
               rest_line_text: ""
-              title: "Fetch users and custom fields"
+              title: "Fetch users, sprints and custom fields"
             "4":
               rest_line_text: ""
               title: "Create users, groups and memberships"
@@ -1954,8 +1986,8 @@ en:
               rest_line_text: "Creating %{projects_number} more projects"
               title: "Create projects"
             "7":
-              rest_line_text: "Creating versions for %{projects_number} more projects"
-              title: "Create project versions"
+              rest_line_text: "Creating versions and sprints for %{projects_number} more projects"
+              title: "Create project versions and sprints"
             "8":
               rest_line_text: "Creating work packages for %{projects_number} more projects"
               title: "Create work packages"
@@ -2181,10 +2213,6 @@ en:
       user_custom_field_sections:
         destroy:
           error: "The section could not be deleted."
-        drop:
-          error: "The section could not be reordered."
-        move:
-          error: "The section could not be reordered."
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2302,6 +2330,8 @@ en:
       blankslate:
         description: "Add statuses to start configuring workflows for this role"
         linked_description: "This type reuses the workflows of its linked source type, which has no status transitions configured"
+        readonly_description: "Select other roles to view configured transitions"
+        readonly_title: "No status transitions configured for the selected roles"
         title: "No status transitions configured"
       leave_confirmation:
         description: "You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?"
@@ -2662,12 +2692,13 @@ en:
   button_actions: "Actions"
   button_add: "Add"
   button_add_comment: "Add comment"
-  button_add_item_above: "Add item above"
-  button_add_item_below: "Add item below"
+  button_add_item_above: "Add value above"
+  button_add_item_below: "Add value below"
   button_add_member: Add member
   button_add_menu_entry: "Add menu item"
   button_add_non_working_time: "Time off"
   button_add_sub_item: "Add sub-item"
+  button_add_sub_value: "Add sub-value"
   button_add_watcher: "Add watcher"
   button_all_filters: "All filters"
   button_annotate: "Annotate"
@@ -2881,28 +2912,30 @@ en:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} sub-item"
-          other: "%{count} sub-items"
-          zero: no sub-items
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: "Item actions"
+        actions: "Value actions"
         blankslate:
           item:
-            description: Add items to this list to create sub-items inside another one
-            title: This item doesn't have any hierarchy level below
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
+          project_item:
+            description: "This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration)."
           root:
-            description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-            title: "Your list of items is empty"
+            description: "Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value."
+            title: "Your list of values is empty"
         delete_dialog:
-          description: "This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid."
-          heading: "Delete custom field item?"
-          title: "Delete custom field item"
+          description: "This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid."
+          heading: "Delete custom field value?"
+          title: "Delete custom field value"
         placeholder:
-          label: "Item label"
+          label: "Value label"
           short: "Short name"
           weight: "Weight"
       notice:
-        remember_items_and_projects: "Remember to set items for this custom field, and to make sure it is used in at least one project."
+        remember_items_and_projects: "Remember to set values for this custom field, and to make sure it is used in at least one project."
       projects:
         changes_heading: "Important changes"
         changes_text: >
@@ -2953,7 +2986,7 @@ en:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
-    contained_in_type: "Contained in type"
+    contained_in: "Contained in"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:
@@ -3012,6 +3045,11 @@ en:
       block:
         caption: "By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects."
         label: "Block filter: Manually choose which values to deactivate for each project"
+      label: "Project-specific"
+      label_with_project: "Project-specific: %{project}"
+      project_admins:
+        additional_values_caption: "Added values are only available in the project they were created in. You can make them available to all projects later."
+        value_management_caption: "Project admins can enable or disable certain values for their project. All global values will be visible to them."
       switch_warning:
         all: "All values will be available in all projects."
         allow: "No values will be available to any project unless you manually activate them in each project individually."
@@ -3301,7 +3339,6 @@ en:
       gantt_pdf_export: Gantt PDF Export
       internal_comments: Internal Comments
       ldap_groups: LDAP users and group sync
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
@@ -3316,7 +3353,7 @@ en:
       team_planner_view: Team Planner View
       text_assistant: Text assistant
       virus_scanning: Antivirus Scanning
-      weighted_item_lists: Weighted item lists
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: Work Package Query Relation Columns
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
@@ -3392,8 +3429,6 @@ en:
       internal_comments_inline:
         description: " "
         title: "Write internal comments only a small group can see"
-      mcp_server:
-        description: "Bring OpenProject into your AI workflows with a secure MCP server."
       meeting_templates:
         description: "Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings."
       nextcloud_sso:
@@ -3434,7 +3469,7 @@ en:
       virus_scanning:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       weighted_item_lists:
-        description: "Weighted item lists allow you to create a list with underlying numeric values associated."
+        description: "Weighted lists allow you to create a list with underlying numeric values associated."
       work_package_sharing:
         description: "Share work packages with users who are not members of the project."
 
@@ -4107,7 +4142,7 @@ en:
   label_active_in_new_projects: "Active in new projects"
   label_activity: "Activity"
   label_add_another_file: "Add another file"
-  label_add_column: "Add column"
+  label_add_column: "Add columns"
   label_add_columns: "Add selected columns"
   label_add_edit_translations: "Add and edit translations"
   label_add_note: "Add a note"
@@ -4243,7 +4278,7 @@ en:
   label_custom_export_footer: "Footer image"
   label_custom_export_logo: "Logo"
   label_custom_favicon: "Custom favicon"
-  label_custom_field_add_no_type: "Add this field to a work package type"
+  label_custom_field_add_no_form: "Add this field to a form"
   label_custom_field_default_type: "Empty type"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
@@ -4270,7 +4305,7 @@ en:
   label_delete_user: "Delete user"
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
-  label_deleted_custom_item: "(deleted item)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(deleted option)"
   label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
@@ -4338,7 +4373,7 @@ en:
   label_filter: "Filters"
   label_filter_add: "Add filter"
   label_filter_any_name_attribute: "Name attributes"
-  label_filter_by: "Filter by"
+  label_filter_by_column: "Filter by %{column}"
   label_filter_plural: "Filters"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"
@@ -4389,6 +4424,7 @@ en:
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
+  label_in_progress_work_packages: "in progress"
   label_inactive: "Inactive"
   label_include_sub_projects: Include sub-projects
   label_includes: "includes"
@@ -4410,8 +4446,6 @@ en:
   label_invitation: Invitation
 
   label_invite_user: "Invite user"
-  label_item: "Item"
-  label_item_plural: "Items"
   label_jira_import: "Jira Migrator"
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
@@ -4541,7 +4575,7 @@ en:
   label_on: "on"
   label_open: "open"
   label_open_menu: "Open menu"
-  label_open_work_packages: "open"
+  label_open_work_packages: "open (to-do + in progress)"
   label_open_work_packages_plural: "open"
   label_openproject_website: "OpenProject website"
   label_operator_all: "is not empty"
@@ -4748,6 +4782,7 @@ en:
   label_time_entry_plural: "Spent time"
   label_timer_since: "Started at %{time}"
   label_title: "Title"
+  label_to_do_work_packages: "to-do"
   label_today: "today"
   label_today_as_date: "Select today as date."
   label_today_as_due_date: "Select today as finish date."
@@ -4783,6 +4818,7 @@ en:
   label_user_settings: "User settings"
   label_users_settings: "Users settings"
   label_value: "Value"
+  label_value_plural: "Values"
   label_value_x: "Value: %{x}"
   label_version_custom_field_plural: "Version custom fields"
   label_version_edit: "Edit version"
@@ -4802,7 +4838,7 @@ en:
   label_view_x: "View: %{x}"
   label_watched_work_packages: "Watched work packages"
   label_week: "Week"
-  label_weighted_item_list: "Weighted item list"
+  label_weighted_item_list: "Weighted list"
   label_what_is_this: "What is this?"
   label_widget_new: "New widget"
   label_wiki_content_added: "Wiki page added"
@@ -4861,6 +4897,13 @@ en:
     one: "%{count} file"
     other: "%{count} files"
     zero: "no files"
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
+  label_x_in_progress_work_packages_abbr:
+    one: "1 in progress"
+    other: "%{count} in progress"
+    zero: "0 in progress"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4876,6 +4919,10 @@ en:
     one: "%{count} project"
     other: "%{count} projects"
     zero: "no projects"
+  label_x_to_do_work_packages_abbr:
+    one: "1 to-do"
+    other: "%{count} to-do"
+    zero: "0 to-do"
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} work packages"
@@ -5516,7 +5563,7 @@ en:
   notice_no_principals_found: "No results found."
   notice_not_authorized: "You are not authorized to access this page."
   notice_not_authorized_archived_project: "The project you're trying to access has been archived."
-  notice_parent_item_not_found: "Parent item not found."
+  notice_parent_item_not_found: "Parent value not found."
   notice_password_confirmation_failed: "The entered password is not correct."
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -5741,12 +5788,15 @@ en:
         custom_field:
           format_not_supported: "format '%{field_format}' is unsupported."
         item:
-          not_persisted: "must be an already existing item."
-          root_item: "cannot be a root item."
+          not_persisted: "must be an already existing value."
+          root_item: "cannot be a root value."
         label:
           not_unique: "must be unique within the same hierarchy level."
         parent:
           not_descendant: "must be a descendant of the hierarchy root."
+          other_project: "must be a global value or belong to the same project."
+        project:
+          additional_values_not_allowed: "cannot add values to this custom field."
         short:
           not_unique: "must be unique within the same hierarchy level."
       str?: "must be a string."
@@ -5760,7 +5810,7 @@ en:
       blueprint: "Pattern blueprint"
       depth: "Depth"
       enabled: "Enabled"
-      item: "Item"
+      item: "Value"
       label: "Label"
       parent: "Parent"
       short: "Short name"
@@ -6088,7 +6138,7 @@ en:
   project_module_activity: "Activity"
   project_module_forums: "Forums"
   project_module_news: "News"
-  project_module_repository: "Repository"
+  project_module_repository: "SVN/Git Repository (deprecated)"
   project_module_wiki: "Wiki"
   project_module_work_package_tracking: "Work packages"
 
@@ -7077,6 +7127,7 @@ en:
         label_built_in_attribute_actions: "Built-in attribute actions"
       custom_field_row_component:
         label_user_custom_field_actions: "User attribute actions"
+      label_move_to_section: "Move to %{name}"
       show_component:
         label_add_attribute: "Add a user attribute"
         label_edit_section: "Edit title"
@@ -7198,6 +7249,11 @@ en:
 
   statuses:
     edit:
+      captions:
+        category:
+          closed: "Work that has been completed."
+          in_progress: "Work that is actively being worked on."
+          to_do: "Work that has not yet started."
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -7702,7 +7758,7 @@ en:
         actions:
           confirm_remove: "Remove the type %{type} from %{project}?"
           remove_from_project: "Remove from project"
-          switch_variant: "Change variant"
+          switch_variant: "Switch variant"
         add_dialog:
           no_projects_selected: "Please select at least one project."
           search_placeholder: "Search projects"

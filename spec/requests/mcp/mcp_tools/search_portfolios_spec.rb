@@ -65,23 +65,103 @@ RSpec.describe McpTools::SearchPortfolios do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "finds all portfolios without filters" do
+  it "finds all portfolios without filters" do
+    mcp_request
+    expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
+  end
+
+  it "responds with properly formatted portfolios" do
+    mcp_request
+    parsed_results.dig("structuredContent", "items").each do |portfolio|
+      expect(portfolio.to_json).to match_json_schema.from_docs("portfolio_model")
+    end
+  end
+
+  context "when passing an exact identifier" do
+    let(:call_args) { { identifier: "abc" } }
+
+    it "finds the portfolio" do
       mcp_request
-      expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
+      expect(parsed_results.dig("structuredContent", "items")).to be_present
     end
+  end
 
-    it "responds with properly formatted portfolios" do
+  context "when passing a non-exact identifier" do
+    let(:call_args) { { identifier: "Abc" } }
+
+    it "does not find the portfolio" do
       mcp_request
-      parsed_results.dig("structuredContent", "items").each do |portfolio|
-        expect(portfolio.to_json).to match_json_schema.from_docs("portfolio_model")
+      expect(parsed_results.dig("structuredContent", "items")).to be_empty
+    end
+  end
+
+  context "when passing an exact name" do
+    let(:call_args) { { name: "The ABC Portfolio" } }
+
+    it "finds the portfolio" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items")).to be_present
+    end
+  end
+
+  describe "pagination" do
+    let(:page_size) { 10 }
+    let(:overspilling_portfolios) { 5 }
+    let(:portfolio_count) { page_size + overspilling_portfolios }
+    let(:call_args) { { name: "Death Star" } }
+
+    before do
+      allow(described_class).to receive(:page_size).and_return(page_size)
+
+      portfolio_count.times do |idx|
+        create(:portfolio,
+               identifier: "p#{idx}",
+               name: "Death Star construction phase #{idx}",
+               status_code: :on_track)
       end
     end
 
-    context "when passing an exact identifier" do
-      let(:call_args) { { identifier: "abc" } }
+    it "returns only results up to the page size" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
+    end
+
+    it "indicates the total number of results" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "total")).to eq(portfolio_count)
+    end
+
+    context "if another page is requested" do
+      let(:call_args) { { name: "Death Star", page: 2 } }
+
+      it "returns the requested page" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_portfolios)
+      end
+    end
+  end
+
+  context "when passing a non-exact name" do
+    let(:call_args) { { name: "The abc" } }
+
+    it "finds the portfolio" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items")).to be_present
+    end
+  end
+
+  context "when passing a portfolio status" do
+    let(:call_args) { { status_code: "on_track" } }
+
+    it "finds the portfolio" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items")).to be_present
+    end
+
+    context "and when passing a portfolio identifier" do
+      let(:call_args) { { status_code: "on_track", identifier: "abc" } }
 
       it "finds the portfolio" do
         mcp_request
@@ -89,105 +169,8 @@ RSpec.describe McpTools::SearchPortfolios do
       end
     end
 
-    context "when passing a non-exact identifier" do
-      let(:call_args) { { identifier: "Abc" } }
-
-      it "does not find the portfolio" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items")).to be_empty
-      end
-    end
-
-    context "when passing an exact name" do
-      let(:call_args) { { name: "The ABC Portfolio" } }
-
-      it "finds the portfolio" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items")).to be_present
-      end
-    end
-
-    describe "pagination" do
-      let(:page_size) { 10 }
-      let(:overspilling_portfolios) { 5 }
-      let(:portfolio_count) { page_size + overspilling_portfolios }
-      let(:call_args) { { name: "Death Star" } }
-
-      before do
-        allow(described_class).to receive(:page_size).and_return(page_size)
-
-        portfolio_count.times do |idx|
-          create(:portfolio,
-                 identifier: "p#{idx}",
-                 name: "Death Star construction phase #{idx}",
-                 status_code: :on_track)
-        end
-      end
-
-      it "returns only results up to the page size" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
-      end
-
-      it "indicates the total number of results" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "total")).to eq(portfolio_count)
-      end
-
-      context "if another page is requested" do
-        let(:call_args) { { name: "Death Star", page: 2 } }
-
-        it "returns the requested page" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_portfolios)
-        end
-      end
-    end
-
-    context "when passing a non-exact name" do
-      let(:call_args) { { name: "The abc" } }
-
-      it "finds the portfolio" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items")).to be_present
-      end
-    end
-
-    context "when passing a portfolio status" do
-      let(:call_args) { { status_code: "on_track" } }
-
-      it "finds the portfolio" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items")).to be_present
-      end
-
-      context "and when passing a portfolio identifier" do
-        let(:call_args) { { status_code: "on_track", identifier: "abc" } }
-
-        it "finds the portfolio" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items")).to be_present
-        end
-      end
-
-      context "and when passing the portfolio identifier of a portfolio in a different status" do
-        let(:call_args) { { status_code: "on_track", identifier: "def" } }
-
-        it "does not find the portfolio" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items")).to be_empty
-        end
-      end
-    end
-
-    context "when passing an invalid portfolio status" do
-      let(:call_args) { { status_code: "blubb" } }
-
-      it_behaves_like "MCP tool execution error response"
-    end
-
-    context "when user can't see portfolios" do
-      let(:user) { create(:user) }
+    context "and when passing the portfolio identifier of a portfolio in a different status" do
+      let(:call_args) { { status_code: "on_track", identifier: "def" } }
 
       it "does not find the portfolio" do
         mcp_request
@@ -196,10 +179,18 @@ RSpec.describe McpTools::SearchPortfolios do
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+  context "when passing an invalid portfolio status" do
+    let(:call_args) { { status_code: "blubb" } }
+
+    it_behaves_like "MCP tool execution error response"
+  end
+
+  context "when user can't see portfolios" do
+    let(:user) { create(:user) }
+
+    it "does not find the portfolio" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(parsed_results.dig("structuredContent", "items")).to be_empty
     end
   end
 end

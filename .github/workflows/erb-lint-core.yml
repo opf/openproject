@@ -23,15 +23,15 @@ jobs:
       checks: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
       - name: Set up Ruby
-        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        uses: ruby/setup-ruby@v1.336.0
         with:
           bundler-cache: true
       - name: Run ERB lint
-        uses: opf/action-erblint@49c54b56c60d0c50885065468cf149b61d5c2a60 # main
+        uses: opf/action-erblint@main
         with:
           reporter: github-pr-annotations
           fail_level: any
@@ -45,11 +45,11 @@ jobs:
       contents: read
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
       - name: Set up Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: '24.22.1'
           package-manager-cache: false

@@ -127,7 +127,7 @@ RSpec.describe "Backlogs batch destination menus",
       backlogs_page.expect_work_package_actions(sprint_story, present: ["Move to sprint"])
 
       invoker_row = backlogs_page.work_package_row(sprint_story)
-      backlogs_page.within_work_package_menu(sprint_story) do |menu|
+      backlogs_page.within_work_package_menu(sprint_story, activated: true) do |menu|
         expect(invoker_row).to have_button(accessible_name: "Actions for 2 selected work packages")
         expect(menu).to have_selector(:menuitem, text: "Move to sprint", exact_text: true)
         expect(menu).to have_no_css("include-fragment", visible: :all)

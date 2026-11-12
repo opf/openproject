@@ -59,34 +59,25 @@ RSpec.describe McpResources::CurrentUser do
     resource_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text resource response"
+  it_behaves_like "MCP text resource response"
 
-    it "responds with a properly formatted user" do
-      mcp_request
-      text_content = parsed_results.fetch("contents").first
-      user_resource = text_content.fetch("text")
-      expect(user_resource).to match_json_schema.from_docs("user_model")
-    end
-
-    it "responds with the current user" do
-      mcp_request
-      text_content = parsed_results.fetch("contents").first
-      user_resource = text_content.fetch("text")
-      expect(JSON.parse(user_resource).fetch("id")).to eq(user.id)
-    end
-
-    context "when the resource is disabled via configuration" do
-      let(:resource_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
-
-      it_behaves_like "MCP empty resource response"
-    end
+  it "responds with a properly formatted user" do
+    mcp_request
+    text_content = parsed_results.fetch("contents").first
+    user_resource = text_content.fetch("text")
+    expect(user_resource).to match_json_schema.from_docs("user_model")
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
-    end
+  it "responds with the current user" do
+    mcp_request
+    text_content = parsed_results.fetch("contents").first
+    user_resource = text_content.fetch("text")
+    expect(JSON.parse(user_resource).fetch("id")).to eq(user.id)
+  end
+
+  context "when the resource is disabled via configuration" do
+    let(:resource_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
+
+    it_behaves_like "MCP empty resource response"
   end
 end

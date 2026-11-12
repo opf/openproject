@@ -386,6 +386,34 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(response).to be_redirect
       end
 
+      it "tells the browser to clear site storage without a relative URL root",
+         with_config: { rails_relative_url_root: nil } do
+        login_as admin
+
+        get :logout
+
+        expect(response.headers["Clear-Site-Data"]).to eq('"storage"')
+      end
+
+      it "tells the browser to clear site storage with an empty relative URL root",
+         with_config: { rails_relative_url_root: "" } do
+        login_as admin
+
+        get :logout
+
+        expect(response.headers["Clear-Site-Data"]).to eq('"storage"')
+      end
+
+      it "does not tell the browser to clear site storage with a relative URL root",
+         with_config: { rails_relative_url_root: "/openproject" } do
+        login_as admin
+
+        get :logout
+
+        expect(response.headers).not_to have_key("Clear-Site-Data")
+        expect(response).to be_redirect
+      end
+
       context "with a user with an SSO provider attached" do
         let(:user) { build_stubbed(:user, login: "bob", authentication_provider: sso_provider) }
         let(:slo_callback) { nil }
