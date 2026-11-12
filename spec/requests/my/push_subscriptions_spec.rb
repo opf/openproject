@@ -95,6 +95,17 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(existing.reload.user).not_to eq(user)
       end
 
+      it "answers with the device limit message in the JSON errors when the user is at the limit" do
+        create_list(:push_subscription, PushSubscription::MAX_PER_USER, user:)
+
+        subscribe(endpoint)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body["errors"])
+          .to contain_exactly(I18n.t("activerecord.errors.models.push_subscription.attributes.base.too_many_push_subscriptions",
+                                     count: PushSubscription::MAX_PER_USER))
+      end
+
       it "moves an endpoint stored for an older session of the same user to the current session" do
         older = Sessions::UserSession.find_by!(session_id: create(:user_session, user:).session_id)
         existing = create(:push_subscription, user:, session: older, endpoint:)

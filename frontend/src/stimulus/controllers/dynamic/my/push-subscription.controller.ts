@@ -67,8 +67,23 @@ async function sha256Hex(value:string):Promise<string> {
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
-function assertOk(response:{ ok:boolean; statusCode:number }):void {
-  if (!response.ok) throw new Error(`Request failed with ${response.statusCode}`);
+type ServerAnswer =
+  | { kind:'ok' }
+  | { kind:'gone' }
+  | { kind:'rejected'; errors:string[] }
+  | { kind:'failed'; status:number };
+
+async function answerOf(response:{ ok:boolean; statusCode:number; json:Promise<unknown> }):Promise<ServerAnswer> {
+  if (response.ok) return { kind: 'ok' };
+  if (response.statusCode === 404) return { kind: 'gone' };
+
+  if (response.statusCode === 422) {
+    const body = await response.json.catch(() => undefined) as { errors?:unknown }|undefined;
+    const errors = Array.isArray(body?.errors) ? body.errors.filter((error) => typeof error === 'string') : [];
+    if (errors.length > 0) return { kind: 'rejected', errors };
+  }
+
+  return { kind: 'failed', status: response.statusCode };
 }
 
 /**
@@ -158,7 +173,14 @@ export default class PushSubscriptionController extends Controller {
         return;
       }
 
-      await this.registerWithServer(subscription);
+      const answer = await this.registerWithServer(subscription);
+      if (answer.kind === 'rejected') {
+        await this.forget(subscription);
+        if (isLatestRun()) this.render('error', answer.errors.join(' '));
+        return;
+      }
+      if (answer.kind !== 'ok') throw new Error('Registering the subscription failed');
+
       if (isLatestRun()) this.render('enabled');
     } catch {
       await this.forget(subscription);
@@ -310,19 +332,20 @@ export default class PushSubscriptionController extends Controller {
     });
   }
 
-  private async registerWithServer(subscription:PushSubscription):Promise<void> {
+  private async registerWithServer(subscription:PushSubscription):Promise<ServerAnswer> {
     const response = await post(this.createUrlValue, {
       body: JSON.stringify({ push_endpoint: subscription.endpoint }),
       contentType: 'application/json',
       responseKind: 'turbo-stream',
     });
-    assertOk(response);
+    return answerOf(response);
   }
 
   private async revokeOnServer(known:KnownSubscription, { silent = false } = {}):Promise<void> {
     const query = silent ? { silent: 'true' } : undefined;
     const response = await destroy(known.revokeUrl, { responseKind: 'turbo-stream', query });
-    if (response.statusCode !== 404) assertOk(response);
+    const answer = await answerOf(response);
+    if (answer.kind !== 'ok' && answer.kind !== 'gone') throw new Error('Revoking the subscription failed');
   }
 
   private async forget(subscription:PushSubscription|null|undefined):Promise<void> {
@@ -364,11 +387,10 @@ export default class PushSubscriptionController extends Controller {
     void announce(message, { politeness: 'polite', delayMs: LIVE_REGION_ANNOUNCEMENT_DELAY });
   }
 
-  private render(state:State):void {
+  private render(state:State, message = this.messagesValue[state]):void {
     if (!this.element.isConnected) return;
 
     const scheme = SCHEME_BY_STATE[state];
-    const message = this.messagesValue[state];
 
     this.bannerTargets.forEach((banner) => { banner.hidden = banner.dataset.scheme !== scheme; });
     this.messageTargets.forEach((target) => {

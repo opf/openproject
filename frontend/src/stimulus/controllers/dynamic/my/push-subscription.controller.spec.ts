@@ -398,8 +398,23 @@ describe('PushSubscriptionController', () => {
     expect(enableButton().hidden).toBe(true);
   });
 
-  it('unsubscribes and shows an error when the server rejects the subscription', async () => {
-    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 422 })));
+  it('shows and announces the server message and unsubscribes when the server rejects the subscription', async () => {
+    const rejection = 'Only 5 devices can receive browser notifications at the same time.';
+    fetchMock.mockImplementation(() => Promise.resolve(new Response(
+      JSON.stringify({ errors: [rejection, 'Second reason.'] }),
+      { status: 422, headers: { 'Content-Type': 'application/json' } },
+    )));
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(`${rejection} Second reason.`));
+    expectOnlyBanner('danger');
+    expect(unsubscribe).toHaveBeenCalled();
+    expect(announceSpy).toHaveBeenCalledWith(`${rejection} Second reason.`, expect.objectContaining({ politeness: 'polite' }));
+  });
+
+  it('shows the generic error and unsubscribes when creating the subscription fails on the server', async () => {
+    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 500 })));
     await mount();
     enableButton().click();
 
