@@ -54,6 +54,8 @@ export interface OpContextMenuItem {
   postIconTitle?:string|null;
   href?:string;
   class?:string;
+  /** Classes for the label text, e.g. highlight classes. */
+  labelClass?:string;
   ariaLabel?:string;
   linkText?:string;
   title?:string;
