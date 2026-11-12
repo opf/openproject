@@ -24,7 +24,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Run Yamllint
-        uses: reviewdog/action-yamllint@v1.25.3
+        uses: reviewdog/action-yamllint@v1.25.4
         with:
           reporter: github-pr-annotations
           fail_level: any

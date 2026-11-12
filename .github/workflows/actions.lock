@@ -108,7 +108,7 @@ workflows:
         - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/yamllint-core.yml':
         - 'actions/checkout@v7.0.1'
-        - 'reviewdog/action-yamllint@v1.25.3'
+        - 'reviewdog/action-yamllint@v1.25.4'
     '.github/workflows/zizmor-scan.yml':
         - 'actions/checkout@v7.0.1'
         - 'zizmorcore/zizmor-action@v0.8.1'
@@ -205,9 +205,9 @@ dependencies:
         commit: 'sha1-d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f'
         owner_id: 48765237
         repo_id: 286005511
-    'reviewdog/action-yamllint@v1.25.3':
-        ref: 'v1.25.3'
-        commit: 'sha1-8f84f0fb670d777d3e584ef50faf60eb61605b2a'
+    'reviewdog/action-yamllint@v1.25.4':
+        ref: 'v1.25.4'
+        commit: 'sha1-072d1a6ca6f5a03de10f492f6119fcbc8d47302b'
         owner_id: 48765237
         repo_id: 233270440
     'ruby/setup-ruby@v1.336.0':
