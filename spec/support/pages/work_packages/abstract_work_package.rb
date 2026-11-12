@@ -52,10 +52,14 @@ module Pages
       visit path(tab)
     end
 
+    def open_more_menu
+      find("[data-test-selector='wp-details-toolbar--show-more-button'], #action-show-more-dropdown-menu button").click
+      find(:menu, "More")
+    end
+
     def select_from_context_menu(item)
-      find("button[wpsinglecontextmenu]").click
-      within(".op-context-menu--overlay") do
-        click_link item
+      within(open_more_menu) do
+        find(:menuitem, item, exact: true).click
       end
     end
 

@@ -416,6 +416,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
   imports: [
     // Commons
     OpSharedModule,
+    WorkPackageSingleContextMenuDirective,
     NgSelectModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
@@ -548,7 +549,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     OpSettingsMenuDirective,
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
-    WorkPackageSingleContextMenuDirective,
     WorkPackageViewDropdownMenuDirective,
     WorkPackageGroupToggleDropdownMenuDirective,
 
