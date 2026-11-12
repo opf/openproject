@@ -72,6 +72,43 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     end
   end
 
+  context "for a list custom field with values added by projects", with_ee: %i[project_specific_list_values] do
+    let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A]) }
+    let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+    let!(:foreign_option) { create(:custom_option, custom_field:, value: "Foreign", project: create(:project)) }
+
+    it "only lists the global values and the values of the project" do
+      expect(row.call(custom_field.custom_options.find_by!(value: "A"))).to be_present
+      expect(row.call(own_option)).to be_present
+      expect(row.call(foreign_option)).to be_empty
+    end
+
+    it "marks the values of the project as project-specific" do
+      expect(row.call(own_option).text).to include(I18n.t("custom_fields.project_specific_values.label"))
+      expect(row.call(custom_field.custom_options.find_by!(value: "A")).text)
+        .not_to include(I18n.t("custom_fields.project_specific_values.label"))
+    end
+  end
+
+  context "for a hierarchy custom field with values added by projects",
+          with_ee: %i[custom_field_hierarchies project_specific_list_values] do
+    let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
+    let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
+    let!(:own_item) { create(:hierarchy_item, parent: global_item, label: "Own", project:) }
+    let!(:foreign_item) { create(:hierarchy_item, parent: global_item, label: "Foreign", project: create(:project)) }
+
+    it "only lists the global values and the values of the project" do
+      expect(row.call(global_item)).to be_present
+      expect(row.call(own_item)).to be_present
+      expect(row.call(foreign_item)).to be_empty
+    end
+
+    it "marks the values of the project as project-specific" do
+      expect(row.call(own_item).text).to include(I18n.t("custom_fields.project_specific_values.label"))
+      expect(row.call(global_item).text).not_to include(I18n.t("custom_fields.project_specific_values.label"))
+    end
+  end
+
   context "when the enterprise plan does not include project-specific values" do
     let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A]) }
     let(:option) { custom_field.custom_options.first }
@@ -100,8 +137,9 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     let!(:parent) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "High", weight: 10) }
     let!(:child) { create(:hierarchy_item, parent:, label: "Urgent", weight: 15) }
 
-    it "indents sub-items and shows their weight and number of sub-items" do
-      expect(row.call(parent).text).to include("High", "10", I18n.t("custom_fields.admin.hierarchy.subitems", count: 1))
+    it "indents sub-values and shows their weight" do
+      expect(row.call(parent).text).to include("High", "10")
+      expect(row.call(parent).text).not_to include(I18n.t("custom_fields.admin.hierarchy.subitems", count: 1))
       expect(row.call(child).text).to include("Urgent", "15")
       expect(row.call(child).css(".pl-3")).to be_present
       expect(row.call(parent).css(".pl-3")).to be_empty
