@@ -94,16 +94,16 @@ module My
       end
 
       def subscriptions_json
-        subscriptions
-          .map do |subscription|
-            {
-              endpoint: subscription.endpoint,
-              revokeUrl: my_push_subscription_path(subscription),
-              current: bound_to_current_session?(subscription),
-              dormant: subscription.session_id.nil?
-            }
-          end
-          .to_json
+        subscriptions.map { |subscription| known_subscription(subscription) }.to_json
+      end
+
+      def known_subscription(subscription)
+        {
+          endpointDigest: Digest::SHA256.hexdigest(subscription.endpoint),
+          revokeUrl: my_push_subscription_path(subscription),
+          current: bound_to_current_session?(subscription),
+          dormant: subscription.session_id.nil?
+        }
       end
 
       def messages_json

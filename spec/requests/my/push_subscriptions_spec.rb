@@ -84,6 +84,13 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(PushSubscription.sole).to have_attributes(user:, endpoint:, session: current_session_row)
       end
 
+      it "renders only a digest of the endpoint into the replaced component" do
+        subscribe(endpoint)
+
+        expect(response.body).not_to include(endpoint)
+        expect(response.body).to include(Digest::SHA256.hexdigest(endpoint))
+      end
+
       it "refuses an endpoint held by another user's active subscription" do
         existing = create(:push_subscription, endpoint:)
 
@@ -92,6 +99,17 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body["errors"]).to be_present
         expect(existing.reload.user).not_to eq(user)
+      end
+
+      it "answers with the device limit message in the JSON errors when the user is at the limit" do
+        create_list(:push_subscription, PushSubscription::MAX_PER_USER, user:)
+
+        subscribe(endpoint)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body["errors"])
+          .to contain_exactly(I18n.t("activerecord.errors.models.push_subscription.attributes.base.too_many_push_subscriptions",
+                                     count: PushSubscription::MAX_PER_USER))
       end
 
       context "when resuming" do
@@ -165,6 +183,15 @@ RSpec.describe "My::PushSubscriptionsController",
           expect(response).to have_http_status(:not_found)
         end
       end
+
+      context "with the feature flag off", with_flag: { progressive_web_app: false } do
+        it "is not found" do
+          subscribe(endpoint)
+
+          expect(response).to have_http_status(:not_found)
+          expect(PushSubscription.count).to eq(0)
+        end
+      end
     end
 
     context "with forgery protection", skip_csrf: false do
@@ -182,6 +209,20 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(response).to have_http_status(:unprocessable_entity)
         expect(PushSubscription.count).to eq(0)
       end
+    end
+  end
+
+  describe "GET /my/notifications?tab=push" do
+    before { sign_in }
+
+    it "renders only a digest of each endpoint" do
+      create(:push_subscription, user:, endpoint:)
+
+      get my_notifications_path(tab: "push")
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include(endpoint)
+      expect(response.body).to include(Digest::SHA256.hexdigest(endpoint))
     end
   end
 

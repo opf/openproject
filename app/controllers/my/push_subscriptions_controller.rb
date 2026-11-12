@@ -33,7 +33,6 @@ module My
     include OpTurbo::ComponentStream
 
     before_action :require_login
-    guard_feature_flag :progressive_web_app
     before_action :require_web_push
     no_authorization_required! :create, :destroy
 
@@ -112,7 +111,7 @@ module My
     end
 
     def require_web_push
-      render_404 unless Setting.web_push_enabled?
+      render_404 unless OpenProject::WebPush.enabled?
     end
 
     def current_session_row_id
