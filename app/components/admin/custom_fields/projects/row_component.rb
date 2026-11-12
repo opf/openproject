@@ -70,7 +70,7 @@ module Admin
             Primer::Beta::IconButton.new(
               icon: :"project-symlink",
               tag: :a,
-              href: project_values_path(table.custom_field, project),
+              href: project_specific_values_path(table.custom_field, project),
               scheme: :default,
               aria: { label: I18n.t("custom_fields.admin.projects.configure", project: project.name) },
               tooltip_direction: :w
