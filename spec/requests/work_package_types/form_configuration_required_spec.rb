@@ -168,6 +168,27 @@ RSpec.describe "Work package type required attributes",
     end
   end
 
+  describe "a field switched off behind a stale page" do
+    let(:given_user) { admin }
+    let(:require_action) { "type-form-configuration-toggle-required-#{custom_field.attribute_name}" }
+
+    def streamed = Capybara.string(Nokogiri::HTML5.fragment(response.body).css("template").map(&:inner_html).join)
+
+    before do
+      exclude_configuration_elements(global_variant, aspect: TypeVariant::FORM_CONFIGURATION,
+                                                     elements: [custom_field.attribute_name])
+    end
+
+    it "refuses, refreshing the row to show why", :aggregate_failures do
+      toggle(global_variant)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to have_css('turbo-stream[action="flash"]')
+      expect(streamed).to have_css("#{test_selector(require_action)}[aria-disabled='true']")
+      expect(required_on(global_variant)).to be_empty
+    end
+  end
+
   describe "a row the form does not carry" do
     context "when admin" do
       let(:given_user) { admin }

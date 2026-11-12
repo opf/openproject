@@ -44,11 +44,8 @@ module WorkPackageTypes
         .new(user: current_user, variant: @variant, row_key: params[:row_key])
         .call
 
-      if call.success?
-        update_form_configuration_via_turbo_stream
-      else
-        render_form_configuration_error(call)
-      end
+      update_form_configuration_via_turbo_stream
+      render_form_configuration_error(call) unless call.success?
 
       respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)
     end
