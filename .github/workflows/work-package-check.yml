@@ -25,12 +25,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        uses: ruby/setup-ruby@v1.335.0
 
       - name: Verify work package fields are set (linked version matches core version and Enterprise field is set)
         id: work-package-check
@@ -43,7 +43,7 @@ jobs:
 
       - name: Add comment if no work package is linked
         if: steps.work-package-check.outputs.no_ticket == 'true'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: version-mismatch-comment
           message: |
@@ -55,7 +55,7 @@ jobs:
 
       - name: Add comment if versions differ (single work package)
         if: steps.work-package-check.outputs.version_mismatch == 'true' && steps.work-package-check.outputs.single_wp == 'true'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: version-mismatch-comment
           message: |
@@ -74,7 +74,7 @@ jobs:
 
       - name: Add comment if versions differ (multiple work packages)
         if: steps.work-package-check.outputs.version_mismatch == 'true' && steps.work-package-check.outputs.single_wp != 'true'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: version-mismatch-comment
           message: |
@@ -93,7 +93,7 @@ jobs:
 
       - name: Add comment if Enterprise Plan is missing (single work package)
         if: steps.work-package-check.outputs.enterprise_plan_missing == 'true' && steps.work-package-check.outputs.single_wp == 'true'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: enterprise-plan-missing-comment
           message: |
@@ -110,7 +110,7 @@ jobs:
 
       - name: Add comment if Enterprise Plan is missing (multiple work packages)
         if: steps.work-package-check.outputs.enterprise_plan_missing == 'true' && steps.work-package-check.outputs.single_wp != 'true'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: enterprise-plan-missing-comment
           message: |
@@ -144,7 +144,7 @@ jobs:
         if: |
           steps.work-package-check.outputs.behind_feature_flag == 'true' ||
           (steps.work-package-check.outputs.version_mismatch != 'true' && steps.work-package-check.outputs.no_ticket != 'true')
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: version-mismatch-comment
           delete: true
@@ -153,7 +153,7 @@ jobs:
         if: |
           steps.work-package-check.outputs.enterprise_plan_missing != 'true'
           && steps.work-package-check.outputs.no_ticket != 'true'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: enterprise-plan-missing-comment
           delete: true

@@ -40,12 +40,12 @@ jobs:
           - dev
           - "${{ needs.setup.outputs.latest_release_branch }}"
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
           token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
-      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+      - uses: ruby/setup-ruby@v1.335.0
         with:
           bundler-cache: true
       - name: "Set crowdin branch name"
@@ -65,7 +65,7 @@ jobs:
             bundle exec script/i18n/generate_seeders_i18n_source_file
           fi
       - name: "Crowdin: upload sources and download translations"
-        uses: crowdin/github-action@959dc74ac104447731cba99a016f85d0ae719788 # v3.5.0
+        uses: crowdin/github-action@v3.5.0
         with:
           # Upload current source files
           upload_sources: true
