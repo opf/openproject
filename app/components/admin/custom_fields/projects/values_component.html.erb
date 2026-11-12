@@ -143,7 +143,12 @@ See COPYRIGHT and LICENSE files for more details.
                       menu.with_item(label: t("custom_fields.admin.projects.edit_value"), tag: :a, href: "#")
                     end
                     if custom_field.hierarchical_list?
-                      menu.with_item(label: t(:button_add_sub_value), tag: :a, href: "#")
+                      menu.with_item(
+                        label: t(:button_add_sub_value),
+                        tag: :a,
+                        href: new_sub_value_path(row),
+                        content_arguments: { data: { controller: "async-dialog" } }
+                      )
                     end
                     if row.project_specific?
                       menu.with_item(

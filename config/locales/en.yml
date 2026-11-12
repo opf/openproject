@@ -2966,6 +2966,14 @@ en:
           description: "Change the filters to see more projects."
           title: "No projects match this filter"
         make_available_to_all_projects: "Make available to all projects"
+        new_value: "Value"
+        new_value_dialog:
+          name: "Name"
+          name_caption: "Only available in %{project}."
+          parent: "Add to parent"
+          title: "Add project-specific value"
+          title_with_parent: "Add project-specific value to “%{parent}”"
+          top_level: "Top level"
         quick_filter:
           all: "All projects"
           with_project_specific_values: "With project-specific values"

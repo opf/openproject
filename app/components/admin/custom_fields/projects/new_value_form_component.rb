@@ -1,0 +1,60 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Admin
+  module CustomFields
+    module Projects
+      class NewValueFormComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
+
+        def initialize(custom_field:, project:, values: {}, errors: {})
+          super()
+
+          @custom_field = custom_field
+          @project = project
+          @values = values
+          @errors = errors
+        end
+
+        private
+
+        attr_reader :custom_field, :project, :values, :errors
+
+        def form_arguments
+          {
+            url: admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project),
+            method: :post,
+            data: { turbo_stream: true }
+          }
+        end
+      end
+    end
+  end
+end

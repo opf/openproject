@@ -131,6 +131,10 @@ module Admin
           toggle_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
         end
 
+        def new_sub_value_path(row)
+          new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, parent_id: row.id)
+        end
+
         def deletion_dialog_path(row)
           deletion_dialog_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
         end
