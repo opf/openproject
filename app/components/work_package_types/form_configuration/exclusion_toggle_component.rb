@@ -40,6 +40,7 @@ module WorkPackageTypes
           label:,
           aspect: ASPECT,
           enabled:,
+          turbo: true,
           test_selector: "toggle-form-config-exclusion-#{element_key}"
         )
       end
