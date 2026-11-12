@@ -66,6 +66,29 @@ RSpec.describe WorkPackage, "with project-specific custom field values" do
       end
     end
 
+    context "when creating a work package with an item added by its project" do
+      let(:work_package) { build(:work_package, project:, type:) }
+      let(:own_item) { create(:hierarchy_item, parent: allowed_item, project:) }
+
+      it "is valid" do
+        work_package.custom_field_values = { custom_field.id => own_item.id.to_s }
+
+        expect(work_package.valid?(:saving_custom_fields)).to be(true)
+      end
+    end
+
+    context "when creating a work package with an item added by another project" do
+      let(:work_package) { build(:work_package, project:, type:) }
+      let(:foreign_item) { create(:hierarchy_item, parent: allowed_item, project: create(:project)) }
+
+      it "is invalid" do
+        work_package.custom_field_values = { custom_field.id => foreign_item.id.to_s }
+        work_package.valid?(:saving_custom_fields)
+
+        expect(errors).to eq([:inclusion])
+      end
+    end
+
     context "with a stored item that is no longer allowed" do
       let(:work_package) do
         create(:work_package, project:, type:, custom_values: { custom_field.id => other_item.id.to_s }).reload
