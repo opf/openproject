@@ -20,13 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { waitFor } from '@testing-library/dom';
+import { vi, type Mock } from 'vitest';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type FiltersFormControllerType from './filters-form.controller';
 
@@ -152,5 +152,208 @@ describe('Filters form controller - filter count badge', () => {
       expect(counter.textContent).toBe('1');
       expect(counter.hidden).toBe(false);
     });
+  });
+});
+
+describe('Filters form controller', () => {
+  let ctx:StimulusTestContext;
+  let FiltersFormController:typeof FiltersFormControllerType;
+  let fetchSpy:Mock;
+  let resolveResponse!:(response:Response) => void;
+
+  beforeAll(async () => {
+    ({ default: FiltersFormController } = await import('./filters-form.controller'));
+  });
+
+  beforeEach(async () => {
+    fetchSpy = vi.fn().mockImplementation((_url:string, { signal }:RequestInit) => new Promise<Response>((resolve, reject) => {
+      resolveResponse = resolve;
+      signal?.addEventListener('abort', () => reject(signal.reason as Error));
+    }));
+    vi.spyOn(window, 'fetch').mockImplementation(fetchSpy);
+
+    ctx = await setupStimulusTest({
+      controllers: { 'filter--filters-form': FiltersFormController },
+    });
+  });
+
+  afterEach(() => {
+    ctx.dispose();
+    vi.restoreAllMocks();
+  });
+
+  async function renderForm() {
+    await ctx.mount(`
+      <div id="global-loading-indicator" class="d-none"></div>
+      <div data-controller="filter--filters-form"
+           data-filter--filters-form-turbo-stream-request-value="true">
+        <form data-filter--filters-form-target="filterForm">
+          <div data-filter--filters-form-target="simpleFilter"
+               data-filter-name="name"
+               data-filter-type="string"
+               data-filter-operator="~">
+            <input data-filter--filters-form-target="simpleValue"
+                   data-filter-name="name"
+                   value="old">
+          </div>
+        </form>
+      </div>
+    `);
+
+    return ctx.getController<FiltersFormControllerType>('filter--filters-form');
+  }
+
+  function streamResponse() {
+    return new Response('<turbo-stream action="remove" target="filter-result"></turbo-stream>', {
+      headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+    });
+  }
+
+  function requestSignal(call:number):AbortSignal {
+    return (fetchSpy.mock.calls[call] as [string, RequestInit])[1].signal!;
+  }
+
+  function type(value:string) {
+    const input = ctx.container.querySelector<HTMLInputElement>('input')!;
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+  }
+
+  it('ignores a response when the form has a newer unsent value', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    ctx.container.querySelector<HTMLInputElement>('input')!.value = 'new';
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true));
+
+    expect(replaceState).not.toHaveBeenCalled();
+  });
+
+  it('sends the original value again after the form returns to it', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+    const input = ctx.container.querySelector<HTMLInputElement>('input')!;
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    input.value = 'new';
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true));
+
+    input.value = 'old';
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2));
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
+    await waitFor(() => expect(ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!.hidden).toBe(true));
+  });
+
+  it('sends the original value again after a superseding request is discarded', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+    const input = ctx.container.querySelector<HTMLInputElement>('input')!;
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    input.value = 'new';
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2));
+
+    input.value = 'old';
+    resolveResponse(streamResponse());
+    await ctx.nextFrame();
+    await ctx.nextFrame();
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(3));
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
+  });
+
+  it('leaves the URL alone and sends the same value again after an error response', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+    resolveResponse(new Response('', { status: 500 }));
+    await waitFor(() => expect(indicator.hidden).toBe(true));
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2));
+    expect(replaceState).not.toHaveBeenCalled();
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(indicator.hidden).toBe(true));
+  });
+
+  it('keeps the in-flight request when typing returns to its value before the debounce', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    type('new');
+    type('old');
+    await new Promise((resolve) => { setTimeout(resolve, 350); });
+
+    expect(fetchSpy).toHaveBeenCalledOnce();
+    expect(requestSignal(0).aborted).toBe(false);
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
+  });
+
+  it('aborts the request, hides the indicator and leaves the URL alone when the form disconnects', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+    expect(indicator.hidden).toBe(false);
+
+    ctx.container.querySelector('[data-controller="filter--filters-form"]')!.remove();
+    await waitFor(() => expect(requestSignal(0).aborted).toBe(true));
+    await waitFor(() => expect(indicator.hidden).toBe(true));
+
+    resolveResponse(streamResponse());
+    await ctx.nextFrame();
+
+    expect(replaceState).not.toHaveBeenCalled();
+  });
+
+  it('keeps the indicator visible while a superseding request is in flight', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+    const input = ctx.container.querySelector<HTMLInputElement>('input')!;
+    const indicator = ctx.container.querySelector<HTMLElement>('#global-loading-indicator')!;
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    input.value = 'new';
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2));
+    await ctx.nextFrame();
+
+    expect(requestSignal(0).aborted).toBe(true);
+    expect(indicator.hidden).toBe(false);
+
+    resolveResponse(streamResponse());
+    await waitFor(() => expect(replaceState).toHaveBeenCalledOnce());
+    await waitFor(() => expect(indicator.hidden).toBe(true));
   });
 });

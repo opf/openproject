@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,15 +35,16 @@ RSpec.describe Projects::CustomFields do
 
     let(:project) { create(:project) }
     let(:custom_field) { create(:project_custom_field, projects: [project]) }
-    let(:source) { create(:type) }
-    let(:variant) { create(:type_variant, type: create(:type)) }
+    let(:root_type) { create(:type) }
+    let(:base) { root_type.default_variant }
+    let(:variant) { create(:type_variant, type: root_type) }
 
     current_user { admin }
 
     subject(:available) { project.available_custom_fields_for_variant(variant.id).to_a }
 
     before do
-      source.default_variant.project_custom_fields << custom_field
+      base.project_custom_fields << custom_field
     end
 
     context "when the variant owns its project attributes (Independent)" do
@@ -59,23 +59,23 @@ RSpec.describe Projects::CustomFields do
       end
     end
 
-    context "when the variant is Linked for project attributes", with_flag: { type_variants: true } do
+    context "when the variant is Linked for project attributes" do
       before do
-        link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES)
+        link_configuration(variant, aspect: TypeVariant::PROJECT_ATTRIBUTES)
       end
 
-      it "resolves to the source variant's enabled attributes" do
+      it "resolves to the base's enabled attributes" do
         expect(variant).to be_linked(TypeVariant::PROJECT_ATTRIBUTES)
         expect(available).to contain_exactly(custom_field)
       end
     end
 
-    context "when the link excludes an attribute", with_flag: { type_variants: true } do
+    context "when the link excludes an attribute" do
       let(:kept_field) { create(:project_custom_field, projects: [project]) }
 
       before do
-        source.default_variant.project_custom_fields << kept_field
-        link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES,
+        base.project_custom_fields << kept_field
+        link_configuration(variant, aspect: TypeVariant::PROJECT_ATTRIBUTES,
                                     excluded: [custom_field.attribute_name])
       end
 
@@ -83,25 +83,9 @@ RSpec.describe Projects::CustomFields do
         expect(available).to contain_exactly(kept_field)
       end
 
-      it "leaves the owning variant's attributes untouched" do
-        expect(project.available_custom_fields_for_variant(source.default_variant.id).to_a)
+      it "leaves the base's attributes untouched" do
+        expect(project.available_custom_fields_for_variant(base.id).to_a)
           .to contain_exactly(custom_field, kept_field)
-      end
-
-      it "accumulates the exclusions of a longer chain" do
-        leaf = create(:type_variant, type: create(:type))
-        link_configuration(leaf, source: variant, aspect: TypeVariant::PROJECT_ATTRIBUTES,
-                                 excluded: [kept_field.attribute_name])
-
-        expect(project.available_custom_fields_for_variant(leaf.id).to_a).to be_empty
-      end
-    end
-
-    context "when the variant is Linked and the feature flag is off", with_flag: { type_variants: false } do
-      it "resolves to the source variant's attributes just the same" do
-        link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES)
-
-        expect(available).to contain_exactly(custom_field)
       end
     end
   end

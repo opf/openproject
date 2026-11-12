@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,7 @@ import { TableEventComponent } from 'core-app/features/work-packages/components/
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { hideTooltip } from 'core-app/shared/helpers/tooltip-helper';
 
 export class ContextMenuClickHandler extends ContextMenuHandler {
   constructor(public readonly injector:Injector) {
@@ -62,10 +62,11 @@ export class ContextMenuClickHandler extends ContextMenuHandler {
 
     // Locate the row from event
     const element = target.closest<HTMLTableRowElement>(this.rowSelector);
-    const wpId = element?.dataset.workPackageId;
 
-    if (wpId) {
-      this.openContextMenu(view.workPackageTable, evt, wpId);
+    if (element?.dataset.workPackageId && !this.isUnsavedRow(element)) {
+      const button = target.closest<HTMLElement>(`.${contextMenuLinkClassName}`)!;
+      hideTooltip(button);
+      this.openContextMenu(view.workPackageTable, evt, element, {}, { anchor: button, align: 'end' });
     }
 
     return false;

@@ -20,11 +20,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+
+import { createLogger } from "../logger";
+
+const logger = createLogger();
+
+const ERROR_BODY_MAX_LENGTH = 2000;
 
 const OPENPROJECT_URL = process.env.OPENPROJECT_URL?.trim() || null;
 const OPENPROJECT_HTTPS = process.env.OPENPROJECT_HTTPS?.trim() === 'true';
@@ -35,17 +40,17 @@ if (OPENPROJECT_URL) {
     throw new Error(`Invalid OPENPROJECT_DIRECT_URL: ${OPENPROJECT_URL}`);
   }
 
-  console.log(`using OPENPROJECT_URL: ${OPENPROJECT_URL}`);
+  logger.log(`using OPENPROJECT_URL: ${OPENPROJECT_URL}`);
 }
 
 if (OPENPROJECT_HTTPS) {
-  console.log(`using OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}`);
+  logger.log(`using OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}`);
 }
 
 /**
  * Fetches an OpenProject resource while automatically adjusting request URL and host header
  * based on the value of OPENPROJECT_URL in the environment.
- * 
+ *
  * @param resourceUrl URL of OpenProject resource to fetch
  * @param oauthToken OAuth Bearer token to authenticate with
  * @param override Override request init params (e.g. method, headers)
@@ -68,15 +73,35 @@ export async function fetchResource(
     ...override
   }
 
-  console.log(`[${new Date().toISOString()}] ${init.method} ${url}`);
+  const target = `${init.method} ${url}`;
+  const startedAt = performance.now();
+  const elapsed = () => Math.round(performance.now() - startedAt);
 
-  return fetch(url, init);
+  let response: Response;
+  try {
+    response = await fetch(url, init);
+  } catch (error) {
+    logger.error(`${target} failed after ${elapsed()}ms`, error);
+    logger.error(OPENPROJECT_URL
+      ? `Hint: OpenProject is not reachable under OPENPROJECT_URL (${OPENPROJECT_URL}). Check that it is correct (see README).`
+      : "Hint: if OpenProject is not reachable from hocuspocus under this URL, configure OPENPROJECT_URL (see README).");
+    throw error;
+  }
+
+  if (response.ok) {
+    logger.log(`${target} -> ${response.status} (${elapsed()}ms)`);
+  } else {
+    const body = await response.clone().text();
+    logger.warn(`${target} -> ${response.status} (${elapsed()}ms)`, body.slice(0, ERROR_BODY_MAX_LENGTH));
+  }
+
+  return response;
 }
 
 /**
  * Get the effective OpenProject resource URL considering the value of
  * OPENPROJECT_URL in the environment.
- * 
+ *
  * @param resourceUrl URL of OpenProject resource
  * @returns Either the given resource URL if no override has been configured, or the adjusted URL.
  */

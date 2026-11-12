@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,6 +34,11 @@ RSpec.describe "Versions and categories admin settings" do
 
   before do
     login_as(admin)
+  end
+
+  def confirm_irreversible_action
+    check "I understand that this action is not reversible"
+    expect(page).to have_checked_field("I understand that this action is not reversible")
   end
 
   context "when the setting is off", with_settings: { work_package_multiple_versions: false } do
@@ -139,9 +143,9 @@ RSpec.describe "Versions and categories admin settings" do
       within "[role=alertdialog]" do
         expect(page).to have_button("Enable", disabled: true)
 
-        check "I understand that this action is not reversible"
+        confirm_irreversible_action
 
-        expect(page).to have_button("Enable", disabled: false)
+        expect(page).to have_button("Enable", disabled: false, wait: 10)
       end
     end
 
@@ -149,7 +153,8 @@ RSpec.describe "Versions and categories admin settings" do
       click_on "Enable multiple values"
 
       within_dialog "Enable multiple target versions" do
-        check "I understand that this action is not reversible"
+        confirm_irreversible_action
+        expect(page).to have_button("Enable", disabled: false, wait: 10)
         click_button "Enable"
       end
 

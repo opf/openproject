@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,14 +34,14 @@ RSpec.describe "API v3 file links resource" do
   include API::V3::Utilities::PathHelper
   include UserPermissionsHelper
 
-  def enable_module(project, modul)
-    project.enabled_modules.create(name: modul)
+  def enable_module(project, module_name)
+    project.enabled_modules.create(name: module_name)
   end
 
-  def disable_module(project, modul)
+  def disable_module(project, module_name)
     # Avoid project.enabled_module_names and a subsequent save as that would create an AnonymousUser in an
     # after(:all) block, which persists the user in the RequestStore.
-    project.enabled_modules.where(name: modul).destroy_all
+    project.enabled_modules.where(name: module_name).destroy_all
   end
 
   shared_association_default(:priority) { create(:priority) }

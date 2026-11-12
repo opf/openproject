@@ -1,0 +1,45 @@
+<%= render(Primer::Box.new(border: true, border_radius: 2, p: 3, mb: 3)) do %>
+  <%= render(Primer::Beta::Text.new(tag: :h3, font_size: 4, font_weight: :bold, mb: 1)) { feature.label } %>
+
+  <% if caption.present? %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 2)) { caption } %>
+  <% end %>
+
+  <% if feature.embedding? && feature.enabled? && !feature.available? %>
+    <%= render(
+          Primer::Alpha::Banner.new(
+            scheme: :warning,
+            mb: 3,
+            icon: :alert,
+            test_selector: "llm-feature-bindings--pgvector-unavailable"
+          )
+        ) do %>
+      <%= link_translate("llm.pgvector.unavailable", links: { docs_url: OpenProject::Llm::Pgvector::DOCS_URL }) %>
+    <% end %>
+  <% end %>
+
+  <% unless feature.embedding? %>
+    <% if dangling? %>
+      <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 2, icon: :alert)) do %>
+        <%= t("admin.llm_feature_bindings.dangling", model: binding.resolved_model_id) %>
+      <% end %>
+    <% end %>
+
+    <%= settings_primer_form_with(model: form_model, url: form_url, method: :patch, scope: :llm_feature_binding) do |f| %>
+      <%= render(
+            LlmConnections::FeatureBindingForm.new(
+              f,
+              options: model_options,
+              inherit_label:,
+              feature_key: feature.key,
+              models_left_out: models_left_out?,
+              selected_model_id: binding&.model_id
+            )
+          ) %>
+    <% end %>
+  <% end %>
+
+  <% if feature.embedding? %>
+    <%= render(LlmConnections::SemanticIndexes::BoxComponent.new) %>
+  <% end %>
+<% end %>

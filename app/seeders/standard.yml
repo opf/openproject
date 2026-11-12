@@ -183,6 +183,18 @@ project_custom_field_sections:
     name: Project attributes
     position: 1
 
+labels:
+  - reference: :label__website
+    t_name: Website
+  - reference: :label__marketing
+    t_name: Marketing
+  - reference: :label__speakers
+    t_name: Speakers
+  - reference: :label__security
+    t_name: Security
+  - reference: :label__ux
+    t_name: UX
+
 projects:
   demo-project:
     t_name: Demo project
@@ -410,6 +422,8 @@ projects:
             children:
               - start: 0
                 t_subject: Send invitation to speakers
+                labels:
+                  - :label__speakers
                 assigned_to: :user__marko_marketing
                 description: ""
                 status: :default_status_in_progress
@@ -430,6 +444,8 @@ projects:
                 done_ratio: 0
               - start: 0
                 t_subject: Create sponsorship brochure and hand-outs
+                labels:
+                  - :label__marketing
                 assigned_to: :user__marko_marketing
                 description: ""
                 status: :default_status_new
@@ -440,6 +456,8 @@ projects:
                 done_ratio: 0
           - start: 4
             t_subject: Invite attendees to conference
+            labels:
+              - :label__marketing
             reference: :invite_attendees_to_conference
             assigned_to: :user__evan_events
             description: ""
@@ -455,6 +473,8 @@ projects:
                 type: follows
           - start: 4
             t_subject: Setup conference website
+            labels:
+              - :label__website
             reference: :setup_conference_website
             assigned_to: :user__wanda_web
             description: ""
@@ -470,6 +490,8 @@ projects:
                 type: follows
       - start: 15
         t_subject: Test and quality-check the conference website
+        labels:
+          - :label__website
         assigned_to: :user__tessa_tester
         description: ""
         status: :default_status_new
@@ -504,6 +526,9 @@ projects:
         children:
           - start: 21
             t_subject: Upload presentations to website
+            labels:
+              - :label__website
+              - :label__speakers
             reference: :upload_presentations_to_website
             assigned_to: :user__wanda_web
             description: ""
@@ -573,72 +598,35 @@ projects:
           In this module you can communicate project news to your team members.
         description: This is the news content.
     versions:
-      - t_name: Bug Backlog
-        reference: :scrum_project__version__bug_backlog
+      - name: "1.0"
+        reference: :scrum_project__version__1_0
         sharing: none
         status: open
-      - t_name: Product Backlog
-        reference: :scrum_project__version__product_backlog
-        sharing: none
-        status: open
-        start: 15
-      - t_name: Sprint 1
-        reference: :scrum_project__version__sprint_1
-        sharing: none
-        status: open
-        start: 4
-        duration: 7
+        start: 14
+        duration: 5
         wiki:
-          t_title: Sprint 1
+          t_title: Release 1.0
           t_content: |
-            ### Sprint planning meeting
+            ### Release 1.0
 
-            _Please document here topics to the Sprint planning meeting_
+            _Please document here what this release contains._
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
-
-            * Divided into two additional time boxes of 4 h:
-
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
-
-
-            ### Sprint Retrospective
-
-            _Please document here topics to the Sprint Retrospective meeting_
-
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
-      - t_name: Sprint 2
+            * The work packages of this release are the ones with the target version 1.0.
+            * The release date is the date of the *Release v1.0* milestone.
+            * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+            * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+      - name: "1.1"
+        reference: :scrum_project__version__1_1
         sharing: none
         status: open
+        start: 21
+        duration: 5
+      - name: "2.0"
+        reference: :scrum_project__version__2_0
+        sharing: none
+        status: open
+        start: 28
+        duration: 5
     types:
       - :default_type_task
       - :default_type_milestone
@@ -658,9 +646,9 @@ projects:
           - :default_type_milestone
           - :default_type_summary_task
         timeline: true
-      - t_name: Product backlog
+      - t_name: Version 1.1
         status: open
-        version: :scrum_project__version__product_backlog
+        version: :scrum_project__version__1_1
         group_by: status
         sort_by: status
         columns:
@@ -671,9 +659,9 @@ projects:
           - status
           - assigned_to
           - story_points
-      - t_name: Sprint 1
+      - t_name: Version 1.0
         status: open
-        version: :scrum_project__version__sprint_1
+        version: :scrum_project__version__1_0
         hierarchy: true
         columns:
           - id
@@ -742,11 +730,12 @@ projects:
 
               1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
               2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-              3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-              4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-              5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-              6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
+              3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+              4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
+              5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+              6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
               7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+
 
               Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
               Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
@@ -784,19 +773,28 @@ projects:
             queryId: "##query.id:scrum_project__query__project_plan"
     work_packages:
       - t_subject: New login screen
+        labels:
+          - :label__security
+          - :label__ux
         reference: :new_login_screen
         status: :default_status_in_specification
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__product_backlog
+          - :scrum_project__version__1_1
         position: 3
       - t_subject: Password reset does not send email
+        labels:
+          - :label__security
         status: :default_status_confirmed
         type: :default_type_bug
         target_versions:
-          - :scrum_project__version__bug_backlog
+          - :scrum_project__version__1_1
+        observed_in_versions:
+          - :scrum_project__version__1_0
         position: 1
       - t_subject: New website
+        labels:
+          - :label__website
         reference: :new_website
         status: :default_status_specified
         type: :default_type_epic
@@ -805,22 +803,25 @@ projects:
         schedule_manually: false
         children:
           - t_subject: Newsletter registration form
+            labels:
+              - :label__website
+              - :label__marketing
             status: :default_status_in_progress
             type: :default_type_user_story
             target_versions:
-              - :scrum_project__version__product_backlog
+              - :scrum_project__version__1_1
             position: 6
           - t_subject: Implement product tour
             status: :default_status_in_specification
             type: :default_type_user_story
             target_versions:
-              - :scrum_project__version__product_backlog
+              - :scrum_project__version__2_0
             position: 4
           - t_subject: New landing page
             status: :default_status_specified
             type: :default_type_user_story
             target_versions:
-              - :scrum_project__version__sprint_1
+              - :scrum_project__version__1_0
             position: 2
             story_points: 3
             start: 28
@@ -828,26 +829,30 @@ projects:
             schedule_manually: false
             children:
               - t_subject: Create wireframes for new landing page
+                labels:
+                  - :label__ux
                 status: :default_status_in_progress
                 type: :default_type_task
                 target_versions:
-                  - :scrum_project__version__sprint_1
+                  - :scrum_project__version__1_0
                 start: 28
                 duration: 1
       - t_subject: Contact form
         status: :default_status_specified
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__sprint_1
+          - :scrum_project__version__1_0
         position: 5
         start: 21
         duration: 1
         story_points: 1
       - t_subject: Feature carousel
+        labels:
+          - :label__marketing
         status: :default_status_specified
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__sprint_1
+          - :scrum_project__version__1_0
         position: 3
         story_points: 5
         schedule_manually: false
@@ -856,23 +861,28 @@ projects:
             status: :default_status_closed
             type: :default_type_task
             target_versions:
-              - :scrum_project__version__sprint_1
+              - :scrum_project__version__1_0
       - t_subject: Wrong hover color
+        labels:
+          - :label__ux
         reference: :wrong_hover_color
         status: :default_status_rejected
         type: :default_type_bug
-        target_versions:
-          - :scrum_project__version__sprint_1
+        observed_in_versions:
+          - :scrum_project__version__1_0
+          - :scrum_project__version__1_1
         position: 4
         story_points: 1
         start: 21
         duration: 1
       - t_subject: SSL certificate
+        labels:
+          - :label__security
         reference: :ssl_certificate
         status: :default_status_specified
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__product_backlog
+          - :scrum_project__version__2_0
         position: 1
         start: 22
         duration: 1
@@ -881,7 +891,7 @@ projects:
         status: :default_status_in_specification
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__product_backlog
+          - :scrum_project__version__2_0
         position: 2
         start: 23
         duration: 1
@@ -889,8 +899,6 @@ projects:
         reference: :choose_content_management_system
         status: :default_status_specified
         type: :default_type_user_story
-        target_versions:
-          - :scrum_project__version__product_backlog
         position: 7
         start: 24
         duration: 1
@@ -898,7 +906,7 @@ projects:
         status: :default_status_specified
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__sprint_1
+          - :scrum_project__version__1_0
         position: 7
         story_points: 3
         start: 25
@@ -906,17 +914,17 @@ projects:
         schedule_manually: false
         children:
           - t_subject: Set up navigation concept for website.
+            labels:
+              - :label__ux
             status: :default_status_in_specification
             type: :default_type_task
             target_versions:
-              - :scrum_project__version__sprint_1
+              - :scrum_project__version__1_0
             start: 25
             duration: 1
       - t_subject: Internal link structure
         status: :default_status_closed
         type: :default_type_user_story
-        target_versions:
-          - :scrum_project__version__product_backlog
         position: 5
         start: 25
         duration: 1
@@ -924,11 +932,15 @@ projects:
         reference: :develop_v1_0
         status: :default_status_in_progress
         type: :default_type_summary_task
+        target_versions:
+          - :scrum_project__version__1_0
         start: 14
         duration: 4
       - t_subject: Release v1.0
         status: :default_status_new
         type: :default_type_milestone
+        target_versions:
+          - :scrum_project__version__1_0
         start: 18
         duration: 1
         schedule_manually: false
@@ -939,11 +951,15 @@ projects:
         reference: :develop_v1_1
         status: :default_status_new
         type: :default_type_summary_task
+        target_versions:
+          - :scrum_project__version__1_1
         start: 21
         duration: 4
       - t_subject: Release v1.1
         status: :default_status_new
         type: :default_type_milestone
+        target_versions:
+          - :scrum_project__version__1_1
         start: 25
         duration: 1
         schedule_manually: false
@@ -954,11 +970,15 @@ projects:
         reference: :develop_v2_0
         status: :default_status_new
         type: :default_type_summary_task
+        target_versions:
+          - :scrum_project__version__2_0
         start: 28
         duration: 4
       - t_subject: Release v2.0
         status: :default_status_new
         type: :default_type_milestone
+        target_versions:
+          - :scrum_project__version__2_0
         start: 32
         duration: 1
         schedule_manually: false
@@ -1018,73 +1038,85 @@ statuses:
     color_name: cyan-7
     default_done_ratio: 0
     is_default: true
+    category: to_do
     position: 1
   - reference: :default_status_in_specification
     t_name: In specification
     color_name: blue-2
     default_done_ratio: 10
+    category: in_progress
     position: 2
   - reference: :default_status_specified
     t_name: Specified
     color_name: blue-2
     default_done_ratio: 20
+    category: to_do
     position: 3
   - reference: :default_status_confirmed
     t_name: Confirmed
     color_name: violet-2
     default_done_ratio: 20
+    category: to_do
     position: 4
   - reference: :default_status_to_be_scheduled
     t_name: To be scheduled
     color_name: yellow-2
     default_done_ratio: 20
+    category: to_do
     position: 5
   - reference: :default_status_scheduled
     t_name: Scheduled
     color_name: lime-2
     default_done_ratio: 20
+    category: to_do
     position: 6
   - reference: :default_status_in_progress
     t_name: In progress
     color_name: grape-5
     default_done_ratio: 40
+    category: in_progress
     position: 7
   - reference: :default_status_developed
     t_name: Developed
     color_name: green-3
     default_done_ratio: 70
+    category: in_progress
     position: 8
   - reference: :default_status_in_testing
     t_name: In testing
     color_name: cyan-5
     default_done_ratio: 80
+    category: in_progress
     position: 9
   - reference: :default_status_tested
     t_name: Tested
     color_name: teal-6
     default_done_ratio: 90
+    category: to_do
     position: 10
   - reference: :default_status_test_failed
     t_name: Test failed
     color_name: red-5
     default_done_ratio: 70
+    category: to_do
     position: 11
   - reference: :default_status_closed
     t_name: Closed
     color_name: gray-3
     default_done_ratio: 100
-    is_closed: true
+    category: closed
     position: 12
   - reference: :default_status_on_hold
     t_name: On hold
     color_name: orange-3
     default_done_ratio: 0
+    category: to_do
     position: 13
   - reference: :default_status_rejected
     t_name: Rejected
     color_name: red-3
     default_done_ratio: 0
-    is_closed: true
+    category: closed
     position: 14
 
 time_entry_activities:

@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -149,7 +148,7 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueReader do
       end
     end
 
-    context "if file references contain invalid formated values" do
+    context "if file references contain invalid formatted values" do
       let(:viewpoint_ref) { "viewpoint.bcfv" }
       let(:snapshot_ref) { "snapshot.png" }
       let(:markup) do

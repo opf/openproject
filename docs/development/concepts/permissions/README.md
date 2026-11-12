@@ -29,7 +29,7 @@ that holds a set of permissions associated in a `RolePermission` lookup table.
 There are multiple types of roles:
 
 - [Global roles](https://github.com/opf/openproject/blob/dev/app/models/global_role.rb) that are granted to user on a global level, i.e. they are not assigned per project. They can contain the permissions to e.g., _Create new projects_ or _Create_ or _Manage users_
-- Entity specific roles like [WorkPackage Role](https://github.com/opf/openproject/blob/dev/app/models/work_package_role.rb) that allows a user to get certain permissions on a single entity. _Currently, those roles are only seeded and cannot be manually edited or created by administrators._
+- Entity specific roles like the [WorkPackage role](https://github.com/opf/openproject/blob/dev/app/models/work_package_role.rb) and the [ProjectQuery role](https://github.com/opf/openproject/blob/dev/app/models/project_query_role.rb) that allow a user to get certain permissions on a single entity, such as a shared work package or project list. _Currently, those roles are only seeded and cannot be manually edited or created by administrators._
 - All other roles (and the de facto default) are [Project roles](https://github.com/opf/openproject/blob/dev/app/models/project_role.rb). They grant users permission on an entire project and all resources belonging to that project. There are 2 special types of project roles:
   - _Non member_ roles that is a special role that applies to any _authenticated_ user and all public projects that this user is not a member of. On the OpenProject community, it is configured to grant non-members of the public projects, i.e. all logged in users, the permissions _Add forum posts_ and _Create new work package_.
   - _Anonymous_ roles that is a special role, similar to the _non member_ role but applying to non-authenticated users.
@@ -47,11 +47,11 @@ Scrolling through the list of available permissions, you will begin to see the f
 The permissions are defined in two places:
 
 1. The core [`config/initializers/permissions.rb`](https://github.com/opf/openproject/tree/dev/config/initializers/permissions.rb) initializer file. It defines the available project modules and its associated permissions
-2. Module permissions defined in the `engine.rb` of modules under `module/` folder. For example, the definitions for budgets are defined in[`modules/budgets/lib/budgets/engine.rb`](https://github.com/opf/openproject/tree/dev/modules/budgets/lib/budgets/engine.rb).
+2. Module permissions defined in the `engine.rb` of modules under the `modules/` folder. For example, the definitions for budgets are defined in [`modules/budgets/lib/budgets/engine.rb`](https://github.com/opf/openproject/tree/dev/modules/budgets/lib/budgets/engine.rb).
 
-These definitions determine the name of the permission and the Rails controller actions that this permission unlocks. In some cases, the permissions do not define a controller action and then is only used for authorization checks in contracts.
+These definitions determine the name of the permission and the Rails controller actions that this permission unlocks. In some cases, the permissions do not define a controller action and are then only used for authorization checks in contracts.
 
-The definition also specifies what context a permission can be given to. The `permissible_on:` specifies those allowed contexts. The permission system will than take care of hinting the developer when they are checking a permission in a wrong context (i.e. checking for `create_user` permission on a specific project, but it only being a global permission).
+The definition also specifies what context a permission can be given to. The `permissible_on:` specifies those allowed contexts. The permission system will then take care of hinting the developer when they are checking a permission in a wrong context (i.e. checking for `create_user` permission on a specific project, but it only being a global permission).
 
 ## Checking of permissions in Backend
 
@@ -70,24 +70,41 @@ While not the case throughout the application, permissions:
 
 If the permission should be tested for a specific controller action, it will suffice to call the `before_action :authorize` to handle authorization.
 
-As an example, the permissions `:manage_members`,  `:view_members` is defined as follows:
+As an example, the permissions `:manage_members` and `:view_members` are defined as follows (simplified):
 
 ```ruby
-permission :manage_members, { members: %i[index new create update destroy autocomplete_for_member] }
-permission :view_members, { members: [:index] }
+map.permission :manage_members,
+               {
+                 members: %i[index new create update destroy destroy_by_principal autocomplete_for_member menu],
+                 "members/menus": %i[show]
+               },
+               permissible_on: :project,
+               require: :member,
+               dependencies: :view_members,
+               contract_actions: { members: %i[create update destroy] }
+
+map.permission :view_members,
+               {
+                 members: %i[index menu],
+                 "members/menus": %i[show]
+               },
+               permissible_on: :project,
+               contract_actions: { members: %i[read] }
 ```
 
 This means if a user has only the `:view_members` permission, the `authorize` check in the [`MembersController`](https://github.com/opf/openproject/tree/dev/app/controllers/members_controller.rb) will allow the user to pass through for the `index` action (Overview of the members), but not the CRUD actions. These will only pass if the user has the `manage_members` (or both) permissions.
 
 ### API Endpoints
 
-Given that the API endpoints are controllers as well, the permission checks are handled similarly, to protect an endpoint against unauthorized access, a before block is defined e.g. like this:
+Given that the API endpoints are controllers as well, the permission checks are handled similarly. To protect an endpoint against unauthorized access, an `after_validation` block is defined, e.g., like this:
 
 ```ruby
 after_validation do
-  authorize :manage_members, global: true
+  authorize_in_project(:manage_members, project: @project)
 end
 ```
+
+The [API root](https://github.com/opf/openproject/blob/dev/lib/api/root_api.rb) provides matching helpers for each context: `authorize_in_project`, `authorize_in_projects`, `authorize_in_any_project`, `authorize_in_work_package`, `authorize_in_any_work_package` and `authorize_globally`.
 
 However, for most endpoints, this does not need to be and should not be done on the controller level. Endpoints that are contract backed, which is true for most of the create, update and delete endpoints, the permissions, including access to a resource is checked within the contracts. The index endpoints are mostly protected by their queries relying on a `visible` scope which factors the permissions into the SQL fetching the records. That way, an empty collection is returned if the user lacks permission. If an explicit 403 needs to be returned, though, the explicit permission check in the endpoint is required for now. The show endpoints need to be protected akin to how the index actions. The `visible` scope is applied (e.g. `WorkPackage.visible.find(5)`). This will lead to a `RecordNotFound` exception being thrown when the permission is lacking. That exception is then handled transparently by returning a 404. We return 404 instead of 403 to not reveal the existence of a record.
 
@@ -99,12 +116,12 @@ When a set of records is to be returned, e.g. for an index action, it is best to
 |-----------------------------------------------------|-----------------------------------------------------|--------------------------------------------------------------|
 | All projects a user is allowed a permission in      | `Project.allowed_to(user, permission)`              | `Project.allowed_to(User.current, :view_work_packages)`      |
 | All work packages a user is allowed a permission in | `WorkPackage.allowed_to(user, permission)`          | `WorkPackage.allowed_to(User.current, :view_work_packages)`  |
-| All users granted a permission in a project         | `Authorization.users(permission, project: project)` | `Authorization.users(:view_work_packages, project: project)` |
+| All users granted a permission in a project         | `Authorization.users(permission, project)`          | `Authorization.users(:view_work_packages, project)`          |
 | All roles a user has in a project                   | `Authorization.roles(user, project)`                | `Authorization.roles(User.current, project)`                 |
 | All roles a user has for a specific resource        | `Authorization.roles(user, entity)`                 | `Authorization.roles(User.current, work_package)`            |
 | All roles a user has globally                       | `Authorization.roles(user)`                         | `Authorization.roles(User.current)`                          |
 
-Most of the time, a developer will not witness those queries as they are the embedded deeply within the existing scopes. E.g. the `visible` scopes defined for most AR models.
+Most of the time, a developer will not witness those queries as they are embedded deeply within the existing scopes. E.g. the `visible` scopes defined for most AR models.
 
 The developer should mostly rely on the `allowed_to` scopes defined on the models that permissions can be checked for.
 
@@ -124,21 +141,23 @@ user.allowed_in_project?(:view_members, project)
 user.allowed_in_any_project?(:view_members)
 
 # Checks if the user has the permission in the given work package *or* the project it belongs to
-user.allowed_in_work_package?(:view_work_package, work_package)
+user.allowed_in_work_package?(:view_work_packages, work_package)
 
 # Checks if the user has the permission in any work package *or* project
-user.allowed_in_any_work_package?(:view_work_package)
+user.allowed_in_any_work_package?(:view_work_packages)
 
 # Checks if the user has the permission in the given project *or* any work package that belongs to the given project
-user.allowed_in_any_work_package?(:view_work_package, in_project: project)
+user.allowed_in_any_work_package?(:view_work_packages, in_project: project)
 ```
+
+The `allowed_in_<entity>?` and `allowed_in_any_<entity>?` methods are generated for every entity that can have memberships (`Member::ALLOWED_ENTITIES`), so there are also `allowed_in_project_query?` and `allowed_in_any_project_query?`.
 
 The same is true for global permissions using `user.allowed_globally?(permission)`. This will test for a global permission such as `:add_project`.
 
 Those methods will also aid the developer, when they are trying to request a permission in the wrong context. For example, when you try to check a global permission on a project, it will raise an `IllegalPermissionContextError`
 
 ```ruby
-user.allowed_in_project(:create_user, project)
+user.allowed_in_project?(:create_user, project)
 # => Authorization::IllegalPermissionContextError: Used permission "create_user" which maps to create_user in project context. Correct contexts for this permission are: global.
 ```
 
@@ -149,9 +168,9 @@ user.allowed_globally?(:create_users)
 # => Authorization::UnknownPermissionError: Used permission "create_users" that is not defined. It will never return true.
 ```
 
-### Deprecated methods
+### Removed methods
 
-Previously, we used to check permissions using the `allowed_to?`, `allowed_to_globally?` and `allowed_to_in_project?` methods. Because of some ambiguity in them (i.e. you could check for project permissions globally, which then returned what is now `allowed_in_any_project?`) and the lack of the checks that are mentioned above, those methods have been deprecated and will be removed in a future version of OpenProject. If you are using those methods in a module, please migrate to the new methods.
+Previously, we used to check permissions using the `allowed_to?`, `allowed_to_globally?` and `allowed_to_in_project?` methods. Because of some ambiguity in them (i.e. you could check for project permissions globally, which then returned what is now `allowed_in_any_project?`) and the lack of the checks that are mentioned above, those methods were removed in OpenProject 14.0. If you maintain a module that still uses them, migrate to `allowed_in_project?`, `allowed_in_any_project?`, `allowed_globally?`, or the entity methods such as `allowed_in_work_package?`.
 
 ### Permissions in tests
 
@@ -169,7 +188,7 @@ let(:project_role) { create(:project_role, permissions: [:view_work_packages, :a
 
 let(:project) { create(:project) }
 
-let(:user) { create(:user, member_with_roles: { project => [projet_role] }, global_roles: [global_role]) }
+let(:user) { create(:user, member_with_roles: { project => [project_role] }, global_roles: [global_role]) }
 ```
 
 #### Setting up users with permissions
@@ -204,7 +223,7 @@ before do
 end
 ```
 
-This hooks into all permission checks (including the deprecated `allowed_to?` methods and methods like `allowed_in_any_project?`) that are executed on the user. **Scopes like `Project.visible`, `Project.allowed_to` and methods like `Authorization.roles` are _not_ mocked by this.**
+This hooks into all permission checks (such as `allowed_in_project?`, `allowed_in_any_project?`, `allowed_globally?` and the entity methods) that are executed on the user. The mock also provides `allow_in_work_package`, `allow_in_project_query`, `allow_everything` and `forbid_everything`. **Scopes like `Project.visible`, `Project.allowed_to` and methods like `Authorization.roles` are _not_ mocked by this.**
 
 ## Checking of permissions in Frontend
 
@@ -215,7 +234,7 @@ For example, if the user has the permission to create work packages in the OpenP
 To check these links, one can use the [`ModelAuthService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/core/model-auth/model-auth.service.ts) that gets initialized with the resources being loaded:
 
 ```typescript
-const modelAuth = injector.get(ModelAuthService);
+const modelAuth = inject(ModelAuthService);
 modelAuth.initModelAuth('work_packages', { createWorkPackage: () => 'foo' });
 
 modelAuth.can('work_packages', 'createWorkPackage'); // true

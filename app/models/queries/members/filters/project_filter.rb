@@ -22,12 +22,40 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Queries::Members::Filters::ProjectFilter < Queries::Members::Filters::MemberFilter
   include Queries::Filters::Shared::ProjectFilter::Optional
+
+  # Global memberships have no project to be identified by, so they are selected
+  # alongside project ids through this sentinel.
+  GLOBAL_VALUE = "global"
+
+  def where
+    return super unless global?
+
+    clauses = ["#{Member.table_name}.project_id IS NULL"]
+    clauses << operator_strategy.sql_for_field(project_ids, Member.table_name, self.class.key) if project_ids.any?
+
+    clauses.join(" OR ")
+  end
+
+  def validate_values
+    return super unless global?
+
+    errors.add(:values, :invalid) unless project_ids.all? { /\A\d+\z/.match?(it.to_s) }
+  end
+
+  private
+
+  def global?
+    values.include?(GLOBAL_VALUE)
+  end
+
+  def project_ids
+    values - [GLOBAL_VALUE]
+  end
 end

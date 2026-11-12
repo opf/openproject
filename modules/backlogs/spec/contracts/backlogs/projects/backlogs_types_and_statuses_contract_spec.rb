@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@ RSpec.describe Backlogs::Projects::BacklogsTypesAndStatusesContract, type: :mode
   let(:other_type) { create(:type_task) }
 
   let(:project) { create(:project, types: [allowed_type]) }
-  let(:permissions) { %i[select_backlog_types_and_statuses] }
+  let(:permissions) { %i[manage_backlogs_configuration] }
 
   subject(:contract) { described_class.new(project, current_user) }
 
@@ -52,10 +51,10 @@ RSpec.describe Backlogs::Projects::BacklogsTypesAndStatusesContract, type: :mode
 
   describe "validations" do
     context "with valid done statuses and excluded types" do
-      let!(:open_status) { create(:status, is_closed: false) }
+      let!(:to_do_status) { create(:status, category: "to_do") }
 
       before do
-        project.done_status_ids = [open_status.id]
+        project.done_status_ids = [to_do_status.id]
         project.backlog_excluded_type_ids = [allowed_type.id]
       end
 

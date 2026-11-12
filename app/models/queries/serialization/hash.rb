@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ module Queries
             query.name = hash[:name] if hash[:name].present?
             query.add_filters hash[:filters] if hash[:filters].present?
             query.add_orders hash[:orders] if hash[:orders].present?
-            query.group hash[:group_by] if hash[:group_by].present?
+            query.group(*hash[:group_bys]) if hash[:group_bys].present?
             query.select(*hash[:selects]) if hash[:selects].present?
           end
         end
@@ -49,7 +48,7 @@ module Queries
         {
           filters: filters.map { |f| { name: f.name, operator: f.operator, values: f.values } },
           orders: orders.map { |o| [o.attribute, o.direction] },
-          group_by: respond_to?(:group_by) ? group_by : nil,
+          group_bys: respond_to?(:group_bys) ? group_bys.map(&:attribute) : [],
           selects: selects.map(&:attribute),
           user:,
           name:

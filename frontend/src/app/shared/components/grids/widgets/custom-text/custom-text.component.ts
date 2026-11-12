@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,6 +34,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { filter } from 'rxjs/operators';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 
 @Component({
   templateUrl: './custom-text.component.html',
@@ -83,7 +83,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   ngOnChanges(changes:SimpleChanges):void {
-    if (changes.resource.currentValue.options.text.raw !== this.currentRawText) {
+    if (((changes.resource.currentValue as GridWidgetResource).options.text as HalResource).raw !== this.currentRawText) {
       this.setupVariables();
 
       this.cdr.detectChanges();
@@ -149,7 +149,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   private memorizeRawText() {
-    this.currentRawText = (this.resource.options.text as HalResource).raw;
+    this.currentRawText = (this.resource.options.text as HalResource).raw as string;
   }
 
   private memorizeCustomText() {

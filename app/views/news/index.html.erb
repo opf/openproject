@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -29,9 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_news_plural) %>
 
-<%
-  managable = User.current.allowed_in_project?(:manage_news, @project)
-%>
+<% manageable = User.current.allowed_in_project?(:manage_news, @project) %>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
@@ -39,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_breadcrumbs(@project ? [{ href: project_overview_path(@project.id), text: @project.name }, t(:label_news_plural)] : nil)
   end
 %>
-<% if managable %>
+<% if manageable %>
   <%=
     render(Primer::OpenProject::SubHeader.new) do |subheader|
       subheader.with_action_button(
@@ -69,15 +66,13 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
    </div>
   <% end %>
+<% elsif manageable %>
+  <%= no_results_box(
+        action_url: new_project_news_path(@project),
+        display_action: true
+      ) %>
 <% else %>
-  <% if managable %>
-    <%= no_results_box(
-          action_url: new_project_news_path(@project),
-          display_action: true
-        ) %>
-  <% else %>
-    <%= no_results_box %>
-  <% end %>
+  <%= no_results_box %>
 <% end %>
 
 <%= pagination_links_full @news %>

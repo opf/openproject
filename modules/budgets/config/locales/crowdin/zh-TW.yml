@@ -58,6 +58,8 @@ zh-TW:
   attributes:
     budget: 預算
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: 未列出每小時費率 %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -103,7 +105,7 @@ zh-TW:
   events:
     budget: 預算已編輯
   help_click_to_edit: 點擊這裡編輯
-  help_currency_format: 已顯示的貨幣值的格式。%n 替換為貨幣值，%u 替換為貨幣單位。
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: 在此輸入一個值以覆蓋預設費率。
   label_budget_available: 可用預算
   label_budget_details: 預算細節

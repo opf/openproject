@@ -54,7 +54,7 @@ ja:
 
           '
       label_n_groups_found:
-        one: フィルタによって1つのグループが見つかりました
+        one: "%{count} group found by the filter"
         other: "%{count} グループがフィルターによって見つかりました"
         zero: このフィルタではグループが見つかりませんでした
       plural: LDAP グループ同期フィルタ
@@ -89,7 +89,7 @@ ja:
       plural: 同期済 LDAP グループ
       singular: 同期済 LDAP グループ
       upsell:
-        description: 同期化された LDAP グループを活用して、ユーザの管理、権限の変更、グループ間のユーザ管理を容易にします。
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: LDAP グループメンバシップの同期。
     name: OpenProject LDAP グループ

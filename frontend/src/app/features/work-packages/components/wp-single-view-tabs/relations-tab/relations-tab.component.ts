@@ -20,13 +20,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { UIRouterGlobals } from '@uirouter/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -35,6 +33,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './relations-tab.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations-tab',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -44,7 +43,6 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 })
 export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly apiV3Service = inject(ApiV3Service);
   readonly cdRef = inject(ChangeDetectorRef);
 
@@ -53,8 +51,7 @@ export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implem
   @Input() public workPackage:WorkPackageResource;
 
   ngOnInit() {
-    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
-    this.workPackageId = (this.workPackage.id!) || workPackageId;
+    this.workPackageId = this.workPackage.id!;
 
     this
       .apiV3Service

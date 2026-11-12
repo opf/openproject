@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,7 +75,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::AuthenticationVali
 
       it { is_expected.to be_failure }
 
-      it "indicates that a connection error occured" do
+      it "indicates that a connection error occurred" do
         expect(validation_result[:user_bound_request].code).to eq(:xwiki_oauth_connection_error)
       end
     end
@@ -86,7 +85,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::AuthenticationVali
 
       it { is_expected.to be_failure }
 
-      it "indicates that an authorization error occured" do
+      it "indicates that an authorization error occurred" do
         expect(validation_result[:user_bound_request].code).to eq(:xwiki_oauth_unauthorized)
       end
     end
@@ -96,7 +95,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::AuthenticationVali
 
       it { is_expected.to be_failure }
 
-      it "indicates that an unexpected error occured" do
+      it "indicates that an unexpected error occurred" do
         expect(validation_result[:user_bound_request].code).to eq(:xwiki_oauth_request_error)
       end
     end
@@ -106,7 +105,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::AuthenticationVali
 
       it { is_expected.to be_failure }
 
-      it "indicates that an unexpected error occured" do
+      it "indicates that an unexpected error occurred" do
         expect(validation_result[:user_bound_request].code).to eq(:xwiki_oauth_request_error)
       end
     end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,40 +64,11 @@ module SettingsHelper
       end
   end
 
-  def settings_matrix(settings, choices, options = {})
-    content_tag(:table, class: "form--matrix") do
-      content_tag(:thead, build_settings_matrix_head(settings, options)) +
-        content_tag(:tbody, build_settings_matrix_body(settings, choices))
-    end
-  end
-
   def setting_text_field(setting, options = {})
     setting_field_wrapper(setting, options) do
       styled_text_field_tag("settings[#{setting}]",
                             Setting.send(setting),
                             disabled_setting_option(setting).merge(options))
-    end
-  end
-
-  def setting_url_field(setting, options = {})
-    setting_field_wrapper(setting, options) do
-      styled_url_field_tag("settings[#{setting}]",
-                           Setting.send(setting),
-                           disabled_setting_option(setting).merge(options))
-    end
-  end
-
-  def setting_number_field(setting, options = {})
-    setting_field_wrapper(setting, options) do
-      styled_number_field_tag("settings[#{setting}]",
-                              Setting.send(setting),
-                              disabled_setting_option(setting).merge(options))
-    end
-  end
-
-  def setting_time_field(setting, options = {})
-    setting_field_wrapper(setting, options) do
-      styled_time_field_tag("settings[#{setting}]", Setting.send(setting), options)
     end
   end
 
@@ -122,45 +92,6 @@ module SettingsHelper
       end
   end
 
-  def setting_text_area(setting, options = {})
-    setting_label(setting, options) +
-      wrap_field_outer(options) do
-        value = Setting.send(setting)
-
-        if value.is_a?(Array)
-          value = value.join("\n")
-        end
-
-        styled_text_area_tag("settings[#{setting}]",
-                             value,
-                             disabled_setting_option(setting).merge(options))
-      end
-  end
-
-  def setting_check_box(setting, options = {})
-    setting_label(setting, options) +
-      wrap_field_outer(options) do
-        hidden = with_empty_unless_writable(setting) do
-          tag(:input, type: "hidden", name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden")
-        end
-
-        hidden +
-          styled_check_box_tag("settings[#{setting}]",
-                               1,
-                               Setting.send(:"#{setting}?"),
-                               disabled_setting_option(setting).merge(options))
-      end
-  end
-
-  def setting_password(setting, options = {})
-    setting_label(setting, options) +
-      wrap_field_outer(options) do
-        styled_password_field_tag("settings[#{setting}]",
-                                  Setting.send(setting),
-                                  disabled_setting_option(setting).merge(options))
-      end
-  end
-
   def setting_label(setting, options = {})
     label = options[:label]
     return "" if label == false
@@ -169,10 +100,6 @@ module SettingsHelper
       "settings_#{setting}", options[:not_translated_label] || I18n.t(label || "setting_#{setting}"),
       options.slice(:title)
     )
-  end
-
-  def setting_block(setting, options = {}, &)
-    setting_label(setting, options) + wrap_field_outer(options, &)
   end
 
   def writable_setting?(setting)
@@ -187,52 +114,6 @@ module SettingsHelper
     else
       content_tag(:span, class: "form--field-container", &)
     end
-  end
-
-  def build_settings_matrix_head(settings, options = {})
-    content_tag(:tr, class: "form--matrix-header-row") do
-      content_tag(:th, I18n.t(options[:label_choices] || :label_choices),
-                  class: "form--matrix-header-cell") + build_settings_matrix_head_values(settings)
-    end
-  end
-
-  def build_settings_matrix_head_values(settings)
-    values = settings.map do |setting|
-      content_tag(:th, class: "form--matrix-header-cell") do
-        hidden_field_tag("settings[#{setting}][]", "") +
-          I18n.t("setting_#{setting}")
-      end
-    end
-
-    safe_join(values)
-  end
-
-  def build_settings_matrix_body(settings, choices)
-    body = choices.map do |choice|
-      value = choice[:value]
-      caption = choice[:caption] || value.to_s
-      exceptions = Array(choice[:except]).compact
-      content_tag(:tr, class: "form--matrix-row") do
-        content_tag(:td, caption, class: "form--matrix-cell") +
-          settings_matrix_tds(settings, exceptions, value)
-      end
-    end
-
-    safe_join(body)
-  end
-
-  def settings_matrix_tds(settings, exceptions, value)
-    tds = settings.map do |setting|
-      content_tag(:td, class: "form--matrix-checkbox-cell") do
-        unless exceptions.include?(setting)
-          styled_check_box_tag("settings[#{setting}][]", value,
-                               Setting.send(setting).include?(value),
-                               disabled_setting_option(setting).merge(id: "#{setting}_#{value}"))
-        end
-      end
-    end
-
-    safe_join(tds)
   end
 
   def setting_multiselect_choice(setting, choice, options) # rubocop:disable Metrics/AbcSize

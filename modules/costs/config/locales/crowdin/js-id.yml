@@ -23,10 +23,15 @@
 id:
   js:
     button_log_costs: Log biaya unit
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: jam
     label_hours: jam
-    myTimeTracking:
-      noSpecificTime: Tidak ada waktu khusus
     text_are_you_sure: Apakah anda yakin?
     work_packages:
       properties:

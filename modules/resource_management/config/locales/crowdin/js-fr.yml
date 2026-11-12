@@ -1,0 +1,11 @@
+---
+fr:
+  js:
+    button_allocate_resource: Allouer des ressources
+    resource_management:
+      create_placeholder_user: Créer un utilisateur fictif avec des critères de filtrage
+      hidden_user: Utilisateur masqué
+      my_time_management:
+        finish_by: Finish by %{date}
+        finish_today: Finish today
+      show_allocations: Afficher les affectations de ressources

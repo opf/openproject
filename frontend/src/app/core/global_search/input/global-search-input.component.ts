@@ -20,20 +20,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { first, map, switchMap, tap } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import {
-  Highlighting,
-} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { insideOrSelf } from 'core-app/shared/directives/focus/contain-helpers';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -56,24 +52,21 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { announce } from '@primer/live-region-element';
 import { NgOption } from '@ng-select/ng-select';
 
-interface SearchResultItem {
-  id:string;
-  subject:string;
-  status:string;
-  statusId:string;
-  href:string;
-  project:string;
-  author:HalResource;
-}
-
 interface SearchOptionItem {
   projectScope:string;
   text:string;
 }
 
-interface SearchResultItems {
-  items:SearchResultItem[]|SearchOptionItem[];
-  term:string;
+type GlobalSearchOption = WorkPackageResource|SearchOptionItem;
+
+function isSearchOption(item:unknown):item is SearchOptionItem {
+  return typeof item === 'object' && item !== null
+    && 'projectScope' in item && typeof item.projectScope === 'string'
+    && 'text' in item && typeof item.text === 'string';
+}
+
+function isWorkPackage(item:unknown):item is WorkPackageResource {
+  return item instanceof WorkPackageResource;
 }
 
 @Component({
@@ -106,7 +99,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('btn', { static: true }) btn:ElementRef<HTMLButtonElement>;
 
-  @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
+  @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent<GlobalSearchOption>;
 
   public expanded = false;
 
@@ -127,11 +120,11 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     map((items) => (items.length > 0)),
   );
 
-  getAutocompleterData = ():Observable<unknown[]> => this.autocompleteWorkPackages();
+  getAutocompleterData = ():Observable<GlobalSearchOption[]> => this.autocompleteWorkPackages();
 
   public autocompleterOptions = {
     filters: [],
-    resource: 'work_packages',
+    resource: 'work_packages' as const,
     searchKey: 'subjectOrId',
     getOptionsFn: this.getAutocompleterData,
   };
@@ -139,7 +132,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
    * */
-  public selectedItem:WorkPackageResource|SearchOptionItem|undefined = undefined;
+  public selectedItem:GlobalSearchOption|undefined = undefined;
 
   /** Remember the current value */
   public currentValue = '';
@@ -231,11 +224,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return this.pathHelperService.workPackagePath(id);
   }
 
-  public highlighting(property:string, id:string):string {
-    return Highlighting.inlineClass(property, id);
-  }
-
-  public search(_$event:SearchResultItems):void {
+  public search():void {
     this.currentValue = this.searchTerm;
   }
 
@@ -283,16 +272,16 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public statusHighlighting(statusId:string):string {
-    return Highlighting.inlineClass('status', statusId);
-  }
-
-  public followItem(item:WorkPackageResource|SearchOptionItem|undefined):void {
-    this.selectedItem = item;
-    if (item instanceof WorkPackageResource) {
+  public followItem(item:unknown):void {
+    if (Array.isArray(item)) { return; }
+    if (isWorkPackage(item)) {
+      this.selectedItem = item;
       window.location.href = this.wpPath(item.displayId);
-    } else if (item) {
+    } else if (isSearchOption(item)) {
+      this.selectedItem = item;
       this.searchInScope(item.projectScope);
+    } else {
+      this.selectedItem = undefined;
     }
   }
 
@@ -303,9 +292,14 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   // return all project scope items and all items which contain the search term
-  public customSearchFn(term:string, item:SearchResultItem):boolean {
-    return item.id === undefined || item.subject.toLowerCase().includes(term.toLowerCase());
+  public customSearchFn(term:string, item:unknown):boolean {
+    return isSearchOption(item)
+      || (isWorkPackage(item) && item.subject.toLowerCase().includes(term.toLowerCase()));
   }
+
+  protected readonly isSearchOption = isSearchOption;
+
+  protected readonly isWorkPackage = isWorkPackage;
 
   private autocompleteWorkPackages():Observable<(WorkPackageResource|SearchOptionItem)[]> {
     // ng-select v21 initializes _searchTerm as null (signal). Treat null as '' so that
@@ -388,7 +382,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {
     const searchOptions = this.detailedSearchOptions();
     // If we have a direct hit, we choose it to be the selected element.
-    this.selectedItem = results.find((wp) => wp.id?.toString() === query) || searchOptions[0];
+    this.selectedItem = results.find((wp) => wp.id?.toString() === query) ?? searchOptions[0];
 
     if (this.selectedItem instanceof WorkPackageResource) {
       void announce(this.I18n.t('js.global_search.direct_hit_available'), { politeness: 'polite' });
@@ -406,7 +400,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   // set the possible 'search in scope' options for the current project path
-  private detailedSearchOptions():{ projectScope:string; text:string }[] {
+  private detailedSearchOptions():SearchOptionItem[] {
     const searchOptions = [];
     // add all options when searching within a project
     // otherwise search in 'all projects'
@@ -445,7 +439,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
    * to mark a direct hit, nor does it reset after a search. We handle this then by selecting the desired element once the
    * search results are back. We then set the marked option to be the selected option.
    *
-   * In order to avoid flickering, a -markable modifyer class is unset/set before/after searching. This will unset the background until we
+   * In order to avoid flickering, a -markable modifier class is unset/set before/after searching. This will unset the background until we
    * have marked the element we wish to.
    */
   private setMarkedOption():void {
@@ -484,7 +478,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private get currentScope():string {
     const params = new URLSearchParams(window.location.search);
-    const serviceScope = params.get('scope') || '';
+    const serviceScope = params.get('scope') ?? '';
     return (serviceScope === '') ? 'current_project_and_all_descendants' : serviceScope;
   }
 

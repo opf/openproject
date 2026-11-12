@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,11 +58,10 @@ RSpec.describe "Quarantined attachments", :js do
       accept_confirm do
         click_link I18n.t("antivirus_scan.quarantined_attachments.delete")
       end
-
-      expect { quarantined_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    expect(page).to have_no_text "other-1.txt"
+    expect(page).to have_no_css("#quarantined_attachment_#{quarantined_attachment.id}")
+    expect { quarantined_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     expect(page).to have_text "other-2.txt"
   end
 end

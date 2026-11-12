@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,7 @@ RSpec.describe "Team planner add existing work packages",
                :selenium do
   include_context "with team planner full access"
 
-  let(:closed_status) { create(:status, is_closed: true) }
+  let(:closed_status) { create(:status, category: "closed") }
   let(:start_of_week) { Time.zone.today.beginning_of_week(:sunday) }
 
   let!(:other_user) do
@@ -117,6 +116,15 @@ RSpec.describe "Team planner add existing work packages",
       end
     end
 
+    it "names the toolbar buttons" do
+      expect(page).to have_button(accessible_name: "Add existing",
+                                  exact: true,
+                                  accessible_description: "Add existing work packages")
+      expect(page).to have_button(accessible_name: "Work week", exact: true)
+      expect(page).to be_axe_clean.within(".op-team-planner--add-existing-toggle",
+                                          ".op-team-planner--view-select-dropdown")
+    end
+
     it "allows to click cards to open split view when open" do
       # Search for a work package
       add_existing_pane.search "Task"
@@ -129,7 +137,7 @@ RSpec.describe "Team planner add existing work packages",
 
       # Select work package in add existing
       add_existing_pane.card(second_wp).click
-      split_screen = Pages::SplitWorkPackage.new second_wp
+      split_screen = Pages::PrimerizedSplitWorkPackage.new second_wp
       # Wait for navigation to complete before checking the split panel DOM
       expect(page).to have_current_path /\/details\/#{second_wp.id}/
       split_screen.expect_subject

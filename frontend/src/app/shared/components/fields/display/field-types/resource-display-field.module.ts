@@ -20,19 +20,33 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  isUndisclosed,
+  undisclosedValueNode,
+} from 'core-app/shared/components/fields/display/field-types/undisclosed-value';
 
 export class ResourceDisplayField extends DisplayField {
   public get value() {
     if (this.schema) {
-      return this.attribute?.name;
+      return (this.attribute as HalResource|null|undefined)?.name;
     }
     return null;
+  }
+
+  public render(element:HTMLElement, displayText:string, options:Record<string, unknown> = {}):void {
+    if (isUndisclosed(this.attribute as HalResource|null|undefined)) {
+      element.innerHTML = '';
+      element.appendChild(undisclosedValueNode(displayText));
+      return;
+    }
+
+    super.render(element, displayText, options);
   }
 }

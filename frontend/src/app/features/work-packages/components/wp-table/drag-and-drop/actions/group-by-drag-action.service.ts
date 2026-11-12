@@ -20,38 +20,34 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
+import { PreparedTableDragAction, TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { rowGroupClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
 import { locatePredecessorBySelector } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { groupIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { lazyInject } from 'core-app/shared/helpers/angular/lazy-inject';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 export class GroupByDragActionService extends TableDragActionService {
-  @LazyInject() wpTableGroupBy:WorkPackageViewGroupByService;
+  readonly wpTableGroupBy = lazyInject(WorkPackageViewGroupByService, { injector: () => this.injector });
 
-  @LazyInject() halEditing:HalResourceEditingService;
+  readonly halEditing = lazyInject(HalResourceEditingService, { injector: () => this.injector });
 
-  @LazyInject() halEvents:HalEventsService;
+  readonly halEvents = lazyInject(HalEventsService, { injector: () => this.injector });
 
-  @LazyInject() halNotification:HalResourceNotificationService;
-
-  @LazyInject() schemaCache:SchemaCacheService;
+  readonly schemaCache = lazyInject(SchemaCacheService, { injector: () => this.injector });
 
   public get applies() {
-    return this.wpTableGroupBy.isEnabled;
+    return this.wpTableGroupBy().isEnabled;
   }
 
   /**
@@ -59,18 +55,23 @@ export class GroupByDragActionService extends TableDragActionService {
    */
   public canPickup(workPackage:WorkPackageResource):boolean {
     const attribute = this.groupedAttribute;
-    return attribute !== null && this.schemaCache.of(workPackage).isAttributeEditable(attribute);
+    return attribute !== null && this.schemaCache().of(workPackage).isAttributeEditable(attribute);
   }
 
-  public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    const changeset = this.halEditing.changeFor(workPackage);
-    const groupedValue = this.getValueForGroup(workPackage, el);
-
-    changeset.projectedResource[this.groupedAttribute!] = groupedValue;
-    return this.halEditing
-      .save(changeset)
-      .then((saved) => this.halEvents.push(saved.resource, { eventType: 'updated' }))
-      .catch((e) => this.halNotification.handleRawError(e, workPackage));
+  public prepareDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<PreparedTableDragAction> {
+    const attribute = this.groupedAttribute;
+    if (!attribute) throw new Error('Missing grouped attribute');
+    const value = this.getValueForGroup(workPackage, el);
+    const editing = this.halEditing();
+    const events = this.halEvents();
+    return Promise.resolve({
+      persist: async () => {
+        const changeset = editing.changeFor(workPackage);
+        changeset.projectedResource[attribute] = value;
+        const saved = await editing.save(changeset);
+        events.push(saved.resource, { eventType: 'updated' });
+      },
+    });
   }
 
   private getValueForGroup(workPackage:WorkPackageResource, el:HTMLElement):unknown {
@@ -83,8 +84,8 @@ export class GroupByDragActionService extends TableDragActionService {
 
     if (match._links?.valueLink) {
       const links = match._links.valueLink;
-      const schema = this.schemaCache.state(workPackage).value;
-      const fieldSchema = schema && this.schemaCache.proxied(workPackage, schema).ofProperty(this.groupedAttribute!);
+      const schema = this.schemaCache().state(workPackage).value;
+      const fieldSchema = schema && this.schemaCache().proxied(workPackage, schema).ofProperty(this.groupedAttribute!);
 
       if (fieldSchema?.type?.startsWith('[]')) {
         return links;
@@ -100,7 +101,7 @@ export class GroupByDragActionService extends TableDragActionService {
    * Get the attribute we're grouping by
    */
   private get groupedAttribute():string|null {
-    const { current } = this.wpTableGroupBy;
+    const { current } = this.wpTableGroupBy();
     return current ? current.id : null;
   }
 

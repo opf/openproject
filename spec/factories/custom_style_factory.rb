@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,22 @@ FactoryBot.define do
 
   factory :custom_style_with_logo, class: "CustomStyle" do
     logo do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+      )
+    end
+  end
+
+  factory :custom_style_with_logo_dark, class: "CustomStyle" do
+    logo_dark do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+      )
+    end
+  end
+
+  factory :custom_style_with_logo_light_high_contrast, class: "CustomStyle" do
+    logo_light_high_contrast do
       Rack::Test::UploadedFile.new(
         Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
       )
@@ -113,6 +128,22 @@ FactoryBot.define do
 
   factory :custom_style_with_logo_mobile, class: "CustomStyle" do
     logo_mobile do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+      )
+    end
+  end
+
+  factory :custom_style_with_logo_mobile_dark, class: "CustomStyle" do
+    logo_mobile_dark do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+      )
+    end
+  end
+
+  factory :custom_style_with_logo_mobile_light_high_contrast, class: "CustomStyle" do
+    logo_mobile_light_high_contrast do
       Rack::Test::UploadedFile.new(
         Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
       )

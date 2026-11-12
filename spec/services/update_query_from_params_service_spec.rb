@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -93,11 +92,28 @@ RSpec.describe UpdateQueryFromParamsService,
                       { field: "target_version_id", operator: "=", values: ["2"] }] }
         end
 
-        it "sets the available one once" do
+        it "sets the available one once with the later entry's values" do
           subject
 
           expect(query.filters.map(&:name))
             .to eql([:target_version_id])
+          expect(query.filters[0].values)
+            .to eql(["2"])
+        end
+      end
+
+      context "for both interchangeable version filters with multiple versions inactive",
+              with_settings: { work_package_multiple_versions: false } do
+        let(:params) do
+          { filters: [{ field: "version_id", operator: "=", values: ["1"] },
+                      { field: "target_version_id", operator: "=", values: ["2"] }] }
+        end
+
+        it "sets the available one once with the later entry's values" do
+          subject
+
+          expect(query.filters.map(&:name))
+            .to eql([:version_id])
           expect(query.filters[0].values)
             .to eql(["2"])
         end

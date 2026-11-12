@@ -6,6 +6,7 @@ allOf:
     required:
       - _type
       - location
+      - permissions
       - _links
     properties:
       _type:
@@ -15,6 +16,14 @@ allOf:
       location:
         type: string
         description: Location identification for file in storage
+      permissions:
+        type: array
+        items:
+          type: string
+          enum:
+            - readable
+            - writable
+        description: List of permissions for the authenticated user.
       _links:
         type: object
         required:
@@ -24,14 +33,6 @@ allOf:
             allOf:
               - $ref: './link.yml'
               - description: |-
-                  Not provided
+                  This storage file
 
-                  **Resource**: urn:openproject-org:api:v3:storages:storage_file:no_link_provided
-example:
-  id: "42"
-  name: readme.md
-  _type: StorageFile
-  location: '/readme.md'
-  _links:
-    self:
-      href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
+                  **Resource**: StorageFile

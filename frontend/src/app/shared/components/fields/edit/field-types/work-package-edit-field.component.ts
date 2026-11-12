@@ -20,14 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import {
   DebouncedRequestSwitchmap,
   errorNotificationHandler,
@@ -72,11 +72,10 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
 
   protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
     if (this.name === 'parent') {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-      return this.schema.allowedValues.$link.$fetch({
+      return (this.schema.allowedValues as CallableHalLink).$link.$fetch<CollectionResource>({
         query,
         sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
-      }) as Promise<CollectionResource>;
+      });
     }
 
     return super.fetchAllowedValueQuery(query);

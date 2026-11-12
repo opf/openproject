@@ -61,7 +61,7 @@ cs:
         item_2:
           name: Manažeři BIM
         item_3:
-          name: BIM modeláři
+          name: BIM Modelers
         item_4:
           name: Hlavní koordinátoři BIM
         item_5:
@@ -501,17 +501,17 @@ cs:
               description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
               children:
                 item_0:
-                  subject: Modelování počátečního modelu BIM
+                  subject: Modeling initial BIM model
                   description: |-
                     # Goal
 
-                    *   Modelling the initial BIM model
+                    *   Modeling the initial BIM model
                     *   Creating a BIM model for the whole project team
 
                     # Description
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: Poćáteční, interní kontrola modelu a revize
@@ -528,7 +528,7 @@ cs:
                   subject: Odesílání počátečního modelu BIM
                   description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
             item_4:
-              subject: Modelování, první cyklus
+              subject: Modeling, first cycle
               description: Tento typ je hierarchicky nadřazený typům &quot;Clash&quot; a &quot;Request&quot;, představuje tedy obecnou poznámku.
               children:
                 item_0:
@@ -541,10 +541,10 @@ cs:
 
                     # Description
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: Modelování modelu BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # Goal
 
@@ -592,19 +592,19 @@ cs:
                   subject: Dokončování koordinace, první cyklus
                   description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
             item_6:
-              subject: Modelování a koordinace, druhý cyklus
+              subject: Modeling & coordinating, second cycle
               description: "## Cíl\r\n\r\n*   ...\r\n\r\n## Popis\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelování a koordinace, ... cyklus
+              subject: Modeling & coordinating, ... cycle
               description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
             item_8:
-              subject: Modelování a koordinace (n-tého -1)  cyklu
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Cíl\r\n\r\n*   ...\r\n\r\n## Popis\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelování a koordinace n-tého cyklu
+              subject: Modeling & coordinating n-th cycle
               description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
             item_10:
-              subject: Modelování a koordinace n-tého cyklu
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
             item_11:
               subject: Použití modelu pro fázi výstavby

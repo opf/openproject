@@ -1,3 +1,10 @@
+<% user = local_assigns.fetch(:user, @user) %>
 <% if User.current.admin? %>
-  <%= render(Avatars::FormSectionComponent.new(user:, target_avatar_path: edit_user_avatar_path(user))) %>
+  <%= render(
+        Avatars::FormSectionComponent.new(
+          principal: user,
+          target_avatar_path: edit_user_avatar_path(user),
+          avatar_settings_path: update_settings_edit_user_avatar_path(user)
+        )
+      ) %>
 <% end %>

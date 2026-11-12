@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,7 @@ RSpec.describe ScimClients::DeleteService, type: :model do
   let(:user) { build_stubbed(:admin) }
   let!(:scim_client) do
     # loading the freshly created client from the database, so that associations are not preloaded
-    # (because this leads to different behaviour after destroy)
+    # (because this leads to different behavior after destroy)
     ScimClient.find(create(:scim_client, service_account:).id)
   end
   let(:service_account) { create(:service_account, authentication_provider: create(:oidc_provider)) }

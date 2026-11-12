@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,7 +76,6 @@ module Projects
       attributes = source_attributes.merge(
         # Clear enabled modules
         enabled_module_names: source_enabled_modules,
-        work_package_custom_fields: source_custom_fields,
 
         # clear PIR settings
         project_creation_wizard_artifact_work_package_id: nil
@@ -91,15 +89,26 @@ module Projects
         .merge(target_project_params)
     end
 
+    # We need to reference the project instance
+    # before the contract validates it (to set/copy a variant)
+    # so we store it in the state.
+    def instance(_params)
+      state.project = super
+    end
+
     def before_perform(service_call)
       super.tap do |super_call|
         # Retain values after the set attributes service
         retain_attributes(source, super_call.result)
-
-        # Retain the project in the state for other dependent
-        # copy services to use
-        state.project = super_call.result
       end
+    end
+
+    # The restrictions have to exist before the work packages are copied, as copying drops the
+    # custom values that are not usable in the copy.
+    def after_persist(call)
+      copy_custom_field_value_restrictions(call.result) if call.result&.persisted?
+
+      super
     end
 
     def after_perform(call)
@@ -117,6 +126,14 @@ module Projects
 
     def copy_activated_custom_fields(call)
       call.result.project_custom_field_ids = source.project_custom_field_ids
+    end
+
+    def copy_custom_field_value_restrictions(project)
+      rows = source.custom_field_value_restrictions.map do |restriction|
+        restriction.slice(:custom_field_id, :restriction, :custom_option_id, :hierarchy_item_id).merge(project_id: project.id)
+      end
+
+      CustomField::ProjectSpecificValueRestriction.insert_all(rows) if rows.any?
     end
 
     # Activating a custom field on the copy must not silently enable it for
@@ -157,11 +174,22 @@ module Projects
     end
 
     def source_project_types_attribute
-      { project_types: source.project_types.map(&:dup) }
+      {
+        project_types: source.project_types.map { copied_project_type(it) }
+      }
     end
 
-    def source_custom_fields
-      source.work_package_custom_fields
+    ##
+    # If we copy a project type with a variant that is project-specific
+    # we need to also copy the variant itself, otherwise, this will result in a validation error.
+    def copied_project_type(project_type)
+      variant = project_type.variant
+
+      project_type.dup.tap { it.variant = duplicate_variant(variant) if variant.project_owned? }
+    end
+
+    def duplicate_variant(variant)
+      variant.dup.tap { it.project = state.project }
     end
 
     def source_custom_field_attributes

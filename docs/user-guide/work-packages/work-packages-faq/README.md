@@ -71,7 +71,7 @@ One possible solution: If you receive this error message when trying to create a
 
 ### How can I change the order of the activities/comments in the Activity tab of a work package?
 
-You can change this in your account settings. Please find out more [here](../../account-settings/interface/#change-the-order-to-display-comments).
+You can change this in your account settings. Please find out more [here](../../account-settings/interface/#change-the-order-in-which-comments-are-displayed).
 
 ### Why are changes on parent work packages which are triggered by making changes to a child work package not aggregated?
 

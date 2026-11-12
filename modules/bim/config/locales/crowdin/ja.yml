@@ -102,7 +102,7 @@ ja:
     not_recommended: 非推奨
     recommended: 推奨
     x_bcf_issues:
-      one: 1 件の BCF チケット
+      one: "%{count} BCF issue"
       other: "%{count} 件 BCF チケット"
       zero: BCF チケットがありません
   bim:
@@ -140,8 +140,10 @@ ja:
       processing_default: 以下のデフォルトIFCモデルは処理中のため利用できません。
   oauth:
     scopes:
-      bcf_v2_1: BCF v2.1 API へのフルアクセス
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: アプリケーションは、あなたに代わってアクションを実行するためにOpenProjectのBCF API v2.1への完全な読み取りおよび書き込みアクセスを受け取ります。
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: BCFチケットの削除
   permission_manage_bcf: BCF チケットのインポートと管理
   permission_manage_bcf_explanation: |

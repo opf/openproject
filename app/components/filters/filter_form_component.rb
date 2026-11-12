@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@
 #     <%= render(Filters::FilterFormComponent.new(builder: f, query: @query)) %>
 #   <% end %>
 #
-# Customise the set of advertised filters by passing `allowed_filters:` (used
+# Customize the set of advertised filters by passing `allowed_filters:` (used
 # by `Filter::FilterComponent` subclasses that restrict or reorder the list).
 # To keep the default set but drop a few entries, pass `excluded_filters:` a
 # list of filter names (e.g. `%i[project_id]`); they are removed from the
@@ -78,6 +77,11 @@
 # embedded in a Primer dialog so the overlays the filter inputs open (ng-select
 # dropdowns and flatpickr calendars) are portalled into the dialog instead of
 # being clipped by it or rendered behind it.
+#
+# The inputs are capped at a readable width by default. Pass `full_width: true`
+# where they should instead stretch to the full width of whatever contains the
+# component. Only meaningful together with `wrap_with_controller: true`; without
+# it the host's wrapper decides.
 class Filters::FilterFormComponent < ApplicationComponent
   include OpPrimer::AttributesHelper
   include Primer::FetchOrFallbackHelper
@@ -97,6 +101,7 @@ class Filters::FilterFormComponent < ApplicationComponent
                  hidden_input_name: nil,
                  output_format: nil,
                  dialog_id: nil,
+                 full_width: false,
                  **wrapper_arguments)
     super()
     @builder = builder
@@ -110,6 +115,7 @@ class Filters::FilterFormComponent < ApplicationComponent
     @wrapper_arguments[:tag] ||= :div
     @wrapper_arguments[:classes] = class_names(
       "op-filters-form -expanded",
+      ("op-filters-form--full-width" if full_width),
       @wrapper_arguments[:classes]
     )
     @wrapper_arguments[:data] = merge_data(
@@ -189,8 +195,10 @@ class Filters::FilterFormComponent < ApplicationComponent
       Filters::Inputs::AutocompleteForm
     elsif filter.type.in? %i[list list_optional list_all]
       Filters::Inputs::ListForm
-    elsif filter.type.in? %i[datetime_past date]
+    elsif filter.type == :date
       Filters::Inputs::DateForm
+    elsif filter.type.in? %i[datetime_past datetime]
+      Filters::Inputs::DateTimeForm
     else
       Filters::Inputs::TextForm
     end

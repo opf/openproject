@@ -1,10 +1,18 @@
-/* -- copyright
-// OpenProject My Project Page Plugin
-//
+//-- copyright
+// OpenProject is an open source project management software.
 // Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -12,27 +20,27 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
-// See doc/COPYRIGHT.md for more details.
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
-#content,
-.login-auth-providers a.auth-provider
-  background-repeat: no-repeat
-  background-size: 18px 18px
-  background-position-x: 8px
-  background-position-y: center
-  background-color: var(--body-background)
+.login-auth-providers .auth-provider-icon
+  width: 18px
+  height: 18px
+  margin-right: var(--base-size-8)
+  vertical-align: text-bottom
 
-.login-auth-providers a.auth-provider
-  padding: 9px 12px 9px 12px
+// Primer sizes buttons to `min-width: max-content`, so a long provider name
+// widens the whole login box instead of being cut off.
+.auth-provider.Button,
+.auth-provider .Button-content,
+.auth-provider .Button-label
+  min-width: 0
 
-  &.auth-provider--imaged
-    padding-left: 2rem
+.auth-provider .Button-content
+  flex: 1 1 auto
 
-  &.auth-provider-google,
-  &.auth-provider-azure,
-  &.auth-provider-heroku
-    padding-left: 34px
-
+.auth-provider .Button-label
+  overflow: hidden
+  text-overflow: ellipsis

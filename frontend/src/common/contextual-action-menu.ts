@@ -20,14 +20,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
+
+export type ActionMenuAlign = 'start'|'end';
 
 // A context menu conventionally grows down and to the right of its invocation
 // point. The pair is also what makes the pointer offsets below mean what they
@@ -43,6 +44,15 @@ interface OverlayState {
   align:string|null;
   side:string|null;
   alignmentOffset:string|null;
+  allowOutOfBounds:boolean;
+}
+
+interface PointerTarget {
+  clientX:number;
+  clientY:number;
+  anchor:HTMLElement;
+  /** Where `fitToPointer` put the menu, relative to the anchor's left and bottom edges. */
+  fitted?:{ left:number; top:number };
 }
 
 function restoreAttribute(element:Element, name:string, value:string|null):void {
@@ -81,8 +91,10 @@ function clearAnchorOffset(overlay:AnchoredPositionElement):void {
  */
 export class ContextualActionMenu {
   private savedState?:OverlayState;
+  private pointer?:PointerTarget;
   private returnFocusTo?:HTMLElement;
   private closeListener?:(event:Event) => void;
+  private refit?:AbortController;
 
   constructor(private readonly menu:ActionMenuElement) {}
 
@@ -101,8 +113,11 @@ export class ContextualActionMenu {
     }
 
     this.saveOverlayState(overlay);
+    this.pointer = { clientX, clientY, anchor: invoker };
     this.anchorAtPoint(overlay, invoker, clientX, clientY);
     this.show(overlay, popover, invoker);
+    this.fitToPointer(overlay);
+    this.keepInViewport(overlay);
   }
 
   /**
@@ -127,6 +142,31 @@ export class ContextualActionMenu {
       overlay.update();
     }
 
+    this.show(overlay, popover, returnFocusTo);
+  }
+
+  /**
+   * Opens the menu anchored on an element other than its own show button, with
+   * the given alignment: a trigger that is a real button, or a focused cell.
+   * The anchoring is borrowed like a pointer open and restored on close.
+   */
+  openAtAnchor(anchor:HTMLElement, options:{ align:ActionMenuAlign }, returnFocusTo:HTMLElement = anchor):void {
+    const overlay = this.overlay;
+    const popover = this.menu.popoverElement;
+    if (!overlay || !popover) {
+      return;
+    }
+
+    this.stopFittingPointer();
+    this.saveOverlayState(overlay);
+    overlay.anchorElement = anchor;
+    overlay.removeAttribute('anchor');
+    overlay.setAttribute('align', options.align);
+    overlay.setAttribute('side', CONTEXTUAL_SIDE);
+    overlay.removeAttribute('alignment-offset');
+    clearAnchorOffset(overlay);
+    overlay.toggleAttribute('allow-out-of-bounds', this.savedState?.allowOutOfBounds ?? false);
+    overlay.update();
     this.show(overlay, popover, returnFocusTo);
   }
 
@@ -189,11 +229,89 @@ export class ContextualActionMenu {
     overlay.removeAttribute('anchor');
     overlay.setAttribute('align', CONTEXTUAL_ALIGN);
     overlay.setAttribute('side', CONTEXTUAL_SIDE);
+    // The offsets only mean "the pointer" for this one side/align pair. When
+    // the menu does not fit, Primer's `getAnchoredPosition` would walk to its
+    // alternate sides and apply the same offsets on the other axis (a menu
+    // opening to the right of the row with its top clamped). Opting out of
+    // that walk leaves fitting the pointer to `fitToPointer`.
+    overlay.setAttribute('allow-out-of-bounds', '');
     overlay.setAttribute('alignment-offset', `${clientX - anchorRect.left}`);
     setAnchorOffset(overlay, clientY - anchorRect.bottom);
     // Setting anchorElement is a property write, so it does not run the
     // element's attributeChangedCallback; ask for a reposition explicitly.
     overlay.update();
+  }
+
+  /**
+   * Moves the target point so the menu stays in the viewport: at the pointer
+   * when it fits, above or to the left of it when that fits instead, pinned to
+   * the viewport edge when neither does. Needs the popover shown, so that it
+   * has a size; the position itself is written by Primer a frame later.
+   */
+  private fitToPointer(overlay:AnchoredPositionElement):void {
+    const pointer = this.pointer;
+    if (!pointer) {
+      return;
+    }
+
+    const { clientX, clientY, anchor } = pointer;
+    const { width, height } = overlay.getBoundingClientRect();
+    const view = overlay.ownerDocument.defaultView ?? window;
+    const anchorRect = anchor.getBoundingClientRect();
+
+    let left = clientX;
+    if (clientX + width > view.innerWidth) {
+      left = clientX - width;
+    }
+
+    let top = clientY;
+    if (clientY + height > view.innerHeight) {
+      top = clientY - height >= 0 ? clientY - height : view.innerHeight - height;
+    }
+
+    pointer.fitted = { left: left - anchorRect.left, top: top - anchorRect.bottom };
+    this.placeWithinViewport(overlay);
+  }
+
+  /**
+   * Keeps the fitted menu on its anchor as the page scrolls, as Primer would,
+   * but stops it at the viewport edge: `allow-out-of-bounds` switched off
+   * Primer's own correction.
+   */
+  private placeWithinViewport(overlay:AnchoredPositionElement):void {
+    const fitted = this.pointer?.fitted;
+    if (!fitted || !this.pointer) {
+      return;
+    }
+
+    const { width, height } = overlay.getBoundingClientRect();
+    const view = overlay.ownerDocument.defaultView ?? window;
+    const anchorRect = this.pointer.anchor.getBoundingClientRect();
+    const left = Math.max(0, Math.min(anchorRect.left + fitted.left, view.innerWidth - width));
+    const top = Math.max(0, Math.min(anchorRect.bottom + fitted.top, view.innerHeight - height));
+
+    overlay.setAttribute('alignment-offset', `${left - anchorRect.left}`);
+    setAnchorOffset(overlay, top - anchorRect.bottom);
+    overlay.update();
+  }
+
+  private keepInViewport(overlay:AnchoredPositionElement):void {
+    this.refit?.abort();
+    this.refit = new AbortController();
+    const { signal } = this.refit;
+    const refit = () => this.fitToPointer(overlay);
+    const observer = new ResizeObserver(refit);
+    observer.observe(overlay);
+    signal.addEventListener('abort', () => observer.disconnect(), { once: true });
+    const view = overlay.ownerDocument.defaultView ?? window;
+    view.addEventListener('resize', refit, { signal });
+    view.addEventListener('scroll', () => this.placeWithinViewport(overlay), { signal, capture: true, passive: true });
+  }
+
+  private stopFittingPointer():void {
+    this.pointer = undefined;
+    this.refit?.abort();
+    this.refit = undefined;
   }
 
   private saveOverlayState(overlay:AnchoredPositionElement):void {
@@ -206,6 +324,7 @@ export class ContextualActionMenu {
       align: overlay.getAttribute('align'),
       side: overlay.getAttribute('side'),
       alignmentOffset: overlay.getAttribute('alignment-offset'),
+      allowOutOfBounds: overlay.hasAttribute('allow-out-of-bounds'),
     };
   }
 
@@ -213,6 +332,7 @@ export class ContextualActionMenu {
   private restoreOverlayState(overlay:AnchoredPositionElement):boolean {
     const state = this.savedState;
     this.savedState = undefined;
+    this.stopFittingPointer();
     if (!state) {
       return false;
     }
@@ -228,6 +348,7 @@ export class ContextualActionMenu {
     restoreAttribute(overlay, 'align', state.align);
     restoreAttribute(overlay, 'side', state.side);
     restoreAttribute(overlay, 'alignment-offset', state.alignmentOffset);
+    overlay.toggleAttribute('allow-out-of-bounds', state.allowOutOfBounds);
 
     return true;
   }
@@ -289,5 +410,91 @@ export class ContextualActionMenu {
         returnFocusTo.focus();
       }
     });
+  }
+}
+
+/**
+ * Opens a contextual menu on the pointer release that ends a right-click,
+ * never on the `contextmenu` event itself.
+ *
+ * Chrome light-dismisses a `popover="auto"` opened while the right-click
+ * gesture is still in flight: the trailing pointerup lands outside the freshly
+ * opened popover, counts as an outside click, and closes it again within the
+ * same gesture. A timer does not fix it — Chrome 150 runs a setTimeout(0)
+ * scheduled at contextmenu time several milliseconds *before* it dispatches
+ * the gesture's own pointerup — so the open is keyed off the real release.
+ *
+ * The two platform orderings need opposite treatment, and `pointerIsDown` is
+ * what tells them apart without sniffing the platform:
+ *   * macOS/Chrome fires contextmenu at mousedown time. The release is still
+ *     pending, so the open has to wait for it.
+ *   * Windows/Linux fire contextmenu at mouseup time. The release has already
+ *     landed and no further one is coming, so opening now is both correct and
+ *     necessary — waiting would hang forever.
+ *
+ * Fed by `press()` from `pointerdown` as well as `mousedown` because Chrome
+ * emits no `mousedown` before a long-press contextmenu, and released from the
+ * document in capture phase because a native HTML5 drag ends in `dragend`,
+ * not `mouseup`.
+ */
+export class PointerReleaseGate {
+  private down = false;
+  private pendingOpen?:AbortController;
+
+  constructor(private readonly doc:Document, private readonly signal:AbortSignal) {
+    const release = ():void => { this.down = false; };
+    doc.addEventListener('pointerup', release, { capture: true, signal });
+    doc.addEventListener('mouseup', release, { capture: true, signal });
+    signal.addEventListener('abort', () => this.cancelPendingOpen(), { once: true });
+  }
+
+  get pointerIsDown():boolean {
+    return this.down;
+  }
+
+  /** A press on the gated element: the pointer is now held. */
+  press():void {
+    this.down = true;
+  }
+
+  /**
+   * Runs `openMenu` from the pointer release that ends the current gesture.
+   * A second call while one open waits retires it, so the release opens the
+   * menu once, at the latest invocation's position.
+   */
+  openOnRelease(openMenu:() => void):void {
+    this.cancelPendingOpen();
+    if (this.signal.aborted) {
+      return;
+    }
+
+    const pending = new AbortController();
+    this.pendingOpen = pending;
+    const { signal } = pending;
+
+    const open = ():void => {
+      this.cancelPendingOpen();
+      if (this.signal.aborted) {
+        return;
+      }
+      openMenu();
+    };
+    const cancel = ():void => this.cancelPendingOpen();
+
+    // On the document, capture phase: the release opens the menu wherever it
+    // lands (the pointer may have left the element while the button was held)
+    // and before anything else reacts to it.
+    this.doc.addEventListener('pointerup', open, { capture: true, signal });
+    this.doc.addEventListener('mouseup', open, { capture: true, signal });
+    // Should the release never arrive — pointer left the window, gesture
+    // cancelled — the next gesture's own press retires the pending open, so it
+    // cannot survive into some later, unrelated click.
+    this.doc.addEventListener('pointerdown', cancel, { capture: true, signal });
+    this.doc.addEventListener('pointercancel', cancel, { capture: true, signal });
+  }
+
+  cancelPendingOpen():void {
+    this.pendingOpen?.abort();
+    this.pendingOpen = undefined;
   }
 }

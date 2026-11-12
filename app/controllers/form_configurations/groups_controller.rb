@@ -1,0 +1,295 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module FormConfigurations
+  class GroupsController < ApplicationController
+    include TypesHelper
+    include OpTurbo::ComponentStream
+    include FormConfigurations::EditorRecords
+    include WorkPackageTypes::FormConfigurationComponentStreams
+
+    before_action :require_admin
+    before_action :load_form_configuration
+    before_action :reconcile_editor_records
+
+    TEMPORARY_GROUP_KEY = "__new_form_configuration_group__"
+
+    def edit
+      update_main_content_via_turbo_stream(editing_group_key: group_key_param)
+
+      respond_with_turbo_streams
+    end
+
+    def add_group
+      render_temporary_group_editor
+
+      respond_with_turbo_streams
+    end
+
+    def create
+      call = create_group_call
+
+      if call.success?
+        update_form_configuration_via_turbo_stream
+      else
+        render_create_error(call)
+      end
+
+      respond_with_turbo_streams(status: turbo_status_for(call))
+    end
+
+    def cancel_edit
+      if temporary_group_key?(group_key_param)
+        update_form_configuration_via_turbo_stream
+        respond_with_turbo_streams
+        return
+      end
+
+      group = find_group(group_key_param)
+      return head :not_found if group.nil?
+
+      update_main_content_via_turbo_stream
+      respond_with_turbo_streams
+    end
+
+    def update
+      call = rename_group_call
+
+      if call.success?
+        update_form_configuration_via_turbo_stream
+      else
+        render_existing_group_update_error(call)
+      end
+
+      respond_with_turbo_streams(status: turbo_status_for(call))
+    end
+
+    def destroy
+      call = ::WorkPackageTypes::FormConfigurationGroups::DeleteService
+        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
+        .call
+
+      if call.success?
+        update_form_configuration_via_turbo_stream
+      else
+        render_form_configuration_error(call)
+      end
+
+      respond_with_turbo_streams(status: turbo_status_for(call))
+    end
+
+    def move
+      group = @form_configuration.form_groups.find(params.expect(:id))
+      call = valid_drop_request? ? move_group_call(group) : nil
+
+      if call&.success?
+        update_main_content_via_turbo_stream(method: :morph)
+        respond_with_turbo_streams
+      else
+        render_invalid_move(call)
+      end
+    end
+
+    def update_query
+      call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
+        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
+        .call(query_props: params[:query])
+
+      if call.success?
+        @form_configuration.reload
+        replace_query_row_via_turbo_stream(call.result.key)
+      else
+        render_form_configuration_error(call)
+      end
+
+      respond_with_turbo_streams(status: turbo_status_for(call))
+    end
+
+    private
+
+    def replace_query_row_via_turbo_stream(key)
+      group = form_editor_context.attribute_groups.find { |candidate| candidate.key.to_s == key.to_s }
+      replace_via_turbo_stream(
+        component: WorkPackageTypes::FormConfiguration::GroupQueryRowComponent.new(
+          group: group_form_map(group),
+          ee_available: EnterpriseToken.allows_to?(:edit_attribute_groups)
+        )
+      )
+    end
+
+    def group_params
+      params.expect(group: %i[name group_type query])
+    end
+
+    def find_group(key)
+      @form_configuration.attribute_groups.find do |group|
+        [
+          group.key,
+          group.display_name,
+          group.translated_key
+        ].compact.map(&:to_s).include?(key.to_s)
+      end
+    end
+
+    def group_key_param
+      params.expect(:key)
+    end
+
+    def temporary_group_key?(key)
+      key.to_s == TEMPORARY_GROUP_KEY
+    end
+
+    def temporary_group(group_type:, query:, name: "")
+      {
+        key: TEMPORARY_GROUP_KEY,
+        type: group_type.to_s,
+        name:,
+        attributes: [],
+        query:,
+        query_summary: temporary_query_summary(group_type:, query:, name:),
+        temporary: true
+      }
+    end
+
+    def temporary_query_summary(group_type:, query:, name:)
+      return unless group_type.to_s == "query"
+
+      call = WorkPackageTypes::FormConfiguration::EmbeddedQueryBuilder.build(
+        query_props: query,
+        name: "Embedded table: #{name}",
+        user: current_user
+      )
+
+      WorkPackageTypes::FormConfiguration::QuerySummary.new(call.result).rows if call.success?
+    end
+
+    def turbo_status_for(call)
+      call.success? ? :ok : :unprocessable_entity
+    end
+
+    def create_group_call
+      ::WorkPackageTypes::FormConfigurationGroups::CreateService
+        .new(user: current_user, form_configuration: @form_configuration)
+        .call(
+          group_type: group_params[:group_type],
+          name: group_params[:name],
+          query_props: group_params[:query]
+        )
+    end
+
+    def rename_group_call
+      ::WorkPackageTypes::FormConfigurationGroups::UpdateService
+        .new(user: current_user, form_configuration: @form_configuration, group_key: group_key_param)
+        .call(name: group_params[:name])
+    end
+
+    def move_group_call(group)
+      ::WorkPackageTypes::FormConfigurationGroups::MoveService
+        .new(user: current_user, form_configuration: @form_configuration, record: group)
+        .call(prev_id: drop_params[:prev_id])
+    end
+
+    # The raw list_id is checked because permit cannot tell an absent value
+    # from a filtered-out collection one.
+    def valid_drop_request?
+      drop_params[:list_type] == WorkPackageTypes::FormConfiguration::SortableTypes::GROUP &&
+        params[:list_id].blank? &&
+        drop_params.key?(:prev_id)
+    end
+
+    def drop_params
+      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+    end
+
+    def render_invalid_move(call)
+      message = call&.message.presence || I18n.t(:error_invalid_list_move_anchor)
+      render_error_flash_message_via_turbo_stream(message:)
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
+
+    def render_create_error(call)
+      @form_configuration.reload
+      group = temporary_group(
+        group_type: group_params[:group_type],
+        query: group_params[:query],
+        name: group_params[:name].to_s
+      )
+
+      render_temporary_group_editor(
+        group:,
+        form_model: group_form_model(group:, validation_message: call.errors.map(&:message).to_sentence)
+      )
+    end
+
+    def render_existing_group_update_error(call) # rubocop:disable Metrics/AbcSize
+      @form_configuration.reload
+      groups = active_groups_for_form
+      group = groups.find { |active_group| active_group[:key].to_s == group_key_param.to_s }
+
+      # A group deleted from another tab leaves no editor to re-render the rejected name into.
+      return render_form_configuration_error(call) if group.nil?
+
+      update_main_content_via_turbo_stream(
+        groups:,
+        editing_group_key: group_key_param,
+        form_model: group_form_model(
+          group:,
+          name: group_params[:name].to_s,
+          validation_message: call.errors.map(&:message).to_sentence
+        )
+      )
+    end
+
+    def render_temporary_group_editor(group: nil, form_model: nil)
+      group ||= temporary_group(
+        group_type: params[:group_type],
+        query: params[:query],
+        name: params[:name].to_s
+      )
+
+      update_main_content_via_turbo_stream(
+        groups: [group] + active_groups_for_form,
+        editing_group_key: TEMPORARY_GROUP_KEY,
+        form_model:
+      )
+    end
+
+    def group_form_model(group:, name: group[:name], validation_message: nil)
+      WorkPackageTypes::FormConfiguration::GroupFormModel.from_group(group, name:, validation_message:)
+    end
+
+    def load_form_configuration
+      @form_configuration = FormConfiguration.find(params.expect(:form_configuration_id))
+    end
+
+    def form_editor_context
+      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: @form_configuration)
+    end
+  end
+end

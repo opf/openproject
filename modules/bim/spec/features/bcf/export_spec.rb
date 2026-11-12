@@ -20,11 +20,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 require_relative "../../support/pages/ifc_models/show_default"
 
@@ -78,8 +78,8 @@ RSpec.describe "bcf export", :js,
     page.find(".export-bcf-button").click
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content(I18n.t("job_status_dialog.generic_messages.in_queue"),
-                                 wait: 10)
+    expect(page).to have_text(I18n.t("job_status_dialog.generic_messages.in_queue"),
+                              wait: 10)
 
     perform_enqueued_jobs
     expect(page).to have_text(I18n.t("export.succeeded"))

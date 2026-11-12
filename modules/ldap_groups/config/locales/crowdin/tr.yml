@@ -56,7 +56,7 @@ tr:
 
           '
       label_n_groups_found:
-        one: Filtre tarafından 1 grup bulundu
+        one: "%{count} group found by the filter"
         other: Filtrede %{count} grup bulundu
         zero: Filtrede grup bulunamadı
       plural: LDAP Grubu senkronizasyon filtreleri
@@ -91,7 +91,7 @@ tr:
       plural: Senkronize LDAP grupları
       singular: Senkronize LDAP grubu
       upsell:
-        description: Kullanıcıları yönetmek, izinlerini değiştirmek ve gruplar arasında kullanıcı yönetimini kolaylaştırmak için senkronize LDAP gruplarından yararlanın.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: LDAP grup üyeliklerinin senkronizasyonu.
     name: OpenProject LDAP grupları

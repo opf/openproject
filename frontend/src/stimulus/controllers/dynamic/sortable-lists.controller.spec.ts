@@ -20,48 +20,54 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
+// vi.doMock is not hoisted above imports, unlike vi.mock, so the subject
+// below is imported dynamically further down, after these calls run.
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
   draggable: vi.fn(() => vi.fn()),
   dropTargetForElements: vi.fn(() => vi.fn()),
   monitorForElements: vi.fn(() => vi.fn()),
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
   autoScrollForElements: vi.fn(() => vi.fn()),
 }));
 
-// This spec mounts the real item controller, which pulls in these modules.
-// Tests share one module registry (the runner does not isolate spec files),
-// so importing the real versions here would leak into the item controller
-// spec and break its spies. Mock them to keep the shared cache inert.
-vi.mock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
+// This spec mounts the real item controller, which pulls in these three
+// modules. Stub them so its Pragmatic side effects stay inert; nothing
+// here reads them back.
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
   combine: vi.fn((...cleanups:(() => void)[]) => vi.fn(() => {
     cleanups.forEach((cleanup) => cleanup());
   })),
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
   preventUnhandled: { start: vi.fn(), stop: vi.fn() },
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
   setCustomNativeDragPreview: vi.fn(),
 }));
 
+import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import type { monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { waitFor } from '@testing-library/dom';
+import { usePlatform } from 'core-common/testing/platform';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { type Mock, type MockInstance } from 'vitest';
+import type { IToast } from 'core-app/shared/components/toaster/toast.service';
+import { TurboHelpers } from 'core-turbo/helpers';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
+import type { DragSession } from './sortable-lists/drag-session';
+import { selectionTranslations } from './sortable-lists/testing/selection-translations';
 import type {
-  sortableItemData as sortableItemDataFn,
+  sortableDragSourceData as sortableDragSourceDataFn,
   sortableListData as sortableListDataFn,
 } from './sortable-lists/drag-and-drop';
 
@@ -70,12 +76,22 @@ describe('Sortable lists controller', () => {
 
   let monitorForElements:typeof monitorForElementsFn;
   let SortableListsController:typeof SortableListsControllerType;
-  let sortableItemData:typeof sortableItemDataFn;
+  let sortableDragSourceData:typeof sortableDragSourceDataFn;
   let sortableListData:typeof sortableListDataFn;
 
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
-  let fetchMock:Mock;
+  let fetchMock:Mock<typeof fetch>;
+  function moveRequest(call = fetchMock.mock.lastCall) {
+    if (!call) throw new Error('Expected a move request');
+
+    const [url, options] = call;
+    if (typeof url !== 'string') throw new Error('Expected a URL string');
+    if (!(options?.body instanceof FormData)) throw new Error('Expected a FormData body');
+
+    return { url, options: { ...options, body: options.body } };
+  }
+
   let renderStreamMessageMock:Mock;
   // `ReturnType<typeof vi.spyOn>` collapses to a call signature TypeScript
   // cannot resolve `.mock.calls`'s element type from; pin the spied method's
@@ -85,10 +101,10 @@ describe('Sortable lists controller', () => {
   beforeAll(async () => {
     ({ monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
-    ({ sortableItemData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
+    ({ sortableDragSourceData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
   });
 
-  function input() {
+  function input({ clientY = 10 }:{ clientY?:number } = {}) {
     return {
       altKey: false,
       button: 0,
@@ -97,9 +113,26 @@ describe('Sortable lists controller', () => {
       metaKey: false,
       shiftKey: false,
       clientX: 10,
-      clientY: 10,
+      clientY,
       pageX: 10,
-      pageY: 10,
+      pageY: clientY,
+    };
+  }
+
+  // A fixed-size hit box for attachClosestEdge to resolve 'top' or 'bottom'
+  // against; paired with input({ clientY }) below (10 reads as 'top', 90 as
+  // 'bottom' against this box).
+  function rect():DOMRect {
+    return {
+      top: 0,
+      bottom: 100,
+      left: 0,
+      right: 100,
+      width: 100,
+      height: 100,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
     };
   }
 
@@ -119,19 +152,28 @@ describe('Sortable lists controller', () => {
   function renderFixture({
     moveUrlTemplate = '/move/{id}',
     optimistic = false,
-  }:{ moveUrlTemplate?:string|null; optimistic?:boolean } = {}) {
+    selectionEnabled = false,
+    collectionMoveUrl = null,
+  }:{
+    moveUrlTemplate?:string|null;
+    optimistic?:boolean;
+    selectionEnabled?:boolean;
+    collectionMoveUrl?:string|null;
+  } = {}) {
     fixture.innerHTML = `
       <div
         id="sortable-root"
         data-controller="sortable-lists"
         ${moveUrlTemplate ? `data-sortable-lists-move-url-template-value="${moveUrlTemplate}"` : ''}
         ${optimistic ? 'data-sortable-lists-optimistic-value="true"' : ''}
+        ${selectionEnabled ? 'data-sortable-lists-selection-enabled-value="true"' : ''}
+        ${collectionMoveUrl ? `data-sortable-lists-collection-move-url-value="${collectionMoveUrl}"` : ''}
         data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
         data-sortable-lists-sortable-lists--scrollable-outlet="#sortable-root [data-controller~='sortable-lists--scrollable']"
       >
         <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package" data-sortable-lists--list-name-value="Product backlog"></ul>
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package" data-sortable-lists--list-name-value="Sprint 1"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="2" data-sortable-lists--list-accepted-type-value="work_package" data-sortable-lists--list-name-value="Sprint 1"></ul>
         <div data-controller="sortable-lists--scrollable"></div>
       </div>
     `;
@@ -141,17 +183,23 @@ describe('Sortable lists controller', () => {
     sourceList.append(itemRow('1'), itemRow('2'), itemRow('3'));
     targetList.append(itemRow('4'), itemRow('5'));
     return {
-      root, sourceList, targetList, scrollable, firstSourceItem: sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!,
+      root,
+      sourceList,
+      targetList,
+      scrollable,
+      firstSourceItem: sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!,
+      items: Array.from(root.querySelectorAll<HTMLElement>('[data-sortable-lists--item-id-value]')),
     };
   }
 
   async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement, type = 'work_package') {
     const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
+    const rootElement = sourceElement.closest<HTMLElement>('[data-controller="sortable-lists"]');
 
     monitorOptions?.onDrop?.({
       source: sourcePayload(
         sourceElement,
-        itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!, type),
+        itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!, type, rootElement),
       ),
       location: {
         initial: {
@@ -180,8 +228,8 @@ describe('Sortable lists controller', () => {
     await flushPromises();
   }
 
-  function itemData(itemId = '1', type = 'work_package') {
-    return sortableItemData({ itemId, type });
+  function itemData(itemId = '1', type = 'work_package', rootElement:HTMLElement|null = null) {
+    return sortableDragSourceData({ itemId, type, rootElement });
   }
 
   function sourcePayload(element:HTMLElement, data:Record<string|symbol, unknown> = itemData()) {
@@ -316,6 +364,30 @@ describe('Sortable lists controller', () => {
     };
   }
 
+  // Layered on renderFixture, plus selection and a tabindex per item. The
+  // value is set at creation time: Stimulus picks up an attribute mutated
+  // after connect through its async MutationObserver channel, too late for a
+  // synchronous test. The tabindex mirrors Backlogs cards, whose item element
+  // is itself focusable.
+  function renderSelectableRoot({
+    moveUrlTemplate = '/move/{id}',
+    optimistic = false,
+    collectionMoveUrl = null,
+  }:{
+    moveUrlTemplate?:string|null;
+    optimistic?:boolean;
+    collectionMoveUrl?:string|null;
+  } = {}) {
+    const fixtureElements = renderFixture({
+      moveUrlTemplate, selectionEnabled: true, optimistic, collectionMoveUrl,
+    });
+    fixtureElements.items.forEach((item) => item.setAttribute('tabindex', '0'));
+
+    return fixtureElements;
+  }
+
+  usePlatform();
+
   beforeEach(async () => {
     vi.clearAllMocks();
 
@@ -327,7 +399,7 @@ describe('Sortable lists controller', () => {
     // guard mock their own element stack.
     vi.spyOn(document, 'elementsFromPoint').mockReturnValue([]);
 
-    fetchMock = vi.fn(() => Promise.resolve(new Response('', { status: 200 })));
+    fetchMock = vi.fn<typeof fetch>(() => Promise.resolve(new Response('', { status: 200 })));
     renderStreamMessageMock = vi.fn(() => Promise.resolve());
     vi.stubGlobal('fetch', fetchMock);
     vi.stubGlobal('Turbo', {
@@ -344,15 +416,39 @@ describe('Sortable lists controller', () => {
     window.I18n.store({
       en: {
         js: {
+          // Distinct wording, so a test asserting the consumer scope was
+          // consulted cannot pass against the default scope by accident.
+          backlogs: {
+            announcements: {
+              batch_too_large: '[backlogs_batch_too_large:%{count}:%{max}]',
+              fallback_item_label: 'Work package',
+              fallback_list_name: 'another list',
+              move_failed_check_position: 'Move failed. Check the work package\'s current position.',
+              move_failed_check_positions_batch: { other: 'Move failed. Check the work packages\' current positions.' },
+              move_failed_rolled_back: 'Move failed. %{label} returned to its previous position.',
+              move_failed_rolled_back_batch: { other: 'Move failed. %{count} work packages returned to their previous positions.' },
+              moved: '%{label} work package moved to position %{position} of %{total}',
+              moved_batch: { other: '%{count} work packages moved to positions %{first} through %{last} of %{total}' },
+              moved_batch_to_list: { other: '%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}' },
+              moved_to_list: '%{label} moved to %{list}, position %{position} of %{total}',
+            },
+          },
           sortable_lists: {
             announcements: {
+              menu_scope_changed: 'The menu selection has changed. Reopen the menu before moving work packages.',
+              batch_too_large: '[batch_too_large:%{count}:%{max}]',
               fallback_item_label: 'Item',
               fallback_list_name: 'another list',
               move_failed_check_position: 'Move failed. Check the item\'s current position.',
+              move_failed_check_positions_batch: { other: 'Move failed. Check the items\' current positions.' },
               move_failed_rolled_back: 'Move failed. %{label} returned to its previous position.',
+              move_failed_rolled_back_batch: { other: 'Move failed. %{count} items returned to their previous positions.' },
               moved: '%{label} moved to position %{position} of %{total}',
+              moved_batch: { other: '%{count} items moved to positions %{first} through %{last} of %{total}' },
+              moved_batch_to_list: { other: '%{count} items moved to %{list}, positions %{first} through %{last} of %{total}' },
               moved_to_list: '%{label} moved to %{list}, position %{position} of %{total}',
             },
+            selection: selectionTranslations,
           },
         },
       },
@@ -529,10 +625,10 @@ describe('Sortable lists controller', () => {
 
     expect(fetchMock).toHaveBeenCalledOnce();
 
-    const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+    const options = moveRequest().options;
 
     expect(options.body.get('list_type')).toEqual('sprint');
-    expect(options.body.get('list_id')).toEqual('1');
+    expect(options.body.get('list_id')).toEqual('2');
     expect(options.body.get('prev_id')).toEqual('5');
   });
 
@@ -560,7 +656,7 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    const calledUrl = moveRequest().url;
     expect(new URL(calledUrl, 'http://localhost').searchParams.get('optimistic')).toBe('true');
   });
 
@@ -572,7 +668,7 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    const calledUrl = moveRequest().url;
     expect(new URL(calledUrl, 'http://localhost').searchParams.has('optimistic')).toBe(false);
   });
 
@@ -585,7 +681,7 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    const calledUrl = moveRequest().url;
     expect(new URL(calledUrl, 'http://localhost').searchParams.get('optimistic')).toBe('true');
   });
 
@@ -596,7 +692,7 @@ describe('Sortable lists controller', () => {
     fixture.innerHTML = `
       <turbo-frame
         id="backlogs-list"
-        src="/projects/demo/backlogs/backlog?bucket_ids%5B%5D=1&bucket_ids%5B%5D=inbox&sprint_ids%5B%5D=2"
+        src="/projects/demo/backlogs/backlog?bucket_ids=%5B%221%22%2C%22inbox%22%5D&sprint_ids=%222%22"
         data-controller="sortable-lists"
         data-sortable-lists-move-url-template-value="/projects/demo/backlogs/work_packages/{id}/move"
         data-sortable-lists-optimistic-value="true"
@@ -604,7 +700,7 @@ describe('Sortable lists controller', () => {
         data-sortable-lists-sortable-lists--item-outlet="#backlogs-list [data-controller~='sortable-lists--item']"
       >
         <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="2" data-sortable-lists--list-accepted-type-value="work_package"></ul>
       </turbo-frame>
     `;
 
@@ -692,11 +788,11 @@ describe('Sortable lists controller', () => {
     const canMonitor = vi.mocked(monitorForElements).mock.lastCall?.[0].canMonitor;
 
     expect(canMonitor?.({
-      source: sourcePayload(firstSourceItem, sortableItemData({ itemId: '1', type: 'work_package', rootElement: root })),
+      source: sourcePayload(firstSourceItem, sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: root })),
       initial: {} as never,
     })).toBe(true);
     expect(canMonitor?.({
-      source: sourcePayload(firstSourceItem, sortableItemData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })),
+      source: sourcePayload(firstSourceItem, sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })),
       initial: {} as never,
     })).toBe(false);
   });
@@ -1097,8 +1193,583 @@ describe('Sortable lists controller', () => {
     // '1' started first; moving down puts it after '2'.
     expect(itemIds(sourceList)).toEqual(['2', '1', '3']);
     expect(fetchMock).toHaveBeenCalledOnce();
-    const body = fetchMock.mock.lastCall?.[1] as { body:FormData };
+    const body = moveRequest().options;
     expect(body.body.get('prev_id')).toBe('2');
+  });
+
+  describe('before-move', () => {
+    function rootController(root:HTMLElement) {
+      return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    }
+
+    it('skips the reorder, the request and the announcement when a menu move is cancelled', async () => {
+      const { root, sourceList, firstSourceItem } = renderFixture();
+      await ctx.nextFrame();
+      const listener = vi.fn((event:Event) => event.preventDefault());
+      root.addEventListener('sortable-lists:before-move', listener);
+
+      rootController(root).moveInDirection(firstSourceItem, 'down');
+      await flushPromises();
+
+      expect(listener).toHaveBeenCalledOnce();
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(announcedMessages()).toEqual([]);
+    });
+
+    it('keeps a multi-selection when a menu move is cancelled', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      fireEvent.click(items[1]);
+      fireEvent.click(items[2], { ctrlKey: true });
+      announceSpy.mockClear();
+      root.addEventListener('sortable-lists:before-move', (event) => event.preventDefault());
+
+      rootController(root).moveInDirection(items[0], 'down');
+      await flushPromises();
+
+      expect(items[0]).not.toHaveAttribute('data-batch-selected');
+      expect(items[1]).toHaveAttribute('data-batch-selected');
+      expect(items[2]).toHaveAttribute('data-batch-selected');
+      expect(announcedMessages()).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('skips a cancelled drop', async () => {
+      const { root, sourceList, targetList, firstSourceItem } = renderFixture();
+      await ctx.nextFrame();
+      root.addEventListener('sortable-lists:before-move', (event) => event.preventDefault());
+
+      await dropCurrentItemOnList(firstSourceItem, targetList);
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+      expect(itemIds(targetList)).toEqual(['4', '5']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('describes the move and proceeds when nobody cancels', async () => {
+      const { root, sourceList, firstSourceItem } = renderFixture();
+      await ctx.nextFrame();
+      const details:unknown[] = [];
+      root.addEventListener('sortable-lists:before-move', (event) => details.push((event as CustomEvent).detail));
+
+      rootController(root).moveInDirection(firstSourceItem, 'down');
+
+      await waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+      expect(details).toEqual([{
+        items: [{ type: 'work_package', id: '1' }],
+        listType: 'backlog_bucket',
+        listId: '1',
+        previousItemId: '2',
+      }]);
+      expect(itemIds(sourceList)).toEqual(['2', '1', '3']);
+    });
+
+    it('describes a drop on another list and proceeds when nobody cancels', async () => {
+      const { root, sourceList, targetList, firstSourceItem } = renderFixture();
+      await ctx.nextFrame();
+      const details:unknown[] = [];
+      root.addEventListener('sortable-lists:before-move', (event) => details.push((event as CustomEvent).detail));
+
+      await dropCurrentItemOnList(firstSourceItem, targetList);
+
+      expect(details).toEqual([{
+        items: [{ type: 'work_package', id: '1' }],
+        listType: 'sprint',
+        listId: '2',
+        previousItemId: '5',
+      }]);
+      expect(itemIds(sourceList)).toEqual(['2', '3']);
+      expect(itemIds(targetList)).toEqual(['4', '5', '1']);
+      expect(fetchMock).toHaveBeenCalledOnce();
+    });
+  });
+
+  describe('batch menu moves', () => {
+    function renderBatchMenuFixture() {
+      const elements = renderSelectableRoot({
+        optimistic: true,
+        collectionMoveUrl: '/projects/demo/backlogs/work_packages/move',
+      });
+      elements.sourceList.setAttribute('data-sortable-lists--list-type-value', 'sprint');
+      elements.sourceList.setAttribute('data-sortable-lists--list-id-value', '8');
+      elements.sourceList.append(elements.items[3]);
+
+      return elements;
+    }
+
+    function selectItems(...items:HTMLElement[]):void {
+      items.forEach((item, index) => fireEvent.click(item, { ctrlKey: index > 0 }));
+    }
+
+    function selectedIds(root:HTMLElement):string[] {
+      return Array.from(root.querySelectorAll<HTMLElement>('[data-batch-selected]'))
+        .map((item) => item.getAttribute('data-sortable-lists--item-id-value')!);
+    }
+
+    function controllerFor(root:HTMLElement):SortableListsControllerType {
+      return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    }
+
+    it('moves the ordered selection immediately and excludes it from the predecessor', async () => {
+      let resolveMove!:(response:Response) => void;
+      fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+        resolveMove = resolve;
+      }));
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+
+      expect(itemIds(sourceList)).toEqual(['1', '4', '2', '3']);
+      const [url, options] = fetchMock.mock.lastCall as [string, { body:FormData }];
+      expect(url).toBe('/projects/demo/backlogs/work_packages/move?optimistic=true');
+      expect([...options.body.entries()]).toEqual([
+        ['ids[]', '2'],
+        ['ids[]', '3'],
+        ['list_type', 'sprint'],
+        ['list_id', '8'],
+        ['prev_id', '4'],
+      ]);
+
+      resolveMove(new Response('', { status: 200 }));
+      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+    });
+
+    describe('selection after the move', () => {
+      const movedEvent = 'sortable-lists:test-move-completed';
+      const reportMove = () => fireEvent(document, new CustomEvent(movedEvent));
+      const settled = (root:HTMLElement) => waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+
+      function streamResponse(status = 200):Response {
+        return new Response('<turbo-stream></turbo-stream>', {
+          status,
+          headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+        });
+      }
+
+      async function renderSelectedBatch() {
+        const elements = renderBatchMenuFixture();
+        elements.root.setAttribute('data-action', `${movedEvent}@document->sortable-lists#clearSelectionAfterMove`);
+        await ctx.nextFrame();
+        selectItems(elements.items[1], elements.items[2]);
+
+        return elements;
+      }
+
+      it('keeps the selection and anchor after a same-list batch move succeeds', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        reportMove();
+
+        expect(selectedIds(root)).toEqual(['2', '3']);
+        fireEvent.click(items[3], { shiftKey: true });
+        expect(selectedIds(root)).toEqual(['4', '2', '3']);
+      });
+
+      it('clears on a foreign moved event while a batch move is pending, even if that move then fails', async () => {
+        let resolveMove!:(response:Response) => void;
+        fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+          resolveMove = resolve;
+        }));
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        reportMove();
+        expect(selectedIds(root)).toEqual([]);
+        resolveMove(streamResponse(422));
+        await settled(root);
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('forgets an expected moved event when the root disconnects', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = await renderSelectedBatch();
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+
+        root.remove();
+        await ctx.nextFrame();
+        fixture.append(root);
+        await ctx.nextFrame();
+        selectItems(items[1], items[2]);
+        reportMove();
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('keeps the selection across two quick same-list batch moves', async () => {
+        fetchMock.mockImplementation(() => Promise.resolve(streamResponse()));
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        controllerFor(root).moveInDirection(items[1], 'up');
+        await settled(root);
+        reportMove();
+        reportMove();
+
+        expect(fetchMock).toHaveBeenCalledTimes(2);
+        expect(selectedIds(root)).toEqual(['2', '3']);
+      });
+
+      it('clears on a moved event the root did not cause', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        reportMove();
+        reportMove();
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('does not swallow a later moved event after a failed batch move', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse(422));
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        expect(selectedIds(root)).toEqual(['2', '3']);
+        reportMove();
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('does not swallow a later moved event after a 200 non-Turbo response', async () => {
+        const { root, items } = await renderSelectedBatch();
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        reportMove();
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+
+      it('sends the retained batch as the next menu scope', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = await renderSelectedBatch();
+        items[0].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+        reportMove();
+
+        expect(controllerFor(root).selectForAction(items[1]).items).toEqual([items[1], items[2]]);
+      });
+
+      it('clears the selection after a single-card move', async () => {
+        fetchMock.mockResolvedValueOnce(streamResponse());
+        const { root, items } = renderBatchMenuFixture();
+        await ctx.nextFrame();
+        selectItems(items[1]);
+
+        controllerFor(root).moveInDirection(items[1], 'down');
+        await settled(root);
+
+        expect(selectedIds(root)).toEqual([]);
+      });
+    });
+
+    it('rolls a rejected collection move back and preserves the selection', async () => {
+      fetchMock.mockResolvedValueOnce(new Response('', { status: 422 }));
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+
+      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(selectedIds(root)).toEqual(['2', '3']);
+    });
+
+    it('warns when a rejected collection move cannot be rolled back safely', async () => {
+      let resolveMove!:(response:Response) => void;
+      fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+        resolveMove = resolve;
+      }));
+      const { root, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+      items[2].remove();
+      resolveMove(new Response('', { status: 422 }));
+
+      await waitFor(() => expect(root).not.toHaveAttribute('data-sortable-lists-busy'));
+      expect(announceSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Check the items'),
+        expect.objectContaining({ politeness: 'assertive' }),
+      );
+    });
+
+    it('does not request a move when the invoker has no owned list', async () => {
+      const { root } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+
+      controllerFor(root).moveInDirection(itemRow('99'), 'down');
+      await flushPromises();
+
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('does not request a move when the live selection is unavailable', async () => {
+      const { root, sourceList, targetList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[4]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(itemIds(targetList)).toEqual(['5']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    // A menu opened on an unselected card can go stale: by the time the item
+    // is activated its direction may be a no-op. The refusal must leave the
+    // batch the user built alone rather than replacing it with the invoker.
+    it('leaves the selection alone when an unselected invoker cannot move', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+
+      controllerFor(root).moveInDirection(items[0], 'top');
+      await flushPromises();
+
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(selectedIds(root)).toEqual(['2', '3']);
+    });
+
+    it('sends no request for an effective no-op', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[0], items[1]);
+
+      controllerFor(root).moveInDirection(items[0], 'top');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('keeps an unselected one-card invoker on its member endpoint', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+
+      controllerFor(root).moveInDirection(items[0], 'down');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['2', '1', '3', '4']);
+      const [url, options] = fetchMock.mock.lastCall as [string, { body:FormData }];
+      expect(url).toBe('/move/1?optimistic=true');
+      expect(options.body.getAll('ids[]')).toEqual([]);
+    });
+
+    it('gathers a selection that became sparse after the menu opened', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+      const availability = controllerFor(root).moveAvailability(items[1]);
+      sourceList.insertBefore(items[3], items[2]);
+
+      controllerFor(root).moveInDirection(items[1], 'down');
+      await flushPromises();
+
+      expect(availability?.down).toBe(true);
+      expect(itemIds(sourceList)).toEqual(['1', '4', '2', '3']);
+      expect(fetchMock).toHaveBeenCalledOnce();
+    });
+
+    it('submits canonical IDs and before-move items even when the selection input is reversed', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[3]);
+      const controller = controllerFor(root);
+      vi.spyOn(controller, 'actionScopeFor').mockReturnValue({ kind: 'batch', items: [items[3], items[1]] });
+      const beforeMove = vi.fn();
+      root.addEventListener('sortable-lists:before-move', beforeMove);
+
+      controller.moveInDirection(items[1], 'up');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['2', '4', '1', '3']);
+      expect(fetchMock).toHaveBeenCalledOnce();
+      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      expect(options.body.getAll('ids[]')).toEqual(['2', '4']);
+      expect(beforeMove.mock.calls[0][0].detail.items).toEqual([
+        { type: 'work_package', id: '2' }, { type: 'work_package', id: '4' },
+      ]);
+    });
+
+    [
+      { name: 'changed members', rendered: '["2","4"]', live: [1, 2] },
+      { name: 'singular menu and live batch', rendered: '["2"]', live: [1, 2] },
+      { name: 'batch menu and live singleton', rendered: '["2","3"]', live: [1] },
+      { name: 'malformed scope', rendered: '{', live: [1, 2] },
+      { name: 'non-string scope', rendered: '[2,3]', live: [1, 2] },
+      { name: 'duplicate scope', rendered: '["2","2"]', live: [1, 2] },
+      { name: 'missing scope', rendered: null, live: [1, 2] },
+    ].forEach(({ name, rendered, live }) => {
+      it(`refuses ${name} before before-move, collapse, reorder or request`, async () => {
+        const { root, sourceList, items } = renderBatchMenuFixture();
+        await ctx.nextFrame();
+        selectItems(...live.map((index) => items[index]));
+        announceSpy.mockClear();
+        const scopeOwner = document.createElement('ul');
+        scopeOwner.setAttribute('data-sortable-lists-scope-count', '2');
+        if (rendered !== null) scopeOwner.setAttribute('data-sortable-lists-scope-ids', rendered);
+        const beforeMove = vi.fn();
+        root.addEventListener('sortable-lists:before-move', beforeMove);
+
+        controllerFor(root).moveInDirection(items[1], 'up', scopeOwner);
+        await flushPromises();
+
+        expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+        expect(selectedIds(root)).toEqual(live.map((index) => String(index + 1)));
+        expect(fetchMock).not.toHaveBeenCalled();
+        expect(beforeMove).not.toHaveBeenCalled();
+        expect(announcedMessages()).toEqual([
+          ['The menu selection has changed. Reopen the menu before moving work packages.', { politeness: 'assertive' }],
+        ]);
+      });
+    });
+
+    it('refuses a menu whose rendered selection was pruned by a morph', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+      const scopeOwner = document.createElement('ul');
+      scopeOwner.setAttribute('data-sortable-lists-scope-count', '2');
+      scopeOwner.setAttribute('data-sortable-lists-scope-ids', '["2","3"]');
+      items[2].remove();
+      root.dispatchEvent(new Event('sortable-lists:reconcile'));
+      await ctx.nextFrame();
+      announceSpy.mockClear();
+      const beforeMove = vi.fn();
+      root.addEventListener('sortable-lists:before-move', beforeMove);
+
+      controllerFor(root).moveInDirection(items[1], 'up', scopeOwner);
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '4']);
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(beforeMove).not.toHaveBeenCalled();
+      expect(announcedMessages()).toEqual([
+        ['The menu selection has changed. Reopen the menu before moving work packages.', { politeness: 'assertive' }],
+      ]);
+    });
+
+    it('accepts matching rendered scope', async () => {
+      const { root, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+      const scopeOwner = document.createElement('ul');
+      scopeOwner.setAttribute('data-sortable-lists-scope-count', '2');
+      scopeOwner.setAttribute('data-sortable-lists-scope-ids', '["2","3"]');
+
+      controllerFor(root).moveInDirection(items[1], 'up', scopeOwner);
+      await flushPromises();
+      expect(fetchMock).toHaveBeenCalledOnce();
+    });
+
+    it('sends nothing for a block without collection capability', async () => {
+      const { root, sourceList, items } = renderSelectableRoot({ optimistic: true });
+      await ctx.nextFrame();
+      selectItems(items[0], items[1]);
+
+      controllerFor(root).moveInDirection(items[0], 'down');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+      expect(selectedIds(root)).toEqual(['1', '2']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('preserves the selection and refuses the action while busy', async () => {
+      const { root, sourceList, items } = renderBatchMenuFixture();
+      await ctx.nextFrame();
+      selectItems(items[1], items[2]);
+      root.setAttribute('data-sortable-lists-busy', 'true');
+
+      controllerFor(root).moveInDirection(items[0], 'down');
+      await flushPromises();
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3', '4']);
+      expect(selectedIds(root)).toEqual(['2', '3']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+  });
+
+  it('retains the singular member contract without collection capability', async () => {
+    const { root, sourceList, firstSourceItem } = renderFixture({ optimistic: true });
+    await ctx.nextFrame();
+
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    controller.moveInDirection(firstSourceItem, 'down');
+    await flushPromises();
+
+    expect(itemIds(sourceList)).toEqual(['2', '1', '3']);
+    const [url, options] = fetchMock.mock.lastCall as [string, { body:FormData }];
+    expect(url).toBe('/move/1?optimistic=true');
+    expect(options.body.getAll('ids[]')).toEqual([]);
+  });
+
+  ['divider', 'marker'].forEach((kind) => {
+    it(`moves a generic singleton to Top before a leading ${kind} without scope metadata`, async () => {
+      const { root, sourceList, firstSourceItem } = renderFixture({ optimistic: true });
+      const gap = document.createElement('li');
+      if (kind === 'marker') gap.setAttribute('data-sortable-lists-prev-item-id', 'H');
+      sourceList.prepend(gap);
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      expect(controller.moveAvailability(firstSourceItem)?.top).toBe(true);
+
+      controller.moveInDirection(firstSourceItem, 'top');
+      await flushPromises();
+
+      expect(Array.from(sourceList.children).slice(0, 2)).toEqual([firstSourceItem, gap]);
+      expect(fetchMock).toHaveBeenCalledOnce();
+      expect((fetchMock.mock.lastCall?.[1] as { body:FormData }).body.get('prev_id')).toBe('');
+    });
+  });
+
+  it('moves a generic singleton to Bottom after a real trailing marker anchor', async () => {
+    const { root, sourceList, firstSourceItem } = renderFixture({ optimistic: true });
+    const marker = document.createElement('li');
+    marker.setAttribute('data-sortable-lists-prev-item-id', 'H');
+    sourceList.append(marker);
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    expect(controller.moveAvailability(firstSourceItem)?.bottom).toBe(true);
+
+    controller.moveInDirection(firstSourceItem, 'bottom');
+    await flushPromises();
+
+    expect(Array.from(sourceList.children).slice(-2)).toEqual([marker, firstSourceItem]);
+    expect(fetchMock).toHaveBeenCalledOnce();
+    expect((fetchMock.mock.lastCall?.[1] as { body:FormData }).body.get('prev_id')).toBe('H');
+  });
+
+  it('refuses a directional move for a non-movable item', async () => {
+    const { root, sourceList, firstSourceItem } = renderFixture();
+    firstSourceItem.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+    await ctx.nextFrame();
+
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    controller.moveInDirection(firstSourceItem, 'down');
+    await flushPromises();
+
+    expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('reports per-direction move availability for gating', async () => {
@@ -1112,6 +1783,19 @@ describe('Sortable lists controller', () => {
     });
   });
 
+  // A card that takes no part in ordering must not be offered a move the
+  // click path would then refuse.
+  it('reports no available direction for a non-movable item', async () => {
+    const { root, firstSourceItem } = renderFixture();
+    firstSourceItem.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+
+    expect(controller.moveAvailability(firstSourceItem)).toEqual({
+      top: false, up: false, down: false, bottom: false,
+    });
+  });
+
   it('reports null availability for an item outside any owned list', async () => {
     const { root } = renderFixture();
     await ctx.nextFrame();
@@ -1120,13 +1804,268 @@ describe('Sortable lists controller', () => {
     expect(controller.moveAvailability(document.createElement('li'))).toBeNull();
   });
 
-  it('resolves the owning list element of an item for the drag payload', async () => {
-    const { root, sourceList, firstSourceItem } = renderFixture();
-    await ctx.nextFrame();
-    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+  describe('block move availability', () => {
+    function selectedController(root:HTMLElement, ...selected:HTMLElement[]) {
+      const [first, ...rest] = selected;
+      fireEvent.click(first);
+      rest.forEach((item) => fireEvent.click(item, { ctrlKey: true }));
 
-    expect(controller.ownerListElementOf(firstSourceItem)).toBe(sourceList);
-    expect(controller.ownerListElementOf(document.createElement('li'))).toBeNull();
+      return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    }
+
+    it('offers gathering a sparse same-list block in every direction', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      const controller = selectedController(root, items[0], items[2]);
+
+      expect(controller.moveAvailability(items[0])).toEqual({
+        top: true, up: true, down: true, bottom: true,
+      });
+    });
+
+    it('disables Up at the loaded top', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      const controller = selectedController(root, items[0], items[1]);
+
+      expect(controller.moveAvailability(items[1])).toEqual({
+        top: false, up: false, down: true, bottom: true,
+      });
+    });
+
+    it('hides a direction that would cross truncated rows', async () => {
+      const { root, sourceList, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      const marker = document.createElement('li');
+      marker.setAttribute('data-sortable-lists-prev-item-id', '2');
+      marker.setAttribute('data-sortable-lists-omitted-count', '9');
+      sourceList.insertBefore(marker, items[2]);
+      const controller = selectedController(root, items[0], items[1]);
+
+      expect(controller.moveAvailability(items[0])).toEqual({
+        top: false, up: false, down: false, bottom: true,
+      });
+    });
+
+    it('keeps single-card availability unchanged', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      const controller = selectedController(root, items[0], items[1]);
+
+      expect(controller.moveAvailability(items[2])).toEqual({
+        top: true, up: true, down: false, bottom: false,
+      });
+
+      fireEvent.click(items[1]);
+
+      expect(controller.moveAvailability(items[1])).toEqual({
+        top: true, up: true, down: true, bottom: true,
+      });
+    });
+  });
+
+  describe('destination moves', () => {
+    function rootController(root:HTMLElement) {
+      return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    }
+
+    // As the card menu renders the inbox item: the ids are the scope that
+    // was settled when the menu loaded.
+    function inboxForm(ids:string[]):HTMLFormElement {
+      const form = document.createElement('form');
+      form.action = '/projects/demo/backlogs/work_packages/move';
+      form.method = 'post';
+      form.innerHTML = [
+        '<input type="hidden" name="_method" value="put">',
+        ...ids.map((id) => `<input type="hidden" name="ids[]" value="${id}">`),
+        '<input type="hidden" name="list_type" value="inbox">',
+      ].join('');
+      fixture.append(form);
+      return form;
+    }
+
+    function streamResponse(status:number):Response {
+      return new Response('<turbo-stream></turbo-stream>', {
+        status,
+        headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+      });
+    }
+
+    function pendingFetch():(response:Response) => void {
+      let settle!:(response:Response) => void;
+      fetchMock.mockReturnValueOnce(new Promise<Response>((resolve) => { settle = resolve; }));
+      return (response) => settle(response);
+    }
+
+    const busyAttribute = 'data-sortable-lists-busy';
+    const selectedItems = (items:HTMLElement[]) => items.filter((item) => item.hasAttribute('data-batch-selected'));
+    const select = (element:HTMLElement, init:MouseEventInit = {}) => fireEvent.click(element, init);
+
+    it('submits the rendered ids to the collection move and holds the busy boundary until settled', async () => {
+      const { root, items } = renderSelectableRoot({ optimistic: true, collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      select(items[1]);
+      select(items[0], { ctrlKey: true });
+      const settle = pendingFetch();
+
+      const form = inboxForm(['2', '1']);
+      form.action += '?existing=1';
+      rootController(root).moveToDestination(form);
+
+      expect(root).toHaveAttribute(busyAttribute);
+      await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+      const { url, options } = moveRequest();
+      expect(url).toBe('/projects/demo/backlogs/work_packages/move?existing=1');
+      expect(options.method).toBe('POST');
+      expect(options.body.get('_method')).toBe('put');
+      expect(options.body.getAll('ids[]')).toEqual(['2', '1']);
+      expect(options.body.get('list_type')).toBe('inbox');
+      expect(options.body.has('prev_id')).toBe(false);
+      expect(selectedItems(items)).toEqual([items[0], items[1]]);
+
+      settle(streamResponse(200));
+
+      await vi.waitFor(() => expect(root).not.toHaveAttribute(busyAttribute));
+      expect(renderStreamMessageMock).toHaveBeenCalledOnce();
+      expect(selectedItems(items)).toEqual([]);
+    });
+
+    it('submits the ids the menu rendered, not a selection changed since', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      select(items[2]);
+      fetchMock.mockResolvedValueOnce(streamResponse(422));
+
+      rootController(root).moveToDestination(inboxForm(['1', '2']));
+
+      await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+      const { options } = moveRequest();
+      expect(options.body.getAll('ids[]')).toEqual(['1', '2']);
+    });
+
+    it('refuses Escape while the inbox move is pending', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      select(items[0]);
+      select(items[1], { ctrlKey: true });
+      const settle = pendingFetch();
+
+      rootController(root).moveToDestination(inboxForm(['1', '2']));
+      const escapeNotCancelled = fireEvent.keyDown(items[0], { key: 'Escape' });
+
+      expect(escapeNotCancelled).toBe(false);
+      expect(selectedItems(items)).toEqual([items[0], items[1]]);
+
+      settle(streamResponse(422));
+      await vi.waitFor(() => expect(root).not.toHaveAttribute(busyAttribute));
+    });
+
+    it('refuses selection changes while the inbox move is pending', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      select(items[0]);
+      const settle = pendingFetch();
+
+      rootController(root).moveToDestination(inboxForm(['1']));
+      select(items[2], { ctrlKey: true });
+
+      expect(selectedItems(items)).toEqual([items[0]]);
+
+      settle(streamResponse(422));
+      await vi.waitFor(() => expect(root).not.toHaveAttribute(busyAttribute));
+    });
+
+    it('ignores a second destination move while one is pending', async () => {
+      const { root } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      const settle = pendingFetch();
+
+      rootController(root).moveToDestination(inboxForm(['1']));
+      rootController(root).moveToDestination(inboxForm(['2']));
+      await flushPromises();
+
+      expect(fetchMock).toHaveBeenCalledOnce();
+      settle(streamResponse(200));
+      await vi.waitFor(() => expect(root).not.toHaveAttribute(busyAttribute));
+    });
+
+    it.each([
+      ['a 422 Turbo Stream', () => Promise.resolve(streamResponse(422)), 1, 0],
+      ['a 500 Turbo Stream', () => Promise.resolve(streamResponse(500)), 1, 0],
+      ['a non-stream response', () => Promise.resolve(new Response('', { status: 200 })), 0, 1],
+      ['a network error', () => Promise.reject(new Error('Network failure')), 0, 1],
+    ])('restores busy and keeps the selection after %s', async (_outcome, respond, streams, toasts) => {
+      const toastEvents:Event[] = [];
+      const onToast = (event:Event) => toastEvents.push(event);
+      window.addEventListener('op:toasters:add', onToast);
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      select(items[0]);
+      select(items[1], { ctrlKey: true });
+      fetchMock.mockImplementationOnce(respond);
+
+      rootController(root).moveToDestination(inboxForm(['1', '2']));
+      expect(root).toHaveAttribute(busyAttribute);
+
+      await vi.waitFor(() => expect(root).not.toHaveAttribute(busyAttribute));
+      expect(renderStreamMessageMock).toHaveBeenCalledTimes(streams);
+      expect(toastEvents).toHaveLength(toasts);
+      expect(selectedItems(items)).toEqual([items[0], items[1]]);
+      window.removeEventListener('op:toasters:add', onToast);
+    });
+
+    it.each([200, 422, 500])('cleans up destination progress after HTTP %s', async (status) => {
+      const show = vi.spyOn(TurboHelpers, 'showProgressBar').mockImplementation(() => undefined);
+      const hide = vi.spyOn(TurboHelpers, 'hideProgressBar').mockImplementation(() => undefined);
+      const { root } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      const settle = pendingFetch();
+
+      rootController(root).moveToDestination(inboxForm(['1']));
+      expect(show).toHaveBeenCalledOnce();
+      expect(hide).not.toHaveBeenCalled();
+
+      await vi.waitFor(() => expect(fetchMock).toHaveBeenCalled());
+      settle(streamResponse(status));
+      await vi.waitFor(() => expect(hide).toHaveBeenCalledOnce());
+      expect(root).not.toHaveAttribute(busyAttribute);
+    });
+
+    it('keeps a reconnected root busy until its detached request settles', async () => {
+      const { root } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      const settle = pendingFetch();
+
+      rootController(root).moveToDestination(inboxForm(['1']));
+      root.remove();
+      await ctx.nextFrame();
+      fixture.append(root);
+      await ctx.nextFrame();
+
+      expect(root).toHaveAttribute(busyAttribute);
+
+      settle(streamResponse(422));
+      await vi.waitFor(() => expect(root).not.toHaveAttribute(busyAttribute));
+    });
+
+    it('clears a stale busy marker when the cached root reconnects after settling', async () => {
+      const { root } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      const settle = pendingFetch();
+
+      rootController(root).moveToDestination(inboxForm(['1']));
+      root.remove();
+      await ctx.nextFrame();
+      settle(streamResponse(422));
+      await flushPromises();
+
+      expect(root).toHaveAttribute(busyAttribute);
+
+      fixture.append(root);
+      await ctx.nextFrame();
+
+      expect(root).not.toHaveAttribute(busyAttribute);
+    });
   });
 
   describe('nested list topology', () => {
@@ -1140,7 +2079,7 @@ describe('Sortable lists controller', () => {
       // (field) list; the outer section row it lives under is untouched.
       expect(directItemIds(fieldList)).toEqual(['cf2', 'cf1']);
 
-      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      const options = moveRequest().options;
       expect(options.body.get('list_type')).toEqual('custom_field');
       expect(options.body.get('list_id')).toEqual('s1');
     });
@@ -1159,7 +2098,7 @@ describe('Sortable lists controller', () => {
       expect(fetchMock).toHaveBeenCalledOnce();
       expect(directItemIds(sectionList)).toEqual(['s2', 's1']);
 
-      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      const options = moveRequest().options;
       expect(options.body.get('list_type')).toEqual('section');
       expect(options.body.get('list_id')).toEqual('1');
     });
@@ -1225,6 +2164,1954 @@ describe('Sortable lists controller', () => {
         expect.stringMatching(/^\/fields\//),
         expect.objectContaining({ method: 'PUT' }),
       );
+    });
+  });
+
+  // A drag selects the dragged card when nothing was selected, so a
+  // cancelled drag leaves the same state either way.
+  it('selects the dragged card when a drag starts with nothing selected', async () => {
+    const { root, firstSourceItem } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+
+    controller.beginDrag(firstSourceItem).freeze();
+
+    expect(document.querySelectorAll('[data-batch-selected]')).toHaveLength(1);
+    expect(firstSourceItem.hasAttribute('data-batch-selected')).toBe(true);
+  });
+
+  // Unlike a drag: a failed menu move would otherwise leave behind a
+  // selection the user never made.
+  it('selects nothing for a menu move with nothing selected', async () => {
+    const { root, firstSourceItem } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+
+    controller.moveInDirection(firstSourceItem, 'down');
+
+    expect(document.querySelectorAll('[data-batch-selected]')).toHaveLength(0);
+  });
+
+  it('collapses a wider batch onto the card a menu move names', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    items[1].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    items[2].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
+
+    controller.moveInDirection(items[0], 'down');
+
+    expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[0]]);
+  });
+
+  // A card that is not part of the batch collapses it onto itself, which is
+  // a count change a screen-reader user has to hear. Dragging a member
+  // instead carries the whole batch — see the "batch dragging" block below.
+  it('announces the new count when dragging a card outside the batch collapses it', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    items[0].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    items[1].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
+    items[2].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
+    announceSpy.mockClear();
+
+    controller.beginDrag(items[3]).freeze();
+
+    expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[3]]);
+    expect(announceSpy.mock.calls.map((call) => [call[0], call[1]])).toEqual([
+      ['[selected:1]', { politeness: 'polite' }],
+    ]);
+  });
+
+  const click = (element:HTMLElement, init:MouseEventInit = {}) => {
+    element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ...init }));
+  };
+
+  // A gesture the root leaves alone keeps its native default, so a real
+  // anchor would navigate the test page away. Cancelled in the bubble phase,
+  // after the root's capture-phase listener has had its turn.
+  const clickWithoutNavigating = (element:HTMLElement, init:MouseEventInit = {}) => {
+    const blockNavigation = (event:Event) => event.preventDefault();
+    window.addEventListener('click', blockNavigation, { once: true });
+
+    click(element, init);
+
+    window.removeEventListener('click', blockNavigation);
+  };
+
+  const isSelected = (element:HTMLElement) => element.hasAttribute('data-batch-selected');
+
+  // A restored page brings its markup back but not the model. Not driven
+  // through turbo:before-cache: that also fires for the details-pane
+  // navigation, where clearing would strip a live batch.
+  it('clears stale batch presentation left in the DOM when it connects', async () => {
+    fixture.innerHTML = `
+      <div id="stale-root"
+           data-controller="sortable-lists"
+           data-sortable-lists-selection-enabled-value="true"
+           data-sortable-lists-sortable-lists--item-outlet="#stale-root [data-controller~='sortable-lists--item']">
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1">
+          <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="1" data-sortable-lists--item-type-value="work_package" data-batch-selected></li>
+        </ul>
+      </div>
+    `;
+    const stale = fixture.querySelector<HTMLElement>('#stale-root')!;
+    const row = stale.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!;
+    expect(row.hasAttribute('data-batch-selected')).toBe(true);
+
+    await ctx.nextFrame();
+
+    expect(row.hasAttribute('data-batch-selected')).toBe(false);
+  });
+
+  it('selects only the clicked card on a plain click', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+
+    click(items[0]);
+
+    expect(isSelected(items[0])).toBe(true);
+    expect(isSelected(items[1])).toBe(false);
+  });
+
+  it('clears the selection when a consumer reports a completed move', async () => {
+    const { root, items } = renderSelectableRoot();
+    root.setAttribute(
+      'data-action',
+      'sortable-lists:test-move-completed@document->sortable-lists#clearSelectionAfterMove',
+    );
+    await ctx.nextFrame();
+    fireEvent.click(items[0]);
+    fireEvent.click(items[1], { ctrlKey: true });
+    expect(items[1]).toHaveAttribute('data-batch-selected');
+
+    fireEvent(document, new CustomEvent('sortable-lists:test-move-completed'));
+
+    items.forEach((item) => expect(item).not.toHaveAttribute('data-batch-selected'));
+  });
+
+  it('lets a plain click continue to the navigation handler', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+
+    items[0].dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('lets a plain click on a non-movable card continue to navigate without selecting', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+
+    items[0].dispatchEvent(event);
+
+    expect(isSelected(items[0])).toBe(false);
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  // A fixed card does not join the batch, but the click still opens its
+  // details pane, so it must not leave an unrelated batch behind.
+  it('clears an existing batch on a plain click that lands on a non-movable card', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    click(items[1], { ctrlKey: true });
+    items[2].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+
+    items[2].dispatchEvent(event);
+
+    expect(items.some(isSelected)).toBe(false);
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('announces the new count when a plain click collapses a multi-card batch', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    click(items[1], { ctrlKey: true });
+    click(items[2], { ctrlKey: true });
+    announceSpy.mockClear();
+
+    click(items[0]);
+
+    expect(items.filter(isSelected)).toEqual([items[0]]);
+    expect(announcedMessages()).toEqual([
+      ['[selected:1]', { politeness: 'polite' }],
+    ]);
+  });
+
+  // The click also opens the details pane, which is its own feedback.
+  it('stays silent on a plain click that does not change the selected count', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    announceSpy.mockClear();
+
+    click(items[1]);
+
+    expect(items.filter(isSelected)).toEqual([items[1]]);
+    expect(announceSpy).not.toHaveBeenCalled();
+  });
+
+  // An unconsumed modified gesture would reach the card's own click handler
+  // and open the details pane on a selection toggle.
+  it('consumes a modified click during a busy move without changing the selection', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    root.setAttribute('data-sortable-lists-busy', 'true');
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
+
+    items[0].dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  it('returns the read-only scope without selecting while the root is busy', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const controller = ctx.getController<SortableListsControllerType>('sortable-lists', root);
+    click(items[0], { ctrlKey: true });
+    click(items[1], { ctrlKey: true });
+    root.setAttribute('data-sortable-lists-busy', 'true');
+
+    expect(controller.selectForAction(items[2])).toEqual({ kind: 'batch', items: [items[2]] });
+    expect(controller.selectForAction(items[1])).toEqual({ kind: 'batch', items: [items[0], items[1]] });
+    expect(items.filter(isSelected)).toEqual([items[0], items[1]]);
+  });
+
+  it('toggles a card without navigating on a modified click', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
+
+    click(items[0]);
+    items[1].dispatchEvent(event);
+
+    expect(isSelected(items[0])).toBe(true);
+    expect(isSelected(items[1])).toBe(true);
+    expect(event.defaultPrevented).toBe(true);
+  });
+
+  it('selects a range from the anchor on a shift click', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+
+    click(items[0]);
+    click(items[2], { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[0], items[1], items[2]]);
+  });
+
+  it('keeps the anchor fixed so a range can be resized', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+
+    click(items[0]);
+    click(items[2], { shiftKey: true });
+    click(items[1], { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[0], items[1]]);
+  });
+
+  it('starts a single selection when shift is pressed without an anchor', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+
+    click(items[1], { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[1]]);
+  });
+
+  // The count rule alone would fall silent whenever the prior selection was
+  // already a single card, leaving the failed range with no feedback.
+  it('announces a distinct message when a cross-list Shift-click restarts the range', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    announceSpy.mockClear();
+
+    click(items[3], { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[3]]);
+    expect(announcedMessages()).toEqual([
+      ['[range_restarted:1]', { politeness: 'polite' }],
+    ]);
+  });
+
+  // Same restart, reached the other way: an anchor pruned after a morph
+  // leaves a one-card selection with nothing to range from.
+  it('announces a distinct message when a Shift-click restarts the range after its anchor was pruned', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    click(items[1], { ctrlKey: true });
+    items[1].remove();
+    morphRoot(root);
+    await ctx.nextFrame();
+    announceSpy.mockClear();
+
+    click(items[2], { shiftKey: true });
+
+    // items[1] was removed from the document above; a stale reference to it
+    // would still carry the attribute it had before removal, so membership
+    // is checked on the two live cards rather than filtering the whole
+    // `items` array.
+    expect(isSelected(items[0])).toBe(false);
+    expect(isSelected(items[2])).toBe(true);
+    expect(announcedMessages()).toEqual([
+      ['[range_restarted:1]', { politeness: 'polite' }],
+    ]);
+  });
+
+  it('tells the user to expand the list when a range crosses a truncation marker', async () => {
+    const { sourceList, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const marker = document.createElement('li');
+    marker.setAttribute('data-sortable-lists-prev-item-id', '1');
+    marker.setAttribute('data-sortable-lists-omitted-count', '9');
+    sourceList.insertBefore(marker, items[1]);
+
+    click(items[0]);
+    announceSpy.mockClear();
+    click(items[2], { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[0]]);
+    expect(announcedMessages()).toEqual([
+      ['[range_unavailable]', { politeness: 'polite' }],
+    ]);
+  });
+
+  // Expanding the list can never resolve a non-movable card in the span.
+  it('tells the user a locked card blocks the range rather than to expand the list', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[1].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+
+    click(items[0]);
+    announceSpy.mockClear();
+    click(items[2], { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[0]]);
+    expect(announcedMessages()).toEqual([
+      ['[range_blocked]', { politeness: 'polite' }],
+    ]);
+  });
+
+  it('preserves the batch and announces when a non-movable card is modifier-clicked', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[1].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
+
+    click(items[0]);
+    announceSpy.mockClear();
+    items[1].dispatchEvent(event);
+
+    expect(items.filter(isSelected)).toEqual([items[0]]);
+    expect(event.defaultPrevented).toBe(true);
+    expect(announcedMessages()).toEqual([
+      ['[not_selectable]', { politeness: 'polite' }],
+    ]);
+  });
+
+  it('ignores gestures that start on an interactive descendant', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const link = document.createElement('a');
+    link.href = '/somewhere';
+    items[0].appendChild(link);
+
+    clickWithoutNavigating(link, { ctrlKey: true });
+
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  // Stopping the walk at the item would classify every gesture on a Backlogs
+  // card as interactive, since the card itself carries tabindex. Only
+  // observable once the focus host is a distinct, nested element.
+  it('selects when a gesture lands on a non-interactive descendant of a nested focus host', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const focusHost = document.createElement('div');
+    focusHost.setAttribute('data-sortable-lists--item-target', 'focus');
+    focusHost.tabIndex = 0;
+    const label = document.createElement('span');
+    focusHost.appendChild(label);
+    items[0].appendChild(focusHost);
+
+    click(label);
+
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  // A nested focus host sits below the item, so a gesture landing elsewhere
+  // on the row never reaches it walking up: stopping there unconditionally
+  // would leave the walk unbounded past the item.
+  it('still selects when a gesture lands on the row outside a nested focus host', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const focusHost = document.createElement('div');
+    focusHost.setAttribute('data-sortable-lists--item-target', 'focus');
+    focusHost.tabIndex = 0;
+    items[0].appendChild(focusHost);
+
+    click(items[0]);
+
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  it('does not select at all when selection is not enabled', async () => {
+    const { items } = renderFixture();
+    await ctx.nextFrame();
+
+    click(items[0]);
+
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  // A Turbo morph can flip the permission-gated value on a live root without
+  // reconnecting the controller, so the gestures follow the flip.
+  it('stops selecting when selection is disabled on the live root', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    expect(isSelected(items[0])).toBe(true);
+
+    root.setAttribute('data-sortable-lists-selection-enabled-value', 'false');
+    await ctx.nextFrame();
+
+    expect(items.some(isSelected)).toBe(false);
+    click(items[1]);
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  it('starts selecting when selection is enabled on the live root', async () => {
+    const { root, items } = renderFixture();
+    await ctx.nextFrame();
+    click(items[0]);
+    expect(items.some(isSelected)).toBe(false);
+
+    items.forEach((item) => item.setAttribute('tabindex', '0'));
+    root.setAttribute('data-sortable-lists-selection-enabled-value', 'true');
+    await ctx.nextFrame();
+
+    click(items[0]);
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  // A cached root re-attaching reconnects the same controller instance, and
+  // Stimulus fires no value callback for an unchanged attribute.
+  it('restores selection when the same root reconnects', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    expect(isSelected(items[0])).toBe(true);
+
+    root.remove();
+    await ctx.nextFrame();
+    fixture.append(root);
+    await ctx.nextFrame();
+
+    click(items[1]);
+    expect(isSelected(items[1])).toBe(true);
+  });
+
+  const keydown = (target:HTMLElement, key:string, init:KeyboardEventInit = {}) => {
+    const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...init });
+    target.dispatchEvent(event);
+    return event;
+  };
+
+  it('toggles the focused card on Space', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+
+    const event = keydown(items[0], ' ');
+
+    expect(isSelected(items[0])).toBe(true);
+    expect(event.defaultPrevented).toBe(true);
+  });
+
+  it('extends the range on Shift+Space', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    items[2].focus();
+
+    keydown(items[2], ' ', { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[0], items[1], items[2]]);
+  });
+
+  it('moves focus within the list on ArrowDown', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+
+    keydown(items[0], 'ArrowDown');
+
+    expect(document.activeElement).toBe(items[1]);
+  });
+
+  // An unconsumed arrow falls through to native scrolling, moving the page
+  // while focus stays put.
+  it('consumes ArrowUp at the first card even though focus cannot move', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+
+    const event = keydown(items[0], 'ArrowUp');
+
+    expect(document.activeElement).toBe(items[0]);
+    expect(event.defaultPrevented).toBe(true);
+  });
+
+  it('consumes ArrowDown at the last card of a list even though focus cannot move', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[2].focus();
+
+    const event = keydown(items[2], 'ArrowDown');
+
+    expect(document.activeElement).toBe(items[2]);
+    expect(event.defaultPrevented).toBe(true);
+  });
+
+  it('extends the range while moving focus on Shift+ArrowDown', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    items[0].focus();
+
+    keydown(items[0], 'ArrowDown', { shiftKey: true });
+
+    expect(document.activeElement).toBe(items[1]);
+    expect(items.filter(isSelected)).toEqual([items[0], items[1]]);
+  });
+
+  it('moves focus to the list boundaries on Home and End', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[1].focus();
+
+    keydown(items[1], 'End');
+    expect(document.activeElement).toBe(items[2]);
+
+    keydown(items[2], 'Home');
+    expect(document.activeElement).toBe(items[0]);
+  });
+
+  // Same boundary-scroll problem as the plain arrows above.
+  it('consumes Home at the first card even though focus cannot move', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+
+    const event = keydown(items[0], 'Home');
+
+    expect(document.activeElement).toBe(items[0]);
+    expect(event.defaultPrevented).toBe(true);
+  });
+
+  it('consumes End at the last card even though focus cannot move', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[2].focus();
+
+    const event = keydown(items[2], 'End');
+
+    expect(document.activeElement).toBe(items[2]);
+    expect(event.defaultPrevented).toBe(true);
+  });
+
+  // The design's keyboard table specifies the first/last *movable* card for
+  // Home/End (unlike plain arrow steps, which are not qualified that way).
+  it('skips a non-movable card when moving to the list boundary on End', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[2].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+    items[0].focus();
+
+    keydown(items[0], 'End');
+
+    expect(document.activeElement).toBe(items[1]);
+  });
+
+  // Focus cannot move further, but the range still resizes to the boundary.
+  it('resizes the range to the list boundary on Shift+Home even when focus cannot move', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[2]);
+    items[2].focus();
+    keydown(items[2], 'ArrowUp');
+    keydown(items[1], 'ArrowUp');
+
+    keydown(items[0], 'Home', { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[0], items[1], items[2]]);
+  });
+
+  // The fixture spans two lists: items[0..2] in the source, items[3..4] in
+  // the target.
+  it('selects every movable card in the focused list on Ctrl+A', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[1].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+    items[0].focus();
+
+    keydown(items[0], 'a', { ctrlKey: true });
+
+    const selected = items.filter(isSelected);
+    expect(selected).toEqual([items[0], items[2]]);
+    expect(selected).not.toContain(items[1]);
+  });
+
+  // Would pass under a root-wide select-all.
+  it('leaves movable cards of other lists unselected on Ctrl+A', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+
+    keydown(items[0], 'a', { ctrlKey: true });
+
+    expect(isSelected(items[3])).toBe(false);
+    expect(isSelected(items[4])).toBe(false);
+  });
+
+  it('selects every movable card of the focused list on ctrl A', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+
+    keydown(items[0], 'a', { ctrlKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[0], items[1], items[2]]);
+  });
+
+  it('does nothing on a bare "a" without a modifier', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+
+    const event = keydown(items[0], 'a');
+
+    expect(items.some(isSelected)).toBe(false);
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  // Focusing something other than the first card rules out an anchor that
+  // merely coincides with a document-order fallback.
+  it('anchors the batch on the focused card after Ctrl+A when it is movable', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[2].focus();
+
+    keydown(items[2], 'a', { ctrlKey: true });
+    keydown(items[0], ' ', { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[0], items[1], items[2]]);
+  });
+
+  // A subsequent Shift gesture proves the fallback anchor is set: no anchor
+  // at all would collapse the range to a single card.
+  it('anchors the batch on the first movable card after Ctrl+A when the focused card is not movable', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+    items[0].focus();
+
+    keydown(items[0], 'a', { ctrlKey: true });
+    keydown(items[2], ' ', { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[1], items[2]]);
+  });
+
+  it('clears the batch on Escape', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    items[0].focus();
+
+    keydown(items[0], 'Escape');
+
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  it('preserves the batch and consumes Escape during a busy move', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    items[0].focus();
+    root.setAttribute('data-sortable-lists-busy', 'true');
+
+    const event = keydown(items[0], 'Escape');
+
+    expect(items.filter(isSelected)).toEqual([items[0]]);
+    expect(event.defaultPrevented).toBe(true);
+  });
+
+  // An unconsumed Escape still reaches dialogs and menus.
+  it('leaves Escape unconsumed when there is nothing to clear', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+
+    const event = keydown(items[0], 'Escape');
+
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  // BatchSelection#toggle re-bases the anchor even on a deselect, so an
+  // emptied selection leaves one behind. The Shift gesture below would range
+  // from it had Escape not dropped it.
+  it('clears the stale anchor left by a deselect, not just a visible selection', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+    keydown(items[0], ' ');
+    keydown(items[0], ' ');
+
+    keydown(items[0], 'Escape');
+    keydown(items[2], ' ', { shiftKey: true });
+
+    expect(items.filter(isSelected)).toEqual([items[2]]);
+  });
+
+  // A click on empty column space focuses nothing, and Escape there still
+  // means "drop the selection".
+  it('clears the batch on Escape when focus has left the root entirely', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+
+    keydown(document.body, 'Escape');
+
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  // An interactive descendant keeps its own clicks and Space, but Escape
+  // still belongs to the selection.
+  it('clears the batch on Escape from a link inside a card', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const link = document.createElement('a');
+    link.href = '#';
+    items[1].append(link);
+
+    keydown(link, 'Escape');
+
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  it('leaves Escape inside an open menu to the menu', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const menu = document.createElement('div');
+    menu.setAttribute('role', 'menu');
+    const menuButton = document.createElement('button');
+    menu.append(menuButton);
+    root.append(menu);
+
+    const event = keydown(menuButton, 'Escape');
+
+    expect(isSelected(items[0])).toBe(true);
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('ignores an Escape another handler already consumed', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    items[1].addEventListener('keydown', (event) => event.preventDefault(), { once: true });
+
+    keydown(items[1], 'Escape');
+
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  // Focus routinely rests in the details pane or the page header after a
+  // selection; Escape there still means "drop the selection".
+  it('clears the batch on Escape from a control outside the root', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const button = document.createElement('button');
+    document.body.appendChild(button);
+    button.focus();
+
+    try {
+      keydown(button, 'Escape');
+    } finally {
+      button.remove();
+    }
+
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  it('leaves Escape to a text field outside the root', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const input = document.createElement('input');
+    document.body.appendChild(input);
+    input.focus();
+
+    try {
+      const event = keydown(input, 'Escape');
+      expect(event.defaultPrevented).toBe(false);
+    } finally {
+      input.remove();
+    }
+
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  it('leaves Escape to an open dialog', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const dialog = document.createElement('dialog');
+    const button = document.createElement('button');
+    dialog.appendChild(button);
+    document.body.appendChild(dialog);
+    dialog.showModal();
+
+    try {
+      const event = keydown(button, 'Escape');
+      expect(event.defaultPrevented).toBe(false);
+    } finally {
+      dialog.close();
+      dialog.remove();
+    }
+
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  // A menu opens its popover before moving focus into it on the next frame,
+  // so an Escape in between still targets the invoker inside the card.
+  it('leaves Escape to an open popover while focus is still on its invoker', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const invoker = document.createElement('button');
+    const popover = document.createElement('div');
+    popover.setAttribute('popover', '');
+    items[1].append(invoker, popover);
+    popover.showPopover();
+    invoker.focus();
+
+    try {
+      const event = keydown(invoker, 'Escape');
+      expect(event.defaultPrevented).toBe(false);
+    } finally {
+      popover.hidePopover();
+    }
+
+    expect(isSelected(items[0])).toBe(true);
+  });
+
+  it('clears the batch on Escape once the popover has closed', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    click(items[0]);
+    const popover = document.createElement('div');
+    popover.setAttribute('popover', '');
+    items[1].appendChild(popover);
+    popover.showPopover();
+    popover.hidePopover();
+
+    keydown(items[1], 'Escape');
+
+    expect(isSelected(items[0])).toBe(false);
+  });
+
+  it('leaves Enter to the navigation handler', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    items[0].focus();
+
+    const event = keydown(items[0], 'Enter');
+
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('ignores keys from an interactive descendant', async () => {
+    const { items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const input = document.createElement('input');
+    items[0].appendChild(input);
+    input.focus();
+
+    keydown(input, ' ');
+
+    expect(items.some(isSelected)).toBe(false);
+  });
+
+  describe('batch cap', () => {
+    async function renderOversizedBatch() {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+      root.setAttribute('data-sortable-lists-max-batch-size-value', '2');
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
+      announceSpy.mockClear();
+
+      return { controller, items };
+    }
+
+    function collectToasts():{ toasts:IToast[]; stop:() => void } {
+      const toasts:IToast[] = [];
+      const onToast = (event:Event) => toasts.push((event as CustomEvent<IToast>).detail);
+      window.addEventListener('op:toasters:add', onToast);
+
+      return { toasts, stop: () => window.removeEventListener('op:toasters:add', onToast) };
+    }
+
+    it('refuses a drag whose batch exceeds the cap and shows the cap as an error toast', async () => {
+      const { controller, items } = await renderOversizedBatch();
+      const { toasts, stop } = collectToasts();
+
+      expect(controller.beginDrag(items[0]).refused).toBe(true);
+      expect(controller.beginDrag(items[4]).refused).toBe(false);
+      stop();
+
+      expect(toasts).toEqual([{ type: 'error', message: '[batch_too_large:3:2]' }]);
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+
+    it('shows the cap toast again when the same oversized batch is dragged again', async () => {
+      const { controller, items } = await renderOversizedBatch();
+      const { toasts, stop } = collectToasts();
+
+      controller.beginDrag(items[0]);
+      controller.beginDrag(items[0]);
+      stop();
+
+      expect(toasts).toHaveLength(2);
+    });
+
+    it('keeps no refused session and ends the one it replaces', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+      root.setAttribute('data-sortable-lists-max-batch-size-value', '2');
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      const lingering = controller.beginDrag(items[4]);
+      click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
+
+      expect(controller.beginDrag(items[0]).refused).toBe(true);
+      expect(lingering.phase).toBe('ended');
+      expect(controller.dragSession).toBeNull();
+    });
+
+    it('never refuses without a cap', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
+
+      expect(controller.beginDrag(items[0]).refused).toBe(false);
+    });
+
+    it('does not refuse a batch exactly at the cap', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+      root.setAttribute('data-sortable-lists-max-batch-size-value', '3');
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
+      announceSpy.mockClear();
+
+      expect(controller.beginDrag(items[0]).refused).toBe(false);
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  function morphRoot(root:HTMLElement) {
+    root.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+  }
+
+  // A frame navigation, such as the "show more" expander, swaps the rows
+  // wholesale without a morph event; the fresh rows arrive unmarked.
+  describe('reconciling the batch after rows are replaced', () => {
+    const replaceRows = (items:HTMLElement[], keep:(item:HTMLElement) => boolean) => {
+      const rowsContainer = items[0].parentElement!;
+      const fresh = items.filter(keep).map((item) => {
+        const clone = item.cloneNode(true) as HTMLElement;
+        clone.removeAttribute('data-batch-selected');
+        return clone;
+      });
+      rowsContainer.replaceChildren(...fresh);
+      return fresh;
+    };
+
+    it('repaints the surviving members on the fresh rows without announcing', async () => {
+      const { items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      click(items[0]);
+      click(items[1], { ctrlKey: true });
+      announceSpy.mockClear();
+
+      const fresh = replaceRows(items, () => true);
+      await ctx.nextFrame();
+
+      expect(fresh.filter(isSelected)).toEqual([fresh[0], fresh[1]]);
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+
+    it('prunes a member the replacement dropped and announces the new count', async () => {
+      const { items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      click(items[0]);
+      click(items[1], { ctrlKey: true });
+      announceSpy.mockClear();
+
+      const fresh = replaceRows(items, (item) => item !== items[1]);
+      await ctx.nextFrame();
+
+      expect(fresh.filter(isSelected)).toEqual([fresh[0]]);
+      expect(announcedMessages()).toEqual([
+        ['[selected:1]', { politeness: 'polite' }],
+      ]);
+    });
+  });
+
+  describe('reconciling the batch after a morph', () => {
+    it('reapplies the batch presentation after a morph strips it', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      click(items[0]);
+      items[0].removeAttribute('data-batch-selected');
+
+      morphRoot(root);
+      await ctx.nextFrame();
+
+      expect(isSelected(items[0])).toBe(true);
+    });
+
+    it('clears a stale marker the morph preserved', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      items[2].setAttribute('data-batch-selected', '');
+
+      morphRoot(root);
+      await ctx.nextFrame();
+
+      expect(isSelected(items[2])).toBe(false);
+    });
+
+    it('announces the new count when a morph prune removes a selected card', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      click(items[0]);
+      click(items[1], { ctrlKey: true });
+      click(items[2], { ctrlKey: true });
+      items[1].remove();
+      announceSpy.mockClear();
+
+      morphRoot(root);
+      await ctx.nextFrame();
+
+      expect(announcedMessages()).toEqual([
+        ['[selected:2]', { politeness: 'polite' }],
+      ]);
+    });
+
+    // renderSelection runs on every morph and decides from membership alone,
+    // so a prune that drops nothing has to stay silent by itself.
+    it('stays silent when a morph prunes nothing', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      click(items[0]);
+      click(items[1], { ctrlKey: true });
+      announceSpy.mockClear();
+
+      morphRoot(root);
+      await ctx.nextFrame();
+
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+
+    // Rendered selection covers only elements still in the document, so it
+    // would pass even with the model unpruned. The anchor is the one place an
+    // unpruned model is observable: a dangling one makes the Shift+click
+    // below report an unavailable range instead of restarting the selection.
+    it('drops a removed member and its stale anchor from the model', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      click(items[0]);
+      click(items[1], { ctrlKey: true });
+      items[1].remove();
+
+      morphRoot(root);
+      await ctx.nextFrame();
+      click(items[2], { shiftKey: true });
+
+      expect(isSelected(items[0])).toBe(false);
+      expect(isSelected(items[2])).toBe(true);
+    });
+  });
+
+  describe('batch dragging', () => {
+    let root:HTMLElement;
+    let list1:HTMLElement;
+    let list2:HTMLElement;
+    let item1:HTMLElement;
+    let item2:HTMLElement;
+    let item3:HTMLElement;
+    let controller:SortableListsControllerType;
+
+    beforeEach(async () => {
+      const fixtureElements = renderSelectableRoot({
+        moveUrlTemplate: '/move/{id}',
+        optimistic: true,
+        collectionMoveUrl: '/collection-move-url',
+      });
+      root = fixtureElements.root;
+      list1 = fixtureElements.sourceList;
+      list2 = fixtureElements.targetList;
+      item1 = list1.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!;
+      item2 = list1.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!;
+      item3 = list1.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="3"]')!;
+
+      await ctx.nextFrame();
+      controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    });
+
+    function selectItems(...selected:HTMLElement[]) {
+      click(selected[0]);
+      selected.slice(1).forEach((item) => click(item, { ctrlKey: true }));
+    }
+
+    function rowIdsIn(list:HTMLElement):string[] {
+      return itemIds(list);
+    }
+
+    function selectedRowIds():string[] {
+      return Array.from(root.querySelectorAll<HTMLElement>('[data-batch-selected]'))
+        .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
+    }
+
+    // Mirrors item.controller.ts: canDrag begins the session, the preview
+    // callback freezes it, drag start marks its rows.
+    let currentSession:DragSession|null = null;
+
+    function beginDrag(source:HTMLElement) {
+      currentSession = controller.beginDrag(source);
+      currentSession.freeze();
+      currentSession.start();
+      return currentSession;
+    }
+
+    function batchDropTargets({ targetList, targetItem, edge }:{
+      targetList:HTMLElement;
+      targetItem:HTMLElement|null;
+      edge:'top'|'bottom'|null;
+    }) {
+      const dropTargets:ReturnType<typeof dropTargetRecord>[] = [];
+
+      if (targetItem && edge) {
+        vi.spyOn(targetItem, 'getBoundingClientRect').mockReturnValue(rect());
+        const targetItemId = targetItem.getAttribute('data-sortable-lists--item-id-value')!;
+        const data = attachClosestEdge(sortableDragSourceData({ itemId: targetItemId, type: 'work_package' }), {
+          element: targetItem,
+          input: input({ clientY: edge === 'bottom' ? 90 : 10 }),
+          allowedEdges: ['top', 'bottom'],
+        });
+        dropTargets.push(dropTargetRecord(targetItem, data));
+      }
+
+      dropTargets.push(dropTargetRecord(targetList, sortableListData({
+        type: targetList.getAttribute('data-sortable-lists--list-type-value')!,
+        listId: targetList.getAttribute('data-sortable-lists--list-id-value'),
+        name: targetList.getAttribute('data-sortable-lists--list-name-value'),
+      })));
+
+      return dropTargets;
+    }
+
+    // The second half of simulateDrop, split out so a test can mutate the
+    // DOM between drag start (beginDrag) and this.
+    async function completeDrop({ source, targetList, targetItem, edge }:{
+      source:HTMLElement;
+      targetList:HTMLElement;
+      targetItem:HTMLElement|null;
+      edge:'top'|'bottom'|null;
+    }) {
+      const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
+      const sourceId = source.getAttribute('data-sortable-lists--item-id-value')!;
+
+      monitorOptions?.onDrop?.({
+        source: sourcePayload(source, itemData(sourceId, 'work_package', root)),
+        location: {
+          initial: { dropTargets: [], input: input() },
+          current: { dropTargets: batchDropTargets({ targetList, targetItem, edge }), input: input() },
+          previous: { dropTargets: [] },
+        },
+      });
+
+      await flushPromises();
+    }
+
+    async function simulateDrop(args:{
+      source:HTMLElement;
+      targetList:HTMLElement;
+      targetItem:HTMLElement|null;
+      edge:'top'|'bottom'|null;
+    }) {
+      beginDrag(args.source);
+      await completeDrop(args);
+    }
+
+    // A drag released outside every registered drop target still fires
+    // onDrop, with no targets for resolveDropIntent to work from.
+    async function simulateCancelledDrop({ source }:{ source:HTMLElement }) {
+      beginDrag(source);
+      const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
+      const sourceId = source.getAttribute('data-sortable-lists--item-id-value')!;
+
+      monitorOptions?.onDrop?.({
+        source: sourcePayload(source, itemData(sourceId, 'work_package', root)),
+        location: {
+          initial: { dropTargets: [], input: input() },
+          current: { dropTargets: [], input: input() },
+          previous: { dropTargets: [] },
+        },
+      });
+
+      await flushPromises();
+    }
+
+    // Characterizes today's behavior, not a verdict on it. The "still over
+    // the source row" guard in resolveDropIntent compares the row under the
+    // pointer with the dragged item alone, so a release over a batch-mate's
+    // row with no sticky item target reads as a list-only drop and sends the
+    // block to the list's configured drop position. Whether a mate's row
+    // should count as the source row is an open product decision; flip the
+    // expectations when it is taken.
+    it('treats a release over a batch-mate\'s row as a list-only drop', async () => {
+      selectItems(item1, item2);
+      vi.spyOn(document, 'elementsFromPoint').mockReturnValue([item2]);
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: null, edge: null });
+
+      expect(rowIdsIn(list1)).toEqual(['3', '1', '2']);
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    // Item drop targets ask on every dragover; the owner is settled for the
+    // drag at its start and forgotten with the frozen batch.
+    describe('ownerDestinationOf', () => {
+      let list2Rows:HTMLElement;
+
+      const destinationOf = (list:HTMLElement) => ({
+        type: list.getAttribute('data-sortable-lists--list-type-value')!,
+        id: list.getAttribute('data-sortable-lists--list-id-value'),
+      });
+
+      beforeEach(() => {
+        list2Rows = list2.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="4"]')!.parentElement!;
+      });
+
+      function cancelDrag(source:HTMLElement) {
+        vi.mocked(monitorForElements).mock.lastCall?.[0].onDrop?.({
+          source: sourcePayload(source),
+          location: {
+            initial: { dropTargets: [], input: input() },
+            current: { dropTargets: [], input: input() },
+            previous: { dropTargets: [] },
+          },
+        });
+      }
+
+      it('remembers the owner for the drag', () => {
+        beginDrag(item1);
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+
+        list2Rows.append(item2);
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+      });
+
+      it('forgets the owner once the drag ends', () => {
+        beginDrag(item1);
+        controller.ownerDestinationOf(item2);
+        list2Rows.append(item2);
+
+        cancelDrag(item1);
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list2));
+      });
+
+      // A morph mid-drag can reparent a row, and the destination a drop into
+      // it reaches is the live one.
+      it('re-reads the owner after a morph mid-drag', async () => {
+        beginDrag(item1);
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+
+        list2Rows.append(item2);
+        root.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+        await ctx.nextFrame();
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list2));
+      });
+
+      it('answers live outside a drag', () => {
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+
+        list2Rows.append(item2);
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list2));
+      });
+
+      // Pragmatic checks the drag handle after canDrag, so a press outside
+      // the handle leaves a session that never froze; it must not pin
+      // answers given outside any drag.
+      it('answers live while a session is only prospective', () => {
+        controller.beginDrag(item1);
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+
+        list2Rows.append(item2);
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list2));
+      });
+    });
+
+    // The destination policy is applied over the whole batch, and a batch may
+    // span lists: one confined member pins the block to the list it already
+    // sits in, wherever the dragged card itself is.
+    describe('confined batch-mates', () => {
+      let item4:HTMLElement;
+
+      const destinationOf = (list:HTMLElement) => ({
+        type: list.getAttribute('data-sortable-lists--list-type-value')!,
+        id: list.getAttribute('data-sortable-lists--list-id-value'),
+      });
+
+      beforeEach(() => {
+        item4 = list2.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="4"]')!;
+        item3.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+      });
+
+      async function completeConfinedDrop({ source = item1, targetList, targetItem, edge }:{
+        source?:HTMLElement;
+        targetList:HTMLElement;
+        targetItem:HTMLElement|null;
+        edge:'top'|'bottom'|null;
+      }) {
+        const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
+        const sourceId = source.getAttribute('data-sortable-lists--item-id-value')!;
+
+        monitorOptions?.onDrop?.({
+          source: sourcePayload(source, sortableDragSourceData({
+            itemId: sourceId,
+            type: 'work_package',
+            rootElement: root,
+            permittedDestinations: currentSession?.permittedDestinations() ?? null,
+          })),
+          location: {
+            initial: { dropTargets: [], input: input() },
+            current: { dropTargets: batchDropTargets({ targetList, targetItem, edge }), input: input() },
+            previous: { dropTargets: [] },
+          },
+        });
+
+        await flushPromises();
+      }
+
+      it('permits every list while no member is confined', () => {
+        selectItems(item1, item2);
+
+        expect(controller.beginDrag(item1).permittedDestinations()).toBeNull();
+      });
+
+      it('pins the drag to the list a selected confined batch-mate sits in', () => {
+        selectItems(item1, item3);
+
+        expect(controller.beginDrag(item1).permittedDestinations()).toEqual([destinationOf(list1)]);
+      });
+
+      it('pins the drag to a confined batch-mate in another list', () => {
+        item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+        selectItems(item1, item4);
+
+        expect(controller.beginDrag(item1).permittedDestinations()).toEqual([destinationOf(list2)]);
+      });
+
+      it('permits nothing while confined members disagree on their list', () => {
+        item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+        selectItems(item3, item4);
+
+        expect(controller.beginDrag(item3).permittedDestinations()).toEqual([]);
+      });
+
+      it('does not pin the drag while the confined card is unselected', () => {
+        selectItems(item1, item2);
+
+        expect(controller.beginDrag(item1).permittedDestinations()).toBeNull();
+      });
+
+      it('pins the confined card itself without any selection', () => {
+        expect(controller.beginDrag(item3).permittedDestinations()).toEqual([destinationOf(list1)]);
+      });
+
+      // Unreachable through a drag today, since a fixed card registers no
+      // draggable and cannot join a selection, but the lists follow the same
+      // policy the menus read rather than a confinement test of their own.
+      it('permits nothing for a fixed card', () => {
+        item2.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+
+        expect(controller.beginDrag(item2).permittedDestinations()).toEqual([]);
+      });
+
+      it('refuses a cross-list drop of a batch with a confined member', async () => {
+        const targetListIdsBefore = rowIdsIn(list2);
+        selectItems(item1, item3);
+        beginDrag(item1);
+
+        await completeConfinedDrop({ targetList: list2, targetItem: null, edge: null });
+
+        expect(fetchMock).not.toHaveBeenCalled();
+        expect(rowIdsIn(list1)).toEqual(['1', '2', '3']);
+        expect(rowIdsIn(list2)).toEqual(targetListIdsBefore);
+      });
+
+      it('still reorders a batch with a confined member within its list', async () => {
+        selectItems(item1, item3);
+        beginDrag(item1);
+
+        await completeConfinedDrop({ targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        expect(fetchMock).toHaveBeenCalled();
+        expect(rowIdsIn(list1)).toEqual(['2', '1', '3']);
+      });
+
+      // The reorder the dragged card's own list would accept on its own: the
+      // batch-mate it carries cannot follow it there.
+      it('refuses a reorder in the dragged card\'s list while a mate is confined elsewhere', async () => {
+        item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+        selectItems(item1, item4);
+        beginDrag(item1);
+
+        await completeConfinedDrop({ targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        expect(fetchMock).not.toHaveBeenCalled();
+        expect(rowIdsIn(list1)).toEqual(['1', '2', '3']);
+      });
+
+      // The mirror of the refusal above, and a drop the server accepts: only
+      // the free member changes list. The block lands at the start, since the
+      // row it was dropped against is itself a member and cannot anchor it.
+      it('accepts a drop in the list its confined mate already occupies', async () => {
+        item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+        selectItems(item1, item4);
+        beginDrag(item1);
+
+        await completeConfinedDrop({ targetList: list2, targetItem: item4, edge: 'bottom' });
+
+        expect(fetchMock).toHaveBeenCalled();
+        expect(rowIdsIn(list2)).toEqual(['1', '4', '5']);
+      });
+    });
+
+    // getInitialDataForExternal reads this before the batch is frozen, so it
+    // has to answer from the live selection rather than the frozen snapshot.
+    describe('prospective members', () => {
+      it('returns just the card while nothing is selected', () => {
+        expect(controller.beginDrag(item1).members).toEqual([item1]);
+      });
+
+      it('returns every batch member when the card is part of a selection', () => {
+        selectItems(item1, item3);
+
+        expect(controller.beginDrag(item1).members).toEqual([item1, item3]);
+      });
+
+      it('returns just the card when it is not part of the selection', () => {
+        selectItems(item3);
+
+        expect(controller.beginDrag(item1).members).toEqual([item1]);
+      });
+
+      it('does not touch the selection', () => {
+        selectItems(item1, item3);
+
+        controller.beginDrag(item1);
+
+        expect(selectedRowIds()).toEqual(['1', '3']);
+      });
+    });
+
+    // Ids are unique per source table; a nested list of another type can
+    // hold a colliding one, and the batch must never claim it.
+    it('leaves a same-id row of another type unmarked by the drag batch', async () => {
+      const collidingRow = document.createElement('li');
+      collidingRow.setAttribute('data-controller', 'sortable-lists--item');
+      collidingRow.setAttribute('data-sortable-lists--item-id-value', '1');
+      collidingRow.setAttribute('data-sortable-lists--item-type-value', 'section');
+      list2.appendChild(collidingRow);
+      await ctx.nextFrame();
+
+      selectItems(item1, item3);
+      beginDrag(item1);
+
+      expect(item1.hasAttribute('data-dragging')).toBe(true);
+      expect(item3.hasAttribute('data-dragging')).toBe(true);
+      expect(collidingRow.hasAttribute('data-dragging')).toBe(false);
+    });
+
+    it('moves every selected row and PUTs ordered ids to the collection URL', async () => {
+      selectItems(item1, item3);
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+      const url = moveRequest(fetchMock.mock.calls[0]).url;
+      const options = moveRequest(fetchMock.mock.calls[0]).options;
+      expect(url).toContain('/collection-move-url');
+      expect(url).toContain('optimistic=true');
+      const body = options.body;
+      expect(body.getAll('ids[]')).toEqual(['1', '3']);
+      expect(body.get('prev_id')).toBe('2');
+      // both rows moved contiguously after item 2:
+      expect(rowIdsIn(list1)).toEqual(['2', '1', '3']);
+    });
+
+    it('describes every selected item of a batch drop before moving it', async () => {
+      const details:unknown[] = [];
+      root.addEventListener('sortable-lists:before-move', (event) => details.push((event as CustomEvent).detail));
+      selectItems(item1, item3);
+
+      await simulateDrop({ source: item1, targetList: list2, targetItem: list2.firstElementChild as HTMLElement, edge: 'bottom' });
+
+      await waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+      expect(details).toEqual([{
+        items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '3' }],
+        listType: 'sprint',
+        listId: '2',
+        previousItemId: '4',
+      }]);
+      expect(rowIdsIn(list2)).toEqual(['4', '1', '3', '5']);
+    });
+
+    it('submits an independent pick and a Shift-built range in DOM order', async () => {
+      const [item4, item5] = Array.from(list2.children) as HTMLElement[];
+      selectItems(item4, item1);
+      click(item3, { shiftKey: true });
+      click(item2, { shiftKey: true });
+
+      await simulateDrop({ source: item2, targetList: list2, targetItem: item5, edge: 'bottom' });
+
+      expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['1', '2', '4']);
+      expect(rowIdsIn(list2)).toEqual(['5', '1', '2', '4']);
+    });
+
+    it('moves the narrowed range after Select All', async () => {
+      keydown(item2, 'a', { ctrlKey: true });
+      click(item3, { shiftKey: true });
+
+      await simulateDrop({ source: item2, targetList: list2, targetItem: null, edge: null });
+
+      expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['2', '3']);
+    });
+
+    it('moves a reversed range within the same list', async () => {
+      selectItems(item2);
+      click(item3, { shiftKey: true });
+      click(item1, { shiftKey: true });
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: item3, edge: 'bottom' });
+
+      expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['1', '2']);
+      expect(rowIdsIn(list1)).toEqual(['3', '1', '2']);
+    });
+
+    it('keeps same-list presentation and the range anchor after optimistic success', async () => {
+      root.setAttribute('data-sortable-lists-selection-description-id-value', 'selected-description');
+      item1.setAttribute('aria-describedby', 'own-description');
+      await ctx.nextFrame();
+      selectItems(item1);
+      click(item2, { shiftKey: true });
+      expect(item1.getAttribute('aria-describedby')).toBe('own-description selected-description');
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: item3, edge: 'bottom' });
+
+      expect(list1.contains(item1)).toBe(true);
+      expect(selectedRowIds()).toEqual(['1', '2']);
+      expect(item1.getAttribute('aria-describedby')).toBe('own-description selected-description');
+      click(item3, { shiftKey: true });
+      expect(selectedRowIds()).toEqual(['3', '1']);
+    });
+
+    it('retains a Shift-built range after cancellation and a failed retry', async () => {
+      selectItems(item1);
+      click(item2, { shiftKey: true });
+      await simulateCancelledDrop({ source: item1 });
+      expect(selectedRowIds()).toEqual(['1', '2']);
+      fetchMock.mockResolvedValueOnce(new Response('', { status: 500 }));
+
+      await simulateDrop({ source: item2, targetList: list2, targetItem: null, edge: null });
+
+      expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['1', '2']);
+      expect(selectedRowIds()).toEqual(['1', '2']);
+    });
+
+    it('drags an unselected card alone through the collection URL', async () => {
+      // select item 3, drag item 2: it is not part of the batch, so it
+      // collapses any selection onto itself and moves alone.
+      selectItems(item3);
+
+      await simulateDrop({ source: item2, targetList: list1, targetItem: item1, edge: 'top' });
+
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
+      expect(body.getAll('ids[]')).toEqual(['2']);
+    });
+
+    // Batch = {1, 3}. Dropping "top" on item 2 asks for its predecessor, and
+    // the only candidate — item 1 — is a batch member, so the walk has to
+    // fall through past it to blank rather than return '1'.
+    it('excludes selected rows when resolving the predecessor', async () => {
+      selectItems(item1, item3);
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'top' });
+
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
+      expect(body.get('prev_id')).toBe('');
+    });
+
+    it('suppresses a block no-op without a request', async () => {
+      // select 1 and 2 (already contiguous at top), drop 1 at the top again.
+      selectItems(item1, item2);
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'top' });
+
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('rolls the whole block back on failure and keeps the selection', async () => {
+      selectItems(item1, item3);
+      fetchMock.mockResolvedValueOnce(new Response('', { status: 500 }));
+
+      await simulateDrop({ source: item1, targetList: list2, targetItem: null, edge: null });
+
+      expect(rowIdsIn(list1)).toEqual(['1', '2', '3']);
+      // selection preserved for retry:
+      expect(selectedRowIds()).toEqual(['1', '3']);
+    });
+
+    it('clears the frozen batch when a drag is cancelled', async () => {
+      // simulate a drop that resolves no intent (dropTargets: []), then a
+      // fresh singular drag of item 2 — the stale batch must not leak in.
+      await simulateCancelledDrop({ source: item1 });
+      await simulateDrop({ source: item2, targetList: list1, targetItem: item3, edge: 'bottom' });
+
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
+      expect(body.getAll('ids[]')).toEqual(['2']);
+    });
+
+    it('keeps the selection after a successful move within the list', async () => {
+      selectItems(item1, item3);
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+      expect(selectedRowIds()).toEqual(['1', '3']);
+    });
+
+    it('clears the selection after a successful move to another list', async () => {
+      selectItems(item1, item3);
+
+      await simulateDrop({ source: item1, targetList: list2, targetItem: null, edge: null });
+
+      expect(selectedRowIds()).toEqual([]);
+    });
+
+    it('keeps the selection when the move fails', async () => {
+      selectItems(item1, item3);
+      fetchMock.mockResolvedValueOnce(new Response('', { status: 500 }));
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+      expect(selectedRowIds()).toEqual(['1', '3']);
+    });
+
+    it('aborts after registration healing prunes a missing frozen member', async () => {
+      selectItems(item1, item3);
+      beginDrag(item1);
+      item3.remove();
+      root.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+      await Promise.resolve();
+
+      await completeDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+      // No request, no partial DOM move:
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(rowIdsIn(list1)).toEqual(['1', '2']);
+
+      // The snapshot was still consumed — a following singular drag is clean:
+      await simulateDrop({ source: item2, targetList: list1, targetItem: item1, edge: 'top' });
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
+      expect(body.getAll('ids[]')).toEqual(['2']);
+    });
+
+    it('announces when a frozen member row vanished mid-drag', async () => {
+      selectItems(item1, item3);
+      beginDrag(item1);
+      item3.remove();
+      announceSpy.mockClear();
+
+      await completeDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+      expect(announceSpy).toHaveBeenCalledWith(
+        'Move failed. Check the items\' current positions.',
+        { politeness: 'assertive' },
+      );
+    });
+
+    describe('drag presentation', () => {
+      function draggingIds():string[] {
+        return Array.from(root.querySelectorAll<HTMLElement>('[data-dragging]'))
+          .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
+      }
+
+      it('marks every selected row as the drag source when the batch begins', () => {
+        selectItems(item1, item3);
+
+        beginDrag(item1);
+
+        expect(draggingIds().sort()).toEqual(['1', '3']);
+      });
+
+      it('marks only the dragged row when it is not part of a selection', () => {
+        selectItems(item3);
+
+        beginDrag(item2);
+
+        expect(draggingIds()).toEqual(['2']);
+      });
+
+      it('reports the frozen batch size', () => {
+        selectItems(item1, item3);
+
+        const batchSession = controller.beginDrag(item1);
+        batchSession.freeze();
+        expect(batchSession.frozenSize).toBe(2);
+
+        const singleSession = controller.beginDrag(item2);
+        singleSession.freeze();
+        expect(singleSession.frozenSize).toBe(1);
+      });
+
+      it('clears every dragging mark after a completed drop', async () => {
+        selectItems(item1, item3);
+
+        await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
+      });
+
+      it('clears every dragging mark after a cancelled drop', async () => {
+        selectItems(item1, item3);
+
+        await simulateCancelledDrop({ source: item1 });
+
+        expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
+      });
+
+      it('ends the drag session on disconnect', () => {
+        selectItems(item1, item3);
+        const session = beginDrag(item1);
+
+        controller.disconnect();
+
+        expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
+        // Ended, not just swept: a late remark has nothing to mark.
+        expect(session.phase).toBe('ended');
+        session.remark();
+        expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
+      });
+
+      // Pragmatic dispatches onDragStart a frame after the preview, and an
+      // item controller reconnecting in between loses nothing: the root's
+      // monitor starts the session.
+      it('starts the session from the monitor\'s drag start', () => {
+        selectItems(item1, item3);
+        const session = controller.beginDrag(item1);
+        session.freeze();
+
+        vi.mocked(monitorForElements).mock.lastCall?.[0].onDragStart?.({
+          source: sourcePayload(item1, itemData('1', 'work_package', root)),
+          location: {
+            initial: { dropTargets: [], input: input() },
+            current: { dropTargets: [], input: input() },
+            previous: { dropTargets: [] },
+          },
+        });
+
+        expect(session.phase).toBe('started');
+        expect(draggingIds()).toEqual(['1', '3']);
+      });
+
+      it('replaces a session that never started', () => {
+        const abandoned = controller.beginDrag(item1);
+        const session = controller.beginDrag(item2);
+
+        expect(abandoned.phase).toBe('ended');
+        expect(session.phase).toBe('prospective');
+        expect(session.sourceElement).toBe(item2);
+      });
+
+      // A stray mark on an element the batch never touched stands in for a
+      // row Pragmatic's own onDrop cleanup never reached.
+      it('sweeps a leftover mark from a row outside the frozen batch on drop', async () => {
+        selectItems(item1, item3);
+        item2.setAttribute('data-dragging', 'source');
+
+        await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
+      });
+
+      // A morph can replace a batch-mate's row with a fresh element that
+      // never went through the session's marking, so it arrives unmarked while
+      // still part of the frozen batch.
+      it('preserves frozen membership through registration healing and synthetic selection clearing', async () => {
+        selectItems(item1, item3);
+        beginDrag(item1);
+
+        // A morph-replaced node arrives from server HTML without the
+        // in-memory mark, which the clone would otherwise inherit.
+        const replacement = item3.cloneNode(true) as HTMLElement;
+        replacement.removeAttribute('data-dragging');
+        item3.replaceWith(replacement);
+        replacement.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+        await Promise.resolve();
+
+        keydown(item1, 'Escape');
+        expect(selectedRowIds()).toEqual([]);
+        expect(replacement.getAttribute('data-dragging')).toBe('source');
+
+        await completeDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        expect(moveRequest(fetchMock.mock.calls[0]).options.body.getAll('ids[]')).toEqual(['1', '3']);
+        expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
+      });
+    });
+
+    describe('batch announcements', () => {
+      it('announces one batch movement with the block position range', async () => {
+        // a fourth row so the block's position range (2 through 3) reads
+        // distinctly from the list's total (4).
+        list1.append(itemRow('9'));
+        selectItems(item1, item3);
+
+        await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        // list1 reads ['2', '1', '3', '9'] afterwards: the batch lands after
+        // item 2, at positions 2 and 3 of 4.
+        expect(announceSpy).toHaveBeenCalledWith(
+          expect.stringContaining('2 items moved to positions 2 through 3 of 4'),
+          expect.anything(),
+        );
+      });
+
+      // Set post-connect: Stimulus Values read the attribute live, so a
+      // synchronous set-then-drop in one test is safe.
+      it('speaks the consumer scope when moveAnnouncementScope is set', async () => {
+        root.setAttribute('data-sortable-lists-move-announcement-scope-value', 'js.backlogs.announcements');
+
+        // Nothing selected, so the single dragged card moves alone through
+        // the collection URL: the singular wording path.
+        await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        expect(announceSpy).toHaveBeenCalledWith(
+          expect.stringContaining('work package moved to position'),
+          expect.anything(),
+        );
+      });
+    });
+
+    describe('failure announcements', () => {
+      it('announces the check-positions warning on a 422 whose rollback is unverified', async () => {
+        selectItems(item1, item3);
+        let resolveMove:(response:Response) => void;
+        fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+          resolveMove = resolve;
+        }));
+
+        await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        // Removing a batch row between the request being issued and
+        // resolving, as a concurrent morph would, leaves rowsRemainAt unable
+        // to confirm the block, so the rollback is skipped.
+        item3.remove();
+        resolveMove!(new Response('', { status: 422 }));
+        await flushPromises();
+
+        expect(announceSpy).toHaveBeenCalledWith(
+          expect.stringContaining('Check the items'),
+          expect.anything(),
+        );
+      });
+
+      it('stays silent on a 422 whose rollback verified', async () => {
+        selectItems(item1, item3);
+        fetchMock.mockResolvedValueOnce(new Response('', { status: 422 }));
+
+        await simulateDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        expect(announceSpy).not.toHaveBeenCalledWith(
+          expect.stringContaining('Move failed'), expect.anything(),
+        );
+      });
+    });
+  });
+
+  // The collection URL alone picks the contract: a root that renders one
+  // sends a lone card through it even when nothing can be selected.
+  describe('drop route', () => {
+    it('moves a single card through the collection URL on a root without selection', async () => {
+      const { root, sourceList } = renderFixture({ collectionMoveUrl: '/collection-move-url' });
+      const item1 = sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!;
+      const item2 = sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!;
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      const session = controller.beginDrag(item2);
+      session.freeze();
+      session.start();
+
+      vi.spyOn(item1, 'getBoundingClientRect').mockReturnValue(rect());
+      const targetData = attachClosestEdge(sortableDragSourceData({ itemId: '1', type: 'work_package' }), {
+        element: item1,
+        input: input({ clientY: 10 }),
+        allowedEdges: ['top', 'bottom'],
+      });
+      vi.mocked(monitorForElements).mock.lastCall?.[0].onDrop?.({
+        source: sourcePayload(item2, itemData('2', 'work_package', root)),
+        location: {
+          initial: { dropTargets: [], input: input() },
+          current: {
+            dropTargets: [
+              dropTargetRecord(item1, targetData),
+              dropTargetRecord(sourceList, sortableListData({ type: 'backlog_bucket', listId: '1', name: 'Product backlog' })),
+            ],
+            input: input(),
+          },
+          previous: { dropTargets: [] },
+        },
+      });
+      await flushPromises();
+
+      const url = moveRequest(fetchMock.mock.calls[0]).url;
+      const body = moveRequest(fetchMock.mock.calls[0]).options.body;
+      expect(url).toContain('/collection-move-url');
+      expect(body.getAll('ids[]')).toEqual(['2']);
+      expect(itemIds(sourceList)).toEqual(['2', '1', '3']);
     });
   });
 });

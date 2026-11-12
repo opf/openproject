@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -182,7 +181,7 @@ RSpec.describe WorkPackages::BaseContract do
           .to receive(:effective_target_versions)
           .and_return([version])
         allow(work_package.status)
-          .to receive(:is_closed?)
+          .to receive(:closed?)
           .and_return(true)
       end
 
@@ -212,7 +211,7 @@ RSpec.describe WorkPackages::BaseContract do
           .to receive(:effective_target_versions)
           .and_return([open_version, closed_version])
         allow(work_package.status)
-          .to receive(:is_closed?)
+          .to receive(:closed?)
           .and_return(true)
       end
 
@@ -229,7 +228,7 @@ RSpec.describe WorkPackages::BaseContract do
         allow(work_package)
           .to receive_messages(target_versions: [closed_version], effective_target_versions: [open_version])
         allow(work_package.status)
-          .to receive(:is_closed?)
+          .to receive(:closed?)
           .and_return(true)
       end
 
@@ -1691,8 +1690,7 @@ RSpec.describe WorkPackages::BaseContract do
                         .from_status(current_status.id, [role.id], author:, assignee:)
                         .select(:new_status_id)
 
-        Status.where(id: from_workflows)
-          .or(Status.where(id: current_status.id))
+        Status.where(id: from_workflows).or(Status.where(id: current_status.id))
       end
 
       it "returns a scope that returns current_status and those available by workflow" do
@@ -1701,19 +1699,16 @@ RSpec.describe WorkPackages::BaseContract do
       end
 
       it "removes closed statuses if blocked" do
-        allow(work_package)
-          .to receive(:blocked?)
-          .and_return(true)
+        allow(work_package).to receive(:blocked?).and_return(true)
 
-        expected = base_scope.where(is_closed: false).order_by_position
+        expected = base_scope.not_closed.order_by_position
 
-        expect(contract.assignable_statuses.to_sql)
-          .to eql expected.to_sql
+        expect(contract.assignable_statuses.to_sql).to eql expected.to_sql
       end
 
       context "if the current status is closed and the version is closed as well" do
         let(:version) { build_stubbed(:version, status: "closed") }
-        let(:current_status) { build_stubbed(:status, is_closed: true) }
+        let(:current_status) { build_stubbed(:status, category: "closed") }
 
         before do
           allow(work_package)
@@ -1796,27 +1791,13 @@ RSpec.describe WorkPackages::BaseContract do
       let(:target_status) { create(:status) }
 
       before do
-        link_configuration(variant, source:, aspect: TypeVariant::WORKFLOWS)
+        variant.update!(workflow: source.default_variant.workflow)
         create(:workflow, role_id: role.id, type_variant: source.default_variant,
                           old_status_id: current_status.id, new_status_id: target_status.id,
                           author: false, assignee: false)
       end
 
-      it "resolves allowed transitions through the linked source's workflows" do
-        expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
-      end
-
-      it "resolves allowed transitions through a longer link chain" do
-        middle = create(:type)
-        link_configuration(middle, source:, aspect: TypeVariant::WORKFLOWS)
-        link_configuration(variant, source: middle, aspect: TypeVariant::WORKFLOWS)
-
-        expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
-      end
-
-      # The feature flag opens the admin surface; it never changes what a link resolves to.
-      it "resolves the link the same with the variants feature disabled",
-         with_flag: { type_variants: false } do
+      it "resolves allowed transitions through the shared workflow" do
         expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
       end
     end
@@ -1902,12 +1883,11 @@ RSpec.describe WorkPackages::BaseContract do
   # The work package stores the family's type, so the subject pattern in force is the one the
   # project's variant resolves to. Following the stored type alone would answer with the base
   # pattern and silently ignore a variant owning its defaults.
-  describe "subject patterns when the project resolves the type to a variant",
-           with_flag: { type_variants: true } do
+  describe "subject patterns when the project resolves the type to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
-        link_configuration(named, source: family_root, aspect: TypeVariant::DEFAULTS)
+        link_configuration(named, aspect: TypeVariant::DEFAULTS)
       end
     end
 
@@ -1951,8 +1931,7 @@ RSpec.describe WorkPackages::BaseContract do
 
   # #new_statuses_by_workflow reads the workflows of the type in force, which is the variant the
   # project resolves the stored type to.
-  describe "#assignable_statuses when the project resolves the type to a variant",
-           with_flag: { type_variants: true } do
+  describe "#assignable_statuses when the project resolves the type to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:variant) { create(:type_variant, type: family_root, variant_name: "Variant") }
     shared_let(:current_status) { create(:status, name: "Current") }
@@ -1966,8 +1945,7 @@ RSpec.describe WorkPackages::BaseContract do
     let(:work_package) { create(:work_package, project:, type: family_root, status: current_status) }
 
     before do
-      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
-      variant.reload
+      variant.update!(workflow: create(:named_workflow))
 
       create(:workflow, type: family_root, role:,
                         old_status_id: current_status.id, new_status_id: root_target.id)

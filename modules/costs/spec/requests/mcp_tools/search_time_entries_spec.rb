@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,143 +77,134 @@ RSpec.describe McpTools::SearchTimeEntries do
     time_entries.each(&:save!)
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "finds all of todays time entries without filters" do
-      mcp_request
-      expect(result_items.size).to eq(time_entries.size - 2)
+  it "finds all of todays time entries without filters" do
+    mcp_request
+    expect(result_items.size).to eq(time_entries.size - 2)
+  end
+
+  it "responds with properly formatted time entries" do
+    mcp_request
+    result_items.each do |time_entry|
+      expect(time_entry.to_json).to match_json_schema.from_docs("time_entry_model")
     end
+  end
 
-    it "responds with properly formatted time entries" do
+  describe "filtering by id" do
+    let(:call_args) { { id: time_entries.first.id } }
+
+    it "finds the time entry" do
       mcp_request
-      result_items.each do |time_entry|
-        expect(time_entry.to_json).to match_json_schema.from_docs("time_entry_model")
+      expect(result_items.size).to eq(1)
+      expect(result_items.first["id"]).to eq(time_entries.first.id)
+    end
+  end
+
+  describe "filtering by user_id" do
+    let(:call_args) { { user_id: common_user.id } }
+
+    it "finds only time entries with the given user_id" do
+      mcp_request
+      expect(result_items.size).to eq(2)
+      expect(result_items.first["id"]).to eq(time_entries.first.id)
+      expect(result_items.second["id"]).to eq(time_entries.second.id)
+    end
+  end
+
+  describe "filtering by work_package_id" do
+    before do
+      time_entries.each_with_index do |entry, i|
+        entry.entity.assign_attributes(identifier: "PROJ-#{100 + i}", sequence_number: 100 + i)
+        entry.entity.save!(context: :identifier_rewrite)
       end
     end
 
-    describe "filtering by id" do
-      let(:call_args) { { id: time_entries.first.id } }
+    context "when searching by classic id" do
+      let(:call_args) { { work_package_id: time_entries.first.entity_id } }
 
-      it "finds the time entry" do
+      it "finds only time entries with the given entity" do
         mcp_request
         expect(result_items.size).to eq(1)
         expect(result_items.first["id"]).to eq(time_entries.first.id)
       end
     end
 
-    describe "filtering by user_id" do
-      let(:call_args) { { user_id: common_user.id } }
+    context "when searching by semantic id" do
+      let(:call_args) { { work_package_id: "PROJ-100" } }
 
-      it "finds only time entries with the given user_id" do
+      it "finds only time entries with the given entity" do
         mcp_request
-        expect(result_items.size).to eq(2)
+        expect(result_items.size).to eq(1)
         expect(result_items.first["id"]).to eq(time_entries.first.id)
-        expect(result_items.second["id"]).to eq(time_entries.second.id)
-      end
-    end
-
-    describe "filtering by work_package_id" do
-      before do
-        time_entries.each_with_index do |entry, i|
-          entry.entity.assign_attributes(identifier: "PROJ-#{100 + i}", sequence_number: 100 + i)
-          entry.entity.save!(context: :identifier_rewrite)
-        end
-      end
-
-      context "when searching by classic id" do
-        let(:call_args) { { work_package_id: time_entries.first.entity_id } }
-
-        it "finds only time entries with the given entity" do
-          mcp_request
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(time_entries.first.id)
-        end
-      end
-
-      context "when searching by semantic id" do
-        let(:call_args) { { work_package_id: "PROJ-100" } }
-
-        it "finds only time entries with the given entity" do
-          mcp_request
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(time_entries.first.id)
-        end
-      end
-    end
-
-    describe "filtering by spent_since" do
-      let(:call_args) { { spent_since: Date.yesterday.iso8601 } }
-
-      it "finds only time entries after or on the given date" do
-        mcp_request
-        expect(result_items.size).to eq(time_entries.size - 1)
-      end
-    end
-
-    describe "filtering by spent_until" do
-      let(:call_args) { { spent_until: Date.tomorrow.iso8601 } }
-
-      it "finds only time entries before or on the given date" do
-        mcp_request
-        expect(result_items.size).to eq(time_entries.size - 1)
-      end
-    end
-
-    describe "combining multiple filters" do
-      let(:call_args) { { spent_since: Date.yesterday.iso8601, spent_until: Date.tomorrow.iso8601 } }
-
-      it "applies all filters" do
-        mcp_request
-        expect(result_items.size).to eq(time_entries.size)
-      end
-    end
-
-    context "when user cannot see time entries" do
-      let(:user) { create(:user) }
-
-      it "does not find any time entries" do
-        mcp_request
-        expect(result_items).to be_empty
-      end
-    end
-
-    describe "pagination" do
-      let(:page_size) { 10 }
-      let(:overspilling_time_entries) { 5 }
-      let(:time_entries_count) { page_size + overspilling_time_entries }
-      let(:time_entries) { create_list(:time_entry, time_entries_count) }
-      let(:call_args) { {} }
-
-      before do
-        allow(described_class).to receive(:page_size).and_return(page_size)
-      end
-
-      it "returns only results up to the page size" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
-      end
-
-      it "indicates the total number of results" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "total")).to eq(time_entries_count)
-      end
-
-      context "if another page is requested" do
-        let(:call_args) { { page: 2 } }
-
-        it "returns the requested page" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_time_entries)
-        end
       end
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
+  describe "filtering by spent_since" do
+    let(:call_args) { { spent_since: Date.yesterday.iso8601 } }
+
+    it "finds only time entries after or on the given date" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(result_items.size).to eq(time_entries.size - 1)
+    end
+  end
+
+  describe "filtering by spent_until" do
+    let(:call_args) { { spent_until: Date.tomorrow.iso8601 } }
+
+    it "finds only time entries before or on the given date" do
+      mcp_request
+      expect(result_items.size).to eq(time_entries.size - 1)
+    end
+  end
+
+  describe "combining multiple filters" do
+    let(:call_args) { { spent_since: Date.yesterday.iso8601, spent_until: Date.tomorrow.iso8601 } }
+
+    it "applies all filters" do
+      mcp_request
+      expect(result_items.size).to eq(time_entries.size)
+    end
+  end
+
+  context "when user cannot see time entries" do
+    let(:user) { create(:user) }
+
+    it "does not find any time entries" do
+      mcp_request
+      expect(result_items).to be_empty
+    end
+  end
+
+  describe "pagination" do
+    let(:page_size) { 10 }
+    let(:overspilling_time_entries) { 5 }
+    let(:time_entries_count) { page_size + overspilling_time_entries }
+    let(:time_entries) { create_list(:time_entry, time_entries_count) }
+    let(:call_args) { {} }
+
+    before do
+      allow(described_class).to receive(:page_size).and_return(page_size)
+    end
+
+    it "returns only results up to the page size" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
+    end
+
+    it "indicates the total number of results" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "total")).to eq(time_entries_count)
+    end
+
+    context "if another page is requested" do
+      let(:call_args) { { page: 2 } }
+
+      it "returns the requested page" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_time_entries)
+      end
     end
   end
 end

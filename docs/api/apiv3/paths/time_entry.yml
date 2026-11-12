@@ -121,7 +121,7 @@ patch:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
             message: You are not authorized to access this resource.
-      headers: { }
+      headers: {}
     '406':
       $ref: '../components/responses/missing_content_type.yml'
     '415':

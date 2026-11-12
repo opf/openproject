@@ -1,14 +1,22 @@
 # OpenProject development style guide - frontend
 
+Working on the frontend day to day — dev server, builds, plugin linking and writing specs — is documented in [frontend/doc](https://github.com/opf/openproject/tree/dev/frontend/doc).
+
 ## Code format
 
-OpenProject follows the [AirBnB's style guide](https://github.com/airbnb/javascript) regarding to the code format.  
+Code format is enforced by ESLint. The house rules live in `frontend/eslint.config.mjs`, largely through [`@stylistic`](https://eslint.style/), and indentation defers to `.editorconfig`.
+
+```shell
+cd frontend && npx eslint src/
+```
 
 ## Development patterns
 
+> The patterns below describe the Angular application, which is now legacy. New development uses Hotwire — Turbo and Stimulus — with server-rendered HTML and Primer via ViewComponent. Reframing this section is tracked in [DREAM-823](https://community.openproject.org/wp/DREAM-823).
+
 ### Angularized
 
-OpenProject follows the [Angular's style guide](https://angular.io/guide/styleguide) patterns.
+OpenProject follows the [Angular's style guide](https://angular.dev/style-guide) patterns.
 
 ### Declarative
 
@@ -50,7 +58,7 @@ An example in OpenProject would be the APIV3Service that encapsulates all the lo
 #### Why
 
 - Code is easier to understand and reason about.
-- Favours reusability.
+- Favors reusability.
 - Simplifies refactoring.
 - The state management becomes predictable, easy to trace, and under control.
 - Aligns with unidirectional data flow (Stores) and the Components Architecture.  
@@ -113,10 +121,12 @@ For the server, most of the time this means the database contents. Keeping our l
 
 Syncing with remote clients' state is currently nonexistent. Clients submit their updates only to the server. When submitting, clients submit a version token of the resource, which gets updated by the server. If a client tries to work on an older version of the resource, the request will fail. Usually is no sophisticated method in place to handle these; an error toaster will be thrown. Direct state transfer or sharing between clients is currently not done. Since this is a very hard problem to solve, there are no plans to change this significantly.
 
-State relating to the component's view (or children) **should** be declared and managed in that component. Children that rely on this state **should** receive it via inputs and request changes via outputs. Sometimes, this tree might prove too complex to easily hand local state and events up and down via this mechanism. In that case you **may** create an Akita store that is injected into the first shared parent component, and manage the state there. You **must not** save global state in a local component or service. You **should not** save state in non-akita services. The goal is to have a unified, observable-based interface to all application state.
+Which state management approach to use for new code is described in [Choosing an approach for new code](../../concepts/state-management/#choosing-an-approach-for-new-code): server-rendered Hotwire UI first, Signals for local state in existing Angular screens, and Akita entity stores only for API resources shared across Angular components. Akita is no longer maintained, so do not introduce new Akita stores for local or UI state.
 
-Most of our backend-related data is in the entity format. To capture this, there **must** be a global entity store. An example implementation is the in-app-notification store. This store olds a reference of all entities of a particular type that are in-use somewhere in the application as well as a list of IDs for entity collections of that type.
-Stores and components consuming a particular entity type **must** go through the global entity store to perform CRUD operations, so that updates can be properly reflected across the application.
+State relating to the component's view (or children) **should** be declared and managed in that component. Children that rely on this state **should** receive it via inputs and request changes via outputs. You **must not** save global state in a local component or service.
+
+Where backend entities are shared across Angular components, the global entity stores in `core/state` hold a reference of all entities of a particular type that are in use somewhere in the application, as well as a list of IDs for entity collections of that type. An example implementation is the in-app-notification store.
+Stores and components consuming such an entity type **must** go through its global entity store to perform CRUD operations, so that updates can be properly reflected across the application.
 
 #### Events and side effects
 
@@ -155,7 +165,7 @@ Angular also follows the unidirectional data flow pattern in the view to improve
 
 #### What
 
-- Do use the chosen state management library by default.
+- Do follow the [state management concept](../../concepts/state-management/#choosing-an-approach-for-new-code) when choosing where state lives.
 
 #### Why
 

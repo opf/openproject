@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -354,7 +353,9 @@ RSpec.describe Capabilities::Scopes::Default do
           let(:expected) do
             # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
             item = ->(namespace, action, global, module_name) {
-              return if module_name.present?
+              # A global permission is granted without a project, so the modules a project
+              # has enabled never gate it, even when it is declared inside a project module.
+              return if module_name.present? && !global
 
               ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
                user.id,

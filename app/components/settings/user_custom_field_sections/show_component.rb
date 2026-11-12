@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,15 +33,16 @@ module Settings
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include SortableLists::MoveMenu
 
-      def initialize(user_custom_field_section:, first_and_last: [])
+      def initialize(user_custom_field_section:, sections:)
         super
 
         @user_custom_field_section = user_custom_field_section
         @ordered_attributes = user_custom_field_section.attribute_order
         @custom_fields_by_key = user_custom_field_section.custom_fields_by_key
 
-        @first_and_last = first_and_last
+        @other_sections = sections.reject { |section| section.id == user_custom_field_section.id }
       end
 
       def custom_field_row_component_class
@@ -51,57 +51,42 @@ module Settings
 
       private
 
+      def available_formats
+        OpenProject::CustomFieldFormat.available_for_class_name("User").sort_by(&:name)
+      end
+
       def wrapper_uniq_by
         @user_custom_field_section.id
       end
 
-      def drag_and_drop_target_config
+      def field_list_data
         {
-          generic_drag_and_drop_target: "container",
-          "target-container-accessor": ".Box > ul",
-          "target-id": @user_custom_field_section.id,
-          "target-allowed-drag-type": "user-field"
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE,
+          sortable_lists__list_accepted_type_value: UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE,
+          sortable_lists__list_id_value: @user_custom_field_section.id,
+          sortable_lists__list_name_value: @user_custom_field_section.name,
+          # To omit the box's top margin and square off any rounded corners.
+          sortable_lists__item_target: "preview"
         }
       end
 
-      def draggable_item_config_for_custom_field(user_custom_field)
+      def field_item_data_for_built_in(key)
         {
-          "draggable-id": user_custom_field.id,
-          "draggable-type": "user-field",
-          "drop-url": drop_admin_settings_user_custom_field_path(user_custom_field)
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: key,
+          sortable_lists__item_type_value: UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE,
+          sortable_lists__item_label_value: User.human_attribute_name(key)
         }
       end
 
-      def draggable_item_config_for_built_in(key)
+      def field_item_data_for_custom_field(cf)
         {
-          "draggable-id": key,
-          "draggable-type": "user-field",
-          "drop-url": drop_admin_settings_user_custom_field_section_built_in_attribute_path(
-            @user_custom_field_section, key
-          )
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: cf.id,
+          sortable_lists__item_type_value: UserCustomFieldSection::FIELD_SORTABLE_LIST_TYPE,
+          sortable_lists__item_label_value: cf.name
         }
-      end
-
-      def move_actions(menu)
-        unless first?
-          move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top")
-          move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up")
-        end
-        unless last?
-          move_action_item(menu, :lower, t("label_agenda_item_move_down"), "chevron-down")
-          move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"), "move-to-bottom")
-        end
-      end
-
-      def move_action_item(menu, move_to, label_text, icon)
-        menu.with_item(label: label_text,
-                       href: move_admin_settings_user_custom_field_section_path(@user_custom_field_section, move_to:),
-                       form_arguments: {
-                         method: :put, data: { "turbo-stream": true,
-                                               test_selector: "user-custom-field-section-move-#{move_to}" }
-                       }) do |item|
-          item.with_leading_visual_icon(icon:)
-        end
       end
 
       def disabled_delete_action_item(menu)
@@ -136,24 +121,6 @@ module Settings
                        }) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end
-      end
-
-      def first?
-        @first ||=
-          if @first_and_last.first
-            @first_and_last.first == @user_custom_field_section
-          else
-            @user_custom_field_section.first?
-          end
-      end
-
-      def last?
-        @last ||=
-          if @first_and_last.last
-            @first_and_last.last == @user_custom_field_section
-          else
-            @user_custom_field_section.last?
-          end
       end
 
       def action_menu_item_for_custom_field_format(menu, format)

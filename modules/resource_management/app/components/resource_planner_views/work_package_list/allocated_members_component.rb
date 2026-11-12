@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -69,9 +68,14 @@ module ResourcePlannerViews::WorkPackageList
     def identifiable
       @identifiable ||= allocations.select do |allocation|
         allocation.principal_id.nil? ||
+          deleted_user?(allocation) ||
           visible_principal_ids.nil? ||
           visible_principal_ids.include?(allocation.principal_id)
       end
+    end
+
+    def deleted_user?(allocation)
+      allocation.principal.is_a?(DeletedUser)
     end
 
     def avatar_options
@@ -123,11 +127,8 @@ module ResourcePlannerViews::WorkPackageList
       identifiable.map { |allocation| member_name(allocation) }.join(", ")
     end
 
-    # The assigned user's name, the filter name for an unassigned filter
-    # allocation, or a generic label for an allocation that lost its principal
-    # (e.g. the assigned user was deleted) — so the avatar always has a label.
     def member_name(allocation)
-      allocation.principal&.name.presence || allocation.filter_name.presence || unassigned_label
+      allocation.principal&.name.presence || allocation.placeholder_user&.name.presence || unassigned_label
     end
 
     def unassigned_label

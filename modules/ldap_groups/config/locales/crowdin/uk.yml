@@ -60,7 +60,7 @@ uk:
 
           '
       label_n_groups_found:
-        one: Знайдено 1 групу за фільтром
+        one: "%{count} group found by the filter"
         other: 'Знайдено груп за фільтром: %{count}'
         zero: Груп за фільтром не знайдено
       plural: Фільтри синхронізації групи LDAP
@@ -94,7 +94,7 @@ uk:
       plural: Синхронізовані групи LDAP
       singular: Синхронізована група LDAP
       upsell:
-        description: Скористайтеся перевагами синхронізованих LDAP-груп, щоб змінювати дозволи користувачів і спростити керування користувачами, зокрема з різних груп.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Синхронізація членства в LDAP групах.
     name: Групи LDAP OpenProject

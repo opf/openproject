@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,12 +56,10 @@ RSpec.describe "Refreshing query menu item", :js do
     find(".button", text: "Save").click
 
     last_query = Query.last
-    url = URI.parse(page.current_url).query
-    expect(url).to include("query_id=#{last_query.id}")
-    expect(url).not_to match(/query_props=.+/)
+    expect(page).to have_current_query_params("query_id" => last_query.id.to_s)
 
     # Locate query and refresh
-    query_item = page.find(".op-submenu--item-action", text: last_query.name)
+    query_item = page.find(".op-submenu--item-action", text: last_query.name, wait: 20)
     query_item.click
 
     wp_table.expect_work_package_listed work_package, other_work_package

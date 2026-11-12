@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,6 +62,16 @@ RSpec.describe MeetingAgendaItems::DropService do
             old_section: section_one
           )
         end
+
+        it "journals the meeting with the agenda item in its new section",
+           with_settings: { journal_aggregation_time_minutes: 0 } do
+          meeting.touch_and_save_journals
+
+          expect { service_call }.to change { meeting.journals.count }.by(1)
+
+          expect(meeting.journals.last.agenda_item_journals.find_by(agenda_item_id: meeting_agenda_item.id))
+            .to have_attributes(meeting_section_id: section_two.id, position: 1)
+        end
       end
 
       context "when moving the item within the same section" do
@@ -80,6 +89,16 @@ RSpec.describe MeetingAgendaItems::DropService do
             current_section: section_one,
             old_section: nil
           )
+        end
+
+        it "journals the meeting with the agenda item at its new position",
+           with_settings: { journal_aggregation_time_minutes: 0 } do
+          meeting.touch_and_save_journals
+
+          expect { service_call }.to change { meeting.journals.count }.by(1)
+
+          expect(meeting.journals.last.agenda_item_journals.find_by(agenda_item_id: meeting_agenda_item.id))
+            .to have_attributes(meeting_section_id: section_one.id, position: 1)
         end
       end
 
@@ -151,6 +170,13 @@ RSpec.describe MeetingAgendaItems::DropService do
           expect(meeting_agenda_item.meeting_section).to eq(target_section)
           expect(meeting_agenda_item.meeting).to eq(occurrence_meeting)
         end
+
+        it "journals the meeting the item moved to" do
+          service_call
+
+          expect(occurrence_meeting.journals.last.agenda_item_journals.pluck(:agenda_item_id))
+            .to include(meeting_agenda_item.id)
+        end
       end
 
       context "when moving to a section from another recurring meeting" do
@@ -173,6 +199,42 @@ RSpec.describe MeetingAgendaItems::DropService do
 
           expect(service_call).to be_failure
           expect(service_call.errors[:base].join).to match(/Couldn't find MeetingSection/)
+        end
+      end
+    end
+
+    context "when the agenda item is in a one-time meeting backlog" do
+      let(:meeting) { create(:meeting, project:) }
+      let(:meeting_agenda_item) do
+        create(:meeting_agenda_item, meeting:, meeting_section: meeting.backlog)
+      end
+
+      subject(:service_call) do
+        described_class
+          .new(user:, meeting_agenda_item:)
+          .call(target_id:, position: 1)
+      end
+
+      context "when moving to a section of the same meeting" do
+        let(:target_section) { create(:meeting_section, meeting:) }
+        let(:target_id) { target_section.id }
+
+        it "moves the item out of the backlog" do
+          expect(service_call).to be_success
+
+          expect(meeting_agenda_item.reload.meeting_section).to eq(target_section)
+        end
+      end
+
+      context "when moving to a section of another one-time meeting" do
+        let(:other_meeting) { create(:meeting, project:) }
+        let(:target_id) { create(:meeting_section, meeting: other_meeting).id }
+
+        it "fails without changing the agenda item" do
+          expect { service_call }.not_to change { meeting_agenda_item.reload.meeting_section_id }
+
+          expect(service_call).to be_failure
+          expect(service_call.errors[:base].join).to include("Couldn't find MeetingSection")
         end
       end
     end
@@ -202,6 +264,21 @@ RSpec.describe MeetingAgendaItems::DropService do
           meeting_agenda_item.reload
           expect(meeting_agenda_item.meeting_section).to eq(template.backlog)
           expect(meeting_agenda_item.meeting).to eq(template)
+        end
+
+        it "journals both the occurrence and the template", with_settings: { journal_aggregation_time_minutes: 0 } do
+          meeting_agenda_item
+          occurrence_meeting.save_journals
+          template.save_journals
+
+          expect { service_call }
+            .to change { occurrence_meeting.journals.count }.by(1)
+            .and change { template.journals.count }.by(1)
+
+          expect(occurrence_meeting.journals.last.agenda_item_journals.pluck(:agenda_item_id))
+            .not_to include(meeting_agenda_item.id)
+          expect(template.journals.last.agenda_item_journals.pluck(:agenda_item_id))
+            .to include(meeting_agenda_item.id)
         end
       end
 

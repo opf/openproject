@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -86,7 +85,7 @@ RSpec.describe "work package generate PDF dialog", :js do
   end
 
   def open_generate_pdf_dialog!
-    click_link_or_button "More"
+    click_on accessible_name: "More", exact: true
     click_link_or_button "Generate PDF"
     wait_for_size_animation_completion("##{WorkPackages::Exports::Generate::ModalDialogComponent::MODAL_ID}")
   end
@@ -154,7 +153,8 @@ RSpec.describe "work package generate PDF dialog", :js do
     end
 
     it "downloads with options" do
-      check("Hyphenation")
+      check "Hyphenation"
+      expect(page).to have_checked_field("Hyphenation")
       select "Deutsch", from: "hyphenation_language"
       fill_in "footer_text", with: "Custom Footer Text"
       generate!

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,7 +49,7 @@ RSpec.describe "Reset form configuration",
       custom_field
 
       login_as(admin)
-      visit edit_type_form_configuration_path(type)
+      visit edit_form_configuration_path(type.default_variant.form_configuration)
     end
 
     it "resets the form properly after changes with CFs (Regression test #27487)" do
@@ -79,7 +78,7 @@ RSpec.describe "Reset form configuration",
                   "Costs"
                 ])
 
-      visit edit_type_form_configuration_path(type)
+      visit edit_form_configuration_path(type.default_variant.form_configuration)
 
       expect(form.group_order).to eq(
         [

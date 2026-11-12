@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,16 +37,19 @@ FactoryBot.define do
     start_date { Date.new(2026, 1, 5) }
     end_date { Date.new(2026, 1, 9) }
     allocated_time { 5 * 8 * 60 } # 5 days of 8 hours in minutes
-    user_filter { [] }
-    principal_explicit { true }
 
     traits_for_enum :state
 
+    after(:create) do |allocation|
+      if allocation.principal
+        ResourceAllocations::UpdateScheduleService.new.call(users: [allocation.principal], from: nil)
+      end
+    end
+
     trait :with_user_filter do
-      principal_explicit { false }
       principal { nil }
-      filter_name { "Full stack Developer (DE-EN)" }
       transient do
+        filter_name { "Full stack Developer (DE-EN)" }
         job_title_custom_field do
           UserCustomField.find_by(name: "Job title") ||
             create(:user_custom_field, :list,
@@ -61,21 +63,26 @@ FactoryBot.define do
                    multi_value: true,
                    possible_values: %w[German English French Spanish Italian Dutch Portuguese Polish])
         end
-      end
-      # Build real UserQuery filter objects (not hashes): the serialization
-      # coder dumps via `filter.field`, so it only accepts filter instances.
-      # The filter matches developers who speak German or English ("DE-EN"),
-      # leaving the other languages as non-matching values to test against.
-      user_filter do
-        job_title = job_title_custom_field
-        language = spoken_language_custom_field
-        developer_option = job_title.custom_options.find_by(value: "Developer")
-        language_options = language.custom_options.where(value: %w[German English])
+        # Build real UserQuery filter objects (not hashes): the serialization
+        # coder dumps via `filter.field`, so it only accepts filter instances.
+        # The filter matches developers who speak German or English ("DE-EN"),
+        # leaving the other languages as non-matching values to test against.
+        generic_filters do
+          job_title = job_title_custom_field
+          language = spoken_language_custom_field
+          developer_option = job_title.custom_options.find_by(value: "Developer")
+          language_options = language.custom_options.where(value: %w[German English])
 
-        query = UserQuery.new
-        query.where(job_title.column_name, "=", [developer_option.id.to_s])
-        query.where(language.column_name, "=", language_options.map { |option| option.id.to_s })
-        query.filters
+          query = UserQuery.new
+          query.where(job_title.column_name, "=", [developer_option.id.to_s])
+          query.where(language.column_name, "=", language_options.map { |option| option.id.to_s })
+          query.filters
+        end
+      end
+
+      placeholder_user do
+        PlaceholderUser.find_by(lastname: filter_name) ||
+          create(:placeholder_user, name: filter_name, user_filter: generic_filters)
       end
     end
   end

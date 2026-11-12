@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,11 +32,28 @@ import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/r
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+
+const relationFilterIds = [
+  'parent',
+  'precedes',
+  'follows',
+  'relates',
+  'duplicates',
+  'duplicated',
+  'blocks',
+  'blocked',
+  'partof',
+  'includes',
+  'requires',
+  'required',
+] as const;
+
+type RelationFilterId = typeof relationFilterIds[number];
 
 @Component({
   templateUrl: './wp-table-configuration-relation-selector.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-table-configuration-relation-selector',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -53,22 +69,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit {
   readonly schemaCache = inject(SchemaCacheService);
   readonly cdRef = inject(ChangeDetectorRef);
 
-  private relationFilterIds:string[] = [
-    'parent',
-    'precedes',
-    'follows',
-    'relates',
-    'duplicates',
-    'duplicated',
-    'blocks',
-    'blocked',
-    'partof',
-    'includes',
-    'requires',
-    'required',
-  ];
-
-  public availableRelationFilters:QueryFilterResource[] = [];
+  public availableRelationFilters:(QueryFilterResource & { id:RelationFilterId })[] = [];
 
   public selectedRelationFilter:QueryFilterResource|undefined = undefined;
 
@@ -103,7 +104,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit {
   }
 
   private setSelectedRelationFilter():void {
-    const currentRelationFilters:QueryFilterInstanceResource[] = this.relationFiltersOf(this.wpTableFilters.current) as QueryFilterInstanceResource[];
+    const currentRelationFilters:QueryFilterInstanceResource[] = this.relationFiltersOf(this.wpTableFilters.current);
     if (currentRelationFilters.length > 0) {
       this.selectedRelationFilter = this.availableRelationFilters.find((relationFilter) => relationFilter.id === currentRelationFilters[0].id)!;
     } else {
@@ -120,19 +121,20 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit {
   }
 
   private removeRelationFiltersFromCurrentState() {
-    const filtersToRemove = this.relationFiltersOf(this.wpTableFilters.current) as QueryFilterInstanceResource[];
+    const filtersToRemove = this.relationFiltersOf(this.wpTableFilters.current);
     this.wpTableFilters.remove(...filtersToRemove);
   }
 
-  private relationFiltersOf(filters:QueryFilterResource[]|QueryFilterInstanceResource[]):QueryFilterResource[]|QueryFilterInstanceResource[] {
-    return filters.filter((filter:QueryFilterResource|QueryFilterInstanceResource) => this.relationFilterIds.includes(filter.id));
+  private relationFiltersOf<T extends QueryFilterResource>(filters:T[]):(T & { id:RelationFilterId })[] {
+    return filters.filter((filter):filter is T & { id:RelationFilterId } =>
+      relationFilterIds.some((id) => id === filter.id));
   }
 
   private addFilterToCurrentState(filter:QueryFilterResource):void {
     const newFilter = this.wpTableFilters.instantiate(filter);
     const operator:QueryOperatorResource = this.getOperatorForId(newFilter, '=');
     newFilter.operator = operator;
-    newFilter.values = [{ href: '/api/v3/work_packages/{id}' }] as HalResource[];
+    newFilter.values = [{ href: '/api/v3/work_packages/{id}' }];
 
     this.wpTableFilters.add(newFilter);
   }

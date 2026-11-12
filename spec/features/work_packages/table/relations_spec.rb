@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 RSpec.describe "Work Package table child relations",
@@ -29,6 +56,36 @@ RSpec.describe "Work Package table child relations",
     login_as(user)
   end
 
+  it "toggles a relation once with Enter and restores its cell focus" do
+    wp_table.visit_query(query)
+    wp_table.expect_work_package_listed(parent)
+    columns.add("Children")
+    wp_table.focus_cell_by_keyboard(parent, :relationChild)
+
+    wp_table.press_keys(:enter)
+    expect(wp_table.row(parent))
+      .to have_button(accessible_name: "Relations in Children for ##{parent.id}", aria: { expanded: true }, count: 1)
+    wp_table.expect_focus_on_cell(parent, :relationChild)
+
+    wp_table.press_keys(:enter)
+    expect(wp_table.row(parent))
+      .to have_button(accessible_name: "Relations in Children for ##{parent.id}", aria: { expanded: false }, count: 1)
+    wp_table.expect_focus_on_cell(parent, :relationChild)
+  end
+
+  it "walks the relation expander from its cell before the row actions" do
+    wp_table.visit_query(query)
+    wp_table.expect_work_package_listed(parent)
+    columns.add("Children")
+    wp_table.focus_cell_by_keyboard(parent, :relationChild)
+
+    wp_table.press_keys(:tab)
+    expect(wp_table.row(parent))
+      .to have_button(accessible_name: "Relations in Children for ##{parent.id}", focused: true)
+    wp_table.press_keys(:tab)
+    wp_table.expect_focus_on_control(parent, "Open details view")
+  end
+
   it "displays expandable relation columns for the children of a work package" do
     # Now visiting the query for category
     wp_table.visit_query(query)
@@ -55,5 +112,25 @@ RSpec.describe "Work Package table child relations",
     # Collapse
     parent_row.find(".relationChild .wp-table--relation-indicator").click
     expect(page).to have_no_css(".__relations-expanded-from-#{parent.id}")
+  end
+
+  it "opens the relation column menu from its header button by keyboard", :selenium do
+    wp_table.visit_query(query)
+    wp_table.expect_work_package_listed(parent)
+
+    columns.add("Children")
+
+    expect(page).to have_button(accessible_name: /\Achildren\z/i)
+    expect(page).to be_axe_clean.within(".wp-table--table-header:has(.relations-header--icon)")
+
+    find(:columnheader, "Children").send_keys(:enter)
+    within(:menu, "Children") do
+      expect(page).to have_selector(:menuitem, focused: true)
+      expect(page).to have_selector(:menuitem, text: "Add columns")
+    end
+
+    page.send_keys(:escape)
+    expect(page).to have_no_menu("Children")
+    wp_table.expect_focus_on_column_header("Children")
   end
 end

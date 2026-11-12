@@ -34,6 +34,14 @@
     flex: 1
     cursor: pointer
 
+.FormControl-advanced-radio-wrap--stacked
+  flex-direction: column
+
+// Lines up with the label text, which the radio input and its gap push to the right.
+.FormControl-advanced-radio-nested
+  padding: 0 var(--base-size-12) var(--base-size-12)
+  padding-left: calc(var(--base-size-12) + var(--base-size-16) + var(--base-size-8))
+
 .FormControl-advanced-checkbox-content,
 .FormControl-advanced-radio-content
   display: grid
@@ -43,8 +51,12 @@
 
 .FormControl-advanced-checkbox-label-text,
 .FormControl-advanced-radio-label-text
+  display: flex
+  align-items: center
+  gap: var(--base-size-8)
   color: var(--fgColor-accent)
 
 .FormControl-advanced-checkbox-icon,
 .FormControl-advanced-radio-icon
+  flex-shrink: 0
   fill: var(--fgColor-accent)

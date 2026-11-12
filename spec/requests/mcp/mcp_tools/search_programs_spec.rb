@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,23 +65,103 @@ RSpec.describe McpTools::SearchPrograms do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "finds all programs without filters" do
+  it "finds all programs without filters" do
+    mcp_request
+    expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
+  end
+
+  it "responds with properly formatted programs" do
+    mcp_request
+    parsed_results.dig("structuredContent", "items").each do |program|
+      expect(program.to_json).to match_json_schema.from_docs("program_model")
+    end
+  end
+
+  context "when passing an exact identifier" do
+    let(:call_args) { { identifier: "abc" } }
+
+    it "finds the program" do
       mcp_request
-      expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
+      expect(parsed_results.dig("structuredContent", "items")).to be_present
     end
+  end
 
-    it "responds with properly formatted programs" do
+  context "when passing a non-exact identifier" do
+    let(:call_args) { { identifier: "Abc" } }
+
+    it "does not find the program" do
       mcp_request
-      parsed_results.dig("structuredContent", "items").each do |program|
-        expect(program.to_json).to match_json_schema.from_docs("program_model")
+      expect(parsed_results.dig("structuredContent", "items")).to be_empty
+    end
+  end
+
+  context "when passing an exact name" do
+    let(:call_args) { { name: "The ABC Program" } }
+
+    it "finds the program" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items")).to be_present
+    end
+  end
+
+  describe "pagination" do
+    let(:page_size) { 10 }
+    let(:overspilling_programs) { 5 }
+    let(:program_count) { page_size + overspilling_programs }
+    let(:call_args) { { name: "Death Star" } }
+
+    before do
+      allow(described_class).to receive(:page_size).and_return(page_size)
+
+      program_count.times do |idx|
+        create(:program,
+               identifier: "p#{idx}",
+               name: "Death Star construction phase #{idx}",
+               status_code: :on_track)
       end
     end
 
-    context "when passing an exact identifier" do
-      let(:call_args) { { identifier: "abc" } }
+    it "returns only results up to the page size" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
+    end
+
+    it "indicates the total number of results" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "total")).to eq(program_count)
+    end
+
+    context "if another page is requested" do
+      let(:call_args) { { name: "Death Star", page: 2 } }
+
+      it "returns the requested page" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_programs)
+      end
+    end
+  end
+
+  context "when passing a non-exact name" do
+    let(:call_args) { { name: "The abc" } }
+
+    it "finds the program" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items")).to be_present
+    end
+  end
+
+  context "when passing a program status" do
+    let(:call_args) { { status_code: "on_track" } }
+
+    it "finds the program" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items")).to be_present
+    end
+
+    context "and when passing a program identifier" do
+      let(:call_args) { { status_code: "on_track", identifier: "abc" } }
 
       it "finds the program" do
         mcp_request
@@ -90,105 +169,8 @@ RSpec.describe McpTools::SearchPrograms do
       end
     end
 
-    context "when passing a non-exact identifier" do
-      let(:call_args) { { identifier: "Abc" } }
-
-      it "does not find the program" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items")).to be_empty
-      end
-    end
-
-    context "when passing an exact name" do
-      let(:call_args) { { name: "The ABC Program" } }
-
-      it "finds the program" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items")).to be_present
-      end
-    end
-
-    describe "pagination" do
-      let(:page_size) { 10 }
-      let(:overspilling_programs) { 5 }
-      let(:program_count) { page_size + overspilling_programs }
-      let(:call_args) { { name: "Death Star" } }
-
-      before do
-        allow(described_class).to receive(:page_size).and_return(page_size)
-
-        program_count.times do |idx|
-          create(:program,
-                 identifier: "p#{idx}",
-                 name: "Death Star construction phase #{idx}",
-                 status_code: :on_track)
-        end
-      end
-
-      it "returns only results up to the page size" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
-      end
-
-      it "indicates the total number of results" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "total")).to eq(program_count)
-      end
-
-      context "if another page is requested" do
-        let(:call_args) { { name: "Death Star", page: 2 } }
-
-        it "returns the requested page" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_programs)
-        end
-      end
-    end
-
-    context "when passing a non-exact name" do
-      let(:call_args) { { name: "The abc" } }
-
-      it "finds the program" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items")).to be_present
-      end
-    end
-
-    context "when passing a program status" do
-      let(:call_args) { { status_code: "on_track" } }
-
-      it "finds the program" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items")).to be_present
-      end
-
-      context "and when passing a program identifier" do
-        let(:call_args) { { status_code: "on_track", identifier: "abc" } }
-
-        it "finds the program" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items")).to be_present
-        end
-      end
-
-      context "and when passing the program identifier of a program in a different status" do
-        let(:call_args) { { status_code: "on_track", identifier: "def" } }
-
-        it "does not find the program" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items")).to be_empty
-        end
-      end
-    end
-
-    context "when passing an invalid program status" do
-      let(:call_args) { { status_code: "blubb" } }
-
-      it_behaves_like "MCP tool execution error response"
-    end
-
-    context "when user can't see programs" do
-      let(:user) { create(:user) }
+    context "and when passing the program identifier of a program in a different status" do
+      let(:call_args) { { status_code: "on_track", identifier: "def" } }
 
       it "does not find the program" do
         mcp_request
@@ -197,10 +179,18 @@ RSpec.describe McpTools::SearchPrograms do
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+  context "when passing an invalid program status" do
+    let(:call_args) { { status_code: "blubb" } }
+
+    it_behaves_like "MCP tool execution error response"
+  end
+
+  context "when user can't see programs" do
+    let(:user) { create(:user) }
+
+    it "does not find the program" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(parsed_results.dig("structuredContent", "items")).to be_empty
     end
   end
 end

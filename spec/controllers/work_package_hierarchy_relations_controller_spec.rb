@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -108,8 +107,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
       context "when the child is invalid due to a required custom field" do
         shared_let(:custom_field) do
           create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-            project.enabled_variants.first.custom_fields << cf
-            project.work_package_custom_fields << cf
+            project.enabled_variants.first.custom_field_ids |= [cf.id]
           end
         end
 
@@ -161,8 +159,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
       context "when the work package is invalid due to a required custom field" do
         shared_let(:custom_field) do
           create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-            project.enabled_variants.first.custom_fields << cf
-            project.work_package_custom_fields << cf
+            project.enabled_variants.first.custom_field_ids |= [cf.id]
           end
         end
 
@@ -178,7 +175,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
     end
   end
 
-  describe "DELETE /work_packages/:work_package_id/children/:id" do
+  describe "DELETE /work_packages/:work_package_id/hierarchy_relations/:id" do
     def send_delete_request(related:)
       delete("destroy",
              params: { work_package_id: work_package.id,
@@ -245,8 +242,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
     context "when the child is invalid due to a required custom field" do
       shared_let(:custom_field) do
         create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-          project.enabled_variants.first.custom_fields << cf
-          project.work_package_custom_fields << cf
+          project.enabled_variants.first.custom_field_ids |= [cf.id]
         end
       end
 

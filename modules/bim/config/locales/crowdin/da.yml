@@ -106,7 +106,7 @@ da:
     not_recommended: ikke anbefalet
     recommended: anbefalet
     x_bcf_issues:
-      one: Et BCF- problem
+      one: "%{count} BCF-sag"
       other: "%{count} BCF-sager"
       zero: Ingen BCF-sager
   bim:
@@ -144,8 +144,10 @@ da:
       processing_default: 'Følgende standard-IFC-modeller behandles stadig og er derfor ikke tilgængelige endnu:'
   oauth:
     scopes:
-      bcf_v2_1: Fuld adgang til BCF v2.1 API'en
+      bcf_v2_1: Adgang til BCF v2.1 API'en
       bcf_v2_1_text: Programmet får fuld læse- og skriveadgang til OpenProjects BCF API v2.1 for at udføre handlinger på dine vegne.
+      explanations_admin:
+        bcf_v2_1: Programmet får fuld læse- og skriveadgang til OpenProject BCF API v2.1 for at udføre handlinger på brugerens vegne.
   permission_delete_bcf: Slet BCF-sager
   permission_manage_bcf: Importér og administrer BCF-sager
   permission_manage_bcf_explanation: |

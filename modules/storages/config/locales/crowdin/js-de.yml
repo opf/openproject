@@ -26,11 +26,11 @@ de:
         select: Dateien auswählen
         select_all: Alle auswählen
         selection:
-          zero: Dateien zum Verlinken auswählen
-          one: Eine Datei verknüpfen
+          none: Dateien zum Verlinken auswählen
+          one: Link %{count} file
           other: "%{count} Dateien verknüpfen"
         success_create:
-          one: 1 Dateiverknüpfung erfolgreich erstellt.
+          one: Successfully created %{count} file link.
           other: "%{count} Dateiverknüpfungen erfolgreich erstellt."
         tooltip:
           not_found: Diese Datei ist nicht verfügbar.

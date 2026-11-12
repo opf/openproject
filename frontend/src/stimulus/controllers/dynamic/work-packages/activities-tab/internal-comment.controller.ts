@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -86,7 +85,7 @@ export default class InternalCommentController extends BaseController {
     if (currentValue === previousValue) return;
 
     if (this.ckEditorInstance) {
-      const editorData = this.ckEditorInstance.getData({ trim: false });
+      const editorData = this.ckEditorInstance.getData({ trim: 'none' });
       if (editorData.length === 0) return;
 
       if (!currentValue && previousValue) {
@@ -116,7 +115,7 @@ export default class InternalCommentController extends BaseController {
 
   private async sanitizeInternalMentions():Promise<void> {
     if (this.ckEditorInstance) {
-      const editorData = this.ckEditorInstance.getData({ trim: false });
+      const editorData = this.ckEditorInstance.getData({ trim: 'none' });
       if (editorData.length === 0) return;
 
       const sanitizePath = `/work_packages/${this.workPackageId}/activities/sanitize_internal_mentions`;

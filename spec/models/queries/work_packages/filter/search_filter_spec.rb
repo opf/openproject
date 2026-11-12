@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -219,6 +218,32 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
       context "WP without attachment" do
         it_behaves_like "subject, description, and comment filter"
       end
+    end
+  end
+
+  describe "#filter_configurations" do
+    shared_let(:type) { create(:type) }
+    shared_let(:other_type) { create(:type) }
+    shared_let(:here) { create(:project, types: [type]) }
+    shared_let(:elsewhere) { create(:project, types: [other_type]) }
+
+    shared_let(:searchable_here) do
+      create(:string_wp_custom_field, searchable: true, is_filter: true, types: [type])
+    end
+    shared_let(:searchable_elsewhere) do
+      create(:string_wp_custom_field, searchable: true, is_filter: true, types: [other_type])
+    end
+
+    def searched_columns(for_project)
+      described_class.create!(name: :search, context: instance_double(Query, project: for_project),
+                              operator: "**", values: ["x"])
+                     .send(:custom_field_configurations)
+                     .map(&:filter_name)
+    end
+
+    it "searches only the custom fields the project's form configuration shows" do
+      expect(searched_columns(here)).to include(searchable_here.column_name)
+      expect(searched_columns(here)).not_to include(searchable_elsewhere.column_name)
     end
   end
 end

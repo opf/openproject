@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 FactoryBot.define do
   factory :ai_text_transform_run, class: "AI::TextTransformRun" do
     user
-    action { association :ai_text_transform_action }
+    action { association :ai_text_action }
     system_prompt { "You are a writing assistant.\n\nFix grammar only." }
     input { "Login page dont work on safari 17, i click submit and nothing happen." }
 

@@ -47,6 +47,8 @@
       draggable_hint: 'Dra i tekstbehandlerfeltet for å sette inn bilde eller referansevedlegg. Lukket felt i tekstbehandler åpnes mens du fortsetter å dra det.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Filen er satt i karantene fordi et virus ble funnet. Den er ikke tilgjengelig for nedlasting.
     autocomplete_ng_select:
       add_tag: Legg til element
@@ -61,6 +63,7 @@
         single: Velg "%{name}"
       remove: Fjern %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Ingen elementer funnet
       placeholder: Skriv for å søke
       project:
@@ -128,10 +131,10 @@
     button_confirm: Bekreft
     button_continue: Fortsett
     button_copy: Kopier
-    button_copy_link_to_clipboard: Kopier lenke til utklippstavlen
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Kopier til utklippstavlen
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Opprett
     button_custom-fields: Egendefinerte felter
     button_delete: Slett
@@ -147,6 +150,7 @@
     button_log_time: Logg tid
     button_more: Mer
     button_more_actions: Flere handlinger
+    button_move_to_position: Move to position
     button_open_details: Åpne detaljvisning
     button_open_fullscreen: Åpne fullskjermvisning
     button_quote: Sitèr
@@ -162,6 +166,7 @@
     button_stop_timer: Stop timer
     button_uncheck_all: Avmerk alle
     button_update: Oppdater
+    button_view_markdown: View Markdown
     caption_rate_history: Satshistorikk
     card:
       add_new: Legg til nytt kort
@@ -201,7 +206,11 @@
     description_select_work_package: 'Velg arbeidspakke #%{id}'
     description_subwork_package: 'Barn av arbeidspakke #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Det oppstod en feil i CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lagring av dokumentet mislyktes med følgende feil: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Nylig sett
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: alle prosjekter
@@ -358,8 +369,8 @@
     ical_sharing_modal:
       copy_url_label: Kopier URL
       description: Du kan bruke URLen (iCalendar) til å abonnere på denne kalenderen i en ekstern klient og vise oppdatert arbeidspakkeinformasjon derfra.
-      ical_generation_error_text: Det oppstod en feil ved generering av kalenderURL.
-      inital_setup_error_message: En feil oppstod under henting av data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-adressen "%{name}" ble vellykket kopiert til utklippstavlen. Lim den inn i kalenderklienten for å fullføre abonnementet.
       title: Abonner på kalender
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@
     label_assignee: Deltaker
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Vedlegg
-    label_author: 'Forfatter: %{user}'
     label_avatar: Profilbilde
     label_between: mellom
     label_board: Tavle
@@ -495,6 +505,7 @@
     label_in: i
     label_in_less_than: i mindre enn
     label_in_more_than: i mer enn
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Inkommende e-post
     label_infinity: Infinity
     label_information_plural: Informasjon
@@ -527,6 +538,10 @@
     label_open_context_menu: Åpne kontekstmeny
     label_open_menu: Åpne meny
     label_open_work_packages: åpne
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Passord
     label_per_page: 'Pr. side:'
     label_please_wait: Vennligst vent
@@ -551,6 +566,8 @@
     label_reset: Nullstill
     label_resize_project_menu: Resize project menu
     label_save_as: Lagre som
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Søk i en kolonne
     label_select_watcher: Velg en overvåker...
     label_selected_filter_list: Valgte filtre
@@ -558,7 +575,9 @@
     label_show_in_menu: Vis visning i meny
     label_sort_by: Sorter på
     label_sort_higher: Flytt opp
+    label_sort_highest: Move to top
     label_sort_lower: Flytt ned
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortert på
     label_sorting: Sortering
     label_spent_time: Tid brukt
@@ -569,6 +588,7 @@
     label_sum_for: Sum for
     label_this_week: denne uken
     label_time_entry_plural: Tid brukt
+    label_to_do_work_packages: to-do
     label_today: I dag
     label_total_amount: 'Totalt: %{amount}'
     label_total_progress: "%{percent}% utført"
@@ -623,8 +643,8 @@
     notifications:
       center:
         and_more_users:
-          one: og 1 annen
-          other: og %{count} andre
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Ser ut som du er helt oppdatert.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -720,6 +740,7 @@
     placeholders:
       default: "-"
       description: 'Beskrivelse: Klikk for å redigere...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klikk for å legge til beskrivelse for denne relasjonen
       selection: Vennligst velg
       subject: Angi emne her
@@ -806,12 +827,33 @@
       sorting_disabled: Sortering er deaktivert
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Lukk modal
@@ -825,9 +867,7 @@
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Er du sikker på at du vil slette valgte arbeidspakke(r)?
     time_entry:
-      stop: Stopp
       title: Logg tid
-      tracking: Tidsstyring
       work_package_required: Valg av arbeidspakke er påkrevd
     timer:
       button_stop: Stopp nåværende tidtaker
@@ -862,19 +902,19 @@
       label_two_factor_authentication: Tofaktorautentisering
     units:
       child_work_packages:
-        one: en underordnet arbeidspakke
-        other: "%{count} underordnet arbeidspakke"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 dag
+        one: "%{count} day"
         other: "%{count} dager"
         zero: 0 dager
       hour:
-        one: 1 t
+        one: "%{count} h"
         other: "%{count} t"
         zero: 0 t
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: arbeidspakke
@@ -934,6 +974,7 @@
         all_open: Alle åpne
         assigned_to_me: Tildelt meg
         created_by_me: Opprettet av meg
+        in_progress: In progress
         latest_activity: Siste aktivitet
         manually_sorted: New manually sorted query
         overdue: Forfalt
@@ -941,6 +982,7 @@
         shared_with_me: Delt med meg
         shared_with_users: Delt med brukere
         summary: Sammendrag
+        to_do: To-do
       description_enter_text: Skriv tekst
       description_filter: Filter
       description_options_hide: Skjul alternativer
@@ -1028,6 +1070,7 @@
         other: Øvrig
         people: Personer
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Klikk for å redigere tittelen på denne visningen.
         column_names: Kolonner
         confirm_edit_cancel: Er du sikker på at du vil avbryte redigering av navnet på denne visningen? Tittelen vil bli satt tilbake til forrige verdi.
@@ -1037,17 +1080,16 @@
           not_found: Det finnes ingen slik visning.
           unretrievable_query: Kan ikke hente visning fra URL
         filters: Filtre
-        group: Grupper etter
         group_by: Gruppèr resultater etter
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Gruppen av er deaktivert på grunn av at hierarki-modus er aktiv.
-        hide_column: Skjul kolonne
         hierarchy_disabled_by_group_by: Hierarki-modus er deaktivert på grunn av at resultatene blir gruppert av %{column}.
-        insert_columns: Sett inn kolonner
         move_column_left: Flytt kolonne til venstre
         move_column_right: Flytt kolonne til høyre
         public_text: 'Publiser denne visningen, slik at andre brukere får tilgang til visningen din. Brukere med ''Administrere offentlige visninger'' kan endre eller fjerne offentlig spørring. Dette påvirker ikke synligheten til arbeidspakken resultatene i denne oversikten og avhengig av tillatelser,  vil brukerne kunne se forskjellige resultater.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Navn for denne visningen
         sort_ascending: Stigende sortering
         sort_descending: Synkende sortering
@@ -1068,15 +1110,26 @@
       scheduling:
         is_parent: Datoene for denne arbeidspakken trekkes automatisk fra de underordnede. Aktiver 'Manuell planlegging' for å angi datoene.
         is_switched_from_manual_to_automatic: Datoene for denne arbeidspakken må eventuelt beregnes på nytt etter å ha byttet fra manual til automatisk planlegging på grunn av relasjoner med andre arbeidspakker.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Vis alle brukere som arbeidspakken er delt med
         title: Del arbeidspakke
       table:
         configure_button: Konfigurer tabell for arbeidspakke
-        summary: Tabell med rader for arbeidspakke og kolonner for arbeidspakkeegenskaper.
-        text_inline_edit: De fleste celler i denne tabellen er knapper som aktiverer inkorporering av funksjonaliteten til den egenskapen.
-        text_select_hint: Velg bokser skal åpnes med 'ALT' og piltaster.
-        text_sort_hint: Med lenkene i tabelloverskriftene kan du sortere, gruppe, omorganisere og legge til tabellkolonner.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Konfigurer tabellen for arbeidspakker
         choose_display_mode: Vis arbeidspakker som
@@ -1085,7 +1138,6 @@
         default_mode: Flat liste
         display_settings: Skjerminnstillinger
         display_sums_hint: Vis summer av alle summerbare egenskaper i en rad under tabellresultatene.
-        embedded_tab_disabled: Denne konfigurasjons-fanen er ikke tilgjengelig for den innebygde visningen du redigerer.
         hierarchy_hint: Alle filtrerte tabellresultater vil bli forsterket med sine overordnede. Hierarkier kan utvides og kollapses.
         hierarchy_mode: Hierarki
         highlighting: Utheving

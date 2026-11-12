@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -164,6 +163,30 @@ RSpec.describe Message do
         # Checks counters
         expect(forum.topics_count).to eq 1
         expect(forum.messages_count).to eq 1
+      end
+    end
+  end
+
+  describe "accepted solutions" do
+    shared_let(:project) { create(:project) }
+    shared_let(:forum) { create(:forum, project:) }
+    shared_let(:topic_author) { create(:user) }
+    shared_let(:topic) { create(:message, forum:, author: topic_author) }
+    shared_let(:later) { create(:message, forum:, parent: topic, accepted_solution: true, created_at: 2.hours.ago) }
+    shared_let(:earlier) { create(:message, forum:, parent: topic, accepted_solution: true, created_at: 3.hours.ago) }
+    shared_let(:plain_reply) { create(:message, forum:, parent: topic) }
+
+    describe "#accepted_solutions" do
+      it "lists the topic's accepted replies, oldest first" do
+        expect(topic.accepted_solutions).to eq([earlier, later])
+      end
+    end
+
+    describe ".with_accepted_solution_ids" do
+      let!(:unsolved_topic) { create(:message, forum:) }
+
+      it "keeps only the topics that have an accepted reply" do
+        expect(described_class.with_accepted_solution_ids([topic.id, unsolved_topic.id])).to eq(Set[topic.id])
       end
     end
   end

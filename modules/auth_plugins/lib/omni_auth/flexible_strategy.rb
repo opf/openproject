@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,7 +44,7 @@ module OmniAuth
 
     ##
     # Tries to match the request path of the current request with one of the registered providers.
-    # If a match is found the strategy is initialised with that provider to handle the request.
+    # If a match is found the strategy is initialized with that provider to handle the request.
     def match_provider!
       return false unless providers
 

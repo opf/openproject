@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,9 +60,9 @@ module Settings
           sortable_lists__list_accepted_type_value: "custom_field",
           sortable_lists__list_id_value: @project_custom_field_section.id,
           sortable_lists__list_name_value: @project_custom_field_section.name,
-          # The section's drag preview snapshots the box itself rather than
-          # the browser's native capture of the row wrapper, which paints the
-          # box's top margin and squares off the rounded corners.
+          # Belongs to the section's own sortable-lists--item controller on the
+          # enclosing StackItem: the box is its drag preview, so the native
+          # snapshot of the wrapper never squares off the box's rounded corners.
           sortable_lists__item_target: "preview"
         }
       end

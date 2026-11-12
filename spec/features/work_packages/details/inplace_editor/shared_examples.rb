@@ -1,23 +1,49 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 RSpec.shared_examples "as an accessible inplace editor" do
   it "triggers edit mode on click" do
-    scroll_to_element(field.display_element)
+    page.document.synchronize(20) { scroll_to_element(field.display_element) }
     field.activate_edition
     expect(field).to be_editing
     field.cancel_by_escape
   end
 
   it "triggers edit mode on RETURN key" do
-    scroll_to_element(field.display_element)
-
-    field.display_element.native.send_keys(:return)
-    expect(field).to be_editing
+    page.document.synchronize(20) { scroll_to_element(field.display_element) }
+    send_keys_without_click(field.display_element, :return)
+    field.expect_active!
     field.cancel_by_escape
   end
 
   it "is focusable" do
-    scroll_to_element(field.display_element)
+    page.document.synchronize(20) { scroll_to_element(field.display_element) }
 
     tab_index = field.display_element["tabindex"]
     expect(tab_index).not_to be_nil
@@ -49,6 +75,7 @@ end
 
 RSpec.shared_context "as a single validation point" do
   let(:other_field) { EditField.new page, :type }
+
   before do
     other_field.activate_edition
     field.activate_edition
@@ -80,15 +107,25 @@ RSpec.shared_examples "a cancellable field" do
       expect(field).not_to be_editing
       field.expect_state_text(work_package.send(property_name))
 
-      active_class_name = page.evaluate_script("document.activeElement.className")
-      expect(active_class_name).to include(field.display_selector[1..])
+      page.document.synchronize do
+        active_class_name = page.evaluate_script("document.activeElement.className").to_s
+        unless active_class_name.include?(field.display_selector[1..])
+          active_element = page.evaluate_script("document.activeElement.outerHTML")
+          raise Capybara::ExpectationNotMet,
+                "Expected focus to return to the display field, but active element was #{active_element}"
+        end
+      end
     end
   end
 
   context "for escape" do
     before do
       field.activate!
-      sleep 1
+      page.document.synchronize do
+        unless field.input_element == page.evaluate_script("document.activeElement")
+          raise Capybara::ExpectationNotMet, "Expected the editor to receive focus"
+        end
+      end
       field.cancel_by_escape
     end
 
@@ -133,32 +170,39 @@ RSpec.shared_examples "a principal autocomplete field" do
     it "autocompletes links to user profiles" do
       field.activate!
       field.clear with_backspace: true
-      field.input_element.send_keys(" @lau")
-      expect(page).to have_css(".mention-list-item", text: mentioned_user.name)
+      field.ckeditor.click_and_type_slowly " @"
+      wait_for_network_idle
+      expect(page).to have_css(".mention-list-item", wait: 20)
+      field.ckeditor.type_slowly "lau"
+      wait_for_network_idle
+      expect(page).to have_css(".mention-list-item", text: mentioned_user.name, wait: 20)
       expect(page).to have_css(".mention-list-item", text: mentioned_group.name)
       expect(page).to have_no_css(".mention-list-item", text: user.name)
 
       # Close the autocompleter
       field.input_element.send_keys :escape
       field.ckeditor.clear
+      expect(page).to have_no_css(".mention-list-item")
 
-      sleep 2
-
-      field.ckeditor.type_slowly "@Laura"
-      expect(page).to have_css(".mention-list-item", text: mentioned_user.name)
+      field.ckeditor.type_slowly "@"
+      wait_for_network_idle
+      expect(page).to have_css(".mention-list-item", wait: 20)
+      field.ckeditor.type_slowly "Laura"
+      wait_for_network_idle
+      expect(page).to have_css(".mention-list-item", text: mentioned_user.name, wait: 20)
       expect(page).to have_no_css(".mention-list-item", text: mentioned_group.name)
       expect(page).to have_no_css(".mention-list-item", text: user.name)
     end
   end
 
   context "with the project page" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
     it_behaves_like "principal autocomplete on field"
   end
 
   context "without the project page" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
     it_behaves_like "principal autocomplete on field"
   end
@@ -197,13 +241,13 @@ RSpec.shared_examples "not a principal autocomplete field" do
   end
 
   context "with the project page" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
     it_behaves_like "not principal autocomplete on field"
   end
 
   context "without the project page" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
     it_behaves_like "not principal autocomplete on field"
   end

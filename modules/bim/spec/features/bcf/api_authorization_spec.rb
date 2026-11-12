@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,6 @@ RSpec.describe "authorization for BCF api",
                :js,
                with_config: { edition: "bim" } do
   let!(:user) { create(:admin) }
-  let(:client_secret) { app.plaintext_secret }
   let(:scope) { "bcf_v2_1" }
   let!(:project) { create(:project, enabled_module_names: [:bim]) }
 
@@ -53,27 +51,27 @@ RSpec.describe "authorization for BCF api",
 
     # Create application
     page.find_test_selector("op-admin-oauth--button-new", text: "OAuth application").click
-    fill_in "application_name", with: "My API application"
+    fill_in "Name", with: "My API application"
     # Limit to bcf access
     check scope
     # Fill invalid redirect_uri
-    fill_in "application_redirect_uri", with: "not a url!"
+    fill_in "Redirect URI", with: "not a url!"
     click_on "Create"
 
     expect(page).to have_text("Redirect URI must be an absolute URI.")
-    fill_in "application_redirect_uri", with: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback"
+    fill_in "Redirect URI", with: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback"
     click_on "Create"
 
     expect_flash(message: "Successful creation.")
 
-    expect(page).to have_css(".attributes-key-value--key",
+    expect(page).to have_css(".AttributesGroupItem-key",
                              text: "Client ID")
-    expect(page).to have_css(".attributes-key-value--value",
+    expect(page).to have_css(".AttributesGroupItem-value",
                              text: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback")
 
     # Should print secret on initial visit
-    expect(page).to have_css(".attributes-key-value--key", text: "Client secret")
-    client_secret = page.first(".attributes-key-value--value code").text
+    expect(page).to have_css(".AttributesGroupItem-key", text: "Client secret")
+    client_secret = page.first("[data-test-selector=oauth-application--client-secret]").text
     expect(client_secret).to match /\w+/
 
     app = Doorkeeper::Application.first
@@ -126,7 +124,7 @@ RSpec.describe "authorization for BCF api",
     # While being logged in, the api can be accessed with the session
     visit("/api/bcf/2.1/projects/#{project.id}")
     expect(page)
-      .to have_content(JSON.dump({ project_id: project.id, name: project.name }))
+      .to have_text(JSON.dump({ project_id: project.id, name: project.name }))
 
     logout
 
@@ -137,7 +135,7 @@ RSpec.describe "authorization for BCF api",
 
     # Cancel button of basic auth should have been chosen now
     expect(page)
-      .to have_content(JSON.dump({ message: "You need to be authenticated to access this resource." }))
+      .to have_text(JSON.dump({ message: "You need to be authenticated to access this resource." }))
 
     ## Without the access token, access is denied
     api_session = ActionDispatch::Integration::Session.new(Rails.application)

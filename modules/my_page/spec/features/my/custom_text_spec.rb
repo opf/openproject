@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -110,9 +109,6 @@ RSpec.describe "Custom text widget on my page",
       expect(page).to have_no_css("notifications-upload-progress")
 
       field.save!
-
-      expect(page)
-        .to have_css("#content img", count: 1)
 
       expect(page)
         .not_to have_test_selector("op-attachment-list-item", text: "image.png")

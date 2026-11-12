@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -82,19 +81,25 @@ module RecurringMeetings
       meeting.recurring_meeting.template
     end
 
-    def reset_to_template! # rubocop:disable Naming/PredicateMethod
+    def reset_to_template!
       meeting.transaction do
         clear_existing_content
         copy_agenda_from_template
         copy_participants_from_template
-        meeting.update!(
-          { title: template.title, location: template.location, duration: template.duration }
-            .merge(extra_params)
-        )
+        meeting.update!(reset_template_params)
         journalize_copied_agenda(meeting)
       end
 
       true
+    end
+
+    def reset_template_params
+      {
+        title: template.title,
+        location: template.location,
+        duration: template.duration,
+        agenda_sorting_mode: template.agenda_sorting_mode
+      }.merge(extra_params)
     end
 
     def clear_existing_content

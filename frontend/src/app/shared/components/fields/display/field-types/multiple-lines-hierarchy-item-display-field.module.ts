@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { combineLatest, from, Observable } from 'rxjs';
+import { combineLatest, from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -35,6 +34,10 @@ import {
   ResourcesDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/resources-display-field.module';
 import { renderHierarchyItem } from 'core-app/shared/components/fields/display/field-types/render-hierarchy-item';
+import {
+  isUndisclosed,
+  undisclosedValueNode,
+} from 'core-app/shared/components/fields/display/field-types/undisclosed-value';
 
 export class MultipleLinesHierarchyItemDisplayField extends ResourcesDisplayField {
   public render(element:HTMLElement, _displayText:string) {
@@ -59,6 +62,10 @@ export class MultipleLinesHierarchyItemDisplayField extends ResourcesDisplayFiel
 
   private branches(items:HalResource[]):Observable<HTMLSpanElement[]> {
     return combineLatest(items.map((value:HalResource) => {
+      if (isUndisclosed(value)) {
+        return of(this.undisclosedPath(value));
+      }
+
       const itemLink = value.$link as HalLink;
 
       return from(itemLink.$fetch())
@@ -66,5 +73,12 @@ export class MultipleLinesHierarchyItemDisplayField extends ResourcesDisplayFiel
           switchMap((resource:HalResource) => renderHierarchyItem(resource, true)),
         );
     }));
+  }
+
+  private undisclosedPath(value:HalResource):HTMLSpanElement {
+    const path = document.createElement('span');
+    path.classList.add('path', '-multiline');
+    path.appendChild(undisclosedValueNode(value.name));
+    return path;
   }
 }

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -70,7 +69,9 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       noConnectionHint: (storageType:string) => this.i18n.t('js.storages.information.connection_error', { storageType }),
     },
     buttons: {
-      submit: (count:number):string => this.i18n.t('js.storages.file_links.selection', { count }),
+      submit: (count:number):string => (count === 0
+        ? this.i18n.t('js.storages.file_links.selection.none')
+        : this.i18n.t('js.storages.file_links.selection', { count })),
       cancel: this.i18n.t('js.button_cancel'),
       selectAll: this.i18n.t('js.storages.file_links.select_all'),
     },

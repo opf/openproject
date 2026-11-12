@@ -4,7 +4,7 @@
 <%# — no `sendForm` redirect needed. %>
 <%# `output_format:` toggles between JSON (one entry per filter, easier to %>
 <%# parse server-side) and the URL-style `params` string. Flip the param %>
-<%# in the Lookbook sidebar and see the hidden value re-serialise live. %>
+<%# in the Lookbook sidebar and see the hidden value re-serialize live. %>
 <div id="filter-form-preview-hidden">
   <%= primer_form_with(url: "/foo", method: :post) do |f| %>
     <%=

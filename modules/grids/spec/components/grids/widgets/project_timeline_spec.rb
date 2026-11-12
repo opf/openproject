@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,15 +22,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "rails_helper"
 
 RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
+  include Rails.application.routes.url_helpers
+
   let(:project) { create(:project) }
   let(:user) { create(:user) }
   let(:phases_role) { create(:project_role, permissions: [:view_project_phases]) }
@@ -269,7 +270,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
           "endDate" => sprint.finish_date.iso8601,
           "status" => sprint.status,
           "row" => 0,
-          "href" => Rails.application.routes.url_helpers.project_backlogs_backlog_path(project, sprint_ids: [sprint.id])
+          "href" => project_backlogs_backlog_path(project, sprint_ids: [sprint.id.to_s].to_json)
         )
       end
 

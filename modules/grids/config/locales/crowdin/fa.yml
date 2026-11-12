@@ -31,7 +31,7 @@ fa:
         title: اعضا
         view_all_members: مشاهده همه اعضا
         x_more:
-          one: و یک عضو دیگر.
+          one: و %{count} عضو دیگر.
           other: و %{count} عضو دیگر.
       news:
         no_results: مورد جدیدی برای گزارش وجود ندارد.

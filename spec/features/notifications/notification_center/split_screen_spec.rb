@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 RSpec.describe "Split screen in the notification center", :js do
@@ -49,7 +76,7 @@ RSpec.describe "Split screen in the notification center", :js do
 
       # Clicking on a another notification changes the split screen content
       center.click_item second_notification
-      split_screen = Pages::SplitWorkPackage.new(second_work_package, project)
+      split_screen = Pages::PrimerizedSplitWorkPackage.new(second_work_package, project)
       split_screen.expect_open
       center.expect_work_package_item second_notification
     end
@@ -76,6 +103,8 @@ RSpec.describe "Split screen in the notification center", :js do
       wp_full.expect_tab :relations
 
       page.execute_script("window.history.back()")
+      expect(page).to have_current_path(%r{/notifications}, ignore_query: true)
+      split_screen.expect_open
       split_screen.expect_tab :relations
 
       # The split screen can be closed

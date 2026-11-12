@@ -47,6 +47,8 @@ ja:
       draggable_hint: |
         埋め込み画像または添付ファイルをエディタにドラッグします。
         ドラッグしつづけると閉じているエディタ領域が開きます。
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: ウイルスが発見されたように、ファイルは隔離されています。ダウンロードできません。
     autocomplete_ng_select:
       add_tag: アイテムを追加
@@ -61,6 +63,7 @@ ja:
         single: '"%{name}" を選択'
       remove: "%{name} を削除"
     autocompleter:
+      create_label: Create label
       notFoundText: 見つかりませんでした
       placeholder: 検索キーワードを入力
       project:
@@ -128,10 +131,10 @@ ja:
     button_confirm: 確認
     button_continue: 続行
     button_copy: コピー
-    button_copy_link_to_clipboard: クリップボードにリンクをコピー
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: クリップボードにコピー
     button_copy_to_other_project: 別のプロジェクトで複製
+    button_copy_work_package_id: Copy work package ID
     button_create: 作成
     button_custom-fields: カスタムフィールド
     button_delete: 削除
@@ -147,6 +150,7 @@ ja:
     button_log_time: 時間を記録
     button_more: 続き
     button_more_actions: その他の操作
+    button_move_to_position: Move to position
     button_open_details: 詳細表示を開く
     button_open_fullscreen: 全画面表示を開く
     button_quote: 引用
@@ -162,6 +166,7 @@ ja:
     button_stop_timer: タイマー停止
     button_uncheck_all: 全てを選択解除
     button_update: 更新
+    button_view_markdown: View Markdown
     caption_rate_history: 単価設定(予算とコスト)
     card:
       add_new: 新規カード追加
@@ -201,7 +206,11 @@ ja:
     description_select_work_package: 'ワークパッケージを選択 #%{id}'
     description_subwork_package: 'ワークパッケージの子 #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor内でエラーが発生しました
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ ja:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: 最近閲覧した記事
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: すべてのプロジェクト
@@ -358,8 +369,8 @@ ja:
     ical_sharing_modal:
       copy_url_label: URLをコピー
       description: URL（iCalendar）を使って外部クライアントでこのカレンダーを購読し、そこから最新のワークパッケージ情報を見ることができます。
-      ical_generation_error_text: カレンダー URL の生成中にエラーが発生しました。
-      inital_setup_error_message: データ取得中にエラーが発生しました。
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL "%{name}" は正常にクリップボードにコピーされました。サブスクリプションを完了するためにカレンダークライアントに貼り付けてください。
       title: カレンダーを購読する
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@ ja:
     label_assignee: 担当者
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: 添付ファイル
-    label_author: '作者: %{user}'
     label_avatar: アバター
     label_between: 次の範囲内
     label_board: ボード
@@ -495,6 +505,7 @@ ja:
     label_in: 今日から○日後
     label_in_less_than: 今日から○日後以前
     label_in_more_than: 今日から○日後以降
+    label_in_progress_work_packages: in progress
     label_incoming_emails: 受信メール
     label_infinity: Infinity
     label_information_plural: 情報
@@ -527,6 +538,10 @@ ja:
     label_open_context_menu: コンテキストメニューを開く
     label_open_menu: メニューを開く
     label_open_work_packages: 未完了
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: パスワード
     label_per_page: 1 ページあたり
     label_please_wait: しばらくお待ちください
@@ -551,6 +566,8 @@ ja:
     label_reset: リセット
     label_resize_project_menu: Resize project menu
     label_save_as: 名前をつけて保存
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: 列を検索
     label_select_watcher: ウォッチャーを選択...
     label_selected_filter_list: 選択されたフィルタ
@@ -558,7 +575,9 @@ ja:
     label_show_in_menu: メニューを表示する
     label_sort_by: 並べ替え
     label_sort_higher: 上へ
+    label_sort_highest: Move to top
     label_sort_lower: 下へ移動
+    label_sort_lowest: Move to bottom
     label_sorted_by: 並べ替えされた
     label_sorting: ソート中
     label_spent_time: 作業時間の記録
@@ -569,6 +588,7 @@ ja:
     label_sum_for: 合計
     label_this_week: 今週
     label_time_entry_plural: 作業時間の記録
+    label_to_do_work_packages: to-do
     label_today: 今日
     label_total_amount: '合計: %{amount}'
     label_total_progress: "%{percent}% 進行状況"
@@ -623,7 +643,7 @@ ja:
     notifications:
       center:
         and_more_users:
-          other: と %{count} その他
+          other: and %{count} others
         empty_state:
           no_notification: もう追いついたようだね。
           no_notification_for_filter: どうやら、このフィルターにすべて引っかかったようだ。
@@ -719,6 +739,7 @@ ja:
     placeholders:
       default: "-"
       description: 説明クリックして編集...
+      description_double_click: 'Description: Double click to edit...'
       relation_description: クリックしてこの関係に説明を追加
       selection: 選択してください
       subject: ここにタイトルを入力します
@@ -805,12 +826,31 @@ ja:
       sorting_disabled: 並べ替えは無効です
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: モーダルを閉じる
@@ -824,9 +864,7 @@ ja:
     text_user_wrote: "%{value} が書き込みました："
     text_work_packages_destroy_confirmation: 選択したワークパッケージを削除してもよろしいですか？
     time_entry:
-      stop: ストップ
       title: 時間を記録
-      tracking: 作業時間の記録
       work_package_required: 最初にワークパッケージを選択する必要があります。
     timer:
       button_stop: 現在のタイマーを停止する
@@ -861,13 +899,13 @@ ja:
       label_two_factor_authentication: 2要素認証
     units:
       child_work_packages:
-        other: "%{count} の子ワークパッケージ"
+        other: "%{count} work package children"
       day:
-        one: 1日
+        one: "%{count} day"
         other: "%{count} 日間"
         zero: 0日
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
@@ -930,6 +968,7 @@ ja:
         all_open: 未完了
         assigned_to_me: 自分が担当しているもの
         created_by_me: 自分が作成したもの
+        in_progress: In progress
         latest_activity: 最新の活動
         manually_sorted: 新しい手動ソートされたクエリ
         overdue: 期限の過ぎたもの
@@ -937,6 +976,7 @@ ja:
         shared_with_me: 共有された項目
         shared_with_users: ユーザーと共有
         summary: サマリー(概要)
+        to_do: To-do
       description_enter_text: テキスト
       description_filter: フィルタ
       description_options_hide: オプションを非表示
@@ -1024,6 +1064,7 @@ ja:
         other: その他
         people: 割り当て
       query:
+        add_columns: Add columns
         click_to_edit_query_name: クリックすると、このビューのタイトルを編集できます。
         column_names: 列
         confirm_edit_cancel: このビューの名前の編集をキャンセルしてもよろしいですか？ タイトルは以前の値に戻されます。
@@ -1033,17 +1074,16 @@ ja:
           not_found: そのようなビューはありません
           unretrievable_query: URLからビューを取得できません
         filters: フィルタ
-        group: グループ化
         group_by: グループ化
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: 階層モードが有効なため、グループ化は無効です。
-        hide_column: 列を非表示
         hierarchy_disabled_by_group_by: 結果が %{column} でグループ化されているため、階層モードは無効です。
-        insert_columns: 列の挿入
         move_column_left: 列を左に移動
         move_column_right: 列を右に移動
         public_text: 'このビューを公開して、他のユーザーがビューにアクセスできるようにします。 「公開ビューの管理」権限を持つユーザーが、公開クエリを変更または削除できます。 これは、そのビューでのワークパッケージの結果の可視性に影響を与えないため、ユーザーの権限に応じて、異なる結果が表示される場合があります。
 
           '
+        remove_column: Remove column
         rename_query_placeholder: このビューの名前
         sort_ascending: 昇順にソート
         sort_descending: 降順にソート
@@ -1064,15 +1104,24 @@ ja:
       scheduling:
         is_parent: このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。
         is_switched_from_manual_to_automatic: 他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: ワークパッケージが共有されたすべてのユーザーを表示
         title: ワークパッケージを共有する
       table:
         configure_button: ワークパッケージテーブルを設定する
-        summary: ワークパッケージの行と、ワークパッケージの属性の列から成る表。
-        text_inline_edit: この表のほとんどのセルは、属性のインライン編集機能を有効にするボタンです。
-        text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。
-        text_sort_hint: テーブル見出しのリンクで、並べ替え、グループ化、再並べ替え、削除、およびテーブルの列を追加ができます。
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: このワークパッケージテーブルを設定する
         choose_display_mode: ワークパッケージを次のように表示する
@@ -1081,7 +1130,6 @@ ja:
         default_mode: フラットリスト
         display_settings: 表示設定
         display_sums_hint: 表の下にすべての集計可能な属性の合計を表示します。
-        embedded_tab_disabled: この設定タブは、編集中の埋め込みビューでは使用できません。
         hierarchy_hint: フィルタリングされたテーブルのすべての結果はその祖先で拡張されます。階層を展開したり折りたたんだりすることができます。
         hierarchy_mode: 階層
         highlighting: ハイライト

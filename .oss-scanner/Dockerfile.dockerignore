@@ -1,0 +1,12 @@
+.git
+.env*
+config/database.yml
+config/frontend_assets.manifest.json
+public/assets
+node_modules
+frontend/node_modules
+frontend/.angular
+vendor/bundle
+log/*.log
+tmp/*
+!tmp/test

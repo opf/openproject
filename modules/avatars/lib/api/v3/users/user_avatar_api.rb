@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,21 +32,45 @@ module API
         helpers ::AvatarHelper
         helpers ::API::Helpers::AttachmentRenderer
 
+        helpers do
+          def render_initials_svg(cache_seconds)
+            set_cache_headers!(cache_seconds) if cache_seconds
+
+            content_type "image/svg+xml"
+            env["api.format"] = :binary
+            body ::OpenProject::Avatars::InitialsSvg.render(@user)
+          end
+
+          def render_uploaded_image
+            raise ::API::Errors::NotFound unless @user == current_user || current_user.admin?
+
+            respond_with_attachment(local_avatar?(@user) || raise(::API::Errors::NotFound))
+          end
+        end
+
         finally do
           set_cache_headers
         end
 
         get "/avatar" do
           cache_seconds = @user == current_user ? nil : avatar_link_expires_in
+          avatar_type = avatar_manager.avatar_type_for(@user)
 
-          if (local_avatar = local_avatar?(@user))
+          # Requested by the frontend's <img onerror> handler after a local avatar
+          # or Gravatar request failed (e.g. no Gravatar registered for the user's
+          # email). Rendering the generated avatar directly, without attempting
+          # local/Gravatar again, avoids a server-side round trip to Gravatar and
+          # the redirect loop that would otherwise occur.
+          if params[:source] == "image"
+            render_uploaded_image
+          elsif params[:fallback].blank? && avatar_type == "image" && (local_avatar = local_avatar?(@user))
             respond_with_attachment(local_avatar, cache_seconds:)
-          elsif avatar_manager.gravatar_enabled?
+          elsif params[:fallback].blank? && avatar_type == "gravatar"
             set_cache_headers!(cache_seconds) if cache_seconds
 
             redirect build_gravatar_image_url(@user)
           else
-            status 404
+            render_initials_svg(cache_seconds)
           end
         rescue StandardError => e
           # Exceptions may happen due to invalid mails in the avatar builder

@@ -1,25 +1,41 @@
 <%
+  nested_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.text_field(
+        name: :street_name,
+        label: "Street name",
+        visually_hide_label: true,
+        placeholder: "Which street?"
+      )
+    end
+  end
+
   the_form = Class.new(ApplicationForm) do
     form do |f|
       f.advanced_radio_button_group(name: :foobar, label: "Template selection") do |radio_group|
         radio_group.radio_button(
           value: "foo",
           label: "Street building",
-          caption: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-          icon: "lookbook/advanced_form_inputs/installation_alerts.svg"
+          caption: "An option carrying a leading icon, and a field that only applies to it. The field sits
+                    outside the label, so using it does not select the option.",
+          leading_icon: :"git-branch",
+          nested_content: nested_form.new(@builder)
         )
         radio_group.radio_button(
           value: "bar",
           label: "House building",
           checked: true,
-          caption: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-          icon: "lookbook/advanced_form_inputs/installation_alerts.svg"
+          caption: "The selected option may offer an action, and name its source after the label.",
+          leading_icon: :home,
+          title_link: { text: "Terraced houses", href: "#" },
+          action: { text: "Change source", href: "#" }
         )
         radio_group.radio_button(
           value: "baz",
           label: "Bridge building",
-          caption: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-          icon: "lookbook/advanced_form_inputs/installation_alerts.svg",
+          caption: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+                    invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+          trailing_image: "lookbook/advanced_form_inputs/installation_alerts.svg",
           disabled: true
         )
       end

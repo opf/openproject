@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,6 +58,7 @@ module McpTools
     filter :type_id
     filter :version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
     filter :target_version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
+    filter :label_id, filter_proc: ->(wps, label_id) { label_id.nil? ? wps.without_labels : wps.labeled_with(label_id) }
     filter :subject, filter_proc: ->(wps, v) { wps.where("subject ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(v)}%'") }
 
     input_schema(
@@ -93,6 +93,11 @@ module McpTools
           type: %w[number null],
           description: "The ID of a version the work package targets. Matches work packages whose target " \
                        "versions include this version. Pass null to search for work packages without any target version."
+        },
+        label_id: {
+          type: %w[number null],
+          description: "The ID of a label. Matches work packages carrying this label. " \
+                       "Pass null to search for work packages without any label."
         }
       }
     )

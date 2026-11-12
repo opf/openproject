@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 #-- copyright
-
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -23,10 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
+
 module EnvData
   class LdapSeeder < Seeder
     KNOWN_CONNECTION_KEYS = %w[
@@ -40,10 +40,12 @@ module EnvData
 
     def seed_data!
       print_status "    ↳ Creating LDAP connection" do
+        existing = LdapAuthSource.where(name: Setting.seed_ldap.keys).index_by(&:name)
+
         Setting.seed_ldap.each do |name, options|
           validate_options!(name, options)
 
-          ldap = LdapAuthSource.find_or_initialize_by(name:)
+          ldap = existing.fetch(name) { LdapAuthSource.new(name:) }
 
           print_ldap_status(ldap)
           upsert_settings(ldap, options)
@@ -90,7 +92,7 @@ module EnvData
       key.gsub("_", "__").upcase
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def upsert_settings(ldap, options)
       ldap.host = options["host"]
       ldap.port = options["port"]
@@ -113,7 +115,6 @@ module EnvData
 
       ldap.save!
     end
-    # rubocop:enable Metrics/AbcSize
 
     def update_filters(ldap, filters)
       return if filters.blank? && !LdapGroups::SynchronizedFilter.exists?(ldap_auth_source: ldap)
@@ -123,17 +124,26 @@ module EnvData
     end
 
     def upsert_existing_filters(ldap, filters)
+      existing = existing_filters(ldap, filters.keys)
+
       filters.each do |name, options|
-        filter = ::LdapGroups::SynchronizedFilter.find_or_initialize_by(ldap_auth_source: ldap, name:)
+        filter = existing.fetch(name) { ::LdapGroups::SynchronizedFilter.new(ldap_auth_source: ldap, name:) }
         print_ldap_status(filter)
-
-        filter.group_name_attribute = options.fetch("group_attribute", "dn")
-        filter.sync_users = ActiveRecord::Type::Boolean.new.deserialize options.fetch("sync_users", false)
-        filter.filter_string = options["filter"]
-        filter.base_dn = options["base"]
-
-        filter.save!
+        upsert_filter_settings!(filter, options)
       end
+    end
+
+    def upsert_filter_settings!(filter, options)
+      filter.group_name_attribute = options.fetch("group_attribute", "dn")
+      filter.sync_users = ActiveRecord::Type::Boolean.new.deserialize options.fetch("sync_users", false)
+      filter.filter_string = options["filter"]
+      filter.base_dn = options["base"]
+
+      filter.save!
+    end
+
+    def existing_filters(ldap, names)
+      ::LdapGroups::SynchronizedFilter.where(ldap_auth_source: ldap, name: names).index_by(&:name)
     end
 
     def remove_not_found_filters(ldap, names)

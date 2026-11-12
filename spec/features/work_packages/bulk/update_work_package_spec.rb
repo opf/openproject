@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 require "features/page_objects/notification"
 
@@ -10,14 +37,12 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
   shared_let(:custom_field) do
     create(:string_wp_custom_field,
            name: "Text CF",
-           types: [type],
-           projects: [project])
+           types: [type])
   end
   shared_let(:custom_field_removed) do
     create(:string_wp_custom_field,
            name: "Text CF Removed",
-           types: [type],
-           projects: [project])
+           types: [type])
   end
   shared_let(:dev_role) do
     create(:project_role,
@@ -77,7 +102,7 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
     wp_table.expect_work_package_listed work_package, work_package2
 
     # Select all work packages
-    find("body").send_keys [:control, "a"]
+    wp_table.select_all_work_packages
   end
 
   context "with permission" do
@@ -195,28 +220,24 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
         let(:boolean_cf) do
           create(:boolean_wp_custom_field,
                  name: "Bool CF",
-                 types: [type],
-                 projects: [project])
+                 types: [type])
         end
         let(:required_boolean_cf) do
           create(:boolean_wp_custom_field,
                  name: "Required Bool CF",
                  types: [type],
-                 projects: [project],
                  is_required: true)
         end
         let(:list_cf) do
           create(:list_wp_custom_field,
                  name: "List CF",
                  types: [type],
-                 projects: [project],
                  possible_values: %w[A B C])
         end
         let(:required_list_cf) do
           create(:list_wp_custom_field,
                  name: "Required List CF",
                  types: [type],
-                 projects: [project],
                  possible_values: %w[A B C],
                  is_required: true)
         end
@@ -224,20 +245,17 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
           create(:list_wp_custom_field, :multi_list,
                  name: "Multi select List CF",
                  types: [type],
-                 projects: [project],
                  possible_values: %w[A B C])
         end
         let(:user_cf) do
           create(:user_wp_custom_field,
                  name: "User CF",
-                 types: [type],
-                 projects: [project])
+                 types: [type])
         end
         let(:multi_user_cf) do
           create(:user_wp_custom_field, :multi_user,
                  name: "Multi user CF",
-                 types: [type],
-                 projects: [project])
+                 types: [type])
         end
 
         let(:default_cf_values) do
@@ -290,7 +308,7 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
         it "does not display them on the form" do
           expect(page).to have_field custom_field_removed.name
 
-          custom_field_removed.type_variants = []
+          custom_field_removed.form_configurations.each { it.custom_field_ids -= [custom_field_removed.id] }
           custom_field_removed.save!
           page.refresh
           wait_for_reload

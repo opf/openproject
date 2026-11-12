@@ -47,6 +47,8 @@ uz:
       draggable_hint: 'Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -61,6 +63,7 @@ uz:
         single: Select "%{name}"
       remove: Remove %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -129,9 +132,9 @@ uz:
     button_continue: Continue
     button_copy: Copy
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Create
     button_custom-fields: Custom fields
     button_delete: Delete
@@ -147,6 +150,7 @@ uz:
     button_log_time: Log time
     button_more: More
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Open details view
     button_open_fullscreen: Open fullscreen view
     button_quote: Quote
@@ -162,6 +166,7 @@ uz:
     button_stop_timer: Stop timer
     button_uncheck_all: Uncheck all
     button_update: Update
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: Add new card
@@ -201,7 +206,11 @@ uz:
     description_select_work_package: 'Select work package #%{id}'
     description_subwork_package: 'Child of work package #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ uz:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: all projects
@@ -358,8 +369,8 @@ uz:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@ uz:
     label_assignee: Assignee
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Attachments
-    label_author: 'Author: %{user}'
     label_avatar: Avatar
     label_between: between
     label_board: Board
@@ -495,6 +505,7 @@ uz:
     label_in: in
     label_in_less_than: in less than
     label_in_more_than: in more than
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Incoming emails
     label_infinity: Infinity
     label_information_plural: Information
@@ -527,6 +538,10 @@ uz:
     label_open_context_menu: Open context menu
     label_open_menu: Open menu
     label_open_work_packages: open
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Password
     label_per_page: 'Per page:'
     label_please_wait: Please wait
@@ -551,6 +566,8 @@ uz:
     label_reset: Reset
     label_resize_project_menu: Resize project menu
     label_save_as: Save as
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Selected filters
@@ -558,7 +575,9 @@ uz:
     label_show_in_menu: Show view in menu
     label_sort_by: Sort by
     label_sort_higher: Move up
+    label_sort_highest: Move to top
     label_sort_lower: Move down
+    label_sort_lowest: Move to bottom
     label_sorted_by: sorted by
     label_sorting: Sorting
     label_spent_time: Spent time
@@ -569,6 +588,7 @@ uz:
     label_sum_for: Sum for
     label_this_week: this week
     label_time_entry_plural: Spent time
+    label_to_do_work_packages: to-do
     label_today: Today
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent}% Total progress"
@@ -623,7 +643,7 @@ uz:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -720,6 +740,7 @@ uz:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Click to add description for this relation
       selection: Please select
       subject: Enter subject here
@@ -806,12 +827,33 @@ uz:
       sorting_disabled: sorting is disabled
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +867,7 @@ uz:
     text_user_wrote: "%{value} wrote:"
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
     time_entry:
-      stop: Stop
       title: Log time
-      tracking: Time tracking
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer
@@ -862,19 +902,19 @@ uz:
       label_two_factor_authentication: Two-factor authentication
     units:
       child_work_packages:
-        one: one child work package
+        one: "%{count} child work package"
         other: "%{count} work package children"
       day:
-        one: 1 day
+        one: "%{count} day"
         other: "%{count} days"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: work package
@@ -934,6 +974,7 @@ uz:
         all_open: All open
         assigned_to_me: Assigned to me
         created_by_me: Created by me
+        in_progress: In progress
         latest_activity: Latest activity
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -941,6 +982,7 @@ uz:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Summary
+        to_do: To-do
       description_enter_text: Enter text
       description_filter: Filter
       description_options_hide: Hide options
@@ -1028,6 +1070,7 @@ uz:
         other: Other
         people: People
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Click to edit title of this view.
         column_names: Columns
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1037,17 +1080,16 @@ uz:
           not_found: There is no such view
           unretrievable_query: Unable to retrieve view from URL
         filters: Filters
-        group: Group by
         group_by: Group results by
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: Hide column
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
         move_column_left: Move column left
         move_column_right: Move column right
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name of this view
         sort_ascending: Sort ascending
         sort_descending: Sort descending
@@ -1068,15 +1110,26 @@ uz:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Configure work package table
-        summary: Table with rows of work package and columns of work package attributes.
-        text_inline_edit: Most cells of this table are buttons that activate inline-editing functionality of that attribute.
-        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
-        text_sort_hint: With the links in the table headers you can sort, group, reorder, remove and add table columns.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Configure this work package table
         choose_display_mode: Display work packages as
@@ -1085,7 +1138,6 @@ uz:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarchy
         highlighting: Highlighting

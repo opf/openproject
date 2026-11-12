@@ -406,14 +406,13 @@ ja:
       empty_project_folder_validation: 続行するには、フォルダの選択が必須です。
       existing_manual_folder: 既存のフォルダをこのプロジェクトのルートフォルダとして指定することができます。ただし、パーミッションは自動的に管理されないため、管理者は関連するユーザーがアクセスできることを手動で確認する必要があります。選択したフォルダは、複数のプロジェクトで使用できます。
       host: https:// を含むストレージのホスト・アドレスを追加してください。255文字以内にしてください。
-      managed_project_folders_application_password_caption: "%{provider_type_link}からこの値をコピーして、自動管理フォルダを有効にする。"
+      managed_project_folders_application_password_caption_html: 'Enable automatic managed folders by copying this value from: [%{integration}](provider_settings).'
       name: ユーザーが複数のストレージを区別できるように、ストレージに名前を付ける。
       new_storage_html: Read our documentation on [setting up a %{provider_name} file storage](docs_url) integration for more information.
       nextcloud:
-        application_link_text: アプリケーション "Integration OpenProject"
         integration: ネクストクラウド管理 / OpenProject
-        oauth_configuration: "%{application_link_text} からこれらの値をコピーします。"
-        provider_configuration: セットアップを行う前に、Nextcloudインスタンスの管理者権限があり、 %{application_link_text} がインストールされていることを確認してください。
+        oauth_configuration_html: Copy these values from [Nextcloud Administration / OpenProject](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in your Nextcloud instance and the [application “Integration OpenProject”](application_link) is installed before doing the setup.
         storage_audience: Nextcloud インスタンスが ID プロバイダとの通信に使用するクライアント ID。
         storage_audience_placeholder: 例：ネクストクラウド
         token_exchange_scope: トークン交換時に要求するスコープを、それぞれスペースで区切って指定する。
@@ -422,27 +421,24 @@ ja:
       not_logged_into_storage: プロジェクトフォルダを選択するには、まずログインしてください。
       oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration settings](oauth_application_details_link).
       one_drive:
-        application_link_text: Azure Portal
         copy_redirect_uri: リダイレクトURIをコピーする
-        documentation_link_text: OneDriveファイルストレージのドキュメント
-        drive_id: "%{drive_id_link_text} の手順に従って、目的のドライブからIDをコピーしてください。"
+        drive_id_html: Please copy the ID from the desired drive by following the steps in the [OneDrive file storages documentation](drive_id_guide).
         integration: ワンドライブ
         missing_client_id_for_redirect_uri: OAuthの値を入力してURIを生成してください。
         oauth_client_redirect_uri: この値を「リダイレクト URIs」にある新しい Web リダイレクト URI にコピーしてください。
         oauth_client_secret: Client 資格情報にアプリケーション クライアント シークレットがない場合は、新しいシークレットを作成してください。
-        oauth_configuration: "%{application_link_text}、目的のアプリケーションからこれらの値をコピーします。"
-        provider_configuration: "%{application_link_text} で管理権限があることを確認するか、設定を行う前にMicrosoft管理者に連絡してください。 ポータルでは、Azure アプリケーションを登録するか、認証に既存のアプリケーションを使用する必要があります。"
-        tenant_id: ディレクトリ(テナント)IDは、 %{application_link_text}のアプリケーションおよびアプリ登録からコピーしてください。
+        oauth_configuration_html: Copy these values from the desired application in the [Azure portal](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [Azure portal](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        tenant_id_html: Please copy the Directory (tenant) ID from the desired application and App registrations in the [Azure portal](application_link).
         tenant_id_placeholder: 名前またはUUID
       setting_up_additional_storages: 追加のファイルストレージの設定については、以下を参照してください
       setting_up_additional_storages_non_admin: 管理者は、Administration / File storages で追加のファイルストレージを設定できます。
       setting_up_storages: ファイルストレージの設定については、以下をご覧ください
       setting_up_storages_non_admin: 管理者は、管理 / ファイルストレージでファイルストレージを設定できます。
       sharepoint:
-        application_link_text: シェアポイントサイト
         integration: SharePoint管理 / OpenProject
-        oauth_configuration: "%{application_link_text}、目的のアプリケーションからこれらの値をコピーします。"
-        provider_configuration: セットアップを行う前に、 %{application_link_text} で管理者権限を持っていることを確認するか、Microsoft 管理者に連絡してください。ポータルでは、Azure アプリケーションを登録するか、既存のものを認証に使用する必要もあります。
+        oauth_configuration_html: Copy these values from the desired application in the [SharePoint site](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [SharePoint site](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
       type: セットアップを行う前に、Nextcloudインスタンスに管理者権限があり、以下のアプリケーションがインストールされていることを確認してください：
       type_link_text: "「統合OpenProject」"
     label_active: アクティブ
@@ -481,7 +477,7 @@ ja:
       connected: 接続済み
       connected_no_permissions: ユーザーロールにストレージ権限がありません
       not_connectable: 接続できない。ストレージはSSOプロバイダを介してログインする必要がありますが、ユーザーはSSOを介してログインしていません。
-      not_connected: 接続されていません。ユーザーは次の %{link}経由でストレージにログインする必要があります。
+      not_connected_html: Not connected. The user should login to the storage via the following [link](storage_login).
       not_connected_sso: まだ接続されていない場合、SSO は自動的にファイルを参照する必要があります。
     members_no_results: 表示するメンバーがありません。
     no_results: まだストレージが設定されていません。
@@ -496,7 +492,7 @@ ja:
     oauth_grant_nudge_modal:
       cancel_button_label: 後でやります
       heading: "%{provider_type} へのログインが必要です"
-      login_button_aria_label: "%{storage} にログイン"
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} ログイン"
       project_settings:
         description: プロジェクトフォルダにアクセスするには、 %{storage}にログインする必要があります。

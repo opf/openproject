@@ -43,7 +43,7 @@ pt-PT:
     changed_files_count: Ficheiros alterados
     comments_count: Número de comentários
     deletions_count: Número de eliminações
-    github: Identificador do GitHub
+    github: GitHub identifier
     github_app_owner_avatar_url: URL do avatar do proprietário
     github_avatar_url: URL do Avatar
     github_html_url: URL do pedido de extração

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,15 +31,19 @@ module WorkPackageTypes
   module Types
     class TypeActionsComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def self.menu_id(type)
         "type-#{type.id}-action-menu"
       end
 
-      def initialize(type:)
+      def initialize(type:, page_args: {}, expanded_type_id: nil, filtered: false)
         super()
 
         @type = type
+        @page_args = page_args
+        @expanded_type_id = expanded_type_id
+        @filtered = filtered
       end
 
       def menu_id
@@ -49,7 +52,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :type
+      attr_reader :type, :page_args, :expanded_type_id, :filtered
 
       def type_actions(menu)
         configure_action(menu)
@@ -57,6 +60,7 @@ module WorkPackageTypes
         menu.with_divider
 
         add_variant_action(menu)
+        compare_variants_action(menu) if comparable?
         duplicate_action(menu)
         menu.with_divider
 
@@ -70,8 +74,17 @@ module WorkPackageTypes
 
       def add_variant_action(menu)
         menu.with_item(label: t("types.index.add_variant_action"),
-                       href: new_creation_wizard_types_path(type_id: type.id, back_url: types_path)) do |item|
+                       href: new_variant_creation_wizard_path(nil, type, back_url: types_path)) do |item|
           item.with_leading_visual_icon(icon: :plus)
+        end
+      end
+
+      def comparable? = type.variants.non_default_variants.exists?
+
+      def compare_variants_action(menu)
+        menu.with_item(label: t("types.comparison.action"),
+                       href: comparison_type_variants_path(type_id: type.id)) do |item|
+          item.with_leading_visual_icon(icon: :"git-compare")
         end
       end
 
@@ -129,23 +142,22 @@ module WorkPackageTypes
         menu.with_item(
           label: t(:button_delete),
           scheme: :danger,
-          href: type_path(type),
-          form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
+          href: deletion_dialog_type_path(type),
+          content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end
       end
 
       def reorderable?
-        !(type.first? && type.last?)
+        !filtered && !(type.first? && type.last?)
       end
 
       def move_action(menu)
         menu.with_item(
           component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
           label: t(:button_move),
-          select_variant: :none,
-          form_arguments: {}
+          select_variant: :none
         ) do |submenu|
           submenu.with_leading_visual_icon(icon: :"op-arrow-in")
 
@@ -164,8 +176,9 @@ module WorkPackageTypes
       def move_item(submenu, move_to, label, icon)
         submenu.with_item(
           label:,
-          href: move_types_path(type, type: { move_to: }),
-          form_arguments: { method: :post }
+          tag: :button,
+          href: move_type_path(type, **page_args, expand: expanded_type_id),
+          form_arguments: { method: :put, inputs: [{ name: "move_to", value: move_to.to_s }] }
         ) do |item|
           item.with_leading_visual_icon(icon:)
         end

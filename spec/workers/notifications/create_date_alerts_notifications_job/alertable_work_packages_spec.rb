@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,8 +51,8 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPac
   shared_let(:project) { create(:project, name: "main", members: { user => role }) }
   shared_let(:other_project) { create(:project, name: "other", members: { user => role }) }
 
-  shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
-  shared_let(:status_closed) { create(:status, name: "closed", is_closed: true) }
+  shared_let(:status_to_do) { create(:status, name: "open", category: "to_do") }
+  shared_let(:status_closed) { create(:status, name: "closed", category: "closed") }
 
   shared_let(:alertable_work_packages) do
     create_list(:work_package, 3, project:, author: user)
@@ -75,8 +74,8 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPac
   ### open / closed work package
 
   it "returns open work packages" do
-    open_work_package = make_alertable_work_package(status: status_open)
-    expect(subject.alertable_for_start).to include(open_work_package)
+    to_do_work_package = make_alertable_work_package(status: status_to_do)
+    expect(subject.alertable_for_start).to include(to_do_work_package)
   end
 
   it "does not return closed work packages" do

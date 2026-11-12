@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,6 +29,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angu
 import {
   BehaviorSubject,
   Observable,
+  isObservable,
 } from 'rxjs';
 import {
   finalize,
@@ -38,7 +38,11 @@ import {
 import { take } from 'rxjs/internal/operators/take';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IToast, ToastService, ToastType } from 'core-app/shared/components/toaster/toast.service';
+import { IToast, ToastService, ToastType, ToastUpload } from 'core-app/shared/components/toaster/toast.service';
+
+function isToastUpload(entry:unknown):entry is ToastUpload {
+  return Array.isArray(entry) && entry.length === 2 && entry[0] instanceof File && isObservable(entry[1]);
+}
 
 @Component({
   templateUrl: './toast.component.html',
@@ -62,6 +66,10 @@ export class ToastComponent implements OnInit {
 
   public uploadCount = 0;
 
+  public errors:unknown[] = [];
+
+  public uploads:ToastUpload[] = [];
+
   public show = false;
 
   public canBeHidden = false;
@@ -76,16 +84,20 @@ export class ToastComponent implements OnInit {
 
     this.removable = !['upload', 'loading'].includes(this.type);
 
-    if (this.type === 'upload') {
-      const data = this.data as [File, Observable<unknown>];
-      this.removable = false;
-      this.canBeHidden = data && data.length > 5;
+    if (this.type === 'error' && Array.isArray(this.data)) {
+      this.errors = this.data;
     }
 
-    if (this.type === 'loading') {
+    if (this.type === 'upload') {
+      this.uploads = Array.isArray(this.data) ? this.data.filter(isToastUpload) : [];
+      this.removable = false;
+      this.canBeHidden = this.uploads.length > 5;
+    }
+
+    if (this.type === 'loading' && this.loadingObservable) {
       this.removable = false;
       this.loading$.next(true);
-      (this.data as Observable<unknown>)
+      this.loadingObservable
         .pipe(
           take(1),
           timeout(20000),
@@ -100,6 +112,10 @@ export class ToastComponent implements OnInit {
 
   public get data():unknown {
     return this.toast.data;
+  }
+
+  public get loadingObservable():Observable<unknown>|undefined {
+    return this.type === 'loading' && isObservable(this.data) ? this.data : undefined;
   }
 
   public remove():void {
@@ -122,7 +138,7 @@ export class ToastComponent implements OnInit {
   }
 
   public get uploadText():string {
-    const count = (this.data as unknown[]).length;
+    const count = this.uploads.length;
     return this.I18n.t('js.label_upload_counter', { done: this.uploadCount, count });
   }
 }

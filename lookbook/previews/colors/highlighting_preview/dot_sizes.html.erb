@@ -1,0 +1,21 @@
+<style>
+  .hl-preview--dots { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+  .hl-preview--dots .-small-font { font-size: 12px; }
+</style>
+
+<% if colors.empty? %>
+  <em>No colors seeded in this instance.</em>
+<% else %>
+  <div class="hl-preview--dots">
+    <% colors.each do |color| %>
+      <% color_class = hl_color_class("color", color) %>
+      <div>
+        <span class="__hl_dot <%= color_class %>">Default, 12px</span>
+        &emsp;
+        <span class="__hl_dot __hl_dot_small <%= color_class %>">With <code>__hl_dot_small</code>, 6px</span>
+        &emsp;
+        <span class="-small-font"><span class="__hl_dot <%= color_class %>">Inside <code>.-small-font</code>, 10px</span></span>
+      </div>
+    <% end %>
+  </div>
+<% end %>

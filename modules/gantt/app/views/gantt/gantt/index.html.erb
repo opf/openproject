@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -33,4 +32,13 @@ See COPYRIGHT and LICENSE files for more details.
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, { query_id: query, format: "atom", page: nil, key: User.current.rss_key }, title: t(:label_gantt_chart_plural)) %>
   <%= auto_discovery_link_tag(:atom, { controller: "/journals", action: "index", query_id: query, format: "atom", page: nil, key: User.current.rss_key }, title: t(:label_changes_details)) %>
+<% end %>
+
+<% content_for :content_body do %>
+  <%= angular_component_tag "opce-work-packages-view" %>
+<% end %>
+
+<% content_for :content_body_right do %>
+  <%= render(split_view_instance) if render_work_package_split_view? %>
+  <%= render(split_create_instance) if render_work_package_split_create? %>
 <% end %>

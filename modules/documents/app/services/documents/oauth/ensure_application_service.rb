@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,6 +38,13 @@ module Documents
     class EnsureApplicationService < BaseServices::BaseCallable
       APPLICATION_NAME = "Documents OAuth Application"
       APPLICATION_UID = "documents_yjs_provider"
+
+      ##
+      # Whether the given Doorkeeper access token was issued to the Documents OAuth application,
+      # i.e. it is a token handed to the collaboration (Hocuspocus) server.
+      def self.collaboration_token?(access_token)
+        access_token&.application&.uid == APPLICATION_UID
+      end
 
       def perform
         application = find_or_create_application

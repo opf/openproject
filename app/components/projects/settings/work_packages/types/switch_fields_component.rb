@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,8 +37,7 @@ module Projects
         class SwitchFieldsComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
 
-          # The impact starts empty and arrives by turbo stream: the dialog opens on the member
-          # in force, which has nothing to report.
+          # Nil while the selection is the member in force, which has nothing to report.
           def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
             super()
 

@@ -20,16 +20,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import {
   contextColumnIcon,
   OpTableAction,
   OpTableActionFactory,
+  destructiveControlAttribute,
 } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { Injector } from '@angular/core';
@@ -70,16 +71,17 @@ export class OpUnlinkTableAction extends OpTableAction {
     }
 
     const element = document.createElement('a');
-    element.title = this.title;
+
     element.href = '#';
     element.classList.add(contextColumnIcon, 'wp-table-action--unlink');
     element.dataset.workPackageId = this.workPackage.id!;
+    element.setAttribute(destructiveControlAttribute, '');
     element.appendChild(opIconElement('icon', 'icon-close'));
     element.addEventListener('click', (event) => {
       event.preventDefault();
       this.onClick(this.workPackage);
     });
 
-    return element;
+    return withTooltip(element, this.title, 'label');
   }
 }

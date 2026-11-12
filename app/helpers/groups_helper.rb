@@ -22,48 +22,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module GroupsHelper
-  def group_settings_tabs(group)
-    [
-      {
-        name: "general",
-        partial: "groups/general",
-        path: edit_group_path(group),
-        label: :label_general
-      },
-      {
-        name: "users",
-        partial: "groups/users",
-        path: edit_group_path(group, tab: :users),
-        label: :label_user_plural
-      },
-      {
-        name: "memberships",
-        partial: "groups/memberships",
-        path: edit_group_path(group, tab: :memberships),
-        label: :label_project_plural
-      },
-      {
-        name: "global_roles",
-        partial: "principals/global_roles",
-        path: edit_group_path(group, tab: :global_roles),
-        label: :label_global_roles
-      },
-      {
-        name: "synchronized_groups",
-        partial: "groups/synchronized_groups",
-        path: edit_group_path(group, tab: :synchronized_groups),
-        label: :"groups.edit.synchronized_groups"
-      }
-    ]
-  end
-
   def department_settings_tabs(group)
     [
       {

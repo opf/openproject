@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -82,11 +81,10 @@ module Pages
         end
       end
 
-      def expect_breadcrumbs(*names)
-        within_detail_component do
-          expect(page).to have_css("li.breadcrumb-item", text: names.last)
-          actual = page.all("li.breadcrumb-item").map(&:text)
-          expect(actual).to eq(names)
+      def expect_breadcrumbs(*names, wait: Capybara.default_max_wait_time)
+        page.document.synchronize(wait) do
+          actual = page.find(detail_component_selector).all("li.breadcrumb-item", wait: 0).map(&:text)
+          raise Capybara::ExpectationNotMet, "expected #{names.inspect}, got #{actual.inspect}" unless actual == names
         end
       end
 

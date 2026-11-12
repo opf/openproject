@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,12 +46,16 @@ class ResourceAllocation < ApplicationRecord
   MAX_ALLOCATED_TIME = (5000.hours / 1.minute).to_i
 
   belongs_to :entity, polymorphic: true, optional: false
+  # `placeholder_user` is what was requested, `principal` the human staffed for
+  # it. Both are set once a generic allocation is staffed, so the original
+  # request stays readable.
+  belongs_to :placeholder_user, optional: true, inverse_of: :resource_allocations, autosave: true
   belongs_to :principal, class_name: "User", optional: true, inverse_of: :resource_allocations
+  belongs_to :visible_principal, -> { visible }, class_name: "User", foreign_key: :principal_id, optional: true,
+                                                 inverse_of: false
   belongs_to :requested_by, class_name: "User", optional: true
   belongs_to :reviewed_by, class_name: "User", optional: true
   belongs_to :principal_assigned_by, class_name: "User", optional: true
-
-  serialize :user_filter, coder: Queries::Serialization::Filters.new(UserQuery)
 
   acts_as_journalized
 
@@ -62,9 +65,9 @@ class ResourceAllocation < ApplicationRecord
   # An allocation is about these people, so naming them does not depend on the
   # reader sharing a project with them.
   register_journal_formatted_fields "principal_id", "requested_by_id", "reviewed_by_id", "principal_assigned_by_id",
+                                    "placeholder_user_id",
                                     formatter_key: :public_named_association
   register_journal_formatted_fields "entity_gid", formatter_key: :polymorphic_association
-  register_journal_formatted_fields "filter_name", formatter_key: :plaintext
 
   # State machine is ignored for the current implementation. All allocations go directly to the `allocated` state
   enum :state, {
@@ -74,7 +77,7 @@ class ResourceAllocation < ApplicationRecord
     canceled: "canceled"
   }
 
-  scope :needs_principal_assignment, -> { where(principal_explicit: false, principal_id: nil) }
+  scope :needs_principal_assignment, -> { where.not(placeholder_user_id: nil).where(principal_id: nil) }
   scope :for_principal, ->(principal) { where(principal:) }
   scope :for_project, ->(project_or_project_id) {
     project_id = project_or_project_id.is_a?(Project) ? project_or_project_id.id : project_or_project_id
@@ -84,12 +87,43 @@ class ResourceAllocation < ApplicationRecord
     joins(joins.join(" ")).where(conditions.join(" OR "), project_id: project_id)
   }
 
+  scope :overlapping, ->(date_range) {
+    where("daterange(start_date, end_date, '[]') && daterange(?, ?, '[]')",
+          date_range.begin, date_range.end)
+  }
+
+  # Overbooked: scheduled on a day with overtime, or unplannable, which leaves
+  # an allocation without any scheduled entries.
+  scope :overbooked, -> {
+    where(<<~SQL.squish)
+      EXISTS (
+        SELECT 1 FROM resource_allocation_scheduled_entries entry
+        JOIN resource_allocation_scheduled_entries overtime
+          ON overtime.user_id = entry.user_id
+          AND overtime.allocated_on = entry.allocated_on
+          AND overtime.overtime_minutes > 0
+        WHERE entry.resource_allocation_id = resource_allocations.id
+      )
+      OR NOT EXISTS (
+        SELECT 1 FROM resource_allocation_scheduled_entries entry
+        WHERE entry.resource_allocation_id = resource_allocations.id
+      )
+    SQL
+  }
+
+  scope :for_projects, ->(projects) {
+    joins = ENTITY_PROJECT_JOINS.values.pluck(:join)
+    conditions = ENTITY_PROJECT_JOINS.values.map { |source| "#{source[:project_id]} IN (:project_ids)" }
+
+    joins(joins.join(" ")).where(conditions.join(" OR "), project_ids: projects)
+  }
+
   # Loaded once per page so the allocation columns (progress bar and members)
   # share a single query.
   def self.allocated_for_work_packages(work_packages)
     allocated
       .where(entity_type: "WorkPackage", entity_id: work_packages.map(&:id))
-      .includes(:principal)
+      .includes(:principal, placeholder_user: :placeholder_user_detail)
       .order(:id)
       .group_by(&:entity_id)
   end
@@ -99,7 +133,7 @@ class ResourceAllocation < ApplicationRecord
   def self.allocated_for_principals(principals)
     allocated
       .where(principal_id: principals.map(&:id))
-      .includes(:entity, :principal)
+      .includes(:entity, :principal, placeholder_user: :placeholder_user_detail)
       .order(:id)
       .group_by(&:principal_id)
   end
@@ -111,51 +145,43 @@ class ResourceAllocation < ApplicationRecord
     Principal.visible(user).where(id: principal_ids).pluck(:id).to_set
   end
 
-  # Counts the candidates each filter-based allocation selects, keyed by
-  # allocation id. Allocations commonly share a stored filter, so the candidate
-  # pool is resolved once per distinct filter rather than once per allocation.
+  # Without a project (a global planner) each allocation is counted against the
+  # project of its own work package, since a placeholder's candidates are its
+  # members.
   def self.candidate_counts(allocations, project:)
-    return {} if project.nil?
+    filter_based = allocations.select(&:filter_based?)
+    return {} if filter_based.empty?
 
-    counts_by_filter = {}
+    return candidate_counts_for(filter_based, project) if project
 
-    allocations.select(&:filter_based?).to_h do |allocation|
-      signature = allocation.user_filter.map { |filter| [filter.name, filter.operator, filter.values] }
-      count = counts_by_filter.fetch(signature) { counts_by_filter[signature] = allocation.candidate_count(project:) }
+    filter_based.group_by(&:project).reduce({}) do |counts, (allocation_project, grouped)|
+      next counts if allocation_project.nil?
 
-      [allocation.id, count]
+      counts.merge(candidate_counts_for(grouped, allocation_project))
     end
   end
 
+  def self.candidate_counts_for(filter_based, project)
+    placeholders = filter_based.filter_map(&:placeholder_user).uniq(&:id)
+    PlaceholderUser.preload_candidate_counts(placeholders, project:)
+
+    counts = placeholders.to_h { |placeholder| [placeholder.id, placeholder.candidate_count(project:)] }
+
+    filter_based.to_h { |allocation| [allocation.id, counts.fetch(allocation.placeholder_user_id, 0)] }
+  end
+  private_class_method :candidate_counts_for
+
   # Users without configured working hours are skipped — their capacity is
   # unknown, not zero (mirroring the check made when an allocation is created).
-  # The users' working hours and booked allocations are each fetched in one
-  # query; only the per-user capacity calendar still queries per checked user.
   def self.overbooked_ids(allocations)
-    checkable = overbooking_checkable_principals(allocations)
-    return Set.new if checkable.empty?
+    checkable_ids = UserWorkingHours.for_user(allocations.filter_map(&:principal_id).uniq).distinct.select(:user_id)
 
-    booked = allocated.for_principal(checkable).group_by(&:principal_id)
-    overbooked = checkable.flat_map { |principal| overbooked_ids_of(principal, booked.fetch(principal.id, [])) }
-
-    overbooked.to_set & allocations.map(&:id)
+    allocated
+      .where(id: allocations.map(&:id), principal_id: checkable_ids)
+      .overbooked
+      .pluck(:id)
+      .to_set
   end
-
-  def self.overbooked_ids_of(principal, booked)
-    ResourceAllocations::Availability
-      .new(user: principal, allocations: booked)
-      .overbooked_ranges
-      .flat_map { |range| range.items.map(&:id) }
-  end
-  private_class_method :overbooked_ids_of
-
-  def self.overbooking_checkable_principals(allocations)
-    principals = allocations.filter_map(&:principal).uniq
-    checkable_ids = UserWorkingHours.for_user(principals).distinct.pluck(:user_id).to_set
-
-    principals.select { |principal| checkable_ids.include?(principal.id) }
-  end
-  private_class_method :overbooking_checkable_principals
 
   validates :state, :start_date, :end_date, presence: true
   validates :allocated_time,
@@ -168,13 +194,7 @@ class ResourceAllocation < ApplicationRecord
             inclusion: { in: ALLOWED_ENTITY_TYPES },
             allow_blank: true
 
-  with_options if: :principal_explicit? do
-    validates :principal, presence: true
-    validates :filter_name, absence: true
-    validates :user_filter, absence: true
-  end
-
-  validates :filter_name, presence: true, unless: :principal_explicit?
+  validates :principal, presence: true, unless: :filter_based?
 
   validate :end_date_after_start_date
 
@@ -196,39 +216,56 @@ class ResourceAllocation < ApplicationRecord
     end
   end
 
+  # An allocation asking for a resource rather than naming a person. Staffing
+  # adds a principal but leaves the resource in place, so this stays true.
+  #
+  # The association is consulted as well as the key: a placeholder built
+  # alongside a new allocation has no id until both are saved. The key is
+  # checked first, so a persisted one never costs a query here.
   def filter_based?
-    !principal_explicit?
+    placeholder_user_id.present? || placeholder_user.present?
   end
 
   def user_assigned?
     principal_id.present?
   end
 
-  def needs_principal_assignment?
-    !principal_explicit? && principal_id.blank?
+  def staffed?
+    filter_based? && user_assigned?
   end
 
-  # Only project members can be allocated, so the stored criteria are always
-  # narrowed to the project's members. Callers that already hold the project pass
-  # it in to avoid loading the entity. Applying the membership filter last means a
-  # `member` value smuggled into the stored filter is overwritten, not honoured.
-  def candidate_query(project: self.project)
-    UserQuery.new.tap do |query|
-      user_filter.each do |filter|
-        query.where(filter.field, filter.operator, filter.values)
-      end
+  def placeholder_or_user
+    principal || placeholder_user
+  end
 
-      query.where(:member, "=", [project.id.to_s]) if project
+  def placeholder_or_user_id
+    principal_id || placeholder_user_id
+  end
+
+  # Picking a user for a staffed allocation re-staffs it, so the placeholder
+  # stays as the original request.
+  def placeholder_or_user=(value)
+    if value.is_a?(PlaceholderUser)
+      self.placeholder_user = value
+      self.principal = nil
+    elsif value && staffed?
+      self.principal = value
+    else
+      self.principal = value
+      self.placeholder_user = nil
     end
   end
 
-  # Resolving the query can fail for an incompletely configured filter; a single
-  # broken filter must not take down the whole view it is rendered in.
+  def needs_principal_assignment?
+    filter_based? && principal_id.blank?
+  end
+
+  def candidate_query(project: self.project)
+    placeholder_user&.candidate_query(project:)
+  end
+
   def candidate_count(project: self.project)
-    candidate_query(project:).results.count
-  rescue StandardError => e
-    Rails.logger.warn("Candidate count for resource allocation #{id} failed: #{e.class}: #{e.message}")
-    0
+    placeholder_user&.candidate_count(project:) || 0
   end
 
   def allocated_hours

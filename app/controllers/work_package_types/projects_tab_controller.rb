@@ -22,30 +22,23 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackageTypes
   class ProjectsTabController < BaseTabController
-    administration_only!
-
     include OpTurbo::ComponentStream
+    include ProjectsTab::TableRefresh
     include TypeDeactivationErrorMessage
 
-    VARIANT_FILTER_KEY = ::Queries::Projects::Filters::TypeVariantFilter.key.to_s
-    NAME_FILTER_KEY = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
-
-    before_action :load_query, only: %i[edit update link unlink switch enable_all_projects]
+    before_action :load_query, only: %i[edit link unlink switch enable_all_projects]
     before_action :load_linked_project, only: %i[unlink new_switch switch]
 
-    current_menu_item [:edit, :update] do
+    current_menu_item :edit do
       :types
     end
-
-    helper_method :projects_table_component, :sub_header_component
 
     def edit
       respond_to do |format|
@@ -57,19 +50,8 @@ module WorkPackageTypes
       end
     end
 
-    def update
-      result = sync_projects(desired_project_ids)
-
-      if result.success?
-        redirect_to edit_type_projects_path(**@variant.path_args), notice: I18n.t(:notice_successful_update)
-      else
-        flash.now[:error] = aggregate_refusal_message(result)
-        render :edit, status: :unprocessable_entity
-      end
-    end
-
     def new_link
-      respond_with_dialog ProjectsTab::AddDialogComponent.new(variant: @variant)
+      respond_with_dialog ProjectsTab::AddDialogComponent.new(variant: @variant, wizard: listing_in_wizard?)
     end
 
     def tree
@@ -84,18 +66,16 @@ module WorkPackageTypes
       projects = ::Project.where(id: selected_project_ids)
       return refuse_empty_selection if projects.empty?
 
+      switching = switching_project_types(projects)
+      if unconfirmed_switch?(switching)
+        return ask_to_switch(switching, url: link_variant_projects_path(@variant, **wizard_params), project_ids: projects.ids)
+      end
+
       result = apply_to(projects)
 
       close_dialog_via_turbo_stream(ProjectsTab::AddFormComponent::DIALOG_ID)
-      refresh_projects
-
-      if result.success?
-        render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
-      else
-        render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result))
-      end
-
-      respond_to_with_turbo_streams(status: result)
+      result.on_success { render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update)) }
+      respond_to_bulk_change(result)
     end
 
     def unlink
@@ -128,65 +108,14 @@ module WorkPackageTypes
     end
 
     def enable_all_projects
-      result = if params[:value] == "1"
-                 apply_to(::Project.where.not(id: @variant.projects.select(:id)))
-               else
-                 remove_from(@variant.projects)
-               end
-
-      refresh_projects
-      result.on_failure { render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result)) }
-
-      respond_to_with_turbo_streams(status: result)
-    end
-
-    private
-
-    def load_query
-      @query = ProjectQuery.new(name: "work-package-type-variant-projects-#{@variant.id}") do |query|
-        query.where(:type_variant_id, "=", filtered_variant_ids)
-        query.where(:name_and_identifier, "~", [project_name_term]) if project_name_term.present?
-        query.select(:name)
-        query.order("lft" => "asc")
+      if params[:value] == "1"
+        enable_everywhere
+      else
+        respond_to_bulk_change(remove_from(@variant.projects))
       end
     end
 
-    # The text input and the variant panel both write the one `filters` param, which is what lets
-    # them narrow the table together rather than overwriting each other.
-
-    def project_name_term
-      @project_name_term ||= values_for(NAME_FILTER_KEY).first.to_s.strip
-    end
-
-    def filtered_variant_ids
-      (requested_variant_ids & own_variant_ids).presence || default_variant_ids
-    end
-
-    def default_variant_ids
-      params[:variant_id].present? ? [@variant.id.to_s] : own_variant_ids
-    end
-
-    def own_variant_ids
-      @own_variant_ids ||= @type.variants.pluck(:id).map(&:to_s)
-    end
-
-    def requested_variant_ids = values_for(VARIANT_FILTER_KEY)
-
-    def values_for(filter_key)
-      requested_filters
-        .select { |filter| filter[:attribute].to_s == filter_key }
-        .flat_map { |filter| Array(filter[:values]).map(&:to_s) }
-    end
-
-    # Parsed by the app's own parser rather than by hand: the filter form writes
-    # `name ~ "term"` by default and only switches to JSON when told to, and both reach here.
-    def requested_filters
-      return @requested_filters if defined?(@requested_filters)
-
-      @requested_filters = params[:filters].blank? ? [] : Array(::Queries::ParamsParser.parse(params)[:filters])
-    rescue StandardError
-      @requested_filters = []
-    end
+    private
 
     def load_linked_project
       @linked_project = ::Project.find(params.expect(:project_id))
@@ -197,16 +126,7 @@ module WorkPackageTypes
     end
 
     def switch_path
-      switch_type_projects_path(**@variant.path_args, project_id: @linked_project.id)
-    end
-
-    def sync_projects(desired)
-      applying = @variant.projects.pluck(:id)
-
-      new_aggregate.tap do |aggregated|
-        apply_to(::Project.where(id: desired - applying), into: aggregated)
-        remove_from(::Project.where(id: applying - desired), into: aggregated)
-      end
+      switch_variant_projects_path(@variant, project_id: @linked_project.id, **wizard_params)
     end
 
     def apply_to(projects, into: new_aggregate)
@@ -268,32 +188,58 @@ module WorkPackageTypes
       )
     end
 
-    def refresh_projects
-      update_via_turbo_stream(component: projects_table_component)
-      replace_via_turbo_stream(component: sub_header_component)
-    end
-
-    # Built in one place so the first render and every stream that replaces it cannot drift.
-    def sub_header_component
-      ProjectsTab::SubHeaderComponent.new(type: @type, variant: @variant, query: @query)
-    end
-
-    def projects_table_component
-      ProjectsTab::TableComponent.new(
-        query: @query,
-        params: params.merge(variant: @variant, filtered: requested_filters.any?, url_for_action: :edit)
-      )
-    end
-
     def refuse_empty_selection
       update_via_turbo_stream(
         component: ProjectsTab::AddFormComponent.new(
           variant: @variant,
+          wizard: listing_in_wizard?,
           validation_message: I18n.t("types.edit.projects.add_dialog.no_projects_selected")
         ),
         status: :bad_request
       )
       respond_with_turbo_streams
+    end
+
+    def switching_project_types(projects)
+      ::ProjectType
+        .where(type_id: @type.id, project: projects)
+        .where.not(variant: @variant)
+        .joins(:project)
+        .merge(::Project.order(:lft))
+        .preload(:project, :variant)
+    end
+
+    def switch_confirmed? = params[:confirm_switch] == "1"
+
+    def unconfirmed_switch?(switching) = switching.any? && !switch_confirmed?
+
+    def ask_to_switch(switching, url:, project_ids: [])
+      dialog_via_turbo_stream(
+        component: ProjectsTab::SwitchConfirmDialogComponent.new(variant: @variant, switching:, url:, project_ids:)
+      )
+      respond_with_turbo_streams
+    end
+
+    def close_switch_dialog
+      close_dialog_via_turbo_stream(ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) if switch_confirmed?
+    end
+
+    def enable_everywhere
+      projects = ::Project.where.not(id: @variant.projects.select(:id))
+      switching = switching_project_types(projects)
+      if unconfirmed_switch?(switching)
+        return ask_to_switch(switching, url: enable_all_variant_projects_path(@variant, value: "1", **wizard_params))
+      end
+
+      respond_to_bulk_change(apply_to(projects))
+    end
+
+    def respond_to_bulk_change(result)
+      close_switch_dialog
+      refresh_projects
+      result.on_failure { render_error_flash_message_via_turbo_stream(message: aggregate_refusal_message(result)) }
+
+      respond_to_with_turbo_streams(status: result)
     end
 
     def tree_form_builder
@@ -304,18 +250,10 @@ module WorkPackageTypes
       scope = ::Project.order(:lft)
       return scope.to_a if filter_term.blank?
 
-      matching = scope.where("LOWER(projects.name) LIKE LOWER(?)", "%#{sanitized_filter_term}%")
-      (matching.to_a + ancestors_of(matching)).uniq(&:id).sort_by(&:lft)
-    end
-
-    def ancestors_of(projects)
-      return [] if projects.empty?
-
-      ::Project.where(
-        "EXISTS (SELECT 1 FROM projects descendants WHERE descendants.id IN (:ids) " \
-        "AND projects.lft < descendants.lft AND projects.rgt > descendants.rgt)",
-        ids: projects.map(&:id)
-      ).to_a
+      matching = Queries::Projects::Filters::NameAndIdentifierFilter
+                   .create!(operator: "~", values: [sanitized_filter_term])
+                   .apply_to(scope)
+      scope.self_and_ancestors_of(matching).to_a
     end
 
     def filter_term = params[:query].to_s.strip
@@ -336,13 +274,6 @@ module WorkPackageTypes
 
     def with_descendants(project_ids)
       ::Project.where(id: project_ids).flat_map { |project| project.self_and_descendants.ids }.uniq
-    end
-
-    # TODO: once the input is correctly delivered, read params.expect(type: [:project_ids])
-    # directly instead of parsing it out of a JSON string.
-    def desired_project_ids
-      @desired_project_ids ||=
-        Array(JSON.parse(params.expect(type: [:project_ids])[:project_ids])).compact_blank.map(&:to_i)
     end
 
     def aggregate_refusal_message(result)

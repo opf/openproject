@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -65,7 +64,31 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'subjectOr',
     'manualSort',
     'typeahead',
+    'semanticSearch',
   ];
+
+  /** The filter the text input edits */
+  public textFilterId:'search'|'semanticSearch' = 'search';
+
+  /** Whether the semantic search toggle is rendered */
+  public semanticSearchAvailable = false;
+
+  public semanticSearchEnabled = false;
+
+  /**
+   * The search mode is resolved by the server on page load,
+   * so switching the mode links to the same page with the
+   * search_mode parameter set accordingly.
+   */
+  public searchModeUrl(mode:'text'|'semantic'):string {
+    const url = new URL(window.location.href);
+    if (mode === 'semantic') {
+      url.searchParams.set('search_mode', 'semantic');
+    } else {
+      url.searchParams.delete('search_mode');
+    }
+    return url.toString();
+  }
 
   /** Flag state to determine whether the filters are incomplete */
   private incomplete = input<boolean>(false);
@@ -78,8 +101,17 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
     const filters = cloneHalResourceCollection<QueryFilterInstanceResource>(query.filters);
 
+    this.updateTextFilterId(filters);
     this.availableState.putValue(schema.filtersSchemas.elements);
     this.pristineState.putValue(filters);
+  }
+
+  private updateTextFilterId(filters:QueryFilterInstanceResource[]):void {
+    if (filters.some((filter) => filter.id === 'semanticSearch')) {
+      this.textFilterId = 'semanticSearch';
+    } else if (filters.some((filter) => filter.id === 'search')) {
+      this.textFilterId = 'search';
+    }
   }
 
   /**
@@ -215,7 +247,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     );
   }
 
-  public valueFromQuery(query:QueryResource) {
+  public valueFromQuery(_query:QueryResource) {
     return undefined;
   }
 
@@ -274,7 +306,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * without modification.
    */
   protected get rawFilters():QueryFilterInstanceResource[] {
-    return this.lastUpdatedState.value || [];
+    return this.lastUpdatedState.value ?? [];
   }
 
   public get currentlyVisibleFilters():QueryFilterInstanceResource[] {

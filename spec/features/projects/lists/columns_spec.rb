@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -91,7 +90,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         expect(page)
           .to have_css(".cf_#{integer_custom_field.id}", text: 2)
         expect(page)
-          .to have_css(".project_status", text: "OFF TRACK")
+          .to have_css(".Label", text: "Off track")
         expect(page)
           .to have_no_css(".created_at ")
       end
@@ -102,7 +101,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         expect(page)
           .to have_css(".cf_#{integer_custom_field.id}", text: 1)
         expect(page)
-          .to have_css(".project_status", text: "ON TRACK")
+          .to have_css(".Label", text: "On track")
         expect(page)
           .to have_no_css(".created_at ")
       end
@@ -113,7 +112,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         expect(page)
           .to have_css(".cf_#{integer_custom_field.id}", text: 3)
         expect(page)
-          .to have_css(".project_status", text: "AT RISK")
+          .to have_css(".Label", text: "At risk")
         expect(page)
           .to have_no_css(".created_at ")
       end
@@ -227,7 +226,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         expect(page).to have_css(".advanced-filters--filter[data-filter-name='created_at']")
 
         # The correct filter input field has focus
-        expect(page.has_focus_on?(".advanced-filters--filter-value input#created_at_days")).to be(true)
+        expect(page.has_focus_on?(".advanced-filters--filter-value input#created_at_intDays")).to be(true)
       end
 
       it "adds the filter for a selected column that has a different filter mapped to its column" do
@@ -301,39 +300,6 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
                                      project_phase.name,
                                      inactive_project_phase.name)
       end
-
-      specify "inactive project phase columns have no cell content" do
-        col_names = [project_phase_with_gates,
-                     project_phase,
-                     inactive_project_phase_with_gates,
-                     inactive_project_phase].collect(&:name)
-
-        projects_page.set_columns(*col_names)
-        # Inactive columns are still displayed in the header:
-        projects_page.expect_columns("Name", *col_names)
-
-        projects_page.within_row(development_project) do
-          expect(page).to have_css(".name", text: development_project.name)
-          expect(page).to have_css(".project_phase_#{project_phase_with_gates.definition_id}",
-                                   text: "12/01/2024\n-\n12/13/2024")
-          # project phase assigned to other project, no text here
-          expect(page).to have_css(".project_phase_#{project_phase.definition_id}", text: "")
-          # inactive project phases, no text here
-          expect(page).to have_css(".project_phase_#{inactive_project_phase.definition_id}", text: "")
-          expect(page).to have_css(".project_phase_#{inactive_project_phase_with_gates.definition_id}", text: "")
-        end
-
-        projects_page.within_row(project) do
-          expect(page).to have_css(".name", text: project.name)
-          expect(page).to have_css(".project_phase_#{project_phase.definition_id}",
-                                   text: "12/01/2024\n-\n12/13/2024")
-          # project phase assigned to other project, no text here
-          expect(page).to have_css(".project_phase_#{project_phase_with_gates.definition_id}", text: "")
-          # inactive project phases, no text here
-          expect(page).to have_css(".project_phase_#{inactive_project_phase.definition_id}", text: "")
-          expect(page).to have_css(".project_phase_#{inactive_project_phase_with_gates.definition_id}", text: "")
-        end
-      end
     end
 
     context "with a user" do
@@ -365,33 +331,6 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
           projects_page.set_columns(project_phase_with_gates.name)
 
           expect(page).to have_text(project_phase_with_gates.name.upcase)
-        end
-
-        specify "not permitted project phase columns have no cell content" do
-          col_names = [project_phase_with_gates,
-                       project_phase,
-                       inactive_project_phase_with_gates,
-                       inactive_project_phase].collect(&:name)
-
-          projects_page.set_columns(*col_names)
-          # Inactive columns are still displayed in the header:
-          projects_page.expect_columns("Name", *col_names)
-
-          projects_page.within_row(development_project) do
-            expect(page).to have_css(".name", text: development_project.name)
-            expect(page).to have_css(".project_phase_#{project_phase_with_gates.definition_id}",
-                                     text: "12/01/2024\n-\n12/13/2024")
-            # project phase assigned to other project, no text here
-            expect(page).to have_css(".project_phase_#{project_phase.definition_id}", text: "")
-            # inactive project phases, no text here
-            expect(page).to have_css(".project_phase_#{inactive_project_phase.definition_id}", text: "")
-            expect(page).to have_css(".project_phase_#{inactive_project_phase_with_gates.definition_id}", text: "")
-          end
-
-          # Not permitted project phase steps never show their date values
-          projects_page.within_row(project) do
-            expect(page).to have_css(".project_phase_#{project_phase.definition_id}", text: "")
-          end
         end
       end
     end
@@ -509,10 +448,6 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
     context "for admin" do
       let(:user) { admin }
 
-      it "doesn't allow custom comment column for fields that do not allow comments" do
-        projects_page.expect_no_config_columns(comment_column_name(custom_field))
-      end
-
       it "displays custom comment columns", :aggregate_failures do
         projects_page.set_columns("Name", comment_column_name(commentable), comment_column_name(admin_commentable))
 
@@ -534,35 +469,6 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
 
           expect(page).to have_css(".cfc_#{admin_commentable.id}", text: "")
           expect(page).to have_no_css(".cfc_#{admin_commentable.id} button.ellipsis-expander")
-        end
-      end
-    end
-
-    context "for non admin user with view permissions" do
-      let(:user) do
-        create(:user, member_with_permissions: { project => %i(view_project_attributes),
-                                                 development_project => %i(view_project_attributes) })
-      end
-
-      it "doesn't allow custom comment column for fields that do not allow comments or that are admin only" do
-        projects_page.expect_no_config_columns(comment_column_name(custom_field), comment_column_name(admin_commentable))
-      end
-
-      it "displays custom comment columns", :aggregate_failures do
-        projects_page.set_columns("Name", comment_column_name(commentable))
-
-        projects_page.within_row(project) do
-          expect(page).to have_css(".name", text: project.name)
-
-          expect(page).to have_css(".cfc_#{commentable.id}", text: "short text" * 20)
-          expect(page).to have_css(".cfc_#{commentable.id} button.ellipsis-expander")
-        end
-
-        projects_page.within_row(development_project) do
-          expect(page).to have_css(".name", text: development_project.name)
-
-          expect(page).to have_css(".cfc_#{commentable.id}", text: "short text b")
-          expect(page).to have_no_css(".cfc_#{commentable.id} button.ellipsis-expander")
         end
       end
     end

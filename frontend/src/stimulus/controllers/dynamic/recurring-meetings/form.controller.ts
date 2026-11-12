@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -56,7 +55,7 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
     });
 
     const { turboRequests, pathHelperService } = await this.services;
-    void turboRequests
+    await turboRequests
       .request(
         `${pathHelperService.staticBase}/recurring_meetings/humanize_schedule?${urlSearchParams.toString()}`,
         {
@@ -64,7 +63,14 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
             Accept: 'text/vnd.turbo-stream.html',
           },
         },
-      );
+        false,
+        'recurring-meeting-humanize-schedule',
+      )
+      .catch((error:unknown) => {
+        if (!(error instanceof DOMException && error.name === 'AbortError')) {
+          throw error;
+        }
+      });
   }
 
   async updateTimezoneText() {

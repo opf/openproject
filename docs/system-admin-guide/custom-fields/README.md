@@ -58,6 +58,7 @@ There are multiple format options for custom fields in OpenProject. You can sele
 
 - **Boolean** - creates a custom field for an attribute, that is either true or false. It is represented by a checkbox that can be checked or unchecked.
 - **Date** - creates a custom field, which allows selecting dates from a date picker.
+- **Date and time** - creates a custom field for work packages, which stores a date together with a time of day. See more in the section below.
 - **Float** - creates a custom field for rational numbers.
 - **Hierarchy (Enterprise add-on)** - creates a custom field, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the _Items_ tab of the custom field. See more in the section below.
 - **Integer** - creates a custom field for integers.
@@ -67,7 +68,16 @@ There are multiple format options for custom fields in OpenProject. You can sele
 - **Long text** - creates a custom field for cases where longer text needs to entered.
 - **User** - creates a custom field, which allows selecting users that are allowed to access the entity containing the custom field.
 - **Version** - creates a custom field, which allows selecting one or multiple versions. Versions are created on the project level in _Backlogs_ module.
-- **Weighted item list (Enterprise add-on)** - creates a custom field similar to the _Hierarchy_ type, but with underlying numerical values used for project evaluation (e.g., [calculated values project attributes](../projects/project-attributes/)). Please keep in mind that **weighted item lists** custom fields can't be used as multi-select.  
+- **Weighted item list (Enterprise add-on)** - creates a custom field similar to the _Hierarchy_ type, which allows selecting one or multiple items, but with underlying numerical values used for project evaluation (e.g., [calculated values project attributes](../projects/project-attributes/)).
+
+### Date and time custom field
+
+A **Date and time** custom field stores a specific point in time, for example when an incident was detected. It is available for work packages only.
+
+- Every user enters and sees the value in their own time zone, as set in their [account settings](../../user-guide/account-settings/language-and-region/#change-your-time-zone). A value entered as 14:30 by a user in Berlin is shown as 08:30 to a user in New York.
+- A default value, a regular expression and length restrictions cannot be set. The field cannot be used in the global search.
+- When filtering, the operators **on** and **between** select whole days in the user's time zone.
+- Exports contain the date and time in the time zone of the user who creates the export.
 
 ### Hierarchy custom field (Enterprise add-on)
 
@@ -126,7 +136,7 @@ Creating and editing items in a weighted item list work exactly like with a hier
 
 ![Specify weight for an item in a custom field of type "weighted item list" in OpenProject administration](openproject_system_guide_new_custom_field_weighted_item_list.png)
 
-This underlying numerical value is mandatory, and can be used for calculation - for example for the project attribute of type [**Calculated value**](../projects/project-attributes/). Due to this constraint, weighted item lists cannot be configured to be multi-select.
+This underlying numerical value is mandatory, and can be used for calculation - for example for the project attribute of type [**Calculated value**](../projects/project-attributes/). Weighted item lists can also be configured to be [multi-select](#create-a-multi-select-custom-field).
 
 ## Required custom fields
 
@@ -149,9 +159,9 @@ Generally speaking, OpenProject will enforce the _required_ characteristic whene
 
 ## Create a multi-select custom field
 
-For work package custom fields of type **List**, **User**, **Version** and **Hierarchy** you may also select **multi-select custom fields** to select more than one value at once.
+For work package custom fields of type **List**, **User**, **Version**, **Hierarchy** and **Weighted item list** you may also select **multi-select custom fields** to select more than one value at once.
 
-To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format **List**, **User**, **Version** or **Hierarchy** and check the option _Allow multi-select_.
+To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format **List**, **User**, **Version**, **Hierarchy** or **Weighted item list** and check the option _Allow multi-select_.
 
 ![Enable multi-select for a custom field in OpenProject administration](system-admin-allow-multi-select.png)
 

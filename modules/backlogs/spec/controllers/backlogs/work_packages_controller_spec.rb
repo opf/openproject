@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,9 +62,9 @@ RSpec.describe Backlogs::WorkPackagesController do
   end
 
   describe "load_work_package" do
-    let(:params) { { project_id: project.id, id: work_package.id } }
+    let(:params) { { project_id: project.id, id: work_package.id, list_type: "sprint", list_id: sprint.id } }
 
-    subject(:response) { get :menu, params:, format: :html }
+    subject(:response) { put :move, params:, format: :turbo_stream }
 
     it "assigns the visible work package", :aggregate_failures do
       expect(response).to be_successful
@@ -141,13 +140,13 @@ RSpec.describe Backlogs::WorkPackagesController do
         end
 
         context "when the active sprint filter hides the target sprint" do
-          let(:filter_params) { { sprint_ids: [sprint.id] } }
+          let(:filter_params) { { sprint_ids: [sprint.id.to_s].to_json } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "Agile Sprint 2"
         end
 
         context "when the active sprint filter includes the target sprint" do
-          let(:filter_params) { { sprint_ids: [sprint.id, other_sprint.id] } }
+          let(:filter_params) { { sprint_ids: [sprint.id.to_s, other_sprint.id.to_s].to_json } }
 
           it "emits no flash", :aggregate_failures do
             expect(response).to be_successful
@@ -204,7 +203,7 @@ RSpec.describe Backlogs::WorkPackagesController do
 
         context "when the active bucket filter hides the inbox" do
           let(:bucket) { create(:backlog_bucket, project:) }
-          let(:filter_params) { { bucket_ids: [bucket.id] } }
+          let(:filter_params) { { bucket_ids: [bucket.id.to_s].to_json } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "Inbox"
         end
@@ -259,7 +258,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         end
 
         context "when the active bucket filter hides the target bucket" do
-          let(:filter_params) { { bucket_ids: ["inbox"] } }
+          let(:filter_params) { { bucket_ids: ["inbox"].to_json } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "My Bucket"
         end
@@ -318,7 +317,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:prev_id) { first_item.id }
       let(:optimistic) { "true" }
 
-      it "skips the reload because the requested anchor was honoured", :aggregate_failures do
+      it "skips the reload because the requested anchor was honored", :aggregate_failures do
         expect(response).to be_successful
         expect(response).to have_turbo_stream action: "dispatchEvent"
         expect(response).not_to have_turbo_stream action: "turbo_frame_reload"
@@ -655,129 +654,6 @@ RSpec.describe Backlogs::WorkPackagesController do
       it "does not stream a live region announcement" do
         expect(response).to be_successful
         expect(response).not_to have_turbo_stream action: "liveRegion"
-      end
-    end
-  end
-
-  describe "GET #menu" do
-    let(:params) { { project_id: project.id, id: work_package_id } }
-    let(:work_package_id) { work_package.id }
-
-    subject(:response) { get :menu, params:, format: :html }
-
-    context "when work_package has no sprint (inbox item)" do
-      let(:inbox_work_package) { create(:work_package, status:, project:) }
-      let(:work_package_id) { inbox_work_package.id }
-
-      it "returns deferred action menu list HTML for inbox items" do
-        expect(response).to have_http_status :ok
-        expect(body).to include(I18n.t(:"js.button_open_details"))
-      end
-    end
-
-    it "returns deferred action menu list HTML", :aggregate_failures do
-      expect(response).to have_http_status :ok
-      expect(body).to include(I18n.t(:"js.button_open_details"))
-    end
-
-    context "when another open sprint exists" do
-      let!(:other_open_sprint) { create(:sprint, name: "Sprint 2", project:) }
-
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes open_sprints_exist: true to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(open_sprints_exist: true))
-      end
-    end
-
-    context "when no other open sprints exist" do
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes open_sprints_exist: false to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(open_sprints_exist: false))
-      end
-    end
-
-    context "when other backlog buckets exist" do
-      let!(:buckets) { create_list(:backlog_bucket, 2, project:) }
-
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes other_buckets_exist: true to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(other_buckets_exist: true))
-      end
-    end
-
-    context "when no backlog buckets exist" do
-      before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
-
-      it "passes other_buckets_exist: false to the menu component" do
-        response
-
-        expect(Backlogs::WorkPackageCardMenuComponent)
-          .to have_received(:new)
-          .with(hash_including(other_buckets_exist: false))
-      end
-    end
-
-    context "with a user lacking project permission" do
-      let(:user) { create(:user) }
-
-      it "responds with 404" do
-        expect(response).to have_http_status :not_found
-      end
-    end
-
-    # The client-side sortable-lists--item controller now gates first/last availability at
-    # runtime (see AGILE-322); the server always renders all four move items when the user
-    # may manage sprint items, regardless of the work package's position in its list.
-    context "with sprint source" do
-      let!(:sprint_items) { create_list(:work_package, 3, status:, sprint:, project:) }
-      let(:work_package_id) { sprint_items.first.id }
-
-      it "renders all four move items regardless of position", :aggregate_failures do
-        expect(body).to include(I18n.t(:label_sort_highest))
-        expect(body).to include(I18n.t(:label_sort_higher))
-        expect(body).to include(I18n.t(:label_sort_lower))
-        expect(body).to include(I18n.t(:label_sort_lowest))
-      end
-    end
-
-    context "with inbox source" do
-      let!(:inbox_items) { create_list(:work_package, 3, status:, project:) }
-      let(:work_package_id) { inbox_items.last.id }
-
-      it "renders all four move items regardless of position", :aggregate_failures do
-        expect(body).to include(I18n.t(:label_sort_highest))
-        expect(body).to include(I18n.t(:label_sort_higher))
-        expect(body).to include(I18n.t(:label_sort_lower))
-        expect(body).to include(I18n.t(:label_sort_lowest))
-      end
-    end
-
-    context "with backlog bucket source" do
-      let!(:backlog_bucket) { create(:backlog_bucket, project:) }
-      let(:lone_item) { create(:work_package, project:, status:, backlog_bucket:) }
-      let(:work_package_id) { lone_item.id }
-
-      it "renders all four move items even for a lone item in its list", :aggregate_failures do
-        expect(response).to have_http_status :ok
-        expect(body).to include(I18n.t(:label_sort_highest))
-        expect(body).to include(I18n.t(:label_sort_higher))
-        expect(body).to include(I18n.t(:label_sort_lower))
-        expect(body).to include(I18n.t(:label_sort_lowest))
       end
     end
   end
@@ -1167,98 +1043,14 @@ RSpec.describe Backlogs::WorkPackagesController do
     end
   end
 
-  describe "GET #move_to_sprint_dialog" do
-    let!(:other_sprint) { create(:sprint) }
-    let!(:displayed_sprints) { create_list(:sprint, 2, project:) }
-
-    let(:params) { { project_id: project.id, id: work_package.id } }
-
-    subject(:response) { get :move_to_sprint_dialog, params:, format: :turbo_stream }
-
-    context "with a Sprint source" do
-      it "responds with a dialog turbo stream", :aggregate_failures do
-        expect(response).to be_successful
-        expect(response).to have_turbo_stream action: "dialog"
-      end
-
-      it "includes the existing sprints as list_id options" do
-        subject
-
-        displayed_sprints.each do |sprint|
-          expect(body).to include(%(value="#{sprint.id}"))
-        end
-      end
-
-      it "does not include the current sprint as a list_id option" do
-        subject
-
-        expect(body).not_to include(%(value="#{sprint.id}"))
-      end
-
-      it "does not include the other sprint" do
-        subject
-
-        expect(body).not_to include(%(value="#{other_sprint.id}"))
-      end
-    end
-
-    context "with inbox source (no sprint_id)" do
-      let(:inbox_work_package) { create(:work_package, status:, project:) }
-      let(:params) { { project_id: project.id, id: inbox_work_package.id } }
-
-      it "responds with a dialog turbo stream", :aggregate_failures do
-        expect(response).to be_successful
-        expect(response).to have_turbo_stream action: "dialog"
-      end
-
-      it "embeds the no-sprint work_packages path in the dialog form action URL" do
-        expect(body).to include("backlogs/work_packages/#{inbox_work_package.id}/move")
-        expect(body).not_to include("sprints")
-      end
-
-      it "includes the existing sprints as list_id options" do
-        subject
-
-        displayed_sprints.each do |sprint|
-          expect(body).to include(%(value="#{sprint.id}"))
-        end
-      end
-
-      it "does not include the other sprint" do
-        subject
-
-        expect(body).not_to include(%(value="#{other_sprint.id}"))
-      end
-    end
-
-    context "with a Backlog bucket source" do
-      let(:bucket) { create(:backlog_bucket, project:) }
-      let(:bucket_work_package) { create(:work_package, status:, project:, backlog_bucket: bucket) }
-      let(:params) { { project_id: project.id, id: bucket_work_package.id } }
-
-      it "responds with a dialog turbo stream", :aggregate_failures do
-        expect(response).to be_successful
-        expect(response).to have_turbo_stream action: "dialog"
-      end
-
-      it "includes the available sprints in the dialog" do
-        displayed_sprints.each do |sprint|
-          expect(body).to include(%(value="#{sprint.id}"))
-        end
-      end
-
-      it "does not include sprints from other projects" do
-        subject
-
-        expect(body).not_to include(%(value="#{other_sprint.id}"))
-      end
-    end
-
+  shared_examples "a guarded move dialog" do
     context "when all=true is in params" do
-      let(:params) { { project_id: project.id, id: work_package.id, all: "true" } }
+      let(:params) { super().merge(all: "true") }
 
-      it "embeds the all query in the dialog form action URL" do
-        expect(body).to include("all=true")
+      it "embeds the all query in the dialog form action" do
+        document = Nokogiri::HTML.fragment(response.body)
+        expect(document.css("form").pluck("action"))
+          .to include(move_project_backlogs_work_packages_path(project, all: "true"))
       end
     end
 
@@ -1279,79 +1071,149 @@ RSpec.describe Backlogs::WorkPackagesController do
     end
   end
 
-  describe "GET #move_to_bucket_dialog" do
-    let!(:displayed_buckets) { create_list(:backlog_bucket, 2, project:) }
-    let!(:other_bucket) { create(:backlog_bucket, project: create(:project)) }
+  describe "POST #move_to_sprint_dialog" do
+    let!(:available_sprint) { create(:sprint, project:) }
+    let!(:first) { create(:work_package, status:, project:) }
+    let!(:second) { create(:work_package, status:, project:) }
+    let(:ids) { [second.id, first.id] }
+    let(:params) { { project_id: project.id, ids: } }
 
-    let(:params) { { project_id: project.id, id: work_package.id } }
+    subject(:response) { post :move_to_sprint_dialog, params:, format: :turbo_stream }
 
-    subject(:response) { get :move_to_bucket_dialog, params:, format: :turbo_stream }
+    it_behaves_like "a guarded move dialog"
 
-    context "with a Sprint source" do
-      it "responds with a dialog turbo stream", :aggregate_failures do
-        expect(response).to be_successful
-        expect(response).to have_turbo_stream action: "dialog"
-      end
+    it "renders the ordered collection and authoritative sprints" do
+      response
 
-      it "includes the project buckets as list_id options" do
-        subject
+      expect(response).to have_turbo_stream action: "dialog"
+      document = Nokogiri::HTML.fragment(response.body)
+      expect(document.css('input[name="ids[]"]').pluck("value"))
+        .to eq [second.id.to_s, first.id.to_s]
+      expect(document.css("select option").pluck("value"))
+        .to eq [available_sprint.id.to_s]
+      expect(document.css('input[name="prev_id"]')).to be_empty
+      expect(document.css("form").pluck("action"))
+        .to include(move_project_backlogs_work_packages_path(project))
+    end
 
-        displayed_buckets.each do |bucket|
-          expect(body).to include(%(value="#{bucket.id}"))
+    context "with several distinct card types and statuses" do
+      let!(:stories) do
+        Array.new(5) do |index|
+          create(:work_package, project:,
+                                type: create(:type, name: "Dialog type #{index}"),
+                                status: create(:status, name: "Dialog status #{index}"))
         end
       end
+      let(:ids) { stories.map(&:id).reverse }
 
-      it "does not include buckets from other projects" do
-        subject
+      it "loads card type and policy status in one query each" do
+        recorder = ActiveRecord::QueryRecorder.new { response }
 
-        expect(body).not_to include(%(value="#{other_bucket.id}"))
-      end
-    end
-
-    context "when the work package is in a bucket" do
-      let(:current_bucket) { create(:backlog_bucket, project:) }
-      let(:current_bucket_wp) { create(:work_package, status:, project:, backlog_bucket: current_bucket) }
-      let(:params) { { project_id: project.id, id: current_bucket_wp.id } }
-
-      it "responds with a dialog turbo stream" do
-        expect(response).to be_successful
         expect(response).to have_turbo_stream action: "dialog"
-      end
-
-      it "excludes the current bucket from the options" do
-        subject
-
-        expect(body).not_to include(%(value="#{current_bucket.id}"))
-      end
-
-      it "includes the other project buckets" do
-        displayed_buckets.each do |bucket|
-          expect(body).to include(%(value="#{bucket.id}"))
-        end
+        expect(recorder.log.grep(/FROM "types"/).size).to eq 1
+        expect(recorder.log.grep(/FROM "statuses"/).size).to eq 1
+        document = Nokogiri::HTML.fragment(response.body)
+        expect(document.css('input[name="ids[]"]').pluck("value")).to eq ids.map(&:to_s)
       end
     end
 
-    context "when all=true is in params" do
-      let(:params) { { project_id: project.id, id: work_package.id, all: "true" } }
-
-      it "embeds the all query in the dialog form action URL" do
-        expect(body).to include("all=true")
+    shared_examples "rejects invalid dialog ids" do
+      it "returns a 422 Turbo Stream without opening a dialog", :aggregate_failures do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "dialog"
       end
     end
 
-    context "with a user lacking manage_sprint_items permission" do
-      let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
+    context "with a blank id" do
+      let(:ids) { [second.id, ""] }
 
-      it "responds with 403" do
-        expect(response).to have_http_status :forbidden
-      end
+      it_behaves_like "rejects invalid dialog ids"
     end
 
-    context "with a user lacking project permission" do
-      let(:user) { create(:user) }
+    context "with duplicate ids" do
+      let(:ids) { [second.id, second.id] }
 
-      it "responds with 404" do
-        expect(response).to have_http_status :not_found
+      it_behaves_like "rejects invalid dialog ids"
+    end
+
+    context "with an id from another project" do
+      let(:foreign_project) do
+        create(:project, name: "Foreign dialog project", identifier: "foreign-dialog-project")
+      end
+      let(:foreign_work_package) do
+        create(:work_package, project: foreign_project, author: user, status:, type: type_feature)
+      end
+      let(:ids) { [second.id, foreign_work_package.id] }
+
+      it_behaves_like "rejects invalid dialog ids"
+    end
+
+    context "with an id the user cannot see" do
+      let(:user) do
+        create(:user, member_with_permissions: {
+                 project => %i[view_work_packages view_sprints manage_sprint_items]
+               })
+      end
+      let(:invisible_project) do
+        create(:project, public: false, name: "Invisible dialog project", identifier: "invisible-dialog-project")
+      end
+      let(:invisible_work_package) do
+        create(:work_package, project: invisible_project, author: user, status:, type: type_feature)
+      end
+      let(:ids) { [second.id, invisible_work_package.id] }
+
+      it_behaves_like "rejects invalid dialog ids"
+    end
+
+    context "when every sprint destination is omitted" do
+      let!(:available_sprint) { sprint }
+      let!(:first) { create(:work_package, status:, project:, sprint:) }
+      let!(:second) { create(:work_package, status:, project:, sprint:) }
+
+      it "returns a 422 Turbo Stream without opening an empty dialog", :aggregate_failures do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(body).to include(I18n.t("backlogs.work_packages.move_to_sprint_dialog.no_available_destinations"))
+        expect(response).not_to have_turbo_stream action: "dialog"
+      end
+    end
+  end
+
+  describe "POST #move_to_bucket_dialog" do
+    let!(:available_bucket) { create(:backlog_bucket, project:) }
+    let!(:first) { create(:work_package, status:, project:) }
+    let!(:second) { create(:work_package, status:, project:) }
+    let(:params) { { project_id: project.id, ids: [second.id, first.id] } }
+
+    subject(:response) { post :move_to_bucket_dialog, params:, format: :turbo_stream }
+
+    it_behaves_like "a guarded move dialog"
+
+    it "renders the ordered collection and authoritative buckets" do
+      response
+
+      expect(response).to have_turbo_stream action: "dialog"
+      document = Nokogiri::HTML.fragment(response.body)
+      expect(document.css('input[name="ids[]"]').pluck("value"))
+        .to eq [second.id.to_s, first.id.to_s]
+      expect(document.css("select option").pluck("value"))
+        .to eq [available_bucket.id.to_s]
+      expect(document.css('input[name="prev_id"]')).to be_empty
+      expect(document.css("form").pluck("action"))
+        .to include(move_project_backlogs_work_packages_path(project))
+    end
+
+    context "when every bucket destination is omitted" do
+      let!(:available_bucket) { create(:backlog_bucket, project:) }
+      let!(:first) { create(:work_package, status:, project:, backlog_bucket: available_bucket) }
+      let!(:second) { create(:work_package, status:, project:, backlog_bucket: available_bucket) }
+
+      it "returns a 422 Turbo Stream without opening an empty dialog", :aggregate_failures do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(body).to include(I18n.t("backlogs.work_packages.move_to_bucket_dialog.no_available_destinations"))
+        expect(response).not_to have_turbo_stream action: "dialog"
       end
     end
   end

@@ -26,22 +26,9 @@
               <wp-breadcrumb [workPackage]="workPackage"
                 class="work-packages--breadcrumb"
                />
-              @if (showBackButton()) {
-                <op-back-button linkClass="work-packages-back-button"
-                  [customBackMethod]="backToList.bind(this)"
-                 />
-              }
               <wp-subject [workPackage]="workPackage" class="subject-header" />
             </div>
           </div>
-          @if (showTabs) {
-            <div
-              class="work-package-details-tab"
-              data-notification-selector='notification-scroll-container'
-              ui-view
-              >
-            </div>
-          }
           @if (!showTabs && activeTab) {
             <div
               class="work-package-details-tab"
@@ -57,7 +44,7 @@
     @if (workPackage) {
       <div class="work-packages--details-toolbar-container">
         <wp-details-toolbar [workPackage]="workPackage"
-          [displayNotificationsButton]="(displayNotificationsButton$ | async)"
+          [displayNotificationsButton]="(displayNotificationsButton$ | async) ?? false"
          />
       </div>
     }

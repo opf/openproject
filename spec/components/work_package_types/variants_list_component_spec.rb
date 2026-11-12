@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,7 +40,7 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
 
   # The wizard is reachable from the types index too, so it has to be told to come back here.
   let(:add_variant_href) do
-    new_creation_wizard_types_path(type_id: type.id, back_url: type_variants_path(type_id: type.id))
+    new_creation_wizard_type_variants_path(type_id: type.id, back_url: type_variants_path(type_id: type.id))
   end
 
   context "with a variant a project owns" do
@@ -59,11 +58,9 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
         .to have_link("Apollo", href: project_settings_work_packages_types_path(owning_project))
     end
 
-    it "links it into the project owning it" do
+    it "links it within administration" do
       expect(rendered_component)
-        .to have_link("Internal",
-                      href: type_settings_path(in_project_id: owning_project,
-                                               type_id: type.id, variant_id: owned.id))
+        .to have_link("Internal", href: type_variant_settings_path(type_id: type.id, variant_id: owned.id))
     end
   end
 
@@ -103,8 +100,10 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
     let!(:alfa) { create(:type_variant, type:, variant_name: "Alfa") }
 
     it "links every named variant to its settings page" do
-      expect(rendered_component).to have_link("Alfa", href: type_settings_path(type_id: type.id, variant_id: alfa.id))
-      expect(rendered_component).to have_link("Zeta", href: type_settings_path(type_id: type.id, variant_id: zeta.id))
+      expect(rendered_component)
+        .to have_link("Alfa", href: type_variant_settings_path(type_id: type.id, variant_id: alfa.id))
+      expect(rendered_component)
+        .to have_link("Zeta", href: type_variant_settings_path(type_id: type.id, variant_id: zeta.id))
     end
 
     it "lists them in display order" do

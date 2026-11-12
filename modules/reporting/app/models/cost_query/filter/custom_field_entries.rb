@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,16 +59,22 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
     end
   end
 
-  def self.available_values(*)
-    @possible_values || get_possible_values
+  def self.available_values(project: nil, **)
+    @possible_values || get_possible_values(project)
   end
 
-  def self.get_possible_values
+  def self.get_possible_values(project)
     if custom_field.field_format == "list"
       # Treat list CFs values as string options again, since
       # aggregation of groups are made by the values as well
       # and otherwise, it won't work as a filter.
-      custom_field.possible_values.map { |co| [co.value, co.value] }
+
+      # Hierarchies are not supported here yet, otherwise they would need the same treatment
+      custom_field
+        .visible_values_for(User.current, within: project&.self_and_descendants)
+        .map(&:value)
+        .uniq
+        .map { |value| [value, value] }
     else
       custom_field.possible_values
     end

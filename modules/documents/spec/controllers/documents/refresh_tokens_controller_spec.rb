@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe Documents::RefreshTokensController do
+RSpec.describe Documents::RefreshTokensController, with_settings: { real_time_text_collaboration_enabled: true } do
   let(:project) { create(:project) }
   let(:document) { create(:document, project:) }
   let(:user) { create(:user) }
@@ -99,6 +98,24 @@ RSpec.describe Documents::RefreshTokensController do
         post :create, params: { project_id: project.id, document_id: 999_999 }
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "when the document is not collaborative" do
+      let(:document) { create(:document, project:, kind: :classic) }
+
+      before do
+        login_as(user)
+        create(:member, project:, user:, roles: [role])
+      end
+
+      it "returns unprocessable entity without creating a token" do
+        expect do
+          post :create, params: { project_id: project.id, document_id: document.id }
+        end.not_to change(Doorkeeper::AccessToken, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body["error"]).to eq(I18n.t("documents.collaboration_token.errors.not_collaborative"))
       end
     end
 

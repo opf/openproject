@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,19 +35,12 @@ module Storages::Admin
         label: ::Storages::Admin::LABEL_DRIVE_ID,
         visually_hide_label: false,
         required: true,
-        caption: caption.html_safe, # rubocop:disable Rails/OutputSafety
+        caption: helpers.link_translate(
+          "storages.instructions.one_drive.drive_id_html",
+          links: { drive_id_guide: %i[storage_docs one_drive_drive_id_guide] }
+        ),
         input_width: :large
       )
-    end
-
-    private
-
-    def caption
-      href = ::OpenProject::Static::Links.url_for(:storage_docs, :one_drive_drive_id_guide)
-      I18n.t("storages.instructions.one_drive.drive_id",
-             drive_id_link_text: render(Primer::Beta::Link.new(href:, underline: true, target: "_blank")) do
-               I18n.t("storages.instructions.one_drive.documentation_link_text")
-             end)
     end
   end
 end

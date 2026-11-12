@@ -31,8 +31,8 @@ tr:
         title: Üyeler
         view_all_members: Tüm üyeleri göster
         x_more:
-          one: ve bir üye daha
-          other: ve %{count} üye daha.
+          one: and %{count} more member.
+          other: and %{count} more members.
       news:
         no_results: Rapor için yeni birşey bulunamadı.
       not_available: Bu widget mevcut değil.

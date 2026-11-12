@@ -102,7 +102,7 @@ ko:
     not_recommended: 추천하지 않음
     recommended: 추천
     x_bcf_issues:
-      one: '1개 BCF 이슈 '
+      one: "%{count} BCF issue"
       other: "%{count}개 BCF 이슈"
       zero: BCF 이슈 없음
   bim:
@@ -140,8 +140,10 @@ ko:
       processing_default: 다음 기본 IFC 모델이 아직 처리 중이므로 사용 가능하지 않습니다.
   oauth:
     scopes:
-      bcf_v2_1: BCF v2.1 API에 대한 전체 액세스
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: 애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject BCF API v2.1에 대한 전체 읽기 및 쓰기 액세스 권한을 받습니다.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: BCF 이슈 삭제
   permission_manage_bcf: BCF 이슈 가져오기 및 관리
   permission_manage_bcf_explanation: |

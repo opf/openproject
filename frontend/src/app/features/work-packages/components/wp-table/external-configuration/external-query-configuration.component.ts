@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,7 +33,7 @@ import { WpTableConfigurationService } from 'core-app/features/work-packages/com
 import { RestrictedWpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/restricted-wp-table-configuration.service';
 import { ExternalQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service';
 import { OpQueryConfigurationLocalsToken } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.constants';
-import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { QueryRequestParams, UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -43,7 +42,8 @@ export interface QueryConfigurationLocals {
   service:ExternalQueryConfigurationService;
   currentQuery:unknown;
   urlParams?:boolean;
-  disabledTabs?:Record<string, string>;
+  disabledTabs?:Record<string, string>|string[];
+  hideDisabledTabs?:boolean;
   callback:(newQuery:unknown) => void;
 }
 
@@ -64,14 +64,15 @@ export class ExternalQueryConfigurationComponent implements OnInit, AfterViewIni
   readonly urlParamsHelper = inject(UrlParamsHelperService);
   readonly cdRef = inject(ChangeDetectorRef);
 
-  queryProps:string|object;
+  queryProps:Partial<QueryRequestParams>;
 
   ngOnInit() {
     if (this.locals.urlParams) {
       const currentQuery = typeof this.locals.currentQuery === 'string' ? this.locals.currentQuery : null;
       this.queryProps = this.urlParamsHelper.buildV3GetQueryFromJsonParams(currentQuery);
     } else {
-      this.queryProps = this.locals.currentQuery as object;
+      const { currentQuery } = this.locals;
+      this.queryProps = typeof currentQuery === 'object' && currentQuery !== null ? currentQuery : {};
     }
   }
 

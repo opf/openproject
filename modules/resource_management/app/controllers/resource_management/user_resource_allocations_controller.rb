@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,38 +30,23 @@
 module ::ResourceManagement
   class UserResourceAllocationsController < BaseController
     include OpTurbo::ComponentStream
+    include ResourceManagement::UserAllocationsDialog
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
+    load_and_authorize_in_planner_section
     before_action :find_resource_planner_view
     before_action :find_user
-    before_action :authorize
 
     def index
-      respond_with_dialog ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
-        project: @project,
-        view: @resource_planner_view,
-        user: @user,
-        allocations:,
-        overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
-      )
+      respond_with_dialog user_allocations_dialog_component(view: @resource_planner_view, user: @user)
     end
 
     private
 
-    def allocations
-      @allocations ||=
-        ResourceAllocation
-          .allocated
-          .for_principal(@user)
-          .includes(:entity)
-          .to_a
-    end
-
     def find_resource_planner_view
       @resource_planner_view = PersistedView
-                                 .where(parent: ResourcePlanner.visible(current_user).where(project: @project))
+                                 .where(parent: ResourcePlanner.visible_to(current_user, @project))
                                  .find(params.expect(:resource_planner_view_id))
     end
 

@@ -106,7 +106,7 @@ hu:
     not_recommended: nem ajánlott
     recommended: Ajánlott
     x_bcf_issues:
-      one: Egy BCF probléma
+      one: "%{count} BCF issue"
       other: "%{count} BCF probléma"
       zero: Nincs BCF feladat
   bim:
@@ -144,8 +144,10 @@ hu:
       processing_default: 'A következő alapértelmezett IFC modellek továbbra is feldolgozás alatt állnak, így ezek még nem állnak rendelkezésre:'
   oauth:
     scopes:
-      bcf_v2_1: Teljes hozzáférés a BCF v2.1 API-hoz
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Az alkalmazás teljes olvasási és írási hozzáférést kap az OpenProject BCF API v2.1 verzióhoz az Ön nevében végzett műveletek elvégzéséhez.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Törölje a BCF -problémákat
   permission_manage_bcf: Import és manage BCF eredmények
   permission_manage_bcf_explanation: |

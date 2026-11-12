@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -169,6 +168,21 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       let(:sprint_sharing) { Projects::SprintSettings::NO_SHARING }
 
       include_examples "copies sprints decoupled from the source"
+    end
+
+    context "when the sprint was imported from external, e.g. Jira" do
+      let!(:source_sprint) do
+        create(:sprint, project: sprint_project, name: "Sprint A",
+                        origin_source: "jira_data_center", origin_host: "https://jira.example.com/",
+                        origin_id: "7", origin_url: "https://jira.example.com/rest/agile/1.0/sprint/7")
+      end
+
+      it "copies the sprint without its origin" do
+        expect(subject).to be_success
+        expect(project_copy.sprints.first)
+          .to have_attributes(name: "Sprint A", origin_source: nil, origin_host: nil, origin_id: nil, origin_url: nil)
+        expect(source_sprint.reload.origin_id).to eq("7")
+      end
     end
 
     context "when source has SHARE_SUBPROJECTS" do

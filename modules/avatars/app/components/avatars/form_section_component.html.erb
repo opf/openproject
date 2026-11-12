@@ -1,35 +1,77 @@
 <%= render(Primer::Beta::Subhead.new(mb: 2)) do |subhead| %>
-  <% subhead.with_heading(tag: :h3, size: :medium) { t("avatars.label_avatar") } %>
-  <% subhead.with_description { description } %>
+  <% subhead.with_heading(tag: :h3, size: :medium) { t(:label_avatar) } %>
 <% end %>
 
-<div class="avatars--media">
-  <% if manager.local_avatars_enabled? %>
-    <%# Clicking the avatar activates the hidden file input rendered by the
-        upload form below; the upload then fires as soon as a file is selected. %>
-    <label for="avatar_file_input"
-           class="avatars--current-avatar avatars--upload-trigger">
-      <%= helpers.avatar(@user, hover_card: { active: false }) %>
-    </label>
-    <opce-avatar-upload-form target="<%= @target_avatar_path %>" method="PUT"></opce-avatar-upload-form>
-    <% if helpers.local_avatar?(@user) %>
-      <%= form_with(
-            url: @target_avatar_path,
-            method: :delete,
-            data: { turbo_confirm: t(:are_you_sure_delete_avatar) }
-          ) do %>
-        <%= render(
-              Primer::Beta::Button.new(
-                type: :submit,
-                scheme: :link,
-                test_selector: "avatar-delete-link"
-              )
-            ) { t(:button_delete) } %>
-      <% end %>
-    <% end %>
-  <% else %>
-    <div class="avatars--current-avatar">
-      <%= helpers.avatar(@user, hover_card: { active: false }) %>
-    </div>
+<div class="avatars--edit">
+  <%= render(
+        Primer::Beta::Button.new(
+          id: "avatar-edit-button",
+          scheme: :invisible,
+          classes: "avatars--edit-trigger",
+          test_selector: "avatar-edit-button",
+          data: { show_dialog_id: DIALOG_ID }
+        )
+      ) do %>
+    <span class="avatars--current-avatar">
+      <%= helpers.avatar(@principal, hover_card: { active: false }, title: "") %>
+      <span class="avatars--edit-badge" aria-hidden="true"><%= render(Primer::Beta::Octicon.new(icon: :pencil, size: :xsmall)) %></span>
+    </span>
   <% end %>
+  <%= render(Primer::Alpha::Tooltip.new(for_id: "avatar-edit-button", type: :label, text: t("avatars.edit_avatar"), direction: :e)) %>
 </div>
+
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: DIALOG_ID,
+        title: t("avatars.edit_avatar"),
+        size: :large,
+        position: :right,
+        classes: "avatars--settings",
+        data: {
+          controller: "avatars--settings",
+          "avatars--settings-initials-value": initials,
+          "avatars--settings-color-value": automatic_color,
+          "avatars--settings-image-value": image_url,
+          "avatars--settings-svg-template-value": preview_svg,
+          "avatars--settings-max-length-value": AvatarTextValidator::MAX_LENGTH,
+          "avatars--settings-text-length-error-value": t("avatars.text_length_error"),
+          "avatars--settings-text-invalid-error-value": t("avatars.text_invalid_error"),
+          "avatars--settings-gravatar-value": gravatar_url
+        }
+      )
+    ) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+  <% dialog.with_body do %>
+    <%= primer_form_with(url: @avatar_settings_path, method: :patch, id: FORM_ID, html: { multipart: true }, data: { turbo: false }) do |f| %>
+      <%= render(Avatars::SettingsForm.new(f, principal: @principal, target_avatar_path: @target_avatar_path, image_url:)) %>
+    <% end %>
+    <%= render(Primer::BaseComponent.new(tag: :aside, classes: "avatars--preview", mt: 4, aria: { label: t("avatars.preview") })) do %>
+      <%= render(Primer::Beta::Text.new(tag: :p, font_weight: :bold)) { t("avatars.preview") } %>
+        <% %i[default medium mini].each do |size| %>
+          <div class="avatars--preview-row" data-avatars--settings-target="preview">
+            <%= render(
+                  Users::AvatarComponent.new(
+                    user: @principal,
+                    size:,
+                    link: false,
+                    hover_card: { active: false },
+                    avatar_image_url: preview_image_url,
+                    avatar_fallback_image_url: preview_fallback_image_url
+                  )
+                ) %>
+          </div>
+        <% end %>
+      <% end %>
+  <% end %>
+  <% dialog.with_footer do %>
+    <%= render(Primer::Beta::Button.new(data: { close_dialog_id: DIALOG_ID })) { t(:button_cancel) } %>
+    <%= render(
+          Primer::Beta::Button.new(
+            type: :submit,
+            scheme: :primary,
+            form: FORM_ID,
+            data: { "avatars--settings-target": "submit" }
+          )
+        ) { t(:button_save) } %>
+  <% end %>
+<% end %>

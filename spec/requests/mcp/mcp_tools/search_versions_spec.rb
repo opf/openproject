@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -67,23 +66,48 @@ RSpec.describe McpTools::SearchVersions do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "finds all versions without filters" do
+  it "finds all versions without filters" do
+    mcp_request
+    expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
+  end
+
+  it "responds with properly formatted versions" do
+    mcp_request
+    parsed_results.dig("structuredContent", "items").each do |version|
+      expect(version.to_json).to match_json_schema.from_docs("version_read_model")
+    end
+  end
+
+  context "when passing an exact name" do
+    let(:call_args) { { name: "v1.0.1-alpha" } }
+
+    it "finds the version" do
       mcp_request
-      expect(parsed_results.dig("structuredContent", "items").size).to eq(2)
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
     end
+  end
 
-    it "responds with properly formatted versions" do
+  context "when passing a non-exact name" do
+    let(:call_args) { { name: "alpha" } }
+
+    it "finds the version" do
       mcp_request
-      parsed_results.dig("structuredContent", "items").each do |version|
-        expect(version.to_json).to match_json_schema.from_docs("version_read_model")
-      end
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
+    end
+  end
+
+  context "when passing a version sharing strategy" do
+    let(:call_args) { { sharing: "system" } }
+
+    it "finds the version" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
     end
 
-    context "when passing an exact name" do
-      let(:call_args) { { name: "v1.0.1-alpha" } }
+    context "and when passing a version name" do
+      let(:call_args) { { sharing: "system", name: "v1" } }
 
       it "finds the version" do
         mcp_request
@@ -91,81 +115,47 @@ RSpec.describe McpTools::SearchVersions do
       end
     end
 
-    context "when passing a non-exact name" do
-      let(:call_args) { { name: "alpha" } }
+    context "and when passing a version name of a version with a different sharing strategy" do
+      let(:call_args) { { sharing: "system", name: "alpha" } }
 
-      it "finds the version" do
+      it "does not find the version" do
         mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-      end
-    end
-
-    context "when passing a version sharing strategy" do
-      let(:call_args) { { sharing: "system" } }
-
-      it "finds the version" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-      end
-
-      context "and when passing a version name" do
-        let(:call_args) { { sharing: "system", name: "v1" } }
-
-        it "finds the version" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items").size).to eq(1)
-        end
-      end
-
-      context "and when passing a version name of a version with a different sharing strategy" do
-        let(:call_args) { { sharing: "system", name: "alpha" } }
-
-        it "does not find the version" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items")).to be_empty
-        end
-      end
-    end
-
-    describe "pagination" do
-      let(:page_size) { 10 }
-      let(:overspilling_versions) { 5 }
-      let(:version_count) { page_size + overspilling_versions }
-      let(:call_args) { { name: "beta" } }
-
-      before do
-        allow(described_class).to receive(:page_size).and_return(page_size)
-
-        version_count.times do |idx|
-          create(:version, sharing: :none, name: "v1.2.#{idx}-beta")
-        end
-      end
-
-      it "returns only results up to the page size" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
-      end
-
-      it "indicates the total number of results" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "total")).to eq(version_count)
-      end
-
-      context "if another page is requested" do
-        let(:call_args) { { name: "beta", page: 2 } }
-
-        it "returns the requested page" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_versions)
-        end
+        expect(parsed_results.dig("structuredContent", "items")).to be_empty
       end
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+  describe "pagination" do
+    let(:page_size) { 10 }
+    let(:overspilling_versions) { 5 }
+    let(:version_count) { page_size + overspilling_versions }
+    let(:call_args) { { name: "beta" } }
+
+    before do
+      allow(described_class).to receive(:page_size).and_return(page_size)
+
+      version_count.times do |idx|
+        create(:version, sharing: :none, name: "v1.2.#{idx}-beta")
+      end
+    end
+
+    it "returns only results up to the page size" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
+    end
+
+    it "indicates the total number of results" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "total")).to eq(version_count)
+    end
+
+    context "if another page is requested" do
+      let(:call_args) { { name: "beta", page: 2 } }
+
+      it "returns the requested page" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_versions)
+      end
     end
   end
 end

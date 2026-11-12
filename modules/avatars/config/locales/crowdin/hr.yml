@@ -3,16 +3,37 @@ hr:
   are_you_sure_delete_avatar: Jeste li sigurni da želite obrisati svoj avatar?
   avatar_deleted: Avatar je uspješno obrisan.
   avatars:
-    label_avatar: Avatar
+    background_color_hint: Leave blank for an automatic color.
+    delete_image: Delete image
+    edit_avatar: Edit avatar
+    image_hint: Choose a JPG, PNG, or GIF. Your image is saved when you select Save.
+    image_required: Choose an image, or select a different avatar option.
+    label_avatar_text: Avatar text
+    label_background_color: Background color
     label_gravatar: Gravatar
     label_local_avatar: Prilagođeni avatar
+    label_option: Avatar option
+    manage_gravatar: Manage your image on Gravatar
+    message_avatar_updated: Avatar changed successfully.
+    preview: Preview
+    randomize_color: Randomize color
     settings:
       enable_gravatars: Dozvoli korisničke gravatare
       enable_local_avatars: Dozvoli prilagođene korisničke avatare
       gravatar_default: Zadane Gravatar slike
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_text: Enter up to two characters. Leave blank to use your name's initials.
+    text_invalid_error: Use only visible characters.
+    text_length_error: Enter up to two characters.
+    types:
+      gravatar:
+        description: The image registered for your email address on Gravatar
+        label: Gravatar
+      image:
+        description: A custom image you can upload to this instance
+        label: Image
+      initials:
+        description: Use your name's initials or override them with up to two characters.
+        label: Initials
   empty_file_error: Molimo pohranite sliku u ispravom formatu (jpg, png, gif)
   error_image_size: Slika je prevelika.
   error_image_upload: Greška pri spremanju slike.

@@ -186,7 +186,7 @@ zh-CN:
         all: 所有 Wiki 页面
         main: 主 Wiki 页面
       sub_pages_count:
-        other: "%{count} 个子页面"
+        other: "%{count} sub-pages"
     inline_wiki_page_dialog:
       title_add: 添加现有 Wiki 页面
       title_create: 新建 Wiki 页面

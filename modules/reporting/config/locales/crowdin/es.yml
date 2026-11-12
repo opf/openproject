@@ -22,8 +22,15 @@
 ---
 es:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Las filas y las columnas deben abarcar, en su conjunto, exactamente los criterios de agrupación de la consulta.
     models:
       cost_query:
+        one: Informe de costes
+        other: Informes de costes
+      cost_report:
         one: Informe de costes
         other: Informes de costes
   button_save_report_as: Guardar informe como...
@@ -99,7 +106,6 @@ es:
   plugin_openproject_reporting:
     description: Este plug-in permite crear reportes de costos personalizados con filtrado y agrupación creados por los plug-ins OpenProject Time y costes.
     name: Informes de OpenProject
-  project_module_reporting_module: Reportes de costo
   reporting:
     group_by:
       selected_columns: Columnas seleccionadas

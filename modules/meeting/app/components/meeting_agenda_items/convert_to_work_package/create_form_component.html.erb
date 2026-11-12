@@ -29,8 +29,8 @@
         end
 
         modal_body.with_row do
-          dialog_id = "##{MeetingAgendaItems::ConvertToWorkPackage::CreateDialogComponent::DIALOG_ID}"
-          render(WorkPackages::Dialogs::CreateForm.new(f, work_package:, wrapper_id: dialog_id))
+          dialog_id = MeetingAgendaItems::ConvertToWorkPackage::CreateDialogComponent::DIALOG_ID
+          render(WorkPackages::Dialogs::CreateForm.new(f, work_package:, dialog_id:))
         end
       end
     end

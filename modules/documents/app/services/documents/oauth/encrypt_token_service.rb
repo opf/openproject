@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 module Documents
   module OAuth
     class EncryptTokenService < BaseServices::BaseCallable
-      ALGORITHM = "aes-256-gcm"
+      include TokenEncryptor
 
       def initialize(token:)
         super()
@@ -40,12 +39,7 @@ module Documents
       end
 
       def perform
-        encryptor = ActiveSupport::MessageEncryptor.new(
-          key,
-          cipher: ALGORITHM,
-          serializer: ActiveSupport::MessageEncryptor::NullSerializer
-        )
-        encrypted = encryptor.encrypt_and_sign(token)
+        encrypted = message_encryptor.encrypt_and_sign(token)
 
         ServiceResult.success(result: encrypted)
       rescue StandardError => e
@@ -55,15 +49,6 @@ module Documents
       private
 
       attr_reader :token
-
-      def key
-        @key ||= begin
-          secret = Setting.collaborative_editing_hocuspocus_secret
-          raise "Collaborative editing secret is not set. Cannot encrypt token." if secret.blank?
-
-          Digest::SHA256.digest(secret)
-        end
-      end
     end
   end
 end

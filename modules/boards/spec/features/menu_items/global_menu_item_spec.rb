@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "spec_helper"
 
@@ -49,8 +47,8 @@ RSpec.describe "Global menu item for boards", :js do
       end
 
       expect(page).to have_current_path(work_package_boards_path)
-      expect(page).to have_content(boards_label)
-      expect(page).to have_content(I18n.t(:no_results_title_text))
+      expect(page).to have_text(boards_label)
+      expect(page).to have_text(I18n.t(:no_results_title_text))
     end
   end
 
@@ -59,7 +57,7 @@ RSpec.describe "Global menu item for boards", :js do
 
     it "is not rendered" do
       within "#main-menu" do
-        expect(page).to have_no_content(boards_label)
+        expect(page).to have_no_text(boards_label)
       end
     end
   end

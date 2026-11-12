@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,7 +41,7 @@ import { map } from 'rxjs/operators';
 export class BoardSubprojectActionService extends CachedBoardActionService {
   filterName = 'onlySubproject';
 
-  resourceName = 'subproject';
+  resourceName = 'subproject' as const;
 
   text = this.I18n.t('js.boards.board_type.board_type_title.subproject');
 
@@ -58,6 +57,10 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
 
   headerComponent() {
     return SubprojectBoardHeaderComponent;
+  }
+
+  override affectsOtherCards(workPackage:WorkPackageResource, cards:WorkPackageResource[]):boolean {
+    return cards.some((card) => card.ancestorIds.includes(workPackage.id!));
   }
 
   canMove(workPackage:WorkPackageResource):boolean {

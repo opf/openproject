@@ -20,14 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injectable } from '@angular/core';
-import { Board } from 'core-app/features/boards/board/board';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { StatusBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/status/status-board-header.component';
@@ -39,7 +38,7 @@ import { Observable } from 'rxjs';
 export class BoardStatusActionService extends CachedBoardActionService {
   filterName = 'status';
 
-  resourceName = 'status';
+  resourceName = 'status' as const;
 
   text = this.I18n.t('js.boards.board_type.board_type_title.status');
 
@@ -52,6 +51,12 @@ export class BoardStatusActionService extends CachedBoardActionService {
   image = imagePath('board_creation_modal/status.svg');
 
   localizedName = this.I18n.t('js.work_packages.properties.status');
+
+  override affectsOtherCards(workPackage:WorkPackageResource):boolean {
+    // Closing an original can close duplicates in any status column.
+    const status = this.cache.value?.find((value) => value.href === workPackage.status.href);
+    return status?.isClosed !== false;
+  }
 
   headerComponent() {
     return StatusBoardHeaderComponent;

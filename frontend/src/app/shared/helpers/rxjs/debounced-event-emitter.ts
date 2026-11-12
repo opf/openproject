@@ -20,14 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { EventEmitter } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 export class DebouncedEventEmitter<T> {
@@ -49,7 +48,7 @@ export class DebouncedEventEmitter<T> {
     this.debouncer.next(value);
   }
 
-  public subscribe(generatorOrNext?:any, error?:any, complete?:any):any {
-    return this.emitter.subscribe(generatorOrNext, error, complete);
+  public subscribe(...params:Parameters<EventEmitter<T>['subscribe']>):Subscription {
+    return this.emitter.subscribe(...params);
   }
 }

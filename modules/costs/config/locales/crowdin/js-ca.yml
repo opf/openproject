@@ -23,10 +23,15 @@
 ca:
   js:
     button_log_costs: 'Registra costs d''unitats '
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: hora
     label_hours: hores
-    myTimeTracking:
-      noSpecificTime: No hi ha temps específic
     text_are_you_sure: N'esteu segur?
     work_packages:
       properties:

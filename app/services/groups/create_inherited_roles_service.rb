@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,20 +45,26 @@ module Groups
 
     def modify_members_and_roles(params)
       sql_query = ::OpenProject::SqlSanitization
-                  .sanitize add_to_user_and_projects_cte(project_ids: params[:project_ids]),
+                  .sanitize add_to_user_and_projects_cte(project_ids: params[:project_ids],
+                                                         member_id: params[:member_id]),
                             group_id: model.id,
                             user_ids: params[:user_ids],
-                            project_ids: params[:project_ids]
+                            project_ids: params[:project_ids],
+                            member_id: params[:member_id]
 
       execute_query(sql_query)
     end
 
-    def add_to_user_and_projects_cte(project_ids: nil)
-      project_limit = if project_ids
-                        "project_id IN (:project_ids)"
-                      else
-                        "1=1"
-                      end
+    # Project query shares have no project id, so narrowing by project silently matches
+    # nothing. Callers holding the single membership to mirror pass its id instead.
+    def add_to_user_and_projects_cte(project_ids: nil, member_id: nil)
+      membership_limit = if member_id
+                           "id = :member_id"
+                         elsif project_ids
+                           "project_id IN (:project_ids)"
+                         else
+                           "1=1"
+                         end
 
       <<~SQL.squish
         -- select existing users from given IDs
@@ -71,7 +76,7 @@ module Groups
         ),
         -- select existing memberships of the group
         group_memberships AS (
-          SELECT project_id, user_id, entity_type, entity_id FROM #{Member.table_name} WHERE user_id = :group_id AND #{project_limit}
+          SELECT project_id, user_id, entity_type, entity_id FROM #{Member.table_name} WHERE user_id = :group_id AND #{membership_limit}
         ),
         -- select existing member_roles of the group
         group_roles AS (

@@ -47,6 +47,8 @@ uk:
       draggable_hint: 'Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Цей файл перенесено в карантин, оскільки в ньому знайдено вірус. Його не можна завантажити.
     autocomplete_ng_select:
       add_tag: Додати елемент
@@ -61,6 +63,7 @@ uk:
         single: Виберіть %{name}
       remove: Видалити %{name}
     autocompleter:
+      create_label: Створити етикетку
       notFoundText: Елементів не знайдено
       placeholder: Введіть для пошуку
       project:
@@ -128,10 +131,10 @@ uk:
     button_confirm: Підтвердити
     button_continue: Продовжити
     button_copy: Копіювати
-    button_copy_link_to_clipboard: Копіювати посилання в буфер обміну
-    button_copy_numeric_id_to_clipboard: Скопіювати числовий ID у буфер обміну
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Копіювати в буфер обміну
     button_copy_to_other_project: Копіювати в інший проєкт
+    button_copy_work_package_id: Copy work package ID
     button_create: Створити
     button_custom-fields: Індивідуальні поля
     button_delete: Видалити
@@ -147,6 +150,7 @@ uk:
     button_log_time: Записування часу
     button_more: Більше
     button_more_actions: Інші дії
+    button_move_to_position: Move to position
     button_open_details: Відкрити докладне подання
     button_open_fullscreen: Відкрити на весь екран
     button_quote: Цитата
@@ -162,6 +166,7 @@ uk:
     button_stop_timer: Зупинити таймер
     button_uncheck_all: Зняти усі відмітки
     button_update: Оновити
+    button_view_markdown: View Markdown
     caption_rate_history: Історія рейтингу
     card:
       add_new: Додати нову картку
@@ -201,7 +206,11 @@ uk:
     description_select_work_package: 'Виберіть пакет робіт #%{id}'
     description_subwork_package: 'Нащадок пакету робіт #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: У CKEditor сталася помилка
+      ckeditor_error_reload: Редактор перестав працювати. Ваш текст ще тут, але його не можна змінювати. Скопіюйте будь-який текст, який ви хочете зберегти, і перезавантажте сторінку.
       error_saving_failed: 'Не вдалося зберегти документ із такою помилкою: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ uk:
       direct_hit_available: Знайдено пакет робіт із точним ідентифікатором. Натисніть Enter, щоб відкрити його.
       items_available: 'Доступно стільки елементів: %{count}'
       recently_viewed: Нещодавно переглянуті
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Шукайте пакети робіт за темою, проєктом, типом, статусом або ідентифікатором
       title:
         all_projects: всі проекти
@@ -358,8 +369,8 @@ uk:
     ical_sharing_modal:
       copy_url_label: Копіювати URL
       description: За допомогою URL-адреси (iCalendar) ви можете підписатися на цей календар у зовнішньому клієнті й переглядати звідти актуальну інформацію про пакети робіт.
-      ical_generation_error_text: Під час створення URL-адреси календаря сталася помилка.
-      inital_setup_error_message: Під час отримання даних сталася помилка.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-адресу «%{name}» скопійовано в буфер обміну. Вставте її в клієнт свого календаря, що завершити створення підписки.
       title: Підписатися на календар
       token_name_description_text: Якщо ви підписані на цей календар на кількох пристроях, це ім’я допоможе вам розрізняти їх у списку <a href="%{myAccessTokensUrl}" target="_blank">маркерів доступу</a>.
@@ -431,7 +442,6 @@ uk:
     label_assignee: Виконавець
     label_assignee_alt_text: 'Пакет робіт призначено цьому користувачу: %{name}'
     label_attachments: Вкладення
-    label_author: 'Автор: %{user}'
     label_avatar: Аватар
     label_between: між ними
     label_board: Дошка
@@ -495,6 +505,7 @@ uk:
     label_in: в
     label_in_less_than: менш ніж
     label_in_more_than: більше ніж
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Вхідні повідомлення
     label_infinity: Нескінченність
     label_information_plural: Інформація
@@ -527,6 +538,10 @@ uk:
     label_open_context_menu: Відкрийте контекстне меню
     label_open_menu: Відкрити меню
     label_open_work_packages: відкрито
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Пароль
     label_per_page: 'К-сть на сторінку:'
     label_please_wait: Будь ласка, зачекайте
@@ -551,6 +566,8 @@ uk:
     label_reset: Скинути
     label_resize_project_menu: Змінити розмір меню проєкту
     label_save_as: Зберегти як
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Пошук стовпця
     label_select_watcher: Виберіть спостерігача...
     label_selected_filter_list: Вибрані фільтри
@@ -558,7 +575,9 @@ uk:
     label_show_in_menu: Показати вигляд у меню
     label_sort_by: Сортувати за
     label_sort_higher: Перемістити вгору
+    label_sort_highest: Move to top
     label_sort_lower: Перемістити вниз
+    label_sort_lowest: Move to bottom
     label_sorted_by: відсортовано за
     label_sorting: Сортування
     label_spent_time: Витрачений час
@@ -569,6 +588,7 @@ uk:
     label_sum_for: Сума для
     label_this_week: цього тижня
     label_time_entry_plural: Витрачений час
+    label_to_do_work_packages: to-do
     label_today: Сьогодні
     label_total_amount: 'Всього: %{amount}'
     label_total_progress: "%{percent}% загального прогресу"
@@ -623,10 +643,10 @@ uk:
     notifications:
       center:
         and_more_users:
-          one: і ще 1
-          few: і ще %{count}
-          many: і ще %{count}
-          other: і ще %{count}
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Схоже, ви все переглянули.
           no_notification_for_filter: Схоже, ви переглянули всі сповіщення за цим фільтром.
@@ -722,6 +742,7 @@ uk:
     placeholders:
       default: "-"
       description: Опис. Натисніть, щоб змінити…
+      description_double_click: 'Опис: Двічі клацніть для редагування...'
       relation_description: Нажмите, чтобы добавить описание для этой связи
       selection: Будь ласка, виберіть
       subject: Введіть тему тут
@@ -808,12 +829,37 @@ uk:
       sorting_disabled: сортування відключено
     sortable_lists:
       announcements:
+        batch_too_large: Неможливо перемістити всі елементи (%{count}) одночасно. Максимальна кількість — %{max}.
         fallback_item_label: Об’єкт
         fallback_list_name: інший список
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Не вдалося перемістити. Перегляньте поточну позицію об’єкта.
+        move_failed_check_positions_batch:
+          other: Не вдалося перемістити. Перегляньте поточні позиції елементів.
         move_failed_rolled_back: Не вдалося перемістити. Об’єкт %{label} повернувся в попередню позицію.
+        move_failed_rolled_back_batch:
+          other: Не вдалося перемістити. Елементи (%{count}) повернулися на попередні позиції.
         moved: "%{label}: переміщено в позицію %{position} з %{total}"
+        moved_batch:
+          other: Елементи (%{count}) переміщено на позиції з %{first} по %{last} з %{total}
+        moved_batch_to_list:
+          other: Елементи (%{count}) переміщено в список «%{list}», позиції з %{first} по %{last} з %{total}
         moved_to_list: "%{label}: переміщено в список «%{list}» на позицію %{position} з %{total}"
+      selection:
+        cleared: Вибір скасовано.
+        not_selectable: Вибір залишився незмінним. Цей елемент не впливає на порядок у цьому списку.
+        range_blocked: Вибір залишився незмінним. Діапазон містить елемент, що не впливає на порядок у цьому списку.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Вибір залишився незмінним. Щоб вибрати потрібний діапазон, розгорніть цей список.
+        selected:
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Закрити модальне вікно
@@ -827,9 +873,7 @@ uk:
     text_user_wrote: "%{value} написав(-ла):"
     text_work_packages_destroy_confirmation: Ви впевнені у тому, що хочете видалити вибрані робочі пакети?
     time_entry:
-      stop: Зупинити
       title: Записування часу
-      tracking: Відстеження часу
       work_package_required: Спочатку потрібно вибрати пакет робіт.
     timer:
       button_stop: Зупинити поточний таймер
@@ -864,24 +908,24 @@ uk:
       label_two_factor_authentication: Двофакторна аутентифікація
     units:
       child_work_packages:
-        one: один робочий пакет для дітей
-        few: "%{count} робочий пакет дітей"
-        many: "%{count} робочий пакет дітей"
-        other: "%{count} робочий пакет дітей"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 день
+        one: "%{count} day"
         other: "%{count} д."
         zero: 0 днів
       hour:
-        one: 1 год
+        one: "%{count} h"
         other: "%{count} год"
         zero: 0 год
       hour_string: "%{hours} год"
       word:
-        one: 1 слово
-        few: "%{count} слова"
-        many: "%{count} слів"
-        other: "%{count} слова"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: Робочий пакет
         few: робочі пакети.
@@ -942,6 +986,7 @@ uk:
         all_open: Усі відкриті
         assigned_to_me: Призначено мені
         created_by_me: Створений мною
+        in_progress: In progress
         latest_activity: Остання активність
         manually_sorted: Новий, відсортований уручну запит
         overdue: Прострочені
@@ -949,6 +994,7 @@ uk:
         shared_with_me: Доступ надано мені
         shared_with_users: Надано доступ користувачам
         summary: Резюме
+        to_do: To-do
       description_enter_text: Введіть текст
       description_filter: Фільтр
       description_options_hide: Сховати опції
@@ -1036,6 +1082,7 @@ uk:
         other: Інше
         people: Люди
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Натисніть, щоб змінити заголовок цього перегляду.
         column_names: Стовпці
         confirm_edit_cancel: Дійсно скасувати редагування імені цього перегляду? Заголовок повернеться до попереднього значення.
@@ -1045,17 +1092,16 @@ uk:
           not_found: Такого погляду немає
           unretrievable_query: Неможливо отримати перегляд з URL-адреси
         filters: Фільтри
-        group: Групувати за
         group_by: 'Групування результатів:'
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: У режимі ієрархії угруповання відключена.
-        hide_column: Приховати стовпчик
         hierarchy_disabled_by_group_by: Режим ієрархії вимкнено через групування результатів %{column}.
-        insert_columns: Вставити стовпці
         move_column_left: Перемістити стовпець ліворуч
         move_column_right: Перемістити стовпець праворуч
         public_text: 'Опублікуйте це подання, надавши доступ до нього. Користувачі з дозволом «Керування загальнодоступними поданнями» можуть змінювати або вилучати загальнодоступні запити. Це не впливає на видимість результатів пакетів робіт у цьому поданні, і залежно від дозволів користувачі можуть бачити різні результати.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Назва цього перегляду
         sort_ascending: Сортувати за зростанням
         sort_descending: Сортувати за спаданням
@@ -1076,15 +1122,30 @@ uk:
       scheduling:
         is_parent: Дати цього пакета робіт автоматично виводяться з його дочірніх елементів. Активуйте «Ручне планування», щоб установити ці дати.
         is_switched_from_manual_to_automatic: Можливо, дати цього пакета робіт знадобиться перерахувати після переходу з ручного на автоматичне планування через зв’язок з іншими пакетами робіт.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Показувати всіх користувачів, яким надано доступ до пакета робіт
         title: Надати доступ до пакета робіт
       table:
         configure_button: Налаштуйте таблицю робочих пакетів
-        summary: Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт.
-        text_inline_edit: Більшість секцій цієї таблиці - це кнопки, які активують функціонал інлайн-редагування відповідного атрибуту.
-        text_select_hint: Прапорці можуть бути відкриті використовуючи «ALT» та клавіш зі стрілками.
-        text_sort_hint: За допомогою посилань в заголовках таблиці ви можете сортувати, групувати, перевпорядковувати, видаляти та додавати стовпці таблиці.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Налаштуйте цю таблицю робочих пакетів
         choose_display_mode: Display work packages as
@@ -1093,7 +1154,6 @@ uk:
         default_mode: Плоский список
         display_settings: Параметри дисплея
         display_sums_hint: Відображати суми всіх підсумкових атрибутів під таблицею.
-        embedded_tab_disabled: Ця вкладка конфігурації недоступна для вбудованого режиму перегляду, який ви редагуєте.
         hierarchy_hint: Всі відфільтровані результати таблиці будуть доповнені їхніми предками. Ієрархії можуть бути розширені та згорнуті.
         hierarchy_mode: Ієрархія
         highlighting: Підсвічування

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,7 +58,7 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def value_objects
-    objects = visible_scope.find(no_templated_values)
+    objects = visible_scope.find(work_package_ids)
 
     if has_templated_value?
       objects << ::Queries::Filters::TemplatedValue.new(WorkPackage)
@@ -85,7 +84,8 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def allowed_values_subset
-    id_values = visible_scope.where(id: no_templated_values).pluck(:id).map(&:to_s)
+    visible_ids = visible_scope.where(id: work_package_ids).pluck(:id).to_set(&:to_s)
+    id_values = ids_by_value.select { |_, id| visible_ids.include?(id) }.keys
 
     if has_templated_value?
       id_values + templated_value_keys
@@ -98,7 +98,24 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
     values.intersect?(templated_value_keys)
   end
 
+  def values=(values)
+    super
+    @ids_by_value = nil
+  end
+
   private
+
+  def work_package_ids
+    ids_by_value.values.uniq
+  end
+
+  def ids_by_value
+    @ids_by_value ||= if no_templated_values.any? { WorkPackage::SemanticIdentifier.semantic_id?(it) }
+                        WorkPackage.ids_by_display_id(no_templated_values).transform_values(&:to_s)
+                      else
+                        no_templated_values.index_with(&:itself)
+                      end
+  end
 
   def visible_scope
     if context.project

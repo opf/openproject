@@ -20,15 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UIRouterModule } from '@uirouter/angular';
 import { WpTabWrapperComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
@@ -42,7 +40,6 @@ import { WpTabsComponent } from './components/wp-tabs/wp-tabs.component';
   ],
   imports: [
     CommonModule,
-    UIRouterModule,
     DynamicModule,
     OpenprojectTabsModule,
     IconModule,

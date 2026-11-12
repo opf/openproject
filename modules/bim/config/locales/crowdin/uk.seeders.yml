@@ -61,7 +61,7 @@ uk:
         item_2:
           name: Керівники BIM
         item_3:
-          name: Моделювальники BIM
+          name: BIM Modelers
         item_4:
           name: Головні координатори BIM
         item_5:
@@ -510,17 +510,17 @@ uk:
               description: Цей тип належить до батьківських елементів ієрархії для типів &quot;Конфлікт&quot; і &quot;Запит&quot;, а отже, представляє загальну нотатку.
               children:
                 item_0:
-                  subject: Розробка початкової моделі BIM
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Ціль
+                    # Goal
 
-                    *   Розробка початкової моделі BIM
-                    *   Створення моделі BIM для цілої команди проєкту
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Опис
+                    # Description
 
-                    *   На основі даних, отриманих від клієнта, буде розроблено початкову модель
-                    *   Модель буде створено відповідно до матриць LOD Matrices і міститиме необхідну інформацію
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: Початкова перевірка й перегляд внутрішньої моделі
@@ -537,23 +537,23 @@ uk:
                   subject: Надсилання початкової моделі BIM
                   description: Цей тип належить до батьківських елементів ієрархії для типів &quot;Конфлікт&quot; і &quot;Запит&quot;, а отже, представляє загальну нотатку.
             item_4:
-              subject: Моделювання, перший цикл
+              subject: Modeling, first cycle
               description: Цей тип належить до батьківських елементів ієрархії для типів &quot;Конфлікт&quot; і &quot;Запит&quot;, а отже, представляє загальну нотатку.
               children:
                 item_0:
                   subject: Посилання на зовнішні моделі BIM
                   description: |-
-                    # Ціль
+                    # Goal
 
-                    *   Наявність основи для розробки початкової моделі / відповіді на запитання
-                    *   Використання зовнішньої моделі для розробки початкової моделі
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Опис
+                    # Description
 
-                    *   Зовнішня модель згадуватиметься на платформі BIM, а отже, використовуватиметься для створення початкової моделі
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: Розробка моделі BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # Ціль
 
@@ -601,19 +601,19 @@ uk:
                   subject: Завершення координації, перший цикл
                   description: Цей тип належить до батьківських елементів ієрархії для типів &quot;Конфлікт&quot; і &quot;Запит&quot;, а отже, представляє загальну нотатку.
             item_6:
-              subject: Моделювання й координація, другий цикл
+              subject: Modeling & coordinating, second cycle
               description: "## Ціль\r\n\r\n*   ...\r\n\r\n## Опис\r\n\r\n* \\  ..."
             item_7:
-              subject: Моделювання й координація, ... цикл
+              subject: Modeling & coordinating, ... cycle
               description: Цей тип належить до батьківських елементів ієрархії для типів &quot;Конфлікт&quot; і &quot;Запит&quot;, а отже, представляє загальну нотатку.
             item_8:
-              subject: Моделювання й координація, (n-й мінус 1) цикл
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Ціль\r\n\r\n*   ...\r\n\r\n## Опис\r\n\r\n* \\  ..."
             item_9:
-              subject: Моделювання й координація, n-й цикл
+              subject: Modeling & coordinating n-th cycle
               description: Цей тип належить до батьківських елементів ієрархії для типів &quot;Конфлікт&quot; і &quot;Запит&quot;, а отже, представляє загальну нотатку.
             item_10:
-              subject: Завершення моделювання й координації, n-й цикл
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Цей тип належить до батьківських елементів ієрархії для типів &quot;Конфлікт&quot; і &quot;Запит&quot;, а отже, представляє загальну нотатку.
             item_11:
               subject: Використання моделі на етапі будівництва

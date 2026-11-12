@@ -8,12 +8,17 @@ on:
     paths:
       - '**.html'
       - '**.js'
+      - '**.json'
+      - '**.mjs'
       - '**.ts'
+      - 'COPYRIGHT_short'
+      - '!extensions/blocknote-extensions/**'
 
 jobs:
   eslint:
     name: ESLint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: read
       checks: write
@@ -24,16 +29,30 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '24.22.1'
           package-manager-cache: false
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+      - name: Install packages
+        id: install
+        run: |
+          npm ci --ignore-scripts
+          npm ci --prefix frontend
       - name: Run ESLint
-        uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96 # v1
+        uses: reviewdog/action-eslint@3ee2a450da17e060b9dfa4bffd53976906c6b2b0 # v1.36.1
         with:
           reporter: github-pr-annotations
           fail_level: any
           workdir: 'frontend/'
           eslint_flags: 'src/'
+      - name: Run ESLint on JSON
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        uses: reviewdog/action-eslint@3ee2a450da17e060b9dfa4bffd53976906c6b2b0 # v1.36.1
+        with:
+          reporter: github-pr-annotations
+          fail_level: any
+          eslint_flags: "'**/*.json' --ignore-pattern 'extensions/**'"

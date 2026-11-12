@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,6 +36,7 @@ import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/
 import { WorkPackageRelationQueryBase } from 'core-app/features/work-packages/components/wp-relations/embedded/wp-relation-query.base';
 import { WpChildrenInlineCreateService } from 'core-app/features/work-packages/components/wp-relations/embedded/children/wp-children-inline-create.service';
 import { filter } from 'rxjs/operators';
+import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -45,6 +45,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-children-query',
   templateUrl: '../wp-relation-query.html',
   providers: [
@@ -67,7 +68,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
 
   @Input() public workPackage:WorkPackageResource;
 
-  @Input() public query:QueryResource;
+  @Input() public query:QueryResource|Partial<QueryRequestParams>;
 
   /** An optional group descriptor if we're rendering on the single view */
   @Input() public group?:GroupDescriptor;

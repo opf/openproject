@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,13 +30,13 @@
 require "spec_helper"
 
 RSpec.describe "Backlogs MODULE_ENABLED event" do # rubocop:disable RSpec/DescribeClass
-  let!(:closed_status1) { create(:status, is_closed: true) }
-  let!(:closed_status2) { create(:status, is_closed: true) }
-  let!(:open_status) { create(:status, is_closed: false) }
+  let!(:closed_status1) { create(:status, category: "closed") }
+  let!(:closed_status2) { create(:status, category: "closed") }
+  let!(:to_do_status) { create(:status, category: "to_do") }
 
   describe "seeding done_statuses on backlogs module enable" do
     context "when the backlogs module is enabled on a project" do
-      it "seeds all is_closed statuses as done_statuses for the project" do
+      it "seeds all closed statuses as done_statuses for the project" do
         project = create(:project, enabled_module_names: %w[backlogs work_package_tracking])
 
         expect(project.done_statuses).to contain_exactly(closed_status1, closed_status2)
@@ -46,7 +45,7 @@ RSpec.describe "Backlogs MODULE_ENABLED event" do # rubocop:disable RSpec/Descri
       it "does not add non-closed statuses as done_statuses" do
         project = create(:project, enabled_module_names: %w[backlogs work_package_tracking])
 
-        expect(project.done_statuses).not_to include(open_status)
+        expect(project.done_statuses).not_to include(to_do_status)
       end
 
       it "does not cause duplicate entries when some closed statuses are already present" do
@@ -74,7 +73,7 @@ RSpec.describe "Backlogs MODULE_ENABLED event" do # rubocop:disable RSpec/Descri
     end
 
     context "when there are no closed statuses in the system" do
-      before { Status.where(is_closed: true).delete_all }
+      before { Status.where(category: "closed").delete_all }
 
       it "does not raise and leaves done_statuses empty" do
         expect { create(:project, enabled_module_names: %w[backlogs work_package_tracking]) }

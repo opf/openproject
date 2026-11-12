@@ -38,7 +38,7 @@
               (change)="saveRelationType()"
               role="listbox"
               opAutofocus
-              (keydown.escape)="cancelRelationTypeEditOnEscape($event)"
+              (keydown.escape)="cancelRelationTypeEditOnEscape()"
               >
               @for (relationType of availableRelationTypes; track relationType.name) {
                 <option
@@ -53,14 +53,12 @@
       <a
         class="relation-row--grid-id"
         data-test-selector="op-relation--row-id"
-        uiSref="work-packages.show.tabs"
-        [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
+        [href]="relatedWorkPackagePath"
       >{{relatedWorkPackage.formattedId}}</a>
       <a
         class="relation-row--grid-subject"
         data-test-selector="op-relation--row-subject"
-        uiSref="work-packages.show.tabs"
-        [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
+        [href]="relatedWorkPackagePath"
         [textContent]="relatedWorkPackage.subject"
         [attr.aria-label]="normalizedRelationType + ' ' + relatedWorkPackage.subjectWithId(0)"
       ></a>
@@ -76,24 +74,22 @@
           type="button"
           class="spot-link wp-relations--description-btn"
           [ngClass]="{'-visible': showDescriptionInfo }"
-          [title]="text.description_label"
+          opTooltip
+          [label]="text.toggleDescription"
           (click)="userInputs.showRelationInfo = !userInputs.showRelationInfo"
           >
-          <op-icon icon-classes="icon-info1 icon-no-color -padded wp-relations--icon wp-relations--description-icon"
-            [icon-title]="text.toggleDescription"
-           />
+          <op-icon icon-classes="icon-info1 icon-no-color -padded wp-relations--icon wp-relations--description-icon" />
         </button>
         @if (!!relation.delete) {
           <button
             type="button"
             class="spot-link relation-row--remove-btn"
             [ngClass]="{'-visible': showDescriptionInfo }"
-            [title]="text.removeButton"
+            opTooltip
+            [label]="text.removeButton"
             (click)="removeRelation()"
             >
-            <op-icon icon-classes="icon-remove icon-no-color -padded wp-relations--icon"
-              [icon-title]="text.removeButton"
-             />
+            <op-icon icon-classes="icon-remove icon-no-color -padded wp-relations--icon" />
           </button>
         }
       </div>

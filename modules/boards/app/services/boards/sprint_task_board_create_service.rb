@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -102,7 +101,7 @@ module Boards
 
       # Workflows are configuration, so the columns come from whichever family member the
       # project resolves to rather than from the root the work packages store.
-      TypeVariant.statuses(params[:project].type_variants(*type_ids).ids)
+      Workflow.statuses(params[:project].type_variants(*type_ids).select(:workflow_id))
     end
 
     def query_name(status)

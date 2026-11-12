@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -58,74 +57,65 @@ RSpec.describe "MCP resources/list" do
     resource_template_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP result response"
+  it_behaves_like "MCP result response"
 
-    it "includes the status_list resource" do
-      subject
+  it "includes the status_list resource" do
+    subject
 
-      resource = parsed_results.fetch("resources").find { |t| t.fetch("name") == "status_list" }
-      expect(resource).not_to be_nil
-      expect(resource.fetch("title")).to eq(resource_config.title)
-      expect(resource.fetch("description")).to eq(resource_config.description)
-    end
-
-    it "returns a fully qualified uri" do
-      subject
-
-      resource = parsed_results.fetch("resources").find { |t| t.fetch("name") == "status_list" }
-      expect(resource.fetch("uri")).to eq("http://test.host/api/v3/statuses")
-    end
-
-    it "does not include resource templates" do
-      subject
-
-      resource = parsed_results.fetch("resources").find { |t| t.fetch("name") == "status" }
-      expect(resource).to be_nil
-    end
-
-    context "when not passing a Bearer token" do
-      subject do
-        header "Content-Type", "application/json"
-        post "/mcp", request_body.to_json
-      end
-
-      it_behaves_like "MCP unauthenticated response"
-    end
-
-    context "when passing a Bearer token with a wrong scope" do
-      let(:access_token) { create(:oauth_access_token, scopes: "api_v3") }
-
-      it_behaves_like "MCP unauthenticated response"
-    end
-
-    context "when the MCP server is disabled via configuration" do
-      let(:server_config) { create(:mcp_configuration, identifier: "mcp_server", enabled: false) }
-
-      it "responds in a 404" do
-        subject
-        expect(last_response).to have_http_status(404)
-      end
-    end
-
-    context "when the status_list resource is disabled" do
-      let(:resource_config) { create(:mcp_configuration, identifier: McpResources::StatusList.qualified_name, enabled: false) }
-
-      it_behaves_like "MCP result response"
-
-      it "does not include the status_list resource" do
-        subject
-
-        resource = parsed_results.fetch("resources").find { |t| t.fetch("name") == "status_list" }
-        expect(resource).to be_nil
-      end
-    end
+    resource = parsed_results.fetch("resources").find { |t| t.fetch("name") == "status_list" }
+    expect(resource).not_to be_nil
+    expect(resource.fetch("title")).to eq(resource_config.title)
+    expect(resource.fetch("description")).to eq(resource_config.description)
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
+  it "returns a fully qualified uri" do
+    subject
+
+    resource = parsed_results.fetch("resources").find { |t| t.fetch("name") == "status_list" }
+    expect(resource.fetch("uri")).to eq("http://test.host/api/v3/statuses")
+  end
+
+  it "does not include resource templates" do
+    subject
+
+    resource = parsed_results.fetch("resources").find { |t| t.fetch("name") == "status" }
+    expect(resource).to be_nil
+  end
+
+  context "when not passing a Bearer token" do
+    subject do
+      header "Content-Type", "application/json"
+      post "/mcp", request_body.to_json
+    end
+
+    it_behaves_like "MCP unauthenticated response"
+  end
+
+  context "when passing a Bearer token with a wrong scope" do
+    let(:access_token) { create(:oauth_access_token, scopes: "api_v3") }
+
+    it_behaves_like "MCP unauthenticated response"
+  end
+
+  context "when the MCP server is disabled via configuration" do
+    let(:server_config) { create(:mcp_configuration, identifier: "mcp_server", enabled: false) }
+
     it "responds in a 404" do
       subject
       expect(last_response).to have_http_status(404)
+    end
+  end
+
+  context "when the status_list resource is disabled" do
+    let(:resource_config) { create(:mcp_configuration, identifier: McpResources::StatusList.qualified_name, enabled: false) }
+
+    it_behaves_like "MCP result response"
+
+    it "does not include the status_list resource" do
+      subject
+
+      resource = parsed_results.fetch("resources").find { |t| t.fetch("name") == "status_list" }
+      expect(resource).to be_nil
     end
   end
 end

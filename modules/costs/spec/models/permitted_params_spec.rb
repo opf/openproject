@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -143,29 +142,6 @@ RSpec.describe PermittedParams do
       it_behaves_like "allows params" do
         let(:allowed_params) { {} }
       end
-    end
-  end
-
-  describe "#user_rates" do
-    let(:attribute) { :user_rates }
-    let(:hash_key) { :user }
-
-    context "new_rate_attributes" do
-      let(:hash) do
-        { "new_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
-                                     "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } }
-      end
-
-      it_behaves_like "allows params"
-    end
-
-    context "existing_rate_attributes" do
-      let(:hash) do
-        { "existing_rate_attributes" => { "0" => { "valid_from" => "2013-05-08", "rate" => "5002" },
-                                          "1" => { "valid_from" => "2013-05-10", "rate" => "5004" } } }
-      end
-
-      it_behaves_like "allows params"
     end
   end
 end

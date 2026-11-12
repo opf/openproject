@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,7 +45,7 @@ class ProjectCustomFieldSection < CustomFieldSection
   # position and the fields within each section ordered by attribute_order.
   # Sections that end up with no ordered field are dropped.
   # Returns [[section, [ordered_cfs]], ...]. Two SQL queries: the given relation
-  # is materialised once, then the relevant sections are loaded.
+  # is materialized once, then the relevant sections are loaded.
   def self.grouped_in_order(custom_fields)
     cfs_by_section_id = custom_fields.group_by(&:custom_field_section_id)
 

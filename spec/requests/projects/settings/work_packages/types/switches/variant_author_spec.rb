@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,8 +31,7 @@ require "spec_helper"
 
 RSpec.describe "Switching to a variant a project owns",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:base) { type.default_variant }
   shared_let(:global) { create(:type_variant, type:, variant_name: "Mobile") }

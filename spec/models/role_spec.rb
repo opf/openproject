@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -158,16 +157,16 @@ RSpec.describe Role do
     end
   end
 
-  describe ".workflows.copy_from_role" do
+  describe ".workflow_status_transitions.copy_from_role" do
     before do
-      allow(Workflow)
+      allow(Workflows::StatusTransition)
         .to receive(:copy)
     end
 
-    it "calls Workflow.copy" do
-      build_role.workflows.copy_from_role(created_role)
+    it "calls Workflows::StatusTransition.copy" do
+      build_role.workflow_status_transitions.copy_from_role(created_role)
 
-      expect(Workflow)
+      expect(Workflows::StatusTransition)
         .to have_received(:copy)
               .with(nil, created_role, nil, build_role)
     end

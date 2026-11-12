@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,12 +33,13 @@ module Components
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
+      include RSpec::Wait
 
       def enable_via_header(name)
         open_table_column_context_menu(name)
 
         within_column_context_menu do
-          click_button("Group by")
+          find(:role, "menuitemcheckbox", text: "Group by", aria: { checked: "false" }).click
         end
       end
 
@@ -58,11 +58,11 @@ module Components
       end
 
       def expect_number_of_groups(count)
-        expect(page).to have_css('[data-test-selector="op-group--value"] .count', count:)
+        wait(30).for { group_values.size }.to eq(count)
       end
 
       def expect_grouped_by_value(value_name, count)
-        expect(page).to have_css('[data-test-selector="op-group--value"]', text: "#{value_name} (#{count})")
+        wait(30).for { group_values }.to include("#{value_name} (#{count})")
       end
 
       def expect_no_groups
@@ -73,11 +73,18 @@ module Components
         open_table_column_context_menu(name)
 
         within_column_context_menu do
-          expect(page).to have_content("Group by")
+          expect(page).to have_selector(:role, "menuitemcheckbox", text: "Group by", aria: { checked: "false" })
         end
       end
 
       private
+
+      def group_values
+        page.evaluate_script(<<~JS)
+          Array.from(document.querySelectorAll('[data-test-selector="op-group--value"]'))
+            .map((element) => element.textContent.replace(/\\s+/g, ' ').trim())
+        JS
+      end
 
       def set_display_mode(mode)
         modal = TableConfigurationModal.new
@@ -88,11 +95,11 @@ module Components
       end
 
       def open_table_column_context_menu(name)
-        page.find(".generic-table--sort-header ##{name.downcase}").click
+        page.find(:columnheader, name).click_button(name)
       end
 
       def within_column_context_menu(&)
-        page.within("#column-context-menu", &)
+        page.within(:menu, &)
       end
     end
   end

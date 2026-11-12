@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,6 +78,8 @@ Rails.application.routes.draw do
         put :update_title
         get :details_dialog
         put :update_details
+        get :agenda_sorting_dialog
+        put :update_agenda_sorting
         put :change_state
         put :change_sharing
         post :notify
@@ -92,6 +93,8 @@ Rails.application.routes.draw do
       end
 
       resources :agenda_items, controller: "meeting_agenda_items" do
+        resource :vote, only: :create, controller: "meeting_agenda_item_votes"
+
         collection do
           get :cancel_new
         end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,7 +78,7 @@ class Meeting::Participant < ApplicationForm
     list = [
       { name: "type", operator: "=", values: %w[User] },
       { name: "invitable_to_meeting_in_project", operator: "=", values: [meeting.project_id] },
-      { name: "status", operator: "=", values: [Principal.statuses[:active]] }
+      { name: "status", operator: "=", values: [Principal.statuses[:active], Principal.statuses[:invited]] }
     ]
 
     list << { name: "id", operator: "!", values: excluded_ids } if excluded_ids.any?

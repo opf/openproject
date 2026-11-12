@@ -1,0 +1,32 @@
+<style>
+  .hl-nocolor {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    gap: 10px 24px;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .hl-nocolor code { font-size: 12px; }
+
+  /* Makes the space the transparent dot still occupies visible */
+  .hl-nocolor .-framed { outline: 1px dashed var(--borderColor-muted); }
+
+  /* What the generated stylesheet emits for a resource whose color is nil:
+     .__hl_<resource>_<id>.__hl_dot::before { display: none } */
+  .hl-nocolor--suppressed.__hl_dot::before { display: none; }
+</style>
+
+<div class="hl-nocolor">
+  <code>__hl_background</code>
+  <span class="__hl_background">No color</span>
+
+  <code>__hl_foreground</code>
+  <span class="__hl_foreground">No color</span>
+
+  <code>__hl_dot</code>
+  <span class="__hl_dot -framed">No color</span>
+
+  <code>__hl_dot</code> + generated rule
+  <span class="__hl_dot hl-nocolor--suppressed -framed">No color</span>
+</div>

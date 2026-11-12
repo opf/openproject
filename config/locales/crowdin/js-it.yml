@@ -47,6 +47,8 @@ it:
       draggable_hint: 'Trascina l''elemento nei campi dell''editor per allineare l''immagine o il riferimento allegato. I campi dell''editor chiusi verranno sbloccati durante il trascinamento.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Il file è in quarantena, poiché è stato trovato un virus. Non è disponibile per il download.
     autocomplete_ng_select:
       add_tag: Aggiungi elemento
@@ -61,6 +63,7 @@ it:
         single: Seleziona "%{name}"
       remove: Rimuovi %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nessun elemento trovato
       placeholder: Digita per cercare
       project:
@@ -128,10 +131,10 @@ it:
     button_confirm: Conferma
     button_continue: Continua
     button_copy: Copia
-    button_copy_link_to_clipboard: Copia link negli appunti
-    button_copy_numeric_id_to_clipboard: Copia l'ID numerico negli appunti
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Copia negli appunti
     button_copy_to_other_project: Duplica in un altro progetto
+    button_copy_work_package_id: Copy work package ID
     button_create: Crea
     button_custom-fields: Campo personalizzato
     button_delete: Cancella
@@ -147,6 +150,7 @@ it:
     button_log_time: Registra l'orario effettuato
     button_more: Più
     button_more_actions: Altre azioni
+    button_move_to_position: Move to position
     button_open_details: Mostra dettagli
     button_open_fullscreen: Apri la visualizzazione a schermo intero
     button_quote: Cita
@@ -162,6 +166,7 @@ it:
     button_stop_timer: Ferma il timer
     button_uncheck_all: Deseleziona tutti
     button_update: Aggiorna
+    button_view_markdown: View Markdown
     caption_rate_history: Cronologia tariffe
     card:
       add_new: Aggiungi una nuova carta
@@ -201,7 +206,11 @@ it:
     description_select_work_package: 'Seleziona la macro-attività #%{id}'
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Si è verificato un errore all'interno di CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ it:
       direct_hit_available: Macro-attività con ID esatto trovata. Premi Invio per aprirla.
       items_available: "%{count} elementi disponibili"
       recently_viewed: Visualizzati di recente
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Cerca macro-attività per oggetto, progetto, tipo, stato o ID
       title:
         all_projects: tutti i progetti
@@ -358,8 +369,8 @@ it:
     ical_sharing_modal:
       copy_url_label: Copia URL
       description: Puoi utilizzare l'URL (iCalendar) per iscriverti a questo calendario su un client esterno e per visualizzare le informazioni sul pacchetto di lavoro aggiornate da lì.
-      ical_generation_error_text: Si è verificato un errore nella creazione dell'URL del calendario.
-      inital_setup_error_message: Si è verificato un errore recuperando i dati.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: L'URL "%{name}" è stato copiato con successo negli appunti. Incollalo nel tuo client di calendario per completare l'iscrizione.
       title: Iscriviti al calendario
       token_name_description_text: Se ti iscrivi a questo calendario da più dispositivi, questo nome ti aiuterà a distinguerli nel tuo elenco di <a href="%{myAccessTokensUrl}" target="_blank">token di accesso</a>.
@@ -431,7 +442,6 @@ it:
     label_assignee: Assegnatario
     label_assignee_alt_text: Questa macro-attività è assegnata a %{name}
     label_attachments: Allegati
-    label_author: 'Autore: %{user}'
     label_avatar: Avatar
     label_between: tra
     label_board: Tabellone
@@ -495,6 +505,7 @@ it:
     label_in: in
     label_in_less_than: in meno di
     label_in_more_than: in più di
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Email in arrivo
     label_infinity: Infinito
     label_information_plural: Informazioni
@@ -527,6 +538,10 @@ it:
     label_open_context_menu: Apri il menu di scelta rapida
     label_open_menu: Apri menu
     label_open_work_packages: aperte
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Password
     label_per_page: 'Per pagina:'
     label_please_wait: Attendere
@@ -551,6 +566,8 @@ it:
     label_reset: Reimposta
     label_resize_project_menu: Ridimensiona il menu del progetto
     label_save_as: Salva come
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Cerca una colonna
     label_select_watcher: Seleziona un osservatore...
     label_selected_filter_list: Filtri selezionati
@@ -558,7 +575,9 @@ it:
     label_show_in_menu: Mostra la vista nel menù
     label_sort_by: Ordina per
     label_sort_higher: Sposta su
+    label_sort_highest: Move to top
     label_sort_lower: Sposta giu
+    label_sort_lowest: Move to bottom
     label_sorted_by: ordinati per
     label_sorting: Ordinamento
     label_spent_time: Tempo speso
@@ -569,6 +588,7 @@ it:
     label_sum_for: Somma per
     label_this_week: questa settimana
     label_time_entry_plural: Tempo speso
+    label_to_do_work_packages: to-do
     label_today: Oggi
     label_total_amount: 'Totale: %{amount}'
     label_total_progress: "%{percent}% Progresso totale"
@@ -623,8 +643,8 @@ it:
     notifications:
       center:
         and_more_users:
-          one: e 1 altro
-          other: e altri %{count}
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Sembra che siate tutti coinvolti.
           no_notification_for_filter: A quanto pare ti piace molto questo filtro.
@@ -720,6 +740,7 @@ it:
     placeholders:
       default: "-"
       description: 'Descrizione: Clicca per modificare...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Clicca per aggiungere una descrizione per la relazione
       selection: Si prega di selezionare
       subject: Inserisci l'oggetto qui
@@ -806,12 +827,33 @@ it:
       sorting_disabled: ordinamento disabilitato
     sortable_lists:
       announcements:
+        batch_too_large: Non è possibile spostare %{count} elementi alla volta. Selezionane al massimo %{max}.
         fallback_item_label: Elemento
         fallback_list_name: un'altra lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Spostamento non riuscito. Verifica la posizione attuale dell'elemento.
+        move_failed_check_positions_batch:
+          other: Spostamento non riuscito. Controlla le posizioni attuali degli elementi.
         move_failed_rolled_back: Spostamento non riuscito. %{label} è tornato alla posizione precedente.
+        move_failed_rolled_back_batch:
+          other: Spostamento non riuscito. %{count} elementi sono tornati alle posizioni precedenti.
         moved: "%{label} spostato in posizione %{position} di %{total}"
+        moved_batch:
+          other: "%{count} elementi spostati nelle posizioni da %{first} a %{last} di %{total}"
+        moved_batch_to_list:
+          other: "%{count} elementi spostati in %{list}, nelle posizioni da %{first} a %{last} di %{total}"
         moved_to_list: "%{label} spostato in %{list}, posizione %{position} di %{total}"
+      selection:
+        cleared: Selezione azzerata.
+        not_selectable: Selezione invariata. Questo elemento non partecipa all'ordinamento di questo elenco.
+        range_blocked: Selezione invariata. L'intervallo contiene un elemento che non partecipa all'ordinamento di questo elenco.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selezione invariata. Espandi questo elenco per selezionare l'intervallo.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Chiusura modale
@@ -825,9 +867,7 @@ it:
     text_user_wrote: "%{value} ha scritto:"
     text_work_packages_destroy_confirmation: Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?
     time_entry:
-      stop: Interrompi
       title: Registra l'orario effettuato
-      tracking: Monitoraggio tempi
       work_package_required: Richiede prima di selezionare una macro-attività.
     timer:
       button_stop: Interrompi il timer corrente
@@ -862,20 +902,20 @@ it:
       label_two_factor_authentication: Autenticazione a due fattori
     units:
       child_work_packages:
-        one: una macro-attività subordinata
-        other: "%{count} macro-attività subordinate"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 giorno
+        one: "%{count} day"
         other: "%{count} giorni"
         zero: 0 giorni
       hour:
-        one: 1 o
+        one: "%{count} h"
         other: "%{count} o"
         zero: 0 o
       hour_string: "%{hours} h"
       word:
-        one: 1 parola
-        other: "%{count} parole"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: macro-attività
         other: macro-attività
@@ -934,6 +974,7 @@ it:
         all_open: Apri tutto
         assigned_to_me: Assegnato a me
         created_by_me: Creato da me
+        in_progress: In progress
         latest_activity: Ultima attività
         manually_sorted: Nuovo elenco progetti ordinato manualmente
         overdue: In ritardo
@@ -941,6 +982,7 @@ it:
         shared_with_me: Condivisi con me
         shared_with_users: Condiviso con gli utenti
         summary: Sommario
+        to_do: To-do
       description_enter_text: Inserisci testo
       description_filter: Filtro
       description_options_hide: Nascondi opzioni
@@ -1028,6 +1070,7 @@ it:
         other: Altro
         people: Persone
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Clicca per modificare il titolo della vista.
         column_names: Colonne
         confirm_edit_cancel: Sei sicuro di voler annullare la modifica del nome di questa vista? Il titolo verrà impostato sul valore precedente.
@@ -1037,17 +1080,16 @@ it:
           not_found: La vista non esiste
           unretrievable_query: Impossibile recuperare la vista dall'URL
         filters: Filtri
-        group: Raggruppa per
         group_by: Raggruppa i risultati per
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Raggruppamento disabilitato durante la modalità gerarchica.
-        hide_column: Nascondi la colonna
         hierarchy_disabled_by_group_by: Modalità gerarchica disabilitata a causa di un raggruppamento sulla colonna %{column}.
-        insert_columns: Inserisci colonne
         move_column_left: Spostare la colonna a sinistra
         move_column_right: Spostare la colonna a destra
         public_text: 'Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso "Gestisci viste pubbliche" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Nome di questa vista
         sort_ascending: Ordinamento crescente
         sort_descending: Ordinamento decrescente
@@ -1068,15 +1110,26 @@ it:
       scheduling:
         is_parent: Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date.
         is_switched_from_manual_to_automatic: Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Mostra tutti gli utenti con i quali la macro-attività è stata condivisa
         title: Condividi macro-attività
       table:
         configure_button: Configura la tabella della macro-attività
-        summary: Tabella con righe di macro-attività e colonne dei loro attributi.
-        text_inline_edit: Molte celle di questa tabella sono pulsanti che attivano le funzionalità di modifica in linea di tale attributo.
-        text_select_hint: Le caselle di selezione devono essere aperte con ' ALT ' e i tasti freccia.
-        text_sort_hint: Con i collegamenti nelle intestazioni di tabella puoi ordinare, raggruppare, riordinare, rimuovere e aggiungere le colonne della tabella.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Configura questa tabella di macro-attività
         choose_display_mode: Visualizza la macro-attività come
@@ -1085,7 +1138,6 @@ it:
         default_mode: Elenco semplice
         display_settings: Impostazioni di visualizzazione
         display_sums_hint: Visualizza i totali degli attributi sommabili in una riga sotto i risultati della tabella.
-        embedded_tab_disabled: La scheda di configurazione non è disponibile per la visualizzazione incorporata che stai modificando.
         hierarchy_hint: Tutti i risultati della tabella filtrata verranno ampliati con i loro antenati. Le gerarchie possono essere espanse e compresse.
         hierarchy_mode: Gerarchia
         highlighting: Evidenziazione

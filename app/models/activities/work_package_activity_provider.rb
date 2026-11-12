@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
     [
       activity_journal_projection_statement(:subject, "subject"),
       activity_journal_projection_statement(:project_id, "project_id"),
-      projection_statement(statuses_table, :is_closed, "status_closed"),
+      statuses_table[:category].eq("closed").as("status_closed"),
       projection_statement(types_table, :name, "type_name"),
       projection_statement(activitied_table, :identifier, "identifier")
     ]

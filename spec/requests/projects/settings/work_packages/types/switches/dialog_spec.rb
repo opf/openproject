@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,8 +31,7 @@ require "spec_helper"
 
 RSpec.describe "The variant switch dialog",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:epic) { create(:type, name: "Epic") }
@@ -58,6 +56,22 @@ RSpec.describe "The variant switch dialog",
 
     expect(response).to have_http_status(:ok)
     expect(dialog).to have_select("Variant", selected: delivery.composite_name)
+  end
+
+  it "previews the switch to the variant it was asked about" do
+    create(:work_package, project:, type: epic)
+
+    open_dialog(target_id: delivery.id)
+
+    expect(dialog).to have_text("1 work package will use the new configuration")
+  end
+
+  it "previews nothing when it opens on the variant in use" do
+    create(:work_package, project:, type: epic)
+
+    open_dialog
+
+    expect(dialog).to have_no_text("will use the new configuration")
   end
 
   it "does not ask the reader to choose a variant" do

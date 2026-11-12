@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -106,6 +105,13 @@ RSpec.describe MeetingAgendaItems::ConvertToWorkPackageService do
 
         expect(meeting_agenda_item.title).to be_nil
         expect(meeting_agenda_item.notes).to eq("workPackageValue:#{call.result.id}:description")
+      end
+
+      it "journals the meeting with the converted agenda item" do
+        call = service.call(meeting_agenda_item:, work_package_params:)
+
+        expect(meeting.journals.last.agenda_item_journals.find_by(agenda_item_id: meeting_agenda_item.id))
+          .to have_attributes(item_type: "work_package", work_package_id: call.result.id, title: nil)
       end
     end
 

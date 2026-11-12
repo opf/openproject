@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,7 +53,7 @@ RSpec.describe "project menu" do
   #
   # This is only relevant for project menu entries, not global ones (`project_id` param is nil)*.
   # Meaning that you have to make sure to force the absolute URL in a project menu entry
-  # by specificying the controller as e.g. '/cost_reports' instead of just 'cost_reports'.
+  # by specifying the controller as e.g. '/cost_reports' instead of just 'cost_reports'.
   #
   # Refer to `engine.rb` to see where the menu entries are declared.
   #
@@ -69,7 +68,7 @@ RSpec.describe "project menu" do
         it "leads to cost reports" do
           find("#main-menu .costs-menu-item", text: "Time and costs").click
 
-          expect(page).to have_current_path("/projects/ponyo/cost_reports")
+          expect(page).to have_current_path("/projects/ponyo/reporting/cost_reports")
         end
       end
 

@@ -61,7 +61,7 @@ pl:
         item_2:
           name: Menedżerowie BIM
         item_3:
-          name: Modelarze BIM
+          name: BIM Modelers
         item_4:
           name: Główni koordynatorzy BIM
         item_5:
@@ -498,18 +498,18 @@ pl:
               description: Ten typ jest hierarchicznie nadrzędny dla typów „Starcie” i „Żądanie”, w ten sposób reprezentuje ogólną notatkę.
               children:
                 item_0:
-                  subject: Modelowanie początkowego modelu BIM
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Cel
+                    # Goal
 
-                    * Modelowanie początkowego modelu BIM
-                    * Tworzenie modelu BIM dla całego zespołu projektu
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Opis
+                    # Description
 
-                    * Zgodnie z danymi zebranymi od klienta, model początkowy będzie modelowany
-                    * Model będzie modelowany zgodnie z matrycami LOD i zawiera niezbędne informacje
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Wstępne, wewnętrzne sprawdzenie i korekta modelu
                   description: |-
@@ -525,23 +525,23 @@ pl:
                   subject: Przesyłanie początkowego modelu BIM
                   description: Ten typ jest hierarchicznie nadrzędny dla typów „Starcie” i „Żądanie”, w ten sposób reprezentuje ogólną notatkę.
             item_4:
-              subject: Modelowanie, pierwszy cykl
+              subject: Modeling, first cycle
               description: Ten typ jest hierarchicznie nadrzędny dla typów „Starcie” i „Żądanie”, w ten sposób reprezentuje ogólną notatkę.
               children:
                 item_0:
                   subject: Odwoływanie się do zewnętrznych modeli BIM
                   description: |-
-                    # Cel
+                    # Goal
 
-                    * Stworzenie podstaw do opracowania modelu wewnętrznego / oferowanie odpowiedzi
-                    * Wykorzystanie modelu zewnętrznego do opracowania modelu wewnętrznego
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Opis
+                    # Description
 
-                    * Odwołania do modelu zewnętrznego będą wykonywane na platformie BIM, w ten sposób będą używane do modelowania modelu wewnętrznego
-                    * ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: Modelowanie modelu BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # Cel
 
@@ -589,19 +589,19 @@ pl:
                   subject: Kończenie koordynacji, pierwszy cykl
                   description: Ten typ jest hierarchicznie nadrzędny dla typów „Starcie” i „Żądanie”, w ten sposób reprezentuje ogólną notatkę.
             item_6:
-              subject: Modelowanie i koordynacja, drugi cykl
+              subject: Modeling & coordinating, second cycle
               description: "## Cel\r\n\r\n*   ...\r\n\r\n## Opis\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelowanie i koordynacja, ... cykl
+              subject: Modeling & coordinating, ... cycle
               description: Ten typ jest hierarchicznie nadrzędny dla typów „Starcie” i „Żądanie”, w ten sposób reprezentuje ogólną notatkę.
             item_8:
-              subject: Modelowanie i koordynacja, cykl (n-ty minus 1)
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Cel\r\n\r\n*   ...\r\n\r\n## Opis\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelowanie i koordynacja, n-ty cykl
+              subject: Modeling & coordinating n-th cycle
               description: Ten typ jest hierarchicznie nadrzędny dla typów „Starcie” i „Żądanie”, w ten sposób reprezentuje ogólną notatkę.
             item_10:
-              subject: Kończenie modelowania i koordynacji, n-ty cykl
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Ten typ jest hierarchicznie nadrzędny dla typów „Starcie” i „Żądanie”, w ten sposób reprezentuje ogólną notatkę.
             item_11:
               subject: Zastosuj model do fazy budowy

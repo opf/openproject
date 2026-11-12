@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -30,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper do %>
   <% active_project_types.each do |project_type| %>
     <%= render(
-          OpenProject::Common::BorderBoxListComponent.new(
+          OpPrimer::BorderBoxListComponent.new(
             container: "project-types-group-#{project_type.type.id}",
             collapsible: true,
             empty_state_behavior: :none,
@@ -41,13 +40,20 @@ See COPYRIGHT and LICENSE files for more details.
       <%# Open where a variant is in use: the row saying so is inside the group. %>
       <% list.with_header(
            count: variants_count(project_type),
-           collapsed: base_type_in_use?(project_type)
+           collapsed: collapsed?(project_type)
          ) do |header| %>
         <% header.with_title do %>
           <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(project_type.type) } %>
           <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :bold, ml: 2)) { project_type.type.name } %>
           <% if base_type_in_use?(project_type) %>
             <%= in_use_marker(t("projects.settings.types.base_type_in_use")) %>
+          <% end %>
+        <% end %>
+        <% if project_type.type.description.present? %>
+          <% header.with_description(tag: :div, font_size: :small) do %>
+            <%= render(OpPrimer::ExpandableTextComponent.new) do %>
+              <%= project_type.type.description %>
+            <% end %>
           <% end %>
         <% end %>
         <% if type_actions?(project_type) %>
@@ -69,12 +75,16 @@ See COPYRIGHT and LICENSE files for more details.
           <%= render(
                 WorkPackageTypes::VariantRowComponent.new(
                   variant:,
-                  linked: configurable?(variant)
+                  linked: configurable?(variant),
+                  project:
                 )
               ) do |row| %>
             <% row.with_caption { variant_caption(variant) } %>
             <% if in_use?(project_type, variant) %>
               <% row.with_state { in_use_marker(t("projects.settings.types.variant_in_use")) } %>
+            <% end %>
+            <% if variant.created_by_migration? %>
+              <% row.with_status_label(scheme: :attention) { t("types.index.created_by_migration") } %>
             <% end %>
           <% end %>
         <% end %>
@@ -107,12 +117,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% if active_project_types.empty? %>
-    <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
-      <% list.with_empty_state(
-           title: t("projects.settings.types.empty_state.title"),
-           description: t("projects.settings.types.empty_state.description"),
-           icon: :rows
-         ) %>
+    <%= render(OpPrimer::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
+      <% list.with_empty_state(**empty_state_arguments) %>
     <% end %>
   <% end %>
 <% end %>

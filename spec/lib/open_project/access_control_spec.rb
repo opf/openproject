@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -388,6 +387,96 @@ RSpec.describe OpenProject::AccessControl do
 
       it "is sorted when requested" do
         expect(described_class.available_project_modules(sorted: true)).to eq(%i[dependent_module mixed_module project_module])
+      end
+    end
+  end
+
+  describe ".default_project_modules" do
+    include_context "with blank access control state"
+
+    subject(:default_project_modules) { described_class.default_project_modules }
+
+    before do
+      setup_permissions
+    end
+
+    it "does not include modules that are not enabled by default" do
+      expect(default_project_modules).to be_empty
+    end
+
+    context "when a module is enabled by default" do
+      before do
+        described_class.map do |map|
+          map.project_module :default_module do |mod|
+            mod.enabled_by_default!
+            mod.permission :default_module_permission, { dont: :care }, permissible_on: :project
+          end
+        end
+      end
+
+      it { is_expected.to eq(%i[default_module]) }
+    end
+
+    context "when a module is enabled by default without having permissions" do
+      before do
+        described_class.map do |map|
+          map.project_module(:permissionless_module, &:enabled_by_default!)
+        end
+      end
+
+      it "is still available and enabled by default", :aggregate_failures do
+        expect(described_class.available_project_modules).to include(:permissionless_module)
+        expect(default_project_modules).to eq(%i[permissionless_module])
+      end
+    end
+
+    context "when the flag is set on a later registration of the same module" do
+      before do
+        described_class.map do |map|
+          map.project_module :project_module, &:enabled_by_default!
+        end
+      end
+
+      it { is_expected.to eq(%i[project_module]) }
+    end
+
+    context "when the module is not available" do
+      before do
+        described_class.map do |map|
+          map.project_module :unavailable_module, if: -> { false } do |mod|
+            mod.enabled_by_default!
+            mod.permission :unavailable_module_permission, { dont: :care }, permissible_on: :project
+          end
+        end
+      end
+
+      it { is_expected.to be_empty }
+    end
+
+    context "when enabled by default with a condition" do
+      let(:condition_state) { { enabled: true } }
+
+      before do
+        state = condition_state
+        described_class.map do |map|
+          map.project_module :conditional_module do |mod|
+            mod.enabled_by_default! if: -> { state[:enabled] }
+            mod.permission :conditional_module_permission, { dont: :care }, permissible_on: :project
+          end
+        end
+      end
+
+      it "reevaluates the condition each time", :aggregate_failures do
+        expect(described_class.default_project_modules).to eq(%i[conditional_module])
+
+        condition_state[:enabled] = false
+        expect(described_class.default_project_modules).to be_empty
+      end
+    end
+
+    context "when enabled_by_default! is called outside of a project module" do
+      it "raises an error" do
+        expect { described_class.map(&:enabled_by_default!) }.to raise_error(ArgumentError)
       end
     end
   end

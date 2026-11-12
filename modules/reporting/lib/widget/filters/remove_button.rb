@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Widget::Filters::RemoveButton < Widget::Filters::Base
-  def render
+  def render_filter
     hidden_field = tag :input,
                        id: "rm_#{filter_class.underscore_name}",
                        name: "fields[]", type: "hidden", value: ""
@@ -38,17 +37,17 @@ class Widget::Filters::RemoveButton < Widget::Filters::Base
       href: "#",
       class: "filter_rem",
       data: {
-        action: "keydown->reporting--page#filterKeydown"
+        action: "click->reporting--page#removeFilter keydown->reporting--page#filterKeydown"
       }
     ) do
       icon_wrapper("icon-close advanced-filters--remove-filter-icon", I18n.t(:description_remove_filter))
     end
 
-    write(content_tag(:div, hidden_field + button,
-                      id: "rm_box_#{filter_class.underscore_name}",
-                      class: "advanced-filters--remove-filter",
-                      data: {
-                        action: "click->reporting--page#removeFilter"
-                      }))
+    content_tag(:div, hidden_field + button,
+                id: "rm_box_#{filter_class.underscore_name}",
+                class: "advanced-filters--remove-filter",
+                data: {
+                  action: "click->reporting--page#removeFilter"
+                })
   end
 end

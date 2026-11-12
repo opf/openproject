@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,7 +32,7 @@ $content-form-input-border: 1px solid var(--borderColor-default)
 
 %input-style
   border: $content-form-input-border
-  border-radius: 2px
+  border-radius: var(--borderRadius-medium)
   font-size: var(--body-font-size)
 
   &:focus
@@ -102,14 +101,6 @@ form
         page-break-inside: avoid
         -webkit-column-break-inside: avoid
 
-  // follows new board page columns width (which uses -wide class (500px) for its tiles)
-  .boards-enterprise-banner-wide
-    max-width: calc(2*500px + 1rem)
-
-  @media screen and (max-width: $breakpoint-md)
-    .boards-enterprise-banner-wide
-      max-width: 500px
-
 hr
   width: 100%
   height: 1px
@@ -133,24 +124,6 @@ hr
 .form--row
   @include grid-block
   @include grid-visible-overflow
-
-.checkbox-label
-  position: relative
-  display: inline-block
-  vertical-align: top
-  line-height: 18px
-  user-select: none
-
-  input[type=checkbox]
-    border: 0
-    clip: rect(0 0 0 0)
-    height: 18px
-    margin: 0 -18px -18px 0
-    overflow: hidden
-    padding: 0
-    position: absolute
-    width: 18px
-    opacity: 0.001
 
 %form--fieldset-or-section
   padding: 1rem 0 0
@@ -610,10 +583,6 @@ input[readonly].-clickable
   .form &
     margin-bottom: 0rem
 
-.form--select-autocompleter
-  max-height: 400px
-  overflow-y: auto
-
 .form--selected-value
   width: calc(100% - 42px)
   padding: 3px
@@ -622,7 +591,7 @@ input[readonly].-clickable
 .form--selected-value--container
   display: inline-block
   border: 1px solid transparent
-  border-radius: 2px
+  border-radius: var(--borderRadius-medium)
   overflow: visible
   width: 100%
   position: relative
@@ -693,39 +662,6 @@ input[readonly].-clickable
   line-height: $base-line-height
   color: $form-label-color
   margin-bottom: 0.8rem
-
-.form--matrix
-  border: $content-form-input-border
-  border-radius: 2px
-  background: none
-  margin: 0 0 2rem 0
-  font-size: 0.9rem
-  line-height: 1.5
-
-.form--matrix-header-row
-  font-weight: var(--base-text-weight-bold)
-  border-bottom: $content-form-input-border
-  background-color: var(--bgColor-muted)
-
-.form--matrix-header-cell
-  padding: 0 1rem
-
-.form--matrix-checkbox-cell
-  min-width: 1rem
-  max-width: 4rem
-  text-align: center
-
-.form--column
-  @include grid-block
-  @include grid-orient(vertical)
-  overflow-y: hidden
-  padding-left: 0 !important
-
-  &:nth-last-of-type(n+2)
-    padding-right: $block-padding
-
-  .form--field
-    flex-basis: auto
 
 .inline-label
   margin: 0rem
@@ -807,7 +743,7 @@ input[readonly].-clickable
   background: var(--bgColor-neutral-muted)
   color: var(--body-font-color)
   border: $content-form-input-border
-  border-radius: 2px
+  border-radius: var(--borderRadius-medium)
   padding: 0 0.5rem
   margin-bottom: 0rem
   align-items: center
@@ -848,28 +784,14 @@ input[readonly].-clickable
 
     &:first-of-type
       border-left-width: 1px
-      border-top-left-radius: 2px
-      border-bottom-left-radius: 2px
+      border-top-left-radius: var(--borderRadius-medium)
+      border-bottom-left-radius: var(--borderRadius-medium)
     &:last-of-type
-      border-top-right-radius: 2px
-      border-bottom-right-radius: 2px
+      border-top-right-radius: var(--borderRadius-medium)
+      border-bottom-right-radius: var(--borderRadius-medium)
 
     &:focus-within
       @include focus
-
-.form--list
-  display: flex
-  margin: 0
-  @include grid-layout(3)
-
-  @media screen and (max-width: $breakpoint-lg)
-    @include grid-layout(4)
-
-  @media screen and (max-width: $breakpoint-xl)
-    @include grid-layout(6)
-
-  li, div
-    padding: 0
 
 // Text in textareas should look the same as in paragraphs
 // Foundation applies following rule to paragraphs

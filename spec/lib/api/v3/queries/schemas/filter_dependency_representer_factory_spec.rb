@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
   describe ".create" do
     subject { described_class.create(filter, operator, form_embedded:) }
 
-    context "assigned to filter" do
+    context "with assigned to filter" do
       let(:filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
 
       it "is a all principals with access to project dependency" do
@@ -47,15 +46,15 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "shared with user filter" do
+    context "with shared with user filter" do
       let(:filter) { Queries::WorkPackages::Filter::SharedWithUserFilter.create! }
 
-      it "is a all principals with access to project dependency" do
-        expect(subject).to be_a(API::V3::Queries::Schemas::AccessToProjectFilterDependencyRepresenter)
+      it "is a shared with user dependency" do
+        expect(subject).to be_a(API::V3::Queries::Schemas::SharedWithUserFilterDependencyRepresenter)
       end
     end
 
-    context "responsible filter" do
+    context "with responsible filter" do
       let(:filter) { Queries::WorkPackages::Filter::ResponsibleFilter.create! }
 
       it "is a project members dependency" do
@@ -63,7 +62,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "author filter" do
+    context "with author filter" do
       let(:filter) { Queries::WorkPackages::Filter::AuthorFilter.create! }
 
       it "is the user dependency" do
@@ -71,7 +70,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "category filter" do
+    context "with category filter" do
       let(:filter) { Queries::WorkPackages::Filter::CategoryFilter.create! }
 
       it "is the category dependency" do
@@ -79,7 +78,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "created_at filter" do
+    context "with created_at filter" do
       let(:filter) { Queries::WorkPackages::Filter::CreatedAtFilter.create! }
 
       it "is the date dependency" do
@@ -87,7 +86,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "custom_field filters" do
+    context "with custom_field filters" do
       let(:filter) do
         Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field:
       end
@@ -99,7 +98,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         end
       end
 
-      context "type int" do
+      context "with type int" do
         let(:custom_field) { build_stubbed(:integer_wp_custom_field) }
 
         it "is the integer dependency" do
@@ -109,7 +108,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
-      context "type float" do
+      context "with type float" do
         let(:custom_field) { build_stubbed(:float_wp_custom_field) }
 
         it "is the float dependency" do
@@ -119,7 +118,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
-      context "type text" do
+      context "with type text" do
         let(:custom_field) { build_stubbed(:text_wp_custom_field) }
 
         it "is the text dependency" do
@@ -129,7 +128,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
-      context "type list" do
+      context "with type list" do
         let(:custom_field) { build_stubbed(:list_wp_custom_field) }
 
         it "is the custom option dependency" do
@@ -139,7 +138,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
-      context "type user" do
+      context "with type user" do
         let(:custom_field) { build_stubbed(:user_wp_custom_field) }
 
         it "is the user dependency" do
@@ -149,7 +148,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
-      context "type version" do
+      context "with type version" do
         let(:custom_field) { build_stubbed(:version_wp_custom_field) }
 
         it "is the version dependency" do
@@ -159,7 +158,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
-      describe "type hierarchy" do
+      context "with type hierarchy" do
         let(:hierarchy_root) { build_stubbed(:hierarchy_item) }
         let(:custom_field) { build_stubbed(:custom_field, field_format: "hierarchy", hierarchy_root:) }
 
@@ -170,7 +169,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
-      context "type date" do
+      context "with type date" do
         let(:custom_field) { build_stubbed(:date_wp_custom_field) }
 
         it "is the date dependency" do
@@ -180,7 +179,17 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
-      context "type bool" do
+      context "with type datetime" do
+        let(:custom_field) { build_stubbed(:wp_custom_field, :datetime) }
+
+        it "is the datetime dependency" do
+          expect(subject).to be_a(API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter)
+        end
+
+        it_behaves_like "includes the cf json_cache_key mixin"
+      end
+
+      context "with type bool" do
         let(:custom_field) { build_stubbed(:boolean_wp_custom_field) }
 
         it "is the boolean filter dependency" do
@@ -190,7 +199,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
-      context "type string" do
+      context "with type string" do
         let(:custom_field) { build_stubbed(:string_wp_custom_field) }
 
         it "is the text dependency" do
@@ -201,7 +210,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "done_ratio filter" do
+    context "with done_ratio filter" do
       let(:filter) { Queries::WorkPackages::Filter::DoneRatioFilter.create! }
 
       it "is the integer dependency" do
@@ -209,7 +218,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "due_date filter" do
+    context "with due_date filter" do
       let(:filter) { Queries::WorkPackages::Filter::DueDateFilter.create! }
 
       it "is the date dependency" do
@@ -217,7 +226,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "estimated_hours filter" do
+    context "with estimated_hours filter" do
       let(:filter) { Queries::WorkPackages::Filter::EstimatedHoursFilter.create! }
 
       it "is the integer dependency" do
@@ -225,7 +234,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "group filter" do
+    context "with group filter" do
       let(:filter) { Queries::WorkPackages::Filter::GroupFilter.create! }
 
       it "is the group dependency" do
@@ -233,7 +242,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "id filter" do
+    context "with id filter" do
       let(:filter) { Queries::WorkPackages::Filter::IdFilter.create! }
 
       it "is the id dependency" do
@@ -241,7 +250,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "prioritiy filter" do
+    context "with priority filter" do
       let(:filter) { Queries::WorkPackages::Filter::PriorityFilter.create! }
 
       it "is the priority dependency" do
@@ -249,7 +258,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "project filter" do
+    context "with project filter" do
       let(:filter) { Queries::WorkPackages::Filter::ProjectFilter.create! }
 
       it "is the project dependency" do
@@ -257,7 +266,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "role filter" do
+    context "with role filter" do
       let(:filter) { Queries::WorkPackages::Filter::RoleFilter.create! }
 
       it "is the role dependency" do
@@ -265,7 +274,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "start_date filter" do
+    context "with start_date filter" do
       let(:filter) { Queries::WorkPackages::Filter::StartDateFilter.create! }
 
       it "is the date dependency" do
@@ -273,7 +282,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "subject filter" do
+    context "with subject filter" do
       let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.create! }
 
       it "is the subject dependency" do
@@ -281,7 +290,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "status filter" do
+    context "with status filter" do
       let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
 
       it "is a status dependency" do
@@ -289,7 +298,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "subproject filter" do
+    context "with subproject filter" do
       let(:filter) { Queries::WorkPackages::Filter::SubprojectFilter.create! }
 
       it "is a subproject dependency" do
@@ -297,7 +306,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "type filter" do
+    context "with type filter" do
       let(:filter) { Queries::WorkPackages::Filter::TypeFilter.create! }
 
       it "is a type dependency" do
@@ -305,7 +314,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "updated_at filter" do
+    context "with updated_at filter" do
       let(:filter) { Queries::WorkPackages::Filter::UpdatedAtFilter.create! }
 
       it "is a type dependency" do
@@ -313,7 +322,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "version filter" do
+    context "with version filter" do
       let(:filter) { Queries::WorkPackages::Filter::VersionFilter.create! }
 
       it "is a version dependency" do
@@ -321,7 +330,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
-    context "watcher filter" do
+    context "with watcher filter" do
       let(:filter) { Queries::WorkPackages::Filter::WatcherFilter.create! }
 
       it "is a type dependency" do

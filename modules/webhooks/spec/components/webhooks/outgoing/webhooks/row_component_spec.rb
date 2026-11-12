@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@ RSpec.describe Webhooks::Outgoing::Webhooks::RowComponent, type: :component do
     let(:column) { :name }
 
     it "renders name" do
-      expect(rendered_component).to have_content "Hook me up"
+      expect(rendered_component).to have_text "Hook me up"
     end
   end
 
@@ -54,7 +53,7 @@ RSpec.describe Webhooks::Outgoing::Webhooks::RowComponent, type: :component do
       let(:webhook) { build_stubbed(:webhook, all_projects: true) }
 
       it "renders 'All projects'" do
-        expect(rendered_component).to have_content "All projects"
+        expect(rendered_component).to have_text "All projects"
       end
     end
 
@@ -62,7 +61,7 @@ RSpec.describe Webhooks::Outgoing::Webhooks::RowComponent, type: :component do
       let(:webhook) { create(:webhook, all_projects: false, projects: create_list(:project, 2)) }
 
       it "renders 'X projects'" do
-        expect(rendered_component).to have_content "2 projects"
+        expect(rendered_component).to have_text "2 projects"
       end
     end
 
@@ -71,7 +70,7 @@ RSpec.describe Webhooks::Outgoing::Webhooks::RowComponent, type: :component do
 
       it "renders 'No projects'" do
         expect(rendered_component).to have_octicon :alert
-        expect(rendered_component).to have_content "No projects"
+        expect(rendered_component).to have_text "No projects"
       end
     end
   end
@@ -85,7 +84,7 @@ RSpec.describe Webhooks::Outgoing::Webhooks::RowComponent, type: :component do
 
       it "renders 'No events'" do
         expect(rendered_component).to have_octicon :alert
-        expect(rendered_component).to have_content "No events"
+        expect(rendered_component).to have_text "No events"
       end
     end
 

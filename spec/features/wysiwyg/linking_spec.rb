@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,7 +63,7 @@ RSpec.describe "Wysiwyg linking", :js do
   end
 
   describe "linking in a wiki page with different protocols",
-           with_settings: { allowed_link_protocols: %w[data] } do
+           with_settings: { allowed_link_protocols: %w[ftp] } do
     let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
     let(:always_allowed_protocols) { Setting::AllowedLinkProtocols::ALWAYS_ALLOWED }
 
@@ -80,19 +79,19 @@ RSpec.describe "Wysiwyg linking", :js do
     end
 
     it "allows linking the custom protocol" do
-      editor.insert_link "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ=="
-      click_on "Save"
-      expect_flash(message: "Successful update.")
-      expect(page).to have_link(href: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==")
-    end
-
-    it "prevents linking to a non-allowed custom protocol" do
       editor.insert_link "ftp://example.org/path"
       click_on "Save"
       expect_flash(message: "Successful update.")
-      expect(page).to have_no_link(href: "ftp://example.org/path")
+      expect(page).to have_link(href: "ftp://example.org/path")
+    end
 
-      link = page.find("a", text: "ftp://example.org/path")
+    it "prevents linking to a non-allowed custom protocol" do
+      editor.insert_link "sftp://example.org/path"
+      click_on "Save"
+      expect_flash(message: "Successful update.")
+      expect(page).to have_no_link(href: "sftp://example.org/path")
+
+      link = page.find("a", text: "sftp://example.org/path")
       expect(link["href"]).to be_nil
     end
   end

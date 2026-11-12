@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - 'docs/**'
       - 'help/**'
+      - 'extensions/blocknote-extensions/**'
   pull_request:
     types: [opened, reopened, synchronize]
     branches:
@@ -17,6 +18,7 @@ on:
       - 'help/**'
       - 'packaging/**'
       - '.pkgr.yml'
+      - 'extensions/blocknote-extensions/**'
 
 permissions:
   contents: read
@@ -25,9 +27,14 @@ jobs:
   trigger_saas_tests:
     permissions:
       contents: none
-    if: github.repository == 'opf/openproject' && github.actor != 'dependabot[bot]'
+    # Secrets are not passed to pull requests from forks, so the trigger would fail with 401
+    if: >-
+      github.repository == 'opf/openproject'
+      && github.actor != 'dependabot[bot]'
+      && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
     name: SaaS tests
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Trigger SaaS Tests
         env:

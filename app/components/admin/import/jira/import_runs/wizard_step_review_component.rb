@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,10 +34,12 @@ module Admin::Import::Jira::ImportRuns
 
     def imported_stats
       [
-        stat_entry(:projects, imported_projects.count, url: imported_projects_url),
-        stat_entry(:work_packages, imported_work_packages.count, url: imported_work_packages_url),
-        stat_entry(:users_and_groups, imported_users_and_groups.count),
-        stat_entry(:other_settings, imported_other_settings.count)
+        stat_entry(:projects, imported_count("Project"), url: imported_projects_url),
+        stat_entry(:work_packages, imported_count("WorkPackage"), url: imported_work_packages_url),
+        stat_entry(:versions, imported_count("Version")),
+        stat_entry(:sprints, imported_count("Sprint")),
+        stat_entry(:users_and_groups, imported_count("User", "Group")),
+        stat_entry(:other_settings, imported_count("Type", "Status", "IssuePriority", "WorkPackageCustomField"))
       ].compact
     end
 
@@ -54,47 +55,50 @@ module Admin::Import::Jira::ImportRuns
       }
     end
 
-    def imported_projects
-      @imported_projects ||= Import::JiraOpenProjectReference
-        .where(jira_import: model, op_entity_class: "Project", uses_existing: false)
+    private
+
+    def imported_count(*op_entity_classes)
+      op_entity_classes.sum { |op_entity_class| imported_counts.fetch(op_entity_class, 0) }
+    end
+
+    def imported_counts
+      @imported_counts ||= imported_references.group(:op_entity_class).count
+    end
+
+    def imported_references
+      Import::JiraOpenProjectReference.where(jira_import: model, uses_existing: false)
+    end
+
+    def imported_ids(op_entity_class)
+      imported_references.where(op_entity_class:).pluck(:op_entity_id).map(&:to_s)
+    end
+
+    def imported_project_ids
+      @imported_project_ids ||= imported_ids("Project")
+    end
+
+    def imported_work_package_ids
+      @imported_work_package_ids ||= imported_ids("WorkPackage")
     end
 
     def imported_projects_url
-      return nil if imported_projects.none?
+      return nil if imported_project_ids.empty?
 
-      ids = imported_projects.pluck(:op_entity_id).map(&:to_s)
-      if ids.length == 1
-        helpers.project_path(id: ids[0])
+      if imported_project_ids.one?
+        helpers.project_path(id: imported_project_ids.sole)
       else
-        helpers.projects_path(filters: [{ id: { operator: "=", values: ids } }].to_json)
+        helpers.projects_path(filters: [{ id: { operator: "=", values: imported_project_ids } }].to_json)
       end
-    end
-
-    def imported_work_packages
-      @imported_work_packages ||= Import::JiraOpenProjectReference
-        .where(jira_import: model, op_entity_class: "WorkPackage", uses_existing: false)
     end
 
     def imported_work_packages_url
-      return nil if imported_work_packages.none?
+      return nil if imported_work_package_ids.empty?
 
-      wp_ids = imported_work_packages.pluck(:op_entity_id).map(&:to_s)
-      if wp_ids.length == 1
-        helpers.work_package_path(id: wp_ids[0])
+      if imported_work_package_ids.one?
+        helpers.work_package_path(id: imported_work_package_ids.sole)
       else
-        project_ids = imported_projects.pluck(:op_entity_id).map(&:to_s)
-        helpers.work_packages_path(query_props: { f: [{ n: "project", o: "=", v: project_ids }] }.to_json)
+        helpers.work_packages_path(query_props: { f: [{ n: "project", o: "=", v: imported_project_ids }] }.to_json)
       end
-    end
-
-    def imported_users_and_groups
-      @imported_users_and_groups ||= Import::JiraOpenProjectReference
-        .where(jira_import: model, op_entity_class: %w[User Group], uses_existing: false)
-    end
-
-    def imported_other_settings
-      @imported_other_settings ||= Import::JiraOpenProjectReference
-        .where(jira_import: model, op_entity_class: %w[Type Status IssuePriority WorkPackageCustomField], uses_existing: false)
     end
   end
 end

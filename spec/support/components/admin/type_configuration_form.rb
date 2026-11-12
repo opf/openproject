@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -98,29 +97,7 @@ module Components
       end
 
       def drag_and_drop(handle, target)
-        target_container = drop_container_for(target)
-        source_row = handle.find(:xpath, "./ancestor::li[1]")
-
-        scroll_to_element(target_container)
-        source_row.hover
-
-        page.driver.browser.action
-            .move_to(handle.native)
-            .click_and_hold(handle.native)
-            .perform
-
-        scroll_to_element(target_container)
-
-        target_container.all(":scope > li", visible: true).each do |item|
-          page.driver.browser.action
-              .move_to(item.native)
-              .perform
-        end
-
-        page.driver.browser.action
-            .move_to(target_container.native)
-            .release
-            .perform
+        perform_native_drag(source: handle, target: drop_container_for(target))
       end
 
       def add_query_group(name, relation_filter, expect: true)
@@ -173,20 +150,7 @@ module Components
       def edit_query_group(name)
         wait_for_turbo
 
-        group_key = find_group(name)["data-group-key"]
-        menu_id = open_query_menu(name)
-        page.find("##{menu_id}", visible: :all)
-            .find(:test_id, "type-form-configuration-edit-query-#{group_key}", visible: :all)
-            .click
-        expect(page).to have_css(".wp-table--configuration-modal")
-      end
-
-      def edit_query_group_via_link(name)
-        wait_for_turbo
-
-        group = find_group(name)
-        label = I18n.t("types.edit.form_configuration.query_group_label")
-        group.click_button(label)
+        within(find_group(name)) { click_on accessible_name: I18n.t("types.edit.form_configuration.edit_query") }
         expect(page).to have_css(".wp-table--configuration-modal")
       end
 
@@ -204,15 +168,18 @@ module Components
         wait_for_turbo
       end
 
-      def rename_group(from, to)
-        group_key = find_group(from)["data-group-key"]
-        open_group_menu(from)
-        page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
+      def start_renaming_group(name)
+        invoke_group_action(name, I18n.t("types.edit.form_configuration.rename_group"))
+        expect(page).to have_test_selector("type-form-configuration-group-name-input")
+      end
 
-        fill_group_name(to)
+      def rename_group(from, new_name)
+        start_renaming_group(from)
+
+        fill_group_name(new_name)
         save_group
 
-        expect_group(to, to)
+        expect_group(new_name, new_name)
       end
 
       def remove_group(name)
@@ -247,21 +214,12 @@ module Components
 
       def group_order
         page.within_test_selector("type-form-configuration-groups-container") do
-          all(":scope > [data-group-key] .Box-header span.text-bold", visible: true).map(&:text)
+          all(":scope > [data-group-key] .Box-header span.text-bold", visible: :visible).map(&:text)
         end
-      end
-
-      def attribute_order(group_name)
-        find_group(group_name).find("ul").all(":scope > li[data-attr-key]", visible: true).pluck("data-attr-key")
       end
 
       def open_attribute_menu(attribute)
         open_menu("type-form-configuration-attribute-actions-#{attribute}")
-      end
-
-      def open_query_menu(name)
-        group_key = find_group(name)["data-group-key"]
-        open_menu("type-form-configuration-query-actions-#{group_key}")
       end
 
       def invoke_group_action(name, label)
@@ -296,19 +254,7 @@ module Components
       end
 
       def open_group_menu(name)
-        menu_id = nil
-
-        3.times do
-          menu_button = menu_button_for(name)
-          menu_id = menu_button[:"aria-controls"]
-          menu_button.click
-
-          return menu_id if page.has_css?("##{menu_id}", visible: :all, wait: 2)
-        rescue Selenium::WebDriver::Error::StaleElementReferenceError, Capybara::ElementNotFound
-          next
-        end
-
-        raise Capybara::ElementNotFound, "Unable to open menu #{menu_id.inspect}"
+        open_menu_button { menu_button_for(name) }
       end
 
       def menu_button_for(name)
@@ -317,29 +263,31 @@ module Components
       end
 
       def open_menu(button_selector)
-        menu_id = nil
-        menu_button = nil
+        open_menu_button { page.find_test_selector(button_selector) }
+      end
 
-        3.times do
-          menu_button = page.find_test_selector(button_selector)
+      def open_menu_button
+        page.document.synchronize(10) do
+          menu_button = yield
           menu_id = menu_button[:"aria-controls"]
-          menu_button.click
-          return menu_id if page.has_css?("##{menu_id}", visible: :all, wait: 2)
-        rescue Capybara::Cuprite::MouseEventFailed
-          menu_button&.trigger("click")
-          return menu_id if page.has_css?("##{menu_id}", visible: :all, wait: 2)
-        rescue Selenium::WebDriver::Error::StaleElementReferenceError, Capybara::ElementNotFound
-          next
-        end
+          raise Capybara::ElementNotFound, "Menu button has no target" if menu_id.blank?
 
-        raise Capybara::ElementNotFound, "Unable to open menu #{menu_id.inspect}"
+          begin
+            menu_button.click
+          rescue Capybara::Cuprite::MouseEventFailed
+            menu_button.trigger("click")
+          end
+
+          page.find(id: menu_id, visible: :visible, wait: 0)
+          menu_id
+        end
       end
 
       def click_menu_action(open_menu_callback, label)
-        retry_block(args: { tries: 3 }) do
+        page.document.synchronize(10) do
           menu_id = open_menu_callback.call
-          menu = page.find("##{menu_id}", visible: :all)
-          menu.first("[role='menuitem']", text: /\A#{Regexp.escape(label)}\z/, visible: :all).click
+          menu = page.find(id: menu_id, visible: :visible, wait: 0)
+          menu.find("[role='menuitem']", exact_text: label, visible: :visible, wait: 0).click
         end
       end
 

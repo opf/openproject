@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,7 @@ require "spec_helper"
 require_relative "../support//board_index_page"
 require_relative "../support/board_page"
 
+# Drags cards with the Selenium action API. Boards specs move to Cuprite in their own review.
 RSpec.describe "Custom field filter in boards",
                :js,
                :selenium do
@@ -52,7 +52,7 @@ RSpec.describe "Custom field filter in boards",
 
   let!(:priority) { create(:default_priority) }
   let!(:open_status) { create(:default_status, name: "Open") }
-  let!(:closed_status) { create(:status, is_closed: true, name: "Closed") }
+  let!(:closed_status) { create(:status, category: "closed", name: "Closed") }
 
   let!(:work_package) do
     wp = build(:work_package,
@@ -92,7 +92,6 @@ RSpec.describe "Custom field filter in boards",
       name: "Ingredients",
       multi_value: true,
       types: [type],
-      projects: [project],
       possible_values: %w[A B C]
     )
   end

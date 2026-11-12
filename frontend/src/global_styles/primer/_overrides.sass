@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -53,6 +52,7 @@
 page-header,
 sub-header,
 .op-work-package-details-tab-component,
+.op-project-hover-card,
 .UnderlineNav,
 .tabnav,
 .Box-header,
@@ -104,6 +104,13 @@ ul.SegmentedControl,
 
   svg
     align-self: center
+
+// The StatusButtonComponent overrides the icon color when it’s an IconButton.
+// This makes sure the icon takes the color we set when we use it in the
+// PhaseStatusButton
+.op-phase-status-button
+  svg.Button-visual
+    color: inherit
 
 // Prototypical CKEditor adjustments to better match Primer styles
 .ck-editor-primer-adjusted
@@ -166,7 +173,7 @@ ul.SegmentedControl,
 
   .Banner
     @container (max-width: 543.98px)
-      grid-template-areas: 'visual message close' '. actions actions'
+      grid-template-areas: 'visual message close' '.actions actions'
       grid-template-columns: min-content 1fr min-content
       grid-template-rows: min-content min-content
 
@@ -213,3 +220,12 @@ ul.SegmentedControl,
       // see https://bugzilla.mozilla.org/show_bug.cgi?id=1980289
       body.-browser-windows.-browser-firefox &
         @include keep-project-select-actions-clear-of-scrollbar
+
+.op-sidemenu-filterable-tree
+  .TreeViewItemContentText,
+  .TreeViewItemToggle,
+  .FormControl-input-wrap *
+    color: var(--main-menu-font-color) !important
+
+.op-project-status-label
+  display: inline-flex

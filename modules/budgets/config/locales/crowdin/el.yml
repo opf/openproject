@@ -61,6 +61,8 @@ el:
   attributes:
     budget: Προϋπολογισμός
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ el:
   events:
     budget: Ο προϋπολογισμός επεξεργάστηκε
   help_click_to_edit: Κάντε κλικ εδώ για επεξεργασία.
-  help_currency_format: Μορφοποίηση των νομισματικών τιμών που εμφανίζονται. %n αντικαθίσταται με την τρέχουσα τιμή, %u αντικαθίσταται με την τρέχουσα μονάδα.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Εισάγετε μια τιμή εδώ για να αντικαταστήσετε την τρέχουσα αμοιβή.
   label_budget_available: Διαθέσιμος προϋπολογισμός
   label_budget_details: Λεπτομέρειες προϋπολογισμού

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,7 +73,7 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
       end
     end
 
-    context "when the work package is the creation wizard artifact work package" do
+    context "when the work package is the creation wizard artefact work package" do
       before do
         type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
         project.update!(project_creation_wizard_artifact_work_package_id: work_package.id)
@@ -228,7 +227,7 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
       end
     end
 
-    context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+    context "when the project resolves the type to a variant" do
       shared_let(:variant) { create(:type_variant, type:, variant_name: "Signed deliverable") }
 
       shared_let(:variant_project) do

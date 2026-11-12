@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,10 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include WorkPackagesHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking
+  include MessagesHelper
   include OpenProject::JournalFormatter::CauseMeetingRendering
+  include OpenProject::JournalFormatter::CauseForumMessageRendering
+  include OpenProject::JournalFormatter::CauseEmailRendering
   include ActionView::Helpers::SanitizeHelper
   include ActionView::Helpers::TranslationHelper
 
@@ -45,6 +47,9 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
     return "" if hidden_meeting_cause?
     return combined_meeting_message if meeting_cause?
+    return forum_message_cause_message if forum_message_cause?
+    return email_cause_message if email_cause?
+    return caused_change if comment_retracted_cause?
 
     "#{caused_change} #{cause_description}"
   end
@@ -53,6 +58,10 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def html?
     @html
+  end
+
+  def comment_retracted_cause?
+    cause["type"] == Journal::CausedByCommentRetraction::TYPE
   end
 
   def caused_change
@@ -99,6 +108,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       total_percent_complete_mode_changed_to_simple_average_message
     when "import"
       import_message
+    when "label_deleted"
+      label_deleted_message
     when "work_package_parent_deleted"
       I18n.t("journals.cause_descriptions.work_package_parent_deleted")
     else
@@ -126,6 +137,15 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     html? ? message : Sanitize.fragment(message)
   end
 
+  def label_deleted_message
+    names = cause["label_names"]
+    return if names.blank?
+
+    label_names = names.map { |name| "'#{html? ? h(name) : name}'" }.join(", ")
+
+    I18n.t("journals.cause_descriptions.label_deleted", count: names.size, label_names:)
+  end
+
   def working_days_changed_message(changed_dates)
     day_changes_messages = changed_dates["working_days"].collect do |day, working|
       working_day_change_message(day.to_i, working)
@@ -144,7 +164,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def working_date_change_message(date, working)
     I18n.t("journals.cause_descriptions.working_days_changed.dates.#{working ? :working : :non_working}",
-           date: I18n.l(Date.parse(date)))
+           date: format_date(Date.parse(date)))
   end
 
   def status_changed_message
@@ -179,6 +199,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def import_message
     return I18n.t("journals.cause_descriptions.import.migrated") if cause["migrated"]
+    return I18n.t("journals.cause_descriptions.import.csv") if cause["csv"]
 
     entries = cause["import_history"]
     return "" if entries.blank?

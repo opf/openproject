@@ -9,24 +9,8 @@
 
 ## Running Tests
 
-```bash
-# Backend (RSpec) - prefer specific tests over running all
-bundle exec rspec spec/models/user_spec.rb              # Single file
-bundle exec rspec spec/models/user_spec.rb:42           # Single line
-bundle exec rspec spec/features                         # Directory
-bundle exec rake parallel:spec                          # Parallel execution
-```
-
-### Docker
-
-```bash
-bin/compose rspec spec/models/user_spec.rb   # Run specific tests in backend-test container
-bin/compose exec backend bundle exec rspec    # Run tests directly in backend container
-```
+Run the specific spec files or lines you changed (`bundle exec rspec path/to/file_spec.rb:42`) rather than the whole suite. For setup, system tests, and parallel runs (CI uses `turbo_tests`), see [Running tests locally](../docs/development/testing/running-tests-locally/README.md). In the Docker environment, use `bin/compose rspec path/to/file_spec.rb`.
 
 ## Debugging CI Failures
 
-```bash
-./script/github_pr_errors | xargs bundle exec rspec    # Run failed tests from CI
-./script/bulk_run_rspec spec/path/to/flaky_spec.rb     # Run tests multiple times
-```
+Use `script/github_pr_errors` to list failing specs from a CI run and `script/bulk_run_rspec` to rerun suspected flaky specs; see the [continuous testing workflow](../docs/development/testing/continuous-testing-workflow/README.md) and [flaky test guide](../docs/development/testing/handling-flaky-tests/README.md).

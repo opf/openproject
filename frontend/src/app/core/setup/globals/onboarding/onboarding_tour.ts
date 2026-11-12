@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -49,14 +48,25 @@ import 'core-vendor/enjoyhint';
 import { wpFullViewOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/work_package_full_view_tour';
 import { getMetaContent } from '../global-helpers';
 
+export interface EnjoyHintOptions {
+  onStart?:() => void;
+  onEnd?:() => void;
+  onSkip?:() => void;
+}
+
+export interface EnjoyHintInstance {
+  set(steps:OnboardingStep[]):void;
+  run():void;
+}
+
 declare global {
   interface Window {
-    EnjoyHint:any;
+    EnjoyHint:new(options:EnjoyHintOptions) => EnjoyHintInstance;
   }
 }
 
 export interface OnboardingStep {
-  [key:string]:string|unknown,
+  [key:string]:unknown,
   event?:string,
   description?:string,
   selector?:string,
@@ -72,7 +82,6 @@ export interface OnboardingStep {
 }
 
 function initializeTour(storageValue:string) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
   window.onboardingTourInstance = new window.EnjoyHint({
     onStart() {
       document.querySelectorAll('#content-wrapper, #menu-sidebar')
@@ -123,7 +132,7 @@ function workPackageFullViewTour() {
 function ganttTour(_configuration:ConfigurationService) {
   initializeTour('ganttTourFinished');
 
-  waitForElement('.work-package--results-tbody', '#content', () => {
+  waitForElement('.work-packages-tabletimeline--timeline-side', '#content', () => {
     let steps:OnboardingStep[] = ganttOnboardingTourSteps();
     if (showBoardsTour()) {
       steps = steps.concat(navigateToBoardStep());

@@ -22,20 +22,23 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Meetings
   module Statuses
-    RECORD = Struct.new(:id, :color, keyword_init: true)
+    RECORD = Struct.new(:id, :hexcode, keyword_init: true) do
+      def name = I18n.t("label_meeting_state_#{id}")
 
-    DRAFT = RECORD.new(id: "draft", color: Color.new(hexcode: "#BF3989"))
-    OPEN = RECORD.new(id: "open", color: Color.new(hexcode: "#006edb"))
-    IN_PROGRESS = RECORD.new(id: "in_progress", color: Color.new(hexcode: "#894ceb"))
-    CLOSED = RECORD.new(id: "closed", color: Color.new(hexcode: "#25292e"))
+      def color = Color.new(hexcode:)
+    end
+
+    DRAFT = RECORD.new(id: "draft", hexcode: "#BF3989")
+    OPEN = RECORD.new(id: "open", hexcode: "#006edb")
+    IN_PROGRESS = RECORD.new(id: "in_progress", hexcode: "#1F883D")
+    CLOSED = RECORD.new(id: "closed", hexcode: "#25292e")
 
     AVAILABLE = [
       DRAFT,

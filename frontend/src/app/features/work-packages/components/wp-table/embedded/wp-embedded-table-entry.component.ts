@@ -20,13 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
+import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
@@ -51,9 +52,9 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
 export class WorkPackageEmbeddedTableEntryComponent {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  @Input() public queryProps:unknown;
+  @Input() public queryProps:Partial<QueryRequestParams>;
 
-  @Input() public configuration:unknown;
+  @Input() public configuration:WorkPackageTableConfigurationObject;
 
   @Input() public initialLoadingIndicator = true;
 

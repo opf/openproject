@@ -47,6 +47,8 @@ ko:
       draggable_hint: '인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: 바이러스가 발견되어 파일이 격리되었습니다. 다운로드할 수 없습니다.
     autocomplete_ng_select:
       add_tag: 항목 추가
@@ -61,6 +63,7 @@ ko:
         single: '"%{name}" 선택'
       remove: "%{name} 삭제"
     autocompleter:
+      create_label: Create label
       notFoundText: 항목 없음
       placeholder: 검색할 유형
       project:
@@ -128,10 +131,10 @@ ko:
     button_confirm: 확인
     button_continue: 계속
     button_copy: 복사
-    button_copy_link_to_clipboard: 클립보드에 링크 복사
-    button_copy_numeric_id_to_clipboard: 클립보드에 숫자 ID 복사
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: 클립보드 복사
     button_copy_to_other_project: 다른 프로젝트에 복제
+    button_copy_work_package_id: Copy work package ID
     button_create: 만들기
     button_custom-fields: 사용자 정의 필드
     button_delete: 삭제
@@ -147,6 +150,7 @@ ko:
     button_log_time: 작업시간 기록
     button_more: 기타
     button_more_actions: 추가 작업
+    button_move_to_position: Move to position
     button_open_details: 자세히 보기
     button_open_fullscreen: 전체화면 보기
     button_quote: 인용
@@ -162,6 +166,7 @@ ko:
     button_stop_timer: 타이머 중지
     button_uncheck_all: 모두 선택 취소
     button_update: 업데이트
+    button_view_markdown: View Markdown
     caption_rate_history: 요금 기록
     card:
       add_new: 새로운 카드를 추가하다
@@ -201,7 +206,11 @@ ko:
     description_select_work_package: '작업 패키지 #%{id} 선택'
     description_subwork_package: '작업 패키지 #%{id}의 자식'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor에서 오류가 발생했습니다
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: '다음 오류로 인해 문서를 저장하지 못했습니다: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ ko:
       direct_hit_available: 정확한 ID를 가진 작업 패키지를 찾았습니다. Enter 키를 눌러 여세요.
       items_available: "%{count}개 항목 사용 가능"
       recently_viewed: 최근에 조회됨
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: 제목, 프로젝트, 유형, 상태 또는 ID로 작업 패키지 검색
       title:
         all_projects: 모든 프로젝트
@@ -358,8 +369,8 @@ ko:
     ical_sharing_modal:
       copy_url_label: URL 복사
       description: URL(iCalendar)을 사용하여 외부 클라이언트에서 이 캘린더를 구독하고 여기에서 최신 작업 패키지 정보를 볼 수 있습니다.
-      ical_generation_error_text: 캘린더 URL을 생성하는 중에 오류가 발생했습니다.
-      inital_setup_error_message: 데이터를 가져오는 중에 오류가 발생했습니다.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: '"%{name}" URL이 클립보드에 복사되었습니다. 구독을 완료하려면 캘린더 클라이언트에 붙여넣으세요.'
       title: 캘린더 구독
       token_name_description_text: 여러 장치에서 이 캘린더를 구독하는 경우 이 이름은 <a href="%{myAccessTokensUrl}" target="_blank">액세스 토큰</a> 목록에서 장치를 구분하는 데 도움이 됩니다.
@@ -431,7 +442,6 @@ ko:
     label_assignee: 담당자
     label_assignee_alt_text: 이 작업 패키지는 %{name} 님에게 할당되었습니다
     label_attachments: 첨부 파일
-    label_author: '작성자: %{user}'
     label_avatar: 아바타
     label_between: 사이에
     label_board: 게시판
@@ -495,6 +505,7 @@ ko:
     label_in: "-"
     label_in_less_than: 보다 작음
     label_in_more_than: 보다 큼
+    label_in_progress_work_packages: in progress
     label_incoming_emails: 들어오는 이메일
     label_infinity: 무한대
     label_information_plural: 정보
@@ -527,6 +538,10 @@ ko:
     label_open_context_menu: 콘텍스트 메뉴 열기
     label_open_menu: 메뉴 열기
     label_open_work_packages: 열기
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: 암호
     label_per_page: '페이지 당:'
     label_please_wait: 잠시 기다려 주세요.
@@ -551,6 +566,8 @@ ko:
     label_reset: 재설정
     label_resize_project_menu: 프로젝트 메뉴 크기 조정
     label_save_as: 다른 이름으로 저장
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: 열 검색
     label_select_watcher: 주시하는 사람을 선택
     label_selected_filter_list: 선택된 필터
@@ -558,7 +575,9 @@ ko:
     label_show_in_menu: 메뉴에서 보기 표시
     label_sort_by: 정렬 기준
     label_sort_higher: 위로 이동
+    label_sort_highest: Move to top
     label_sort_lower: 아래로 이동
+    label_sort_lowest: Move to bottom
     label_sorted_by: '정렬 :'
     label_sorting: 정렬
     label_spent_time: 소비한 시간
@@ -569,6 +588,7 @@ ko:
     label_sum_for: '합계 '
     label_this_week: 이번 주
     label_time_entry_plural: 소비한 시간
+    label_to_do_work_packages: to-do
     label_today: 오늘
     label_total_amount: '합계: %{amount}'
     label_total_progress: "%{percent}% 진행"
@@ -623,7 +643,7 @@ ko:
     notifications:
       center:
         and_more_users:
-          other: 외 %{count}건
+          other: and %{count} others
         empty_state:
           no_notification: 모두 확인하신 것 같습니다.
           no_notification_for_filter: 이 필터에 대한 모든 알림을 본 것 같습니다.
@@ -719,6 +739,7 @@ ko:
     placeholders:
       default: "-"
       description: '설명: 클릭하여 편집...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: 이 관계에 대한 설명을 추가하려면 클릭
       selection: 선택하십시오
       subject: 여기에 제목 입력
@@ -805,12 +826,31 @@ ko:
       sorting_disabled: 정렬이 불가능합니다
     sortable_lists:
       announcements:
+        batch_too_large: "%{count}개 항목을 한 번에 이동할 수 없습니다. %{max}개까지만 선택하세요."
         fallback_item_label: 항목
         fallback_list_name: 다른 목록
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
+        move_failed_check_positions_batch:
+          other: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
         move_failed_rolled_back: 이동하지 못했습니다. %{label}이(가) 이전 위치로 돌아갔습니다.
+        move_failed_rolled_back_batch:
+          other: 이동하지 못했습니다. %{count}개 항목이 이전 위치로 돌아갔습니다.
         moved: "%{label}이(가) %{total}개 중 %{position} 위치로 이동됨"
+        moved_batch:
+          other: "%{count}개 항목이 %{total}개 중 %{first} ~ %{last} 위치로 이동됨"
+        moved_batch_to_list:
+          other: "%{count}개 항목이 %{list}(으)로 이동됨, 위치 %{first} ~ %{last}/%{total}"
         moved_to_list: "%{label}이(가) %{list}(으)로 이동됨, 위치 %{position}/%{total}"
+      selection:
+        cleared: 선택 항목이 지워졌습니다.
+        not_selectable: 선택 항목이 변경되지 않았습니다. 이 항목은 해당 목록의 순서 지정에 영향을 미치지 않습니다.
+        range_blocked: 선택 항목이 변경되지 않았습니다. 해당 범위에는 이 목록의 순서 지정에 영향을 미치지 않는 항목이 포함되어 있습니다.
+        range_restarted:
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: 선택 항목이 변경되지 않았습니다. 이 목록을 확장하여 해당 범위를 선택하세요.
+        selected:
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: 모달 닫기
@@ -824,9 +864,7 @@ ko:
     text_user_wrote: "%{value}이(가) 작성함:"
     text_work_packages_destroy_confirmation: 선택한 작업 패키지를 삭제하시겠습니까?
     time_entry:
-      stop: 중지
       title: 작업시간 기록
-      tracking: 시간 추적
       work_package_required: 먼저 작업 패키지를 선택해야 합니다.
     timer:
       button_stop: 현재 타이머 중지
@@ -861,18 +899,18 @@ ko:
       label_two_factor_authentication: 2단계 인증
     units:
       child_work_packages:
-        other: "%{count}개의 작업 패키지 자식"
+        other: "%{count} work package children"
       day:
-        one: 1일
+        one: "%{count} day"
         other: "%{count}일"
         zero: 0일
       hour:
-        one: 1시간
+        one: "%{count} h"
         other: "%{count}시간"
         zero: 0 h
       hour_string: "%{hours}시간"
       word:
-        other: 단어 %{count}개
+        other: "%{count} words"
       workPackage:
         other: 작업 패키지
     upsell:
@@ -930,6 +968,7 @@ ko:
         all_open: 모두 열림
         assigned_to_me: 내게 할당됨
         created_by_me: 내가 만듦
+        in_progress: In progress
         latest_activity: 최근 활동
         manually_sorted: 새로운 수동 정렬 쿼리
         overdue: 기한 지남
@@ -937,6 +976,7 @@ ko:
         shared_with_me: 나와 공유됨
         shared_with_users: 사용자와 공유됨
         summary: 요약
+        to_do: To-do
       description_enter_text: 텍스트 입력
       description_filter: 필터
       description_options_hide: 옵션 숨기기
@@ -1024,6 +1064,7 @@ ko:
         other: 기타
         people: 사용자
       query:
+        add_columns: Add columns
         click_to_edit_query_name: 이 보기의 제목을 편집하려면 클릭하세요.
         column_names: 컬럼
         confirm_edit_cancel: 이 보기 이름 편집을 취소하시겠습니까? 제목이 이전 값으로 다시 설정됩니다.
@@ -1033,17 +1074,16 @@ ko:
           not_found: 해당 보기가 없습니다.
           unretrievable_query: URL에서 보기를 검색할 수 없음
         filters: 필터
-        group: 그룹화 기준
         group_by: 그룹 결과
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: 계층 모드가 활성화되어서 그룹화가 불가능합니다.
-        hide_column: 열 숨기기
         hierarchy_disabled_by_group_by: 결과가 %{column} 에 의해 그룹화되어서 계층 모드가 불가능합니다.
-        insert_columns: 열 삽입
         move_column_left: 왼쪽으로 열 이동
         move_column_right: 오른쪽으로 열 이동
         public_text: '다른 사용자가 이 보기에 액세스할 수 있도록 하려면 이 보기를 게시하십시오. "공용 보기 관리" 권한을 가진 사용자가 공용 쿼리를 수정 또는 제거할 수 있습니다. 이는 해당 보기에서 작업 패키지 결과의 표시 여부에 영향을 주지 않기 때문에 사용자의 권한에 따라 다른 결과가 표시될 수 있습니다.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: 이 보기의 이름
         sort_ascending: 오름차순 정렬
         sort_descending: 내림차순 정렬
@@ -1064,15 +1104,24 @@ ko:
       scheduling:
         is_parent: 이 작업 패키지의 날짜는 자식으로부터 자동으로 추정됩니다. '수동 스케줄링'을 활성화하여 날짜를 설정할 수 있습니다.
         is_switched_from_manual_to_automatic: 다른 작업 패키지와의 관계로 인해 수동 스케줄링에서 자동 스케줄링으로 전환한 후 이 작업 패키지의 날짜를 다시 계산해야 할 수 있습니다.
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: 작업 패키지가 공유된 모든 사용자 표시
         title: 작업 패키지 공유
       table:
         configure_button: 작업 패키지 테이블 구성
-        summary: 작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블.
-        text_inline_edit: 이 테이블의 셀 대부분은 해당 특성의 인라인 편집 기능을 활성화하는 버튼입니다.
-        text_select_hint: 선택 상자는 'ALT'와 화살표 키로 열어야 합니다.
-        text_sort_hint: 테이블 헤더의 링크를 사용하여 테이블 열을 정렬, 그룹화, 다시 정렬, 제거, 추가할 수 있습니다.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: 이 작업 패키지 테이블 구성
         choose_display_mode: 다음으로 작업 패키지 표시
@@ -1081,7 +1130,6 @@ ko:
         default_mode: 플랫 목록
         display_settings: 디스플레이 설정
         display_sums_hint: 테이블 결과 아래 행에 모든 집계 가능한 특성의 합계를 표시합니다.
-        embedded_tab_disabled: 이 구성 탭은 사용자가 편집하고 있는 포함된 보기에서 사용할 수 없습니다.
         hierarchy_hint: 필터링된 테이블의 모든 결과는 해당 상위 항목과 함께 확대됩니다. 계층 구조를 확장하거나 축소 할 수 있습니다.
         hierarchy_mode: 계층 구조
         highlighting: 강조 표시

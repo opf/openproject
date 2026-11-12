@@ -149,7 +149,7 @@ Developers can now read and manage emoji reactions, create and update reminders,
 - Feature: Order by phases and phase gates on project list \[[#59184](https://community.openproject.org/wp/59184)\]
 - Feature: Extend Reminders API V3 to include create, update &amp; delete operations \[[#59473](https://community.openproject.org/wp/59473)\]
 - Feature: Optimize life cycle modal UX \[[#60330](https://community.openproject.org/wp/60330)\]
-- Feature: Document and implement proper mobile behaviour for Sub Header component (OP Primer) \[[#60332](https://community.openproject.org/wp/60332)\]
+- Feature: Document and implement proper mobile behavior for Sub Header component (OP Primer) \[[#60332](https://community.openproject.org/wp/60332)\]
 - Feature: Reminders: Offer quick-set options like &#39;tomorrow&#39; or &#39;next week&#39; with smart defaults \[[#60357](https://community.openproject.org/wp/60357)\]
 - Feature: PDF export of meetings \[[#60730](https://community.openproject.org/wp/60730)\]
 - Feature: Date picker to edit phases and phase gates of a project life cycle \[[#61610](https://community.openproject.org/wp/61610)\]

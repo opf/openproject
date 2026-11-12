@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@ RSpec.describe JournalFormatter::Attribute do
         expect(instance.render("name", [old_value, new_value]))
           .to eq(I18n.t(:text_journal_changed_plain,
                         label: "<strong>Name</strong>",
-                        linebreak: "<br/>",
+                        linebreak: "<br>",
                         old: "<i>#{old_value}</i>",
                         new: "<i>#{new_value}</i>"))
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -108,10 +107,10 @@ RSpec.describe TextFormattingHelper do
         "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\n tempor invidunt"
       end
       let(:text_html) do
-        "Lorem ipsum dolor sit <br/> amet, consetetur sadipscing elitr, sed diam nonumy eirmod <br /> tempor invidunt"
+        "Lorem ipsum dolor sit<br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br />tempor invidunt"
       end
 
-      it "replaces escaped line breaks with html line breaks and should be html_safe" do
+      it "replaces line breaks with html line breaks" do
         expect(truncate_formatted_text(text))
           .to be_html_eql(text_html)
       end
@@ -131,6 +130,15 @@ RSpec.describe TextFormattingHelper do
           expect(truncate_formatted_text(text, replace_newlines: false))
             .to be_html_safe
         end
+      end
+    end
+
+    context "with HTML special characters" do
+      it "does not double-escape" do
+        result = truncate_formatted_text("Tom & Jerry")
+
+        expect(result).to be_html_safe
+        expect(result).to be_html_eql("Tom &amp; Jerry")
       end
     end
 

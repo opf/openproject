@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@
 #        But well this is again one of those temporary solutions.
 class Widget::Filters::Heavy < Widget::Filters::Base
   # rubocop:disable Metrics/AbcSize
-  def render
+  def render_filter
     # TODO: sometimes filter.values is of the form [["3"]] and sometimes ["3"].
     #       (using cost reporting)
     #       this might be a bug - further research would be fine
@@ -57,7 +56,7 @@ class Widget::Filters::Heavy < Widget::Filters::Base
       box
     end
     alternate_text = safe_join(opts.map(&:first), ", ")
-    write(div + content_tag(:label, alternate_text))
+    div + content_tag(:label, alternate_text)
   end
 
   # rubocop:enable Metrics/AbcSize

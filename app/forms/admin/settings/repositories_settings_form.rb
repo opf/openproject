@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,6 @@ module Admin
             name: :sys_api_key,
             id: "settings_sys_api_key",
             disabled: !Setting.sys_api_enabled?,
-            label: I18n.t(:setting_mail_handler_api_key),
             input_width: :medium,
             data: {
               disable_when_checked_target: "effect",
@@ -87,7 +85,7 @@ module Admin
           end
         end
 
-        # Primer, unlike Rails' check_box helper, does not render this auxilary hidden field for us.
+        # Primer, unlike Rails' check_box helper, does not render this auxiliary hidden field for us.
         sf.hidden(
           name: "settings[enabled_scm][]",
           value: "",

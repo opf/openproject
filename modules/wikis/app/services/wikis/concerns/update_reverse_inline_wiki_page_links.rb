@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,7 @@ module Wikis::Concerns
     # Mirrors the prefix character class of the inline-text macro matcher.
     # The trailing `(?!\w)` on the semantic branch keeps `#PROJ-1abc` from
     # matching `#PROJ-1`; the numeric branch deliberately has no trailing
-    # boundary to preserve historic behaviour for inputs like `#13-blubb`.
+    # boundary to preserve historic behavior for inputs like `#13-blubb`.
     # rubocop:disable Style/RedundantRegexpEscape
     WP_REF_RE = /
       (?:[[:space:],~>\#\(\[\-]|^)\#

@@ -56,7 +56,7 @@ el:
 
           '
       label_n_groups_found:
-        one: 1 ομάδα που βρέθηκε από το φίλτρο
+        one: "%{count} group found by the filter"
         other: "%{count} ομάδες βρέθηκαν από το φίλτρο"
         zero: Δεν βρέθηκαν ομάδες από το φίλτρο
       plural: Φίλτρα συγχρονισμού ομάδας LDAP
@@ -91,7 +91,7 @@ el:
       plural: Συγχρονισμένες ομάδες LDAP
       singular: Συγχρονισμένη ομάδα LDAP
       upsell:
-        description: Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Συγχρονισμός των μελών ομάδων LDAP.
     name: Ομάδες LDAP OpenProject

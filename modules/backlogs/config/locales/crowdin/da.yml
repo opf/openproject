@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -26,6 +26,7 @@ da:
       project:
         allow_multiple_active_sprints: Tillad flere aktive sprints
         backlog_excluded_types: Udeladte arbejdspakketyper
+        estimation_unit: Enhed
         sprint_sharing: Deling af sprints
         statuses_considered_closed: Statusser, der regnes som lukkede
       sprint:
@@ -33,6 +34,11 @@ da:
         finish_date: Slutdato
         goal: Sprintmål
         name: Sprintnavn
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         sharing: Deling
         statuses:
           active: Aktiv
@@ -72,7 +78,7 @@ da:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Én arbejdspakke blev ikke færdig i denne sprint.
+                one: "%{count} arbejdspakke blev ikke færdig i denne sprint."
                 other: "%{count} arbejdspakker blev ikke færdige i denne sprint."
             status:
               not_active: er ikke aktiv, så den kan ikke lukkes.
@@ -133,10 +139,11 @@ da:
     bucket_destroy_modal_component:
       details: Backlog-gruppen '%{name}' slettes, og alle arbejdspakker flyttes til backlog-indbakken. Ingen arbejdspakker slettes.
       title: Vil du slette backlog-gruppen?
-    burndown_chart:
-      show:
-        blankslate_description: Angiv start- og slutdato for sprinten for at danne et burndown-diagram.
-        blankslate_title: Der er ingen data til burndown-diagrammet
+    created_resolved_chart:
+      series:
+        created: Oprettede
+        resolved: Løste
+    estimation_unit: Enheder
     excluded_work_package_types_caption: 'Vælg, hvilke arbejdspakketyper der skal skjules i backloggen. Elementer af de valgte typer vises ikke automatisk i backloggen, så den holder fokus på det arbejde, der betyder noget for dit team. Typer som epics eller milepæle, der styres på et højere niveau, kan fx skjules, så backloggen holder fokus på elementer, der kan handles på.
 
       '
@@ -159,7 +166,7 @@ da:
       drop_zone_label: Slip her for at tilføje elementet
       label_actions: Handlinger for indbakken
       show_more:
-        one: Vis 1 element mere
+        one: Vis %{count} element mere
         other: Vis %{count} elementer mere
       title: Indbakke
     index_subheader_component:
@@ -182,8 +189,11 @@ da:
     rebuild: Genopbyg
     rebuild_positions: Genopbyg positioner
     remaining_hours: Resterende arbejde
+    selected_work_packages_component:
+      label:
+        one: "%{count} valgt arbejdspakke"
+        other: "%{count} valgte arbejdspakker"
     sharing: Deling af sprints
-    show_burndown_chart: Burndown-diagram
     sprint_component:
       action_menu:
         add_existing_work_package: Tilføj eksisterende arbejdspakke
@@ -206,10 +216,190 @@ da:
       shared_sprint_info_banner: Det er en delt sprint. Ændringer slår igennem i alle projekter, der bruger den.
       shared_sprint_warning_banner: Det er en delt sprint. Du har ikke de nødvendige tilladelser til at redigere den.
     sprint_reports:
+      header_infoline_component:
+        planned_html: 'Planned: %{range}'
+      missing_dates_blankslate_component:
+        description: Sprint start and finish dates are necessary for the report to show.
+        heading: Missing sprint dates
+      navigation_component:
+        next: Næste
+        previous: Forrige
       page_header_component:
         breadcrumb: Rapport
         title: Rapport for %{sprint}
+      widgets:
+        burndown_chart:
+          blankslate:
+            no_estimated_hours:
+              description: The burndown chart will appear here once the sprint has an open work package with work time estimate.
+              heading: No work to display
+            no_story_points:
+              description: The burndown chart will appear here once the sprint has an open work package with estimated story points.
+              heading: No work to display
+            not_started:
+              description: The burndown chart will appear here after the sprint starts.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the burndown chart's timespan.
+              heading: No chart to display
+          series:
+            guideline: Guideline
+            projection:
+              story_points: Remaining story points (projection)
+              time: Remaining estimated time (projection)
+            remaining:
+              story_points: Remaining story points
+              time: Remaining estimated time
+          title: Burndown-diagram
+        burnup_chart:
+          blankslate:
+            no_estimated_hours:
+              description: The burnup chart will appear here once the sprint has received a work package with work time estimate.
+              heading: No work to display
+            no_story_points:
+              description: The burnup chart will appear here once the sprint has received a work package with estimated story points.
+              heading: No work to display
+            not_started:
+              description: The burnup chart will appear here after the sprint starts.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the burnup chart's timespan.
+              heading: No chart to display
+          series:
+            completed: Udført arbejde
+            guideline: Ideallinje
+            projection: Samlet arbejdsomfang (prognose)
+            scope: Samlet arbejdsomfang
+          title: Burnup-diagram
+        created_resolved_chart:
+          blankslate:
+            no_work:
+              description: The created vs resolved chart will appear here once a work package has been created or resolved within the sprint.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan.
+              heading: No chart to display
+          title: Oprettede og løste arbejdspakker
+        epic_progress:
+          blankslate:
+            no_epics:
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              heading: No epics to display
+            no_work:
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              heading: No work to display
+          card:
+            progress:
+              story_points:
+                one: "%{resolved} / %{count} story point"
+                other: "%{resolved} / %{count} story points"
+              time: "%{resolved} / %{count}"
+              work_packages:
+                one: "%{resolved} / %{count} work package"
+                other: "%{resolved} / %{count} work packages"
+            progress_label:
+              story_points:
+                one: "%{epic}: %{resolved} of %{count} story point completed"
+                other: "%{epic}: %{resolved} of %{count} story points completed"
+              time: "%{epic}: %{resolved} of %{count} completed"
+              work_packages:
+                one: "%{epic}: %{resolved} of %{count} work package completed"
+                other: "%{epic}: %{resolved} of %{count} work packages completed"
+            work_package_completed: "(%{percentage})"
+          title: Fremdrift for epics
+        velocity_chart:
+          average:
+            one: 'Gennemsnit af den forrige sprint:'
+            other: 'Gennemsnit af de forrige %{count} sprints:'
+          average_legend: Gennemsnit
+          committed: Planlagt
+          completed: Færdige
+          story_points: "%{value} SP"
+          summary:
+            story_points:
+              one: Bar chart of committed and completed story points of the last sprint.
+              other: Bar chart of committed and completed story points of the last %{count} sprints.
+            time:
+              one: Bar chart of committed and completed estimated time of the last sprint.
+              other: Bar chart of committed and completed estimated time of the last %{count} sprints.
+          summary_average: 'Gennemsnitlig hastighed: %{average}.'
+          title: Hastighedsdiagram
+          velocity: "%{sprint}:"
+          y_axis_title:
+            story_points: Story points
+            time: Estimated time
+        work_package_graph:
+          blankslate:
+            no_work:
+              description: The work package graph will appear here once the sprint has received a work package.
+              heading: No work to display
+          summary:
+            completed: 'Bar chart of the work packages in the sprint when it was completed, by status: %{description}.'
+            current: 'Bar chart of the work packages currently in the sprint, by status: %{description}.'
+          title: Graf over arbejdspakker
+        work_package_overview:
+          blocks:
+            changed_after_start:
+              change_html: "+%{added} %{divider} -%{removed}"
+              heading: Ændret omfang
+              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
+            completed:
+              heading: Færdige
+            initially_planned:
+              heading: Oprindeligt planlagt
+            unfinished:
+              heading: Ufærdige
+          breakdown_block:
+            blocks:
+              show_all: Vis alle
+              show_all_label: 'Vis alle: %{heading}'
+          closed_work_packages: Lukkede arbejdspakker
+          completed_estimated_time: Anslået tid for færdige arbejdspakker
+          completed_story_points: Færdige story points
+          progress_summary:
+            story_points:
+              one: "%{percentage} (%{resolved} of %{count} story point)"
+              other: "%{percentage} (%{resolved} of %{count} story points)"
+            time: "%{percentage} (%{resolved} of %{count})"
+            work_packages:
+              one: "%{percentage} (%{resolved} of %{count} work package)"
+              other: "%{percentage} (%{resolved} of %{count} work packages)"
+          title: Arbejdspakker i sprinten
+        work_package_table:
+          added:
+            blankslate:
+              empty:
+                description: Arbejdspakker, der er tilføjet efter sprintens startdato, vises her.
+              not_started:
+                description: Tilføjede arbejdspakker vises her, når sprinten er startet.
+            title: Øget omfang efter sprintstart
+          blankslate:
+            heading: Ingen arbejdspakker at vise
+          completed:
+            blankslate:
+              empty:
+                description: Arbejdspakker, der er gjort færdige i sprinten, vises her.
+              not_started:
+                description: Færdige arbejdspakker vises her, når sprinten er startet.
+            title: Færdigt arbejde
+          removed:
+            blankslate:
+              empty:
+                description: Arbejdspakker, der er fjernet efter sprintens startdato, vises her.
+              not_started:
+                description: Fjernede arbejdspakker vises her, når sprinten er startet.
+            title: Reduceret omfang efter sprintstart
+          unfinished:
+            blankslate:
+              empty:
+                description: Alle arbejdspakker i denne sprint er færdige.
+                heading: Flot, alt er færdigt!
+              not_started:
+                description: Ufærdige arbejdspakker vises her, når sprinten er startet.
+            title: Ufærdigt arbejde
     sprints:
+      date_cell_component:
+        planned: "(planned)"
       row_component:
         action_menu:
           edit_sprint: Rediger sprint
@@ -238,32 +428,51 @@ da:
       header_backlogs: Modulet Backlogs
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Kopiér URL til udklipsholderen
         copy_work_package_id: Kopiér arbejdspakkens id
         move_menu: Flyt til placering
         move_to_backlog_bucket: Flyt til backlog-gruppe
         move_to_inbox: Flyt til backlog-indbakken
         move_to_sprint: Flyt til sprint
+        no_batch_actions: Der er ingen tilgængelige handlinger for de valgte arbejdspakker.
+        stale_selection: Markeringen er ændret. Opdater den, før du flytter arbejdspakker.
     work_package_is_closed: Arbejdspakken er færdig, når
     work_packages:
       add_existing_dialog:
         invalid_target: Det sted, som du forsøger at tilføje til, er ugyldigt.
         target_not_found: Den sprint eller backlog, som du forsøger at tilføje til, blev ikke fundet.
+      batch_update_service:
+        mixed_projects: Alle arbejdspakker i en samlet flytning skal høre til samme projekt.
+        stale_batch: Mindst én arbejdspakke blev ændret, mens flytningen blev forberedt. Tjek de nuværende placeringer, og prøv igen.
+        stale_predecessor: Den arbejdspakke, der skulle indsættes efter, er flyttet et andet sted hen. Tjek de nuværende placeringer, og prøv igen.
+        unavailable_target: Mållisten er ikke længere tilgængelig. Genindlæs siden, og prøv igen.
+        unexpected_failure: Arbejdspakkerne kunne ikke flyttes. Prøv igen.
       move:
         moved_announcement: "%{label} er flyttet til %{list}, placering %{position} af %{total}"
+      move_to_bucket_dialog:
+        no_available_destinations: Der er ingen tilgængelige backlog-grupper for disse arbejdspakker.
+      move_to_sprint_dialog:
+        no_available_destinations: Der er ingen tilgængelige sprints for disse arbejdspakker.
+      move_collection:
+        invalid_ids: Listen over arbejdspakker, der skal flyttes, er ugyldig.
+        member_failed: "%{work_package}: %{reason}"
+        moved_announcement:
+          one: "%{count} arbejdspakke er flyttet til %{list}, placering %{first} af %{total}"
+          other: "%{count} arbejdspakker er flyttet til %{list}, placering %{first} til %{last} af %{total}"
+        too_many_work_packages: Der kan højst flyttes %{max} arbejdspakker på én gang.
+        work_packages_not_found: Mindst én arbejdspakke blev ikke fundet i projektet.
       update_service:
         invalid_target_type: 'list_type skal være en af: backlog_bucket med et list_id, sprint med et list_id eller inbox uden list_id.'
         missing_target: list_type eller list_id skal være angivet.
-  burndown:
-    story_points: Story points
-    story_points_ideal: Story points (ideelt)
   ee:
     features:
       multiple_active_sprints: Flere aktive sprints
+      sprint_report_pro_widgets: Full sprint report
       sprint_sharing: Deling af sprints
     upsell:
       multiple_active_sprints:
         description: Kør flere sprints samtidig for forskellige teams i projektet for at få mere kontrol og fleksibilitet.
+      sprint_report_pro_widgets:
+        description: Add more charts, customize your report and access in-depth data about planning your team’s work.
       sprint_sharing:
         description: Del sprints på tværs af projekter for at samordne teams og koordinere arbejdet i skalerede agile opsætninger (SAFe).
   label_all_sprints: Alle sprints
@@ -286,15 +495,17 @@ da:
   notice_unsuccessful_finish_with_reason: 'Sprinten kunne ikke afsluttes: %{reason}'
   notice_unsuccessful_start: Sprinten kunne ikke startes.
   notice_unsuccessful_start_with_reason: 'Sprinten kunne ikke startes: %{reason}'
-  notice_work_package_invisible_after_move: 'Arbejdspakken er flyttet til %{backlog}, men vises ikke, fordi dens type eller status er udeladt af backloggen.
+  notice_work_package_invisible_after_move:
+    one: 'Arbejdspakken er flyttet til %{backlog}, men vises ikke, fordi dens type eller status er udeladt af backloggen.
 
-    '
+      '
+    other: "%{count} arbejdspakker er flyttet til %{backlog}, men vises ikke, fordi deres type eller status er udeladt af backloggen.\n"
   permission_create_sprints: Opret sprints
-  permission_manage_sprint_items: Administrer elementer i sprints
-  permission_select_backlog_types_and_statuses: Vælg typer og statusser til backloggen
-  permission_select_backlog_types_and_statuses_explanation: 'Giver mulighed for at vælge, hvilke arbejdspakketyper der skal skjules i backloggen, og for at angive, hvilke statusser der betyder lukket eller færdig i projektets arbejdsgang.
+  permission_manage_backlogs_configuration: Manage backlogs configuration
+  permission_manage_backlogs_configuration_explanation: 'Allows configuring the backlogs module including: choosing which work package types to hide from the backlog, defining which statuses represent a closed or finished state in the project''s workflow and selecting the unit for velocity.
 
     '
+  permission_manage_sprint_items: Administrer elementer i sprints
   permission_share_sprint: Del sprint
   permission_start_complete_sprint: Start/afslut sprint
   permission_view_sprints: Vis sprints
@@ -307,6 +518,18 @@ da:
       backlog_buckets: Backlog-grupper
       sprints: Sprints
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Enhed
+        options:
+          none:
+            caption: Antallet af arbejdspakker bruges som standardenhed i diagrammerne. Nogle diagrammer i sprintrapporten vises ikke.
+            label: Ingen
+          story_points:
+            caption: Kortene og diagrammerne viser story points.
+            label: Story points
+          time:
+            caption: Kortene og diagrammerne viser estimeret arbejdstid.
+            label: Estimeret arbejdstid
       backlog_sharing:
         options:
           no_sharing:
@@ -327,6 +550,9 @@ da:
             label: Underprojekter
         sprint_sharing: Del sprints
       backlogs:
+        estimation_unit_form_component:
+          description: Vælg den standardenhed for indsats, hastighed og kapacitet, der passer til dit agile teams arbejdsgang. Den vises i backloggen og i sprintrapporterne.
+          heading: Standardenhed for hastighed, indsats og kapacitet
         multiple_active_sprints:
           description: Som standard kan der kun være én aktiv sprint ad gangen pr. projekt. Du kan ændre det, så flere sprints kan være aktive samtidig i dette projekt.
           heading: Antal aktive sprints

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -35,7 +34,7 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
 
   controller do
     authorization_checked! :index
-    accept_key_auth :index
+    accept_api_key_auth :index
 
     def index
       render plain: "OK"
@@ -118,6 +117,19 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
       expect(User.current).to eq(user)
       expect(session[:user_id]).to be_nil
     end
+
+    context "and the request was authenticated by API key" do
+      it "neither logs out nor refreshes the session" do
+        allow(controller).to receive_messages(api_key_authenticated?: true)
+        last_seen = 3.hours.ago
+        session[:updated_at] = last_seen
+
+        get :index
+
+        expect(response).to have_http_status(:ok)
+        expect(session[:updated_at]).to eq(last_seen)
+      end
+    end
   end
 
   context "with a short TTL", with_settings: { session_ttl_enabled?: true, session_ttl: "5" } do
@@ -158,6 +170,17 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
       get :index
 
       expect(session[:updated_at]).to eq(last_seen)
+    end
+  end
+
+  context "when the user is anonymous", with_settings: { login_required?: false } do
+    before { session.delete(:user_id) }
+
+    it "does not write a session timestamp" do
+      get :index
+
+      expect(response).to have_http_status(:ok)
+      expect(session[:updated_at]).to be_nil
     end
   end
 end

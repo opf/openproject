@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -32,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
     settings_primer_form_with(model: target_project, url: copy_project_path(source_project), method: :post) do |f|
       flex_layout do |container|
         container.with_row(mb: 3) do
-          render(OpPrimer::InsetBoxComponent.new) do
+          render(Primer::OpenProject::InsetBox.new) do
             render(Projects::CopyForm.new(f, copy_options:))
           end
         end

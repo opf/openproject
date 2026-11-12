@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,12 +48,11 @@ module Pages
     end
 
     def add_item(start_date, end_date)
-      start_container = date_container start_date
-      end_container = date_container end_date
+      page.document.synchronize do
+        drag_n_drop_element(from: date_container(start_date), to: date_container(end_date))
+      end
 
-      drag_n_drop_element(from: start_container, to: end_container)
-
-      ::Pages::SplitWorkPackageCreate.new project:
+      ::Pages::PrimerizedSplitWorkPackage.new project:
     end
 
     def resize_start_date(work_package, date)
@@ -66,7 +64,9 @@ module Pages
     end
 
     def resize_date(work_package, date, end_date: true)
-      retry_block do
+      selector = end_date ? ".fc-event-resizer-end" : ".fc-event-resizer-start"
+
+      page.document.synchronize do
         wp_strip = event(work_package)
 
         page
@@ -76,19 +76,17 @@ module Pages
           .move_to(wp_strip.native)
           .perform
 
-        selector = end_date ? ".fc-event-resizer-end" : ".fc-event-resizer-start"
-        resizer = wp_strip.find(selector)
-        end_container = date_container date
+        resizer = event(work_package).find(selector, visible: :visible)
+        raise Capybara::ElementNotFound if resizer.native.rect.width.zero?
 
-        drag_n_drop_element(from: resizer, to: end_container)
+        drag_n_drop_element(from: resizer, to: date_container(date))
       end
     end
 
     def drag_event(work_package, target)
-      start_container = event(work_package)
-      end_container = date_container target
-
-      drag_n_drop_element(from: start_container, to: end_container)
+      page.document.synchronize do
+        drag_n_drop_element(from: event(work_package), to: date_container(target))
+      end
       expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
     end
 
@@ -110,7 +108,7 @@ module Pages
         .find(".fc-event", text: work_package.subject)
         .click
 
-      ::Pages::SplitWorkPackage.new(work_package, project)
+      ::Pages::PrimerizedSplitWorkPackage.new(work_package, project)
     end
 
     def event(work_package)
@@ -132,6 +130,15 @@ module Pages
     def set_project(project)
       select_autocomplete(find('[data-test-selector="project_id"]'),
                           query: project,
+                          results_selector: "body",
+                          wait_for_fetched_options: false)
+    end
+
+    # Types +query+ into the project autocompleter without selecting anything
+    # and returns the open dropdown, so that its options can be tested.
+    def search_project(query)
+      search_autocomplete(find('[data-test-selector="project_id"]'),
+                          query:,
                           results_selector: "body",
                           wait_for_fetched_options: false)
     end

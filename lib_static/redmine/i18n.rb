@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,10 +32,14 @@
 
 module Redmine
   module I18n
+    extend self
+
     include ActionView::Helpers::NumberHelper
 
     IN_CONTEXT_TRANSLATION_CODE = :lol
     IN_CONTEXT_TRANSLATION_NAME = "In-Context Crowdin Translation"
+
+    DATE_TIME_FORMAT_EXAMPLE_TIMESTAMP = Time.utc(2026, 2, 28, 15, 30).freeze
 
     def self.included(base)
       base.extend Redmine::I18n
@@ -78,8 +81,8 @@ module Redmine
     # @param time_zone [ActiveSupport::TimeZone] Use a different time zone than the current users's.
     #   If provided, will output the time zone identifier
     # @param format [String, nil] The strftime format to use for the date. If nil, the default
-    #   date format from `Setting.date_format` is used.
-    def format_date(date_or_time, time_zone: nil, format: Setting.date_format)
+    #   date format from `User.current.date_format` is used.
+    def format_date(date_or_time, time_zone: nil, format: User.current.date_format)
       return nil unless date_or_time
 
       local =
@@ -94,20 +97,44 @@ module Redmine
       format.present? ? ::I18n.l(local, format:) : ::I18n.l(local)
     end
 
+    # Formats the given date or time as a `<time>` element showing the date
+    # in the user's time zone. A time keeps its full timestamp as `title`,
+    # unless the time of day is already part of the text.
+    #
+    # @param date_or_time [Date, Time, nil] The date or time to format.
+    # @param include_time [Boolean] Whether a time also shows its time of day.
+    #   Has no effect on a date.
+    # @return [ActiveSupport::SafeBuffer, nil] The element, or nil when no
+    #   date or time is provided.
+    def format_date_tag(date_or_time, include_time: false)
+      return nil unless date_or_time
+
+      helpers = ApplicationController.helpers
+      datetime = date_or_time.iso8601
+
+      if !date_or_time.acts_like?(:time)
+        helpers.tag.time(datetime:) { format_date(date_or_time) }
+      elsif include_time
+        helpers.tag.time(datetime:) { format_time(date_or_time) }
+      else
+        helpers.tag.time(datetime:, title: format_time(date_or_time)) { format_date(date_or_time) }
+      end
+    end
+
     # Formats the given date pair as an HTML date range with each date
     # wrapped in a <time> element. Dates are joined by a non-breaking
     # space, an en-dash, and a non-breaking space.
     #
-    # @param dates [Array<Date, nil>] A two-element array +[from, to]+;
+    # @param dates [Array<Date, Time, nil>] A two-element array +[from, to]+;
     #   either element may be nil.
+    # @param include_time [Boolean] Whether times also show their time of day.
     # @return [ActiveSupport::SafeBuffer, nil] The formatted range, or nil
     #   when both dates are nil.
-    def format_date_range(dates)
+    def format_date_range(dates, include_time: false)
       return nil if dates.all?(&:nil?)
 
-      helpers = ApplicationController.helpers
-      from, to = dates.map { |date| helpers.tag.time(datetime: date.iso8601) { format_date(date) } if date }
-      helpers.safe_join([from, "–", to], " ") # &ndash; and &nbsp;
+      from, to = dates.map { |date| format_date_tag(date, include_time:) }
+      ApplicationController.helpers.safe_join([from, "–", to], " ") # &ndash; and &nbsp;
     end
 
     ##
@@ -167,10 +194,10 @@ module Redmine
     # @param time_zone [ActiveSupport::TimeZone] Use a different time zone than the current users's.
     #   If provided, will output the time zone identifier
     # @param format [String] The strftime format to use for the time. Defaults
-    #   to the format in `Setting.time_format`.
+    #   to the format in `User.current.time_format`.
     # @return [String, nil] The formatted time string, or nil if the time is not
     #   provided.
-    def format_time(time, include_date: true, time_zone: nil, format: Setting.time_format)
+    def format_time(time, include_date: true, time_zone: nil, format: User.current.time_format)
       return nil unless time
 
       local =
@@ -182,14 +209,22 @@ module Redmine
 
       parts = []
       parts << format_date(local) if include_date
-      parts <<
-        if format.blank?
-          ::I18n.l(local, format: :time)
-        else
-          local.strftime(format)
-        end
+      parts << format_time_of_day(local, format:)
 
       parts.join(" ")
+    end
+
+    # Formats only the clock time, leaving the time's zone or offset as given.
+    #
+    # @param time [Time] The time to format.
+    # @param format [String] The strftime format; the locale's time format when blank.
+    # @return [String]
+    def format_time_of_day(time, format: User.current.time_format)
+      if format.blank?
+        ::I18n.l(time, format: :time)
+      else
+        time.strftime(format)
+      end
     end
 
     ##
@@ -223,6 +258,10 @@ module Redmine
         .period_for_utc(period.utc)
         .abbreviation
         .to_s
+    end
+
+    def date_time_format_example(format)
+      DATE_TIME_FORMAT_EXAMPLE_TIMESTAMP.strftime(format)
     end
 
     def day_name(day)

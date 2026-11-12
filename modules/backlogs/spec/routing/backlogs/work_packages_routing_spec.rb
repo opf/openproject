@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,11 +32,10 @@ require "spec_helper"
 RSpec.describe Backlogs::WorkPackagesController do
   describe "routing" do
     it {
-      expect(get("/projects/project_42/backlogs/work_packages/85/menu")).to route_to(
+      expect(get("/projects/project_42/backlogs/work_packages/menu")).to route_to(
         controller: "backlogs/work_packages",
         action: "menu",
-        project_id: "project_42",
-        id: "85"
+        project_id: "project_42"
       )
     }
 
@@ -51,20 +49,18 @@ RSpec.describe Backlogs::WorkPackagesController do
     }
 
     it {
-      expect(get("/projects/project_42/backlogs/work_packages/85/move_to_sprint_dialog")).to route_to(
+      expect(post("/projects/project_42/backlogs/work_packages/move_to_sprint_dialog")).to route_to(
         controller: "backlogs/work_packages",
         action: "move_to_sprint_dialog",
-        project_id: "project_42",
-        id: "85"
+        project_id: "project_42"
       )
     }
 
     it {
-      expect(get("/projects/project_42/backlogs/work_packages/85/move_to_bucket_dialog")).to route_to(
+      expect(post("/projects/project_42/backlogs/work_packages/move_to_bucket_dialog")).to route_to(
         controller: "backlogs/work_packages",
         action: "move_to_bucket_dialog",
-        project_id: "project_42",
-        id: "85"
+        project_id: "project_42"
       )
     }
 
@@ -80,6 +76,14 @@ RSpec.describe Backlogs::WorkPackagesController do
       expect(post("/projects/project_42/backlogs/work_packages/add_existing")).to route_to(
         controller: "backlogs/work_packages",
         action: "add_existing",
+        project_id: "project_42"
+      )
+    }
+
+    it {
+      expect(put("/projects/project_42/backlogs/work_packages/move")).to route_to(
+        controller: "backlogs/work_packages",
+        action: "move_collection",
         project_id: "project_42"
       )
     }

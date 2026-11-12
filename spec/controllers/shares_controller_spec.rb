@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ RSpec.describe SharesController do
 
   before { login_as(user) }
 
-  # We test the specifc behavior for loading the entity here. In the rest of the test we just use project_query as the
+  # We test the specific behavior for loading the entity here. In the rest of the test we just use project_query as the
   # entity because it is easier to set up as it does not need a project. There should be no entity specific behavior
   # outside of the `load_entity` method
   describe "entity specific behavior" do

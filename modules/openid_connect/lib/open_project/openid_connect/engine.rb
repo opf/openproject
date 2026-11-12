@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,7 +55,10 @@ module OpenProject::OpenIDConnect
       openid_connect/auth_provider-custom.png
     )
 
-    patches %i[Sessions::UserSession Group User GroupUser]
+    include_module "Sessions::OidcSessionLink", into: "Sessions::UserSession"
+    include_module "Groups::OidcGroupLinks", into: "Group"
+    include_module "Users::OidcUserTokens", into: "User"
+    include_module "GroupUsers::OidcGroupMemberships", into: "GroupUser"
 
     class_inflection_override("openid_connect" => "OpenIDConnect")
 

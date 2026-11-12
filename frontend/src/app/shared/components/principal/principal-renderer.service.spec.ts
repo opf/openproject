@@ -20,12 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { TestBed } from '@angular/core/testing';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -40,12 +40,64 @@ describe('PrincipalRendererService', () => {
       providers: [
         PrincipalRendererService,
         ColorsService,
-        { provide: PathHelperService, useValue: {} },
-        { provide: ApiV3Service, useValue: {} },
+        { provide: PathHelperService, useValue: { userPath: (id:string) => `/users/${id}` } },
+        {
+          provide: ApiV3Service,
+          useValue: {
+            users: { id: (id:string) => ({ avatar: { toString: () => `/api/v3/users/${id}/avatar` } }) },
+            groups: { id: (id:string) => ({ avatar: { toString: () => `/api/v3/groups/${id}/avatar` } }) },
+          },
+        },
       ],
     });
 
     service = TestBed.inject(PrincipalRendererService);
+  });
+
+  describe('name hints', () => {
+    let container:HTMLElement;
+
+    beforeEach(() => { container = document.body.appendChild(document.createElement('div')); });
+
+    afterEach(() => container.remove());
+
+    function renderName(title:string|null, link = true) {
+      service.render(
+        container,
+        { id: '1', name: 'John Doe', href: '/api/v3/users/1' },
+        { hide: false, link },
+        { hide: true, size: 'default' },
+        { isActivated: true, url: '/users/1/hover_card' },
+        title,
+      );
+
+      return container.querySelector<HTMLElement>('.op-principal--name')!;
+    }
+
+    it.each([null, '', 'John Doe'])('omits redundant linked name hints (%s)', (title) => {
+      const name = renderName(title);
+      expect(name).toHaveAccessibleName('John Doe');
+      expect(name).toHaveAccessibleDescription('');
+      expect(name).toHaveAttribute('title', '');
+      expect(container.querySelector('tool-tip')).toBeNull();
+    });
+
+    it('describes a linked name without moving hover-card attributes', () => {
+      const name = renderName('Assigned to this work package');
+      expect(name).toHaveAccessibleName('John Doe');
+      expect(name).toHaveAccessibleDescription('Assigned to this work package');
+      expect(name).toHaveAttribute('href', '/users/1');
+      expect(name).toHaveAttribute('title', '');
+      expect(name).toHaveAttribute('data-hover-card-trigger-target', 'trigger');
+      expect(name).toHaveAttribute('data-hover-card-url', '/users/1/hover_card');
+    });
+
+    it('keeps nonlinked names unchanged', () => {
+      const name = renderName('Assigned to this work package', false);
+      expect(name.tagName).toBe('SPAN');
+      expect(name).toHaveAttribute('title', 'Assigned to this work package');
+      expect(container.querySelector('tool-tip')).toBeNull();
+    });
   });
 
   describe('fallback avatar initials', () => {
@@ -81,6 +133,111 @@ describe('PrincipalRendererService', () => {
 
     it('keeps emoji-only names as complete code points', () => {
       expect(renderFallback('🤖')).toBe('🤖');
+    });
+  });
+
+  describe('user avatar', () => {
+    const renderUser = ():HTMLElement => {
+      const container = document.createElement('div');
+
+      service.render(
+        container,
+        { id: '1', name: 'John Doe', href: '/api/v3/users/1' },
+        { hide: true, link: false },
+        { hide: false, size: 'default' },
+        { isActivated: false },
+      );
+
+      return container;
+    };
+
+    it('renders an <img> pointed at the backend avatar endpoint', () => {
+      const container = renderUser();
+      const image = container.querySelector<HTMLImageElement>('.op-principal--avatar');
+
+      expect(image?.tagName).toBe('IMG');
+      expect(image?.getAttribute('src')).toBe('/api/v3/users/1/avatar');
+      expect(image).toHaveClass('op-avatar_user');
+    });
+
+    it('retries once with fallback=true when the image fails to load', () => {
+      const container = renderUser();
+      const image = container.querySelector<HTMLImageElement>('.op-principal--avatar');
+
+      image?.dispatchEvent(new Event('error'));
+
+      expect(image?.getAttribute('src')).toBe('/api/v3/users/1/avatar?fallback=true');
+    });
+
+    it('clears the error handler after the first retry so a second failure does not trigger another request', () => {
+      const container = renderUser();
+      const image = container.querySelector<HTMLImageElement>('.op-principal--avatar');
+
+      image?.dispatchEvent(new Event('error'));
+
+      expect(image?.onerror).toBeNull();
+    });
+  });
+
+  describe('avatar image overrides', () => {
+    const renderPreview = (fallbackImageUrl?:string):HTMLImageElement => {
+      const container = document.createElement('div');
+      service.render(
+        container,
+        { id: '1', name: 'John Doe', href: '/api/v3/users/1' },
+        { hide: false, link: false },
+        { hide: false, size: 'mini', imageUrl: 'blob:avatar-preview', fallbackImageUrl },
+        { isActivated: false },
+      );
+      return container.querySelector<HTMLImageElement>('.op-principal--avatar')!;
+    };
+
+    it('uses the override with the standard avatar size and principal name', () => {
+      const image = renderPreview();
+
+      expect(image.getAttribute('src')).toBe('blob:avatar-preview');
+      expect(image).toHaveClass('op-avatar_mini');
+      expect(image.parentElement).toHaveTextContent('John Doe');
+    });
+
+    it('uses the fallback override when the preview image fails', () => {
+      const image = renderPreview('data:image/svg+xml,preview');
+      image.dispatchEvent(new Event('error'));
+
+      expect(image.getAttribute('src')).toBe('data:image/svg+xml,preview');
+      expect(image.onerror).toBeNull();
+    });
+
+    it('uses the backend fallback when no fallback override is provided', () => {
+      const image = renderPreview();
+      image.dispatchEvent(new Event('error'));
+
+      expect(image.getAttribute('src')).toBe('/api/v3/users/1/avatar?fallback=true');
+    });
+  });
+
+  describe('group avatar', () => {
+    const renderGroup = ():HTMLElement => {
+      const container = document.createElement('div');
+
+      service.render(
+        container,
+        { id: '1', name: 'A-Team', href: '/api/v3/groups/1' },
+        { hide: true, link: false },
+        { hide: false, size: 'default' },
+        { isActivated: false },
+      );
+
+      return container;
+    };
+
+    it('renders an <img> pointed at the backend group avatar endpoint, same as for users', () => {
+      const container = renderGroup();
+      const image = container.querySelector<HTMLImageElement>('.op-principal--avatar');
+
+      expect(image?.tagName).toBe('IMG');
+      expect(image?.getAttribute('src')).toBe('/api/v3/groups/1/avatar');
+      expect(image).toHaveClass('op-avatar_group');
     });
   });
 });

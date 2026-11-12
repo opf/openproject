@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -153,8 +152,8 @@ RSpec.describe Boards::SprintTaskBoardCreateService do
 
         it "sets column_count to match the number of statuses" do
           type_ids = sprint.work_packages.distinct.pluck(:type_id)
-          variant_ids = project.type_variants(*type_ids).ids
-          expected_count = TypeVariant.statuses(variant_ids).count
+          workflow_ids = project.type_variants(*type_ids).select(:workflow_id)
+          expected_count = Workflow.statuses(workflow_ids).count
 
           expect(subject.result.column_count).to eq(expected_count)
         end

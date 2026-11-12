@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -67,7 +66,6 @@ RSpec.describe "API v3 work packages resource with filters for linked storage fi
   # This link is considered invisible, as it is linking a work package to a file, where the work package's project
   # and the file's storage are not linked together.
   let(:file_link4) { create(:file_link, creator: current_user, container: work_package3, storage: storage1) }
-  # rubocop:enable RSpec/IndexedLet
 
   subject(:response) { last_response }
 

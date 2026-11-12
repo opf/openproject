@@ -20,24 +20,21 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { onAuthenticatePayload } from "@hocuspocus/server";
-import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
+import { afterAll, describe, expect, test, vi } from "vitest";
 import { OpenProjectApi } from "../../src/extensions/openProjectApi";
 import { server } from "../mocks/node";
 
-describe("when an override URL for the OpenProject instance is defined", () => {
-  beforeAll(() => {
-    vi.hoisted(() => {
-      vi.stubEnv("OPENPROJECT_URL", "https://my.op-instance.com/");
-    });
-  });
+vi.hoisted(() => {
+  vi.stubEnv("OPENPROJECT_URL", "https://my.op-instance.com/");
+});
 
+describe("when an override URL for the OpenProject instance is defined", () => {
   afterAll(() => {
     vi.unstubAllEnvs();
   });

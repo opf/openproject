@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -73,6 +72,20 @@ RSpec.describe "" do
 
       csp = parse_csp(last_response.headers["Content-Security-Policy"])
       expect(csp["font-src"].count("'self'")).to eq(1)
+    end
+
+    it "restricts manifest-src to 'self'" do
+      get "/"
+
+      csp = parse_csp(last_response.headers["Content-Security-Policy"])
+      expect(csp["manifest-src"]).to eq(["'self'"])
+    end
+
+    it "restricts worker-src to 'self'" do
+      get "/"
+
+      csp = parse_csp(last_response.headers["Content-Security-Policy"])
+      expect(csp["worker-src"]).to eq(["'self'"])
     end
 
     it "includes 'self' in img-src CSP directive" do

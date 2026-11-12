@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,7 +33,7 @@ import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 /**
@@ -154,7 +153,7 @@ export class WorkPackageFilterValues {
     this.setValue(change, attributeName, this.isMultiValueAttribute(attributeName) ? [] : { href: null });
   }
 
-  private setValueFor(change:WorkPackageChangeset|Record<string, unknown>, field:string, value:string|HalResource):void {
+  private setValueFor(change:WorkPackageChangeset|Record<string, unknown>, field:string, value:QueryFilterValue):void {
     const newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
@@ -175,7 +174,7 @@ export class WorkPackageFilterValues {
    * @param {string | HalResource} value
    * @param {string} field
    */
-  private findSpecialValue(value:string|HalResource, field:string):string|HalResource|undefined {
+  private findSpecialValue(value:QueryFilterValue, field:string):QueryFilterValue|undefined {
     if (field === 'parent') {
       return value;
     }
@@ -199,9 +198,9 @@ export class WorkPackageFilterValues {
     const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[attributeName] : change[attributeName];
     const current = Array.isArray(value) ? value : [value];
 
-    for (let i = 0; i < filter.values.length; i++) {
-      for (let j = 0; j < current.length; j++) {
-        if (compareByHrefOrString(current[j], filter.values[i])) {
+    for (const filterValue of filter.values) {
+      for (const currentValue of current) {
+        if (compareByHrefOrString(currentValue, filterValue)) {
           return true;
         }
       }

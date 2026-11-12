@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,13 +30,6 @@
 module Admin::Settings
   class UsersSettingsController < ::Admin::SettingsController
     menu_item :user_settings
-
-    def show
-      @options = {}
-      @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
-
-      respond_to :html
-    end
 
     def settings_params
       super.tap do |settings|

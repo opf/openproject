@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,6 +40,8 @@ import { OPToastEvent } from './toast-event';
 export function removeSuccessFlashMessages():void {
   document.querySelectorAll('.op-toast.-success').forEach((flashMessage) => flashMessage.remove());
 }
+
+export type ToastUpload = [File, Observable<HttpEvent<unknown>>];
 
 export type ToastType = 'success'|'error'|'warning'|'info'|'upload'|'loading';
 
@@ -140,7 +141,7 @@ export class ToastService {
     return this.add(this.createToast(message, 'info'));
   }
 
-  public addUpload(message:string, uploads:[File, Observable<HttpEvent<unknown>>][]):IToast {
+  public addUpload(message:string, uploads:ToastUpload[]):IToast {
     if (!uploads.length) {
       throw new Error('Cannot create an upload toast without uploads!');
     }

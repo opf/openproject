@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,7 +50,6 @@ module ResourceAllocations
       @global_non_working_days = global_non_working_days || NonWorkingDay.for_dates(range).pluck(:date).to_set
       @non_working_ranges = load_non_working_ranges(range)
       @capacities = {}
-      @prefix = build_prefix
     end
 
     def capacity_on(date)
@@ -65,14 +63,7 @@ module ResourceAllocations
     end
 
     def total
-      prefix_total(@range.end)
-    end
-
-    # Clamped to the range bounds. Enables O(1) interval capacity sums.
-    def prefix_total(date)
-      return 0 if date < @range.begin
-
-      @prefix[[date, @range.end].min]
+      @range.sum { |date| capacity_on(date) }
     end
 
     private
@@ -82,14 +73,6 @@ module ResourceAllocations
         .for_user(@user)
         .overlapping(range)
         .map { |nwt| nwt.start_date..nwt.end_date }
-    end
-
-    def build_prefix
-      acc = 0
-      @range.each_with_object({}) do |date, prefix|
-        acc += capacity_on(date)
-        prefix[date] = acc
-      end
     end
 
     def compute_capacity(date)

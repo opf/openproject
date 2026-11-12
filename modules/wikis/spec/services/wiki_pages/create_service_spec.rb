@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -181,7 +180,7 @@ RSpec.describe WikiPages::CreateService do
 
   context "when a numeric reference is immediately followed by alphanumeric text" do
     # The numeric branch of WP_REF_RE has no trailing `(?!\w)` boundary —
-    # historic behaviour matches `#13` inside `#13-blubb` and similar
+    # historic behavior matches `#13` inside `#13-blubb` and similar
     # shapes. Locked here so a future tightening of the boundary can't
     # silently strip reverse-links from existing wiki content.
     let(:text) { "Trailing: ##{work_package.id}abc" }

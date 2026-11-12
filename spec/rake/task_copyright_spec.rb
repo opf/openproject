@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,7 @@ RSpec.describe Rake::Task, :copyright do
   end
 
   let(:copyright_text) do
-    <<~COPYRIGHT.chomp
+    <<~COPYRIGHT
       OpenProject copyright.
 
       Released under the GPL.
@@ -44,7 +43,7 @@ RSpec.describe Rake::Task, :copyright do
   end
 
   let(:canonical_header) do
-    <<~HEADER.chomp
+    <<~HEADER
       //-- copyright
       // OpenProject copyright.
       //
@@ -68,11 +67,24 @@ RSpec.describe Rake::Task, :copyright do
   end
 
   def expect_canonical_header(path, source)
-    expect(File.read(path)).to eq("#{canonical_header}\n\n#{source}")
+    expect(File.read(path)).to eq("#{canonical_header}\n#{source}")
   end
 
   describe "copyright:update_typescript" do
     let(:task_name) { "copyright:update_typescript" }
+
+    context "when COPYRIGHT_short has no final newline" do
+      let(:copyright_text) { super().chomp }
+
+      it "adds the canonical header" do
+        source = "export const value = true;\n"
+        write_source("no_final_newline.ts", source)
+
+        subject.invoke(".")
+
+        expect_canonical_header("no_final_newline.ts", source)
+      end
+    end
 
     it "adds the canonical header to TypeScript and TSX files" do
       write_source("source.ts", "export const source = true;\n")
@@ -185,13 +197,13 @@ RSpec.describe Rake::Task, :copyright do
       expect_canonical_header("unrelated.ts", source)
     end
 
-    it "leaves an existing canonical header unchanged" do
-      content = "#{canonical_header}\n\nexport const canonical = true;\n"
-      write_source("canonical.ts", content)
+    it "keeps a block comment following the copyright header" do
+      source = "/* Keep this source comment. */\nexport const value = true;\n"
+      write_source("following.ts", "/* -- copyright\n * Old copyright.\n * ++\n */\n\n#{source}")
 
       subject.invoke(".")
 
-      expect(File.read("canonical.ts")).to eq(content)
+      expect_canonical_header("following.ts", source)
     end
 
     it "only updates files below the provided path" do
@@ -220,15 +232,17 @@ RSpec.describe Rake::Task, :copyright do
       excluded_paths.each { |path| expect(File.read(path)).to eq(source) }
     end
 
-    it "is idempotent" do
-      write_source("source.ts", "export const source = true;\n")
+    it "writes canonical bytes and leaves them unchanged on a second run" do
+      source = "export const source = true;\n"
+      write_source("source.ts", source)
 
       subject.invoke(".")
-      first_result = File.read("source.ts")
+      expect_canonical_header("source.ts", source)
+
       subject.reenable
       subject.invoke(".")
 
-      expect(File.read("source.ts")).to eq(first_result)
+      expect_canonical_header("source.ts", source)
     end
   end
 
@@ -267,10 +281,321 @@ RSpec.describe Rake::Task, :copyright do
     end
   end
 
+  describe "copyright:update_rb" do
+    let(:task_name) { "copyright:update_rb" }
+
+    let(:canonical_header) do
+      <<~HEADER.chomp
+        #-- copyright
+        # OpenProject copyright.
+        #
+        # Released under the GPL.
+        #++
+      HEADER
+    end
+
+    let(:magic_comment) { "# frozen_string_literal: true\n\n" }
+    let(:source) { "class Source; end\n" }
+
+    def expect_canonical_header(path, source)
+      expect(File.read(path)).to eq("#{magic_comment}#{canonical_header}\n\n#{source}")
+    end
+
+    it "adds the canonical header below the magic comment" do
+      write_source("source.rb", "#{magic_comment}#{source}")
+
+      subject.invoke(".")
+
+      expect_canonical_header("source.rb", source)
+    end
+
+    it "normalizes spaced markers" do
+      write_source("spaced.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        # -- copyright
+        # Old copyright.
+        # ++
+
+        #{source.chomp}
+      RUBY
+      write_source("unspaced_word.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        # --copyright
+        # Old copyright.
+        # ++
+
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("spaced.rb", source)
+      expect_canonical_header("unspaced_word.rb", source)
+    end
+
+    it "drops a bare comment line trailing the closing marker" do
+      write_source("trailing.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        # -- copyright
+        # Old copyright.
+        # ++
+        #
+
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("trailing.rb", source)
+    end
+
+    it "drops text trailing the closing marker on its line" do
+      write_source("trailing_text.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # Old copyright.
+        #++stray
+
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("trailing_text.rb", source)
+    end
+
+    it "normalizes headers that lost their closing marker" do
+      write_source("unclosed.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # Old copyright.
+
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("unclosed.rb", source)
+    end
+
+    it "keeps a comment run that abuts a notice without closing marker" do
+      documented = "###\n# Documents the class.\n#{source}"
+      write_source("abutting.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # OpenProject is an open source project management software.
+        #
+        # See COPYRIGHT and LICENSE files for more details.
+        #{documented.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect(File.read("abutting.rb")).to eq("#{magic_comment}#{canonical_header}\n\n#{documented}")
+    end
+
+    it "separates the header from code abutting the closing marker" do
+      write_source("abutting_closer.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # Old copyright.
+        #++
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("abutting_closer.rb", source)
+    end
+
+    it "collapses blank lines between the header and the code" do
+      write_source("spaced_out.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # Old copyright.
+        #++
+
+
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("spaced_out.rb", source)
+    end
+
+    it "keeps a header-only file ending at the closing marker" do
+      write_source("header_only.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # Old copyright.
+        #++
+      RUBY
+
+      subject.invoke(".")
+
+      expect(File.read("header_only.rb")).to eq("#{magic_comment}#{canonical_header}\n")
+    end
+
+    it "leaves a notice without closing marker or COPYRIGHT reference alone when a comment run abuts it" do
+      ambiguous = <<~RUBY
+        # frozen_string_literal: true
+
+        #-- copyright
+        # OpenProject is an open source project management software.
+        # Documents the class.
+        #{source.chomp}
+      RUBY
+      write_source("ambiguous.rb", ambiguous)
+
+      expect { subject.invoke(".") }.to output(/ambiguous\.rb .*seems to have a copyright header/).to_stdout
+      expect(File.read("ambiguous.rb")).to eq(ambiguous)
+    end
+
+    it "normalizes a notice split off its opening marker by a blank line" do
+      write_source("split.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+
+        # OpenProject is an open source project management software.
+        # Old copyright.
+
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("split.rb", source)
+    end
+
+    it "normalizes headers without markers" do
+      write_source("unmarked.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #  OpenProject is an open source project management software.
+        #  Old copyright.
+
+        #{source.chomp}
+      RUBY
+      write_source("unopened.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        # OpenProject is an open source project management software.
+        # Old copyright.
+        #++
+
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("unmarked.rb", source)
+      expect_canonical_header("unopened.rb", source)
+    end
+
+    it "keeps a comment that follows the header" do
+      documented = "# Documents the class.\n#{source}"
+      write_source("documented.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        # -- copyright
+        # Old copyright.
+        # ++
+
+        #{documented.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("documented.rb", documented)
+    end
+
+    it "is idempotent" do
+      write_source("source.rb", "#{magic_comment}#{source}")
+
+      subject.invoke(".")
+      subject.reenable
+      subject.invoke(".")
+
+      expect_canonical_header("source.rb", source)
+    end
+  end
+
+  describe "copyright:update_html_erb" do
+    let(:task_name) { "copyright:update_html_erb" }
+
+    let(:canonical_header) do
+      <<~HEADER
+        <%#-- copyright
+        OpenProject copyright.
+
+        Released under the GPL.
+
+        ++#%>
+      HEADER
+    end
+
+    let(:source) { "<p>Source</p>\n" }
+
+    it "normalizes spaced and reformatted markers" do
+      write_source("spaced.html.erb", <<~ERB)
+        <%# -- copyright
+        Old copyright.
+
+        ++# %>
+
+        #{source.chomp}
+      ERB
+      write_source("reformatted.html.erb", <<~ERB)
+        <%#
+          -- copyright
+          Old copyright.
+
+          ++#
+        %>
+
+        #{source.chomp}
+      ERB
+      write_source("unhashed.html.erb", <<~ERB)
+        <%#-- copyright
+        Old copyright.
+
+        ++%>
+
+        #{source.chomp}
+      ERB
+
+      subject.invoke(".")
+
+      expect_canonical_header("spaced.html.erb", source)
+      expect_canonical_header("reformatted.html.erb", source)
+      expect_canonical_header("unhashed.html.erb", source)
+    end
+
+    it "leaves an existing canonical header unchanged" do
+      content = "#{canonical_header}\n#{source}"
+      write_source("canonical.html.erb", content)
+
+      subject.invoke(".")
+
+      expect(File.read("canonical.html.erb")).to eq(content)
+    end
+  end
+
   describe "copyright:update_sass" do
     let(:task_name) { "copyright:update_sass" }
 
-    it "still reports on first-party sources below a vendor directory" do
+    it "does not exclude first-party Sass under a vendor directory" do
       source = "body\n  color: red\n"
       write_source("frontend/src/global_styles/vendor/_index.sass", source)
 

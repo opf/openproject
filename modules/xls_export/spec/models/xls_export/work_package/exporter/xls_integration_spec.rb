@@ -1,3 +1,32 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 require "spreadsheet"
 
@@ -78,11 +107,13 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     RELATION_DESCRIPTION = 10
     RELATED_SUBJECT = 13
 
-    it "produces the correct result" do
+    it "renders the header rows and duplicates rows per relation" do
       expect(query.columns.map(&:name)).to eq %i[type id subject status assigned_to priority]
 
-      # the first header row divides the sheet into work packages and relation columns
-      expect(sheet.rows.first.take(8)).to eq ["Work packages", nil, nil, nil, nil, nil, nil, "Relations"]
+      # the first header row divides the sheet into work packages and relation columns,
+      # each banner sitting above the first column of its block
+      expect(sheet.rows.first.take(9))
+        .to eq [nil, "Work packages", nil, nil, nil, nil, nil, nil, "Relations"]
 
       # the second header row includes the column names for work packages and relations and the related work package
       expect(sheet.rows[1])
@@ -96,8 +127,10 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       # duplicates rows for each relation
       c2id = child_2.id
       expect(sheet.column(2).drop(2))
-        .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id, child_2_child.id].map(&:to_s)
+        .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id, child_2_child.id]
+    end
 
+    it "marks the parent-child relations" do
       # marks Parent as parent of Child 1 and 2
       expect(sheet.row(PARENT)[RELATION]).to eq "parent of"
       expect(sheet.row(PARENT)[RELATED_SUBJECT]).to eq "Child 1"
@@ -116,7 +149,9 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       # shows Child 2 as parent of Child 2's child
       expect(sheet.row(CHILD_2 + 1)[RELATION]).to eq "parent of"
       expect(sheet.row(CHILD_2 + 1)[RELATED_SUBJECT]).to eq "Child 2's child"
+    end
 
+    it "marks the follows and precedes relations" do
       # shows Child 2 as following Followed
       expect(sheet.row(CHILD_2 + 2)[RELATION]).to eq "Follows"
       expect(sheet.row(CHILD_2 + 2)[RELATED_SUBJECT]).to eq "Followed"
@@ -128,27 +163,50 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       expect(sheet.row(FOLLOWED)[RELATION]).to eq "Precedes"
       expect(sheet.row(FOLLOWED)[RELATION_DESCRIPTION]).to eq "description foobar"
       expect(sheet.row(FOLLOWED)[RELATED_SUBJECT]).to eq "Child 2"
+    end
 
-      # exports the correct data (examples)
+    it "exports the work package rows with their relation columns" do
       expect(sheet.row(PARENT))
         .to eq [
-          nil, parent.type.name, parent.id.to_s, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
+          nil, parent.type.name, parent.id, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
           nil, "parent of", nil, nil,
-          child_1.type.name, child_1.id.to_s, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
+          child_1.type.name, child_1.id, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
         ] # lag nil as this is a parent-child relation not represented by an actual Relation record
 
       expect(sheet.row(SINGLE))
         .to eq [
-          nil, single.type.name, single.id.to_s, single.subject, single.status.name, single.assigned_to, single.priority.name
+          nil, single.type.name, single.id, single.subject, single.status.name, single.assigned_to, single.priority.name
         ]
 
       expect(sheet.row(FOLLOWED))
         .to eq [
           nil,
-          followed.type.name, followed.id.to_s, followed.subject, followed.status.name, followed.assigned_to, followed.priority.name,
+          followed.type.name, followed.id, followed.subject, followed.status.name, followed.assigned_to, followed.priority.name,
           nil, "Precedes", 0, relation.description,
-          child_2.type.name, child_2.id.to_s, child_2.subject, child_2.status.name, child_2.assigned_to, child_2.priority.name
+          child_2.type.name, child_2.id, child_2.subject, child_2.status.name, child_2.assigned_to, child_2.priority.name
         ]
+    end
+
+    it "applies the column formats to both work package column blocks" do
+      expect(sheet.row(2).format(2).number_format).to eq("0")
+      expect(sheet.row(2).format(12).number_format).to eq("0")
+    end
+
+    context "with descriptions as well" do
+      let(:options) { { show_relations: "true", show_descriptions: "true" } }
+
+      it "keeps the relations banner above the relation columns" do
+        expect(sheet.rows.first[9]).to eq "Relations"
+        expect(sheet.rows[1][9]).to eq "Relation type"
+      end
+
+      it "applies the column formats to both work package column blocks" do
+        expect(sheet.row(2).format(2).number_format).to eq("0")
+        expect(sheet.row(2).format(13).number_format).to eq("0")
+
+        expect(sheet.row(2)[2]).to eq(parent.id)
+        expect(sheet.row(2)[13]).to eq(child_1.id)
+      end
     end
 
     context "with someone who may not see related work packages" do
@@ -175,13 +233,12 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     end
     let(:type) do
       type = project.enabled_types.first
-      type.default_variant.custom_fields << custom_field
+      type.default_variant.custom_field_ids |= [custom_field.id]
 
       type
     end
     let(:project) do
-      create(:project,
-             work_package_custom_fields: [custom_field])
+      create(:project)
     end
     let(:work_packages) do
       wps = create_list(:work_package, 4,
@@ -203,9 +260,12 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       expect(sheet.rows.size).to eq(4 + 1)
 
       cost_column = sheet.columns.last.to_a
-      %w[1 99.99 1,000].each do |value|
+      [1.0, 99.99, 1000.0].each do |value|
         expect(cost_column).to include(value)
       end
+
+      cost_column_index = sheet.rows.first.to_a.index(custom_field.name)
+      expect(sheet.row(1).format(cost_column_index).number_format).to eq("0.00")
     end
 
     it "includes work" do
@@ -264,6 +324,18 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       expect(work_package.identifier).to match(/\AXLSPROJ-\d+\z/)
       expect(sheet.rows[1][0]).to eq work_package.identifier
     end
+
+    context "when an identifier has not been backfilled yet" do
+      let(:other) { create(:work_package, project:, type: project.enabled_types.first) }
+      let(:work_packages) { [work_package, other] }
+
+      before { other.update_column(:identifier, nil) }
+
+      it "exports the numeric id as text, so that the column stays one type" do
+        expect(sheet.rows[1..2].pluck(0))
+          .to contain_exactly(work_package.identifier, other.id.to_s)
+      end
+    end
   end
 
   context "with underscore in subject" do
@@ -303,12 +375,6 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
 
     let(:column_names) { %w[subject status updated_at] }
 
-    let(:i18n_helper) do
-      Class.new do
-        include Redmine::I18n
-      end
-    end
-
     before do
       allow(current_user).to receive(:time_zone).and_return(zone)
     end
@@ -316,7 +382,80 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "adapts the datetime fields to the user time zone" do
       work_package.reload
       updated_at_cell = sheet.rows.last.to_a.last
-      expect(updated_at_cell).to eq(i18n_helper.format_time(work_package.updated_at).to_s)
+      expected = work_package.updated_at.in_time_zone(zone)
+
+      expect(updated_at_cell).to be_a(DateTime)
+      expect(updated_at_cell.strftime("%Y-%m-%d %H:%M")).to eq(expected.strftime("%Y-%m-%d %H:%M"))
+    end
+  end
+
+  describe "with typed columns" do
+    let(:int_cf) { create(:integer_wp_custom_field, name: "Units") }
+    let(:float_cf) { create(:float_wp_custom_field, name: "Weight") }
+    let(:date_cf) { create(:date_wp_custom_field, name: "Reviewed on") }
+    let(:custom_fields) { [int_cf, float_cf, date_cf] }
+
+    let(:project) { create(:project) }
+
+    let(:type) do
+      type = project.enabled_types.first
+      type.default_variant.custom_field_ids |= custom_fields.map(&:id)
+
+      type
+    end
+
+    let(:work_package) do
+      wp = create(:work_package,
+                  project:,
+                  type:,
+                  start_date: Date.new(2026, 8, 24),
+                  due_date: Date.new(2026, 9, 1))
+      wp.send(int_cf.attribute_setter, 42)
+      wp.send(float_cf.attribute_setter, 1234.5)
+      wp.send(date_cf.attribute_setter, "2026-10-05")
+      wp.save!
+      wp
+    end
+    let(:work_packages) { [work_package] }
+
+    let(:column_names) do
+      %w[id start_date due_date created_at duration] + custom_fields.map(&:column_name)
+    end
+
+    let(:values) { sheet.rows[1].to_a }
+    let(:number_formats) { column_names.each_index.map { |i| sheet.row(1).format(i).number_format } }
+
+    it "writes dates and numbers as native values instead of strings" do
+      expect(values[0]).to eq(work_package.id)
+      expect(values[1]).to eq(Date.new(2026, 8, 24))
+      expect(values[2]).to eq(Date.new(2026, 9, 1))
+      expect(values[3]).to be_a(DateTime)
+      expect(values[4]).to eq(work_package.duration)
+      expect(values[5]).to eq(42)
+      expect(values[6]).to eq(1234.5)
+      expect(values[7]).to eq(Date.new(2026, 10, 5))
+    end
+
+    it "sets a matching cell format on every typed column" do
+      expect(number_formats)
+        .to eq(["0", "yyyy-mm-dd", "yyyy-mm-dd", "yyyy-mm-dd hh:mm", '0 "d"', "0", "0.00", "yyyy-mm-dd"])
+    end
+
+    context "with a localised date format",
+            with_settings: { date_format: "%d.%m.%Y", time_format: "%H:%M" } do
+      it "keeps the same cell format" do
+        expect(number_formats.values_at(1, 2, 7)).to all(eq("yyyy-mm-dd"))
+        expect(number_formats[3]).to eq("yyyy-mm-dd hh:mm")
+      end
+    end
+
+    context "when the typed values are empty" do
+      let(:work_package) { create(:work_package, project:, type:) }
+
+      it "leaves the cells blank" do
+        expect(values[1]).to be_nil
+        expect(values[4]).to be_nil
+      end
     end
   end
 

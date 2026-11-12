@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,23 +34,22 @@ module Backlogs
 
     DIALOG_ID = "move-to-backlog-bucket-dialog"
     FORM_ID = "move-to-backlog-bucket-dialog-form"
+    SELECTION_LABEL_ID = "move-to-backlog-bucket-dialog-selection"
 
-    attr_reader :work_package, :project, :buckets, :move_action
+    attr_reader :work_packages, :buckets, :move_action
 
-    def initialize(work_package:, project:, move_action:)
+    def initialize(work_packages:, buckets:, move_action:)
       super()
 
-      @work_package = work_package
-      @project = project
+      @work_packages = work_packages
+      @buckets = buckets
       @move_action = move_action
-      @buckets = BacklogBucket.where(project:).order_alphabetically
-      @buckets = @buckets.where.not(id: work_package.backlog_bucket_id) if work_package.backlog_bucket_id
     end
 
     private
 
-    def list_type
-      Backlogs::Target::BucketId.new(nil).list_type
+    def destination_list_type
+      Backlogs::Target::BucketId.list_type
     end
   end
 end

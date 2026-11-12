@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -151,11 +150,9 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
   /**
    * We need to set the current partition to the grid to ensure
    * either side gets expanded to full width if we're not in '-split' mode.
-   *
-   * @param state The current or entering state
    */
-  setPartition(state:{ data:{ partition?:ViewPartitionState } }):void {
-    this.currentPartition = state.data?.partition || '-split';
+  setPartition():void {
+    this.currentPartition = '-split';
   }
 
   breadcrumbItems() {

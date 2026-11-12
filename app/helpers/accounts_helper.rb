@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,6 +40,12 @@ module AccountsHelper
     def to_html
       format_text source
     end
+  end
+
+  # Mirrors AccountController#allow_registration?: self registration goes through
+  # the password form, so it stays unavailable while password login is off.
+  def self_registration_possible?
+    Setting::SelfRegistration.enabled? && Users::PasswordLogin.enabled?
   end
 
   def login_field(form)

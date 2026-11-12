@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -91,7 +90,9 @@ module API
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: User).mount
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: User).mount
+            patch &::API::V3::Utilities::Endpoints::Update
+                    .new(model: User, process_state: ->(**) { { session: env["rack.session"] } })
+                    .mount
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: User, success_status: 202).mount
 
             mount ::API::V3::Users::UpdateFormAPI

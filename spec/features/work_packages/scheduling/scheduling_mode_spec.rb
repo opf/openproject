@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -114,7 +113,7 @@ RSpec.describe "scheduling mode", :js do
            due_date: Date.parse("2016-01-10"),
            parent: wp_suc)
   end
-  let(:work_packages_page) { Pages::SplitWorkPackage.new(wp, project) }
+  let(:work_packages_page) { Pages::PrimerizedSplitWorkPackage.new(wp, project) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(wp) }
   let(:combined_field) { work_packages_page.edit_field(:combinedDate) }
   # get a simplified table showing dates and durations for easier debugging.
@@ -143,8 +142,7 @@ RSpec.describe "scheduling mode", :js do
 
     # Editing the start/due dates of a parent work package is possible if the
     # work package is manually scheduled
-    combined_field.activate!(expect_open: false)
-    combined_field.expect_active!
+    combined_field.activate!
     combined_field.toggle_scheduling_mode # toggle to manual mode
     combined_field.expect_manual_scheduling_mode
     combined_field.update(%w[2016-01-05 2016-01-10], save: false)
@@ -160,6 +158,8 @@ RSpec.describe "scheduling mode", :js do
     # Changing the scheduling mode is journalized
     activity_tab.expect_journal_changed_attribute(text: "Scheduling mode set to Manual")
     work_packages_page.switch_to_tab(tab: :overview)
+    work_packages_page.expect_tab(:overview)
+    wait_for_network_idle
 
     expect_dates(wp, "2016-01-05", "2016-01-10")
     expect(wp.schedule_manually).to be_truthy
@@ -183,8 +183,7 @@ RSpec.describe "scheduling mode", :js do
 
     # Switching back to automatic scheduling will lead to the work package
     # and all work packages that are dependent to be rescheduled again.
-    combined_field.activate!(expect_open: false)
-    combined_field.expect_active!
+    combined_field.activate!
     combined_field.toggle_scheduling_mode # toggle to automatic mode
 
     wait_for_network_idle
@@ -218,15 +217,11 @@ RSpec.describe "scheduling mode", :js do
 
     # Switching back to manual scheduling but this time backward will lead to the work package
     # and all work packages that are dependent to be rescheduled again.
-    combined_field.activate!(expect_open: false)
-    combined_field.expect_active!
+    combined_field.activate!
     combined_field.toggle_scheduling_mode # toggle to manual mode
     combined_field.expect_manual_scheduling_mode
 
     wait_for_network_idle
-
-    # The calendar needs some time to get initialized.
-    sleep 2
     combined_field.expect_calendar
 
     # Increasing the duration while at it
@@ -261,8 +256,7 @@ RSpec.describe "scheduling mode", :js do
     # Switching back to automatic scheduling will lead to the work package
     # and all work packages that are dependent to be rescheduled again to
     # satisfy wp follows wp_pre relation.
-    combined_field.activate!(expect_open: false)
-    combined_field.expect_active!
+    combined_field.activate!
     combined_field.toggle_scheduling_mode
     combined_field.expect_automatic_scheduling_mode
 

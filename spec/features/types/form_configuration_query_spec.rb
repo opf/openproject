@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,12 +56,6 @@ RSpec.describe "form query configuration", :js do
   end
   let(:wp_relation_type) { :children }
   let(:frontend_relation_type) { wp_relation_type }
-  let(:relation_target) { related_task }
-  let(:new_relation) do
-    relation = Hash.new
-    relation[wp_relation_type] = [related_bug, related_task, related_task_other_project]
-    relation
-  end
   let!(:related_task) do
     create(:work_package, project:, type: type_task)
   end
@@ -89,21 +82,7 @@ RSpec.describe "form query configuration", :js do
   describe "with EE token", with_ee: %i[edit_attribute_groups] do
     before do
       login_as(admin)
-      visit edit_type_form_configuration_path(type_bug)
-    end
-
-    it "can save an empty query group" do
-      form.add_query_group("Empty test", :children, expect: false)
-      form.expect_group("Empty test", "Empty test")
-    end
-
-    it "can edit a query group by clicking the related work packages table link" do
-      form.add_query_group("Link test", :children, expect: false)
-      form.expect_group("Link test", "Link test")
-
-      form.edit_query_group_via_link("Link test")
-      modal.expect_open
-      modal.cancel
+      visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
     end
 
     it "loads the children from the table split view (Regression #28490)" do
@@ -152,8 +131,10 @@ RSpec.describe "form query configuration", :js do
       filters.save
       wait_for_network_idle
 
-      visit edit_type_form_configuration_path(type_bug)
-      wait_for_network_idle
+      within("[data-group-key='#{group_name}']") do
+        expect(page).to have_element(:dt, text: "Filters")
+        expect(page).to have_element(:dd, text: "Project is (OR) #{project.name}")
+      end
       form.edit_query_group(group_name)
 
       modal.switch_to "Filters"
@@ -176,7 +157,10 @@ RSpec.describe "form query configuration", :js do
 
         archived.update_attribute(:active, false)
 
-        visit edit_type_form_configuration_path(type_bug)
+        visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
+        within("[data-group-key='Archived project']") do
+          expect(page).to have_text("Unavailable value")
+        end
         form.edit_query_group("Archived project")
 
         # Expect we now get the valid subset without the invalid project
@@ -245,13 +229,11 @@ RSpec.describe "form query configuration", :js do
     shared_examples_for "query group" do
       it do
         form.add_query_group("Subtasks", frontend_relation_type) do |modal|
-          # Expect disabled tabs for timelines and display mode
-          modal.expect_disabled_tab "Gantt chart"
-          modal.expect_disabled_tab "Display settings"
-
           # Restrict filters to type_task
           modal.expect_open
           modal.switch_to "Filters"
+          modal.expect_no_tab "Gantt chart"
+          modal.expect_no_tab "Display settings"
           # the templated filter should be hidden in the Filters tab
           filters.expect_filter_count 1
           filters.add_filter_by("Type", "is (OR)", type_task.name)
@@ -263,8 +245,7 @@ RSpec.describe "form query configuration", :js do
         wp_page.ensure_page_loaded
 
         wp_page.expect_group("Subtasks")
-        table_container = find(".attributes-group[data-group-name='Subtasks']")
-                            .find(".work-packages-embedded-view--container")
+        table_container = find(".attributes-group[data-group-name='Subtasks'] .work-packages-embedded-view--container")
         embedded_table = Pages::EmbeddedWorkPackagesTable.new(table_container)
         embedded_table.expect_work_package_listed related_task, related_task_other_project
         embedded_table.ensure_work_package_not_listed! related_bug
@@ -280,13 +261,13 @@ RSpec.describe "form query configuration", :js do
         expect(results).to have_no_text "Bug ##{unrelated_task.id} Unrelated bug"
 
         # Cancel that referencing
-        page.find(".wp-create-relation--cancel").click
+        click_on accessible_name: "Abort"
 
         # Reference the task type
         embedded_table.reference_work_package unrelated_task
 
         # Go back to type configuration
-        visit edit_type_form_configuration_path(type_bug)
+        visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
 
         # Edit query to remove filters
         form.edit_query_group("Subtasks")
@@ -312,22 +293,21 @@ RSpec.describe "form query configuration", :js do
       end
     end
 
-    context "children table" do
+    context "with a children table" do
       it_behaves_like "query group"
     end
 
-    context "relates_to table" do
-      it_behaves_like "query group" do
-        let(:wp_relation_type) { :relates_to }
-        let(:frontend_relation_type) { :relates }
-        let(:relation_target) { [work_package] }
-      end
-    end
+    {
+      relates: Relation::TYPE_RELATES,
+      blocks: Relation::TYPE_BLOCKED
+    }.each do |frontend_relation_type, expected_relation_type|
+      it "persists the #{frontend_relation_type} relation type" do
+        form.add_query_group("Related", frontend_relation_type)
 
-    context "blocks table" do
-      it_behaves_like "query group" do
-        let(:wp_relation_type) { :blocks }
-        let(:relation_target) { [work_package] }
+        query_group = type_bug.reload.default_variant.attribute_groups.detect { |group| group.key == "Related" }
+        relation_filter = query_group.query.filters.detect { |filter| filter.respond_to?(:relation_type) }
+
+        expect(relation_filter.relation_type).to eq(expected_relation_type)
       end
     end
   end

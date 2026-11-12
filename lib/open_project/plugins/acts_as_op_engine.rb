@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +35,7 @@ require_relative "../../../config/constants/settings/definition"
 
 module OpenProject::Plugins
   module ActsAsOpEngine
-    def self.included(base)
+    def self.included(base) # rubocop:disable Metrics/AbcSize
       base.send :include, InstanceMethods
 
       base.class_eval do
@@ -127,6 +128,18 @@ module OpenProject::Plugins
         end
       end
 
+      def include_module(module_name, into:)
+        add_module_to_classes(:include, module_name, into)
+      end
+
+      def prepend_module(module_name, into:)
+        add_module_to_classes(:prepend, module_name, into)
+      end
+
+      def prepend_class_methods(module_name, into:)
+        add_module_to_classes(:prepend, module_name, into, singleton: true)
+      end
+
       # Define assets provided by the plugin
       def assets(assets)
         self.class.initializer "#{engine_name}.precompile_assets" do |app|
@@ -174,7 +187,7 @@ module OpenProject::Plugins
       #                define the minimal version of OpenProject the plugin is compatible with
       #                Another common option is :author_url.
       # block:         Pass a block to the plugin (for defining permissions, menu items and the like)
-      def register(gem_name, options, &block)
+      def register(gem_name, options, &block) # rubocop:disable Metrics/AbcSize
         self.class.initializer "#{engine_name}.register_plugin" do
           spec = Gem.loaded_specs[gem_name]
 
@@ -212,6 +225,14 @@ module OpenProject::Plugins
         end
       end
 
+      def add_api_resource_paths(name, **)
+        config.to_prepare do
+          ::API::V3::Utilities::PathHelper::ApiV3Path.class_eval do
+            resources(name, **)
+          end
+        end
+      end
+
       def add_api_endpoint(base_endpoint, path = nil, &)
         # we are expecting the base_endpoint as string for two reasons:
         # 1. it does not seem possible to pass it as constant (auto loader not ready yet)
@@ -224,7 +245,12 @@ module OpenProject::Plugins
         config.to_prepare do
           representer_namespace = args.map { |arg| arg.to_s.camelize }.join("::")
           representer_class     = "::API::#{representer_namespace}Representer".constantize
-          representer_class.instance_eval(&)
+
+          # Representable copies definitions into a subclass only when the subclass is created,
+          # so subclasses that are already loaded need the extension applied explicitly.
+          [representer_class, *representer_class.descendants].each do |klass|
+            klass.instance_eval(&)
+          end
         end
       end
 
@@ -232,7 +258,7 @@ module OpenProject::Plugins
                             ar_name:,
                             writable_for: %i[create update],
                             writable: true,
-                            &block)
+                            &)
         config.to_prepare do
           model_name = on.to_s.camelize
           namespace = model_name.pluralize
@@ -240,7 +266,7 @@ module OpenProject::Plugins
             # attribute is generally writable
             # overrides might be defined in the more specific contract implementations
             contract_class = "::#{namespace}::#{action.to_s.camelize}Contract".constantize
-            contract_class.attribute ar_name, { writable: }, &block
+            contract_class.attribute(ar_name, { writable: }, &)
           end
         end
       end
@@ -327,6 +353,20 @@ module OpenProject::Plugins
       def replace_principal_references(attributes_by_class_name)
         config.to_prepare do
           Principals::ReplaceReferencesService.add_replacements(attributes_by_class_name)
+        end
+      end
+
+      private
+
+      def add_module_to_classes(strategy, module_name, class_names, singleton: false)
+        self.class.config.to_prepare do
+          mod = module_name.constantize
+
+          Array(class_names).each do |class_name|
+            target = class_name.constantize
+            target = target.singleton_class if singleton
+            target.public_send(strategy, mod) unless target.include?(mod)
+          end
         end
       end
     end

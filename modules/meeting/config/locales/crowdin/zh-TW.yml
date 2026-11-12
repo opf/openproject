@@ -24,13 +24,14 @@ zh-TW:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: 排序模式
         duration: 持續時間
         end_time: 結束時間
         location: 地點
         notes: 備註
         notify: 發送通知
         participant:
-          other: "%{count} 位參與者"
+          other: "%{count} Participants"
         participants: 參加人員
         participants_added: 已加入參與者：
         participants_attended: 出席人員
@@ -87,14 +88,18 @@ zh-TW:
         invalid_time_format: '不是有效時間。所需格式: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: 區段不屬於同一會議。
           user_invalid: 不是有效的參與者。
+          vote_based_sorting_required: 投票需要根據投票結果對議程進行排序。
         meeting_participant:
           user_invalid: 不是有效的參與者。
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: 該系列中有一個公開會議未包含在新的時間表中。調整時間表以包含所有現有會議。
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: 系列會議中，有 %{count} 個公開會議未包含在新的時間表中。調整時間表以包含所有現有會議。
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
@@ -143,6 +148,10 @@ zh-TW:
     meeting_agenda_opened: 會議大綱開啟
     meeting_minutes: 會議記錄已編輯
     meeting_minutes_created: 會議記錄已建立
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: 會議記錄會自動與會議的當前狀態同步。從現在起，議程項目與會議成果都將納入會議記錄中。
   label_add_work_package_to_meeting_dialog_button: 增加到會議
   label_add_work_package_to_meeting_dialog_title: 選擇會議
   label_add_work_package_to_meeting_section_label: 區段
@@ -151,6 +160,8 @@ zh-TW:
   label_agenda_backlog_clear_title: 清除議程待辦清單？
   label_agenda_item_actions: 議程項目行動
   label_agenda_item_add: 新增議程項目
+  label_agenda_item_add_above: 在上方新增項目
+  label_agenda_item_add_below: 在下方新增項目
   label_agenda_item_add_notes: 新增註記
   label_agenda_item_add_outcome: 新增結果
   label_agenda_item_convert_to_work_package: 轉換為工作項目
@@ -158,6 +169,7 @@ zh-TW:
   label_agenda_item_duplicate: 複製
   label_agenda_item_duplicate_in_next: 在下次會議中重複
   label_agenda_item_duplicate_in_next_title: 在下次會議中重複？
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: 移動
   label_agenda_item_move_down: '向下移 '
   label_agenda_item_move_to_backlog: 移至待辦清單
@@ -223,7 +235,7 @@ zh-TW:
   label_meeting_last_updated: 最後更新於
   label_meeting_minutes: 會議記錄
   label_meeting_more:
-    other: 還有 %{count} 更多的會議。
+    other: There are %{count} more meetings.
   label_meeting_new: 新增會議
   label_meeting_new_dynamic: 建立一次性會議
   label_meeting_new_recurring: 新的重複性會議
@@ -268,9 +280,9 @@ zh-TW:
   label_recurring_meeting_delete: 刪除此事件
   label_recurring_meeting_duplicate: 複製為一次性會議
   label_recurring_meeting_more:
-    other: 還有 %{count} 預定會議 (%{schedule})。
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    other: 還有 %{count} 個更多過去的會議。
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: 新的重複性會議
   label_recurring_meeting_next_occurrence: 下一次會議
   label_recurring_meeting_no_end_date: 有更多排定的會議 (%{schedule})。
@@ -300,6 +312,25 @@ zh-TW:
   label_view_meeting_series: 檢視會議
   label_write_outcome: 編輯結果
   meeting:
+    agenda_sorting:
+      change: 變更排序模式
+      current_mode: Currently in %{mode} mode
+      invalid_reaction: 議程項目僅允許投贊成票和反對票。
+      manual: 使用說明
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_order_disabled: 議程項目是按投票數排序的。若要重新排序，請切換至手動排序。
+      remove_thumbs_down: 撤銷負評
+      remove_thumbs_up: 撤銷讚
+      sidebar_title: Agenda sorting
+      sorted_by_votes: 議程依票數排序。
+      thumbs_down: 投反對票
+      thumbs_up: 投贊成票
+      title: 排序模式
+      vote_based: 基於投票的
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
+      votes: 投票數： %{count}
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
@@ -307,6 +338,9 @@ zh-TW:
     blankslate:
       desc: 您可以建立新的會議或變更篩選條件
       title: 沒有會議要顯示
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: '從會議紀錄 #%{id} 中複製'
     copy:
       agenda: 複製議程
@@ -350,6 +384,7 @@ zh-TW:
         header: 取消：會議 '%{title}'
         header_occurrence: 取消：會議發起 '%{title}'
         header_series: 取消：系列會議 '%{title}'
+        reason: Reason for cancellation
         summary: "%{title}' 已被 %{actor}取消，或者您已被刪除為參賽者"
         summary_occurrence: "%{actor}已取消「%{title}」的發生，或您已被移除為參與者"
         summary_series: 會議系列 '%{title}' 已被 %{actor}取消, 或您已被移除為參與者
@@ -474,6 +509,7 @@ zh-TW:
       no_items: 沒有議程項目
       no_items_flash: 沒有要提出的議程項目。
       previous: 上一頁
+      slide_progress: 簡報 %{current}/%{total}
       title: 簡報模式
       total_items: "%{current} of %{total}"
     types:
@@ -550,12 +586,12 @@ zh-TW:
     caption:
       ends_on: 這會導致該系列將以……作為結尾 %{date}
       occurrences:
-        other: 這會導致 %{count} 即將出現的情況
+        other: This results in %{count} upcoming occurrences
       occurrences_capped: 這導致即將發生的事件數量超過 %{count} 個
     day_of_month_skipping_info: 天數少於 %{monthly_day} 天的月份將被跳過
     delete_dialog:
       confirmation_message_html:
-        one: '刪除 <strong>%{title}</strong>也會刪除此系列中已發之會議。此動作不可還原。請小心操作。
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: '刪除 <strong>%{title}</strong>將刪除此系列中的所有 %{count} 個已發起會議。此動作不可還原。請小心操作。
@@ -617,7 +653,7 @@ zh-TW:
       error_no_next: 本次會議無下次會議。
       error_template_draft: 該系列會議的範本目前仍處於草稿階段。
       first_already_exists: 此會議系列的第一次出現已經實體化。
-      first_created: '第一次會議已從範本成功建立。以後所有的會議都會在前一次發生時自動建立。
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: 此會議為定期舉行的系列會議之一。
@@ -679,9 +715,10 @@ zh-TW:
   text_agenda_item_dialog_skipping_closed_many: "%{count} 已關閉的會議"
   text_agenda_item_dialog_skipping_closed_one: 會議關閉於 %{date}
   text_agenda_item_dialog_skipping_note: 註：跳過 %{details}。
-  text_agenda_item_duplicate_in_next_meeting: 您確定要在下次會議中加入此議程項目的副本， %{date} ，網址為 %{time}? 結果不會重複。
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: 與下次會議重複的議程項目， %{date}
   text_agenda_item_move_next_meeting: 本項目將移至 %{date} %{time}的下次會議上討論。
+  text_agenda_item_moved_to_backlog: 該議程項目已移至待辦事項清單
   text_agenda_item_moved_to_next_meeting: 議程項目移至下次會議討論： %{date}
   text_agenda_item_no_available_occurrence: 目前沒有即將舉行的活動。
   text_agenda_item_no_notes: 沒註記

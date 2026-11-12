@@ -106,7 +106,7 @@ pt-BR:
     not_recommended: não recomendado
     recommended: recomendado
     x_bcf_issues:
-      one: Um problema BCF
+      one: "%{count} BCF issue"
       other: "%{count} problemas BCF"
       zero: Sem problemas no BCF
   bim:
@@ -144,8 +144,10 @@ pt-BR:
       processing_default: 'Os seguintes modelos IFC padrão ainda estão sendo processados, e dessa forma, ainda não estão disponíveis:'
   oauth:
     scopes:
-      bcf_v2_1: Acesso total à API BCF v2.1
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: A aplicação receberá acesso total de leitura e escrita a BCF API v2.1 do OpenProject para executar ações em seu nome.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Excluir problemas de BCF
   permission_manage_bcf: Importar e gerenciar problemas do BCF
   permission_manage_bcf_explanation: 'Permite gerenciar issues BCF, incluindo importação e atualização em massa. A importação BCF mapeia metadados do arquivo para recursos do projeto e pode criar ou atualizar pacotes de trabalho e comentários usando valores de autor e carimbo de data/hora do arquivo importado, atuando efetivamente em nome dos usuários.

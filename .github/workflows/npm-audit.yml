@@ -6,7 +6,6 @@ on:
     - cron: "23 4 * * 1"
 
 env:
-  BASE_BRANCH: dev
   BRANCH_PREFIX: npm-audit-fix
 
 permissions: {}
@@ -27,15 +26,35 @@ jobs:
       pull-requests: write # for creating pull requests
 
     steps:
+      - name: Find latest release branch
+        id: find_latest_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
+        run: |
+          set -euo pipefail
+
+          branch=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" \
+            --jq '.[] | select(.name | startswith("release/")) | .name' | \
+            sort --version-sort | tail -1
+          )
+          if [ -z "$branch" ]; then
+            echo "No protected release branch found." >&2
+            exit 1
+          fi
+
+          echo "Found latest release branch: $branch"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ env.BASE_BRANCH }}
+          ref: ${{ steps.find_latest_release.outputs.branch }}
           token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
           persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '24.22.1'
           package-manager-cache: false
@@ -163,6 +182,7 @@ jobs:
       - name: Create pull request
         if: steps.audit_fix.outputs.has_changes == 'true'
         env:
+          BASE_BRANCH: ${{ steps.find_latest_release.outputs.branch }}
           GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
         run: |
           set -euo pipefail

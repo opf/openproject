@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -83,7 +82,7 @@ module OpenProject
     # Enable raising on assignment to attr_readonly attributes. The previous
     # behavior would allow assignment but silently not persist changes to the
     # database.
-    # This is a rails 7.1 behaviour.
+    # This is a rails 7.1 behavior.
     # Ideally this should be defined in the `config/initializers/new_framework_defaults_7_1.rb`
     # file, but since there is a bug, that file is not loaded correctly in the production environment.
     # Once [the issue](https://community.openproject.org/wp/59474) is solved, this configuration can

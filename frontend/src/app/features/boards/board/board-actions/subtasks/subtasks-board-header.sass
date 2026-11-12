@@ -1,9 +1,20 @@
 @import 'helpers'
 
+// Without display: contents, that host breaks the flex sizing
+// of .op-board-list--header.-large-header, which relies on this component's
+// own markup being a direct flex item.
+:host
+  display: contents
+
 .op-subtask-board-header
-
-  &--work-package-type
-    padding-right: 0.5rem
-
   .editable-toolbar-title--fixed
     @include board-header-editable-toolbar-title
+
+    a
+      display: -webkit-box
+      -webkit-box-orient: vertical
+      -webkit-line-clamp: 2
+      line-clamp: 2
+      overflow: hidden
+      white-space: normal
+      word-break: break-word

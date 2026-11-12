@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,6 +35,8 @@ module Pages
       attr_reader :project
 
       def initialize(project)
+        super()
+
         @project = project
       end
 
@@ -130,6 +131,21 @@ module Pages
         within("[data-test-selector='project-life-cycle-#{life_cycle.id}']", &)
       end
 
+      def change_phase_status(life_cycle, from:, to:)
+        wait_for_turbo_stream do
+          within_life_cycle_container(life_cycle) do
+            click_button from
+            click_on to
+          end
+        end
+      end
+
+      def expect_phase_status_button(phase, status)
+        within_life_cycle_container(phase) do
+          expect(page).to have_button(status)
+        end
+      end
+
       def expand_text(custom_field)
         within_custom_field_container(custom_field) do
           page.find('[data-test-selector="expand-button"]').click
@@ -151,7 +167,7 @@ module Pages
       def expect_full_text_in_dialog(text)
         within('[data-test-selector="attribute-dialog"]') do
           expect(page)
-            .to have_content(text)
+            .to have_text(text)
         end
       end
     end

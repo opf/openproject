@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,10 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
         cached_representer key_parts: %i(project),
+                           dependencies: -> {
+                             [Setting.real_time_text_collaboration_enabled?,
+                              OpenProject::FeatureDecisions.documents_collaboration_token_api_active?]
+                           },
                            disabled: false
 
         self_link title_getter: ->(*) { represented.title }
@@ -49,6 +52,17 @@ module API
           {
             href: api_v3_paths.document(represented.id),
             method: :patch
+          }
+        end
+
+        link :createCollaborationToken,
+             cache_if: -> { current_user.allowed_in_project?(:view_documents, represented.project) } do
+          next unless OpenProject::FeatureDecisions.documents_collaboration_token_api_active?
+          next unless represented.real_time_collaboration_available?
+
+          {
+            href: api_v3_paths.document_collaboration_token(represented.id),
+            method: :post
           }
         end
 

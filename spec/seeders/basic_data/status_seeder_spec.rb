@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,19 +47,20 @@ RSpec.describe BasicData::StatusSeeder do
         - reference: :status_new
           name: New
           color_name: cyan-7
-          is_closed: false
+          category: "to_do"
           is_default: true
           position: 1
         - reference: :status_in_progress
           name: In progress
           color_name: grape-5
           default_done_ratio: 50
+          category: "in_progress"
           position: 2
         - reference: :status_closed
           name: Closed
           color_name: gray-3
           default_done_ratio: 100
-          is_closed: true
+          category: "closed"
           position: 3
       SEEDING_DATA_YAML
     end
@@ -68,25 +68,27 @@ RSpec.describe BasicData::StatusSeeder do
     it "creates the corresponding statuses with the given attributes" do
       expect(Status.count).to eq(3)
       expect(Status.find_by(name: "New")).to have_attributes(
-        is_closed: false,
+        category: "to_do",
         is_default: true,
         position: 1
       )
       expect(Status.find_by(name: "In progress")).to have_attributes(
+        category: "in_progress",
         default_done_ratio: 50,
         position: 2
       )
       expect(Status.find_by(name: "Closed")).to have_attributes(
-        is_closed: true,
+        category: "closed",
         is_default: false,
         default_done_ratio: 100,
         position: 3
       )
     end
 
-    it "sets is_closed and is_default to false if not specified" do
-      expect(Status.find_by(name: "In progress")).to have_attributes(
-        is_closed: false,
+    it "sets category to to_do and is_default to false if not specified" do
+      # Create a status without category to test the default
+      Status.create!(name: "Test", color: Color.first)
+      expect(Status.find_by(name: "Test")).to have_attributes(
         is_default: false
       )
     end

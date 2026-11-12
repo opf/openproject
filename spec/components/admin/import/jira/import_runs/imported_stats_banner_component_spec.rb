@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,6 +63,16 @@ RSpec.describe Admin::Import::Jira::ImportRuns::ImportedStatsBannerComponent, ty
 
     expect(page).to have_css('a[href="/projects"][target="_blank"]', text: "Projects")
     expect(page).to have_no_css("a", text: "Work packages")
+  end
+
+  it "stretches every tile alike, linked or not" do
+    linked_stats = [
+      { label: "Projects", value: 3, subtitle: "Imported into OpenProject", url: "/projects" },
+      { label: "Work packages", value: 2748, subtitle: "With attachments" }
+    ]
+    render_inline(described_class.new(title: "Data imported", stats: linked_stats))
+
+    expect(page).to have_css(".d-flex.flex-1", count: 2)
   end
 
   it "does not link tiles when url is blank" do

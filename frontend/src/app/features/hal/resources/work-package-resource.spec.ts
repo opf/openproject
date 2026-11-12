@@ -20,15 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { TestBed } from '@angular/core/testing';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -36,7 +34,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { StateService } from '@uirouter/core';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
@@ -44,7 +41,10 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { initializeHalResourceConfig } from 'core-app/features/hal/services/hal-resource.config';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { of } from 'rxjs';
@@ -53,8 +53,6 @@ import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/com
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
-  let injector:Injector;
-  let halResourceNotification:HalResourceNotificationService;
 
   let source:any;
   let workPackage:WorkPackageResource;
@@ -85,15 +83,12 @@ describe('WorkPackage', () => {
         { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
         { provide: WorkPackageNotificationService, useValue: {} as any },
         { provide: WorkPackageCreateService, useValue: {} },
-        { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ]
     }).compileComponents();
     halResourceService = TestBed.inject(HalResourceService);
-    injector = TestBed.inject(Injector);
-    halResourceNotification = injector.get(HalResourceNotificationService);
 
     halResourceService.registerResource('WorkPackage', {
       cls: WorkPackageResource,
@@ -114,6 +109,35 @@ describe('WorkPackage', () => {
 
     it('should return true for `isNewResource`', () => {
       expect(isNewResource(workPackage)).toBeTruthy();
+    });
+  });
+
+  describe('single-view metadata', () => {
+    afterEach(() => { source = undefined; });
+
+    it('keeps the API timestamp as an ISO string', () => {
+      source = { id: 42, updatedAt: '2026-10-29T09:30:00Z' };
+      createWorkPackage();
+
+      expect(workPackage.updatedAt).toBe('2026-10-29T09:30:00Z');
+    });
+
+    it('builds an embedded author as a user resource', () => {
+      source = { id: 42, _embedded: { author: { _type: 'User', id: 7, name: 'Author' } } };
+      createWorkPackage();
+
+      expect(workPackage.author).toBeInstanceOf(UserResource);
+      expect(workPackage.author.id).toBe('7');
+    });
+
+    it('builds a linked author as a user resource using the production mapping', () => {
+      initializeHalResourceConfig(halResourceService)();
+      source = { id: 42, _links: { author: { href: '/api/v3/users/7', title: 'Author' } } };
+      createWorkPackage();
+
+      expect(workPackage.author).toBeInstanceOf(UserResource);
+      expect(workPackage.author.id).toBe('7');
+      expect(workPackage.author.name).toBe('Author');
     });
   });
 
@@ -266,7 +290,7 @@ describe('WorkPackage', () => {
     });
 
     it('when the work package has an `addAttachment` link', () => {
-      workPackage.$links.addAttachment = () => Promise.resolve();
+      workPackage.$links.addAttachment = (() => Promise.resolve()) as unknown as CallableHalLink;
 
       expect(workPackage.canAddAttachments).toEqual(true);
     });

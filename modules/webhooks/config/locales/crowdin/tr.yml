@@ -64,7 +64,7 @@ tr:
       label_add_new: Yeni web kancası ekle
       label_edit: Web kancasını düzenle
       label_x_events:
-        one: 1 olay
+        one: "%{count} event"
         other: "%{count} olay"
         zero: Olay yok
       no_results_table: Henüz bir web kancası tanımlanmadı.

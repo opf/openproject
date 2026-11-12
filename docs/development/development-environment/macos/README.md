@@ -27,8 +27,8 @@ their homepage.
 
 Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install
 Ruby. We always require the latest ruby versions, and you can check which version is required
-by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At
-the time of writing, this version is "4.0.9"
+in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version). At the time of writing, this version
+is "4.0.9"
 
 #### Install rbenv and ruby-build
 
@@ -70,17 +70,17 @@ gem install bundler
 
 ### Setup PostgreSQL database
 
-Next, install a PostgreSQL database. If you wish to use a MySQL database instead and have installed one, skip these
-steps.
+Next, install a PostgreSQL database. OpenProject requires
+[PostgreSQL 16 or above](../../../installation-and-operations/system-requirements/#database).
 
 ```shell
-# Install postgres database
-$ brew install postgresql
-
-# Confirm that postgres has created a default database cluster if you see
-This formula has created a default database cluster with:
-  initdb --locale=C -E UTF-8 /opt/homebrew/var/postgresql@14 # /usr/local for Intel Macs
+# Install and start the postgres database
+brew install postgresql@17
+brew services start postgresql@17
 ```
+
+`postgresql@17` is keg-only, so its commands such as `createuser` are not on your `PATH` by default. Follow the
+instructions Homebrew prints after the installation to add them.
 
 Then, create the OpenProject database user and accompanied database.
 
@@ -137,7 +137,7 @@ $ ruby --version
 ruby 4.0.9 (2026-10-23 revision 3e93b23afc) +PRISM [arm64-darwin25]
 
 $ bundler --version
-4.0.16
+# The version listed under BUNDLED WITH at the end of Gemfile.lock
 
 node --version
 v24.22.1
@@ -146,53 +146,26 @@ npm --version
 11.16.0
 ```
 
-## Install OpenProject
+## Install and run OpenProject
 
-```shell
-# Download the repository
-git clone https://github.com/opf/openproject.git
-cd openproject
-```
+Continue with [Install and run OpenProject from source](../common-setup/), which covers getting the sources, configuring
+OpenProject, and running it. On macOS, apply the database settings below when you create `config/database.yml`.
 
-Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in
-the `dev` branch (there is no `master` branch).
-So, if you want to develop a feature, create a feature branch from a current `dev` branch.
+## macOS-specific database settings
 
-### Configure OpenProject
-
-Create and configure the database configuration file in `config/database.yml` (relative to the openproject-directory.
-
-```shell
-vim config/database.yml
-```
-
-Now edit the `config/database.yml` file and insert your database credentials.
-It should look like this (just with your database name, username, and password):
+Socket encryption must be disabled on macOS. Add `gssencmode: disable` to the `default` section of
+`config/database.yml`, otherwise Ruby will crash whenever a route is accessed (see
+[ruby-pg#311](https://github.com/ged/ruby-pg/issues/311)):
 
 ```yaml
 default: &default
   adapter: postgresql
   encoding: unicode
-  # Socket encryption must be disabled on macOS. There is an old bug in which forked processes cause problems on a Mac.
-  # TL;DR: set this flag, otherwise Ruby will crash whenever a route is accessed.
-  # Visit https://github.com/ged/ruby-pg/issues/311 to enter the rabbit hole.
   gssencmode: disable
   host: localhost
   username: openproject
   password: openproject-dev-password
-
-development:
-  <<: *default
-  database: openproject_dev
-
-test:
-  <<: *default
-  database: openproject_test
 ```
-
-To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy
-the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be
-automatically loaded to the application's environment.
 
 > [!TIP]
 > Instead of using the `gssencmode` flag in `config/database.yml`, you can add `export PGGSSENCMODE="disable"` to your
@@ -201,7 +174,7 @@ automatically loaded to the application's environment.
 Some users report Ruby crashes despite having set this flag to disable. If this is the case for you as well,
 try adding `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=yes` to your Shell profile.
 
-### Install other requirements
+## Install other requirements
 
 Some operations in OpenProject require additional software. These include PDF exports and interaction with an
 LDAP server.
@@ -215,102 +188,12 @@ brew install imagemagick java
 As of writing, you need to manually create a symlink to OpenJDK for the Java installation to take effect. Homebrew will
 tell you how.
 
-### Finish the Installation of OpenProject
-
-Install code dependencies, link plugin modules and export translation files.
-
-- gem dependencies (If you get errors here, you're likely missing a development dependency for your distribution)
-- node_modules
-- link plugin frontend modules
-- and export frontend localization files
-
-```shell
-bin/setup_dev
-```
-
-Now, run the following tasks to migrate and seed the dev database, and prepare the test setup for running tests locally.
-
-```shell
-RAILS_ENV=development bin/rails db:seed
-```
-
-### Run OpenProject through overmind
-
-You can run all required workers of OpenProject through `overmind`, which combines them in a single tab. Optionally, you
-may also
-run `overmind` as a daemon and connect to services individually.
-The `bin/dev` command will first check if `overmind` is available and run the application via `Procfile.dev`. Otherwise
-it will use `foreman` if it is available.
-
-```shell
-bin/dev
-```
-
-The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.example`
-provided in the root of this
-project as `.env` and [configure values](https://github.com/DarthSim/overmind/tree/v2.4.0#overmind-environment) as
-required.
-
-By default a worker process will also be started. In development asynchronous execution of long-running background
-tasks (sending emails, copying projects,
-etc.) may be of limited use and it has known issues with regards to memory (see background worker section below). To
-disable the worker process:
-
-```shell
-echo "OVERMIND_IGNORED_PROCESSES=worker" >> .overmind.env
-```
-
-For more information refer to the great Overmind
-documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#usage).
-
-You can access the application with the admin-account having the following credentials:
-
-```text
-Username: admin
-Password: admin
-```
-
-### Run OpenProject manually
-
-To run OpenProject manually, you need to run the rails server and the Angular CLI dev server (Vite) to:
-
-#### Rails web server
-
-```shell
-RAILS_ENV=development bin/rails server
-```
-
-This will start the development server on port `3000` by default.
-
-#### Angular frontend
-
-To run the frontend server, please run
-
-```shell
-RAILS_ENV=development npm run serve
-```
-
-This will watch for any changes within the `frontend/` and compile the application javascript bundle on demand. You will
-need to watch this tab for the compilation output,
-should you be working on the TypeScript / Angular frontend part.
-
-You can then access the application either through `localhost:3000` (Rails server) or through the frontend
-proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
-
-#### Delayed Job background worker
-
-```shell
-RAILS_ENV=development bundle exec good_job start
-```
-
-This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
-
-### Additional test dependencies
+## Additional test dependencies
 
 The test suite requires a few additional dependencies to be installed. These are not required for running OpenProject in
 development mode, but only for running the entire test suite.
 
-#### Java 7 or later
+### Java 7 or later
 
 To test the integration with LDAP servers, we rely on [ladle](https://github.com/NUBIC/ladle) to spin up an LDAP server
 when running tests. As this runs [ApacheDS](https://directory.apache.org/apacheds/) internally, it requires Java 7 or
@@ -325,7 +208,7 @@ brew install openjdk
 sudo ln -sfn $(brew --prefix)/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
 ```
 
-#### Subversion
+### Subversion
 
 To test the integration with Subversion repositories, we rely on the `svnadmin` command to be available. If subversion
 is not installed, the tests _will be skipped_. To run the tests, install subversion with
@@ -334,7 +217,7 @@ is not installed, the tests _will be skipped_. To run the tests, install subvers
 brew install subversion
 ```
 
-#### Git
+### Git
 
 To test the integration with Git repositories, we rely on the `git` command to be available. Git is either installed via
 the Xcode Command Line Tools, with [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12) or via homebrew.
@@ -345,17 +228,4 @@ xcode-select --install
 # or
 
 brew install git
-```
-
-### Known issues
-
-#### Spawning a lot of browser tabs
-
-If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a
-significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs
-before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this
-in a production setting.**
-
-```shell
-RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
 ```

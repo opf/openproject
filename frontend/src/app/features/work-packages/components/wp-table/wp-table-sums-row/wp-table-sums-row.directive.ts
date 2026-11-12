@@ -20,31 +20,30 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, Directive, ElementRef, Injector, Input, inject } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { AfterViewInit, Directive, DestroyRef, ElementRef, Injector, input, inject, effect, signal, computed, untracked } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
 import { combineLatest } from 'rxjs';
 import { GroupSumsBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpTableSumsRow]',
   host: {
-    '[class.-hidden]': 'isHidden',
+    '[class.-hidden]': 'isHidden()',
   },
   standalone: false,
 })
@@ -58,61 +57,72 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   readonly wpTableSums = inject(WorkPackageViewSumService);
   readonly I18n = inject(I18nService);
 
-  @Input('wpTableSumsRow-table') workPackageTable:WorkPackageTable;
+  private readonly destroyRef = inject(DestroyRef);
 
-  public isHidden = true;
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  readonly workPackageTable = input<WorkPackageTable>(undefined, { alias: 'wpTableSumsRow-table' });
+
+  private readonly viewReady = signal(false);
+
+  private readonly sourceState = toSignal(combineLatest({
+    columns: this.wpTableColumns.live$(),
+    sum: this.wpTableSums.live$(),
+    results: this.querySpace.results.values$(),
+  }));
+
+  readonly isHidden = computed(() => !this.workPackageTable() || !this.sourceState()?.sum);
+
+  private initializedTable?:WorkPackageTable;
 
   private text:{ sum:string };
 
   private element:HTMLTableRowElement;
 
-  private groupSumsBuilder:GroupSumsBuilder;
-
   constructor() {
-    const I18n = this.I18n;
+    this.text = { sum: this.I18n.t('js.label_total_sum') };
 
-    this.text = {
-      sum: I18n.t('js.label_total_sum'),
-    };
+    effect((onCleanup) => {
+      const table = this.workPackageTable();
+      const state = this.sourceState();
+      if (!this.viewReady() || !table || table.destroyed || this.destroyRef.destroyed) return;
+      let current = true;
+      onCleanup(() => { current = false; });
+
+      untracked(() => {
+        const sum = state?.sum;
+        const resource = state?.results;
+        if (this.initializedTable !== table || (!sum && this.element.hasChildNodes())) {
+          this.initializedTable = table;
+          table.mutate(new Set([totalsRowKey]), () => {
+            if (!sum) this.clear();
+          });
+        }
+        if (sum && resource?.sumsSchema) {
+          void this.schemaCache.ensureLoaded(resource.sumsSchema.href!).then(() => {
+            if (!current || table.destroyed || this.destroyRef.destroyed
+              || this.workPackageTable() !== table || this.sourceState() !== state) return;
+            table.mutate(new Set([totalsRowKey]), () => this.refresh(resource, table));
+          });
+        } else if (this.element.hasChildNodes()) {
+          table.mutate(new Set([totalsRowKey]), () => this.clear());
+        }
+      });
+    });
   }
 
   ngAfterViewInit():void {
     this.element = this.elementRef.nativeElement;
-
-    combineLatest([
-      this.wpTableColumns.live$(),
-      this.wpTableSums.live$(),
-      this.querySpace.results.values$(),
-    ])
-      .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
-      )
-      .subscribe(([columns, sum, resource]) => {
-        this.isHidden = !sum;
-        if (sum && resource.sumsSchema) {
-          this.schemaCache
-            .ensureLoaded(resource.sumsSchema.href!)
-            .then((schema:SchemaResource) => {
-              this.refresh(columns, resource, schema);
-            });
-        } else {
-          this.clear();
-        }
-      });
+    this.viewReady.set(true);
   }
 
   private clear() {
     this.element.innerHTML = '';
   }
 
-  private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
+  private refresh(resource:WorkPackageCollectionResource, table:WorkPackageTable) {
     this.clear();
-    this.render(columns, resource, schema);
-  }
-
-  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
-    this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
-    this.groupSumsBuilder.text = this.text;
-    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element);
+    const builder = new GroupSumsBuilder(this.injector, table);
+    builder.text = this.text;
+    builder.renderColumns(resource.totalSums!, this.element, 'total');
   }
 }

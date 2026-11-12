@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -40,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
      end
    end %>
 
-<% if children.any? %>
+<% if children.any? || deferred? %>
   <% @component.with_sub_tree(
        label:,
        select_variant: :none,
@@ -51,15 +50,19 @@ See COPYRIGHT and LICENSE files for more details.
        data: { node_id: project.id, test_selector: "op-header-project-select--item" }
      ) do |sub| %>
     <% add_icons.call(sub) %>
-    <% children.each do |child_node| %>
-      <%= render Header::Projects::NodeComponent.new(
-            component: sub,
-            node: child_node,
-            current_project_id: @current_project_id,
-            favorited_ids: @favorited_ids,
-            jump: @jump,
-            query_terms: @query_terms
-          ) %>
+    <% if deferred? %>
+      <% sub.with_loading_spinner(src: deferred_children_path) %>
+    <% else %>
+      <% children.each do |child_node| %>
+        <%= render Header::Projects::NodeComponent.new(
+              component: sub,
+              node: child_node,
+              current_project_id: @current_project_id,
+              favorited_ids: @favorited_ids,
+              jump: @jump,
+              query_terms: @query_terms
+            ) %>
+      <% end %>
     <% end %>
   <% end %>
 <% else %>

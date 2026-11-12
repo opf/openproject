@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module WorkPackages::Scopes
   module AllowedTo
@@ -70,8 +69,13 @@ module WorkPackages::Scopes
       def member_project_and_work_package_ids(user, permissions)
         member_projects = Project
                             .unscoped
-                            .allowed_to_member_union(user, permissions, entity_types: [WorkPackage.name])
+                            .allowed_to_member_union(user, permissions, entity_types: [nil, WorkPackage.name])
 
+        # Plucking the ids is deliberate here.
+        # We were confused by it ourselves, but with a subquery, PostgreSQL does not always optimize the query,
+        # so the second roundtrip is almost always faster.
+        # Please see the following PR for references
+        # https://github.com/opf/openproject/pull/26131#issuecomment-6270068603
         project_rows, work_package_rows = Project
                                             .unscoped
                                             .from(Arel::Nodes::TableAlias.new(Arel::Nodes::Grouping.new(member_projects),

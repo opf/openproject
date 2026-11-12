@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,6 +65,11 @@ module Projects::Copy
             .where.not(project_id: source.id)
             .pluck(:id)
             .index_with { |id| id }
+    end
+
+    # The origin identifies the imported sprint eg. from Jira, so only the source may keep it.
+    def copyable_attributes(source_record)
+      super.except(*Sprints::Origin::ATTRIBUTES)
     end
   end
 end

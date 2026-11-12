@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,7 +49,7 @@ RSpec.describe "Updating a SCIM client", :js, :selenium, driver: :firefox_de do
 
   it "can update a SCIM client authenticating through JWT", :aggregate_failures, with_ee: [:scim_api] do
     visit edit_admin_scim_client_path(sso_scim_client)
-    expect(page).to be_axe_clean.within("#content")
+    expect(page).to be_axe_clean
 
     expect(page.find_field("Authentication method", disabled: :all)).to be_disabled
     fill_in "Name", with: ""
@@ -79,7 +78,7 @@ RSpec.describe "Updating a SCIM client", :js, :selenium, driver: :firefox_de do
 
   it "can update a SCIM client authenticating through client credentials", :aggregate_failures, with_ee: [:scim_api] do
     visit edit_admin_scim_client_path(oauth_client_scim_client)
-    expect(page).to be_axe_clean.within("#content")
+    expect(page).to be_axe_clean
 
     expect(page.find_field("Authentication method", disabled: :all)).to be_disabled
     fill_in "Name", with: ""
@@ -108,7 +107,7 @@ RSpec.describe "Updating a SCIM client", :js, :selenium, driver: :firefox_de do
 
   it "can update a SCIM client authenticating through a static access token", :aggregate_failures, with_ee: [:scim_api] do
     visit edit_admin_scim_client_path(token_scim_client)
-    expect(page).to be_axe_clean.within("#content")
+    expect(page).to be_axe_clean
 
     expect(page.find_field("Authentication method", disabled: :all)).to be_disabled
     fill_in "Name", with: ""

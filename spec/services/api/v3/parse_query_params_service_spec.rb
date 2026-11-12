@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -140,6 +139,11 @@ RSpec.describe API::V3::ParseQueryParamsService,
         let(:params) { { highlightedAttributes: %w(/api/v3/columns/status /api/v3/columns/type) } }
         # Please note, that dueDate is expected to get translated to due_date.
         let(:expected) { { highlighted_attributes: %w(status type) } }
+      end
+
+      it_behaves_like "transforms" do
+        let(:params) { { "highlightedAttributes[]": %w(/api/v3/queries/columns/priority) } }
+        let(:expected) { { highlighted_attributes: %w(priority) } }
       end
     end
 

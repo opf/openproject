@@ -23,10 +23,15 @@
 'no':
   js:
     button_log_costs: Loggfør enhetskostnader
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: time
     label_hours: " timer"
-    myTimeTracking:
-      noSpecificTime: No specific time
     text_are_you_sure: Er du sikker?
     work_packages:
       properties:

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,6 +37,7 @@ module Exports
 
       def format_hierarchy_item_for_export(item_value)
         return nil if item_value.value.blank?
+        return I18n.t(:label_custom_value_no_longer_available) unless item_value.available_in_project?
 
         item = ::CustomField::Hierarchy::Item.find_by(id: item_value.value.to_s)
         return "#{item_value} #{I18n.t(:label_not_found)}" unless item

@@ -23,10 +23,15 @@
 fr:
   js:
     button_log_costs: Consigner des coûts unitaires
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: heure
     label_hours: heures
-    myTimeTracking:
-      noSpecificTime: Aucune heure spécifique
     text_are_you_sure: Confirmez-vous ?
     work_packages:
       properties:

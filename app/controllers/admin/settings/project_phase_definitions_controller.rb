@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,13 +32,16 @@ module Admin::Settings
     include FlashMessagesOutputSafetyHelper
     include OpTurbo::ComponentStream
     include Projects::PhaseDefinitionHelper
+    include SortableLists::DropRequestValidation
+
+    configure_drop_request list_type_method: :sortable_list_type, list_id_scoped: false
 
     menu_item :project_phase_definitions_settings
 
     before_action :require_enterprise_token, except: %i[index]
 
     before_action :find_definitions, only: %i[index]
-    before_action :find_definition, only: %i[edit update destroy move drop]
+    before_action :find_definition, only: %i[edit update destroy move]
 
     def index; end
 
@@ -86,23 +88,18 @@ module Admin::Settings
     end
 
     def move
-      unless @definition.update(params.permit(:move_to))
-        render_error_flash_message_via_turbo_stream(message: join_flash_messages(@definition.errors.full_messages))
+      moved = move_after_anchor
+
+      if moved
+        update_definitions_via_turbo_stream
+        render_success_flash_message_via_turbo_stream(
+          message: I18n.t(:"settings.project_phase_definitions.order_changed")
+        )
+      else
+        render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
       end
 
-      update_definitions_via_turbo_stream
-
-      respond_to_with_turbo_streams
-    end
-
-    def drop
-      unless @definition.update(params.permit(:position))
-        render_error_flash_message_via_turbo_stream(message: join_flash_messages(@definition.errors.full_messages))
-      end
-
-      update_definitions_via_turbo_stream
-
-      respond_to_with_turbo_streams
+      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
     end
 
     private
@@ -133,8 +130,15 @@ module Admin::Settings
       update_via_turbo_stream(
         component: Settings::ProjectPhaseDefinitions::IndexComponent.new(
           definitions: find_definitions
-        )
+        ),
+        method: "morph"
       )
+    end
+
+    def move_after_anchor
+      return false unless valid_drop_request?
+
+      @definition.move_after_anchor(drop_params[:prev_id], scope: Project::PhaseDefinition.all)
     end
   end
 end

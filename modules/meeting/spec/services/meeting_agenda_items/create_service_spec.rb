@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,54 +30,33 @@
 require "spec_helper"
 
 RSpec.describe MeetingAgendaItems::CreateService do
+  shared_let(:project) { create(:project) }
+  shared_let(:meeting) { create(:meeting, project:) }
+
   let(:user) { create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas] }) }
-  let(:project) { create(:project) }
-  let(:meeting_a) { create(:meeting, project:) }
-  let(:meeting_b) { create(:meeting, project:) }
-  let(:source_meeting_id) { meeting_a.id }
+  let(:params) { { meeting_id: meeting.id, title: "Budget review", notes: "Review the numbers" } }
 
-  subject(:service_call) { described_class.new(user:).call(**params, source_meeting_id: source_meeting_id) }
+  subject(:service_call) { described_class.new(user:).call(params) }
 
-  describe "duplicating agenda item to a different meeting" do
-    context "when agenda item has attachments referenced in notes" do
-      let!(:attachment) do
-        create(:attachment, container: meeting_a, filename: "test.png", author: user)
-      end
-      let(:params) do
-        {
-          meeting_id: meeting_b.id,
-          title: "Duplicated item",
-          notes: "Here is an image: ![test](/api/v3/attachments/#{attachment.id}/content)"
-        }
-      end
-
-      it "copies the attachment to the new meeting" do
-        expect { service_call }.to change { meeting_b.attachments.count }.by(1)
-      end
-
-      it "updates the notes to reference the new attachment" do
-        service_call
-        created_item = service_call.result
-
-        new_attachment = Attachment.last
-
-        expect(created_item.notes).not_to include("/api/v3/attachments/#{attachment.id}/content")
-        expect(created_item.notes).to include("/api/v3/attachments/#{new_attachment.id}/content")
-      end
+  context "when the user can manage agendas" do
+    it "creates the agenda item in the meeting" do
+      expect(service_call).to be_success
+      expect(service_call.result).to have_attributes(meeting:, title: "Budget review", author: user)
     end
 
-    context "when agenda item has no attachments" do
-      let(:params) do
-        {
-          meeting_id: meeting_b.id,
-          title: "Item without attachments",
-          notes: "Just text"
-        }
-      end
+    it "journals the meeting with the new agenda item" do
+      agenda_item = service_call.result
 
-      it "does not create any attachments" do
-        expect { service_call }.not_to change(Attachment, :count)
-      end
+      expect(meeting.journals.last.agenda_item_journals.pluck(:agenda_item_id)).to include(agenda_item.id)
+    end
+  end
+
+  context "when the user cannot manage agendas" do
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_meetings] }) }
+
+    it "fails without creating the agenda item" do
+      expect { service_call }.not_to change(MeetingAgendaItem, :count)
+      expect(service_call.errors.symbols_for(:base)).to include(:error_unauthorized)
     end
   end
 end

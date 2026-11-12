@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,12 +32,15 @@ import { Observable } from 'rxjs';
 
 @Component({
   template: `
-    <button title="{{ text.button_more }}"
-            class="button last board--settings-dropdown toolbar-icon"
-            boardsToolbarMenu
-            [boardsToolbarMenu-resource]="board$ | async">
-      <op-icon icon-classes="button--icon icon-show-more" />
-    </button>
+    @if (board$ | async; as board) {
+      <button opTooltip
+              [label]="text.button_more"
+              class="button last board--settings-dropdown toolbar-icon"
+              boardsToolbarMenu
+              [boardsToolbarMenu-resource]="board">
+        <op-icon icon-classes="button--icon icon-show-more" />
+      </button>
+    }
   `,
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

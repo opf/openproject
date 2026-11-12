@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module API
   module V3
@@ -37,6 +36,7 @@ module API
         mount API::V3::WorkPackages::WorkPackagesByWorkspaceAPI
         mount API::V3::Categories::CategoriesByWorkspaceAPI
         mount API::V3::Versions::VersionsByProjectAPI
+        mount API::V3::Labels::LabelsByWorkspaceAPI
         mount API::V3::Queries::QueriesByWorkspaceAPI
         mount API::V3::Favorites::FavoriteActionsAPI, with: { favorite_object_getter: ->(*) { @project } }
       end

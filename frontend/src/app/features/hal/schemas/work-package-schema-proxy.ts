@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,7 +30,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
 export class WorkPackageSchemaProxy extends SchemaProxy {
-  get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
+  get(schema:SchemaResource, property:PropertyKey, receiver:unknown):unknown {
     switch (property) {
       case 'isMilestone': {
         return this.isMilestone;
@@ -94,7 +93,7 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
   }
 
   public get isMilestone():boolean {
-    return this.schema.hasOwnProperty('date');
+    return Object.hasOwn(this.schema, 'date');
   }
 
   public mappedName(property:string):string {

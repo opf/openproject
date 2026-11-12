@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,7 @@ RSpec.describe "Projects::Settings::WorkPackages page titles", type: :rails_requ
   shared_let(:user) do
     create(:user,
            member_with_permissions: {
-             project => %i[edit_project manage_types manage_categories select_custom_fields]
+             project => %i[edit_project manage_types manage_categories]
            })
   end
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 #-- copyright
-# OpenProject is a project management system.
+# OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
@@ -21,10 +21,9 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 set -e
@@ -67,6 +66,14 @@ if [ "$HTTP_STATUS" -ne 200 ]; then
   echo "API request failed with status code $HTTP_STATUS. Exiting."
   cat response.json
   exit 0
+fi
+
+TYPE_FROM_API=$(jq -r '._links.type.title // "not set"' response.json)
+
+if [[ "$TYPE_FROM_API" =~ ^(Feature|Epic)$ && "$BASE_REF" == release/* && " $UNFROZEN_RELEASE_BRANCHES " != *" $BASE_REF "* ]]; then
+  echo "::warning::Work package ${WORK_PACKAGE_ID} is a ${TYPE_FROM_API} and targets the frozen release branch ${BASE_REF}."
+  echo "frozen_release_feature=true" >> "$GITHUB_OUTPUT"
+  echo "frozen_release_feature_details= - ${WP_URL}" >> "$GITHUB_OUTPUT"
 fi
 
 # Extract and compare the versions from the api response.
@@ -127,7 +134,6 @@ fi
 # Extract and check the presence of an Enterprise plan field from the api response
 
 ENTERPRISE_PLAN_FROM_API=$(jq -r '._links.customField426.title // "not set"' response.json)
-TYPE_FROM_API=$(jq -r '._links.type.title // "not set"' response.json)
 
 if [[ ! "$TYPE_FROM_API" =~ ^(Feature|Epic)$ ]]; then
   echo "Work package with type $TYPE_FROM_API does not require an Enterprise plan field to be set."

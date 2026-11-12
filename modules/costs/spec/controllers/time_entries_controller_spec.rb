@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -252,6 +251,47 @@ RSpec.describe TimeEntriesController do
             expect(response).to be_forbidden
           end
         end
+      end
+    end
+
+    describe "prefilling a new entry" do
+      before do
+        role = create(:project_role, permissions: %i[view_project log_own_time])
+        create(:member, user:, project: project1, roles: [role])
+      end
+
+      def prefilled(params)
+        get :dialog, params: params.merge(project_id: project1), format: :turbo_stream
+        assigns(:time_entry)
+      end
+
+      it "takes the date from the date param" do
+        time_entry = prefilled(date: "2026-09-23")
+
+        expect(time_entry.spent_on).to eq(Date.civil(2026, 9, 23))
+        expect(time_entry.hours).to be_nil
+        expect(time_entry.start_time).to be_nil
+      end
+
+      it "takes the duration from the hours param, leaving the start time unset" do
+        time_entry = prefilled(date: "2026-09-23", hours: "2.5")
+
+        expect(time_entry.spent_on).to eq(Date.civil(2026, 9, 23))
+        expect(time_entry.hours).to eq(2.5)
+        expect(time_entry.start_time).to be_nil
+      end
+
+      it "ignores an hours param without a date" do
+        time_entry = prefilled(hours: "2.5")
+
+        expect(time_entry.hours).to be_nil
+      end
+
+      it "still derives the duration from a start and end time" do
+        time_entry = prefilled(startTime: "2026-09-23T08:00:00Z", endTime: "2026-09-23T10:00:00Z")
+
+        expect(time_entry.hours).to eq(2.0)
+        expect(time_entry.start_time).not_to be_nil
       end
     end
   end

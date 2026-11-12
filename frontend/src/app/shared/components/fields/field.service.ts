@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,8 +31,10 @@ import { Field } from 'core-app/shared/components/fields/field.base';
 export interface IFieldType<T extends Field> {
   fieldType:string;
   $injector:Injector;
-  new(...args:any[]):T;
+  new(...args:never[]):T;
 }
+
+export type FieldClass<T extends Field> = new(...args:never[]) => T;
 
 export abstract class AbstractFieldService<T extends Field, C extends IFieldType<T>> {
   /** Default field type to fall back to */
@@ -87,9 +88,10 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    *
    * @returns {this}
    */
-  public addFieldType(fieldClass:any, fieldType:string, attributes:string[]) {
-    fieldClass.fieldType = fieldType;
-    this.register(fieldClass, attributes);
+  public addFieldType(fieldClass:FieldClass<T>, fieldType:string, attributes:string[]) {
+    const registered = fieldClass as C;
+    registered.fieldType = fieldType;
+    this.register(registered, attributes);
 
     return this;
   }
@@ -104,10 +106,11 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    *
    * @returns {this}
    */
-  public addSpecificFieldType(resourceType:string, fieldClass:any, fieldType:string, attributes:string[]) {
-    fieldClass.fieldType = `${resourceType}-${fieldType}`;
+  public addSpecificFieldType(resourceType:string, fieldClass:FieldClass<T>, fieldType:string, attributes:string[]) {
+    const registered = fieldClass as C;
+    registered.fieldType = `${resourceType}-${fieldType}`;
     attributes = attributes.map((attribute) => `${resourceType}-${attribute}`);
-    this.register(fieldClass, attributes);
+    this.register(registered, attributes);
 
     return this;
   }
@@ -132,7 +135,7 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    */
   protected register(fieldClass:C, fields:string[] = []) {
     const type = fieldClass.fieldType;
-    fields.forEach((field:string) => this.fields[field] = type);
+    fields.forEach((field:string) => { this.fields[field] = type; });
     this.classes[type] = fieldClass;
   }
 }

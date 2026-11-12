@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -38,6 +37,7 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 import { ApiV3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
+import { HTTPClientParamMap } from 'core-app/features/hal/http/http.interfaces';
 
 export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, ApiV3QueryPaths> {
   @LazyInject() private queryFilters:QueryFiltersService;
@@ -89,7 +89,7 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
 
     return this
       .halResourceService
-      .get<QueryResource>(path, queryData);
+      .get<QueryResource>(path, queryData as HTTPClientParamMap);
   }
 
   /**
@@ -101,7 +101,7 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
     return this.halResourceService
       .get<QueryResource>(
         this.default.path,
-        params,
+        params as HTTPClientParamMap,
       );
   }
 
@@ -130,9 +130,9 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
    */
   public toggleStarred(query:QueryResource):Promise<unknown> {
     if (query.starred) {
-      return query.unstar();
+      return query.unstar!();
     }
-    return query.star();
+    return query.star!();
   }
 
   /**

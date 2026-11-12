@@ -1,0 +1,14 @@
+<%=
+  render(Primer::Beta::Label.new(size: :medium, inline: true, **@system_arguments)) do
+    render(Primer::OpenProject::FlexLayout.new(align_items: :center, classes: "gap-1")) do |flex|
+      if @with_icon
+        flex.with_column do
+          render(Primer::Beta::Octicon.new(icon: @status.icon))
+        end
+      end
+      flex.with_column do
+        render(Primer::Beta::Text.new) { name }
+      end
+    end
+  end
+%>

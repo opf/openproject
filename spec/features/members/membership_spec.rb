@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,7 +52,7 @@ RSpec.describe "Administrating memberships via the project settings", :js do
     create(:group, lastname: "A-Team", members: [peter, hannibal])
   end
 
-  shared_let(:manager)   { create(:project_role, name: "Manager", permissions: [:manage_members]) }
+  shared_let(:manager)   { create(:project_role, name: "Manager", permissions: %i[manage_members view_members]) }
   shared_let(:developer) { create(:project_role, name: "Developer") }
 
   let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }

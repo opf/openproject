@@ -4,8 +4,11 @@ services:
     restart: no
     volumes:
       - gitlab-etc:/etc/gitlab
+      - ./gitlab.rb:/etc/gitlab/gitlab.rb
       - gitlab-logs:/var/log/gitlab
       - gitlab-opt:/var/opt/gitlab
+    environment:
+      OPENPROJECT_DOCKER_DEV_TLD: ${OPENPROJECT_DOCKER_DEV_TLD:-local}
     networks:
       - external
     labels:

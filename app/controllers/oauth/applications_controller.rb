@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,7 +53,7 @@ module OAuth
 
     def create
       call = ::OAuth::Applications::CreateService.new(user: current_user)
-                                                 .call(permitted_params.oauth_application)
+                                                 .call(oauth_application_params)
       result = call.result
 
       if call.success?
@@ -74,13 +73,12 @@ module OAuth
 
     def update
       call = ::OAuth::Applications::UpdateService.new(model: @application, user: current_user)
-                                                 .call(permitted_params.oauth_application)
+                                                 .call(oauth_application_params)
 
       if call.success?
         flash[:notice] = t(:notice_successful_update)
         redirect_to action: :index
       else
-        flash[:error] = call.errors.full_messages.join('\n')
         render action: :edit, status: :unprocessable_entity
       end
     end
@@ -108,7 +106,19 @@ module OAuth
     end
 
     def find_app
-      @application = ::Doorkeeper::Application.find(params[:id])
+      @application = ::Doorkeeper::Application.find(params.expect(:id))
+    end
+
+    def oauth_application_params
+      app_params = params.expect(doorkeeper_application: [:name, :redirect_uri, :confidential, :enabled,
+                                                          :client_credentials_user_id, { scopes: [] }])
+
+      scopes = app_params[:scopes]
+      if scopes.present?
+        app_params[:scopes] = scopes.compact_blank.join(" ")
+      end
+
+      app_params
     end
   end
 end

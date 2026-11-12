@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -48,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
     <ul class="simple-filters--filters">
       <% if has_statuses? %>
         <li class="simple-filters--filter">
-          <label class='simple-filters--filter-name' for='status'><%= User.human_attribute_name(:status) %>:</label>
+          <label class="simple-filters--filter-name" for="status"><%= User.human_attribute_name(:status) %>:</label>
           <%= select_tag "status",
                          user_status_options,
                          class: "simple-filters--filter-value",
@@ -57,7 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
       <% if has_groups? %>
         <li class="simple-filters--filter">
-          <label class='simple-filters--filter-name' for='group_id'><%= Group.model_name.human %>:</label>
+          <label class="simple-filters--filter-name" for="group_id"><%= Group.model_name.human %>:</label>
           <%= collection_select :group,
                                 :id,
                                 groups,
@@ -71,7 +70,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
       <% if roles.present? %>
         <li class="simple-filters--filter">
-          <label class='simple-filters--filter-name' for='role_id'><%= Role.model_name.human %>:</label>
+          <label class="simple-filters--filter-name" for="role_id"><%= Role.model_name.human %>:</label>
           <%=
             collection_select(
               :role,
@@ -93,7 +92,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
       <% if has_shares? %>
         <li class="simple-filters--filter">
-          <label class='simple-filters--filter-name' for='shared_role_id'><%= t("members.menu.wp_shares") %>:</label>
+          <label class="simple-filters--filter-name" for="shared_role_id"><%= t("members.menu.wp_shares") %>:</label>
           <%=
             select_tag(
               :shared_role_id,
@@ -111,7 +110,7 @@ See COPYRIGHT and LICENSE files for more details.
         </li>
       <% end %>
       <li class="simple-filters--filter">
-        <label class='simple-filters--filter-name' for='name'><%= User.human_attribute_name :name %>:</label>
+        <label class="simple-filters--filter-name" for="name"><%= User.human_attribute_name :name %>:</label>
         <%= text_field_tag "name", params[:name], class: "simple-filters--filter-value", autocomplete: "off" %>
       </li>
       <li class="simple-filters--controls">

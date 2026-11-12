@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,22 +39,16 @@ RSpec.describe UserCustomFieldSection do
   end
 
   describe "#add_to_order" do
-    it "appends to the end when no position given" do
+    it "appends to the end" do
       section.add_to_order("cf_1")
       section.add_to_order("cf_2")
       expect(section.reload.attribute_order).to eq(%w[cf_1 cf_2])
     end
 
-    it "inserts at the given 1-indexed position" do
-      section.update_column(:attribute_order, %w[cf_1 cf_3])
-      section.add_to_order("cf_2", position: 2)
-      expect(section.reload.attribute_order).to eq(%w[cf_1 cf_2 cf_3])
-    end
-
-    it "is idempotent — removes prior occurrence before inserting" do
+    it "is idempotent — removes prior occurrence before appending" do
       section.update_column(:attribute_order, %w[cf_1 cf_2 cf_3])
-      section.add_to_order("cf_2", position: 1)
-      expect(section.reload.attribute_order).to eq(%w[cf_2 cf_1 cf_3])
+      section.add_to_order("cf_2")
+      expect(section.reload.attribute_order).to eq(%w[cf_1 cf_3 cf_2])
     end
   end
 

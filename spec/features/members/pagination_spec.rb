@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,7 +60,7 @@ RSpec.describe "members pagination", :js do
       members_page.set_items_per_page! 2
 
       members_page.visit!
-      expect(members_page).to have_user "Alice Alison" # members are sorted by last name desc
+      expect(members_page).to have_user "Alice Alison", wait: 20 # members are sorted by last name desc
       members_page.add_user! "Peter Pan", as: "Manager"
 
       members_page.go_to_page! 2

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,7 +50,9 @@ module OpenProject::Backlogs
              author_url: "https://www.openproject.org",
              bundled: true,
              settings:) do
-      project_module :backlogs, dependencies: :work_package_tracking do
+      project_module :backlogs, dependencies: %i[work_package_tracking board_view] do
+        enabled_by_default!
+
         permission :view_sprints,
                    { "backlogs/backlog": %i[show details],
                      "backlogs/filters": :show,
@@ -64,9 +65,10 @@ module OpenProject::Backlogs
                    permissible_on: :project,
                    dependencies: %i[view_work_packages show_board_views]
 
-        permission :select_backlog_types_and_statuses,
+        permission :manage_backlogs_configuration,
                    {
-                     "projects/settings/backlogs": %i[show update rebuild_positions]
+                     "projects/settings/backlogs": %i[show update rebuild_positions],
+                     "projects/settings/backlog_estimation_units": %i[show update]
                    },
                    permissible_on: :project,
                    require: :member
@@ -85,8 +87,14 @@ module OpenProject::Backlogs
                    dependencies: %i[view_sprints manage_board_views manage_sprint_items]
 
         permission :manage_sprint_items,
-                   { "backlogs/work_packages": %i[move move_to_sprint_dialog move_to_bucket_dialog add_existing_dialog
-                                                  add_existing] },
+                   { "backlogs/work_packages": %i[
+                     move
+                     move_collection
+                     move_to_sprint_dialog
+                     move_to_bucket_dialog
+                     add_existing_dialog
+                     add_existing
+                   ] },
                    permissible_on: :project,
                    require: :member,
                    dependencies: %i[view_sprints edit_work_packages]
@@ -145,7 +153,6 @@ module OpenProject::Backlogs
                WorkPackage
                Project]
 
-    patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :Projects, :CopyService
     patch_with_namespace :Projects, :SetAttributesService
     patch_with_namespace :WorkPackages, :SetAttributesService
@@ -153,42 +160,23 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :UpdateContract
     patch_with_namespace :Projects, :Copy, :WorkPackagesDependentService
     patch_with_namespace :Queries, :Copy, :FiltersMapper
-    patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 
-    additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id]
+    additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id story_points]
 
     extend_api_response(:v3, :work_packages, :work_package,
-                        &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)
-
-    # TODO: This should not be necessary as the WorkPackagePayloadRepresenter already inherits from
-    # the WorkPackageRepresenter. But removing this line makes tests fail. It appears that the
-    # patch on the WorkPackageRepresenter in GitHubIntegration is failing if this is removed.
-    extend_api_response(:v3, :work_packages, :work_package_payload,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageSchemaRepresenter.extension)
 
-    add_api_path :sprint do |id|
-      "#{root}/sprints/#{id}"
-    end
-
-    add_api_path :sprints do
-      "#{root}/sprints"
-    end
+    add_api_resource_paths :sprint, only: %i[index show]
 
     add_api_path :project_sprints do |id|
       "#{root}/projects/#{id}/sprints"
     end
 
-    add_api_path :backlog_buckets do
-      "#{root}/backlog_buckets"
-    end
-
-    add_api_path :backlog_bucket do |id|
-      "#{root}/backlog_buckets/#{id}"
-    end
+    add_api_resource_paths :backlog_bucket, only: %i[index show]
 
     add_api_path :project_backlog_buckets do |id|
       "#{root}/projects/#{id}/backlog_buckets"
@@ -208,7 +196,7 @@ module OpenProject::Backlogs
       Rails.application.config.after_initialize do
         # When the backlogs module is first enabled on a project, automatically populate
         # the project's done_statuses with all statuses that are globally marked as closed
-        # (is_closed: true). This mirrors the form behavior where these statuses are
+        # (category: "closed"). This mirrors the form behavior where these statuses are
         # pre-selected and disabled, so users never have to visit the settings page just
         # to get sensible defaults.
         OpenProject::Notifications.subscribe(OpenProject::Events::MODULE_ENABLED) do |payload|
@@ -218,7 +206,7 @@ module OpenProject::Backlogs
           project = enabled_module.project
           next unless project
 
-          mandatory_ids = Status.where(is_closed: true).pluck(:id)
+          mandatory_ids = Status.closed.pluck(:id)
           next if mandatory_ids.empty?
 
           merged_ids = project.done_statuses.reorder(nil).pluck(:id) | mandatory_ids
@@ -253,6 +241,9 @@ module OpenProject::Backlogs
       ::TypeVariant.add_default_mapping(:other, :position)
       ::TypeVariant.add_default_mapping(:details, :sprint)
       ::TypeVariant.add_default_mapping(:details, :backlog_bucket)
+
+      ::API::V3::WorkPackages::EagerLoading::Checksum.add_checksum_associations(:sprint)
+      ::API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load |= %i[sprint backlog_bucket]
 
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::BacklogBucketFilter

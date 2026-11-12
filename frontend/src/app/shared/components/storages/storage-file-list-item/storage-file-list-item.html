@@ -16,7 +16,7 @@
     >
     @if (!!content.checkbox) {
       <spot-checkbox [checked]="content.disabled || content.checkbox.selected"
-        (checkedChange)="content.checkbox.changeSelection()"
+        (checkedChange)="content.checkbox.changeSelection?.()"
         [disabled]="content.disabled"
        />
     }
@@ -68,6 +68,13 @@
         @case ('op-file-text') {
           <svg
             op-file-text-icon
+            size="small"
+            class="op-files-tab--icon op-files-tab--icon_{{content.icon.clazz}}"
+          ></svg>
+        }
+        @case ('op-whiteboards') {
+          <svg
+            op-whiteboards-icon
             size="small"
             class="op-files-tab--icon op-files-tab--icon_{{content.icon.clazz}}"
           ></svg>

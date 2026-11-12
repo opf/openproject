@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,17 +53,34 @@ module API
                 .to_h
             end
 
+            def checksum_associations
+              @checksum_associations ||= %i[status author responsible assigned_to priority category type]
+            end
+
+            # Only singular associations (belongs_to/has_one) are supported, as a has_many
+            # would multiply the rows of the left_joins in fetch_checksums_for.
+            def add_checksum_associations(*association_names)
+              @checksum_associations = checksum_associations | association_names
+            end
+
             protected
 
-            # Versions are a has_many, which would multiply rows in the
-            # left_joins/pluck above, so they enter as an aggregated subquery.
-            # A version can attach under more than one kind, so the kind is part
-            # of the value and of the order.
+            # Versions and labels are has_many and enter as aggregated subqueries;
+            # joining them in the pluck above would multiply the rows. A version
+            # can attach under more than one kind, so the kind is part of the
+            # value and of the order.
             VERSIONS_CHECKSUM_SQL = <<~SQL.squish
               (SELECT COALESCE(STRING_AGG(CONCAT(wpv.kind, v.id, v.updated_at), ',' ORDER BY wpv.kind, v.id), '')
                  FROM work_package_versions wpv
                  INNER JOIN versions v ON v.id = wpv.version_id
                 WHERE wpv.work_package_id = work_packages.id)
+            SQL
+
+            LABELS_CHECKSUM_SQL = <<~SQL.squish
+              (SELECT COALESCE(STRING_AGG(CONCAT(l.id, l.updated_at), ',' ORDER BY l.id), '')
+                 FROM labelings lg
+                 INNER JOIN labels l ON l.id = lg.label_id
+                WHERE lg.labelable_type = '#{WorkPackage.polymorphic_name}' AND lg.labelable_id = work_packages.id)
             SQL
 
             def md5_concat
@@ -74,14 +90,11 @@ module API
                 %W[#{table_name}.id #{table_name}.updated_at]
               end
               md5_parts << VERSIONS_CHECKSUM_SQL
+              md5_parts << LABELS_CHECKSUM_SQL
 
               <<-SQL
                 MD5(CONCAT(#{md5_parts.join(', ')}))
               SQL
-            end
-
-            def checksum_associations
-              %i[status author responsible assigned_to priority category type budget]
             end
 
             def md5_checksum_table_name(association_name)

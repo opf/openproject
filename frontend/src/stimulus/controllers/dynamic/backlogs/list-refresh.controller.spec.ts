@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -121,7 +120,7 @@ describe('Backlogs list-refresh controller', () => {
     // Emulate a Turbo morph refresh: the response frame carries the same
     // attributes (they are declared identically on both frame tags) and new
     // children, so idiomorph keeps the live element and morphs the content.
-    Idiomorph.morph(
+    void Idiomorph.morph(
       frame,
       `<turbo-frame id="backlogs-list" refresh="morph" data-controller="backlogs--list-refresh">
         <ul><li>two</li></ul>

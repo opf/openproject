@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,16 +22,28 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 class Queries::WorkPackages::Filter::SharedWithUserFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
+  SHAREABLE_TYPES = %w[User Group].freeze
+  SHAREABLE_STATUSES = [Principal.statuses[:active], Principal.statuses[:invited]].freeze
+
   def available?
-    super && view_shared_work_packages_allowed?
+    shareable_principals.exists? && view_shared_work_packages_allowed?
+  end
+
+  def allowed_values
+    raise ::Queries::Filters::TooManyCandidatesError
+  end
+
+  def allowed_values_subset
+    id_values = shareable_principals.where(id: values - [me_value_key]).pluck(:id).map(&:to_s)
+
+    has_me_value? ? id_values + [me_value_key] : id_values
   end
 
   def apply_to(query_scope)
@@ -60,6 +72,21 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
   end
 
   private
+
+  # A work package can be shared with any visible user or group, not just with members of
+  # its project. Mirrors the candidate set of the share dialog, app/forms/shares/invitee.rb,
+  # except for the me value, which this filter supports via +querying_for_self?+.
+  def autocomplete_filters
+    [{ name: "type", operator: "=", values: SHAREABLE_TYPES },
+     { name: "status", operator: "=", values: SHAREABLE_STATUSES }]
+  end
+
+  def shareable_principals
+    Principal
+      .visible
+      .not_builtin
+      .where(type: SHAREABLE_TYPES, status: SHAREABLE_STATUSES)
+  end
 
   def view_shared_work_packages_allowed?
     if project

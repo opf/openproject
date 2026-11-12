@@ -20,10 +20,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "rack/test"
@@ -32,8 +32,9 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { time_entry.project }
-  let(:time_entry) { create(:time_entry) }
+  let(:project) { create(:project) }
+  let(:time_entry_user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+  let(:time_entry) { create(:time_entry, entity: create(:work_package, project:), user: time_entry_user) }
   let(:active_activity) { create(:time_entry_activity) }
   let(:in_project_inactive_activity) do
     create(:time_entry_activity).tap do |tea|
@@ -103,7 +104,7 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
       end
 
       it "does not alter the entry" do
-        expect(time_entry.work_package)
+        expect(time_entry.entity)
           .not_to eql work_package
       end
 

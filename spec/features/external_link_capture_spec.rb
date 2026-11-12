@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "External link capture", :js, :selenium do
+RSpec.describe "External link capture", :js do
   shared_let(:admin) { create(:admin) }
 
   let(:project) { create(:project, :with_internal_wiki) }
@@ -46,7 +45,7 @@ RSpec.describe "External link capture", :js, :selenium do
   current_user { admin }
 
   shared_examples "opens external link directly in a new window" do
-    it "keeps the default external link behaviour" do
+    it "keeps the default external link behavior" do
       visit project_wiki_path(project, wiki_page)
 
       link = page.find_link("OpenProject", href: external_url)
@@ -83,7 +82,7 @@ RSpec.describe "External link capture", :js, :selenium do
       new_window = window_opened_by { link.click }
 
       within_window new_window do
-        expect(page.current_url).to include("/external_redirect")
+        expect(page).to have_current_path(%r{\A/external_redirect\b})
         expect(page).to have_text I18n.t("external_link_warning.title")
         expect(page).to have_text I18n.t("external_link_warning.warning_message")
         expect(page).to have_text I18n.t("external_link_warning.continue_message")
@@ -105,7 +104,7 @@ RSpec.describe "External link capture", :js, :selenium do
 
       it "redirects to login page if not logged in" do
         visit external_redirect_path(url: external_url)
-        expect(page.current_url).to include("/login")
+        expect(page).to have_current_path(%r{\A/login\b})
         expect(page).to have_no_text I18n.t("external_link_warning.title")
         expect(page).to have_no_text I18n.t("external_link_warning.warning_message")
         expect(page).to have_no_text I18n.t("external_link_warning.continue_message")
@@ -119,7 +118,7 @@ RSpec.describe "External link capture", :js, :selenium do
                              capture_external_links_require_login: false } do
       it "shows the external link warning" do
         visit external_redirect_path(url: external_url)
-        expect(page.current_url).to include("/external_redirect")
+        expect(page).to have_current_path(%r{\A/external_redirect\b})
         expect(page).to have_text I18n.t("external_link_warning.title")
         expect(page).to have_text I18n.t("external_link_warning.warning_message")
         expect(page).to have_text I18n.t("external_link_warning.continue_message")

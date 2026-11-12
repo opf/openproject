@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -79,23 +78,15 @@ $nm-color-success-background: #d8fdd1
 .toolbar-items
   display: flex
   flex-wrap: wrap
+  gap: 10px
   margin: 0
   padding: 0
-  justify-content: space-between
+  justify-content: flex-end
 
   li
     list-style-type: none
 
   .toolbar-item
-    margin-right: 10px
-
-    &:last-of-type
-      margin-right: 0
-
-    // hide right margin for e.g., conditional buttons
-    &.-no-spacing
-      margin-right: 0
-
     &.-no-grow
       flex-grow: 0
 
@@ -116,14 +107,16 @@ $nm-color-success-background: #d8fdd1
       margin: 0
       padding: 0
 
+    // Special case for WP Timeline Buttons
+    &:has(.toolbar-button-group:empty)
+      display: none
+
   .toolbar-button-group
     display: flex
     justify-content: flex-end
     flex-direction: row
-    margin-left: 0px
-
-    > li
-      margin-right: 2px
+    margin-left: 0
+    gap: 2px
 
   .button
     // Overwrite Foundastion's default padding. Let line-height fix vertical
@@ -156,8 +149,7 @@ $nm-color-success-background: #d8fdd1
     @include toolbar-element-sizing
     border: 1px solid var(--button-default-borderColor-rest)
 
-  .button,
-  .toolbar-input--affix
+  .button
     background: var(--button-default-bgColor-rest)
 
     &.-pressed,
@@ -277,19 +269,6 @@ $nm-color-success-background: #d8fdd1
     margin: 0
     font-size: 1.05rem
     flex-grow: 1
-
-  .toolbar-input-group--affix
-    background: var(--button-default-bgColor-rest)
-    border: 1px solid var(--button-default-borderColor-rest)
-    color: var(--body-font-color)
-    border-radius: 2px
-    white-space: nowrap
-
-    &.-prepend
-      border-right: none !important
-
-    &.-append
-      border-left: none !important
 
 .toolbar
   *

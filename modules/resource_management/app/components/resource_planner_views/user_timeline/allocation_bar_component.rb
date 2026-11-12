@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,53 +30,86 @@
 module ResourcePlannerViews
   module UserTimeline
     class AllocationBarComponent < ApplicationComponent
-      def initialize(allocation:, overbooked_ranges: [])
+      # A user's bars span every project they are allocated in, including ones the
+      # viewer cannot open. Those keep their hours — the load is real and feeds the
+      # utilization maths — but disclose nothing about the work package.
+      # `project_names` is only given on a global planner, where the bar has to say
+      # which project the work sits in; it holds the visible projects alone, so an
+      # entry is missing exactly when the project must stay undisclosed.
+      def initialize(allocation:, overbooked: false, overbooked_dates: [], visible_work_package_ids: nil, project_names: nil)
         super
         @allocation = allocation
-        @overbooked_ranges = overbooked_ranges
+        @overbooked = overbooked
+        @overbooked_dates = overbooked_dates
+        @visible_work_package_ids = visible_work_package_ids
+        @project_names = project_names
       end
 
       private
 
-      attr_reader :allocation
+      attr_reader :allocation, :visible_work_package_ids, :project_names
+
+      def project_name
+        return if project_names.nil?
+
+        project_names[allocation.entity&.project_id]
+      end
+
+      def entity_visible?
+        return true if visible_work_package_ids.nil?
+
+        visible_work_package_ids.include?(allocation.entity_id)
+      end
 
       def hours_label
         t("resource_management.allocation.hours", value: allocation.allocated_hours.round)
       end
 
       def entity_subject
+        return t("resource_management.timeline.undisclosed.work_package") unless entity_visible?
+
         allocation.entity.subject
       end
 
-      def overbooked? = @overbooked_ranges.any?
+      def label_tooltip_id
+        "user-timeline-bar-#{allocation.id}"
+      end
+
+      # The bar is often too narrow to show the project and subject, so the full
+      # text is reachable by hovering anywhere on it.
+      def label_tooltip
+        return t("resource_management.timeline.undisclosed.tooltip") unless entity_visible?
+
+        [project_name, entity_subject].compact_blank.join(" - ")
+      end
+
+      def overbooked? = @overbooked
 
       def overbooked_tooltip_id
         "user-timeline-overbooked-#{allocation.id}"
       end
 
       def overbooked_tooltip
-        @overbooked_ranges.map { |range| overbooked_range_summary(range) }.join("; ")
+        return t("resource_management.user_timeline.overbooked_tooltip.unplannable") if @overbooked_dates.empty?
+
+        t("resource_management.user_timeline.overbooked_tooltip.dates", dates: overbooked_periods)
       end
 
-      def overbooked_range_summary(range)
-        t("resource_management.user_timeline.overbooked_tooltip.range",
-          dates: date_range(range.start_date, range.end_date),
-          scheduled: format_hours(range.items.sum(&:minutes)),
-          available: format_hours(range.available_minutes))
+      def overbooked_periods
+        @overbooked_dates
+          .slice_when { |previous, current| current != previous + 1 }
+          .map { |run| run.one? ? helpers.format_date(run.first) : date_range(run.first, run.last) }
+          .join(", ")
       end
 
       def date_range(from_date, to_date)
         "#{helpers.format_date(from_date)} - #{helpers.format_date(to_date)}"
       end
 
-      def format_hours(minutes)
-        hours = minutes.to_f / 60
-        formatted = hours == hours.to_i ? hours.to_i : hours.round(2)
-        "#{formatted}h"
-      end
-
-      # Nil when the status has no colour, in which case the CSS falls back to a muted border.
+      # Nil when the status has no color, in which case the CSS falls back to a muted border.
       def status_style
+        return unless entity_visible?
+
         hexcode = allocation.entity.status&.color&.hexcode
         "--rm-status-color: #{hexcode}" if hexcode.present?
       end

@@ -64,7 +64,7 @@ hy:
       label_add_new: Ավելացնել նոր վեբհուկ
       label_edit: Խմբագրել վեբհուկը
       label_x_events:
-        one: 1 իրադարձություն
+        one: "%{count} event"
         other: "%{count} իրադարձություն"
         zero: Իրադարձություններ չկան
       no_results_table: Վեբհուկներ դեռ սահմանված չեն։

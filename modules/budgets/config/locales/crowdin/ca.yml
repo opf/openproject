@@ -61,6 +61,8 @@ ca:
   attributes:
     budget: Pressupost
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ ca:
   events:
     budget: Pressupost editat
   help_click_to_edit: Feu clic per editar.
-  help_currency_format: Format de valor de divisa actual. %n és substituït amb el valor de divisa, %u és substituït amb la unitat de divisa.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Entra un valor aquí per substituir la ràtio per defecte.
   label_budget_available: Budget available
   label_budget_details: Budget details

@@ -1,0 +1,56 @@
+<%= render(Primer::BaseComponent.new(tag: :div, id: WRAPPER_ID, data: wrapper_data)) do %>
+  <%# Submitted on its own when the list is empty, so clearing the list clears the setting. %>
+  <%= hidden_field_tag(FIELD_NAME, "", id: nil) unless disabled %>
+
+  <%= flex_layout do |section|
+        section.with_row do
+          render(Primer::Beta::Text.new(tag: :div, font_weight: :bold)) do
+            I18n.t("pdf_generator.dialog.wiki_pages.add")
+          end
+        end
+
+        section.with_row(mt: 1, classes: "FormControl-input-wrap FormControl-input-width--large") do
+          render(
+            Primer::Beta::Button.new(
+              block: true,
+              align_content: :start,
+              color: :muted,
+              disabled: add_disabled?,
+              test_selector: "pdf-export-add-wiki-pages",
+              data: add_disabled? ? {} : { "show-dialog-id": DIALOG_ID }
+            )
+          ) do |button|
+            button.with_trailing_action_icon(icon: :"triangle-down")
+            I18n.t("pdf_generator.dialog.wiki_pages.placeholder")
+          end
+        end
+
+        section.with_row(mt: 1) do
+          render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :subtle)) do
+            I18n.t("pdf_generator.dialog.wiki_pages.caption")
+          end
+        end
+
+        section.with_row(mt: 3) do
+          helpers.angular_component_tag(
+            "opce-draggable-autocompleter",
+            inputs: autocompleter_inputs,
+            data: { "#{STIMULUS_CONTROLLER}-target": "autocompleter" }
+          )
+        end
+
+        if configuration?
+          section.with_row(mt: 3) do
+            render(Primer::Alpha::Banner.new(scheme: :warning, dismiss_scheme: :none)) do
+              I18n.t("pdf_generator.dialog.wiki_pages.visibility_warning")
+            end
+          end
+        end
+      end %>
+
+  <% unless add_disabled? %>
+    <%= render(
+          WorkPackages::Exports::Generate::Templates::WikiPagesDialogComponent.new(provider_id:)
+        ) %>
+  <% end %>
+<% end %>

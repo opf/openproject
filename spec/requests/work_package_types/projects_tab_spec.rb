@@ -22,16 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_request,
-                                                             with_flag: { type_variants: true } do
+RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
@@ -71,7 +69,7 @@ RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_reques
 
   describe "the variant a tab defaults to" do
     it "shows only its own projects inside a named variant" do
-      get edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+      get edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
       expect(listed).to contain_exactly(on_hardware)
     end
@@ -109,7 +107,7 @@ RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_reques
     end
 
     it "widens a named variant's tab when asked for a sibling" do
-      get edit_type_projects_path(type_id: type.id, variant_id: hardware.id, filters: filters_for(firmware))
+      get edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id, filters: filters_for(firmware))
 
       expect(listed).to contain_exactly(on_firmware)
     end
@@ -184,7 +182,7 @@ RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_reques
     it "invites adding a project when nothing is filtered" do
       spare = create(:type_variant, type:, variant_name: "Spare")
 
-      get edit_type_projects_path(type_id: type.id, variant_id: spare.id)
+      get edit_type_variant_projects_path(type_id: type.id, variant_id: spare.id)
 
       expect(page).to have_css("#project-table", text: I18n.t("types.edit.projects.empty_state.description"))
     end
@@ -207,19 +205,13 @@ RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_reques
     end
 
     it "leaves it out inside a variant" do
-      get edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
-
-      expect(page).to have_no_css("[data-test-selector='quick-filter-select-panel-button']")
-    end
-
-    it "leaves it out at type level when the feature is disabled", with_flag: { type_variants: false } do
-      get edit_type_projects_path(type_id: type.id)
+      get edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
       expect(page).to have_no_css("[data-test-selector='quick-filter-select-panel-button']")
     end
 
     it "keeps the project name search inside a variant" do
-      get edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+      get edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
       expect(page).to have_field("name_and_identifier", visible: :all)
     end

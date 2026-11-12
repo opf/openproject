@@ -26,10 +26,11 @@ zh-CN:
         select: 选择文件
         select_all: 全选
         selection:
-          zero: 选择文件以链接
-          other: 链接 %{count} 个文件
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          other: 您成功地创建了 %{count} 个文件链接。
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: 找不到此文件。
           not_logged_in: 请登录到存储区来访问此文件。

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,20 +43,21 @@ module ResourceManagement
 
       private
 
-      # The overbooked ranges this allocation is part of (the ranges whose forced
-      # work items reference it), used to flag and explain the bar.
-      def overbooked_ranges_for_allocation(allocation)
-        (overbooked_ranges_by_principal[allocation.principal_id] || [])
-          .select { |range| range.items.any? { |item| item.id == allocation.id } }
+      def overbooked?(allocation)
+        availabilities_by_principal[allocation.principal_id]&.overbooked_allocation_ids&.include?(allocation.id) || false
+      end
+
+      def overbooked_dates_of(allocation)
+        availabilities_by_principal[allocation.principal_id]&.overbooked_dates_of(allocation) || []
       end
 
       def overbooked_background_events
-        overbooked_ranges_by_principal.flat_map do |principal_id, ranges|
-          ranges.map do |range|
+        availabilities_by_principal.flat_map do |principal_id, availability|
+          availability.overbooked_dates.sort.slice_when { |previous, current| current != previous + 1 }.map do |run|
             {
               resourceId: principal_id,
-              start: range.start_date.iso8601,
-              end: (range.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
+              start: run.first.iso8601,
+              end: (run.last + 1).iso8601, # FullCalendar treats the end as exclusive
               display: "background",
               classNames: ["op-rm-timeline-overbooked"]
             }
@@ -91,6 +91,10 @@ module ResourceManagement
         end
       end
 
+      def global_non_working_days
+        @global_non_working_days ||= NonWorkingDay.for_dates(visible_range).pluck(:date).to_set
+      end
+
       def working_day_runs(range, calendar)
         runs = []
         run_start = nil
@@ -109,36 +113,65 @@ module ResourceManagement
       end
 
       def event_for(allocation)
-        overbooked_ranges = overbooked_ranges_for_allocation(allocation)
         {
           id: allocation.id,
           resourceId: allocation.principal_id,
           start: allocation.start_date.iso8601,
           end: (allocation.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
           extendedProps: {
-            overbooked: overbooked_ranges.any?,
+            overbooked: overbooked?(allocation),
             editUrl: edit_url_for(allocation),
-            html: render_bar(allocation, overbooked_ranges)
+            html: render_bar(allocation)
           }
         }
       end
 
       def edit_url_for(allocation)
-        return unless may_allocate?
+        return unless may_allocate?(allocation)
 
-        edit_project_resource_allocation_path(@project, allocation)
+        edit_allocation_path(@project, allocation)
       end
 
-      def may_allocate?
-        return @may_allocate if defined?(@may_allocate)
+      # The permission lives on the allocation's own project, which on a global
+      # planner differs from bar to bar.
+      def may_allocate?(allocation)
+        allocation_project = allocation.project
+        return false if allocation_project.nil?
 
-        @may_allocate = current_user.allowed_in_project?(:allocate_user_resources, @project)
+        @may_allocate ||= {}
+        @may_allocate.fetch(allocation_project.id) do
+          @may_allocate[allocation_project.id] =
+            current_user.allowed_in_project?(:allocate_user_resources, allocation_project)
+        end
       end
 
-      def render_bar(allocation, overbooked_ranges)
+      def render_bar(allocation)
         ResourcePlannerViews::UserTimeline::AllocationBarComponent
-          .new(allocation:, overbooked_ranges:)
+          .new(allocation:, overbooked: overbooked?(allocation), overbooked_dates: overbooked_dates_of(allocation),
+               visible_work_package_ids:, project_names: (visible_project_names if @project.nil?))
           .render_in(view_context)
+      end
+
+      # A global planner's bars span projects, so each one names its own. Only the
+      # projects the viewer may see are resolved; the rest stay undisclosed.
+      def visible_project_names
+        @visible_project_names ||= begin
+          project_ids = allocation_entities.map(&:project_id).uniq
+          Project.visible(current_user).where(id: project_ids).pluck(:id, :name).to_h
+        end
+      end
+
+      # A user's allocations span every project they work in, so the subjects have
+      # to be filtered against what the viewer may actually see.
+      def visible_work_package_ids
+        @visible_work_package_ids ||=
+          WorkPackage.visible(current_user).where(id: allocation_entities.map(&:id)).pluck(:id).to_set
+      end
+
+      def allocation_entities
+        @allocation_entities ||= allocations_by_principal.values.flatten
+                                                         .select { |a| a.entity_type == "WorkPackage" }
+                                                         .filter_map(&:entity)
       end
 
       def non_working_events

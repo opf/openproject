@@ -1,0 +1,386 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { within } from '@testing-library/dom';
+import { buildTable, TableHarness } from './testing/table-harness';
+import { buildWorkPackage } from './testing/work-package-fixture';
+import { Highlighting } from './builders/highlighting/highlighting.functions';
+import { effect } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { wpOccurrenceKey } from './rendered-occurrence-ledger';
+import { WorkPackageTable } from './wp-fast-table';
+import { TableSelectionFeedback } from './handlers/state/selection-feedback';
+
+describe('WorkPackageTable', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness?.destroy());
+
+  const unattachedTable = () => {
+    const source = harness.table;
+    return new WorkPackageTable(
+      harness.injector, source.tableAndTimelineContainer, source.scrollContainer,
+      source.tbody, source.timelineBody, source.timelineController, source.configuration,
+    );
+  };
+
+  it('owns selection feedback without a registry', () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    const table = unattachedTable();
+
+    expect(table.selectionFeedback).toBeInstanceOf(TableSelectionFeedback);
+    table.destroy();
+  });
+
+  it('throws when keyboard navigation is read before attaching', () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    const table = unattachedTable();
+
+    expect(() => table.keyboardNavigation).toThrow('Keyboard navigation is not attached to this table');
+    table.destroy();
+  });
+
+  it('runs mutations without keyboard navigation', () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    const table = unattachedTable();
+
+    expect(() => table.mutate('all', () => undefined)).not.toThrow();
+    table.destroy();
+  });
+
+  it('keeps the attached navigation after destroy', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    await harness.render();
+    const navigation = harness.table.keyboardNavigation;
+
+    harness.table.destroy();
+
+    expect(harness.table.keyboardNavigation).toBe(navigation);
+  });
+
+  it('keeps a previous table\'s group rows untouched when collapse state arrives before its first render', async () => {
+    const newStatus = { href: '/api/v3/statuses/1' };
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { status: newStatus } }, { id: '2', attributes: { status: newStatus } }],
+      groups: [{ value: 'New', href: newStatus.href, count: 2 }],
+    });
+    await harness.render();
+    const previousHeader = harness.groupHeader(0);
+    harness.table.destroy();
+    const table = unattachedTable();
+
+    expect(() => table.setGroupsCollapseState({ [previousHeader.dataset.groupIdentifier!]: true })).not.toThrow();
+    expect(previousHeader).toBeInTheDocument();
+    table.destroy();
+  });
+
+  it('renders one row per work package in result order', async () => {
+    harness = buildTable({ workPackages: [{ id: '3' }, { id: '1' }, { id: '2' }] });
+
+    const rendered = await harness.render();
+
+    expect(harness.rows().map((row) => row.dataset.workPackageId)).toEqual(['3', '1', '2']);
+    expect(rendered.map((row) => row.workPackageId)).toEqual(['3', '1', '2']);
+  });
+
+  it('holdFrames keeps a scheduled render out of the table until commit', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+    await harness.render();
+    const frames = harness.holdFrames();
+
+    harness.table.originalRows.reverse();
+    harness.table.redrawTable();
+
+    expect(frames.pending()).toBe(1);
+    expect(harness.rowIds()).toEqual(['1', '2']);
+    frames.commit();
+    expect(frames.pending()).toBe(0);
+    expect(harness.rowIds()).toEqual(['2', '1']);
+    frames.release();
+  });
+
+  it('renders one cell per configured column', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject', 'status'] });
+
+    await harness.render();
+
+    const cells = Array.from(harness.row('1').cells);
+    expect(cells).toHaveLength(3);
+    expect(cells[0]).toHaveAttribute('role', 'gridcell');
+    expect(within(harness.row('1')).getByRole('rowheader')).toBe(cells[1]);
+    expect(cells[1].tagName).toBe('TH');
+    expect(cells[1]).toHaveAttribute('scope', 'row');
+    expect(cells[1]).not.toHaveAttribute('role');
+    expect(cells[2]).toHaveAttribute('role', 'gridcell');
+    expect(cells[0]).not.toHaveClass('subject');
+    expect(cells[1]).toHaveClass('subject');
+    expect(cells[2]).not.toHaveClass('subject');
+  });
+
+  it('mirrors each row identifier onto its timeline cell', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+
+    await harness.render();
+
+    const cells = Array.from(harness.table.timelineBody.querySelectorAll<HTMLElement>('.wp-timeline-cell'));
+    expect(cells.map((cell) => cell.dataset.classIdentifier)).toEqual(['wp-row-1', 'wp-row-2']);
+    expect(cells.map((cell) => cell.dataset.workPackageId)).toEqual(['1', '2']);
+  });
+
+  it('renders existing selection and the current work package on initial render', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }] });
+    harness.selection.initializeSelection(['2']);
+    harness.focus.updateFocus('3', false, false);
+
+    await harness.render();
+
+    expect(harness.row('2')).toHaveClass('-checked');
+    expect(harness.row('3')).toHaveClass('-pressed');
+    expect(harness.row('1')).not.toHaveClass('-checked');
+    expect(harness.row('1')).not.toHaveClass('-pressed');
+  });
+
+  it('repaints when the current work package changes', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+    await harness.render();
+
+    harness.focus.updateFocus('1', false, false);
+    harness.focus.updateFocus('2', false, false);
+
+    expect(harness.row('1')).not.toHaveClass('-pressed');
+    expect(harness.row('2')).toHaveClass('-pressed');
+  });
+  it('highlights the row of each work package when a relation row is spliced above it', async () => {
+    const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
+    harness = buildTable({
+      workPackages: [
+        { id: '1', attributes: status('11') },
+        { id: '2', attributes: status('12') },
+        { id: '3', attributes: status('13') },
+      ],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+      relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      highlightingMode: 'status',
+    });
+    harness.expand('1', 'relationsOfTypeFollows');
+
+    await harness.render();
+
+    const relationRow = harness.tbody.querySelector('[data-occurrence-key="relation:ofType:1:2"]');
+    expect(relationRow).toBe(harness.row('1').nextElementSibling);
+    expect(harness.row('3')).toHaveClass(...Highlighting.backgroundClass('status', '13').split(' '));
+    expect(relationRow).not.toHaveClass(Highlighting.resourceClass('status', '13'));
+  });
+
+  it('repaints the row highlight when a refresh changes the highlighted attribute', async () => {
+    const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
+    harness = buildTable({ workPackages: [{ id: '1', attributes: status('11') }], highlightingMode: 'status' });
+    await harness.render();
+    expect(harness.row('1')).toHaveClass(...Highlighting.backgroundClass('status', '11').split(' '));
+
+    harness.table.refreshRows(buildWorkPackage({ id: '1', attributes: status('12') }));
+
+    expect(harness.row('1')).toHaveClass(...Highlighting.backgroundClass('status', '12').split(' '));
+    expect(harness.row('1')).not.toHaveClass(Highlighting.resourceClass('status', '11'));
+
+    harness.table.refreshRows(buildWorkPackage({ id: '1', attributes: { status: null } }));
+
+    expect(harness.row('1')).not.toHaveClass('__hl_background');
+    expect(harness.row('1')).not.toHaveClass(Highlighting.resourceClass('status', '12'));
+  });
+
+  it('renders the children of a work package once when it is also a relation target', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '2' }, { id: '1', children: [{ id: '3' }] }, { id: '3' }],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }, { id: 'children', children: true }],
+      relations: [{ from: '2', to: '1', type: 'follows', reverseType: 'precedes' }],
+      loadChildren: true,
+    });
+    harness.expand('2', 'relationsOfTypeFollows');
+    harness.expand('1', 'children');
+
+    await harness.render();
+
+    expect(harness.tbody.querySelectorAll('[data-occurrence-key="relation:ofType:2:1"]')).toHaveLength(1);
+    expect(harness.tbody.querySelectorAll('[data-occurrence-key="relation:children:1:3"]')).toHaveLength(1);
+  });
+
+  describe('refreshing a work package shown in several rows', () => {
+    const occurrence = (key:string) => harness.tbody.querySelector<HTMLTableRowElement>(`[data-occurrence-key="${key}"]`)!;
+    const subjectOf = (key:string) => occurrence(key).querySelector(':scope > .wp-table--cell-td.subject')!.textContent.trim();
+    const labelOf = (key:string) => occurrence(key).querySelector('.relation-row--type-label')?.textContent;
+    const relationKeys = ['relation:ofType:1:2', 'relation:children:1:2'];
+
+    beforeEach(async () => {
+      harness = buildTable({
+        workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2' }],
+        columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }, { id: 'children', children: true }],
+        relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      });
+      harness.expand('1', 'relationsOfTypeFollows');
+      await harness.render();
+    });
+
+    it('refreshes every row, including relation rows sharing one row identifier', () => {
+      const labels = relationKeys.map(labelOf);
+      expect(occurrence(relationKeys[0]).dataset.classIdentifier).toBe(occurrence(relationKeys[1]).dataset.classIdentifier);
+
+      harness.table.refreshRows(buildWorkPackage({ id: '2', subject: 'Renamed' }));
+
+      expect(['wp:2', ...relationKeys].map(subjectOf)).toEqual(['Renamed', 'Renamed', 'Renamed']);
+      expect(relationKeys.map(labelOf)).toEqual(labels);
+      expect(labels.every(Boolean)).toBe(true);
+    });
+
+    it('keeps the refreshed row registered with its occurrence', () => {
+      harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
+
+      expect(subjectOf('wp:1')).toBe('Renamed');
+      expect(harness.table.ledger.byElement(harness.row('1'))?.key).toBe('wp:1');
+    });
+  });
+
+  describe('whenRendered', () => {
+    const rows = [{ id: '1' }, { id: '2' }];
+
+    it('resolves after the pending render commits', async () => {
+      harness = buildTable({ workPackages: rows });
+      const frames = harness.holdFrames();
+      const resolved = vi.fn();
+      harness.table.initialSetup(rows.map(buildWorkPackage));
+
+      void harness.table.whenRendered().then(resolved);
+      await Promise.resolve();
+      expect(resolved).not.toHaveBeenCalled();
+
+      frames.commit();
+      await Promise.resolve();
+      expect(resolved).toHaveBeenCalledOnce();
+      frames.release();
+    });
+
+    it('resolves at once without a pending render', async () => {
+      harness = buildTable({ workPackages: rows });
+
+      await expect(harness.table.whenRendered()).resolves.toBeUndefined();
+    });
+
+    it('resolves when the table is destroyed', async () => {
+      harness = buildTable({ workPackages: rows });
+      const frames = harness.holdFrames();
+      harness.table.initialSetup(rows.map(buildWorkPackage));
+      const waiting = harness.table.whenRendered();
+
+      harness.table.destroy();
+
+      await expect(waiting).resolves.toBeUndefined();
+      frames.release();
+    });
+  });
+
+  describe('mutate', () => {
+    beforeEach(async () => {
+      harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+      await harness.render();
+    });
+
+    it('paints the scope and bumps committedRows once for nested calls', () => {
+      const paint = vi.spyOn(harness.table.painter, 'paint');
+      const before = harness.table.committedRows().generation;
+
+      harness.table.mutate(new Set([wpOccurrenceKey('1')]), () => {
+        harness.table.mutate(new Set([wpOccurrenceKey('2')]), () => undefined);
+      });
+
+      expect(paint).toHaveBeenCalledTimes(1);
+      expect(paint).toHaveBeenCalledWith(new Set([wpOccurrenceKey('1'), wpOccurrenceKey('2')]));
+      expect(harness.table.committedRows()).toEqual({
+        generation: before + 1,
+        scope: new Set([wpOccurrenceKey('1'), wpOccurrenceKey('2')]),
+      });
+    });
+
+    it('lets a committedRows consumer react without mutating', () => {
+      const seen:number[] = [];
+      TestBed.runInInjectionContext(() => effect(() => { seen.push(harness.table.committedRows().generation); }));
+      TestBed.tick();
+      const paint = vi.spyOn(harness.table.painter, 'paint');
+
+      harness.table.mutate('positions', () => undefined);
+      TestBed.tick();
+
+      expect(seen).toHaveLength(2);
+      expect(seen[1]).toBe(seen[0] + 1);
+      expect(paint).toHaveBeenCalledTimes(1);
+    });
+
+    it('captures ownership on every entry so a late focus entry during a nested mutation is kept', () => {
+      expect(document.body).toHaveFocus();
+
+      harness.table.mutate('positions', () => {
+        harness.row('2').focus();
+        harness.table.mutate('positions', () => harness.row('2').blur());
+        expect(document.body).toHaveFocus();
+      });
+
+      expect(harness.row('2')).toHaveFocus();
+    });
+
+    it('keeps ownership when a mutation blurs the focused row and then schedules a render', () => {
+      const frames = harness.holdFrames();
+      try {
+        harness.row('2').focus();
+        harness.table.mutate(new Set([wpOccurrenceKey('2')]), () => {
+          harness.row('2').blur();
+          harness.table.redrawTable();
+        });
+        frames.commit();
+      } finally {
+        frames.release();
+      }
+
+      expect(harness.row('2')).toHaveFocus();
+    });
+
+    it('bumps committedRows with the work package keys after replacing its row', () => {
+      const before = harness.table.committedRows().generation;
+
+      harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
+
+      expect(harness.table.committedRows()).toEqual({ generation: before + 1, scope: new Set([wpOccurrenceKey('1')]) });
+      expect(harness.table.ledger.byWorkPackageId('1')[0].element).toBe(harness.row('1'));
+    });
+
+    it('leaves committedRows unchanged for an unknown work package', () => {
+      const before = harness.table.committedRows();
+
+      harness.table.refreshRows(buildWorkPackage({ id: '99' }));
+
+      expect(harness.table.committedRows()).toBe(before);
+    });
+  });
+});

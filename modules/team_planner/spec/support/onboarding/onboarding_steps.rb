@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,20 +31,13 @@ module OnboardingSteps
     expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.team_planner.overview")), normalize_ws: true
 
     next_button.click
-    # The team planner (and in fact every PartitionedQuerySpacePageComponent page) suffers from not being shown upon
-    # clicking on an item in the menu unless the mouse is moved (or some other user event). Angular's change detection
-    # apparently does not fire on the initialization. This only happens when moving from one Angular page to the next
-    # without a reload. This is the case here, as the board page is displayed before.
-    # So this is an ugly workaround when actually the page initalization should be fixed. But as this is an edge case
-    # this shortcut is chosen.
-    sleep 0.5
-
-    retry_block do
+    page.document.synchronize(20) do
       page.execute_script("document.querySelector('#content').dispatchEvent(new MouseEvent('mouseover'));")
 
       page.find(".enjoy_hint_label",
                 text: sanitize_string(I18n.t("js.onboarding.steps.team_planner.calendar")),
-                normalize_ws: true)
+                normalize_ws: true,
+                wait: 0)
     end
 
     next_button.click

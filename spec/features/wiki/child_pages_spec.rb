@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "wiki child pages", :js, :selenium do
+RSpec.describe "wiki child pages", :js do
   let(:project) { create(:project, :with_internal_wiki).reload }
   let(:user) { create(:user, member_with_roles: { project => role }) }
   let(:role) { create(:project_role, permissions: %i[view_wiki_pages edit_wiki_pages]) }

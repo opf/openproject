@@ -1,0 +1,17 @@
+<% helpers.html_title t(:label_my_time), "#{t("label_#{mode}")} #{t(:label_calendar)} #{helpers.format_date(date)}" -%>
+<%= render(My::TimeManagement::ViewFrameComponent.new) do %>
+  <%= flex_layout(data: wrapper_data, classes: "my-time-management-calendar-view") do |calendar_page| %>
+    <% calendar_page.with_row { render(My::TimeManagement::HeaderComponent.new(mode:, date:, entries:, view_mode: :calendar)) } %>
+    <% calendar_page.with_row { render(My::TimeManagement::SubHeaderComponent.new(mode:, date:, entries:, view_mode: :calendar)) } %>
+    <% calendar_page.with_row(classes: "op-fc-wrapper", data: { "my--time-management-target" => "calendar" }) %>
+    <% calendar_page.with_row { render(My::TimeManagement::EntryMenusComponent.new(time_entries:, allocations:)) } %>
+
+    <% if mode != :day %>
+      <% calendar_page.with_row do %>
+        <%= flex_layout(align_items: :flex_end) do |flex| %>
+          <% flex.with_row(mt: 2, font_weight: :bold) { total_hours } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

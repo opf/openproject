@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -55,24 +54,19 @@ import { AttachmentsResourceService } from 'core-app/core/state/attachments/atta
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { StateService } from '@uirouter/angular';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 @Directive()
 export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   injector = inject(Injector);
-
-  @Input() routedFromAngular = true;
 
   @Input() workPackageId:string;
 
   @Input() activeTab = 'activity';
 
   readonly states = inject(States);
-
-  readonly $state = inject(StateService);
 
   readonly i18n = inject(I18nService);
 
@@ -120,14 +114,6 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   public showStaticPagePath:string;
 
   public displayNotificationsButton$:Observable<boolean>;
-
-  constructor() {
-    super();
-
-    if (this.routedFromAngular && this.workPackageId === undefined) {
-      this.workPackageId = this.$state.params.workPackageId as string;
-    }
-  }
 
   /**
    * Observe changes of work package and re-run initialization.
@@ -181,10 +167,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       this.workPackage = wp;
     }
 
-    if (this.routedFromAngular) {
-      // Push the current title
-      this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
-    }
+    this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
 
     this.cdRef.detectChanges();
   }
@@ -200,14 +183,14 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .id(this.workPackage.project)
       .requireAndStream()
       .subscribe(() => {
-        this.projectIdentifier = this.workPackage.project.identifier;
+        this.projectIdentifier = this.workPackage.project.identifier as string;
         this.cdRef.detectChanges();
       });
 
     // lazy load the work package's project, needed when initializing
     // the work package resource from split view.
     this.projectsResourceService
-      .requireEntity((this.workPackage.$links.project as HalResource).href!)
+      .requireEntity((this.workPackage.$links.project as CallableHalLink).href!)
       .subscribe(
         () => {},
         (error:HttpErrorResponse) => {
@@ -218,7 +201,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     this.displayNotificationsButton$ = this.storeService.hasNotifications$;
     this.storeService.setFilters(this.workPackage.id!);
 
-    // Set authorisation data
+    // Set authorization data
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
     // Preselect this work package for future list operations
@@ -226,7 +209,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
     // Fetch attachments of current work package
     if (this.workPackage.$links.attachments) {
-      this.attachmentsResourceService.fetchCollection(this.workPackage.$links.attachments.href!).subscribe();
+      this.attachmentsResourceService.fetchCollection((this.workPackage.$links.attachments as CallableHalLink).href!).subscribe();
     }
 
     // Listen to tab changes to update the tab label
@@ -245,8 +228,9 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Recompute the current tab focus label
    */
   public updateFocusAnchorLabel(tabName:string):string {
+    const tab = this.i18n.t(`js.work_packages.tabs.${tabName}`);
     this.focusAnchorLabel = this.i18n.t('js.label_work_package_details_you_are_here', {
-      tab: this.i18n.t(`js.work_packages.tabs.${tabName}`),
+      tab,
       type: this.workPackage.type.name,
       subject: this.workPackage.subject,
     });

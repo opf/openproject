@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module IncomingEmails::Handlers
   class MessageReply < Base
     # Override in subclasses to determine if this handler can process the email
@@ -53,11 +53,15 @@ module IncomingEmails::Handlers
 
         if message.locked?
           ServiceResult.failure(message: "ignoring reply from [#{sender_email}] to a locked topic",
-                                mesage_type: :warn)
+                                message_type: :warn)
         else
           create_reply_message(message)
         end
       end
+    end
+
+    def sender_email
+      email.from&.first
     end
 
     def create_reply_message(root)

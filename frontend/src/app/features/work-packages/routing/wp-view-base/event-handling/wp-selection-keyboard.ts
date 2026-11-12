@@ -1,0 +1,99 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { isApplePlatform } from 'core-common/platform';
+import { closestInteractiveElement } from 'core-common/interactive-element-helper';
+import { isSelectAllShortcut } from 'core-common/selection-shortcuts';
+import { clearSelectionOnEscape } from 'core-common/selection-escape';
+
+export interface WorkPackageSelectAllOptions {
+  root:HTMLElement;
+  focusSelector:string;
+  occurrenceSelector:string;
+  rendered:() => RenderedWorkPackage[];
+  selectAll:(rows:RenderedWorkPackage[], anchor:RenderedWorkPackage) => void;
+}
+
+const registrations = new WeakSet<HTMLElement>();
+
+export function registerWorkPackageSelectAll(options:WorkPackageSelectAllOptions):() => void {
+  const { root } = options;
+  registrations.add(root);
+
+  const handle = (event:KeyboardEvent) => {
+    if (!event.ctrlKey && !event.metaKey) return;
+    if (event.defaultPrevented || !isSelectAllShortcut(event, isApplePlatform())) return;
+
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    let owner:HTMLElement|null = target;
+    while (owner && !registrations.has(owner)) owner = owner.parentElement;
+    if (owner !== root) return;
+
+    const focus = target.closest<HTMLElement>(options.focusSelector);
+    if (!focus || !root.contains(focus) || closestInteractiveElement(target, focus, false)) return;
+
+    const element = focus.closest<HTMLElement>(options.occurrenceSelector);
+    if (!element || !root.contains(element) || !element.dataset.workPackageId) return;
+
+    const rows = options.rendered();
+    const candidate = rows.find((row) => row.workPackageId === element.dataset.workPackageId
+      && row.classIdentifier === element.dataset.classIdentifier);
+    if (!candidate) return;
+
+    event.preventDefault();
+    options.selectAll(rows, candidate);
+  };
+
+  root.addEventListener('keydown', handle, true);
+
+  return () => {
+    root.removeEventListener('keydown', handle, true);
+    registrations.delete(root);
+  };
+}
+
+export interface WorkPackageDeselectAllOptions {
+  root:HTMLElement;
+  hasState:() => boolean;
+  clear:() => void;
+}
+
+/**
+ * Clears this view's selection on an unowned Escape from anywhere in its
+ * document; `root` names the document and the lifecycle owner, not the
+ * event scope.
+ */
+export function registerWorkPackageDeselectAll(options:WorkPackageDeselectAllOptions):() => void {
+  const { ownerDocument } = options.root;
+  const handle = (event:KeyboardEvent) => clearSelectionOnEscape(event, options.hasState, options.clear);
+
+  ownerDocument.addEventListener('keydown', handle);
+
+  return () => ownerDocument.removeEventListener('keydown', handle);
+}

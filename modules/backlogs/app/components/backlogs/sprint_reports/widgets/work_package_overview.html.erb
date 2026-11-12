@@ -1,0 +1,138 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= widget_wrapper(classes: "op-sprint-reports--wp-overview-widget") do |container| %>
+  <%
+    container.with_header(title:) do |header|
+      header.with_counter(
+        count: total_work_packages_count,
+        limit: 1_000,
+        hide_if_zero: true
+      )
+    end
+  %>
+
+    <% container.with_body do %>
+      <%=
+        flex_layout(classes: "op-wp-overview--progress", align_items: :center) do |flex|
+          flex.with_column(flex: 1, mr: 3) do
+            render(
+              Primer::Beta::ProgressBar.new(
+                size: :large,
+                role: "progressbar",
+                aria: {
+                  valuenow: resolved_percentage, valuemin: 0, valuemax: 100,
+                  label: progress_label,
+                  valuetext: progress_summary_text
+                }
+              )
+            ) do |bar|
+              bar.with_item(percentage: resolved_percentage)
+            end
+          end
+
+          flex.with_column(mr: 3, aria: { hidden: true }) do
+            render(Primer::Beta::Text.new(tag: :div, font_size: :small)) do
+              progress_summary_text
+            end
+          end
+        end
+      %>
+
+    <%= render(Primer::Box.new(classes: "op-wp-overview--blocks", mt: 3)) do %>
+      <%=
+        render(
+          BreakdownBlock.new(
+            heading: t(".blocks.initially_planned.heading"),
+            show_all_href: show_all_path(timestamps: breakdown.reference_start)
+          )
+        ) do |block|
+          block.with_count { breakdown.initially_planned.work_package_count.to_s }
+          if show_secondary_metric?
+            block.with_secondary_metric { secondary_metric_text(breakdown.initially_planned) }
+          end
+        end
+      %>
+
+      <%=
+        render(
+          BreakdownBlock.new(
+            heading: t(".blocks.changed_after_start.heading"),
+            show_all_href: show_all_path(timestamps: [breakdown.reference_start, breakdown.reference_finish])
+          )
+        ) do |block|
+          block.with_count do
+            t(
+              ".blocks.changed_after_start.change_html",
+              added: breakdown.changed_after_start.added_count, removed: breakdown.changed_after_start.removed_count, divider: divider_text
+            )
+          end
+          if show_secondary_metric?
+            block.with_secondary_metric { secondary_metric_change_text }
+          end
+        end
+      %>
+
+      <%=
+        render(
+          BreakdownBlock.new(
+            heading: t(".blocks.completed.heading"),
+            count_color: :success,
+            show_all_href: show_all_path(
+              timestamps: [breakdown.reference_finish],
+              status_filter_operator: "="
+            )
+          )
+        ) do |block|
+          block.with_count { breakdown.completed.work_package_count.to_s }
+          if show_secondary_metric?
+            block.with_secondary_metric { secondary_metric_text(breakdown.completed) }
+          end
+        end
+      %>
+
+      <%=
+        render(
+          BreakdownBlock.new(
+            heading: t(".blocks.unfinished.heading"),
+            count_color: :muted,
+            show_all_href: show_all_path(
+              timestamps: [breakdown.reference_finish],
+              status_filter_operator: "!"
+            )
+          )
+        ) do |block|
+          block.with_count { breakdown.unfinished.work_package_count.to_s }
+          if show_secondary_metric?
+            block.with_secondary_metric { secondary_metric_text(breakdown.unfinished) }
+          end
+        end
+      %>
+    <% end %>
+  <% end %>
+<% end %>

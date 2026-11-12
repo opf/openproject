@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "spec_helper"
 
@@ -37,4 +35,15 @@ RSpec.describe Admin::Settings::GeneralSettingsController do
   current_user { user }
 
   include_examples "GET #show requires admin permission and renders template", path: "general_settings"
+
+  describe "PATCH #update" do
+    it "stores custom protocols and drops schemes that cannot be used in links" do
+      patch :update, params: {
+        settings: { allowed_link_protocols: "ftp\njavascript\nJavaScript\ndata\nvbscript\n<vbscript>\n" }
+      }
+
+      expect(response).to redirect_to(action: "show")
+      expect(Setting.allowed_link_protocols).to eq(["ftp"])
+    end
+  end
 end

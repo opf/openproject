@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,7 +61,7 @@ class JsonValidator < ActiveModel::EachValidator
   # catch JSON parsing errors.
   def inject_setter_method(klass, attributes)
     attributes.each do |attribute|
-      # rubocop:disable Style/DocumentDynamicEvalDefinition
+      # rubocop:disable-next Style/DocumentDynamicEvalDefinition
       klass.class_eval <<-RUBY, __FILE__, __LINE__ + 1
         attr_reader :"#{attribute}_invalid_json"
         define_method "#{attribute}=" do |args|
@@ -76,7 +75,6 @@ class JsonValidator < ActiveModel::EachValidator
           end
         end
       RUBY
-      # rubocop:enable Style/DocumentDynamicEvalDefinition
     end
   end
 

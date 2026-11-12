@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,6 +36,10 @@ class Report::Filter
 
   def self.all_grouped
     all.group_by(&:applies_for).to_a.sort { |a, b| a.first.to_s <=> b.first.to_s }
+  end
+
+  def self.named(name)
+    all.detect { |filter| filter.underscore_name == name.to_s.underscore }
   end
 
   def self.from_hash

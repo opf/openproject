@@ -14,6 +14,7 @@
 
   <div
     (click)="activateIfEditable($event)"
+    (dblclick)="activateIfEditable($event)"
     (keydown.enter)="activateIfEditable($event)"
     [hidden]="active"
     tabindex="-1"

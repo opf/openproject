@@ -31,7 +31,7 @@ de:
         title: Mitglieder
         view_all_members: Alle Mitglieder anzeigen
         x_more:
-          one: und ein weiteres Mitglied.
+          one: und %{count} weiteres Mitglied.
           other: und %{count} weitere Mitglieder.
       news:
         no_results: Nichts Neues zu berichten.

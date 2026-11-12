@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,7 +67,7 @@ module Pages
     def expect_work_package_listed(*work_packages)
       within(table_container) do
         work_packages.each do |wp|
-          expect(page).to have_css(".wp-row-#{wp.id} td.subject",
+          expect(page).to have_css(".wp-row-#{wp.id} .wp-table--cell-td.subject",
                                    text: wp.subject,
                                    wait: 20)
         end
@@ -88,7 +87,7 @@ module Pages
           # will happily match cells that contain text.
           text_options = value.to_s.empty? ? { exact_text: "" } : { text: value.to_s }
           expect(page).to have_css(
-            ".wp-row-#{work_package.id} td.#{column.to_s.camelize(:lower)}", **text_options, wait: 20
+            ".wp-row-#{work_package.id} .wp-table--cell-td.#{column.to_s.camelize(:lower)}", **text_options, wait: 20
           )
         end
       end
@@ -122,7 +121,7 @@ module Pages
     # @param subject [String] The subject of the work package.
     def expect_work_package_subject(subject)
       within(table_container) do
-        expect(page).to have_css("td.subject",
+        expect(page).to have_css(".wp-table--cell-td.subject",
                                  text: subject,
                                  wait: 20)
       end
@@ -159,7 +158,7 @@ module Pages
       retry_block(args: { tries: 3, base_interval: 5 }) do
         within(table_container) do
           work_packages.each do |wp|
-            expect(page).to have_no_css(".wp-row-#{wp.id} td.subject", text: wp.subject)
+            expect(page).to have_no_css(".wp-row-#{wp.id} .wp-table--cell-td.subject", text: wp.subject)
           end
         end
       end
@@ -170,12 +169,15 @@ module Pages
     # @param ids [Array<WorkPackage, String, Integer>] The work package IDs or
     #   objects.
     def expect_work_package_order(*ids)
-      retry_block do
-        rows = page.all ".work-package-table .wp--row"
-        expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
+      expected = ids.map { |el| el.is_a?(WorkPackage) ? el.id.to_s : el.to_s }
+
+      page.document.synchronize do
+        rows = page.all(".work-package-table .wp--row", minimum: expected.size)
         found = rows.map { |el| el["data-work-package-id"] }
 
-        raise "Order is incorrect: #{found.inspect} != #{expected.inspect}" unless found == expected
+        unless found == expected
+          raise Capybara::ElementNotFound, "Order is incorrect: #{found.inspect} != #{expected.inspect}"
+        end
       end
     end
 
@@ -183,6 +185,7 @@ module Pages
     def expect_no_work_package_listed
       within(table_container) do
         expect(page).to have_css("#empty-row-notification")
+        expect(page).to have_heading(I18n.t("js.work_packages.no_results.title"), level: 3)
       end
     end
 
@@ -213,27 +216,30 @@ module Pages
 
     # Clicks the inline create button.
     def click_inline_create
-      ##
-      # When using the inline create on initial page load,
-      # there is a delay on travis where inline create can be clicked.
-      sleep 3
-
+      wait_for_network_idle if using_cuprite?
       container.find('[data-test-selector="op-wp-inline-create"]').click
-      expect(container).to have_css(".wp-inline-create-row", wait: 10)
+      expect(container).to have_css(".wp-inline-create-row", wait: 30)
     end
 
     # Opens the split view for the specified work package.
     #
     # @param work_package [WorkPackage] The work package object.
-    # @return [Pages::SplitWorkPackage] The split work package page object.
-    def open_split_view(work_package)
-      split_page = SplitWorkPackage.new(work_package, project)
+    # @param primerized [Boolean] Whether to return a Pages::PrimerizedSplitWorkPackage
+    #   (the split view now rendered for work packages/gantt, the default) instead of
+    #   the legacy Pages::SplitWorkPackage.
+    # @return [Pages::SplitWorkPackage, Pages::PrimerizedSplitWorkPackage] The split work package page object.
+    def open_split_view(work_package, primerized: true)
+      split_page = if primerized
+                     PrimerizedSplitWorkPackage.new(work_package, project)
+                   else
+                     SplitWorkPackage.new(work_package, project)
+                   end
 
       # Hover row to show split screen button
       row_element = row(work_package)
       row_element.hover
 
-      scroll_to_and_click(row_element.find(".wp-table--details-link"))
+      scroll_to_and_click(row_element.find(:link, accessible_name: I18n.t("js.button_open_details")))
 
       split_page
     end
@@ -243,7 +249,7 @@ module Pages
     # @param work_package [WorkPackage] The work package object.
     def click_on_row(work_package)
       loading_indicator_saveguard
-      page.driver.browser.action.click(row(work_package).native).perform
+      row(work_package).click
     end
 
     # Opens the full screen view of the specified work package by
@@ -257,7 +263,7 @@ module Pages
       click_target = row(work_package).find(".inline-edit--display-field.id")
       click_target.double_click
 
-      FullWorkPackage.new(work_package, project)
+      FullWorkPackage.new(work_package, project).tap(&:ensure_loaded)
     end
 
     # Opens the full screen view of the specified work package by clicking on
@@ -277,6 +283,176 @@ module Pages
     # @param to [WorkPackage] The target work package object.
     def drag_and_drop_work_package(from:, to:)
       drag_and_drop_list(from:, to:, elements: ".wp-table--row", handler: ".wp-table--drag-and-drop-handle")
+    end
+
+    def select_all_work_packages
+      send_select_all(roving_tab_stop || table_container.first("tr.wp-table--row", minimum: 1))
+      expect(page).to have_no_selector(:menu, I18n.t("js.label_work_package_context_menu"))
+    end
+
+    # Moves focus into the table with Tab from the entry control.
+    def tab_into_table
+      entry_control.execute_script("this.focus()")
+      press_keys(:tab)
+    end
+
+    # Presses Tab until `element` holds focus, giving up after `bound` presses.
+    #
+    # @param element [Capybara::Node::Element] The element expected to receive focus.
+    # @param bound [Integer] The maximum number of Tab presses.
+    def tab_until_focused(element, bound: 40)
+      bound.times do
+        break if element.matches_selector?(:css, ":focus", wait: 0)
+
+        press_keys(:tab)
+      end
+
+      expect(element).to match_selector(:css, ":focus")
+    end
+
+    # @return [Capybara::Node::Element] The control directly before the table in tab order.
+    def entry_control
+      last_toolbar_control
+    end
+
+    # Tabs into the table, returns to the header row with Ctrl+Home and moves
+    # down by arrow keys until the row for `work_package` holds focus.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    def focus_row_by_keyboard(work_package)
+      tab_into_table
+      press_until_focused(:left, "tr")
+      press_keys(%i[control home])
+      press_until_focused(:down, row_selector(work_package))
+    end
+
+    # Focuses the row for `work_package` by keyboard, then moves right by
+    # arrow keys until its cell for `attribute` holds focus.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    # @param attribute [Symbol] The column attribute, e.g. `:subject`.
+    def focus_cell_by_keyboard(work_package, attribute)
+      focus_row_by_keyboard(work_package)
+      press_until_focused(:right, "#{row_selector(work_package)} #{cell_selector(attribute)}")
+    end
+
+    # Sends keys to the focused element without clicking it first.
+    #
+    # @param keys [Array<Symbol, String, Array>] Keys as accepted by Cuprite.
+    def press_keys(*keys)
+      page.driver.browser.keyboard.type(*keys)
+    end
+
+    # Ferrum maps no symbol to the Menu key, so dispatch it from its own key table.
+    def press_menu_key
+      key = Ferrum::Keyboard::KEYS.fetch("ContextMenu").transform_keys(&:to_sym)
+      page.driver.browser.page.command("Input.dispatchKeyEvent", type: "rawKeyDown", **key)
+      page.driver.browser.page.command("Input.dispatchKeyEvent", type: "keyUp", **key)
+    end
+
+    def expect_focus_on_control(work_package, name)
+      expect(find(row_selector(work_package)))
+        .to have_selector(:link_or_button, accessible_name: name, focused: true)
+    end
+
+    # Expects the "Create new work package" button below the results to be rendered.
+    def expect_inline_create_button
+      expect(table_container).to have_button("Create new work package")
+    end
+
+    # Expects the row for `work_package` to hold focus.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    def expect_focus_on_row(work_package)
+      expect(table_container).to have_css(row_selector(work_package), focused: true)
+    end
+
+    # Expects the row for `work_package` to be marked as the current work package.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    def expect_current_row(work_package)
+      expect(table_container).to have_css("#{row_selector(work_package)}[data-pressed]")
+    end
+
+    # Expects exactly the rows in `selected` among `among` to be marked selected.
+    #
+    # @param selected [Array<WorkPackage>] The work packages expected to be selected.
+    # @param among [Array<WorkPackage>] The work packages whose selection state is checked.
+    def expect_selected_rows(*selected, among:)
+      among.each do |work_package|
+        expect(treegrid)
+          .to have_selector(:row, work_package.subject, aria: { selected: selected.include?(work_package) })
+      end
+    end
+
+    # Expects the cell for `attribute` in the row for `work_package` to hold focus.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    # @param attribute [Symbol] The column attribute, e.g. `:subject`.
+    def expect_focus_on_cell(work_package, attribute)
+      expect(table_container).to have_css("#{row_selector(work_package)} #{cell_selector(attribute)}", focused: true)
+    end
+
+    # Expects the totals row cell holding the sum for `attribute` to hold focus.
+    #
+    # @param attribute [Symbol] The column attribute, e.g. `:estimated_time`.
+    def expect_focus_on_totals_cell(attribute)
+      sum_container = ".wp-table--sum-container.#{attribute.to_s.camelize(:lower)}"
+      expect(table_container).to have_css(
+        "tbody:not(.work-package--results-tbody) > tr.wp-table--sums-row > td:has(> #{sum_container})",
+        focused: true
+      )
+    end
+
+    # Expects the column header named `name` to hold focus.
+    #
+    # @param name [String] The visible column name, e.g. `"Subject"`.
+    def expect_focus_on_column_header(name)
+      expect(table_container).to have_selector(:columnheader, name, focused: true)
+    end
+
+    # Expects focus to rest on an element outside the table's grid (header,
+    # rows and totals), and not on the document body.
+    def expect_focus_outside_table
+      expect(table_container).to have_no_css(
+        "thead :focus, thead:focus, tr.wp-table--row:focus, tr.wp-table--row :focus, tr.wp-table--sums-row :focus, " \
+        "tr.wp-table--group-header:focus, tr.wp-table--group-header :focus"
+      )
+      expect(page).to have_css(":focus")
+    end
+
+    # @return [Capybara::Node::Element] The work package table exposed as a treegrid.
+    def treegrid
+      container.find(:table, role: "treegrid", accessible_name: table_name, exact: true)
+    end
+
+    def container
+      page
+    end
+
+    # @return [String] A CSS selector matching only this table, for scoping axe scans.
+    def axe_scope
+      "##{table_container.find('table.work-package-table[id]')[:id]}"
+    end
+
+    def table_name
+      I18n.t("js.label_work_package_plural")
+    end
+
+    # Expects the table's `aria-rowcount` and the `aria-rowindex` of every
+    # visible row, in document order from the header row down.
+    #
+    # @param rowcount [Integer] The expected `aria-rowcount` of the table.
+    # @param rows [Array<Integer>] The expected `aria-rowindex` of each exposed row.
+    def expect_row_positions(rowcount:, rows:)
+      wait_for { treegrid.all(:row).pluck("aria-rowindex") }.to eq(rows.map(&:to_s))
+      expect(treegrid).to match_selector(:table, aria: { rowcount: })
+    end
+
+    # Expects the table and all of its rows, hidden ones included, to carry no row position.
+    def expect_no_row_positions
+      expect(treegrid).to match_selector(:table, aria: { rowcount: nil })
+      expect(treegrid).to have_no_selector(:element, "tr", "aria-rowindex": /./, visible: :all)
     end
 
     # Returns the row element for the specified work package.
@@ -360,8 +536,12 @@ module Pages
       click_setting_item /Save$/
     end
 
+    def cell(work_package, attribute)
+      row(work_package).find(cell_selector(attribute))
+    end
+
     def table_container
-      find("#content .work-packages-split-view--tabletimeline-side")
+      find("#content .work-packages-split-view--tabletimeline-side", wait: 20)
     end
 
     def work_package_container(work_package)
@@ -373,7 +553,7 @@ module Pages
     end
 
     def progress_popover(work_package)
-      Components::WorkPackages::ProgressPopover.new(container: -> { work_package_container(work_package) })
+      Components::WorkPackages::ProgressPopover.new(container: page, field_selector_prefix: row_selector(work_package))
     end
 
     def expect_no_column_add_option(column_name)
@@ -383,25 +563,48 @@ module Pages
 
     protected
 
-    def container
-      page
-    end
-
     def work_package_field(work_package, key)
-      container = work_package_container(work_package)
+      row = work_package.nil? ? ".wp-inline-create-row" : row_selector(work_package)
+      selector = "#{row} .inline-edit--container.#{key.to_s.camelize(:lower)}"
+
       case key.to_sym
       when :date, :startDate, :dueDate, :combinedDate
-        DateEditField.new container, key, is_milestone: work_package.milestone?, is_table: true
+        DateEditField.new page, key, selector:, is_milestone: work_package.milestone?, is_table: true
       when :estimatedTime, :remainingTime
-        ProgressEditField.new container, key
+        ProgressEditField.new page, key, selector:
       when :project
-        InlineProjectEditField.new container, key
+        InlineProjectEditField.new page, key, selector:
       else
-        EditField.new container, key
+        EditField.new page, key, selector:
       end
     end
 
     private
+
+    def roving_tab_stop
+      table_container.first('.wp-table--row[tabindex="0"], .wp-table--row [tabindex="0"]', minimum: 0)
+    end
+
+    def last_toolbar_control
+      find("#content .toolbar-items")
+        .all("a[href]:not([tabindex='-1']), button:not(:disabled):not([tabindex='-1'])", minimum: 1)
+        .last
+    end
+
+    def press_until_focused(key, selector)
+      bound = table_container.all("tr.wp-table--row", minimum: 0).size + table_container.all("thead th", minimum: 0).size + 3
+      bound.times do
+        break if table_container.has_css?(selector, focused: true, wait: 0)
+
+        press_keys(key)
+      end
+
+      expect(table_container).to have_css(selector, focused: true)
+    end
+
+    def cell_selector(attribute)
+      ".wp-table--cell-td.#{attribute.to_s.camelize(:lower)}"
+    end
 
     def path
       project ? project_work_packages_path(project) : work_packages_path

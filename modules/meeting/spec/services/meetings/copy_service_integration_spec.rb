@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -152,6 +151,15 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
         .to eq agenda_item.notes
     end
 
+    it "journals the copied sections and agenda items in the copy's creation journal" do
+      journal = copy.journals.sole
+
+      expect(journal.section_journals.pluck(:section_id))
+        .to match_array(MeetingSection.where(meeting: copy).pluck(:id))
+      expect(journal.agenda_item_journals.pluck(:agenda_item_id))
+        .to match_array(copy.agenda_items.pluck(:id))
+    end
+
     context "when asking not to copy agenda" do
       let(:params) { { copy_agenda: false } }
 
@@ -184,6 +192,14 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
 
         expect(copy.agenda_items.count).to eq(1)
         expect(copy.agenda_items.first.notes).to include "attachments/#{copy.attachments.first.id}/content"
+      end
+
+      it "journals the copied attachment and the agenda item notes referencing it" do
+        journal = copy.journals.last
+
+        expect(journal.attachable_journals.pluck(:attachment_id)).to contain_exactly(copy.attachments.first.id)
+        expect(journal.agenda_item_journals.sole.notes)
+          .to include "attachments/#{copy.attachments.first.id}/content"
       end
     end
 

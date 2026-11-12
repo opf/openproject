@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -293,7 +292,7 @@ module Authentication
     end
 
     ##
-    # Indicates whether OmniAuth::Strategies::Delevoper strategy is used.
+    # Indicates whether OmniAuth::Strategies::Developer strategy is used.
     # https://github.com/omniauth/omniauth/blob/0bcfd5b25bf946422cd4d9c40c4f514121ac04d6/lib/omniauth/strategies/developer.rb
     # if true:
     #   identity_url should not be set and

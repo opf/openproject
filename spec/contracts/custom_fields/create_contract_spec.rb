@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,7 +53,8 @@ RSpec.describe CustomFields::CreateContract do
                       multi_value: custom_field_multi_value,
                       content_right_to_left: custom_field_right_to_left,
                       custom_field_section_id: custom_field_custom_field_section_id,
-                      allow_non_open_versions: custom_field_allow_non_open_versions)
+                      allow_non_open_versions: custom_field_allow_non_open_versions,
+                      project_specific_value_restriction: custom_field_project_specific_value_restriction)
     end
 
     subject(:contract) { described_class.new(custom_field, current_user) }

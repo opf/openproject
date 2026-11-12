@@ -5,6 +5,7 @@ require "pathname"
 require "yaml"
 require "markly"
 require "uri"
+require "addressable/template"
 require "active_support/inflector"
 
 def parse_markdown(content)
@@ -248,6 +249,8 @@ class DocsChecker
   end
 
   def check_static_link(link)
+    return if templated_link?(link)
+
     uri = URI(link[:url])
     expected_path = File.expand_path(File.join(@root_path, uri.path))
     return if uri.host != "www.openproject.org"
@@ -256,6 +259,10 @@ class DocsChecker
     target_doc = @docs.find { |d| d[:path] == expected_path }
 
     @errors.push({ error: "Page", link:, doc: link[:doc] }) if target_doc.nil?
+  end
+
+  def templated_link?(link)
+    Addressable::Template.new(link[:url]).variables.any?
   end
 
   def github_escape(str)

@@ -20,24 +20,23 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 
 interface SelectAutocompleterAssignment {
   attribute:string;
-  component:string;
+  component:Type<unknown>;
 }
 
 @Injectable({ providedIn: 'root' })
 export class SelectAutocompleterRegisterService {
   private _fields:SelectAutocompleterAssignment[] = [];
 
-  public register(component:any, attribute:string) {
+  public register(component:Type<unknown>, attribute:string) {
     this._fields.push({ attribute, component });
   }
 

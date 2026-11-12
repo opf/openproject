@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,9 +33,7 @@
     #main
       top: 12px
 
-.router--work-packages-partitioned-split-view:not(.router--work-packages-full-create),
-.router--work-packages-partitioned-split-view-details:not(.router--work-packages-full-create),
-.router--work-packages-partitioned-split-view-new:not(.router--work-packages-full-create)
+.router--work-packages-partitioned-split-view:not(.router--work-packages-partitioned-split-view-details):not(.router--work-packages-partitioned-split-view-new)
   @include extended-content--bottom
   @include extended-content--right
 
@@ -44,6 +41,14 @@
   // we need to add it manually to the left to avoid a jump there
   .work-packages-partitioned-page--content-left
     padding-bottom: 10px
+
+.router--work-packages-base
+  &.router--work-packages-partitioned-split-view-details,
+  &.router--work-packages-partitioned-split-view-new
+    // Base layout restores padding-right: 1rem on #content-body/#content-header when the
+    // split pane is open. Override it back to 0.
+    @include split-pane-active
+      @include extended-content--right
 
 // Ensure correct height applied to child elements.
 // The dom looks like this:

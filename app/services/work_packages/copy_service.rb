@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,11 +70,13 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
   end
 
   def create(work_package, attribute_overrides, send_notifications)
+    attributes = with_usable_custom_field_values(copied_attributes(work_package, attribute_overrides))
+
     WorkPackages::CreateService
       .new(user:,
            contract_class:)
       .with_state(state)
-      .call(**copied_attributes(work_package, attribute_overrides).merge(send_notifications:).symbolize_keys)
+      .call(**attributes.merge(send_notifications:).symbolize_keys)
   end
 
   def copied_attributes(work_package, override)
@@ -87,6 +88,7 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
                    .slice(*writable_attributes)
                    .merge("custom_field_values" => work_package.custom_value_attributes)
                    .merge(version_reference_attributes(work_package, writable_attributes))
+                   .merge(label_reference_attributes(work_package, writable_attributes))
                    .merge(overwritten_attributes)
 
     if overwritten_attributes.has_key?("start_date") &&
@@ -96,6 +98,27 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
     end
 
     attributes
+  end
+
+  def with_usable_custom_field_values(attributes)
+    custom_field_values = usable_custom_field_values(attributes["custom_field_values"], target_project(attributes))
+
+    attributes.merge("custom_field_values" => custom_field_values)
+  end
+
+  def usable_custom_field_values(custom_field_values, project)
+    values = custom_field_values.to_h.transform_keys(&:to_i)
+
+    WorkPackageCustomField
+      .where(id: values.keys)
+      .where.not(project_specific_value_restriction: nil)
+      .each_with_object(values) do |custom_field, usable_values|
+        usable_values[custom_field.id] = custom_field.keep_usable_values(usable_values[custom_field.id], project)
+      end
+  end
+
+  def target_project(attributes)
+    attributes["project"] || Project.find_by(id: attributes["project_id"])
   end
 
   def writable_work_package_attributes(work_package)
@@ -114,6 +137,12 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
     end
 
     attributes.compact
+  end
+
+  def label_reference_attributes(work_package, writable_attributes)
+    return {} unless writable_attributes.include?("labels")
+
+    { "label_ids" => work_package.label_ids.presence }.compact
   end
 
   def remove_author_watcher(copied)

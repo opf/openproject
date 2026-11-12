@@ -6,7 +6,7 @@
   #overlay
   tabindex="0"
   cdkFocusInitial
-  cdkTrapFocus
+  [cdkTrapFocus]="(activeModalInstance$ | async) !== null"
   [cdkTrapFocusAutoCapture]="true"
   (mousedown)="close($event, false)"
   role="dialog"

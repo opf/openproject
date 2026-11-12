@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,16 +37,18 @@ module OpPrimer
       render(Primer::OpenProject::GridLayout.new(css_class:, **), &)
     end
 
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
-    end
-
     def component_collection(**, &)
       render(OpPrimer::ComponentCollectionComponent.new(**), &)
     end
 
     def border_box_container(**system_args, &)
       Primer::Beta::BorderBox.new(position: :relative, **system_args, &)
+    end
+
+    # Takes its arguments positionally so it can serve as a `component_wrapper`
+    # method, which hands the wrapper arguments to it as one hash.
+    def stack_item(wrapper_arguments, &)
+      render(Primer::Alpha::StackItem.new(**wrapper_arguments), &)
     end
 
     def border_box_row(wrapper_arguments, &)

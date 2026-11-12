@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,10 +44,21 @@ module My
       private
 
       def new_token
-        @new_token ||= case token_type
-                       when "api" then Token::API.new
-                       when "ical_meeting" then Token::ICalMeeting.new
-                       end
+        @new_token ||= build_token.tap do |token|
+          set_default_expiry(token) if token.is_a?(Token::Expirable)
+        end
+      end
+
+      def build_token
+        case token_type
+        when "api" then Token::API.new
+        when "ical_meeting" then Token::ICalMeeting.new
+        end
+      end
+
+      def set_default_expiry(token)
+        token.user = User.current
+        token.expires_on_date = token.user.time_zone.today + Token::Expirable::DEFAULT_EXPIRY
       end
 
       def i18n_scope

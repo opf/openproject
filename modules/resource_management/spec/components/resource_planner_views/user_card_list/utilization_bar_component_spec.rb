@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ RSpec.describe ResourcePlannerViews::UserCardList::UtilizationBarComponent, type
     expect(page).to have_no_test_selector("utilization-bar")
   end
 
-  describe "the bar colour and width by utilization" do
+  describe "the bar color and width by utilization" do
     it "is accent and proportional below 100%" do
       expect(bar(34).send(:bar_color)).to eq(:accent_emphasis)
       expect(bar(34).send(:bar_percentage)).to eq(34)

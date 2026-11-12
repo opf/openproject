@@ -1,0 +1,1405 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { CommonModule } from '@angular/common';
+import { headerRowKey, inlineCreateRowKey, totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
+import type { PaintScope } from 'core-app/features/work-packages/components/wp-fast-table/row-mutations';
+import { ChangeDetectorRef, Component, Injector, NgModule, NO_ERRORS_SCHEMA, signal } from '@angular/core';
+import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
+import { WorkPackageTableSumsRowController } from './wp-table-sums-row/wp-table-sums-row.directive';
+import { SortHeaderDirective } from './sort-header/sort-header.directive';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
+import { BehaviorSubject, config, of, Subject } from 'rxjs';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { States } from 'core-app/core/states/states.service';
+import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC, QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageInlineCreateComponent } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.component';
+import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
+import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
+import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
+import { nextFrame, nextTask } from 'core-common/testing/timing';
+import {
+  buildColumn, buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
+} from '../wp-fast-table/testing/table-harness';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { buildWorkPackage, WorkPackageFixture } from '../wp-fast-table/testing/work-package-fixture';
+import { WorkPackageTimelineTableController } from './timeline/container/wp-timeline-container.directive';
+import { WorkPackagesTableComponent } from './wp-table.component';
+import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
+
+/** Shows the table or the card view, as `wp-list-view` does when the viewport or query changes. */
+@Component({
+  template: '@if (showTable()) { <wp-table [configuration]="configuration" /> }',
+  standalone: false,
+})
+class ListViewStandInComponent {
+  showTable = signal(true);
+
+  configuration:Record<string, boolean|string> = {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: false,
+    contextMenuEnabled: false,
+    inlineCreateEnabled: false,
+    dragAndDropEnabled: false,
+  };
+}
+
+describe('WorkPackagesTableComponent lifecycle', () => {
+  let fixture:ComponentFixture<ListViewStandInComponent>;
+  let querySpace:IsolatedQuerySpace;
+  let states:States;
+  let timeline:WorkPackageViewTimelineService;
+  let actions:ActionsService;
+  let unhandled:unknown[];
+  let previousHandler:typeof config.onUnhandledError;
+
+  beforeEach(async () => {
+    configureTableModule();
+    await TestBed.configureTestingModule({
+      imports: [TableStandInModule],
+      providers: [
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
+        WorkPackageViewSumService,
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false, isIncompatibleColumn: () => false, live$: () => of(null) } },
+      ],
+    }).compileComponents();
+
+    const injector = TestBed.inject(Injector);
+    injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+    injector.get(DisplayFieldService).addFieldType(IntegerDisplayField, 'integer', ['Integer']);
+    querySpace = TestBed.inject(IsolatedQuerySpace);
+    states = TestBed.inject(States);
+    timeline = TestBed.inject(WorkPackageViewTimelineService);
+    actions = TestBed.inject(ActionsService);
+
+    const query = buildQuery(['id', 'subject'], null, false, false);
+    querySpace.query.putValue(query);
+    querySpace.groups.putValue([]);
+    initializeViewServices(injector, query);
+    TestBed.inject(WorkPackageViewSumService).initialize(query);
+    putResults([]);
+
+    fixture = TestBed.createComponent(ListViewStandInComponent);
+    document.body.appendChild(fixture.nativeElement as HTMLElement);
+    fixture.detectChanges();
+
+    unhandled = [];
+    previousHandler = config.onUnhandledError;
+    config.onUnhandledError = (error) => unhandled.push(error);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    config.onUnhandledError = previousHandler;
+    (fixture.nativeElement as HTMLElement).remove();
+  });
+
+  function putResults(fixtures:WorkPackageFixture[]) {
+    const resources = fixtures.map(buildWorkPackage);
+    resources.forEach((wp) => states.workPackages.get(wp.id!).putValue(wp));
+    querySpace.results.putValue({ elements: resources, count: resources.length, total: resources.length } as unknown as WorkPackageCollectionResource);
+  }
+
+  /** Feeds a reloaded result set the way `WpStatesInitializationService.updateQuerySpace` does. */
+  function reload(fixtures:WorkPackageFixture[]) {
+    querySpace.tableRendered.clear();
+    putResults(fixtures);
+    querySpace.initialized.putValue(null);
+  }
+
+  function renderedIds():string[] {
+    return (querySpace.tableRendered.value ?? [])
+      .filter(({ workPackageId }) => workPackageId !== null)
+      .map(({ workPackageId }) => workPackageId!);
+  }
+
+  // A table registered after `initialized` already has a value replays that
+  // value and queues a stale render first, so wait for the requested one.
+  async function render(fixtures:WorkPackageFixture[]) {
+    reload(fixtures);
+    await waitFor(() => expect(renderedIds()).toEqual(fixtures.map(({ id }) => id)));
+  }
+
+  /** Shows the table and registers the fast table as the timeline container directive would. */
+  async function showTable(fixtures:WorkPackageFixture[]):Promise<HTMLElement> {
+    fixture.componentInstance.showTable.set(true);
+    fixture.detectChanges();
+    const debug = fixture.debugElement.query(By.directive(WorkPackagesTableComponent));
+    const element = debug.nativeElement as HTMLElement;
+    const timelineBody = document.createElement('div');
+    element.querySelector('.work-packages-tabletimeline--timeline-side')!.appendChild(timelineBody);
+    (debug.componentInstance as WorkPackagesTableComponent)
+      .registerTimeline({} as WorkPackageTimelineTableController, timelineBody);
+    await render(fixtures);
+    return element;
+  }
+
+  function showCards() {
+    fixture.componentInstance.showTable.set(false);
+    fixture.detectChanges();
+  }
+
+  /** The card view writes the rendered occurrences into the same query space state as the table. */
+  function cardsRendered(ids:string[]) {
+    querySpace.tableRendered.putValue(ids.map((id) => ({ classIdentifier: `wp-card-${id}`, workPackageId: id, hidden: false })));
+  }
+
+  function rowIds(element:HTMLElement):string[] {
+    return Array.from(element.querySelectorAll<HTMLTableRowElement>('tr.wp-table--row[data-work-package-id]'))
+      .map((row) => row.dataset.workPackageId!);
+  }
+
+  function countRefreshRequests():() => number {
+    let count = 0;
+    actions.ofType(tableRefreshRequest).subscribe(() => { count += 1; });
+    return () => count;
+  }
+
+  async function settle() {
+    await nextFrame();
+    await nextTask();
+  }
+
+  it('stops reacting to the query space once the table is replaced by cards', async () => {
+    const table = await showTable([{ id: '1' }, { id: '2' }]);
+    showCards();
+
+    timeline.setVisible(true);
+    reload([{ id: '3' }]);
+    await settle();
+
+    expect(unhandled).toEqual([]);
+    expect(querySpace.tableRendered.hasValue()).toBe(false);
+    expect(rowIds(table)).toEqual(['1', '2']);
+  });
+
+  it('keeps a table shown again after cards reacting to the timeline', async () => {
+    await showTable([{ id: '1' }]);
+    showCards();
+    const table = await showTable([{ id: '3' }]);
+
+    timeline.setVisible(true);
+    await settle();
+
+    expect(unhandled).toEqual([]);
+    expect(rowIds(table)).toEqual(['3']);
+    expect(table.querySelector('.work-packages-tabletimeline--table-side')).toHaveClass('-timeline-visible');
+    expect(table.querySelector('.work-packages-tabletimeline--timeline-side')).toHaveClass('-timeline-visible');
+  });
+
+  it('stays clean across repeated table and card transitions', async () => {
+    await showTable([{ id: '1' }]);
+    showCards();
+    await showTable([{ id: '2' }]);
+    showCards();
+
+    timeline.setVisible(true);
+    reload([{ id: '4' }]);
+    await settle();
+
+    expect(unhandled).toEqual([]);
+    expect(querySpace.tableRendered.hasValue()).toBe(false);
+  });
+
+  it('refreshes once per sharing update, only through the live table', async () => {
+    const refreshes = countRefreshRequests();
+    await showTable([{ id: '1' }]);
+    showCards();
+    cardsRendered(['1']);
+
+    actions.dispatch(shareModalUpdated({ workPackageId: '1' }));
+    expect(refreshes()).toBe(0);
+
+    await showTable([{ id: '1' }]);
+    actions.dispatch(shareModalUpdated({ workPackageId: '1' }));
+    expect(refreshes()).toBe(1);
+  });
+  it('preserves card entries when the removed table has queued a render', async () => {
+    await showTable([{ id: '1' }]);
+    reload([{ id: '2' }]);
+    showCards();
+    cardsRendered(['2']);
+    await settle();
+    expect(unhandled).toEqual([]);
+    expect(querySpace.tableRendered.value).toEqual([
+      { classIdentifier: 'wp-card-2', workPackageId: '2', hidden: false },
+    ]);
+  });
+
+  it('can be destroyed before timeline registration and ignores a late registration', () => {
+    const component = fixture.debugElement.query(By.directive(WorkPackagesTableComponent))
+      .componentInstance as WorkPackagesTableComponent;
+    expect(() => fixture.destroy()).not.toThrow();
+    const controller = {} as WorkPackageTimelineTableController;
+    expect(() => component.registerTimeline(controller, document.createElement('div'))).not.toThrow();
+    expect(component.workPackageTable).toBeUndefined();
+    expect(controller.workPackageTable).toBeUndefined();
+  });
+
+  it('destroys the previous table before replacing its timeline registration', async () => {
+    await showTable([{ id: '1' }]);
+    const component = fixture.debugElement.query(By.directive(WorkPackagesTableComponent))
+      .componentInstance as WorkPackagesTableComponent;
+    const previous = component.workPackageTable;
+    component.registerTimeline({} as WorkPackageTimelineTableController, document.createElement('div'));
+    expect(previous.destroyed).toBe(true);
+    expect(component.workPackageTable.destroyed).toBe(false);
+    await settle();
+  });
+
+  it('enables, disables and re-enables scrolling through timeline visibility', async () => {
+    const element = await showTable([{ id: '1' }]);
+    const tableSide = element.querySelector<HTMLElement>('.work-packages-tabletimeline--table-side')!;
+    const timelineSide = element.querySelector<HTMLElement>('.work-packages-tabletimeline--timeline-side')!;
+    for (const side of [tableSide, timelineSide]) {
+      side.style.cssText = 'display: block; height: 40px; overflow: auto';
+      const filler = document.createElement('div');
+      filler.style.height = '1000px';
+      side.appendChild(filler);
+    }
+    timeline.setVisible(true);
+    tableSide.scrollTop = 30;
+    fireEvent.scroll(tableSide);
+    // Firefox snaps scroll offsets to device pixels, so a requested offset can land a fraction short.
+    expect(timelineSide.scrollTop).toBeCloseTo(30, 0);
+    timeline.setVisible(false);
+    timelineSide.scrollTop = 60;
+    fireEvent.scroll(timelineSide);
+    expect(tableSide.scrollTop).toBeCloseTo(30, 0);
+    timeline.setVisible(true);
+    timelineSide.scrollTop = 90;
+    fireEvent.scroll(timelineSide);
+    expect(tableSide.scrollTop).toBeCloseTo(90, 0);
+  });
+
+});
+
+describe('WorkPackagesTableComponent physical columns', () => {
+  const queryColumns = 2;
+  let mounted:HTMLElement|undefined;
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    mounted?.remove();
+    mounted = undefined;
+  });
+
+  async function mount(configuration:Record<string, boolean>, baseline:boolean) {
+    configureTableModule();
+    await TestBed.configureTestingModule({
+      imports: [TableStandInModule],
+      providers: [
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
+        WorkPackageViewSumService,
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baseline, isChanged: () => false, isIncompatibleColumn: () => false, live$: () => of(null) } },
+      ],
+    }).compileComponents();
+
+    const injector = TestBed.inject(Injector);
+    injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+    injector.get(DisplayFieldService).addFieldType(IntegerDisplayField, 'integer', ['Integer']);
+    const querySpace = TestBed.inject(IsolatedQuerySpace);
+    const states = TestBed.inject(States);
+    const query = buildQuery(['id', 'subject'], null, false, false);
+    querySpace.query.putValue(query);
+    querySpace.groups.putValue([]);
+    initializeViewServices(injector, query);
+    TestBed.inject(WorkPackageViewSumService).initialize(query);
+    querySpace.results.putValue({ elements: [], count: 0, total: 0 } as unknown as WorkPackageCollectionResource);
+
+    const fixture = TestBed.createComponent(ListViewStandInComponent);
+    fixture.componentInstance.configuration = { ...fixture.componentInstance.configuration, ...configuration };
+    mounted = fixture.nativeElement as HTMLElement;
+    document.body.appendChild(mounted);
+    fixture.detectChanges();
+
+    const debug = fixture.debugElement.query(By.directive(WorkPackagesTableComponent));
+    const element = debug.nativeElement as HTMLElement;
+    const timelineBody = document.createElement('div');
+    element.querySelector('.work-packages-tabletimeline--timeline-side')!.appendChild(timelineBody);
+    (debug.componentInstance as WorkPackagesTableComponent)
+      .registerTimeline({} as WorkPackageTimelineTableController, timelineBody);
+
+    const resources = [buildWorkPackage({ id: '1' }), buildWorkPackage({ id: '2' })];
+    resources.forEach((wp) => states.workPackages.get(wp.id!).putValue(wp));
+    querySpace.results.putValue({ elements: resources, count: resources.length, total: resources.length } as unknown as WorkPackageCollectionResource);
+    querySpace.initialized.putValue(null);
+    await waitFor(() => expect(element.querySelectorAll('tr.wp-table--row[data-work-package-id]')).toHaveLength(2));
+
+    return { fixture, element, component: debug.componentInstance as WorkPackagesTableComponent };
+  }
+
+  const spannedColumns = (row:HTMLTableRowElement) => Array.from(row.cells)
+    .reduce((total, cell) => total + cell.colSpan, 0);
+
+  describe.each([true, false])('with drag and drop %s', (drag) => {
+    describe.each([true, false])('and baseline %s', (baseline) => {
+      it.each([true, false])('renders the same columns in header, colgroup and rows with a trailing column %s', async (trailing) => {
+        const { element, component } = await mount({
+          dragAndDropEnabled: drag,
+          actionsColumnEnabled: trailing,
+        }, baseline);
+        const expected = queryColumns + Number(drag) + Number(baseline) + Number(trailing);
+
+        expect(element.querySelectorAll('thead th')).toHaveLength(expected);
+        expect(element.querySelectorAll('colgroup col')).toHaveLength(expected);
+        element.querySelectorAll<HTMLTableRowElement>('tr.wp-table--row[data-work-package-id]')
+          .forEach((row) => expect(spannedColumns(row)).toBe(expected));
+        expect(component.numTableColumns()).toBe(expected);
+        expect(component.workPackageTable.colspan).toBe(expected);
+      });
+    });
+  });
+});
+
+@Component({
+  template: '<input type="text" aria-label="Work package to reference">',
+  standalone: true,
+})
+class ReferenceStandInComponent {}
+
+@Component({
+  template: '@for (configuration of configurations; track $index) { <wp-table [configuration]="configuration" /> }',
+  standalone: false,
+})
+class TwoTablesStandInComponent {
+  configurations = [{ ...new ListViewStandInComponent().configuration }, { ...new ListViewStandInComponent().configuration }];
+}
+
+@NgModule({
+  declarations: [ListViewStandInComponent, TwoTablesStandInComponent],
+  imports: [OpenprojectWorkPackagesModule],
+})
+class TableStandInModule {}
+
+function configureTableModule():void {
+  vi.spyOn(OpenprojectWorkPackagesModule, 'bootstrapAttributeGroups').mockImplementation(() => undefined);
+  TestBed.overrideModule(OpenprojectWorkPackagesModule, {
+    set: {
+      imports: [CommonModule, NoResultsComponent],
+      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController, SortHeaderDirective],
+      exports: [WorkPackagesTableComponent],
+      providers: [
+        { provide: OpModalService, useValue: {} },
+        { provide: ConfirmDialogService, useValue: {} },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    },
+  });
+}
+
+describe('WorkPackagesTableComponent treegrid structure', () => {
+  const translations = {
+    'js.label_work_package_plural': 'Work packages',
+    'js.label_sorting': 'Sorting',
+    'js.toolbar.settings.configure_view': 'Configure view',
+    'js.work_packages.table.grid_actions_header': 'Actions',
+    'js.work_packages.table.grid_baseline_header': 'Comparison status',
+    'js.work_packages.table.sorted_by': 'Sorted by %{criteria}.',
+    'js.work_packages.table.sort_criterion_ascending': '%{column} ascending',
+    'js.work_packages.table.sort_criterion_descending': '%{column} descending',
+    'js.work_packages.table.sorted_manually': 'Sorted manually.',
+    'js.inplace.errors.messages_on_field': 'This field is invalid: %{messages}',
+    'js.button_cancel': 'Cancel',
+  };
+  let baselineActive:boolean;
+  let canAdd:BehaviorSubject<boolean>;
+  let canReference:BehaviorSubject<boolean>;
+  let created:Subject<WorkPackageResource>;
+  let newWorkPackage:WorkPackageResource;
+  let querySpace:IsolatedQuerySpace;
+  let states:States;
+  let fixture:ComponentFixture<ListViewStandInComponent|TwoTablesStandInComponent>;
+
+  beforeEach(async () => {
+    baselineActive = false;
+    canAdd = new BehaviorSubject(true);
+    canReference = new BehaviorSubject(false);
+    created = new Subject();
+    newWorkPackage = Object.assign(buildWorkPackage({ id: HAL_NEW_RESOURCE_ID, subject: '' }), { __initialized_at: 1 });
+    configureTableModule();
+    await TestBed.configureTestingModule({
+      imports: [TableStandInModule],
+      providers: [
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], translations, editing: {} }),
+        WorkPackageViewSumService,
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, isIncompatibleColumn: () => false, live$: () => of(null) } },
+        {
+          provide: WorkPackageInlineCreateService,
+          useValue: {
+            canAdd,
+            canReference,
+            buttonTexts: { create: 'Create new work package', reference: 'Reference an existing work package' },
+            referenceComponentClass: ReferenceStandInComponent,
+            newInlineWorkPackageCreated: new Subject<string>(),
+          },
+        },
+        {
+          provide: WorkPackageCreateService,
+          useValue: {
+            onNewWorkPackage: () => created,
+            cancelCreation: () => undefined,
+            createOrContinueWorkPackage: () => Promise.resolve({
+              projectedResource: newWorkPackage,
+              state: { values$: () => of({ schema: {} }) },
+            }),
+          },
+        },
+        { provide: AuthorisationService, useValue: {} },
+        { provide: WorkPackagesListService, useValue: { conditionallyLoadForm: () => Promise.resolve() } },
+      ],
+    }).compileComponents();
+
+    const injector = TestBed.inject(Injector);
+    injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+    injector.get(DisplayFieldService).addFieldType(IntegerDisplayField, 'integer', ['Integer']);
+    querySpace = TestBed.inject(IsolatedQuerySpace);
+    states = TestBed.inject(States);
+    states.workPackages.get(HAL_NEW_RESOURCE_ID).putValue(newWorkPackage);
+    const query = buildQuery(['id', 'subject'], null, false, false);
+    querySpace.query.putValue(query);
+    querySpace.groups.putValue([]);
+    initializeViewServices(injector, query);
+    TestBed.inject(WorkPackageViewSumService).initialize(query);
+    putResults([]);
+
+    const editing = TestBed.inject(HalResourceEditingService);
+    const changeFor = editing.changeFor.bind(editing);
+    vi.spyOn(editing, 'changeFor').mockImplementation((resource) => ({
+      ...changeFor(resource),
+      getForm: () => Promise.resolve({ validationErrors: { subject: {} } }),
+    }) as unknown as ReturnType<typeof changeFor>);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    (fixture?.nativeElement as HTMLElement|undefined)?.remove();
+  });
+
+  function putResults(fixtures:WorkPackageFixture[]) {
+    const resources = fixtures.map(buildWorkPackage);
+    resources.forEach((wp) => states.workPackages.get(wp.id!).putValue(wp));
+    querySpace.results.putValue({ elements: resources, offset: 1, pageSize: 20, count: resources.length, total: resources.length } as unknown as WorkPackageCollectionResource);
+  }
+
+  function tables():WorkPackagesTableComponent[] {
+    return fixture.debugElement.queryAll(By.directive(WorkPackagesTableComponent))
+      .map((debug) => debug.componentInstance as WorkPackagesTableComponent);
+  }
+
+  function registerTables() {
+    fixture.debugElement.queryAll(By.directive(WorkPackagesTableComponent)).forEach((debug) => {
+      const component = debug.componentInstance as WorkPackagesTableComponent;
+      if (component.workPackageTable) return;
+      const timelineBody = document.createElement('div');
+      (debug.nativeElement as HTMLElement).querySelector('.work-packages-tabletimeline--timeline-side')!.appendChild(timelineBody);
+      component.registerTimeline({} as WorkPackageTimelineTableController, timelineBody);
+    });
+  }
+
+  async function render(fixtures:WorkPackageFixture[]) {
+    querySpace.tableRendered.clear();
+    putResults(fixtures);
+    querySpace.initialized.putValue(null);
+    await waitFor(() => expect(querySpace.tableRendered.value?.filter(({ workPackageId }) => workPackageId !== null))
+      .toHaveLength(fixtures.length));
+  }
+
+  async function mount(configuration:Record<string, boolean|string>, fixtures:WorkPackageFixture[] = [{ id: '1' }, { id: '2' }]) {
+    const listView = TestBed.createComponent(ListViewStandInComponent);
+    fixture = listView;
+    listView.componentInstance.configuration = { ...listView.componentInstance.configuration, ...configuration };
+    document.body.appendChild(listView.nativeElement as HTMLElement);
+    listView.detectChanges();
+    registerTables();
+    await render(fixtures);
+    return tables()[0];
+  }
+
+  function sortBy(...criteria:[string, string][]) {
+    TestBed.inject(WorkPackageViewSortByService).update(criteria.map(([column, direction]) => ({
+      column: { id: column, name: column, href: `/api/v3/queries/columns/${column}` },
+      direction: { href: direction },
+    }) as unknown as QuerySortByResource));
+  }
+
+  function headerRow():HTMLElement {
+    return screen.getByRole('treegrid').querySelector('thead tr')!;
+  }
+
+  function referencedIds(root:ParentNode):string[] {
+    return Array.from(root.querySelectorAll('[aria-describedby], [aria-labelledby]'))
+      .flatMap((element) => [element.getAttribute('aria-describedby'), element.getAttribute('aria-labelledby')])
+      .flatMap((value) => value?.split(/\s+/) ?? []);
+  }
+
+  describe('sort headers', () => {
+    const subjectHeader = () => within(headerRow()).getByRole('columnheader', { name: 'subject' });
+    const subjectName = () => subjectHeader().querySelector('.wp-table--column-menu-name');
+
+    it('keeps following the sort after the table is replaced', async () => {
+      const component = await mount({});
+      const body = document.createElement('div');
+      component.timeline.append(body);
+      component.registerTimeline({} as WorkPackageTimelineTableController, body);
+
+      sortBy(['subject', QUERY_SORT_BY_DESC]);
+      await fixture.whenStable();
+
+      expect(subjectName()).toHaveClass('sort', 'desc');
+    });
+
+    it('keeps the sort on headers rebuilt from replacement columns', async () => {
+      await mount({});
+      sortBy(['subject', QUERY_SORT_BY_ASC]);
+      await fixture.whenStable();
+
+      TestBed.inject(WorkPackageViewColumnsService).update([buildColumn('subject'), buildColumn('id')] as QueryColumn[]);
+      await fixture.whenStable();
+
+      expect(within(headerRow()).getAllByRole('columnheader')[0]).toBe(subjectHeader());
+      expect(subjectName()).toHaveClass('sort', 'asc');
+    });
+
+    it('keeps header focus when the sort changes', async () => {
+      await mount({});
+      const header = subjectHeader();
+      header.focus();
+      expect(header).toHaveFocus();
+
+      sortBy(['subject', QUERY_SORT_BY_DESC]);
+      await fixture.whenStable();
+
+      expect(subjectHeader()).toBe(header);
+      expect(header).toHaveFocus();
+      expect(subjectName()).toHaveClass('sort', 'desc');
+    });
+  });
+
+  describe('naming', () => {
+    it('names the table', async () => {
+      await mount({});
+      const grid = screen.getByRole('treegrid', { name: 'Work packages' });
+
+      expect(grid).toHaveAttribute('aria-multiselectable', 'true');
+    });
+
+    it('takes the name from the referenced heading instead of aria-label', async () => {
+      await mount({ labelledBy: 'heading' });
+      const grid = screen.getByRole('treegrid');
+
+      expect(grid).toHaveAttribute('aria-labelledby', 'heading');
+      expect(grid).not.toHaveAttribute('aria-label');
+    });
+  });
+
+  describe('interaction state', () => {
+    it('leaves an editable, selectable table without aria-readonly', async () => {
+      await mount({});
+      const grid = screen.getByRole('treegrid');
+
+      expect(grid).not.toHaveAttribute('aria-readonly');
+      expect(grid).toHaveAttribute('aria-multiselectable', 'true');
+    });
+
+    it('marks a table without inline editing as read-only', async () => {
+      await mount({ inlineEditEnabled: false });
+
+      expect(screen.getByRole('treegrid')).toHaveAttribute('aria-readonly', 'true');
+    });
+
+    it('drops selection semantics when selection is disabled', async () => {
+      await mount({ selectionEnabled: false });
+      const grid = screen.getByRole('treegrid');
+
+      expect(grid).not.toHaveAttribute('aria-multiselectable');
+      within(grid).getAllByRole('row').forEach((row) => expect(row).not.toHaveAttribute('aria-selected'));
+    });
+  });
+
+  it('paints the column header row through a table mutation', async () => {
+    const component = await mount({});
+    const scopes:PaintScope[] = [];
+    vi.spyOn(component.workPackageTable.keyboardNavigation, 'rowsChanged').mockImplementation(({ scope }) => { scopes.push(scope); });
+
+    sortBy(['subject', QUERY_SORT_BY_DESC]);
+
+    expect(scopes).toContainEqual(new Set([headerRowKey]));
+    expect(headerRow().querySelector('[aria-sort="descending"]')).not.toBeNull();
+  });
+
+  it('repaints positions after Angular updates the header', async () => {
+    const component = await mount({});
+    const painted:string[] = [];
+    vi.spyOn(component.workPackageTable.painter, 'paint').mockImplementation(() => {
+      painted.push(headerRow().getAttribute('aria-label') ?? headerRow().textContent ?? '');
+      expect(headerRow().querySelector('[aria-sort="descending"]')).not.toBeNull();
+      return { positionsWithdrawn: null };
+    });
+
+    sortBy(['subject', QUERY_SORT_BY_DESC]);
+
+    expect(painted).not.toHaveLength(0);
+  });
+
+  it('settles current header state before navigation and publication', async () => {
+    const component = await mount({});
+    const table = component.workPackageTable;
+    const events:string[] = [];
+    const generation = table.committedRows().generation;
+    const paint = table.painter.paint.bind(table.painter);
+    vi.spyOn(table.painter, 'paint').mockImplementation((scope) => {
+      events.push('paint');
+      expect(table.colspan).toBe(3);
+      expect(headerRow().querySelector('[aria-label="Comparison status"]')).not.toBeNull();
+      expect(headerRow().querySelector('[aria-sort="descending"]')).not.toBeNull();
+      expect(screen.getByRole('treegrid')).toHaveAccessibleDescription('Sorted by subject descending.');
+      return paint(scope);
+    });
+    vi.spyOn(table.keyboardNavigation, 'rowsChanged').mockImplementation(() => {
+      events.push('navigation');
+      expect(table.committedRows().generation).toBe(generation);
+      expect(headerRow()).toHaveAttribute('aria-level', '1');
+    });
+
+    baselineActive = true;
+    sortBy(['subject', QUERY_SORT_BY_DESC]);
+
+    expect(events).toEqual(['paint', 'navigation']);
+    expect(table.committedRows().generation).toBe(generation + 1);
+  });
+
+  it('publishes nested header and child effects once when the table is replaced', async () => {
+    const component = await mount({ inlineCreateEnabled: true });
+    const previous = component.workPackageTable;
+    const focused = screen.getByRole('button', { name: 'Create new work package' });
+    focused.focus();
+    const events:string[] = [];
+    const scopes:PaintScope[] = [];
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const mutate = WorkPackageTable.prototype.mutate;
+    let observed = false;
+    vi.spyOn(WorkPackageTable.prototype, 'mutate').mockImplementation(function mutateAndObserve(this:WorkPackageTable, scope, change) {
+      if (this === previous || observed || typeof scope === 'string' || !scope.has(headerRowKey)) {
+        return mutate.call(this, scope, change);
+      }
+      observed = true;
+      const generation = this.committedRows().generation;
+      const paint = this.painter.paint.bind(this.painter);
+      vi.spyOn(this.painter, 'paint').mockImplementation((paintScope) => {
+        events.push('paint');
+        scopes.push(paintScope ?? 'all');
+        return paint(paintScope);
+      });
+      const rowsChanged = this.keyboardNavigation.rowsChanged.bind(this.keyboardNavigation);
+      vi.spyOn(this.keyboardNavigation, 'rowsChanged').mockImplementation((event) => {
+        events.push('navigation');
+        rowsChanged(event);
+        expect(this.committedRows().generation).toBe(generation);
+        expect(headerRow()).toHaveAttribute('role', 'row');
+        expect(screen.getByRole('button', { name: 'Create new work package' }).closest('td')).toHaveAttribute('role', 'gridcell');
+        expect(screen.getByRole('treegrid').querySelector('.wp-table--sums-row')).toHaveAttribute('aria-hidden', 'true');
+      });
+      const result = mutate.call(this, scope, change);
+      expect(this.committedRows().generation).toBe(generation + 1);
+      return result;
+    });
+
+    const body = document.createElement('div');
+    component.timeline.append(body);
+    component.registerTimeline({} as WorkPackageTimelineTableController, body);
+
+    expect(events).toEqual(['paint', 'navigation']);
+    expect(scopes).toEqual([new Set([headerRowKey, totalsRowKey, inlineCreateRowKey])]);
+    expect(focused).toHaveFocus();
+    vi.restoreAllMocks();
+  });
+
+  it('does not feed committed row publications back into producer effects', async () => {
+    const component = await mount({ inlineCreateEnabled: true });
+    const table = component.workPackageTable;
+    const mutated = vi.spyOn(table, 'mutate');
+    const generation = table.committedRows().generation;
+
+    table.mutate(new Set([headerRowKey]), () => undefined);
+    fixture.detectChanges();
+    fixture.detectChanges();
+
+    expect(mutated).toHaveBeenCalledTimes(1);
+    expect(table.committedRows().generation).toBe(generation + 1);
+  });
+
+  describe('header structure', () => {
+    it('exposes a level 1 header row inside a rowgroup', async () => {
+      await mount({});
+
+      expect(headerRow().parentElement).toHaveAttribute('role', 'rowgroup');
+      expect(headerRow()).toHaveAttribute('role', 'row');
+      expect(headerRow()).toHaveAttribute('aria-level', '1');
+      expect(headerRow()).not.toHaveAttribute('aria-selected');
+      expect(headerRow()).not.toHaveAttribute('aria-expanded');
+    });
+
+    it('paints the column header role on every header cell', async () => {
+      baselineActive = true;
+      await mount({ dragAndDropEnabled: true, actionsColumnEnabled: true });
+      const cells = Array.from((headerRow() as HTMLTableRowElement).cells);
+
+      expect(cells.map((cell) => cell.getAttribute('role'))).toEqual(cells.map(() => 'columnheader'));
+    });
+
+    it('names the drag, baseline, query and actions column headers', async () => {
+      baselineActive = true;
+      await mount({ dragAndDropEnabled: true, actionsColumnEnabled: true });
+      const headers = within(headerRow()).getAllByRole('columnheader');
+
+      expect(headers).toHaveLength(5);
+      ['Sorting', 'Comparison status', 'id', 'subject', 'Actions'].forEach((name, index) => {
+        expect(headers[index]).toHaveAccessibleName(name);
+      });
+    });
+
+    it('gives the actions header text instead of a label when it holds no configuration control', async () => {
+      await mount({ actionsColumnEnabled: true });
+      const actions = within(headerRow()).getAllByRole('columnheader').at(-1)!;
+
+      expect(actions).toHaveAccessibleName('Actions');
+      expect(actions).toHaveTextContent('Actions');
+      expect(actions).not.toHaveAttribute('aria-label');
+    });
+
+    it('names the trailing header after the configuration control', async () => {
+      await mount({ columnMenuEnabled: true });
+
+      expect(within(headerRow()).getAllByRole('columnheader').at(-1)).toHaveAccessibleName('Configure view');
+    });
+
+    it('draws the focus ring of the header row on its sticky cells', async () => {
+      await mount({});
+      const shadows = () => within(headerRow()).getAllByRole('columnheader').map((header) => getComputedStyle(header).boxShadow);
+
+      expect(shadows().every((shadow) => shadow === 'none')).toBe(true);
+
+      headerRow().focus();
+
+      expect(shadows().every((shadow) => shadow.includes('inset'))).toBe(true);
+      expect(shadows()[0]).toContain(' 2px 0px 0px 0px inset');
+      expect(shadows().at(-1)).toContain(' -2px 0px 0px 0px inset');
+
+      headerRow().closest('table')!.setAttribute('dir', 'rtl');
+
+      expect(shadows()[0]).toContain(' -2px 0px 0px 0px inset');
+      expect(shadows().at(-1)).toContain(' 2px 0px 0px 0px inset');
+    });
+  });
+
+  describe('sorting', () => {
+    function sortStates():(string|null)[] {
+      return within(headerRow()).getAllByRole('columnheader').map((header) => header.getAttribute('aria-sort'));
+    }
+
+    it('marks only the primary criterion and describes all criteria in order', async () => {
+      await mount({});
+
+      sortBy(['subject', QUERY_SORT_BY_ASC], ['id', QUERY_SORT_BY_DESC]);
+      expect(sortStates()).toEqual([null, 'ascending']);
+      expect(screen.getByRole('treegrid')).toHaveAccessibleDescription('Sorted by subject ascending and id descending.');
+
+      sortBy(['id', QUERY_SORT_BY_DESC], ['subject', QUERY_SORT_BY_ASC]);
+      expect(sortStates()).toEqual(['descending', null]);
+      expect(screen.getByRole('treegrid')).toHaveAccessibleDescription('Sorted by id descending and subject ascending.');
+    });
+
+    it('describes a primary criterion whose column is not displayed', async () => {
+      await mount({});
+
+      sortBy(['status', QUERY_SORT_BY_ASC], ['id', QUERY_SORT_BY_ASC], ['subject', QUERY_SORT_BY_DESC]);
+
+      expect(sortStates()).toEqual([null, null]);
+      expect(screen.getByRole('treegrid'))
+        .toHaveAccessibleDescription('Sorted by status ascending, id ascending, and subject descending.');
+    });
+
+    it('describes manual sorting', async () => {
+      await mount({});
+
+      sortBy(['manualSorting', QUERY_SORT_BY_ASC]);
+
+      expect(sortStates()).toEqual([null, null]);
+      expect(screen.getByRole('treegrid')).toHaveAccessibleDescription('Sorted manually.');
+    });
+  });
+
+  describe('instances', () => {
+
+    it('gives each table a unique id once its table is registered', async () => {
+      fixture = TestBed.createComponent(TwoTablesStandInComponent);
+      document.body.appendChild(fixture.nativeElement as HTMLElement);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      registerTables();
+      await render([{ id: '1' }]);
+
+      const ids = Array.from(document.querySelectorAll('table.work-package-table')).map((table) => table.id);
+      expect(ids).toHaveLength(2);
+      ids.forEach((id) => expect(id).toMatch(/^wp-table-/));
+      expect(ids[0]).not.toEqual(ids[1]);
+    });
+
+    it('gives two tables on one page their own references', async () => {
+      fixture = TestBed.createComponent(TwoTablesStandInComponent);
+      document.body.appendChild(fixture.nativeElement as HTMLElement);
+      fixture.detectChanges();
+      registerTables();
+      await render([{ id: '1' }]);
+      sortBy(['subject', QUERY_SORT_BY_ASC]);
+
+      const grids = screen.getAllByRole('treegrid');
+      expect(grids).toHaveLength(2);
+      await waitFor(() => grids.forEach((grid) => {
+        expect(grid.querySelectorAll('tr.wp-table--row[data-work-package-id="1"]')).toHaveLength(1);
+      }));
+      grids.forEach((grid) => expect(grid).toHaveAccessibleDescription('Sorted by subject ascending.'));
+      expect(grids[0].getAttribute('aria-describedby')).not.toEqual(grids[1].getAttribute('aria-describedby'));
+
+      const references = referencedIds(document);
+      expect(references).not.toHaveLength(0);
+      references.forEach((id) => expect(document.querySelectorAll(`[id="${id}"]`)).toHaveLength(1));
+    });
+  });
+
+  describe('empty results', () => {
+    const emptySection = () => document.querySelector<HTMLTableSectionElement>('tbody.work-package--empty-tbody');
+    const resultsSection = () => document.querySelector<HTMLTableSectionElement>('tbody.work-package--results-tbody')!;
+
+    function expectEmpty() {
+      const row = within(emptySection()!).getByRole('row');
+
+      expect(emptySection()).toHaveAttribute('role', 'rowgroup');
+      expect(emptySection()).not.toHaveAttribute('aria-hidden');
+      expect(row).toHaveAttribute('aria-level', '1');
+      expect(row).not.toHaveAttribute('aria-selected');
+      expect(row).not.toHaveAttribute('aria-expanded');
+      expect(within(row).getByRole('gridcell')).toHaveAttribute('colspan', '2');
+      expect(resultsSection()).toHaveAttribute('aria-hidden', 'true');
+    }
+
+    function expectPopulated() {
+      expect(emptySection()).not.toBeInTheDocument();
+      expect(resultsSection()).toHaveAttribute('role', 'rowgroup');
+      expect(resultsSection()).not.toHaveAttribute('aria-hidden');
+    }
+
+    it('exposes the message row and hides the results section until results return', async () => {
+      await mount({}, []);
+      expectEmpty();
+
+      await render([{ id: '1' }]);
+      expectPopulated();
+      expect(within(resultsSection()).getByRole('row')).toHaveAttribute('aria-level', '1');
+
+      await render([]);
+      expectEmpty();
+
+      await render([{ id: '1' }]);
+      expectPopulated();
+      expect(within(resultsSection()).getByRole('row')).toHaveAttribute('aria-level', '1');
+    });
+
+    it('shows a Blankslate in the message row', async () => {
+      await mount({}, []);
+
+      const cell = within(emptySection()!).getByRole('gridcell');
+      expect(within(cell).getByRole('heading', { name: 'js.work_packages.no_results.title' })).toBeInTheDocument();
+      expect(within(cell).getByText('js.work_packages.no_results.description')).toHaveClass('blankslate-description');
+    });
+  });
+
+  describe('inline create', () => {
+    const inlineCreate = { inlineCreateEnabled: true, actionsColumnEnabled: true };
+    const createSection = () => document.querySelector<HTMLTableSectionElement>('tbody[wpInlineCreate]')!;
+    const createRow = () => createSection().querySelector<HTMLTableRowElement>('.wp-inline-create-row');
+
+    function expectStructuralRow(row:HTMLElement) {
+      expect(row).toHaveAttribute('role', 'row');
+      expect(row).toHaveAttribute('aria-level', '1');
+      expect(row).not.toHaveAttribute('aria-selected');
+      expect(row).not.toHaveAttribute('aria-expanded');
+      expect(Array.from((row as HTMLTableRowElement).cells).map((cell) => cell.getAttribute('role')))
+        .toEqual(Array.from((row as HTMLTableRowElement).cells).map(() => 'gridcell'));
+    }
+
+    function expectExposed() {
+      expect(createSection()).toHaveAttribute('role', 'rowgroup');
+      expect(createSection()).not.toHaveAttribute('aria-hidden');
+    }
+
+    async function openCreateRow():Promise<HTMLTableRowElement> {
+      fireEvent.click(within(createSection()).getByText('Create new work package'));
+      await waitFor(() => {
+        expect(createRow()).toBeInTheDocument();
+        expect(createSection().querySelector('.wp-inline-create-button-row')).not.toBeInTheDocument();
+        expect(within(createRow()!).getByRole('textbox')).toBeInTheDocument();
+      });
+      return createRow()!;
+    }
+
+    it('exposes the Create and reference buttons in a structural row', async () => {
+      canReference.next(true);
+      await mount(inlineCreate);
+      const row = within(createSection()).getByRole('row');
+
+      expectExposed();
+      expectStructuralRow(row);
+      expect(within(row).getAllByRole('button')).toHaveLength(2);
+    });
+
+    it('opens and closes the create row through table mutations', async () => {
+      const component = await mount(inlineCreate);
+      const scopes:PaintScope[] = [];
+      vi.spyOn(component.workPackageTable.keyboardNavigation, 'rowsChanged').mockImplementation(({ scope }) => { scopes.push(scope); });
+
+      const row = await openCreateRow();
+      expect(scopes.at(-1)).toEqual(new Set([inlineCreateRowKey]));
+      expect(createSection()).not.toHaveAttribute('aria-hidden');
+
+      scopes.length = 0;
+      fireEvent.keyDown(within(row).getByRole('textbox'), { key: 'Escape' });
+      await waitFor(() => expect(scopes).toContainEqual(new Set([inlineCreateRowKey])));
+    });
+
+    it('preserves the active editor when reference permission changes', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+      const editor = within(row).getByRole('textbox');
+      editor.focus();
+
+      canReference.next(true);
+      fixture.detectChanges();
+
+      expect(within(row).getByRole('textbox')).toBe(editor);
+      expect(editor).toHaveFocus();
+    });
+
+    it('repaints positions after permission and reference template changes', async () => {
+      canReference.next(true);
+      const component = await mount(inlineCreate);
+      const { painter } = component.workPackageTable;
+      const paint = painter.paint.bind(painter);
+      const painted = vi.spyOn(painter, 'paint');
+      painted.mockImplementation((scope) => {
+        const result = paint(scope);
+        expect(createSection()).not.toHaveAttribute('aria-hidden');
+        return result;
+      });
+
+      fireEvent.click(within(createSection()).getByText('Reference an existing work package'));
+      expect(painted).toHaveBeenCalled();
+      expect(within(createSection()).getByRole('textbox', { name: 'Work package to reference' })).toBeInTheDocument();
+      const exposure:(string|null)[] = [];
+      painted.mockImplementation((scope) => {
+        const result = paint(scope);
+        exposure.push(createSection().getAttribute('aria-hidden'));
+        return result;
+      });
+      canAdd.next(false);
+      fixture.detectChanges();
+      canReference.next(false);
+      fixture.detectChanges();
+      expect(exposure).toEqual([null, 'true']);
+    });
+
+    it('updates absolute positions through create and permission changes', async () => {
+      const component = await mount(inlineCreate);
+      const table = component.workPackageTable.tbody.closest('table')!;
+      expect(table).toHaveAttribute('aria-rowcount', '4');
+      expect(within(createSection()).getByRole('row')).toHaveAttribute('aria-rowindex', '4');
+
+      const row = await openCreateRow();
+      expect(table).toHaveAttribute('aria-rowcount', '4');
+      expect(row).toHaveAttribute('aria-rowindex', '4');
+      const editor = within(row).getByRole('textbox');
+      editor.focus();
+      component.workPackageTable.painter.paint('positions');
+      expect(document.activeElement).toBe(editor);
+
+      fireEvent.keyDown(editor, { key: 'Escape' });
+      await waitFor(() => expectExposed());
+      expect(within(createSection()).getByRole('row')).toHaveAttribute('aria-rowindex', '4');
+      canAdd.next(false);
+      fixture.detectChanges();
+      expect(table).toHaveAttribute('aria-rowcount', '3');
+      expect(createSection()).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('withdraws positions while the button row and the editing row coexist', async () => {
+      const component = await mount(inlineCreate);
+      const table = component.workPackageTable.tbody.closest('table')!;
+      const { painter } = component.workPackageTable;
+      const paint = painter.paint.bind(painter);
+      const counts:(string|null)[] = [];
+      vi.spyOn(painter, 'paint').mockImplementation((scope) => {
+        const result = paint(scope);
+        if (createSection().querySelectorAll('tr').length === 2) counts.push(table.getAttribute('aria-rowcount'));
+        return result;
+      });
+
+      await openCreateRow();
+
+      expect(counts).not.toHaveLength(0);
+      expect(new Set(counts)).toEqual(new Set([null]));
+    });
+
+    it('stops repainting a removed table on permission changes', async () => {
+      const component = await mount(inlineCreate);
+      const painted = vi.spyOn(component.workPackageTable.painter, 'paint');
+      const listView = fixture as ComponentFixture<ListViewStandInComponent>;
+      listView.componentInstance.showTable.set(false);
+      listView.detectChanges();
+      painted.mockClear();
+
+      canAdd.next(false);
+      canReference.next(true);
+      await nextTask();
+
+      expect(painted).not.toHaveBeenCalled();
+    });
+
+    it('repaints positions after imperative create append and removal', async () => {
+      const component = await mount(inlineCreate);
+      const painted = vi.spyOn(component.workPackageTable.painter, 'paint');
+      painted.mockImplementation(() => {
+        expect(createRow()).toBeInTheDocument();
+        return { positionsWithdrawn: null };
+      });
+      const row = await openCreateRow();
+      expect(painted).toHaveBeenCalled();
+      const editor = within(row).getByRole('textbox');
+      editor.focus();
+      const focused = document.activeElement;
+      painted.mockRestore();
+      component.workPackageTable.painter.paint('positions');
+      expect(document.activeElement).toBe(focused);
+
+      const { painter } = component.workPackageTable;
+      const paint = painter.paint.bind(painter);
+      const rowPresentOnPaint:boolean[] = [];
+      const removing = vi.spyOn(painter, 'paint').mockImplementation((scope) => {
+        rowPresentOnPaint.push(createRow() !== null);
+        return paint(scope);
+      });
+      fireEvent.keyDown(editor, { key: 'Escape' });
+      await waitFor(() => expect(createRow()).not.toBeInTheDocument());
+      expect(rowPresentOnPaint).toContain(true);
+      expect(rowPresentOnPaint.at(-1)).toBe(false);
+      removing.mockRestore();
+      await waitFor(() => expectExposed());
+    });
+
+    it('renders the active reference row with the same semantics', async () => {
+      canReference.next(true);
+      await mount(inlineCreate);
+
+      fireEvent.click(within(createSection()).getByText('Reference an existing work package'));
+      const reference = within(createSection()).getByRole('textbox', { name: 'Work package to reference' });
+
+      expect(reference.closest('td')).toHaveAttribute('role', 'gridcell');
+      expectStructuralRow(reference.closest('tr')!);
+      expectExposed();
+    });
+
+    it('keeps a validation message native inside its gridcell', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+      const form = tables()[0].workPackageTable.editing.forms[HAL_NEW_RESOURCE_ID];
+      await waitFor(() => expect(form.activeFields.subject).toBeDefined());
+
+      form.activeFields.subject.setErrors(["Subject can't be blank."]);
+
+      const message = within(row).getByText(/Subject can't be blank\./);
+      const editor = within(row).getByRole('textbox', { name: /This field is invalid: Subject can't be blank\./ });
+      expect(message.closest('td')).toHaveAttribute('role', 'gridcell');
+      expect(editor.closest('td')).toBe(message.closest('td'));
+      [message, editor].forEach((element) => {
+        expect(element).not.toHaveAttribute('role');
+        expect(element).not.toHaveAttribute('aria-selected');
+      });
+      expectStructuralRow(row);
+    });
+
+    it('keeps the active create row and its editor structural, also after a refresh', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+
+      expectExposed();
+      expectStructuralRow(row);
+      expect(within(row).getByRole('textbox').closest('td')).toHaveAttribute('role', 'gridcell');
+
+      const idCell = row.cells[0];
+      const columns = TestBed.inject(WorkPackageViewColumnsService);
+      columns.update([...columns.getColumns()]);
+      fixture.detectChanges();
+
+      expect(createRow()).toBe(row);
+      expect(row.cells[0]).not.toBe(idCell);
+      expectStructuralRow(row);
+    });
+
+    it('keeps the Cancel link in a gridcell when no trailing column renders', async () => {
+      await mount({ inlineCreateEnabled: true });
+      const row = await openCreateRow();
+
+      expect(within(row).getByRole('link', { name: 'Cancel' }).closest('td')).toHaveAttribute('role', 'gridcell');
+      expectStructuralRow(row);
+    });
+
+    it('restores the button row after cancelling, hiding the section in between', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+
+      fireEvent.keyDown(within(row).getByRole('textbox'), { key: 'Escape' });
+
+      expect(createRow()).not.toBeInTheDocument();
+      expect(createSection()).toHaveAttribute('aria-hidden', 'true');
+
+      await waitFor(() => expectExposed());
+      expectStructuralRow(within(createSection()).getByRole('row'));
+    });
+
+    it('restores the create trigger when a different creation completes', async () => {
+      await mount(inlineCreate);
+      await openCreateRow();
+
+      created.next(Object.assign(buildWorkPackage({ id: '3' }), { __initialized_at: 2 }));
+
+      expect(createRow()).not.toBeInTheDocument();
+      expect(within(createSection()).getByRole('button', { name: 'Create new work package' })).toBeVisible();
+      expectExposed();
+    });
+
+    it('leaves inline create open when an editor consumes Escape', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      event.preventDefault();
+
+      within(row).getByRole('textbox').dispatchEvent(event);
+
+      expect(createRow()).toBe(row);
+      expectExposed();
+    });
+
+    it('hands a created work package to the results as a selectable row', async () => {
+      await mount(inlineCreate);
+      await openCreateRow();
+
+      created.next(Object.assign(buildWorkPackage({ id: '3' }), { __initialized_at: 1 }));
+      expect(createRow()).not.toBeInTheDocument();
+      await render([{ id: '1' }, { id: '2' }, { id: '3' }]);
+
+      const results = document.querySelector<HTMLTableSectionElement>('tbody.work-package--results-tbody')!;
+      expect(results.querySelector('tr[data-work-package-id="3"]')).toHaveAttribute('aria-selected', 'true');
+      await waitFor(() => expectStructuralRow(within(createSection()).getByRole('row')));
+      expectExposed();
+    });
+
+    it('emits showing only when visibility changes', async () => {
+      await mount(inlineCreate);
+      const component = fixture.debugElement.query(By.directive(WorkPackageInlineCreateComponent))
+        .componentInstance as WorkPackageInlineCreateComponent;
+      const showing = vi.fn();
+      component.showing.subscribe(showing);
+
+      canAdd.next(true);
+      fixture.detectChanges();
+      canReference.next(true);
+      fixture.detectChanges();
+      expect(showing).not.toHaveBeenCalled();
+
+      canAdd.next(false);
+      canReference.next(false);
+      fixture.detectChanges();
+      expect(showing).toHaveBeenCalledExactlyOnceWith(false);
+    });
+
+    it.each(['replacement', 'destruction'])('ignores a pending creation after table %s', async (transition) => {
+      const component = await mount(inlineCreate);
+      const service = TestBed.inject(WorkPackageCreateService);
+      const change = await service.createOrContinueWorkPackage(undefined);
+      let complete!:(value:typeof change) => void;
+      vi.spyOn(service, 'createOrContinueWorkPackage').mockReturnValue(new Promise((resolve) => { complete = resolve; }));
+      const editing = vi.spyOn(component.workPackageTable.editing, 'startEditing');
+      fireEvent.click(within(createSection()).getByRole('button', { name: 'Create new work package' }));
+
+      if (transition === 'replacement') {
+        const body = document.createElement('div');
+        component.timeline.append(body);
+        component.registerTimeline({} as WorkPackageTimelineTableController, body);
+      } else {
+        (fixture as ComponentFixture<ListViewStandInComponent>).componentInstance.showTable.set(false);
+        fixture.detectChanges();
+      }
+      complete(change);
+      await nextTask();
+
+      expect(editing).not.toHaveBeenCalled();
+      expect(document.querySelector('.wp-row-new')).toBeNull();
+    });
+
+    it('removes an open create row when the table is replaced', async () => {
+      const component = await mount(inlineCreate);
+      await openCreateRow();
+      const previous = component.workPackageTable;
+      const mutate = vi.spyOn(previous, 'mutate');
+
+      const body = document.createElement('div');
+      component.timeline.append(body);
+      component.registerTimeline({} as WorkPackageTimelineTableController, body);
+      fixture.detectChanges();
+
+      expect(document.querySelector('.wp-row-new')).toBeNull();
+      expect(mutate).not.toHaveBeenCalled();
+      expect(component.workPackageTable).not.toBe(previous);
+      expect(within(createSection()).getByRole('button', { name: 'Create new work package' })).toBeInTheDocument();
+    });
+
+    it('leaves the live table alone when inline create goes away with an open row', async () => {
+      const component = await mount(inlineCreate);
+      await openCreateRow();
+      const mutate = vi.spyOn(component.workPackageTable, 'mutate');
+
+      component.configuration.inlineCreateEnabled = false;
+      fixture.debugElement.query(By.directive(WorkPackagesTableComponent)).injector.get(ChangeDetectorRef).detectChanges();
+
+      expect(document.querySelector('tbody[wpInlineCreate]')).toBeNull();
+      expect(component.workPackageTable.destroyed).toBe(false);
+      expect(mutate).not.toHaveBeenCalled();
+    });
+
+    it('inserts one create row when the form emits again before activation', async () => {
+      const component = await mount(inlineCreate);
+      const inline = fixture.debugElement.query(By.directive(WorkPackageInlineCreateComponent))
+        .componentInstance as WorkPackageInlineCreateComponent;
+      const service = TestBed.inject(WorkPackageCreateService);
+      const forms = new Subject<{ schema:object }>();
+      const change = { ...await service.createOrContinueWorkPackage(undefined), state: { values$: () => forms } } as unknown as WorkPackageChangeset;
+      let complete!:(value:WorkPackageChangeset) => void;
+      const pending = vi.spyOn(service, 'createOrContinueWorkPackage').mockReturnValue(new Promise((resolve) => { complete = resolve; }));
+      const editing = vi.spyOn(component.workPackageTable.editing, 'startEditing');
+      const activation = vi.spyOn(inline, 'hideRow');
+      const schemaUpdate = vi.fn();
+      Object.assign(TestBed.inject(SchemaCacheService), { update: schemaUpdate });
+      const newRows = () => document.querySelectorAll('.wp-row-new');
+
+      fireEvent.click(within(createSection()).getByRole('button', { name: 'Create new work package' }));
+      complete(change);
+      await Promise.resolve();
+      forms.next({ schema: {} });
+      expect(newRows()).toHaveLength(1);
+      forms.next({ schema: {} });
+      expect(newRows()).toHaveLength(1);
+      expect(schemaUpdate).toHaveBeenCalledOnce();
+
+      await nextTask();
+      expect(newRows()).toHaveLength(1);
+      expect(editing).toHaveBeenCalledOnce();
+      expect(activation).toHaveBeenCalledOnce();
+
+      inline.resetRow();
+      expect(newRows()).toHaveLength(0);
+
+      pending.mockRestore();
+      await waitFor(() => expect(within(createSection()).getByText('Create new work package')).toBeInTheDocument());
+      fireEvent.click(within(createSection()).getByText('Create new work package'));
+      await waitFor(() => expect(newRows()).toHaveLength(1));
+    });
+
+    it('activates the create row when Create is clicked again before activation', async () => {
+      await mount(inlineCreate);
+      const inline = fixture.debugElement.query(By.directive(WorkPackageInlineCreateComponent))
+        .componentInstance as WorkPackageInlineCreateComponent;
+      const service = TestBed.inject(WorkPackageCreateService);
+      const forms = new Subject<{ schema:object }>();
+      const change = { ...await service.createOrContinueWorkPackage(undefined), state: { values$: () => forms } } as unknown as WorkPackageChangeset;
+      const created = vi.spyOn(service, 'createOrContinueWorkPackage').mockResolvedValue(change);
+      const activation = vi.spyOn(inline, 'hideRow');
+      Object.assign(TestBed.inject(SchemaCacheService), { update: vi.fn() });
+      const createButton = within(createSection()).getByRole('button', { name: 'Create new work package' });
+
+      fireEvent.click(createButton);
+      await Promise.resolve();
+      forms.next({ schema: {} });
+      fireEvent.click(createButton);
+      await Promise.resolve();
+      forms.next({ schema: {} });
+
+      await nextTask();
+      expect(created).toHaveBeenCalledOnce();
+      expect(activation).toHaveBeenCalledOnce();
+    });
+
+    it('hides the section while neither permission renders a row', async () => {
+      canAdd.next(false);
+      await mount(inlineCreate);
+
+      expect(createSection()).toHaveAttribute('role', 'rowgroup');
+      expect(createSection()).toHaveAttribute('aria-hidden', 'true');
+      expect(createSection().rows).toHaveLength(0);
+
+      canAdd.next(true);
+      fixture.detectChanges();
+      expectExposed();
+      expectStructuralRow(within(createSection()).getByRole('row'));
+
+      canAdd.next(false);
+      fixture.detectChanges();
+      expect(createSection()).toHaveAttribute('aria-hidden', 'true');
+    });
+  });
+});

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,40 @@ require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::AttachmentFileNameFilter do
   if OpenProject::Database.allows_tsv?
+    describe "filtering work packages" do
+      let(:instance) do
+        described_class.create!(name: :search, operator:, values: ["first"])
+      end
+      let(:work_package_a) { create(:work_package) }
+      let(:work_package_b) { create(:work_package) }
+      let!(:work_package_without_attachment) { create(:work_package) }
+      let(:attachment_a) { create(:attachment, filename: "attachment-first.pdf", container: work_package_a) }
+      let(:attachment_b) { create(:attachment, filename: "attachment-second.pdf", container: work_package_b) }
+
+      before do
+        Attachments::ExtractFulltextJob.perform_now(attachment_a.id)
+        Attachments::ExtractFulltextJob.perform_now(attachment_b.id)
+      end
+
+      subject(:results) { WorkPackage.where(instance.where) }
+
+      context "with a matching file name" do
+        let(:operator) { "~" }
+
+        it "finds the matching work package" do
+          expect(results).to contain_exactly(work_package_a)
+        end
+      end
+
+      context "with a negative match" do
+        let(:operator) { "!~" }
+
+        it "finds non-matching work packages, including those without attachments" do
+          expect(results).to contain_exactly(work_package_b, work_package_without_attachment)
+        end
+      end
+    end
+
     it_behaves_like "basic query filter" do
       let(:type) { :text }
       let(:name) { "Attachment file name" }

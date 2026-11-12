@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,7 @@ module Grids
   class WidgetBoxComponent < ApplicationComponent
     attr_reader :title, :content_padding
 
-    renders_one :header, lambda { |title:, attribute_label: nil, **system_arguments|
+    renders_one :header, lambda { |title: self.title, attribute_label: nil, **system_arguments|
       system_arguments[:id] = @header_id
 
       Header.new(title:, attribute_label:, **system_arguments)
@@ -80,12 +79,9 @@ module Grids
       @system_arguments[:id] ||= "#{key}-box"
 
       @turbo_enabled = turbo_enabled
-      @turbo_frame_arguments = { tag: :"turbo-frame", id: key, target: "_top" }
-      @turbo_frame_arguments[:style] = "display:contents"
+      @turbo_frame_arguments = { tag: :"turbo-frame", id: key, target: "_top", style: "display:contents" }
 
-      @list_arguments = { tag: :ul }
-      @list_arguments[:id] = "#{key}-list"
-      @list_arguments[:classes] = "op-widget-box--rows"
+      @list_arguments = { tag: :ul, id: "#{key}-list", classes: "op-widget-box--rows" }
     end
 
     def render?
@@ -102,9 +98,15 @@ module Grids
 
     private
 
-    def before_render
-      return unless header
+    def configure_accessibility
+      @system_arguments[:role] ||= :region
+      @system_arguments[:aria] = { labelledby: @header_id }.merge(@system_arguments[:aria] || {})
+    end
 
+    def before_render
+      return unless header&.render?
+
+      configure_accessibility
       @list_arguments[:aria] = { labelledby: @header_id }
     end
   end

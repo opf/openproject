@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,6 +70,19 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
       expect(response.body).to include("secret note")
     end
 
+    context "when copying with the copy_work_packages but not the move_work_packages permission" do
+      let(:copy_role) { create(:project_role, permissions: %i[view_work_packages copy_work_packages add_work_packages]) }
+      let(:user) { create(:user, member_with_roles: { source => copy_role, target => copy_role }) }
+      let(:params) { { "ids[]" => work_package.id, copy: "", new_project_id: target.id } }
+
+      it "keeps the selected target project" do
+        request
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(%(data-model="{&quot;id&quot;:#{target.id},))
+      end
+    end
+
     context "with malformed custom field values" do
       let(:params) do
         {
@@ -96,7 +108,7 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
       let(:assignee) { create(:user, member_with_roles: { target => assignee_role }) }
       let(:status) { create(:status) }
       let(:custom_field) do
-        create(:string_wp_custom_field, is_required: true, types: [type], projects: [source, target])
+        create(:string_wp_custom_field, is_required: true, types: [type])
       end
 
       let(:params) do

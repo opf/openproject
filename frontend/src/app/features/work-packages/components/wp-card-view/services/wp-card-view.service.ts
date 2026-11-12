@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -44,11 +43,6 @@ export class WorkPackageCardViewService {
     return this.querySpace.tableRendered.getValueOr([]);
   }
 
-  public findRenderedCard(classIdentifier:string):number {
-    const index = this.renderedCards.findIndex((card) => card.classIdentifier === classIdentifier);
-
-    return index;
-  }
 
   public updateRenderedCardsValues(workPackages:WorkPackageResource[]) {
     this.querySpace.tableRendered.putValue(

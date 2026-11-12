@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,9 +31,6 @@ import {
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import {
-  StateService,
-} from '@uirouter/core';
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -60,12 +56,15 @@ import { EMPTY, ReplaySubject } from 'rxjs';
 import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import * as Turbo from '@hotwired/turbo';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-partitioned-page',
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
@@ -81,7 +80,6 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 export class BoardPartitionedPageComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly state = inject(StateService);
   readonly toastService = inject(ToastService);
   readonly halNotification = inject(HalResourceNotificationService);
   readonly injector = inject(Injector);
@@ -166,7 +164,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
     // Ensure board is being loaded
     this.Boards.loadAllBoards();
 
-    const boardId = this.boardId || this.state.params.board_id?.toString();
+    const boardId = this.boardId;
     this.apiV3Service.boards.id(boardId).observe()
       .pipe(this.untilDestroyed())
       .subscribe((board) => this.board$.next(board));
@@ -191,7 +189,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
         this.editable = board.editable;
         this.selectedTitle = board.name;
         this.titleService.setFirstPart(board.name);
-        this.boardFilters.filters.putValue(queryProps ? JSON.parse(queryProps) : board.filters);
+        this.boardFilters.filters.putValue(queryProps ? JSON.parse(queryProps) as ApiV3Filter[] : board.filters);
 
         this.cdRef.detectChanges();
       });
@@ -216,7 +214,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
 
         const url = new URL(window.location.href);
         url.searchParams.delete('query_props');
-        window.history.pushState({}, '', url);
+        Turbo.session.history.push(url);
         this.showToolbarSaveButton = false;
 
         this.toolbarDisabled = true;

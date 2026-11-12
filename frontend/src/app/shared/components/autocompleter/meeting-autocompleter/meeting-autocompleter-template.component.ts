@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,6 +29,7 @@ import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@ang
 import {
   IAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { AutocompleterOptionContext, AutocompleterLabelContext } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 
 @Component({
   templateUrl: './meeting-autocompleter-template.component.html',
@@ -38,6 +38,6 @@ import {
   standalone: false,
 })
 export class MeetingAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
-  @ViewChild('labelTemplate') labelTemplate?:TemplateRef<Element>;
-  @ViewChild('optionTemplate') optionTemplate:TemplateRef<Element>;
+  @ViewChild('labelTemplate') labelTemplate?:TemplateRef<AutocompleterLabelContext>;
+  @ViewChild('optionTemplate') optionTemplate:TemplateRef<AutocompleterOptionContext>;
 }

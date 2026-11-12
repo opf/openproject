@@ -22,19 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackageTypes
   class VariantsController < BaseTabController
-    include TypeVariantsFeature
     include OpTurbo::ComponentStream
-
-    before_action :require_type_variants_feature
-    administration_only! :index, :make_default, :remove_default
 
     current_menu_item do
       :types
@@ -45,7 +40,12 @@ module WorkPackageTypes
     def index
       return unless turbo_frame_request?
 
-      render VariantsListComponent.new(type: @type, query: params[:query]), layout: false
+      render VariantsListComponent.new(type: @type, query: params[:query], created_by_migration: params[:created_by_migration]),
+             layout: false
+    end
+
+    def comparison
+      @comparison = VariantComparison.new(type: @type)
     end
 
     def menu
@@ -55,12 +55,14 @@ module WorkPackageTypes
 
     def deletion_dialog
       variant = named_variant
-      targets = variant.migration_targets.in_display_order
 
-      respond_with_dialog Types::DeletionDialogComponent.new(
-        variant:, targets:, selected: targets.first, impact: deletion_impact(variant, targets.first),
-        url: type_variant_path(type_id: variant.type_id, id: variant.id)
-      )
+      if variant.project_types.exists?
+        respond_with_dialog migration_deletion_dialog(variant)
+      else
+        respond_with_dialog Types::UnusedVariantDeletionDialogComponent.new(
+          variant:, url: deletion_path(variant)
+        )
+      end
     end
 
     def deletion_preview
@@ -92,6 +94,24 @@ module WorkPackageTypes
 
     def remove_default
       apply_default_service(RemoveDefaultService, "types.index.remove_default_notice")
+    end
+
+    def convert_to_global_dialog
+      dialog_via_turbo_stream(component: convert_confirm_dialog(named_variant))
+      respond_with_turbo_streams
+    end
+
+    def convert_to_global
+      variant = named_variant
+      service_call = ConvertToGlobalService.new(variant:).call(name: requested_name)
+
+      if service_call.success?
+        flash[:notice] = t("types.index.convert_to_global_notice", name: variant.composite_name)
+        return redirect_back_or_default(types_path, status: :see_other)
+      end
+
+      handle_failed_convert(service_call)
+      respond_with_turbo_streams
     end
 
     private
@@ -126,6 +146,19 @@ module WorkPackageTypes
       addressable.find(params.expect(:id))
     end
 
+    def migration_deletion_dialog(variant)
+      targets = variant.migration_targets.in_display_order
+
+      Types::VariantDeletionDialogComponent.new(
+        variant:, targets:, selected: targets.first, impact: deletion_impact(variant, targets.first),
+        url: deletion_path(variant)
+      )
+    end
+
+    def deletion_path(variant)
+      type_variant_path(type_id: variant.type_id, id: variant.id, back_url: params[:back_url])
+    end
+
     def chosen_target(variant)
       return if params[:target_id].blank?
 
@@ -153,12 +186,49 @@ module WorkPackageTypes
         component: Types::DeletionFormComponent.new(
           variant:, targets: variant.migration_targets.in_display_order, selected: target,
           impact: deletion_impact(variant, target),
-          url: type_variant_path(type_id: variant.type_id, id: variant.id),
+          url: deletion_path(variant),
           validation_message: service_call.errors.full_messages.to_sentence
         )
       )
 
       respond_to_with_turbo_streams
+    end
+
+    def handle_failed_convert(service_call)
+      if params.key?(:type_variant)
+        repaint_rename_form(service_call)
+      else
+        open_rename_dialog
+      end
+    end
+
+    def open_rename_dialog
+      close_dialog_via_turbo_stream(Types::ConvertToGlobalDialogComponent::DIALOG_ID)
+      variant = named_variant # Fresh version, no preexisting errors
+      dialog_via_turbo_stream(component: Types::ConvertToGlobalRenameDialogComponent.new(
+        variant:, url: convert_path(variant)
+      ))
+    end
+
+    def repaint_rename_form(service_call)
+      update_via_turbo_stream(
+        component: Types::ConvertToGlobalRenameFormComponent.new(
+          variant: service_call.result, url: convert_path(service_call.result)
+        ),
+        status: :unprocessable_entity
+      )
+    end
+
+    def requested_name
+      params.dig(:type_variant, :variant_name)
+    end
+
+    def convert_confirm_dialog(variant)
+      Types::ConvertToGlobalDialogComponent.new(variant:, url: convert_path(variant))
+    end
+
+    def convert_path(variant)
+      convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id)
     end
   end
 end

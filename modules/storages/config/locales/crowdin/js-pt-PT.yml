@@ -26,12 +26,12 @@ pt-PT:
         select: Seleccionar ficheiros
         select_all: Selecionar tudo
         selection:
-          zero: Selecionar ficheiros a vincular
-          one: Vincular 1 ficheiro
-          other: Vincular %{count} ficheiros
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: Criou com sucesso 1 link de ficheiro.
-          other: Criou com sucesso %{count} links de ficheiros.
+          one: Successfully created %{count} file link.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Este ficheiro não foi encontrado.
           not_logged_in: Inicie sessão no armazenamento para aceder a este ficheiro.

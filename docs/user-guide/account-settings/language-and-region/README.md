@@ -3,12 +3,12 @@ sidebar_navigation:
   title: Language and region
   priority: 700
 description: Learn how to configure language and region settings in OpenProject.
-keywords: my account, account settings, change language, region settings, time zone
+keywords: my account, account settings, change language, region settings, time zone, date format, time format
 ---
 
 # Language and region settings
 
-Within the **Language and region** section of **Account settings** page you can change the language of OpenProject and adapt the time zone.
+Within the **Language and region** section of **Account settings** page you can change the language of OpenProject, adapt the time zone and choose how dates and times are displayed.
 
 ![OpenProject personal account settings](openproject_account_settings_language_and_regions.png)
 
@@ -27,5 +27,15 @@ If you want to help us to add further languages or to add the translations in yo
 ## Change your time zone
 
 You can choose a time zone in which you work from the dropdown menu of the respective field.
+
+Pressing the **Save** button will save your changes.
+
+## Change your preferred date and time formats
+
+You can choose how dates and times are displayed for you in OpenProject, independently of the language.
+
+Both fields default to **Use system or language based default**. With this option, OpenProject uses the format your administrator configured, and falls back to the convention of your chosen language if none is set.
+
+Choosing a specific format overrides that default for your account only.
 
 Pressing the **Save** button will save your changes.

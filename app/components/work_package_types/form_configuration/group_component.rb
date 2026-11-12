@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,33 +32,30 @@ module WorkPackageTypes
     class GroupComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include AttributeItemData
 
-      def initialize(group:, variant: nil, ee_available: false, first: false, last: false, edit_mode: false,
-                     form_model: nil, readonly: false, exclusions: nil)
+      def initialize(group:, context:, ee_available: false, first: false, last: false, edit_mode: false,
+                     form_model: nil)
         super(group)
         @group = group
-        @variant = variant
+        @context = context
         @ee_available = ee_available
         @first = first
         @last = last
         @edit_mode = edit_mode
         @form_model = form_model
-        @readonly = readonly
-        @exclusions = exclusions
         @instance_uid = SecureRandom.hex(4)
       end
 
       def wrapper_uniq_by
-        @group[:key].presence || @instance_uid
+        @group[:id].presence || @group[:key].presence || @instance_uid
       end
 
       def edit_mode?
         @edit_mode
       end
 
-      def readonly?
-        @readonly
-      end
+      delegate :readonly?, :exclusions, to: :@context
 
       def query_group?
         @group[:type].to_s == "query"
@@ -84,13 +80,15 @@ module WorkPackageTypes
       private
 
       def wrapper_data
-        {
+        data = {
           group_type: @group[:type].to_s,
           group_key: @group[:key].to_s,
-          group_query: @group[:query],
+          group_temporary: (true if temporary_group?),
           update_query_url: update_query_path,
           edit_mode: (true if edit_mode?)
-        }.compact.merge(draggable_item_config)
+        }.compact
+
+        merge_data({ data: }, { data: item_data })
       end
 
       def group_name
@@ -101,54 +99,50 @@ module WorkPackageTypes
         @group[:temporary]
       end
 
-      def draggable_item_config
-        return {} if readonly? || @group[:key].blank? || temporary_group?
+      def sortable?
+        !readonly? && @group[:id].present? && !temporary_group?
+      end
+
+      def item_data
+        return {} unless sortable?
 
         {
-          "draggable-id": @group[:key],
-          "draggable-type": "group",
-          "drop-url": drop_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
-                                                              key: @group[:key])
-        }
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: @group[:id],
+          sortable_lists__item_type_value: SortableTypes::GROUP,
+          sortable_lists__item_label_value: group_name,
+          sortable_lists__item_mobility_value: ("fixed" if edit_mode?)
+        }.compact
       end
 
-      def row_drop_target_config
-        return {} if readonly? || query_group? || @group[:key].blank? || temporary_group?
+      def box_data
+        return {} unless sortable?
 
-        {
-          "admin--type-form-configuration--rows-drag-and-drop-target": "container",
-          "target-container-accessor": ".Box > ul",
-          "target-id": @group[:key],
-          "target-allowed-drag-type": "attribute"
-        }
+        preview = { sortable_lists__item_target: "preview" }
+        return preview if query_group?
+
+        merge_data(
+          { data: preview },
+          {
+            data: {
+              controller: "sortable-lists--list",
+              sortable_lists__list_type_value: SortableTypes::ATTRIBUTE,
+              sortable_lists__list_accepted_type_value: SortableTypes::ATTRIBUTE,
+              sortable_lists__list_id_value: @group[:id],
+              sortable_lists__list_name_value: group_name
+            }
+          }
+        )
       end
 
-      def edit_path
-        edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
-      end
+      def row_data(attribute)
+        return {} if readonly?
 
-      def update_path
-        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
-      end
-
-      def cancel_edit_path
-        cancel_edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
-      end
-
-      def move_path(move_to)
-        move_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key], move_to:)
-      end
-
-      def destroy_path
-        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
+        attribute_item_data(attribute)
       end
 
       def update_query_path
-        update_query_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
-      end
-
-      def row_drop_path(attribute)
-        drop_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id, row_key: attribute[:key])
+        @context.group_path(:update_query, key: @group[:key])
       end
     end
   end

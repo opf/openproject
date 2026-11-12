@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,7 +50,7 @@ export class BoardService {
   private text = {
     unnamed_board: this.I18n.t('js.boards.label_unnamed_board'),
     action_board: (attr:string) => this.I18n.t('js.boards.board_type.action_by_attribute',
-      { attribute: this.I18n.t(`js.boards.board_type.action_type.${attr}`) }),
+      { attribute: this.I18n.t<string>(`js.boards.board_type.action_type.${attr}`) }),
     unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 

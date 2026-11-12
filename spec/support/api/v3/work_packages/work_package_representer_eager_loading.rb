@@ -22,20 +22,21 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 RSpec.shared_context "eager loaded work package representer" do
+  let(:cache_enabled) { false }
+
   before do
     allow(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
       .to receive(:wrap_one) do |work_package, _user|
       without_partial_double_verification do
         allow(work_package)
           .to receive(:cache_checksum)
-          .and_return(srand)
+          .and_return(cache_enabled ? "fixed-checksum" : srand)
       end
 
       work_package

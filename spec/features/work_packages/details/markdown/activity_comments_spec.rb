@@ -1,18 +1,45 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 require "features/work_packages/shared_contexts"
 require "features/work_packages/details/inplace_editor/shared_examples"
 
-RSpec.describe "activity comments", :js, :selenium do
+RSpec.describe "activity comments", :js do
   let(:project) { create(:project, public: true) }
   let!(:work_package) do
     create(:work_package,
            project:,
            journal_notes: initial_comment)
   end
-  let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
   let(:initial_comment) { "the first comment in this WP" }
 
@@ -63,13 +90,13 @@ RSpec.describe "activity comments", :js, :selenium do
     end
 
     context "with the project page" do
-      let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+      let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
       it_behaves_like "principal autocomplete on field"
     end
 
     context "without the project page" do
-      let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+      let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
       it_behaves_like "principal autocomplete on field"
     end

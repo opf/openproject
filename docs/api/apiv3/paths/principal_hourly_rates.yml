@@ -1,0 +1,134 @@
+# /api/v3/principals/{id}/hourly_rates
+---
+get:
+  summary: List hourly rates of a principal
+  operationId: list_principal_hourly_rates
+  tags:
+    - Hourly rates
+  description: |-
+    Lists the hourly rates of the given principal that are visible to the requesting user,
+    ordered by `validFrom` descending.
+
+    The collection mixes both kinds of rate. A rate linking a `project` applies in that project only,
+    a rate without one is the principal's default rate and applies wherever no project rate does.
+
+    **Required permissions:**
+    - Reaching a principal's rates at all requires `view_hourly_rates` in at least one project,
+      unless the principal is the requesting user.
+    - Project rates are limited to the projects granting the requesting user `view_hourly_rates`,
+      plus, for their own rates, the projects granting them `view_own_hourly_rate`.
+    - Default rates belong to no project and are returned as soon as the principal's rates are reachable.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Principal id.
+      schema:
+        type: integer
+      example: 42
+  responses:
+    "200":
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/hourly_rate_collection_model.yml"
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the principal does not exist, is not visible to the requesting user, or the
+        requesting user may not see their rates.
+
+post:
+  summary: Create an hourly rate for a principal
+  operationId: create_principal_hourly_rate
+  tags:
+    - Hourly rates
+  description: |-
+    Creates an hourly rate for the given principal, taking effect from `validFrom`.
+
+    Linking a `project` creates a rate for that project. Omitting the link creates the principal's
+    default rate, which applies in every project where no project rate is set up.
+
+    Creating a rate recalculates the costs of time entries and budgets already booked in the period
+    the rate covers.
+
+    **Required permissions:**
+    - A project rate requires `edit_hourly_rates` in the linked project, or `edit_own_hourly_rate`
+      in it when the rate is the requesting user's own.
+    - A default rate requires the global `manage_default_hourly_rates` permission.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Principal id.
+      schema:
+        type: integer
+      example: 42
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/hourly_rate_model.yml"
+        example:
+          validFrom: "2026-01-01"
+          rate: 95
+          _links:
+            project:
+              href: /api/v3/projects/7
+  responses:
+    "201":
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/hourly_rate_model.yml"
+    "400":
+      $ref: "../components/responses/invalid_request_body.yml"
+    "403":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `edit_hourly_rates` or `edit_own_hourly_rate` in the linked project,
+        or `manage_default_hourly_rates` globally when creating a default rate.
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the principal does not exist, is not visible to the requesting user, or the
+        requesting user may not see their rates.
+    "406":
+      $ref: "../components/responses/missing_content_type.yml"
+    "415":
+      $ref: "../components/responses/unsupported_media_type.yml"
+    "422":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Validation failed.
+      description: Returned if the request body contains invalid parameters.

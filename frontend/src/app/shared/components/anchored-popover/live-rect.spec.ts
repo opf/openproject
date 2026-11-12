@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -74,18 +73,18 @@ describe('liveRect', () => {
     popover.anchorElement = rect as unknown as HTMLElement;
     popover.togglePopover(true);
 
-    const centre = () => {
+    const center = () => {
       const box = popover.getBoundingClientRect();
       return box.left + box.width / 2;
     };
 
     placePopover(popover, rect);
-    expect(centre()).toBeCloseTo(205, 0);
+    expect(center()).toBeCloseTo(205, 0);
 
     anchor = new DOMRect(300, 200, 10, 10);
     await Promise.resolve();
     placePopover(popover, rect);
-    expect(centre()).toBeCloseTo(305, 0);
+    expect(center()).toBeCloseTo(305, 0);
 
     popover.remove();
   });

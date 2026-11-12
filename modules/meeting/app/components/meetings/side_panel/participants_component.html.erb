@@ -1,7 +1,7 @@
 <%=
   component_wrapper do
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
-      section.with_title { Meeting.human_attribute_name(:participants) }
+      section.with_title(tag: :h3) { Meeting.human_attribute_name(:participants) }
       section.with_counter(count: @meeting.participants.count)
 
       if @meeting.templated?

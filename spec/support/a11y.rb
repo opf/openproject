@@ -22,10 +22,27 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "axe-rspec"
+
+RSpec.shared_context "with axe on Cuprite" do
+  around do |example|
+    configuration = Axe::Configuration.instance
+    previous_legacy_mode = configuration.legacy_mode
+    Capybara::Cuprite::Browser.class_eval do
+      define_method(:execute_async_script) do |script, *args|
+        evaluate_async(script, 120, *args)
+      end
+    end
+    configuration.legacy_mode = true
+    begin
+      example.run
+    ensure
+      configuration.legacy_mode = previous_legacy_mode
+    end
+  end
+end

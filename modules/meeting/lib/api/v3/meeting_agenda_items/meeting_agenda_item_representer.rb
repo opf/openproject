@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,6 +43,18 @@ module API
 
         self_link title_getter: ->(*) { represented.title }
 
+        link :upvote, uncacheable: true do
+          next unless represented.votable?(current_user)
+
+          { href: api_v3_paths.meeting_agenda_item_upvote(represented.id), method: :post }
+        end
+
+        link :downvote, uncacheable: true do
+          next unless represented.votable?(current_user)
+
+          { href: api_v3_paths.meeting_agenda_item_downvote(represented.id), method: :post }
+        end
+
         property :id
 
         property :title
@@ -51,6 +62,8 @@ module API
         formattable_property :notes
 
         property :position
+
+        property :vote_score, writeable: false, uncacheable: true
 
         property :duration_in_minutes
 

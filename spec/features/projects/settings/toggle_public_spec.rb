@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe "Project public/private toggle", :js do
@@ -45,10 +45,9 @@ RSpec.describe "Project public/private toggle", :js do
 
     expect(page).to have_text I18n.t("projects.settings.public_confirmation.title")
 
-    retry_block do
-      check I18n.t("projects.settings.public_confirmation.checkbox")
-      click_button "Confirm"
-    end
+    find("label", text: I18n.t("projects.settings.public_confirmation.checkbox")).click
+    expect(page).to have_checked_field(I18n.t("projects.settings.public_confirmation.checkbox"))
+    click_button "Confirm"
 
     expect(page).to have_test_selector("op-projects-public-warning")
     expect(page).to have_text(I18n.t("projects.settings.public_warning"))
@@ -61,10 +60,9 @@ RSpec.describe "Project public/private toggle", :js do
     page.find_test_selector("project-settings--toggle-public").click
     expect(page).to have_text I18n.t("projects.settings.private_confirmation.title")
 
-    retry_block do
-      check I18n.t("projects.settings.private_confirmation.checkbox")
-      click_button "Confirm"
-    end
+    find("label", text: I18n.t("projects.settings.private_confirmation.checkbox")).click
+    expect(page).to have_checked_field(I18n.t("projects.settings.private_confirmation.checkbox"))
+    click_button "Confirm"
 
     expect(page).not_to have_test_selector("op-projects-public-warning")
     expect(page).to have_no_text(I18n.t("projects.settings.public_warning"))

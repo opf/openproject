@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -110,16 +109,24 @@ RSpec.describe Import::JiraImport do
     let!(:jira_priority) { create(:jira_priority, jira_import:) }
     let!(:jira_status) { create(:jira_status, jira_import:) }
     let!(:jira_user) { create(:jira_user, jira_import:) }
+    let!(:jira_attachment) { create(:jira_attachment, jira_import:, jira_project:, jira_issue:) }
+    let!(:jira_version) { create(:jira_version, jira_import:, jira_project:) }
+    let!(:jira_board) { create(:jira_board, jira_import:) }
+    let!(:jira_sprint) { create(:jira_sprint, jira_import:) }
 
     it "destroys all associated jira objects" do
       expect { jira_import.destroy_jira_objects }
-        .to change(Import::JiraField, :count).by(-1)
+        .to change(Import::JiraAttachment, :count).by(-1)
+        .and change(Import::JiraBoard, :count).by(-1)
+        .and change(Import::JiraField, :count).by(-1)
         .and change(Import::JiraIssue, :count).by(-1)
         .and change(Import::JiraIssueType, :count).by(-1)
         .and change(Import::JiraPriority, :count).by(-1)
         .and change(Import::JiraProject, :count).by(-1)
+        .and change(Import::JiraSprint, :count).by(-1)
         .and change(Import::JiraStatus, :count).by(-1)
         .and change(Import::JiraUser, :count).by(-1)
+        .and change(Import::JiraVersion, :count).by(-1)
     end
 
     it "does not destroy objects from other imports" do
@@ -172,6 +179,40 @@ RSpec.describe Import::JiraImport do
 
       it "returns nil" do
         expect(jira_import.find_op_leg(jira_version)).to be_nil
+      end
+    end
+  end
+
+  describe "#find_op_leg!" do
+    let(:jira_project) { create(:jira_project, jira_import:) }
+    let(:jira_version) { create(:jira_version, jira_import:, jira_project:) }
+    let(:version) { create(:version) }
+    let(:message) do
+      "Reference was expected to be found, but it was not. Import::JiraVersion with id #{jira_version.id}"
+    end
+
+    context "when reference exists" do
+      before do
+        create(:jira_open_project_reference,
+               jira_import:,
+               jira_entity_class: jira_version.class,
+               jira_entity_id: jira_version.id,
+               op_entity_class: version.class,
+               op_entity_id: version.id)
+      end
+
+      it "returns the OpenProject entity" do
+        expect(jira_import.find_op_leg!(jira_version)).to eq(version)
+      end
+    end
+
+    context "when reference does not exist" do
+      before { allow(Rails.logger).to receive(:error) }
+
+      it "raises a RecordNotFound and logs the missing reference" do
+        expect { jira_import.find_op_leg!(jira_version) }
+          .to raise_error(ActiveRecord::RecordNotFound, message)
+        expect(Rails.logger).to have_received(:error).with(message)
       end
     end
   end

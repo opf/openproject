@@ -20,18 +20,19 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import {
   BlankslateComponent,
   BlankslateDescriptionComponent,
   BlankslateHeadingComponent,
+  BlankslateHeadingLevel,
   BlankslateIconComponent,
 } from './blankslate.component';
 
@@ -44,11 +45,14 @@ import {
     BlankslateHeadingComponent,
     BlankslateDescriptionComponent,
   ],
+  host: { class: 'd-block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NoResultsComponent {
   private readonly i18n = inject(I18nService);
 
+  readonly icon = input<DynamicIconName>();
   readonly title = input(this.i18n.t('js.label_no_data'));
   readonly message = input<string>();
+  readonly headingLevel = input<BlankslateHeadingLevel>(3);
 }

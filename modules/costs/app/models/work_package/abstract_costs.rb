@@ -1,3 +1,32 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 class WorkPackage
   class AbstractCosts
     attr_reader :user, :project
@@ -28,12 +57,8 @@ class WorkPackage
     # @param [WorkPackage::ActiveRecord_Relation | Array[WorkPackage]] List of work packages.
     # @return [Float] The sum of the work packages' costs.
     def costs_of(work_packages:)
-      # N.B. Because of an AR quirks the code below uses statements like
-      #   where(work_package_id: ids)
-      # You would expect to be able to simply write those as
-      #   where(work_package: work_packages)
-      # However, AR (Rails 4.2) will not expand :includes + :references inside a subquery,
-      # which will render the query invalid. Therefore we manually extract the IDs in a separate (pluck) query.
+      # AR will not expand :includes + :references inside a subquery, so the IDs have to be
+      # extracted in a separate (pluck) query rather than passing the relation itself.
       wp_ids = work_package_ids(work_packages)
 
       scope = costs_model.where(entity_type: "WorkPackage", entity_id: wp_ids).joins(:project)
@@ -46,7 +71,7 @@ class WorkPackage
     ##
     # The model on which the costs calculations are based.
     # Can be any model which has the fields `overridden_costs` and `costs`
-    # and is related to work packages (i.e. has a `work_package_id` too).
+    # and is related to work packages (i.e. has an `entity` association too).
     #
     # @return [Class] Class of the model the costs are based on, e.g. CostEntry or TimeEntry.
     def costs_model

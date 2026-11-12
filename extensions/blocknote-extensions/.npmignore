@@ -1,0 +1,12 @@
+# Do not ignore dist for npm pack
+# (npm will use this file instead of .gitignore)
+# Add any files you want to exclude from npm package below
+
+# Example: exclude tests and config files
+*.test.*
+*.spec.*
+.vscode/
+node_modules/
+
+# Do NOT ignore dist
+# dist/

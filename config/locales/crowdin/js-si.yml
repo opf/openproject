@@ -47,6 +47,8 @@ si:
       draggable_hint: 'පේළිගත රූපය හෝ යොමු ඇමුණුමක් කර්තෘ ක්ෂේත්රය මත ඇදගෙන යන්න. ඔබ ඇදගෙන යන අතරතුර සංවෘත සංස්කාරක ක්ෂේත්ර විවෘත කරනු ඇත.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -61,6 +63,7 @@ si:
         single: තෝරන්න "%{name}”
       remove: "%{name}ඉවත් කරන්න"
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: සෙවීමට ටයිප් කරන්න
       project:
@@ -129,9 +132,9 @@ si:
     button_continue: ඉදිරියට යන්න
     button_copy: පිටපත් කරන්න
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: පසුරු පුවරුවට පිටපත් කරන්න
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: සාදන්න
     button_custom-fields: අභිරුචි ක්ෂේත්ර
     button_delete: මකන්න
@@ -147,6 +150,7 @@ si:
     button_log_time: ලොග් වේලාව
     button_more: තවත්
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: විවෘත විස්තර දැක්ම
     button_open_fullscreen: පූර්ණ තිර දර්ශනය විවෘත කරන්න
     button_quote: උපුටා
@@ -162,6 +166,7 @@ si:
     button_stop_timer: Stop timer
     button_uncheck_all: සියල්ල ඉවත් කරන්න
     button_update: යාවත්කාලීන
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: නව කාඩ් එකතු කරන්න
@@ -201,7 +206,11 @@ si:
     description_select_work_package: 'වැඩ පැකේජය තෝරන්න #%{id}'
     description_subwork_package: 'වැඩ පැකේජය දරුවා #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'පහත දැක්වෙන දෝෂය සමඟ ලේඛනය සුරැකීම අසාර්ථක විය: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ si:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: සියලු ව්යාපෘති
@@ -358,8 +369,8 @@ si:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@ si:
     label_assignee: අස්ගිනී
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: ඇමුණුම්
-    label_author: 'කර්තෘ: %{user}'
     label_avatar: අවතාර්
     label_between: අතර
     label_board: මණ්ඩලය
@@ -495,6 +505,7 @@ si:
     label_in: තුළ
     label_in_less_than: වඩා අඩු
     label_in_more_than: වඩා වැඩි
+    label_in_progress_work_packages: in progress
     label_incoming_emails: ලැබෙන විද්යුත් තැපැල්
     label_infinity: Infinity
     label_information_plural: තොරතුරු
@@ -527,6 +538,10 @@ si:
     label_open_context_menu: සන්දර්භය මෙනුව විවෘත කරන්න
     label_open_menu: මෙනුව විවෘත කරන්න
     label_open_work_packages: විවෘත
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: මුරපදය
     label_per_page: 'එක් පිටුවකට:'
     label_please_wait: කරුණාකර රැඳී සිටින්න
@@ -551,6 +566,8 @@ si:
     label_reset: යළි පිහිටුවීම
     label_resize_project_menu: Resize project menu
     label_save_as: ලෙස සුරකින්න
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: මුරකරුවෙකු තෝරන්න...
     label_selected_filter_list: තෝරාගත් පෙරහන්
@@ -558,7 +575,9 @@ si:
     label_show_in_menu: මෙනුවේ දර්ශනය පෙන්වන්න
     label_sort_by: විසින් වර්ග
     label_sort_higher: ඉහළට ගෙනයන්න
+    label_sort_highest: Move to top
     label_sort_lower: පහළට ගෙනයන්න
+    label_sort_lowest: Move to bottom
     label_sorted_by: විසින් වර්ග
     label_sorting: තෝරා බේරා ගැනීමේ
     label_spent_time: වැය කළ කාලය
@@ -569,6 +588,7 @@ si:
     label_sum_for: මුදල
     label_this_week: මේ සතියේ
     label_time_entry_plural: වැය කළ කාලය
+    label_to_do_work_packages: to-do
     label_today: Today
     label_total_amount: 'මුළු: %{amount}'
     label_total_progress: "%{percent}% මුළු ප්රගතිය"
@@ -623,7 +643,7 @@ si:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -720,6 +740,7 @@ si:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: මෙම සම්බන්ධයෙන් විස්තර එකතු කිරීමට ක්ලික් කරන්න
       selection: කරුණාකර තෝරන්න
       subject: මෙහි විෂය ඇතුලත් කරන්න
@@ -806,12 +827,33 @@ si:
       sorting_disabled: වර්ග කිරීම අක්රීය කර ඇත
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +867,7 @@ si:
     text_user_wrote: "%{value} ලිවීය:"
     text_work_packages_destroy_confirmation: ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?
     time_entry:
-      stop: Stop
       title: ලොග් වේලාව
-      tracking: ෙසොයා ගැනීෙම්
       work_package_required: පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.
     timer:
       button_stop: Stop current timer
@@ -862,19 +902,19 @@ si:
       label_two_factor_authentication: Two-factor authentication
     units:
       child_work_packages:
-        one: එක් ළමා වැඩ පැකේජය
-        other: "%{count} වැඩ පැකේජය දරුවන්"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: දින 1
+        one: "%{count} day"
         other: "%{count} දින"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} ඌ"
         zero: 0 ඌ
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: වැඩ පැකේජය
@@ -934,6 +974,7 @@ si:
         all_open: සියල්ල විවෘතයි
         assigned_to_me: මට පවරනු ලැබේ
         created_by_me: මා විසින් නිර්මාණය කරන ලදී
+        in_progress: In progress
         latest_activity: නවතම ක්රියාකාරකම්
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -941,6 +982,7 @@ si:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: සාරාංශය
+        to_do: To-do
       description_enter_text: පෙළ ඇතුලත් කරන්න
       description_filter: පෙරහන්
       description_options_hide: විකල්ප සඟවන්න
@@ -1028,6 +1070,7 @@ si:
         other: වෙනත්
         people: ජනතාව
       query:
+        add_columns: Add columns
         click_to_edit_query_name: මෙම දර්ශනයේ මාතෘකාව සංස්කරණය කිරීමට ක්ලික් කරන්න.
         column_names: තීරු
         confirm_edit_cancel: ඔබට මෙම දර්ශනයේ නම සංස්කරණය කිරීම අවලංගු කිරීමට අවශ්ය බව ඔබට විශ්වාසද? මාතෘකාව පෙර වටිනාකමට නැවත සකසනු ඇත.
@@ -1037,17 +1080,16 @@ si:
           not_found: එවැනි මතයක් නොමැත
           unretrievable_query: URL වෙතින් දැක්ම ලබා ගැනීමට නොහැකි විය
         filters: පෙරහන්
-        group: කණ්ඩායම විසින්
         group_by: කණ්ඩායම් ප්රතිඵල විසින්
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: ධූරාවලියේ මාදිලිය ක්රියාකාරී වීම හේතුවෙන් සමූහය අක්රීය වේ.
-        hide_column: තීරුව සඟවන්න
         hierarchy_disabled_by_group_by: "%{column}විසින් කාණ්ඩගත කර ඇති ප්රති results ල හේතුවෙන් ධූරාවලියේ මාදිලිය අක්රිය වේ."
-        insert_columns: Insert columns
         move_column_left: තීරුව වමට ගෙනයන්න
         move_column_right: තීරුව දකුණට ගෙනයන්න
         public_text: 'මෙම මතය ප්රකාශයට පත් කරන්න, වෙනත් පරිශීලකයින්ට ඔබගේ දැක්ම වෙත ප්රවේශ වීමට ඉඩ සලසයි. ''මහජන අදහස් කළමනාකරණය කරන්න'' අවසරය ඇති පරිශීලකයින්ට මහජන විමසුම වෙනස් කිරීමට හෝ ඉවත් කිරීමට හැකිය. එම දර්ශනයේ වැඩ පැකේජ ප්රති results ල දෘශ්යතාවයට මෙය බලපාන්නේ නැති අතර ඔවුන්ගේ අවසර මත පදනම්ව පරිශීලකයින්ට විවිධ ප්රති results ල දැකිය හැකිය.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: මෙම දර්ශනයේ නම
         sort_ascending: නැගී එන වර්ග
         sort_descending: බැස වර්ග
@@ -1068,15 +1110,26 @@ si:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: වැඩ පැකේජ වගුව සකසන්න
-        summary: වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව.
-        text_inline_edit: මෙම වගුවේ බොහෝ සෛල එම ගුණාංගයේ පේලි-සංස්කරණ ක්රියාකාරිත්වය සක්රිය කරන බොත්තම් වේ.
-        text_select_hint: තෝරන්න පෙට්ටි 'ALT' සහ ඊතල යතුරු සමඟ විවෘත කළ යුතුය.
-        text_sort_hint: වගු ශීර්ෂයන්හි ඇති සබැඳි සමඟ ඔබට වගු තීරු වර්ග කිරීම, කණ්ඩායම් කිරීම, නැවත සකස් කිරීම, ඉවත් කිරීම සහ එකතු කිරීම කළ හැකිය.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: මෙම වැඩ පැකේජ වගුව සකසන්න
         choose_display_mode: වැඩ පැකේජ ලෙස පෙන්වන්න
@@ -1085,7 +1138,6 @@ si:
         default_mode: පැතලි ලැයිස්තුව
         display_settings: දර්ශන සැකසුම්
         display_sums_hint: වගු ප්රතිඵලවලට පහළින් පේළියක සියලු සාරාංශගත ගුණාංගවල සාරාංශ දර්ශනය කරන්න.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: සියළුම පෙරූ වගු ප්රතිඵල ඔවුන්ගේ මුතුන් මිත්තන් සමඟ වැඩි දියුණු කරනු ඇත. ධූරාවලිය පුළුල් කර බිඳ දැමිය හැකිය.
         hierarchy_mode: ධූරාවලිය
         highlighting: උද්දීපනය

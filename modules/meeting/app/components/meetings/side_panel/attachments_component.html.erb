@@ -1,7 +1,7 @@
 <%=
   component_wrapper do
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
-      section.with_title { t(:label_attachment_plural) }
+      section.with_title(tag: :h3) { t(:label_attachment_plural) }
       section.with_description do
         if @meeting.onetime_template?
           I18n.t("meeting.attachments.onetime_template")

@@ -2,7 +2,7 @@
 ---
 get:
   summary: View default query for workspace
-  operationId: View_default_query_for_workspace
+  operationId: get_default_query_for_workspace
   tags:
     - Queries
   description: Same as [viewing an existing, persisted Query](https://www.openproject.org/docs/api/endpoints/queries/#list-queries)
@@ -192,7 +192,7 @@ get:
                 timelineVisible: false
                 timelineZoomLevel: days
           schema:
-            "$ref": "../components/schemas/default_query_for_workspace_model.yml"
+            $ref: "../components/schemas/default_query_for_workspace_model.yml"
       description: OK
       headers: {}
     '403':

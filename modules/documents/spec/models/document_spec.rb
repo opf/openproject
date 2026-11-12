@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -107,6 +106,30 @@ RSpec.describe Document do
       document = create(:document, project:)
       expect(document.attachments).to be_empty
       expect(document.created_at).to eql document.updated_at
+    end
+  end
+
+  describe "#real_time_collaboration_available?" do
+    let(:document) { build(:document, kind:) }
+    let(:kind) { "collaborative" }
+    let(:collaboration_enabled) { true }
+
+    before do
+      allow(Setting).to receive(:real_time_text_collaboration_enabled?).and_return(collaboration_enabled)
+    end
+
+    it { expect(document).to be_real_time_collaboration_available }
+
+    context "when real-time collaboration is disabled" do
+      let(:collaboration_enabled) { false }
+
+      it { expect(document).not_to be_real_time_collaboration_available }
+    end
+
+    context "when the document is classic" do
+      let(:kind) { "classic" }
+
+      it { expect(document).not_to be_real_time_collaboration_available }
     end
   end
 

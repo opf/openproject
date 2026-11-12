@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,26 @@ module Backlogs
         super
 
         @sprint = sprint
+      end
+
+      private
+
+      def displayed_dates
+        @displayed_dates ||= ::Sprints::DisplayedDates.new(sprint)
+      end
+
+      def actual_dates
+        if displayed_dates.finish_planned?
+          format_date_tag(displayed_dates.actual_start, include_time: true)
+        else
+          format_date_range(displayed_dates.actual_range, include_time: true)
+        end
+      end
+
+      def planned_range_arguments
+        return {} unless displayed_dates.actual?
+
+        { font_size: :small, color: :muted, ml: 2 }
       end
     end
   end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,8 +30,7 @@
 require "spec_helper"
 
 RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   include Rails.application.routes.url_helpers
 
   subject(:render_component) { render_inline(described_class.new(impact:)) }
@@ -47,7 +45,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
   let(:epic_base) { epic.default_variant }
   let(:design) { create(:type_variant, type: epic, variant_name: "Design") }
 
-  let(:project) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
+  let(:project) { create(:project, types: [epic]) }
   # nil when the target is the member already in use: deciding there is nothing to report
   # belongs to whoever renders this, not to the component.
   let(:impact) do
@@ -95,7 +93,8 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     it "heads the section that carries the risk" do
       render_component
 
-      expect(page).to have_text("Fields that will no longer be shown")
+      expect(page).to have_text("Fields that will be removed")
+      expect(page).to have_text("Any values these fields previously had will no longer be visible.")
     end
 
     # No JavaScript runs under render_inline, so a collapsed section's items are
@@ -113,17 +112,18 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
       expect(page).to have_text("1 work package has a value", count: 1)
     end
 
-    it "names the fields that become available" do
+    it "names the fields that will be added" do
       render_component
 
-      expect(page).to have_text("Fields that become available")
+      expect(page).to have_text("Fields that will be added")
+      expect(page).to have_text("They will be added to all relevant work packages with an empty value.")
       expect(page).to have_text("Priority")
     end
 
     it "omits the statuses section, since no status in use is missing" do
       render_component
 
-      expect(page).to have_no_text("Work packages that get stuck")
+      expect(page).to have_no_text("Work packages without transitions")
     end
 
     # Every counter answers "which ones?". A new tab because following a link in place would
@@ -193,7 +193,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     it "reports the status and how many work packages hold it" do
       render_component
 
-      expect(page).to have_text("Work packages that get stuck")
+      expect(page).to have_text("Work packages without transitions")
       expect(page).to have_text("Blocked")
       expect(page).to have_text("2 work packages")
     end
@@ -201,7 +201,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     it "names the consequence rather than the mechanism behind it" do
       render_component
 
-      expect(page).to have_text("nobody will be able to move these work packages on")
+      expect(page).to have_text("Users will not be able to transition to a new status.")
     end
 
     it "links a stuck status to the work packages holding it" do
@@ -219,7 +219,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
       render_component
 
       rendered = page.text
-      expect(rendered.index("Work packages that get stuck")).to be < rendered.index("Fields that")
+      expect(rendered.index("Work packages without transitions")).to be < rendered.index("Fields that")
     end
   end
 
@@ -254,8 +254,8 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     shared_let(:role) { create(:project_role) }
     shared_let(:status) { create(:status, name: "New") }
 
-    let(:one) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
-    let(:two) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
+    let(:one) { create(:project, types: [epic]) }
+    let(:two) { create(:project, types: [epic]) }
     let(:impact) do
       Projects::Types::Switch::Impact.new(source: epic_base, target: design,
                                           work_packages: WorkPackage.where(type_id: epic.id))

@@ -29,9 +29,7 @@ zh-CN:
         title: 成员
         view_all_members: 查看所有成员
         x_more:
-          other: |-
-            以及另外一位成员。
-            以及另外 %{count} 位成员。
+          other: and %{count} more members.
       news:
         no_results: 没有新消息报告。
       not_available: 此微件不可用。

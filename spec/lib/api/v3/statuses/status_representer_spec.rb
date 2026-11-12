@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,7 +55,8 @@ RSpec.describe API::V3::Statuses::StatusRepresenter do
       describe "values" do
         it { is_expected.to be_json_eql(status.id.to_json).at_path("id") }
         it { is_expected.to be_json_eql(status.name.to_json).at_path("name") }
-        it { is_expected.to be_json_eql(status.is_closed.to_json).at_path("isClosed") }
+        it { is_expected.to be_json_eql(status.closed?.to_json).at_path("isClosed") }
+        it { is_expected.to be_json_eql(status.category.to_json).at_path("category") }
         it { is_expected.to be_json_eql(status.is_default.to_json).at_path("isDefault") }
         it { is_expected.to be_json_eql(status.is_readonly.to_json).at_path("isReadonly") }
         it { is_expected.to be_json_eql(status.excluded_from_totals.to_json).at_path("excludedFromTotals") }

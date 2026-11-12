@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,43 +39,32 @@ module Pages
 
         def expect_listed(*placeholder_users)
           placeholder_users.each do |user|
-            expect(page).to have_css("td.name", text: user.name)
+            expect(page).to have_css(name_cell_selector, text: user.name, exact_text: true)
           end
-        end
-
-        def expect_ordered(*placeholder_users)
-          rows = page.all "td.name"
-          expect(rows.map(&:text)).to eq(placeholder_users.map(&:name))
         end
 
         def expect_not_listed(*users)
           users.each do |user|
-            expect(page).to have_no_css("td.name", text: user.name)
+            expect(page).to have_no_css(name_cell_selector, text: user.name, exact_text: true)
           end
         end
 
         def expect_non_listed
-          expect(page)
-            .to have_no_css("tr.placeholder-user")
-
-          expect(page)
-            .to have_css("tr.generic-table--empty-row", text: "There is currently nothing to display.")
+          expect(page).to have_no_css(row_selector)
+          expect(page).to have_css(".blankslate")
         end
 
         def filter_by_name(value)
-          fill_in "Name", with: value
-          click_button "Apply"
+          within("#content") do
+            click_button accessible_name: "Search"
+          end
+          fill_in "Search", with: value
+
+          wait_for_network_idle
         end
 
         def clear_filters
-          click_link "Clear"
-        end
-
-        def order_by(key)
-          within "thead" do
-            click_link key
-          end
-          wait_for_network_idle
+          visit!
         end
 
         def expect_no_delete_button_for_all_rows
@@ -91,7 +79,7 @@ module Pages
 
         def expect_delete_button(placeholder_user)
           within_placeholder_user_row(placeholder_user) do
-            expect(page).to have_css("i.icon-delete")
+            expect(page).to have_link(accessible_name: I18n.t("placeholder_users.delete_tooltip"))
           end
         end
 
@@ -103,8 +91,18 @@ module Pages
 
         private
 
+        def row_selector
+          "[role='row'].placeholder_user"
+        end
+
+        def name_cell_selector
+          "#{row_selector} .op-border-box-grid__row-item:first-child"
+        end
+
         def within_placeholder_user_row(placeholder_user, &)
-          row = find("tr.placeholder_user td.name", text: placeholder_user.name).ancestor("tr")
+          row = page.find(row_selector) do |row|
+            row.has_css?(".op-border-box-grid__row-item:first-child", text: placeholder_user.name, exact_text: true)
+          end
           within(row, &)
         end
       end

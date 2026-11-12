@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 require "spec_helper"
 require "features/repositories/repository_settings_page"
 
-RSpec.describe "Create repository", :js, :selenium do
+RSpec.describe "Create repository", :js do
   let(:current_user) { create(:admin) }
   let(:project) { create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
@@ -98,11 +97,11 @@ RSpec.describe "Create repository", :js, :selenium do
         expect(scm_vendor.value).to eq(vendor)
 
         page.assert_selector('input[name="scm_type"]', count: 1)
-        scm_type = find('input[name="scm_type"]')
+        scm_type = find_field(name: "scm_type")
 
         expect(scm_type.value).to eq(type)
 
-        content = find("##{vendor}-#{type}", visible: false)
+        content = find("##{vendor}-#{type}", visible: :all)
         expect(content).not_to be_nil
         expect(scm_type).to be_checked
       end
@@ -116,9 +115,9 @@ RSpec.describe "Create repository", :js, :selenium do
         expect(selector[:selected]).to be_falsey
         expect(selector).not_to be_disabled
 
-        content = find("##{vendor}-#{type}", visible: false)
+        content = find("##{vendor}-#{type}", visible: :all)
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eq "true"
+        expect(content).to match_css("[hidden]", visible: :all)
       end
     end
 
@@ -130,18 +129,18 @@ RSpec.describe "Create repository", :js, :selenium do
         find("input[name='scm_type'][value='#{type}']").set(true)
         content = find("#attributes-group--content-#{type}")
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eql "false"
-        content = find("##{vendor}-#{type}", visible: false)
+        expect(content).not_to match_css("[hidden]", visible: :all)
+        content = find("##{vendor}-#{type}", visible: :all)
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eql "false"
+        expect(content).not_to match_css("[hidden]", visible: :all)
 
         find('input[type="radio"][value="managed"]').set(true)
         content = find_by_id("attributes-group--content-managed")
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eql "false"
-        content = find("##{vendor}-managed", visible: false)
+        expect(content).not_to match_css("[hidden]", visible: :all)
+        content = find("##{vendor}-managed", visible: :all)
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eql "false"
+        expect(content).not_to match_css("[hidden]", visible: :all)
       end
     end
 
@@ -159,12 +158,12 @@ RSpec.describe "Create repository", :js, :selenium do
     shared_examples "it can create the repository of type with url" do |type, url|
       it "can complete the form without any parameters" do
         find("input[type='radio'][value='#{type}']").set(true)
-        find('input[name="repository[url]"]').set(url)
+        find_field(name: "repository[url]").set(url)
 
         click_button(I18n.t(:button_create))
 
         expect_flash(message: I18n.t("repositories.create_successful"))
-        expect(page).to have_css('button[type="submit"]', text: I18n.t(:button_save))
+        expect(page).to have_button(I18n.t(:button_save), type: "submit")
         expect(page).to have_css("a.icon-remove", text: I18n.t(:button_remove))
       end
     end

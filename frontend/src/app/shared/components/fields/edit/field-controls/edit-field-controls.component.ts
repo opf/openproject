@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,7 +30,10 @@ import {
 } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 
+export type EditFieldControl = Pick<EditFieldComponent, 'required'|'isEmpty'> | { required:false };
+
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'edit-field-controls',
   templateUrl: './edit-field-controls.component.html',
   standalone: false,
@@ -45,10 +47,13 @@ export class EditFieldControlsComponent {
 
   @Input() public saveTitle:string;
 
-  @Input('fieldController') public field:EditFieldComponent;
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('fieldController') public field:EditFieldControl;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onSave = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onCancel = new EventEmitter<void>();
 
   public save() {

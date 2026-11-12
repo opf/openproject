@@ -1,11 +1,38 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "rails_helper"
 
 RSpec.describe PersistedQuery do
   # The base class has no serializers installed (the `inherited` hook only
   # installs them on subclasses), so `filters`/`orders`/`selects` must be
-  # initialised explicitly for validations from Queries::BaseQuery to pass.
+  # initialized explicitly for validations from Queries::BaseQuery to pass.
   subject(:persisted_query) do
     described_class.new(name: "My query", filters: [], orders: [], selects: [])
   end
@@ -53,5 +80,33 @@ RSpec.describe PersistedQuery do
       expect { persisted_query.destroy }.not_to change(described_class, :count)
       expect(persisted_query.errors[:base]).to include("Cannot delete record because dependent views exist")
     end
+  end
+
+  describe "group_bys" do
+    it "defaults to none" do
+      expect(persisted_query.group_bys).to eq([])
+    end
+
+    it "is stored as an empty array" do
+      persisted_query.save!
+
+      raw = described_class.connection.select_value(
+        "SELECT group_bys FROM persisted_queries WHERE id = #{persisted_query.id}"
+      )
+
+      expect(JSON.parse(raw)).to eq([])
+    end
+
+    # The base class gets no serializers - the `inherited` hook only installs
+    # them on subclasses.
+    it "installs a group by serializer on subclasses" do
+      expect(UserQuery.type_for_attribute(:group_bys).coder)
+        .to be_a(Queries::Serialization::GroupBys)
+    end
+
+    # TODO: round trip actual group bys through the column once a PersistedQuery
+    # subclass registers some. UserQuery registers none, so anything it could be
+    # grouped by is a NotExistingGroupBy, which only tests the degraded path.
+    # CostReportQuery will be the first real one.
   end
 end

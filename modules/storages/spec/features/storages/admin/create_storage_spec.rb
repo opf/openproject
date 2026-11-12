@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,7 +67,8 @@ RSpec.describe "Admin Create a new file storage",
         expect(page).to have_test_selector("storage-provider-configuration-instructions",
                                            text: "Please make sure you have administration privileges in your " \
                                                  "Nextcloud instance and the application “Integration OpenProject” " \
-                                                 "is installed before doing the setup.")
+                                                 "is installed before doing the setup.",
+                                           normalize_ws: true)
 
         # OAuth application
         expect(page).to have_test_selector("storage-openproject-oauth-label", text: "OpenProject OAuth")
@@ -127,7 +127,7 @@ RSpec.describe "Admin Create a new file storage",
       aggregate_failures "OAuth Client" do
         within_test_selector("storage-oauth-client-form") do
           expect(page).to have_test_selector("storage-provider-credentials-instructions",
-                                             text: "Copy these values from Nextcloud Administration / OpenProject.")
+                                             text: /Copy these values from\s+Nextcloud Administration \/ OpenProject/)
 
           # With null values, form should render inline errors
           expect(page).to have_css("#oauth_client_client_id", value: "")
@@ -154,25 +154,22 @@ RSpec.describe "Admin Create a new file storage",
           expect(automatically_managed_switch).to be_checked
           expect(application_password_input.value).to be_empty
 
-          # Clicking submit with application password empty should show an error
           click_on("Finish setup")
-          expect(page).to have_text("Application password can't be blank.")
+        end
+        expect(page).to have_text("Application password can't be blank.")
 
-          # Test the error path for an invalid storage password.
-          # Mock a valid response (=401) for example.com, so the password validation should fail
-          mock_nextcloud_application_credentials_validation("https://example.com", password: "1234567890",
-                                                                                   response_code: 401)
+        mock_nextcloud_application_credentials_validation("https://example.com", password: "1234567890",
+                                                                                 response_code: 401)
+        within_test_selector("storage-automatically-managed-project-folders-form") do
           automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
           expect(automatically_managed_switch).to be_checked
           fill_in "Application password", with: "1234567890"
-          # Clicking submit with application password empty should show an error
           click_on("Finish setup")
-          expect(page).to have_text("Application password is not valid.")
+        end
+        expect(page).to have_text("Application password is not valid.")
 
-          # Test the happy path for a valid storage password.
-          # Mock a valid response (=200) for example.com, so the password validation should succeed
-          # Fill in application password and submit
-          mock_nextcloud_application_credentials_validation("https://example.com", password: "1234567890")
+        mock_nextcloud_application_credentials_validation("https://example.com", password: "1234567890")
+        within_test_selector("storage-automatically-managed-project-folders-form") do
           automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
           expect(automatically_managed_switch).to be_checked
           fill_in "Application password", with: "1234567890"
@@ -309,7 +306,8 @@ RSpec.describe "Admin Create a new file storage",
                                            text: "Please make sure you have administration privileges in the " \
                                                  "Azure portal or contact your Microsoft administrator before " \
                                                  "doing the setup. In the portal, you also need to register an " \
-                                                 "Azure application or use an existing one for authentication.")
+                                                 "Azure application or use an existing one for authentication.",
+                                           normalize_ws: true)
 
         # Access Management
         wait_for { page }.to have_test_selector("access-management-label", text: "Folder and access management")
@@ -373,8 +371,7 @@ RSpec.describe "Admin Create a new file storage",
       aggregate_failures "OAuth Client" do
         within_test_selector("storage-oauth-client-form") do
           expect(page).to have_test_selector("storage-provider-credentials-instructions",
-                                             text: "Copy these values from the desired application in the " \
-                                                   "Azure portal.")
+                                             text: /Copy these values from the desired application in the\s+Azure portal/)
 
           # With null values, upon submit validation errors are show
           expect(page).to have_css("#oauth_client_client_id", value: "")

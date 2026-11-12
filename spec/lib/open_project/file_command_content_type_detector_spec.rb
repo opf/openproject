@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -117,7 +116,7 @@ RSpec.describe OpenProject::FileCommandContentTypeDetector do
       expect(detect("text/plain; charset=")).to eq(["text/plain", nil])
     end
 
-    it "ignores unrecognised parameters before charset" do
+    it "ignores unrecognized parameters before charset" do
       expect(detect("text/plain; taste=banana; charset=iso-8859-1")).to eq(["text/plain", "iso-8859-1"])
     end
   end

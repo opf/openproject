@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -93,5 +92,17 @@ RSpec.describe MessagesController, "routing" do
                                                                                               project_id: "some-project",
                                                                                               forum_id: "lala",
                                                                                               id: "555")
+  end
+
+  it do
+    expect(post("/projects/some-project/forums/lala/topics/555/accepted_solution"))
+      .to route_to(controller: "messages/accepted_solutions", action: "create",
+                   project_id: "some-project", forum_id: "lala", topic_id: "555")
+  end
+
+  it do
+    expect(delete("/projects/some-project/forums/lala/topics/555/accepted_solution"))
+      .to route_to(controller: "messages/accepted_solutions", action: "destroy",
+                   project_id: "some-project", forum_id: "lala", topic_id: "555")
   end
 end

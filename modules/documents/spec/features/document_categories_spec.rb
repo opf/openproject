@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,9 +42,9 @@ RSpec.describe "Document categories", :js do
     visit admin_settings_document_categories_path
 
     expect(page).to have_heading("File categories are now called 'Document types'")
-    expect(page).to have_content("Your existing file categories have been converted to document types " \
-                                 "with the introduction of the new Documents module. " \
-                                 "All existing documents have also been migrated to these new types.")
+    expect(page).to have_text("Your existing file categories have been converted to document types " \
+                              "with the introduction of the new Documents module. " \
+                              "All existing documents have also been migrated to these new types.")
 
     expect(page).to have_link("Configure document types", href: admin_settings_document_types_path)
     expect(page).to have_link("Learn more about the Documents module",
@@ -62,7 +61,7 @@ RSpec.describe "Document categories", :js do
     it "denies access" do
       visit admin_settings_document_categories_path
 
-      expect(page).to have_content("You are not authorized to access this page.")
+      expect(page).to have_text("You are not authorized to access this page.")
     end
   end
 end

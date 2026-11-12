@@ -6,14 +6,18 @@
       unless @meeting.onetime_template?
         panel.with_section(Meetings::SidePanel::DetailsComponent.new(meeting: @meeting))
 
-        if @meeting.editable? && !@meeting.draft?
-          panel.with_section(email_updates_mode_selector)
-        end
-
         unless @meeting.template? && !@meeting.draft?
           panel.with_section(Meetings::SidePanel::StateComponent.new(meeting: @meeting))
         end
 
+        if @meeting.editable? && !@meeting.draft?
+          panel.with_section(email_updates_mode_selector)
+        end
+      end
+
+      panel.with_section(agenda_sorting_mode_selector)
+
+      unless @meeting.onetime_template?
         panel.with_section(
           Meetings::SidePanel::ParticipantsComponent.new(meeting: @meeting),
           grid_row_arguments: desktop_grid_row_arguments.merge({ classes: "meetings-side-panel--participants-section" })

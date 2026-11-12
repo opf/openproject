@@ -50,7 +50,7 @@ da:
       openid_connect/user_token:
         one: OpenID Connect-token
         other: OpenID Connect-tokens
-  logout_warning: 'Du er logget ud. Indholdet af formularer, du sender, kan gå tabt. [Log ind].
+  logout_warning_link: 'Du er logget ud. Indholdet af formularer, du sender, kan gå tabt. [Log ind](login).
 
     '
   openid_connect:
@@ -79,7 +79,7 @@ da:
       display_name: Udbyderens navn. Det vises på login-knappen og i listen over udbydere.
       endpoint_url: Den endepunkts-URL, som du har fået af OpenID Connect-udbyderen
       group_regexes: Ét mønster med regulære udtryk pr. linje. Læs [dokumentationen](docs_url) for at få flere oplysninger om, hvordan du gør.
-      group_regexes_detail: Definér eventuelt mønstre med regulære udtryk, der finder gruppenavne i claimet for grupper. Et mønster som <code>^Level1/Level2/([\w/]+)$</code> udtrækker fx gruppen “Groupname/SubGroup” fra et svar, der indeholder “Level1/Level2/GroupName/SubGroup”. Hvis intet mønster matcher, ignoreres gruppen. Lad feltet stå tomt for at synkronisere alle grupper med deres fulde gruppenavn.
+      group_regexes_detail_html: Definér eventuelt mønstre med regulære udtryk, der finder gruppenavne i claimet for grupper. Et mønster som <code>^Level1/Level2/([\w/]+)$</code> udtrækker fx gruppen “Groupname/SubGroup” fra et svar, der indeholder “Level1/Level2/GroupName/SubGroup”. Hvis intet mønster matcher, ignoreres gruppen. Lad feltet stå tomt for at synkronisere alle grupper med deres fulde gruppenavn.
       group_regexes_testing: Klik på 'Test mønster' for at teste dit mønster med regulære udtryk mod eksempler på OIDC-userinfo.
       group_sync: Udtræk og synkroniser automatisk oplysninger om gruppemedlemskab fra identitetsudbyderen.
       groups_claim: Angiv navnet på det claim, der forventes at angive navnene på de grupper, som brugeren er medlem af.
@@ -104,7 +104,7 @@ da:
       oidc_information: Disse værdier er nødvendige for at konfigurere OpenID Connect-udbyderen.
       post_logout_redirect_uri: Den URL, som OpenID Connect-udbyderen skal omdirigere til efter en anmodning om logud.
       scope: Hvis du vil anmode om egne scopes, kan du angive en eller flere scope-værdier her, adskilt med mellemrum. Se [dokumentationen om OpenID Connect](docs_url) for at få flere oplysninger.
-      tenant: Erstat standard-tenanten med jeres egen, hvis det er relevant. Se <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">her</a>.
+      tenant_html: Erstat standard-tenanten med jeres egen, hvis det er relevant. Se <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">her</a>.
     menu_title: OpenID-udbydere
     providers:
       client_details_description: Konfigurationsoplysninger for OpenProject som OIDC-klient
@@ -164,7 +164,7 @@ da:
       delete_result_1: Fjerne udbyderen fra listen over tilgængelige udbydere.
       delete_result_direct: Udbyderen er markeret som udbyder til direkte login. Indstillingen fjernes, og brugerne bliver ikke længere sendt videre til udbyderen ved login.
       delete_result_user_count:
-        one: Én bruger bruger stadig denne udbyder. Vedkommende skal inviteres igen eller logge ind med en anden udbyder.
+        one: "%{count} bruger bruger stadig denne udbyder. Vedkommende skal inviteres igen eller logge ind med en anden udbyder."
         other: "%{count} brugere bruger stadig denne udbyder. De skal inviteres igen eller logge ind med en anden udbyder."
         zero: Ingen brugere bruger denne udbyder i øjeblikket. Der skal ikke gøres mere.
       input_delete_confirmation_html: Skriv udbyderens navn %{name} for at bekræfte sletningen.

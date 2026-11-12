@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,13 +51,17 @@ RSpec.describe Admin::Enumerations::IndexComponent, type: :component do
       expect(rendered_component).to have_css(".Box-row", text: "Trivial")
     end
 
-    it_behaves_like "a reorderable Border Box List", drag_type: "enumeration" do
-      let(:draggable_records) { [priority_a, priority_b] }
-
-      def drop_url_for(record)
-        "/work_package_priorities/#{record.id}/move"
-      end
+    it_behaves_like "a sortable-lists root",
+                    wrapper_id: "admin-enumerations-index-component",
+                    move_url_template: "/admin/settings/work_package_priorities/{id}/move"
+    it_behaves_like "a sortable-lists list",
+                    list_type: "issue_priority",
+                    name: IssuePriority.model_name.human(count: :other)
+    it_behaves_like "a Border Box sortable list", row_count: 2
+    it_behaves_like "sortable-lists items", list_type: "issue_priority" do
+      let(:sortable_records) { [priority_a, priority_b] }
     end
+    it_behaves_like "no legacy drag-and-drop wiring"
   end
 
   context "without enumerations" do

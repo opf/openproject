@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -74,7 +73,7 @@ $select-arrow: true !default
   padding: $form-padding
   margin: 0 0 1rem 0
   border: $input-border
-  border-radius: 2px
+  border-radius: var(--borderRadius-medium)
   background-color: transparent
   color: var(--body-font-color)
   font-size: $form-fontsize
@@ -98,7 +97,7 @@ $select-arrow: true !default
     margin-top: $form-label-margin
 
   // Inputs stretch all the way out
-  > input, > select
+  > input, > select, > .advanced-filters--date-field
     flex: 1 1 auto
     margin: 0
 

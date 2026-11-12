@@ -13,6 +13,7 @@ ko:
         icon: 사용자 지정 아이콘
         identifier: 식별자
         idp_cert: ID 공급자의 공개 인증서
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: ID 공급자 엔티티 ID
         idp_slo_service_url: ID 공급자 로그아웃 엔드포인트
         idp_sso_service_url: ID 공급자 로그인 엔드포인트
@@ -151,6 +152,9 @@ ko:
       metadata_too_large: 메타데이터 파일이 허용된 최대 크기를 초과합니다.
       success: ID 공급자 메타데이터를 사용하여 구성을 업데이트했습니다.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: 특성 매핑
       attribute_mapping_text: '다음 필드는 OpenProject에 사용자 특성을 제공하는 데 사용되는 SAML ID 공급자 제공 특성을 제어합니다.
 
@@ -170,9 +174,19 @@ ko:
       label_uid: 내부 사용자 ID
       metadata:
         dialog: 'OpenProject SAML 메타데이터를 사용할 수 있는 URL입니다. 선택적으로 이 URL을 사용하여 ID 공급자를 구성합니다:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: 아직 정의된 SAML ID 공급자가 없습니다.
       notice_created: 새로운 SAML ID 공급자가 생성되었습니다.
       plural: SAML ID 공급자
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: 특성 형식
         legend: '이러한 특성은 SAML XML 메타데이터에 추가되어 OpenProject에 필요한 특성이 무엇인지 ID 공급자에게 나타냅니다. 이러한 특성을 보내려면 ID 공급자를 명시적으로 구성해야 할 수도 있습니다. 해당 ID 공급자의 설명서를 참조하세요.
@@ -196,6 +210,10 @@ ko:
         metadata_form_banner: '메타데이터를 편집하면 다른 섹션의 기존 값이 재정의될 수 있습니다. '
         requested_attributes: ID 공급자에게 보내는 SAML 요청에서 요청할 특성 집합을 정의합니다.
       seeded_from_env: 이 공급자는 환경 구성에서 시드되었으며, 편집할 수 없습니다.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: SAML ID 공급자
       upsell:
         description: SAML ID 공급자에 OpenProject 연결

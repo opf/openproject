@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -45,7 +44,6 @@ import { SelectAutocompleterRegisterService } from 'core-app/shared/components/f
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { WorkPackageEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/work-package-edit-field.component';
 import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
-import { ProjectStatusEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/project-status-edit-field.component';
 import { PlainFormattableEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/plain-formattable-edit-field.component';
 import { AttributeValueMacroComponent } from 'core-app/shared/components/fields/macros/attribute-value-macro.component';
 import { AttributeLabelMacroComponent } from 'core-app/shared/components/fields/macros/attribute-label-macro.component';
@@ -65,8 +63,10 @@ import { ProgressPopoverEditFieldComponent } from 'core-app/shared/components/fi
 import { OpExclusionInfoComponent } from 'core-app/shared/components/fields/display/info/op-exclusion-info.component';
 import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
 import { VersionsEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/versions-edit-field.component';
+import { LabelsEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/labels-edit-field.component';
 import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
 import { CombinedDateEditFieldComponent } from './edit/field-types/combined-date-edit-field.component';
+import { DateTimeEditFieldComponent } from './edit/field-types/datetime-edit-field.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
@@ -117,14 +117,15 @@ import { FormsModule } from '@angular/forms';
     PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
     CombinedDateEditFieldComponent,
+    DateTimeEditFieldComponent,
     ProjectEditFieldComponent,
     UserEditFieldComponent,
     VersionsEditFieldComponent,
+    LabelsEditFieldComponent,
     WorkPackageEditFieldComponent,
     EditFormComponent,
     DisplayFieldComponent,
     EditableAttributeFieldComponent,
-    ProjectStatusEditFieldComponent,
     AttributeValueMacroComponent,
     AttributeLabelMacroComponent,
 

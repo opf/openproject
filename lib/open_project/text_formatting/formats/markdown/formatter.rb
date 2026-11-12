@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "task_list/filter"
 
 module OpenProject::TextFormatting::Formats::Markdown
@@ -44,6 +44,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       OpenProject::TextFormatting::Filters::AttachmentFilter,
       OpenProject::TextFormatting::Filters::AutolinkFilter,
       OpenProject::TextFormatting::Filters::AutolinkCustomProtocolsFilter,
+      OpenProject::TextFormatting::Filters::UntrustedSourceFilter,
       OpenProject::TextFormatting::Filters::RelativeLinkFilter,
       OpenProject::TextFormatting::Filters::LinkAttributeFilter,
       OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter,
@@ -69,6 +70,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       result = pipeline.call(text, context)
       output = result[:output].to_s
 
+      # OG: html_safe after SanitizationFilter is a valid use-case.
       context[:plain_text] ? output : output.html_safe # rubocop:disable Rails/OutputSafety
     end
 

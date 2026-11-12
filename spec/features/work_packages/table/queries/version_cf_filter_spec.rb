@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,8 +41,7 @@ RSpec.describe "Work package filtering by version custom field", :js do
       :version_wp_custom_field,
       name: "Versions 1",
       multi_value: true,
-      types: [type],
-      projects: [project, inaccessible_project]
+      types: [type]
     )
   end
   shared_let(:version_cf2) do
@@ -51,8 +49,7 @@ RSpec.describe "Work package filtering by version custom field", :js do
       :version_wp_custom_field,
       name: "Versions 2",
       multi_value: true,
-      types: [type],
-      projects: [project, inaccessible_project]
+      types: [type]
     )
   end
   shared_let(:version1) { create(:version, project:, name: "Version 1") }
@@ -106,16 +103,18 @@ RSpec.describe "Work package filtering by version custom field", :js do
     filters.open
 
     filters.add_filter(version_cf1.name)
+    version_filter = -> { page.find("#values-#{version_cf1.attribute_name(:camel_case)}") }
+    ng_click_autocompleter(version_filter)
 
     expect_ng_option(
-      page.find("#values-#{version_cf1.attribute_name(:camel_case)}"),
+      version_filter,
       version1,
       grouping: project.name,
       results_selector: "body"
     )
 
     expect_ng_option(
-      page.find("#values-#{version_cf1.attribute_name(:camel_case)}"),
+      version_filter,
       version2,
       grouping: project.name,
       results_selector: "body"
@@ -123,14 +122,14 @@ RSpec.describe "Work package filtering by version custom field", :js do
 
     # Expect to no show other project's version
     expect_no_ng_option(
-      page.find("#values-#{version_cf1.attribute_name(:camel_case)}"),
+      version_filter,
       version3,
       results_selector: "body"
     )
 
     # Expect to show other project's system version
     expect_ng_option(
-      page.find("#values-#{version_cf1.attribute_name(:camel_case)}"),
+      version_filter,
       version4,
       grouping: I18n.t(:"api_v3.undisclosed.project"),
       results_selector: "body"
@@ -151,8 +150,7 @@ RSpec.describe "Work package filtering by version custom field", :js do
     wp_table.ensure_work_package_not_listed!(work_package_2_1)
 
     # Filtering by multiple cf1 values (nothing matches)
-    filters.remove_filter version_cf1.attribute_name(:camel_case)
-    filters.add_filter_by(version_cf1.name, "is (AND)", [version1.name, version2.name], version_cf1.attribute_name(:camel_case))
+    filters.set_filter(version_cf1.name, "is (AND)", [version2.name], version_cf1.attribute_name(:camel_case))
 
     wp_table.ensure_work_package_not_listed!(work_package_2_1, work_package_1_1, work_package_mix)
   end

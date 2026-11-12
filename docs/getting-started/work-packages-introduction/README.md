@@ -83,6 +83,6 @@ You can also insert a comment at the end of the Activity list.
 
 ![Activity tab in a detailed view of a work package in OpenProject](openproject_getting_started_work_packages_activity_tab.png)
 
-To notify other people about changes in your work packages activities, you can comment and type an **@** in front of the username you want to inform. When you publish your message, the person you have tagged will get a notification. The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/calendars-and-dates/#date-format).
+To notify other people about changes in your work packages activities, you can comment and type an **@** in front of the username you want to inform. When you publish your message, the person you have tagged will get a notification. The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/emails-and-notifications/#aggregation).
 
 To find out more about the work package functionalities, please visit our detailed [user guide for work packages](../../user-guide/work-packages).

@@ -20,21 +20,20 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= labelled_tabular_form_for @placeholder_user,
-                              url: { controller: "/placeholder_users",
-                                     action: "update",
-                                     tab: nil },
-                              html: { method: :put,
-                                      autocomplete: "off" },
-                              as: :placeholder_user do |f| %>
-  <%= render partial: "form", locals: { f: f } %>
+<%= error_messages_for @placeholder_user %>
 
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+<%=
+  settings_primer_form_with(
+    model: @placeholder_user,
+    url: placeholder_user_path(@placeholder_user),
+    method: :put
+  ) do |f|
+    render PlaceholderUsers::Form.new(f)
+  end
+%>

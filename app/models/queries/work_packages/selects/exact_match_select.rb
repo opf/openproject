@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -80,15 +79,11 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
   end
 
   def self.numeric_exact_match_condition(candidate, hash_prefixed:)
-    if Setting::WorkPackageIdentifier.classic? || hash_prefixed
-      OpenProject::SqlSanitization.sanitize(
-        "#{WorkPackage.table_name}.id = ?", candidate.to_i
-      )
-    else
-      OpenProject::SqlSanitization.sanitize(
-        "#{WorkPackage.table_name}.sequence_number = ?", candidate.to_i
-      )
-    end
+    column = Setting::WorkPackageIdentifier.classic? || hash_prefixed ? "id" : "sequence_number"
+    value = candidate.to_i
+    return nil unless WorkPackage.type_for_attribute(column).serializable?(value)
+
+    OpenProject::SqlSanitization.sanitize("#{WorkPackage.table_name}.#{column} = ?", value)
   end
 
   def self.semantic_exact_match_condition(candidate, hash_prefixed:)

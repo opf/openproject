@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -1056,6 +1055,41 @@ RSpec.describe Settings::Definition, :settings_reset do
                               writable: false,
                               persist_on_first_read: true
         end.to raise_error(ArgumentError, /persist_on_first_read need to be writable/)
+      end
+    end
+  end
+
+  describe "#secret?" do
+    context "when secret is true" do
+      let(:instance) do
+        described_class.new "bogus",
+                            default: "value",
+                            secret: true
+      end
+
+      it "returns true" do
+        expect(instance).to be_secret
+      end
+    end
+
+    context "when secret is not given" do
+      let(:instance) do
+        described_class.new "bogus",
+                            default: "value"
+      end
+
+      it "returns false" do
+        expect(instance).not_to be_secret
+      end
+    end
+
+    context "when secret is true for a non-string setting" do
+      it "raises an ArgumentError" do
+        expect do
+          described_class.new "bogus",
+                              default: { "password" => "value" },
+                              secret: true
+        end.to raise_error(ArgumentError, /Only string settings can be secret/)
       end
     end
   end

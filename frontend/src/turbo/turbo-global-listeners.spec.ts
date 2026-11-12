@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -64,5 +63,27 @@ describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
     const notCancelled = beforeMorph(element);
 
     expect(notCancelled).toBe(true);
+  });
+});
+
+describe('addTurboGlobalListeners — snapshot caching', () => {
+  let controller:AbortController;
+
+  beforeEach(() => {
+    controller = new AbortController();
+    addTurboGlobalListeners(document, controller.signal);
+  });
+
+  afterEach(() => {
+    controller.abort();
+    document.body.innerHTML = '';
+  });
+
+  it('hides the global loading indicator before the page is cached', () => {
+    document.body.innerHTML = '<div id="global-loading-indicator"></div>';
+
+    document.dispatchEvent(new CustomEvent('turbo:before-cache'));
+
+    expect(document.querySelector<HTMLElement>('#global-loading-indicator')).not.toBeVisible();
   });
 });

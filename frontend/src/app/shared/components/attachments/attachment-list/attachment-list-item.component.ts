@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,6 +40,7 @@ import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-
 import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { getIconForMimeType } from 'core-app/shared/components/storages/functions/storages.functions';
 import { IFileIcon } from 'core-app/shared/components/storages/icons.mapping';
+import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -73,6 +73,8 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
 
   public text = {
     quarantinedHint: this.I18n.t('js.attachments.quarantined_hint'),
+    importPreparedHint: this.I18n.t('js.attachments.import_prepared_hint'),
+    importFailedHint: this.I18n.t('js.attachments.import_failed_hint'),
     dragHint: this.I18n.t('js.attachments.draggable_hint'),
     deleteTitle: this.I18n.t('js.attachments.delete'),
     deleteConfirmation: this.I18n.t('js.attachments.delete_confirmation'),
@@ -83,16 +85,30 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
     return this.text.removeFile({ fileName: this.attachment.fileName });
   }
 
+  public get hasTooltip():boolean {
+    return this.tooltip !== '';
+  }
+
+  public get incompleteImport():boolean {
+    return ['import_prepared', 'import_failed'].includes(this.attachment.status);
+  }
+
   public author$:Observable<IPrincipal>;
 
   public timestampText:string;
 
   public fileIcon:IFileIcon;
 
+  public tooltipAlignment:SpotDropAlignmentOption = SpotDropAlignmentOption.TopLeft;
+
+  public tooltip:string;
+
   private viewInitialized$ = new BehaviorSubject<boolean>(false);
 
   ngOnInit():void {
     this.fileIcon = getIconForMimeType(this.attachment.contentType);
+
+    this.tooltip = this.toolTipText();
 
     const href = this.attachment._links.author.href;
     this.author$ = this.principalsResourceService.requireEntity(href);
@@ -160,6 +176,17 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
   private get isImage():boolean {
     const ext = this.attachment.fileName.split('.').pop() || '';
     return OpAttachmentListItemComponent.imageFileExtensions.includes(ext.toLowerCase());
+  }
+
+  private toolTipText():string {
+    switch (this.attachment.status) {
+      case 'import_prepared':
+        return this.text.importPreparedHint;
+      case 'import_failed':
+        return this.text.importFailedHint;
+      default:
+        return '';
+    }
   }
 
   public confirmRemoveAttachment():void {

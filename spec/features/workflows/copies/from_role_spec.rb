@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,49 +38,79 @@ RSpec.describe "Workflow copy from role", :js do
 
   current_user { admin }
 
-  shared_examples "a copy-to-other-roles dialog" do |with_source_role:, host:|
-    it "permits to select a source role and target roles" do
-      # TODO: Remove with type_variants feature flag
-      unless with_source_role
-        choose "Copy to other roles"
-
-        expect(page).to have_select("Source role", text: roles.first.name)
-        select(roles.last.name, from: "Source role")
-      end
-
+  shared_examples "a copy-to-other-roles dialog" do |host:|
+    it "permits to select target roles" do
       target_roles_autocompleter.select_option roles.first.name, roles.second.name
       target_roles_autocompleter.close_autocompleter
 
       click_button "Copy"
 
       expect(page).to have_css(".flash-success", text: "Successfully copied workflow to 2 roles.")
-      # Copying to other roles stays within the same type, so the current path is kept
       current_path = if host == :wizard
                        type_creation_wizard_path(type_id: type,
                                                  step: :workflows)
                      else
-                       edit_type_workflow_path(type_id: type)
+                       edit_workflow_path(type.default_variant.workflow)
                      end
       expect(page).to have_current_path(current_path)
       expect(page).to have_text("2 roles selected")
     end
   end
 
-  describe "from the workflow tab" do
-    before do
-      visit edit_type_workflow_path(type_id: type)
-      click_link "Copy"
-    end
+  shared_examples "copying from the author tab" do
+    it "shows the copied role on the author tab" do
+      target_roles_autocompleter.select_option roles.second.name
+      target_roles_autocompleter.close_autocompleter
 
-    it_behaves_like "a copy-to-other-roles dialog", with_source_role: true, host: :tab
+      click_button "Copy"
+
+      expect(page).to have_css(".flash-success", text: "Successfully copied workflow to '#{roles.second.name}' role.")
+      expect(page.find_test_selector("workflow-transitions-menu")).to have_text("User is author")
+      expect(page).to have_button("Role: #{roles.second.name}")
+    end
   end
 
-  describe "from the creation wizard", with_flag: { type_variants: true } do
+  describe "from the workflow page" do
+    let(:tab) { nil }
+
     before do
-      visit type_creation_wizard_path(type_id: type, step: :workflows)
-      within("#workflow-table") { click_link "Copy" }
+      visit edit_workflow_path(type.default_variant.workflow, tab:)
+      within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     end
 
-    it_behaves_like "a copy-to-other-roles dialog", with_source_role: true, host: :wizard
+    it_behaves_like "a copy-to-other-roles dialog", host: :page
+
+    context "on the author tab" do
+      let(:tab) { "author" }
+
+      it_behaves_like "copying from the author tab"
+    end
+  end
+
+  describe "from the creation wizard" do
+    let(:tab) { nil }
+
+    before do
+      visit type_creation_wizard_path(type_id: type, step: :workflows, tab:)
+      within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
+    end
+
+    it_behaves_like "a copy-to-other-roles dialog", host: :wizard
+
+    context "on the author tab" do
+      let(:tab) { "author" }
+
+      it_behaves_like "copying from the author tab"
+
+      it "keeps the matrix editable" do
+        target_roles_autocompleter.select_option roles.second.name
+        target_roles_autocompleter.close_autocompleter
+
+        click_button "Copy"
+
+        expect(page).to have_css(".flash-success")
+        within("#workflow-table") { expect(page).to have_link I18n.t(:label_copy_workflow_from_role) }
+      end
+    end
   end
 end

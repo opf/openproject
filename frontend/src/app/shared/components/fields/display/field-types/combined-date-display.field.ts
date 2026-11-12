@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -71,13 +70,11 @@ export class CombinedDateDisplayField extends DateDisplayField {
   }
 
   private get startDate():string|null {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.resource.startDate;
+    return this.resource.startDate as string|null;
   }
 
   private get dueDate():string|null {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.resource.dueDate;
+    return this.resource.dueDate as string|null;
   }
 
   private renderSingleDate(field:'date'|'startDate'|'dueDate', element:HTMLElement):void {

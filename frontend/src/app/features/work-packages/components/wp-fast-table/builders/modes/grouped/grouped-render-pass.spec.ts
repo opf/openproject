@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,11 +41,13 @@ import {
 import {
   GroupHeaderBuilder,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-header-builder';
+import { buildTable, TableHarness } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
+import { RenderedOccurrenceLedger } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 class TestGroupedRenderPass extends GroupedRenderPass {
   public renderRows():this {
     this.tableBody = document.createDocumentFragment();
-    this.renderedOrder = [];
+    this.draft = this.workPackageTable.ledger.beginRender();
     this.doRender();
 
     return this;
@@ -81,7 +82,8 @@ describe('GroupedRenderPass', () => {
     expect(rows).toHaveLength(2);
     expect(rows[0].getAttribute('data-test-selector')).toBe('group-header');
     expect(rows[1].classList.contains(groupedRowClassName(group.index))).toBe(true);
-    expect(pass.result).toEqual([
+    pass.workPackageTable.ledger.commit(pass.draft);
+    expect(pass.workPackageTable.ledger.snapshot()).toEqual([
       { classIdentifier: 'group-custom-field-16-options', workPackageId: null, hidden: false },
       { classIdentifier: 'wp-row-1', workPackageId: '1', hidden: false },
     ]);
@@ -108,9 +110,97 @@ describe('GroupedRenderPass', () => {
     expect(rows).toHaveLength(1);
     expect(rows[0].getAttribute('data-test-selector')).toBe('work-package-row');
     expect(rows[0].classList.contains(groupedRowClassName(group.index))).toBe(false);
-    expect(pass.result).toEqual([
+    pass.workPackageTable.ledger.commit(pass.draft);
+    expect(pass.workPackageTable.ledger.snapshot()).toEqual([
       { classIdentifier: 'wp-row-1', workPackageId: '1', hidden: false },
     ]);
+  });
+});
+
+describe('GroupedRenderPass group matching', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  const groupedBy = (property:string, overrides:Partial<GroupObject>):GroupObject => ({
+    ...buildGroup({}),
+    identifier: `${property}-group`,
+    _links: { valueLink: [], groupBy: { href: `/api/v3/queries/group_bys/${property}` } },
+    ...overrides,
+  });
+
+  const renderedUnder = (workPackage:WorkPackageResource, group:GroupObject):boolean => {
+    const pass = buildRenderPass([buildTableRow(workPackage)], [group]);
+    pass.renderRows();
+    const rows = Array.from(pass.tableBody.children);
+    return rows.length === 2 && rows[1].classList.contains(groupedRowClassName(group.index));
+  };
+
+  it('matches a linked value by its href', () => {
+    const group = groupedBy('status', { _links: { valueLink: [{ href: '/api/v3/statuses/1' }], groupBy: { href: '/api/v3/queries/group_bys/status' } } });
+
+    expect(renderedUnder({ id: '1', status: { href: '/api/v3/statuses/1' } } as unknown as WorkPackageResource, group)).toBe(true);
+  });
+
+  it('does not match a multi-value property with a different number of values', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = groupedBy('customField16', { href: [{ href: '/api/v3/custom_options/9' }] });
+    const workPackage = {
+      id: '1',
+      customField16: [{ href: '/api/v3/custom_options/9' }, { href: '/api/v3/custom_options/10' }],
+    } as unknown as WorkPackageResource;
+
+    expect(renderedUnder(workPackage, group)).toBe(false);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('should have a group'), expect.anything());
+  });
+
+  it('matches a progress value shown with a percent sign', () => {
+    const group = groupedBy('percentageDone', { value: '50%' });
+
+    expect(renderedUnder({ id: '1', percentageDone: 50 } as unknown as WorkPackageResource, group)).toBe(true);
+  });
+
+  it('matches a missing property to the empty group', () => {
+    const group = groupedBy('version', { value: '' });
+
+    expect(renderedUnder({ id: '1' } as unknown as WorkPackageResource, group)).toBe(true);
+  });
+});
+
+describe('GroupedRenderPass levels', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('highlights member rows but not the group header', async () => {
+    const status = { id: '11', href: '/api/v3/statuses/11' };
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { status } }, { id: '2', attributes: { status } }],
+      groups: [{ value: 'New', href: status.href, count: 2 }],
+      highlightingMode: 'status',
+    });
+
+    await harness.render();
+
+    const highlighted = (row:Element) => Array.from(row.classList).some((name) => name.startsWith('__hl_'));
+    expect(highlighted(harness.row('1'))).toBe(true);
+    expect(highlighted(harness.row('2'))).toBe(true);
+    expect(highlighted(harness.groupHeader(0))).toBe(false);
+  });
+
+  it('assigns semantic levels to every occurrence', async () => {
+    const status = { href: '/api/v3/statuses/1' };
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { status } }],
+      groups: [{ value: 'New', href: status.href, count: 1, sums: { storyPoints: 13 } }],
+    });
+
+    await harness.render();
+
+    const { ledger } = harness.table;
+    expect(ledger.byKey('group:0:header')!.level).toBe(1);
+    expect(ledger.byKey('wp:1')!.level).toBe(2);
+    expect(ledger.byKey('group:0:sums')!.level).toBe(2);
   });
 });
 
@@ -134,6 +224,7 @@ function buildWorkPackageTable(rows:WorkPackageTableRow[]):WorkPackageTable {
     configuration: {
       dragAndDropEnabled: false,
     },
+    ledger: new RenderedOccurrenceLedger(),
   } as unknown as WorkPackageTable;
 }
 
@@ -154,7 +245,6 @@ function buildTableRow(workPackage:WorkPackageResource):WorkPackageTableRow {
     object: workPackage,
     workPackageId: workPackage.id!,
     position: 0,
-    group: null,
   };
 }
 

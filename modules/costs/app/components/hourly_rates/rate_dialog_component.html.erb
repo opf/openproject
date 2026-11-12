@@ -1,0 +1,14 @@
+<%=
+  render(
+    Primer::Alpha::Dialog.new(
+      id: DIALOG_ID,
+      title:,
+      test_selector: DIALOG_ID,
+      size: :medium_portrait
+    )
+  ) do |dialog|
+    dialog.with_header(show_divider: false, visually_hide_title: false)
+
+    render(HourlyRates::RateFormComponent.new(rate:, form_url:))
+  end
+%>

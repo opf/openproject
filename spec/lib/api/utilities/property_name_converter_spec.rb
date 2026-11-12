@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -178,7 +177,7 @@ RSpec.describe API::Utilities::PropertyNameConverter do
         end
       end
 
-      context "inapropriate back-replacement" do
+      context "with an inappropriate back-replacement" do
         # should not be translated back to updated_at, which is transformed for ar->api
         let(:attribute_name) { "updatedAt" }
 

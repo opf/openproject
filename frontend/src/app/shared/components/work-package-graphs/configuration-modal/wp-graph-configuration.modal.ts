@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,12 +36,13 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { ComponentType } from '@angular/cdk/portal';
 import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import { WpGraphConfiguration } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 
-export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
+export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<unknown>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
   templateUrl: '../../../../features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal.html',
@@ -106,8 +106,11 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(tab:TabInterface):void {
-    this.tabPortalHost.switchTo(tab);
+  public switchTo(tab:TabDefinition):void {
+    const definition = this.availableTabs.find((available) => available.id === tab.id);
+    if (definition) {
+      this.tabPortalHost.switchTo(definition);
+    }
   }
 
   public saveChanges():void {

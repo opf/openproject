@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -82,6 +81,29 @@ RSpec.describe "Homescreen", "index" do
 
       click_link "a link to the public project"
       expect(page).to have_current_path /#{Regexp.escape(project_path(project))}\/?$/
+    end
+  end
+
+  describe "New features teaser", :js do
+    let(:release) { WhatsNew::Release.new(major: 18, minor: 0) }
+    let(:feature) do
+      WhatsNew::Release::Item.new(key: "line_0", title: "Type variants",
+                                  description: "Use with shared workflows", url: "https://example.com/type-variants")
+    end
+
+    before do
+      allow(WhatsNew::Release).to receive(:current).and_return(release)
+      allow(release).to receive(:features).and_return([feature])
+    end
+
+    it "lists the features without links" do
+      login_as user
+      visit home_path
+
+      within(".op-new-features") do
+        expect(page).to have_css("li", text: "Type variants: Use with shared workflows")
+        expect(page).to have_no_link("Type variants")
+      end
     end
   end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,9 +38,7 @@ module WorkPackageTypes
     let(:owner) { project }
     let(:variant) { bug.variants.new(variant_name: "Internal review", project: owner) }
 
-    let(:options) { {} }
-
-    subject(:contract) { described_class.new(variant, user, options:) }
+    subject(:contract) { described_class.new(variant, user) }
 
     def base_errors
       contract.validate
@@ -66,14 +63,6 @@ module WorkPackageTypes
 
         it "refuses it as well" do
           expect(base_errors).to include(:project_variants_not_allowed)
-        end
-      end
-
-      context "and the variant stands in for configuration the project already had" do
-        let(:options) { { pre_existing_configuration: true } }
-
-        it "allows it: the project is not authoring anything new" do
-          expect(base_errors).to be_empty
         end
       end
 

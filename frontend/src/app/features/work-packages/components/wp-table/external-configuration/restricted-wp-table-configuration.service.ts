@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,17 +36,30 @@ export class RestrictedWpTableConfigurationService extends WpTableConfigurationS
   readonly locals = inject<QueryConfigurationLocals>(OpQueryConfigurationLocalsToken);
 
   public get tabs():TabInterface[] {
-    const disabledTabs = this.locals.disabledTabs || {};
+    const disabledTabs = this.disabledTabs();
+
+    if (this.locals.hideDisabledTabs) {
+      return super.tabs.filter((tab) => !disabledTabs.has(tab.id));
+    }
 
     return super
       .tabs
-      .map((el) => {
-        const reason = disabledTabs[el.id];
-        if (reason != null) {
-          el.disable = reason;
+      .map((tab) => {
+        const reason = disabledTabs.get(tab.id);
+        if (reason !== undefined) {
+          tab.disable = reason;
         }
 
-        return el;
+        return tab;
       });
+  }
+
+  private disabledTabs():Map<string, string|true> {
+    const { disabledTabs = [] } = this.locals;
+    const entries:[string, string|true][] = Array.isArray(disabledTabs)
+      ? disabledTabs.map((id) => [id, true])
+      : Object.entries(disabledTabs);
+
+    return new Map(entries);
   }
 }

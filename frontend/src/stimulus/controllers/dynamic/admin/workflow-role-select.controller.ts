@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,12 +36,24 @@ import { navigateWorkflowFrame } from './navigate-workflow-frame';
  */
 export default class WorkflowRoleSelectController extends Controller {
   static outlets = ['admin--workflow-checkbox-state'];
+  static targets = ['groupHeading'];
   static values = { baseUrl: String, currentRoleIds: Array };
 
   declare readonly adminWorkflowCheckboxStateOutlet:WorkflowCheckboxStateController;
   declare readonly hasAdminWorkflowCheckboxStateOutlet:boolean;
   declare baseUrlValue:string;
   declare currentRoleIdsValue:unknown[];
+  declare readonly groupHeadingTargets:HTMLElement[];
+
+  filterGroups() {
+    queueMicrotask(() => {
+      const panel = this.element as SelectPanelElement;
+      const visibleGroups = new Set(panel.visibleItems.map((item) => item.dataset.roleGroup));
+      this.groupHeadingTargets.forEach((heading) => {
+        heading.style.display = visibleGroups.has(heading.dataset.roleGroup) ? 'flex' : 'none';
+      });
+    });
+  }
 
   apply() {
     const panel = this.element as HTMLElement as SelectPanelElement;

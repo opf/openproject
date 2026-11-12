@@ -1,4 +1,6 @@
-# -- copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -20,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module API
   module V3
@@ -37,23 +38,33 @@ module API
         # List of properties that are currently supported by this representer.
         # Probably, way more, maybe even all properties are supported but that is untested.
         SUPPORTED_NON_LINK_PROPERTIES = %w[
-          subject
-          start_date
-          due_date
           date
+          derived_estimated_time
+          due_date
+          estimated_time
+          start_date
+          subject
+          story_points
         ].freeze
 
         SUPPORTED_LINK_PROPERTIES = %w[
           assignee
-          responsible
-          project
-          status
-          priority
-          type
-          version
-          target_versions
+          labels
           observed_in_versions
           parent
+          priority
+          project
+          responsible
+          status
+          target_versions
+          type
+          version
+        ].freeze
+
+        MULTI_VALUED_LINK_PROPERTIES = %w[
+          labels
+          observed_in_versions
+          target_versions
         ].freeze
 
         SUPPORTED_CUSTOM_PROPERTIES = [/^custom_field_\d+$/].freeze
@@ -86,7 +97,7 @@ module API
 
         def rendered_properties
           @rendered_properties ||= begin
-            properties = changed_properties_as_api_name.select(&method(:property_supported?)) + STATIC_NON_LINK_PROPERTIES
+            properties = changed_properties_as_api_name.select { |prop| property_supported?(prop) } + STATIC_NON_LINK_PROPERTIES
 
             if represented.exists_at_timestamp?
               properties + STATIC_LINK_PROPERTIES
@@ -103,7 +114,7 @@ module API
         # contains the lower camel-cased names.
         def rendered_properties_for_links
           @rendered_properties_for_links ||= rendered_properties.map do |property|
-            if property.starts_with?("custom_field_") || %w[target_versions observed_in_versions].include?(property)
+            if property.starts_with?("custom_field_") || MULTI_VALUED_LINK_PROPERTIES.include?(property)
               API::Utilities::PropertyNameConverter.from_ar_name(property)
             else
               property
@@ -115,6 +126,7 @@ module API
           # This conversion is good enough for the set of supported properties as it
           # * Converts assigned_to_id to assignee
           # * does not mess with `start_date` and `due_date`
+          # * renders own and derived work together, as one cell displays both
           if represented.exists_at_current_timestamp?
             represented
               .attributes_changed_to_baseline
@@ -123,6 +135,8 @@ module API
                 API::Utilities::PropertyNameConverter.from_ar_name(property)
               elsif %w[start_date due_date].include?(property)
                 ["date", property]
+              elsif %w[estimated_hours derived_estimated_hours].include?(property)
+                %w[estimated_time derived_estimated_time]
               else
                 property
               end

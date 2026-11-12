@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,6 +30,7 @@ import { diamondIconData, opGateIconData, opPhaseIconData, zapIconData } from '@
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { html, nothing } from 'lit-html';
 import type { TemplateResult } from 'lit-html';
 import { popoverMessage } from 'core-app/shared/components/anchored-popover/popover-message';
@@ -123,13 +123,17 @@ export class ProjectTimelineTooltipBuilder {
 
   tooltipIcon(item:ProjectTimelineItem):HTMLElement {
     if (item.itemType === 'milestone') {
-      return octiconElement(diamondIconData, 'xsmall', `octicon __hl_inline_type_${item.typeId!}`);
+      return octiconElement(diamondIconData, 'xsmall', `octicon ${Highlighting.typeClass(item.typeId!)}`);
     }
     if (item.itemType === 'sprint') {
       return octiconElement(zapIconData, 'small', 'octicon op-timeline-sprint-icon');
     }
     const iconData = item.itemType === 'gate' ? opGateIconData : opPhaseIconData;
-    return octiconElement(iconData, 'small', `octicon __hl_inline_project_phase_definition_${item.definitionId!}`);
+    return octiconElement(
+      iconData,
+      'small',
+      `octicon ${Highlighting.foregroundClass('project_phase_definition', item.definitionId!)}`,
+    );
   }
 
   tooltipClusterData(items:ProjectTimelineItem[]):{dateStr:string; titleText:string} {

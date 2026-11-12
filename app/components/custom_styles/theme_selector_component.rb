@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module CustomStyles
   class ThemeSelectorComponent < ApplicationComponent
@@ -46,11 +45,16 @@ module CustomStyles
 
     def form_arguments
       {
-        url: url_helpers.update_design_themes_path(tab: selected_tab_name),
+        url: if current_theme.blank?
+               url_helpers.confirm_design_theme_path(tab: selected_tab_name)
+             else
+               url_helpers.update_design_themes_path(tab: selected_tab_name)
+             end,
         method: :post,
         data: {
-          controller: "auto-submit",
-          turbo_confirm: (I18n.t("admin.custom_styles.theme_warning") if current_theme.blank?)
+          controller: "auto-submit theme-selector",
+          action: "dialog:close@document->theme-selector#reset",
+          turbo: current_theme.blank?
         }
       }
     end

@@ -22,10 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "rack/test"
@@ -43,7 +43,7 @@ RSpec.describe API::V3::Memberships::UpdateFormAPI, content_type: :json do
   let(:other_role) { create(:project_role) }
   let(:another_role) { create(:project_role) }
   let(:other_user) { create(:user) }
-  let(:permissions) { [:manage_members] }
+  let(:permissions) { %i[manage_members view_members] }
   let(:path) { api_v3_paths.membership_form(member.id) }
   let(:parameters) do
     {

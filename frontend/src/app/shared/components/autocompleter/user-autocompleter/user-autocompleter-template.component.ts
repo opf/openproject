@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,7 @@ import {
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { hrefFromPrincipal, typeFromHref } from 'core-app/shared/components/principal/principal-helper';
+import { AutocompleterOptionContext, AutocompleterDropdownContext } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 
 @Component({
   templateUrl: './user-autocompleter-template.component.html',
@@ -47,8 +47,8 @@ export class UserAutocompleterTemplateComponent implements IAutocompleterTemplat
   @Input() public isOpenedInModal = false;
   @Input() public hoverCards = true;
 
-  @ViewChild('optionTemplate') optionTemplate:TemplateRef<Element>;
-  @ViewChild('footerTemplate') footerTemplate?:TemplateRef<Element>;
+  @ViewChild('optionTemplate') optionTemplate:TemplateRef<AutocompleterOptionContext>;
+  @ViewChild('footerTemplate') footerTemplate?:TemplateRef<AutocompleterDropdownContext>;
 
   public getHoverCardUrl(principal:PrincipalLike) {
     if (!this.hoverCards || !principal.id) { return ''; }

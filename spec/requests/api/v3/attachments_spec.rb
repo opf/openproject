@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -157,6 +156,29 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
 
       context "when requested by another user" do
         let(:author) { create(:user, member_with_roles: { project => role }) }
+
+        it "returns 404" do
+          expect(last_response).to have_http_status :not_found
+        end
+      end
+    end
+  end
+
+  describe "GET /content of an incomplete import" do
+    let(:permissions) { [:view_work_packages] }
+
+    let(:attachment) do
+      create(:attachment, status:, author: current_user, container: create(:work_package, project:))
+    end
+
+    before do
+      allow(User).to receive(:current).and_return current_user
+      get api_v3_paths.attachment_content(attachment.id)
+    end
+
+    %i[import_prepared import_failed].each do |status|
+      context "when the attachment is #{status}" do
+        let(:status) { status }
 
         it "returns 404" do
           expect(last_response).to have_http_status :not_found

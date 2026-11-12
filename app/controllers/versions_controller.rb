@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -88,17 +87,17 @@ class VersionsController < ApplicationController
     redirect_to project_settings_versions_path(@project), status: :see_other
   end
 
-  def destroy
+  def destroy # rubocop:disable Metrics/AbcSize
     call = Versions::DeleteService
       .new(user: current_user,
            model: @version)
       .call
 
-    unless call.success?
-      flash[:error] = call.errors.full_messages
-      flash[:error] << archived_project_mesage if archived_projects.any?
-    else
+    if call.success?
       flash[:notice] = I18n.t :notice_successful_delete
+    else
+      flash[:error] = call.errors.full_messages
+      flash[:error] << archived_project_message if archived_projects.any?
     end
 
     redirect_to project_settings_versions_path(@project), status: :see_other
@@ -127,7 +126,7 @@ class VersionsController < ApplicationController
                      end
   end
 
-  def archived_project_mesage
+  def archived_project_message
     if current_user.admin?
       ApplicationController.helpers.sanitize(
         t(:error_can_not_delete_in_use_archived_work_packages,

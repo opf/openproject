@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,7 +48,15 @@ module My
         end
 
         def expires_on
-          I18n.t("my_account.access_tokens.indefinite_expiration")
+          return I18n.t("my_account.access_tokens.indefinite_expiration") unless expires?
+
+          date = helpers.format_date(api_token.expires_on_date)
+          return date unless api_token.expired?
+
+          render(Primer::Beta::Text.new(color: :danger, font_weight: :bold)) do
+            concat(render(Primer::Beta::Octicon.new(:alert, mr: 1)))
+            concat(I18n.t("my_account.access_tokens.expired_on", date:))
+          end
         end
 
         def button_links
@@ -73,6 +80,10 @@ module My
         end
 
         private
+
+        def expires?
+          api_token.is_a?(Token::Expirable) && api_token.expires_on.present?
+        end
 
         def delete_path
           case model

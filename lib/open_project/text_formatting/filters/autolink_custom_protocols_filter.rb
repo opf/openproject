@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,9 +45,7 @@ module OpenProject::TextFormatting
       SKIPPED_BLOCKS = %w(pre code kbd a).to_set
 
       def self.protocols
-        Setting
-          .allowed_link_protocols
-          .map { |protocol| Regexp.escape(protocol) }
+        Setting::AllowedLinkProtocols.custom.map { |protocol| Regexp.escape(protocol) }
       end
 
       # Match custom schemes and ignore trailing punctuation
@@ -57,7 +54,7 @@ module OpenProject::TextFormatting
       end
 
       def call
-        return doc if Setting.allowed_link_protocols.empty?
+        return doc if self.class.protocols.empty?
 
         autolink_context = default_autolink_options.merge context.fetch(:autolink, {})
         return doc if autolink_context[:enabled] == false

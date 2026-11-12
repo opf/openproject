@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -47,15 +46,23 @@ type PackedParams = {
  * Decrypts a given token using AES-256-GCM algorithm.
  */
 export function decryptToken(encrypted:string):PackedParams {
-  const [token, iv, authTag] = encrypted.split('--').map((part:string) => Buffer.from(part, 'base64'));
+  const decrypted = decrypt(encrypted);
 
+  try {
+    return JSON.parse(decrypted.toString());
+  } catch {
+    // hide the original error to avoid accidentally exposing decrypted information
+    throw new Error("Unauthorized: Decrypted token is not valid JSON");
+  }
+}
+
+function decrypt(encrypted:string):Buffer {
+  const [token, iv, authTag] = encrypted.split('--').map((part:string) => Buffer.from(part, 'base64'));
   const decipher = createDecipheriv(ALGORITHM, SECRET, iv);
   decipher.setAuthTag(authTag);
 
-  const decrypted = Buffer.concat([
+  return Buffer.concat([
     decipher.update(token),
     decipher.final()
   ]);
-
-  return JSON.parse(decrypted.toString());
 }

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,10 +39,11 @@ module Admin::Import::Jira
 
     def wrapper_options
       data = {
-        controller: "admin--jira-configuration-form",
-        "admin--jira-configuration-form-url-value": test_admin_import_jira_index_path
+        controller: "admin--jira-configuration-form " \
+                    "show-when-value-selected",
+        "admin--jira-configuration-form-test-connection-path-value": test_connection_admin_import_jira_index_path
       }
-      data[:"admin--jira-configuration-form-id-value"] = model.id.to_s if model.persisted?
+      data[:"admin--jira-configuration-form-jira-id-value"] = model.id.to_s if model.persisted?
       { data: }
     end
 

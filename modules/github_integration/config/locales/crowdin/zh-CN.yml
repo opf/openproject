@@ -38,7 +38,7 @@ zh-CN:
     changed_files_count: 已更改的文件
     comments_count: 评论数
     deletions_count: 删除的数量
-    github: GitHub 标识
+    github: GitHub identifier
     github_app_owner_avatar_url: 所有者头像 URL
     github_avatar_url: 头像 URL
     github_html_url: 拉取请求 URL

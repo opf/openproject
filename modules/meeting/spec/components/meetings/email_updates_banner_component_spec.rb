@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,7 +53,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
       it "renders the onetime enabled banner" do
         expect(subject).to have_text I18n.t("meeting.notifications.enabled")
         expect(subject).to have_css(".Banner")
-        expect(subject).to have_no_selector(".Banner--warning")
+        expect(subject).to have_no_css(".Banner--warning")
       end
     end
 
@@ -86,7 +85,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
       it "renders the template enabled banner" do
         expect(subject).to have_text I18n.t("meeting.notifications.enabled")
         expect(subject).to have_css(".Banner")
-        expect(subject).to have_no_selector(".Banner--warning")
+        expect(subject).to have_no_css(".Banner--warning")
       end
     end
 
@@ -124,7 +123,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
         template
         expect(subject).to have_text I18n.t("meeting.notifications.enabled")
         expect(subject).to have_css(".Banner")
-        expect(subject).to have_no_selector(".Banner--warning")
+        expect(subject).to have_no_css(".Banner--warning")
       end
     end
 
@@ -152,7 +151,7 @@ RSpec.describe Meetings::EmailUpdatesBannerComponent, type: :component do
     it "renders the enabled banner regardless of notify" do
       expect(subject).to have_text I18n.t("meeting.notifications.enabled")
       expect(subject).to have_css(".Banner")
-      expect(subject).to have_no_selector(".Banner--warning")
+      expect(subject).to have_no_css(".Banner--warning")
     end
   end
 

@@ -1,4 +1,6 @@
-# -- copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -20,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "#{File.dirname(__FILE__)}/../../../spec_helper"
 
@@ -39,10 +40,10 @@ RSpec.describe LaborBudgetItems::Scopes::Visible do
   end
   shared_let(:view_budget) { create(:budget, project: view_project) }
   shared_let(:view_own_budget) { create(:budget, project: view_own_project) }
-  shared_let(:own_budget_item_of_view_budget) { create(:labor_budget_item, budget: view_budget, user:) }
-  shared_let(:budget_item_of_view_budget) { create(:labor_budget_item, budget: view_budget, user: other_user) }
-  shared_let(:own_budget_item_of_view_own_budget) { create(:labor_budget_item, budget: view_own_budget, user:) }
-  shared_let(:budget_item_of_view_own_budget) { create(:labor_budget_item, budget: view_own_budget, user: other_user) }
+  shared_let(:own_budget_item_of_view_budget) { create(:labor_budget_item, budget: view_budget, principal: user) }
+  shared_let(:budget_item_of_view_budget) { create(:labor_budget_item, budget: view_budget, principal: other_user) }
+  shared_let(:own_budget_item_of_view_own_budget) { create(:labor_budget_item, budget: view_own_budget, principal: user) }
+  shared_let(:budget_item_of_view_own_budget) { create(:labor_budget_item, budget: view_own_budget, principal: other_user) }
 
   describe ".visible" do
     it "returns all from project the user has view permission and only own from project the user has view own permission" do

@@ -26,12 +26,12 @@ ca:
         select: Selecciona fitxers
         select_all: Selecciona-ho tot
         selection:
-          zero: Selecciona fitxers a enllaçar
-          one: Enllaça 1 fitxer
-          other: Enllaça %{count} fitxers
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: 1 enllaç de fitxer creat correctament.
-          other: "%{count} enllaços de fitxer creat correctament."
+          one: Successfully created %{count} file link.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: This file cannot be found.
           not_logged_in: Please log in to the storage to access this file.

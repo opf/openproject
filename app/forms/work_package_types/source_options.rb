@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,10 +35,16 @@ module WorkPackageTypes
 
     # A variant one project owns is invisible elsewhere, so it can never be a source there.
     def source_options
+      excluded_ids = unavailable_source_ids
+
       TypeVariant.available_in(variant.project)
                  .joins(:type).merge(Type.order(:position))
                  .in_display_order
-                 .reject { |source| source == variant }
+                 .reject { |source| excluded_ids.include?(source.id) }
+    end
+
+    def unavailable_source_ids
+      [variant.id]
     end
 
     def label_for(source)

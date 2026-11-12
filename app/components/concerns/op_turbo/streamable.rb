@@ -22,18 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpTurbo
   module Streamable
-    # rubocop:disable OpenProject/AddPreviewForViewComponent
     class MissingComponentWrapper < StandardError; end
-    # rubocop:enable OpenProject/AddPreviewForViewComponent
-
     INLINE_ACTIONS = %i[dialog flash].freeze
     private_constant :INLINE_ACTIONS
     # Turbo allows the response method for these actions only:
@@ -155,7 +151,7 @@ module OpTurbo
     end
 
     def insert_target_modified?
-      # optionally overriden (returning true) in subclass in order to indicate thate the insert target
+      # optionally overridden (returning true) in subclass in order to indicate that the insert target
       # is modified and should not be the root inner html element
       # insert_target_container needs to be present on component's erb template then
       false

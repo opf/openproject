@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,6 +37,7 @@ RSpec.describe Queries::WorkPackages::Filter::ParentFilter do
 
   it_behaves_like "basic query filter" do
     let(:class_key) { :parent }
+    let(:values) { ["1"] }
     let(:type) { :list }
 
     before do
@@ -286,6 +286,28 @@ RSpec.describe Queries::WorkPackages::Filter::ParentFilter do
         expect(scope)
           .to contain_exactly(visible_wp)
       end
+    end
+  end
+
+  describe "with a semantic identifier as value" do
+    let!(:parent) { create(:work_package) }
+    let!(:child) { create(:work_package, parent:) }
+    let!(:other_wp) { create(:work_package) }
+
+    let(:instance) do
+      described_class.create!(name: :parent, context: build_stubbed(:query, project: nil), operator: "=", values: ["PAR-1"])
+    end
+
+    before { create(:work_package_semantic_alias, work_package: parent, identifier: "PAR-1") }
+
+    current_user { create(:admin) }
+
+    it "is valid" do
+      expect(instance).to be_valid
+    end
+
+    it "returns the children" do
+      expect(WorkPackage.where(instance.where)).to contain_exactly(child)
     end
   end
 end

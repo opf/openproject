@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,7 @@ module MeetingAgendaItems
     include OpPrimer::ComponentHelpers
 
     def initialize(meeting:, meeting_section:, meeting_agenda_item:, method:, submit_path:, cancel_path:, type: :simple,
-                   display_notes_input: nil)
+                   display_notes_input: nil, key: nil)
       super
       @meeting = meeting
       @meeting_section = meeting_section
@@ -45,11 +44,12 @@ module MeetingAgendaItems
       @cancel_path = cancel_path
       @type = type
       @display_notes_input = display_notes_input
+      @key = key
       @autofocus = display_notes_input.blank?
     end
 
     def wrapper_uniq_by
-      @meeting_agenda_item.persisted? ? @meeting_agenda_item.id : "new"
+      @key || (@meeting_agenda_item.persisted? ? @meeting_agenda_item.id : "new")
     end
 
     def render?

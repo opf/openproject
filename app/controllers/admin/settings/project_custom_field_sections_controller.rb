@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,9 @@ module Admin::Settings
   class ProjectCustomFieldSectionsController < ::Admin::SettingsController
     include OpTurbo::ComponentStream
     include Admin::Settings::ProjectCustomFields::ComponentStreams
+    include ::SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: "section", list_id_scoped: false
 
     before_action :set_project_custom_field_section, only: %i[update move drop destroy]
 
@@ -123,27 +125,7 @@ module Admin::Settings
     end
 
     def set_project_custom_field_section
-      @project_custom_field_section = ProjectCustomFieldSection.find(params[:id])
-    end
-
-    # The sortable-lists wire for the one global sections list: the type must
-    # match and no list id may be addressed. prev_id must be present as a
-    # scalar parameter (blank means top): an accidentally omitted anchor
-    # cannot read as a move-to-top request, and a collection-valued id
-    # (prev_id[]=...) cannot reach the anchor lookup as an IN list. The
-    # raw list_id check stays deliberately: permit cannot distinguish an
-    # absent list_id from a filtered-out collection one, and both a
-    # nonblank and a collection value are contract violations here.
-    def valid_drop_request?
-      drop_params[:list_type] == "section" &&
-        params[:list_id].blank? &&
-        drop_params.key?(:prev_id)
-    end
-
-    # permit's scalar filter drops collection-valued parameters, so a
-    # missing and a non-scalar prev_id both fail the key check above.
-    def drop_params
-      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+      @project_custom_field_section = ProjectCustomFieldSection.find(params.expect(:id))
     end
 
     def allow_custom_field_creation?

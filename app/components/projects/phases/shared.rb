@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ module Projects
       def gate_icon = :"op-gate"
 
       def icon_color_class
-        helpers.hl_inline_class("project_phase_definition", phase.definition_id)
+        helpers.hl_foreground_class("project_phase_definition", phase.definition_id)
       end
     end
   end

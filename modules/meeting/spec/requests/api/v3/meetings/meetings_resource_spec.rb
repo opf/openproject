@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -502,6 +501,30 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
         perform_debounced_jobs
 
         expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(other_participant.mail)
+      end
+    end
+
+    context "when attempting to change the author via _links.author" do
+      let(:other_user) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:body) do
+        {
+          lockVersion: meeting.lock_version,
+          _links: {
+            author: { href: api_v3_paths.user(other_user.id) }
+          }
+        }.to_json
+      end
+
+      it "rejects the change with a readonly error and does not change the author" do
+        expect(meeting.author).to eq(current_user)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+          .at_path("errorIdentifier")
+        expect(meeting.reload.author).to eq(current_user)
       end
     end
   end

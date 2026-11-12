@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@ require "digest/sha1"
 
 module ::Widget
   class Base < Widget::ReportingWidget
-    attr_reader :engine, :output
+    option :current_user, default: -> { User.current }
 
     ##
     # Deactivate caching for certain widgets. If called on Widget::Base,
@@ -47,37 +46,6 @@ module ::Widget
       @dont_cache or (self != Widget::Base && Widget::Base.dont_cache?)
     end
 
-    def initialize(query)
-      @subject = query
-      @engine = query.class
-      @options = {}
-    end
-
-    ##
-    # Write a string to the canvas.
-    def write(str)
-      @output ||= (+"").html_safe
-      @output << str
-      str
-    end
-
-    ##
-    # Render this widget. Abstract method. Needs to call #write at least once
-    def render
-      raise SubclassResponsibilityError, "#render is missing in subclass #{self.class}"
-    end
-
-    ##
-    # Render this widget, passing options.
-    # Available options:
-    #   :to => canvas - The canvas (streaming or otherwise) to render to. Has to respond to #write
-    def render_with_options(options = {}, &)
-      set_canvas(options.delete(:to)) if options.has_key? :to
-      @options = options
-      render_with_cache(options, &)
-      @output
-    end
-
     def cache_key
       @cache_key ||= Digest::SHA1::hexdigest begin
         if subject.respond_to? :cache_key
@@ -90,12 +58,6 @@ module ::Widget
 
     def cached?
       cache? && Rails.cache.exist?(cache_key)
-    end
-
-    protected
-
-    def render_view_component(component, &)
-      component.render_in(controller.view_context, &)
     end
 
     private
@@ -113,12 +75,6 @@ module ::Widget
         render(&)
         Rails.cache.write(cache_key, @output) if cache?
       end
-    end
-
-    ##
-    # Set the canvas.
-    def set_canvas(canvas)
-      @output = canvas
     end
   end
 end

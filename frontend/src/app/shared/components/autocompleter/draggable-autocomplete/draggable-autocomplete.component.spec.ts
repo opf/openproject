@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -220,6 +219,60 @@ describe('DraggableAutocompleteComponent', () => {
 
     expect(removeButton.tagName).toBe('BUTTON');
     expect(removeButton.getAttribute('aria-label')).toBe('label');
+  });
+
+  describe('driven from outside the component', () => {
+    function dispatchAdd(options:DraggableOption[]):void {
+      (fixture.nativeElement as HTMLElement).dispatchEvent(
+        new CustomEvent<DraggableOption[]>(DraggableAutocompleteComponent.ADD_EVENT, { detail: options }),
+      );
+      fixture.detectChanges();
+    }
+
+    it('hides the autocompleter input but keeps the drag area', () => {
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('ng-select'))).not.toBeNull();
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo']);
+
+      fixture.componentRef.setInput('inputHidden', true);
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('ng-select'))).toBeNull();
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo']);
+    });
+
+    it('appends options received through the add event', () => {
+      fixture.detectChanges();
+
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo']);
+
+      dispatchAdd([c]);
+
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo', 'Charlie']);
+    });
+
+    it('ignores options it already holds, keeping their position', () => {
+      fixture.detectChanges();
+
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo']);
+
+      dispatchAdd([a, c]);
+
+      expect(chipTexts()).toEqual(['Alpha', 'Bravo', 'Charlie']);
+    });
+
+    it('emits the new selection', () => {
+      const emitted:DraggableOption[][] = [];
+      component.onChange.subscribe((value:DraggableOption[]) => emitted.push(value));
+      fixture.detectChanges();
+
+      expect(emitted).toEqual([]);
+
+      dispatchAdd([c]);
+
+      expect(emitted).toEqual([[a, b, c]]);
+    });
   });
 
   describe('reordering through the sortable-lists drop output', () => {

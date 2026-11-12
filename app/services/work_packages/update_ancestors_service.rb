@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,7 +40,7 @@ class WorkPackages::UpdateAncestorsService < BaseServices::BaseCallable
   def perform(attributes)
     updated_work_packages = update_current_and_former_ancestors(attributes)
 
-    set_journal_note(ancestors(updated_work_packages))
+    set_journal_cause(ancestors(updated_work_packages))
     success = save_updated_work_packages(updated_work_packages)
 
     result = ServiceResult.new(success:, result: initiator_work_package)
@@ -121,11 +120,9 @@ class WorkPackages::UpdateAncestorsService < BaseServices::BaseCallable
     end
   end
 
-  def set_journal_note(work_packages)
-    work_packages.each do |wp|
-      wp.journal_notes = I18n.t("work_package.updated_automatically_by_child_changes",
-                                child: "##{initiator_work_package.id}")
-    end
+  def set_journal_cause(work_packages)
+    cause = Journal::CausedByWorkPackageChildValuesChange.new(initiator_work_package)
+    work_packages.each { |wp| wp.journal_cause = cause }
   end
 
   def derive_done_ratio(ancestor, loader)

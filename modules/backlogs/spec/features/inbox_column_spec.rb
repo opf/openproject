@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -292,10 +291,8 @@ RSpec.describe "Inbox column in sprint planning view", :js do
             click_button "Move"
           end
 
-          planning_page
-            .expect_and_dismiss_error(
-              "Update failed: Sprint is not assignable since it is either not shared with the project or already finished."
-            )
+          expected_error = I18n.t("backlogs.work_packages.batch_update_service.unavailable_target")
+          planning_page.expect_and_dismiss_error("Update failed: #{expected_error}")
 
           # Item was *not* moved:
           planning_page.expect_inbox_items(items: inbox_wp1)

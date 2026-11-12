@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,18 +33,8 @@ class SessionController < ApplicationController
   def logout_warning
     url = signin_url back_url: params[:back_url]
 
-    render "logout_warning", locals: { message: link_i18n(:logout_warning, url) }
-  end
-
-  private
-
-  ##
-  # Finds any words enclosed in brackets (like links in Markdown) and
-  # turns them into a link with the given URL.
-  def link_i18n(i18n_key, url)
-    text = translate i18n_key
-    html = text.gsub /\[([^\[\]]+)\]/, "<a href=\"#{url}\">\\1</a>"
-
-    html.html_safe
+    render "logout_warning", locals: {
+      message: link_translate("logout_warning_link", links: { login: url }, external: false)
+    }
   end
 end

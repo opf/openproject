@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -227,6 +226,29 @@ RSpec.describe WorkPackages::DatePickerController do
           assigned_work_package = assigns(:work_package)
           expect(date_errors(assigned_work_package)).to be_empty
         end
+      end
+    end
+
+    context "when the user clears two date fields" do
+      let(:params) do
+        params_after_changing_values.deep_merge(
+          "field" => "work_package[start_date]",
+          "work_package" => {
+            "start_date" => "",
+            "start_date_touched" => "true",
+            "due_date" => "",
+            "due_date_touched" => "true",
+            "duration" => "5",
+            "duration_touched" => "false"
+          }
+        )
+      end
+
+      it "clears the remaining field and retains focus" do
+        subject
+
+        expect(assigns(:work_package)).to have_attributes(start_date: nil, due_date: nil, duration: nil)
+        expect(controller.send(:focused_field)).to eq(:start_date)
       end
     end
 

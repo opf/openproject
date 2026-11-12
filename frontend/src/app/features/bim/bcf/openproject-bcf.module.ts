@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -49,6 +48,7 @@ import { BcfNewWpAttributeGroupComponent } from 'core-app/features/bim/bcf/bcf-w
 import { RevitBridgeService } from 'core-app/features/bim/revit_add_in/revit-bridge.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { RefreshButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/refresh-button.component';
 
 /**
@@ -71,6 +71,7 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
   imports: [
     OpSharedModule,
     NgxGalleryModule,
+    OpTooltipDirective,
   ],
   providers: [
     {

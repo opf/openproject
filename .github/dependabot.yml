@@ -4,6 +4,7 @@ updates:
     directories:
       - "/"
       - "/frontend"
+      - "/extensions/blocknote-extensions"
       - "/extensions/op-blocknote-hocuspocus"
     schedule:
       interval: "daily"
@@ -80,6 +81,9 @@ updates:
           - 'vitest'
           - '@vitest/*'
     ignore:
+      # Pinned to 22.1.9 until angular/angular-cli#34312 (ng serve EMFILE with
+      # preserveSymlinks) and #34231 (NG8001 in ng test) ship in a release.
+      - dependency-name: "@angular/build"
       - dependency-name: "@angular/*"
         update-types: ["version-update:semver-major"]
       - dependency-name: "@angular-builders/*"
@@ -121,3 +125,7 @@ updates:
     target-branch: "dev"
     cooldown:
       default-days: 7
+    groups:
+      codeql-action:
+        patterns:
+          - "github/codeql-action*"

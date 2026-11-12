@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -81,12 +80,13 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     }
 
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
-    const results = this.querySpace.results.value;
+    // The rendered cards, as a drag and drop does not refresh the query results
+    const renderedIds = this.wpCardDragDrop.currentOrder;
 
     filters.add('typeahead', '**', [searchString]);
 
-    if (results && results.elements.length > 0) {
-      filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
+    if (renderedIds.length > 0) {
+      filters.add('id', '!', renderedIds);
     }
     // Add the subproject filter, if any
     const query = this.querySpace.query.value;
@@ -111,7 +111,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   };
 
   public autocompleterOptions = {
-    resource: 'work_packages',
+    resource: 'work_packages' as const,
     getOptionsFn: this.getAutocompleterData,
   };
 
@@ -139,15 +139,22 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     this.onCancel.emit();
   }
 
-  public addWorkPackageToQuery(workPackage?:WorkPackageResource) {
-    if (workPackage) {
-      this.schemaCacheService
-        .ensureLoaded(workPackage)
-        .then(() => {
-          this.onReferenced.emit(workPackage);
-          this.ngSelectComponent.closeSelect();
-        })
-        .catch((error:unknown) => this.notificationService.handleRawError(error));
+  public addWorkPackageToQuery(workPackage:unknown) {
+    if (!this.isWorkPackage(workPackage)) {
+      return;
     }
+
+    this.schemaCacheService
+      .ensureLoaded(workPackage)
+      .then(() => {
+        this.onReferenced.emit(workPackage);
+        this.ngSelectComponent.closeSelect();
+      })
+      .catch((error:unknown) => this.notificationService.handleRawError(error));
   }
+
+  private isWorkPackage(value:unknown):value is WorkPackageResource {
+    return value instanceof WorkPackageResource;
+  }
+
 }

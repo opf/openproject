@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,6 +34,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'icon-triggered-context-menu',
   templateUrl: './icon-triggered-context-menu.component.html',
   styleUrls: ['./icon-triggered-context-menu.component.sass'],

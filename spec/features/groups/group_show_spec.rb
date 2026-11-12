@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,7 +54,7 @@ RSpec.describe "group show page" do
     context "when the user is not a member of the group" do
       it "I get a 404 when visiting the group page" do
         visit show_group_path(group)
-        expect(page).to have_content("[Error 404] The page you were trying to access doesn't exist or has been removed")
+        expect(page).to have_text("[Error 404] The page you were trying to access doesn't exist or has been removed")
       end
     end
 

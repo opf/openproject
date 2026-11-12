@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,9 +67,14 @@ RSpec.describe "Roles index", :js do
   def expect_roles_listed(*names)
     expect(page).to have_css("[id^='role-']", count: names.size)
     expect(role_names_in_order).to eq(names)
+    names.each.with_index(2) do |name, rowindex|
+      expect(page).to have_selector(:row, name, rowindex:)
+    end
   end
 
   def search_roles(term)
+    expand_sub_header_search(I18n.t("roles.index.filter_label"))
+
     wait_for_turbo_frame(frame: Roles::IndexComponent::FRAME_ID) do
       fill_in I18n.t("roles.index.filter_label"), with: term
     end
@@ -150,7 +154,7 @@ RSpec.describe "Roles index", :js do
       expect_roles_listed("Alpha global")
     end
 
-    # A move is relative to the neighbouring rows, and a filtered list hides them.
+    # A move is relative to the neighboring rows, and a filtered list hides them.
     it "takes away reordering while a filter is active" do
       visit roles_path
 
@@ -303,12 +307,40 @@ RSpec.describe "Roles index", :js do
     visit roles_path
 
     open_role_menu(first_role)
-    accept_confirm { click_on I18n.t(:button_delete) }
+    click_on I18n.t(:button_delete)
+
+    within_test_selector("op-roles--delete-dialog") do
+      expect(page).to have_text(I18n.t("roles.delete_dialog.heading_unused", name: first_role.name))
+
+      click_on I18n.t(:button_delete)
+    end
 
     expect_and_dismiss_flash(message: I18n.t(:notice_successful_delete))
 
     expect(page).to have_no_css("#role-#{first_role.id}")
     expect(ProjectRole).not_to exist(id: first_role.id)
+  end
+
+  it "lists the affected members before deleting a role that is still in use" do
+    project = create(:project, name: "Apollo")
+    user = create(:user, firstname: "Jo", lastname: "Barnes", member_with_roles: { project => [first_role] })
+
+    visit roles_path
+
+    open_role_menu(first_role)
+    click_on I18n.t(:button_delete)
+
+    within_test_selector("op-roles--delete-dialog") do
+      expect(page).to have_text(I18n.t("roles.delete_dialog.heading", count: 1))
+      expect(page).to have_text("Jo Barnes (Project: Apollo)")
+
+      click_on I18n.t(:button_delete)
+    end
+
+    expect_and_dismiss_flash(message: I18n.t(:notice_successful_delete))
+
+    expect(ProjectRole).not_to exist(id: first_role.id)
+    expect(Member.where(principal: user, project:)).to be_empty
   end
 
   it "does not offer moving or deleting builtin roles" do

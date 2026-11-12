@@ -20,12 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -87,7 +87,7 @@ export class WorkDisplayField extends DisplayField {
     this.renderActual(element, displayText);
 
     const derived = this.derivedValue;
-    if (derived && this.hasChildren()) {
+    if (derived && (this.context.options.historic || this.hasChildren())) {
       this.renderSeparator(element);
       this.renderDerived(element, this.derivedValueString);
     }
@@ -120,23 +120,25 @@ export class WorkDisplayField extends DisplayField {
   }
 
   public renderDerived(element:HTMLElement, displayText:string):void {
-    const link = document.createElement('a');
+    const createLink = !this.context.options.historic;
+    const derivedElement = document.createElement(createLink ? 'a' : 'span');
 
-    link.textContent = `Σ ${displayText}`;
-    link.title = `${this.derivedValueString} ${this.derivedText}`;
-    link.classList.add('-derived-value', uiStateLinkClass);
+    derivedElement.textContent = `Σ ${displayText}`;
+    derivedElement.classList.add('-derived-value');
 
-    this.hierarchyQueryLinkHelper.addHref(link, this.resource);
+    if (derivedElement instanceof HTMLAnchorElement) {
+      derivedElement.classList.add(uiStateLinkClass);
+      this.hierarchyQueryLinkHelper.addHref(derivedElement, this.resource);
+    }
 
-    element.appendChild(link);
+    element.appendChild(withTooltip(derivedElement, this.derivedText, 'description'));
   }
 
-  public get title():string|null {
+  public override get title():string|null {
     return null; // we want to render separate titles ourselves
   }
 
   public isEmpty():boolean {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { value } = this;
     const derived = this.derivedValue;
 

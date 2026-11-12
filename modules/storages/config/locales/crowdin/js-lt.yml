@@ -26,16 +26,14 @@ lt:
         select: Pasirinkite failus
         select_all: Pasirinkti viską
         selection:
-          zero: Pasirinkite failus susiejimui
-          one: Susieti 1 failą
-          few: Susieti %{count} failus
-          many: Susieti %{count} failų
-          other: Susieti %{count} failus
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: Sėkmingai sukurta 1 failo nuoroda
-          few: Sėkmingai sukurtos %{count} failų nuorodos.
-          many: Sėkmingai sukurta %{count} failų nuorodų.
-          other: Sėkmingai sukurtos %{count} failų nuorodos.
+          one: Successfully created %{count} file link.
+          few: Successfully created %{count} file links.
+          many: Successfully created %{count} file links.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Nepavyksta rasti šio failo.
           not_logged_in: Prašome prisijungti prie saugyklos, kad pasiektumėte šį failą.

@@ -53,7 +53,7 @@ ru:
     changed_files_count: Изменённые файлы
     comments_count: Количество комментариев
     deletions_count: Количество удалений
-    github: Идентификатор GitHub
+    github: GitHub identifier
     github_app_owner_avatar_url: URL аватара владельца
     github_avatar_url: URL аватара
     github_html_url: 'URL '

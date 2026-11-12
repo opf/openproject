@@ -24,8 +24,8 @@
       type="button"
       class="op-basic-range-datepicker--clear-button"
       data-test-selector="op-basic-range-date-picker-clear"
-      [attr.aria-label]="text.clear"
-      [title]="text.clear"
+      opTooltip
+      [label]="text.clear"
       (click)="clearValue()"
       >
       <svg x-icon size="small" />
@@ -44,7 +44,7 @@
     [disabled]="disabled"
     [placeholder]="placeholder"
     [ngModel]="value[0] || ''"
-    (ngModelChange)="changeValueFromInputDebounced([$event, value[1] || ''])"
+    (ngModelChange)="changeMobileDateFromInput(0, $event)"
     />
   <span class="op-basic-range-datepicker--spacer" [textContent]="text.spacer"></span>
   <input
@@ -58,7 +58,7 @@
     [disabled]="disabled"
     [placeholder]="placeholder"
     [ngModel]="value[1] || ''"
-    (ngModelChange)="changeValueFromInputDebounced([value[0] || '', $event])"
+    (ngModelChange)="changeMobileDateFromInput(1, $event)"
     />
   <input
     type="hidden"

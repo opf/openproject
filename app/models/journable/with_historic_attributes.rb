@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -264,6 +263,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
     merge_target_versions_changes!(changes, historic_journable)
     merge_observed_in_versions_changes!(changes, historic_journable)
+    merge_labels_changes!(changes, historic_journable)
 
     changes
   end
@@ -276,12 +276,12 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def target_versions_changes(historic_journable)
-    old_ids = sorted_version_ids(historic_journable, :target_versions)
-    new_ids = sorted_version_ids(__getobj__, :target_versions)
+    old_ids = sorted_association_ids(historic_journable, :target_versions)
+    new_ids = sorted_association_ids(__getobj__, :target_versions)
 
     {}.tap do |changes|
       changes["version_id"] = [old_ids.first, new_ids.first] if old_ids.first != new_ids.first
-      changes["target_versions"] = [old_ids, new_ids].map { joined_version_ids(it) } if old_ids != new_ids
+      changes["target_versions"] = [old_ids, new_ids].map { joined_ids(it) } if old_ids != new_ids
     end
   end
 
@@ -292,19 +292,34 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def observed_in_versions_changes(historic_journable)
-    old_ids = sorted_version_ids(historic_journable, :observed_in_versions)
-    new_ids = sorted_version_ids(__getobj__, :observed_in_versions)
+    old_ids = sorted_association_ids(historic_journable, :observed_in_versions)
+    new_ids = sorted_association_ids(__getobj__, :observed_in_versions)
 
     {}.tap do |changes|
-      changes["observed_in_versions"] = [old_ids, new_ids].map { joined_version_ids(it) } if old_ids != new_ids
+      changes["observed_in_versions"] = [old_ids, new_ids].map { joined_ids(it) } if old_ids != new_ids
     end
   end
 
-  def sorted_version_ids(work_package, association)
+  def merge_labels_changes!(changes, historic_journable)
+    return unless __getobj__.respond_to?(:labels)
+
+    changes.merge!(labels_changes(historic_journable))
+  end
+
+  def labels_changes(historic_journable)
+    old_ids = sorted_association_ids(historic_journable, :labels)
+    new_ids = sorted_association_ids(__getobj__, :labels)
+
+    {}.tap do |changes|
+      changes["labels"] = [old_ids, new_ids].map { joined_ids(it) } if old_ids != new_ids
+    end
+  end
+
+  def sorted_association_ids(work_package, association)
     work_package.public_send(association).map(&:id).sort
   end
 
-  def joined_version_ids(ids)
+  def joined_ids(ids)
     ids.join(",").presence
   end
 

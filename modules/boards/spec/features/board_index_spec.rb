@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -168,6 +167,13 @@ RSpec.describe "Work Package Project Boards Index Page" do
       board_index.expect_boards_listed(other_board_view)
       board_index.expect_boards_not_listed(board_view)
       board_index.expect_to_be_on_page(2)
+    end
+
+    context "as an accessible page", :js, :selenium do
+      it "is AXe clean" do
+        board_index.expect_boards_listed(board_view, other_board_view)
+        expect(page).to be_axe_clean
+      end
     end
   end
 end

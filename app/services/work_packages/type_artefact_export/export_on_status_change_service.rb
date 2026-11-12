@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,12 +43,12 @@ module WorkPackages
         return false if changes["status_id"].blank?
         return false unless work_package.type_variant.artefact_export_enabled?
 
-        # The creation wizard runs its own export for its artifact work package;
+        # The creation wizard runs its own export for its artefact work package;
         # skip it here to avoid generating the PDF twice.
-        !creation_wizard_artifact_work_package?(work_package)
+        !creation_wizard_artefact_work_package?(work_package)
       end
 
-      def self.creation_wizard_artifact_work_package?(work_package)
+      def self.creation_wizard_artefact_work_package?(work_package)
         work_package.project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
       end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,8 +30,7 @@
 require "rails_helper"
 
 RSpec.describe Projects::Settings::WorkPackages::Types::AddDialogComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   shared_let(:epic) { create(:type, name: "Epic") }
   shared_let(:design) { create(:type_variant, type: epic, variant_name: "Design") }
   shared_let(:bug) { create(:type, name: "Bug") }

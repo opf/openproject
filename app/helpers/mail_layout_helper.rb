@@ -22,23 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module MailLayoutHelper
-  def placeholder_table_styles(options = {})
-    style_options = options[:style].present? ? options.delete(:style) : ""
-
-    default_options = {
-      style: "table-layout:fixed;border-collapse:separate;border-spacing:0;font-family:Helvetica;#{style_options}",
-      cellspacing: "0",
-      cellpadding: "0"
-    }
-
-    default_options.merge(options).map { |k, v| "#{k}=#{v}" }.join(" ")
+  def placeholder_table_styles(additional_styles = "")
+    "table-layout:fixed;border-collapse:separate;border-spacing:0;font-family:Helvetica;#{additional_styles}"
   end
 
   def placeholder_text_styles(**overwrites)
@@ -69,7 +60,7 @@ module MailLayoutHelper
               "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
             end
 
-    content_tag("td", "&nbsp;".html_safe, style:)
+    content_tag("td", "\u00A0", style:)
   end
 
   def user_salutation(user)

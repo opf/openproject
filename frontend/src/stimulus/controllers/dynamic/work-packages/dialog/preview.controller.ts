@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -63,7 +62,7 @@ export abstract class DialogPreviewController extends Controller {
     // element, it also keeps the `aria-describedby` attribute which references
     // caption and validation element ids. As these elements are morphed and get
     // new ids, the ids referenced by `aria-describedby` are stale. This makes
-    // caption and validation message unaccessible for screen readers and other
+    // caption and validation message inaccessible for screen readers and other
     // assistive technologies. This is why morph cannot be used here.
     this.frameMorphRenderer = (event:TurboBeforeFrameRenderEvent) => {
       const target = event.target as FrameElement;
@@ -79,7 +78,7 @@ export abstract class DialogPreviewController extends Controller {
         // apply them once the morph has finished.
         const pendingReplacements:[HTMLElement, Node][] = [];
 
-        Idiomorph.morph(currentElement, newElement, {
+        void Idiomorph.morph(currentElement, newElement, {
           ignoreActiveValue: this.ignoreActiveValueWhenMorphing(),
           callbacks: {
             beforeNodeMorphed: (oldNode, newNode) => {

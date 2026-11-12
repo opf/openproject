@@ -1,0 +1,12 @@
+<%= render(
+      Primer::Alpha::Banner.new(
+        scheme: :warning, icon: :alert, mb: 3,
+        test_selector: "migrated-variants-banner"
+      )
+    ) do %>
+  <%= helpers.link_translate(
+        "types.index.migrated_variants_banner.text",
+        links: { docs_url: %i[sysadmin_docs types] },
+        i18n_args: { label: }
+      ) %>
+<% end %>

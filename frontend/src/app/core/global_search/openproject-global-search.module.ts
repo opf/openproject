@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,6 +34,7 @@ import {
   OpenprojectAutocompleterModule,
 } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpSharedModule } from 'core-app/shared/shared.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @NgModule({
@@ -42,6 +42,7 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
     OpSharedModule,
     OpenprojectWorkPackagesModule,
     OpenprojectAutocompleterModule,
+    OpTooltipDirective,
   ],
   providers: [
     GlobalSearchService,

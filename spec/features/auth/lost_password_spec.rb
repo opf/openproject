@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,7 +69,7 @@ RSpec.describe "Lost password" do
     visit mail_document.find("a")["href"]
 
     fill_in "New password", with: new_password
-    fill_in "Confirmation", with: new_password
+    fill_in "Password confirmation", with: new_password
 
     click_button "Save"
 

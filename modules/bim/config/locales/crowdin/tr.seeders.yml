@@ -61,7 +61,7 @@ tr:
         item_2:
           name: BIM Yöneticileri
         item_3:
-          name: BIM Modelleyicileri
+          name: BIM Modelers
         item_4:
           name: Baş BIM Koordinatörleri
         item_5:
@@ -511,18 +511,18 @@ tr:
               description: Bu tür hiyerarşik olarak &quot;Clash&quot; ve &quot;Request&quot;türlerinin bir üstüdür, dolayısıyla genel bir notu temsil eder.
               children:
                 item_0:
-                  subject: İlk BIM modelinin oluşturulması
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Hedef
+                    # Goal
 
-                    * İlk BIM modelinin modellenmesi
-                    * Tüm proje ekibi için bir BIM modeli oluşturulması
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Açıklama
+                    # Description
 
-                    * Müşteriden toplanan verilere göre ilk model modellenecektir
-                    * Model, LOD Matrislerine göre modellenecek ve ihtiyaç duyulan bilgileri içerecektir
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Başlangıç, dahili model kontrolü ve revizyonu
                   description: |-
@@ -538,23 +538,23 @@ tr:
                   subject: İlk BIM modelinin oluşturulması
                   description: Bu tür hiyerarşik olarak &quot;Clash&quot; ve &quot;Request&quot;türlerinin bir üstüdür, dolayısıyla genel bir notu temsil eder.
             item_4:
-              subject: Modelleme, ilk döngü
+              subject: Modeling, first cycle
               description: Bu tür hiyerarşik olarak &quot;Clash&quot; ve &quot;Request&quot;türlerinin bir üstüdür, dolayısıyla genel bir notu temsil eder.
               children:
                 item_0:
                   subject: Harici BIM modellerine referans verme
                   description: |-
-                    # Hedef
+                    # Goal
 
-                    * Dahili modeli geliştirmek için bir temele sahip olmak / cevaplar sunmak
-                    * Dahili modeli geliştirmek için harici modeli kullanmak
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Açıklama
+                    # Description
 
-                    * Harici model BIM platformunda referans alınacak, böylece dahili modelin modellenmesi için kullanılacaktır
-                    * ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: İlk BIM modelinin oluşturulması
+                  subject: Modeling the BIM model
                   description: |-
                     # Hedef
 
@@ -602,19 +602,19 @@ tr:
                   subject: Koordinasyonun sonlanması, ilk döngü
                   description: Bu tür hiyerarşik olarak &quot;Clash&quot; ve &quot;Request&quot;türlerinin bir üstüdür, dolayısıyla genel bir notu temsil eder.
             item_6:
-              subject: Modelleme ve koordinasyon, ikinci döngü
+              subject: Modeling & coordinating, second cycle
               description: "## Hedef\r\n\r\n* ...\r\n\r\n## Açıklama\r\n\r\n* \\ ..."
             item_7:
-              subject: Modelleme ve koordinasyon, ... döngü
+              subject: Modeling & coordinating, ... cycle
               description: Bu tür hiyerarşik olarak &quot;Clash&quot; ve &quot;Request&quot;türlerinin bir üstüdür, dolayısıyla genel bir notu temsil eder.
             item_8:
-              subject: Modelleme ve koordinasyon, (n'inci eksi 1) döngü
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Hedef\r\n\r\n* ...\r\n\r\n## Açıklama\r\n\r\n* \\ ..."
             item_9:
-              subject: Modelleme ve koordinasyon (n'inci) döngü
+              subject: Modeling & coordinating n-th cycle
               description: Bu tür hiyerarşik olarak &quot;Clash&quot; ve &quot;Request&quot;türlerinin bir üstüdür, dolayısıyla genel bir notu temsil eder.
             item_10:
-              subject: Modelleme ve koordinasyon tamamlanıyor (n'inci) döngü
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Bu tür hiyerarşik olarak &quot;Clash&quot; ve &quot;Request&quot;türlerinin bir üstüdür, dolayısıyla genel bir notu temsil eder.
             item_11:
               subject: İnşaat aşaması için model kullanın

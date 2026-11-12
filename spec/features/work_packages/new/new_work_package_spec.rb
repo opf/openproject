@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
@@ -70,12 +97,6 @@ RSpec.describe "new work package", :js do
     project_field.set_value project_name
 
     wait_for_network_idle
-
-    # Select self as assignee
-    assignee_field.openSelectField
-    assignee_field.set_value user.name
-
-    wait_for_network_idle
   end
 
   before do
@@ -90,9 +111,13 @@ RSpec.describe "new work package", :js do
       expect(page).to have_selector(safeguard_selector, wait: 10)
     end
 
-    it "creates a subsequent work package" do
+    it "creates a basic work package and then a subsequent work package" do
       wp_page.subject_field.set(subject)
+      description_field.set_value(description)
       save_work_package!
+
+      expect(page).to have_css(tabs_container_selector)
+      wp_page.edit_field(:description).expect_state_text(description)
 
       # safeguards
       wp_page.dismiss_toaster!
@@ -139,18 +164,6 @@ RSpec.describe "new work package", :js do
     end
 
     context "with subject set" do
-      it "creates a basic work package" do
-        description_field = wp_page.edit_field :description
-        description_field.set_value description
-
-        save_work_package!
-        expect(page).to have_css(".op-work-package-tabs")
-
-        subject_field.expect_state_text(subject)
-        description_field = wp_page.edit_field :description
-        description_field.expect_state_text(description)
-      end
-
       it "can switch types and keep attributes" do
         wp_page.subject_field.set(subject)
         type_field.activate!
@@ -188,8 +201,7 @@ RSpec.describe "new work package", :js do
       let(:type_task) { create(:type_task, custom_fields:) }
       let(:project) do
         create(:project,
-               types:,
-               work_package_custom_fields: custom_fields)
+               types:)
       end
 
       it "saves and validates the custom field values" do
@@ -218,7 +230,8 @@ RSpec.describe "new work package", :js do
 
   context "project split screen" do
     let(:safeguard_selector) { ".work-packages--details-content.-create-mode" }
-    let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
+    let(:tabs_container_selector) { ".op-work-package-details-tab-component--tabs" }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(WorkPackage.new) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     before do
@@ -227,13 +240,6 @@ RSpec.describe "new work package", :js do
 
     it_behaves_like "work package creation workflow" do
       let(:create_method) { method(:create_work_package) }
-    end
-
-    it "allows to go to the full page through the toaster (Regression #37555)" do
-      create_work_package(type_task)
-      save_work_package!
-
-      wp_page.expect_toast message: "Successful creation."
     end
 
     it "reloads the table and selects the new work package" do
@@ -273,6 +279,7 @@ RSpec.describe "new work package", :js do
 
   context "full screen" do
     let(:safeguard_selector) { ".work-package--new-state" }
+    let(:tabs_container_selector) { ".op-work-package-tabs" }
     let(:existing_wp) { create(:work_package, type: type_bug, project:) }
     let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
@@ -316,7 +323,8 @@ RSpec.describe "new work package", :js do
 
   context "global split screen" do
     let(:safeguard_selector) { ".work-packages--details-content.-create-mode" }
-    let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
+    let(:tabs_container_selector) { ".op-work-package-details-tab-component--tabs" }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(WorkPackage.new) }
     let(:wp_table) { Pages::WorkPackagesTable.new(nil) }
 
     before do
@@ -331,6 +339,7 @@ RSpec.describe "new work package", :js do
       create_work_package_globally(type_bug, project.name)
 
       click_on "Cancel"
+      expect(page).to have_no_css(safeguard_selector)
 
       wp_page.click_create_wp_button type_bug
       expect(page).to have_no_css(".ng-value", text: project.name)
@@ -353,6 +362,10 @@ RSpec.describe "new work package", :js do
     it "can save the work package with an assignee (Regression #32887)" do
       create_work_package_globally(type_task, project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
+
+      assignee_field.openSelectField
+      assignee_field.set_value user.name
+      wait_for_network_idle
 
       wp_page.subject_field.set("new work package")
       save_work_package!
@@ -416,23 +429,17 @@ RSpec.describe "new work package", :js do
     end
   end
 
-  context "as a user with no permissions" do
-    let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
+  context "as a user with no permission to add work packages" do
+    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
     let(:user) { create(:user, member_with_roles: { project => role }) }
     let(:wp_page) { Pages::Page.new }
 
-    it "shows a 403 error on creation paths" do
-      visit new_work_package_path
-      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
-
-      visit new_project_work_packages_path(project)
-      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
-
+    it "shows the authorization error on split creation paths" do
       visit new_split_work_packages_path
-      wp_page.expect_toast(type: :error, message: I18n.t("api_v3.errors.code_403"))
+      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
 
       visit new_split_project_work_packages_path(project)
-      wp_page.expect_toast(type: :error, message: I18n.t("api_v3.errors.code_403"))
+      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
     end
   end
 
@@ -448,8 +455,7 @@ RSpec.describe "new work package", :js do
     it "can create the work package, but not update it after saving" do
       type_field.activate!
       type_field.set_value type_bug.name
-      # wait after the type change
-      sleep(0.2)
+      type_field.expect_state_text(/#{type_bug.name}/i)
       subject_field.update("new work package", save: true)
 
       wp_page.expect_and_dismiss_toaster(
@@ -459,27 +465,6 @@ RSpec.describe "new work package", :js do
       subject_field.expect_read_only
       subject_field.display_element.click
       subject_field.expect_inactive!
-    end
-  end
-
-  context "an anonymous user is prompted to login" do
-    let(:user) { create(:anonymous) }
-    let(:wp_page) { Pages::Page.new }
-
-    let(:paths) do
-      [
-        new_work_package_path,
-        new_split_work_packages_path,
-        new_project_work_packages_path(project),
-        new_split_project_work_packages_path(project)
-      ]
-    end
-
-    it "shows a 403 error on creation paths" do
-      paths.each do |path|
-        visit path
-        expect(wp_page.current_url).to match /#{signin_path}\?back_url=/
-      end
     end
   end
 

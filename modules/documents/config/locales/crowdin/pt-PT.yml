@@ -48,8 +48,8 @@ pt-PT:
   documents:
     active_editors: Editores ativos
     active_editors_count:
-      one: 1 editor ativo
-      other: "%{count} editores ativos"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:
@@ -64,9 +64,9 @@ pt-PT:
           invalid_scheme: Deve utilizar um protocolo WebSocket (ws:// ou wss://).
           label: URL do servidor Hocuspocus
         page_header:
-          description: |-
-            Quando ativada, a colaboração em tempo real permite que vários utilizadores editem um documento ao mesmo tempo.
-            Requer um %{hocuspocus_server_link} funcional para resultar.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Compreendo que posso perder dados permanentemente
         confirmation_message: Todos os documentos existentes podem ficar inacessíveis. Faça isso apenas se tiver certeza de que quer desativar a colaboração em tempo real e o editor BlockNote nesta instância.
@@ -82,6 +82,12 @@ pt-PT:
         primary_action: Permitir colaboração em tempo real
         success: A colaboração em tempo real foi ativada.
     button_add_type: Tipo
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Isto vai eliminar permanentemente este documento e todos os anexos. Tem a certeza de que quer avançar?
       heading: Eliminar este documento?
@@ -119,7 +125,7 @@ pt-PT:
       currently_offline: Está offline.
     label_attachment_author: Autor do anexo
     label_categories: Categorias
-    last_updated_at: Guardado pela última vez a %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Todos os documentos
       collaboration_settings: Colaboração em tempo real

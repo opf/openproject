@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ class CostQuery::Filter::VersionId < Report::Filter::Base
     WorkPackage.human_attribute_name(Setting::WorkPackageMultipleVersions.active? ? :target_versions : :version)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     versions = Version.where(project_id: Project.visible.select(:id)).includes(:project)
     versions.map { |a| ["#{a.project.name} - #{a.name}", a.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
   end

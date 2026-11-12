@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -72,6 +71,25 @@ describe('addTurboAngularWrapper — Angular re-bootstrap on Turbo navigation', 
 
     expect(bootstrap).toHaveBeenCalledTimes(1);
     expect(bootstrap).toHaveBeenCalledWith(appRef);
+  });
+
+  it('re-flags the page as bootstrapped on the second turbo:load, not just the first', async () => {
+    const appRef = makeAppRef([]);
+    const bootstrap = vi.fn();
+    const getPluginContext = () => Promise.resolve({ appRef } as OpenProjectPluginContext);
+
+    document.body.classList.remove('__ng2-bootstrap-has-run');
+
+    addTurboAngularWrapper({
+      target, signal: controller.signal, getPluginContext, bootstrap,
+    });
+
+    target.dispatchEvent(new Event('turbo:load')); // initial load — already bootstrapped
+    await flush();
+    target.dispatchEvent(new Event('turbo:load')); // navigation — must re-flag
+    await flush();
+
+    expect(document.body.classList.contains('__ng2-bootstrap-has-run')).toBe(true);
   });
 
   it('tears down every existing root component before re-bootstrapping', async () => {
@@ -137,5 +155,56 @@ describe('addTurboAngularWrapper — Angular re-bootstrap on Turbo navigation', 
     await flush();
 
     expect(bootstrap).not.toHaveBeenCalled();
+  });
+
+  describe('pageshow (Back/Forward Cache) handling', () => {
+    let windowTarget:EventTarget;
+
+    beforeEach(() => {
+      windowTarget = new EventTarget();
+    });
+
+    function pageshow(persisted:boolean):Event {
+      const event = new Event('pageshow') as PageTransitionEvent;
+      Object.defineProperty(event, 'persisted', { value: persisted });
+      return event;
+    }
+
+    it('forces a replace visit when the page is resumed from bfcache', () => {
+      const visit = vi.fn();
+
+      addTurboAngularWrapper({
+        target, windowTarget, signal: controller.signal, visit,
+      });
+
+      windowTarget.dispatchEvent(pageshow(true));
+
+      expect(visit).toHaveBeenCalledWith(window.location.href, { action: 'replace' });
+    });
+
+    it('does nothing on a normal (non-persisted) pageshow', () => {
+      const visit = vi.fn();
+
+      addTurboAngularWrapper({
+        target, windowTarget, signal: controller.signal, visit,
+      });
+
+      windowTarget.dispatchEvent(pageshow(false));
+
+      expect(visit).not.toHaveBeenCalled();
+    });
+
+    it('stops forcing visits once the signal aborts', () => {
+      const visit = vi.fn();
+
+      addTurboAngularWrapper({
+        target, windowTarget, signal: controller.signal, visit,
+      });
+
+      controller.abort();
+      windowTarget.dispatchEvent(pageshow(true));
+
+      expect(visit).not.toHaveBeenCalled();
+    });
   });
 });

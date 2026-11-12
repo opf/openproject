@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,8 +48,12 @@ module Pages
         end
 
         def open_projects_tab!
-          within(".PageHeader-tabNav") do
-            click_on "Projects"
+          return if page.has_css?('.PageHeader-tabNav a[aria-current="page"]', text: "Projects", wait: 0)
+
+          wait_for_turbo do
+            within(".PageHeader-tabNav") do
+              click_on "Projects"
+            end
           end
         end
 
@@ -65,7 +68,9 @@ module Pages
 
         def remove_from_project!(name)
           open_projects_tab!
-          find_project(name).find("a[data-turbo-method=delete]").click
+          wait_for_turbo do
+            find_project(name).find("a[data-turbo-method=delete]").click
+          end
         end
 
         def edit_roles!(membership, roles)
@@ -87,7 +92,7 @@ module Pages
         end
 
         def expect_no_membership(project_name)
-          expect(page).to have_no_css("tr", text: project_name)
+          expect(page).to have_no_css("tr", text: project_name, wait: 20)
         end
 
         def expect_roles(project_name, roles)
@@ -107,9 +112,19 @@ module Pages
         end
 
         def select_project!(project_name)
-          select_autocomplete page.find('[data-test-selector="membership_project_id"]'),
+          select_autocomplete -> { page.find('[data-test-selector="membership_project_id"]') },
                               query: project_name,
                               select_text: project_name,
+                              results_selector: "body",
+                              wait: 10
+        end
+
+        # Types +query+ into the project autocompleter without selecting anything
+        # and returns the open dropdown, so that callers can test on the offered
+        # options.
+        def search_for_project(query)
+          search_autocomplete page.find('[data-test-selector="membership_project_id"]'),
+                              query:,
                               results_selector: "body"
         end
 
@@ -120,7 +135,9 @@ module Pages
         end
 
         def expect_global_roles(roles)
-          roles_in_on_page = page.find_all("#table_principal_roles tr td.role")
+          selector = "#table_principal_roles tr td.role [data-test-selector='global-role-name']"
+          expect(page).to have_css(selector, count: roles.size)
+          roles_in_on_page = page.all(selector)
 
           expect(roles_in_on_page.map(&:text)).to eq(roles)
         end

@@ -135,7 +135,7 @@ pt-PT:
     error_invalid_backup_code: Código de backup 2FA inválido
     error_is_enforced_not_active: 'Erro de configuração: a autenticação de dois fatores foi implementada, mas nenhuma estratégia ativa existe.'
     error_no_device: Nenhum dispositivo registado 2FA encontrado para este usuário, apesar de ser necessário para esta instância.
-    error_no_matching_strategy: Nenhuma estratégia 2FA correspondente disponível para este usuário. Entre em contato com o administrador.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: O administrador ativou a autenticação de dois fatores para esta instância. Para iniciar sessão, adicione um método de autenticação de dois fatores.
     label_2fa_disabled: Autenticação de dois fatores não ativa

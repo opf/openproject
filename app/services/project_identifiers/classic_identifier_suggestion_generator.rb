@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,7 +51,7 @@ module ProjectIdentifiers
 
     # Generates a unique classic-format identifier from +name+.
     # Appends -1, -2, … until a slug not in the taken set is found.
-    # Falls back to a randomised +FALLBACK_BASE+ slug when +name+ produces no valid slug.
+    # Falls back to a randomized +FALLBACK_BASE+ slug when +name+ produces no valid slug.
     def suggest_identifier(name)
       base = slugify(name) || fallback_base
 

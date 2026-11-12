@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -105,7 +104,6 @@ class NotificationSetting < ApplicationRecord
   include Scopes::Scoped
   scopes :applicable
 
-  # rubocop:disable Naming/PredicateMethod
   def start_date_active
     start_date.present?
   end
@@ -117,5 +115,4 @@ class NotificationSetting < ApplicationRecord
   def overdue_active
     overdue.present?
   end
-  # rubocop:enable Naming/PredicateMethod
 end

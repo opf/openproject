@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,10 @@ module API
 
         property :id, render_nil: true
         property :name
-        property :is_closed, render_nil: true
+        property :category, render_nil: true
+        property :is_closed,
+                 getter: ->(*) { closed? },
+                 render_nil: true
         property :color,
                  getter: ->(*) { color.hexcode if color },
                  render_nil: true

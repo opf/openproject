@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -255,6 +254,28 @@ describe('Refresh on form changes controller', () => {
 
     const [, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
     expect((init.body as FormData).get('sprint[goal][text]')).toBe('Flushed just before snapshot');
+  });
+
+  it('dispatches beforeSnapshot on a form target nested inside the controller element', async () => {
+    await ctx.mount(`
+      <div data-controller="refresh-on-form-changes"
+           data-refresh-on-form-changes-turbo-stream-url-value="/refresh">
+        <form data-refresh-on-form-changes-target="form">
+          <input name="sprint[name]" value="Created sprint">
+        </form>
+      </div>
+    `);
+    const controller = ctx.getController<RefreshOnFormChangesControllerType>('refresh-on-form-changes');
+    const form = ctx.container.querySelector('form')!;
+    const listener = vi.fn();
+    form.addEventListener('refresh-on-form-changes:beforeSnapshot', listener);
+
+    controller.triggerTurboStream();
+
+    await waitFor(() => {
+      expect(listener).toHaveBeenCalledOnce();
+    });
+    expect((listener.mock.calls[0] as [Event])[0].target).toBe(form);
   });
 
   it('swallows abort errors but logs other request errors', async () => {

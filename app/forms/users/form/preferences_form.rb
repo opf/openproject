@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,6 +62,12 @@ module Users
             label: UserPreference.human_attribute_name(:disable_keyboard_shortcuts),
             caption: helpers.link_translate(:"user_preferences.disable_keyboard_shortcuts_caption",
                                             links: { docs_url: %i[shortcuts] })
+          )
+
+          group.check_box(
+            name: :require_double_click_for_inline_edit,
+            label: UserPreference.human_attribute_name(:require_double_click_for_inline_edit),
+            caption: UserPreference.human_attribute_name(:require_double_click_for_inline_edit_caption)
           )
         end
       end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -244,7 +243,7 @@ RSpec.describe Token::ICal do
 
     # TODO: following code is copy pasted from hashed_token_spec
     # in order to make sure the token behaves in the same way in its basic
-    # checking for inheritance does not safely check if the basic behaviour is the same
+    # checking for inheritance does not safely check if the basic behavior is the same
     # is there a better way of reusing the specs from hashed_token_spec?
     describe "token value" do
       it "is generated on a new instance" do

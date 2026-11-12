@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -220,12 +219,12 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
 
       context "when filter params are active" do
         let(:sprint) { create(:sprint, project:) }
-        let(:filter_params) { { sprint_ids: [sprint.id.to_s] } }
+        let(:filter_params) { { sprint_ids: [sprint.id.to_s].to_json } }
 
         it "carries filter params in the show-more href alongside all=true" do
           expect(rendered_component).to have_css("##{show_more_id}") do |show_link|
-            expect(show_link[:href]).to include("all=")
-            expect(show_link[:href]).to include("sprint_ids")
+            expect(show_link[:href]).to include("all=true")
+            expect(show_link[:href]).to include("sprint_ids=%22#{sprint.id}%22")
           end
         end
       end

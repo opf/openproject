@@ -31,8 +31,8 @@ pt-PT:
         title: Membros
         view_all_members: Ver todos os membros
         x_more:
-          one: e mais um membro.
-          other: e mais %{count} membros.
+          one: and %{count} more member.
+          other: and %{count} more members.
       news:
         no_results: Não há novidades a reportar.
       not_available: Este widget não está disponível.

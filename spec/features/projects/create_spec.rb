@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -69,7 +68,7 @@ RSpec.describe "Projects", "creation", :js do
     expect_and_dismiss_flash type: :success, message: "Successful creation."
 
     expect(page).to have_current_path /\/projects\/foo-bar\/?/
-    expect(page).to have_content "Foo bar"
+    expect(page).to have_text "Foo bar"
   end
 
   it "redirects to the parent project page when users cancels while creating subproject" do
@@ -198,7 +197,7 @@ RSpec.describe "Projects", "creation", :js do
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
       expect(page).to have_current_path /\/projects\/foo-bar\/?/
-      expect(page).to have_content "Foo bar"
+      expect(page).to have_text "Foo bar"
 
       project = Project.last
       expect(project.name).to eq "Foo bar"
@@ -266,7 +265,7 @@ RSpec.describe "Projects", "creation", :js do
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
       expect(page).to have_current_path /\/projects\/foo-bar\/?/
-      expect(page).to have_content "Foo bar"
+      expect(page).to have_text "Foo bar"
 
       project = Project.last
       expect(project.name).to eq "Foo bar"
@@ -281,8 +280,8 @@ RSpec.describe "Projects", "creation", :js do
 
     expect(page).to have_heading "New project"
 
-    expect(page).to have_no_content "Active"
-    expect(page).to have_no_content "Identifier"
+    expect(page).to have_no_text "Active"
+    expect(page).to have_no_text "Identifier"
   end
 
   context "with optional and required custom fields" do
@@ -397,11 +396,13 @@ RSpec.describe "Projects", "creation", :js do
         click_on "Continue"
 
         # Step 3: Fill in required custom field
+        page.find("body", text: "3 of 3")
         fill_in "Required Foo", with: "Required value"
+        page.find_field("Required Foo", with: "Required value")
       end
 
       it "enables custom fields with provided values and for_all fields for this project" do
-        click_on "Complete"
+        wait_for_turbo { click_on "Complete" }
 
         expect_and_dismiss_flash type: :success, message: "Successful creation."
 
@@ -446,7 +447,7 @@ RSpec.describe "Projects", "creation", :js do
         it "does enable custom fields with default values if overwritten with a new value" do
           fill_in "Foo with default value", with: "foo"
 
-          click_on "Complete"
+          wait_for_turbo { click_on "Complete" }
 
           expect(page).to have_current_path /\/projects\/foo-bar\/?/
 
@@ -474,11 +475,12 @@ RSpec.describe "Projects", "creation", :js do
 
         context "with an admin user" do
           it "shows invisible fields in the form and allows their activation" do
-            expect(page).to have_content "Text for Admins only"
+            expect(page).to have_text "Text for Admins only"
 
             fill_in "Text for Admins only", with: "foo"
+            expect(page).to have_field("Text for Admins only", with: "foo")
 
-            click_on "Complete"
+            wait_for_turbo { click_on "Complete" }
 
             expect_and_dismiss_flash type: :success, message: "Successful creation."
 
@@ -500,7 +502,7 @@ RSpec.describe "Projects", "creation", :js do
           it "does not show invisible fields in the form and thus not activates the invisible field" do
             pending "Admin-only project attributes currently prevent users from creating projects (OP#64479)"
 
-            expect(page).to have_no_content "Text for Admins only"
+            expect(page).to have_no_text "Text for Admins only"
 
             click_on "Complete"
 
@@ -551,7 +553,7 @@ RSpec.describe "Projects", "creation", :js do
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
       expect(page).to have_current_path %r{/projects/project-without-step-3/?}
-      expect(page).to have_content "Project without step 3"
+      expect(page).to have_text "Project without step 3"
 
       # The required_not_for_all field should NOT be activated for the new project
       new_project = Project.find_by(name: "Project without step 3")
@@ -652,6 +654,17 @@ RSpec.describe "Projects", "creation", :js do
       within(dropdown) do
         expect(page).to have_text("Foo project")
         expect(page).to have_no_css("svg.octicon")
+      end
+
+      # Clear and search by identifier only - should still find the same project by name
+      parent_autocompleter.find("input").set("")
+
+      dropdown = search_autocomplete(parent_autocompleter,
+                                     query: "foo-project",
+                                     results_selector: ".ng-dropdown-panel-items")
+
+      within(dropdown) do
+        expect(page).to have_text("Foo project")
       end
     end
   end

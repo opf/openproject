@@ -286,7 +286,7 @@ For more information, please see the [GitHub advisory #GHSA-r374-cr8p-hmp9](http
 - Bugfix: &#39;No items&#39; shown on wiki tree view is not translated  \[[#79389](https://community.openproject.org/wp/79389)\]
 - Bugfix: Missing caption on &#39;Default colors&#39; tab \[[#79771](https://community.openproject.org/wp/79771)\]
 - Bugfix: Remove max-width of 752px from the filter component \[[#79773](https://community.openproject.org/wp/79773)\]
-- Bugfix: Save button has the wrong colour in admin/user settings \[[#79878](https://community.openproject.org/wp/79878)\]
+- Bugfix: Save button has the wrong color in admin/user settings \[[#79878](https://community.openproject.org/wp/79878)\]
 - Bugfix: Personal-data fields do not expose their input purpose \[[#80031](https://community.openproject.org/wp/80031)\]
 - Bugfix: Jira import fails when historical issues reference deleted Jira users \[[#78961](https://community.openproject.org/wp/78961)\]
 - Bugfix: is\_closed status is not migrated \[[#79025](https://community.openproject.org/wp/79025)\]

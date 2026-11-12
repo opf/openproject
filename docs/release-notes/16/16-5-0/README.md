@@ -144,7 +144,7 @@ This menu is useful not only for new users, but also for anyone looking for addi
 - Bugfix: CTA on Project settings file storage page are too close to another \[[#67645](https://community.openproject.org/wp/67645)\]
 - Bugfix: User sees 500 when creating or editing a custom action when scored list custom field exists \[[#67649](https://community.openproject.org/wp/67649)\]
 - Bugfix: Virus scanning is not triggered after uploading a file to S3 storage \[[#67664](https://community.openproject.org/wp/67664)\]
-- Bugfix: Create button: plus icon is smaller than before and no longer centred with the label \[[#67699](https://community.openproject.org/wp/67699)\]
+- Bugfix: Create button: plus icon is smaller than before and no longer centered with the label \[[#67699](https://community.openproject.org/wp/67699)\]
 - Bugfix: Change working days pop-up: position of icons is off on the buttons \[[#67702](https://community.openproject.org/wp/67702)\]
 - Bugfix: Team planner: no spacing between the icon and the Assignee \[[#67710](https://community.openproject.org/wp/67710)\]
 - Bugfix: Project search dropdown: no spacing between the icon and the label \[[#67711](https://community.openproject.org/wp/67711)\]

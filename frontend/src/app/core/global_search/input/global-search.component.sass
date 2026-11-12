@@ -24,11 +24,10 @@
     text-decoration: none
     display: flex
 
-  &--option-meta
-    display: flex
-    flex-direction: column
-    flex-grow: 1
-    overflow: hidden
+    .op-autocompleter--wp-wrapper
+      flex-grow: 1
+      overflow: hidden
+      padding: 0
 
   &--search-term
     flex-grow: 1
@@ -47,42 +46,3 @@
     margin-right: 5px
     // Principal has a rounded avatar, it feels better aligned if moved a little over the line
     margin-left: -5px
-
-  &--wp-content
-    display: flex
-    flex-direction: column
-    font-size: 0.8rem
-    padding: 5px 0
-
-  &--wp-line
-    display: flex
-    flex-wrap: nowrap
-    gap: var(--base-size-8)
-    font-size: var(--text-body-size-small)
-    white-space: nowrap
-    overflow: hidden
-    margin-bottom: var(--base-size-4)
-
-  &--wp-project
-    flex-shrink: 1
-    min-width: 0
-    max-width: 100%
-    @include text-shortener
-
-  &--wp-id
-    place-self: right
-    font-style: italic
-    color: var(--fgColor-muted)
-    font-size: var(--text-body-size-small)
-    white-space: nowrap
-
-  &--wp-status
-    overflow: hidden
-    font-style: italic
-
-  &--wp-subject
-    font-weight: var(--base-text-weight-bold)
-    display: inline-block
-    white-space: normal
-    overflow-wrap: break-word
-    line-height: 1.5

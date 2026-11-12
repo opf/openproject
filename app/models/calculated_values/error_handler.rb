@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,12 +30,12 @@
 module CalculatedValues
   class ErrorHandler
     class ErrorContext
-      attr_reader :custom_field_id, :error_code, :missing_custom_field_ids
+      attr_reader :custom_field_id, :error_code, :offending_custom_field_ids
 
-      def initialize(custom_field_id:, error_code:, missing_custom_field_ids: [])
+      def initialize(custom_field_id:, error_code:, offending_custom_field_ids: [])
         @custom_field_id = custom_field_id
         @error_code = error_code
-        @missing_custom_field_ids = missing_custom_field_ids
+        @offending_custom_field_ids = offending_custom_field_ids
       end
 
       def create_calculated_value_error!(customized)
@@ -44,7 +43,7 @@ module CalculatedValues
           customized:,
           custom_field_id:,
           error_code:,
-          missing_custom_field_ids:
+          offending_custom_field_ids:
         )
       end
     end
@@ -82,17 +81,21 @@ module CalculatedValues
       case error
       when Dentaku::ZeroDivisionError
         ErrorContext.new(custom_field_id:, error_code: "ERROR_MATHEMATICAL")
-      when Dentaku::ArgumentError
-        missing_custom_field_ids = find_missing_values_for_field(custom_field_id)
-        if missing_custom_field_ids.present?
-          ErrorContext.new(custom_field_id:, error_code: "ERROR_MISSING_VALUE", missing_custom_field_ids:)
+      when Dentaku::ArgumentError, nil
+        offending_custom_field_ids = find_missing_values_for_field(custom_field_id)
+        if offending_custom_field_ids.present?
+          ErrorContext.new(custom_field_id:, error_code: "ERROR_MISSING_VALUE", offending_custom_field_ids:)
         else
           ErrorContext.new(custom_field_id:, error_code: "ERROR_UNKNOWN")
         end
       when Dentaku::UnboundVariableError
         ErrorContext.new(custom_field_id:,
                          error_code: "ERROR_DISABLED_VALUE",
-                         missing_custom_field_ids: error.unbound_variables.map { to_id(it) })
+                         offending_custom_field_ids: error.unbound_variables.map { to_id(it) })
+      when MultiValueListError
+        ErrorContext.new(custom_field_id:,
+                         error_code: "ERROR_MULTI_VALUE_LIST",
+                         offending_custom_field_ids: error.list_ids)
       else
         ErrorContext.new(custom_field_id:, error_code: "ERROR_UNKNOWN")
       end
@@ -107,9 +110,10 @@ module CalculatedValues
 
     # Returns a list of all custom field ids that could not compute a value.
     def cf_ids_with_missing_values
-      @cf_ids_with_missing_values ||= given_values.merge(calculation_errors).filter_map do |k, v|
-        to_id(k) unless CustomField::CalculatedValue.computed_value?(v)
-      end
+      @cf_ids_with_missing_values ||= given_values
+        .filter { |_k, v| v.nil? || v == [] }
+        .merge(calculation_errors)
+        .map { |k, _v| to_id(k) }
     end
 
     def create_error_records!(error_contexts)

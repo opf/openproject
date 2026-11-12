@@ -29,6 +29,12 @@
 ---
 en:
   js:
+    budgets:
+      widgets:
+        budget_by_cost_type:
+          chart_label: "Budget by cost type chart"
+          chart_summary: "Budget amounts by cost type: %{values}."
+          chart_value: "%{label}: %{value}"
     work_packages:
       properties:
         costObject: "Budget"

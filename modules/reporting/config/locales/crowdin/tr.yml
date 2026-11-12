@@ -22,8 +22,15 @@
 ---
 tr:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Raporu farklı kaydet...
@@ -101,7 +108,6 @@ tr:
   plugin_openproject_reporting:
     description: Bu eklenti, OpenProject Zaman ve maliyetler eklentisi tarafından oluşturulan filtreleme ve gruplama ile özel maliyet raporları oluşturmaya izin verir.
     name: OpenProject Raporlama
-  project_module_reporting_module: Maliyet raporları
   reporting:
     group_by:
       selected_columns: Seçilen sütunlar

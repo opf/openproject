@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,5 +38,13 @@ describe("decryptToken", () => {
     expect(decrypted.oauth_token).toBe("some_token_value");
     expect(decrypted.readonly).toBe(false);
     expect(decrypted.expires_at).toBe("2030-01-01T00:00:00.000Z");
+  });
+
+  test("surfaces the underlying error when decryption fails", () => {
+    const encrypted = createTestToken({ expires_at: "2030-01-01T00:00:00.000Z" });
+    const [token, iv] = encrypted.split("--");
+    const tampered = `${token}--${iv}--${Buffer.alloc(16).toString("base64")}`;
+
+    expect(() => decryptToken(tampered)).toThrowError("Unsupported state or unable to authenticate data");
   });
 });

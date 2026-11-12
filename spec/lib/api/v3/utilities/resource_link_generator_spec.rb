@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,6 +63,10 @@ RSpec.describe API::V3::Utilities::ResourceLinkGenerator do
     it "returns nil for non-AR types" do
       record = Object.new
       expect(subject.make_link(record)).to be_nil
+    end
+
+    it "returns the undisclosed URN for custom field values the user may not see" do
+      expect(subject.make_link(CustomField::UnavailableValue.new)).to eql API::V3::URN_UNDISCLOSED
     end
   end
 end

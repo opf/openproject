@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,7 +40,7 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
 
   public get value() {
     if (this.schema) {
-      return this.attribute?.name;
+      return (this.attribute as HalResource|null|undefined)?.name;
     }
     return null;
   }
@@ -49,7 +48,7 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
   private addHighlight(element:HTMLElement):void {
     if (this.attribute instanceof HalResource) {
       const hlClass = Highlighting.inlineClass(this.name, this.attribute.id!);
-      element.classList.add(hlClass);
+      element.classList.add(...hlClass.split(' '));
     }
   }
 }

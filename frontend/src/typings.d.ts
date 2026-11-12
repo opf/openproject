@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,9 +32,23 @@
 /* SystemJS module definition */
 declare let module:NodeModule;
 declare module 'dom-plane' {
-  export function createPointCB(point:any):any;
-  export function getClientRect(el:Element|Window):{ top:number, bottom:number, left:number, right:number };
-  export function pointInside(point:any, el:Element|Window):any;
+  export interface Point {
+    target:EventTarget|null;
+    element:unknown;
+    type:string;
+    x:number;
+    y:number;
+    pageX:number;
+    pageY:number;
+    screenX:number;
+    screenY:number;
+    clientX:number;
+    clientY:number;
+  }
+  export interface ClientRect { top:number, bottom:number, left:number, right:number }
+  export function createPointCB(point:Partial<Point>, options?:{ allowUpdate?:boolean|((event:Event) => boolean) }):(event:Event) => void;
+  export function getClientRect(el:Element|Window):ClientRect;
+  export function pointInside(point:Pick<Point, 'x'|'y'>, el:Element|Window):boolean;
 }
 
 interface NodeModule {

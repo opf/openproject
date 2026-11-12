@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,8 +31,7 @@ require "spec_helper"
 require_relative "support/board_page"
 
 RSpec.describe "Board 'Add existing work package' ranks exact matches first",
-               :js,
-               :selenium do
+               :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
@@ -70,7 +68,7 @@ RSpec.describe "Board 'Add existing work package' ranks exact matches first",
 
   it "shows the exact identifier match first in the 'Add existing' dropdown" do
     board_page.within_list("List 1") do
-      page.find('[data-test-selector="op-board-list--card-dropdown-add-button"]').click
+      click_on accessible_name: "Add card"
     end
 
     page.find(".menu-item", text: "Add existing").click

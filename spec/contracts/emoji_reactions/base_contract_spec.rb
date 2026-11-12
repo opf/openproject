@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -92,7 +91,7 @@ RSpec.describe EmojiReactions::BaseContract do
     context "when reactable is blank" do
       before { emoji_reaction.reactable = nil }
 
-      it_behaves_like "contract is invalid", reactable: :not_found
+      it_behaves_like "contract is invalid", reactable: :blank
     end
 
     context "when reactable is a work package" do

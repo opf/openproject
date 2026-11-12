@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,6 +35,7 @@ RSpec.describe "Menu items order",
   shared_let(:admin) { create(:admin) }
   let(:project) { create(:project, :with_internal_wiki).reload }
   let(:wiki) { project.wiki }
+  let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
 
   let!(:item3) { create(:wiki_menu_item, wiki:, title: "3. FAQ") }
   let!(:item2) { create(:wiki_menu_item, wiki:, title: "2. New chapter") }
@@ -43,7 +43,7 @@ RSpec.describe "Menu items order",
 
   before do
     login_as admin
-    get project_wiki_path(project, "wiki")
+    get project_wiki_path(project, wiki_page)
   end
 
   it "orders the main menu items by title ascending" do

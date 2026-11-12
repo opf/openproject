@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -371,6 +370,20 @@ describe('Activities tab auto-scrolling controller', () => {
       const [onSettle] = followSpy.mock.calls[0];
       onSettle();
       expect(scrollIntoView).toHaveBeenCalled();
+    });
+
+    it('follows the container to the bottom after submitting on desktop', async () => {
+      const { index, scroller } = await renderActivities();
+      index.sortingValue = 'asc';
+      Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
+
+      autoScrollingController().performAutoScrollingOnFormSubmit();
+
+      expect(followSpy).toHaveBeenCalledTimes(1);
+
+      const [onSettle] = followSpy.mock.calls[0];
+      onSettle();
+      expect(scrollTo).toHaveBeenCalledWith({ top: 1000, behavior: 'smooth' });
     });
   });
 

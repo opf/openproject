@@ -1,0 +1,7 @@
+<%= render Primer::Box.new(display: :flex, flex_wrap: :wrap, classes: "gap-3", mb: 3) do %>
+  <% cards.each do |card| %>
+    <%= render(card) %>
+  <% end %>
+<% end %>
+
+<%= render partial: "projects/settings/work_packages_import/breakdown", locals: { breakdown: } %>

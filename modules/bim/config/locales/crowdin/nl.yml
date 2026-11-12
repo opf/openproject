@@ -106,7 +106,7 @@ nl:
     not_recommended: niet aanbevolen
     recommended: aanbevolen
     x_bcf_issues:
-      one: Één BCF-probleem
+      one: "%{count} BCF issue"
       other: "%{count} BCF problemen"
       zero: Geen BCF-kwesties
   bim:
@@ -144,8 +144,10 @@ nl:
       processing_default: 'De volgende standaard IFC-modellen worden nog steeds verwerkt en zijn dus nog niet beschikbaar:'
   oauth:
     scopes:
-      bcf_v2_1: Volledige toegang tot de BCF v2.1 API
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Toepassing zal volledige lees- en schrijftoegang krijgen tot de OpenProject BCF API v2.1 om namens u acties uit te voeren.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: BCF problemen verwijderen
   permission_manage_bcf: BCF-problemen importeren en beheren
   permission_manage_bcf_explanation: |

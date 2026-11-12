@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -128,6 +128,22 @@ RSpec.describe "Meetings", "Index", :js do
     login_as user
   end
 
+  context "as an accessible page", :selenium do
+    before { setup_meeting_involvement }
+
+    it "is AXe clean on the project meetings index" do
+      visit project_meetings_path(project)
+      expect(page).to have_text("Awesome meeting tomorrow!")
+      expect(page).to be_axe_clean
+    end
+
+    it "is AXe clean on the global meetings index" do
+      visit meetings_path
+      expect(page).to have_text("Awesome meeting tomorrow!")
+      expect(page).to be_axe_clean
+    end
+  end
+
   shared_examples "sidebar filtering" do |context:|
     context "when showing all meetings without invitations" do
       let!(:meeting_without_participants) do
@@ -194,6 +210,23 @@ RSpec.describe "Meetings", "Index", :js do
           meetings_page.expect_meetings_not_listed(tomorrows_meeting)
         end
 
+        context 'and the "Meeting status" filter' do
+          before do
+            yesterdays_meeting.update!(state: :closed)
+            meeting.update!(state: :in_progress)
+          end
+
+          it "narrows the past meetings down to the selected statuses" do
+            meetings_page.open_filters
+            meetings_page.set_filter("state", "Meeting status", "is (OR)", ["In progress", "Closed"])
+
+            wait_for_network_idle
+
+            meetings_page.expect_meetings_listed(meeting, yesterdays_meeting)
+            meetings_page.expect_meetings_not_listed(ongoing_meeting)
+          end
+        end
+
         it "keeps the past filter selected when changing advanced filters (Regression #61875)" do
           meetings_page.set_sidebar_filter "My meetings"
           meetings_page.set_quick_filter upcoming: false
@@ -254,23 +287,6 @@ RSpec.describe "Meetings", "Index", :js do
             yesterdays_meeting
           )
           meetings_page.expect_meetings_not_listed(tomorrows_meeting)
-        end
-      end
-
-      context "when the time filter is removed via the all filters form" do
-        before do
-          meetings_page.set_quick_filter upcoming: true
-        end
-
-        it "re-applies the upcoming quick filter automatically" do
-          meetings_page.expect_quick_filter_selected "Upcoming"
-
-          meetings_page.open_filters
-          meetings_page.remove_filter "time"
-
-          wait_for_network_idle
-
-          meetings_page.expect_quick_filter_selected "Upcoming"
         end
       end
 
@@ -348,27 +364,6 @@ RSpec.describe "Meetings", "Index", :js do
 
         meetings_page.expect_no_create_new_button
       end
-
-      it "shows a download ical event action button for each meeting" do
-        invite_to_meeting(meeting)
-        meetings_page.visit!
-
-        meetings_page.expect_ical_action(meeting)
-      end
-
-      it "doesn't show a copy meeting action button for each meeting" do
-        invite_to_meeting(meeting)
-        meetings_page.visit!
-
-        meetings_page.expect_no_copy_action(meeting)
-      end
-
-      it "doesn't show a delete meeting action button for each meeting" do
-        invite_to_meeting(meeting)
-        meetings_page.visit!
-
-        meetings_page.expect_no_delete_action(meeting)
-      end
     end
 
     context "and the user is allowed to create meetings" do
@@ -384,24 +379,6 @@ RSpec.describe "Meetings", "Index", :js do
         meetings_page.visit!
 
         meetings_page.expect_create_new_types
-      end
-
-      it "shows a copy meeting action button for each meeting" do
-        invite_to_meeting(meeting)
-        meetings_page.visit!
-
-        meetings_page.expect_copy_action(meeting)
-      end
-    end
-
-    context "and the user is allowed to delete meetings" do
-      let(:permissions) { %i(view_meetings delete_meetings) }
-
-      it "shows a delete meeting action button for each meeting" do
-        invite_to_meeting(meeting)
-        meetings_page.visit!
-
-        meetings_page.expect_delete_action(meeting)
       end
     end
 
@@ -461,6 +438,16 @@ RSpec.describe "Meetings", "Index", :js do
       expect(page).to have_no_button I18n.t(:label_project), exact: true
     end
 
+    it "applies a project-scoped time filter" do
+      setup_meeting_involvement
+      meetings_page.visit!
+      meetings_page.set_sidebar_filter "All meetings"
+      meetings_page.set_quick_filter upcoming: false
+
+      meetings_page.expect_meetings_listed_in_table(yesterdays_meeting, meeting, ongoing_meeting)
+      meetings_page.expect_meetings_not_listed(tomorrows_meeting, other_project_meeting)
+    end
+
     context 'with the "Title" filter' do
       shared_let(:ux_meeting) do
         create(:meeting,
@@ -500,26 +487,11 @@ RSpec.describe "Meetings", "Index", :js do
       end
     end
 
-    include_examples "sidebar filtering", context: :project
-
     specify "with 1 meeting listed" do
       invite_to_meeting(meeting)
       meetings_page.visit!
 
       meetings_page.expect_meetings_listed(meeting)
-    end
-
-    it "renders a link to each meeting's location if present and a valid URL" do
-      invite_to_meeting(meeting)
-      invite_to_meeting(meeting_with_no_location)
-      invite_to_meeting(meeting_with_malicious_location)
-      invite_to_meeting(tomorrows_meeting)
-
-      meetings_page.visit!
-      meetings_page.expect_link_to_meeting_location(meeting)
-      meetings_page.expect_plaintext_meeting_location(tomorrows_meeting)
-      meetings_page.expect_plaintext_meeting_location(meeting_with_malicious_location)
-      meetings_page.expect_no_meeting_location(meeting_with_no_location)
     end
   end
 

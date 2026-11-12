@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,33 +65,24 @@ RSpec.describe McpTools::ListStatuses do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP embedded resource tool"
+  it_behaves_like "MCP embedded resource tool"
 
-    it "finds all statuses" do
-      mcp_request
-      expect(parsed_results.dig("structuredContent", "count")).to eq(2)
-    end
-
-    it "responds with properly formatted statuses" do
-      mcp_request
-      expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("status_collection_model")
-    end
-
-    context "when lacking permission to see statuses" do
-      let(:permissions) { [] }
-
-      it "finds no statuses" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "count")).to eq(0)
-      end
-    end
+  it "finds all statuses" do
+    mcp_request
+    expect(parsed_results.dig("structuredContent", "count")).to eq(2)
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+  it "responds with properly formatted statuses" do
+    mcp_request
+    expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("status_collection_model")
+  end
+
+  context "when lacking permission to see statuses" do
+    let(:permissions) { [] }
+
+    it "finds no statuses" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(parsed_results.dig("structuredContent", "count")).to eq(0)
     end
   end
 end

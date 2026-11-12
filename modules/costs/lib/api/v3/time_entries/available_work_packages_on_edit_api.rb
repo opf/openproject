@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,9 @@ module API
     module TimeEntries
       class AvailableWorkPackagesOnEditAPI < ::API::OpenProjectAPI
         after_validation do
-          authorize_in_work_package(%i[log_own_time edit_own_time_entries], work_package: @time_entry.work_package) do
+          work_package = @time_entry.entity if @time_entry.entity.is_a?(WorkPackage)
+
+          authorize_in_work_package(%i[log_own_time edit_own_time_entries], work_package:) do
             authorize_in_project(%i[log_time edit_time_entries], project: @time_entry.project)
           end
         end

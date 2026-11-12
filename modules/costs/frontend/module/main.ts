@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,7 +38,7 @@ export function initializeCostsPlugin(injector:Injector) {
 
     pluginContext.hooks.workPackageSingleContextMenu((params:any) => ({
       key: 'log_costs',
-      icon: 'icon-projects',
+      icon: 'icon-budget',
       indexBy(actions:any) {
         const index = actions.findIndex((action:any) => action.key === 'log_time');
         return index !== -1 ? index + 1 : actions.length;
@@ -50,7 +49,7 @@ export function initializeCostsPlugin(injector:Injector) {
 
     pluginContext.hooks.workPackageTableContextMenu((params:any) => ({
       key: 'log_costs',
-      icon: 'icon-projects',
+      icon: 'icon-budget',
       link: 'logCosts',
       indexBy(actions:any) {
         const index = actions.findIndex((action:any) => action.link === 'logTime');

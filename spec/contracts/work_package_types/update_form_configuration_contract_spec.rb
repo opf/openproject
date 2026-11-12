@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,10 +61,10 @@ module WorkPackageTypes
 
       context "when deactivating fields" do
         before do
-          model.update_column(:attribute_groups, [
-                                [:people, %w[assignee responsible]],
-                                [:details, %w[priority category percentage_done]]
-                              ])
+          model.form_configuration.update!(attribute_groups: [
+                                             [:people, %w[assignee responsible]],
+                                             [:details, %w[priority category percentage_done]]
+                                           ])
         end
 
         it "is valid" do
@@ -106,7 +105,7 @@ module WorkPackageTypes
 
       context "when preserving existing custom groups without changes" do
         before do
-          model.update_column(:attribute_groups, [["Existing Custom", %w[assignee responsible]]])
+          model.form_configuration.update!(attribute_groups: [["Existing Custom", %w[assignee responsible]]])
         end
 
         it "is valid when not making structural changes" do
@@ -139,7 +138,7 @@ module WorkPackageTypes
 
       context "when renaming an existing custom group" do
         before do
-          model.update_column(:attribute_groups, [["Original Name", %w[assignee responsible]]])
+          model.form_configuration.update!(attribute_groups: [["Original Name", %w[assignee responsible]]])
         end
 
         it "is invalid" do
@@ -152,10 +151,10 @@ module WorkPackageTypes
 
       context "when normalizing an unnamed legacy group" do
         before do
-          model.update_column(:attribute_groups, [
-                                ["", ["assignee"]],
-                                [:details, ["priority"]]
-                              ])
+          model.form_configuration.update!(attribute_groups: [
+                                             ["", ["assignee"]],
+                                             [:details, ["priority"]]
+                                           ])
         end
 
         it "is valid" do

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,6 +65,30 @@ RSpec.describe Documents::OAuth::EnsureApplicationService do
         expect(result).to be_success
         expect(result.result).to eq(existing_application)
       end
+    end
+  end
+
+  describe ".collaboration_token?" do
+    subject { described_class.collaboration_token?(access_token) }
+
+    context "when the token was issued to the Documents OAuth application" do
+      let(:access_token) do
+        create(:oauth_access_token, application: create(:oauth_application, uid: described_class::APPLICATION_UID))
+      end
+
+      it { is_expected.to be(true) }
+    end
+
+    context "when the token was issued to another OAuth application" do
+      let(:access_token) { create(:oauth_access_token) }
+
+      it { is_expected.to be(false) }
+    end
+
+    context "when there is no token" do
+      let(:access_token) { nil }
+
+      it { is_expected.to be(false) }
     end
   end
 end

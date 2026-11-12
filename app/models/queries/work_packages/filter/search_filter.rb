@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -73,19 +72,17 @@ class Queries::WorkPackages::Filter::SearchFilter <
     I18n.t("label_search")
   end
 
+  def searchable_in_context
+    return ::WorkPackageCustomField unless context&.project&.persisted?
+
+    ::WorkPackageCustomField.on_visible_type_and_project(projects: context.project)
+  end
+
   def custom_field_configurations
     # Does not remove custom fields that are not marked as filters
     # as the intend of this filter is to search and it is used in the
     # search context. Thus, only the searchable flag is of interest.
-    custom_fields = if context&.project
-                      context
-                        .project
-                        .all_work_package_custom_fields
-                    else
-                      ::WorkPackageCustomField
-                    end
-
-    custom_fields
+    searchable_in_context
       .where(field_format: %w(text string),
              searchable: true)
       .map do |custom_field|

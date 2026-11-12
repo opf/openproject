@@ -1,0 +1,80 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+class Label < ApplicationRecord
+  belongs_to :author, class_name: "User"
+  has_many :labelings, dependent: :delete_all
+
+  USAGE_COUNT_SQL = "(SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id)"
+
+  scope :with_usage_count, -> {
+    select("labels.*, #{USAGE_COUNT_SQL} AS usage_count")
+  }
+
+  # Sorts first by locality (labels already used in the current project come first)
+  # then by frequency (most used first).
+  # reorder replaces the default name order the index endpoint merges in.
+  scope :ordered_by_relevance_for, ->(project) {
+    used_in_project = Labeling
+                        .where(labelable_type: WorkPackage.name)
+                        .where("labelings.label_id = labels.id")
+                        .joins("INNER JOIN work_packages ON work_packages.id = labelings.labelable_id")
+                        .where(work_packages: { project_id: project })
+                        .arel
+                        .exists
+
+    reorder(used_in_project.desc)
+      .order(Arel.sql("#{USAGE_COUNT_SQL} DESC"))
+      .order("LOWER(labels.name) ASC")
+  }
+
+  scope :named, ->(name) {
+    where("LOWER(labels.name) = LOWER(?)", normalize_value_for(:name, name))
+  }
+
+  scope :named_any, ->(names) {
+    next none if names.blank?
+
+    where("LOWER(labels.name) IN (SELECT LOWER(n) FROM unnest(ARRAY[?]::text[]) AS n)",
+          names.map { normalize_value_for(:name, it) })
+  }
+
+  normalizes :name, with: -> { it.squish }
+
+  validates :name,
+            presence: true,
+            uniqueness: { case_sensitive: false },
+            length: { maximum: 255 }
+
+  def self.page_of(label, per_page:)
+    (where("LOWER(labels.name) < LOWER(?)", label.name).count / per_page) + 1
+  end
+
+  def to_s = name
+end

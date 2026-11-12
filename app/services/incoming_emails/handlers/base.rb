@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module IncomingEmails::Handlers
   class Base
     attr_reader :email, :user, :reference, :options, :plain_text_body
@@ -91,7 +91,7 @@ module IncomingEmails::Handlers
         .call(container:, filename: attachment.filename, file:)
 
       call.on_failure do
-        log "Failed to add attachment #{attachment.filename} for [#{sender_email}]: #{call.message}"
+        log "Failed to add attachment #{attachment.filename} for [#{user.mail}]: #{call.message}"
       end
 
       call.result

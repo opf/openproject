@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@ module OpenProject::Backlogs::Patches::Projects::SetAttributesServicePatch
 
       # Statuses marked as globally closed are mandatory and must always be
       # included regardless of what the user submitted.
-      mandatory_ids = Status.where(is_closed: true).ids
+      mandatory_ids = Status.closed.ids
       model.done_status_ids = (model.done_status_ids | mandatory_ids) if mandatory_ids.any?
     end
   end

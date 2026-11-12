@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -57,7 +56,8 @@ import {
   ProjectAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter-template.component';
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
-import { TOpAutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
+import { AutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
+import { isRecord } from 'core-app/shared/helpers/type-guards';
 
 export const projectsAutocompleterSelector = 'op-project-autocompleter';
 
@@ -112,7 +112,7 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
 
   dataLoaded = false;
 
-  resource:TOpAutocompleterResource = 'projects';
+  resource:AutocompleterResource|undefined = 'projects';
 
   projects:IProjectAutocompleteItem[];
 
@@ -129,7 +129,8 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
       filtered = elements;
     } else {
       const lowered = matching.toLowerCase();
-      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered));
+      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered)
+        || !!el.identifier?.toLowerCase().includes(lowered));
     }
 
     return of(filtered);
@@ -137,14 +138,18 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
 
   private disableSelectedItems(
     projects:IProjectAutocompleteItem[],
-    value:IProjectAutocompleterData|IProjectAutocompleterData[]|null|undefined,
+    value:unknown,
   ) {
     if (!this.multiple) {
       return projects;
     }
 
     const normalizedValue = (value ?? []);
-    const arrayedValue = (Array.isArray(normalizedValue) ? normalizedValue : [normalizedValue]).map((p) => p.href || p.id);
+    const values:unknown[] = Array.isArray(normalizedValue) ? normalizedValue : [normalizedValue];
+    const arrayedValue = values.map((selected) => {
+      if (!isRecord(selected)) { return selected; }
+      return typeof selected.href === 'string' && selected.href.length > 0 ? selected.href : selected.id;
+    });
     return projects.map((project) => {
       const isSelected = !!arrayedValue.find((selected) => selected === this.projectTracker(project));
       const id = project.id.toString();
@@ -194,6 +199,7 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
             id: project.id,
             href: project._links.self.href,
             name: project.name,
+            identifier: project.identifier,
             _type: project._type,
             disabled,
             disabledReason: (typeof this.disabledProjects[id] === 'string') ? this.disabledProjects[id] : '',

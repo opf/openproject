@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,40 +63,31 @@ RSpec.describe McpResources::StatusList do
     resource_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text resource response"
+  it_behaves_like "MCP text resource response"
 
-    it "responds with a properly formatted status list" do
-      mcp_request
-      text_content = parsed_results.fetch("contents").first
-      statuses = text_content.fetch("text")
-      expect(statuses).to match_json_schema.from_docs("status_collection_model")
-    end
-
-    context "when the resource is disabled via configuration" do
-      let(:resource_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
-
-      it_behaves_like "MCP empty resource response"
-    end
-
-    context "when lacking permission to see statuses" do
-      let(:permissions) { [] }
-
-      it_behaves_like "MCP text resource response"
-
-      it "responds with an empty list" do
-        mcp_request
-        text_content = parsed_results.fetch("contents").first
-        types_collection = JSON.parse(text_content.fetch("text"))
-        expect(types_collection.dig("_embedded", "elements")).to be_empty
-      end
-    end
+  it "responds with a properly formatted status list" do
+    mcp_request
+    text_content = parsed_results.fetch("contents").first
+    statuses = text_content.fetch("text")
+    expect(statuses).to match_json_schema.from_docs("status_collection_model")
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+  context "when the resource is disabled via configuration" do
+    let(:resource_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
+
+    it_behaves_like "MCP empty resource response"
+  end
+
+  context "when lacking permission to see statuses" do
+    let(:permissions) { [] }
+
+    it_behaves_like "MCP text resource response"
+
+    it "responds with an empty list" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      text_content = parsed_results.fetch("contents").first
+      types_collection = JSON.parse(text_content.fetch("text"))
+      expect(types_collection.dig("_embedded", "elements")).to be_empty
     end
   end
 end

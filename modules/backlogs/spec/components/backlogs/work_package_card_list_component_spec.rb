@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -121,7 +120,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id} .op-work-package-card") do |card|
         expect(card["data-story"]).to be_present
         expect(card["data-backlogs--work-package-id-value"]).to eq(work_package.id.to_s)
-        expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
+        expect(card["data-sortable-lists--item-target"]).to eq("preview handle focus")
       end
     end
 
@@ -133,8 +132,8 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
         text: "3 story points"
       )
       expect(rendered_component).to have_element(
-        "include-fragment",
-        src: menu_project_backlogs_work_package_path(project, work_package)
+        "action-menu",
+        src: menu_project_backlogs_work_packages_path(project, ids: [work_package.id], invoker_id: work_package.id)
       )
     end
   end

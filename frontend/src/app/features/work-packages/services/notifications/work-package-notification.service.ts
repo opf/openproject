@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 
 @Injectable()
 export class WorkPackageNotificationService extends HalResourceNotificationService {
@@ -48,7 +48,7 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
     this.ToastService.addSuccess(message);
   }
 
-  protected showCustomError(errorResource:any, resource:WorkPackageResource):boolean {
+  protected showCustomError(errorResource:ErrorResource, resource:WorkPackageResource):boolean {
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:UpdateConflict') {
       // currently we do not have a programmatic way to show the primer flash messages
       // so we just do a request to the server to show it

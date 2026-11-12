@@ -20,6 +20,7 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   border: 1px solid var(--ck-color-base-border)
   min-height: 100px
   padding: 10px
+  --ck-editor-editable-padding: 7px 10px
 
   // Keep editor content typography aligned with surrounding OpenProject styles.
   --ck-content-font-family: var(--body-font-family)
@@ -27,6 +28,15 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
 
 // Specific overrides for ck contenteditable
 .ck-content
+
+  // Remove the 12px edge margin of CKEditor 49, except for widgets,
+  // which need the room for their "insert paragraph" buttons.
+  &.ck.ck-editor__editable_inline
+    > :first-child:not(.ck-widget)
+      margin-top: 0
+
+    > :last-child:not(.ck-widget)
+      margin-bottom: 0
 
   // Code block
   pre
@@ -102,11 +112,35 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
         max-width: 100%
         flex-wrap: wrap
 
+.ck.ck-toolbar > .op-ai-actions .ck-splitbutton__action > .ck-button__label
+  max-width: 12em
+  overflow: hidden
+  text-overflow: ellipsis
+
 // Mentions autocomplete
 .ck-list__item .mention-list-item
   display: block
   max-width: 400px
   @include text-shortener
+
+.ck.ck-list.ck-mentions
+  --ck-list-padding: var(--ck-spacing-sm) 0
+  --ck-list-item-outer-padding: 0
+  --ck-list-item-min-width: 15em
+
+  // Must be more specific than the .ck-reset_all reset of CKEditor.
+  > .ck-list__item > .mention-list-item
+    padding: 0.18em 1.2em
+    font-size: var(--ck-font-size-md)
+    line-height: 1.84615
+
+  > .ck-list__item:not(.ck-mentions__item_focused) > .mention-list-item:hover
+    background: var(--ck-color-list-button-hover-background, var(--ck-list-button-hover-background-color))
+
+  > .ck-list__item.ck-mentions__item_focused > .ck-button
+    background: var(--ck-color-list-button-on-background, var(--ck-list-button-on-background-color))
+    color: var(--ck-color-list-button-on-text, var(--ck-list-button-on-text-color))
+    box-shadow: none
 
 // Document editor styles
 .document-editor
@@ -133,7 +167,7 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   .document-editor__editable-container
     border: 1px solid var(--ck-color-base-border)
     border-top: none
-    border-radius: var(--ck-border-radius)
+    border-radius: var(--ck-radius-base)
     border-top-left-radius: 0
     border-top-right-radius: 0
 

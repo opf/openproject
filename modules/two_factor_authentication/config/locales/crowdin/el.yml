@@ -135,7 +135,7 @@ el:
     error_invalid_backup_code: Μη έγκυρος κωδικός αντιγράφων ασφαλείας 2FA
     error_is_enforced_not_active: 'Σφάλμα διαμόρφωσης: Η ταυτοποίηση δύο παραγόντων έχει επιβληθεί, αλλά δεν υπάρχουν ενεργές στρατηγικές.'
     error_no_device: Δεν βρέθηκαν καταχωρημένες 2FA συσκευές για αυτό τον χρήστη, παρόλο που απαιτείται για αυτό το στιγμιότυπο.
-    error_no_matching_strategy: Δεν βρέθηκε διαθέσιμη στρατηγική 2FA για αυτό τον χρήστη που να ταιριάζει. Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας.
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Η ταυτοποίηση δύο παραγόντων δεν είναι ενεργή

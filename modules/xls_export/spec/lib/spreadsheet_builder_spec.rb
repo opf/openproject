@@ -1,3 +1,32 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 RSpec.describe "SpreadsheetBuilder" do
@@ -72,6 +101,43 @@ RSpec.describe "SpreadsheetBuilder" do
   it "applies no formatting on rows" do
     @spreadsheet.add_row([1])
     expect(@sheet.last_row.format(0)).to eq(@sheet.last_row.format(1))
+  end
+
+  describe "column width of a date column" do
+    def width_for(number_format)
+      builder = OpenProject::XlsExport::SpreadsheetBuilder.new
+      builder.add_headers([""], 0) # as every exporter does, #add_row skips row 0
+      builder.add_row([Date.new(2026, 8, 24)])
+      builder.add_format_option_to_column(0, number_format:)
+      builder.xls
+
+      builder.send(:raw_sheet).column(0).width
+    end
+
+    it "widens the column so that a long date format still fits" do
+      expect(width_for("MMMM DD, YYYY")).to be > width_for("YYYY-MM-DD")
+    end
+
+    it "leaves number formats to the plain value width" do
+      expect(width_for("0.00")).to eq(width_for("YYYY-MM-DD"))
+    end
+
+    it "copes with a column that was given a format but never a value" do
+      builder = OpenProject::XlsExport::SpreadsheetBuilder.new
+      builder.add_headers([""], 0)
+      builder.add_row([Date.new(2026, 8, 24)])
+      builder.add_format_option_to_column(3, number_format: "YYYY-MM-DD")
+
+      expect { builder.xls }.not_to raise_error
+      expect(builder.send(:raw_sheet).column(1).width).to eq(0)
+    end
+  end
+
+  it "keeps booleans as booleans" do
+    builder = OpenProject::XlsExport::SpreadsheetBuilder.new
+    builder.add_row([true, false])
+
+    expect(builder.send(:raw_sheet).last_row.to_a).to eq([true, false])
   end
 
   it "alwayses use unix newlines" do

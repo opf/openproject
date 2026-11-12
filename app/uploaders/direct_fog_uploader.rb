@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,7 @@ class DirectFogUploader < FogFileUploader
   ##
   # This needs to be true so that the necessary condition is included
   # in S3 upload policy (only relevant for direct uploads).
-  def will_include_content_type # rubocop:disable Naming/PredicateMethod
+  def will_include_content_type
     true
   end
 

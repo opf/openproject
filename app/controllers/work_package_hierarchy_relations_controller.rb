@@ -22,14 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WorkPackageHierarchyRelationsController < ApplicationController
   include OpTurbo::ComponentStream
+  include WorkPackageRelationsTab::UpdateResponses
 
   class InvalidRelationType < StandardError; end
 
@@ -122,19 +122,6 @@ class WorkPackageHierarchyRelationsController < ApplicationController
 
   def allowed_to_set_parent?(child)
     WorkPackages::UpdateContract.update_parent_allowed?(work_package: child, user: current_user)
-  end
-
-  def respond_with_relations_tab_update(service_result, **)
-    if service_result.success?
-      @work_package.reload
-      component = WorkPackageRelationsTab::IndexComponent.new(work_package: @work_package, **)
-      replace_via_turbo_stream(component:)
-      render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
-
-      respond_with_turbo_streams
-    else
-      respond_with_turbo_streams(status: :unprocessable_entity)
-    end
   end
 
   def set_work_package

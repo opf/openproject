@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,16 @@ module Backlogs
       user_allowed?(:share_sprint)
     end
 
+    # Batch selection is the same capability as ordering: without the right to
+    # reorder, enabling it would only cost the viewer their Space, arrow,
+    # Home/End and Ctrl/Cmd+A keys.
+    #
+    # Takes the project because the backlog view, unlike the components the
+    # predicates above serve, exposes no `project` method.
+    def batch_selection_allowed?(project)
+      user_allowed?(:manage_sprint_items, project:)
+    end
+
     def backlog_filters
       RequestStore.fetch(:backlog_filters) do
         Backlogs::BacklogFilters.from_params(permitted_params.backlog_filters)
@@ -59,23 +68,30 @@ module Backlogs
       backlog_filters.to_h
     end
 
+    # A morph refresh only reloads the container frame in place when its src is unchanged, character
+    # for character. The filters form sets it client-side, and re-encoding the params here would
+    # differ (e.g. `~` vs `%7E`), so keep the query exactly as the browser sent it. This will make
+    # Turbo to reload the frame in place instead of replacing the whole frame, losing scroll position.
+    def backlogs_container_src(project)
+      [project_backlogs_backlog_path(project), request.query_string.presence].compact.join("?")
+    end
+
     def all_sprints_for(project)
-      Sprint.for_project(project).not_completed.order_by_date.includes(:project, :task_boards, :goals)
+      Sprint.assignable(project:).order_by_date
+    end
+
+    def filtered_sprints_for(project)
+      relation = all_sprints_for(project).includes(:project, :task_boards, :goals)
+      backlog_filters.sprint_ids.present? ? relation.where(id: backlog_filters.sprint_ids) : relation
     end
 
     def all_buckets_for(project)
       BacklogBucket.for_project(project)
     end
 
-    def filtered_sprints_for(project)
-      relation = all_sprints_for(project)
-      backlog_filters.sprint_ids.present? ? relation.where(id: backlog_filters.sprint_ids) : relation
-    end
-
     def filtered_buckets_for(project)
-      return all_buckets_for(project) if backlog_filters.bucket_ids.nil?
-
-      all_buckets_for(project).where(id: backlog_filters.bucket_ids_without_inbox)
+      relation = all_buckets_for(project)
+      backlog_filters.bucket_ids.present? ? relation.where(id: backlog_filters.bucket_ids_without_inbox) : relation
     end
 
     def backlogs_move_url_template(project)

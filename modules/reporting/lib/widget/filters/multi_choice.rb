@@ -20,17 +20,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Widget::Filters::MultiChoice < Widget::Filters::Base
   # rubocop:disable Metrics/AbcSize
-  def render
+  def render_filter
     filter_name = filter_class.underscore_name
-    result = content_tag :div, id: "#{filter_name}_arg_1", class: "advanced-filters--filter-value" do
+    content_tag :div, id: "#{filter_name}_arg_1", class: "advanced-filters--filter-value" do
       choices = filter_class.available_values.each_with_index.map do |(label, value), i|
         opts = {
           type: "radio",
@@ -48,7 +47,6 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
       content_tag :div, safe_join(choices),
                   id: "#{filter_class.underscore_name}_arg_1_val"
     end
-    write result
   end
   # rubocop:enable Metrics/AbcSize
 

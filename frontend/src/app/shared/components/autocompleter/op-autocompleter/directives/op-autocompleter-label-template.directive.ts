@@ -20,21 +20,24 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Directive } from '@angular/core';
+import { AutocompleterLabelContext } from '../typings';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[op-autocompleter-label-tmp]',
   standalone: false,
 })
-// A Directive to be used on the label template of
-//  ng-select (what will be shown in the input box after selecting an item)
-// it is used when you want to inject a different template
 export class OpAutocompleterLabelTemplateDirective {
-
+  static ngTemplateContextGuard(
+    _directive:OpAutocompleterLabelTemplateDirective,
+    _context:unknown,
+  ):_context is AutocompleterLabelContext {
+    return true;
+  }
 }

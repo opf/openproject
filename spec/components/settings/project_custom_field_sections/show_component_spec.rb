@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,8 +65,8 @@ RSpec.describe Settings::ProjectCustomFieldSections::ShowComponent, type: :compo
   it "wires the BorderBox as the section item's drag preview target" do
     subject
 
-    # The box, not the row wrapper, is the preview so the native drag
-    # snapshot's margin whitespace and squared-off corners never show.
+    # The box, not the StackItem wrapper, is the preview so the native drag
+    # snapshot never squares off the box's rounded corners.
     expect(page).to have_css(
       "[data-sortable-lists--list-type-value='custom_field']" \
       "[data-sortable-lists--item-target='preview']"

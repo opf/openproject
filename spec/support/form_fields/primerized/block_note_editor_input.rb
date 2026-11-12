@@ -1,11 +1,39 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module FormFields
   module Primerized
     class BlockNoteEditorInput
       include Capybara::DSL
+      include WaitHelpers
 
-      # Since op-blocknote-extensions 0.3.1 the work package search is portalled into
+      # Since blocknote-extensions 0.3.1 the work package search is portalled into
       # BlockNote's `.bn-container`, a sibling of the contenteditable - so it is no longer
       # part of `element`.
       SEARCH_POPOVER = ".op-bn-search"
@@ -25,16 +53,70 @@ module FormFields
       end
 
       def open_create_work_package_dialog
-        send_keys_to_editor("/create")
-        send_keys(:enter)
+        choose_slash_menu_item("create", "Create new work package")
+      end
+
+      def open_insert_attribute_dialog
+        choose_slash_menu_item("attribute", "Work package attribute")
+      end
+
+      # The slash menu filters asynchronously, so an early Enter would still pick its first item.
+      # It also leaves out entries whose permission the editor is still checking right after
+      # loading, and keeps them out for a query typed in the meantime, so it is typed again.
+      def choose_slash_menu_item(query, title)
+        typed = "/#{query}"
+        page.document.synchronize do
+          send_keys_to_editor(typed)
+          shadow_root.find("[role='option']", text: title, wait: 1).click
+        rescue Capybara::ElementNotFound
+          typed.length.times { send_keys_to_editor(:backspace) }
+          raise
+        end
       end
 
       def click_formatting_toolbar_button(label)
         shadow_root.find("button[aria-label='#{label}']").click
       end
 
+      def insert_table
+        send_keys_to_editor("/table")
+        send_keys(:enter)
+      end
+
+      def open_table_row_menu
+        shadow_root.first("table td, table th").hover
+        shadow_root.find(".bn-table-handle:not([style*='rotate'])").click
+      end
+
+      def open_table_cell_menu(cell)
+        handle = page.document.synchronize do
+          cell.hover
+          shadow_root.find(".bn-table-cell-handle", wait: 0).tap do |current|
+            raise Capybara::ExpectationNotMet, "Cell handle is not on the hovered cell" unless horizontally_within?(current, cell)
+          end
+        end
+        handle.click
+      end
+
+      # The colors menu lists the text colors first, then the background colors, with the same names.
+      def pick_table_cell_color(name, background: false)
+        click_table_menu_item("Colors", hover: true)
+        shadow_root.all("[role='menuitem']", text: /#{name}\z/, minimum: 2)[background ? 1 : 0].click
+        send_keys(:escape)
+      end
+
+      def click_table_menu_item(text, hover: false)
+        item = shadow_root.find(".bn-menu-item", exact_text: text)
+        hover ? item.hover : item.click
+      end
+
       def create_work_package_form
         page.find("[data-testid='create-wp-modal']")
+      end
+
+      # Portalled out of the editor like the create form, so it is in the light DOM.
+      def insert_attribute_dialog
+        page.find("[role='dialog'][aria-label='Insert work package attribute']")
       end
 
       def fill_in(content)
@@ -42,7 +124,8 @@ module FormFields
       end
 
       def attach_file(path)
-        input = shadow_root.find("input[type='file']", visible: false)
+        # find_field queries by XPath, which WebDriver does not support inside shadow roots
+        input = shadow_root.find("input[type='file']", visible: :all) # rubocop:disable Capybara/SpecificFinders
         input.attach_file(path, make_visible: true)
       end
 
@@ -73,7 +156,7 @@ module FormFields
         page.evaluate_script(%(!!#{shadow_root_query}.querySelector("#{SEARCH_POPOVER}")))
       end
 
-      # Unfortunately, op-blocknote-extensions search input is removed
+      # Unfortunately, blocknote-extensions search input is removed
       # on every blur event, and checking for elements to be on the
       # screen with capybara triggers those. Therefore it's done via js.
       def wait_for_shadow_content(text)
@@ -180,7 +263,35 @@ module FormFields
         heading_font_size.to_f / paragraph_font_size.to_i
       end
 
+      def heading_block_id(text)
+        page.evaluate_script(<<~JS, text)
+          Array.from(#{shadow_root_query}.querySelectorAll('[data-content-type="heading"]'))
+            .find((heading) => heading.textContent.trim() === arguments[0])
+            .parentElement.dataset.id
+        JS
+      end
+
+      # IntersectionObserver also accounts for the scrolling panel clipping the heading.
+      def heading_in_viewport?(block_id)
+        page.evaluate_async_script(<<~JS, block_id)
+          const [blockId, done] = arguments;
+          const heading = #{shadow_root_query}.querySelector(`[data-id="${blockId}"] > [data-content-type="heading"]`);
+          if (!heading) return done(null);
+
+          new IntersectionObserver((entries, observer) => {
+            observer.disconnect();
+            done(entries[0].intersectionRatio > 0.99);
+          }).observe(heading);
+        JS
+      end
+
       private
+
+      def horizontally_within?(element, container)
+        x, _, width, = bounding_rect(element)
+        left, _, container_width, = bounding_rect(container)
+        (x + (width / 2)).between?(left, left + container_width)
+      end
 
       # Attention: This only works with selenium, not with cuprite,
       # as cuprite does not support shadow dom (yet).
@@ -206,7 +317,7 @@ module FormFields
         JS
       end
 
-      # Unfortunately, the search input is removed on every blur event (starting with op-blocknote-extensions 0.0.24).
+      # Unfortunately, the search input is removed on every blur event (starting with blocknote-extensions 0.0.24).
       # Capybara triggers those and therefore leads to always red tests.
       # The input needs to be operated completely by javascript to avoid any blurring.
       def fill_in_work_package_search_input(text)
@@ -231,7 +342,7 @@ module FormFields
         JS
       end
 
-      # Unfortunately, the search input is removed on every blur event (starting with op-blocknote-extensions 0.0.24).
+      # Unfortunately, the search input is removed on every blur event (starting with blocknote-extensions 0.0.24).
       # Capybara triggers those and therefore leads to always red tests.
       # The input needs to be operated completely by javascript to avoid any blurring.
       def select_from_work_package_dropdown(text)
@@ -247,7 +358,7 @@ module FormFields
               var span = titles.find(function(s) { return s.textContent.trim() === textToClick; });
               var element = span && span.closest("[role='option']");
               if (element) {
-                // Since op-blocknote-extensions 0.3.1 an option activates on click;
+                // Since blocknote-extensions 0.3.1 an option activates on click;
                 // its mousedown only keeps the focus in the search input.
                 element.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
                 element.dispatchEvent(new MouseEvent("click", { bubbles: true }));

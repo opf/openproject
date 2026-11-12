@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -79,6 +78,8 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
     },
   };
 
+  readonly sortCriteriaLabels = [this.text.sort_criteria_1, this.text.sort_criteria_2, this.text.sort_criteria_3];
+
   readonly availableDirections = [
     { href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending') },
     { href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending') },
@@ -88,18 +89,18 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
 
   public allColumns:SortColumn[] = [];
 
-  public sortationObjects:SortModalObject[] = [];
+  public sortObjects:SortModalObject[] = [];
 
   public emptyColumn:SortColumn = { name: this.text.placeholder, href: null };
 
   public sortingMode:SortingMode = 'automatic';
 
-  public manualSortColumn:SortColumn;
+  public manualSortColumn?:SortColumn;
 
   public onSave() {
     let sortElements;
-    if (this.sortingMode === 'automatic') {
-      sortElements = this.sortationObjects.filter((object) => object.column !== null);
+    if (this.sortingMode === 'automatic' || !this.manualSortColumn) {
+      sortElements = this.sortObjects.filter((object) => object.column !== null);
     } else {
       sortElements = [new SortModalObject(this.manualSortColumn, QUERY_SORT_BY_ASC)];
     }
@@ -125,16 +126,22 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
         this.getManualSortingOption();
 
         this.wpTableSortBy.current.forEach((sort) => {
-          if (!sort.column.href!.endsWith('/parent')) {
-            this.sortationObjects.push(
-              new SortModalObject({ name: sort.column.name, href: sort.column.href },
-                sort.direction.href!),
-            );
-            if (sort.column.href === this.manualSortColumn.href) {
-              this.updateSortingMode('manual');
-            }
+          if (sort.column.href!.endsWith('/parent')) return;
+
+          if (sort.column.href === this.manualSortColumn?.href) {
+            this.updateSortingMode('manual');
+            return;
           }
+
+          this.sortObjects.push(
+            new SortModalObject({ name: sort.column.name, href: sort.column.href },
+              sort.direction.href!),
+          );
         });
+
+        if (this.sortingMode === 'manual' && this.sortObjects.length === 0) {
+          this.seedDefaultSorting();
+        }
 
         this.updateUsedColumns();
         this.fillUpSortElements();
@@ -148,7 +155,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
   }
 
   public updateUsedColumns() {
-    const usedColumns = this.sortationObjects
+    const usedColumns = this.sortObjects
       .filter((o) => o.column !== null)
       .map((object:SortModalObject) => object.column);
 
@@ -166,14 +173,21 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
     return this.wpTableSortBy.available.find((sort) => sort.column.href === column && sort.direction.href === direction);
   }
 
+  private seedDefaultSorting() {
+    const idColumn = this.allColumns.find((column) => column.href?.endsWith('/id'));
+    if (idColumn) {
+      this.sortObjects.push(new SortModalObject(idColumn, QUERY_SORT_BY_ASC));
+    }
+  }
+
   private fillUpSortElements() {
-    while (this.sortationObjects.length < 3) {
-      this.sortationObjects.push(new SortModalObject(this.emptyColumn, QUERY_SORT_BY_ASC));
+    while (this.sortObjects.length < 3) {
+      this.sortObjects.push(new SortModalObject(this.emptyColumn, QUERY_SORT_BY_ASC));
     }
   }
 
   private getManualSortingOption() {
-    this.manualSortColumn = this.allColumns.find((e) => e.href!.endsWith('/manualSorting'))!;
-    this.allColumns.splice(this.allColumns.indexOf(this.manualSortColumn), 1);
+    this.manualSortColumn = this.allColumns.find((e) => e.href?.endsWith('/manualSorting'));
+    this.allColumns = this.allColumns.filter((column) => column !== this.manualSortColumn);
   }
 }

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,13 +36,12 @@ module ::ResourceManagement
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
+    load_and_authorize_in_planner_section
     before_action :find_work_package
-    before_action :authorize
 
     def index
       respond_with_dialog ResourceAllocations::ListDialogComponent.new(
-        project: @project,
+        project: @project || @work_package.project,
         work_package: @work_package,
         allocations:,
         visible_principal_ids: ResourceAllocation.visible_principal_ids(allocations, current_user),
@@ -62,10 +60,10 @@ module ::ResourceManagement
     # non-visible (or out-of-project) id therefore 404s. The
     # `view_resource_planners` permission is enforced by `authorize`.
     def find_work_package
-      @work_package = WorkPackage
-                        .visible(current_user)
-                        .where(project: @project)
-                        .find(params.expect(:work_package_id))
+      scope = WorkPackage.visible(current_user)
+      scope = scope.where(project: @project) if @project
+
+      @work_package = scope.find(params.expect(:work_package_id))
     end
   end
 end

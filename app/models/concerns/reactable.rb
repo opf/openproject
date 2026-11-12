@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,9 @@ module Reactable
   extend ActiveSupport::Concern
 
   included do
+    class_attribute :allowed_emoji_reactions, default: nil
+    class_attribute :single_emoji_reaction_per_user, default: false
+
     has_many :emoji_reactions, as: :reactable, dependent: :destroy
   end
 end
