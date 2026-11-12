@@ -131,10 +131,10 @@ ms:
     button_confirm: Sahkan
     button_continue: Teruskan
     button_copy: Salin
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Salin ke papan klip
     button_copy_to_other_project: Salin dalam projek lain
+    button_copy_work_package_id: Copy work package ID
     button_create: Cipta
     button_custom-fields: Ruangan tersuai
     button_delete: Padamkan
@@ -150,6 +150,7 @@ ms:
     button_log_time: Masa log
     button_more: Lagi
     button_more_actions: Tindakan lebih lanjut
+    button_move_to_position: Move to position
     button_open_details: Buka paparan butiran
     button_open_fullscreen: Buka paparan skrin penuh
     button_quote: Petikan
@@ -349,6 +350,8 @@ ms:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Dilihat baru-baru ini
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: semua projek
@@ -502,6 +505,7 @@ ms:
     label_in: dalam
     label_in_less_than: dalam kurang daripada
     label_in_more_than: dalam lebih daripada
+    label_in_progress_work_packages: in progress
     label_incoming_emails: E-mel masuk
     label_infinity: Infinity
     label_information_plural: Maklumat
@@ -534,6 +538,10 @@ ms:
     label_open_context_menu: Buka menu konteks
     label_open_menu: Buka menu
     label_open_work_packages: buka
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Kata laluan
     label_per_page: 'Setiap halaman:'
     label_please_wait: Sila tunggu
@@ -567,7 +575,9 @@ ms:
     label_show_in_menu: Paparkan paparan dalam menu
     label_sort_by: Susun mengikut
     label_sort_higher: Alihkan ke atas
+    label_sort_highest: Move to top
     label_sort_lower: Alih ke bawah
+    label_sort_lowest: Move to bottom
     label_sorted_by: disusun mengikut
     label_sorting: Susunan
     label_spent_time: Masa yang dihabiskan
@@ -578,6 +588,7 @@ ms:
     label_sum_for: Jumlah untuk
     label_this_week: minggu ini
     label_time_entry_plural: Masa yang dihabiskan
+    label_to_do_work_packages: to-do
     label_today: Hari ini
     label_total_amount: 'Jumlah: %{amount}'
     label_total_progress: "%{percent}% Jumlah perkembangan"
@@ -818,6 +829,7 @@ ms:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -956,6 +968,7 @@ ms:
         all_open: Buka semua
         assigned_to_me: Ditugaskan kepada saya
         created_by_me: Dicipta oleh saya
+        in_progress: In progress
         latest_activity: Aktiviti terkini
         manually_sorted: Pertanyaan diisih secara manual baharu
         overdue: Tertangguh
@@ -963,6 +976,7 @@ ms:
         shared_with_me: Dikongsikan dengan saya
         shared_with_users: Dikongsi dengan pengguna
         summary: Ringkasan
+        to_do: To-do
       description_enter_text: Masukkan teks
       description_filter: Penyaring
       description_options_hide: Sembunyikan pilihan
@@ -1050,6 +1064,7 @@ ms:
         other: Lain-lain
         people: Orang
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Klik untuk edit tajuk paparan ini.
         column_names: Kolum
         confirm_edit_cancel: Adakah anda pasti ingin membatalkan edit nama paparan ini? Tajuk akan ditetapkan semula ke nilai sebelumnya.
@@ -1059,17 +1074,16 @@ ms:
           not_found: Tiada paparan seperti itu
           unretrievable_query: Tidak dapat untuk memperolehi paparan dari URL
         filters: Penyaring
-        group: Kumpulkan mengikut
         group_by: Kumpulkan hasil mengikut
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Kumpulkan mengikut telah dinyahaktifkan kerana mod hierarki sedang aktif.
-        hide_column: Sembunyikan kolum
         hierarchy_disabled_by_group_by: Mod hierarki dinyahaktifkan kerana hasil dikumpulkan oleh %{column}.
-        insert_columns: Masukkan kolum
         move_column_left: Alihkan lajur ke kiri
         move_column_right: Alihkan lajur ke kanan
         public_text: 'Terbitkan paparan ini, membenarkan pengguna lain untuk akses paparan anda. Pengguna dengan kebenaran ''Urus paparan awam'' boleh ubah suai atau keluarkan pertanyaan awam. Ini tidak akan mempengaruhi keterlihatan hasil pakej kerja dalam paparan itu dan bergantung kepada kebenaran mereka, pengguna mungkin melihat hasil yang berbeza.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Nama paparan ini
         sort_ascending: Susun menaik
         sort_descending: Susun menurun

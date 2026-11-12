@@ -1,0 +1,76 @@
+name: "Migrations without optional extensions"
+# the app must initialize on a PostgreSQL server that does not have
+# optional extensions installed. The official postgres image ships
+# without pgvector, so the service below provides such a server.
+# https://securitylab.github.com/research/github-actions-preventing-pwn-requests
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - release/*
+    paths-ignore:
+      - 'docs/**'
+      - 'help/**'
+      - 'extensions/blocknote-extensions/**'
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths-ignore:
+      - 'docs/**'
+      - 'help/**'
+      - 'packaging/**'
+      - '.pkgr.yml'
+      - '.github/workflows/packager.yml'
+      - 'extensions/blocknote-extensions/**'
+
+permissions: read-all
+
+jobs:
+  migrate:
+    name: db:migrate without optional Postgres extensions
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/openproject_no_pgvector
+      RAILS_ENV: development
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1.336.0
+        with:
+          bundler-cache: true
+
+      - name: Configure database
+        run: |
+          cat > config/database.yml <<'EOF'
+          development:
+            url: <%= ENV["DATABASE_URL"] %>
+          EOF
+
+      - name: Run all migrations
+        run: bundle exec rake db:create db:migrate
+
+# github.head_ref is only availabe in PR context and if it is absent then github.run_id
+# is used . And github.run_id is unique for each workflow run. So, this option makes
+# sure that there is only one build running for a pull request and the build is attached
+# to the last commit of the PR.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true

@@ -131,10 +131,10 @@ fa:
     button_confirm: تأیید
     button_continue: ادامه
     button_copy: کپی
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: کپی در کلیپ‌بورد
     button_copy_to_other_project: تکثیر در پروژه دیگر
+    button_copy_work_package_id: Copy work package ID
     button_create: ایجاد
     button_custom-fields: فیلدهای سفارشی
     button_delete: حذف
@@ -150,6 +150,7 @@ fa:
     button_log_time: ثبت زمان
     button_more: بیشتر
     button_more_actions: اقدام‌های بیشتر
+    button_move_to_position: Move to position
     button_open_details: بازکردن نمای جزئیات
     button_open_fullscreen: بازکردن نمای تمام‌صفحه
     button_quote: نقل‌قول
@@ -349,6 +350,8 @@ fa:
       direct_hit_available: بسته کاری با شناسه دقیق یافت شد. برای بازکردن آن Enter را فشار دهید.
       items_available: "%{count} مورد در دسترس"
       recently_viewed: اخیراً مشاهده‌شده
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: جستجوی بسته‌های کاری بر اساس موضوع، پروژه، نوع، وضعیت یا شناسه
       title:
         all_projects: همه پروژه‌ها
@@ -502,6 +505,7 @@ fa:
     label_in: در
     label_in_less_than: کمتر از
     label_in_more_than: بیشتر از
+    label_in_progress_work_packages: in progress
     label_incoming_emails: ایمیل‌های ورودی
     label_infinity: بی‌نهایت
     label_information_plural: اطلاعات
@@ -534,6 +538,10 @@ fa:
     label_open_context_menu: بازکردن منوی زمینه
     label_open_menu: بازکردن منو
     label_open_work_packages: باز
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: گذرواژه
     label_per_page: 'در هر صفحه:'
     label_please_wait: لطفاً صبر کنید
@@ -567,7 +575,9 @@ fa:
     label_show_in_menu: نمایش نما در منو
     label_sort_by: مرتب‌سازی بر اساس
     label_sort_higher: انتقال به بالا
+    label_sort_highest: Move to top
     label_sort_lower: انتقال به پایین
+    label_sort_lowest: Move to bottom
     label_sorted_by: مرتب‌شده بر اساس
     label_sorting: مرتب‌سازی
     label_spent_time: زمان صرف‌شده
@@ -578,6 +588,7 @@ fa:
     label_sum_for: جمع برای
     label_this_week: این هفته
     label_time_entry_plural: زمان صرف‌شده
+    label_to_do_work_packages: to-do
     label_today: امروز
     label_total_amount: 'مجموع: %{amount}'
     label_total_progress: "%{percent}% پیشرفت کل"
@@ -819,6 +830,7 @@ fa:
         batch_too_large: امکان جابه‌جایی %{count} مورد به‌صورت هم‌زمان وجود ندارد. حداکثر %{max} مورد را انتخاب کنید.
         fallback_item_label: مورد
         fallback_list_name: فهرست دیگر
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: انتقال ناموفق بود. موقعیت فعلی مورد را بررسی کنید.
         move_failed_check_positions_batch:
           other: جابه‌جایی ناموفق بود. موقعیت فعلی موارد را بررسی کنید.
@@ -962,6 +974,7 @@ fa:
         all_open: همه موارد باز
         assigned_to_me: تخصیص‌یافته به من
         created_by_me: ایجادشده توسط من
+        in_progress: In progress
         latest_activity: آخرین فعالیت
         manually_sorted: پرس‌وجوی جدید با مرتب‌سازی دستی
         overdue: عقب‌افتاده
@@ -969,6 +982,7 @@ fa:
         shared_with_me: اشتراک‌گذاری‌شده با من
         shared_with_users: اشتراک‌گذاری‌شده با کاربران
         summary: خلاصه
+        to_do: To-do
       description_enter_text: متن را وارد کنید
       description_filter: فیلتر
       description_options_hide: پنهان‌کردن گزینه‌ها
@@ -1056,6 +1070,7 @@ fa:
         other: سایر
         people: افراد
       query:
+        add_columns: Add columns
         click_to_edit_query_name: برای ویرایش عنوان این نما کلیک کنید.
         column_names: ستون‌ها
         confirm_edit_cancel: مطمئنید می‌خواهید ویرایش نام این نما را لغو کنید؟ عنوان به مقدار قبلی بازمی‌گردد.
@@ -1065,17 +1080,16 @@ fa:
           not_found: چنین نمایی وجود ندارد
           unretrievable_query: بازیابی نما از URL ممکن نبود
         filters: فیلترها
-        group: گروه‌بندی بر اساس
         group_by: گروه‌بندی نتایج بر اساس
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: گروه‌بندی به‌دلیل فعال‌بودن حالت سلسله‌مراتب غیرفعال است.
-        hide_column: پنهان‌کردن ستون
         hierarchy_disabled_by_group_by: حالت سلسله‌مراتب به‌دلیل گروه‌بندی نتایج بر اساس %{column} غیرفعال است.
-        insert_columns: درج ستون‌ها
         move_column_left: انتقال ستون به چپ
         move_column_right: انتقال ستون به راست
         public_text: 'این نما را منتشر کنید تا کاربران دیگر به آن دسترسی داشته باشند. کاربران دارای مجوز «مدیریت نماهای عمومی» می‌توانند Query عمومی را تغییر یا حذف کنند. این کار بر قابلیت مشاهده نتایج بسته کاری در آن نما اثر نمی‌گذارد و بسته به مجوزها، کاربران ممکن است نتایج متفاوتی ببینند.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: نام این نما
         sort_ascending: مرتب‌سازی صعودی
         sort_descending: مرتب‌سازی نزولی

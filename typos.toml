@@ -12,6 +12,7 @@ extend-exclude = [
   "*.min.*",
   "lookbook/previews/open_project/deprecated/forms_preview/multiple_fields_per_row.html.erb", # German month names
   "publiccode.yml", # German description
+  ".github/workflows/cla.yml", # allowlist of GitHub logins
   "spec/seeders/source/translate_spec.rb", # French test strings
 ]
 
@@ -139,4 +140,5 @@ varius = "varius" # Lorem ipsum
 navigatable = "navigatable" # menu_items column; follow-up
 noteable = "noteable" # GitLab webhook payload field
 opf = "opf"
+Sie = "Sie" # German formal address in the seeded text action prompts
 writeable = "writeable" # Representable kwarg

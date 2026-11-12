@@ -51,6 +51,12 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       project_specific_value_restriction: lambda { |model|
         model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
       },
+      allow_additional_project_values: lambda { |model|
+        model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
+      },
+      project_level_value_management: lambda { |model|
+        model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
+      },
       content_right_to_left: ->(model) { model.is_a?(WorkPackageCustomField) && model.field_format == "text" },
       user_self_editable: ->(model) { model.is_a?(UserCustomField) },
       visible_on_user_card: ->(model) { model.is_a?(UserCustomField) },
@@ -109,6 +115,8 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       expect(page).to have_field(label, type: "textarea", name:, visible: :all)
     elsif field == :project_specific_value_restriction
       expect(page).to have_field(label, type: "radio", name:, disabled: :all)
+    elsif %i[allow_additional_project_values project_level_value_management].include?(field)
+      expect(page).to have_field(label, type: "checkbox", name:, disabled: :all, visible: :all)
     else
       expect(page).to have_field(label, type: control_type(field), name:)
     end
@@ -194,6 +202,65 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
         expect(page).to have_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: true)
         expect(page).to have_field(I18n.t("custom_fields.project_specific_values.block.label"), disabled: true)
         expect(page).to have_text(I18n.t("ee.upsell.project_specific_list_values.description"))
+      end
+    end
+  end
+
+  describe "project admin settings" do
+    let(:model_class) { WorkPackageCustomField }
+    let(:field_format) { "list" }
+    let(:project_specific_value_restriction) { nil }
+    let(:allow_additional_project_values) { false }
+    let(:project_level_value_management) { false }
+    let(:model) do
+      model_class.new(field_format:,
+                      project_specific_value_restriction:,
+                      allow_additional_project_values:,
+                      project_level_value_management:)
+    end
+
+    context "when all values are available in all projects", with_ee: %i[project_specific_list_values] do
+      it "only offers adding project-specific values below the selected mode", :aggregate_failures do
+        expect(page).to have_unchecked_field("custom_field_allow_additional_project_values_all")
+        expect(page).to have_no_field("custom_field_project_level_value_management_all", visible: :all)
+
+        expect(page).to have_field("custom_field_allow_additional_project_values_allow", visible: :hidden, disabled: true)
+        expect(page).to have_field("custom_field_project_level_value_management_allow", visible: :hidden, disabled: true)
+        expect(page).to have_field("custom_field_allow_additional_project_values_block", visible: :hidden, disabled: true)
+        expect(page).to have_field("custom_field_project_level_value_management_block", visible: :hidden, disabled: true)
+      end
+    end
+
+    context "when allowing values per project", with_ee: %i[project_specific_list_values] do
+      let(:project_specific_value_restriction) { "allow" }
+      let(:project_level_value_management) { true }
+
+      it "offers both settings below the selected mode", :aggregate_failures do
+        expect(page).to have_checked_field("custom_field_project_level_value_management_allow")
+        expect(page).to have_unchecked_field("custom_field_allow_additional_project_values_allow")
+
+        expect(page).to have_field("custom_field_allow_additional_project_values_all", visible: :hidden, disabled: true)
+        expect(page).to have_field("custom_field_project_level_value_management_block", visible: :hidden, disabled: true)
+      end
+    end
+
+    context "when blocking values per project and project admins can add values",
+            with_ee: %i[project_specific_list_values] do
+      let(:project_specific_value_restriction) { "block" }
+      let(:allow_additional_project_values) { true }
+
+      it "offers both settings below the selected mode", :aggregate_failures do
+        expect(page).to have_unchecked_field("custom_field_project_level_value_management_block")
+        expect(page).to have_checked_field("custom_field_allow_additional_project_values_block")
+      end
+    end
+
+    context "when the enterprise plan does not include project-specific values" do
+      let(:project_specific_value_restriction) { "allow" }
+
+      it "disables the settings below the selected mode", :aggregate_failures do
+        expect(page).to have_field("custom_field_project_level_value_management_allow", disabled: true)
+        expect(page).to have_field("custom_field_allow_additional_project_values_allow", disabled: true)
       end
     end
   end

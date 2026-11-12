@@ -122,7 +122,7 @@ services:
     command: npm run serve
 
   db:
-    image: postgres:17
+    image: pgvector/pgvector:pg17-trixie
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
@@ -154,7 +154,7 @@ services:
   ######### Testing stuff below ############
 
   db-test:
-    image: postgres:17
+    image: pgvector/pgvector:pg17-trixie
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"

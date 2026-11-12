@@ -65,7 +65,7 @@ RSpec.describe "Reordering custom options of a list custom field", :js do
     click_link custom_field.name
 
     wait_for_network_idle
-    click_link "Items"
+    click_link "Values"
     wait_for_network_idle
 
     click_link "Reorder values alphabetically"

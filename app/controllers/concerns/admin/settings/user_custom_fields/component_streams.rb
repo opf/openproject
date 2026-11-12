@@ -42,11 +42,13 @@ module Admin
             )
           end
 
-          def update_section_via_turbo_stream(user_custom_field_section:)
+          def update_section_via_turbo_stream(user_custom_field_section:, sections:)
             update_via_turbo_stream(
               component: ::Settings::UserCustomFieldSections::ShowComponent.new(
-                user_custom_field_section:
-              )
+                user_custom_field_section:,
+                sections:
+              ),
+              method: :morph
             )
           end
 
@@ -62,7 +64,8 @@ module Admin
             replace_via_turbo_stream(
               component: ::Settings::UserCustomFieldSections::IndexComponent.new(
                 user_custom_field_sections:
-              )
+              ),
+              method: :morph
             )
           end
         end

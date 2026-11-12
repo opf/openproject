@@ -34,6 +34,11 @@ zh-CN:
         finish_date: 结束日期
         goal: 冲刺目标
         name: 冲刺名称
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         sharing: 共享中
         statuses:
           active: 激活
@@ -130,21 +135,10 @@ zh-CN:
     bucket_destroy_modal_component:
       details: 积压工作存储桶“%{name}”将被删除，所有工作包将移至积压工作收件箱。不会删除任何工作包。
       title: 是否删除积压工作存储桶？
-    burndown_chart:
-      series:
-        guideline: Guideline
-        projection: Remaining story points (projection)
-        remaining: Remaining story points
-      show:
-        blankslate_description: 设置冲刺的开始和结束日期，以生成燃尽图。
-        blankslate_title: 没有可用的燃尽数据
     created_resolved_chart:
       series:
         created: Created
         resolved: Resolved
-      show:
-        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
-        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: '选择要从积压工作中隐藏的工作包类型。所选类型的项目不会自动出现在积压工作中，从而聚焦于对您团队真正重要的工作。例如，可以隐藏长篇故事或里程碑等在更高级别管理的类型，使积压工作聚焦于可执行的项目。
 
@@ -189,6 +183,9 @@ zh-CN:
     rebuild: 重建
     rebuild_positions: 重建顺序
     remaining_hours: 剩余工时
+    selected_work_packages_component:
+      label:
+        other: "%{count} selected work packages"
     sharing: 冲刺共享
     sprint_component:
       action_menu:
@@ -212,6 +209,11 @@ zh-CN:
       shared_sprint_info_banner: 这是共享冲刺。所做的修改将反映在所有使用该冲刺的项目中。
       shared_sprint_warning_banner: 这是共享冲刺。您没有编辑该冲刺的必要权限。
     sprint_reports:
+      header_infoline_component:
+        planned_html: 'Planned: %{range}'
+      missing_dates_blankslate_component:
+        description: Sprint start and finish dates are necessary for the report to show.
+        heading: Missing sprint dates
       navigation_component:
         next: Next
         previous: Previous
@@ -220,10 +222,42 @@ zh-CN:
         title: "%{sprint}报告"
       widgets:
         burndown_chart:
+          blankslate:
+            no_estimated_hours:
+              description: The burndown chart will appear here once the sprint has an open work package with work time estimate.
+              heading: No work to display
+            no_story_points:
+              description: The burndown chart will appear here once the sprint has an open work package with estimated story points.
+              heading: No work to display
+            not_started:
+              description: The burndown chart will appear here after the sprint starts.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the burndown chart's timespan.
+              heading: No chart to display
+          series:
+            guideline: Guideline
+            projection:
+              story_points: Remaining story points (projection)
+              time: Remaining estimated time (projection)
+            remaining:
+              story_points: Remaining story points
+              time: Remaining estimated time
           title: Burndown chart
         burnup_chart:
-          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
-          blankslate_title: No burnup data available
+          blankslate:
+            no_estimated_hours:
+              description: The burnup chart will appear here once the sprint has received a work package with work time estimate.
+              heading: No work to display
+            no_story_points:
+              description: The burnup chart will appear here once the sprint has received a work package with estimated story points.
+              heading: No work to display
+            not_started:
+              description: The burnup chart will appear here after the sprint starts.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the burnup chart's timespan.
+              heading: No chart to display
           series:
             completed: Completed work
             guideline: Guideline
@@ -231,14 +265,36 @@ zh-CN:
             scope: Total work scope
           title: Burnup chart
         created_resolved_chart:
+          blankslate:
+            no_work:
+              description: The created vs resolved chart will appear here once a work package has been created or resolved within the sprint.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan.
+              heading: No chart to display
           title: Created vs resolved work packages
         epic_progress:
+          blankslate:
+            no_epics:
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              heading: No epics to display
+            no_work:
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              heading: No work to display
           card:
+            progress:
+              story_points:
+                other: "%{resolved} / %{count} story points"
+              time: "%{resolved} / %{count}"
+              work_packages:
+                other: "%{resolved} / %{count} work packages"
             progress_label:
-              other: "%{epic}: %{completed} of %{count} work packages completed"
+              story_points:
+                other: "%{epic}: %{resolved} of %{count} story points completed"
+              time: "%{epic}: %{resolved} of %{count} completed"
+              work_packages:
+                other: "%{epic}: %{resolved} of %{count} work packages completed"
             work_package_completed: "(%{percentage})"
-            work_package_counts:
-              other: "%{completed} / %{count} work packages"
           title: Epic progress
         velocity_chart:
           average:
@@ -248,17 +304,26 @@ zh-CN:
           completed: Completed
           story_points: "%{value} SP"
           summary:
-            other: Bar chart of committed and completed story points of the last %{count} sprints.
+            story_points:
+              other: Bar chart of committed and completed story points of the last %{count} sprints.
+            time:
+              other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
           title: Velocity chart
           velocity: "%{sprint}:"
-          y_axis_title: Story points
+          y_axis_title:
+            story_points: Story points
+            time: Estimated time
         work_package_graph:
+          blankslate:
+            no_work:
+              description: The work package graph will appear here once the sprint has received a work package.
+              heading: No work to display
+          summary:
+            completed: 'Bar chart of the work packages in the sprint when it was completed, by status: %{description}.'
+            current: 'Bar chart of the work packages currently in the sprint, by status: %{description}.'
           title: 工作包图表
         work_package_overview:
-          blankslate:
-            description: 设置冲刺的开始和结束日期，以生成工作包概述。
-            heading: 没有可用的冲刺数据
           blocks:
             changed_after_start:
               change_html: "+%{added} %{divider} -%{removed}"
@@ -277,20 +342,18 @@ zh-CN:
           closed_work_packages: 已关闭的工作包
           completed_estimated_time: Completed estimated time
           completed_story_points: Completed story points
-          resolved_summary:
+          progress_summary:
             story_points:
-              other: "%{percentage} (%{resolved} of %{total} story points)"
-            time: "%{percentage} (%{resolved} of %{total})"
+              other: "%{percentage} (%{resolved} of %{count} story points)"
+            time: "%{percentage} (%{resolved} of %{count})"
             work_packages:
-              other: "%{percentage} (%{resolved} of %{total} work packages)"
+              other: "%{percentage} (%{resolved} of %{count} work packages)"
           title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:
               empty:
                 description: Work packages that were added after the sprint start date will appear here.
-              no_dates:
-                description: Sprint start and finish dates are necessary to show added work packages.
               not_started:
                 description: Added work packages will appear here after the sprint starts.
             title: Scope increase after sprint start
@@ -300,8 +363,6 @@ zh-CN:
             blankslate:
               empty:
                 description: Work packages that were completed in the sprint will appear here.
-              no_dates:
-                description: Sprint start and finish dates are necessary to show completed work packages.
               not_started:
                 description: Completed work packages will appear here after the sprint starts.
             title: Completed work
@@ -309,8 +370,6 @@ zh-CN:
             blankslate:
               empty:
                 description: Work packages that were removed after the sprint start date will appear here.
-              no_dates:
-                description: Sprint start and finish dates are necessary to show removed work packages.
               not_started:
                 description: Removed work packages will appear here after the sprint starts.
             title: Scope decrease after sprint start
@@ -319,12 +378,12 @@ zh-CN:
               empty:
                 description: All work packages in this sprint are completed.
                 heading: Wow, all done!
-              no_dates:
-                description: Sprint start and finish dates are necessary to show unfinished work packages.
               not_started:
                 description: Unfinished work packages will appear here after the sprint starts.
             title: Unfinished work
     sprints:
+      date_cell_component:
+        planned: "(planned)"
       row_component:
         action_menu:
           edit_sprint: 编辑冲刺
@@ -357,6 +416,8 @@ zh-CN:
         move_to_backlog_bucket: 移至积压工作存储桶
         move_to_inbox: 移至积压工作收件箱
         move_to_sprint: 移至冲刺
+        no_batch_actions: No actions available for the selected work packages.
+        stale_selection: The selection has changed. Refresh it before moving work packages.
     work_package_is_closed: 工作包已完成，当
     work_packages:
       add_existing_dialog:
@@ -370,9 +431,15 @@ zh-CN:
         unexpected_failure: 无法移动工作包。请重试。
       move:
         moved_announcement: "%{label} 已移至 %{list}，位置 %{position}，总计 %{total}"
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: 要移动的工作包列表无效。
         member_failed: "%{work_package}：%{reason}"
+        moved_announcement:
+          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
         too_many_work_packages: 一次移动的工作包数量不能超过 %{max} 个。
         work_packages_not_found: 至少有一个工作包在此项目中无法找到。
       update_service:
@@ -381,10 +448,13 @@ zh-CN:
   ee:
     features:
       multiple_active_sprints: 多个处于有效状态的冲刺
+      sprint_report_pro_widgets: Full sprint report
       sprint_sharing: 冲刺共享
     upsell:
       multiple_active_sprints:
         description: 为项目中的不同团队并行运行多个冲刺，以获得更大的控制力和灵活性。
+      sprint_report_pro_widgets:
+        description: Add more charts, customize your report and access in-depth data about planning your team’s work.
       sprint_sharing:
         description: 跨项目共享冲刺，以便在规模化敏捷设置 (SAFe) 中调整团队和协调工作。
   label_all_sprints: 所有冲刺
@@ -410,11 +480,11 @@ zh-CN:
   notice_work_package_invisible_after_move:
     other: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
   permission_create_sprints: 创建冲刺
-  permission_manage_sprint_items: 管理冲刺条目
-  permission_select_backlog_types_and_statuses: 选择积压工作类型和状态
-  permission_select_backlog_types_and_statuses_explanation: '允许选择从积压工作中隐藏哪些工作包类型。还可以定义项目工作流中哪些状态代表已关闭或已完成状态。
+  permission_manage_backlogs_configuration: Manage backlogs configuration
+  permission_manage_backlogs_configuration_explanation: 'Allows configuring the backlogs module including: choosing which work package types to hide from the backlog, defining which statuses represent a closed or finished state in the project''s workflow and selecting the unit for velocity.
 
     '
+  permission_manage_sprint_items: 管理冲刺条目
   permission_share_sprint: 共享冲刺
   permission_start_complete_sprint: 开始/完成冲刺
   permission_view_sprints: 查看冲刺

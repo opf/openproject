@@ -36,7 +36,7 @@ RSpec.describe Sprints::Burnup do
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
-  shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
+  shared_let(:closed_status) { create(:status, name: "Closed", category: "closed") }
   shared_let(:done_status) { create(:status, name: "Done") }
 
   # A sprint from one Monday to the Friday of the following week: 10 working days
@@ -126,6 +126,37 @@ RSpec.describe Sprints::Burnup do
 
       it { expect(burnup.scope).to be_empty }
     end
+
+    context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+      before do
+        project.estimation_unit = estimation_unit
+        story_pointed(sprint_start => { story_points: 3, estimated_hours: 2.5, status_id: closed_status.id })
+      end
+
+      context "when estimation unit is story points" do
+        let(:estimation_unit) { "story_points" }
+
+        it "sums the story points" do
+          expect(burnup.scope.first).to have_attributes(value: 13.0)
+        end
+      end
+
+      context "when estimation unit is time" do
+        let(:estimation_unit) { "time" }
+
+        it "sums the estimated hours" do
+          expect(burnup.scope.first).to have_attributes(value: 2.5)
+        end
+      end
+
+      context "when estimation unit is none" do
+        let(:estimation_unit) { "none" }
+
+        it "counts the work packages" do
+          expect(burnup.scope.first).to have_attributes(value: 2.0)
+        end
+      end
+    end
   end
 
   describe "#completed" do
@@ -175,6 +206,37 @@ RSpec.describe Sprints::Burnup do
 
       it "goes down" do
         expect(burnup.completed.map(&:value).uniq).to eq [4.0, 0.0]
+      end
+    end
+
+    context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+      before do
+        project.estimation_unit = estimation_unit
+        story_pointed(sprint_start => { story_points: 3, estimated_hours: 2.5, status_id: closed_status.id })
+      end
+
+      context "when estimation unit is story points" do
+        let(:estimation_unit) { "story_points" }
+
+        it "sums the story points" do
+          expect(burnup.completed.first).to have_attributes(value: 3.0)
+        end
+      end
+
+      context "when estimation unit is time" do
+        let(:estimation_unit) { "time" }
+
+        it "sums the estimated hours" do
+          expect(burnup.completed.first).to have_attributes(value: 2.5)
+        end
+      end
+
+      context "when estimation unit is none" do
+        let(:estimation_unit) { "none" }
+
+        it "counts the work packages" do
+          expect(burnup.completed.first).to have_attributes(value: 1.0)
+        end
       end
     end
   end
@@ -311,6 +373,37 @@ RSpec.describe Sprints::Burnup do
       let(:now) { at_hour(first_monday - 7.days, 12) }
 
       it { expect(burnup.guideline).to be_empty }
+    end
+  end
+
+  describe "#anything_to_chart?" do
+    it "is true when story points were in the sprint within the window" do
+      story_pointed(sprint_start => { story_points: 10 })
+
+      expect(burnup).to be_anything_to_chart
+    end
+
+    it "is true when the story points in the sprint were closed throughout the window" do
+      story_pointed(sprint_start => { story_points: 5, status_id: closed_status.id })
+
+      expect(burnup).to be_anything_to_chart
+    end
+
+    it "is false when the work packages in the sprint have no story points" do
+      story_pointed(sprint_start => { story_points: nil })
+
+      expect(burnup).not_to be_anything_to_chart
+    end
+
+    context "when the sprint has not started yet" do
+      let(:started_at) { nil }
+      let(:now) { at_hour(first_monday - 7.days, 12) }
+
+      it "is false, as there is nothing measured yet" do
+        story_pointed(now - 1.hour => { story_points: 10 })
+
+        expect(burnup).not_to be_anything_to_chart
+      end
     end
   end
 end

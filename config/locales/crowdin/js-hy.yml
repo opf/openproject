@@ -131,10 +131,10 @@ hy:
     button_confirm: Հաստատել
     button_continue: Շարունակել
     button_copy: Պատճենել
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Պատճենել փոխանակման բուֆերում
     button_copy_to_other_project: Կրկնօրինակել այլ նախագծում
+    button_copy_work_package_id: Copy work package ID
     button_create: Ստեղծել
     button_custom-fields: Հատուկ դաշտեր
     button_delete: Ջնջել
@@ -150,6 +150,7 @@ hy:
     button_log_time: Գրանցել ժամանակ
     button_more: Ավելին
     button_more_actions: Այլ գործողություններ
+    button_move_to_position: Move to position
     button_open_details: Բացել մանրամասների տեսքը
     button_open_fullscreen: Բացել լիաէկրան տեսքը
     button_quote: Մեջբերել
@@ -349,6 +350,8 @@ hy:
       direct_hit_available: Գտնվել է ճշգրիտ ID-ով աշխատանքային փաթեթ։ Այն բացելու համար սեղմեք Enter։
       items_available: Հասանելի է %{count} տարր
       recently_viewed: Վերջերս դիտված
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Որոնեք աշխատանքային փաթեթներ ըստ վերնագրի, նախագծի, տեսակի, կարգավիճակի կամ ID-ի
       title:
         all_projects: բոլոր նախագծերում
@@ -502,6 +505,7 @@ hy:
     label_in: հետո
     label_in_less_than: պակաս քան
     label_in_more_than: ավելի քան
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Մուտքային էլ. նամակներ
     label_infinity: Անվերջություն
     label_information_plural: Տեղեկություններ
@@ -534,6 +538,10 @@ hy:
     label_open_context_menu: Բացել համատեքստային ցանկը
     label_open_menu: Բացել ընտրացանկը
     label_open_work_packages: բաց
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Գաղտնաբառ
     label_per_page: Մեկ էջում՝
     label_please_wait: Խնդրում ենք սպասել
@@ -567,7 +575,9 @@ hy:
     label_show_in_menu: Ցուցադրել տեսքը ցանկում
     label_sort_by: Դասավորել ըստ
     label_sort_higher: Տեղափոխել վերև
+    label_sort_highest: Move to top
     label_sort_lower: Տեղափոխել ներքև
+    label_sort_lowest: Move to bottom
     label_sorted_by: դասավորված ըստ՝
     label_sorting: Դասավորում
     label_spent_time: Ծախսված ժամանակ
@@ -578,6 +588,7 @@ hy:
     label_sum_for: Գումարը՝
     label_this_week: այս շաբաթ
     label_time_entry_plural: Ծախսված ժամանակ
+    label_to_do_work_packages: to-do
     label_today: Այսօր
     label_total_amount: Ընդհանուր՝ %{amount}
     label_total_progress: "%{percent}% ընդհանուր առաջընթաց"
@@ -819,6 +830,7 @@ hy:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Տարր
         fallback_list_name: մեկ այլ ցանկ
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Տեղափոխումը ձախողվեց։ Ստուգեք տարրի ընթացիկ դիրքը։
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -962,6 +974,7 @@ hy:
         all_open: Բոլոր բացերը
         assigned_to_me: Ինձ նշանակված
         created_by_me: Իմ ստեղծած
+        in_progress: In progress
         latest_activity: Վերջին գործունեություն
         manually_sorted: Նոր ձեռքով դասավորված հարցում
         overdue: Ժամկետանց
@@ -969,6 +982,7 @@ hy:
         shared_with_me: Ինձ հետ համօգտագործված
         shared_with_users: Օգտատերերի հետ համօգտագործված
         summary: Ամփոփում
+        to_do: To-do
       description_enter_text: Մուտքագրեք տեքստ
       description_filter: Զտիչ
       description_options_hide: Թաքցնել ընտրանքները
@@ -1056,6 +1070,7 @@ hy:
         other: Այլ
         people: Անձինք
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Սեղմեք՝ այս տեսքի վերնագիրը խմբագրելու համար։
         column_names: Սյունակներ
         confirm_edit_cancel: Համոզվա՞ծ եք, որ ցանկանում եք չեղարկել այս տեսքի անվան խմբագրումը։ Վերնագիրը կվերադառնա նախորդ արժեքին։
@@ -1065,17 +1080,16 @@ hy:
           not_found: Այդպիսի տեսք գոյություն չունի
           unretrievable_query: Չհաջողվեց ստանալ տեսքը URL-ից
         filters: Զտիչներ
-        group: Խմբավորել ըստ
         group_by: Խմբավորել արդյունքները ըստ
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Խմբավորումն անջատված է, քանի որ ակտիվ է հիերարխիայի ռեժիմը։
-        hide_column: Թաքցնել սյունակը
         hierarchy_disabled_by_group_by: Հիերարխիայի ռեժիմն անջատված է, քանի որ արդյունքները խմբավորված են ըստ %{column}-ի։
-        insert_columns: Տեղադրել սյունակներ
         move_column_left: Տեղափոխել սյունակը ձախ
         move_column_right: Տեղափոխել սյունակը աջ
         public_text: 'Հրապարակեք այս տեսքը՝ թույլ տալով այլ օգտատերերին մուտք գործել Ձեր տեսքին։ ''Կառավարել հանրային տեսքերը'' թույլտվություն ունեցող օգտատերերը կարող են փոփոխել կամ հեռացնել հանրային հարցումը։ Սա չի ազդում այդ տեսքում աշխատանքային փաթեթների արդյունքների տեսանելիության վրա, և կախված իրենց թույլտվություններից՝ օգտատերերը կարող են տեսնել տարբեր արդյունքներ։
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Այս տեսքի անվանումը
         sort_ascending: Դասավորել աճման կարգով
         sort_descending: Դասավորել նվազման կարգով

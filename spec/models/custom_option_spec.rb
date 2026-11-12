@@ -43,6 +43,108 @@ RSpec.describe CustomOption do
     custom_field.save!
   end
 
+  describe "validations" do
+    let(:project) { create(:project) }
+
+    it "allows a global option to be the default" do
+      expect(build(:custom_option, custom_field:, default_value: true)).to be_valid
+    end
+
+    it "does not allow a project option to be the default" do
+      option = build(:custom_option, custom_field:, project:, default_value: true)
+
+      expect(option).not_to be_valid
+      expect(option.errors.symbols_for(:default_value)).to include(:present)
+    end
+
+    it "allows a project option that is not the default" do
+      expect(build(:custom_option, custom_field:, project:, default_value: false)).to be_valid
+    end
+
+    describe "value uniqueness" do
+      let(:other_project) { create(:project) }
+
+      before { create(:custom_option, custom_field:, value: "QA", project:) }
+
+      it "does not allow a global option to share the value of another global option" do
+        option = build(:custom_option, custom_field:, value: "some value")
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a project option to share the value of an option of the same project" do
+        option = build(:custom_option, custom_field:, value: "QA", project:)
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a global option to share the value of a project option" do
+        option = build(:custom_option, custom_field:, value: "QA")
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a project option to share the value of a global option" do
+        option = build(:custom_option, custom_field:, value: "some value", project: other_project)
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "allows a project option to share the value of another project's option" do
+        expect(build(:custom_option, custom_field:, value: "QA", project: other_project)).to be_valid
+      end
+
+      it "does not allow a global option to share the value of another global option in a different case" do
+        option = build(:custom_option, custom_field:, value: "SOME VALUE")
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a project option to share the value of an option of the same project in a different case" do
+        option = build(:custom_option, custom_field:, value: "qa", project:)
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a global option to share the value of a project option in a different case" do
+        option = build(:custom_option, custom_field:, value: "qa")
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "does not allow a project option to share the value of a global option in a different case" do
+        option = build(:custom_option, custom_field:, value: "Some Value", project: other_project)
+
+        expect(option).not_to be_valid
+        expect(option.errors.symbols_for(:value)).to include(:taken)
+      end
+
+      it "allows a project option to share the value of another project's option in a different case" do
+        expect(build(:custom_option, custom_field:, value: "qa", project: other_project)).to be_valid
+      end
+
+      it "allows an option to change the case of its own value" do
+        custom_option.value = "Some Value"
+
+        expect(custom_option).to be_valid
+      end
+
+      it "rejects a global option added through the custom field's nested attributes" do
+        custom_field.custom_options_attributes = [{ value: "QA", position: 3 }]
+
+        expect(custom_field.save).to be(false)
+        expect(custom_field.custom_options.where(project_id: nil, value: "QA")).not_to exist
+      end
+    end
+  end
+
   describe "saving" do
     it "updates the custom_field's timestamp" do
       timestamp_before = custom_field.updated_at

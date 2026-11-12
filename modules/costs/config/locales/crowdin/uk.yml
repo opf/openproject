@@ -78,9 +78,11 @@ uk:
               invalid: має бути користувачем або прототипом користувача.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: Поле «Зареєстровано для» не може бути порожнім.
-              cannot_log_for_this_work_package: У вас немає дозволу реєструвати час для цього пакета робіт.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: Кількість зареєстрованих годин не може перевищувати час, доступний у робочому дні користувача, тобто %{limit} год.
@@ -94,6 +96,9 @@ uk:
             start_time:
               format: "%{message}"
               invalid_time: Недійсний час. Значення має бути в межах від 00:00 до 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: Інший таймер уже запущено. Одночасно може бути активним лише один таймер.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Робочий пакет #%{id}  не є дійсною ціллю для перепризначення записів витрат.'

@@ -34,7 +34,7 @@ class CostQuery::Filter::OverriddenCosts < Report::Filter::Base
     ["y", "n"].map(&:to_operator)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     []
   end
 end
