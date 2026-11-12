@@ -54,7 +54,7 @@ module API
             end
 
             def checksum_associations
-              @checksum_associations ||= %i[status author responsible assigned_to priority category type]
+              @checksum_associations ||= %i[status author reporter responsible assigned_to priority category type]
             end
 
             # Only singular associations (belongs_to/has_one) are supported, as a has_many
@@ -92,13 +92,15 @@ module API
               md5_parts << VERSIONS_CHECKSUM_SQL
               md5_parts << LABELS_CHECKSUM_SQL
 
-              <<-SQL
+              <<~SQL.squish
                 MD5(CONCAT(#{md5_parts.join(', ')}))
               SQL
             end
 
             def md5_checksum_table_name(association_name)
               case association_name
+              when :reporter
+                "reporters_work_packages"
               when :responsible
                 "responsibles_work_packages"
               when :assigned_to
