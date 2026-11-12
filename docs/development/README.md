@@ -10,7 +10,7 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 ## Get in touch
 
-Please get in touch with us using our [development forum](https://community.openproject.org/projects/openproject/forums/7) or send us an email to [info@openproject.org](mailto:info@openproject.org).
+Please get in touch with us using our [development forum](https://community.openproject.org/projects/openproject/forums/7) or send us an email to [info@openproject.com](mailto:info@openproject.com).
 
 ## Issue tracking and coordination
 
