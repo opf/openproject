@@ -26,12 +26,15 @@
 //++
 
 import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
-import { userEvent } from 'vitest/browser';
+import { page, userEvent } from 'vitest/browser';
 import { settlePopover } from 'core-common/testing/timing';
 import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { OpActionMenuComponent } from './op-action-menu.component';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import { OpActionMenuTriggerDirective } from './op-action-menu-trigger.directive';
@@ -508,5 +511,210 @@ describe('OpActionMenuComponent with a projected trigger', () => {
 
     expect(host.reasons).toEqual(['outside']);
     expect(within(secondMenu()).getAllByRole('menuitem')[0]).toHaveFocus();
+  });
+});
+
+@Component({
+  imports: [OpActionMenuComponent, OpActionMenuTriggerDirective],
+  template: `
+    <op-action-menu [items]="items()" label="Create menu" (opening)="cancelOpening() && $event.preventDefault()">
+      <button opActionMenuTrigger [attr.aria-disabled]="ariaDisabled() || null" [disabled]="disabled()">Create</button>
+    </op-action-menu>
+    <button type="button">Next</button>
+  `,
+})
+class OpeningHostComponent {
+  readonly items = signal<OpContextMenuItem[]>([]);
+
+  readonly cancelOpening = signal(false);
+
+  readonly ariaDisabled = signal(false);
+
+  readonly disabled = signal(false);
+}
+
+describe('OpActionMenuComponent opening', () => {
+  let fixture:ComponentFixture<OpeningHostComponent>;
+  let host:OpeningHostComponent;
+
+  const settle = settlePopover;
+  const threeItems = ():OpContextMenuItem[] => [
+    { linkText: 'Bug', onClick: () => true },
+    { linkText: 'Task', onClick: () => true },
+    { linkText: 'Epic', onClick: () => true },
+  ];
+  const trigger = () => screen.getByRole('button', { name: 'Create' });
+  const next = () => screen.getByRole('button', { name: 'Next' });
+  const menu = () => screen.getByRole('menu', { name: 'Create menu', hidden: true });
+  const overlay = () => (fixture.nativeElement as HTMLElement).querySelector<ActionMenuElement>('action-menu')!.overlay;
+  const isOpen = () => overlay().matches(':popover-open');
+  const arrive = async (items:OpContextMenuItem[]) => {
+    host.items.set(items);
+    await fixture.whenStable();
+    await settle();
+  };
+  const openWithItems = async () => {
+    await arrive(threeItems());
+    await userEvent.click(trigger());
+    await waitFor(() => expect(menu()).toContainElement(document.activeElement as HTMLElement));
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [OpeningHostComponent] }).compileComponents();
+    fixture = TestBed.createComponent(OpeningHostComponent);
+    host = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('stays closed when an opening listener prevents the opening', async () => {
+    host.cancelOpening.set(true);
+    await arrive(threeItems());
+
+    await userEvent.click(trigger());
+    await settle();
+
+    expect(isOpen()).toBe(false);
+    expect(trigger()).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('opens programmatically as a normal opening', async () => {
+    host.items.set(threeItems());
+    trigger().focus();
+
+    expect(fixture.debugElement.query(By.directive(OpActionMenuComponent)).componentInstance.open()).toBe(true);
+    await waitFor(() => expect(screen.getByRole('menuitem', { name: 'Bug' })).toHaveFocus());
+
+    expect(trigger()).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.keyboard('{ArrowDown}');
+    expect(screen.getByRole('menuitem', { name: 'Task' })).toHaveFocus();
+    await userEvent.keyboard('{Escape}');
+    await settle();
+    expect(trigger()).toHaveFocus();
+  });
+
+  it('returns focus to the trigger on Escape and after an item', async () => {
+    await openWithItems();
+
+    await userEvent.keyboard('{Escape}');
+    await settle();
+
+    expect(isOpen()).toBe(false);
+    expect(trigger()).toHaveFocus();
+
+    await userEvent.click(trigger());
+    await waitFor(() => expect(menu()).toContainElement(document.activeElement as HTMLElement));
+    await userEvent.keyboard('{Enter}');
+    await settle();
+
+    expect(isOpen()).toBe(false);
+    expect(trigger()).toHaveFocus();
+  });
+
+  it('closes on Tab and moves focus to the next control', async () => {
+    await openWithItems();
+
+    await userEvent.tab();
+    await settle();
+
+    expect(isOpen()).toBe(false);
+    expect(trigger()).toHaveAttribute('aria-expanded', 'false');
+    expect(next()).toHaveFocus();
+  });
+
+  it('opens nothing for an aria-disabled trigger', async () => {
+    host.ariaDisabled.set(true);
+    await arrive(threeItems());
+
+    await userEvent.click(trigger(), { force: true });
+    await settle();
+
+    expect(trigger()).toHaveAttribute('popovertarget', overlay().id);
+    expect(isOpen()).toBe(false);
+    expect(trigger()).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('opens nothing for a natively disabled trigger', async () => {
+    host.disabled.set(true);
+    await arrive(threeItems());
+
+    overlay().showPopover();
+    await settle();
+
+    expect(trigger()).toHaveAttribute('popovertarget', overlay().id);
+    expect(isOpen()).toBe(false);
+    expect(trigger()).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('closes when its trigger becomes disabled', async () => {
+    await openWithItems();
+
+    host.ariaDisabled.set(true);
+    await fixture.whenStable();
+    await settle();
+
+    expect(isOpen()).toBe(false);
+    expect(trigger()).toHaveAttribute('aria-expanded', 'false');
+  });
+});
+
+@Component({
+  imports: [OpActionMenuComponent, OpActionMenuTriggerDirective, OpTooltipDirective],
+  template: `
+    <op-action-menu [items]="items" label="Reminder menu" (opening)="cancelOpening() && $event.preventDefault()">
+      <button opActionMenuTrigger opTooltip label="Set reminder">R</button>
+    </op-action-menu>
+  `,
+})
+class TooltipHostComponent {
+  items:OpContextMenuItem[] = [{ linkText: 'Tomorrow', onClick: () => true }];
+
+  readonly cancelOpening = signal(false);
+}
+
+describe('OpActionMenuComponent with a tooltip on its trigger', () => {
+  let fixture:ComponentFixture<TooltipHostComponent>;
+
+  const trigger = () => screen.getByRole('button', { name: 'Set reminder' });
+  const tooltip = () => (fixture.nativeElement as HTMLElement).querySelector('tool-tip')!;
+
+  beforeEach(async () => {
+    const corner = document.createElement('div');
+    corner.dataset.testid = 'pointer-rest';
+    corner.style.cssText = 'position:fixed; right:0; bottom:0; width:10px; height:10px';
+    document.body.append(corner);
+    await userEvent.hover(page.getByTestId('pointer-rest'));
+    corner.remove();
+
+    await TestBed.configureTestingModule({ imports: [TooltipHostComponent] }).compileComponents();
+    fixture = TestBed.createComponent(TooltipHostComponent);
+    await fixture.whenStable();
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('keeps the tooltip closed when the pointer enters the trigger while the menu is open', async () => {
+    trigger().focus();
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(screen.getByRole('menuitem', { name: 'Tomorrow' })).toHaveFocus());
+
+    await userEvent.hover(trigger());
+    await settlePopover();
+
+    expect(tooltip().matches(':popover-open')).toBe(false);
+  });
+
+  it('still shows the tooltip on hover after an opening was canceled', async () => {
+    fixture.componentInstance.cancelOpening.set(true);
+    trigger().focus();
+    await userEvent.keyboard('{Enter}');
+    await settlePopover();
+    trigger().blur();
+    await settlePopover();
+
+    await userEvent.hover(trigger());
+
+    await waitFor(() => expect(tooltip().matches(':popover-open')).toBe(true));
   });
 });
