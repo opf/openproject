@@ -137,6 +137,7 @@ es:
         commented: Comentado
       custom_field:
         admin_only: Solo administradores
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Permitir versiones no abiertas
         content_right_to_left: Contenido de derecha a izquierda
         default_value: Valor predeterminado
@@ -152,6 +153,7 @@ es:
         min_value: Valor mínimo
         multi_value: Permitir selección múltiple
         possible_values: Valores posibles
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Expresión regular
         searchable: Buscable
@@ -395,10 +397,14 @@ es:
         authentication_method: Método de autenticación
         jwt_sub: Reclamación de asunto
       status:
+        category: Category
         default_done_ratio: "% compleado"
         excluded_from_totals: Excluir del cálculo de totales en la jerarquía
-        is_closed: Paquete de trabajo cerrado
         is_readonly: Paquete de trabajo de solo lectura
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Tipo de área de trabajo
       time_entry:
@@ -550,6 +556,11 @@ es:
         labels: Labels
         notify: Notificar
         observed_in_versions: Ovservado en versiones
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Padre
         parent_issue: Padre
         parent_work_package: Padre
@@ -710,6 +721,8 @@ es:
               invalid_tokens: Solo se permiten valores numéricos, operadores, funciones, palabras clave y atributos de proyecto de tipo entero, flotante, valor calculado y lista ponderada.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: El atributo %{custom_fields} no se puede usar porque conduce a una referencia circular; un atributo depende del otro.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
@@ -722,6 +735,10 @@ es:
           attributes:
             project_ids:
               blank: Seleccione un proyecto.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -1698,6 +1715,10 @@ es:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1708,12 +1729,16 @@ es:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1853,10 +1878,16 @@ es:
                 projects:
                   label: Proyectos
                   subtitle: Seleccionado como ámbito
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Datos importados
                 users_and_groups:
                   label: Usuarios y grupos
-                  subtitle: 'Participa en proyectos de importación '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Paquetes de trabajo
                   subtitle: With attachments and logged time
@@ -1873,17 +1904,15 @@ es:
               description: Seleccione los datos que desea importar de entre los datos disponibles obtenidos de la instancia de host de Jira.
               elements:
                 custom_fields: Un subconjunto de campos personalizados
-                issue_details: Descripción de la incidencia, historial, comentarios y archivos adjuntos
-                issue_ids: Identificadores de incidencias
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Incidencias
                 logged_time: Logged time
                 permissions: Permisos
-                project_ids: Identificadores de proyecto
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Proyectos
                 relations: Relaciones entre incidencias
                 schemes: Esquemas
-                sprints: Asignaciones de sprint
+                sprints: Sprints and sprint assignments
                 users: Usuarios y grupos implicados
                 workflows: Flujos de trabajo a nivel de proyecto
               label_coming_later: Más tarde
@@ -1910,17 +1939,20 @@ es:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1931,8 +1963,8 @@ es:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2154,10 +2186,6 @@ es:
       user_custom_field_sections:
         destroy:
           error: No se ha podido eliminar la sección.
-        drop:
-          error: No se ha podido reordenar la sección.
-        move:
-          error: No se ha podido reordenar la sección.
       versions_and_categories:
         banner:
           button_more_information: Más información
@@ -2273,6 +2301,8 @@ es:
       blankslate:
         description: Añade estados para empezar a configurar los flujos de trabajo de este rol
         linked_description: Este tipo reutiliza los flujos de trabajo de su tipo de origen vinculado, que no tiene configuradas transiciones de estado
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: No hay transiciones de estado configuradas
       leave_confirmation:
         description: Estás a punto de salir de esta página, pero tienes cambios sin guardar. ¿Quieres guardarlos antes de continuar?
@@ -2826,6 +2856,8 @@ es:
           item:
             description: Añada elementos a esta lista para crear subelementos dentro de otra
             title: Este elemento no tiene ningún nivel de jerarquía inferior
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Comience añadiendo elementos al campo personalizado de tipo jerarquía. Cada elemento puede utilizarse para crear una jerarquía debajo de él. Para navegar y crear subelementos dentro de una jerarquía, haga clic en el elemento creado.
             title: Su lista de artículos está vacía
@@ -2888,7 +2920,7 @@ es:
         warning: En función de la función seleccionada a continuación, el usuario asignado a este atributo del proyecto podría obtener muchos más permisos de los que tenía anteriormente, incluida la capacidad de añadir nuevos miembros y elevar su rol.
     calculated_field_not_editable: Atributo no editable. Este valor se calcula automáticamente.
     confirm_destroy_option: Al eliminar una opción, se eliminarán todas las repeticiones (por ejemplo, en paquetes de trabajo). ¿Está seguro de que desea eliminarla?
-    contained_in_type: Incluido en el tipo
+    contained_in: Contained in
     enabled_in_project: Activado en el proyecto
     instructions:
       admin_only:
@@ -2946,6 +2978,11 @@ es:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -3219,7 +3256,6 @@ es:
       gantt_pdf_export: Exportación de Gantt a PDF
       internal_comments: Comentarios Internos
       ldap_groups: Usuarios de LDAP y sincronización de grupos
-      mcp_server: Protocolo de contexto de modelo (MCP)
       meeting_templates: Plantillas de reuniones reutilizables
       nextcloud_sso: Inicio de sesión único para almacenamiento en la nube
       one_drive_sharepoint_file_storage: Almacenamiento de archivos OneDrive/SharePoint
@@ -3311,8 +3347,6 @@ es:
       internal_comments_inline:
         description: " "
         title: Escriba comentarios internos que solo un pequeño grupo pueda ver
-      mcp_server:
-        description: Incorpore OpenProject a sus flujos de trabajo de IA con un servidor MCP seguro.
       meeting_templates:
         description: Defina plantillas de reuniones con una estructura de orden del día fija y ahorre tiempo reutilizándolas al crear nuevas reuniones.
       nextcloud_sso:
@@ -3989,7 +4023,7 @@ es:
   label_active_in_new_projects: Activo en nuevos proyectos
   label_activity: Actividad
   label_add_another_file: Agregar otro archivo
-  label_add_column: Añadir columna
+  label_add_column: Add columns
   label_add_columns: Agregar columnas seleccionadas
   label_add_edit_translations: Añadir y editar traducciones
   label_add_note: Añadir una nota
@@ -4125,7 +4159,7 @@ es:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Icono de página personalizado
-  label_custom_field_add_no_type: Agregue este campo a un tipo de paquete de trabajo
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Tipo vacío
   label_custom_field_new: Nuevo campo personalizado
   label_custom_field_plural: Campos personalizados
@@ -4219,7 +4253,7 @@ es:
   label_filter: Filtros
   label_filter_add: Añadir filtro
   label_filter_any_name_attribute: Atributos de nombre
-  label_filter_by: Filtrar por
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Filtros
   label_filters_toggle: Mostrar/Ocultar filtros
   label_float: Desprender
@@ -4270,6 +4304,7 @@ es:
   label_in: en
   label_in_less_than: en menos de
   label_in_more_than: en más de
+  label_in_progress_work_packages: in progress
   label_inactive: Inactivo
   label_include_sub_projects: Incluir subproyectos
   label_includes: incluye
@@ -4421,7 +4456,7 @@ es:
   label_on: en
   label_open: abierto
   label_open_menu: Abrir menú
-  label_open_work_packages: abierto
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: abierto
   label_openproject_website: Sitio web de OpenProject
   label_operator_all: no está vacío
@@ -4628,6 +4663,7 @@ es:
   label_time_entry_plural: Tiempo invertido
   label_timer_since: Comenzó a las %{time}
   label_title: Título
+  label_to_do_work_packages: to-do
   label_today: hoy
   label_today_as_date: Seleccione hoy como fecha.
   label_today_as_due_date: Seleccione hoy como fecha de finalización.
@@ -4741,6 +4777,13 @@ es:
     one: "%{count} file"
     other: "%{count} archivos"
     zero: sin archivos
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} elementos"
@@ -4756,6 +4799,10 @@ es:
     one: "%{count} project"
     other: "%{count} proyectos"
     zero: sin proyectos
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} paquetes de trabajo"
@@ -5574,6 +5621,9 @@ es:
           not_unique: debe ser único dentro del mismo nivel de jerarquía.
         parent:
           not_descendant: debe ser descendiente de la raíz de la jerarquía.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: debe ser único dentro del mismo nivel de jerarquía.
       str?: debe ser una cadena.
@@ -5909,7 +5959,7 @@ es:
   project_module_activity: Actividad
   project_module_forums: Foros
   project_module_news: Noticias
-  project_module_repository: Repositorio
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Paquetes de trabajo
   projects:
@@ -6813,6 +6863,7 @@ es:
         label_built_in_attribute_actions: Acciones de atributos integrados
       custom_field_row_component:
         label_user_custom_field_actions: Acciones de atributos de usuario
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Añadir un atributo de usuario
         label_edit_section: Editar título
@@ -6925,6 +6976,11 @@ es:
   status_registered: Registrado
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Haga clic para asignar o cambiar el color de este estado.
         Se muestra en el botón de estado y puede usarse para resaltar paquetes de trabajo en la tabla.
@@ -7411,7 +7467,7 @@ es:
         actions:
           confirm_remove: "¿Eliminar el tipo %{type} de %{project}?"
           remove_from_project: Eliminar del proyecto
-          switch_variant: Cambiar variante
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Seleccione al menos un proyecto.
           search_placeholder: Buscar proyectos

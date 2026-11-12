@@ -131,10 +131,10 @@
     button_confirm: Bekreft
     button_continue: Fortsett
     button_copy: Kopier
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Kopier til utklippstavlen
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Opprett
     button_custom-fields: Egendefinerte felter
     button_delete: Slett
@@ -150,7 +150,7 @@
     button_log_time: Logg tid
     button_more: Mer
     button_more_actions: Flere handlinger
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Åpne detaljvisning
     button_open_fullscreen: Åpne fullskjermvisning
     button_quote: Sitèr
@@ -350,6 +350,8 @@
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Nylig sett
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: alle prosjekter
@@ -503,6 +505,7 @@
     label_in: i
     label_in_less_than: i mindre enn
     label_in_more_than: i mer enn
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Inkommende e-post
     label_infinity: Infinity
     label_information_plural: Informasjon
@@ -535,6 +538,10 @@
     label_open_context_menu: Åpne kontekstmeny
     label_open_menu: Åpne meny
     label_open_work_packages: åpne
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Passord
     label_per_page: 'Pr. side:'
     label_please_wait: Vennligst vent
@@ -581,6 +588,7 @@
     label_sum_for: Sum for
     label_this_week: denne uken
     label_time_entry_plural: Tid brukt
+    label_to_do_work_packages: to-do
     label_today: I dag
     label_total_amount: 'Totalt: %{amount}'
     label_total_progress: "%{percent}% utført"
@@ -966,6 +974,7 @@
         all_open: Alle åpne
         assigned_to_me: Tildelt meg
         created_by_me: Opprettet av meg
+        in_progress: In progress
         latest_activity: Siste aktivitet
         manually_sorted: New manually sorted query
         overdue: Forfalt
@@ -973,6 +982,7 @@
         shared_with_me: Delt med meg
         shared_with_users: Delt med brukere
         summary: Sammendrag
+        to_do: To-do
       description_enter_text: Skriv tekst
       description_filter: Filter
       description_options_hide: Skjul alternativer
@@ -1060,6 +1070,7 @@
         other: Øvrig
         people: Personer
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Klikk for å redigere tittelen på denne visningen.
         column_names: Kolonner
         confirm_edit_cancel: Er du sikker på at du vil avbryte redigering av navnet på denne visningen? Tittelen vil bli satt tilbake til forrige verdi.
@@ -1069,17 +1080,16 @@
           not_found: Det finnes ingen slik visning.
           unretrievable_query: Kan ikke hente visning fra URL
         filters: Filtre
-        group: Grupper etter
         group_by: Gruppèr resultater etter
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Gruppen av er deaktivert på grunn av at hierarki-modus er aktiv.
-        hide_column: Skjul kolonne
         hierarchy_disabled_by_group_by: Hierarki-modus er deaktivert på grunn av at resultatene blir gruppert av %{column}.
-        insert_columns: Sett inn kolonner
         move_column_left: Flytt kolonne til venstre
         move_column_right: Flytt kolonne til høyre
         public_text: 'Publiser denne visningen, slik at andre brukere får tilgang til visningen din. Brukere med ''Administrere offentlige visninger'' kan endre eller fjerne offentlig spørring. Dette påvirker ikke synligheten til arbeidspakken resultatene i denne oversikten og avhengig av tillatelser,  vil brukerne kunne se forskjellige resultater.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Navn for denne visningen
         sort_ascending: Stigende sortering
         sort_descending: Synkende sortering

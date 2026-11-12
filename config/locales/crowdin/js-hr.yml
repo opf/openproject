@@ -131,10 +131,10 @@ hr:
     button_confirm: Potvrdi
     button_continue: Nastavi
     button_copy: Kopiraj
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Kopiraj u međuspremnik
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Stvori
     button_custom-fields: Prilagođena polja
     button_delete: Obriši
@@ -150,7 +150,7 @@ hr:
     button_log_time: Vrijeme pristupa
     button_more: Više
     button_more_actions: More actions
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Otvorite pregled pojedinosti
     button_open_fullscreen: Otvoren prikaz preko cijeliog ekrana
     button_quote: Citiraj
@@ -350,6 +350,8 @@ hr:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: all projects
@@ -503,6 +505,7 @@ hr:
     label_in: u
     label_in_less_than: u manje od
     label_in_more_than: u više od
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Dolazne poruke
     label_infinity: Infinity
     label_information_plural: Informacija
@@ -535,6 +538,10 @@ hr:
     label_open_context_menu: Open context menu
     label_open_menu: Otvori izbornik
     label_open_work_packages: otvori
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Lozinka
     label_per_page: 'Po stranici:'
     label_please_wait: Molimo pričekajte
@@ -581,6 +588,7 @@ hr:
     label_sum_for: Iznos za
     label_this_week: ovog tjedna
     label_time_entry_plural: Utrošeno vrijeme
+    label_to_do_work_packages: to-do
     label_today: Today
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent}% ukupnog napretka"
@@ -972,6 +980,7 @@ hr:
         all_open: Svi otvoreni
         assigned_to_me: Dodijeljeno meni
         created_by_me: Created by me
+        in_progress: In progress
         latest_activity: Latest activity
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -979,6 +988,7 @@ hr:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Sažetak
+        to_do: To-do
       description_enter_text: Unesite tekst
       description_filter: Filter
       description_options_hide: Skrijte mogućnosti
@@ -1066,6 +1076,7 @@ hr:
         other: Ostalo
         people: Osobe
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Click to edit title of this view.
         column_names: Stupci
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1075,17 +1086,16 @@ hr:
           not_found: There is no such view
           unretrievable_query: Unable to retrieve view from URL
         filters: Filteri
-        group: Grupiraj po
         group_by: Grupiraj rezultate po
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: Sakriti stupac
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
         move_column_left: Premjesti stupac lijevo
         move_column_right: Premjesti stupac desno
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name of this view
         sort_ascending: Sortiraj uzlazno
         sort_descending: Sortiraj silazno

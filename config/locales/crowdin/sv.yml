@@ -137,6 +137,7 @@ sv:
         commented: Kommenterade
       custom_field:
         admin_only: Endast för administratörer
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Tillåt versioner som inte är öppna
         content_right_to_left: Höger-till-vänster-innehåll
         default_value: Standardvärde
@@ -152,6 +153,7 @@ sv:
         min_value: Lägsta värde
         multi_value: Tillåt flerval
         possible_values: Möjliga värden
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Reguljära uttryck
         searchable: Sökbara
@@ -395,10 +397,14 @@ sv:
         authentication_method: Autentiseringsmetod
         jwt_sub: Subject-anspråk
       status:
+        category: Category
         default_done_ratio: "% klart"
         excluded_from_totals: Undanta från beräkning av totaler i hierarkin
-        is_closed: Arbetspaket stängt
         is_readonly: Skrivskyddat arbetspaket
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Typ av arbetsyta
       time_entry:
@@ -550,6 +556,11 @@ sv:
         labels: Etiketter
         notify: Avisera
         observed_in_versions: Observerad i versioner
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Överordnad
         parent_issue: Överordnad
         parent_work_package: Överordnad
@@ -710,6 +721,8 @@ sv:
               invalid_tokens: Endast numeriska värden, operatorer, funktioner, nyckelord och projektattribut av typerna heltal, flyttal, beräknat värde och viktad lista är tillåtna.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: Attributet %{custom_fields} kan inte användas eftersom det leder till en cirkulär referens; det ena attributet är beroende av det andra.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
@@ -722,6 +735,10 @@ sv:
           attributes:
             project_ids:
               blank: Vänligen välj ett projekt.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -1698,6 +1715,10 @@ sv:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1708,12 +1729,16 @@ sv:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1853,10 +1878,16 @@ sv:
                 projects:
                   label: Projekt
                   subtitle: Vald som omfattning
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Importerade data
                 users_and_groups:
                   label: Användare och grupper
-                  subtitle: Involverade i importerade projekt
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Arbetspaket
                   subtitle: With attachments and logged time
@@ -1873,17 +1904,15 @@ sv:
               description: Välj vilka data du vill importera från de tillgängliga data som hämtats från Jira-värdinstansen.
               elements:
                 custom_fields: En delmängd av anpassade fält
-                issue_details: Ärendebeskrivning, historik, kommentarer och bilagor
-                issue_ids: Ärendeidentifierare
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Problem
                 logged_time: Logged time
                 permissions: Behörigheter
-                project_ids: Projektidentifierare
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projekt
                 relations: Relationer mellan ärenden
                 schemes: Scheman
-                sprints: Sprinttilldelningar
+                sprints: Sprints and sprint assignments
                 users: Berörda användare och grupper
                 workflows: Arbetsflöden på projektnivå
               label_coming_later: Kommer senare
@@ -1910,17 +1939,20 @@ sv:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1931,8 +1963,8 @@ sv:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2154,10 +2186,6 @@ sv:
       user_custom_field_sections:
         destroy:
           error: Avsnittet kunde inte tas bort.
-        drop:
-          error: Avsnittets ordning kunde inte ändras.
-        move:
-          error: Avsnittets ordning kunde inte ändras.
       versions_and_categories:
         banner:
           button_more_information: Mer information
@@ -2273,6 +2301,8 @@ sv:
       blankslate:
         description: Lägg till statusar för att börja konfigurera arbetsflöden för den här rollen
         linked_description: Den här typen återanvänder arbetsflödena från sin länkade källtyp, som inte har några statusövergångar konfigurerade
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: Inga statusövergångar har konfigurerats
       leave_confirmation:
         description: Du är på väg att lämna den här sidan men har osparade ändringar. Vill du spara dem innan du fortsätter?
@@ -2828,6 +2858,8 @@ sv:
           item:
             description: Lägg till poster i den här listan för att skapa underposter inuti en annan post
             title: Den här posten har ingen hierarkinivå under sig
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Börja med att lägga till poster i det anpassade fältet av typen hierarki. Varje post kan användas för att skapa en hierarki under sig. Klicka på den skapade posten för att navigera och skapa underposter i hierarkin.
             title: Din lista med poster är tom
@@ -2890,7 +2922,7 @@ sv:
         warning: Beroende på den roll som väljs nedan kan användaren som tilldelas det här projektattributet få betydligt fler behörigheter än tidigare, inklusive möjlighet att lägga till nya medlemmar och höja deras roll.
     calculated_field_not_editable: Attributet kan inte redigeras. Värdet beräknas automatiskt.
     confirm_destroy_option: Radering av ett alternativ kommer radera alla förekomster (i arbetspaket). Är du säker på att du vill radera?
-    contained_in_type: Ingår i typ
+    contained_in: Contained in
     enabled_in_project: Aktiverad i projekt
     instructions:
       admin_only:
@@ -2948,6 +2980,11 @@ sv:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -3221,7 +3258,6 @@ sv:
       gantt_pdf_export: PDF-export av Gantt
       internal_comments: Interna kommentarer
       ldap_groups: Synkronisering av LDAP-användare och -grupper
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Återanvändbara mötesmallar
       nextcloud_sso: Enkel inloggning för Nextcloud-lagring
       one_drive_sharepoint_file_storage: OneDrive-/SharePoint-fillagring
@@ -3315,8 +3351,6 @@ sv:
       internal_comments_inline:
         description: " "
         title: Skriv interna kommentarer som bara en liten grupp kan se
-      mcp_server:
-        description: Integrera OpenProject i dina AI-arbetsflöden med en säker MCP-server.
       meeting_templates:
         description: Definiera mötesmallar med en fast dagordningsstruktur och spara tid genom att återanvända dem när du skapar nya möten.
       nextcloud_sso:
@@ -3995,7 +4029,7 @@ sv:
   label_active_in_new_projects: Aktiv i nya projekt
   label_activity: Aktivitet
   label_add_another_file: Lägga till en annan fil
-  label_add_column: Lägg till kolumn
+  label_add_column: Add columns
   label_add_columns: Lägga till markerade kolumner
   label_add_edit_translations: Lägg till och editera översättningar
   label_add_note: Lägga till en anteckning
@@ -4131,7 +4165,7 @@ sv:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Anpassad favicon
-  label_custom_field_add_no_type: Lägg till det här fältet till en arbetspaketstyp
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Tom typ
   label_custom_field_new: Nytt anpassat fält
   label_custom_field_plural: Anpassade fält
@@ -4225,7 +4259,7 @@ sv:
   label_filter: Filter
   label_filter_add: Lägg till filter
   label_filter_any_name_attribute: Namn-attribut
-  label_filter_by: Filtrera på
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Filter
   label_filters_toggle: Visa/dölj filter
   label_float: Flyttal
@@ -4276,6 +4310,7 @@ sv:
   label_in: i
   label_in_less_than: i mindre än
   label_in_more_than: i mer än
+  label_in_progress_work_packages: in progress
   label_inactive: Inaktiv
   label_include_sub_projects: Inkludera underprojekt
   label_includes: inkluderar
@@ -4427,7 +4462,7 @@ sv:
   label_on: den
   label_open: öppen
   label_open_menu: Öppna meny
-  label_open_work_packages: öppna
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: öppen
   label_openproject_website: OpenProject hemsida
   label_operator_all: är inte tom
@@ -4634,6 +4669,7 @@ sv:
   label_time_entry_plural: Förbrukad tid
   label_timer_since: Startade på %{time}
   label_title: Titel
+  label_to_do_work_packages: to-do
   label_today: idag
   label_today_as_date: Välj dagens datum.
   label_today_as_due_date: Välj dagens datum som slutdatum.
@@ -4747,6 +4783,13 @@ sv:
     one: "%{count} file"
     other: "%{count} filer"
     zero: inga filer
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} poster"
@@ -4762,6 +4805,10 @@ sv:
     one: "%{count} project"
     other: "%{count} projekt"
     zero: inga projekt
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} arbetspaket"
@@ -5579,6 +5626,9 @@ sv:
           not_unique: måste vara unik på samma hierarkinivå.
         parent:
           not_descendant: måste vara underordnad hierarkins rot.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: måste vara unik på samma hierarkinivå.
       str?: måste vara en sträng.
@@ -5914,7 +5964,7 @@ sv:
   project_module_activity: Aktivitet
   project_module_forums: Forum
   project_module_news: Nyheter
-  project_module_repository: Versionsarkiv
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Arbetspaket
   projects:
@@ -6814,6 +6864,7 @@ sv:
         label_built_in_attribute_actions: Åtgärder för inbyggda attribut
       custom_field_row_component:
         label_user_custom_field_actions: Åtgärder för användarattribut
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Lägg till ett användarattribut
         label_edit_section: Redigera titel
@@ -6926,6 +6977,11 @@ sv:
   status_registered: Registrerad
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Välj för att tilldela eller ändra färgen för denna status.
         Den visas i statusknappen och och kan användas för markering av arbetspaket i tabellen.
@@ -7410,7 +7466,7 @@ sv:
         actions:
           confirm_remove: Ta bort typen %{type} från %{project}?
           remove_from_project: Ta bort från projekt
-          switch_variant: Byt variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Välj minst ett projekt.
           search_placeholder: Sök projekt

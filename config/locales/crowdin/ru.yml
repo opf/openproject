@@ -137,6 +137,7 @@ ru:
         commented: Прокомментировано
       custom_field:
         admin_only: Только администратор
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Разрешить неоткрытые версии
         content_right_to_left: Направление письма справа налево
         default_value: Значение по умолчанию
@@ -152,6 +153,7 @@ ru:
         min_value: Минимальное значение
         multi_value: Разрешить множественный выбор
         possible_values: Возможные значения
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Регулярное выражение
         searchable: Доступно для поиска
@@ -395,10 +397,14 @@ ru:
         authentication_method: Метод аутентификации
         jwt_sub: Необходима тема
       status:
+        category: Category
         default_done_ratio: "% завершения"
         excluded_from_totals: Исключить из расчета итогов в иерархии
-        is_closed: Пакет работ закрыт
         is_readonly: Пакет работ только для просмотра
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Тип рабочего пространства
       time_entry:
@@ -550,6 +556,11 @@ ru:
         labels: Метки
         notify: Уведомлять
         observed_in_versions: Наблюдается в версиях
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Родитель
         parent_issue: Родитель
         parent_work_package: Родитель
@@ -710,6 +721,8 @@ ru:
               invalid_tokens: Допускаются только числовые значения, операторы, функции, ключевые слова и атрибуты проекта целочисленного числа, числа с плавающей точкой, рассчитываемые значения и взвешенный список.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: Атрибут %{custom_fields} не может быть использован, потому что это приводит к циклической ссылке, один атрибут зависит от другого.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
@@ -724,6 +737,10 @@ ru:
           attributes:
             project_ids:
               blank: Пожалуйста, выберите проект.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -1918,6 +1935,10 @@ ru:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1928,12 +1949,16 @@ ru:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -2089,10 +2114,16 @@ ru:
                 projects:
                   label: Проекты
                   subtitle: Выбрано в качестве области применения
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Импорт завершен
                 users_and_groups:
                   label: Пользователи и группы
-                  subtitle: 'Участие в импортированных проектах '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Пакеты работ
                   subtitle: With attachments and logged time
@@ -2111,17 +2142,15 @@ ru:
               description: Выберите, какие данные Вы хотите импортировать из доступных, полученных из хоста Jira.
               elements:
                 custom_fields: Подмножество настраиваемых полей
-                issue_details: Описание задачи, история, комментарии и вложения
-                issue_ids: Идентификаторы задач
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Задачи
                 logged_time: Logged time
                 permissions: Разрешения
-                project_ids: Идентификаторы проекта
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Проекты
                 relations: Отношения между проблемами
                 schemes: Схемы
-                sprints: Назначения спринта
+                sprints: Sprints and sprint assignments
                 users: Вовлеченные пользователи и группы
                 workflows: Рабочие процессы на уровне проекта
               label_coming_later: Ожидается позже
@@ -2148,17 +2177,20 @@ ru:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -2169,8 +2201,8 @@ ru:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2396,10 +2428,6 @@ ru:
       user_custom_field_sections:
         destroy:
           error: Эта секция не может быть удалена.
-        drop:
-          error: Эта секция не может быть отсортирована.
-        move:
-          error: Эта секция не может быть отсортирована.
       versions_and_categories:
         banner:
           button_more_information: Дополнительная информация
@@ -2519,6 +2547,8 @@ ru:
       blankslate:
         description: Добавьте статусы, чтобы начать настройку рабочих процессов для этой роли
         linked_description: Данный тип повторно использует рабочие процессы связанного с ним исходного типа, для которого не настроены переходы между состояниями
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: Переходы статуса не настроены
       leave_confirmation:
         description: Вы собираетесь покинуть эту страницу, но у вас есть несохраненные изменения. Вы хотите сохранить их перед продолжением?
@@ -3082,6 +3112,8 @@ ru:
           item:
             description: Добавьте элементы в этот список, чтобы создать подпункты внутри другого списка
             title: Этот элемент не имеет уровня иерархии ниже
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: Начните с добавления элементов в настраиваемое поле иерархии. Каждый элемент может быть использован для создания иерархии ниже его. Чтобы переместить и создать подпункты внутри иерархии, нажмите на созданный элемент.
             title: Ваш список элементов пуст
@@ -3144,7 +3176,7 @@ ru:
         warning: В зависимости от роли, выбранной ниже, пользователь, назначенный на этот атрибут проекта, может получить значительно больше прав, чем имел ранее, включая возможность добавлять новых участников и повышать свою роль.
     calculated_field_not_editable: Не редактируемый атрибут. Это значение рассчитывается автоматически.
     confirm_destroy_option: Удаление опции приведет к удалению всех ее вхождений (например, в пакеты работ). Вы уверены, что вы хотите удалить ее?
-    contained_in_type: Содержится в типе
+    contained_in: Contained in
     enabled_in_project: Разрешено в проекте
     instructions:
       admin_only:
@@ -3202,6 +3234,11 @@ ru:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -3515,7 +3552,6 @@ ru:
       gantt_pdf_export: Экспорт диаграммы Ганта в PDF
       internal_comments: Служебный комментарий
       ldap_groups: Синхронизация пользователей LDAP и групп
-      mcp_server: Протокол контекста модели (MCP)
       meeting_templates: Многоразовые шаблоны совещаний
       nextcloud_sso: Единый вход для Nextcloud хранения
       one_drive_sharepoint_file_storage: Файловое хранилище OneDrive/SharePoint
@@ -3611,8 +3647,6 @@ ru:
       internal_comments_inline:
         description: " "
         title: Напишите внутренние комментарии только небольшой группы
-      mcp_server:
-        description: Внесите OpenProject в свои рабочие процессы искусственного интеллекта с помощью защищенного сервера MCP.
       meeting_templates:
         description: Определите шаблоны совещаний с заданной структурой повестки дня и экономьте время, повторно используя их при создании новых совещаний.
       nextcloud_sso:
@@ -4315,7 +4349,7 @@ ru:
   label_active_in_new_projects: Активное участие в новых проектах
   label_activity: Деятельность
   label_add_another_file: Добавьте еще один файл
-  label_add_column: Добавить столбец
+  label_add_column: Add columns
   label_add_columns: Добавить выбранные столбцы
   label_add_edit_translations: Добавить и редактировать перевод
   label_add_note: Добавить заметку
@@ -4451,7 +4485,7 @@ ru:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Пользовательские иконки
-  label_custom_field_add_no_type: Добавьте это поле в тип пакета работ
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Пустой тип
   label_custom_field_new: Новое настраиваемое поле
   label_custom_field_plural: Пользовательские поля
@@ -4545,7 +4579,7 @@ ru:
   label_filter: Фильтры
   label_filter_add: Добавить фильтр
   label_filter_any_name_attribute: Атрибуты имени
-  label_filter_by: Фильтровать по
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Фильтры
   label_filters_toggle: Показать/скрыть фильтры
   label_float: Плавающий
@@ -4596,6 +4630,7 @@ ru:
   label_in: в
   label_in_less_than: менее чем
   label_in_more_than: более чем
+  label_in_progress_work_packages: in progress
   label_inactive: Неактивен
   label_include_sub_projects: Включить подпроекты
   label_includes: включает
@@ -4747,7 +4782,7 @@ ru:
   label_on: на
   label_open: открыть
   label_open_menu: Открыть меню
-  label_open_work_packages: открыто
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: открыт
   label_openproject_website: OpenProject веб-сайт
   label_operator_all: не пусто
@@ -4954,6 +4989,7 @@ ru:
   label_time_entry_plural: Затраченное время
   label_timer_since: Начато в %{time}
   label_title: Заголовок
+  label_to_do_work_packages: to-do
   label_today: Сегодня
   label_today_as_date: Выберите сегодня в качестве даты.
   label_today_as_due_date: Выберите сегодня в качестве даты окончания.
@@ -5069,6 +5105,15 @@ ru:
     one: "%{count} file"
     other: "%{count} файлов"
     zero: нет файлов
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    few: "%{count} forms"
+    many: "%{count} forms"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} элементов"
@@ -5086,6 +5131,10 @@ ru:
     one: "%{count} project"
     other: "%{count} проектов"
     zero: нет проектов
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} пакетов работ"
@@ -5926,6 +5975,9 @@ ru:
           not_unique: должно быть уникальным в пределах одного уровня иерархии.
         parent:
           not_descendant: должно быть потомком корневого уровня иерархии.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: должно быть уникальным в пределах одного уровня иерархии.
       str?: должно быть строкой.
@@ -6263,7 +6315,7 @@ ru:
   project_module_activity: Деятельность
   project_module_forums: Форумы
   project_module_news: Новости
-  project_module_repository: Репозиторий
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Комплекс работ
   projects:
@@ -7181,6 +7233,7 @@ ru:
         label_built_in_attribute_actions: Встроенные действия с атрибутами
       custom_field_row_component:
         label_user_custom_field_actions: Пользовательские действия с атрибутами
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Добавить атрибут пользователя
         label_edit_section: Редактировать заголовок
@@ -7293,6 +7346,11 @@ ru:
   status_registered: Зарегистрирован
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Щелкните, чтобы задать или изменить цвет этого статуса.
         Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
@@ -7783,7 +7841,7 @@ ru:
         actions:
           confirm_remove: Удалить тип «%{type}» из «%{project}»?
           remove_from_project: Удалить из проекта
-          switch_variant: Изменить вариант
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Пожалуйста, выберите по крайней мере один проект.
           search_placeholder: Искать проекты

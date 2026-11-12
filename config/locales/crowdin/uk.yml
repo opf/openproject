@@ -137,6 +137,7 @@ uk:
         commented: Прокоментовано
       custom_field:
         admin_only: Тільки для адміністраторів
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Дозволити невідкриті версії
         content_right_to_left: Письмо зліва направо
         default_value: Значення за замовчуванням
@@ -152,6 +153,7 @@ uk:
         min_value: Мінімальне значення
         multi_value: Дозволити вибір
         possible_values: Можливі значення
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Регулярний вираз
         searchable: Доступно для пошуку
@@ -395,10 +397,14 @@ uk:
         authentication_method: Метод автентифікації
         jwt_sub: Потрібна тема
       status:
+        category: Category
         default_done_ratio: "% завершення"
         excluded_from_totals: Виключити з підрахунку підсумків в ієрархії
-        is_closed: Робочий пакет закритий
         is_readonly: Пакет робіт лише для перегляду
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Тип робочого простору
       time_entry:
@@ -550,6 +556,11 @@ uk:
         labels: Labels
         notify: Сповіщати
         observed_in_versions: Спостерігається у версіях
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Джерело
         parent_issue: Батьківський об’єкт
         parent_work_package: Батьківський об’єкт
@@ -712,6 +723,8 @@ uk:
               invalid_tokens: 'Допускаються лише числові значення, оператори, функції, ключові слова й атрибути проєкту таких типів: ціле число, число з рухомою комою, розраховане значення й список зважених елементів.'
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: Атрибут «%{custom_fields}» не можна використовувати, оскільки це призведе до циклічного посилання; один атрибут залежить від іншого.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
@@ -726,6 +739,10 @@ uk:
           attributes:
             project_ids:
               blank: Виберіть проєкт.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -1922,6 +1939,10 @@ uk:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1932,12 +1953,16 @@ uk:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -2093,10 +2118,16 @@ uk:
                 projects:
                   label: Проєкти
                   subtitle: Включено в обсяг
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Дані імпортовано
                 users_and_groups:
                   label: Користувачі й групи
-                  subtitle: 'Залучені до імпортованих проєктів '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Пакети робіт
                   subtitle: With attachments and logged time
@@ -2115,17 +2146,15 @@ uk:
               description: Виберіть дані, які потрібно імпортувати з доступного вмісту, отриманого з хост-екземпляра Jira.
               elements:
                 custom_fields: Підмножина користувацьких полів
-                issue_details: Опис задачі, історія, коментарі й вкладення
-                issue_ids: Ідентифікатори задач
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Задачі
                 logged_time: Logged time
                 permissions: Дозволи
-                project_ids: Ідентифікатори проєктів
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Проєкти
                 relations: Зв’язки між задачами
                 schemes: Схеми
-                sprints: Призначення спринту
+                sprints: Sprints and sprint assignments
                 users: Залучені користувачі й групи
                 workflows: Робочі процеси на рівні проєктів
               label_coming_later: З’явиться пізніше
@@ -2152,17 +2181,20 @@ uk:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -2173,8 +2205,8 @@ uk:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2400,10 +2432,6 @@ uk:
       user_custom_field_sections:
         destroy:
           error: Не вдалося видалити цей розділ.
-        drop:
-          error: Не вдалося перевпорядкувати цей розділ.
-        move:
-          error: Не вдалося перевпорядкувати цей розділ.
       versions_and_categories:
         banner:
           button_more_information: Докладніше
@@ -2523,6 +2551,8 @@ uk:
       blankslate:
         description: Додайте статуси, щоб почати налаштовувати робочі процеси для цієї ролі
         linked_description: Цей тип використовує робочі процеси зв’язаного з ним вихідного типу, для якого не налаштовано переходи між статусами
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: Переходи статусів не налаштовано
       leave_confirmation:
         description: Ви збираєтеся покинути цю сторінку, однак деякі зміни не збережено. Бажаєте зберегти їх, перш ніж продовжити?
@@ -3082,6 +3112,8 @@ uk:
           item:
             description: Додайте елементи до цього списку, щоб створити піделементи всередині іншого
             title: Цей елемент не має нижчого рівня ієрархії
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
           root:
             description: |-
               Спочатку додайте елементи до користувацького поля ієрархії типів. Створити ієрархію можна для кожного елемента. Щоб переходити між піделементами ієрархії і додавати
@@ -3146,7 +3178,7 @@ uk:
         warning: Залежно від вибраної нижче ролі, користувач, якому призначено цей атрибут проєкту, може отримати значно більше прав доступу, ніж мав раніше, включно з можливістю додавати нових учасників та підвищувати їхню роль.
     calculated_field_not_editable: Атрибут не підлягає редагуванню. Його значення обчислюється автоматично.
     confirm_destroy_option: Видалення опції призведе до видалення всіх його подій (наприклад, у робочих пакетах). Дійсно видалити його?
-    contained_in_type: Міститься за типом
+    contained_in: Contained in
     enabled_in_project: Увімкнено в проекті
     instructions:
       admin_only:
@@ -3204,6 +3236,11 @@ uk:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -3517,7 +3554,6 @@ uk:
       gantt_pdf_export: Експорт діаграми Ґантта в PDF
       internal_comments: Внутрішні коментарі
       ldap_groups: Синхронізація користувачів і груп LDAP
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Шаблони нарад, які можна використовувати повторно
       nextcloud_sso: Єдиний вхід для сховища Nextcloud
       one_drive_sharepoint_file_storage: Сховище файлів OneDrive / SharePoint
@@ -3613,8 +3649,6 @@ uk:
       internal_comments_inline:
         description: " "
         title: Створюйте внутрішні коментарі лише для учасників невеликої групи
-      mcp_server:
-        description: Захищений MCP-сервер має змогу інтегрувати OpenProject у робочі процеси на основі ШІ.
       meeting_templates:
         description: Налаштовуйте шаблони нарад з усталеною структурою порядку денного й заощаджуйте час, повторно використовуючи їх для створення нових нарад.
       nextcloud_sso:
@@ -4319,7 +4353,7 @@ uk:
   label_active_in_new_projects: Активна участь в нових проектах
   label_activity: Активність
   label_add_another_file: Додати ще один файл
-  label_add_column: Додати стовпець
+  label_add_column: Add columns
   label_add_columns: Додати вибрані стовпці
   label_add_edit_translations: Додайте та редагуйте переклади
   label_add_note: Додати зауваження
@@ -4455,7 +4489,7 @@ uk:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: призначені для користувача іконки
-  label_custom_field_add_no_type: Додайте це поле до типу робочого пакета
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Порожній тип
   label_custom_field_new: Нове спеціальне поле
   label_custom_field_plural: Індивідуальні поля
@@ -4549,7 +4583,7 @@ uk:
   label_filter: Фільтри
   label_filter_add: Додати фільтр
   label_filter_any_name_attribute: Атрибути імені
-  label_filter_by: Фільтрувати за
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Фільтри
   label_filters_toggle: Показати / приховати фільтри
   label_float: З плаваючою крапкою
@@ -4600,6 +4634,7 @@ uk:
   label_in: в
   label_in_less_than: менш ніж
   label_in_more_than: більше ніж
+  label_in_progress_work_packages: in progress
   label_inactive: Неактивний
   label_include_sub_projects: Включити підпроєкти
   label_includes: Включити
@@ -4751,7 +4786,7 @@ uk:
   label_on: на
   label_open: відкрити
   label_open_menu: Відкрити меню
-  label_open_work_packages: відкрити
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: відкрити
   label_openproject_website: Веб-сайт OpenProject
   label_operator_all: вказано
@@ -4958,6 +4993,7 @@ uk:
   label_time_entry_plural: Витрачений час
   label_timer_since: Почато о %{time}
   label_title: Назва
+  label_to_do_work_packages: to-do
   label_today: сьогодні
   label_today_as_date: Виберіть сьогодні як дату.
   label_today_as_due_date: Виберіть сьогодні як дату завершення.
@@ -5073,6 +5109,15 @@ uk:
     one: "%{count} file"
     other: 'Файлів: %{count}'
     zero: немає файлів
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    few: "%{count} forms"
+    many: "%{count} forms"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} елементи(-ів)"
@@ -5090,6 +5135,10 @@ uk:
     one: "%{count} project"
     other: 'Проєктів: %{count}'
     zero: немає проєктів
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: 'Пакетів робіт: %{count}'
@@ -5930,6 +5979,9 @@ uk:
           not_unique: має бути унікальним об’єктом у межах одного рівня ієрархії.
         parent:
           not_descendant: має бути нащадком кореня ієрархії.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: має бути унікальним об’єктом у межах одного рівня ієрархії.
       str?: має бути рядком.
@@ -6267,7 +6319,7 @@ uk:
   project_module_activity: Активність
   project_module_forums: Форуми
   project_module_news: Новини
-  project_module_repository: Репозиторій
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Пакети робіт
   projects:
@@ -7197,6 +7249,7 @@ uk:
         label_built_in_attribute_actions: Дії з вбудованими атрибутами
       custom_field_row_component:
         label_user_custom_field_actions: Дії з атрибутами користувача
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Додати атрибут користувача
         label_edit_section: Редагувати назву
@@ -7309,6 +7362,11 @@ uk:
   status_registered: Зареєстровано
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Натисніть, щоб призначити або змінити колір цього статусу.
         Він відображається в кнопці стану і може використовуватися для виділення робочих пакетів у таблиці.
@@ -7802,7 +7860,7 @@ uk:
         actions:
           confirm_remove: Вилучити тип «%{type}» з проєкту «%{project}»?
           remove_from_project: Вилучити з проєкту
-          switch_variant: Змінити варіант
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Виберіть принаймні один проєкт.
           search_placeholder: Пошук проєктів

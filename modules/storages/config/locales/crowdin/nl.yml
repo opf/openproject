@@ -498,7 +498,7 @@ nl:
     oauth_grant_nudge_modal:
       cancel_button_label: Ik doe het later
       heading: Login to %{provider_type} required
-      login_button_aria_label: Aanmelden bij %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} log in"
       project_settings:
         description: Om toegang te krijgen tot de projectmap moet u inloggen op %{storage}.
