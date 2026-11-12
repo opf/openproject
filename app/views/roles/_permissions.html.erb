@@ -23,8 +23,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
-
 ++#%>
+
 <% permissions.each do |mod, mod_permissions| %>
   <% module_name = mod.blank? ? Project.model_name.param_key : l_or_humanize(mod, prefix: "project_module_").downcase.tr(" ", "_") %>
   <% module_title = show_global_role && mod.blank? ? t(:label_global) : permission_header_for_project_module(mod) %>

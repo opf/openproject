@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module OpPrimer
   class RelativeTimeComponent < Primer::Component # rubocop:disable OpenProject/AddPreviewForViewComponent
     def initialize(datetime:, **system_arguments)

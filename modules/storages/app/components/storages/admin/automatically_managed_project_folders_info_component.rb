@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module Storages::Admin
   class AutomaticallyManagedProjectFoldersInfoComponent < StorageInfoComponent
     def self.wrapper_key = :automatically_managed_project_folders_section

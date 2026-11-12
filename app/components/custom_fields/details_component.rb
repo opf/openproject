@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module CustomFields
   class DetailsComponent < ApplicationComponent
     include ApplicationHelper
