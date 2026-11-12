@@ -86,20 +86,16 @@ async function answerOf(
 }
 
 /**
- * Owns the status banner on the Browser notifications tab of My account.
- *
- * The server is the source of truth, and both directions are reconciled. A
- * browser push subscription only counts when it matches a device in the list
- * the server rendered into this element and it is bound to the current VAPID key;
- * otherwise it is dropped, because a revoke from another device, a logout or a
- * key rotation has already invalidated it. A server row for this device without
- * a browser subscription (the browser deactivates it when notification
- * permission is revoked) is revoked. A known row that is not bound to this
- * session is resumed; a gone answer means the row was revoked elsewhere, so the
+ * The server is the source of truth. A browser push subscription it does not
+ * list, or one bound to another VAPID key, was invalidated by a revoke, a logout
+ * or a key rotation, so it is dropped. A server row for this device without a
+ * browser subscription is revoked: the browser deactivates the subscription
+ * when notification permission is withdrawn. A listed row that is not bound to
+ * this session is resumed; a gone answer means it was revoked elsewhere, so the
  * browser subscription is dropped.
  *
- * A run counter stops a reconcile that is still in flight from overwriting the
- * result of a later click, or rendering into an element that left the page.
+ * A run counter keeps a reconcile that is still in flight from overwriting the
+ * result of a later click.
  */
 export default class PushSubscriptionController extends Controller {
   static values = {
