@@ -76,7 +76,7 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
     it "opens new work package form in full view" do
       find(".add-work-package", wait: 10).click
       # The project runs a single type, so that is the only one on offer.
-      find(".menu-item", text: project.enabled_types.first.name.upcase, wait: 10).click
+      find(:menuitem, project.enabled_types.first.name, exact: true, wait: 10).click
 
       create_page = Pages::BCF::CreateSplit.new(project:)
       create_page.subject_field

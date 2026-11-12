@@ -319,7 +319,7 @@ module Pages
       expect_angular_frontend_initialized
       find(".add-work-package:not([disabled])", text: "Create").click
 
-      find("#types-context-menu .menu-item", text: type.name.upcase, wait: 30).click
+      find(:menuitem, type.name, exact: true, wait: 30).click
     end
 
     def subject_field

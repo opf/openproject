@@ -90,6 +90,17 @@ describe('OpActionMenuComponent', () => {
     expect(within(subMenu()).getAllByRole('menuitem', { hidden: true })).toHaveLength(2);
   });
 
+  it('puts labelClass on the label and not on the list item', () => {
+    fixture.componentRef.setInput('items', [{ linkText: 'Bug', href: '/bug', labelClass: '__hl_uppercase __hl_foreground __hl_type_7' }]);
+    fixture.detectChanges();
+
+    const item = within(menu()).getByRole('menuitem', { name: 'Bug', hidden: true });
+
+    expect(item.querySelector('.ActionListItem-label')).toHaveClass('__hl_uppercase', '__hl_foreground', '__hl_type_7');
+    expect(item.closest('li')).not.toHaveClass('__hl_uppercase');
+    expect(item).not.toHaveClass('__hl_uppercase');
+  });
+
   it('aligns labels beside legacy icons and Octicons', async () => {
     await open();
 
