@@ -29,6 +29,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper do %>
   <%=
     flex_layout(align_items: :center) do |header|
+      header.with_column(ml: -1, mr: 2, classes: "op-ai-result-pane--grip") do
+        render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
+      end
       header.with_column(mr: 2) do
         render(Primer::Beta::Octicon.new(icon: :sparkle, color: :done, size: :medium))
       end

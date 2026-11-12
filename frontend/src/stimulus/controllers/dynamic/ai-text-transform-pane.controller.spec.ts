@@ -43,11 +43,9 @@ describe('AiTextTransformPaneController', () => {
   <div data-ai-text-transform-pane-target="pane" role="dialog" aria-label="AI result" tabindex="-1"
        style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px; max-width: calc(100vw - 32px);">
     <div data-testid="header" ${action('pointerdown', 'beginDrag')}>
+      <span data-testid="grip"></span>
       <a href="#">Link</a>
       <button type="button" aria-label="Close" ${action('click', 'close')}>×</button>
-    </div>
-    <div>
-      <span data-testid="grip" ${action('pointerdown', 'beginDrag')}></span>
     </div>
     <span data-testid="resize-left" data-edge="left" ${action('pointerdown', 'beginResize')}></span>
     <span data-testid="resize-bottom-right" data-edge="bottom-right" ${action('pointerdown', 'beginResize')}></span>
@@ -100,7 +98,7 @@ describe('AiTextTransformPaneController', () => {
       expect(pane().style.bottom).toBe('auto');
     });
 
-    it('moves the pane by the footer grip', () => {
+    it('moves the pane by the header grip', () => {
       const before = rect();
       dragBy(byTestId('grip'), -10, 10);
 
