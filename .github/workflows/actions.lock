@@ -110,7 +110,7 @@ workflows:
         - 'reviewdog/action-yamllint@v1.25.3'
     '.github/workflows/zizmor-scan.yml':
         - 'actions/checkout@v7.0.1'
-        - 'zizmorcore/zizmor-action@v0.8.0'
+        - 'zizmorcore/zizmor-action@v0.8.1'
 dependencies:
     'actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9':
         ref: 'v6.1.0'
@@ -152,9 +152,9 @@ dependencies:
         commit: 'sha1-67ce3558d613188179559c61d3565140cf389968'
         owner_id: 9713907
         repo_id: 222439721
-    'github/codeql-action@24c54180a607b1449ed407dd24f251e4e9147c8d':
-        ref: 'v4.38.3'
-        commit: 'sha1-24c54180a607b1449ed407dd24f251e4e9147c8d'
+    'github/codeql-action@9b3254085494b55a0f7c4c2b3d2d52cc712ce370':
+        ref: 'v4.39.1'
+        commit: 'sha1-9b3254085494b55a0f7c4c2b3d2d52cc712ce370'
         owner_id: 9919
         repo_id: 259445878
     'github/codeql-action@v4.39.0':
@@ -219,10 +219,10 @@ dependencies:
         commit: 'sha1-17b59092eb37ebfdbb034460892887c09100eaa3'
         owner_id: 150241074
         repo_id: 905733180
-    'zizmorcore/zizmor-action@v0.8.0':
-        ref: 'v0.8.0'
-        commit: 'sha1-53290badfa369cb0bf7ad16342cb62c2fa47ac7b'
+    'zizmorcore/zizmor-action@v0.8.1':
+        ref: 'v0.8.1'
+        commit: 'sha1-45d7276c9ca790aabd705e31ca99c6185c3e76dd'
         owner_id: 210636713
         repo_id: 985558803
         uses:
-            - 'github/codeql-action@24c54180a607b1449ed407dd24f251e4e9147c8d'
+            - 'github/codeql-action@9b3254085494b55a0f7c4c2b3d2d52cc712ce370'
