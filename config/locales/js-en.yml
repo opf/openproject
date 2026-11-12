@@ -1078,6 +1078,7 @@ en:
         label_pagination: "Click here to skip over the work packages table and go to pagination"
         pagination: "Jump to table pagination"
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: "Collapse or expand groups"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       label_disable_multi_select: "Disable multiselect"
       label_enable_multi_select: "Enable multiselect"
