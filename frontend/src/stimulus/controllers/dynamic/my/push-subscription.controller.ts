@@ -90,8 +90,8 @@ async function answerOf(response:{ ok:boolean; statusCode:number; json:Promise<u
  * Owns the status banner on the Browser notifications tab of My account.
  *
  * The server is the source of truth, and both directions are reconciled. A
- * browser push subscription only counts when its endpoint is in the list the
- * server rendered into this element and it is bound to the current VAPID key;
+ * browser push subscription only counts when it matches a device in the list
+ * the server rendered into this element and it is bound to the current VAPID key;
  * otherwise it is dropped, because a revoke from another device, a logout or a
  * key rotation has already invalidated it. A server row for this device without
  * a browser subscription (the browser deactivates it when notification

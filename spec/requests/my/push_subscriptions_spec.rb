@@ -228,6 +228,20 @@ RSpec.describe "My::PushSubscriptionsController",
     end
   end
 
+  describe "GET /my/notifications?tab=push" do
+    before { sign_in }
+
+    it "renders only a digest of each endpoint" do
+      create(:push_subscription, user:, endpoint:)
+
+      get my_notifications_path(tab: "push")
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include(endpoint)
+      expect(response.body).to include(Digest::SHA256.hexdigest(endpoint))
+    end
+  end
+
   describe "DELETE /my/push_subscriptions/:id" do
     let!(:subscription) { create(:push_subscription, user:) }
 
