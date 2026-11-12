@@ -122,6 +122,7 @@ $nm-color-success-background: #d8fdd1
 
   .button
     padding: 0 var(--control-medium-paddingInline-normal)
+    font-weight: var(--base-text-weight-medium)
 
     &.-with-icon::before,
     &[class*='icon-']::before
@@ -139,6 +140,9 @@ $nm-color-success-background: #d8fdd1
 
     .button--text:empty
       display: none
+
+    > svg[triangle-down-icon]:last-child
+      margin-inline: calc(var(--base-size-4) * -1)
 
     .badge
       vertical-align: 1px
