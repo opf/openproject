@@ -30,34 +30,49 @@
 
 require "rails_helper"
 
-RSpec.describe Admin::CustomFields::Projects::NewValueDialogComponent, type: :component do
+RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:project) { create(:project, name: "Scrum project") }
 
+  let(:value) { nil }
   let(:parent) { nil }
   let(:parent_options) { rendered.css("select[name='parent_id'] option").map { it.text.strip } }
   let(:field_names) { rendered.css("input:not([type='hidden']), select").pluck("name") }
 
-  subject(:rendered) { render_inline(described_class.new(custom_field:, project:, parent:)) }
+  subject(:rendered) { render_inline(described_class.new(custom_field:, project:, value:, parent:)) }
 
   context "for a list custom field" do
     let(:custom_field) { create(:list_wp_custom_field, allow_additional_project_values: true) }
 
     it "asks for the name of the value in the project" do
-      expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.new_value_dialog.title"))
-      expect(rendered).to have_field(I18n.t("custom_fields.admin.projects.new_value_dialog.name"))
+      expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.title"))
+      expect(rendered).to have_field(I18n.t("custom_fields.admin.projects.value_dialog.name"))
       expect(rendered).to have_text(
-        I18n.t("custom_fields.admin.projects.new_value_dialog.name_caption", project: "Scrum project")
+        I18n.t("custom_fields.admin.projects.value_dialog.name_caption", project: "Scrum project")
       )
       expect(rendered.css("form").attr("action").value)
         .to eq(admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project))
+      expect(rendered).to have_button(I18n.t(:button_add))
     end
 
     it "does not ask for a parent, short name or weight" do
-      expect(rendered).to have_no_field(I18n.t("custom_fields.admin.projects.new_value_dialog.parent"))
+      expect(rendered).to have_no_field(I18n.t("custom_fields.admin.projects.value_dialog.parent"))
       expect(rendered).to have_no_field(I18n.t("custom_fields.admin.items.placeholder.short"))
       expect(rendered).to have_no_field(I18n.t("custom_fields.admin.items.placeholder.weight"))
+    end
+
+    context "when editing a value of the project" do
+      let(:value) { custom_field.custom_options.create!(value: "Own", project:) }
+
+      it "updates the value" do
+        expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.edit_title"))
+        expect(rendered).to have_field(I18n.t("custom_fields.admin.projects.value_dialog.name"), with: "Own")
+        expect(rendered.css("form").attr("action").value)
+          .to eq(admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, value.id))
+        expect(rendered.css("input[name='_method']").attr("value").value).to eq("patch")
+        expect(rendered).to have_button(I18n.t(:button_save))
+      end
     end
   end
 
@@ -69,7 +84,7 @@ RSpec.describe Admin::CustomFields::Projects::NewValueDialogComponent, type: :co
 
     it "offers the top level and the indented values of the project as parents" do
       expect(parent_options)
-        .to eq([I18n.t("custom_fields.admin.projects.new_value_dialog.top_level"), "Global", "  Own"])
+        .to eq([I18n.t("custom_fields.admin.projects.value_dialog.top_level"), "Global", "  Own"])
     end
 
     it "asks for a short name before the parent" do
@@ -81,10 +96,24 @@ RSpec.describe Admin::CustomFields::Projects::NewValueDialogComponent, type: :co
 
       it "preselects the parent" do
         expect(rendered).to have_text(
-          I18n.t("custom_fields.admin.projects.new_value_dialog.title_with_parent", parent: "Global")
+          I18n.t("custom_fields.admin.projects.value_dialog.title_with_parent", parent: "Global")
         )
-        expect(rendered).to have_select(I18n.t("custom_fields.admin.projects.new_value_dialog.parent"),
+        expect(rendered).to have_select(I18n.t("custom_fields.admin.projects.value_dialog.parent"),
                                         selected: "Global")
+      end
+    end
+
+    context "when editing a value of the project" do
+      let(:value) { own_item }
+
+      before do
+        own_item.update!(short: "OW")
+      end
+
+      it "shows the name and short name without the parent" do
+        expect(field_names).to eq(%w[label short])
+        expect(rendered).to have_field(I18n.t("custom_fields.admin.projects.value_dialog.name"), with: "Own")
+        expect(rendered).to have_field(I18n.t("custom_fields.admin.items.placeholder.short"), with: "OW")
       end
     end
   end

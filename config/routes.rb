@@ -1095,7 +1095,7 @@ Rails.application.routes.draw do
         resources :project_specific_values,
                   path: "projects/:project_id",
                   controller: "/admin/settings/work_package_custom_fields/project_specific_values",
-                  only: %i[index new create destroy] do
+                  only: %i[index new create edit update destroy] do
           member do
             post :toggle
             post :make_global

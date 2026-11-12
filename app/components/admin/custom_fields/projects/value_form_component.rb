@@ -30,29 +30,42 @@
 module Admin
   module CustomFields
     module Projects
-      class NewValueFormComponent < ApplicationComponent
+      class ValueFormComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(custom_field:, project:, values: {}, errors: {})
+        def initialize(custom_field:, project:, value: nil, values: {}, errors: {})
           super()
 
           @custom_field = custom_field
           @project = project
+          @value = value
           @values = values
           @errors = errors
         end
 
         private
 
-        attr_reader :custom_field, :project, :values, :errors
+        attr_reader :custom_field, :project, :value, :values, :errors
 
         def form_arguments
-          {
-            url: admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project),
-            method: :post,
-            data: { turbo_stream: true }
-          }
+          if value
+            { url: update_path, method: :patch, data: { turbo_stream: true } }
+          else
+            { url: create_path, method: :post, data: { turbo_stream: true } }
+          end
+        end
+
+        def submit_label
+          value ? t(:button_save) : t(:button_add)
+        end
+
+        def create_path
+          admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
+        end
+
+        def update_path
+          admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, value.id)
         end
       end
     end

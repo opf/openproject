@@ -27,34 +27,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module CustomFields
-    module Projects
-      class NewValueDialogComponent < ApplicationComponent
-        include OpTurbo::Streamable
+module CustomOptions
+  class UpdateContract < ::ModelContract
+    include RequiresAdminGuard
 
-        DIALOG_ID = "custom-field-project-value-new-dialog"
-
-        def initialize(custom_field:, project:, parent: nil)
-          super()
-
-          @custom_field = custom_field
-          @project = project
-          @parent = parent
-        end
-
-        private
-
-        attr_reader :custom_field, :project, :parent
-
-        def title
-          if parent
-            t("custom_fields.admin.projects.new_value_dialog.title_with_parent", parent: parent.label)
-          else
-            t("custom_fields.admin.projects.new_value_dialog.title")
-          end
-        end
-      end
-    end
+    attribute :value
   end
 end

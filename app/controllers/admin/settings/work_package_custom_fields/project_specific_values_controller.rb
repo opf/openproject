@@ -36,11 +36,11 @@ module Admin
         menu_item :work_package_custom_fields
 
         before_action :find_custom_field
-        before_action :require_project_specific_values, only: %i[index make_global deletion_dialog destroy]
+        before_action :require_project_specific_values, only: %i[index edit update make_global deletion_dialog destroy]
         before_action :require_project_specific_value_restriction, only: %i[toggle enable_all disable_all]
         before_action :require_additional_project_values, only: %i[new create]
         before_action :find_project_using_custom_field
-        before_action :find_own_value, only: %i[make_global deletion_dialog destroy]
+        before_action :find_own_value, only: %i[edit update make_global deletion_dialog destroy]
         before_action :find_parent, only: %i[new create]
 
         helper_method :custom_field_page_title, :section_label
@@ -48,8 +48,14 @@ module Admin
         def index; end
 
         def new
-          respond_with_dialog ::Admin::CustomFields::Projects::NewValueDialogComponent.new(
+          respond_with_dialog ::Admin::CustomFields::Projects::ValueDialogComponent.new(
             custom_field: @custom_field, project: @configured_project, parent: @parent
+          )
+        end
+
+        def edit
+          respond_with_dialog ::Admin::CustomFields::Projects::ValueDialogComponent.new(
+            custom_field: @custom_field, project: @configured_project, value: @value
           )
         end
 
@@ -60,13 +66,18 @@ module Admin
             flash[:notice] = I18n.t(:notice_successful_create)
             redirect_to_index
           else
-            update_via_turbo_stream(
-              component: ::Admin::CustomFields::Projects::NewValueFormComponent.new(
-                custom_field: @custom_field, project: @configured_project, values: new_value_params, errors:
-              ),
-              status: :unprocessable_entity
-            )
-            respond_with_turbo_streams
+            respond_with_form_errors(errors)
+          end
+        end
+
+        def update
+          errors = @custom_field.list? ? update_option : update_item
+
+          if errors.empty?
+            flash[:notice] = I18n.t(:notice_successful_update)
+            redirect_to_index
+          else
+            respond_with_form_errors(errors, value: @value)
           end
         end
 
@@ -158,16 +169,36 @@ module Admin
                                  .find(params.expect(:parent_id))
         end
 
-        def new_value_params
+        def value_params
           params.permit(:label, :short, :weight, :parent_id).to_h.symbolize_keys
         end
 
+        def respond_with_form_errors(errors, value: nil)
+          update_via_turbo_stream(
+            component: ::Admin::CustomFields::Projects::ValueFormComponent.new(
+              custom_field: @custom_field, project: @configured_project, value:, values: value_params, errors:
+            ),
+            status: :unprocessable_entity
+          )
+          respond_with_turbo_streams
+        end
+
         def create_option
-          errors = ::CustomOptions::CreateService
-                     .new(user: current_user)
-                     .call(custom_field: @custom_field, project: @configured_project, value: params[:label])
-                     .errors
-                     .to_hash(true)
+          call = ::CustomOptions::CreateService
+                   .new(user: current_user)
+                   .call(custom_field: @custom_field, project: @configured_project, value: params[:label])
+          option_errors(call)
+        end
+
+        def update_option
+          call = ::CustomOptions::UpdateService
+                   .new(user: current_user, model: @value)
+                   .call(value: params[:label])
+          option_errors(call)
+        end
+
+        def option_errors(call)
+          errors = call.errors.to_hash(true)
           errors[:label] = errors.delete(:value) if errors.key?(:value)
           errors
         end
@@ -184,11 +215,30 @@ module Admin
             .either(->(_) { {} }, ->(validation) { item_errors(validation) })
         end
 
+        def update_item
+          ::CustomFields::Hierarchy::HierarchicalItemService
+            .new
+            .update_item(contract_class: update_item_contract,
+                         item: @value,
+                         label: params[:label],
+                         short: params[:short],
+                         weight: params[:weight])
+            .either(->(_) { {} }, ->(validation) { item_errors(validation) })
+        end
+
         def insert_item_contract
           if @custom_field.field_format_weighted_item_list?
             ::CustomFields::Hierarchy::InsertWeightedItemContract
           else
             ::CustomFields::Hierarchy::InsertListItemContract
+          end
+        end
+
+        def update_item_contract
+          if @custom_field.field_format_weighted_item_list?
+            ::CustomFields::Hierarchy::UpdateWeightedItemContract
+          else
+            ::CustomFields::Hierarchy::UpdateListItemContract
           end
         end
 

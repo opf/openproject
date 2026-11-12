@@ -29,7 +29,7 @@
 
 module CustomFields
   module ProjectSpecificValues
-    class NewValueForm < ApplicationForm
+    class ValueForm < ApplicationForm
       INDENTATION = "  "
 
       form do |f|
@@ -41,8 +41,8 @@ module CustomFields
 
         f.text_field(
           name: :label,
-          label: I18n.t("custom_fields.admin.projects.new_value_dialog.name"),
-          caption: I18n.t("custom_fields.admin.projects.new_value_dialog.name_caption", project: @project.name),
+          label: I18n.t("custom_fields.admin.projects.value_dialog.name"),
+          caption: I18n.t("custom_fields.admin.projects.value_dialog.name_caption", project: @project.name),
           value: @values[:label],
           required: true,
           autofocus: true,
@@ -71,10 +71,10 @@ module CustomFields
           )
         end
 
-        if @custom_field.hierarchical_list?
+        if @value.nil? && @custom_field.hierarchical_list?
           f.select_list(
             name: :parent_id,
-            label: I18n.t("custom_fields.admin.projects.new_value_dialog.parent"),
+            label: I18n.t("custom_fields.admin.projects.value_dialog.parent"),
             validation_message: validation_message_for(:parent_id)
           ) do |list|
             parent_options.each do |label, id|
@@ -84,11 +84,12 @@ module CustomFields
         end
       end
 
-      def initialize(custom_field:, project:, values: {}, errors: {})
+      def initialize(custom_field:, project:, value: nil, values: {}, errors: {})
         super()
 
         @custom_field = custom_field
         @project = project
+        @value = value
         @values = values
         @errors = errors
       end
@@ -96,7 +97,7 @@ module CustomFields
       private
 
       def parent_options
-        top_level = [I18n.t("custom_fields.admin.projects.new_value_dialog.top_level"), @custom_field.hierarchy_root.id]
+        top_level = [I18n.t("custom_fields.admin.projects.value_dialog.top_level"), @custom_field.hierarchy_root.id]
 
         [top_level, *item_options]
       end
