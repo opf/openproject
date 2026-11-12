@@ -251,5 +251,28 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         expect(response).to have_http_status(:not_found)
       end
     end
+
+    context "with only additional project values allowed" do
+      let(:custom_field) { create(:list_wp_custom_field, types: [feature], allow_additional_project_values: true) }
+      let(:values_path) { project_values_admin_settings_work_package_custom_field_path(custom_field, using_project) }
+
+      it "links each project to the configuration of its values" do
+        get projects_path
+
+        expect(page).to have_link(href: values_path)
+      end
+
+      it "shows the values of a project" do
+        get values_path
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "does not change the values of a project", with_ee: %i[project_specific_list_values] do
+        post enable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 end

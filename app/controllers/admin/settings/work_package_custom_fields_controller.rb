@@ -34,12 +34,14 @@ module Admin
 
       menu_item :work_package_custom_fields
 
-      PROJECT_VALUES_ACTIONS = %i[project_values toggle_project_value enable_all_project_values
-                                  disable_all_project_values].freeze
+      PROJECT_VALUE_RESTRICTION_ACTIONS = %i[toggle_project_value enable_all_project_values
+                                             disable_all_project_values].freeze
+      PROJECT_VALUES_ACTIONS = [:project_values, *PROJECT_VALUE_RESTRICTION_ACTIONS].freeze
 
       # Redeclaring :find_custom_field by name would drop the base controller's callback for its own actions.
       before_action(only: [:projects, :forms, :types_and_variants, *PROJECT_VALUES_ACTIONS]) { find_custom_field }
-      before_action :require_project_specific_values, only: PROJECT_VALUES_ACTIONS
+      before_action :require_project_specific_values, only: :project_values
+      before_action :require_project_specific_value_restriction, only: PROJECT_VALUE_RESTRICTION_ACTIONS
       before_action :find_project_using_custom_field, only: PROJECT_VALUES_ACTIONS
 
       def index
@@ -111,6 +113,13 @@ module Admin
       protected
 
       def require_project_specific_values
+        return if @custom_field.project_specific_value_restriction.present?
+        return if @custom_field.allow_additional_project_values?
+
+        render_404
+      end
+
+      def require_project_specific_value_restriction
         render_404 if @custom_field.project_specific_value_restriction.nil?
       end
 
