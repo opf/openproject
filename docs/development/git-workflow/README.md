@@ -106,7 +106,11 @@ New features are always added to the current `dev` branch, which is the developm
 
 Bugfixes for one of the actively supported versions of OpenProject should be issued against the respective branch. For that, we maintain at least one `release/X.Y` branch for OpenProject releases X.Y.Z. For example, the OpenProject release branch for 11.0 would be `release/11.0` and contains all releases between `11.0.0` until `11.0.X` .
 
-During stabilization of a new major or minor release, bugfixes can target `dev`, but most often you will want to fix a current production release. Name the branch following the [branch naming convention](#branch-names) (e.g. `bug/op-12345-short-description`) and open the pull request against the most recent `release/X.Y` branch, so that the fix is available in the immediate next patch release. A fix for an older, still supported version (a "backport") targets that version's `release/X.Y` branch. Ensure that the version of the corresponding OpenProject bug ticket matches the release branch version. We will try to merge hotfixes into the `dev` branch, but if that is not a trivial task, we might ask you to create another PR for that.
+During stabilization of a new major or minor release, bugfixes can target a release branch or `dev`. For important bug fixes, you will want to fix a current production release. Name the branch following the [branch naming convention](#branch-names) (e.g. `bug/op-12345-short-description`) and open the pull request against the most recent `release/X.Y` branch, so that the fix is available in the immediate next patch release.
+
+For non-critical bugs or bugs that existed for longer, the default should be the `dev` branch to allow sufficient time for QA to test the bugfix.
+
+Ensure that the version of the corresponding OpenProject bug ticket matches the release branch version. We will try to merge hotfixes into the `dev` branch, but if that is not a trivial task, we might ask you to create another PR for that.
 
 #### Tagging
 
