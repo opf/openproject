@@ -51,27 +51,49 @@ module WorkPackageCustomFields::Scopes
         visible_projects = Project.visible(user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
 
-        source_join, source_variant_id, excluded =
-          TypeVariant::FormConfigurationSql.remap("pt.variant_id")
-        exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
-
         where(<<~SQL.squish)
           EXISTS (
             SELECT 1
             FROM (#{visible_projects.select(:id).to_sql}) vp
             JOIN project_types pt
               ON pt.project_id = vp.id
-            #{source_join}
-            JOIN custom_fields_types cft
-              ON cft.type_variant_id = #{source_variant_id}
-             AND cft.custom_field_id = custom_fields.id
-             AND #{exclusion}
+            #{custom_fields_types_join}
             LEFT JOIN custom_fields_projects cfp
               ON cfp.project_id = vp.id
              AND cfp.custom_field_id = custom_fields.id
             WHERE custom_fields.is_for_all = TRUE
                OR cfp.custom_field_id IS NOT NULL
           )
+        SQL
+      end
+
+      private
+
+      def custom_fields_types_join
+        if OpenProject::FeatureDecisions.type_variants_active?
+          linked_custom_fields_types_join
+        else
+          own_custom_fields_types_join
+        end
+      end
+
+      def own_custom_fields_types_join
+        <<~SQL.squish
+          JOIN custom_fields_types cft
+            ON cft.type_variant_id = pt.variant_id
+           AND cft.custom_field_id = custom_fields.id
+        SQL
+      end
+
+      def linked_custom_fields_types_join
+        source_join, source_variant_id, excluded = TypeVariant::FormConfigurationSql.remap("pt.variant_id")
+
+        <<~SQL.squish
+          #{source_join}
+          JOIN custom_fields_types cft
+            ON cft.type_variant_id = #{source_variant_id}
+           AND cft.custom_field_id = custom_fields.id
+           AND #{TypeVariant.excluded_custom_field_condition('custom_fields.id', excluded)}
         SQL
       end
     end
