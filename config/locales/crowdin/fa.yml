@@ -391,10 +391,14 @@ fa:
         authentication_method: روش احراز هویت
         jwt_sub: Claim موضوع
       status:
+        category: Category
         default_done_ratio: "٪ تکمیل"
         excluded_from_totals: حذف از محاسبه مجموع‌ها در سلسله‌مراتب
-        is_closed: بسته کاری بسته شد
         is_readonly: بسته کاری فقط‌خواندنی
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: نوع فضای کاری
       time_entry:
@@ -413,6 +417,7 @@ fa:
       type:
         allow_project_variants: اجازه ایجاد گونه‌های ویژه پروژه
         color: رنگ
+        description: Description
         is_in_roadmap: نمایش پیش‌فرض در نقشه راه
         is_milestone: نقطه عطف است
         project_types: پروژه‌ها
@@ -422,6 +427,7 @@ fa:
       type_variant:
         attribute_groups: فرم
         default_work_package_description: متن پیش‌فرض توضیحات
+        description: Description
         enabled_in_new_projects: فعال در پروژه‌های جدید
         linked_aspects: پیکربندی موروثی
         patterns: الگوها
@@ -544,6 +550,11 @@ fa:
         labels: برچسب‌ها
         notify: اعلان
         observed_in_versions: مشاهده‌شده در نسخه‌ها
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: بالادستی
         parent_issue: والد
         parent_work_package: والد
@@ -700,6 +711,7 @@ fa:
               format: "%{message}"
               invalid: فرمول نامعتبر است.
               invalid_tokens: فقط مقادیر عددی، عملگرها، توابع، کلیدواژه‌ها و ویژگی‌های پروژه از نوع عدد صحیح، اعشاری، مقدار محاسبه‌شده و فهرست وزن‌دار مجاز هستند.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: ویژگی %{custom_fields} قابل استفاده نیست، زیرا باعث ارجاع دوری می‌شود؛ یک ویژگی به دیگری وابسته است.
             project_specific_value_restriction:
               not_supported: تنها برای فیلدهای سفارشی بسته کاری با قالب‌های فهرست، سلسله‌مراتب و فهرست اقلام وزن‌دار در دسترس است.
@@ -1469,6 +1481,7 @@ fa:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} و %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: تاریخ %{date} حذف شد
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: این مقادیر از طریق متغیرهای محیطی پیکربندی شده‌اند و در اینجا قابل ویرایش نیستند.
@@ -1684,6 +1697,10 @@ fa:
             title: ایجاد نسخه‌ها برای «%{jira_project_name}»
           JiraCreateProjectWorkPackagesJob:
             title: ایجاد بسته‌های کاری «%{jira_project_name}»
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: ایجاد کاربران
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1694,12 +1711,16 @@ fa:
             title: دریافت انواع مسئله
           JiraFetchPrioritiesJob:
             title: دریافت اولویت‌ها
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: دریافت مسائل پروژه «%{jira_project_name}»
           JiraFetchProjectVersionsJob:
             title: دریافت نسخه‌های پروژه «%{jira_project_name}»
           JiraFetchProjectsJob:
             title: دریافت پروژه‌ها
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: دریافت وضعیت‌ها
           JiraFetchUsersJob:
@@ -1839,10 +1860,16 @@ fa:
                 projects:
                   label: پروژه‌ها
                   subtitle: به‌عنوان دامنه انتخاب‌شده
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: داده‌های واردشده
                 users_and_groups:
                   label: کاربران و گروه‌ها
-                  subtitle: درگیر در پروژه‌های واردشده
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: بسته‌های کاری
                   subtitle: با پیوست‌ها و زمان ثبت‌شده
@@ -1859,17 +1886,15 @@ fa:
               description: از داده‌های موجود دریافت‌شده از نمونه میزبان Jira، موارد موردنظر برای Import را انتخاب کنید.
               elements:
                 custom_fields: زیرمجموعه‌ای از فیلدهای سفارشی
-                issue_details: توضیحات Issue، تاریخچه، دیدگاه‌ها و پیوست‌ها
-                issue_ids: شناسه‌های Issue
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issueها
                 logged_time: زمان ثبت‌شده
                 permissions: مجوزها
-                project_ids: شناسه‌های پروژه
-                project_versions: نسخه‌های پروژه
+                project_details: Project identifiers, description and versions
                 projects: پروژه‌ها
                 relations: روابط بین Issueها
                 schemes: Schemaها
-                sprints: تخصیص‌های اسپرینت
+                sprints: Sprints and sprint assignments
                 users: کاربران و گروه‌های درگیر
                 workflows: گردش‌کارهای سطح پروژه
               label_coming_later: بعداً اضافه می‌شود
@@ -1896,17 +1921,20 @@ fa:
               rest_line_text: ''
               title: دریافت پیکربندی Jira
             '10':
-              rest_line_text: در حال ایجاد ورودی‌های ثبت زمان برای %{projects_number} پروژه دیگر
-              title: ایجاد ورودی‌های ثبت زمان
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
             '11':
-              rest_line_text: در حال دریافت پیوست‌های %{projects_number} پروژه دیگر
-              title: دریافت پیوست‌ها
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
+            '12':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
-              rest_line_text: در حال دریافت مسائل و نسخه‌های %{projects_number} پروژه دیگر
-              title: دریافت مسائل و نسخه‌های پروژه‌ها
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: دریافت کاربران و فیلدهای سفارشی
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: ایجاد کاربران، گروه‌ها و عضویت‌ها
@@ -1917,8 +1945,8 @@ fa:
               rest_line_text: در حال ایجاد %{projects_number} پروژه دیگر
               title: ایجاد پروژه‌ها
             '7':
-              rest_line_text: در حال ایجاد نسخه‌ها برای %{projects_number} پروژه دیگر
-              title: ایجاد نسخه‌های پروژه
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: در حال ایجاد بسته‌های کاری برای %{projects_number} پروژه دیگر
               title: ایجاد بسته‌های کاری
@@ -2109,10 +2137,6 @@ fa:
       user_custom_field_sections:
         destroy:
           error: بخش حذف نشد.
-        drop:
-          error: ترتیب بخش تغییر نکرد.
-        move:
-          error: ترتیب بخش تغییر نکرد.
       versions_and_categories:
         banner:
           button_more_information: اطلاعات بیشتر
@@ -2228,6 +2252,8 @@ fa:
       blankslate:
         description: برای شروع پیکربندی گردش‌کارهای این نقش، وضعیت‌ها را اضافه کنید
         linked_description: این نوع از گردش‌کارهای نوع منبع پیوندشده خود استفاده می‌کند که هیچ انتقال وضعیتی برای آن پیکربندی نشده است
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: هیچ انتقال وضعیتی پیکربندی نشده است
       leave_confirmation:
         description: در حال ترک این صفحه هستید اما تغییرات ذخیره‌نشده دارید. آیا می‌خواهید پیش از ادامه آن‌ها را ذخیره کنید؟
@@ -2672,6 +2698,7 @@ fa:
       disabled_value: ویژگی «%{custom_field_name}» برای این مقدار محاسبه‌شده لازم است، اما در پروژه غیرفعال است.
       mathematical: فرمول ریاضی به خطا منجر می‌شود. لطفاً ویژگی محاسبه پروژه را بازبینی و دوباره تلاش کنید.
       missing_value: ویژگی «%{custom_field_name}» برای این مقدار محاسبه‌شده لازم است، اما خالی است.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: یک خطای ناشناخته رخ داد. لطفاً فرمول این مقدار محاسبه‌شده را بازبینی کنید.
   colors:
     contrast:
@@ -2844,7 +2871,7 @@ fa:
         warning: بسته به نقش انتخاب‌شده در زیر، کاربر تخصیص‌یافته به این ویژگی پروژه ممکن است مجوزهای بسیار بیشتری از قبل دریافت کند، از جمله امکان افزودن اعضای جدید و ارتقای نقش آن‌ها.
     calculated_field_not_editable: ویژگی غیرقابل‌ویرایش. این مقدار به‌طور خودکار محاسبه می‌شود.
     confirm_destroy_option: حذف یک گزینه همه کاربردهای آن را نیز حذف می‌کند (برای مثال در بسته‌های کاری). مطمئنید می‌خواهید آن را حذف کنید؟
-    contained_in_type: موجود در نوع
+    contained_in: Contained in
     enabled_in_project: فعال در پروژه
     instructions:
       admin_only:
@@ -2853,7 +2880,7 @@ fa:
       editable:
         all: اجازه دهید فیلد توسط خود کاربران قابل ویرایش باشد.
       formula:
-        project: مقادیر عددی اضافه کنید یا / را تایپ کنید تا ویژگی، عملگر، تابع یا Token دیگری را جستجو کنید.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: به کاربر اجازه می‌دهد هنگام انتخاب مقدار ویژگی پروژه در نمای کلی پروژه، دیدگاهی مرتبط با آن اضافه کند.
       is_filter:
@@ -3175,7 +3202,6 @@ fa:
       gantt_pdf_export: خروجی PDF گانت
       internal_comments: دیدگاه‌های داخلی
       ldap_groups: همگام‌سازی کاربران و گروه‌های LDAP
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: الگوهای جلسه قابل استفاده مجدد
       nextcloud_sso: ورود یکپارچه برای فضای ذخیره‌سازی Nextcloud
       one_drive_sharepoint_file_storage: فضای ذخیره‌سازی OneDrive/SharePoint
@@ -3269,8 +3295,6 @@ fa:
       internal_comments_inline:
         description: " "
         title: دیدگاه‌های داخلی بنویسید که فقط گروه کوچکی بتوانند ببینند
-      mcp_server:
-        description: OpenProject را با یک سرور MCP امن وارد گردش‌کارهای هوش مصنوعی خود کنید.
       meeting_templates:
         description: الگوهای جلسه را با ساختار دستورجلسه مشخص تعریف کنید و با استفاده مجدد از آن‌ها هنگام ایجاد جلسه جدید در زمان صرفه‌جویی کنید.
       nextcloud_sso:
@@ -3949,7 +3973,7 @@ fa:
   label_active_in_new_projects: فعال در پروژه های جدید
   label_activity: فعالیت
   label_add_another_file: افزودن فایل دیگر
-  label_add_column: افزودن ستون
+  label_add_column: Add columns
   label_add_columns: افزودن ستون‌های انتخاب‌شده
   label_add_edit_translations: افزودن و ویرایش ترجمه‌ها
   label_add_note: افزودن یادداشت
@@ -3964,6 +3988,7 @@ fa:
   label_additional_workflow_transitions_for_author: انتقال‌های اضافی مجاز زمانی که کاربر نویسنده است
   label_administration: مدیریت
   label_age: سن
+  label_aggregate_function_plural: Aggregate functions
   label_ago: روز پیش
   label_all: همه
   label_all_open_wps: همه موارد باز
@@ -4084,7 +4109,7 @@ fa:
   label_custom_export_footer: تصویر پانوشت
   label_custom_export_logo: لوگو
   label_custom_favicon: Favicon سفارشی
-  label_custom_field_add_no_type: افزودن این فیلد به یک نوع بسته کاری
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: نوع خالی
   label_custom_field_new: فیلد سفارشی جدید
   label_custom_field_plural: فیلدهای سفارشی
@@ -4178,7 +4203,7 @@ fa:
   label_filter: فیلترها
   label_filter_add: افزودن فیلتر
   label_filter_any_name_attribute: ویژگی‌های نام
-  label_filter_by: فیلتر بر اساس
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: فیلترها
   label_filters_toggle: نمایش/پنهان کردن فیلتر
   label_float: عدد اعشاری
@@ -4229,6 +4254,7 @@ fa:
   label_in: در
   label_in_less_than: کمتر از
   label_in_more_than: بیشتر از
+  label_in_progress_work_packages: in progress
   label_inactive: غیرفعال
   label_include_sub_projects: شامل زیرپروژه‌ها
   label_includes: شامل
@@ -4380,7 +4406,7 @@ fa:
   label_on: در
   label_open: باز
   label_open_menu: بازکردن منو
-  label_open_work_packages: باز
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: باز
   label_openproject_website: وب‌سایت OpenProject
   label_operator_all: خالی نیست
@@ -4587,6 +4613,7 @@ fa:
   label_time_entry_plural: زمان صرف‌شده
   label_timer_since: شروع شده از %{time}
   label_title: عنوان
+  label_to_do_work_packages: to-do
   label_today: امروز
   label_today_as_date: امروز را به‌عنوان تاریخ انتخاب کنید.
   label_today_as_due_date: امروز را به‌عنوان تاریخ پایان انتخاب کنید.
@@ -4700,6 +4727,13 @@ fa:
     one: "%{count} فایل"
     other: "%{count} فایل"
     zero: بدون فایل
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} مورد"
     other: "%{count} مورد"
@@ -4715,6 +4749,10 @@ fa:
     one: "%{count} پروژه"
     other: "%{count} پروژه"
     zero: بدون پروژه
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} بسته کاری"
     other: "%{count} بسته کاری"
@@ -5868,7 +5906,7 @@ fa:
   project_module_activity: فعالیت
   project_module_forums: انجمن‌ها
   project_module_news: اخبار
-  project_module_repository: مخزن
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: ویکی
   project_module_work_package_tracking: بسته‌های کاری
   projects:
@@ -5912,6 +5950,15 @@ fa:
       new:
         placeholder: فهرست پروژه جدید
       shared: فهرست‌های پروژه اشتراک‌گذاری‌شده
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: غیرفعال‌کردن همه
@@ -6763,6 +6810,7 @@ fa:
         label_built_in_attribute_actions: اقدام‌های ویژگی داخلی
       custom_field_row_component:
         label_user_custom_field_actions: اقدام‌های ویژگی کاربر
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: افزودن ویژگی کاربر
         label_edit_section: ویرایش عنوان
@@ -6875,6 +6923,11 @@ fa:
   status_registered: ثبت‌نام‌شده
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         برای تخصیص یا تغییر رنگ این وضعیت کلیک کنید.
         این رنگ در دکمه وضعیت نمایش داده می‌شود و می‌تواند برای برجسته‌سازی بسته‌های کاری در جدول استفاده شود.
@@ -7246,6 +7299,7 @@ fa:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: برای مدیران پروژه‌ای که مجوز مدیریت گونه‌ها را دارند، این نوع می‌تواند درون یک پروژه گسترش یابد یا تغییر کند.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: به‌ارث‌رسیده از نوع <b>%{type}</b>.
         tab: جزئیات
         type_color_text: رنگ انتخاب‌شده نوع‌های مختلف را در نمودار گانت یا جدول بسته کاری متمایز می‌کند. بنابراین استفاده از رنگ قوی توصیه می‌شود.
@@ -7364,7 +7418,7 @@ fa:
         actions:
           confirm_remove: نوع %{type} از %{project} حذف شود؟
           remove_from_project: حذف از پروژه
-          switch_variant: تغییر گونه
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: لطفاً حداقل یک پروژه انتخاب کنید.
           search_placeholder: جستجوی پروژه‌ها

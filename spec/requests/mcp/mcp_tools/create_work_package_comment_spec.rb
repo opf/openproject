@@ -71,7 +71,7 @@ RSpec.describe McpTools::CreateWorkPackageComment do
     work_package.project.update!(enabled_internal_comments: true)
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server internal_comments] do
+  context "when the internal comments enterprise feature is enabled", with_ee: %i[internal_comments] do
     it_behaves_like "MCP text tool"
 
     it "adds a work package comment" do
@@ -115,13 +115,6 @@ RSpec.describe McpTools::CreateWorkPackageComment do
 
         expect(work_package.reload.journals.last).to be_restricted
       end
-    end
-  end
-
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
     end
   end
 end

@@ -391,10 +391,14 @@ ko:
         authentication_method: 인증 방법
         jwt_sub: 제목 클레임
       status:
+        category: Category
         default_done_ratio: 완료 %
         excluded_from_totals: 계층의 합계 계산에서 제외
-        is_closed: 종료된 작업 패키지
         is_readonly: 읽기 전용 작업 패키지
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: 워크스페이스 유형
       time_entry:
@@ -413,6 +417,7 @@ ko:
       type:
         allow_project_variants: 프로젝트별 변형 허용
         color: 색상
+        description: Description
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_milestone: 마일스톤
         project_types: 프로젝트
@@ -422,6 +427,7 @@ ko:
       type_variant:
         attribute_groups: 양식
         default_work_package_description: 설명의 기본 텍스트
+        description: Description
         enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
         linked_aspects: Inherited configuration
         patterns: 패턴
@@ -544,6 +550,11 @@ ko:
         labels: Labels
         notify: 알림
         observed_in_versions: 다음 버전에서 확인됨
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: 부모
         parent_issue: 부모
         parent_work_package: 부모
@@ -702,6 +713,7 @@ ko:
               format: "%{message}"
               invalid: 수식이 유효하지 않습니다.
               invalid_tokens: 정수, 부동 소수점, 계산된 값 및 가중치 목록 유형의 숫자 값, 연산자, 함수, 키워드 및 프로젝트 특성만 허용됩니다.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: "%{custom_fields} 특성은 순환 참조로 이어지기 때문에 사용할 수 없습니다. 한 특성이 다른 특성에 종속됩니다."
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1361,6 +1373,7 @@ ko:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} 및 %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: 삭제된 날짜 %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
@@ -1393,7 +1406,7 @@ ko:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -1576,6 +1589,10 @@ ko:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1586,12 +1603,16 @@ ko:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1723,10 +1744,16 @@ ko:
                 projects:
                   label: 프로젝트
                   subtitle: 범위로 선택함
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: 데이터 가져옴
                 users_and_groups:
                   label: 사용자 및 그룹
-                  subtitle: '가져온 프로젝트에 참여함 '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: 작업 패키지
                   subtitle: With attachments and logged time
@@ -1742,17 +1769,15 @@ ko:
               description: 호스트 Jira 인스턴스에서 가져온 사용 가능한 데이터에서 가져올 데이터를 선택합니다.
               elements:
                 custom_fields: 사용자 지정 필드의 하위 집합
-                issue_details: 이슈 설명, 기록, 코멘트 및 첨부 파일
-                issue_ids: 이슈 식별자
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: 이슈
                 logged_time: Logged time
                 permissions: 권한
-                project_ids: 프로젝트 식별자
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: 프로젝트
                 relations: 이슈 간의 관계
                 schemes: 스키마
-                sprints: 스프린트 할당
+                sprints: Sprints and sprint assignments
                 users: 참여 사용자 및 그룹
                 workflows: 프로젝트 수준 워크플로
               label_coming_later: 추후 제공 예정
@@ -1779,17 +1804,20 @@ ko:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1800,8 +1828,8 @@ ko:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -1990,10 +2018,6 @@ ko:
       user_custom_field_sections:
         destroy:
           error: 해당 섹션을 삭제할 수 없습니다.
-        drop:
-          error: 해당 섹션의 순서를 변경할 수 없습니다.
-        move:
-          error: 해당 섹션의 순서를 변경할 수 없습니다.
       versions_and_categories:
         banner:
           button_more_information: 자세한 정보
@@ -2105,6 +2129,8 @@ ko:
       blankslate:
         description: 상태를 추가하여 이 역할에 대한 워크플로 구성을 시작합니다
         linked_description: 이 유형은 상태 전환이 구성되지 않은 연결된 소스 유형의 워크플로를 재사용합니다
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: 구성된 상태 전환 없음
       leave_confirmation:
         description: 이 페이지를 나가려고 하는데, 저장되지 않은 변경 사항이 있습니다. 저장한 후에 계속하시겠습니까?
@@ -2547,6 +2573,7 @@ ko:
       disabled_value: '"%{custom_field_name}" 특성은 이 계산된 값에 필요하지만 해당 프로젝트에 대해 비활성화되어 있습니다.'
       mathematical: 수학 공식으로 인해 오류가 발생했습니다. 프로젝트 계산 특성을 검토한 후 다시 시도하세요.
       missing_value: '"%{custom_field_name}" 특성은 이 계산된 값에 필요하지만 비어 있습니다.'
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: 알 수 없는 오류가 발생했습니다. 이 계산된 값의 공식을 검토해 주세요.
   colors:
     contrast:
@@ -2721,7 +2748,7 @@ ko:
         warning: 아래에서 선택한 역할에 따라 이 프로젝트 특성에 할당된 사용자는 새 멤버를 추가하고 해당 역할을 승격하는 기능을 포함하여 이전보다 훨씬 더 많은 권한을 갖게 될 수 있습니다.
     calculated_field_not_editable: 편집할 수 없는 특성입니다. 이 값은 자동으로 계산됩니다.
     confirm_destroy_option: '옵션을 삭제하면 모든 해당 항목(예: 작업 패키지 내 모든 항목)이 삭제됩니다. 그래도 삭제하시겠습니까?'
-    contained_in_type: 타입에 포함됨.
+    contained_in: Contained in
     enabled_in_project: 프로젝트에 사용 가능함.
     instructions:
       admin_only:
@@ -2730,7 +2757,7 @@ ko:
       editable:
         all: 사용자가 필드를 편집할 수 있도록 허용합니다.
       formula:
-        project: 숫자 값을 추가하거나 /를 입력하여 특성, 연산자, 함수 또는 기타 토큰을 검색하세요.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: 사용자가 프로젝트 개요에서 값을 선택할 때 프로젝트 특성과 관련된 코멘트를 추가할 수 있습니다.
       is_filter:
@@ -3034,7 +3061,6 @@ ko:
       gantt_pdf_export: Gantt PDF 내보내기
       internal_comments: 내부 코멘트
       ldap_groups: LDAP 사용자 및 그룹 동기화
-      mcp_server: 모델 컨텍스트 프로토콜(MCP)
       meeting_templates: 재사용 가능한 미팅 템플릿
       nextcloud_sso: Nextcloud 저장소용 Single Sign-On
       one_drive_sharepoint_file_storage: OneDrive/SharePoint 파일 저장소
@@ -3127,8 +3153,6 @@ ko:
       internal_comments_inline:
         description: " "
         title: 소규모 그룹만 볼 수 있는 내부 코멘트 작성
-      mcp_server:
-        description: 안전한 MCP 서버를 사용하여 AI 워크플로에 OpenProject를 도입하세요.
       meeting_templates:
         description: 설정된 의제 구조로 미팅 템플릿을 정의하고, 새 미팅을 만들 때 이 템플릿을 재사용하여 시간을 절약하세요.
       nextcloud_sso:
@@ -3792,7 +3816,7 @@ ko:
   label_active_in_new_projects: 새로운 프로젝트에서 활성
   label_activity: 활동
   label_add_another_file: 다른 파일 추가
-  label_add_column: 열 추가
+  label_add_column: Add columns
   label_add_columns: 선택된 열 추가
   label_add_edit_translations: 추가 및 편집 번역
   label_add_note: 메모 추가
@@ -3807,6 +3831,7 @@ ko:
   label_additional_workflow_transitions_for_author: 사용자가 작성자일 때 허용되는 추가 전환
   label_administration: 관리
   label_age: 기간
+  label_aggregate_function_plural: Aggregate functions
   label_ago: 일 전
   label_all: 모두
   label_all_open_wps: 모두 열림
@@ -3927,7 +3952,7 @@ ko:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: 사용자 지정 favicon
-  label_custom_field_add_no_type: 작업 패키지 유형에 이 필드 추가
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: 빈 유형
   label_custom_field_new: 새 사용자 지정 필드
   label_custom_field_plural: 사용자 정의 필드
@@ -4021,7 +4046,7 @@ ko:
   label_filter: 필터
   label_filter_add: 필터 추가
   label_filter_any_name_attribute: 이름 특성
-  label_filter_by: 필터링 기준
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: 필터
   label_filters_toggle: 필터 표시/숨기기
   label_float: 부동
@@ -4072,6 +4097,7 @@ ko:
   label_in: "-"
   label_in_less_than: 보다 작음
   label_in_more_than: 보다 큼
+  label_in_progress_work_packages: in progress
   label_inactive: 비활성화
   label_include_sub_projects: 하위 프로젝트 포함
   label_includes: 포함
@@ -4223,7 +4249,7 @@ ko:
   label_on: 에
   label_open: 열기
   label_open_menu: 메뉴 열기
-  label_open_work_packages: 열기
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: 열기
   label_openproject_website: OpenProject 웹사이트
   label_operator_all: 비어 있지 않음
@@ -4430,6 +4456,7 @@ ko:
   label_time_entry_plural: 소비한 시간
   label_timer_since: "%{time}에 시작됨"
   label_title: 제목
+  label_to_do_work_packages: to-do
   label_today: 오늘
   label_today_as_date: 오늘을 날짜로 선택하세요.
   label_today_as_due_date: 오늘을 완료 날짜로 선택하세요.
@@ -4542,6 +4569,12 @@ ko:
     one: "%{count} file"
     other: 파일 %{count}개
     zero: 파일 없음
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count}개 항목"
@@ -4556,6 +4589,10 @@ ko:
     one: "%{count} project"
     other: "%{count}개 프로젝트"
     zero: 프로젝트 없음
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: 작업 패키지 %{count}개
@@ -5697,7 +5734,7 @@ ko:
   project_module_activity: 활동
   project_module_forums: 포럼
   project_module_news: 뉴스
-  project_module_repository: 리포지토리
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: 위키
   project_module_work_package_tracking: 작업 패키지
   projects:
@@ -5741,6 +5778,15 @@ ko:
       new:
         placeholder: 새 프로젝트 목록
       shared: 공유된 프로젝트 목록
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: 모두 비활성화
@@ -6574,6 +6620,7 @@ ko:
         label_built_in_attribute_actions: 내장된 특성 액션
       custom_field_row_component:
         label_user_custom_field_actions: 사용자 특성 액션
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: 사용자 특성 추가
         label_edit_section: 제목 편집
@@ -6686,6 +6733,11 @@ ko:
   status_registered: 등록됨
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         이 상태 색상을 할당하거나 변경하려면 클릭하세요.
         상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
@@ -7054,6 +7106,7 @@ ko:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: 변형 관리 권한이 있는 프로젝트 관리자는 프로젝트 내에서 이 유형을 확장하거나 수정할 수 있습니다.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: 유형 <b>%{type}</b>에서 상속되었습니다.
         tab: 세부 정보
         type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
@@ -7172,7 +7225,7 @@ ko:
         actions:
           confirm_remove: "%{project}에서 %{type} 유형을 제거하시겠습니까?"
           remove_from_project: 프로젝트에서 제거
-          switch_variant: 변형 변경
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: 프로젝트를 하나 이상 선택하세요.
           search_placeholder: 프로젝트 검색

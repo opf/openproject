@@ -110,17 +110,23 @@ RSpec.describe Import::JiraImport do
     let!(:jira_status) { create(:jira_status, jira_import:) }
     let!(:jira_user) { create(:jira_user, jira_import:) }
     let!(:jira_attachment) { create(:jira_attachment, jira_import:, jira_project:, jira_issue:) }
+    let!(:jira_version) { create(:jira_version, jira_import:, jira_project:) }
+    let!(:jira_board) { create(:jira_board, jira_import:) }
+    let!(:jira_sprint) { create(:jira_sprint, jira_import:) }
 
     it "destroys all associated jira objects" do
       expect { jira_import.destroy_jira_objects }
         .to change(Import::JiraAttachment, :count).by(-1)
+        .and change(Import::JiraBoard, :count).by(-1)
         .and change(Import::JiraField, :count).by(-1)
         .and change(Import::JiraIssue, :count).by(-1)
         .and change(Import::JiraIssueType, :count).by(-1)
         .and change(Import::JiraPriority, :count).by(-1)
         .and change(Import::JiraProject, :count).by(-1)
+        .and change(Import::JiraSprint, :count).by(-1)
         .and change(Import::JiraStatus, :count).by(-1)
         .and change(Import::JiraUser, :count).by(-1)
+        .and change(Import::JiraVersion, :count).by(-1)
     end
 
     it "does not destroy objects from other imports" do

@@ -173,6 +173,30 @@ Administrators are provided with **fine-grained role-based access control mechan
 
 Admins can set a specific session duration in the system administration, so that it is guaranteed that a session is automatically terminated after inactivity.
 
+### Browser data after logout
+
+While users work in OpenProject, the browser keeps some data locally: cached pages and API responses, and site storage such as editor drafts and revision backups. This data can contain content from projects and work packages.
+
+When a user logs out of OpenProject deployed at the root of a hostname, the logout response includes the `Clear-Site-Data: "storage"` header. The browser then deletes site storage for the OpenProject address, such as local storage, session storage and IndexedDB. Browsers apply this header only on HTTPS connections.
+
+> [!WARNING]
+> Deploying OpenProject in a subdirectory, such as `https://example.com/openproject`, provides less protection for browser data after logout. When `OPENPROJECT_RAILS__RELATIVE__URL__ROOT` is set to a non-empty path, OpenProject omits this header because it would also delete storage belonging to other applications on the same origin (scheme, hostname and port). Editor drafts and revision backups can therefore remain in the browser after logout. Use a dedicated hostname, such as `https://openproject.example.com`, with OpenProject deployed at its root to enable storage clearing on logout.
+
+The header does not clear the browser cache, because clearing the cache this way can make Google Chrome stop responding for several seconds. It also does not clear cookies, because the browser would remove the cookies of all applications on the same parent domain and log the user out of them.
+
+The header only reaches the browser that sends the logout request. Data stays in the browser in these cases:
+
+- The session expires.
+- An administrator ends the session or locks the user.
+- The user logs out from another device.
+- The user logs out in another application that shares a single sign-on session, such as openDesk, and OpenProject receives a back-channel logout.
+- The user closes the browser without logging out.
+
+On shared or unmanaged devices, configure the browser to delete cached files and site data when it closes. On managed devices, use these browser policies:
+
+- Google Chrome: set [`ClearBrowsingDataOnExitList`](https://support.google.com/chrome/a/answer/10686330) to include `cached_images_and_files` and `cookies_and_other_site_data`. This policy requires that Chrome Sync is turned off with `SyncDisabled`.
+- Mozilla Firefox 158 and later: set [`ClearOnShutdown`](https://firefox-admin-docs.mozilla.org/reference/policies/clearonshutdown/) with `Cache` and `CookiesAndStorage` set to `true`. For older versions, set [`SanitizeOnShutdown`](https://firefox-admin-docs.mozilla.org/reference/policies/sanitizeonshutdown/) with `Cache` and `Cookies` set to `true`.
+
 ### Two-factor authentication
 
 Secure your authentication mechanisms with a second factor by TOTP and WebAuthn standards (or SMS, depending on your instance) to be provided by users upon logging in.

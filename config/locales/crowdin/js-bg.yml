@@ -131,10 +131,10 @@ bg:
     button_confirm: Confirm
     button_continue: Продължаване
     button_copy: Копиране
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Копирай в буфер
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Създаване
     button_custom-fields: допълнителни полета
     button_delete: Изтрий
@@ -150,6 +150,7 @@ bg:
     button_log_time: Отчетено време
     button_more: Повече
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Отвори детайлен изглед
     button_open_fullscreen: Отвори на цял екран
     button_quote: Цитат
@@ -349,6 +350,8 @@ bg:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: all projects
@@ -502,6 +505,7 @@ bg:
     label_in: в
     label_in_less_than: в по-малко от
     label_in_more_than: в повече от
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Входящи имейли
     label_infinity: Infinity
     label_information_plural: Информация
@@ -534,6 +538,10 @@ bg:
     label_open_context_menu: Open context menu
     label_open_menu: Open menu
     label_open_work_packages: отворен
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Парола
     label_per_page: 'За страница:'
     label_please_wait: Моля изчакайте
@@ -567,7 +575,9 @@ bg:
     label_show_in_menu: Show view in menu
     label_sort_by: Подреждане по
     label_sort_higher: Премести нагоре
+    label_sort_highest: Move to top
     label_sort_lower: Премести надолу
+    label_sort_lowest: Move to bottom
     label_sorted_by: сортирано по
     label_sorting: Сортиране
     label_spent_time: Отработено време
@@ -578,6 +588,7 @@ bg:
     label_sum_for: Сума за
     label_this_week: тази седмица
     label_time_entry_plural: Отработено време
+    label_to_do_work_packages: to-do
     label_today: Днес
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent} % Общ напредък"
@@ -819,6 +830,7 @@ bg:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -962,6 +974,7 @@ bg:
         all_open: Всичко отворено
         assigned_to_me: Assigned to me
         created_by_me: Created by me
+        in_progress: In progress
         latest_activity: Latest activity
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -969,6 +982,7 @@ bg:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Обобщение
+        to_do: To-do
       description_enter_text: Въведи текст
       description_filter: Филтър
       description_options_hide: Скрий опциите
@@ -1056,6 +1070,7 @@ bg:
         other: Други
         people: Участници
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Click to edit title of this view.
         column_names: Колони
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1065,17 +1080,16 @@ bg:
           not_found: There is no such view
           unretrievable_query: Unable to retrieve view from URL
         filters: Филтри
-        group: Групиране по
         group_by: Групай резултатите по
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: Скрий колоната
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
         move_column_left: Преместване на колона наляво
         move_column_right: Преместете колона надясно
         public_text: 'Публикувайте този изглед, позволявайки на други потребители да имат достъп до вашия изглед. Потребителите с разрешение „Управление на публични изгледи“ могат да променят или премахват обществени заявки. Това не влияе на видимостта на резултатите от работния пакет в този изглед и в зависимост от техните разрешения, потребителите могат да виждат различни резултати.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name of this view
         sort_ascending: Cортирай възходящо
         sort_descending: Сортирай низходящо

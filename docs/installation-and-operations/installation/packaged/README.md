@@ -363,6 +363,9 @@ Enter the fully qualified domain (FQDN) where your OpenProject installation will
 
 #### Server path prefix
 
+> [!WARNING]
+> Deploying OpenProject in a subdirectory has security limitations. See [Browser data after logout](../../../security-and-privacy/statement-on-security/#browser-data-after-logout) in our statement on security.
+
 If you wish to install OpenProject under a server path prefix, such as `yourdomain.example.com/openproject`, please specify that prefix here with a leading slash. For example: `/openproject`. If OpenProject should respond to `http(s)://yourdomain.example.com` as specified in the previous dialog, simply leave this dialog empty and confirm by pressing `ENTER`.
 
 ![02c-prefix](02c-prefix.png)

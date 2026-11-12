@@ -131,10 +131,10 @@ ja:
     button_confirm: 確認
     button_continue: 続行
     button_copy: コピー
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: クリップボードにコピー
     button_copy_to_other_project: 別のプロジェクトで複製
+    button_copy_work_package_id: Copy work package ID
     button_create: 作成
     button_custom-fields: カスタムフィールド
     button_delete: 削除
@@ -150,6 +150,7 @@ ja:
     button_log_time: 時間を記録
     button_more: 続き
     button_more_actions: その他の操作
+    button_move_to_position: Move to position
     button_open_details: 詳細表示を開く
     button_open_fullscreen: 全画面表示を開く
     button_quote: 引用
@@ -349,6 +350,8 @@ ja:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: 最近閲覧した記事
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: すべてのプロジェクト
@@ -502,6 +505,7 @@ ja:
     label_in: 今日から○日後
     label_in_less_than: 今日から○日後以前
     label_in_more_than: 今日から○日後以降
+    label_in_progress_work_packages: in progress
     label_incoming_emails: 受信メール
     label_infinity: Infinity
     label_information_plural: 情報
@@ -534,6 +538,10 @@ ja:
     label_open_context_menu: コンテキストメニューを開く
     label_open_menu: メニューを開く
     label_open_work_packages: 未完了
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: パスワード
     label_per_page: 1 ページあたり
     label_please_wait: しばらくお待ちください
@@ -567,7 +575,9 @@ ja:
     label_show_in_menu: メニューを表示する
     label_sort_by: 並べ替え
     label_sort_higher: 上へ
+    label_sort_highest: Move to top
     label_sort_lower: 下へ移動
+    label_sort_lowest: Move to bottom
     label_sorted_by: 並べ替えされた
     label_sorting: ソート中
     label_spent_time: 作業時間の記録
@@ -578,6 +588,7 @@ ja:
     label_sum_for: 合計
     label_this_week: 今週
     label_time_entry_plural: 作業時間の記録
+    label_to_do_work_packages: to-do
     label_today: 今日
     label_total_amount: '合計: %{amount}'
     label_total_progress: "%{percent}% 進行状況"
@@ -818,6 +829,7 @@ ja:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -956,6 +968,7 @@ ja:
         all_open: 未完了
         assigned_to_me: 自分が担当しているもの
         created_by_me: 自分が作成したもの
+        in_progress: In progress
         latest_activity: 最新の活動
         manually_sorted: 新しい手動ソートされたクエリ
         overdue: 期限の過ぎたもの
@@ -963,6 +976,7 @@ ja:
         shared_with_me: 共有された項目
         shared_with_users: ユーザーと共有
         summary: サマリー(概要)
+        to_do: To-do
       description_enter_text: テキスト
       description_filter: フィルタ
       description_options_hide: オプションを非表示
@@ -1050,6 +1064,7 @@ ja:
         other: その他
         people: 割り当て
       query:
+        add_columns: Add columns
         click_to_edit_query_name: クリックすると、このビューのタイトルを編集できます。
         column_names: 列
         confirm_edit_cancel: このビューの名前の編集をキャンセルしてもよろしいですか？ タイトルは以前の値に戻されます。
@@ -1059,17 +1074,16 @@ ja:
           not_found: そのようなビューはありません
           unretrievable_query: URLからビューを取得できません
         filters: フィルタ
-        group: グループ化
         group_by: グループ化
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: 階層モードが有効なため、グループ化は無効です。
-        hide_column: 列を非表示
         hierarchy_disabled_by_group_by: 結果が %{column} でグループ化されているため、階層モードは無効です。
-        insert_columns: 列の挿入
         move_column_left: 列を左に移動
         move_column_right: 列を右に移動
         public_text: 'このビューを公開して、他のユーザーがビューにアクセスできるようにします。 「公開ビューの管理」権限を持つユーザーが、公開クエリを変更または削除できます。 これは、そのビューでのワークパッケージの結果の可視性に影響を与えないため、ユーザーの権限に応じて、異なる結果が表示される場合があります。
 
           '
+        remove_column: Remove column
         rename_query_placeholder: このビューの名前
         sort_ascending: 昇順にソート
         sort_descending: 降順にソート

@@ -391,10 +391,14 @@ hy:
         authentication_method: Նույնականացման եղանակ
         jwt_sub: Սուբյեկտի պնդում
       status:
+        category: Category
         default_done_ratio: Կատարման %
         excluded_from_totals: Բացառել հիերարխիայում ընդհանուր գումարների հաշվարկից
-        is_closed: Աշխատանքային փաթեթը փակված է
         is_readonly: Աշխատանքային փաթեթը միայն ընթերցելի է
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Աշխատանքային տարածքի տեսակ
       time_entry:
@@ -413,6 +417,7 @@ hy:
       type:
         allow_project_variants: Allow project-specific variants
         color: Գույն
+        description: Description
         is_in_roadmap: Կանխադրված կարգով ցուցադրվում է ճանապարհային քարտեզում
         is_milestone: Հանգրվան է
         project_types: Projects
@@ -422,6 +427,7 @@ hy:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -544,6 +550,11 @@ hy:
         labels: Labels
         notify: Ծանուցել
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Ծնող
         parent_issue: Ծնող
         parent_work_package: Ծնող
@@ -702,6 +713,7 @@ hy:
               format: "%{message}"
               invalid: Բանաձևն անվավեր է։
               invalid_tokens: Թույլատրվում են միայն թվային արժեքներ, օպերատորներ, ֆունկցիաներ, հիմնաբառեր և ամբողջ թվի, տասնորդական թվի, հաշվարկվող արժեքի և կշռված ցանկի տեսակի նախագծի հատկանիշներ։
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: "%{custom_fields} հատկանիշը հնարավոր չէ օգտագործել, քանի որ դա հանգեցնում է ցիկլային հղման; հատկանիշներից մեկը կախված է մյուսից։"
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1471,6 +1483,7 @@ hy:
       phase_and_both_gates: "%{phase_message}։ %{start_gate_message} և %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}։ %{gate_message}"
       removed_date: ջնջվել է %{date} ամսաթիվը
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Այս արժեքները կազմաձևված են միջավայրի փոփոխականների միջոցով և հնարավոր չէ խմբագրել այստեղ։
@@ -1503,7 +1516,7 @@ hy:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -1686,6 +1699,10 @@ hy:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1696,12 +1713,16 @@ hy:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1841,10 +1862,16 @@ hy:
                 projects:
                   label: Նախագծեր
                   subtitle: Ընտրված է որպես շրջանակ
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Ներմուծված տվյալներ
                 users_and_groups:
                   label: Օգտատերեր և խմբեր
-                  subtitle: 'Ներգրավված են ներմուծված նախագծերում '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Աշխատանքային փաթեթներ
                   subtitle: With attachments and logged time
@@ -1861,17 +1888,15 @@ hy:
               description: Ընտրեք, թե ինչ տվյալներ եք ցանկանում ներմուծել հոսթ Jira համակարգից ստացված հասանելի տվյալներից։
               elements:
                 custom_fields: Հատուկ դաշտերի ենթաբազմություն
-                issue_details: Խնդրի նկարագրություն, պատմություն, մեկնաբանություններ և կցորդներ
-                issue_ids: Խնդիրների նույնացուցիչներ
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Խնդիրներ
                 logged_time: Logged time
                 permissions: Թույլտվություններ
-                project_ids: Նախագծերի նույնացուցիչներ
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Նախագծեր
                 relations: Կապեր խնդիրների միջև
                 schemes: Սխեմաներ
-                sprints: Սպրինտների նշանակումներ
+                sprints: Sprints and sprint assignments
                 users: Ներգրավված օգտատերեր և խմբեր
                 workflows: Նախագծի մակարդակի աշխատանքային հոսքեր
               label_coming_later: Ավելի ուշ
@@ -1898,17 +1923,20 @@ hy:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1919,8 +1947,8 @@ hy:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2111,10 +2139,6 @@ hy:
       user_custom_field_sections:
         destroy:
           error: Բաժինը չհաջողվեց ջնջել։
-        drop:
-          error: Բաժինը չհաջողվեց վերադասավորել։
-        move:
-          error: Բաժինը չհաջողվեց վերադասավորել։
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2228,6 +2252,8 @@ hy:
       blankslate:
         description: Ավելացրեք կարգավիճակներ՝ այս դերի աշխատանքային հոսքերի կազմաձևումը սկսելու համար
         linked_description: Այս տեսակը վերաօգտագործում է իր կապակցված սկզբնական տեսակի աշխատանքային հոսքերը, որում կարգավիճակների անցումներ կազմաձևված չեն
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: Կարգավիճակների անցումներ կազմաձևված չեն
       leave_confirmation:
         description: Դուք պատրաստվում եք հեռանալ այս էջից, սակայն ունեք չպահպանված փոփոխություններ։ Ցանկանո՞ւմ եք պահպանել դրանք շարունակելուց առաջ։
@@ -2672,6 +2698,7 @@ hy:
       disabled_value: '"%{custom_field_name}" հատկանիշը պարտադիր է այս հաշվարկված արժեքի համար, սակայն անջատված է նախագծում։'
       mathematical: Մաթեմատիկական բանաձևը հանգեցնում է սխալի։ Խնդրում ենք ստուգել նախագծի հաշվարկի հատկանիշը և կրկին փորձել։
       missing_value: '"%{custom_field_name}" հատկանիշը պարտադիր է այս հաշվարկված արժեքի համար, սակայն դատարկ է։'
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Տեղի է ունեցել անհայտ սխալ։ Խնդրում ենք ստուգել այս հաշվարկված արժեքի բանաձևը։
   colors:
     contrast:
@@ -2846,7 +2873,7 @@ hy:
         warning: Կախված ստորև ընտրված դերից՝ այս նախագծի հատկանիշին նշանակված օգտատերը կարող է ստանալ զգալիորեն ավելի շատ թույլտվություններ, քան ուներ նախկինում, ներառյալ նոր անդամներ ավելացնելու և իր դերը բարձրացնելու հնարավորությունը։
     calculated_field_not_editable: Չխմբագրվող հատկանիշ։ Այս արժեքը հաշվարկվում է ավտոմատ կերպով։
     confirm_destroy_option: Ընտրանքի ջնջումը կջնջի դրա բոլոր օգտագործումները (օրինակ՝ աշխատանքային փաթեթներում)։ Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այն։
-    contained_in_type: Ներառված է տեսակում
+    contained_in: Contained in
     enabled_in_project: Միացված է նախագծում
     instructions:
       admin_only:
@@ -2855,7 +2882,7 @@ hy:
       editable:
         all: Թույլատրել, որ դաշտը խմբագրվի հենց օգտատերերի կողմից։
       formula:
-        project: Ավելացրեք թվային արժեքներ կամ մուտքագրեք / նշանը՝ հատկանիշ, օպերատոր, ֆունկցիա կամ այլ տարր որոնելու համար։
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Թույլ է տալիս օգտատիրոջը նախագծի ընդհանուր տեսքում արժեքն ընտրելիս ավելացնել նախագծի հատկանիշին առնչվող մեկնաբանություն։
       is_filter:
@@ -3177,7 +3204,6 @@ hy:
       gantt_pdf_export: Գանտի գծապատկերի PDF արտահանում
       internal_comments: Ներքին մեկնաբանություններ
       ldap_groups: LDAP օգտատերերի և խմբերի համաժամացում
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Բազմակի օգտագործման հանդիպումների ձևանմուշներ
       nextcloud_sso: Single Sign-On Nextcloud պահեստի համար
       one_drive_sharepoint_file_storage: OneDrive/SharePoint նիշքերի պահեստ
@@ -3269,8 +3295,6 @@ hy:
       internal_comments_inline:
         description: " "
         title: Գրեք ներքին մեկնաբանություններ, որոնք կարող է տեսնել միայն փոքր խումբը
-      mcp_server:
-        description: Ներառեք OpenProject-ը Ձեր AI աշխատանքային հոսքերում՝ անվտանգ MCP սերվերի միջոցով։
       meeting_templates:
         description: Սահմանեք հանդիպումների ձևանմուշներ՝ օրակարգի որոշակի կառուցվածքով, և խնայեք ժամանակ՝ դրանք կրկին օգտագործելով նոր հանդիպումներ ստեղծելիս։
       nextcloud_sso:
@@ -3949,7 +3973,7 @@ hy:
   label_active_in_new_projects: Ակտիվ նոր նախագծերում
   label_activity: Գործունեություն
   label_add_another_file: Ավելացնել ևս մեկ նիշք
-  label_add_column: Ավելացնել սյունակ
+  label_add_column: Add columns
   label_add_columns: Ավելացնել ընտրված սյունակները
   label_add_edit_translations: Ավելացնել և խմբագրել թարգմանությունները
   label_add_note: Ավելացնել նշում
@@ -3964,6 +3988,7 @@ hy:
   label_additional_workflow_transitions_for_author: Լրացուցիչ անցումներ, որոնք թույլատրվում են, երբ օգտատերը հեղինակն է
   label_administration: Ադմինիստրավորում
   label_age: Տարիք
+  label_aggregate_function_plural: Aggregate functions
   label_ago: օր առաջ
   label_all: բոլորը
   label_all_open_wps: Բոլոր բացերը
@@ -4084,7 +4109,7 @@ hy:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Հատուկ favicon
-  label_custom_field_add_no_type: Ավելացնել այս դաշտը աշխատանքային փաթեթի տեսակին
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Դատարկ տեսակ
   label_custom_field_new: Նոր հատուկ դաշտ
   label_custom_field_plural: Հատուկ դաշտեր
@@ -4178,7 +4203,7 @@ hy:
   label_filter: Զտիչներ
   label_filter_add: Ավելացնել զտիչ
   label_filter_any_name_attribute: Անվան հատկանիշներ
-  label_filter_by: Զտել ըստ
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Զտիչներ
   label_filters_toggle: Ցուցադրել/Թաքցնել զտիչները
   label_float: Տասնորդական թիվ
@@ -4229,6 +4254,7 @@ hy:
   label_in: հետո
   label_in_less_than: պակաս քան
   label_in_more_than: ավելի քան
+  label_in_progress_work_packages: in progress
   label_inactive: Ոչ ակտիվ
   label_include_sub_projects: Ներառել ենթանախագծերը
   label_includes: ներառում է
@@ -4380,7 +4406,7 @@ hy:
   label_on: նշված օրը
   label_open: բաց
   label_open_menu: Բացել ընտրացանկը
-  label_open_work_packages: բաց
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: բաց
   label_openproject_website: OpenProject-ի կայք
   label_operator_all: դատարկ չէ
@@ -4587,6 +4613,7 @@ hy:
   label_time_entry_plural: Ծախսված ժամանակ
   label_timer_since: Սկսվել է %{time}-ին
   label_title: Վերնագիր
+  label_to_do_work_packages: to-do
   label_today: այսօր
   label_today_as_date: Ընտրեք այսօրը որպես ամսաթիվ։
   label_today_as_due_date: Ընտրեք այսօրը որպես ավարտի ամսաթիվ։
@@ -4700,6 +4727,13 @@ hy:
     one: "%{count} file"
     other: "%{count} նիշք"
     zero: նիշքեր չկան
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} տարր"
@@ -4715,6 +4749,10 @@ hy:
     one: "%{count} project"
     other: "%{count} նախագիծ"
     zero: նախագծեր չկան
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} աշխատանքային փաթեթ"
@@ -5868,7 +5906,7 @@ hy:
   project_module_activity: Գործունեություն
   project_module_forums: Ֆորումներ
   project_module_news: Նորություններ
-  project_module_repository: Պահոց
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Վիքի
   project_module_work_package_tracking: Աշխատանքային փաթեթներ
   projects:
@@ -5912,6 +5950,15 @@ hy:
       new:
         placeholder: Նախագծերի նոր ցանկ
       shared: Համօգտագործված նախագծերի ցանկեր
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Անջատել բոլորը
@@ -6761,6 +6808,7 @@ hy:
         label_built_in_attribute_actions: Ներկառուցված հատկանիշի գործողություններ
       custom_field_row_component:
         label_user_custom_field_actions: Օգտատիրոջ հատկանիշի գործողություններ
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Ավելացնել օգտատիրոջ հատկանիշ
         label_edit_section: Խմբագրել վերնագիրը
@@ -6873,6 +6921,11 @@ hy:
   status_registered: գրանցված
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Սեղմեք՝ այս կարգավիճակի գույնը նշանակելու կամ փոխելու համար։
         Այն ցուցադրվում է կարգավիճակի կոճակում և կարող է օգտագործվել աղյուսակում աշխատանքային փաթեթներն ընդգծելու համար։
@@ -7244,6 +7297,7 @@ hy:
           label_with_context: "%{attribute_context}՝ %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Մանրամասներ
         type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։
@@ -7362,7 +7416,7 @@ hy:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects

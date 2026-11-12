@@ -72,35 +72,12 @@ See COPYRIGHT and LICENSE files for more details.
         )
 
         if @migrated_variants_exist
-          subheader.with_quick_filter(
-            data: {
-              controller: "filter--segmented-control",
-              action: "itemActivated->filter--segmented-control#activate"
-            }
-          ) do
-            concat hidden_field_tag(
-              :created_by_migration, @created_by_migration,
-              data: { "filter--segmented-control-target": "field", action: "change->auto-submit#submit" }
-            )
-            concat(
-              render(
-                Primer::Alpha::SegmentedControl.new(
-                  "aria-label": t(:label_filter_plural),
-                  full_width: false,
-                  test_selector: "types-migration-filter"
-                )
-              ) do |control|
-                control.with_item(
-                  label: t("types.edit.variants.created_by_migration_filter.all"),
-                  selected: @created_by_migration != "t",
-                  data: { value: "" }
-                )
-                control.with_item(
-                  label: t("types.edit.variants.created_by_migration_filter.migrated"),
-                  selected: @created_by_migration == "t",
-                  data: { value: "t" }
-                )
-              end
+          subheader.with_quick_filter(data: WorkPackageTypes::MigrationFilterComponent::QUICK_FILTER_DATA) do
+            render(
+              WorkPackageTypes::MigrationFilterComponent.new(
+                migrated: @created_by_migration == WorkPackageTypes::MigrationFilterComponent::MIGRATED,
+                test_selector: "types-migration-filter"
+              )
             )
           end
         end

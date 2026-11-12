@@ -72,15 +72,13 @@ if [ ! "$BIM_SUPPORT" = "false" ]; then
   mv COLLADA2GLTF-bin "/usr/local/bin/COLLADA2GLTF"
 
   # IFCconvert
-  wget --no-verbose --tries 3 https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.7.11-fea8e3a-linux64.zip
-  unzip -q IfcConvert-v0.7.11-fea8e3a-linux64.zip
+  wget --no-verbose --tries 3 https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.8.5-a51b2c5-linux64.zip
+  echo "4214d58e7cf0929fb04e9b79dca84fb9cc1fe73e56490258eb159c10137ab2c2  IfcConvert-v0.8.5-a51b2c5-linux64.zip" | sha256sum -c -
+  unzip -q IfcConvert-v0.8.5-a51b2c5-linux64.zip
   mv IfcConvert "/usr/local/bin/IfcConvert"
 
-  wget --no-verbose --tries 3 https://github.com/opf/xeokit-metadata/releases/download/v1.1.0/xeokit-metadata-linux-x64.tar.gz
-  tar -zxvf xeokit-metadata-linux-x64.tar.gz
-  chmod +x xeokit-metadata-linux-x64/xeokit-metadata
-  cp -r xeokit-metadata-linux-x64/ "/usr/lib/xeokit-metadata"
-  ln -s /usr/lib/xeokit-metadata/xeokit-metadata /usr/local/bin/xeokit-metadata
+  # Install IFC metadata extractor
+  npm install -g @openproject/web-ifc-xeokit-metadata@0.0.1
 
   cd /
   rm -rf $tmpdir

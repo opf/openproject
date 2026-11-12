@@ -39,7 +39,7 @@ RSpec.describe Backlogs::Projects::BacklogsTypesAndStatusesContract, type: :mode
   let(:other_type) { create(:type_task) }
 
   let(:project) { create(:project, types: [allowed_type]) }
-  let(:permissions) { %i[select_backlog_types_and_statuses] }
+  let(:permissions) { %i[manage_backlogs_configuration] }
 
   subject(:contract) { described_class.new(project, current_user) }
 
@@ -51,10 +51,10 @@ RSpec.describe Backlogs::Projects::BacklogsTypesAndStatusesContract, type: :mode
 
   describe "validations" do
     context "with valid done statuses and excluded types" do
-      let!(:open_status) { create(:status, is_closed: false) }
+      let!(:to_do_status) { create(:status, category: "to_do") }
 
       before do
-        project.done_status_ids = [open_status.id]
+        project.done_status_ids = [to_do_status.id]
         project.backlog_excluded_type_ids = [allowed_type.id]
       end
 

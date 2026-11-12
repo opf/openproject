@@ -60,39 +60,30 @@ RSpec.describe McpResources::Project do
     resource_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text resource response"
+  it_behaves_like "MCP text resource response"
 
-    it "responds with a properly formatted project" do
-      mcp_request
-      text_content = parsed_results.fetch("contents").first
-      wp = text_content.fetch("text")
-      expect(wp).to match_json_schema.from_docs("project_model")
-    end
-
-    context "when the resource is disabled via configuration" do
-      let(:resource_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
-
-      it_behaves_like "MCP empty resource response"
-    end
-
-    context "when requesting a non-existing project" do
-      let(:resource_uri) { "http://test.host/api/v3/projects/#{project.id + 1}" }
-
-      it_behaves_like "MCP empty resource response"
-    end
-
-    context "when requesting a project not visible to the user" do
-      let(:user) { create(:user) }
-
-      it_behaves_like "MCP empty resource response"
-    end
+  it "responds with a properly formatted project" do
+    mcp_request
+    text_content = parsed_results.fetch("contents").first
+    wp = text_content.fetch("text")
+    expect(wp).to match_json_schema.from_docs("project_model")
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
-    end
+  context "when the resource is disabled via configuration" do
+    let(:resource_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
+
+    it_behaves_like "MCP empty resource response"
+  end
+
+  context "when requesting a non-existing project" do
+    let(:resource_uri) { "http://test.host/api/v3/projects/#{project.id + 1}" }
+
+    it_behaves_like "MCP empty resource response"
+  end
+
+  context "when requesting a project not visible to the user" do
+    let(:user) { create(:user) }
+
+    it_behaves_like "MCP empty resource response"
   end
 end

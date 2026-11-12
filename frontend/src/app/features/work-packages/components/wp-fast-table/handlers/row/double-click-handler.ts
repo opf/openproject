@@ -62,6 +62,10 @@ export class RowDoubleClickHandler implements TableEventHandler {
   public handleEvent(view:TableEventComponent, evt:MouseEvent) {
     const target = evt.target as HTMLElement;
 
+    if (!view.workPackageTable.configuration.selectionEnabled) {
+      return true;
+    }
+
     // Skip clicks with modifiers
     if (isClickedWithModifier(evt)) {
       return true;
@@ -69,9 +73,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (target.classList.contains(displayClassName)
-      || target.closest(`.${displayClassName}.${editableClassName}`)
-      || target.classList.contains(activeFieldClassName)) {
+    if (this.clickActivatesCell(view, target) || target.closest(`.${activeFieldClassName}`)) {
       debugLog('Skipping click on inner cell');
       return true;
     }
@@ -91,5 +93,10 @@ export class RowDoubleClickHandler implements TableEventHandler {
     view.itemClicked.emit({ workPackageId: wpId, double: true });
 
     return false;
+  }
+
+  private clickActivatesCell(view:TableEventComponent, target:HTMLElement):boolean {
+    return view.workPackageTable.configuration.inlineEditEnabled
+      && (target.classList.contains(displayClassName) || !!target.closest(`.${displayClassName}.${editableClassName}`));
   }
 }

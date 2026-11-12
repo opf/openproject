@@ -87,6 +87,11 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
       .to have_css(".color-fg-muted", exact_text: I18n.t("projects.settings.types.project_specific_variant"))
   end
 
+  it "labels the switch action to match the switch dialog" do
+    expect(hardware_row).to have_link(I18n.t("types.edit.projects.actions.switch_variant"))
+    expect(hardware_row).to have_link("Switch variant")
+  end
+
   context "without any project" do
     let(:projects) { Project.none }
 

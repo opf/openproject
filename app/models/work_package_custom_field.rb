@@ -35,6 +35,15 @@ class WorkPackageCustomField < CustomField
       .count(:project_id)
   end
 
+  def self.form_counts
+    FormConfigurationAttribute
+      .active
+      .where.not(custom_field_id: nil)
+      .group(:custom_field_id)
+      .distinct
+      .count(:form_configuration_id)
+  end
+
   # A field reaches a project when the variant that project applies shows it. An archived project
   # is no reach, which is the same answer CustomFields::DetailsComponent gives.
   def self.project_type_usages
