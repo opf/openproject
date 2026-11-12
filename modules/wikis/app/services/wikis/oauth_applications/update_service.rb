@@ -52,8 +52,14 @@ module Wikis
           name: wiki_provider.name,
           redirect_uri:,
           uid: client_id,
-          secret: client_secret
+          secret: stored_secret(client_secret)
         }.compact
+      end
+
+      def stored_secret(client_secret)
+        return if client_secret.nil? || wiki_provider.oauth_application.secret_matches?(client_secret)
+
+        Doorkeeper::Application.secret_strategy.transform_secret(client_secret)
       end
 
       def redirect_uri
