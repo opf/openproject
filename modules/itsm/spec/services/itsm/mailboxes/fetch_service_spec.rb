@@ -108,6 +108,17 @@ RSpec.describe ITSM::Mailboxes::FetchService do
     end
   end
 
+  context "when reading an email fails with an unexpected error" do
+    before do
+      allow(ITSM::InboundEmail).to receive(:new).and_call_original
+      allow(ITSM::InboundEmail).to receive(:new).with(emails[1]).and_raise(NoMethodError)
+    end
+
+    it "does not hide the error" do
+      expect { result }.to raise_error(NoMethodError)
+    end
+  end
+
   context "when an email disappears before it is fetched" do
     before { emails.delete(1) }
 

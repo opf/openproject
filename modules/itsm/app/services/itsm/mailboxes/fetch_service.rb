@@ -33,6 +33,7 @@ module ITSM
       include Dry::Monads[:result]
 
       BATCH_SIZE = 50
+      UNREADABLE_EMAIL_ERRORS = [Mail::Field::FieldError, Mail::UnknownEncodingType, ArgumentError, EncodingError].freeze
 
       def initialize(mailbox)
         super()
@@ -83,7 +84,7 @@ module ITSM
 
       def parse(raw)
         InboundEmail.new(raw).headers
-      rescue StandardError => e
+      rescue *UNREADABLE_EMAIL_ERRORS => e
         Rails.logger.warn { "Email not read: #{e.class.name}" }
         nil
       end
