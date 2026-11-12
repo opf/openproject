@@ -43,12 +43,6 @@ RSpec.describe "Projects", "editing settings", :js do
     create(:project, name: "Foo project", identifier: "foo-project")
   end
 
-  it "hides the field whose functionality is presented otherwise" do
-    visit project_settings_general_path(project.id)
-
-    expect(page).to have_no_text :all, "Active"
-  end
-
   describe "identifier edit" do
     context "with classic IDs", with_settings: { work_packages_identifier: "classic" } do
       it "updates the project identifier via dialog" do
@@ -64,7 +58,7 @@ RSpec.describe "Projects", "editing settings", :js do
           click_on "Change identifier"
         end
 
-        expect(page).to have_content "Successful update."
+        expect(page).to have_text "Successful update."
         expect(page).to have_current_path %r{/projects/foo-bar/settings/general}
         expect(project.reload.identifier).to eq "foo-bar"
       end
@@ -84,7 +78,7 @@ RSpec.describe "Projects", "editing settings", :js do
           click_on "Change identifier"
         end
 
-        expect(page).to have_content "Successful update."
+        expect(page).to have_text "Successful update."
         expect(page).to have_current_path %r{/projects/FOOBAR/settings/general}
         expect(project.reload.identifier).to eq "FOOBAR"
       end
@@ -164,9 +158,9 @@ RSpec.describe "Projects", "editing settings", :js do
 
     it "sets the project status" do
       within_section "Status" do
-        click_on "Edit status"
+        click_button accessible_description: "Edit status"
 
-        within :menu, "Edit status" do
+        within :menu do
           find(:menuitem, "Not started").click
         end
       end
@@ -174,19 +168,19 @@ RSpec.describe "Projects", "editing settings", :js do
       expect_and_dismiss_flash type: :success, message: "Successful update."
 
       within_section "Status" do
-        button = find_button("Edit status")
+        button = find_button(accessible_description: "Edit status")
         expect(button).to have_text "Not started"
         button.click
 
-        expect(find(:menu, "Edit status")).to have_selector :menuitem, "Not started", aria: { current: true }
+        expect(find(:menu)).to have_selector :menuitem, "Not started", aria: { current: true }
       end
     end
 
     it "unsets the project status" do
       within_section "Status" do
-        click_on "Edit status"
+        click_button accessible_description: "Edit status"
 
-        within :menu, "Edit status" do
+        within :menu do
           find(:menuitem, "Finished").click
         end
       end
@@ -194,9 +188,9 @@ RSpec.describe "Projects", "editing settings", :js do
       expect_and_dismiss_flash type: :success, message: "Successful update."
 
       within_section "Status" do
-        click_on "Edit status"
+        click_button accessible_description: "Edit status"
 
-        within :menu, "Edit status" do
+        within :menu do
           find(:menuitem, "Not set").click
         end
       end
@@ -204,11 +198,11 @@ RSpec.describe "Projects", "editing settings", :js do
       expect_and_dismiss_flash type: :success, message: "Successful update."
 
       within_section "Status" do
-        button = find_button("Edit status")
+        button = find_button(accessible_description: "Edit status")
         expect(button).to have_text "Not set"
         button.click
 
-        expect(find(:menu, "Edit status")).to have_selector :menuitem, "Not set", aria: { current: true }
+        expect(find(:menu)).to have_selector :menuitem, "Not set", aria: { current: true }
       end
     end
 
@@ -317,7 +311,7 @@ RSpec.describe "Projects", "editing settings", :js do
 
       it "does not show help text link next to status button" do
         within_section "Status" do
-          button = find_button("Edit status")
+          button = find_button(accessible_description: "Edit status")
           expect(page).to have_no_link accessible_name: "Show help text", right_of: button
         end
       end
@@ -343,7 +337,7 @@ RSpec.describe "Projects", "editing settings", :js do
 
       it "shows help text link next to status button" do
         within_section "Status" do
-          button = find_button("Edit status")
+          button = find_button(accessible_description: "Edit status")
           expect(page).to have_link accessible_name: "Show help text", right_of: button
         end
       end

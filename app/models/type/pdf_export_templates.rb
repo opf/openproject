@@ -32,7 +32,7 @@ class Type::PdfExportTemplates
 
   SORTABLE_LIST_TYPE = "pdf_export_templates"
 
-  Template = Data.define(:id, :label, :caption, :enabled, :settings_component)
+  Template = Data.define(:id, :label, :caption, :enabled, :settings_component, :exporter, :defaults)
 
   class ReadonlyError < StandardError; end
 
@@ -103,6 +103,15 @@ class Type::PdfExportTemplates
     validate_template_id!(template_id)
 
     (@type.export_templates_settings || {}).fetch(template_id, {}).symbolize_keys
+  end
+
+  def settings_with_defaults_for(template_id, work_package)
+    stored = settings_for(template_id)
+    defaults = find(template_id).defaults.call(work_package)
+
+    defaults.merge(stored) do |_key, default, value|
+      default.in?([true, false]) ? ActiveModel::Type::Boolean.new.cast(value) : value
+    end
   end
 
   def update_settings(template_id, settings_hash)

@@ -131,8 +131,8 @@ et:
     button_confirm: Confirm
     button_continue: Jätka
     button_copy: Kopeeri
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Kopeeri vahemällu
     button_copy_to_other_project: Duplicate in another project
     button_create: Loo uus
@@ -150,6 +150,7 @@ et:
     button_log_time: Ajakulu
     button_more: Rohkem
     button_more_actions: More actions
+    button_move: Move
     button_open_details: Ava üksikasjalik vaade
     button_open_fullscreen: Open fullscreen view
     button_quote: Tsiteeri
@@ -207,6 +208,7 @@ et:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
@@ -438,7 +440,6 @@ et:
     label_assignee: Määratud tegija
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Manused
-    label_author: 'Author: %{user}'
     label_avatar: Profiilipilt
     label_between: between
     label_board: Board
@@ -567,7 +568,9 @@ et:
     label_show_in_menu: Show view in menu
     label_sort_by: Sorteeri
     label_sort_higher: Nihuta üles
+    label_sort_highest: Move to top
     label_sort_lower: Nihuta alla
+    label_sort_lowest: Move to bottom
     label_sorted_by: sorted by
     label_sorting: Sorteerimine
     label_spent_time: Kulutatud aeg
@@ -819,6 +822,7 @@ et:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -1124,7 +1128,6 @@ et:
         default_mode: Flat list
         display_settings: Display settings
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarhia
         highlighting: Highlighting

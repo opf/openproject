@@ -32,6 +32,8 @@ module ITSM
     class FetchJob < ApplicationJob
       include GoodJob::ActiveJobExtensions::Concurrency
 
+      queue_with_priority :low
+
       good_job_control_concurrency_with(
         enqueue_limit: 1,
         perform_limit: 1,

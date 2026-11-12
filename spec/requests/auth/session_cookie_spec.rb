@@ -34,13 +34,15 @@ RSpec.describe "Session cookie", type: :rails_request do
     expect(Rails.application.config.session_options[:same_site]).to eq(:lax)
   end
 
-  it "sets SameSite=Lax on the HTTP-only cookie in the login response" do
-    get signin_path
+  it "sets SameSite=Lax on the HTTP-only cookie in the login response", :skip_csrf do
+    user = create(:user)
+
+    post signin_path, params: { username: user.login, password: "adminADMIN!" }
 
     cookie_name = OpenProject::Configuration["session_cookie_name"]
     cookie = Array(response.headers["Set-Cookie"]).find { |header| header.start_with?("#{cookie_name}=") }
 
-    expect(response).to have_http_status(:ok)
+    expect(response).to have_http_status(:redirect)
     expect(cookie).to be_present
     expect(cookie).to include("SameSite=Lax", "HttpOnly")
   end

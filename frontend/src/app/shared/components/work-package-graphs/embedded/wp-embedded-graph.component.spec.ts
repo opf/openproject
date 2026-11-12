@@ -26,7 +26,9 @@
 //++
 
 import { TestBed } from '@angular/core/testing';
+import { within } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CHART_TYPE_IDENTIFIERS } from '../chart-type';
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset,
@@ -69,6 +71,7 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
       providers: [
         { provide: I18nService, useValue: i18nStub },
       ],
+      errorOnUnknownElements: true,
     }).compileComponents();
   });
 
@@ -124,5 +127,25 @@ describe('WorkPackageEmbeddedGraphComponent', () => {
 
     expect(element.querySelector('canvas')).toBeNull();
     expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
+  });
+
+  it.each(CHART_TYPE_IDENTIFIERS)('maps supported %s to a chart registry key', (type) => {
+    const fixture = TestBed.createComponent(WorkPackageEmbeddedGraphComponent);
+    fixture.componentRef.setInput('chartType', type);
+    expect(fixture.componentInstance.mappedChartType).toBe(type === 'horizontalBar' ? 'bar' : type);
+  });
+
+  it('falls back to bar for an unsupported external chart type', () => {
+    const fixture = TestBed.createComponent(WorkPackageEmbeddedGraphComponent);
+    fixture.componentRef.setInput('chartType', 'unsupported');
+    expect(fixture.componentInstance.mappedChartType).toBe('bar');
+  });
+
+  it('renders the no-results message after an empty dataset refresh', () => {
+    const { fixture, element } = renderGraph([]);
+    fixture.componentRef.setInput('datasets', []);
+    fixture.detectChanges();
+
+    expect(within(element).getByRole('heading', { name: 'No results', level: 4 })).toBeInTheDocument();
   });
 });

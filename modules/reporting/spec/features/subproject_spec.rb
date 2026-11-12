@@ -50,7 +50,7 @@ RSpec.describe "Cost report in subproject", :js do
     end
 
     within "#content" do
-      expect(page).to have_content "New cost report"
+      expect(page).to have_text "New cost report"
     end
   end
 end

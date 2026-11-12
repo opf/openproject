@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe AI::TextTransforms::Prompt do
-  let(:action) { build(:ai_text_transform_action, prompt: "Fix grammar only.") }
+  let(:action) { build(:ai_text_action, prompt: "Fix grammar only.") }
   let(:content) { "Login page dont work." }
   let(:no_context) { AI::TextTransforms::Context.none }
 

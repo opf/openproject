@@ -35,6 +35,8 @@ import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
+  private pointerType = '';
+
   constructor(public readonly injector:Injector) {
     super(injector);
   }
@@ -57,6 +59,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     }
 
     if (evt.type === 'pointerdown') {
+      this.pointerType = evt instanceof PointerEvent ? evt.pointerType : '';
       this.forgetKeyboardOpen(view.workPackageTable);
       return true;
     }
@@ -78,6 +81,10 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
       evt.preventDefault();
       evt.stopPropagation();
       return false;
+    }
+
+    if (this.pointerType !== '' && this.pointerType !== 'mouse') {
+      return true;
     }
 
     // Locate the row from event

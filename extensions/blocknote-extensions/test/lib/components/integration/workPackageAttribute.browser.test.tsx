@@ -1,0 +1,343 @@
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { page, userEvent } from 'vitest/browser';
+import { http } from 'msw';
+import '@blocknote/core/fonts/inter.css';
+import { renderEditor } from '../../../helpers/renderEditor';
+import { worker } from '../../../mocks/browser';
+import { requestedWorkPackageIds, workPackageCollection } from '../../../mocks/handlers';
+import { loadUnavailableWorkPackages, requestsDuring } from '../../../helpers/requestHelpers';
+import { mockAttributeWorkPackage } from '../../../mocks/workPackageAttributes';
+import {
+  buildWorkPackageAttributeExternalDOM,
+  computeWorkPackageAttributeExternalData,
+} from '../../../../lib/components/WorkPackageAttribute/externalHtml';
+
+const props = { wpid: '123', displayId: 'PROJ-123', attribute: 'Content owner', display: 'both' };
+
+interface InlineNode { type:string, props?:Record<string, unknown> }
+
+function attributeProps(editor:{ document:{ content?:InlineNode[] }[] }) {
+  return editor.document
+    .flatMap((block) => block.content ?? [])
+    .filter((node) => node.type === 'openProjectWorkPackageAttributeInline')
+    .map((node) => node.props);
+}
+
+function pasteHtml(html:string, plain:string) {
+  const el = document.querySelector('.bn-editor');
+  if (!(el instanceof HTMLElement)) throw new Error('No [contenteditable] to paste into');
+  const dt = new DataTransfer();
+  dt.setData('text/html', html);
+  dt.setData('text/plain', plain);
+  el.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }));
+}
+
+afterEach(() => {
+  worker.resetHandlers();
+});
+
+function renderAttribute(attribute:string, display:string, wpid = '321') {
+  renderEditor({
+    initialContent: [{
+      type: 'paragraph',
+      content: ['See ', { type: 'openProjectWorkPackageAttributeInline', props: { wpid, displayId: 'PROJ-321', attribute, display } }],
+    }],
+  });
+}
+
+function chip() {
+  const element = document.querySelector('.op-bn-wp-attribute');
+  if (!element) throw new Error('No attribute chip rendered');
+  return element;
+}
+
+describe('Inline work package attribute', () => {
+  it('shows the value of the attribute', async () => {
+    renderAttribute('Content owner', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Jean Cérien, Hugo Martins'));
+    expect(chip().getAttribute('title')).toBe('PROJ-321 · Redesign onboarding flow');
+    expect(getComputedStyle(chip()).backgroundColor).toBe('rgb(255, 255, 255)');
+    expect(getComputedStyle(chip()).boxShadow).toBe('rgb(209, 217, 224) 0px 0px 0px 1px inset');
+  });
+
+  it('is as tall as an inline work package beside it', async () => {
+    renderEditor({
+      initialContent: [{
+        type: 'paragraph',
+        content: [
+          { type: 'openProjectWorkPackageInline', props: { wpid: '123', size: 's', displayId: '123' } },
+          ' ',
+          { type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'subject', display: 'both' } },
+        ],
+      }],
+    });
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Subject: Redesign onboarding flow'));
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    const height = (selector:string) => document.querySelector(selector)!.getBoundingClientRect().height;
+    expect(height('.op-bn-wp-attribute')).toBeCloseTo(height('.op-bn-inline-wp-base'), 0);
+  });
+
+  it('shows the label of the attribute', async () => {
+    renderAttribute('status', 'label');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Status'));
+  });
+
+  it('shows label and value', async () => {
+    renderAttribute('status', 'both');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Status: In progress'));
+  });
+
+  it('loads a work package and its schema in a single request for all of its attributes', async () => {
+    const attribute = (name:string) =>
+      ({ type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: name, display: 'value' } });
+
+    const requested = await requestsDuring('/api/v3/work_packages', async () => {
+      renderEditor({
+        initialContent: [{ type: 'paragraph', content: [attribute('status'), ' ', attribute('assignee'), ' ', attribute('Content owner')] }],
+      });
+      await expect.element(page.getByText('Mira Hofmann')).toBeVisible();
+    });
+
+    expect(requested).toHaveLength(1);
+  });
+
+  it('says so when the work package no longer has the attribute', async () => {
+    renderAttribute('Designer', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Designer unavailable'));
+  });
+
+  it('says so when the work package cannot be seen', async () => {
+    loadUnavailableWorkPackages(321);
+    renderAttribute('status', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Work package unavailable: no permission'));
+  });
+
+  it('is recreated from its external HTML', async () => {
+    let editor:any;
+    renderEditor({ onEditor: (e) => { editor = e; } });
+    await userEvent.click(page.getByRole('textbox'));
+
+    const data = computeWorkPackageAttributeExternalData(props)!;
+    pasteHtml(buildWorkPackageAttributeExternalDOM(data, document).outerHTML, data.text);
+
+    await vi.waitFor(() => {
+      expect(attributeProps(editor)).toEqual([props]);
+    });
+  });
+
+  it('is copied on its own as its macro once clicked', async () => {
+    renderAttribute('assignee', 'value');
+    await expect.element(page.getByText('Mira Hofmann')).toBeVisible();
+
+    let copied:string | undefined;
+    const onCopy = (event:ClipboardEvent) => { copied = event.clipboardData?.getData('text/plain'); };
+    window.addEventListener('copy', onCopy);
+
+    await userEvent.click(page.getByText('Mira Hofmann'));
+    await userEvent.keyboard('{Control>}c{/Control}');
+    window.removeEventListener('copy', onCopy);
+
+    expect(copied?.trim()).toBe('workPackageValue:PROJ-321:"assignee"');
+  });
+});
+
+describe('Values of work package attributes', () => {
+  const avatars = () => Array.from(chip().querySelectorAll<HTMLElement>('.op-bn-wp-attribute--avatar'));
+
+  it('puts a dot in the color of the status before it', async () => {
+    renderAttribute('status', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('In progress'));
+    await vi.waitFor(() => expect(getComputedStyle(chip().querySelector('.op-bn-wp-attribute--dot')!).backgroundColor).toBe('rgb(112, 133, 134)'));
+  });
+
+  it('puts a dot in the color of the priority before it', async () => {
+    renderAttribute('priority', 'both');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Priority: High'));
+    await vi.waitFor(() => expect(getComputedStyle(chip().querySelector('.op-bn-wp-attribute--dot')!).backgroundColor).toBe('rgb(202, 43, 25)'));
+  });
+
+  it('writes the type in capitals, as work packages show it', async () => {
+    renderAttribute('type', 'value');
+
+    await expect.element(page.getByTestId('op-bn-work-package--type')).toHaveTextContent('Feature');
+    const type = page.getByTestId('op-bn-work-package--type').element();
+    expect(getComputedStyle(type).textTransform).toBe('uppercase');
+  });
+
+  it('shows the picture of a user who has one', async () => {
+    renderAttribute('assignee', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Mira Hofmann'));
+    expect(avatars().map((avatar) => avatar.dataset.initials)).toEqual(['MH']);
+    await vi.waitFor(() => expect(getComputedStyle(avatars()[0].querySelector('img')!).visibility).toBe('visible'));
+  });
+
+  // Pinned to Inter: under the test browser's default font the avatar clears the border either way.
+  it('centers the picture inside the outline of the attribute', async () => {
+    renderAttribute('assignee', 'both');
+    await document.fonts.load('400 12px Inter');
+    await document.fonts.load('600 14px Inter');
+    expect(document.fonts.check('600 14px Inter')).toBe(true);
+    await vi.waitFor(() => expect(avatars()).toHaveLength(1));
+
+    const box = chip().getClientRects()[0];
+    const avatar = avatars()[0].getBoundingClientRect();
+    const above = avatar.top - box.top;
+    const below = box.bottom - avatar.bottom;
+    const border = 1;
+
+    expect.soft(above, 'gap above the avatar').toBeGreaterThan(border);
+    expect.soft(below, 'gap below the avatar').toBeGreaterThan(border);
+    expect.soft(Math.abs(above - below), `${above}px above, ${below}px below`).toBeLessThan(0.25);
+  });
+
+  it('shows the initials of everyone without a picture', async () => {
+    renderAttribute('Content owner', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Jean Cérien, Hugo Martins'));
+    expect(avatars().map((avatar) => avatar.dataset.initials)).toEqual(['JC', 'HM']);
+    expect(getComputedStyle(avatars()[0], '::before').content).toBe('"JC"');
+    await vi.waitFor(() => expect(avatars()[0].querySelector('img')).not.toBeNull());
+    expect(getComputedStyle(avatars()[0].querySelector('img')!).visibility).toBe('hidden');
+  });
+
+  it('decorates nothing when only the label is shown', async () => {
+    renderAttribute('assignee', 'label');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Assignee'));
+    expect(avatars()).toEqual([]);
+  });
+});
+
+const SELECTION_RING = 'rgb(100, 160, 255) 0px 0px 0px 2px inset';
+
+describe('Work package attributes in a text selection', () => {
+  it('outline an inline attribute while the selection covers it', async () => {
+    let editor:{ focus:() => void, setTextCursorPosition:(block:unknown, placement:'start') => void, document:unknown[] } | undefined;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [{
+        type: 'paragraph',
+        content: ['See ', { type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'assignee', display: 'value' } }],
+      }],
+    });
+    await expect.element(page.getByText('Mira Hofmann')).toBeVisible();
+    editor!.focus();
+    editor!.setTextCursorPosition(editor!.document[0], 'start');
+
+    await userEvent.keyboard('{Shift>}{End}{/Shift}');
+    await vi.waitFor(() => expect(getComputedStyle(chip()).boxShadow).toContain(SELECTION_RING));
+
+    editor!.setTextCursorPosition(editor!.document[0], 'start');
+    await vi.waitFor(() => expect(getComputedStyle(chip()).boxShadow).not.toContain(SELECTION_RING));
+  });
+
+  it('outline a long text while the selection covers it', async () => {
+    renderEditor({
+      initialContent: [
+        { type: 'paragraph', content: 'First' },
+        { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } },
+        { type: 'paragraph', content: 'Last' },
+      ],
+    });
+    await expect.element(page.getByText('Kick-off')).toBeVisible();
+    const frame = () => document.querySelector('.op-bn-wp-attribute-block')!;
+    const unselected = getComputedStyle(frame()).boxShadow;
+
+    await userEvent.click(page.getByText('First'));
+    await userEvent.keyboard('{Home}{Shift>}{ArrowDown}{ArrowDown}{End}{/Shift}');
+    await vi.waitFor(() => expect(getComputedStyle(frame()).boxShadow).not.toBe(unselected));
+  });
+});
+
+describe('Long text work package attribute', () => {
+  it('can be dragged to another place', async () => {
+    let editor:{ document:{ type:string }[] } | undefined;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [
+        { type: 'paragraph', content: 'First' },
+        { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } },
+        { type: 'paragraph', content: 'Last' },
+      ],
+    });
+    await expect.element(page.getByText('Kick-off')).toBeVisible();
+
+    const frame = document.querySelector('.op-bn-wp-attribute-block')!;
+    const dropTarget = page.getByText('Last').element().closest('[data-node-type="blockOuter"]')!;
+    await userEvent.dragAndDrop(frame, dropTarget);
+
+    await vi.waitFor(() => expect(editor!.document.map((block) => block.type))
+      .toEqual(['paragraph', 'paragraph', 'openProjectWorkPackageAttributeBlock']));
+    // BlockNote leaves its hidden drag preview until the next drag starts.
+    document.querySelectorAll('.bn-drag-preview').forEach((preview) => preview.remove());
+  });
+});
+
+describe('Work package attributes in a read-only editor', () => {
+  const longText = { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } };
+  const inline = { type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'status', display: 'value' } };
+
+  it('offer no menu to change what they show', async () => {
+    renderEditor({ editable: false, initialContent: [{ type: 'paragraph', content: [inline] }, longText] });
+    await expect.element(page.getByText('Kick-off')).toBeVisible();
+    await expect.element(page.getByText('In progress')).toBeVisible();
+
+    await userEvent.click(page.getByText('Kick-off'));
+    await userEvent.click(page.getByText('In progress'));
+
+    expect(document.querySelector('[data-testid="attribute-display-menu"]')).toBeNull();
+  });
+});
+
+describe('Long text work package attribute from external HTML', () => {
+  it('is recreated as a block rather than a paragraph of its macro', async () => {
+    let editor:{ document:{ type:string, props?:Record<string, unknown> }[] } | undefined;
+    renderEditor({ onEditor: (instance) => { editor = instance; } });
+    await userEvent.click(page.getByRole('textbox'));
+
+    const block = { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'both' };
+    const data = computeWorkPackageAttributeExternalData(block, 'block')!;
+    pasteHtml(buildWorkPackageAttributeExternalDOM(data, document).outerHTML, data.text);
+
+    await vi.waitFor(() => expect(editor!.document.find((entry) => entry.type === 'openProjectWorkPackageAttributeBlock')?.props)
+      .toEqual(block));
+  });
+});
+
+describe('Display menu of a long text taller than the screen', () => {
+  it('shows all its options on its own background', async () => {
+    const longText = '<p>' + 'A long line of text. '.repeat(400) + '</p>';
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages', ({ request }) =>
+        (requestedWorkPackageIds(request)
+          ? workPackageCollection([{ ...mockAttributeWorkPackage, description: { format: 'markdown', raw: '', html: longText } }])
+          : undefined))
+    );
+    renderEditor({
+      initialContent: [
+        { type: 'paragraph', content: 'Before' },
+        { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } },
+      ],
+    });
+    await expect.element(page.getByText('A long line', { exact: false }).first()).toBeVisible();
+
+    await userEvent.click(document.querySelector('.op-bn-wp-attribute-block')!);
+    const menu = page.getByTestId('attribute-display-menu').element();
+    const menuBox = menu.getBoundingClientRect();
+
+    for (const option of Array.from(menu.querySelectorAll('[role="menuitemradio"]'))) {
+      const box = option.getBoundingClientRect();
+      expect(box.bottom).toBeLessThanOrEqual(menuBox.bottom);
+    }
+    expect(menu.scrollHeight).toBeLessThanOrEqual(menu.clientHeight);
+  });
+});

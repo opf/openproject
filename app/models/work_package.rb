@@ -37,6 +37,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Ancestors
   include WorkPackage::Automatable
   include WorkPackage::Hooks
+  include WorkPackage::Origin
   # Must stay above WorkPackage::Journalized: its after_save persists the
   # version rows that the journal snapshot then reads.
   include WorkPackage::Versions

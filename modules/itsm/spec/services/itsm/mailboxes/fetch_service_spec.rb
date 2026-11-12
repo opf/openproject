@@ -108,6 +108,17 @@ RSpec.describe ITSM::Mailboxes::FetchService do
     end
   end
 
+  context "when reading an email fails with an unexpected error" do
+    before do
+      allow(ITSM::InboundEmail).to receive(:new).and_call_original
+      allow(ITSM::InboundEmail).to receive(:new).with(emails[1]).and_raise(NoMethodError)
+    end
+
+    it "does not hide the error" do
+      expect { result }.to raise_error(NoMethodError)
+    end
+  end
+
   context "when an email disappears before it is fetched" do
     before { emails.delete(1) }
 
@@ -173,6 +184,32 @@ RSpec.describe ITSM::Mailboxes::FetchService do
                                                 last_error: "unreachable",
                                                 next_fetch_at: 30.minutes.from_now,
                                                 last_fetched_at: nil)
+    end
+  end
+
+  context "when the server rejects the login" do
+    let(:rejection) do
+      Net::IMAP::TaggedResponse.new("RUBY0001", "NO", Net::IMAP::ResponseText.new(nil, "Account locked"), "")
+    end
+
+    before { allow(imap).to receive(:login).and_raise(Net::IMAP::NoResponseError.new(rejection)) }
+
+    it "fails with the server's answer" do
+      expect(result.errors.full_messages).to eq(["The mail server rejected the login: Account locked"])
+      expect(mailbox.reload.last_error).to eq("authentication_failed")
+    end
+  end
+
+  context "when the server answers with an error" do
+    let(:rejection) do
+      Net::IMAP::TaggedResponse.new("RUBY0002", "BAD", Net::IMAP::ResponseText.new(nil, "Command unknown"), "")
+    end
+
+    before { allow(imap).to receive(:uid_search).and_raise(Net::IMAP::BadResponseError.new(rejection)) }
+
+    it "fails with the server's answer" do
+      expect(result.errors.full_messages).to eq(["The mail server returned an error: Command unknown"])
+      expect(mailbox.reload.last_error).to eq("server_error")
     end
   end
 

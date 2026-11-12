@@ -57,8 +57,9 @@ describe('CreatedResolvedComponent', () => {
   // The window is the server's, not the series' extent, so it is stated rather than derived.
   const range = { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' };
 
-  const chartData = (series:unknown[], nonWorkingIntervals:unknown[] = [], step:'day'|'hour' = 'hour') =>
-    JSON.stringify({ step, range, series, nonWorkingIntervals });
+  // Non-working days are not part of this chart's payload, which spans too many sprints for them
+  // to read as anything but hatching.
+  const chartData = (series:unknown[], step:'day'|'hour' = 'hour') => JSON.stringify({ step, range, series });
 
   const point = (x:string, y:number) => ({ x, y });
 
@@ -78,8 +79,8 @@ describe('CreatedResolvedComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (series:unknown[], nonWorkingIntervals:unknown[] = [], step:'day'|'hour' = 'hour') => {
-    fixture.componentRef.setInput('chartData', chartData(series, nonWorkingIntervals, step));
+  const renderWith = (series:unknown[], step:'day'|'hour' = 'hour') => {
+    fixture.componentRef.setInput('chartData', chartData(series, step));
     fixture.detectChanges();
   };
 
@@ -154,10 +155,10 @@ describe('CreatedResolvedComponent', () => {
     expect(resolved.fill).toBe(false);
   });
 
-  it('bands to the resolved dataset even once the non-working stand-in has joined them', () => {
-    renderWith(bothSeries(), [{ from: '2026-10-17', to: '2026-10-18' }]);
+  it('draws its own series alone, never a non-working stand-in', () => {
+    renderWith(bothSeries());
 
-    expect(datasets()[0].fill).toEqual({ target: 1, above: paleRed, below: paleGreen });
+    expect(datasets().map((dataset) => dataset.label)).toEqual(['Created', 'Resolved']);
   });
 
   it('bands nothing when the series it would span is absent', () => {
@@ -193,21 +194,6 @@ describe('CreatedResolvedComponent', () => {
 
     expect(labels.length).toBeGreaterThan(1);
     expect(labels.filter((label) => !Number.isInteger(label))).toEqual([]);
-  });
-
-  it('adds a point-less series so the non-working days get a legend entry that toggles them', () => {
-    renderWith(bothSeries(), [{ from: '2026-10-17', to: '2026-10-18' }]);
-
-    const standIn = datasets()[2];
-
-    expect(standIn.data).toEqual([]);
-    expect(standIn.label).toEqual('js.sprint_charts.non_working_day');
-  });
-
-  it('leaves the non-working stand-in out when there are no bands to paint', () => {
-    renderWith(bothSeries());
-
-    expect(datasets()).toHaveLength(2);
   });
 
   // Both series are counted at the same ticks, so index matching is correct here and

@@ -83,7 +83,7 @@ hy:
         dependencies: Կախվածություններ
   activerecord:
     attributes:
-      ai/text_transform_action:
+      ai/text_action:
         active: Active
         injects_type_template: Insert work package type template
         label: Label
@@ -413,6 +413,7 @@ hy:
       type:
         allow_project_variants: Allow project-specific variants
         color: Գույն
+        description: Description
         is_in_roadmap: Կանխադրված կարգով ցուցադրվում է ճանապարհային քարտեզում
         is_milestone: Հանգրվան է
         project_types: Projects
@@ -422,6 +423,7 @@ hy:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -702,6 +704,7 @@ hy:
               format: "%{message}"
               invalid: Բանաձևն անվավեր է։
               invalid_tokens: Թույլատրվում են միայն թվային արժեքներ, օպերատորներ, ֆունկցիաներ, հիմնաբառեր և ամբողջ թվի, տասնորդական թվի, հաշվարկվող արժեքի և կշռված ցանկի տեսակի նախագծի հատկանիշներ։
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: "%{custom_fields} հատկանիշը հնարավոր չէ օգտագործել, քանի որ դա հանգեցնում է ցիկլային հղման; հատկանիշներից մեկը կախված է մյուսից։"
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1084,9 +1087,9 @@ hy:
       action:
         one: Action
         other: Actions
-      ai/text_transform_action:
-        one: Text transform action
-        other: Text transform actions
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Text transform run
         other: Text transform runs
@@ -1471,6 +1474,7 @@ hy:
       phase_and_both_gates: "%{phase_message}։ %{start_gate_message} և %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}։ %{gate_message}"
       removed_date: ջնջվել է %{date} ամսաթիվը
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Այս արժեքները կազմաձևված են միջավայրի փոփոխականների միջոցով և հնարավոր չէ խմբագրել այստեղ։
@@ -1503,7 +1507,7 @@ hy:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2188,11 +2192,11 @@ hy:
         page_header:
           description: Ընտրեք դասական թվային աշխատանքային փաթեթների ID-ների և իմաստային, նախագծին հատուկ ID-ների միջև, որոնք աշխատանքային փաթեթի ID-ից առաջ ավելացնում են նախագծի նույնացուցիչը։
         success_banner: Աշխատանքային փաթեթի նույնացուցիչի ձևաչափը հաջողությամբ թարմացվել է։
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
         description: Users will no longer be able to run this action in the rich text editor.
         heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete text transform action
+        title: Delete action
       form:
         injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
         label_caption: This is the name that will be visible to users in the editor.
@@ -2200,19 +2204,20 @@ hy:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
         label_add_action: Action
-        label_aria_add_action: Add text transform action
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
           description: Add an action to see it here
-          title: No text transform actions configured yet
-        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
         label_disable_all: Disable all
         label_enable_all: Enable all
-        title: Actions
+        title: Action
       new:
-        title: New text transform action
+        title: New text action
       row_component:
         label_actions: Action menu
         label_toggle: Toggle %{label}
@@ -2276,7 +2281,7 @@ hy:
       errors:
         connection_failed: The AI service could not be reached.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: The AI assistant is not available.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
@@ -2288,7 +2293,9 @@ hy:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2320,6 +2327,8 @@ hy:
         emoji_reactions_activity_type_not_supported: Գործունեության այս տեսակը չի աջակցում էմոջի արձագանքներին։
         invalid_link: "'%{key}' բանալու տակ գտնվող հղումը վավեր չէ։"
         links_not_an_object: _links-ը պետք է լինի JSON օբյեկտ։
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: Սխալ հարցում՝ %{message}
       code_401: Այս ռեսուրսին մուտք գործելու համար պետք է նույնականացված լինեք։
       code_401_wrong_credentials: Դուք չեք տրամադրել ճիշտ մուտքի տվյալները։
@@ -2667,6 +2676,7 @@ hy:
       disabled_value: '"%{custom_field_name}" հատկանիշը պարտադիր է այս հաշվարկված արժեքի համար, սակայն անջատված է նախագծում։'
       mathematical: Մաթեմատիկական բանաձևը հանգեցնում է սխալի։ Խնդրում ենք ստուգել նախագծի հաշվարկի հատկանիշը և կրկին փորձել։
       missing_value: '"%{custom_field_name}" հատկանիշը պարտադիր է այս հաշվարկված արժեքի համար, սակայն դատարկ է։'
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Տեղի է ունեցել անհայտ սխալ։ Խնդրում ենք ստուգել այս հաշվարկված արժեքի բանաձևը։
   colors:
     contrast:
@@ -2712,7 +2722,7 @@ hy:
     failure_message: Համաձայնությունը ձախողվեց, շարունակելը հնարավոր չէ։
     not_yet_consented: Օգտատերը դեռ չի տվել իր համաձայնությունը Ձեր [կազմաձևված համաձայնության տեղեկատվական տեքստին](consent_settings)։ Նրան կհիշեցվի հաջորդ մուտքի ժամանակ։
     text_update_consent_time: Նշեք այս վանդակը, որպեսզի օգտատերերը կրկին տան իրենց համաձայնությունը։ Միացրեք այն, երբ փոփոխել եք վերևում նշված համաձայնության տեղեկատվության իրավական բովանդակությունը։
-    title: Օգտատիրոջ համաձայնություն
+    title: User consent
     update_consent_last_time: Համաձայնության վերջին թարմացումը՝ %{update_time}
     user_has_consented: Օգտատերը տվել է իր համաձայնությունը Ձեր [կազմաձևված համաձայնության տեղեկատվական տեքստին](consent_settings)։
   copy_project:
@@ -2850,7 +2860,7 @@ hy:
       editable:
         all: Թույլատրել, որ դաշտը խմբագրվի հենց օգտատերերի կողմից։
       formula:
-        project: Ավելացրեք թվային արժեքներ կամ մուտքագրեք / նշանը՝ հատկանիշ, օպերատոր, ֆունկցիա կամ այլ տարր որոնելու համար։
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Թույլ է տալիս օգտատիրոջը նախագծի ընդհանուր տեսքում արժեքն ընտրելիս ավելացնել նախագծի հատկանիշին առնչվող մեկնաբանություն։
       is_filter:
@@ -3185,6 +3195,7 @@ hy:
       scim_api: SCIM սերվերի API
       sso_auth_providers: Single Sign-On
       team_planner_view: Թիմային պլանավորիչի տեսք
+      text_assistant: Text assistant
       virus_scanning: Հակավիրուսային սկանավորում
       weighted_item_lists: Կշռված տարրերի ցանկեր
       work_package_query_relation_columns: Աշխատանքային փաթեթների հարցման կապերի սյունակներ
@@ -3295,6 +3306,9 @@ hy:
       sso_auth_providers:
         description: Հնարավորություն տվեք օգտատերերին մտնել արտաքին SSO մատակարարների միջոցով՝ օգտագործելով SAML կամ OpenID Connect և ապահովելով անխափան հասանելիություն ու ինտեգրում առկա ինքնության համակարգերի հետ։
         title: Single Sign-On (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Enterprise հավելում
       trial_text: Այս հնարավորությունը ներառված է Ձեր ակտիվ Enterprise փորձաշրջանում։
       unlimited: Անսահմանափակ
@@ -3551,6 +3565,7 @@ hy:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3558,7 +3573,7 @@ hy:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -3954,6 +3969,7 @@ hy:
   label_additional_workflow_transitions_for_author: Լրացուցիչ անցումներ, որոնք թույլատրվում են, երբ օգտատերը հեղինակն է
   label_administration: Ադմինիստրավորում
   label_age: Տարիք
+  label_aggregate_function_plural: Aggregate functions
   label_ago: օր առաջ
   label_all: բոլորը
   label_all_open_wps: Բոլոր բացերը
@@ -4043,7 +4059,7 @@ hy:
   label_completed: Ավարտված
   label_configuration: կազմաձևում
   label_confirmation: Հաստատում
-  label_consent_settings: Օգտատիրոջ համաձայնություն
+  label_consent_settings: User consent
   label_constant_plural: Հաստատուններ
   label_contains: պարունակում է
   label_content: Բովանդակություն
@@ -5044,7 +5060,7 @@ hy:
       mail_notification: Էլ. փոստի ծանուցումներ
       mails_and_notifications: Էլ. նամակներ և ծանուցումներ
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Text transform actions
+      text_actions: Text assistant
     quick_add:
       label: Ավելացնել…
   more_actions: Այլ գործառույթներ
@@ -5602,6 +5618,15 @@ hy:
       toc:
         caption: Ավելացնել բովանդակության ցանկի էջ, որը ցուցակագրում է բաժինների վերնագրերը։
         label: Բովանդակության ցանկ
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Էջ %{page} %{total}-ից
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -5893,6 +5918,15 @@ hy:
       new:
         placeholder: Նախագծերի նոր ցանկ
       shared: Համօգտագործված նախագծերի ցանկեր
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Անջատել բոլորը
@@ -6028,10 +6062,12 @@ hy:
         switch:
           apply: Apply
           impact:
-            hidden_heading: Fields that will no longer be shown
-            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
-            missing_statuses_heading: Work packages that get stuck
-            new_heading: Fields that become available
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: No fields or statuses are affected.
             status_count:
               one: "%{count} work package"
@@ -6094,6 +6130,22 @@ hy:
         automatic:
           description: Դասավորեք %{plural}-ը մեկ կամ մի քանի դասավորման չափանիշով։ Դուք կկորցնեք նախորդ դասավորումը։
           heading: Ինքնաշխատ
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6298,7 +6350,6 @@ hy:
   setting_after_login_default_redirect_url_example_html: 'Նշեք կանխադրված ուղի՝ մուտքից հետո օգտատերերին վերահղելու համար, եթե հետդարձի հղում տրված չէ։ Եթե սահմանված չէ, վերահղում է գլխավոր էջ։ <br/> Օրինակ՝ %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Թույլատրելի հղումների պրոտոկոլներ
   setting_allowed_link_protocols_text_html: Թույլատրեք այս պրոտոկոլների ցուցադրումը որպես հղումներ աշխատանքային փաթեթների նկարագրություններում, երկար տեքստային դաշտերում և մեկնաբանություններում։ Օրինակ՝ %{tel_code} կամ %{element_code}։ Մուտքագրեք մեկ պրոտոկոլ յուրաքանչյուր տողում։ <br/> %{http_code}, %{https_code} և %{mailto_code} պրոտոկոլները միշտ թույլատրված են։
   setting_antivirus_scan_action: Վարակված նիշքի հետ գործողություն
@@ -7042,6 +7093,9 @@ hy:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: ԿՀ
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: մինչև
     show: Ցուցադրել ժամանակահատվածը
@@ -7205,6 +7259,7 @@ hy:
           label_with_context: "%{attribute_context}՝ %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Մանրամասներ
         type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։
@@ -7235,7 +7290,6 @@ hy:
         tab: Ստեղծել PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
-          section_title: PDF արտահանման ձևանմուշներ
           settings:
             edit_link: Edit settings
             reset_to_default: Reset to default
@@ -7257,7 +7311,6 @@ hy:
         empty_group_hint: Քաշեք հատկանիշներն այստեղ
         exclusions:
           attribute_label: Inherit %{attribute}
-          excluded: Hidden
           section_label: Inherit section %{section}
         filter_inactive: Զտել հատկանիշները
         group_actions: Բաժնի գործողություններ
@@ -7270,6 +7323,11 @@ hy:
         no_inactive_attributes: Ոչ ակտիվ հատկանիշներ չկան
         not_found: The requested form item could not be found.
         query_group_label: Կապակցված աշխատանքային փաթեթների աղյուսակ
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Հեռացնել բաժնից
         rename_group: Վերանվանել բաժինը
         required:
@@ -7311,7 +7369,6 @@ hy:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
         filter: Որոնել ըստ բաժնի կամ անվանման
@@ -7331,8 +7388,6 @@ hy:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: Միացնել բոլոր նախագծերի համար
-        select_projects: Ընտրել նախագծերը
-        select_projects_description: Ընտրեք նախագծերը, որոնցում ցանկանում եք օգտագործել այս տեսակը։
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?
@@ -7391,14 +7446,14 @@ hy:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
             empty:
               caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
+              label: Start from scratch
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (ծնող)"
@@ -7449,7 +7504,7 @@ hy:
           one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
-      description: 'Տեսակների և տարատեսակների ներսում կազմաձևման յուրաքանչյուր հատված կարող է կազմաձևվել ինքնուրույն, սահմանափակվել այլ տեսակից կամ ամբողջությամբ կապակցվել աղբյուրին։
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: "%{name}-ի պատճեն"
@@ -8146,8 +8201,6 @@ hy:
           notice:
             one: Աշխատանքային հոսքը հաջողությամբ պատճենվել է '%{role_name}' դերին։
             other: Աշխատանքային հոսքը հաջողությամբ պատճենվել է %{count} դերի։
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8165,6 +8218,7 @@ hy:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Description
@@ -8180,7 +8234,7 @@ hy:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow

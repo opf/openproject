@@ -102,7 +102,7 @@ RSpec.describe "Dashboard page managing", :js do
       # The widgets load their respective contents
       within description_area.area do
         expect(page)
-          .to have_content("My custom description")
+          .to have_text("My custom description")
       end
 
       # within top-left area, add an additional widget
@@ -127,9 +127,9 @@ RSpec.describe "Dashboard page managing", :js do
       table_area.expect_to_span(4, 1, 5, 3)
 
       expect(page)
-        .to have_content(created_work_package.subject)
+        .to have_text(created_work_package.subject)
       expect(page)
-        .to have_content(assigned_work_package.subject)
+        .to have_text(assigned_work_package.subject)
 
       sleep(0.1)
 
@@ -190,7 +190,7 @@ RSpec.describe "Dashboard page managing", :js do
       page.find_test_selector("overview--add-widgets-button").click
 
       within(".spot-modal") do
-        expect(page).to have_content(I18n.t("js.grid.add_widget"))
+        expect(page).to have_text(I18n.t("js.grid.add_widget"))
 
         SeleniumHubWaiter.wait unless using_cuprite?
 

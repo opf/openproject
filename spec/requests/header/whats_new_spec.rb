@@ -125,6 +125,14 @@ RSpec.describe "Header What's new", :skip_csrf, type: :rails_request do
     end
   end
 
+  context "with community links disabled", with_config: { show_community_links: false } do
+    it "responds with not found" do
+      get header_whats_new_path
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   context "without items for the current release" do
     before do
       allow(release).to receive(:items).and_return([])

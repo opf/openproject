@@ -49,5 +49,5 @@ get:
   tags:
     - Priorities
   description: ''
-  operationId: View_Priority
+  operationId: get_priority
   summary: View Priority

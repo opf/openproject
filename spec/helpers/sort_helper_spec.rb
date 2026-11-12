@@ -162,21 +162,11 @@ RSpec.describe SortHelper do
     context "when sorting by the column" do
       let(:sort_key) { "id" }
 
-      it "adds the sort class" do
-        expect(output).to be_html_eql(<<-HTML)
-          <th title="Ascending sorted by &quot;Id&quot;" aria-label="Id">
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span class="sort asc">
-                  <a href="/work_packages?sort=sort_criteria_params"
-                     rel="nofollow"
-                     target="_top"
-                     title="Ascending sorted by &quot;Id&quot;">Id</a>
-                </span>
-              </div>
-            </div>
-          </th>
-        HTML
+      it "adds the sort class and the sort direction icon" do
+        header = Nokogiri::HTML(output).at_css("th[title='Ascending sorted by \"Id\"'] .generic-table--sort-header")
+
+        expect(header).to have_css("span.sort.asc a", text: "Id")
+        expect(header).to have_octicon(:"sort-asc")
       end
     end
 
@@ -184,21 +174,11 @@ RSpec.describe SortHelper do
       let(:sort_key) { "id" }
       let(:sort_asc) { false }
 
-      it "adds the sort class" do
-        expect(output).to be_html_eql(<<-HTML)
-          <th title="Descending sorted by &quot;Id&quot;" aria-label="Id">
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span class="sort desc">
-                  <a href="/work_packages?sort=sort_criteria_params"
-                     rel="nofollow"
-                     target="_top"
-                     title="Descending sorted by &quot;Id&quot;">Id</a>
-                </span>
-              </div>
-            </div>
-          </th>
-        HTML
+      it "adds the sort class and the sort direction icon" do
+        header = Nokogiri::HTML(output).at_css("th[title='Descending sorted by \"Id\"'] .generic-table--sort-header")
+
+        expect(header).to have_css("span.sort.desc a", text: "Id")
+        expect(header).to have_octicon(:"sort-desc")
       end
     end
 
@@ -325,6 +305,35 @@ RSpec.describe SortHelper do
       expect(sort_asc["href"]).to eq("/projects?sortBy=%5B%5B%22id%22%2C%22asc%22%5D%5D")
     end
 
+    it "shows no sort direction in the column header" do
+      expect(action_menu.at_css("button#menu-id-button")).to have_no_css(".generic-table--sort-indicator")
+    end
+
+    it "renders the sorting actions as unchecked radio items" do
+      sort_items = action_menu.css("action-list .ActionListItem a[role='menuitemradio']")
+
+      expect(sort_items.pluck("aria-checked")).to eq(%w[false false])
+    end
+
+    context "when the table is sorted by the column" do
+      before do
+        sort_criteria.available_criteria = { "id" => "id" }
+        sort_criteria.from_param("id:desc")
+      end
+
+      it "shows the sort direction in the column header" do
+        expect(action_menu.at_css("button#menu-id-button")).to have_octicon(:"sort-desc")
+      end
+
+      it "checks the action matching the sort direction" do
+        sort_desc = action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-sort-desc']")
+        sort_asc = action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-sort-asc']")
+
+        expect(sort_desc["aria-checked"]).to eq("true")
+        expect(sort_asc["aria-checked"]).to eq("false")
+      end
+    end
+
     context "with a column that is not sortable" do
       let(:options) { { param: :json, sortable: false } }
 
@@ -381,7 +390,7 @@ RSpec.describe SortHelper do
 
     it "shows an action to add columns" do
       add_col = action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-add-column']")
-      expect(add_col.at_css(".ActionListItem-label").text.strip).to eq("Add column")
+      expect(add_col.at_css(".ActionListItem-label").text.strip).to eq("Add columns")
       # Check that the 'ConfigureViewModal' is opened on link click. This is where adding columns happens.
       expect(add_col["href"]).to eq("/project_queries/configure_view_modal")
     end
@@ -389,13 +398,14 @@ RSpec.describe SortHelper do
     it "shows an action to remove a column" do
       remove_col = action_menu.at_css("action-list .ActionListItem a[data-test-selector='id-remove-column']")
       expect(remove_col.at_css(".ActionListItem-label").text.strip).to eq("Remove column")
+      expect(remove_col).to have_octicon(:"x-circle")
       # The current column is removed from the columns-query:
       expect(remove_col["href"]).to eq("/projects?columns=name+description")
     end
 
     it "shows a 'filter by' action" do
       filter_by = action_menu.at_css("action-list .ActionListItem button[data-test-selector='id-filter-by']")
-      expect(filter_by.at_css(".ActionListItem-label").text.strip).to eq("Filter by")
+      expect(filter_by.at_css(".ActionListItem-label").text.strip).to eq("Filter by Id")
       # Check that the correct Stimulus controller with the correct data is referenced:
       expect(filter_by["data-action"]).to eq("table-action-menu#filterBy")
       expect(filter_by["data-filter-name"]).to eq("id")
@@ -409,7 +419,7 @@ RSpec.describe SortHelper do
 
       it "shows a 'filter by' action with the mapped filter" do
         filter_by = action_menu.at_css("action-list .ActionListItem button[data-test-selector='id-filter-by']")
-        expect(filter_by.at_css(".ActionListItem-label").text.strip).to eq("Filter by")
+        expect(filter_by.at_css(".ActionListItem-label").text.strip).to eq("Filter by Id")
         expect(filter_by["data-action"]).to eq("table-action-menu#filterBy")
         # With a column mapping, the filter name is changed accordingly:
         expect(filter_by["data-filter-name"]).to eq("id_code")

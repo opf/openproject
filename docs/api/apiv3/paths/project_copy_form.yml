@@ -38,5 +38,5 @@ post:
   tags:
     - Projects
   description: ''
-  operationId: Project_copy_form
+  operationId: validate_project_copy_form
   summary: Project copy form

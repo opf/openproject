@@ -59,7 +59,7 @@ RSpec.describe "Login with 2FA remember cookie",
 
     first_login_step
 
-    expect(page).to have_css("input#remember_me")
+    expect(page).to have_field("remember_me")
     SeleniumHubWaiter.wait
     check "remember_me"
 
@@ -70,7 +70,7 @@ RSpec.describe "Login with 2FA remember cookie",
   def expect_no_autologin
     first_login_step
 
-    expect(page).to have_css("input#otp")
+    expect(page).to have_field("otp")
     expect_not_logged_in
   end
 
@@ -83,7 +83,7 @@ RSpec.describe "Login with 2FA remember cookie",
           } do
     it "does not show the save form" do
       first_login_step
-      expect(page).to have_no_css("input#remember_me")
+      expect(page).to have_no_field("remember_me")
     end
   end
 

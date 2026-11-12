@@ -64,7 +64,7 @@ get:
   tags:
     - UserPreferences
   description: ''
-  operationId: Show_my_preferences
+  operationId: get_my_preferences
   summary: Show my preferences
 patch:
   responses:
@@ -156,7 +156,7 @@ patch:
     - UserPreferences
   description: When calling this endpoint the client provides a single object, containing
     the properties that it wants to change, in the body.
-  operationId: Update_UserPreferences
+  operationId: update_my_preferences
   requestBody:
     content:
       application/json:

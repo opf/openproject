@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
@@ -36,7 +37,6 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -55,7 +55,6 @@ import {
   styleUrls: ['./bcf-list.component.sass'],
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
-    CausedUpdatesService,
     // Component metadata is not inherited: this template renders <wp-table>
     // itself, so the table's drag binding needs its own scoped instance here.
     DragAndDropService,
@@ -84,9 +83,9 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
 
   @LazyInject() bcfApi:BcfApiService;
 
-  public wpTableConfiguration = {
+  public wpTableConfiguration = new WorkPackageTableConfiguration({
     dragAndDropEnabled: false,
-  };
+  });
 
   public showViewPointInFlight:boolean;
 

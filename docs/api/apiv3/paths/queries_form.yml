@@ -2,7 +2,7 @@
 ---
 post:
   summary: Query Create Form
-  operationId: Query_Create_Form
+  operationId: validate_query_create_form
   tags:
     - Queries
   description: ''

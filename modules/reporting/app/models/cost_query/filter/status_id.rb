@@ -34,7 +34,7 @@ class CostQuery::Filter::StatusId < Report::Filter::Base
     WorkPackage.human_attribute_name(:status)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     Status.order(Arel.sql("name")).pluck(:name, :id)
   end
 end

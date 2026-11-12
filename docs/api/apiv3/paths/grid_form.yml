@@ -158,5 +158,5 @@ post:
   tags:
     - Grids
   description: ''
-  operationId: Grid_Update_Form
+  operationId: validate_grid_update_form
   summary: Grid Update Form

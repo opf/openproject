@@ -23,6 +23,7 @@ extend-ignore-re = [
   "FND-\\d+", # ticket reference
   "\\b(Ben(jamin)? Tey|Valentin Ege|Abou-Rikab)\\b", # contributor names
   "Bitte stimmen Sie den neuen Bedingungen zu|deutsches Dokument|Mein schöner Titel|Noch mal ein Dialog", # German test strings
+  "%<count>s Tage?|vor (%<time>s|\\d+ Tage?)", # German test strings in humanizer_spec
   "Nam vel neque|sea tak|asperiores possimus nam doloribus ab", # Lorem ipsum
   "IfcEntites", # comment in the vendored BCF markup.xsd
   "&#x[0-9A-Fa-f]+;", # SVG glyph code points
@@ -63,8 +64,8 @@ extend-ignore-re = [
   "\"Aluminium \\(0\\.4\\)\"", # value shown in the release notes screenshot
   "(?m)^\\s+favoured:|help_texts\\.views\\.favoured", # i18n key
   "\\btrialling\\?", # public EnterpriseToken.trialling?; follow-up
-  "\\btrialling\\(", # public BannersService#trialling; follow-up
-  "\\bsignalled(<|\\()", # public APIv3 resource method; follow-up
+  "\\btrialling(\\(|:)", # public BannersService#trialling and its mocks; follow-up
+  "\\bsignalled(<|\\(|:)", # public APIv3 resource method and its mocks; follow-up
   "aria-labelledby", # HTML attribute
   "4-project-organisation-and-roles", # docs directory, part of public URLs
   "(?m)^keywords: .*\\bfavourite\\b", # search keyword for British spelling
@@ -86,7 +87,6 @@ extend-ignore-identifiers-re = [
   "^isLoggedInAndHasCapabalities\\$?$", # public service method; follow-up
   "^iterate_user_statusses$", # public helper; follow-up
   "^loading_indicator_saveguard$", # spec helper used across modules; follow-up
-  "^mesage_type$", # ServiceResult kwarg typo raises ArgumentError; follow-up bug
   "^no_role_assigment$", # i18n key
   "^notice_annoucement_active$", # public helper; follow-up
   "^notifiation_message$", # spec sets the wrong attribute, so the assertion is vacuous; follow-up
@@ -139,4 +139,5 @@ varius = "varius" # Lorem ipsum
 navigatable = "navigatable" # menu_items column; follow-up
 noteable = "noteable" # GitLab webhook payload field
 opf = "opf"
+Sie = "Sie" # German formal address in the seeded text action prompts
 writeable = "writeable" # Representable kwarg

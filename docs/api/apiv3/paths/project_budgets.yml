@@ -89,5 +89,5 @@ get:
   tags:
     - Budgets
   description: ''
-  operationId: view_Budgets_of_a_Project
+  operationId: get_budgets_of_a_project
   summary: view Budgets of a Project

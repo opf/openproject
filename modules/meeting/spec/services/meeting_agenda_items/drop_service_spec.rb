@@ -203,6 +203,42 @@ RSpec.describe MeetingAgendaItems::DropService do
       end
     end
 
+    context "when the agenda item is in a one-time meeting backlog" do
+      let(:meeting) { create(:meeting, project:) }
+      let(:meeting_agenda_item) do
+        create(:meeting_agenda_item, meeting:, meeting_section: meeting.backlog)
+      end
+
+      subject(:service_call) do
+        described_class
+          .new(user:, meeting_agenda_item:)
+          .call(target_id:, position: 1)
+      end
+
+      context "when moving to a section of the same meeting" do
+        let(:target_section) { create(:meeting_section, meeting:) }
+        let(:target_id) { target_section.id }
+
+        it "moves the item out of the backlog" do
+          expect(service_call).to be_success
+
+          expect(meeting_agenda_item.reload.meeting_section).to eq(target_section)
+        end
+      end
+
+      context "when moving to a section of another one-time meeting" do
+        let(:other_meeting) { create(:meeting, project:) }
+        let(:target_id) { create(:meeting_section, meeting: other_meeting).id }
+
+        it "fails without changing the agenda item" do
+          expect { service_call }.not_to change { meeting_agenda_item.reload.meeting_section_id }
+
+          expect(service_call).to be_failure
+          expect(service_call.errors[:base].join).to include("Couldn't find MeetingSection")
+        end
+      end
+    end
+
     context "when moving an agenda item from a recurring meeting to a backlog" do
       let(:recurring_meeting) { create(:recurring_meeting, project: project) }
       let(:template) { recurring_meeting.template }

@@ -32,7 +32,7 @@ require "net/imap"
 module ITSM
   module Adapters
     class ImapSession
-      include Dry::Monads[:result]
+      include Dry::Monads::Result(SimpleError)
 
       OPEN_TIMEOUT = 10
       SESSION_TIMEOUT = 5.minutes

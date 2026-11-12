@@ -30,4 +30,8 @@
 class Queries::WorkPackages::Filter::IdFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   include ::Queries::WorkPackages::Filter::FilterForWpMixin
+
+  def where
+    operator_strategy.sql_for_field(work_package_ids, self.class.model.table_name, :id)
+  end
 end

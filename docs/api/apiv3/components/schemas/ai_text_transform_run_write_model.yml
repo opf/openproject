@@ -7,7 +7,7 @@ required:
 properties:
   actionId:
     type: integer
-    description: Id of the AI text transform action to run
+    description: Id of the AI text action to run
     minimum: 1
   content:
     type: string

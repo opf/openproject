@@ -83,13 +83,13 @@ fr:
         dependencies: Dépendances
   activerecord:
     attributes:
-      ai/text_transform_action:
-        active: Actif
-        injects_type_template: Insérer un modèle de type de lot de travaux
-        label: Libellé
-        prompt: Invite
-        types: Types de lots de travaux
-        usage_scope: Périmètre
+      ai/text_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       ai/text_transform_run:
         action: Action
         cancel_requested: Annulation demandée
@@ -413,6 +413,7 @@ fr:
       type:
         allow_project_variants: Autoriser les variantes spécifiques à chaque projet
         color: Couleur
+        description: Description
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_milestone: Est un jalon
         project_types: Projets
@@ -422,6 +423,7 @@ fr:
       type_variant:
         attribute_groups: Formulaire
         default_work_package_description: Texte par défaut pour la description
+        description: Description
         enabled_in_new_projects: Actif dans les nouveaux projets
         linked_aspects: Configuration héritée
         patterns: Modèles
@@ -702,6 +704,7 @@ fr:
               format: "%{message}"
               invalid: La formule n'est pas valide.
               invalid_tokens: 'Sont uniquement autorisés : les valeurs numériques, les opérateurs, les fonctions, les mots-clés et les attributs de projet de type entier, nombre à virgule flottante, valeur calculée ou liste pondérée.'
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: L'attribut %{custom_fields} ne peut pas être utilisé, car il conduit à une référence circulaire ; un attribut dépend de l'autre.
             project_specific_value_restriction:
               not_supported: n'est disponible que pour les champs personnalisés des lots de travail présentant les formats « liste », « hiérarchie » et « liste pondérée ».
@@ -1084,9 +1087,9 @@ fr:
       action:
         one: Action
         other: Actions
-      ai/text_transform_action:
-        one: Action de transformation de texte
-        other: Actions de transformation de texte
+      ai/text_action:
+        one: Text action
+        other: Text actions
       ai/text_transform_run:
         one: Exécution de transformation de texte
         other: Exécutions de transformation de texte
@@ -1471,6 +1474,7 @@ fr:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} et %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: date de suppression %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Ces valeurs sont configurées par des variables d'environnement et ne peuvent pas être modifiées ici.
@@ -1503,7 +1507,7 @@ fr:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -2190,41 +2194,42 @@ fr:
         page_header:
           description: Vous avez le choix entre des identifiants numériques classiques pour les lots de travaux et des identifiants sémantiques spécifiques aux projets, qui ajoutent l'identifiant du projet à l'identifiant du lot de travaux.
         success_banner: Le format de l'identifiant du lot de travaux a été mis à jour.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
-        description: Les utilisateurs ne pourront plus exécuter cette action dans l'éditeur de texte enrichi.
-        heading: Voulez-vous vraiment supprimer l'action « %{label} » ?
-        title: Supprimer l'action de transformation du texte
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete action
       form:
-        injects_type_template_caption: Si cette case est cochée, le modèle de description du type de lot de travaux est automatiquement ajouté à l'invite. L'invite doit contenir des instructions indiquant comment utiliser ce modèle.
-        label_caption: Il s'agit du nom qui apparaîtra aux utilisateurs dans l'éditeur.
-        select_types: Sélectionner les types
-        types_caption: Ajoutez les types de lots de travaux pour lesquels cette action doit être disponible. Toutes les variantes disponibles seront automatiquement incluses.
-        usage_scope_caption: 'Vous pouvez limiter la visibilité de cette action : partout (y compris dans les commentaires, les wikis et les champs personnalisés), pour tous les types de lots de travaux ou pour certains types de lots de travaux.'
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
         label_add_action: Action
-        label_aria_add_action: Ajouter une action de transformation de texte
+        label_aria_add_action: Add action
+        section_title: Actions
       index_component:
         blank_slate:
-          description: Ajoutez une action pour la voir ici
-          title: Aucune action de transformation de texte n'a encore été configurée
-        disabled_warning: Les actions de transformation de texte sont désactivées. Les actions suivantes ne seront disponibles nulle part.
-        label_disable_all: Désactiver tout
-        label_enable_all: Activer tout
-        title: Actions
+          description: Add an action to see it here
+          title: No actions configured yet
+        disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Action
       new:
-        title: Nouvelle action de transformation de texte
+        title: New text action
       row_component:
-        label_actions: Menu des actions
-        label_toggle: Activer/désactiver %{label}
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} type de lot de travaux"
-          other: "%{count} types de lots de travaux"
+          one: "%{count} work package type"
+          other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: Tous les types de lots de travaux
-        everywhere: Partout
-        specific_work_package_types: Types spécifiques de lots de travaux
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Ajoutez des statuts pour commencer à configurer les flux de travail pour ce rôle
@@ -2278,7 +2283,7 @@ fr:
       errors:
         connection_failed: Impossible de joindre le service d'IA.
         context_too_long: The text is too long for the AI model. Shorten it and try again.
-        not_available: L'assistant IA n'est pas disponible.
+        not_available: The text assistant is not available.
         rate_limited: The AI service is busy. Try again in a moment.
         timeout: Le service d'IA n'a pas répondu à temps.
         upstream_error: Le service d'IA a renvoyé une erreur.
@@ -2290,7 +2295,9 @@ fr:
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
+        mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Replace
+        request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
@@ -2322,6 +2329,8 @@ fr:
         emoji_reactions_activity_type_not_supported: Ce type d'activité ne prend pas en charge les réactions via émojis.
         invalid_link: Le lien sous la clé '%{key}' n'est pas valide.
         links_not_an_object: _links doit être un objet JSON.
+        pdf_export_no_template_enabled: No PDF export template is enabled for the type of this work package.
+        pdf_export_template_not_enabled: The PDF export template '%{template}' is not enabled for the type of this work package.
       code_400: 'Mauvaise requête : %{message}'
       code_401: Vous devez être authentifié pour accéder à cette ressource.
       code_401_wrong_credentials: Vous n'avez pas fourni les informations d'identification correctes.
@@ -2667,6 +2676,7 @@ fr:
       disabled_value: L'attribut « %{custom_field_name} » est requis par cette valeur calculée, mais est désactivé pour le projet.
       mathematical: La formule mathématique génère une erreur. Veuillez vérifier l'attribut de calcul du projet et réessayer.
       missing_value: L'attribut « %{custom_field_name} » est requis par cette valeur calculée, mais il est vide.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Une erreur inconnue s'est produite. Veuillez vérifier la formule de cette valeur calculée.
   colors:
     contrast:
@@ -2712,7 +2722,7 @@ fr:
     failure_message: Échec de l'accord, impossible de continuer.
     not_yet_consented: L'utilisateur n'a pas encore donné son consentement à votre [texte d'information sur le consentement configuré](consent_settings). Un rappel lui sera envoyé lors de sa prochaine connexion.
     text_update_consent_time: Cochez cette case pour forcer les utilisateurs à donner à nouveau leur consentement. Activez-le lorsque vous avez modifié l'aspect juridique des informations de l'accord ci-dessus.
-    title: Accord de l'utilisateur
+    title: User consent
     update_consent_last_time: 'Dernière mise à jour de l''accord: %{update_time}'
     user_has_consented: L'utilisateur a donné son consentement à votre [texte d'information sur le consentement configuré](consent_settings).
   copy_project:
@@ -2850,7 +2860,7 @@ fr:
       editable:
         all: Permettre aux utilisateurs de modifier eux-mêmes le champ.
       formula:
-        project: Saisissez des valeurs numériques ou tapez / pour rechercher un attribut, un opérateur, une fonction ou tout autre élément.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Permet à l'utilisateur d'ajouter un commentaire relatif à l'attribut du projet lorsqu'il sélectionne la valeur dans la vue d'ensemble du projet.
       is_filter:
@@ -3185,6 +3195,7 @@ fr:
       scim_api: API du serveur SCIM
       sso_auth_providers: Authentification unique
       team_planner_view: Vue du planificateur d'équipe
+      text_assistant: Text assistant
       virus_scanning: Analyse antivirus
       weighted_item_lists: Listes d'éléments pondérés
       work_package_query_relation_columns: Colonnes de relations dans les requêtes de lots de travaux
@@ -3297,6 +3308,9 @@ fr:
       sso_auth_providers:
         description: Permettez aux utilisateurs de se connecter via des fournisseurs SSO externes utilisant SAML ou OpenID Connect pour assurer un accès transparent et une intégration fluide avec les systèmes d'identité existants.
         title: Authentification unique (SSO)
+      text_actions:
+        description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
+        title: Text assistant
       title: Module Enterprise
       trial_text: Cette fonction est incluse dans votre version d'essai Enterprise active.
       unlimited: Illimité
@@ -3553,6 +3567,7 @@ fr:
         caption: The new form starts with a copy of that form's attribute groups.
         label: Copy from
         placeholder: Select a form…
+      copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
         label: Description
@@ -3560,7 +3575,7 @@ fr:
       name:
         caption: Pick a name that will let you identify this form later in other places.
         label: Form name
-      new_title: Create form
+      save_title: Save form
     index:
       actions:
         edit: Edit form
@@ -3956,6 +3971,7 @@ fr:
   label_additional_workflow_transitions_for_author: Transitions supplémentaires autorisées lorsque l'utilisateur est l'auteur
   label_administration: Administration
   label_age: Âge
+  label_aggregate_function_plural: Aggregate functions
   label_ago: il y a
   label_all: tous
   label_all_open_wps: Tous les ouverts
@@ -4045,7 +4061,7 @@ fr:
   label_completed: Terminé
   label_configuration: configuration
   label_confirmation: Confirmation
-  label_consent_settings: Accord de l'utilisateur
+  label_consent_settings: User consent
   label_constant_plural: Constantes
   label_contains: contenus
   label_content: Contenu
@@ -5046,7 +5062,7 @@ fr:
       mail_notification: Notifications par e-mail
       mails_and_notifications: E-mails et notifications
       mcp_configurations: Protocole de contexte de modèle (MCP)
-      text_transform_actions: Actions de transformation de texte
+      text_actions: Text assistant
     quick_add:
       label: Ajouter...
   more_actions: Plus de fonctions
@@ -5606,6 +5622,15 @@ fr:
       toc:
         caption: Ajoutez une page de table des matières répertoriant les titres de section.
         label: Table des matières
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: Unavailable wiki page (%{reference})
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: Page %{page} sur %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -5897,6 +5922,15 @@ fr:
       new:
         placeholder: Nouvelle liste de projets
       shared: Listes de projets partagées
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Désactiver tout
@@ -6032,10 +6066,12 @@ fr:
         switch:
           apply: Appliquer
           impact:
-            hidden_heading: Champs qui ne seront plus affichés
-            missing_statuses_description: 'Le flux de travail vers lequel vous basculez ne comporte aucune transition depuis ces statuts : personne ne pourra donc faire avancer ces lots de travaux.'
-            missing_statuses_heading: Lots de travaux bloqués
-            new_heading: Champs qui deviennent disponibles
+            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
+            hidden_heading: Fields that will be removed
+            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
+            missing_statuses_heading: Work packages without transitions
+            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
+            new_heading: Fields that will be added
             nothing_affected: Aucun champ ni statut n'est concerné.
             status_count:
               one: "%{count} work package"
@@ -6098,6 +6134,22 @@ fr:
         automatic:
           description: Classez les %{plural} selon un ou plusieurs critères de tri. Vous perdrez le tri précédent.
           heading: Automatique
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: current work package
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: Unavailable filter
+      unavailable_value: Unavailable value
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6300,7 +6352,6 @@ fr:
   setting_after_login_default_redirect_url_example_html: 'Définissez un chemin par défaut pour rediriger les utilisateurs après leur connexion, si aucun lien de retour n''est fourni. Les utilisateurs sont redirigés vers la page d''accueil si ce champ n''est pas défini. <br/> Exemple : %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Activer les actions de transformation de texte
   setting_allowed_link_protocols: Protocoles de lien autorisés
   setting_allowed_link_protocols_text_html: Permettre que ces protocoles soient affichés sous forme de liens dans les descriptions des lots de travaux, les champs de texte long et les commentaires. Par exemple, %{tel_code} ou %{element_code}. Saisissez un protocole par ligne. <br/>Les protocoles %{http_code}, %{https_code} et %{mailto_code} sont toujours autorisés.
   setting_antivirus_scan_action: Action sur le fichier infecté
@@ -7041,6 +7092,9 @@ fr:
       short: "%d %b %H:%M:%S"
       time: "%H:%M:%S"
     pm: après-midi
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: pour
     show: Afficher période
@@ -7204,6 +7258,7 @@ fr:
           label_with_context: "%{attribute_context} : %{attribute_label}"
       details:
         allow_project_variants_caption: Pour les administrateurs de projet disposant d'une autorisation de gestion des variantes, ce type peut être étendu ou modifié au sein d'un projet.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Hérite du type <b>%{type}</b>.
         tab: Détails
         type_color_text: La couleur sélectionnée permet de distinguer les différents types dans les diagrammes de Gantt ou les tableaux de lots de travaux. Il est donc recommandé d'utiliser une couleur vive.
@@ -7234,7 +7289,6 @@ fr:
         tab: Générer un fichier PDF
         templates:
           readonly_error: Ne peut pas être modifié tant qu'il est lié à un type source.
-          section_title: Modèles d'exportation PDF
           settings:
             edit_link: Modifier les paramètres
             reset_to_default: Rétablir les paramètres par défaut
@@ -7256,7 +7310,6 @@ fr:
         empty_group_hint: Faites glisser les attributs ici
         exclusions:
           attribute_label: Hériter de %{attribute}
-          excluded: Masqué
           section_label: Hériter de la section %{section}
         filter_inactive: Filtrer les attributs
         group_actions: Actions de la section
@@ -7269,6 +7322,11 @@ fr:
         no_inactive_attributes: Aucun attribut inactif
         not_found: L'élément du formulaire demandé est introuvable.
         query_group_label: Tableau des lots de travaux associés
+        query_summary:
+          baseline:
+            between: Changes between %{from} and %{to}
+            since: Changes since %{time}
+          unavailable: Configuration unavailable
         remove_attribute: Retirer de la section
         rename_group: Renommer la section
         required:
@@ -7310,7 +7368,6 @@ fr:
           manual:
             description: Une fois que vous aurez [créé des attributs de projet](administration_url), ceux-ci apparaîtront ici et pourront être associés à un type.
             title: Aucun attribut de projet n'est disponible
-        disabled: Désactivé
         exclusions:
           attribute_label: Hériter de %{attribute}
         filter: Rechercher par section ou par nom
@@ -7330,8 +7387,6 @@ fr:
           no_results: Aucun projet correspondant.
           title: Not used in any project yet
         enable_all: Activer pour tous les projets
-        select_projects: Sélectionner des projets
-        select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
         switch_dialog:
           description: The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.
           title: Replace variants?
@@ -7390,14 +7445,14 @@ fr:
           mode_label: Configure this page manually
           modes:
             copy:
-              caption: Commencez par effectuer une copie ponctuelle des paramètres dont cette configuration hérite actuellement.
-              label: Copier les paramètres hérités
+              caption: Start with a one-time copy of the settings of the parent type.
+              label: Copy existing settings
             default:
               caption: Utilisez les paramètres par défaut pour les nouveaux types.
               label: Paramètres par défaut
             empty:
               caption: Configurez tout à partir de zéro, en partant d'une configuration vierge.
-              label: Vide
+              label: Start from scratch
           success: Le mode de configuration a été modifié.
           title: Configuration manuelle
         parent_suffix: " (parent)"
@@ -7448,7 +7503,7 @@ fr:
           one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Supprimer le type
-      description: 'Chaque zone de configuration des types et variantes peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
+      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
         '
       duplicate_name: Copie de %{name}
@@ -8145,8 +8200,6 @@ fr:
           notice:
             one: Copie réussie du flux de travail dans le rôle « %{role_name} ».
             other: Copie réussie du flux de travail vers les %{count} rôles.
-      new:
-        dialog_title: Copy workflow of "%{source}"
     delete:
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
@@ -8164,6 +8217,7 @@ fr:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
         placeholder: Select a workflow…
+      copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
         label: Description
@@ -8179,7 +8233,7 @@ fr:
       name:
         caption: Pick a name that will let you identify this workflow later in other places.
         label: Workflow name
-      new_title: Create workflow
+      save_title: Save workflow
     index:
       actions:
         create: Workflow

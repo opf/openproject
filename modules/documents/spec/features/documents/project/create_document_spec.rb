@@ -62,12 +62,12 @@ RSpec.describe "Create Document",
 
           fill_in "document_title", with: ""
           click_on "Save"
-          expect(page).to have_content("Title can't be blank")
+          expect(page).to have_text("Title can't be blank")
 
           fill_in "document_title", with: "My collaborative document"
           click_on "Save"
 
-          expect(page).to have_content("My collaborative document")
+          expect(page).to have_text("My collaborative document")
         end
       end
     end

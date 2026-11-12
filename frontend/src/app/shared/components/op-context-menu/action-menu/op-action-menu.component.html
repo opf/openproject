@@ -1,0 +1,136 @@
+<action-menu #actionMenu data-select-variant="none" data-view-component="true">
+  <ng-content select="[opActionMenuTrigger]" />
+  @if (!trigger()) {
+    <button [id]="menuId + '-button'"
+      [attr.popovertarget]="menuId + '-overlay'"
+      [attr.aria-controls]="menuId + '-list'"
+      aria-haspopup="menu"
+      type="button"
+      class="sr-only op-action-menu--stand-in"
+      tabindex="-1"
+      aria-hidden="true"
+      [textContent]="label()"></button>
+  }
+  <anchored-position #overlay
+    data-target="action-menu.overlay"
+    [id]="menuId + '-overlay'"
+    [attr.anchor]="invokerId"
+    [attr.align]="align()"
+    side="outside-bottom"
+    anchor-offset="normal"
+    popover="auto"
+    data-view-component="true">
+    <div class="Overlay Overlay--size-auto">
+      <div class="Overlay-body Overlay-body--paddingNone">
+        <ng-container *ngTemplateOutlet="list; context: { items: visibleItems(), id: menuId + '-list', prefix: menuId + '-sub', label: label(), labelledBy: null }" />
+      </div>
+    </div>
+  </anchored-position>
+</action-menu>
+
+<ng-template #list let-items="items" let-id="id" let-prefix="prefix" let-label="label" let-labelledBy="labelledBy">
+  <action-list>
+    <div>
+      <ul [id]="id"
+        role="menu"
+        [attr.data-target]="labelledBy ? null : 'action-menu.list'"
+        [attr.aria-label]="labelledBy ? null : (label || null)"
+        [attr.aria-labelledby]="labelledBy"
+        class="ActionListWrap ActionListWrap--inset"
+        data-view-component="true">
+        @for (item of items; track item.key) {
+          @if (item.divider) {
+            <li class="ActionList-sectionDivider" role="separator" aria-hidden="true"></li>
+          } @else if (item.children) {
+            <li role="none" class="ActionListItem" [class]="item.class" [class.ActionListItem--disabled]="item.disabled">
+              <button type="button"
+                tabindex="-1"
+                role="menuitem"
+                [id]="subMenuId(prefix, $index) + '-button'"
+                [attr.popovertarget]="subMenuId(prefix, $index) + '-overlay'"
+                [attr.aria-controls]="subMenuId(prefix, $index) + '-list'"
+                aria-haspopup="menu"
+                [attr.aria-disabled]="item.disabled || null"
+                class="ActionListContent"
+                [class.ActionListContent--visual16]="item.octicon || item.icon">
+                <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
+                <span class="ActionListItem-label">{{ item.linkText }}</span>
+                <span class="ActionListItem-visual ActionListItem-visual--trailing">
+                  <svg octicon size="small" icon="chevron-right"></svg>
+                </span>
+              </button>
+              <anchored-position data-target="action-menu.overlay"
+                [id]="subMenuId(prefix, $index) + '-overlay'"
+                [attr.anchor]="subMenuId(prefix, $index) + '-button'"
+                align="start"
+                side="outside-right"
+                anchor-offset="normal"
+                popover="auto"
+                data-view-component="true">
+                <div class="Overlay Overlay--size-auto">
+                  <div class="Overlay-body Overlay-body--paddingNone">
+                    <ng-container *ngTemplateOutlet="list; context: { items: item.children, id: subMenuId(prefix, $index) + '-list', prefix: subMenuId(prefix, $index), label: null, labelledBy: subMenuId(prefix, $index) + '-button' }" />
+                  </div>
+                </div>
+              </anchored-position>
+            </li>
+          } @else {
+            <li role="none"
+              class="ActionListItem"
+              [class]="item.class"
+              [class.ActionListItem--disabled]="item.disabled"
+              [class.ActionListItem--danger]="item.scheme === 'danger'">
+              @if (item.href) {
+                <a tabindex="-1"
+                  [attr.role]="itemRole(item)"
+                  [attr.aria-checked]="item.checked ?? null"
+                  [attr.href]="item.href"
+                  data-turbo="false"
+                  [attr.aria-disabled]="item.disabled || null"
+                  [attr.aria-label]="item.ariaLabel || null"
+                  [attr.title]="item.title || null"
+                  class="ActionListContent"
+                  [class.ActionListContent--visual16]="item.octicon || item.icon"
+                  (click)="handleClick(item, $event)">
+                  <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
+                  <span class="ActionListItem-label">{{ item.linkText }}</span>
+                </a>
+              } @else {
+                <button type="button"
+                  tabindex="-1"
+                  [attr.role]="itemRole(item)"
+                  [attr.aria-checked]="item.checked ?? null"
+                  [attr.aria-disabled]="item.disabled || null"
+                  [attr.aria-label]="item.ariaLabel || null"
+                  [attr.title]="item.title || null"
+                  class="ActionListContent"
+                  [class.ActionListContent--visual16]="item.octicon || item.icon"
+                  (click)="handleClick(item, $event)">
+                  <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
+                  <span class="ActionListItem-label">{{ item.linkText }}</span>
+                </button>
+              }
+            </li>
+          }
+        }
+      </ul>
+    </div>
+  </action-list>
+</ng-template>
+
+<ng-template #leadingVisual let-item="item">
+  @if (item.checked !== undefined) {
+    <span class="ActionListItem-visual ActionListItem-action--leading">
+      <svg octicon size="small" icon="check" class="ActionListItem-singleSelectCheckmark"></svg>
+    </span>
+  }
+  @if (item.octicon) {
+    <span class="ActionListItem-visual ActionListItem-visual--leading">
+      <svg octicon size="small" [icon]="item.octicon"></svg>
+    </span>
+  } @else if (item.icon) {
+    <span class="ActionListItem-visual ActionListItem-visual--leading">
+      <op-icon [icon-classes]="item.icon" />
+    </span>
+  }
+</ng-template>

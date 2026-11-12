@@ -121,6 +121,10 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
   }
 
   public updateZoomWithDelta(delta:number) {
+    if ((delta > 0 && this.isMaxLevel) || (delta < 0 && this.isMinLevel)) {
+      return;
+    }
+
     this.wpTableTimeline.updateZoomWithDelta(delta);
   }
 

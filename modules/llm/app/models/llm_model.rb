@@ -53,39 +53,9 @@ class LlmModel < ApplicationRecord
   scope :manual, -> { where(manual: true) }
   scope :by_identifier, -> { order(:external_id) }
 
-  # Everything that points at a model does so by its identifier string, so a
-  # rename has to carry them along or it silently orphans them.
-  #
-  # Renaming is a correction of the name, not a change of model, which is why
-  # this writes directly: a locked binding must not refuse to follow the model
-  # it is locked to. The connection defaults reference this row, so they follow
-  # on their own.
-  def cascade_rename!(previous_external_id)
-    return if previous_external_id.blank? || previous_external_id == external_id
-
-    llm_connection.capability_verdicts.where(model_id: previous_external_id).update_all(model_id: external_id)
-    llm_connection.feature_bindings.where(model_id: previous_external_id).update_all(model_id: external_id)
-    llm_connection.update_columns(env_provisioned_at: nil, env_fingerprint: nil) if connection_defaults.any?
-  end
-
-  # The counterpart of the rename. Verdicts are keyed by the identifier string,
-  # not by foreign key, so leaving them behind would silently apply them to a
-  # future model re-added under the same name, and a connection default naming a
-  # model that no longer exists is one no AI feature could resolve.
-  def cascade_delete!
-    llm_connection.capability_verdicts.where(model_id: external_id).delete_all
-    clear_connection_defaults
-  end
-
   # display_name is an administrator's; the name the server or the registry
   # reported is metadata, so a refresh updates one and never the other.
   def name = display_name.presence || raw_metadata["name"].presence || external_id
-
-  def clear_connection_defaults
-    defaults = connection_defaults.index_with(nil)
-
-    llm_connection.update_columns(defaults.merge(env_provisioned_at: nil, env_fingerprint: nil)) if defaults.any?
-  end
 
   def connection_defaults
     CONNECTION_DEFAULTS.select { |attribute| llm_connection.public_send(attribute) == id }

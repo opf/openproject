@@ -31,7 +31,7 @@ module ITSM
   module Adapters
     module AuthenticationStrategies
       class AuthenticationStrategy
-        include Dry::Monads[:result]
+        include Dry::Monads::Result(SimpleError)
 
         def call(_imap)
           raise SubclassResponsibilityError

@@ -81,6 +81,12 @@ vi:
         primary_action: Cho phép cộng tác theo thời gian thực
         success: Cộng tác thời gian thực đã được kích hoạt.
     button_add_type: Type
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Thao tác này sẽ xóa vĩnh viễn tài liệu này và tất cả tệp đính kèm. Bạn có chắc chắn muốn làm điều này?
       heading: Xóa tài liệu này?

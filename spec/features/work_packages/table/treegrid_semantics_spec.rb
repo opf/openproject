@@ -367,6 +367,17 @@ RSpec.describe "Work package table treegrid semantics", :js do
       expect(wp_table.treegrid).to have_selector(:gridcell, accessible_description: "Total sum")
       expect(page).to be_axe_clean.within(wp_table.axe_scope)
     end
+
+    it "keeps the drag handles out of the accessibility tree and the tab order" do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_listed(alpha, bravo, charlie)
+      expect(wp_table.treegrid).to have_css(".DragHandle[aria-hidden='true']", visible: :all, count: 3)
+
+      wp_table.focus_row_by_keyboard(alpha)
+      wp_table.press_keys(:tab)
+      expect(wp_table.treegrid).to have_no_css(".DragHandle", focused: true, visible: :all)
+      expect(page).to be_axe_clean.within(wp_table.axe_scope)
+    end
   end
 
   context "in grouped mode across pages", with_settings: { per_page_options: "3" } do
@@ -539,6 +550,7 @@ RSpec.describe "Work package table treegrid semantics", :js do
       wp_table.press_keys(:enter)
 
       expect(wp_table.treegrid).to have_selector(:row, "No work packages to display.", aria: { level: 1, selected: nil })
+      expect(wp_table.treegrid).to have_heading("No work packages to display.", level: 3)
       expect(wp_table.treegrid).to have_selector(:row, "Create new work package", aria: { level: 1, selected: nil })
       ["No work packages to display.", "Create new work package"].each do |name|
         row = wp_table.treegrid.find(:row, name, aria: { selected: nil })

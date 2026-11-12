@@ -32,5 +32,5 @@ get:
     - Views
   description: Returns a collection of Views. The collection can be filtered via
     query parameters similar to how work packages are filtered.
-  operationId: List_views
+  operationId: list_views
   summary: List views

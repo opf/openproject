@@ -30,7 +30,7 @@
 module ITSM
   module Adapters
     class CheckedAddresses
-      include Dry::Monads[:result]
+      include Dry::Monads::Result(SimpleError)
 
       def self.call(host) = new.call(host)
 

@@ -6,6 +6,7 @@
 
 import { buildExternalDOM, hashPrefixForSize } from '../WorkPackage/externalHtml';
 import { linkToWorkPackage } from '../../services/openProjectApi';
+import { isPendingWpid } from '../../utils/pending';
 
 export interface WorkPackageInlineProps {
   wpid?:string;
@@ -28,7 +29,7 @@ export function computeWorkPackageInlineExternalData(
   props:WorkPackageInlineProps,
 ):WorkPackageInlineExternalData | null {
   const { wpid, size } = props;
-  if (!wpid || wpid.startsWith('pending:')) return null;
+  if (!wpid || isPendingWpid(wpid)) return null;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const displayId = props.displayId || wpid;
   return {
