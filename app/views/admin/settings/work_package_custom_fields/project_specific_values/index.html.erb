@@ -51,4 +51,6 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
+<%= render(Admin::CustomFields::Projects::ValuesSubHeaderComponent.new(custom_field: @custom_field, project: @configured_project)) %>
+
 <%= render(Admin::CustomFields::Projects::ValuesComponent.new(custom_field: @custom_field, project: @configured_project)) %>

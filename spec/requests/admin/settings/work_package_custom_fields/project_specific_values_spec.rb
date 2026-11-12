@@ -145,6 +145,74 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
       end
     end
 
+    describe "adding a value to a project" do
+      let(:new_path) { new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project) }
+
+      context "for a list custom field" do
+        let(:custom_field) do
+          create(:list_wp_custom_field, types: [feature], possible_values: %w[A], allow_additional_project_values: true)
+        end
+
+        it "asks for the value in a dialog" do
+          get new_path, as: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include("custom-field-project-value-new-dialog")
+        end
+
+        it "adds the value to the project" do
+          post values_path, params: { label: "Own" }
+
+          expect(response).to redirect_to(values_path)
+          expect(custom_field.custom_options.find_by!(value: "Own").project).to eq(using_project)
+        end
+
+        it "shows the errors in the dialog" do
+          post values_path, params: { label: "" }, as: :turbo_stream
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(custom_field.custom_options.where(project: using_project)).to be_empty
+        end
+      end
+
+      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
+        let(:custom_field) do
+          create(:hierarchy_wp_custom_field, types: [feature], allow_additional_project_values: true)
+        end
+        let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
+
+        it "adds a sub-value to the project" do
+          post values_path, params: { label: "Own", short: "OW", parent_id: global_item.id }
+
+          expect(response).to redirect_to(values_path)
+          expect(global_item.children.find_by!(label: "Own")).to have_attributes(project: using_project, short: "OW")
+        end
+
+        it "adds a top level value to the project" do
+          post values_path, params: { label: "Own", parent_id: custom_field.hierarchy_root.id }
+
+          expect(response).to redirect_to(values_path)
+          expect(custom_field.hierarchy_root.children.find_by!(label: "Own").project).to eq(using_project)
+        end
+
+        it "does not find a value of another project as parent" do
+          foreign_item = create(:hierarchy_item, parent: global_item, label: "Foreign", project: other_project)
+
+          get new_path, params: { parent_id: foreign_item.id }, as: :turbo_stream
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      context "when projects may not add values" do
+        it "is not found" do
+          get new_path, as: :turbo_stream
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
     describe "deleting a value of a project" do
       context "for a list custom field" do
         let(:custom_field) do
