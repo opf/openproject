@@ -736,6 +736,8 @@ en:
               not_supported: "is only available for work package custom fields of the formats list, hierarchy and weighted list."
             required:
               cannot_be_true: "cannot be set to true."
+            value:
+              required_by_project_values: "cannot be disabled, as the project added values below it."
           previous_custom_field_recalculation_unprocessed: "The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes."
           referenced_in_other_fields_html:
             one: "%{name} is used in project attribute calculation %{links}."

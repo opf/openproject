@@ -35,8 +35,10 @@ RSpec.describe CustomFields::ProjectSpecificValues::SetContract, with_ee: %i[pro
   include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:admin) }
+  let(:project) { create(:project) }
+  let(:enabled) { true }
 
-  subject(:contract) { described_class.new(custom_field, current_user, options: { value: }) }
+  subject(:contract) { described_class.new(custom_field, current_user, options: { value:, project:, enabled: }) }
 
   context "for a list custom field" do
     let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist) }
@@ -74,6 +76,28 @@ RSpec.describe CustomFields::ProjectSpecificValues::SetContract, with_ee: %i[pro
       let(:value) { create(:hierarchy_item, parent: create(:hierarchy_wp_custom_field).hierarchy_root) }
 
       it_behaves_like "contract is invalid", value: :inclusion
+    end
+
+    context "with an ancestor of a value the project added" do
+      before { create(:hierarchy_item, parent: value, project:) }
+
+      context "when enabling it" do
+        it_behaves_like "contract is valid"
+      end
+
+      context "when disabling it", :check_errors_i18n do
+        let(:enabled) { false }
+
+        it_behaves_like "contract is invalid", value: :required_by_project_values
+      end
+    end
+
+    context "with an ancestor of a value another project added" do
+      let(:enabled) { false }
+
+      before { create(:hierarchy_item, parent: value, project: create(:project)) }
+
+      it_behaves_like "contract is valid"
     end
   end
 end

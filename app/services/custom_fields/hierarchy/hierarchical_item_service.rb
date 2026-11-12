@@ -61,6 +61,7 @@ module CustomFields
           .call({ parent:, label:, short:, weight:, project: })
           .to_monad
           .bind { |validation| create_child_item(validation:, before:) }
+          .fmap { |item| enable_required_values_of_projects_below(item) }
       end
 
       # Updates an item/node
@@ -144,6 +145,7 @@ module CustomFields
           .call({ item:, parent: new_parent })
           .to_monad
           .bind { append_to_new_parent(item:, new_parent:) }
+          .fmap { |moved_item| enable_required_values_of_projects_below(moved_item) }
       end
 
       # Reorder the item along its siblings.
@@ -187,6 +189,17 @@ module CustomFields
       end
 
       private
+
+      def enable_required_values_of_projects_below(item)
+        custom_field = item.root.custom_field
+        projects = Project.where(id: item.self_and_descendants.where.not(project_id: nil).select(:project_id))
+
+        projects.find_each do |project|
+          ProjectSpecificValues::EnableRequiredValuesService.new(model: custom_field).call(project:)
+        end
+
+        item
+      end
 
       def create_root_item(custom_field)
         item = CustomField::Hierarchy::Item.create(custom_field: custom_field)

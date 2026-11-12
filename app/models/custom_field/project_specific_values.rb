@@ -61,6 +61,16 @@ module CustomField::ProjectSpecificValues
     is_a?(WorkPackageCustomField) && (list? || hierarchical_list?)
   end
 
+  # The global ancestors of the values the project added, which have to stay usable in the project.
+  def required_value_ids_in(project)
+    return [] unless hierarchical_list?
+
+    own_item_ids = restrictable_values.where(project_id: project.id).select(:id)
+    ancestor_ids = CustomField::Hierarchy::ItemHierarchy.where(descendant_id: own_item_ids).select(:ancestor_id)
+
+    restrictable_values.where(id: ancestor_ids, project_id: nil).pluck(:id)
+  end
+
   def usable_value_id?(project, value_id)
     return true unless project_specific_values_supported?
 

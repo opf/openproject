@@ -32,6 +32,7 @@ module CustomFields
   module ProjectSpecificValues
     class SetContract < BaseContract
       validate :validate_value_of_custom_field
+      validate :validate_value_not_required
 
       private
 
@@ -39,6 +40,13 @@ module CustomFields
         return if model.restrictable_values.include?(options[:value])
 
         errors.add :value, :inclusion
+      end
+
+      def validate_value_not_required
+        return if options[:enabled]
+        return unless model.required_value_ids_in(options[:project]).include?(options[:value].id)
+
+        errors.add :value, :required_by_project_values
       end
     end
   end
