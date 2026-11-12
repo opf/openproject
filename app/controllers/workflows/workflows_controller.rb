@@ -73,7 +73,7 @@ module Workflows
                                                  .call(**workflow_params)
 
       if service_call.success?
-        redirect_back_to_origin
+        redirect_back_or_to edit_workflow_path(@workflow), status: :see_other
       else
         render_form_errors(service_call.result)
       end
@@ -95,15 +95,6 @@ module Workflows
     end
 
     private
-
-    def redirect_back_to_origin
-      origin = url_from(request.referer) || edit_workflow_path(@workflow)
-
-      respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.redirect_to(origin) }
-        format.html { redirect_to origin, status: :see_other }
-      end
-    end
 
     def redirect_to_index
       render turbo_stream: turbo_stream.redirect_to(workflows_path)
