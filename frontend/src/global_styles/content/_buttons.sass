@@ -183,13 +183,6 @@ html.-browser-windows.-browser-chrome
   @extend .icon-small
   @extend .icon-pulldown
 
-// hack around the old markup (icon class applied on <a>)
-// which is used for toolbar-items to add space after icons inside buttons
-.toolbar-item
-  .button[class*='icon-']
-    &:before
-      margin-right: $button--text-icon-spacing
-
 // Button class to use as a link-like submit button
 .button--link
   color: var(--accent-color)
