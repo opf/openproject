@@ -31,8 +31,10 @@
 Rails.application.routes.draw do
   namespace "itsm" do
     namespace "admin" do
-      resource :settings, only: %i[show] do
+      resource :settings, only: %i[show update] do
         post :enable_helpdesk
+        get :edit_server_configuration
+        get :close_server_configuration
       end
     end
   end
