@@ -15,7 +15,7 @@ Not all migrations are squashed. Migrations added within the last major version 
 
 ## How migration squashing works
 
-The squashing process consolidates multiple migrations into single aggregated migration files. For example, `db/migrate/1000015_aggregated_migrations.rb` contains squashed migrations for the core application, while modules have their own aggregated migration files (e.g., `modules/documents/db/migrate/1012015_aggregated_documents_migrations.rb`). The files' objective is to create the same database schema that the migrations they squash would have created.
+The squashing process consolidates multiple migrations into single aggregated migration files. For example, `db/migrate/1000016_aggregated_migrations.rb` contains squashed migrations for the core application, while modules have their own aggregated migration files (e.g., `modules/documents/db/migrate/1012015_aggregated_documents_migrations.rb`). The files' objective is to create the same database schema that the migrations they squash would have created.
 
 ### Technical implementation
 

@@ -60,8 +60,7 @@ module Meetings
     private
 
     def edit_enabled?
-      User.current.allowed_in_project?(:manage_agendas, @project) ||
-        User.current.allowed_in_project?(:edit_meetings, @project)
+      User.current.allowed_in_project?(:edit_meetings, @project)
     end
 
     def current_status

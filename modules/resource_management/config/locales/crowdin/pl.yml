@@ -92,9 +92,9 @@ pl:
         title: Zarządzanie zasobami
   label_resource_management: Zarządzanie zasobami
   permission_allocate_user_resources: Przydziel zasoby użytkownika
-  permission_allocate_user_resources_explanation: Umożliwia użytkownikom tworzenie, aktualizowanie i usuwanie przydziałów zasobów w planiście zasobów. Obejmuje to przypisywanie użytkowników (lub filtrów użytkowników) do planisty oraz dostosowywanie przydzielonego czasu i zakresu dat.
-  permission_assign_users_to_generic_allocations: Przypisz użytkowników do ogólnych alokacji
-  permission_assign_users_to_generic_allocations_explanation: Umożliwia użytkownikom korzystanie z widoku Obsada, aby przypisywać rzeczywistych użytkowników do ogólnych (opartych na filtrach) przydziałów zasobów, które nie mają jeszcze przypisanego użytkownika. Nie pozwala natomiast na tworzenie ani edytowanie przydziałów.
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: Manage public global resource planners
   permission_manage_public_global_resource_planners_explanation: Allows users to publish their own global resource planners and to manage global resource planners that other users have shared publicly. It does not allow users to view global resource planners that are not shared publicly.
   permission_manage_public_resource_planners: Zarządzaj publicznymi planistami zasobów
@@ -145,9 +145,9 @@ pl:
     assignment_dialog:
       available: Dostępne %{hours}
       confirm_overtime: Przypisz mimo to
-      filter_criteria: Kryteria filtrowania
+      filter_criteria: Kryteria
       no_candidates:
-        description: Żaden z członków projektu nie spełnia kryteriów filtrowania tego przydziału.
+        description: No project member matches the criteria of this placeholder user.
         title: Brak pasujących członków
       no_schedule: Ten użytkownik nie ma skonfigurowanego harmonogramu pracy, więc nie możemy określić, czy ten przydział pasuje.
       overbooked_detail: Ten użytkownik ma %{available} dostępne w tym okresie, pakiet roboczy wymaga %{requested}.
@@ -198,7 +198,7 @@ pl:
     staffing:
       assign: Przypisz użytkownika
       blank:
-        description: Wszystkie ogólne przydziały w tym projekcie mają przypisanego użytkownika.
+        description: All placeholder user allocations in this project have a user assigned.
         title: Nic do obsadzenia
       columns:
         dates: Daty
@@ -343,10 +343,10 @@ pl:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} uczestnik tego projektu spełnia kryteria filtrowania przydziału."
-          few: "%{count} uczestników tego projektu spełnia kryteria filtrowania przydziału."
-          many: "%{count} uczestników tego projektu spełnia kryteria filtrowania przydziału."
-          other: "%{count} uczestnika tego projektu spełnia kryteria filtrowania przydziału."
+          one: "%{count} member of this project matches the criteria of the placeholder user."
+          few: "%{count} members of this project match the criteria of the placeholder user."
+          many: "%{count} members of this project match the criteria of the placeholder user."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: Dodaj pakiet roboczy
         configure_view: Konfiguruj widok

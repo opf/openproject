@@ -21,7 +21,7 @@ This will output a private key and certificate to `/etc/ssl/openproject-dev` for
 ## Step 2: Set up a custom host
 
 You may want to have a full host name available for development. Let's assume this is `openproject.example.com`. You can
-forward this hostname to your local machine by editing `/etc/hosts` and adding `openproject.example.com 127.0.0.1` to
+forward this hostname to your local machine by editing `/etc/hosts` and adding `127.0.0.1 openproject.example.com` to
 it.
 
 ## Step 3: Install and configure Apache2
@@ -43,7 +43,7 @@ You will then add a configuration for OpenProject under:
 nano /etc/apache2/sites-available/openproject-dev-ssl.conf
 ```
 
-The path might differ. For RHEL/Fedora systems, the configuration directory resides at `/etc/apache2/conf.d/`.
+The path might differ. For RHEL/Fedora systems, the configuration directory resides at `/etc/httpd/conf.d/`.
 
 The following contains an exemplary configuration:
 
@@ -102,9 +102,9 @@ OPENPROJECT_DEV_EXTRA_HOSTS: 'openproject.example.com'
 
 Then, you need to set the following settings
 
-```ruby
-export OPENPROJECT_HTTPS = true
-export OPENPROJECT_HOST__NAME = 'openproject.example.com'
+```shell
+export OPENPROJECT_HTTPS=true
+export OPENPROJECT_HOST__NAME='openproject.example.com'
 ```
 
 Finally, start your OpenProject development server and Frontend server and access `https://openproject.example.com` in

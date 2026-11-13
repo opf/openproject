@@ -62,7 +62,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
     wp_table.press_keys(:enter)
     within(:menu, "Subject") do
-      expect(page).to have_selector(:menuitem, focused: true)
+      expect(page).to have_selector(:role, "menuitemradio", focused: true)
     end
     wp_table.press_keys(:escape)
     expect(page).to have_no_menu
@@ -75,7 +75,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_on_column_header("Subject")
     wp_table.press_keys(:enter)
     within(:menu, "Subject") do
-      find(:menuitem, "Sort ascending").click
+      find(:role, "menuitemradio", text: "Sort ascending").click
     end
     expect(page).to have_selector(:columnheader, "Subject", aria: { sort: "ascending" })
     wp_table.expect_work_package_order(sibling, parent, child)
@@ -107,7 +107,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_on_column_header("Subject")
 
     wp_table.press_keys(:enter)
-    expect(page).to have_selector(:menuitem, focused: true)
+    expect(page).to have_selector(:role, "menuitemradio", focused: true)
 
     wp_table.press_keys(:escape)
     expect(page).to have_no_menu

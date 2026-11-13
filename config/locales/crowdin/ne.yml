@@ -391,10 +391,14 @@ ne:
         authentication_method: Authentication method
         jwt_sub: Subject claim
       status:
+        category: Category
         default_done_ratio: "% Complete"
         excluded_from_totals: Exclude from calculation of totals in hierarchy
-        is_closed: Work package closed
         is_readonly: कार्य प्याकेज पढ्ने-मात्र
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Workspace type
       time_entry:
@@ -546,6 +550,11 @@ ne:
         labels: Labels
         notify: Notify
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Parent
         parent_issue: Parent
         parent_work_package: Parent
@@ -1690,6 +1699,10 @@ ne:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1700,12 +1713,16 @@ ne:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1845,10 +1862,16 @@ ne:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -1865,17 +1888,15 @@ ne:
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
-                issue_ids: Issue identifiers
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issues
                 logged_time: Logged time
                 permissions: Permissions
-                project_ids: Project identifiers
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projects
                 relations: Relations between issues
                 schemes: Schemas
-                sprints: Sprint assignments
+                sprints: Sprints and sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
               label_coming_later: Coming later
@@ -1902,17 +1923,20 @@ ne:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1923,8 +1947,8 @@ ne:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2115,10 +2139,6 @@ ne:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2234,6 +2254,8 @@ ne:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2853,7 +2875,7 @@ ne:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?
-    contained_in_type: Contained in type
+    contained_in: Contained in
     enabled_in_project: Enabled in project
     instructions:
       admin_only:
@@ -3184,7 +3206,6 @@ ne:
       gantt_pdf_export: Gantt PDF Export
       internal_comments: Internal Comments
       ldap_groups: LDAP users and group sync
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
@@ -3278,8 +3299,6 @@ ne:
       internal_comments_inline:
         description: " "
         title: Write internal comments only a small group can see
-      mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
       meeting_templates:
         description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
       nextcloud_sso:
@@ -3958,7 +3977,7 @@ ne:
   label_active_in_new_projects: Active in new projects
   label_activity: Activity
   label_add_another_file: Add another file
-  label_add_column: Add column
+  label_add_column: Add columns
   label_add_columns: Add selected columns
   label_add_edit_translations: Add and edit translations
   label_add_note: Add a note
@@ -4094,7 +4113,7 @@ ne:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Custom favicon
-  label_custom_field_add_no_type: Add this field to a work package type
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Empty type
   label_custom_field_new: New custom field
   label_custom_field_plural: Custom fields
@@ -4188,7 +4207,7 @@ ne:
   label_filter: Filters
   label_filter_add: Add filter
   label_filter_any_name_attribute: Name attributes
-  label_filter_by: Filter by
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Filters
   label_filters_toggle: Show/hide filters
   label_float: Float
@@ -4239,6 +4258,7 @@ ne:
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
+  label_in_progress_work_packages: in progress
   label_inactive: Inactive
   label_include_sub_projects: Include sub-projects
   label_includes: includes
@@ -4390,7 +4410,7 @@ ne:
   label_on: 'on'
   label_open: open
   label_open_menu: Open menu
-  label_open_work_packages: open
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: open
   label_openproject_website: OpenProject website
   label_operator_all: is not empty
@@ -4597,6 +4617,7 @@ ne:
   label_time_entry_plural: Spent time
   label_timer_since: Started at %{time}
   label_title: Title
+  label_to_do_work_packages: to-do
   label_today: today
   label_today_as_date: Select today as date.
   label_today_as_due_date: Select today as finish date.
@@ -4710,6 +4731,13 @@ ne:
     one: "%{count} file"
     other: "%{count} files"
     zero: no files
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4725,6 +4753,10 @@ ne:
     one: "%{count} project"
     other: "%{count} projects"
     zero: no projects
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} work packages"
@@ -5662,7 +5694,7 @@ ne:
   permission_comment_news: Comment news
   permission_commit_access: Read/write access to repository (commit)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Create backups
   permission_create_user: Create users
@@ -5880,7 +5912,7 @@ ne:
   project_module_activity: Activity
   project_module_forums: Forums
   project_module_news: News
-  project_module_repository: Repository
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Work packages
   projects:
@@ -6784,6 +6816,7 @@ ne:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -6896,6 +6929,11 @@ ne:
   status_registered: registered
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -7386,7 +7424,7 @@ ne:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects
@@ -7479,6 +7517,10 @@ ne:
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
           title: Delete %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filter by text
         filter_no_results: No variants match this filter
         global_section:

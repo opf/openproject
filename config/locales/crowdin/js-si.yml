@@ -131,10 +131,10 @@ si:
     button_confirm: තහවුරු කරන්න
     button_continue: ඉදිරියට යන්න
     button_copy: පිටපත් කරන්න
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: පසුරු පුවරුවට පිටපත් කරන්න
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: සාදන්න
     button_custom-fields: අභිරුචි ක්ෂේත්ර
     button_delete: මකන්න
@@ -150,7 +150,7 @@ si:
     button_log_time: ලොග් වේලාව
     button_more: තවත්
     button_more_actions: More actions
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: විවෘත විස්තර දැක්ම
     button_open_fullscreen: පූර්ණ තිර දර්ශනය විවෘත කරන්න
     button_quote: උපුටා
@@ -350,6 +350,8 @@ si:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: සියලු ව්යාපෘති
@@ -503,6 +505,7 @@ si:
     label_in: තුළ
     label_in_less_than: වඩා අඩු
     label_in_more_than: වඩා වැඩි
+    label_in_progress_work_packages: in progress
     label_incoming_emails: ලැබෙන විද්යුත් තැපැල්
     label_infinity: Infinity
     label_information_plural: තොරතුරු
@@ -535,6 +538,10 @@ si:
     label_open_context_menu: සන්දර්භය මෙනුව විවෘත කරන්න
     label_open_menu: මෙනුව විවෘත කරන්න
     label_open_work_packages: විවෘත
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: මුරපදය
     label_per_page: 'එක් පිටුවකට:'
     label_please_wait: කරුණාකර රැඳී සිටින්න
@@ -581,6 +588,7 @@ si:
     label_sum_for: මුදල
     label_this_week: මේ සතියේ
     label_time_entry_plural: වැය කළ කාලය
+    label_to_do_work_packages: to-do
     label_today: Today
     label_total_amount: 'මුළු: %{amount}'
     label_total_progress: "%{percent}% මුළු ප්රගතිය"
@@ -966,6 +974,7 @@ si:
         all_open: සියල්ල විවෘතයි
         assigned_to_me: මට පවරනු ලැබේ
         created_by_me: මා විසින් නිර්මාණය කරන ලදී
+        in_progress: In progress
         latest_activity: නවතම ක්රියාකාරකම්
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -973,6 +982,7 @@ si:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: සාරාංශය
+        to_do: To-do
       description_enter_text: පෙළ ඇතුලත් කරන්න
       description_filter: පෙරහන්
       description_options_hide: විකල්ප සඟවන්න
@@ -1060,6 +1070,7 @@ si:
         other: වෙනත්
         people: ජනතාව
       query:
+        add_columns: Add columns
         click_to_edit_query_name: මෙම දර්ශනයේ මාතෘකාව සංස්කරණය කිරීමට ක්ලික් කරන්න.
         column_names: තීරු
         confirm_edit_cancel: ඔබට මෙම දර්ශනයේ නම සංස්කරණය කිරීම අවලංගු කිරීමට අවශ්ය බව ඔබට විශ්වාසද? මාතෘකාව පෙර වටිනාකමට නැවත සකසනු ඇත.
@@ -1069,17 +1080,16 @@ si:
           not_found: එවැනි මතයක් නොමැත
           unretrievable_query: URL වෙතින් දැක්ම ලබා ගැනීමට නොහැකි විය
         filters: පෙරහන්
-        group: කණ්ඩායම විසින්
         group_by: කණ්ඩායම් ප්රතිඵල විසින්
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: ධූරාවලියේ මාදිලිය ක්රියාකාරී වීම හේතුවෙන් සමූහය අක්රීය වේ.
-        hide_column: තීරුව සඟවන්න
         hierarchy_disabled_by_group_by: "%{column}විසින් කාණ්ඩගත කර ඇති ප්රති results ල හේතුවෙන් ධූරාවලියේ මාදිලිය අක්රිය වේ."
-        insert_columns: Insert columns
         move_column_left: තීරුව වමට ගෙනයන්න
         move_column_right: තීරුව දකුණට ගෙනයන්න
         public_text: 'මෙම මතය ප්රකාශයට පත් කරන්න, වෙනත් පරිශීලකයින්ට ඔබගේ දැක්ම වෙත ප්රවේශ වීමට ඉඩ සලසයි. ''මහජන අදහස් කළමනාකරණය කරන්න'' අවසරය ඇති පරිශීලකයින්ට මහජන විමසුම වෙනස් කිරීමට හෝ ඉවත් කිරීමට හැකිය. එම දර්ශනයේ වැඩ පැකේජ ප්රති results ල දෘශ්යතාවයට මෙය බලපාන්නේ නැති අතර ඔවුන්ගේ අවසර මත පදනම්ව පරිශීලකයින්ට විවිධ ප්රති results ල දැකිය හැකිය.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: මෙම දර්ශනයේ නම
         sort_ascending: නැගී එන වර්ග
         sort_descending: බැස වර්ග

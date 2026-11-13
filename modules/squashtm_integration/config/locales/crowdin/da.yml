@@ -1,0 +1,176 @@
+---
+da:
+  activerecord:
+    attributes:
+      squashtm_integration/project_link:
+        project: Projekt
+        squashtm_project: SquashTM-projekt
+      squashtm_integration/server:
+        api_token: API-token
+        base_url: SquashTM-URL
+      squashtm_integration/work_package_link:
+        squashtm_requirement: SquashTM-krav
+        work_package: Arbejdspakke
+    errors:
+      models:
+        squashtm_integration/project_link:
+          attributes:
+            base:
+              project_already_linked: Projektet er allerede linket til et SquashTM-projekt.
+              squashtm_project_not_found: SquashTM-projektet %{squashtm_project_id} findes ikke eller er ikke synligt for den SquashTM-konto, som OpenProject bruger.
+              squashtm_project_unavailable: SquashTM-projektet %{squashtm_project_id} kunne ikke kontrolleres, fordi SquashTM-serveren ikke kan nås. Prøv igen senere.
+              squashtm_server_not_configured: Der er ikke konfigureret nogen SquashTM-server. Kontakt administratoren af installationen.
+              work_packages_linked:
+                one: 1 arbejdspakke er stadig linket til et SquashTM-krav. Fjern dens link for at fjerne projektets link.
+                other: "%{count} arbejdspakker er stadig linket til SquashTM-krav. Fjern deres links for at fjerne projektets link."
+        squashtm_integration/server:
+          attributes:
+            base:
+              api_token_rejected: SquashTM-serveren afviste API-tokenet.
+              base_url_cannot_be_connected_to: SquashTM-serveren på %{url} kunne ikke nås. Sørg for, at den kører og kan nås fra OpenProject.
+              base_url_invalid: SquashTM-URL'en %{url} er ikke en gyldig URL.
+              base_url_not_squashtm: Serveren på %{url} svarede ikke som en SquashTM-server. Tjek, at URL'en indeholder SquashTM's kontekststi (fx https://squashtm.example.com/squash).
+              base_url_request_timed_out: SquashTM-serveren på %{url} svarede ikke i tide. Sørg for, at den kan nås og ikke er overbelastet.
+              base_url_server_error: SquashTM-serveren på %{url} svarede med en fejl (HTTP %{status}). Sørg for, at den kører og fungerer korrekt.
+              base_url_ssl_error: SquashTM-serveren på %{url} kunne ikke nås via en sikker forbindelse. Tjek dens TLS-certifikat.
+              base_url_ssrf_filtered: SquashTM-URL'en %{url} peger på en blokeret adresse. Hvis serveren kører på et internt netværk, så tillad dens IP-adresse via miljøvariablen %{env_name}.
+              singleton: Der kan kun konfigureres én SquashTM-server.
+              squashtm_version_unsupported: SquashTM-serveren kører version %{version}, men der kræves version %{minimum} eller nyere.
+        squashtm_integration/work_package_link:
+          attributes:
+            base:
+              squashtm_project_not_linked: Projektet er ikke linket til et SquashTM-projekt.
+              squashtm_requirement_not_found: SquashTM-kravet %{squashtm_requirement_id} findes ikke eller er ikke synligt for den SquashTM-konto, som OpenProject bruger.
+              squashtm_requirement_not_in_linked_project: SquashTM-kravet %{squashtm_requirement_id} hører ikke til det SquashTM-projekt, der er linket til dette projekt.
+              squashtm_requirement_unavailable: SquashTM-kravet %{squashtm_requirement_id} kunne ikke kontrolleres, fordi SquashTM-serveren ikke kan nås. Prøv igen senere.
+              squashtm_server_not_configured: Der er ikke konfigureret nogen SquashTM-server. Kontakt administratoren af installationen.
+              work_package_already_linked: Arbejdspakken er allerede linket til et SquashTM-krav.
+  journals:
+    cause_descriptions:
+      squashtm_requirement: "%{name}"
+      squashtm_requirement_id_only: Id %{id}
+      squashtm_requirement_with_reference: "%{reference} – %{name}"
+    caused_changes:
+      squashtm_requirement_linked: 'SquashTM-krav linket:'
+      squashtm_requirement_unlinked: 'Link til SquashTM-krav fjernet:'
+  permission_manage_squashtm_integration: Administrer SquashTM-integrationen
+  permission_manage_squashtm_requirements: Administrer SquashTM-krav
+  permission_view_squashtm: Vis SquashTM
+  project_module_squashtm: SquashTM
+  squashtm_integration:
+    admin:
+      delete_server_dialog_component:
+        description: Arbejdspakker viser ikke længere testresultater fra SquashTM, før der er konfigureret en server igen.
+        heading: Vil du slette konfigurationen af SquashTM-serveren?
+        title: Slet SquashTM-server
+      server_form:
+        api_token_caption: Et personligt API-token til den SquashTM-konto, som OpenProject bruger. Alt, hvad kontoen kan læse i SquashTM, kan vises i OpenProject.
+        api_token_caption_stored: Der er gemt et token. Lad feltet stå tomt for at beholde det, eller angiv et nyt token for at erstatte det.
+        base_url_caption: Adressen på SquashTM-serveren inklusive dens kontekststi.
+      servers:
+        show:
+          description: Forbind OpenProject med en SquashTM-server for at vise testcases, kørsler og resultater på arbejdspakker.
+          linked_html: OpenProject er forbundet med SquashTM-serveren på %{url}.
+          test_connection: Test forbindelse
+          testing_connection: Tester forbindelsen ...
+          title: SquashTM
+          unlink: Fjern forbindelse
+        test_connection:
+          failure: 'Forbindelsen til SquashTM mislykkedes: %{reason}'
+          success: Forbindelsen til SquashTM lykkedes.
+        update:
+          connection_warning: 'Indstillingerne er gemt, men forbindelsen til SquashTM mislykkedes: %{reason}'
+    execution_statuses:
+      blocked: Blokeret
+      cancelled: Annulleret
+      error: Fejl
+      failure: Mislykkedes
+      not_executed: Ikke udført
+      not_found: Ikke fundet
+      not_run: Ikke kørt
+      ready: Klar
+      running: Kører
+      settled: Afgjort
+      skipped: Sprunget over
+      success: Bestået
+      untestable: Kan ikke testes
+      warning: Advarsel
+    project_settings:
+      delete_project_link_dialog_component:
+        confirm: Fjern link
+        description: Projektets arbejdspakker viser ikke længere testresultater fra SquashTM.
+        heading: Vil du fjerne linket til SquashTM-projektet %{name}?
+        no_work_packages_linked: Ingen arbejdspakker er i øjeblikket linket til et SquashTM-krav.
+        title: Fjern link til SquashTM-projekt
+        unlink_work_packages:
+          one: Fjern linket til SquashTM-kravet, og fjern projektets link
+          other: Fjern alle %{count} links til SquashTM-krav, og fjern projektets link
+      linked_project_component:
+        linked_to_html: Projektet er linket til SquashTM-projektet %{name}.
+        unlink: Fjern link
+      linked_work_packages_component:
+        linked:
+          one: '1 arbejdspakke er stadig linket til et SquashTM-krav:'
+          other: "%{count} arbejdspakker er stadig linket til SquashTM-krav:"
+        more:
+          one: og 1 arbejdspakke mere
+          other: og %{count} arbejdspakker mere
+      project_link_form:
+        squashtm_project_caption: Kun projekter, der er synlige for den SquashTM-konto, som OpenProject bruger, vises.
+        squashtm_project_prompt: Vælg et SquashTM-projekt
+      project_links:
+        destroy:
+          success: Linket til SquashTM-projektet er fjernet.
+        show:
+          description: Link projektet til et SquashTM-projekt for at vise dets testcases, kørsler og resultater på arbejdspakker.
+          not_linked: Projektet er ikke linket til et SquashTM-projekt.
+      status_banner_component:
+        linked_project_missing: Det linkede SquashTM-projekt %{name} er ikke længere synligt i SquashTM. Det kan være slettet, eller den SquashTM-konto, som OpenProject bruger, kan have mistet adgangen til det.
+        projects_unavailable: SquashTM-projekterne kunne ikke indlæses, fordi SquashTM-serveren ikke kan nås. Prøv igen senere, eller kontakt administratoren af installationen.
+        server_not_configured: Der er ikke konfigureret nogen SquashTM-server for denne OpenProject-installation. Kontakt administratoren af installationen for at få opsat SquashTM-integrationen.
+    requirement_statuses:
+      approved: Godkendt
+      obsolete: Forældet
+      under_review: Til gennemsyn
+      work_in_progress: I gang
+    work_package_tab:
+      delete_requirement_link_dialog_component:
+        confirm: Fjern link
+        description: Kravets testcases vises ikke længere på arbejdspakken.
+        heading: Vil du fjerne linket til SquashTM-kravet %{name}?
+        title: Fjern link til SquashTM-krav
+      lazy_frame_component:
+        loading: Indlæser fra SquashTM …
+      linked_requirement_component:
+        no_test_cases:
+          description: Der er endnu ingen testcase i SquashTM, der verificerer kravet.
+          title: Ingen testcases
+        requirement: Krav
+        requirement_missing: Det linkede SquashTM-krav er ikke længere synligt i SquashTM. Det kan være slettet, eller den SquashTM-konto, som OpenProject bruger, kan have mistet adgangen til det.
+        test_cases: Testcases
+        unavailable: Testcasene kunne ikke indlæses, fordi SquashTM-serveren ikke kan nås. Prøv igen senere.
+      no_server_component:
+        admin_description: Der er ikke konfigureret nogen SquashTM-server for denne OpenProject-installation. Konfigurer en i administrationen for at vise testresultater fra SquashTM her.
+        configure: Konfigurer SquashTM
+        description: Der er ikke konfigureret nogen SquashTM-server for denne OpenProject-installation. Kontakt administratoren af installationen for at få opsat SquashTM-integrationen.
+        heading: SquashTM er ikke tilgængelig
+      not_linked_component:
+        blankslate:
+          description: Link et SquashTM-krav for at se dets testcases og deres seneste resultater her.
+          heading: Der er ikke linket noget SquashTM-krav
+        requirement: Krav
+      project_not_linked_component:
+        configure: Link SquashTM-projekt
+        description: Projektet er endnu ikke linket til et SquashTM-projekt. Kontakt en projektadministrator for at få oprettet linket.
+        heading: Der er ikke linket noget SquashTM-projekt
+        manager_description: Link projektet til et SquashTM-projekt for at linke dets krav til arbejdspakker.
+      requirement_component:
+        unlink: Fjern link
+      requirement_link_form:
+        prompt: Vælg et SquashTM-krav
+        submit: Link krav
+      requirement_link_form_component:
+        requirements_unavailable: SquashTM-kravene kunne ikke indlæses, fordi SquashTM-serveren ikke kan nås. Prøv igen senere.
+      test_case_component:
+        last_execution: Senest udført af %{user} %{date_time}
+        not_executed: Endnu ikke udført

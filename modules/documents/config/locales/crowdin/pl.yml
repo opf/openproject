@@ -53,9 +53,9 @@ pl:
     active_editors: Aktywni edytorzy
     active_editors_count:
       one: "%{count} active editor"
-      few: "%{count} active editors"
-      many: "%{count} active editors"
-      other: "%{count} active editors"
+      few: "%{count} aktywnych edytorów"
+      many: "%{count} aktywnego edytora"
+      other: "%{count} aktywnego edytora"
     admin:
       collaboration_settings:
         banner:
@@ -132,7 +132,7 @@ pl:
       currently_offline: Jesteś obecnie offline.
     label_attachment_author: Autor załącznika
     label_categories: Kategorie
-    last_updated_at_html: Last saved %{time}.
+    last_updated_at_html: Ostatnio zapisano %{time}.
     menu:
       all: Wszystkie dokumenty
       collaboration_settings: Współpraca w czasie rzeczywistym

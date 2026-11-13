@@ -1,9 +1,9 @@
-<%=
-  component_wrapper(class: "op-user-custom-field-container", data: { test_selector: "user-custom-field-container-#{@user_custom_field.id}" }) do
-    flex_layout(justify_content: :space_between, align_items: :center) do |main_container|
+<%= component_wrapper(class: "op-user-custom-field-container", data: { test_selector: "user-custom-field-container-#{@user_custom_field.id}" }) do %>
+  <%=
+    flex_layout(justify_content: :space_between, align_items: :center, ml: -2) do |main_container|
       main_container.with_column(flex_layout: true, align_items: :center) do |content_container|
         content_container.with_column(mr: 2) do
-          render(Primer::OpenProject::DragHandle.new(classes: "handle"))
+          render(Primer::OpenProject::DragHandle.new(classes: "handle", data: { sortable_lists__item_target: "handle" }))
         end
         content_container.with_column(mr: 2) do
           render(
@@ -11,6 +11,7 @@
               href: edit_admin_settings_user_custom_field_path(@user_custom_field),
               underline: false,
               font_weight: :bold,
+              classes: "filter-target-visible-text",
               data: { turbo: "false" }
             )
           ) do
@@ -34,10 +35,17 @@
         render(Primer::Alpha::ActionMenu.new(data: { test_selector: "user-custom-field-action-menu" })) do |menu|
           menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(".label_user_custom_field_actions"), scheme: :invisible)
           edit_action_item(menu)
-          move_actions(menu)
+          menu.with_divider(data: { sortable_lists__item_target: "moveDivider" })
+          with_move_items(menu)
+          move_to_section_items(menu)
+          menu.with_divider
           delete_action_item(menu)
         end
       end
     end
-  end
-%>
+  %>
+
+  <% if @other_sections.any? %>
+    <%= move_to_section_form(@user_custom_field.id.to_s) %>
+  <% end %>
+<% end %>

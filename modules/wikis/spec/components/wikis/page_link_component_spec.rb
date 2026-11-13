@@ -126,7 +126,7 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
     end
 
     context "if the page access is forbidden" do
-      let(:error_code) { :forbidden }
+      let(:error_code) { :unauthorized }
 
       it "renders an error text" do
         expect(page).not_to have_link

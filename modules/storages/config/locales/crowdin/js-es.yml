@@ -24,12 +24,12 @@ es:
         select: Seleccionar archivos
         select_all: Seleccionar todo
         selection:
-          none: Select files to link
+          none: Seleccionar archivos a enlazar
           one: Link %{count} file
-          other: Link %{count} files
+          other: Enlazar %{count} archivos
         success_create:
           one: Successfully created %{count} file link.
-          other: Successfully created %{count} file links.
+          other: Se han creado correctamente %{count} enlaces de fichero.
         tooltip:
           not_found: No se ha encontrado este archivo.
           not_logged_in: Inicia sesión en el almacenamiento para acceder a este archivo.

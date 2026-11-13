@@ -48,7 +48,7 @@ get:
         Returned if the workspace does not exist or the client does not have sufficient permissions
         to see it.
 
-        **Required permission:** view work packages (on given workspace)
+        **Required permission:** view work packages (on given workspace or any of its work packages)
 
         *Note: A client without sufficient permissions shall not be able to test for the existence of a workspace.
         That's why a 404 is returned here, even if a 403 might be more appropriate.*

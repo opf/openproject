@@ -34,6 +34,11 @@ fa:
         finish_date: تاریخ پایان
         goal: هدف اسپرینت
         name: نام اسپرینت
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         sharing: اشتراک‌گذاری
         statuses:
           active: فعال
@@ -134,21 +139,10 @@ fa:
     bucket_destroy_modal_component:
       details: مخزن بک‌لاگ «%{name}» حذف می‌شود و همه بسته‌های کاری به صندوق ورودی بک‌لاگ منتقل می‌شوند. هیچ بسته کاری حذف نخواهد شد.
       title: مخزن بک‌لاگ حذف شود؟
-    burndown_chart:
-      series:
-        guideline: خط راهنما
-        projection: امتیازهای داستان باقی‌مانده (پیش‌بینی)
-        remaining: امتیازهای داستان باقی‌مانده
-      show:
-        blankslate_description: برای ایجاد نمودار برن‌داون، تاریخ شروع و پایان اسپرینت را تعیین کنید.
-        blankslate_title: داده‌ای برای نمودار برن‌داون موجود نیست
     created_resolved_chart:
       series:
         created: ایجادشده
         resolved: حل‌شده
-      show:
-        blankslate_description: برای ایجاد نمودار موارد ایجادشده در مقایسه با موارد حل‌شده، تاریخ شروع و پایان اسپرینت را تعیین کنید.
-        blankslate_title: داده‌ای برای نمودار موارد ایجادشده در مقایسه با موارد حل‌شده موجود نیست
     estimation_unit: واحدها
     excluded_work_package_types_caption: 'انتخاب کنید کدام نوع‌های بسته کاری از بک‌لاگ پنهان شوند. موارد مربوط به نوع‌های انتخاب‌شده به‌صورت خودکار در بک‌لاگ نمایش داده نمی‌شوند تا بک‌لاگ روی کارهای مهم تیم متمرکز بماند. برای مثال، نوع‌هایی مانند Epic یا Milestone که در سطح بالاتری مدیریت می‌شوند، می‌توانند پنهان شوند تا بک‌لاگ روی موارد قابل اقدام متمرکز بماند.
 
@@ -222,6 +216,11 @@ fa:
       shared_sprint_info_banner: این یک اسپرینت اشتراکی است. تغییرات در همه پروژه‌هایی که از آن استفاده می‌کنند اعمال خواهد شد.
       shared_sprint_warning_banner: این یک اسپرینت اشتراکی است. شما مجوزهای لازم برای ویرایش آن را ندارید.
     sprint_reports:
+      header_infoline_component:
+        planned_html: 'Planned: %{range}'
+      missing_dates_blankslate_component:
+        description: Sprint start and finish dates are necessary for the report to show.
+        heading: Missing sprint dates
       navigation_component:
         next: بعدی
         previous: قبلی
@@ -230,10 +229,42 @@ fa:
         title: گزارش %{sprint}
       widgets:
         burndown_chart:
+          blankslate:
+            no_estimated_hours:
+              description: The burndown chart will appear here once the sprint has an open work package with work time estimate.
+              heading: No work to display
+            no_story_points:
+              description: The burndown chart will appear here once the sprint has an open work package with estimated story points.
+              heading: No work to display
+            not_started:
+              description: The burndown chart will appear here after the sprint starts.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the burndown chart's timespan.
+              heading: No chart to display
+          series:
+            guideline: Guideline
+            projection:
+              story_points: Remaining story points (projection)
+              time: Remaining estimated time (projection)
+            remaining:
+              story_points: Remaining story points
+              time: Remaining estimated time
           title: نمودار باقی‌مانده کار اسپرینت
         burnup_chart:
-          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
-          blankslate_title: No burnup data available
+          blankslate:
+            no_estimated_hours:
+              description: The burnup chart will appear here once the sprint has received a work package with work time estimate.
+              heading: No work to display
+            no_story_points:
+              description: The burnup chart will appear here once the sprint has received a work package with estimated story points.
+              heading: No work to display
+            not_started:
+              description: The burnup chart will appear here after the sprint starts.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the burnup chart's timespan.
+              heading: No chart to display
           series:
             completed: Completed work
             guideline: Guideline
@@ -241,16 +272,40 @@ fa:
             scope: Total work scope
           title: Burnup chart
         created_resolved_chart:
+          blankslate:
+            no_work:
+              description: The created vs resolved chart will appear here once a work package has been created or resolved within the sprint.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan.
+              heading: No chart to display
           title: بسته‌های کاری ایجادشده در مقایسه با حل‌شده
         epic_progress:
+          blankslate:
+            no_epics:
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              heading: No epics to display
+            no_work:
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              heading: No work to display
           card:
+            progress:
+              story_points:
+                one: "%{resolved} / %{count} story point"
+                other: "%{resolved} / %{count} story points"
+              time: "%{resolved} / %{count}"
+              work_packages:
+                one: "%{resolved} / %{count} work package"
+                other: "%{resolved} / %{count} work packages"
             progress_label:
-              one: "%{epic}: %{completed} بسته کاری از %{count} تکمیل‌شده"
-              other: "%{epic}: %{completed} بسته کاری از %{count} تکمیل‌شده"
+              story_points:
+                one: "%{epic}: %{resolved} of %{count} story point completed"
+                other: "%{epic}: %{resolved} of %{count} story points completed"
+              time: "%{epic}: %{resolved} of %{count} completed"
+              work_packages:
+                one: "%{epic}: %{resolved} of %{count} work package completed"
+                other: "%{epic}: %{resolved} of %{count} work packages completed"
             work_package_completed: "(%{percentage})"
-            work_package_counts:
-              one: "%{completed} / %{count} بسته کاری"
-              other: "%{completed} / %{count} بسته کاری"
           title: پیشرفت اپیک
         velocity_chart:
           average:
@@ -261,18 +316,28 @@ fa:
           completed: تکمیل‌شده
           story_points: "%{value} امتیاز داستان"
           summary:
-            one: نمودار میله‌ای امتیازهای داستان تعهدشده و تکمیل‌شده در اسپرینت قبلی.
-            other: نمودار میله‌ای امتیازهای داستان تعهدشده و تکمیل‌شده در %{count} اسپرینت قبلی.
+            story_points:
+              one: Bar chart of committed and completed story points of the last sprint.
+              other: Bar chart of committed and completed story points of the last %{count} sprints.
+            time:
+              one: Bar chart of committed and completed estimated time of the last sprint.
+              other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'میانگین سرعت: %{average}.'
           title: نمودار سرعت تیم
           velocity: "%{sprint}:"
-          y_axis_title: امتیازهای داستان
+          y_axis_title:
+            story_points: Story points
+            time: Estimated time
         work_package_graph:
+          blankslate:
+            no_work:
+              description: The work package graph will appear here once the sprint has received a work package.
+              heading: No work to display
+          summary:
+            completed: 'Bar chart of the work packages in the sprint when it was completed, by status: %{description}.'
+            current: 'Bar chart of the work packages currently in the sprint, by status: %{description}.'
           title: نمودار بسته‌های کاری
         work_package_overview:
-          blankslate:
-            description: برای ایجاد نمای کلی بسته‌های کاری، تاریخ شروع و پایان اسپرینت را تعیین کنید.
-            heading: داده‌ای برای اسپرینت در دسترس نیست
           blocks:
             changed_after_start:
               change_html: "+%{added} %{divider} -%{removed}"
@@ -291,22 +356,20 @@ fa:
           closed_work_packages: بسته‌های کاری بسته‌شده
           completed_estimated_time: زمان برآوردشده تکمیل‌شده
           completed_story_points: امتیازهای داستان تکمیل‌شده
-          resolved_summary:
+          progress_summary:
             story_points:
-              one: "%{percentage} (%{resolved} از %{total} امتیاز داستان)"
-              other: "%{percentage} (%{resolved} از %{total} امتیاز داستان)"
-            time: "%{percentage} (%{resolved} از %{total})"
+              one: "%{percentage} (%{resolved} of %{count} story point)"
+              other: "%{percentage} (%{resolved} of %{count} story points)"
+            time: "%{percentage} (%{resolved} of %{count})"
             work_packages:
-              one: "%{percentage} (%{resolved} از %{total} بسته کاری)"
-              other: "%{percentage} (%{resolved} از %{total} بسته کاری)"
+              one: "%{percentage} (%{resolved} of %{count} work package)"
+              other: "%{percentage} (%{resolved} of %{count} work packages)"
           title: بسته‌های کاری درون اسپرینت
         work_package_table:
           added:
             blankslate:
               empty:
                 description: بسته‌های کاری افزوده‌شده پس از تاریخ شروع اسپرینت در اینجا نمایش داده می‌شوند.
-              no_dates:
-                description: برای نمایش بسته‌های کاری افزوده‌شده، تعیین تاریخ شروع و پایان اسپرینت ضروری است.
               not_started:
                 description: بسته‌های کاری افزوده‌شده پس از شروع اسپرینت در اینجا نمایش داده می‌شوند.
             title: افزایش محدوده کار پس از شروع اسپرینت
@@ -316,8 +379,6 @@ fa:
             blankslate:
               empty:
                 description: بسته‌های کاری تکمیل‌شده در اسپرینت در اینجا نمایش داده می‌شوند.
-              no_dates:
-                description: برای نمایش بسته‌های کاری تکمیل‌شده، تعیین تاریخ شروع و پایان اسپرینت ضروری است.
               not_started:
                 description: بسته‌های کاری تکمیل‌شده پس از شروع اسپرینت در اینجا نمایش داده می‌شوند.
             title: کار تکمیل‌شده
@@ -325,8 +386,6 @@ fa:
             blankslate:
               empty:
                 description: بسته‌های کاری حذف‌شده پس از تاریخ شروع اسپرینت در اینجا نمایش داده می‌شوند.
-              no_dates:
-                description: برای نمایش بسته‌های کاری حذف‌شده، تعیین تاریخ شروع و پایان اسپرینت ضروری است.
               not_started:
                 description: بسته‌های کاری حذف‌شده پس از شروع اسپرینت در اینجا نمایش داده می‌شوند.
             title: کاهش محدوده کار پس از شروع اسپرینت
@@ -335,12 +394,12 @@ fa:
               empty:
                 description: تمام بسته‌های کاری این اسپرینت تکمیل شده‌اند.
                 heading: عالی! همه کارها انجام شد!
-              no_dates:
-                description: برای نمایش بسته‌های کاری ناتمام، تعیین تاریخ شروع و پایان اسپرینت ضروری است.
               not_started:
                 description: بسته‌های کاری ناتمام پس از شروع اسپرینت در اینجا نمایش داده می‌شوند.
             title: کار ناتمام
     sprints:
+      date_cell_component:
+        planned: "(planned)"
       row_component:
         action_menu:
           edit_sprint: ویرایش اسپرینت
@@ -407,10 +466,13 @@ fa:
   ee:
     features:
       multiple_active_sprints: چند اسپرینت فعال
+      sprint_report_pro_widgets: Full sprint report
       sprint_sharing: اشتراک‌گذاری اسپرینت
     upsell:
       multiple_active_sprints:
         description: برای کنترل و انعطاف‌پذیری بیشتر، چند اسپرینت را برای تیم‌های مختلف پروژه به‌صورت موازی اجرا کنید.
+      sprint_report_pro_widgets:
+        description: Add more charts, customize your report and access in-depth data about planning your team’s work.
       sprint_sharing:
         description: برای هم‌راستا کردن تیم‌ها و هماهنگی کار در ساختارهای Agile مقیاس‌پذیر (SAFe)، اسپرینت‌ها را بین پروژه‌ها به اشتراک بگذارید.
   label_all_sprints: همه اسپرینت‌ها
@@ -439,11 +501,11 @@ fa:
       '
     other: "%{count} بسته کاری به %{backlog} منتقل شدند، اما چون نوع یا وضعیت آن‌ها از بک‌لاگ حذف شده است، قابل مشاهده نیستند.\n"
   permission_create_sprints: ایجاد اسپرینت‌ها
-  permission_manage_sprint_items: مدیریت موارد اسپرینت
-  permission_select_backlog_types_and_statuses: انتخاب انواع و وضعیت‌های بک‌لاگ
-  permission_select_backlog_types_and_statuses_explanation: 'امکان انتخاب نوع‌های بسته کاری که باید از بک‌لاگ پنهان شوند را فراهم می‌کند. همچنین اجازه می‌دهد مشخص کنید کدام وضعیت‌ها در گردش‌کار پروژه نمایانگر حالت بسته یا پایان‌یافته هستند.
+  permission_manage_backlogs_configuration: Manage backlogs configuration
+  permission_manage_backlogs_configuration_explanation: 'Allows configuring the backlogs module including: choosing which work package types to hide from the backlog, defining which statuses represent a closed or finished state in the project''s workflow and selecting the unit for velocity.
 
     '
+  permission_manage_sprint_items: مدیریت موارد اسپرینت
   permission_share_sprint: اشتراک‌گذاری اسپرینت
   permission_start_complete_sprint: شروع/تکمیل اسپرینت
   permission_view_sprints: مشاهده اسپرینت‌ها

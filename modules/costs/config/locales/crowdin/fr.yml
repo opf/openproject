@@ -80,7 +80,7 @@ fr:
           attributes:
             base:
               cannot_edit_time_entry: You don't have permissions to edit this time entry.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              cannot_log_for_this_work_package: Vous n'avez pas les permissions nécessaires pour saisir du temps sur ce lot de travaux.
             entity:
               blank: "« Enregistré pour » ne peut pas être vide."
               format: "%{message}"

@@ -4,38 +4,38 @@ fr:
     attributes:
       itsm/email_message:
         direction: Direction
-        from_address: From
+        from_address: De
         message_id: Message ID
-        status: Status
-        subject: Subject
+        status: Statut
+        subject: Objet
       itsm/email_thread:
         recipients: Recipients
         requester_email: Requester email
         requester_name: Requester name
-        work_package: Work package
+        work_package: Lot de travaux
       itsm/incoming_mailbox:
-        active: Active
+        active: Actif
         aliases: Known email addresses
-        email: Email address
+        email: Adresse e-mail
         mail_server: IMAP server
-        password: Password
-        project: Project
-        username: Username
+        password: Mot de passe
+        project: Projet
+        username: Nom d'utilisateur
       itsm/mail_server:
         encryption: Encryption
         host: Server name
         incoming_mailboxes: Incoming mailboxes
-        name: Name
+        name: Nom
         outgoing_mailboxes: Outgoing mailboxes
         port: Port
-        protocol: Protocol
+        protocol: Protocole
       itsm/outgoing_mailbox:
-        mail_server: SMTP server
-        password: Password
-        project: Project
+        mail_server: Serveur SMTP
+        password: Mot de passe
+        project: Projet
         sender_email: Sender email
         sender_name: Sender name
-        username: Username
+        username: Nom d'utilisateur
     models:
       itsm/email_message:
         one: Email message

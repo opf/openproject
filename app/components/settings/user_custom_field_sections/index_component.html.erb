@@ -1,15 +1,11 @@
-<%=
-  component_wrapper(data: wrapper_data_attributes) do
-    if @user_custom_field_sections.any?
-      flex_layout(classes: "dragula-container", data: { "allowed-drop-type": "section" }.merge(drop_target_config)) do |flex|
-        @user_custom_field_sections.each do |section|
-          flex.with_row(
-            data: draggable_item_config(section)
-          ) do
-            render(row_component_class.new(user_custom_field_section: section, first_and_last:))
-          end
-        end
-      end
-    end
-  end
-%>
+<%= component_wrapper(data: wrapper_data_attributes) do %>
+  <% if @user_custom_field_sections.any? %>
+    <%= render(Primer::Alpha::Stack.new(gap: :normal, mt: 3, data: sections_list_data)) do %>
+      <% @user_custom_field_sections.each do |section| %>
+        <%= stack_item(data: section_item_data(section)) do %>
+          <%= render(row_component_class.new(user_custom_field_section: section, sections: @user_custom_field_sections)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

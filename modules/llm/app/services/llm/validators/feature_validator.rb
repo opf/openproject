@@ -46,10 +46,10 @@ module Llm
       private
 
       def validate
-        register_checks(:bindings_resolvable, :locked_bindings_intact)
+        register_checks(:bindings_resolvable, :active_semantic_index_intact)
 
         bindings_resolvable
-        locked_bindings_intact
+        active_semantic_index_intact
       end
 
       def bindings_resolvable
@@ -72,21 +72,22 @@ module Llm
         pass_check(:bindings_resolvable)
       end
 
-      # A locked binding is the record that a vector index exists and which model
-      # and dimension it was written under. If that model has left the catalogue
-      # the index can no longer be extended or queried consistently, which is a
-      # data problem rather than a configuration one.
-      def locked_bindings_intact
-        broken = subject.feature_bindings.select { |binding| binding.locked? && binding.dangling? }
+      # If the model an index was built with has left the catalogue, queries can
+      # no longer be embedded consistently with the stored vectors.
+      def active_semantic_index_intact
+        semantic_index = subject.feature_bindings.find_by(feature_key: "semantic_search")&.semantic_index
 
-        return pass_check(:locked_bindings_intact) if broken.empty?
+        if semantic_index.nil? || subject.available_model_ids.include?(semantic_index.model_id)
+          return pass_check(:active_semantic_index_intact)
+        end
 
-        fail_check(:locked_bindings_intact, :locked_model_missing,
-                   context: { features: broken.filter_map { |b| b.feature&.label }.join(", ") })
+        fail_check(:active_semantic_index_intact, :semantic_index_model_missing,
+                   context: { title: semantic_index.title, model: semantic_index.model_id })
       end
 
       def resolutions
-        @resolutions ||= OpenProject::Llm::Features.available.map do |feature|
+        # Embedding features take their model from the active Semantic Index.
+        @resolutions ||= OpenProject::Llm::Features.available.reject(&:embedding?).map do |feature|
           Llm::Runtime.for(feature.key)
         end
       end

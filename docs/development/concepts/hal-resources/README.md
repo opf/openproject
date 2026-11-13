@@ -13,7 +13,7 @@ HAL resources are the frontend counterpart to the `HAL+JSON` API of OpenProject.
 
 _HAL resources ..._
 
-- are requested from the APIv3 endpoints and generated from their JSON response by the [`HALResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.service.ts).
+- are requested from the APIv3 endpoints and generated from their JSON response by the [`HalResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.service.ts).
 - contain `$links` and `$embedded` properties to map the original JSON object for linked resources, and the ones that were embedded to the response.
 - can have an arbitrary number of properties on the object that map to the JSON properties, or elements from the `_links` and `_embedded` JSON segments.
 - are, unfortunately, complex and mutable objects.
@@ -22,7 +22,7 @@ _HAL resources ..._
 
 `HalResource` is the oldest way the frontend works with API data, and much existing Angular code depends on it. For new code, prefer the newer options:
 
-- **Server-rendered UI with Hotwire and Primer.** For new screens and features, render HTML in Rails with Primer ViewComponents and add behaviour with Stimulus. The frontend then does not need to touch HAL at all. See [Using Hotwire with ViewComponents](../hotwire-view-components) and [Stimulus](../stimulus).
+- **Server-rendered UI with Hotwire and Primer.** For new screens and features, render HTML in Rails with Primer ViewComponents and add behavior with Stimulus. The frontend then does not need to touch HAL at all. See [Using Hotwire with ViewComponents](../hotwire-view-components) and [Stimulus](../stimulus).
 - **Modern Angular in existing Angular screens.** New Angular components are still fine where they integrate with existing Angular screens, such as the work package table or work package editing. Write them with `inject()`, signal inputs, and Signals wherever RxJS is not the right mental model.
 - **Resource stores in `core/state`.** When Angular code needs API data, use a [`ResourceStoreService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/core/state/resource-store.service.ts) subclass such as `ProjectsResourceService`. These cache resources by ID and expose them as plain, typed interfaces (e.g., `IProject`) over the HAL JSON, without `HalResource` classes or in-place mutation. These are the current option for Angular code, not a long-term direction: they are built on [Akita](https://github.com/salesforce/akita), which is no longer maintained, and the frontend is moving towards Hotwire.
 - **`HalResource`.** Use it when working on existing code built around it, or where no resource store exists for the type yet.
@@ -140,7 +140,7 @@ In this linked example, only the `status` and `project` links and embedded resou
 
 ## HalResourceService
 
-On to loading the JSON resources from the API and turning them into usable class instances. This is the job of the [`HALResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.service.ts). It has two responsibilities:
+On to loading the JSON resources from the API and turning them into usable class instances. This is the job of the [`HalResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.service.ts). It has two responsibilities:
 
 1. It uses Angular's `HttpClient` for performing API requests to the APIv3
 2. It turns the responses of these requests (or HAL JSON generated in the frontend) into a HAL resource class
@@ -151,7 +151,7 @@ The service has HTTP `get`, `post`, `put`, etc. methods as well as a generic `re
 
 ### Error Handling
 
-For errors returned by the HAL API (specific error `_type` response in the JSON) or when erroneous HTTP statuses are being returned, the `HALResourceService` will wrap these into `ErrorResources` for identifying the cause and potentially, additional details to present to the frontend. This is used for example when saving work packages and validation errors occur. The validations are being output in details for individual attributes.
+For errors returned by the HAL API (specific error `_type` response in the JSON) or when erroneous HTTP statuses are being returned, the `HalResourceService` will wrap these into `ErrorResources` for identifying the cause and potentially, additional details to present to the frontend. This is used for example when saving work packages and validation errors occur. The validations are being output in details for individual attributes.
 
 ## Linked HAL resources
 
@@ -159,12 +159,12 @@ The `_links` entries of a HAL resource can have an `href`, `method`, and `title`
 
 In the process of building the HAL resource, action `_links` objects are being turned into resources themselves:
 
-- Either into a `HALResource` class themselves if the linked object is retrieved via `GET` from the API
+- Either into a `HalResource` class themselves if the linked object is retrieved via `GET` from the API
 - Or into a `HalLink` class instance to perform an action link.
 
 The [`HalLink`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/hal-link/hal-link.ts) class is a wrapper around the `HalResourceService#request` method to call the action. This way, the action links can be called automatically by calling, e.g., `workPackage.update()` to request the form link with the URL defined in `_links.update.href`.
 
-For linked resources such as `_links.project`, this will result in the `workPackage.project` property being a HALResource that can be loaded from the API with `workPackage.project.$load()`. This will modify the project resource in the work package, mutating it in place.
+For linked resources such as `_links.project`, this will result in the `workPackage.project` property being a `HalResource` that can be loaded from the API with `workPackage.project.$load()`. This will modify the project resource in the work package, mutating it in place.
 
 ```typescript
 // Building source from object here, instead of loading from the API for demo purposes
@@ -217,7 +217,7 @@ In order to turn the JSON properties from `_embedded` and `_links` into writable
 
 ## 🔗 Code references
 
-- [`HALResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.service.ts) for loading and turning JSON responses into HAL resource classes
+- [`HalResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.service.ts) for loading and turning JSON responses into HAL resource classes
 - [`halResource.config.ts`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.config.ts) for identifying what types in the JSON response and its members/links are being turned into which classes.
 - [`HalResource`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/resources/hal-resource.ts) the base HAL resource class
 - [`HAL resource builder`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/helpers/hal-resource-builder.ts) used for wiring up the links and embedded JSON properties into members of the HAL resource classes

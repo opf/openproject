@@ -25,7 +25,7 @@ es:
     backlogs:
       action_menu:
         menu_label:
-          one: Work package actions
+          one: Acciones del paquete de trabajo
           other: Actions for %{count} selected work packages
       announcements:
         batch_too_large: No se pueden trasladar %{count} paquetes de trabajo a la vez. Seleccione no más de %{max}.
@@ -51,27 +51,28 @@ es:
         range_blocked: La selección no ha cambiado. Ese rango contiene un paquete de trabajo que no influye en el orden de esta lista.
         range_restarted:
           one: Could not extend the range. %{count} work package selected.
-          other: Could not extend the range. %{count} work packages selected.
+          other: No se pudo ampliar el rango. Se seleccionaron %{count} paquetes de trabajo.
         range_unavailable: La selección no ha cambiado. Amplíe esta lista para seleccionar ese rango.
         selected:
           one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          other: Se han seleccionado %{count} paquetes de trabajo.
     burndown_chart:
       chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
+      chart_label: Diagrama Burndown
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     burnup_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burnup chart
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     created_resolved_chart:
-      work_packages: Work packages
+      work_packages: Paquetes de trabajo
     sprint_charts:
-      non_working_day: Non-working day
+      non_working_day: Día no laborable
+      y_axis_title:
+        story_points: Puntos de historia
+        time: Tiempo estimado
     work_packages:
       properties:
         storyPoints: Puntos de Historia

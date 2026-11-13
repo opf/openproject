@@ -14,8 +14,8 @@ ko:
     label_local_avatar: 사용자 지정 아바타
     label_option: Avatar option
     manage_gravatar: Manage your image on Gravatar
-    message_avatar_updated: Avatar changed successfully.
-    preview: Preview
+    message_avatar_updated: 아바타를 변경했습니다.
+    preview: 미리 보기
     randomize_color: Randomize color
     settings:
       enable_gravatars: 사용자 Gravatar 사용
@@ -30,7 +30,7 @@ ko:
         label: Gravatar
       image:
         description: A custom image you can upload to this instance
-        label: Image
+        label: 이미지
       initials:
         description: Use your name's initials or override them with up to two characters.
         label: Initials

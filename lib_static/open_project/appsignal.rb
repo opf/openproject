@@ -43,7 +43,7 @@ module OpenProject
       if (exception = log_context[:exception])
         trace_exception(exception, log_context)
       else
-        Rails.logger.warn "Ignoring non-exception message for appsignal #{message.inspect}"
+        Rails.logger.debug { "Ignoring non-exception message for appsignal #{message.inspect}" }
       end
     end
 

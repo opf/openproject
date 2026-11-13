@@ -68,7 +68,7 @@ RSpec.describe "form configuration exclusions", :js do
     toggle_for("assignee").click
 
     expect_toggle("assignee", pressed: false)
-    expect(excluded_configuration_elements(link, aspect: aspect)).to eq(%w[assignee])
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to eq(%w[assignee])
 
     # The row stays listed so the switch remains reachable: the page shows the source's
     # configuration annotated with this variant's choices, not the resulting form.
@@ -81,6 +81,6 @@ RSpec.describe "form configuration exclusions", :js do
     toggle_for("assignee").click
 
     expect_toggle("assignee", pressed: true)
-    expect(excluded_configuration_elements(link, aspect: aspect)).to be_empty
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to be_empty
   end
 end

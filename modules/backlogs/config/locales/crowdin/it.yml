@@ -26,7 +26,7 @@ it:
       project:
         allow_multiple_active_sprints: Consenti la presenza di più sprint attivi
         backlog_excluded_types: Tipi di macro-attività esclusi
-        estimation_unit: Unit
+        estimation_unit: Unità
         sprint_sharing: Condivisione dello sprint
         statuses_considered_closed: Stati considerati chiusi
       sprint:
@@ -34,6 +34,11 @@ it:
         finish_date: Data di fine
         goal: Obiettivo dello sprint
         name: Nome dello sprint
+        origin: Origine
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         sharing: Condivisione
         statuses:
           active: Attivo
@@ -73,8 +78,8 @@ it:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is %{count} work package that was not completed in this sprint.
-                other: There are %{count} work packages that were not completed in this sprint.
+                one: C'è %{count} macro-attività che non è stata completata in questo sprint.
+                other: Ci sono %{count} macro-attività che non sono state completate in questo sprint.
             status:
               not_active: non è attivo, quindi non può essere chiuso.
         sprint_goal:
@@ -134,22 +139,11 @@ it:
     bucket_destroy_modal_component:
       details: Il bucket del backlog '%{name}' verrà eliminato e tutte le macro-attività verranno spostate nella posta in arrivo del backlog. Nessuna macro-attività verrà eliminata.
       title: Eliminare il bucket del backlog?
-    burndown_chart:
-      series:
-        guideline: Guideline
-        projection: Remaining story points (projection)
-        remaining: Remaining story points
-      show:
-        blankslate_description: Imposta la data di inizio e di fine dello sprint per generare un grafico di burndown.
-        blankslate_title: Non sono disponibili dati di burndown
     created_resolved_chart:
       series:
         created: Created
         resolved: Resolved
-      show:
-        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
-        blankslate_title: No created vs resolved chart data available
-    estimation_unit: Units
+    estimation_unit: Unità
     excluded_work_package_types_caption: 'Scegli quali tipi di macro-attività nascondere dal backlog. Gli elementi dei tipi selezionati non compariranno automaticamente nel backlog, mantenendolo concentrato sulle attività rilevanti per il tuo team. Ad esempio, tipi come Epic o Traguardo, gestiti a un livello superiore, possono essere nascosti per mantenere il backlog focalizzato sugli elementi operativi.
 
       '
@@ -173,7 +167,7 @@ it:
       label_actions: Azioni nella Posta in arrivo
       show_more:
         one: Show %{count} more item
-        other: Show %{count} more items
+        other: Mostra altri %{count} elementi
       title: Posta in arrivo
     index_subheader_component:
       label_search_by_subject: Cerca macro-attività per oggetto
@@ -222,18 +216,55 @@ it:
       shared_sprint_info_banner: Questo è uno sprint condiviso. Le modifiche saranno applicate a tutti i progetti che lo utilizzano.
       shared_sprint_warning_banner: Questo è uno sprint condiviso. Non hai i permessi necessari per modificarlo.
     sprint_reports:
+      header_infoline_component:
+        planned_html: 'Planned: %{range}'
+      missing_dates_blankslate_component:
+        description: Sprint start and finish dates are necessary for the report to show.
+        heading: Missing sprint dates
       navigation_component:
-        next: Next
-        previous: Previous
+        next: Successiva
+        previous: Precedente
       page_header_component:
         breadcrumb: Report
         title: Report %{sprint}
       widgets:
         burndown_chart:
+          blankslate:
+            no_estimated_hours:
+              description: The burndown chart will appear here once the sprint has an open work package with work time estimate.
+              heading: No work to display
+            no_story_points:
+              description: The burndown chart will appear here once the sprint has an open work package with estimated story points.
+              heading: No work to display
+            not_started:
+              description: The burndown chart will appear here after the sprint starts.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the burndown chart's timespan.
+              heading: No chart to display
+          series:
+            guideline: Guideline
+            projection:
+              story_points: Remaining story points (projection)
+              time: Remaining estimated time (projection)
+            remaining:
+              story_points: Remaining story points
+              time: Remaining estimated time
           title: Burndown chart
         burnup_chart:
-          blankslate_description: Set start and end date for the sprint to generate a burnup chart.
-          blankslate_title: No burnup data available
+          blankslate:
+            no_estimated_hours:
+              description: The burnup chart will appear here once the sprint has received a work package with work time estimate.
+              heading: No work to display
+            no_story_points:
+              description: The burnup chart will appear here once the sprint has received a work package with estimated story points.
+              heading: No work to display
+            not_started:
+              description: The burnup chart will appear here after the sprint starts.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the burnup chart's timespan.
+              heading: No chart to display
           series:
             completed: Completed work
             guideline: Guideline
@@ -241,16 +272,40 @@ it:
             scope: Total work scope
           title: Burnup chart
         created_resolved_chart:
+          blankslate:
+            no_work:
+              description: The created vs resolved chart will appear here once a work package has been created or resolved within the sprint.
+              heading: No work to display
+            too_long:
+              description: The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan.
+              heading: No chart to display
           title: Created vs resolved work packages
         epic_progress:
+          blankslate:
+            no_epics:
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              heading: No epics to display
+            no_work:
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              heading: No work to display
           card:
+            progress:
+              story_points:
+                one: "%{resolved} / %{count} story point"
+                other: "%{resolved} / %{count} story points"
+              time: "%{resolved} / %{count}"
+              work_packages:
+                one: "%{resolved} / %{count} work package"
+                other: "%{resolved} / %{count} work packages"
             progress_label:
-              one: "%{epic}: %{completed} of %{count} work package completed"
-              other: "%{epic}: %{completed} of %{count} work packages completed"
+              story_points:
+                one: "%{epic}: %{resolved} of %{count} story point completed"
+                other: "%{epic}: %{resolved} of %{count} story points completed"
+              time: "%{epic}: %{resolved} of %{count} completed"
+              work_packages:
+                one: "%{epic}: %{resolved} of %{count} work package completed"
+                other: "%{epic}: %{resolved} of %{count} work packages completed"
             work_package_completed: "(%{percentage})"
-            work_package_counts:
-              one: "%{completed} / %{count} work package"
-              other: "%{completed} / %{count} work packages"
           title: Epic progress
         velocity_chart:
           average:
@@ -258,21 +313,31 @@ it:
             other: 'Average of previous %{count} sprints:'
           average_legend: Average
           committed: Committed
-          completed: Completed
+          completed: Completate
           story_points: "%{value} SP"
           summary:
-            one: Bar chart of committed and completed story points of the last sprint.
-            other: Bar chart of committed and completed story points of the last %{count} sprints.
+            story_points:
+              one: Bar chart of committed and completed story points of the last sprint.
+              other: Bar chart of committed and completed story points of the last %{count} sprints.
+            time:
+              one: Bar chart of committed and completed estimated time of the last sprint.
+              other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
           title: Velocity chart
           velocity: "%{sprint}:"
-          y_axis_title: Story points
+          y_axis_title:
+            story_points: Punti story
+            time: Tempo stimato
         work_package_graph:
+          blankslate:
+            no_work:
+              description: The work package graph will appear here once the sprint has received a work package.
+              heading: No work to display
+          summary:
+            completed: 'Bar chart of the work packages in the sprint when it was completed, by status: %{description}.'
+            current: 'Bar chart of the work packages currently in the sprint, by status: %{description}.'
           title: Grafico delle macro-attività
         work_package_overview:
-          blankslate:
-            description: Imposta le date di inizio e fine dello sprint per generare la panoramica delle macro-attività.
-            heading: Non sono disponibili dati relativi allo sprint
           blocks:
             changed_after_start:
               change_html: "+%{added} %{divider} -%{removed}"
@@ -291,33 +356,29 @@ it:
           closed_work_packages: Macro-attività chiuse
           completed_estimated_time: Completed estimated time
           completed_story_points: Completed story points
-          resolved_summary:
+          progress_summary:
             story_points:
-              one: "%{percentage} (%{resolved} of %{total} story point)"
-              other: "%{percentage} (%{resolved} of %{total} story points)"
-            time: "%{percentage} (%{resolved} of %{total})"
+              one: "%{percentage} (%{resolved} of %{count} story point)"
+              other: "%{percentage} (%{resolved} of %{count} story points)"
+            time: "%{percentage} (%{resolved} of %{count})"
             work_packages:
-              one: "%{percentage} (%{resolved} of %{total} work package)"
-              other: "%{percentage} (%{resolved} of %{total} work packages)"
+              one: "%{percentage} (%{resolved} of %{count} work package)"
+              other: "%{percentage} (%{resolved} of %{count} work packages)"
           title: Work packages within the sprint
         work_package_table:
           added:
             blankslate:
               empty:
                 description: Work packages that were added after the sprint start date will appear here.
-              no_dates:
-                description: Sprint start and finish dates are necessary to show added work packages.
               not_started:
                 description: Added work packages will appear here after the sprint starts.
             title: Scope increase after sprint start
           blankslate:
-            heading: No work packages to display
+            heading: Nessuna macro-attività da visualizzare
           completed:
             blankslate:
               empty:
                 description: Work packages that were completed in the sprint will appear here.
-              no_dates:
-                description: Sprint start and finish dates are necessary to show completed work packages.
               not_started:
                 description: Completed work packages will appear here after the sprint starts.
             title: Completed work
@@ -325,8 +386,6 @@ it:
             blankslate:
               empty:
                 description: Work packages that were removed after the sprint start date will appear here.
-              no_dates:
-                description: Sprint start and finish dates are necessary to show removed work packages.
               not_started:
                 description: Removed work packages will appear here after the sprint starts.
             title: Scope decrease after sprint start
@@ -335,12 +394,12 @@ it:
               empty:
                 description: All work packages in this sprint are completed.
                 heading: Wow, all done!
-              no_dates:
-                description: Sprint start and finish dates are necessary to show unfinished work packages.
               not_started:
                 description: Unfinished work packages will appear here after the sprint starts.
             title: Unfinished work
     sprints:
+      date_cell_component:
+        planned: "(planned)"
       row_component:
         action_menu:
           edit_sprint: Modifica sprint
@@ -398,7 +457,7 @@ it:
         member_failed: "%{work_package}: %{reason}"
         moved_announcement:
           one: "%{count} work package moved to %{list}, position %{first} of %{total}"
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} macro-attività spostate in %{list}, nelle posizioni da %{first} a %{last} di %{total}"
         too_many_work_packages: Non è possibile spostare più di %{max} macro-attività alla volta.
         work_packages_not_found: Almeno una macro-attività non è stata trovata in questo progetto.
       update_service:
@@ -407,10 +466,13 @@ it:
   ee:
     features:
       multiple_active_sprints: Più sprint attivi
+      sprint_report_pro_widgets: Full sprint report
       sprint_sharing: Condivisione dello sprint
     upsell:
       multiple_active_sprints:
         description: Esegui più sprint in parallelo per team diversi nel tuo progetto, per un maggiore controllo e una maggiore flessibilità.
+      sprint_report_pro_widgets:
+        description: Add more charts, customize your report and access in-depth data about planning your team’s work.
       sprint_sharing:
         description: Condividi gli sprint tra progetti per allineare i team e coordinare il lavoro in contesti Agile scalati (SAFe).
   label_all_sprints: Tutti gli sprint
@@ -439,11 +501,11 @@ it:
       '
     other: "%{count} macro-attività sono state spostate in %{backlog}, ma non sono visibili perché il tipo o lo stato è escluso dal backlog.\n"
   permission_create_sprints: Crea gli sprint
-  permission_manage_sprint_items: Gestisci gli elementi dello sprint
-  permission_select_backlog_types_and_statuses: Seleziona tipi e stati del backlog
-  permission_select_backlog_types_and_statuses_explanation: 'Consente di scegliere quali tipi di macro-attività nascondere dal backlog. Consente inoltre di definire quali stati rappresentano una condizione di chiusura o completamento nel flusso di lavoro del progetto.
+  permission_manage_backlogs_configuration: Manage backlogs configuration
+  permission_manage_backlogs_configuration_explanation: 'Allows configuring the backlogs module including: choosing which work package types to hide from the backlog, defining which statuses represent a closed or finished state in the project''s workflow and selecting the unit for velocity.
 
     '
+  permission_manage_sprint_items: Gestisci gli elementi dello sprint
   permission_share_sprint: Condividi lo sprint
   permission_start_complete_sprint: Iniziare/completa lo sprint
   permission_view_sprints: Visualizza gli sprint
@@ -457,14 +519,14 @@ it:
       sprints: Sprint
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: Unità
         options:
           none:
             caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            label: Nessuno
           story_points:
             caption: The cards and charts will display story points.
-            label: Story points
+            label: Punti story
           time:
             caption: The cards and charts will display work time estimates.
             label: Work time estimate

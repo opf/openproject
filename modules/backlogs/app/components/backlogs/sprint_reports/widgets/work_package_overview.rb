@@ -33,6 +33,7 @@ module Backlogs
       class WorkPackageOverview < Grids::WidgetComponent
         include Backlogs::CommonHelper
         include Backlogs::SprintsHelper
+        include Backlogs::Concerns::ProgressMetric
 
         param :sprint
         param :project
@@ -41,17 +42,7 @@ module Backlogs
         def title = t(".title")
 
         def render?
-          user_allowed?(:view_sprints)
-        end
-
-        def show_widget_content? = sprint.date_range_set?
-
-        def resolved_percentage
-          resolved = comparable_value(progress_numerator)
-          total = comparable_value(progress_denominator)
-          return 0 if total.zero? || resolved.zero?
-
-          [resolved * 100 / total, 1].max
+          sprint.date_range_set? && user_allowed?(:view_sprints)
         end
 
         def show_secondary_metric?
@@ -59,7 +50,7 @@ module Backlogs
         end
 
         def secondary_metric_text(block)
-          if active_metric == :time
+          if estimation_metric == :time
             DurationConverter.output(block.estimated_hours)
           else
             t("backlogs.story_points", count: block.story_points)
@@ -67,7 +58,7 @@ module Backlogs
         end
 
         def secondary_metric_change_text
-          if active_metric == :time
+          if estimation_metric == :time
             hours_change_text
           else
             story_points_change_text
@@ -105,12 +96,12 @@ module Backlogs
           )
         end
 
-        def progress_numerator
-          metric_value(breakdown.completed)
+        def resolved_value
+          @resolved_value ||= metric_value(breakdown.completed)
         end
 
-        def progress_denominator
-          metric_value(breakdown.completed) + metric_value(breakdown.unfinished)
+        def total_value
+          @total_value ||= resolved_value + metric_value(breakdown.unfinished)
         end
 
         def metric_value(block)
@@ -124,40 +115,12 @@ module Backlogs
           end
         end
 
-        def resolved_summary_text
+        def progress_summary_text
           t(
-            ".resolved_summary.#{progress_metric}",
-            percentage: helpers.number_to_percentage(resolved_percentage, precision: 0),
-            resolved: format_metric(progress_numerator),
-            total: format_metric(progress_denominator),
-            count: progress_denominator
+            ".progress_summary.#{progress_metric}",
+            percentage: formatted_percentage,
+            **progress_values
           )
-        end
-
-        # Estimated hours are floats, whose division can land just below a whole percentage
-        # and get floored; whole minutes keep the integer division exact.
-        def comparable_value(value)
-          progress_metric == :time ? (value * 60).round : value
-        end
-
-        def format_metric(value)
-          progress_metric == :time ? DurationConverter.output(value) : value
-        end
-
-        def progress_metric
-          return :work_packages unless OpenProject::FeatureDecisions.project_settings_estimation_unit_active?
-
-          active_metric
-        end
-
-        def active_metric
-          @active_metric ||= if project.estimation_unit_time?
-                               :time
-                             elsif project.estimation_unit_story_points?
-                               :story_points
-                             else
-                               :work_packages
-                             end
         end
 
         def resolved_work_packages_count

@@ -393,10 +393,14 @@ cs:
         authentication_method: Authentication method
         jwt_sub: Subject claim
       status:
+        category: Category
         default_done_ratio: "% Dokončeno"
         excluded_from_totals: Vyloučit z výpočtu úhrnů v hierarchii
-        is_closed: Pracovní balíček uzavřen
         is_readonly: Pracovní balíček jen pro čtení
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Workspace type
       time_entry:
@@ -548,6 +552,11 @@ cs:
         labels: Labels
         notify: Oznámit
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Nadřazený
         parent_issue: Nadřazený
         parent_work_package: Nadřazený
@@ -1912,6 +1921,10 @@ cs:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1922,12 +1935,16 @@ cs:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -2083,10 +2100,16 @@ cs:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -2105,17 +2128,15 @@ cs:
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
-                issue_ids: Identifikátory issues
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issues
                 logged_time: Logged time
                 permissions: Permissions
-                project_ids: Project identifiers
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projects
                 relations: Vztahy mezi issues
                 schemes: Schémata
-                sprints: Přiřazení sprintu
+                sprints: Sprints and sprint assignments
                 users: Zapojení uživatelé a skupiny
                 workflows: Project-level workflows
               label_coming_later: Coming later
@@ -2142,17 +2163,20 @@ cs:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -2163,8 +2187,8 @@ cs:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2359,10 +2383,6 @@ cs:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2482,6 +2502,8 @@ cs:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: Nejsou nakonfigurovány žádné stavové přechody
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -3105,7 +3127,7 @@ cs:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: Smazáním možnosti smažete všechny výskyty (např. v pracovních balíčcích). Opravdu ji chcete odstranit?
-    contained_in_type: Obsahuje typ
+    contained_in: Contained in
     enabled_in_project: Povoleno v projektu
     instructions:
       admin_only:
@@ -3476,7 +3498,6 @@ cs:
       gantt_pdf_export: Gantt PDF export
       internal_comments: Interní komentáře
       ldap_groups: Synchronizace uživatelů a skupin LDAP
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Opakovaně použitelné šablony schůzek
       nextcloud_sso: Jednotné přihlášení pro úložiště Nextcloud
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
@@ -3572,8 +3593,6 @@ cs:
       internal_comments_inline:
         description: " "
         title: Pište interní komentáře, které vidí jen malá skupina
-      mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
       meeting_templates:
         description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
       nextcloud_sso:
@@ -4278,7 +4297,7 @@ cs:
   label_active_in_new_projects: Aktivní v nových projektech
   label_activity: Aktivita
   label_add_another_file: Přidat další soubor
-  label_add_column: Přidat sloupec
+  label_add_column: Add columns
   label_add_columns: Přidat vybrané sloupce
   label_add_edit_translations: Přidat a upravit překlady
   label_add_note: Přidat poznámku
@@ -4414,7 +4433,7 @@ cs:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Vlastní favicon
-  label_custom_field_add_no_type: Přidat toto pole k typu pracovního balíčku
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Prázdný typ
   label_custom_field_new: Nové vlastní pole
   label_custom_field_plural: Vlastní pole
@@ -4508,7 +4527,7 @@ cs:
   label_filter: Filtry
   label_filter_add: Přidat filtr
   label_filter_any_name_attribute: Atributy názvu
-  label_filter_by: Filtrovat podle
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Filtry
   label_filters_toggle: Zobrazit/skrýt filtry
   label_float: Desetinné číslo
@@ -4559,6 +4578,7 @@ cs:
   label_in: v
   label_in_less_than: za méně než
   label_in_more_than: za více než
+  label_in_progress_work_packages: in progress
   label_inactive: Neaktivní
   label_include_sub_projects: Zahrnout všechny podprojekty
   label_includes: zahrnuje
@@ -4710,7 +4730,7 @@ cs:
   label_on: ''
   label_open: otevřít
   label_open_menu: Otevřít nabídku
-  label_open_work_packages: otevřené
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: otevřené
   label_openproject_website: Webové stránky OpenProject
   label_operator_all: není prázdný
@@ -4917,6 +4937,7 @@ cs:
   label_time_entry_plural: Strávený čas
   label_timer_since: Začalo v %{time}
   label_title: Název
+  label_to_do_work_packages: to-do
   label_today: dnes
   label_today_as_date: Vyberte dnešek jako datum.
   label_today_as_due_date: Vyberte dnešek jako datum ukončení.
@@ -5032,6 +5053,15 @@ cs:
     one: "%{count} file"
     other: "%{count} souborů"
     zero: žádné soubory
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    few: "%{count} forms"
+    many: "%{count} forms"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} položek"
@@ -5049,6 +5079,10 @@ cs:
     one: "%{count} project"
     other: "%{count} projektů"
     zero: Žádné projekty
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: " %{count} Pracovních balíčků"
@@ -6010,7 +6044,7 @@ cs:
   permission_comment_news: Komentování novinek
   permission_commit_access: Čtěte/zapisovat přístup do repozitáře (commit)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplikovat pracovní balíčky
   permission_create_backup: Vytvořit zálohy
   permission_create_user: Vytvořit uživatele
@@ -6230,7 +6264,7 @@ cs:
   project_module_activity: Aktivita
   project_module_forums: Fóra
   project_module_news: Novinky
-  project_module_repository: Repozitář
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Pracovní balíčky
   projects:
@@ -7154,6 +7188,7 @@ cs:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -7266,6 +7301,11 @@ cs:
   status_registered: registrován
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Klikněte na přiřadit nebo změnit barvu této priority.
         lze použít ke zvýraznění pracovních balíčků v tabulce.
@@ -7762,7 +7802,7 @@ cs:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects
@@ -7855,6 +7895,10 @@ cs:
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
           title: Delete %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filter by text
         filter_no_results: No variants match this filter
         global_section:

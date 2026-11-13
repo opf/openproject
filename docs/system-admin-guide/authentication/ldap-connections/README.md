@@ -63,7 +63,7 @@ Next, you will need to enter a system user that has READ access to the users for
 Next you can define what sections OpenProject will look for in the LDAP and also if users should be created automatically in OpenProject when they are accessing it. Let's look at the available options:
 
 - **Base DN**: Enter the Base DN to search within for users and groups in the LDAP tree
-- **Filter string**: Enter an optional [LDAP RFC4515 filter string](https://datatracker.ietf.org/doc/html/rfc4515) to further reduce the returned set of users. This allows you to restrict access to OpenProject with a very flexible filter. For group synchronization, only users matching this filter will be added as well.
+- **Filter string**: Enter an optional [LDAP RFC4515 filter string](https://datatracker.ietf.org/doc/html/rfc4515) to further reduce the returned set of users. This allows you to restrict access to OpenProject with a very flexible filter. This filter also determines whether a user is found during [LDAP user status synchronization](#enable-status-synchronization). To lock accounts that are deactivated or locked in your directory, configure this filter to exclude them.
 - **Automatic user creation:** Check to automatically  create users in OpenProject when they first login in OpenProject. It  will use the LDAP attribute mapping below to fill out required  attributes. The user will be forwarded to a registration screen to  complete required attributes if they are missing in the LDAP.
 
 #### Filter Examples
@@ -104,20 +104,80 @@ Please see the [advanced configuration guide](../../../installation-and-operatio
 
 ## LDAP user synchronization
 
-By default, OpenProject will synchronize user account details (name, e-mail, login) and their account status from the LDAP through a background worker job every 24 hours.
+By default, OpenProject synchronizes mapped user account details (such as name and email) from LDAP through a background worker job every 24 hours. This job updates existing users linked to an LDAP connection. Account status synchronization is **disabled by default** and must be enabled separately.
+
+LDAP user synchronization is available in both Community and Enterprise editions. [LDAP group synchronization](./ldap-group-synchronization/) is a separate Enterprise add-on.
 
 ### Enable status synchronization
 
-If you wish to synchronize the account status from the LDAP, you can enable status synchronization using the following configuration:
+Enable account status synchronization using one of the following [configuration options](../../../installation-and-operations/configuration/):
 
 - `ldap_users_sync_status: true`
-- (or the ENV variable `OPENPROJECT_LDAP__USERS__SYNC__STATUS=true`)
+- Or the environment variable `OPENPROJECT_LDAP__USERS__SYNC__STATUS=true`
 
-The user will be ensured to be active if it can be found in LDAP. Likewise, if the user cannot be found in the LDAP, its associated OpenProject account will be locked.
+When enabled, OpenProject determines the account status based on the result of an LDAP search for each linked user's login, using the connection's **Base DN**, **Login** attribute, and **Filter string**:
+
+| LDAP search result | Effect on the linked OpenProject account |
+| --- | --- |
+| The user is found and their mapped attributes are successfully updated. | The account is activated, including accounts that were previously locked. |
+| The user is not found, for example because the entry was deleted, moved outside the Base DN, or excluded by the filter. | The account is locked. |
+
+OpenProject does not map an LDAP status attribute directly to the OpenProject account status. **Deactivating or locking a user in your directory only locks their OpenProject account if the LDAP search no longer returns that user.** If the entry still matches the search, the account remains active or is reactivated during synchronization.
+
+> [!NOTE]
+> Status synchronization also reactivates accounts that were manually locked in OpenProject if the user is still found in LDAP and their attributes can be updated. To keep such an account locked, make sure it's excluded from the LDAP search as well.
+
+### Exclude inactive users with the LDAP filter
+
+In _Administration -> Authentication -> LDAP connections_, edit the connection's **Filter string** so that it returns only users who should have active OpenProject accounts. Include conditions that exclude deactivated or locked accounts based on your directory's schema. Combine these conditions with any existing restrictions, such as group membership, using LDAP filter syntax.
+
+For example, if your directory exposes an `accountStatus` attribute with the value `active` for active accounts, you could combine it with a group restriction:
+
+```text
+(&(memberOf=CN=OpenProject,OU=Rollen,OU=Gruppen,DC=intern)(accountStatus=active))
+```
+
+The `accountStatus` attribute and value in this example are illustrative. Use the attributes, values, and matching rules supported by your LDAP server. The LDAP system user configured under **Account** must have permission to evaluate the filter conditions.
+
+Set this filter on the **LDAP connection**, rather than only on an LDAP group synchronization filter. Group filters select groups to synchronize; the connection's user filter determines whether the status synchronization finds a user.
+
+When a user is reactivated or unlocked in the directory and matches the connection's filter again, the next user synchronization reactivates their OpenProject account after successfully updating their mapped attributes. Changes take effect on synchronization, which runs every 24 hours by default.
+
+### Users covered by synchronization
+
+User synchronization only processes OpenProject accounts linked to the LDAP connection. Where available, you can check a user's **Authentication source** in [Administration -> Users](../../users-permissions/users/#authentication). For SSO accounts where this field is hidden, you can check the link in a [Rails console](../../../installation-and-operations/operation/control/):
+
+```ruby
+User.find_by!(login: "example-user").ldap_auth_source&.name
+```
+
+This returns the LDAP connection's name, or `nil` if the user is not linked to an LDAP connection.
+
+Users created through LDAP authentication or LDAP group synchronization are linked to the connection that created them. Users created through another login method, such as OpenID Connect through Keycloak, are **not automatically linked** to an LDAP connection, even if their username matches an LDAP entry.
+
+LDAP group synchronization can add existing users to groups, but it does not link those existing accounts to the LDAP connection. If a user first signs in through OpenID Connect before group synchronization creates their account, LDAP user status synchronization does not cover that account. Verify the LDAP authentication source for existing accounts before relying on LDAP to manage their status.
+
+### Verify status synchronization
+
+1. Confirm that the OpenProject user is linked to the intended LDAP connection and that status synchronization is enabled.
+2. Using the connection's LDAP system user, Base DN, login attribute, and filter, verify that an active user is returned by the LDAP search.
+3. Deactivate or lock a test user in the directory and verify that the same search no longer returns their entry.
+4. Wait for the next user synchronization, or run it manually as shown below. Confirm that the OpenProject account is locked.
+5. Reactivate or unlock the test user in the directory, confirm that the search returns their entry again, and synchronize again. Confirm that the OpenProject account is active.
+
+To synchronize a single linked user immediately, run the following rake task in your [OpenProject environment](../../../installation-and-operations/operation/control/), replacing the connection name and login:
+
+```shell
+bundle exec rake ldap:sync name="My LDAP connection" logins="example-user"
+```
+
+If the status does not change, check the LDAP link, filter results, configuration, and background worker. Check the application logs for LDAP connection errors or failures to update the user's attributes.
 
 ### Disable the synchronization job
 
-If for any reason, you do not wish to perform the synchronization at all, you can also remove the synchronization job from being run at all with the following variable:
+To disable the scheduled synchronization of both user attributes and account status, set one of the following options:
 
 - `ldap_users_disable_sync_job: true`
-- (or the ENV variable `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB=true`)
+- Or the environment variable `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB=true`
+
+Leave this option at its default value of `false` if you rely on the background job for status synchronization.
