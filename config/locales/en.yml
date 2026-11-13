@@ -170,6 +170,11 @@ en:
         semantic_key: "Semantic meaning"
         user_self_editable: "Editable"
         visible_on_user_card: "Show on user card"
+      custom_field/hierarchy/item:
+        label: "Label"
+        parent: "Parent"
+        short: "Short"
+        weight: "Weight"
       custom_field/project_specific_value_restriction:
         restriction: "Restriction"
       custom_value:
@@ -740,6 +745,20 @@ en:
           referenced_in_other_fields_html:
             one: "%{name} is used in project attribute calculation %{links}."
             other: "%{name} is used in project attribute calculations: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: "The root of a hierarchy cannot be deleted."
+            label:
+              not_unique: "must be unique within the same hierarchy level."
+            parent:
+              other_hierarchy: "must belong to the same hierarchy."
+              other_project: "must be a global value or belong to the same project."
+              own_descendant: "cannot be the value itself or one of its descendants."
+            project_id:
+              additional_values_not_allowed: "cannot add values to this custom field."
+            short:
+              not_unique: "must be unique within the same hierarchy level."
         custom_fields_project:
           attributes:
             project_ids:

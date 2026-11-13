@@ -35,6 +35,8 @@ class CustomField::Hierarchy::Item < ApplicationRecord
   has_closure_tree order: "sort_order", numeric_order: true, dont_order_roots: true, dependent: :destroy
   counter_culture :parent, column_name: :children_count
 
+  validates :weight, numericality: true, allow_nil: true
+
   scope :including_children, -> { includes(children: :children) }
   scope :with_label_ignoring_case, ->(label) { where("LOWER(#{table_name}.label) = LOWER(?)", label) }
   scope :with_short_ignoring_case, ->(short) { where("LOWER(#{table_name}.short) = LOWER(?)", short) }
