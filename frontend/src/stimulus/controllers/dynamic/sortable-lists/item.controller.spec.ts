@@ -354,7 +354,7 @@ describe('Sortable lists item controller', () => {
     element.remove();
   });
 
-  it('removes the draggable attribute on disconnect while a text field has focus', () => {
+  it('does not restore the draggable attribute after disconnect', () => {
     const element = document.createElement('li');
     const input = document.createElement('input');
     input.type = 'text';

@@ -400,7 +400,7 @@ describe('createSortableRoot', () => {
       expect(rows[0]).toHaveAttribute('draggable', 'false');
     });
 
-    it('removes the draggable attribute on unregister while a text field has focus', () => {
+    it('does not restore the draggable attribute after unregister', () => {
       const { root, rows } = buildList(['a']);
       const input = textFieldIn(rows[0]);
       const sortableRoot = createSortableRoot({ element: root, onDrop: () => undefined });
