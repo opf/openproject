@@ -55,6 +55,12 @@ module Projects
                                      .to_h { |field, pairs| [field, pairs.map(&:last)] }
           end
 
+          def project_specific_value_counts
+            variants_by_field.keys
+                             .select(&:project_specific_values_supported?)
+                             .index_with { |field| field.restrictable_values.where(project_id: project.id).count }
+          end
+
           def applied_variants
             @applied_variants ||= project.project_types
                                          .includes(variant: [:type, { form_configuration: :custom_fields }])
