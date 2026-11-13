@@ -26,9 +26,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
+  Component, OnInit,
 } from '@angular/core';
 import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
 import moment from 'moment-timezone';
@@ -36,10 +34,6 @@ import moment from 'moment-timezone';
 @Component({
   templateUrl: './days-duration-edit-field.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class DaysDurationEditFieldComponent extends DatePickerEditFieldComponent implements OnInit {
   public get formattedValue():number {
@@ -62,5 +56,6 @@ export class DaysDurationEditFieldComponent extends DatePickerEditFieldComponent
   cancel():void {
     this.handler.reset();
     this.opened = false;
+    this.cdRef.markForCheck();
   }
 }

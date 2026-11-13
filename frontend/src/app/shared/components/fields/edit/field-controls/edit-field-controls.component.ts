@@ -26,23 +26,23 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, Output,
+  ChangeDetectorRef, Component, DoCheck, EventEmitter, Input, Output, inject,
 } from '@angular/core';
-import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 
-export type EditFieldControl = Pick<EditFieldComponent, 'required'|'isEmpty'> | { required:false };
+export interface EditFieldControl {
+  required:boolean;
+  isEmpty?():boolean;
+}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'edit-field-controls',
   templateUrl: './edit-field-controls.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class EditFieldControlsComponent {
+export class EditFieldControlsComponent implements DoCheck {
+  private readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() public cancelTitle:string;
 
   @Input() public saveTitle:string;
@@ -55,6 +55,16 @@ export class EditFieldControlsComponent {
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onCancel = new EventEmitter<void>();
+
+  protected saveDisabled = false;
+
+  ngDoCheck():void {
+    const saveDisabled = this.field.required && (this.field.isEmpty?.() ?? true);
+    if (saveDisabled !== this.saveDisabled) {
+      this.saveDisabled = saveDisabled;
+      this.cdRef.markForCheck();
+    }
+  }
 
   public save() {
     this.onSave.emit();

@@ -27,14 +27,14 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { generateId } from 'core-app/shared/helpers/dom-helpers';
-import { Directive, ViewChild, inject } from '@angular/core';
+import { Directive, OnChanges, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { WorkPackageEmbeddedTableComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QueryRequestParams, UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Directive()
-export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
+export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin implements OnChanges {
   protected queryUrlParamsHelper = inject(UrlParamsHelperService);
 
   public workPackage:WorkPackageResource;
@@ -53,11 +53,21 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
   /** Reference to the embedded table instance */
   @ViewChild('embeddedTable') protected embeddedTable?:WorkPackageEmbeddedTableComponent;
 
+  ngOnChanges(changes:SimpleChanges<WorkPackageRelationQueryBase>):void {
+    if (changes.query || changes.workPackage?.previousValue?.id !== changes.workPackage?.currentValue?.id) {
+      this.queryProps = this.buildQueryProps();
+    }
+  }
+
   /**
    * Request to refresh the results of the embedded table
    */
   public refreshTable() {
-    this.embeddedTable?.isInitialized && this.embeddedTable.loadQuery(true, false);
+    const table = this.embeddedTable;
+    // A cache replay can arrive before Angular binds the replacement query to the table.
+    if (table?.isInitialized && table.queryProps === this.queryProps) {
+      void table.loadQuery(true, false);
+    }
   }
 
   /**

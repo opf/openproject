@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, Input, OnChanges, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -36,14 +38,14 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-breadcrumb',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class WorkPackageBreadcrumbComponent {
+export class WorkPackageBreadcrumbComponent implements OnChanges {
   private I18n = inject(I18nService);
   private pathHelper = inject(PathHelperService);
+
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
+  private workPackageSubscription?:Subscription;
 
   @Input() workPackage:WorkPackageResource;
 
@@ -53,6 +55,13 @@ export class WorkPackageBreadcrumbComponent {
   };
 
   public inputActive = false;
+
+  ngOnChanges():void {
+    this.workPackageSubscription?.unsubscribe();
+    this.workPackageSubscription = this.workPackage?.state.values$()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.cdRef.markForCheck());
+  }
 
   public get hierarchyCount() {
     return this.workPackage.getAncestors().length;

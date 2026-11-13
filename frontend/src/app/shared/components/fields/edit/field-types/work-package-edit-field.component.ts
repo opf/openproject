@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import {
@@ -40,10 +40,6 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 @Component({
   templateUrl: './work-package-edit-field.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   /** Keep a switchmap for search term and loading state */

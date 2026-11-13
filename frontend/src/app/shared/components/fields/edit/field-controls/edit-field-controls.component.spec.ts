@@ -25,24 +25,33 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { screen } from '@testing-library/dom';
-import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
-import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { EditFieldControlsComponent } from './edit-field-controls.component';
+
+@Component({
+  template: '',
+  standalone: false,
+})
+class DescriptionEditorComponent {
+  description = '';
+  readonly fieldController = { required: true, isEmpty: () => this.description.trim() === '' };
+  readonly save = vi.fn<() => void>();
+  readonly cancel = vi.fn<() => void>();
+}
 
 describe('EditFieldControlsComponent', () => {
   let fixture:ComponentFixture<EditFieldControlsComponent>;
 
-  async function render(field:Partial<EditFieldComponent>) {
+  async function render(field:EditFieldControlsComponent['field']) {
     await TestBed
       .configureTestingModule({
-        imports: [OpTooltipDirective],
-        declarations: [EditFieldControlsComponent],
-        schemas: [NO_ERRORS_SCHEMA],
+        imports: [CommonModule, OpTooltipDirective],
+        declarations: [EditFieldControlsComponent, OpIconComponent],
       })
       .compileComponents();
 
@@ -50,12 +59,11 @@ describe('EditFieldControlsComponent', () => {
     fixture.componentRef.setInput('saveTitle', 'Save');
     fixture.componentRef.setInput('cancelTitle', 'Cancel');
     fixture.componentRef.setInput('fieldController', field);
-    fixture.detectChanges();
     await fixture.whenStable();
   }
 
   it('labels the icon-only save and cancel buttons with tooltips', async () => {
-    await render({ required: false, isEmpty: () => false });
+    await render({ required: false });
 
     expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled();
@@ -67,6 +75,37 @@ describe('EditFieldControlsComponent', () => {
 
     expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled();
+  });
+
+  it('rechecks the same controller when a description changes and emits both actions', async () => {
+    TestBed.configureTestingModule({
+      imports: [CommonModule, OpTooltipDirective],
+      declarations: [DescriptionEditorComponent, EditFieldControlsComponent, OpIconComponent],
+    }).overrideTemplate(DescriptionEditorComponent, `
+      <input #input aria-label="Description" (input)="description = input.value">
+      <edit-field-controls
+        saveTitle="Save"
+        cancelTitle="Cancel"
+        [fieldController]="fieldController"
+        (onSave)="save()"
+        (onCancel)="cancel()"
+      />
+    `);
+    const host = TestBed.createComponent(DescriptionEditorComponent);
+    const input = await screen.findByRole('textbox', { name: 'Description' });
+    const save = await screen.findByRole('button', { name: 'Save' });
+    const cancel = await screen.findByRole('button', { name: 'Cancel' });
+    expect(save).toBeDisabled();
+
+    fireEvent.input(input, { target: { value: 'Description' } });
+    await waitFor(() => expect(save).toBeEnabled());
+    fireEvent.click(save);
+    fireEvent.click(cancel);
+    expect(host.componentInstance.save).toHaveBeenCalledOnce();
+    expect(host.componentInstance.cancel).toHaveBeenCalledOnce();
+
+    fireEvent.input(input, { target: { value: ' ' } });
+    await waitFor(() => expect(save).toBeDisabled());
   });
 });
 

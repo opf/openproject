@@ -25,12 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component } from '@angular/core';
-import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
+import { Component, inject } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
+import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -84,5 +85,56 @@ describe('EditFormComponent resource output', () => {
 
     expect(output).toHaveBeenCalledWith({ savedResource: saved, isInitial: true });
     expect(fixture.componentInstance.saved).toBe(saved);
+  });
+});
+
+@Component({
+  selector: 'op-test-edit-mode',
+  template: `
+    <span role="status">{{ form.editMode ? 'Editing' : 'Viewing' }}</span>
+    <button type="button" (click)="form.cancel()">Cancel</button>
+  `,
+})
+class EditModeComponent {
+  readonly form = inject(EditFormComponent);
+}
+
+@Component({
+  template: '',
+  standalone: false,
+})
+class EditFormHostComponent {}
+
+describe('EditFormComponent', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('publishes edit mode to projected consumers and unregisters on destroy', async () => {
+    vi.stubGlobal('OpenProject', {});
+    TestBed.configureTestingModule({
+      declarations: [EditFormComponent, EditFormHostComponent],
+      imports: [EditModeComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).overrideTemplate(EditFormHostComponent, `
+      <edit-form [inEditMode]="true"><op-test-edit-mode /></edit-form>
+    `);
+    const tracker = TestBed.inject(GlobalEditFormChangesTrackerService);
+    const register = vi.spyOn(tracker, 'addToActiveForms');
+    const unregister = vi.spyOn(tracker, 'removeFromActiveForms');
+    const fixture = TestBed.createComponent(EditFormHostComponent);
+
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Editing'));
+    const form = register.mock.calls[0][0];
+
+    // Edit actions outside the projected view can end the form asynchronously.
+    await Promise.resolve().then(() => form.cancel());
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Viewing'));
+
+    form.editMode = true;
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Editing'));
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Viewing'));
+
+    fixture.destroy();
+    expect(unregister).toHaveBeenCalledExactlyOnceWith(form);
   });
 });

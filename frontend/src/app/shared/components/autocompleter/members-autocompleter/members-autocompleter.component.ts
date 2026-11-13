@@ -27,7 +27,7 @@
 
 import { firstValueFrom, Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import {
   IUserAutocompleteItem,
@@ -43,10 +43,6 @@ import { ID } from '@datorama/akita';
 @Component({
   templateUrl: '../op-autocompleter/op-autocompleter.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class MembersAutocompleterComponent extends UserAutocompleterComponent implements OnInit {
   @Input() principalType?:PrincipalType;
@@ -63,6 +59,7 @@ export class MembersAutocompleterComponent extends UserAutocompleterComponent im
       this
         .currentUser
         .hasCapabilities$('placeholder_users/create', 'global')
+        .pipe(this.untilDestroyed())
         .subscribe((canCreate) => {
           if (canCreate) {
             this.addTag = this.createPlaceholderUser.bind(this);

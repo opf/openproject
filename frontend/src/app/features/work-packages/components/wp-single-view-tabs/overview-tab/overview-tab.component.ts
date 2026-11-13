@@ -25,10 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, Input, OnChanges, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
@@ -36,15 +37,14 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-overview-tab',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin implements OnInit {
+export class WorkPackageOverviewTabComponent implements OnChanges {
   readonly I18n = inject(I18nService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly cdRef = inject(ChangeDetectorRef);
+
+  private readonly destroyRef = inject(DestroyRef);
+  private workPackageSubscription?:Subscription;
 
   @Input() public workPackage:WorkPackageResource;
 
@@ -52,17 +52,19 @@ export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin impleme
 
   public tabName = this.I18n.t('js.label_latest_activity');
 
-  ngOnInit() {
+  ngOnChanges():void {
+    if (this.workPackage.id === this.workPackageId) {
+      return;
+    }
+
+    this.workPackageSubscription?.unsubscribe();
     this.workPackageId = this.workPackage.id!;
 
-    this
-      .apiV3Service
+    this.workPackageSubscription = this.apiV3Service
       .work_packages
       .id(this.workPackageId)
       .requireAndStream()
-      .pipe(
-        this.untilDestroyed(),
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((wp) => {
         this.workPackage = wp;
         this.cdRef.markForCheck();

@@ -64,9 +64,9 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
   /**
    * Remove a given relation
    */
-  public remove(from:WorkPackageResource, to:WorkPackageResource):Promise<unknown> {
+  public remove(from:WorkPackageResource, to:WorkPackageResource, relationType = this.relationType):Promise<unknown> {
     // Find the relation matching relationType and from->to which are unique together
-    const relation = this.wpRelations.find(to, from, this.relationType);
+    const relation = this.wpRelations.find(to, from, relationType);
 
     if (relation !== undefined) {
       return this.wpRelations.removeRelation(relation).then(() => {
@@ -77,6 +77,7 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
         });
       });
     }
+    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors -- Preserve the generic notification for a missing relation.
     return Promise.reject();
   }
 
