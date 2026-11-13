@@ -35,6 +35,9 @@
       z-index: 2
       box-shadow: -4px -4px 10px 4px var(--op-wp-single-card-bg-color)
 
+  > *
+    min-width: 0
+
   &_new
     padding-right: 25px
 
@@ -81,18 +84,20 @@
 
   // Keep the picked-up card visible in place, dimmed, rather than leaving a
   // dashed hole behind — matching the Backlogs list and the WP table row.
-  wp-single-card:host([data-dragging='source']) &
-    --op-wp-single-card-bg-color: var(--bgColor-inset)
-    opacity: 0.4
-    pointer-events: none
+      wp-single-card: host([data-dragging='source']) &
+      --op-wp-single-card-bg-color: var(--bgColor-inset)
+      opacity: 0.4
+      pointer-events: none
 
   &--content
+    @include text-shortener
+    display: grid
+    grid-template-columns: minmax(0, 1fr)
+    grid-row-gap: 5px
 
     &:not(.-new)
-      display: grid
-      grid-template-columns: max-content max-content auto auto 1fr
+      grid-template-columns: max-content max-content minmax(0, auto) minmax(0, auto) minmax(0, 1fr)
       grid-template-rows: auto 1fr max-content auto
-      grid-row-gap: 5px
       grid-column-gap: 5px
       grid-template-areas: "status id project project project" "subject subject subject subject subject" "image image image image image" "avatar avatar avatar dates dates"
       overflow: hidden
@@ -100,15 +105,16 @@
       font-size: var(--body-font-size)
       line-height: 16px
 
+      .op-wp-single-card--content-type
+        @include text-shortener
+        margin-right: 4px
+
     &-project-name
       grid-area: project
       font-style: italic
       color: var(--fgColor-muted)
       font-size: 12px
       @include text-shortener
-    &-type
-      grid-area: type
-      margin-right: 4px
     &-subject-line
       grid-area: subject
       @include text-shortener(false)

@@ -4,7 +4,7 @@
   &--wp-wrapper
     padding: 5px 5px
     line-height: 15px
-    min-height: 25px  // line-height + padding
+    min-height: 25px // line-height + padding
     word-break: break-word
 
   &--wp-line
@@ -16,6 +16,9 @@
     overflow: hidden
     margin-bottom: var(--base-size-4)
 
+  &--wp-type
+    @include text-shortener
+
   &--wp-id
     color: var(--fgColor-muted)
     font-size: var(--text-body-size-small)
@@ -24,13 +27,12 @@
   &--wp-status
     display: inline-flex
     align-items: center
-    overflow: hidden
 
   &--wp-project
+    @include text-shortener
     flex-shrink: 1
     min-width: 0
     max-width: 100%
-    @include text-shortener
 
   &--wp-subject
     font-weight: var(--base-text-weight-bold)
