@@ -32,7 +32,6 @@ import {
   ChartType,
   Plugin,
 } from 'chart.js';
-import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 import { createPatternFill, lineDashFor } from './plugin.primer-patterns';
 
 export interface PrimerColorsPluginOptions {
@@ -69,41 +68,45 @@ const PRIMER_COLORS = [
   'lime',   // (subdued green, good closing color)
 ];
 
-function getEmphasisColors() {
-  return PRIMER_COLORS.map((color) => getCSSVariable(`--display-${color}-scale-6`));
+interface PrimerPalette {
+  emphasis:string[];
+  muted:string[];
 }
 
-function getMutedColors() {
-  return PRIMER_COLORS.map((color) => getCSSVariable(`--display-${color}-scale-2`));
+function resolvePalette():PrimerPalette {
+  const styles = getComputedStyle(document.body);
+  return {
+    emphasis: PRIMER_COLORS.map((color) => styles.getPropertyValue(`--display-${color}-scale-6`).trim()),
+    muted: PRIMER_COLORS.map((color) => styles.getPropertyValue(`--display-${color}-scale-2`).trim()),
+  };
 }
 
-function getEmphasisColor(i:number) {
-  return getEmphasisColors()[i % PRIMER_COLORS.length];
-}
-
-function getMutedColor(i:number) {
-  return getMutedColors()[i % PRIMER_COLORS.length];
+function colorAt(colors:string[], index:number):string {
+  return colors[index % colors.length];
 }
 
 function colorizePoints(
   dataset:ChartDataset,
   colorIndexes:number[],
+  palette:PrimerPalette,
   patternContext?:CanvasRenderingContext2D,
   devicePixelRatio?:number,
 ):void {
   dataset.backgroundColor = dataset.data.map((_, index) => {
     const colorIndex = colorIndexes[index];
+    const mutedColor = colorAt(palette.muted, colorIndex);
+    const emphasisColor = colorAt(palette.emphasis, colorIndex);
     return patternContext
       ? createPatternFill(
         patternContext,
-        getMutedColor(colorIndex),
-        getEmphasisColor(colorIndex),
+        mutedColor,
+        emphasisColor,
         colorIndex,
         devicePixelRatio,
       )
-      : getMutedColor(colorIndex);
+      : mutedColor;
   });
-  dataset.borderColor = dataset.data.map((_, index) => getEmphasisColor(colorIndexes[index]));
+  dataset.borderColor = dataset.data.map((_, index) => colorAt(palette.emphasis, colorIndexes[index]));
   dataset.borderWidth = 1;
 }
 
@@ -111,16 +114,19 @@ function colorizeDataset(
   dataset:ChartDataset,
   colorIndex:number,
   styleIndex:number,
+  palette:PrimerPalette,
   context:CanvasRenderingContext2D,
   lineChart:boolean,
   devicePixelRatio:number,
 ):void {
+  const mutedColor = colorAt(palette.muted, colorIndex);
+  const emphasisColor = colorAt(palette.emphasis, colorIndex);
   const backgroundColor = lineChart
-    ? getMutedColor(colorIndex)
+    ? mutedColor
     : createPatternFill(
       context,
-      getMutedColor(colorIndex),
-      getEmphasisColor(colorIndex),
+      mutedColor,
+      emphasisColor,
       styleIndex,
       devicePixelRatio,
     );
@@ -129,7 +135,7 @@ function colorizeDataset(
   // Only at the end, we increase so that the next dataset is in a different color
   // See https://community.openproject.org/wp/68364
   dataset.backgroundColor = dataset.data.map(() => backgroundColor);
-  dataset.borderColor = dataset.data.map(() => getEmphasisColor(colorIndex));
+  dataset.borderColor = dataset.data.map(() => emphasisColor);
   dataset.borderWidth = 1;
   if (lineChart) {
     (dataset as ChartDataset<'line'>).borderDash = lineDashFor(styleIndex);
@@ -178,12 +184,13 @@ function buildLabelColorMap(labels:string[]):Map<string, number> {
 function assignColorsByLabel(
   dataset:ChartDataset,
   labels:string[],
+  palette:PrimerPalette,
   patternContext:CanvasRenderingContext2D,
   devicePixelRatio:number,
 ):void {
   const colorMap = buildLabelColorMap(labels);
   const colorIndexes = dataset.data.map((_, index) => colorMap.get(labels[index] ?? '') ?? 0);
-  colorizePoints(dataset, colorIndexes, patternContext, devicePixelRatio);
+  colorizePoints(dataset, colorIndexes, palette, patternContext, devicePixelRatio);
 }
 
 const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
@@ -197,6 +204,7 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
 
     const { data: { datasets } } = chart.config;
     const chartType = 'type' in chart.config ? chart.config.type : undefined;
+    const palette = resolvePalette();
 
     if (options.datasetLabelBased || (options.labelBased && datasets.length !== 1)) {
       const labels = datasets.map((d) => d.label ?? '');
@@ -207,6 +215,7 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
           dataset,
           colorIndex,
           colorIndex,
+          palette,
           chart.ctx,
           (dataset.type ?? chartType) === 'line',
           chart.currentDevicePixelRatio,
@@ -216,6 +225,7 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
       assignColorsByLabel(
         datasets[0],
         (chart.data.labels ?? []) as string[],
+        palette,
         chart.ctx,
         chart.currentDevicePixelRatio,
       );
@@ -226,6 +236,7 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
       colorizePoints(
         datasets[0],
         colorIndexes,
+        palette,
         pointPatterns ? chart.ctx : undefined,
         chart.currentDevicePixelRatio,
       );
@@ -235,6 +246,7 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
           dataset,
           index,
           index,
+          palette,
           chart.ctx,
           (dataset.type ?? chartType) === 'line',
           chart.currentDevicePixelRatio,

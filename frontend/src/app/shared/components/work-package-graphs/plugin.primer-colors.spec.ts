@@ -34,10 +34,12 @@ describe('PrimerColorsPlugin', () => {
   const patternTransforms = Array.from({ length: 16 }, () => vi.fn());
   const patterns = patternTransforms.map((setTransform) => ({ setTransform })) as unknown as CanvasPattern[];
   let createPattern:ReturnType<typeof vi.fn>;
+  let getPropertyValue:ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
+    getPropertyValue = vi.fn((property:string) => property);
     vi.spyOn(window, 'getComputedStyle').mockReturnValue({
-      getPropertyValue: vi.fn((property:string) => property),
+      getPropertyValue,
     } as unknown as CSSStyleDeclaration);
     createPattern = vi.fn();
     patterns.forEach((pattern) => createPattern.mockReturnValueOnce(pattern));
@@ -165,6 +167,14 @@ describe('PrimerColorsPlugin', () => {
 
     expect(new Set(datasets[0].backgroundColor as unknown[])).toHaveProperty('size', 3);
     expect(createPattern).toHaveBeenCalledTimes(2);
+  });
+
+  it('resolves the Primer palette once per layout', () => {
+    const datasets:ChartDataset[] = [{ data: [5, 3, 1, 2] }];
+
+    applyPlugin('pie', datasets);
+
+    expect(getPropertyValue).toHaveBeenCalledTimes(32);
   });
 
   it('keeps pie segment patterns stable when labels are reordered', () => {
