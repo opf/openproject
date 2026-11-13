@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { keyBy } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -65,10 +65,14 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
 
   addTagText = this.I18n.t('js.autocompleter.create_label');
 
+  @Input()
+  public set canCreateLabels(value:boolean) {
+    this.addTag = value ? this.createLabel.bind(this) : false;
+  }
+
   ngOnInit():void {
     super.ngOnInit();
     this.applyTemplates(LabelsAutocompleterTemplateComponent);
-    this.addTag = this.createLabel.bind(this);
   }
 
   public getLabels(searchTerm?:string):Observable<ILabelAutocompleteItem[]> {

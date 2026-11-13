@@ -311,21 +311,6 @@ RSpec.shared_examples "work package contract" do
         it_behaves_like "contract is invalid", labels: :too_many
       end
 
-      context "with several new label names the user may create" do
-        let(:permissions) { super() + %i[edit_work_packages] }
-
-        before do
-          work_package.label_name_replacements = ["First", "Second", "Third"]
-          allow(Labels::CreateContract).to receive(:new).and_call_original
-        end
-
-        it "checks the permission to create labels once" do
-          contract.validate
-
-          expect(Labels::CreateContract).to have_received(:new).once
-        end
-      end
-
       context "with a label name that already exists in different casing" do
         let(:permissions) { super() + %i[edit_work_packages] }
 

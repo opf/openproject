@@ -53,8 +53,7 @@ module Labels
       names_to_create = label_names_to_create
       return [] if names_to_create.empty?
 
-      authorization = label_creation_authorization_errors(names_to_create.first)
-      (authorization + names_to_create.flat_map { label_name_errors(it) }).uniq
+      (label_creation_authorization_errors + names_to_create.flat_map { label_name_errors(it) }).uniq
     end
 
     def label_names_to_create
@@ -62,10 +61,10 @@ module Labels
       model.label_name_replacements.reject { existing_names.include?(it.downcase) }
     end
 
-    def label_creation_authorization_errors(name)
-      contract = Labels::CreateContract.new(Label.new(name:), user)
-      contract.validate
-      contract.errors.details[:base]
+    def label_creation_authorization_errors
+      return [] if user.allowed_in_work_package?(:edit_work_packages, model)
+
+      [{ error: :error_unauthorized }]
     end
 
     def label_name_errors(name)

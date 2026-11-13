@@ -71,11 +71,19 @@ describe('LabelsAutocompleterComponent', () => {
     expect(component.createLabel('  Needs triage ')).toEqual({ id: null, name: 'Needs triage', href: null });
   });
 
-  it('offers to create labels without throwing change-detection errors', () => {
+  it('offers to create labels when allowed', () => {
     const fixture = TestBed.createComponent(LabelsAutocompleterComponent);
+    fixture.componentRef.setInput('canCreateLabels', true);
+    fixture.detectChanges();
 
-    expect(() => fixture.detectChanges()).not.toThrow();
     expect(typeof fixture.componentInstance.addTag).toBe('function');
+  });
+
+  it('does not offer to create labels by default', () => {
+    const fixture = TestBed.createComponent(LabelsAutocompleterComponent);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.addTag).toBe(false);
   });
 
   it('treats a label with no href and a persisted label with the same name as the same label, ignoring case', () => {
