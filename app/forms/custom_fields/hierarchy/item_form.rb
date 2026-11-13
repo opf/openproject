@@ -132,11 +132,11 @@ module CustomFields
       end
 
       def validation_message_for(attribute)
-        @target_item.errors.messages_for(attribute).to_sentence.presence
+        @target_item.errors.full_messages_for(attribute).to_sentence.presence
       end
 
       def errors_without_input
-        @target_item.errors.messages.except(:label, :short, :weight).values.flatten
+        @target_item.errors.reject { |error| %i[label short weight].include?(error.attribute) }.map(&:full_message)
       end
     end
   end

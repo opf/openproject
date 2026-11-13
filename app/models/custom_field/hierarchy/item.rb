@@ -35,6 +35,8 @@ class CustomField::Hierarchy::Item < ApplicationRecord
   has_closure_tree order: "sort_order", numeric_order: true, dont_order_roots: true, dependent: :destroy
   counter_culture :parent, column_name: :children_count
 
+  normalizes :short, with: ->(short) { short.presence }
+
   validates :weight, numericality: true, allow_nil: true
 
   scope :including_children, -> { includes(children: :children) }

@@ -46,6 +46,12 @@ RSpec.describe CustomField::Hierarchy::Item, :model, with_ee: [:custom_field_hie
     end
   end
 
+  describe "#short" do
+    it "stores a blank short as nil" do
+      expect(described_class.new(short: "")).to have_attributes(short: nil)
+    end
+  end
+
   describe "#descendants_preordered" do
     let!(:luke) { create(:hierarchy_item, parent: root, label: "luke") }
     let!(:mara) { create(:hierarchy_item, parent: luke, label: "mara") }
