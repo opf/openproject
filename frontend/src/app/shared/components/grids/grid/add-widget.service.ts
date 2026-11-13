@@ -26,7 +26,7 @@
 //++
 
 import {
-  ChangeDetectorRef, inject,
+  DestroyRef, inject,
   Injectable,
   Injector,
   OnDestroy,
@@ -47,6 +47,7 @@ import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 
 @Injectable()
 export class GridAddWidgetService implements OnDestroy {
+  private readonly destroyRef = inject(DestroyRef);
   readonly opModalService = inject(OpModalService);
   readonly injector = inject(Injector);
   readonly halResource = inject(HalResourceService);
@@ -55,11 +56,10 @@ export class GridAddWidgetService implements OnDestroy {
   readonly move = inject(GridMoveService);
   readonly resize = inject(GridResizeService);
   readonly i18n = inject(I18nService);
-  readonly cdRef = inject(ChangeDetectorRef);
 
   text = { add: this.i18n.t('js.grid.add_widget') };
 
-  private boundListener = this.createNewWidget.bind(this);
+  private boundListener = () => { void this.createNewWidget(); };
 
 
   constructor() {
@@ -73,14 +73,21 @@ export class GridAddWidgetService implements OnDestroy {
   public isAddable(area:GridArea) {
     return !this.drag.currentlyDragging
       && !this.resize.currentlyResizing
-      && (this.layout.mousedOverArea === area || this.layout.isSingleCell || this.layout.inHelpMode)
+      && (this.layout.mousedOverArea() === area || this.layout.isSingleCell() || this.layout.inHelpMode())
       && this.isAllowed;
   }
 
   public widget(area:GridArea):Promise<GridWidgetResource|null> {
+    const grid = this.layout.gridResource();
+    if (!grid) {
+      return Promise.resolve(null);
+    }
     return this
-      .select(area)
+      .select(area, grid)
       .then(async (widgetResource) => {
+        if (this.destroyRef.destroyed || this.layout.gridResource() !== grid) {
+          return null;
+        }
         if (this.layout.isGap(area)) {
           this.addLine(area);
         }
@@ -99,7 +106,7 @@ export class GridAddWidgetService implements OnDestroy {
     return this.text.add;
   }
 
-  private select(area:GridArea) {
+  private select(area:GridArea, grid:GridResource) {
     return new Promise<GridWidgetResource>((resolve, reject) => {
       this.opModalService.show(
         AddGridWidgetModalComponent,
@@ -107,10 +114,14 @@ export class GridAddWidgetService implements OnDestroy {
         { $schema: this.layout.$schema },
       ).subscribe((modal) => {
         modal.closingEvent.subscribe(() => {
+          if (this.destroyRef.destroyed || this.layout.gridResource() !== grid) {
+            reject(new Error('Widget selection is obsolete'));
+            return;
+          }
           const registered = modal.chosenWidget;
 
           if (!registered) {
-            reject();
+            reject(new Error('Widget selection cancelled'));
             return;
           }
 
@@ -121,12 +132,12 @@ export class GridAddWidgetService implements OnDestroy {
             endRow: area.endRow,
             startColumn: area.startColumn,
             endColumn: area.endColumn,
-            options: registered.properties || {},
+            options: registered.properties ?? {},
           };
 
           const resource:GridWidgetResource = this.halResource.createHalResource(source);
 
-          resource.grid = this.layout.gridResource;
+          resource.grid = grid;
 
           resolve(resource);
         });
@@ -147,9 +158,9 @@ export class GridAddWidgetService implements OnDestroy {
   // try to set it to a layout with a height of 1 and as wide as possible
   // but shrink if that is outside the grid or overlaps any other widget
   private setMaxWidth(area:GridWidgetArea) {
-    area.endColumn = this.layout.numColumns + 1;
+    area.endColumn = this.layout.numColumns() + 1;
 
-    this.layout.widgetAreas.forEach((existingArea) => {
+    this.layout.widgetAreas().forEach((existingArea) => {
       if (area.startColumnOverlaps(existingArea)) {
         area.endColumn = existingArea.startColumn;
       }
@@ -158,19 +169,17 @@ export class GridAddWidgetService implements OnDestroy {
 
   private async persist(area:GridWidgetArea):Promise<GridResource> {
     area.writeAreaChangeToWidget();
-    this.layout.widgetAreas.push(area);
-    this.layout.widgetResources.push(area.widget);
+    this.layout.addWidget(area);
 
     return this.layout.rebuildAndPersist();
   }
 
   public get isAllowed() {
-    return this.layout.gridResource?.updateImmediately;
+    return this.layout.gridResource()?.updateImmediately;
   }
 
   private async createNewWidget():Promise<void> {
     const newGap = new GridGap(1, 2, 1, 2, 'row');
     await this.widget(newGap);
-    this.cdRef.detectChanges();
   }
 }

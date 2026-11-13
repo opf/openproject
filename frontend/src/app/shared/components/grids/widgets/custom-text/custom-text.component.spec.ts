@@ -27,11 +27,12 @@
 
 import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
 import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { fireEvent, within } from '@testing-library/dom';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -54,6 +55,7 @@ import { EditFieldService } from 'core-app/shared/components/fields/edit/edit-fi
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { WidgetHeaderComponent } from '../header/header.component';
 import { WidgetMenuComponent } from '../menu/widget-menu.component';
+import { CustomTextEditFieldService } from './custom-text-edit-field.service';
 import { WidgetCustomTextComponent } from './custom-text.component';
 
 describe('WidgetCustomTextComponent editing attachments', () => {
@@ -76,7 +78,7 @@ describe('WidgetCustomTextComponent editing attachments', () => {
         provideHttpClient(), provideHttpClientTesting(), States, SchemaCacheService,
         { provide: I18nService, useValue: { t: (key:string) => key } },
         { provide: TimezoneService, useValue: {} },
-        { provide: GridAreaService, useValue: { isEditable: true } },
+        { provide: GridAreaService, useValue: { isEditable: signal(true) } },
         { provide: GridDragAndDropService, useValue: {} },
         { provide: GridRemoveWidgetService, useValue: {} },
         { provide: EditFieldService, useValue: { getSpecificClassFor: () => undefined } },
@@ -158,5 +160,39 @@ describe('WidgetCustomTextComponent editing attachments', () => {
     expect(fixture.componentInstance.active).toBe(false);
     expect(changed).not.toHaveBeenCalled();
     expect(view().queryByRole('group', { name: 'js.label_attachments' })).toBeNull();
+  });
+});
+
+describe('WidgetCustomTextComponent', () => {
+  it('renders formatted text and reacts to grid editability', async () => {
+    const editable = signal(true);
+    const handler = {
+      htmlText: '<p>Hello grid</p>',
+      active: false,
+      valueChanged$: EMPTY,
+      stateChanged$: EMPTY,
+      initialize: vi.fn<CustomTextEditFieldService['initialize']>(),
+      reinitialize: vi.fn<CustomTextEditFieldService['reinitialize']>(),
+    };
+    TestBed.configureTestingModule({
+      declarations: [WidgetCustomTextComponent],
+      imports: [CommonModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        { provide: I18nService, useValue: { t: (key:string) => key } satisfies Pick<I18nService, 't'> },
+        { provide: GridAreaService, useValue: { isEditable: editable } satisfies Pick<GridAreaService, 'isEditable'> },
+      ],
+    }).overrideComponent(WidgetCustomTextComponent, {
+      set: { providers: [{ provide: CustomTextEditFieldService, useValue: handler }] },
+    });
+    const fixture = TestBed.createComponent(WidgetCustomTextComponent);
+    fixture.componentRef.setInput('resource', { options: { name: 'Notes', text: { raw: 'Hello grid' } } } satisfies Pick<GridWidgetResource, 'options'>);
+    await fixture.whenStable();
+    expect(fixture.nativeElement as HTMLElement).toHaveTextContent('Hello grid');
+    expect((fixture.nativeElement as HTMLElement).querySelector('button')).not.toBeNull();
+    editable.set(false);
+    await fixture.whenStable();
+    expect(fixture.nativeElement as HTMLElement).toHaveTextContent('Hello grid');
+    expect((fixture.nativeElement as HTMLElement).querySelector('button')).toBeNull();
   });
 });

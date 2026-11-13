@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, inject } from '@angular/core';
+import { signal, Injectable, inject } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
@@ -39,16 +39,24 @@ export class GridResizeService {
   readonly move = inject(GridMoveService);
   readonly drag = inject(GridDragAndDropService);
 
-  private resizedArea:GridWidgetArea|null;
+  private readonly resizedAreaState = signal<GridWidgetArea|null>(null);
 
-  private targetIds:string[];
+  public get resizedArea() {
+    return this.resizedAreaState();
+  }
+
+  private readonly targetIdsState = signal<string[]>([]);
+
+  public get targetIds() {
+    return this.targetIdsState();
+  }
 
   public end(area:GridWidgetArea):Promise<GridResource>|undefined {
     if (!this.resizedArea) {
       return undefined;
     }
 
-    this.resizedArea = null;
+    this.resizedAreaState.set(null);
 
     // user aborted resizing
     if (area.unchangedSize) {
@@ -64,14 +72,14 @@ export class GridResizeService {
   public abort() {
     if (this.resizedArea) {
       this.layout.resetAreas();
-      this.resizedArea = null;
+      this.resizedAreaState.set(null);
     }
   }
 
   public start(resizedArea:GridWidgetArea) {
-    this.resizedArea = resizedArea;
+    this.resizedAreaState.set(resizedArea);
 
-    const resizeTargets = this.layout.gridAreas.filter((area) => {
+    const resizeTargets = this.layout.gridAreas().filter((area) => {
       // All areas on the same row which are after the current column are valid targets.
       const sameRow = area.startRow === this.resizedArea!.startRow
                      && area.startColumn >= this.resizedArea!.startColumn;
@@ -81,7 +89,7 @@ export class GridResizeService {
       // before or after the resized to area.
       const higherRow = area.startRow > this.resizedArea!.startRow
                       && area.startColumn >= this.resizedArea!.startColumn
-                      && this.layout.widgetAreas.some((fixedArea) => fixedArea.startRow === area.startRow
+                      && this.layout.widgetAreas().some((fixedArea) => fixedArea.startRow === area.startRow
                         // before
                         && (fixedArea.endColumn <= this.resizedArea!.startColumn
                           // after
@@ -89,21 +97,22 @@ export class GridResizeService {
       return sameRow || higherRow;
     });
 
-    this.targetIds = resizeTargets
-      .map((area) => area.guid);
+    this.targetIdsState.set(resizeTargets
+      .map((area) => area.guid));
   }
 
   public moving() {
+    const hoveredArea = this.layout.mousedOverArea();
     if (!this.resizedArea
-      || !this.layout.mousedOverArea
-      || !this.targetIds.includes(this.layout.mousedOverArea.guid)) {
+      || !hoveredArea
+      || !this.targetIds.includes(hoveredArea.guid)) {
       return;
     }
 
     this.layout.resetAreas();
 
-    this.resizedArea.endRow = this.layout.mousedOverArea.endRow;
-    this.resizedArea.endColumn = this.layout.mousedOverArea.endColumn;
+    this.resizedArea.endRow = hoveredArea.endRow;
+    this.resizedArea.endColumn = hoveredArea.endColumn;
 
     this.move.down(this.resizedArea, this.resizedArea);
   }
@@ -131,6 +140,6 @@ export class GridResizeService {
   }
 
   private get isAllowed() {
-    return this.layout.gridResource.updateImmediately;
+    return this.layout.gridResource()?.updateImmediately;
   }
 }
