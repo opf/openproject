@@ -37,7 +37,13 @@ import {
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { OpContextMenuLocalsMap } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import {
+  OpContextMenuCloseReason,
+  OpContextMenuItem,
+  OpContextMenuLocalsMap,
+} from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { focusAfterMenuClose } from 'core-app/shared/components/op-context-menu/action-menu/menu-focus';
+import { withOcticon } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-menu-octicons';
 import {
   ContextMenuItemGroups,
   copyIdActionLabel,
@@ -53,6 +59,8 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 import { Placement } from '@floating-ui/dom';
+
+const FOCUSABLE_SELECTOR = '[tabindex]:not([tabindex="-1"]), a[href], button:not([disabled])';
 
 export interface PositionArgs { placement?:Placement, reference?:HTMLElement }
 
@@ -169,6 +177,23 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     }
   }
 
+  public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
+    if (reason === undefined) {
+      super.onClose(focus);
+      return;
+    }
+
+    focusAfterMenuClose(this.afterFocusOn, reason);
+  }
+
+  protected override get afterFocusOn():HTMLElement {
+    return this.element.closest<HTMLElement>(FOCUSABLE_SELECTOR) ?? super.afterFocusOn;
+  }
+
+  protected menuItem(item:OpContextMenuItem):OpContextMenuItem {
+    return withOcticon(item);
+  }
+
   private deleteSelectedWorkPackages() {
     const selected = this.getSelectedWorkPackages();
     const ids = selected.map((wp) => wp.id).filter((id) => id !== null);
@@ -269,6 +294,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       }
     }
 
+    groups.transform((item) => this.menuItem(item));
     return groups;
   }
 }

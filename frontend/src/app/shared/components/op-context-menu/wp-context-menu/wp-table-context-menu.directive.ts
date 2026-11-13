@@ -32,8 +32,7 @@ import { PositionArgs, WorkPackageViewContextMenu } from 'core-app/shared/compon
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
-import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
-import { ContextMenuItemGroups } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
+import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { wpMenuOcticon } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-menu-octicons';
 import { MoveDirection } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/row-mover';
 import type { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
@@ -55,10 +54,8 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     this.addMoveItems();
   }
 
-  protected override buildItemGroups():ContextMenuItemGroups {
-    const groups = super.buildItemGroups();
-    groups.transform((item) => ({ ...item, octicon: wpMenuOcticon(item.icon) }));
-    return groups;
+  protected override menuItem(item:OpContextMenuItem):OpContextMenuItem {
+    return { ...item, octicon: wpMenuOcticon(item.icon) };
   }
 
   private addMoveItems():void {
