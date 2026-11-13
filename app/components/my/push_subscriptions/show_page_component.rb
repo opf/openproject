@@ -101,8 +101,7 @@ module My
         {
           endpointDigest: Digest::SHA256.hexdigest(subscription.endpoint),
           revokeUrl: my_push_subscription_path(subscription),
-          current: bound_to_current_session?(subscription),
-          dormant: subscription.session_id.nil?
+          current: bound_to_current_session?(subscription)
         }
       end
 
