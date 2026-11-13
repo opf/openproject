@@ -27,7 +27,7 @@
 
 import { Badge } from './badge';
 import { Config } from './config';
-import { SIGN_OUT_TIMEOUT_MS } from './constants';
+import { RECONCILE_MIN_INTERVAL_MS, SIGN_OUT_TIMEOUT_MS } from './constants';
 import { NotificationFingerprint } from './notification-fingerprint';
 import { NotificationRules, type SummaryGroup, type SummaryMore } from './notification-rules';
 import { Notifications } from './notifications';
@@ -37,6 +37,8 @@ import { UnreadSummary } from './unread-summary';
 
 export class PushHandler {
   private queue:Promise<void> = Promise.resolve();
+  private pendingReconcile:Promise<void>|undefined;
+  private lastReconcileStartedAt = -Infinity;
   private signOutGeneration = 0;
   private signOutsInProgress = 0;
   private accountId:string|undefined;
@@ -84,10 +86,24 @@ export class PushHandler {
   onMessage(event:ExtendableMessageEvent):void {
     const { type, userId } = (event.data ?? {}) as { type?:string; userId?:string|number };
     if (type === 'reconcile') {
-      event.waitUntil(this.enqueue(() => this.reconcile()));
+      event.waitUntil(this.requestReconcile());
     } else if (type === 'account' && userId) {
       event.waitUntil(this.switchAccount(String(userId)));
     }
+  }
+
+  requestReconcile():Promise<void> {
+    if (this.pendingReconcile) return this.pendingReconcile;
+
+    const delay = this.lastReconcileStartedAt + RECONCILE_MIN_INTERVAL_MS - Date.now();
+    this.pendingReconcile = new Promise<void>((resolve) => setTimeout(resolve, Math.max(0, delay))).then(() =>
+      this.enqueue(() => {
+        this.pendingReconcile = undefined;
+        this.lastReconcileStartedAt = Date.now();
+        return this.reconcile();
+      }),
+    );
+    return this.pendingReconcile;
   }
 
   switchAccount(userId:string):Promise<void> {
