@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
@@ -38,10 +38,6 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
     </span>
   `,
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class OpDateTimeComponent implements OnInit {
   readonly timezoneService = inject(TimezoneService);
