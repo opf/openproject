@@ -112,6 +112,7 @@ class BlockNoteElement extends HTMLElement {
       React.createElement(
         OpBlockNoteContainer,
         {
+          key: hocuspocusProvider.document.guid,
           activeUser: this.parseActiveUser()!,
           readOnly: this.getAttribute('read-only') === 'true',
           openProjectUrl: this.getAttribute('open-project-url') ?? '',
