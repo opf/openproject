@@ -140,7 +140,11 @@ a.button
   &.-narrow
     margin-bottom: 0em
     margin-right: 0.25rem
-    padding: 0.3128em 0.55555em
+    height: var(--control-small-size)
+    padding: 0 var(--control-small-paddingInline-condensed)
+    font-size: var(--text-body-size-small)
+    font-weight: var(--base-text-weight-medium)
+    line-height: calc(var(--control-small-size) - 2 * var(--borderWidth-thin))
 
   &_no-margin
     margin: 0
@@ -182,13 +186,6 @@ html.-browser-windows.-browser-chrome
   font-size: rem-calc(13px)
   @extend .icon-small
   @extend .icon-pulldown
-
-// hack around the old markup (icon class applied on <a>)
-// which is used for toolbar-items to add space after icons inside buttons
-.toolbar-item
-  .button[class*='icon-']
-    &:before
-      margin-right: $button--text-icon-spacing
 
 // Button class to use as a link-like submit button
 .button--link
