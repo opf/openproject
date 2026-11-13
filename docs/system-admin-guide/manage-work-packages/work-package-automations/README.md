@@ -4,51 +4,51 @@ sidebar_navigation:
   title: Automations
   priority: 100
 description: Intelligent workflows with automated actions.
-keywords: custom actions, automations, automated workflow
+keywords: automations, automations, automated workflow
 ---
 
 # Work package automations (Enterprise add-on)
 
-Automated workflows with custom actions support you to easily update several work package attributes at once with a single click on one button.
+Automated workflows with automations support you to easily update several work package attributes at once with a single click on one button.
 
-You can use custom actions to standardize your workflows, avoid errors and reduce manual work for updates.
+You can use automations to standardize your workflows, avoid errors and reduce manual work for updates.
 
 [feature: custom_actions ]
 
-Watch the following video to see how you can configure your custom actions:
+Watch the following video to see how you can configure your automations:
 
 ![Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Custom-Actions.mp4)
 
-## Create custom actions
+## Create automations
 
-Navigate to the -> _Administration_ -> _Work packages_ -> _Custom actions_.
+Navigate to **Administration → Work packages → Automations**.
 
-To create a new custom action button press the + Custom action** button.
+To create an automation, click **+ Automation**.
 
-![custom actions overview in OpenProject administration](openproject_system_guide_work_packages_custom_actions_overview.png)
+![automations overview in OpenProject administration](openproject_system_guide_work_packages_custom_actions_overview.png)
 
-You can now configure the **Conditions** and **Actions** for the custom action button.
+You can now configure the **Conditions** and **Actions** for the automation.
 
-1. Enter a **name** for the custom action button. This name will then appear on the button on the work package.
+1. Enter a **name** for the automation button. This name will then appear on the button on the work package.
 2. Set a **description** (i.e. what are the conditions and actions).
-3. Set the **conditions** for which the custom action button should apply, e.g. in which status, for which role, what type or in which project should the custom action button appear.
-4. Set the **actions** what should happen after pressing the custom action button, e.g. status transitions, and changes to any other attribute.
+3. Set the **conditions** for which the automation button should apply, e.g. in which status, for which role, what type or in which project should the automation button appear.
+4. Set the **actions** what should happen after pressing the automation button, e.g. status transitions, and changes to any other attribute.
 5. **Save** your changes.
 
-![Create a new custom action in OpenProject administration](openproject_system_guide_work_packages_custom_actions_create_new.png)
+![Create a new automation in OpenProject administration](openproject_system_guide_work_packages_custom_actions_create_new.png)
 
 If a work package is then in the defined condition, the button will appear on top of a work package and will apply the actions and changing the attributes of a work package as defined in the configuration when clicking on the button.
 
-![Custom action button in an OpenProject work package](openproject_system_guide_work_packages_custom_actions_button.png)
+![Automation button in an OpenProject work package](openproject_system_guide_work_packages_custom_actions_button.png)
 
-## Update, sort or delete custom actions
+## Update, sort or delete automations
 
-1. Click on the name of a custom action or on the pencil icon in order to update the attributes.
-2. Click the arrow icons in order to sort the order of the custom action button on the work packages.
-3. Delete a custom action.
+1. Click on the name of a automation or on the pencil icon in order to update the attributes.
+2. Click the arrow icons in order to sort the order of the automation button on the work packages.
+3. Delete a automation.
 
-![Update or delete custom actions in OpenProject administration](openproject_system_guide_work_packages_custom_actions_edit_delete.png)
+![Update or delete automations in OpenProject administration](openproject_system_guide_work_packages_custom_actions_edit_delete.png)
 
 > [!TIP]
 >
-> Read this [blog article](https://www.openproject.org/blog/custom-action-self-assign/) for an example of custom actions used within OpenProject team to quickly self-assign a work package.
+> Read this [blog article](https://www.openproject.org/blog/custom-action-self-assign/) for an example of automations used within OpenProject team to quickly self-assign a work package.
