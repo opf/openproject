@@ -262,7 +262,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
 
           <PreviewLabel>{t('workPackageAttribute.dialog.preview')}</PreviewLabel>
           <PreviewBox data-testid="insert-attribute-preview">
-            {workPackage && selected
+            {workPackage && selected && formatOptions
               ? (
                 <AttributePreview
                   resolved={{
