@@ -27,11 +27,6 @@
 
 import type { GroupWithFingerprint, MoreWithFingerprint, SummaryGroup, SummaryMore } from './notification-rules';
 
-/**
- * Fingerprints what each notification shows, so the rules can tell whether an open notification
- * is out of date. The fingerprint covers the activity revision, title and body; a change refreshes
- * the notification silently, while only newer activity makes a sound.
- */
 export class NotificationFingerprint {
   static async of(...parts:string[]):Promise<string> {
     const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(parts)));

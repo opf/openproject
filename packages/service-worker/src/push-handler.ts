@@ -35,48 +35,6 @@ import { PushState } from './push-state';
 import { sw } from './sw-global';
 import { UnreadSummary } from './unread-summary';
 
-/**
- * Turns push wake-ups into notifications and clears them on sign-out.
- *
- * Pushes run one at a time through a queue. Whatever goes wrong, a push ends in a visible
- * notification; for a push that shows nothing Chrome shows a generic notice and Safari may
- * revoke the subscription.
- *
- * ```
- * push event ──► queue ──► GET notification summary
- *                            │
- *                            ├─ signed out (401/403)
- *                            │               clear badge, close and forget all, fallback
- *                            ├─ unavailable .. fallback
- *                            ├─ empty ........ close and forget all, "all read", clear badge
- *                            └─ unread ....... set badge
- *                                              close notifications no longer listed
- *                                              fingerprint groups ► decide ► show each item
- *                                              save state
- *
- * any error on the way ► fallback
- *
- * logout navigation ──► bump sign-out generation, sign-out in progress
- *                         ├─ clear now
- *                         └─ response settled, or 10 s passed ► bump generation again, clear once
- *                                               more behind any push (it may have re-shown some)
- * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
- *
- * reconcile message ──► queue ──► none of its notifications open? refresh the badge only
- *                                  else GET notification summary, same outcomes as a push except that
- *                                  nothing is shown and "all read" is not announced; unavailable
- *                                  does nothing; unread closes unlisted notifications (marked
- *                                  evicted when more are collapsed), sets the badge, saves state
- *
- * account message ──► user differs from the last one this worker instance saw?
- *                       yes: bump sign-out generation; close and forget every notification
- *                            that is not this user's, including "more" and the placeholder;
- *                            set the badge from this user's summary
- *                       no (or first message since the worker started): close and forget only
- *                            work package notifications of other users
- *                       either way, if anything was closed or forgotten: refresh the badge
- * ```
- */
 export class PushHandler {
   private queue:Promise<void> = Promise.resolve();
   private signOutGeneration = 0;
@@ -146,6 +104,7 @@ export class PushHandler {
     return this.queue;
   }
 
+  // A push that shows no notification makes Chrome show a generic one, so every path ends in showNotification.
   async showUnread():Promise<void> {
     try {
       await this.render();

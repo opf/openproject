@@ -25,34 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/*
- * Service worker of the progressive web app.
- *
- *   - Offline fallback: navigations that cannot reach the server get a precached offline page.
- *   - Push wake-ups: a push carries no content, so the worker fetches the unread summary and
- *     renders one notification per work package.
- *   - Notification clicks open or focus a window on the target page.
- *   - Signing out clears every notification, the remembered state and the app badge.
- *   - An open page asks the worker to reconcile, which closes notifications that are no longer
- *     unread without showing or alerting anything.
- *   - A page reporting a different signed-in user closes the previous user's notifications.
- *
- *   OpenProject --push--> push service --wake-up--> worker --GET notification summary--> OpenProject
- *   worker --show / close--> notifications, app badge
- *   logout navigation --> worker --clears--> notifications, remembered state, app badge
- */
 import { Config } from './config';
 import { NotificationClick } from './notification-click';
 import { OfflinePage } from './offline-page';
 import { PushHandler } from './push-handler';
 import { sw } from './sw-global';
 
-/*****************************************************************************************
- * BROWSER EVENTS
- *
- * The browser calls the worker only through these listeners: install, activate, fetch,
- * push, notificationclick and message. Each one delegates to the imported classes.
- *****************************************************************************************/
 const pushHandler = new PushHandler();
 
 sw.addEventListener('install', (event) => {
@@ -74,7 +52,6 @@ sw.addEventListener('activate', (event) => {
   );
 });
 
-// Sign-out is detected on navigation because the worker is the only place that sees every logout, including SSO redirects.
 sw.addEventListener('fetch', (event) => {
   const response = OfflinePage.respondTo(event);
   if (response && pushHandler.isSignOut(event.request)) {

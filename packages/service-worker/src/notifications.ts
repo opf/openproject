@@ -30,7 +30,6 @@ import { Tags } from './constants';
 import type { GroupWithFingerprint, MoreWithFingerprint, NotificationAction } from './notification-rules';
 import { sw } from './sw-global';
 
-/** Lists, closes and shows the worker's notifications; every tag carries the worker's prefix. */
 export class Notifications {
   static async listOpen():Promise<Notification[]> {
     const notifications = await sw.registration.getNotifications();

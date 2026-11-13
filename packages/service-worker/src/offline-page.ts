@@ -27,9 +27,7 @@
 
 import { Config } from './config';
 
-/** Precaches the offline page on install and serves it when a navigation cannot reach the app. */
 export class OfflinePage {
-  // An error status or a redirect fails the install, which keeps the previous worker.
   static async precache():Promise<void> {
     const response = await fetch(new Request(Config.urls.offline, { credentials: 'omit', cache: 'reload' }));
     if (!response.ok || response.redirected) throw new Error('Offline page unavailable');
@@ -44,7 +42,6 @@ export class OfflinePage {
     }
   }
 
-  // The URL stays the requested one so the offline page can retry it.
   static respondTo(event:FetchEvent):Promise<Response>|undefined {
     const { request } = event;
     if (request.mode !== 'navigate' || request.destination !== 'document' || request.method !== 'GET') return undefined;

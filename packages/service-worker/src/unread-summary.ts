@@ -39,7 +39,6 @@ interface SummaryResponse {
   more?:SummaryMore;
 }
 
-/** Fetches the unread summary with the user's session and reduces the response to one outcome. */
 export class UnreadSummary {
   static async fetch():Promise<UnreadOutcome> {
     try {

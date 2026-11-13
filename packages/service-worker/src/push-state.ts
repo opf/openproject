@@ -28,10 +28,6 @@
 import { Config } from './config';
 import type { PushStateMap } from './notification-rules';
 
-/**
- * What the worker last showed, kept in the cache because the worker stops between pushes.
- * Per notification tag it remembers the content fingerprint and the time of the latest activity.
- */
 export class PushState {
   static get shownUrl():string {
     return `${Config.urls.push}?shown`;

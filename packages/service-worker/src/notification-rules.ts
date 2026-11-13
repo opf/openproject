@@ -67,28 +67,6 @@ export interface NotificationDecision {
   state:PushStateMap;
 }
 
-/**
- * Decides what to show for an unread summary, without touching the browser.
- *
- * Each group is one work package. Compared with what was shown before, per group:
- *
- * ```
- * new activity since last shown ............................ alert  (sound, renotify)
- * else: open and its content changed, nothing but the
- *       placeholder open, or it was evicted earlier ........ refresh (silent, same tag)
- * else .................................................... skip
- * ```
- *
- * Only the newest five groups are listed; the rest collapse into one "more" notification. A group
- * that drops out of the list is closed and remembered as evicted, so it returns silently if it
- * comes back. Groups are shown oldest first so the newest ends on top.
- *
- * A push must end with something visible: if nothing qualifies, the newest group is refreshed when
- * it is open, otherwise a quiet "nothing new" notice shows, which does not bring dismissed groups
- * back. The refresh is needed even when that notification is already on screen: Safari only counts
- * a push that calls showNotification and drops every subscription of the site after three pushes
- * that did not.
- */
 export class NotificationRules {
   static activityAt(group:SummaryGroup):number {
     return Number(group.revision.split(':')[1]) || 0;
@@ -177,6 +155,8 @@ export class NotificationRules {
       }
     }
 
+    // Safari drops every subscription of the site after three pushes that did not call
+    // showNotification, so the newest group is refreshed even when it is already on screen.
     if (show.length === 0) {
       show.push(openTags.includes(groups[0].tag) ? { kind: 'refresh', group: groups[0] } : { kind: 'nothingNew' });
     }

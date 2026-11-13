@@ -28,7 +28,6 @@
 import { Config } from './config';
 import { sw } from './sw-global';
 
-/** Focuses an existing controlled window of the app and opens a clicked notification's page there, or in a new one. */
 export class NotificationClick {
   static sameOriginUrl(url:string):string {
     const resolved = new URL(url, sw.location.href);
