@@ -37,6 +37,18 @@ See COPYRIGHT and LICENSE files for more details.
        t(:label_form_configuration_plural)]
     )
     header.with_description { t("form_configurations.index.description") }
+
+    header.with_action_button(
+      tag: :a,
+      scheme: :primary,
+      href: configure_dialog_form_configurations_path,
+      data: { controller: "async-dialog" },
+      mobile_icon: :plus,
+      mobile_label: t("form_configurations.index.actions.create")
+    ) do |button|
+      button.with_leading_visual_icon(icon: :plus)
+      t("form_configurations.index.actions.create")
+    end
   end
 %>
 
