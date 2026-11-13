@@ -30,7 +30,9 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Wikis::TextFormatting::PdfWikiLinkMatcher do
+RSpec.describe Wikis::TextFormatting::PdfWikiLinkMatcher,
+               with_config: { https: true },
+               with_settings: { host_name: "openproject.example.com" } do
   shared_let(:user) { create(:user) }
   shared_let(:provider) { create(:internal_wiki_provider) }
 
@@ -42,10 +44,11 @@ RSpec.describe Wikis::TextFormatting::PdfWikiLinkMatcher do
         identifier: "123abc",
         title: "Stormtrooper training",
         provider:,
-        href: "https://wiki.example.com/Main/WebHome"
+        href:
       )
     )
   end
+  let(:href) { "https://wiki.example.com/Main/WebHome" }
   let(:markdown) { "Read \\[\\[\\[#{provider.id}:123abc\\]\\]\\] first" }
 
   subject(:result) { formatter.apply_markdown_field_macros(markdown, {}).strip }
@@ -78,6 +81,17 @@ RSpec.describe Wikis::TextFormatting::PdfWikiLinkMatcher do
 
       it "replaces the wiki link with a link to the page" do
         expect(result).to eq('Read <a href="https://wiki.example.com/Main/WebHome">Stormtrooper training</a> first')
+      end
+    end
+
+    context "when the page link is relative" do
+      let(:href) { "/projects/demo/wiki/stormtrooper-training" }
+
+      it "links to the page with an absolute URL" do
+        expect(result).to eq(
+          'Read <a href="https://openproject.example.com/projects/demo/wiki/stormtrooper-training">' \
+          "Stormtrooper training</a> first"
+        )
       end
     end
   end

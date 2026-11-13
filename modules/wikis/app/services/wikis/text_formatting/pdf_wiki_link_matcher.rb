@@ -46,7 +46,7 @@ module Wikis
 
         page_info_result.either(
           ->(page_info) do
-            content_tag(:a, href: page_info.href) do
+            content_tag(:a, href: absolute_url(page_info.href)) do
               page_info.title
             end
           end,
@@ -64,6 +64,10 @@ module Wikis
       end
 
       private
+
+      def absolute_url(href)
+        URI.join(Rails.application.root_url, href).to_s
+      end
 
       def resolve_page(provider, identifier)
         return Failure() if provider.nil?
