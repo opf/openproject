@@ -47,7 +47,7 @@ class PushSubscription < ApplicationRecord
   scope :deliverable, -> do
     next active unless session_ttl_enabled?
 
-    active.joins(:session).where("sessions.updated_at >= ?", session_ttl_minutes.ago)
+    active.joins(:session).where(sessions: { updated_at: session_ttl_minutes.ago.. })
   end
   scope :for_session, ->(session_id) { where(session_id:) }
   scope :except_endpoint, ->(endpoint) { where.not(endpoint:) }

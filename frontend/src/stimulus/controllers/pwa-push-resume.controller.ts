@@ -27,7 +27,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { post } from '@rails/request.js';
-import { currentPushSubscription } from 'core-stimulus/helpers/push-subscription-helpers';
+import { currentPushSubscription, pushSupported } from 'core-stimulus/helpers/push-subscription-helpers';
 import { TurboVisitTracker } from 'core-turbo/turbo-visit-tracker';
 
 const ATTEMPTED_STORAGE_KEY = 'push-resume-attempted';
@@ -104,11 +104,7 @@ export default class PwaPushResumeController extends Controller {
   }
 
   private pushAvailable():boolean {
-    return window.isSecureContext
-      && 'PushManager' in window
-      && 'serviceWorker' in navigator
-      && 'Notification' in window
-      && Notification.permission === 'granted';
+    return pushSupported() && Notification.permission === 'granted';
   }
 
   private alreadyAttempted():boolean {

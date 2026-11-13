@@ -44,3 +44,10 @@ export async function currentPushSubscription():Promise<PushSubscription|null|un
   const registration = await navigator.serviceWorker.getRegistration();
   return registration?.pushManager.getSubscription();
 }
+
+export function pushSupported():boolean {
+  return window.isSecureContext
+    && 'PushManager' in window
+    && 'serviceWorker' in navigator
+    && 'Notification' in window;
+}
