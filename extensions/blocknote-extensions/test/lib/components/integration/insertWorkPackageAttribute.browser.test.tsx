@@ -207,6 +207,54 @@ describe('Insert work package attribute', () => {
     expect(attributeProps()).toEqual([]);
   });
 
+  it('keeps a filled form when the overlay is clicked, and drops an untouched one', async () => {
+    const clickOverlay = () => userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+    await clickOverlay();
+    await expect.element(dialog()).toBeVisible();
+    await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
+
+    await userEvent.click(page.getByRole('button', { name: 'Remove selection' }));
+    await clickOverlay();
+    await expect.element(dialog()).not.toBeInTheDocument();
+  });
+
+  it('keeps a chosen display when the overlay is clicked before a work package is chosen', async () => {
+    await openWorkPackageAttributeDialog();
+    await userEvent.click(page.getByRole('radio', { name: 'Label', exact: true }));
+
+    await userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
+    await expect.element(dialog()).toBeVisible();
+    await expect.element(page.getByRole('radio', { name: 'Label', exact: true })).toHaveAttribute('aria-checked', 'true');
+  });
+
+  it('keeps a filled form on Escape', async () => {
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+    await pickAttribute('Status');
+
+    await userEvent.keyboard('{Escape}');
+    await expect.element(dialog()).toBeVisible();
+    await expect.element(preview()).toHaveTextContent('In progress');
+  });
+
+  it('drops an untouched prefilled form when the overlay is clicked', async () => {
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+    await pickAttribute('Status');
+    await userEvent.click(insertButton());
+    await expect.element(dialog()).not.toBeInTheDocument();
+
+    await userEvent.keyboard('{End}');
+    await openWorkPackageAttributeDialog();
+    await expect.element(page.getByText('Prefilled with your last selection')).toBeVisible();
+
+    await userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
+    await expect.element(dialog()).not.toBeInTheDocument();
+  });
+
   it('says so when the attributes cannot be loaded, and loads them again on request', async () => {
     loadServerErrorWorkPackages(mockAttributeWorkPackage.id);
     await openWorkPackageAttributeDialog();
