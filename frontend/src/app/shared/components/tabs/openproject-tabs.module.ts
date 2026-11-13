@@ -35,6 +35,7 @@ import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { PrimerCounterComponent } from 'core-app/shared/components/primer/counter.component';
 import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
+import { TabPanelDirective } from 'core-app/shared/components/tabs/tab-panel.directive';
 
 @NgModule({
   imports: [
@@ -45,9 +46,11 @@ import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/ico
     OpTooltipDirective,
     PrimerCounterComponent,
     PrimerIconButtonComponent,
+    TabPanelDirective,
   ],
   exports: [
     ScrollableTabsComponent,
+    TabPanelDirective,
   ],
   declarations: [
     ScrollableTabsComponent,

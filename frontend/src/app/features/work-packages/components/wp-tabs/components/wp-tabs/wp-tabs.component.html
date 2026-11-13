@@ -1,6 +1,8 @@
 <op-scrollable-tabs
   [tabs]="tabs"
   [currentTabId]="currentTabId"
+  [label]="text.label"
+  [panelId]="panelId()"
   (tabSelected)="tabSelected.emit($event)"
   class="op-work-package-tabs"
-  />
+/>
