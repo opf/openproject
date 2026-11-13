@@ -52,6 +52,7 @@ RSpec.describe WorkPackage do
       w.attributes = { project_id: project.id,
                        type_id: type.id,
                        author_id: user.id,
+                       reporter_id: user.id,
                        status_id: status.id,
                        priority:,
                        subject: "test_create",
@@ -136,6 +137,7 @@ RSpec.describe WorkPackage do
           w.attributes = { project_id: project.id,
                            type_id: type.id,
                            author_id: user.id,
+                           reporter_id: user.id,
                            status_id: status.id,
                            priority:,
                            subject: "test_create" }
