@@ -54,6 +54,7 @@ module CustomFields
             affected_cfs = customized.available_custom_fields.affected_calculated_fields([model.id])
 
             customized.calculate_custom_fields(affected_cfs)
+            # rubocop:disable-next Rails/SaveBang
             customized.save if customized.changed_for_autosave?
           end
         end
