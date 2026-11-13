@@ -71,7 +71,7 @@ en:
           instruction: >
             Configure the IMAP server to transform incoming emails to work packages. Note that OpenProject has no
             mechanism to stop email spoofing, please, ensure that the configured mail server performs SPF, DKIM, and
-            DMARC checks, and quarantines emails that fail those check.
+            DMARC checks, and quarantines emails that fail them.
           title: IMAP server configuration
         name: Server name
         port: Server port
