@@ -106,6 +106,27 @@ export function closestDragBlockingElement(el:Element|null, stopAt:Element|null 
   return null;
 }
 
+const nonTextInputTypes = new Set([
+  'checkbox',
+  'radio',
+  'button',
+  'submit',
+  'reset',
+  'file',
+  'range',
+  'color',
+  'image',
+  'hidden',
+]);
+
+export function isTextEditable(el:EventTarget|null):boolean {
+  if (!(el instanceof HTMLElement)) return false;
+  if (el instanceof HTMLInputElement) return !el.disabled && !nonTextInputTypes.has(el.type);
+  if (el instanceof HTMLTextAreaElement) return !el.disabled;
+
+  return el.isContentEditable;
+}
+
 export function isInsideDisabledControl(el:Element|null):boolean {
   return el?.closest('[aria-disabled="true"]') != null;
 }
