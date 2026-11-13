@@ -62,4 +62,36 @@ RSpec.describe CustomOptions::CreateContract do
       it_behaves_like "contract is invalid", project_id: :additional_values_not_allowed
     end
   end
+
+  context "as a user allowed to manage custom field values in the project" do
+    let(:current_user) { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_in_project :manage_work_package_custom_field_values, project:
+      end
+    end
+
+    context "with a value of the project" do
+      let(:option_project) { project }
+
+      it_behaves_like "contract is valid"
+
+      context "when the custom field does not allow additional project values" do
+        let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Berlin], allow_additional_project_values: false) }
+
+        it_behaves_like "contract is invalid", base: :error_unauthorized, project_id: :additional_values_not_allowed
+      end
+    end
+
+    context "with a value of another project" do
+      let(:option_project) { create(:project) }
+
+      it_behaves_like "contract user is unauthorized"
+    end
+
+    context "with a global value" do
+      it_behaves_like "contract user is unauthorized"
+    end
+  end
 end
