@@ -571,6 +571,31 @@ RSpec.describe "Work package table treegrid semantics", :js do
       wp_table.tab_into_table
       expect_focus_on_header_row
     end
+
+    context "when nothing matches" do
+      let!(:query) do
+        create(:query, user:, project:, column_names: %w[id subject], show_hierarchies: false).tap do |q|
+          q.add_filter("subject", "~", ["Nothing matches"])
+          q.save!
+        end
+      end
+
+      it "withdraws the empty results row while the inline create row is open" do
+        wp_table.visit_query(query)
+        expect(wp_table.treegrid).to have_heading("No work packages to display.", level: 3)
+        wp_table.expect_row_positions(rowcount: 3, rows: [1, 2, 3])
+
+        wp_table.click_inline_create
+        expect(wp_table.treegrid).to have_no_heading("No work packages to display.")
+        expect(wp_table.creation_row).to match_selector(:row, aria: { rowindex: 2 })
+        wp_table.expect_row_positions(rowcount: 2, rows: [1, 2])
+        expect(page).to be_axe_clean.within(wp_table.axe_scope)
+
+        wp_table.press_keys(:escape)
+        expect(wp_table.treegrid).to have_heading("No work packages to display.", level: 3)
+        wp_table.expect_row_positions(rowcount: 3, rows: [1, 2, 3])
+      end
+    end
   end
 
   def expect_focus_on_header_row
