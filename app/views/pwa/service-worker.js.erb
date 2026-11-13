@@ -46,6 +46,7 @@ const Config = Object.freeze({
   push: {
     fetchTimeoutMs: 10000,
     signOutTimeoutMs: 10000,
+    maxRememberedUnlisted: 50,
     fallbackTitle: <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>,
     allReadTitle: <%== I18n.t("pwa.push.all_read_title", locale: Setting.default_language).to_json %>,
     icon: <%== image_path("pwa/icon-192.png").to_json %>,
@@ -78,10 +79,25 @@ class NotificationPlan {
     return Number(group.revision.split(":")[1]) || 0;
   }
 
+  static listedTags({ groups, more }) {
+    const tags = new Set(groups.map((group) => group.tag));
+    if (more) tags.add(Config.tags.more);
+    return tags;
+  }
+
   static staleTags({ groups, more, openTags }) {
-    const keepTags = new Set(groups.map((group) => group.tag));
-    if (more) keepTags.add(Config.tags.more);
-    return openTags.filter((tag) => !keepTags.has(tag));
+    const listed = NotificationPlan.listedTags({ groups, more });
+    return openTags.filter((tag) => !listed.has(tag));
+  }
+
+  static pruneUnlisted({ state, groups, more }) {
+    const listed = NotificationPlan.listedTags({ groups, more });
+    const entries = Object.entries(state);
+    const unlisted = entries
+      .filter(([tag]) => !listed.has(tag))
+      .sort(([, a], [, b]) => (b.at || 0) - (a.at || 0))
+      .slice(0, Config.push.maxRememberedUnlisted);
+    return Object.fromEntries([...entries.filter(([tag]) => listed.has(tag)), ...unlisted]);
   }
 
   static isNewActivity(previous, at) {
@@ -105,9 +121,15 @@ class NotificationPlan {
     return evicted;
   }
 
-  static stateAfterClose({ closeTags, more, state }) {
+  static stateAfterClose({ closeTags, groups, more, state }) {
     const remaining = Object.fromEntries(Object.entries(state).filter(([tag]) => !closeTags.includes(tag)));
-    return more ? { ...remaining, ...NotificationPlan.evictedState(closeTags, state) } : remaining;
+    if (!more) return remaining;
+
+    return NotificationPlan.pruneUnlisted({
+      state: { ...remaining, ...NotificationPlan.evictedState(closeTags, state) },
+      groups,
+      more,
+    });
   }
 
   static for({ groups, more, openTags, state }) {
@@ -142,7 +164,8 @@ class NotificationPlan {
       show.push(openTags.includes(groups[0].tag) ? { kind: "refresh", group: groups[0] } : { kind: "nothingNew" });
     }
 
-    return { show, state: more ? { ...state, ...nextState } : nextState };
+    const nextRemembered = more ? NotificationPlan.pruneUnlisted({ state: { ...state, ...nextState }, groups, more }) : nextState;
+    return { show, state: nextRemembered };
   }
 }
 
@@ -401,7 +424,7 @@ class PushHandler {
     const { state, closeTags } = await this.closeStale(summary);
     if (closeTags.length === 0) return;
 
-    await PushState.write(NotificationPlan.stateAfterClose({ closeTags, more: summary.more, state }));
+    await PushState.write(NotificationPlan.stateAfterClose({ closeTags, groups: summary.groups, more: summary.more, state }));
   }
 
   async showUnreadGroups(summary) {
