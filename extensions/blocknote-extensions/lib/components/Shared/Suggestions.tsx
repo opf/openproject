@@ -238,7 +238,7 @@ export const Suggestions = ({
 
             {leadingOf?.(option)}
 
-            <SuggestionLabel>{option.label}</SuggestionLabel>
+            <SuggestionLabel title={option.label}>{option.label}</SuggestionLabel>
 
             {option.favored && (
               <FavoredMark>
