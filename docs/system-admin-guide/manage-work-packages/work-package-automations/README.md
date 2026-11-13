@@ -1,13 +1,13 @@
 ---
 
 sidebar_navigation:
-  title: Custom actions
-  priority: 200
-description: Intelligent workflows with custom actions.
-keywords: custom actions
+  title: Automations
+  priority: 100
+description: Intelligent workflows with automated actions.
+keywords: custom actions, automations, automated worfklow
 ---
 
-# Automated workflows with custom actions (Enterprise add-on)
+# Work package automations (Enterprise add-on)
 
 Automated workflows with custom actions support you to easily update several work package attributes at once with a single click on one button.
 

@@ -2,7 +2,7 @@
 
 sidebar_navigation:
   title: Workflows
-  priority: 700
+  priority: 600
 description: Manage Work package workflows.
 keywords: work package workflows
 ---

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Types
-  priority: 800
+  priority: 900
 description: Configure work package types in OpenProject.
 keywords: work package types, work package form, related work package, work package table, relations, pdf export, automatic subject, workflows
 ---
