@@ -46,6 +46,7 @@ const Config = Object.freeze({
   push: {
     fetchTimeoutMs: 10000,
     signOutTimeoutMs: 10000,
+    reconcileMinIntervalMs: 10000,
     maxRememberedUnlisted: 50,
     fallbackTitle: <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>,
     allReadTitle: <%== I18n.t("pwa.push.all_read_title", locale: Setting.default_language).to_json %>,
@@ -293,6 +294,8 @@ class NotificationFingerprint {
 class PushHandler {
   constructor() {
     this.queue = Promise.resolve();
+    this.pendingReconcile = undefined;
+    this.lastReconcileStartedAt = -Infinity;
     this.signOutGeneration = 0;
     this.signOutsInProgress = 0;
     this.accountId = undefined;
@@ -331,10 +334,24 @@ class PushHandler {
   onMessage(event) {
     const { type, userId } = event.data || {};
     if (type === "reconcile") {
-      event.waitUntil(this.enqueue(() => this.reconcile()));
+      event.waitUntil(this.requestReconcile());
     } else if (type === "account" && userId) {
       event.waitUntil(this.switchAccount(String(userId)));
     }
+  }
+
+  requestReconcile() {
+    if (this.pendingReconcile) return this.pendingReconcile;
+
+    const delay = this.lastReconcileStartedAt + Config.push.reconcileMinIntervalMs - Date.now();
+    this.pendingReconcile = new Promise((resolve) => setTimeout(resolve, Math.max(0, delay))).then(() =>
+      this.enqueue(() => {
+        this.pendingReconcile = undefined;
+        this.lastReconcileStartedAt = Date.now();
+        return this.reconcile();
+      }),
+    );
+    return this.pendingReconcile;
   }
 
   switchAccount(userId) {
