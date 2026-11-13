@@ -71,12 +71,6 @@ Rails.application.configure do
     end
 
     OpenTelemetry::SDK.configure do |c|
-      c.add_span_processor(
-        OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
-          OpenTelemetry::Exporter::OTLP::Exporter.new
-        )
-      )
-
       c.resource = OpenTelemetry::SDK::Resources::Resource.create(
         {
           OpenTelemetry::SemConv::Incubating::DEPLOYMENT::DEPLOYMENT_ENVIRONMENT => Rails.env,
