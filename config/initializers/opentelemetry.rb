@@ -35,7 +35,7 @@ Rails.application.configure do
 
     require "opentelemetry/sdk"
     require "opentelemetry-exporter-otlp"
-    
+
     # Available Ruby instrumentations can be found here:
     # https://github.com/open-telemetry/opentelemetry-ruby-contrib/tree/main/instrumentation
     require "opentelemetry-instrumentation-action_mailer" # rails
@@ -91,7 +91,7 @@ Rails.application.configure do
 
           # If available in PG::Result, include number of rows returned/affected.
           db_response_returned_rows: true,
-          db_response_affected_rows: true,
+          db_response_affected_rows: true
         }
       )
     end
