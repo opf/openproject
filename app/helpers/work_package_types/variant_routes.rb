@@ -373,6 +373,13 @@ module WorkPackageTypes
                                    **)
     end
 
+    def variant_projects_menu_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :type_projects_menu_path,
+                                   named: :type_variant_projects_menu_path,
+                                   **)
+    end
+
     def start_variant_form_configuration_path(variant, **)
       administration_variant_route(variant,
                                    base: :start_type_form_configuration_path,

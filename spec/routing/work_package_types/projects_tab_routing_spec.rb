@@ -75,6 +75,11 @@ RSpec.describe "Work package type projects tab routes" do
         .to route_to("work_package_types/projects_tab/links/candidates#index", **ids)
     end
 
+    it "loads a row's menu through the menu resource" do
+      expect(get: "#{prefix}/projects/menu")
+        .to route_to("work_package_types/projects_tab/menus#show", **ids)
+    end
+
     it "no longer offers the legacy link actions" do
       expect(get: "#{prefix}/projects/new_link").not_to be_routable
       expect(get: "#{prefix}/projects/tree").not_to be_routable

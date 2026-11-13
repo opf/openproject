@@ -79,65 +79,17 @@ module WorkPackageTypes
       end
 
       def action_menu
-        render(Primer::Alpha::ActionMenu.new(anchor_align: :end, test_selector: "type-projects-row-menu")) do |menu|
-          menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible)
-          switch_variant_item(menu) if table.switchable?
-          remove_item(menu)
-          bulk_switch_item(menu) if table.switchable?
-          bulk_remove_item(menu)
-        end
-      end
-
-      def switch_variant_item(menu)
-        menu.with_item(
-          label: I18n.t("types.edit.projects.actions.switch_variant"),
-          tag: :a,
-          href: new_variant_projects_switch_path(table_variant, project_ids: [project.id]),
-          content_arguments: { data: { controller: "async-dialog" } },
-          data: { type_projects_selection_scope: "single" }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :"list-ordered")
-        end
-      end
-
-      def remove_item(menu)
-        menu.with_item(
-          label: I18n.t("types.edit.projects.actions.remove_from_project"),
-          scheme: :danger,
-          tag: :a,
-          href: new_variant_projects_link_deletion_path(table_variant, project_ids: [project.id]),
-          content_arguments: { data: { controller: "async-dialog" } },
-          data: { type_projects_selection_scope: "single" }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :trash)
-        end
-      end
-
-      # The selection's ids are only known in the browser, which completes these links when the menu opens.
-      def bulk_switch_item(menu)
-        menu.with_item(
-          label: I18n.t("types.edit.projects.actions.switch_variant"),
-          tag: :a,
-          href: new_variant_projects_switch_path(table_variant),
-          content_arguments: { data: { controller: "async-dialog", type_projects_selection_action: "switch" } },
-          data: { type_projects_selection_scope: "batch" },
-          hidden: true
-        ) do |item|
-          item.with_leading_visual_icon(icon: :"list-ordered")
-        end
-      end
-
-      def bulk_remove_item(menu)
-        menu.with_item(
-          label: I18n.t("types.edit.projects.actions.remove_from_projects"),
-          scheme: :danger,
-          tag: :a,
-          href: new_variant_projects_link_deletion_path(table_variant),
-          content_arguments: { data: { controller: "async-dialog", type_projects_selection_action: "remove" } },
-          data: { type_projects_selection_scope: "batch" },
-          hidden: true
-        ) do |item|
-          item.with_leading_visual_icon(icon: :trash)
+        render(
+          Primer::Alpha::ActionMenu.new(
+            menu_id: RowMenuComponent.menu_id(project),
+            src: variant_projects_menu_path(table_variant, ids: [project.id], invoker_id: project.id),
+            anchor_align: :end,
+            test_selector: "type-projects-row-menu"
+          )
+        ) do |menu|
+          menu.with_show_button(icon: "kebab-horizontal",
+                                "aria-label": t("js.types.projects.action_menu.menu_label", count: 1),
+                                scheme: :invisible)
         end
       end
     end

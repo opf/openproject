@@ -329,17 +329,19 @@ RSpec.describe "Work package type projects tab", :js do
   end
 
   describe "acting on several projects at once" do
-    it "acts on the selection from a selected row's kebab, and on the row alone once it left the selection" do
+    it "acts on the selection from a selected row's kebab, and on an unselected row alone" do
       visit edit_type_projects_path(type_id: type.id)
 
       toggle(on_base)
       toggle(on_hardware)
-      within(row(on_hardware)) { click_button accessible_name: "More" }
+      within(row(on_hardware)) { click_button accessible_name: "Project actions" }
 
       expect(page).to have_css("[role='menuitem']", text: "Remove type from these projects", visible: :visible)
+      expect(row(on_hardware))
+        .to have_css("tool-tip", visible: :all) { it.text(:all) == "Actions for 2 selected projects" }
 
       row(on_base).click(x: 6, y: 6, offset: :position)
-      within(row(on_hardware)) { click_button accessible_name: "More" }
+      within(row(on_hardware)) { click_button accessible_name: "Project actions" }
 
       expect(page).to have_css("[role='menuitem']", text: "Remove type from this project", visible: :visible)
       expect(page).to have_no_css("[role='menuitem']", text: "Remove type from these projects", visible: :visible)
