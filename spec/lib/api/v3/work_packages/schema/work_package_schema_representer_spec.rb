@@ -752,7 +752,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:path) { "reporter" }
         let(:type) { "User" }
         let(:name) { I18n.t("attributes.reporter") }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { false }
         let(:location) { "_links" }
       end

@@ -32,6 +32,7 @@ require_relative "eager_loading_mock_wrapper"
 
 RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
   let(:project) { create(:project) }
+  let(:reporter) { create(:user) }
   let(:responsible) { create(:user) }
   let(:assignee) { create(:user) }
   let(:category) { create(:category) }
@@ -40,6 +41,7 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
     create(:work_package,
            project:,
            responsible:,
+           reporter:,
            assigned_to: assignee,
            version:,
            category:)
