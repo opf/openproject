@@ -53,7 +53,7 @@ export class BrowserNotificationSyncService {
       void this.post({ type: 'account', userId }).catch(() => undefined);
     }
 
-    this.ianBell.loadedUnread$
+    this.ianBell.loadedUnreadUpdates$
       .pipe(filter((count) => count >= 0))
       .subscribe(() => this.requestReconcile());
   }
