@@ -31,36 +31,45 @@ module WorkPackages::Scopes::LeftJoinSelfAndDescendants
   extend ActiveSupport::Concern
 
   class_methods do
-    def left_join_self_and_descendants(user, work_package = nil)
-      joins(join_descendants(user, work_package).join_sources)
+    def left_join_self_and_descendants(work_package = nil)
+      joins(join_descendants(work_package).join_sources)
+    end
+
+    # Sums +expression+ over the joined descendants that +user+ may see.
+    #
+    # The visibility check has to stay in the aggregate rather than the join condition: there it
+    # matches most of the work package table, leaving PostgreSQL unable to bound the descendants
+    # by the hierarchy, so it scans all work packages once per aggregate.
+    def sum_over_visible_descendants(user, expression)
+      "SUM(CASE WHEN #{allowed_to_view_work_packages(user).to_sql} THEN #{expression} END)"
+    end
+
+    # The alias the descendants are joined under, for callers adding their own conditions on them.
+    def wp_descendants_table
+      arel_table.alias("descendants")
     end
 
     private
 
-    def join_descendants(user, work_package)
-      wp_table
+    def join_descendants(work_package)
+      arel_table
         .outer_join(hierarchies_table)
         .on(hierarchies_join_condition(work_package))
         .outer_join(wp_descendants_table)
-        .on(hierarchy_and_allowed_condition(user))
+        .on(self_or_descendant_condition)
     end
 
     def hierarchy_of_wp_condition
-      wp_table[:id].eq(hierarchies_table[:ancestor_id])
+      arel_table[:id].eq(hierarchies_table[:ancestor_id])
     end
 
     def hierarchies_join_condition(work_package)
       if work_package
         hierarchy_of_wp_condition
-          .and(wp_table[:id].eq(work_package.id))
+          .and(arel_table[:id].eq(work_package.id))
       else
         hierarchy_of_wp_condition
       end
-    end
-
-    def hierarchy_and_allowed_condition(user)
-      self_or_descendant_condition
-        .and(allowed_to_view_work_packages(user))
     end
 
     def allowed_to_view_work_packages(user)
@@ -73,16 +82,8 @@ module WorkPackages::Scopes::LeftJoinSelfAndDescendants
       hierarchies_table[:descendant_id].eq(wp_descendants_table[:id])
     end
 
-    def wp_table
-      @wp_table ||= WorkPackage.arel_table
-    end
-
     def hierarchies_table
-      @relations || WorkPackageHierarchy.arel_table
-    end
-
-    def wp_descendants_table
-      @wp_descendants_table ||= wp_table.alias("descendants")
+      WorkPackageHierarchy.arel_table
     end
   end
 end
