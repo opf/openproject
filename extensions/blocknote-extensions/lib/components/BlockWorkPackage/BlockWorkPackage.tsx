@@ -190,7 +190,7 @@ export const BlockWorkPackageComponent = ({
   );
 
   return (
-    <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} {...blockDragProps(editor, block.id)}>
+    <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected && Boolean(block.props.wpid)} data-selected={isBlockSelected || undefined} {...blockDragProps(editor, block.id)}>
       <div contentEditable={false}>
         {pendingMode && blockEl && (
           <PendingWorkPackagePopover
