@@ -28,12 +28,11 @@
 #++
 
 module CustomOptions
-  class DeleteContract < ::DeleteContract
-    delete_permission -> {
-      (user.admin? && user.active?) ||
-        (model.project_id.present? &&
-          model.custom_field.allow_additional_project_values? &&
-          user.allowed_in_project?(:manage_work_package_custom_field_values, model.project))
-    }
+  class DeleteContract < BaseContract
+    protected
+
+    def validate_model?
+      false
+    end
   end
 end
