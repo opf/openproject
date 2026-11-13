@@ -46,11 +46,22 @@ RSpec.describe Projects::Settings::WorkPackages::CustomFields::OverviewComponent
            name: "Supplier", types: [feature], project_level_value_management: true)
   end
   let(:permissions) { %i[manage_work_package_custom_field_values] }
+  let(:query) { Queries::WorkPackageCustomFields::WorkPackageCustomFieldQuery.new.tap { |query| query.project = project } }
 
   current_user { create(:user, member_with_permissions: { project => permissions }) }
 
+  it "lists only the fields matching the query" do
+    query.where(:field_format, "=", %w[list])
+
+    render_inline(described_class.new(project:, query:))
+
+    expect(page).to have_text("Department")
+    expect(page).to have_no_text("Supplier")
+    expect(page).to have_no_text("SKU")
+  end
+
   it "links the fields whose values can be managed in the project" do
-    render_inline(described_class.new(project:))
+    render_inline(described_class.new(project:, query:))
 
     expect(page).to have_link("Supplier", href: "#")
     expect(page).to have_link("Department", href: "#")
@@ -58,7 +69,7 @@ RSpec.describe Projects::Settings::WorkPackages::CustomFields::OverviewComponent
   end
 
   it "shows the format of each field" do
-    render_inline(described_class.new(project:))
+    render_inline(described_class.new(project:, query:))
 
     expect(find_test_selector("project-custom-field-#{supplier.id}")).to have_text("Hierarchy")
     expect(find_test_selector("project-custom-field-#{department.id}")).to have_text("List")
@@ -69,7 +80,7 @@ RSpec.describe Projects::Settings::WorkPackages::CustomFields::OverviewComponent
     let(:permissions) { %i[manage_types] }
 
     it "links no field" do
-      render_inline(described_class.new(project:))
+      render_inline(described_class.new(project:, query:))
 
       expect(page).to have_no_link("Supplier")
       expect(page).to have_no_link("Department")
@@ -82,7 +93,7 @@ RSpec.describe Projects::Settings::WorkPackages::CustomFields::OverviewComponent
     let!(:own_option) { department.custom_options.create!(value: "Own", project:) }
 
     it "counts only the project's own values" do
-      render_inline(described_class.new(project:))
+      render_inline(described_class.new(project:, query:))
 
       expect(find_test_selector("project-custom-field-#{supplier.id}")).to have_text("2 project-specific values")
       expect(find_test_selector("project-custom-field-#{department.id}")).to have_text("1 project-specific value")
