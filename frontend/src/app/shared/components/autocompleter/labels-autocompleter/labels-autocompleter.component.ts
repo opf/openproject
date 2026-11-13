@@ -25,17 +25,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { keyBy } from 'lodash-es';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   OpAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import {
   LabelsAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/labels-autocompleter/labels-autocompleter-template.component';
@@ -66,32 +65,10 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
 
   addTagText = this.I18n.t('js.autocompleter.create_label');
 
-  readonly currentUserService = inject(CurrentUserService);
-
-  private readonly projectId$ = new BehaviorSubject<string|undefined>(undefined);
-
-  @Input()
-  public set projectId(value:string|undefined) {
-    this.projectId$.next(value);
-  }
-
-  public get projectId():string|undefined {
-    return this.projectId$.value;
-  }
-
   ngOnInit():void {
     super.ngOnInit();
     this.applyTemplates(LabelsAutocompleterTemplateComponent);
-
-    this
-      .projectId$
-      .pipe(
-        switchMap((projectId) => (projectId ? this.currentUserService.hasCapabilities$('work_packages/update', projectId) : of(false))),
-        this.untilDestroyed(),
-      )
-      .subscribe((canCreateLabels) => {
-        this.addTag = canCreateLabels ? this.createLabel.bind(this) : false;
-      });
+    this.addTag = this.createLabel.bind(this);
   }
 
   public getLabels(searchTerm?:string):Observable<ILabelAutocompleteItem[]> {

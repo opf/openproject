@@ -30,21 +30,16 @@ import { TestBed } from '@angular/core/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { of } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { LabelsAutocompleterComponent } from './labels-autocompleter.component';
 
 describe('LabelsAutocompleterComponent', () => {
   let component:LabelsAutocompleterComponent;
-  let currentUser:{ hasCapabilities$:ReturnType<typeof vi.fn> };
 
   const i18nStub = { t: (key:string) => key };
 
   beforeEach(async () => {
-    currentUser = { hasCapabilities$: vi.fn(() => of(true)) };
-
     await TestBed.configureTestingModule({
       declarations: [LabelsAutocompleterComponent],
       imports: [NgSelectModule],
@@ -54,7 +49,6 @@ describe('LabelsAutocompleterComponent', () => {
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         { provide: I18nService, useValue: i18nStub },
-        { provide: CurrentUserService, useValue: currentUser },
       ],
     }).compileComponents();
 
@@ -77,31 +71,11 @@ describe('LabelsAutocompleterComponent', () => {
     expect(component.createLabel('  Needs triage ')).toEqual({ id: null, name: 'Needs triage', href: null });
   });
 
-  it('enables addTag once the project grants work_packages/update, without throwing change-detection errors', () => {
+  it('offers to create labels without throwing change-detection errors', () => {
     const fixture = TestBed.createComponent(LabelsAutocompleterComponent);
-    fixture.componentRef.setInput('projectId', '1');
 
     expect(() => fixture.detectChanges()).not.toThrow();
     expect(typeof fixture.componentInstance.addTag).toBe('function');
-    expect(currentUser.hasCapabilities$).toHaveBeenCalledWith('work_packages/update', '1');
-  });
-
-  it('does not offer addTag when the project withholds work_packages/update', () => {
-    currentUser.hasCapabilities$.mockReturnValue(of(false));
-
-    const fixture = TestBed.createComponent(LabelsAutocompleterComponent);
-    fixture.componentRef.setInput('projectId', '1');
-    fixture.detectChanges();
-
-    expect(fixture.componentInstance.addTag).toBe(false);
-  });
-
-  it('does not offer addTag or query capabilities without a project', () => {
-    const fixture = TestBed.createComponent(LabelsAutocompleterComponent);
-    fixture.detectChanges();
-
-    expect(fixture.componentInstance.addTag).toBe(false);
-    expect(currentUser.hasCapabilities$).not.toHaveBeenCalled();
   });
 
   it('treats a label with no href and a persisted label with the same name as the same label, ignoring case', () => {
