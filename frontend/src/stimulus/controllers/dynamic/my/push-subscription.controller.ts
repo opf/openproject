@@ -29,7 +29,7 @@ import { Controller } from '@hotwired/stimulus';
 import { announce } from '@primer/live-region-element';
 import { LIVE_REGION_ANNOUNCEMENT_DELAY } from '../../flash.controller';
 import { destroy, post } from '@rails/request.js';
-import { boundToKey, decodeBase64Url } from 'core-stimulus/helpers/push-subscription-helpers';
+import { boundToKey, currentPushSubscription, decodeBase64Url, pushSupported } from 'core-stimulus/helpers/push-subscription-helpers';
 
 interface KnownSubscription {
   endpointDigest:string;
@@ -193,8 +193,7 @@ export default class PushSubscriptionController extends Controller {
     this.setBusy(true);
 
     try {
-      const registration = await navigator.serviceWorker.getRegistration();
-      const subscription = await registration?.pushManager.getSubscription();
+      const subscription = await currentPushSubscription();
       if (!isLatestRun()) return;
 
       const known = subscription ? await this.knownToServer(subscription) : undefined;
@@ -392,10 +391,7 @@ export default class PushSubscriptionController extends Controller {
   }
 
   private supported():boolean {
-    return window.isSecureContext
-      && 'PushManager' in window
-      && 'serviceWorker' in navigator
-      && 'Notification' in window;
+    return pushSupported();
   }
 
   private setBusy(busy:boolean):void {
