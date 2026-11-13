@@ -46,13 +46,13 @@ module WorkPackages::Scopes::LeftJoinSelfAndDescendants
 
     # The alias the descendants are joined under, for callers adding their own conditions on them.
     def wp_descendants_table
-      @wp_descendants_table ||= wp_table.alias("descendants")
+      arel_table.alias("descendants")
     end
 
     private
 
     def join_descendants(work_package)
-      wp_table
+      arel_table
         .outer_join(hierarchies_table)
         .on(hierarchies_join_condition(work_package))
         .outer_join(wp_descendants_table)
@@ -60,13 +60,13 @@ module WorkPackages::Scopes::LeftJoinSelfAndDescendants
     end
 
     def hierarchy_of_wp_condition
-      wp_table[:id].eq(hierarchies_table[:ancestor_id])
+      arel_table[:id].eq(hierarchies_table[:ancestor_id])
     end
 
     def hierarchies_join_condition(work_package)
       if work_package
         hierarchy_of_wp_condition
-          .and(wp_table[:id].eq(work_package.id))
+          .and(arel_table[:id].eq(work_package.id))
       else
         hierarchy_of_wp_condition
       end
@@ -80,10 +80,6 @@ module WorkPackages::Scopes::LeftJoinSelfAndDescendants
 
     def self_or_descendant_condition
       hierarchies_table[:descendant_id].eq(wp_descendants_table[:id])
-    end
-
-    def wp_table
-      @wp_table ||= WorkPackage.arel_table
     end
 
     def hierarchies_table
