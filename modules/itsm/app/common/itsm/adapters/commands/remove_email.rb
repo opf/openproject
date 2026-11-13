@@ -33,13 +33,14 @@ module ITSM
       class RemoveEmail < BaseCommand
         private
 
+        # EXPUNGE permanently deletes every email flagged as deleted, including those flagged by other
+        # clients. UID EXPUNGE (RFC 4315) deletes only ours; without it the email stays flagged.
         def request(imap, uid:)
-          imap.uid_store(uid, "+FLAGS", [:Deleted])
-          imap.uid_expunge(uid) if expunge_by_uid?(imap)
+          imap.uid_store(uid, "+FLAGS", %i[Seen Deleted])
+          imap.uid_expunge(uid) if uid_expunge?(imap)
         end
 
-        # Plain EXPUNGE would also remove emails other clients flagged as deleted.
-        def expunge_by_uid?(imap) = imap.capable?("UIDPLUS") || imap.capable?("IMAP4rev2")
+        def uid_expunge?(imap) = imap.capable?("UIDPLUS") || imap.capable?("IMAP4rev2")
       end
     end
   end

@@ -103,7 +103,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
 
     it "creates a work package and removes the email from the server" do
       expect { result }.to change { WorkPackage.where(project: mailbox.project).count }.by(1)
-      expect(imap).to have_received(:uid_store).with(1, "+FLAGS", [:Deleted])
+      expect(imap).to have_received(:uid_store).with(1, "+FLAGS", %i[Seen Deleted])
       expect(imap).to have_received(:uid_expunge).with(1)
     end
   end

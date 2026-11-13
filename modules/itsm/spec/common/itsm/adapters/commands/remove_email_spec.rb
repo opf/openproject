@@ -46,7 +46,7 @@ RSpec.describe ITSM::Adapters::Commands::RemoveEmail do
 
   it "expunges only the given email" do
     expect(result).to be_success
-    expect(imap).to have_received(:uid_store).with(42, "+FLAGS", [:Deleted])
+    expect(imap).to have_received(:uid_store).with(42, "+FLAGS", %i[Seen Deleted])
     expect(imap).to have_received(:uid_expunge).with(42)
   end
 
@@ -55,7 +55,7 @@ RSpec.describe ITSM::Adapters::Commands::RemoveEmail do
 
     it "only flags the email as deleted" do
       expect(result).to be_success
-      expect(imap).to have_received(:uid_store).with(42, "+FLAGS", [:Deleted])
+      expect(imap).to have_received(:uid_store).with(42, "+FLAGS", %i[Seen Deleted])
       expect(imap).not_to have_received(:uid_expunge)
     end
   end
