@@ -31,6 +31,8 @@ import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-ev
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource, queryFilterValueId } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { SelectionControl } from 'core-app/shared/components/autocompleter/selection/selection-adapter';
+import { createProjectFilterSelectionAdapter } from '../filter-selection';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { firstValueFrom } from 'rxjs';
@@ -49,9 +51,22 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
 
   @Input() public shouldFocus = false;
 
-  @Input() public filter:QueryFilterInstanceResource;
+  @Input() public set filter(filter:QueryFilterInstanceResource) {
+    this.currentFilter = filter;
+    this.selection.bridge.load(filter.values);
+  }
+
+  public get filter():QueryFilterInstanceResource {
+    return this.currentFilter;
+  }
+
+  private currentFilter:QueryFilterInstanceResource;
+
+  private latestLookup = 0;
 
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this), 0);
+
+  readonly selection = createProjectFilterSelectionAdapter();
 
   additionalProjectApiFilters:IAPIFilter[] = [];
 
@@ -65,12 +80,20 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
     }
   }
 
-  async onChange(val:unknown):Promise<void> {
-    if (val === this.filter.values || val === undefined || !Array.isArray(val)) {
+  async onChange(val:unknown, control?:SelectionControl):Promise<void> {
+    if (val === this.filter.values || val === undefined) {
       return;
     }
 
-    if (val.length === 0) {
+    this.selection.bridge.accept(val, control);
+    const state = this.selection.state();
+    if (state.kind !== 'ready') {
+      return;
+    }
+
+    const lookup = ++this.latestLookup;
+
+    if (state.value.length === 0) {
       this.filter.values.length = 0;
       this.filterChanged.emit(this.filter);
       return;
@@ -81,12 +104,17 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
     const projects = await firstValueFrom(
       this.apiV3Service.projects.list({
         filters: [
-          ['id', '=', val.flatMap(value => queryFilterValueId(value) ?? []).map(String)],
+          ['id', '=', state.value.flatMap((reference) => queryFilterValueId(reference) ?? []).map(String)],
         ],
       }),
     );
 
+    if (lookup !== this.latestLookup) {
+      return;
+    }
+
     this.filter.values = projects.elements;
+    this.selection.bridge.load(projects.elements);
     this.filterChanged.emit(this.filter);
   }
 }

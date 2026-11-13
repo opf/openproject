@@ -34,6 +34,13 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
+import {
+  UserSelection,
+  createUserSelectionAdapter,
+  userSelectionToResource,
+} from 'core-app/shared/components/autocompleter/selection/user-selection';
+
+const unloaded = Symbol('unloaded');
 
 @Component({
   templateUrl: './user-edit-field.component.html',
@@ -45,28 +52,41 @@ export class UserEditFieldComponent extends AutocompleterEditFieldComponent impl
   readonly http = inject(HttpClient);
   readonly halResourceService = inject(HalResourceService);
 
+  readonly selection = createUserSelectionAdapter();
+
   isNew = isNewResource(this.resource);
 
   url:string;
+
+  private loadedValue:unknown = unloaded;
+
+  ngOnInit():void {
+    this.selection.changes$
+      .pipe(this.untilDestroyed())
+      .subscribe((value) => this.onSelectionChange(value));
+
+    super.ngOnInit();
+  }
 
   initialize():void {
     const link = this.schema.allowedValues as CallableHalLink|undefined;
     if (link) {
       this.url = link.$link.href!;
     }
+
+    if (this.value !== this.loadedValue) {
+      this.loadedValue = this.value;
+      this.selection.bridge.load(this.value);
+    }
   }
 
-  public onModelChange(user:unknown):unknown {
-    if (user !== undefined && (typeof user !== 'object' || Array.isArray(user))) { return; }
-    if (user) {
-      // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
-      // is part of the older HalResource stack
-      const newUser = { ...user };
-      this.value = this.halResourceService.createHalResourceOfType('user', newUser);
-    } else {
-      this.value = null;
-    }
+  onSelectionChange(value:UserSelection):void {
+    this.value = userSelectionToResource(value, {
+      halResourceService: this.halResourceService,
+      apiV3Service: this.apiV3Service,
+    });
+    this.loadedValue = this.value;
 
-    return this.handler.handleUserSubmit();
+    void this.handler.handleUserSubmit();
   }
 }

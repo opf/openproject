@@ -2,12 +2,16 @@
   class="inline-label ng-select-container"
   id="div-values-{{filter.id}}"
 >
-  <op-project-autocompleter [model]="filter.values"
+  <op-project-autocompleter #projectAutocompleter [model]="selection.model()"
     [focusDirectly]="shouldFocus"
     [multiple]="true"
     [id]="'values-' + filter.id"
     class="advanced-filters--ng-select -multi-select"
-    (change)="onChange($event)"
+    [inputAttrs]="selection.state().kind === 'invalid' | selectionInputAttrs: 'values-' + filter.id + '-selection-error'"
+    (change)="onChange($event, projectAutocompleter)"
     [filters]="additionalProjectApiFilters"
    />
+  @if (selection.state().kind === 'invalid') {
+    <op-selection-error [id]="'values-' + filter.id + '-selection-error'" />
+  }
 </div>

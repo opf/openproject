@@ -1,15 +1,21 @@
 @if (url) {
-  <op-project-autocompleter [ngClass]="'inline-edit--field ' + handler.fieldName"
-    [model]="value"
+  <op-project-autocompleter #projectAutocompleter [ngClass]="'inline-edit--field ' + handler.fieldName"
+    [model]="selection.model()"
+    [compareWith]="selection.bridge.compareWith"
+    [trackByFn]="selection.bridge.trackBy"
     [url]="url"
     [filters]="APIFilters"
     [focusDirectly]="!(handler.inEditMode || isNew)"
     [openDirectly]="!isNew"
     [isInlineContext]="true"
     appendTo=".op-wide-autocomplete-wrapper"
-    (change)="onModelChange($event)"
+    [inputAttrs]="selection.state().kind === 'invalid' | selectionInputAttrs: handler.htmlId + '-selection-error'"
+    (change)="selection.bridge.accept($event, projectAutocompleter)"
     (cancel)="handler.handleUserCancel()"
    />
+  @if (selection.state().kind === 'invalid') {
+    <op-selection-error [id]="handler.htmlId + '-selection-error'" />
+  }
 } @else {
   <op-content-loader
     class="project-edit-field--loading-indicator"

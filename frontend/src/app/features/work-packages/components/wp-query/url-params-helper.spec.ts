@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { TestBed } from '@angular/core/testing';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
@@ -83,8 +84,48 @@ describe('UrlParamsHelper', () => {
       [{ id: 3, href: '/api/v3/users/9' }, '3'],
       [{ href: '/api/v3/users/me' }, 'me'],
       [{ href: '/api/v3/work_packages/{id}' }, '{id}'],
+      [{ href: '/api/v3/users/a%20b' }, 'a%20b'],
     ])('encodes %j as %j', (value, expected) => {
       expect(UrlParamsHelper.queryFilterValueToParam(value)).toBe(expected);
+    });
+  });
+
+  describe('encodeFilters', () => {
+    const filterWith = (values:unknown[]) => ({
+      id: 'project',
+      operator: { id: '=' },
+      values,
+    }) as unknown as QueryFilterInstanceResource;
+
+    it('encodes valid filters', () => {
+      expect(UrlParamsHelper.encodeFilters([filterWith([{ id: 0 }, '7'])]))
+        .toEqual({ f: [{ n: 'project', o: '=', v: ['0', '7'] }] });
+    });
+
+    describe('when a value has no identity', () => {
+      const captureMessage = vi.fn();
+
+      beforeEach(() => {
+        captureMessage.mockClear();
+        vi.stubGlobal('ErrorReporter', { captureMessage });
+      });
+
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
+
+      it('omits only that value from encodeFilters and reports it', () => {
+        expect(UrlParamsHelper.encodeFilters([filterWith(['7', {}, '9', {}])]))
+          .toEqual({ f: [{ n: 'project', o: '=', v: ['7', '9'] }] });
+        expect(captureMessage).toHaveBeenCalledTimes(2);
+        expect(captureMessage).toHaveBeenCalledWith('query-filter-value:missing-identity');
+      });
+
+      it('omits only that value from buildV3GetValuesFromFilter and reports it', () => {
+        expect(UrlParamsHelper.buildV3GetValuesFromFilter(filterWith(['7', {}])))
+          .toEqual(['7']);
+        expect(captureMessage).toHaveBeenCalledExactlyOnceWith('query-filter-value:missing-identity');
+      });
     });
   });
 

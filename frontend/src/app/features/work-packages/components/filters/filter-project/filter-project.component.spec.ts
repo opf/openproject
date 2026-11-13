@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { ChangeDetectorRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import type { Mock } from 'vitest';
 import { Observable, of } from 'rxjs';
@@ -39,21 +40,29 @@ describe('FilterProjectComponent', () => {
   let listProjects:Mock<(params:unknown) => Observable<{ elements:unknown[] }>>;
 
   beforeEach(() => {
+    vi.stubGlobal('ErrorReporter', { captureMessage: vi.fn() });
     listProjects = vi.fn(() => of({ elements: [] }));
     TestBed.configureTestingModule({
       providers: [
         { provide: I18nService, useValue: { t: (key:string) => key } },
         { provide: ApiV3Service, useValue: { projects: { list: listProjects } } },
         { provide: CurrentProjectService, useValue: {} },
+        { provide: ChangeDetectorRef, useValue: { markForCheck: vi.fn() } },
       ],
     });
     component = TestBed.runInInjectionContext(() => new FilterProjectComponent());
     component.filter = { values: [] } as unknown as QueryFilterInstanceResource;
   });
 
-  it('looks up the chosen projects by ID, skipping those without one', async () => {
-    await component.onChange([{ id: 4 }, { href: '/api/v3/projects/5' }, { name: 'Unresolved' }]);
+  it('looks up the chosen projects by their ID or link', async () => {
+    await component.onChange([{ id: 4 }, { href: '/api/v3/projects/5' }]);
 
     expect(listProjects).toHaveBeenCalledExactlyOnceWith({ filters: [['id', '=', ['4', '5']]] });
+  });
+
+  it('ignores a selection holding a project without an ID or link', async () => {
+    await component.onChange([{ id: 4 }, { name: 'Unresolved' }]);
+
+    expect(listProjects).not.toHaveBeenCalled();
   });
 });

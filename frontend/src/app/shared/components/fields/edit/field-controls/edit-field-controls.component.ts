@@ -47,6 +47,8 @@ export class EditFieldControlsComponent {
 
   @Input() public saveTitle:string;
 
+  @Input() public invalid = false;
+
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('fieldController') public field:EditFieldControl;
 
