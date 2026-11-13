@@ -62,7 +62,7 @@ module Admin
         def create
           call = ::CustomFields::Hierarchy::Items::CreateService
             .new(user: current_user)
-            .call(**item_attributes, parent: @active_item, sort_order: params[:sort_order])
+            .call(create_item_params.merge(parent: @active_item))
 
           if call.success?
             redirect_to action: :new, position: call.result.sort_order + 1
@@ -75,7 +75,7 @@ module Admin
         def update
           call = ::CustomFields::Hierarchy::Items::UpdateService
             .new(user: current_user, model: @active_item)
-            .call(item_attributes)
+            .call(update_item_params)
 
           if call.success?
             redirect_to action: :show, id: @active_item.parent, status: :see_other
@@ -145,8 +145,12 @@ module Admin
 
         private
 
-        def item_attributes
-          { label: params[:label], short: params[:short], weight: params[:weight] }
+        def create_item_params
+          params.expect(custom_field_hierarchy_item: %i[label short weight sort_order])
+        end
+
+        def update_item_params
+          params.expect(custom_field_hierarchy_item: %i[label short weight])
         end
 
         def find_new_parent

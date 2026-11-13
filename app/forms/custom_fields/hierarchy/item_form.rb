@@ -31,7 +31,7 @@ module CustomFields
   module Hierarchy
     class ItemForm < ApplicationForm
       form do |item_form|
-        item_form.hidden name: :sort_order, value: @target_item.sort_order
+        item_form.hidden name: :sort_order
 
         if errors_without_input.any?
           item_form.html_content do
@@ -45,12 +45,10 @@ module CustomFields
           input_group.text_field(
             name: :label,
             label: I18n.t("custom_fields.admin.items.placeholder.label"),
-            value: @target_item.label,
             visually_hide_label: true,
             required: true,
             autofocus: @target_item.errors.empty?,
-            placeholder: I18n.t("custom_fields.admin.items.placeholder.label"),
-            validation_message: validation_message_for(:label)
+            placeholder: I18n.t("custom_fields.admin.items.placeholder.label")
           )
 
           case @secondary_input_format
@@ -91,12 +89,10 @@ module CustomFields
         form_group.text_field(
           name: :short,
           label: I18n.t("custom_fields.admin.items.placeholder.short"),
-          value: @target_item.short,
           visually_hide_label: true,
           full_width: false,
           required: false,
-          placeholder: I18n.t("custom_fields.admin.items.placeholder.short"),
-          validation_message: validation_message_for(:short)
+          placeholder: I18n.t("custom_fields.admin.items.placeholder.short")
         )
       end
 
@@ -106,12 +102,10 @@ module CustomFields
           label: I18n.t("custom_fields.admin.items.placeholder.weight"),
           type: :number,
           step: :any,
-          value: @target_item.weight,
           visually_hide_label: true,
           full_width: false,
           required: true,
-          placeholder: I18n.t("custom_fields.admin.items.placeholder.weight"),
-          validation_message: validation_message_for(:weight)
+          placeholder: I18n.t("custom_fields.admin.items.placeholder.weight")
         )
       end
 
@@ -129,10 +123,6 @@ module CustomFields
         else
           url_helpers.custom_field_item_path(custom_field.id, @target_item.parent)
         end
-      end
-
-      def validation_message_for(attribute)
-        @target_item.errors.full_messages_for(attribute).to_sentence.presence
       end
 
       def errors_without_input

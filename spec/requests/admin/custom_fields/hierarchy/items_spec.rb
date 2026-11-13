@@ -66,13 +66,14 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
       end
 
       it "forbids creating an item" do
-        expect { post items_path, params: { label: "Ben" } }.not_to change(CustomField::Hierarchy::Item, :count)
+        expect { post items_path, params: { custom_field_hierarchy_item: { label: "Ben" } } }
+          .not_to change(CustomField::Hierarchy::Item, :count)
 
         expect(response).to have_http_status(:forbidden)
       end
 
       it "forbids updating an item" do
-        patch "#{items_path}/#{luke.id}", params: { label: "Ben" }
+        patch "#{items_path}/#{luke.id}", params: { custom_field_hierarchy_item: { label: "Ben" } }
 
         expect(response).to have_http_status(:forbidden)
         expect(luke.reload.label).to eq("Luke")
@@ -181,7 +182,7 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
       describe "POST create" do
         let(:create_params) { { label: "Ben", short: "OWK", sort_order: 3 } }
 
-        subject(:create_request) { post items_path, params: create_params }
+        subject(:create_request) { post items_path, params: { custom_field_hierarchy_item: create_params } }
 
         it "appends a top-level item and redirects to the form for the next position" do
           expect { create_request }.to change(CustomField::Hierarchy::Item, :count).by(1)
@@ -211,7 +212,9 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         context "for a child item" do
           let(:create_params) { { label: "Ben", short: "OWK", sort_order: 1 } }
 
-          subject(:create_request) { post "#{items_path}/#{luke.id}/new_child", params: create_params }
+          subject(:create_request) do
+            post "#{items_path}/#{luke.id}/new_child", params: { custom_field_hierarchy_item: create_params }
+          end
 
           it "appends the item to the parent" do
             create_request
@@ -224,7 +227,9 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         context "for a child item with a label used in another branch" do
           let(:create_params) { { label: "Mara", short: "MJ", sort_order: 0 } }
 
-          subject(:create_request) { post "#{items_path}/#{leia.id}/new_child", params: create_params }
+          subject(:create_request) do
+            post "#{items_path}/#{leia.id}/new_child", params: { custom_field_hierarchy_item: create_params }
+          end
 
           it "creates the item" do
             expect { create_request }.to change(CustomField::Hierarchy::Item, :count).by(1)
@@ -300,7 +305,11 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
       describe "PATCH update" do
         let(:update_params) { { label: "Luke Skywalker", short: "SKY" } }
 
-        subject(:update_request) { patch "#{items_path}/#{luke.id}", params: update_params, headers: turbo_stream_headers }
+        subject(:update_request) do
+          patch "#{items_path}/#{luke.id}",
+                params: { custom_field_hierarchy_item: update_params },
+                headers: turbo_stream_headers
+        end
 
         it "updates the item and redirects to its parent" do
           update_request
@@ -355,7 +364,11 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         end
 
         context "for the root item" do
-          subject(:update_request) { patch "#{items_path}/#{root.id}", params: update_params, headers: turbo_stream_headers }
+          subject(:update_request) do
+            patch "#{items_path}/#{root.id}",
+                  params: { custom_field_hierarchy_item: update_params },
+                  headers: turbo_stream_headers
+          end
 
           it "responds with not found" do
             update_request
@@ -737,14 +750,16 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
 
         it "does not create a child" do
           expect do
-            post "#{items_path}/#{foreign_item.id}/new_child", params: { label: "Ben", sort_order: 0 }
+            post "#{items_path}/#{foreign_item.id}/new_child",
+                 params: { custom_field_hierarchy_item: { label: "Ben", sort_order: 0 } }
           end.not_to change(CustomField::Hierarchy::Item, :count)
 
           expect(response).to have_http_status(:not_found)
         end
 
         it "does not update the item" do
-          patch "#{items_path}/#{foreign_item.id}", params: { label: "Anakin", short: "DV" }
+          patch "#{items_path}/#{foreign_item.id}",
+                params: { custom_field_hierarchy_item: { label: "Anakin", short: "DV" } }
 
           expect(response).to have_http_status(:not_found)
           expect(foreign_item.reload.label).to eq("Vader")
@@ -783,7 +798,7 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
     describe "POST create" do
       let(:create_params) { { label: "Three", weight: "3.5", sort_order: 2 } }
 
-      subject(:create_request) { post items_path, params: create_params }
+      subject(:create_request) { post items_path, params: { custom_field_hierarchy_item: create_params } }
 
       it "creates the item with its weight" do
         expect { create_request }.to change(CustomField::Hierarchy::Item, :count).by(1)
@@ -826,7 +841,11 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
     describe "PATCH update" do
       let(:update_params) { { label: "Uno", weight: "42" } }
 
-      subject(:update_request) { patch "#{items_path}/#{one.id}", params: update_params, headers: turbo_stream_headers }
+      subject(:update_request) do
+        patch "#{items_path}/#{one.id}",
+              params: { custom_field_hierarchy_item: update_params },
+              headers: turbo_stream_headers
+      end
 
       it "updates the label and the weight" do
         update_request
@@ -934,7 +953,11 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
       end
 
       context "when updating the weight of an item" do
-        before { patch "#{items_path}/#{one.id}", params: { label: "One", weight: "42" }, headers: turbo_stream_headers }
+        before do
+          patch "#{items_path}/#{one.id}",
+                params: { custom_field_hierarchy_item: { label: "One", weight: "42" } },
+                headers: turbo_stream_headers
+        end
 
         it "recalculates the values using the item" do
           expect(project_using_one.custom_value_for(calculated_value)).to have_attributes(value: "84.0")

@@ -35,17 +35,13 @@ module Admin
 
         def item_options
           {
+            model:,
             url:,
-            method: http_verb,
             data: {
               turbo_frame: ItemsComponent.wrapper_key,
               test_selector: "op-custom-fields--new-item-form"
             }
           }
-        end
-
-        def http_verb
-          new_record? ? :post : :put
         end
 
         def secondary_input_format
