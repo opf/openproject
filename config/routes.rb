@@ -397,8 +397,13 @@ Rails.application.routes.draw do
 
   resources :form_configurations,
             path: "forms",
-            only: %i[edit update destroy],
+            only: %i[create edit update destroy],
             controller: "form_configurations/form_configurations" do
+    collection do
+      get :configure_dialog
+      post :configure
+    end
+
     member do
       get :edit_dialog
       get :reset_dialog

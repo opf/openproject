@@ -36,14 +36,31 @@ module FormConfigurations
     layout "admin"
 
     before_action :require_admin
-    before_action :load_form_configuration
+    before_action :load_form_configuration, except: %i[configure_dialog configure create]
     before_action :reconcile_editor_records, only: :edit
 
     menu_item :form_configurations
 
     helper_method :form_editor_context
 
+    def configure_dialog
+      respond_with_dialog start_dialog
+    end
+
+    def configure
+      return reject_missing_copy_source if copying_without_a_source?
+
+      respond_with_dialog name_dialog(FormConfiguration.new, copy_from_id: chosen_copy_from_id, ask_copy_source: false)
+    end
+
     def edit; end
+
+    def create
+      service_call = CreateService.new(user: current_user).call(**form_configuration_params)
+      return render_form_errors(service_call.result) unless service_call.success?
+
+      redirect_to edit_form_configuration_path(service_call.result), status: :see_other
+    end
 
     def reset_dialog
       respond_with_dialog WorkPackageTypes::FormConfiguration::ResetDialogComponent.new(context: form_editor_context)
@@ -104,6 +121,31 @@ module FormConfigurations
 
     def model_class = ::FormConfiguration
 
+    def name_dialog(form_configuration, **)
+      WorkPackageTypes::NamedReferences::NameDialogComponent.new(record: form_configuration, model_class:, **)
+    end
+
+    def start_dialog(error: nil)
+      WorkPackageTypes::NamedReferences::StartDialogComponent.new(model_class:,
+                                                                  url: configure_form_configurations_path,
+                                                                  candidates: FormConfiguration.in_display_order.to_a,
+                                                                  error:)
+    end
+
+    def copying_without_a_source?
+      params[:start] == WorkPackageTypes::NamedReferences::StartForm::COPY && params[:copy_from_id].blank?
+    end
+
+    def reject_missing_copy_source
+      respond_with_dialog start_dialog(error: t("form_configurations.start.copy.missing")), status: :unprocessable_entity
+    end
+
+    def chosen_copy_from_id
+      return unless params[:start] == WorkPackageTypes::NamedReferences::StartForm::COPY
+
+      params[:copy_from_id].presence
+    end
+
     def marked_default_from = url_from(request.referer) || edit_form_configuration_path(@form_configuration)
 
     def form_editor_context
@@ -133,7 +175,7 @@ module FormConfigurations
     end
 
     def form_configuration_params
-      params.expect(form_configuration: %i[name description]).to_h.symbolize_keys
+      params.expect(form_configuration: %i[name description copy_from_id]).to_h.symbolize_keys
     end
 
     def render_form_errors(form_configuration)
