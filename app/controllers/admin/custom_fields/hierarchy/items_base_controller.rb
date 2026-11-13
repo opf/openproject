@@ -32,7 +32,6 @@ module Admin
     module Hierarchy
       class ItemsBaseController < ApplicationController
         include OpTurbo::ComponentStream
-        include Dry::Monads[:result]
 
         layout :admin_or_frame_layout
 
@@ -60,67 +59,70 @@ module Admin
         def edit; end
 
         def create
-          item_service
-            .insert_item(contract_class: create_contract, **insert_item_input)
-            .either(
-              lambda { |item| redirect_to action: :new, position: item.sort_order + 1 },
-              lambda do |validation_result|
-                add_errors_to_new_form(validation_result)
-                render :new
-              end
-            )
+          call = ::CustomFields::Hierarchy::Items::CreateService
+            .new(user: current_user)
+            .call(**item_attributes, parent: @active_item, sort_order: params[:sort_order])
+
+          if call.success?
+            redirect_to action: :new, position: call.result.sort_order + 1
+          else
+            @new_item = call.result
+            render :new
+          end
         end
 
         def update
-          item_service
-            .update_item(contract_class: update_contract, **update_item_input)
-            .either(
-              ->(*) { redirect_to action: :show, id: @active_item.parent, status: :see_other },
-              lambda do |validation_result|
-                add_errors_to_edit_form(validation_result)
-                update_via_turbo_stream(
-                  component: ItemComponent.new(item: @active_item, custom_field: @custom_field, show_edit_form: true)
-                )
-                respond_with_turbo_streams
-              end
+          call = ::CustomFields::Hierarchy::Items::UpdateService
+            .new(user: current_user, model: @active_item)
+            .call(item_attributes)
+
+          if call.success?
+            redirect_to action: :show, id: @active_item.parent, status: :see_other
+          else
+            update_via_turbo_stream(
+              component: ItemComponent.new(item: @active_item, custom_field: @custom_field, show_edit_form: true)
             )
+            respond_with_turbo_streams
+          end
         end
 
         def move
-          item_service
-            .reorder_item(item: @active_item, new_sort_order: params.require(:new_sort_order))
+          ::CustomFields::Hierarchy::Items::UpdateService
+            .new(user: current_user, model: @active_item)
+            .call(sort_order: params.require(:new_sort_order))
 
           redirect_to action: :show, id: @active_item.parent, status: :see_other
         end
 
         def change_parent
-          parse_parent_input(new_parent_params)
-            .bind { |new_parent| move_active_item(new_parent) }
-            .either(
-              ->(result) do
-                redirect_to action: :show,
-                            id: result.parent,
-                            status: :see_other,
-                            notice: I18n.t(:notice_successful_update)
-              end,
-              ->(error) do
-                render_error_flash_message_via_turbo_stream(message: error)
-                respond_with_turbo_streams(&:html)
-              end
-            )
+          new_parent = find_new_parent
+          if new_parent.nil?
+            render_error_flash_message_via_turbo_stream(message: I18n.t(:notice_parent_item_not_found))
+            return respond_with_turbo_streams(&:html)
+          end
+
+          call = ::CustomFields::Hierarchy::Items::UpdateService
+            .new(user: current_user, model: @active_item)
+            .call(parent: new_parent)
+
+          if call.success?
+            redirect_to action: :show, id: new_parent, status: :see_other, notice: I18n.t(:notice_successful_update)
+          else
+            render_error_flash_message_via_turbo_stream(message: call.errors.full_messages.to_sentence)
+            respond_with_turbo_streams(&:html)
+          end
         end
 
         def destroy
-          item_service
-            .delete_branch(item: @active_item)
-            .either(
-              ->(_) do
-                update_via_turbo_stream(
-                  component: ItemsComponent.new(item: @active_item.parent.reload)
-                )
-              end,
-              ->(errors) { render_error_flash_message_via_turbo_stream(message: errors.full_messages) }
-            )
+          call = ::CustomFields::Hierarchy::Items::DeleteService
+            .new(user: current_user, model: @active_item)
+            .call
+
+          if call.success?
+            update_via_turbo_stream(component: ItemsComponent.new(item: @active_item.parent.reload))
+          else
+            render_error_flash_message_via_turbo_stream(message: call.errors.full_messages.to_sentence)
+          end
 
           respond_with_turbo_streams(&:html)
         end
@@ -142,93 +144,16 @@ module Admin
 
         private
 
-        def item_service
-          ::CustomFields::Hierarchy::HierarchicalItemService.new
+        def item_attributes
+          { label: params[:label], short: params[:short], weight: params[:weight] }
         end
 
-        def move_active_item(new_parent)
-          item_service
-            .move_item(item: @active_item, new_parent:)
-            .alt_map { |validation_result| validation_result.errors(full: true).to_h.values.flatten.to_sentence }
-        end
+        def find_new_parent
+          new_parent_input = params.require(:custom_field_hierarchy_forms_new_parent_form_model).require(:new_parent)
+          return unless new_parent_input in [new_parent_json]
 
-        def insert_item_input
-          {
-            parent: @active_item,
-            label: params[:label],
-            short: params[:short],
-            weight: params[:weight],
-            before: params[:sort_order]
-          }
-        end
-
-        def update_item_input
-          {
-            item: @active_item,
-            label: params[:label],
-            short: params[:short],
-            weight: params[:weight]
-          }
-        end
-
-        def new_parent_params
-          params.require(:custom_field_hierarchy_forms_new_parent_form_model).require(:new_parent)
-        end
-
-        def create_contract
-          case @custom_field.field_format
-          when "hierarchy"
-            ::CustomFields::Hierarchy::InsertListItemContract
-          when "weighted_item_list"
-            ::CustomFields::Hierarchy::InsertWeightedItemContract
-          else
-            raise ArgumentError, "unsupported custom field format '#{@custom_field.field_format}'"
-          end
-        end
-
-        def update_contract
-          case @custom_field.field_format
-          when "hierarchy"
-            ::CustomFields::Hierarchy::UpdateListItemContract
-          when "weighted_item_list"
-            ::CustomFields::Hierarchy::UpdateWeightedItemContract
-          else
-            raise ArgumentError, "unsupported custom field format '#{@custom_field.field_format}'"
-          end
-        end
-
-        def add_errors_to_new_form(validation_result)
-          attributes = insert_item_input
-          attributes[:sort_order] = attributes.delete(:before)
-
-          @new_item = ::CustomField::Hierarchy::Item.new(**attributes)
-          validation_result.errors(full: true).to_h.each do |attribute, errors|
-            @new_item.errors.add(attribute, errors.join(", "))
-          end
-        end
-
-        def add_errors_to_edit_form(validation_result)
-          @active_item.assign_attributes(**validation_result.to_h.slice(:label, :short, :weight))
-
-          validation_result.errors(full: true).to_h.each do |attribute, errors|
-            @active_item.errors.add(attribute, errors.join(", "))
-          end
-        end
-
-        def parse_parent_input(new_parent_input)
-          case new_parent_input
-          in [new_parent]
-            input = MultiJSON.load(new_parent, symbolize_keys: true)[:value]
-            new_parent = CustomField::Hierarchy::Item.including_children.find_by(id: input)
-
-            if new_parent.present?
-              Success(new_parent)
-            else
-              Failure(I18n.t(:notice_parent_item_not_found))
-            end
-          else
-            Failure("Invalid input: #{new_parent_input}")
-          end
+          new_parent_id = MultiJSON.load(new_parent_json, symbolize_keys: true)[:value]
+          @custom_field.hierarchy_root.self_and_descendants.find_by(id: new_parent_id)
         end
 
         def find_custom_field
@@ -237,7 +162,7 @@ module Admin
 
         def find_active_item
           @active_item = if params[:id].present?
-                           CustomField::Hierarchy::Item.including_children.find(params[:id])
+                           @custom_field.hierarchy_root.self_and_descendants.including_children.find(params.expect(:id))
                          else
                            @custom_field.hierarchy_root
                          end

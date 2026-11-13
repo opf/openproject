@@ -45,6 +45,20 @@ class CustomField::Hierarchy::Item < ApplicationRecord
 
   def descendants_preordered = self_and_descendants_preordered.offset(1)
 
+  def place_under(parent, before: nil)
+    siblings = parent.children.where.not(id:)
+    anchor = anchor_sibling(siblings, before)
+    last_sibling = siblings.last
+
+    if anchor
+      anchor.prepend_sibling(self)
+    elsif last_sibling
+      last_sibling.append_sibling(self)
+    else
+      parent.add_child(self)
+    end
+  end
+
   # @deprecated Use [CustomFields::Hierarchy::HierarchicalItemFormatter] instead.
   def ancestry_path(include_shorts_and_weights: false)
     path = self_and_ancestors.filter_map(&:label).reverse.join(" / ")
@@ -62,6 +76,14 @@ class CustomField::Hierarchy::Item < ApplicationRecord
   end
 
   private
+
+  # Project items are always kept after the global items of the same parent.
+  def anchor_sibling(siblings, before)
+    requested = siblings.find_by(sort_order: [before, 0].max) unless before.nil?
+    return requested if requested && requested.project_id.nil? == project_id.nil?
+
+    siblings.where.not(project_id: nil).first if project_id.nil?
+  end
 
   def formatter
     CustomFields::Hierarchy::HierarchicalItemFormatter.default

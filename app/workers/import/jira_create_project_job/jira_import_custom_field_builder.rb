@@ -423,29 +423,26 @@ module Import
         root = custom_field.hierarchy_root
         return unless root
 
-        service = CustomFields::Hierarchy::HierarchicalItemService.new
-        contract = CustomFields::Hierarchy::InsertListItemContract
-
         context_group_allowed_values.each do |parent_option|
-          insert_hierarchy_option(service, contract, root, parent_option)
+          insert_hierarchy_option(root, parent_option)
         end
       end
 
-      def insert_hierarchy_option(service, contract, parent, option)
+      def insert_hierarchy_option(parent, option)
         label = option_label(option["value"])
         return if label.blank?
 
-        item = insert_hierarchy_item(service, contract, parent, label)
+        item = insert_hierarchy_item(parent, label)
         return unless item
 
         Array(option["children"]).each do |child_option|
-          insert_hierarchy_option(service, contract, item, child_option)
+          insert_hierarchy_option(item, child_option)
         end
       end
 
-      def insert_hierarchy_item(service, contract, parent, label)
-        result = service.insert_item(contract_class: contract, parent:, label:)
-        result.success? ? result.value! : nil
+      def insert_hierarchy_item(parent, label)
+        call = CustomFields::Hierarchy::Items::CreateService.new(user: User.system).call(parent:, label:)
+        call.result if call.success?
       end
 
       # Fallback for scalar formats. Hash values (e.g. cascading selects without

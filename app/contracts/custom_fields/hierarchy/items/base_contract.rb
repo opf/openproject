@@ -38,6 +38,7 @@ module CustomFields
         attribute :short
         attribute :weight
         attribute :parent_id
+        attribute :sort_order
 
         validates :label, presence: true
         validates :weight, presence: true, if: :weighted_item_list?

@@ -490,7 +490,7 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
           let(:moved_item) { mara }
           let(:new_parent) { root }
 
-          it "appends the item to the top level", pending: "the moved item keeps its previous sort order" do
+          it "appends the item to the top level" do
             change_parent_request
 
             expect(root.reload.children.pluck(:label)).to eq(%w[Luke Leia Han Mara])
@@ -530,7 +530,7 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         context "with a parent of another custom field" do
           let(:new_parent) { foreign_item }
 
-          it "keeps the item in place", pending: "the new parent is not scoped to the custom field" do
+          it "keeps the item in place" do
             change_parent_request
 
             expect(han.reload.parent).to eq(root)
@@ -675,7 +675,7 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         context "for the root item" do
           let(:deleted_item) { root }
 
-          it "keeps the tree", pending: "the controller calls full_messages on the failure symbol" do
+          it "keeps the tree" do
             expect { destroy_request }.not_to change(CustomField::Hierarchy::Item, :count)
           end
         end
@@ -691,7 +691,7 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         end
       end
 
-      describe "with an item of another custom field", pending: "the active item is not scoped to the custom field" do
+      describe "with an item of another custom field" do
         it "does not show the item" do
           get "#{items_path}/#{foreign_item.id}"
 
