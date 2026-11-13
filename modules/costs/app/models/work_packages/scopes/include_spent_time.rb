@@ -41,7 +41,7 @@ module WorkPackages::Scopes::IncludeSpentTime
               .with(visible_time_entries_cte.name => allowed_to_view_time_entries(user))
               .joins(join_visible_time_entries.join_sources)
               .group(:id)
-              .select("#{hours} AS hours")
+              .select(hours => :hours)
 
       if work_package
         scope.where(id: work_package.id)
