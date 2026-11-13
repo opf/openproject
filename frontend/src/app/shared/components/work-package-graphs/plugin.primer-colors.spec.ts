@@ -107,6 +107,28 @@ describe('PrimerColorsPlugin', () => {
     expect(createPattern).not.toHaveBeenCalled();
   });
 
+  it('styles mixed chart datasets by their own type', () => {
+    const datasets:ChartDataset[] = [
+      { label: 'First bars', data: [3, 2] },
+      { type: 'line', label: 'Line', data: [1, 4] },
+      { label: 'Second bars', data: [2, 3] },
+    ];
+
+    applyPlugin('bar', datasets);
+
+    expect(datasets[0].backgroundColor).toEqual([
+      '--display-teal-scale-2',
+      '--display-teal-scale-2',
+    ]);
+    expect(datasets[1].backgroundColor).toEqual([
+      '--display-orange-scale-2',
+      '--display-orange-scale-2',
+    ]);
+    expect((datasets[1] as ChartDataset<'line'>).borderDash).toEqual([8, 4]);
+    expect(datasets[2].backgroundColor).toEqual([patterns[0], patterns[0]]);
+    expect(createPattern).toHaveBeenCalledOnce();
+  });
+
   it('uses a different pattern for every bar dataset', () => {
     const datasets:ChartDataset[] = [
       { label: 'First', data: [3] },

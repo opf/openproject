@@ -197,8 +197,6 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
 
     const { data: { datasets } } = chart.config;
     const chartType = 'type' in chart.config ? chart.config.type : undefined;
-    const pointPatterns = chartType === 'pie' || chartType === 'doughnut' || chartType === 'polarArea';
-    const lineChart = chartType === 'line';
 
     if (options.datasetLabelBased || (options.labelBased && datasets.length !== 1)) {
       const labels = datasets.map((d) => d.label ?? '');
@@ -210,7 +208,7 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
           colorIndex,
           colorIndex,
           chart.ctx,
-          lineChart,
+          (dataset.type ?? chartType) === 'line',
           chart.currentDevicePixelRatio,
         );
       });
@@ -223,6 +221,8 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
       );
     } else if (datasets.length === 1) {
       const colorIndexes = datasets[0].data.map((_, index) => index);
+      const datasetType = datasets[0].type ?? chartType;
+      const pointPatterns = datasetType === 'pie' || datasetType === 'doughnut' || datasetType === 'polarArea';
       colorizePoints(
         datasets[0],
         colorIndexes,
@@ -231,7 +231,14 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
       );
     } else {
       datasets.forEach((dataset:ChartDataset, index) => {
-        colorizeDataset(dataset, index, index, chart.ctx, lineChart, chart.currentDevicePixelRatio);
+        colorizeDataset(
+          dataset,
+          index,
+          index,
+          chart.ctx,
+          (dataset.type ?? chartType) === 'line',
+          chart.currentDevicePixelRatio,
+        );
       });
     }
   },
