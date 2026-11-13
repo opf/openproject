@@ -141,14 +141,14 @@ with [Nextcloud](#nextcloud-integration) and [OneDrive](#onedrive-integration). 
 triggered test to check the connection between OpenProject and the respective
 storage. [Read more about health status checks for OpenProject's external file storages](../system-admin-guide/files/external-file-storages/health-status/).
 
-### Custom action
+### Automations
 
-A custom action in OpenProject is defined as customizable buttons which trigger a certain action upon work packages. Custom actions are included in the [Enterprise](#enterprise-add-on) edition of OpenProject and part of automated _workflows_. Custom actions support you to easily update several work package attributes at once – with a single click.
+Automations in OpenProject let you configure buttons that apply predefined changes to work package attributes with a single click. This feature is available as an [Enterprise add-on](#enterprise-add-on).
 
-**More information on custom actions in OpenProject**
+**More information on automations in OpenProject**
 
-- [Watch a short video how custom actions work](../system-admin-guide/manage-work-packages/work-package-automations/).
-- [Read this guide on how to create custom actions](../system-admin-guide/manage-work-packages/work-package-automations/#create-custom-actions).
+- [Watch a short video showing how automations work](../system-admin-guide/manage-work-packages/work-package-automations/).
+- [Read this guide on how to create automations](../system-admin-guide/manage-work-packages/work-package-automations/#create-automations).
 - [Read this blog article on how to create an intelligent workflow with custom action - explained with an example](https://www.openproject.org/blog/customize-workflows/).
 
 ### Custom field
@@ -282,7 +282,7 @@ Macros in OpenProject are dynamic shortcuts that help automate repetitive tasks.
 
 ### MCP Server
 
-The OpenProject MCP Server is an [Enterprise add-on](#enterprise-add-on) that enables the integration of [artificial intelligence (AI)](#artificial-intelligence-ai) with OpenProject. AI assistants and similar tools can connect to OpenProject using the Model Context Protocol (MCP), an open standard that enables AI applications to connect to external systems and access their data and functionality. Through the MCP Server, connected tools can access project information and perform supported actions in OpenProject while respecting existing permissions and business rules. [Read more about the MCP Server in OpenProject](../system-admin-guide/ai/mcp-server/).
+The OpenProject MCP Server is a Community edition feature that enables the integration of [artificial intelligence (AI)](#artificial-intelligence-ai) with OpenProject. AI assistants and similar tools can connect to OpenProject using the Model Context Protocol (MCP), an open standard that enables AI applications to connect to external systems and access their data and functionality. Through the MCP Server, connected tools can access project information and perform supported actions in OpenProject while respecting existing permissions and business rules. [Read more about the MCP Server in OpenProject](../system-admin-guide/ai/mcp-server/).
 
 ### Meetings
 
