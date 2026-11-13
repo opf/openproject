@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { isPendingWpid } from '../../utils/pending';
 import { BLOCK_WP_ATTRIBUTE_TYPE, INLINE_WP_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
-import { selectInlineChipAtDOM } from '../../utils/inlineChipActions';
+import { findInlineChipAtDOM, removeInlineChipAt, selectInlineChipAtDOM } from '../../utils/inlineChipActions';
 import { useColors } from '../../services/colors';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 import type { AttributeDisplay } from './display';
@@ -10,10 +10,10 @@ import { useWorkPackageAttribute } from './useWorkPackageAttribute';
 import { pendingAttributes } from './pending';
 import { lastChoice, rememberChoice } from './lastChoice';
 import { InsertAttributeModal } from './InsertAttributeModal';
-import { AttributeDisplayMenu } from './AttributeDisplayMenu';
+import { AttributeOptionsPopover } from './AttributeOptionsPopover';
 import { AttributeInline } from './atoms';
 import { attributeTitle, WorkPackageAttributeView } from './WorkPackageAttributeView';
-import { useAttributeDisplayMenu } from './useAttributeDisplayMenu';
+import { useAttributeOptions } from './useAttributeOptions';
 import type { AttributeProps } from './types';
 
 interface WorkPackageAttributeInlineProps {
@@ -28,9 +28,10 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
   const { wpid, displayId, attribute, display } = content;
   const resolved = useWorkPackageAttribute(wpid, attribute);
   useColors();
-  const { elementRef, menuOpen, active, pick, toggleProps } = useAttributeDisplayMenu({
+  const { elementRef, setElementRef, options, active, pick, toggleProps } = useAttributeOptions({
     editor,
-    display,
+    content,
+    resolved,
     onDisplayChange,
     onActivate: () => selectAttributeNode(),
   });
@@ -41,24 +42,41 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
     if (editor && elementRef.current) selectInlineChipAtDOM(editor, elementRef.current, INLINE_WP_ATTRIBUTE_TYPE);
   }
 
+  function removeAttributeNode() {
+    if (!editor || !elementRef.current) return;
+    const node = findInlineChipAtDOM(editor, elementRef.current, INLINE_WP_ATTRIBUTE_TYPE);
+    if (node) removeInlineChipAt(editor, node.position, INLINE_WP_ATTRIBUTE_TYPE);
+  }
+
   return (
     <AttributeInline
       ref={(node:HTMLElement | null) => {
-        elementRef.current = node;
+        setElementRef(node);
         contentRef?.(node);
       }}
       title={attributeTitle(resolved, displayId)}
       role="button"
       aria-haspopup="menu"
-      aria-expanded={menuOpen}
-      $selected={menuOpen || inSelection}
+      aria-expanded={options.isOpen}
+      $selected={options.isOpen || inSelection}
       data-drag-handle
       {...toggleProps}
     >
       <WorkPackageAttributeView resolved={resolved} display={display} reference={attribute} />
-      {menuOpen && (
-        // eslint-disable-next-line react-hooks/refs
-        <AttributeDisplayMenu anchorEl={elementRef.current} active={active} onPick={pick} />
+      {options.isOpen && (
+        <AttributeOptionsPopover
+          resolved={resolved}
+          displayId={displayId}
+          reference={attribute}
+          active={active}
+          // eslint-disable-next-line react-hooks/refs
+          anchorEl={elementRef.current}
+          autoFocus={options.takesFocus}
+          onClose={options.close}
+          onRestoreFocus={() => editor?.focus()}
+          onPick={pick}
+          onRemove={removeAttributeNode}
+        />
       )}
     </AttributeInline>
   );
