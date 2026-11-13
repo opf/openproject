@@ -257,8 +257,8 @@ module Admin
 
         def destroy_value
           if @custom_field.list?
-            @value.destroy!
-            CustomValue.where(custom_field: @custom_field, value: @value.id).delete_all
+            call = ::CustomOptions::DeleteService.new(user: current_user, model: @value).call
+            raise ActiveRecord::RecordNotDestroyed.new(call.message, @value) if call.failure?
           else
             ::CustomFields::Hierarchy::HierarchicalItemService.new.delete_branch(item: @value).value!
           end
