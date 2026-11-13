@@ -146,12 +146,18 @@ RSpec.describe API::V3::Attachments::AttachmentRepresenter do
 
         it_behaves_like "has an untitled link" do
           let(:link) { "downloadLocation" }
-          let(:href) { external_url }
+          let(:href) { api_v3_paths.attachment_content(attachment.id) }
         end
 
         it_behaves_like "has an untitled link" do
           let(:link) { "staticDownloadLocation" }
           let(:href) { api_v3_paths.attachment_content(attachment.id) }
+        end
+
+        it "does not generate an external download URL" do
+          generated
+
+          expect(attachment).not_to have_received(:external_url)
         end
       end
     end

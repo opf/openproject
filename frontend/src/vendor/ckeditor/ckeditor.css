@@ -2097,7 +2097,7 @@
 }
 
 .ck.ck-editor__editable_root:not(.ck-editor__nested-editable) {
-  border-radius: var(--ck-editor-frame-border-radius);
+  border-radius: 0 0 var(--ck-editor-frame-border-radius) var(--ck-editor-frame-border-radius);
 }
 
 .ck.ck-editor__editable:not(.ck-editor__nested-editable) {

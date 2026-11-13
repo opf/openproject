@@ -94,6 +94,8 @@ Following user permissions are set on files and folder in **External Storages**:
 
 ### Why does a user have more permissions after copying a project?
 
-When a user copies a project, they become the creator of the new project and are assigned the configured **New role for users that create projects**. This role is independent of the user's role in the original project and may grant additional permissions.
+When a user who is not an instance administrator copies a project, they are assigned the configured **New role for users that create projects**. This role is independent of the user's role in the original project and may grant additional permissions.
 
-If you allow users to copy projects, review the permissions assigned to the **New role for users that create projects** to ensure they match your intended level of access.
+All selected project data is copied, including content and attachments the user cannot view in the original project. The role assigned in the new project can grant access to all copied data.
+
+Grant **Copy projects** only to users who are authorized to access all data that can be copied from the source project. Review the permissions assigned to the [role for project creators](../../projects/new-project/) to ensure they match your intended level of access.

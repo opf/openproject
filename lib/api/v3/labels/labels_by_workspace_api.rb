@@ -34,7 +34,7 @@ module API
       class LabelsByWorkspaceAPI < ::API::OpenProjectAPI
         resources :labels do
           after_validation do
-            authorize_in_project(:view_work_packages, project: @project)
+            authorize_in_any_work_package(:view_work_packages, in_project: @project)
           end
 
           get &::API::V3::Utilities::Endpoints::Index.new(model: Label,
