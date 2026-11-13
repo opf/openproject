@@ -31,7 +31,7 @@ import PrimerColorsPlugin, { PrimerColorsPluginOptions } from './plugin.primer-c
 import { createPatternFill, lineDashFor } from './plugin.primer-patterns';
 
 describe('PrimerColorsPlugin', () => {
-  const patternTransforms = Array.from({ length: 4 }, () => vi.fn());
+  const patternTransforms = Array.from({ length: 16 }, () => vi.fn());
   const patterns = patternTransforms.map((setTransform) => ({ setTransform })) as unknown as CanvasPattern[];
   let createPattern:ReturnType<typeof vi.fn>;
 
@@ -39,11 +39,8 @@ describe('PrimerColorsPlugin', () => {
     vi.spyOn(window, 'getComputedStyle').mockReturnValue({
       getPropertyValue: vi.fn((property:string) => property),
     } as unknown as CSSStyleDeclaration);
-    createPattern = vi.fn()
-      .mockReturnValueOnce(patterns[0])
-      .mockReturnValueOnce(patterns[1])
-      .mockReturnValueOnce(patterns[2])
-      .mockReturnValueOnce(patterns[3]);
+    createPattern = vi.fn();
+    patterns.forEach((pattern) => createPattern.mockReturnValueOnce(pattern));
   });
 
   afterEach(() => vi.restoreAllMocks());
@@ -53,11 +50,12 @@ describe('PrimerColorsPlugin', () => {
     datasets:ChartDataset[],
     labels:string[] = [],
     options:PrimerColorsPluginOptions = {},
+    context = { createPattern } as unknown as CanvasRenderingContext2D,
   ) {
     const chart = {
       config: { type, data: { datasets, labels } },
       data: { datasets, labels },
-      ctx: { createPattern },
+      ctx: context,
       currentDevicePixelRatio: 1,
     } as unknown as Chart;
 
@@ -138,13 +136,53 @@ describe('PrimerColorsPlugin', () => {
     expect(datasets[1].backgroundColor).toEqual([patterns[0], patterns[0]]);
   });
 
-  it('uses a different pattern for every labelled pie segment', () => {
+  it('uses distinct fills for labelled pie segments', () => {
     const datasets:ChartDataset[] = [{ label: 'Costs', data: [5, 3, 1] }];
 
     applyPlugin('pie', datasets, ['Labor', 'Material A', 'Material B'], { labelBased: true });
 
-    expect((datasets[0].backgroundColor as unknown[])[0]).toBeTypeOf('string');
-    expect((datasets[0].backgroundColor as unknown[]).slice(1)).toEqual([patterns[0], patterns[1]]);
+    expect(new Set(datasets[0].backgroundColor as unknown[])).toHaveProperty('size', 3);
+    expect(createPattern).toHaveBeenCalledTimes(2);
+  });
+
+  it('keeps pie segment patterns stable when labels are reordered', () => {
+    const context = { createPattern } as unknown as CanvasRenderingContext2D;
+    const labels = ['Labor', 'Material', 'Equipment'];
+    const reorderedLabels = [...labels].reverse();
+    const dataset:ChartDataset = { data: [5, 3, 1] };
+    const reorderedDataset:ChartDataset = { data: [1, 3, 5] };
+
+    applyPlugin('pie', [dataset], labels, { labelBased: true }, context);
+    applyPlugin('pie', [reorderedDataset], reorderedLabels, { labelBased: true }, context);
+
+    const fills = new Map(labels.map((label, index) => (
+      [label, (dataset.backgroundColor as unknown[])[index]]
+    )));
+    reorderedLabels.forEach((label, index) => {
+      expect((reorderedDataset.backgroundColor as unknown[])[index]).toBe(fills.get(label));
+    });
+  });
+
+  it('keeps dataset patterns stable when labels are reordered', () => {
+    const context = { createPattern } as unknown as CanvasRenderingContext2D;
+    const datasets:ChartDataset[] = [
+      { label: 'Labor', data: [5] },
+      { label: 'Material', data: [3] },
+      { label: 'Equipment', data: [1] },
+    ];
+    const reorderedDatasets = [...datasets]
+      .reverse()
+      .map((dataset) => ({ ...dataset }));
+
+    applyPlugin('bar', datasets, [], { datasetLabelBased: true }, context);
+    applyPlugin('bar', reorderedDatasets, [], { datasetLabelBased: true }, context);
+
+    const fills = new Map(datasets.map((dataset) => (
+      [dataset.label, (dataset.backgroundColor as unknown[])[0]]
+    )));
+    reorderedDatasets.forEach((dataset) => {
+      expect((dataset.backgroundColor as unknown[])[0]).toBe(fills.get(dataset.label));
+    });
   });
 
   it('uses patterns for pie segments without label-based colours', () => {
@@ -160,7 +198,7 @@ describe('PrimerColorsPlugin', () => {
 
     const fills = [0, 1, 2, 3, 4].map((index) => createPatternFill(context, '#ccc', '#333', index));
 
-    expect(fills).toEqual(['#ccc', ...patterns]);
+    expect(fills).toEqual(['#ccc', ...patterns.slice(0, 4)]);
   });
 
   it('scales the pattern backing canvas for HiDPI displays', () => {

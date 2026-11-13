@@ -98,7 +98,7 @@ function colorizePoints(
         patternContext,
         getMutedColor(colorIndex),
         getEmphasisColor(colorIndex),
-        index,
+        colorIndex,
         devicePixelRatio,
       )
       : getMutedColor(colorIndex);
@@ -110,7 +110,7 @@ function colorizePoints(
 function colorizeDataset(
   dataset:ChartDataset,
   colorIndex:number,
-  seriesIndex:number,
+  styleIndex:number,
   context:CanvasRenderingContext2D,
   lineChart:boolean,
   devicePixelRatio:number,
@@ -121,7 +121,7 @@ function colorizeDataset(
       context,
       getMutedColor(colorIndex),
       getEmphasisColor(colorIndex),
-      seriesIndex,
+      styleIndex,
       devicePixelRatio,
     );
 
@@ -132,7 +132,7 @@ function colorizeDataset(
   dataset.borderColor = dataset.data.map(() => getEmphasisColor(colorIndex));
   dataset.borderWidth = 1;
   if (lineChart) {
-    (dataset as ChartDataset<'line'>).borderDash = lineDashFor(seriesIndex);
+    (dataset as ChartDataset<'line'>).borderDash = lineDashFor(styleIndex);
   }
 }
 
@@ -203,11 +203,12 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
     if (options.datasetLabelBased || (options.labelBased && datasets.length !== 1)) {
       const labels = datasets.map((d) => d.label ?? '');
       const colorMap = buildLabelColorMap(labels);
-      datasets.forEach((dataset:ChartDataset, index) => {
+      datasets.forEach((dataset:ChartDataset) => {
+        const colorIndex = colorMap.get(dataset.label ?? '') ?? 0;
         colorizeDataset(
           dataset,
-          colorMap.get(dataset.label ?? '') ?? 0,
-          index,
+          colorIndex,
+          colorIndex,
           chart.ctx,
           lineChart,
           chart.currentDevicePixelRatio,
