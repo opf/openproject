@@ -24,9 +24,9 @@
         (cdkDragStarted)="drag.start(area)"
         (cdkDragDropped)="drag.drop()"
         [cdkDragDisabled]="isMobileDevice || !drag.isDraggable">
-        <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area)"
-                     [ndcDynamicInputs]="widgetComponentInput(area)"
-                     [ndcDynamicOutputs]="widgetComponentOutput(area)"/>
+        <ng-container [ngComponentOutlet]="widgetComponent(area)"
+                     [ngComponentOutletInputs]="widgetComponentInput(area)"
+                     [opDynamicOutputs]="widgetComponentOutput(area)"/>
       </div>
       @if (resize.isResizable) {
         <op-resizer

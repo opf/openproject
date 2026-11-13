@@ -53,13 +53,13 @@ export class WpTabWrapperComponent implements OnInit {
 
   workPackage:WorkPackageResource;
 
-  ndcDynamicInputs$:Observable<{
+  tabInputs$:Observable<{
     workPackage:WorkPackageResource;
     tab:WpTabDefinition | undefined;
   }>;
 
   ngOnInit() {
-    this.ndcDynamicInputs$ = this
+    this.tabInputs$ = this
       .apiV3Service
       .work_packages
       .id(this.workPackageId)
