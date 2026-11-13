@@ -315,6 +315,7 @@ class PushHandler {
     this.signOutGeneration += 1;
     this.signOutsInProgress += 1;
     const cleared = this.clearForSignOut().catch(() => undefined);
+    // A push that was already running may show notifications again after the first clear.
     const clearedAfterSettled = PushHandler.settled(navigation).then(() => {
       this.signOutGeneration += 1;
       this.signOutsInProgress -= 1;
@@ -556,6 +557,7 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   const response = OfflinePage.respondTo(event);
+  // Only the worker sees every sign-out, including those that leave through a single sign-on redirect.
   if (response && pushHandler.isSignOut(event.request)) {
     event.waitUntil(pushHandler.signOut(response));
   }
