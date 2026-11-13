@@ -54,6 +54,7 @@ sw.addEventListener('activate', (event) => {
 
 sw.addEventListener('fetch', (event) => {
   const response = OfflinePage.respondTo(event);
+  // Only the worker sees every sign-out, including those that leave through a single sign-on redirect.
   if (response && pushHandler.isSignOut(event.request)) {
     event.waitUntil(pushHandler.signOut(response));
   }

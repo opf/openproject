@@ -68,6 +68,7 @@ export class PushHandler {
     this.signOutGeneration += 1;
     this.signOutsInProgress += 1;
     const cleared = this.clearForSignOut().catch(() => undefined);
+    // A push that was already running may show notifications again after the first clear.
     const clearedAfterSettled = PushHandler.settled(navigation).then(() => {
       this.signOutGeneration += 1;
       this.signOutsInProgress -= 1;
