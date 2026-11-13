@@ -26,7 +26,7 @@
 //++
 
 import { WorkPackageStateLinkEvent } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewEncapsulation, OnDestroy, DestroyRef, inject, signal, computed } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewEncapsulation, OnDestroy, DestroyRef, inject, signal, computed, effect, untracked, viewChild } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -43,7 +43,8 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { createScrollSync, ScrollSync } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
 import { WpTableHoverSync } from 'core-app/features/work-packages/components/wp-table/wp-table-hover-sync';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
-import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
+import { emptyResultsRowKey, headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
+import { WorkPackageInlineCreateComponent } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.component';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -147,7 +148,25 @@ export class WorkPackagesTableComponent implements OnInit, TableEventComponent, 
 
   public inlineCreateVisible = false;
 
+  // Flips only inside a table mutation, so row positions repaint with the empty results row.
+  protected inlineCreateRowOpen = false;
+
+  private readonly inlineCreate = viewChild(WorkPackageInlineCreateComponent);
+
   readonly numTableColumns = computed(() => this.viewState()?.numTableColumns ?? 0);
+
+  constructor() {
+    effect(() => {
+      const active = this.inlineCreate()?.isActive() ?? false;
+      untracked(() => {
+        if (!this.workPackageTable || active === this.inlineCreateRowOpen) return;
+        this.workPackageTable.mutate(new Set([emptyResultsRowKey]), () => {
+          this.inlineCreateRowOpen = active;
+          this.cdRef.detectChanges();
+        });
+      });
+    });
+  }
 
   ngOnInit():void {
     this.configuration = new WorkPackageTableConfiguration(this.configurationObject);

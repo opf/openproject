@@ -458,6 +458,8 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   let states:States;
   let fixture:ComponentFixture<ListViewStandInComponent|TwoTablesStandInComponent>;
 
+  const emptySection = () => document.querySelector<HTMLTableSectionElement>('tbody.work-package--empty-tbody');
+
   beforeEach(async () => {
     baselineActive = false;
     canAdd = new BehaviorSubject(true);
@@ -915,7 +917,6 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   });
 
   describe('empty results', () => {
-    const emptySection = () => document.querySelector<HTMLTableSectionElement>('tbody.work-package--empty-tbody');
     const resultsSection = () => document.querySelector<HTMLTableSectionElement>('tbody.work-package--results-tbody')!;
 
     function expectEmpty() {
@@ -1012,6 +1013,22 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       scopes.length = 0;
       fireEvent.keyDown(within(row).getByRole('textbox'), { key: 'Escape' });
       await waitFor(() => expect(scopes).toContainEqual(new Set([inlineCreateRowKey])));
+    });
+
+    it('hides the empty results row while the create row is open', async () => {
+      await mount(inlineCreate, []);
+      const table = screen.getByRole('treegrid');
+      expect(emptySection()).toBeInTheDocument();
+      expect(table).toHaveAttribute('aria-rowcount', '3');
+
+      const row = await openCreateRow();
+      await waitFor(() => expect(emptySection()).not.toBeInTheDocument());
+      expect(table).toHaveAttribute('aria-rowcount', '2');
+      expect(row).toHaveAttribute('aria-rowindex', '2');
+
+      fireEvent.keyDown(within(row).getByRole('textbox'), { key: 'Escape' });
+      await waitFor(() => expect(emptySection()).toBeInTheDocument());
+      expect(table).toHaveAttribute('aria-rowcount', '3');
     });
 
     it('preserves the active editor when reference permission changes', async () => {
