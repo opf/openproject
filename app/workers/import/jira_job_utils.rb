@@ -30,9 +30,12 @@
 module Import
   module JiraJobUtils
     extend ActiveSupport::Concern
+    include JobLogging
 
     included do
       include GoodJob::ActiveJobExtensions::Batches
+
+      class_attribute :jira_object_type, instance_accessor: false
     end
 
     def prepare_jira_import_ivars(jira_import_id)
@@ -54,12 +57,15 @@ module Import
       jira_project(jira_project_id).payload["key"]
     end
 
-    def batch_id_tag
-      batch&.id ? "batch_id:#{batch.id}" : nil
-    end
+    private
 
-    def tagged_log(*tags, &)
-      Rails.logger.tagged(*[batch_id_tag, *tags].compact, &)
+    def log_context
+      {
+        batch_id: batch&.id,
+        jira_import_id: arguments.first,
+        jira_project_id: (jira_project_key(arguments.second) if arguments.second),
+        jira_object_type: self.class.jira_object_type
+      }
     end
   end
 end

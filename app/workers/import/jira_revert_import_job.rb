@@ -57,6 +57,8 @@ module Import
       "Status" => :status
     }.freeze
 
+    rescue_from StandardError, with: :transition_to_error
+
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
@@ -78,44 +80,31 @@ module Import
       @jira_import = Import::JiraImport.find(jira_import_id)
       cursor ||= REVERT_STEPS.index(@jira_import.get_job_cursor(self)&.to_sym)
       enumerator_builder.array(REVERT_STEPS, cursor:)
-    rescue StandardError => e
-      raise if @jira_import.nil?
-
-      tagged_log("jira_import_id:#{jira_import_id}") do
-        Rails.logger.error "Building revert enumerator failed: #{e.message}"
-      end
-      @jira_import.transition_to!(:revert_error,
-                                  job_id: job_id,
-                                  error_backtrace: e.backtrace,
-                                  error: e.message)
-      nil # JobIteration skips the job when no enumerator is returned
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def each_iteration(revert_step, jira_import_id)
+      @revert_step = revert_step
       @jira_import = Import::JiraImport.find(jira_import_id)
       @user = User.system
-      tagged_log("jira_import_id:#{jira_import_id}") do
-        Rails.logger.info "Revert step '#{revert_step}' started"
-        ApplicationRecord.transaction do
-          send(revert_step)
-          @jira_import.set_job_cursor(self, revert_step)
-        end
-        Rails.logger.info "Revert step '#{revert_step}' finished"
+      Rails.logger.info "Revert step '#{revert_step}' started"
+      ApplicationRecord.transaction do
+        send(revert_step)
+        @jira_import.set_job_cursor(self, revert_step)
       end
-    rescue StandardError => e
-      tagged_log("jira_import_id:#{jira_import_id}") do
-        Rails.logger.error "Revert step '#{revert_step}' failed: #{e.message}"
-      end
-      @jira_import.transition_to!(:revert_error,
-                                  job_id: job_id,
-                                  error_backtrace: e.backtrace,
-                                  error: e.message,
-                                  revert_step:)
-      throw(:abort)
+      Rails.logger.info "Revert step '#{revert_step}' finished"
     end
 
     private
+
+    def transition_to_error(error)
+      raise error if @jira_import.nil?
+
+      @jira_import.transition_to!(:revert_error,
+                                  { job_id:,
+                                    error_backtrace: error.backtrace,
+                                    error: error.message,
+                                    revert_step: @revert_step }.compact)
+    end
 
     # rubocop:disable-next Metrics/AbcSize
     def delete_projects
@@ -124,20 +113,14 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "Project")
         .find_each do |ref|
-          Rails.logger.tagged("jira_object_type:project", "jira_object_id_or_name:#{ref.op_entity_id}") do
+          with_log_context(jira_object_type: "project", jira_object_id_or_name: ref.op_entity_id) do
             Rails.logger.debug "Deleting project"
             op_leg = ref.op_leg
             service_call = ::Projects::DeleteService.new(user: @user, model: op_leg).call
-            if service_call.failure?
-              Rails.logger.error service_call.message
-              raise service_call.message
-            end
-          end
-        rescue Import::JiraOpenProjectReference::LegNotFoundError
-          Rails.logger.tagged("jira_object_type:project", "jira_object_id_or_name:#{ref.op_entity_id}") do
+            raise service_call.message if service_call.failure?
+          rescue Import::JiraOpenProjectReference::LegNotFoundError
             Rails.logger.warn "OpenProject project no longer exists, skipping its deletion"
           end
-          next
         end
     end
 
@@ -149,7 +132,7 @@ module Import
         new_owner = remaining_owner(sprint, reverted_project_ids)
         next if new_owner.nil?
 
-        Rails.logger.tagged("jira_object_type:sprint", "jira_object_id_or_name:#{sprint.id}") do
+        with_log_context(jira_object_type: "sprint", jira_object_id_or_name: sprint.id) do
           Rails.logger.info "Moving sprint to project #{new_owner.identifier}, another import still uses it"
         end
         keep_active_sprint_valid(sprint, new_owner)
@@ -198,92 +181,67 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: ["Type", "IssuePriority", "Status"])
         .find_each do |ref|
-          op_leg = ref.op_leg
+          with_log_context(jira_object_type: REF_OBJECT_TYPES.fetch(ref.op_entity_class),
+                           jira_object_id_or_name: ref.op_entity_id) do
+            op_leg = ref.op_leg
 
-          # delete_projects runs first, so any work package left is from outside this import
-          next if WorkPackage.exists?(WORK_PACKAGE_ASSOCIATIONS.fetch(ref.op_entity_class) => op_leg)
+            # delete_projects runs first, so any work package left is from outside this import
+            next if WorkPackage.exists?(WORK_PACKAGE_ASSOCIATIONS.fetch(ref.op_entity_class) => op_leg)
 
-          Rails.logger.tagged("jira_object_type:#{REF_OBJECT_TYPES.fetch(ref.op_entity_class)}",
-                              "jira_object_id_or_name:#{ref.op_entity_id}") do
             Rails.logger.debug { "Deleting #{ref.op_entity_class}" }
             op_leg.destroy!
-          end
-        rescue Import::JiraOpenProjectReference::LegNotFoundError
-          Rails.logger.tagged("jira_object_type:#{REF_OBJECT_TYPES.fetch(ref.op_entity_class)}",
-                              "jira_object_id_or_name:#{ref.op_entity_id}") do
+          rescue Import::JiraOpenProjectReference::LegNotFoundError
             Rails.logger.warn "OpenProject #{ref.op_entity_class} no longer exists, skipping its deletion"
           end
-          next
         end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def delete_users
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "User")
         .find_each do |ref|
-          Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{ref.op_entity_id}") do
+          with_log_context(jira_object_type: "user", jira_object_id_or_name: ref.op_entity_id) do
             Rails.logger.debug "Deleting user"
             op_leg = ref.op_leg
             # EmptyContract is used to make deletion not dependent on Setting.users_deletable_by_admins
             service_call = ::Users::DeleteService.new(user: @user, model: op_leg, contract_class: EmptyContract).call
-            if service_call.failure?
-              Rails.logger.error service_call.message
-              raise service_call.message
-            end
-          end
-        rescue Import::JiraOpenProjectReference::LegNotFoundError
-          Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{ref.op_entity_id}") do
+            raise service_call.message if service_call.failure?
+          rescue Import::JiraOpenProjectReference::LegNotFoundError
             Rails.logger.warn "OpenProject user no longer exists, skipping its deletion"
           end
-          next
         end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def delete_groups
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "Group")
         .find_each do |ref|
-          Rails.logger.tagged("jira_object_type:group", "jira_object_id_or_name:#{ref.op_entity_id}") do
+          with_log_context(jira_object_type: "group", jira_object_id_or_name: ref.op_entity_id) do
             Rails.logger.debug "Deleting group"
             op_leg = ref.op_leg
             service_call = ::Groups::DeleteService.new(user: @user, model: op_leg).call
-            if service_call.failure?
-              Rails.logger.error service_call.message
-              raise service_call.message
-            end
-          end
-        rescue Import::JiraOpenProjectReference::LegNotFoundError
-          Rails.logger.tagged("jira_object_type:group", "jira_object_id_or_name:#{ref.op_entity_id}") do
+            raise service_call.message if service_call.failure?
+          rescue Import::JiraOpenProjectReference::LegNotFoundError
             Rails.logger.warn "OpenProject group no longer exists, skipping its deletion"
           end
-          next
         end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def delete_project_roles
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "ProjectRole")
         .find_each do |ref|
-          Rails.logger.tagged("jira_object_type:projectRole", "jira_object_id_or_name:#{ref.op_entity_id}") do
+          with_log_context(jira_object_type: "projectRole", jira_object_id_or_name: ref.op_entity_id) do
             Rails.logger.debug "Deleting project role"
             op_leg = ref.op_leg
             service_call = ::Roles::DeleteService.new(user: @user, model: op_leg).call
-            if service_call.failure?
-              Rails.logger.error service_call.message
-              raise service_call.message
-            end
-          end
-        rescue Import::JiraOpenProjectReference::LegNotFoundError
-          Rails.logger.tagged("jira_object_type:projectRole", "jira_object_id_or_name:#{ref.op_entity_id}") do
+            raise service_call.message if service_call.failure?
+          rescue Import::JiraOpenProjectReference::LegNotFoundError
             Rails.logger.warn "OpenProject project role no longer exists, skipping its deletion"
           end
-          next
         end
     end
 
@@ -292,16 +250,13 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "WorkPackageCustomField")
         .find_each do |ref|
-          Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{ref.op_entity_id}") do
+          with_log_context(jira_object_type: "customField", jira_object_id_or_name: ref.op_entity_id) do
             Rails.logger.debug "Deleting custom field"
             op_leg = ref.op_leg
             op_leg.destroy!
-          end
-        rescue Import::JiraOpenProjectReference::LegNotFoundError
-          Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{ref.op_entity_id}") do
+          rescue Import::JiraOpenProjectReference::LegNotFoundError
             Rails.logger.warn "OpenProject custom field no longer exists, skipping its deletion"
           end
-          next
         end
     end
 
@@ -311,23 +266,17 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "Label")
         .find_each do |ref|
-          op_leg = ref.op_leg
-          # label is used by something outside this import run, keep it
-          next if op_leg.labelings.exists?
+          with_log_context(jira_object_type: "label", jira_object_id_or_name: ref.op_entity_id) do
+            op_leg = ref.op_leg
+            # label is used by something outside this import run, keep it
+            next if op_leg.labelings.exists?
 
-          Rails.logger.tagged("jira_object_type:label", "jira_object_id_or_name:#{ref.op_entity_id}") do
             Rails.logger.debug "Deleting label"
             service_call = ::Labels::DeleteService.new(user: @user, model: op_leg).call
-            if service_call.failure?
-              Rails.logger.error service_call.message
-              raise service_call.message
-            end
-          end
-        rescue Import::JiraOpenProjectReference::LegNotFoundError
-          Rails.logger.tagged("jira_object_type:label", "jira_object_id_or_name:#{ref.op_entity_id}") do
+            raise service_call.message if service_call.failure?
+          rescue Import::JiraOpenProjectReference::LegNotFoundError
             Rails.logger.warn "OpenProject label no longer exists, skipping its deletion"
           end
-          next
         end
     end
 

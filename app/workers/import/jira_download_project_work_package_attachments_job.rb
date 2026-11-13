@@ -31,13 +31,6 @@ module Import
   class JiraDownloadProjectWorkPackageAttachmentsJob < ProgressableJob
     include Import::JiraJobUtils
 
-    on_complete do
-      tagged_log("jira_import_id:#{arguments[0]}",
-                 "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
-        Rails.logger.debug "Downloading work package attachments finished"
-      end
-    end
-
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
@@ -58,25 +51,19 @@ module Import
     end
 
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_project_id:#{jira_project_key(jira_project_id)}", "jira_object_type:project") do
-        Rails.logger.debug "Downloading work package attachments started"
-        prepare_jira_import_ivars(jira_import_id)
+      prepare_jira_import_ivars(jira_import_id)
 
-        cursor ||= @jira_import.get_job_cursor(self)
-        enumerator_builder.active_record_on_records(
-          Import::JiraAttachment.where(jira_import_id:, jira_project_id:),
-          cursor:
-        )
-      end
+      cursor ||= @jira_import.get_job_cursor(self)
+      enumerator_builder.active_record_on_records(
+        Import::JiraAttachment.where(jira_import_id:, jira_project_id:),
+        cursor:
+      )
     end
 
-    def each_iteration(jira_attachment, jira_import_id, jira_project_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_project_id:#{jira_project_key(jira_project_id)}",
-                 "jira_issue_key:#{jira_issue_key(jira_attachment)}",
-                 "jira_object_type:attachment",
-                 "jira_object_id_or_name:#{jira_attachment.payload['filename']}") do
+    def each_iteration(jira_attachment, _jira_import_id, _jira_project_id)
+      with_log_context(jira_issue_key: jira_issue_key(jira_attachment),
+                       jira_object_type: "attachment",
+                       jira_object_id_or_name: jira_attachment.payload["filename"]) do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             attachment = find_attachment(jira_attachment)

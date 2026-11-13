@@ -34,20 +34,18 @@ module Import
 
     DISTINCT_LABEL_NAMES = Arel.sql("DISTINCT jsonb_array_elements_text(payload -> 'fields' -> 'labels')")
 
+    self.jira_object_type = "label"
+
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     def perform(jira_import_id)
-      tagged_log("jira_import_id:#{jira_import_id}", "jira_object_type:label") do
-        Rails.logger.debug "Creating labels started"
-        @jira_import = Import::JiraImport.find(jira_import_id)
-        @system_user = User.system
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      @system_user = User.system
 
-        jira_label_names.each do |name|
-          Rails.logger.tagged("jira_object_id_or_name:#{name}") { create_label(name) }
-        end
-        Rails.logger.debug "Creating labels finished"
+      jira_label_names.each do |name|
+        with_log_context(jira_object_id_or_name: name) { create_label(name) }
       end
     end
 
@@ -68,10 +66,7 @@ module Import
         service_call = Labels::CreateService.new(user: @system_user).call(name:)
         next reference_existing_label(name) if name_taken?(service_call)
 
-        if service_call.failure?
-          Rails.logger.error service_call.message
-          raise service_call.message
-        end
+        raise service_call.message if service_call.failure?
 
         create_reference!(op_leg: service_call.result, jira_leg: nil, jira_import: @jira_import, uses_existing: false)
       end

@@ -29,14 +29,19 @@
 
 module Import
   class JiraStagedImportJob < ApplicationJob
+    include JobLogging
+
     def perform(batch, _context)
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
-      Rails.logger.tagged("batch_id:#{batch.id}", "jira_import_id:#{jira_import.id}") do
-        perform_stage(batch, jira_import)
-      end
+      perform_stage(batch, jira_import)
     end
 
     private
+
+    def log_context
+      batch = arguments.first
+      { batch_id: batch.id, jira_import_id: batch.properties[:jira_import_id] }
+    end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def perform_stage(batch, jira_import)
@@ -49,16 +54,14 @@ module Import
         end
 
         if batch.properties[:stage].nil?
-          Rails.logger.info "Starting stage 1"
-          batch.enqueue(stage: 1) do
+          start_stage(batch, 1) do
             Import::JiraFetchIssueTypesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
             Import::JiraFetchPrioritiesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
             Import::JiraFetchStatusesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
             Import::JiraFetchProjectsJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 1
-          Rails.logger.info "Starting stage 2"
-          batch.enqueue(stage: 2) do
+          start_stage(batch, 2) do
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraFetchProjectIssuesJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, jira_project.id)
               Import::JiraFetchProjectVersionsJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, jira_project.id)
@@ -66,34 +69,29 @@ module Import
             end
           end
         elsif batch.properties[:stage] == 2
-          Rails.logger.info "Starting stage 3"
-          batch.enqueue(stage: 3) do
+          start_stage(batch, 3) do
             Import::JiraFetchUsersJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
             Import::JiraFetchCustomFieldJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
             Import::JiraFetchSprintsJob.set(good_job_labels: ["stage_3"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 3
-          Rails.logger.info "Starting stage 4"
-          batch.enqueue(stage: 4) do
+          start_stage(batch, 4) do
             Import::JiraCreateUsersJob.set(good_job_labels: ["stage_4"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 4
-          Rails.logger.info "Starting stage 5"
-          batch.enqueue(stage: 5) do
+          start_stage(batch, 5) do
             Import::JiraCreateProjectRoleJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
             Import::JiraCreateCustomFieldsJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
             Import::JiraCreateLabelsJob.set(good_job_labels: ["stage_5"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 5
-          Rails.logger.info "Starting stage 6"
-          batch.enqueue(stage: 6) do
+          start_stage(batch, 6) do
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateProjectJob.set(good_job_labels: ["stage_6"]).perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 6
-          Rails.logger.info "Starting stage 7"
-          batch.enqueue(stage: 7) do
+          start_stage(batch, 7) do
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateProjectVersionsJob
                 .set(good_job_labels: ["stage_7"])
@@ -102,40 +100,35 @@ module Import
             Import::JiraCreateSprintsJob.set(good_job_labels: ["stage_7"]).perform_later(jira_import.id)
           end
         elsif batch.properties[:stage] == 7
-          Rails.logger.info "Starting stage 8"
-          batch.enqueue(stage: 8) do
+          start_stage(batch, 8) do
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_8"])
                 .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 8
-          Rails.logger.info "Starting stage 9"
-          batch.enqueue(stage: 9) do
+          start_stage(batch, 9) do
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateParentChildRelationsFromSubtasksJob.set(good_job_labels: ["stage_9"])
                 .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 9
-          Rails.logger.info "Starting stage 10"
-          batch.enqueue(stage: 10) do
+          start_stage(batch, 10) do
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateRelationsJob.set(good_job_labels: ["stage_10"])
                 .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 10
-          Rails.logger.info "Starting stage 11"
-          batch.enqueue(stage: 11) do
+          start_stage(batch, 11) do
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateProjectTimeEntriesJob.set(good_job_labels: ["stage_11"])
                 .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 11
-          Rails.logger.info "Starting stage 12"
-          batch.enqueue(stage: 12) do
+          start_stage(batch, 12) do
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraDownloadProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_12"])
                 .perform_later(jira_import.id, jira_project.id)
@@ -149,6 +142,11 @@ module Import
         Rails.logger.error "Staged import batch discarded, one or more jobs failed"
         jira_import.transition_to!(:import_error)
       end
+    end
+
+    def start_stage(batch, number, &)
+      Rails.logger.info "Starting stage #{number}"
+      batch.enqueue(stage: number, &)
     end
 
     def find_each_imported_project(jira_import, &)

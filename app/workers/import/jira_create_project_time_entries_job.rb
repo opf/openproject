@@ -32,13 +32,6 @@ module Import
     include Import::JiraJobUtils
     include Import::JiraProjectIssuesJob
 
-    on_complete do
-      tagged_log("jira_import_id:#{arguments[0]}",
-                 "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
-        Rails.logger.debug "Creating time entries finished"
-      end
-    end
-
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
@@ -46,28 +39,22 @@ module Import
 
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       jira_project = jira_project(jira_project_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_project_id:#{jira_project_key(jira_project_id)}", "jira_object_type:project") do
-        Rails.logger.debug "Creating time entries started"
-        @jira_import = Import::JiraImport.find(jira_import_id)
-        @system_user = User.system
-        @project = @jira_import.find_op_leg!(jira_project)
-        @project_role = Role.find_by!(name: "JiraMember")
-        @project_users = {}
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      @system_user = User.system
+      @project = @jira_import.find_op_leg!(jira_project)
+      @project_role = Role.find_by!(name: "JiraMember")
+      @project_users = {}
 
-        cursor ||= @jira_import.get_job_cursor(self)
-        enumerator_builder.active_record_on_records(
-          issues_to_process(@jira_import, jira_project_id)
-            .select(:id, "payload ->> 'key' AS key", "payload #> '{fields,worklog,worklogs}' AS worklogs"),
-          cursor:
-        )
-      end
+      cursor ||= @jira_import.get_job_cursor(self)
+      enumerator_builder.active_record_on_records(
+        issues_to_process(@jira_import, jira_project_id)
+          .select(:id, "payload ->> 'key' AS key", "payload #> '{fields,worklog,worklogs}' AS worklogs"),
+        cursor:
+      )
     end
 
-    def each_iteration(jira_issue, jira_import_id, jira_project_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_project_id:#{jira_project_key(jira_project_id)}",
-                 "jira_issue_key:#{jira_issue.key}") do
+    def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
+      with_log_context(jira_issue_key: jira_issue.key) do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             ActiveRecord::Base.transaction do
@@ -87,7 +74,7 @@ module Import
       work_package = @jira_import.find_op_leg!(jira_issue)
 
       jira_issue.worklogs.each do |worklog|
-        Rails.logger.tagged("jira_object_type:worklog", "jira_object_id_or_name:#{worklog['id']}") do
+        with_log_context(jira_object_type: "worklog", jira_object_id_or_name: worklog["id"]) do
           Rails.logger.debug "Creating time entry"
           create_time_entry(work_package, worklog)
         end
@@ -113,10 +100,7 @@ module Import
                  updated_at: Time.zone.parse(worklog["updated"])
                )
 
-      call.on_failure do
-        Rails.logger.error "Time entry creation failed: #{call.message}"
-        raise call.message
-      end
+      call.on_failure { raise call.message }
     end
 
     def worklog_comment(worklog)

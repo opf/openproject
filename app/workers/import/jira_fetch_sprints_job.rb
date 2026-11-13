@@ -35,6 +35,8 @@ module Import
     ISSUES_PHASE = "issues"
     ISSUE_BATCH_SIZE = 50
 
+    self.jira_object_type = "sprint"
+
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
@@ -113,14 +115,14 @@ module Import
         upsert_sprints(sprints)
       end
     rescue Import::JiraClient::UnsupportedEndpointError => e
-      log(board.origin_id) { Rails.logger.warn "Skipping sprints of board: #{e.message}" }
+      with_log_context(jira_object_id_or_name: board.origin_id) { Rails.logger.warn "Skipping sprints of board: #{e.message}" }
     end
 
     def fetch_sprint(origin_id)
       upsert_sprints([@jira_client.sprint(origin_id)])
     rescue Import::JiraClient::UnsupportedEndpointError => e
       unavailable_sprint_ids << origin_id
-      log(origin_id) { Rails.logger.warn "Skipping sprint: #{e.message}" }
+      with_log_context(jira_object_id_or_name: origin_id) { Rails.logger.warn "Skipping sprint: #{e.message}" }
     end
 
     def unavailable_sprint_ids
@@ -137,10 +139,6 @@ module Import
         end,
         unique_by: %i[jira_import_id origin_id]
       )
-    end
-
-    def log(origin_id, &)
-      tagged_log("jira_import_id:#{@jira_import.id}", "jira_object_type:sprint", "jira_object_id_or_name:#{origin_id}", &)
     end
   end
 end

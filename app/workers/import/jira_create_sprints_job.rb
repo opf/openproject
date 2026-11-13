@@ -40,11 +40,7 @@ module Import
       "closed" => "completed"
     }.freeze
 
-    on_complete do
-      tagged_log("jira_import_id:#{arguments[0]}", "jira_object_type:sprint") do
-        Rails.logger.debug "Creating sprints finished"
-      end
-    end
+    self.jira_object_type = "sprint"
 
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
@@ -63,7 +59,6 @@ module Import
 
     def build_enumerator(jira_import_id, cursor:)
       prepare_jira_import_ivars(jira_import_id)
-      log { Rails.logger.debug "Creating sprints started" }
       @issue_counts = issue_counts_by_sprint
 
       enumerator_builder.active_record_on_records(
@@ -92,7 +87,11 @@ module Import
 
     def earlier_imported_sprint(jira_sprint)
       sprint = Sprint.find_by(origin_source: ORIGIN_SOURCE, origin_host:, origin_id: jira_sprint.origin_id)
-      log(jira_sprint.origin_id) { Rails.logger.debug "Reusing sprint of an earlier import" } if sprint
+      return if sprint.nil?
+
+      with_log_context(jira_object_id_or_name: jira_sprint.origin_id) do
+        Rails.logger.debug "Reusing sprint of an earlier import"
+      end
       sprint
     end
 
@@ -169,7 +168,9 @@ module Import
       status = STATUSES.fetch(payload["state"].to_s.downcase, "in_planning")
       return status unless status == "active" && (start_date.nil? || finish_date.nil?)
 
-      log(payload["id"]) { Rails.logger.warn "Active sprint without start or end date is imported as in planning" }
+      with_log_context(jira_object_id_or_name: payload["id"]) do
+        Rails.logger.warn "Active sprint without start or end date is imported as in planning"
+      end
       "in_planning"
     end
 
@@ -183,7 +184,7 @@ module Import
       return if project.allow_multiple_active_sprints? || !Sprint.for_project(project).active.exists?
 
       project.update!(allow_multiple_active_sprints: true)
-      log { Rails.logger.warn "Project #{project.identifier} owns several active sprints, multiple active sprints are allowed" }
+      Rails.logger.warn "Project #{project.identifier} owns several active sprints, multiple active sprints are allowed"
     end
 
     def enable_backlogs(project)
@@ -196,12 +197,6 @@ module Import
 
     def to_date(value)
       Import::JiraSprintValueParser.parse_date(value)
-    end
-
-    def log(origin_id = nil, &)
-      tags = %W[jira_import_id:#{@jira_import.id} jira_object_type:sprint]
-      tags << "jira_object_id_or_name:#{origin_id}" if origin_id
-      tagged_log(*tags, &)
     end
   end
 end

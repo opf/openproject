@@ -32,12 +32,7 @@ module Import
     include JiraOpenProjectReferenceCreation
     include JiraJobUtils
 
-    on_complete do
-      tagged_log("jira_import_id:#{arguments[0]}",
-                 "jira_object_type:user") do
-        Rails.logger.debug "Creating users finished"
-      end
-    end
+    self.jira_object_type = "user"
 
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
@@ -57,22 +52,17 @@ module Import
     end
 
     def build_enumerator(jira_import_id, cursor:)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_object_type:user") do
-        Rails.logger.debug "Creating users started"
-        @jira_import = Import::JiraImport.find(jira_import_id)
+      @jira_import = Import::JiraImport.find(jira_import_id)
 
-        cursor ||= @jira_import.get_job_cursor(self)
-        enumerator_builder.active_record_on_records(
-          Import::JiraUser.where(jira_import_id:),
-          cursor: cursor
-        )
-      end
+      cursor ||= @jira_import.get_job_cursor(self)
+      enumerator_builder.active_record_on_records(
+        Import::JiraUser.where(jira_import_id:),
+        cursor: cursor
+      )
     end
 
-    def each_iteration(jira_user, jira_import_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_object_type:user", "jira_object_id_or_name:#{jira_user.origin_id}") do
+    def each_iteration(jira_user, _jira_import_id)
+      with_log_context(jira_object_id_or_name: jira_user.origin_id) do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             import_user(jira_user)
@@ -123,10 +113,8 @@ module Import
       if taken_errors.any? { |e| e.attribute == :mail }
         user = jira_user.try_to_find_existing_op_user_by_mail
         if user.blank?
-          message = "Existing User is expected to be found, because there was an email " \
-                    "collision. See attributes: #{user_attrs.except(:password)}"
-          Rails.logger.error message
-          raise message
+          raise "Existing User is expected to be found, because there was an email " \
+                "collision. See attributes: #{user_attrs.except(:password)}"
         end
 
         if jira_user_already_referenced?(user)
@@ -142,9 +130,7 @@ module Import
         return
       end
 
-      message = "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
-      Rails.logger.error message
-      raise message
+      raise "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
     end
 
     # rubocop:disable-next Metrics/AbcSize
@@ -169,10 +155,8 @@ module Import
          .new(user: User.system, contract_class: EmptyContract)
          .call(user_attrs.merge(overrides))
         unless new_call.success?
-          message = "Error creating a user with modified email '#{unique_mail}' " \
-                    "(#{user_attrs.except(:password)}): #{new_call.message}"
-          Rails.logger.error message
-          raise message
+          raise "Error creating a user with modified email '#{unique_mail}' " \
+                "(#{user_attrs.except(:password)}): #{new_call.message}"
         end
 
         create_reference!(
@@ -184,7 +168,6 @@ module Import
       end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def handle_referenced_user_login_conflict(user_attrs, jira_user)
       unique_login = resolve_jira_login(user_attrs[:login], jira_user.origin_id)
       Rails.logger.warn "Login '#{user_attrs[:login]}' already taken, using '#{unique_login}' instead"
@@ -192,10 +175,8 @@ module Import
                    .new(user: User.system, contract_class: EmptyContract)
                    .call(user_attrs.merge(login: unique_login))
       unless new_call.success?
-        message = "Error creating a user with modified login '#{unique_login}' " \
-                  "(#{user_attrs.except(:password)}): #{new_call.message}"
-        Rails.logger.error message
-        raise message
+        raise "Error creating a user with modified login '#{unique_login}' " \
+              "(#{user_attrs.except(:password)}): #{new_call.message}"
       end
 
       create_reference!(
@@ -214,7 +195,7 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def import_user_group(group_name, jira_user)
-      Rails.logger.tagged("jira_object_type:group", "jira_object_id_or_name:#{group_name}") do
+      with_log_context(jira_object_type: "group", jira_object_id_or_name: group_name) do
         Rails.logger.debug "Creating group"
         call = Groups::CreateService
                  .new(user: User.system, contract_class: EmptyContract)
@@ -244,9 +225,7 @@ module Import
 
     def handle_create_group_failure(call, group_name)
       if call.errors.find { |error| error.type == :taken }.blank?
-        message = "Error creating a group #{group_name}: #{call.message}"
-        Rails.logger.error message
-        raise message
+        raise "Error creating a group #{group_name}: #{call.message}"
       end
 
       group = Group.where(name: group_name).first
@@ -258,9 +237,7 @@ module Import
           uses_existing: true
         )
       else
-        message = "Existing Group is expected to be found. Group name: #{group_name}"
-        Rails.logger.error message
-        raise message
+        raise "Existing Group is expected to be found. Group name: #{group_name}"
       end
     end
 

@@ -29,6 +29,9 @@
 
 module Import
   class JiraProjectsMetaDataJob < ApplicationJob
+    # Declared before the concurrency extension, so that its retry_on keeps handling exceeded limits.
+    rescue_from StandardError, with: :transition_to_error
+
     include GoodJob::ActiveJobExtensions::Concurrency
     include JiraJobUtils
 
@@ -43,23 +46,12 @@ module Import
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
-      jira_import = nil
-      tagged_log("jira_import_id:#{jira_import_id}") do
-        Rails.logger.info "Fetching meta data for selected projects started"
-        jira_import = Import::JiraImport.find(jira_import_id)
-        client = jira_import.jira.client
-        selected = collect_metadata(client, jira_import.projects)
-        jira_import.update!(selected:)
-        jira_import.transition_to!(:projects_meta_done, selected:)
-        Rails.logger.info "Fetching meta data for selected projects finished"
-      end
-    rescue StandardError => e
-      tagged_log("jira_import_id:#{jira_import_id}") do
-        Rails.logger.error "Fetching meta data for selected projects failed: #{e.message}"
-      end
-      jira_import&.transition_to!(:projects_meta_error, error: e.message, error_backtrace: e.backtrace)
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      client = @jira_import.jira.client
+      selected = collect_metadata(client, @jira_import.projects)
+      @jira_import.update!(selected:)
+      @jira_import.transition_to!(:projects_meta_done, selected:)
     end
 
     def collect_metadata(client, projects)
@@ -84,7 +76,7 @@ module Import
     end
 
     def collect_project_metadata(client, project_id, project_key)
-      Rails.logger.tagged("jira_object_type:project", "jira_object_id_or_name:#{project_key}") do
+      with_log_context(jira_object_type: "project", jira_object_id_or_name: project_key) do
         Rails.logger.debug "Fetching meta data for project"
         project_statuses = client.project_statuses(project_id)
         project_issue_type_ids = project_statuses.pluck("id")
@@ -95,6 +87,12 @@ module Import
 
         [project_issues_count, project_status_ids, project_issue_type_ids]
       end
+    end
+
+    private
+
+    def transition_to_error(error)
+      @jira_import&.transition_to!(:projects_meta_error, error: error.message, error_backtrace: error.backtrace)
     end
   end
 end

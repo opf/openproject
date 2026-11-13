@@ -32,6 +32,8 @@ module Import
     include Import::JiraOpenProjectReferenceCreation
     include Import::JiraJobUtils
 
+    self.jira_object_type = "project"
+
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
@@ -41,20 +43,15 @@ module Import
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
           jira_project = jira_project(jira_project_id)
-          tagged_log("jira_import_id:#{jira_import_id}",
-                     "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
-            Rails.logger.debug "Creating project started"
-            @jira_import = Import::JiraImport.find(jira_import_id)
-            @jira_id = @jira_import.jira.id
-            @system_user = User.system
+          @jira_import = Import::JiraImport.find(jira_import_id)
+          @jira_id = @jira_import.jira.id
+          @system_user = User.system
 
-            # Needed to avoid project.lft and project.rgt corruption due to race condition
-            # when multiple projects are created at the same time.
-            lock_key = "jira_import_#{jira_import_id}_create_project"
-            OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
-              create_project(jira_project)
-            end
-            Rails.logger.debug "Creating project finished"
+          # Needed to avoid project.lft and project.rgt corruption due to race condition
+          # when multiple projects are created at the same time.
+          lock_key = "jira_import_#{jira_import_id}_create_project"
+          OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
+            create_project(jira_project)
           end
         end
       end
@@ -65,7 +62,7 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def create_project(jira_project)
       project_key = jira_project.payload.fetch("key")
-      Rails.logger.tagged("jira_object_id_or_name:#{project_key}") do
+      with_log_context(jira_object_id_or_name: project_key) do
         Rails.logger.debug "Creating project"
       end
       project_keys = jira_project.payload.fetch("projectKeys")
@@ -98,12 +95,9 @@ module Import
 
       if (error = service_call.errors.find { |e| e.attribute == :identifier && e.type == :taken }) && error.present?
         taken_identifier = error.options[:value]
-        message = I18n.t(:"admin.jira.run.project_identifier_taken", taken_identifier:)
-        Rails.logger.error message
-        raise message
+        raise I18n.t(:"admin.jira.run.project_identifier_taken", taken_identifier:)
       end
 
-      Rails.logger.error service_call.message
       raise service_call.message
     end
   end

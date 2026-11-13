@@ -31,25 +31,22 @@ module Import
   class JiraFetchIssueTypesJob < ApplicationJob
     include JiraJobUtils
 
+    self.jira_object_type = "issueType"
+
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     def perform(jira_import_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_object_type:issueType") do
-        Rails.logger.debug "Fetching issue types started"
-        prepare_jira_import_ivars(jira_import_id)
-        fetch_data
-        Rails.logger.debug "Fetching issue types finished"
-      end
+      prepare_jira_import_ivars(jira_import_id)
+      fetch_data
     end
 
     private
 
     def fetch_data
       issue_types_upsert_data = @jira_client.issue_types.map do |payload|
-        Rails.logger.tagged("jira_object_id_or_name:#{payload['name']}") do
+        with_log_context(jira_object_id_or_name: payload["name"]) do
           Rails.logger.debug "Fetched issue type"
         end
         {

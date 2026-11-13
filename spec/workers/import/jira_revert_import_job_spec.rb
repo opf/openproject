@@ -407,38 +407,48 @@ RSpec.describe Import::JiraRevertImportJob do
 
       expect(jira_import.get_job_cursor(job)).to eq("delete_references")
     end
+  end
 
-    context "when a step fails" do
-      let!(:reference) { reference_for(create(:project), "Project") }
+  context "when a revert step fails" do
+    let!(:reference) { reference_for(create(:project), "Project") }
 
-      before do
-        service = instance_double(Projects::DeleteService,
-                                  call: ServiceResult.failure(message: "Something went wrong"))
-        allow(Projects::DeleteService).to receive(:new).and_return(service)
-      end
+    before do
+      transition_to_reverting
+      service = instance_double(Projects::DeleteService,
+                                call: ServiceResult.failure(message: "Something went wrong"))
+      allow(Projects::DeleteService).to receive(:new).and_return(service)
 
-      it "transitions the import to revert_error, recording the failing step" do
-        catch(:abort) { job.each_iteration(:delete_projects, jira_import.id) }
+      described_class.perform_now(jira_import.id)
+    end
 
-        expect(jira_import.reload.current_state).to eq("revert_error")
-        expect(jira_import.last_transition.metadata)
-          .to include("error" => "Something went wrong", "revert_step" => "delete_projects")
-      end
+    it "transitions the import to revert_error, recording the failing step" do
+      expect(jira_import.reload.current_state).to eq("revert_error")
+      expect(jira_import.last_transition.metadata)
+        .to include("error" => "Something went wrong", "revert_step" => "delete_projects")
+    end
 
-      it "aborts the iteration" do
-        aborted = catch(:abort) do
-          job.each_iteration(:delete_projects, jira_import.id)
-          :not_aborted
-        end
+    it "stops before the remaining steps" do
+      expect(Import::JiraOpenProjectReference).to exist(reference.id)
+    end
 
-        expect(aborted).not_to eq(:not_aborted)
-      end
+    it "does not record a job cursor" do
+      expect(jira_import.get_job_cursor(job)).to be_nil
+    end
+  end
 
-      it "does not record a job cursor" do
-        catch(:abort) { job.each_iteration(:delete_projects, jira_import.id) }
+  context "when the revert cannot resume" do
+    before do
+      transition_to_reverting
+      allow(Import::JiraImport).to receive(:find).and_return(jira_import)
+      allow(jira_import).to receive(:get_job_cursor).and_raise("Cursor unreadable")
 
-        expect(jira_import.get_job_cursor(job)).to be_nil
-      end
+      described_class.perform_now(jira_import.id)
+    end
+
+    it "transitions the import to revert_error without a failing step" do
+      expect(jira_import.reload.current_state).to eq("revert_error")
+      expect(jira_import.last_transition.metadata).to include("error" => "Cursor unreadable")
+      expect(jira_import.last_transition.metadata).not_to have_key("revert_step")
     end
   end
 

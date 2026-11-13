@@ -33,7 +33,7 @@ module Import
 
     class AbortionError < StandardError; end
 
-    on_complete do
+    on_shutdown do
       raise AbortionError, "Job was aborted" if @aborted
     end
 

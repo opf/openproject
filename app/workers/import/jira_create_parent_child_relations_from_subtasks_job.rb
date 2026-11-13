@@ -31,14 +31,6 @@ module Import
   class JiraCreateParentChildRelationsFromSubtasksJob < ProgressableJob
     include Import::JiraJobUtils
 
-    on_complete do
-      tagged_log("jira_import_id:#{arguments[0]}",
-                 "jira_project_id:#{jira_project_key(arguments[1])}",
-                 "jira_object_type:project") do
-        Rails.logger.debug "Creating parent-child relations finished"
-      end
-    end
-
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
@@ -60,25 +52,18 @@ module Import
     end
 
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      jira_project = jira_project(jira_project_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
-        Rails.logger.debug "Creating parent-child relations started"
-        @jira_import = Import::JiraImport.find(jira_import_id)
+      @jira_import = Import::JiraImport.find(jira_import_id)
 
-        cursor ||= @jira_import.get_job_cursor(self)
-        enumerator_builder.active_record_on_records(
-          subtasks_scope(jira_import_id, jira_project_id),
-          cursor:
-        )
-      end
+      cursor ||= @jira_import.get_job_cursor(self)
+      enumerator_builder.active_record_on_records(
+        subtasks_scope(jira_import_id, jira_project_id),
+        cursor:
+      )
     end
 
-    def each_iteration(jira_issue, jira_import_id, jira_project_id)
+    def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_project_id:#{jira_project_key(jira_project_id)}",
-                 "jira_issue_key:#{jira_issue_key}") do
+      with_log_context(jira_issue_key:) do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             ActiveRecord::Base.transaction do
@@ -128,7 +113,6 @@ module Import
 
       return if call.success?
 
-      Rails.logger.error "Failed to set parent for work package #{child_wp.id}: #{call.message}"
       raise call.message
     end
 

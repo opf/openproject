@@ -31,6 +31,8 @@ module Import
   class JiraFetchProjectIssuesJob < ProgressableJob
     include JiraJobUtils
 
+    self.jira_object_type = "issue"
+
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
@@ -52,10 +54,6 @@ module Import
     # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       project_key = jira_project_key(jira_project_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_project_id:#{project_key}", "jira_object_type:issue") do
-        Rails.logger.debug "Fetching issues started"
-      end
       prepare_jira_import_ivars(jira_import_id)
 
       cursor ||= @jira_import.get_job_cursor(self)
@@ -76,13 +74,7 @@ module Import
 
           @jira_import.set_job_cursor(self, new_cursor)
 
-          # This loop body runs later, inside the Enumerator's own Fiber, once build_enumerator has
-          # already returned and the tagged block above has already closed - so it needs its own
-          # full set of tags rather than nesting inside (and inheriting from) that one.
-          tagged_log("jira_import_id:#{jira_import_id}",
-                     "jira_project_id:#{project_key}", "jira_object_type:issue") do
-            Rails.logger.debug { "Fetched #{start_at + issues.size} of #{total} issues" }
-          end
+          Rails.logger.debug { "Fetched #{start_at + issues.size} of #{total} issues" }
 
           yielder.yield(
             issues_and_total,
@@ -96,14 +88,11 @@ module Import
 
     def each_iteration(issues_and_total, jira_import_id, jira_project_id)
       issues = issues_and_total["issues"]
-      tagged_log("jira_import_id:#{jira_import_id}", "jira_project_id:#{jira_project_key(jira_project_id)}",
-                 "jira_object_type:issue") do
-        issues.each do |payload|
-          Rails.logger.tagged("jira_issue_key:#{payload['key']}") do
-            Rails.logger.debug "Fetched issue"
-            fetch_missing_worklogs(payload)
-            fetch_watchers(payload)
-          end
+      issues.each do |payload|
+        with_log_context(jira_issue_key: payload["key"]) do
+          Rails.logger.debug "Fetched issue"
+          fetch_missing_worklogs(payload)
+          fetch_watchers(payload)
         end
       end
       issues_upsert_data = issues.map do |payload|

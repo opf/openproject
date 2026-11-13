@@ -49,10 +49,6 @@ module Import
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
       allow_multiple_active_sprints
-      tagged_log("jira_import_id:#{arguments[0]}",
-                 "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
-        Rails.logger.debug "Creating work packages finished"
-      end
     end
 
     def text
@@ -63,42 +59,35 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       jira_project = jira_project(jira_project_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_project_id:#{jira_project.payload['key']}",
-                 "jira_object_type:project") do
-        Rails.logger.debug "Creating work packages started"
-        @jira_import = Import::JiraImport.find(jira_import_id)
-        jira = @jira_import.jira
-        @jira_id = jira.id
-        @jira_base_url = jira.url
-        @system_user = User.system
-        @jira_client = jira.client
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      jira = @jira_import.jira
+      @jira_id = jira.id
+      @jira_base_url = jira.url
+      @system_user = User.system
+      @jira_client = jira.client
 
-        @project_role = Role.find_by!(name: "JiraMember")
-        @custom_field_registry = build_custom_field_registry
+      @project_role = Role.find_by!(name: "JiraMember")
+      @custom_field_registry = build_custom_field_registry
 
-        @project = JiraOpenProjectReference.find_by!(
-          jira_entity_id: jira_project.id,
-          jira_entity_class: jira_project.class.to_s
-        ).op_leg
+      @project = JiraOpenProjectReference.find_by!(
+        jira_entity_id: jira_project.id,
+        jira_entity_class: jira_project.class.to_s
+      ).op_leg
 
-        setup_resolution_date_cf(jira_project)
-        @sprint_field = Import::JiraIssueSprintField.from_staged_fields(@jira_import)
+      setup_resolution_date_cf(jira_project)
+      @sprint_field = Import::JiraIssueSprintField.from_staged_fields(@jira_import)
 
-        cursor ||= @jira_import.get_job_cursor(self)
-        enumerator_builder.active_record_on_records(
-          Import::JiraIssue.where(jira_import_id:, jira_project_id:),
-          cursor: cursor
-        )
-      end
+      cursor ||= @jira_import.get_job_cursor(self)
+      enumerator_builder.active_record_on_records(
+        Import::JiraIssue.where(jira_import_id:, jira_project_id:),
+        cursor: cursor
+      )
     end
 
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      tagged_log("jira_import_id:#{_jira_import_id}",
-                 "jira_project_id:#{jira_project_key(_jira_project_id)}",
-                 "jira_issue_key:#{jira_issue_key}") do
+      with_log_context(jira_issue_key:) do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             ActiveRecord::Base.transaction do
@@ -195,10 +184,7 @@ module Import
       service_call = Projects::Types::AddService
                        .new(user: @system_user, model: project)
                        .call(variant: type.default_variant)
-      if service_call.failure?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
+      raise service_call.message if service_call.failure?
     end
 
     # rubocop:disable-next Metrics/AbcSize
@@ -236,7 +222,7 @@ module Import
     end
 
     def find_or_create_resource(klass, name, jira_object_type:)
-      Rails.logger.tagged("jira_object_type:#{jira_object_type}", "jira_object_id_or_name:#{name}") do
+      with_log_context(jira_object_type:, jira_object_id_or_name: name) do
         resource = find_resource(klass, name)
         if resource
           Rails.logger.debug { "Found existing #{klass.name}" }
@@ -316,17 +302,14 @@ module Import
     end
 
     def update_workflows(type)
-      Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
+      with_log_context(jira_object_type: "issueType", jira_object_id_or_name: type.name) do
         statuses = Status.all
         row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
         status_params = statuses.to_h { |status| [status.id.to_s, row] }
         call = Workflows::BulkUpdateService
                   .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
                   .call(status_params)
-        if call.failure?
-          Rails.logger.error call.message
-          raise call.message
-        end
+        raise call.message if call.failure?
       end
     end
 
@@ -402,10 +385,7 @@ module Import
             **label_attrs(jira_issue),
             **custom_field_attrs
           )
-      unless service_call.success?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
+      raise service_call.message unless service_call.success?
 
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
@@ -457,7 +437,7 @@ module Import
       return if @project.allow_multiple_active_sprints? || !Sprint.for_project(@project).active.many?
 
       @project.update!(allow_multiple_active_sprints: true)
-      tagged_log("jira_import_id:#{@jira_import.id}", "jira_project_id:#{@project.identifier}", "jira_object_type:sprint") do
+      with_log_context(jira_object_type: "sprint") do
         Rails.logger.warn "Project #{@project.identifier} has several active sprints, multiple active sprints are allowed"
       end
     end
@@ -488,7 +468,7 @@ module Import
     end
 
     def prepare_attachment(jira_issue, project, payload)
-      Rails.logger.tagged("jira_object_type:attachment", "jira_object_id_or_name:#{payload['filename']}") do
+      with_log_context(jira_object_type: "attachment", jira_object_id_or_name: payload["filename"]) do
         author = find_user(payload.dig("author", "key"))
         create_member(project, author) if author.present? && !author.is_a?(DeletedUser)
         attachment = create_prepared_attachment(payload, author || @system_user)
@@ -519,10 +499,7 @@ module Import
             created_at: attached_at(payload)
           )
 
-      unless service_call.success?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
+      raise service_call.message unless service_call.success?
 
       service_call.result
     end
@@ -548,10 +525,10 @@ module Import
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        Rails.logger.tagged("jira_object_type:comment", "jira_object_id_or_name:#{comment['created']}") do
+        with_log_context(jira_object_type: "comment", jira_object_id_or_name: comment["created"]) do
           Rails.logger.debug "Adding comment"
           key = comment.dig("author", "key")
-          Rails.logger.tagged("author:#{key}") do
+          with_log_context(author: key) do
             author = find_user(key)
             create_member(project, author)
             journal_service.add_comment(comment:, user: author || User.system)
