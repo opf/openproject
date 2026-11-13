@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   calendarLocaleOf,
   firstDayOfWeek,
+  formatDate,
   formatDateTime,
   isoDateOf,
   localDateOf,
@@ -10,8 +11,8 @@ import {
   parseDateTime,
   uses24HourClock,
   wallClockDateToISO,
-} from '../../../../lib/components/CreateWorkPackage/dateTime';
-import type { DateTimeSettings } from '../../../../lib/components/CreateWorkPackage/dateTime';
+} from '../../../lib/utils/dateTime';
+import type { DateTimeSettings } from '../../../lib/utils/dateTime';
 
 const berlin:DateTimeSettings = {
   timeZone: 'Europe/Berlin',
@@ -72,6 +73,31 @@ describe('dateTime', () => {
     it('has no date for what is not an ISO date', () => {
       expect(localDateOf('26.10.2026')).toBeNull();
       expect(localDateOf('')).toBeNull();
+    });
+  });
+
+  describe('formatDate', () => {
+    it('shows the day in the date format of the user', () => {
+      expect(formatDate('2026-10-26', berlin)).toBe('26.10.2026');
+    });
+
+    it('keeps the day whatever the time zone', () => {
+      expect(formatDate('2026-10-26', { ...berlin, timeZone: 'Pacific/Kiritimati' })).toBe('26.10.2026');
+      expect(formatDate('2026-10-26', { ...berlin, timeZone: 'Pacific/Pago_Pago' })).toBe('26.10.2026');
+    });
+
+    it('names the month in the language', () => {
+      expect(formatDate('2026-10-26', { ...berlin, locale: 'de', dateFormat: 'D MMMM YYYY' })).toBe('26 Oktober 2026');
+    });
+
+    it('falls back to the format of the language', () => {
+      expect(formatDate('2026-10-26', { ...berlin, locale: 'en-US', dateFormat: null })).toBe('10/26/2026');
+      expect(formatDate('2026-10-26', { ...berlin, locale: 'de', dateFormat: null })).toBe('26.10.2026');
+    });
+
+    it('shows nothing for what is not a date', () => {
+      expect(formatDate('next tuesday', berlin)).toBe('');
+      expect(formatDate('', berlin)).toBe('');
     });
   });
 

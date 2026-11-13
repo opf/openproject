@@ -6,7 +6,8 @@ import { clearWorkPackageCache } from '../lib/services/workPackageLoader';
 import * as createWorkPackageChoice from '../lib/components/CreateWorkPackage/lastChoice';
 import * as attributeChoice from '../lib/components/WorkPackageAttribute/lastChoice';
 import { clearPickerCache } from '../lib/components/CreateWorkPackage/usePickerOptions';
-import { clearDatePickerSettings } from '../lib/components/CreateWorkPackage/datePickerSettings';
+import { clearNonWorkingDays } from '../lib/components/CreateWorkPackage/nonWorkingDays';
+import { clearDateTimeSettings } from '../lib/services/dateTimeSettings';
 import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi';
 import { DESKTOP } from './helpers/createWorkPackageHelpers';
 
@@ -16,7 +17,8 @@ beforeEach(async () => {
   createWorkPackageChoice.forgetChoice();
   attributeChoice.forgetChoice();
   clearPickerCache();
-  clearDatePickerSettings();
+  clearDateTimeSettings();
+  clearNonWorkingDays();
 });
 
 beforeAll(async () => {

@@ -2,8 +2,9 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import type { WorkPackage } from '../../openProjectTypes';
+import { useDateTimeSettings } from '../../services/dateTimeSettings';
 import { cachedWorkPackageSchema } from '../../services/workPackageLoader';
-import { findAttribute, formatAttributeValue, type WorkPackageAttribute } from './attributes';
+import { findAttribute, formatAttributeValue, type FormatOptions, type WorkPackageAttribute } from './attributes';
 
 export interface ReadyAttribute {
   state:'ready';
@@ -14,14 +15,15 @@ export interface ReadyAttribute {
 
 export type ResolvedAttribute = { state:'loading' | 'unauthorized' | 'error' | 'missing' } | ReadyAttribute;
 
-export function useAttributeFormatOptions() {
-  const { t, i18n } = useTranslation();
-  return useMemo(() => ({
-    locale: i18n.language,
+export function useAttributeFormatOptions():FormatOptions | null {
+  const { t } = useTranslation();
+  const dateTimeSettings = useDateTimeSettings();
+  return useMemo(() => dateTimeSettings && {
+    ...dateTimeSettings,
     yes: t('workPackageAttribute.yes'),
     no: t('workPackageAttribute.no'),
     days: (count:number) => t('workPackageAttribute.days', { count }),
-  }), [t, i18n.language]);
+  }, [t, dateTimeSettings]);
 }
 
 export function useWorkPackageAttribute(wpid:string, reference:string):ResolvedAttribute {
@@ -34,7 +36,7 @@ export function useWorkPackageAttribute(wpid:string, reference:string):ResolvedA
 
     if (error || numericId === undefined) return { state: 'error' };
 
-    if (loading || !workPackage) return { state: 'loading' };
+    if (loading || !workPackage || !formatOptions) return { state: 'loading' };
 
     const schema = cachedWorkPackageSchema(workPackage);
     if (!schema) return { state: 'error' };

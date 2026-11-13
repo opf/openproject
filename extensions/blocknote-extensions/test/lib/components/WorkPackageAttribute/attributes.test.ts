@@ -8,12 +8,16 @@ import {
   principalsOf,
   valueKindOf,
 } from '../../../../lib/components/WorkPackageAttribute/attributes';
+import type { FormatOptions } from '../../../../lib/components/WorkPackageAttribute/attributes';
 import type { WorkPackage } from '../../../../lib/openProjectTypes';
 import { mockAttributeSchema, mockAttributeWorkPackage, mockMilestoneSchema } from '../../../mocks/workPackageAttributes';
 
 const workPackage = mockAttributeWorkPackage as unknown as WorkPackage;
-const options = {
+const options:FormatOptions = {
+  timeZone: 'Europe/Berlin',
   locale: 'en',
+  dateFormat: 'DD.MM.YYYY',
+  timeFormat: 'HH:mm',
   yes: 'Yes',
   no: 'No',
   days: (count:number) => `${count} days`,
@@ -120,8 +124,31 @@ describe('formatAttributeValue', () => {
     expect(valueOf('responsible')).toBe(EMPTY_VALUE);
   });
 
-  it('formats dates without shifting them', () => {
-    expect(valueOf('startDate')).toBe('Sep 14, 2026');
+  it('formats dates in the date format of the user', () => {
+    expect(valueOf('startDate')).toBe('14.09.2026');
+  });
+
+  it('formats dates without shifting them in any time zone', () => {
+    const attribute = findAttribute(mockAttributeSchema, 'startDate')!;
+
+    expect(formatAttributeValue(workPackage, attribute, { ...options, timeZone: 'Pacific/Pago_Pago' })).toBe('14.09.2026');
+  });
+
+  it('formats date times in the formats and time zone of the user', () => {
+    expect(valueOf('createdAt')).toBe('01.09.2026 10:30');
+  });
+
+  it('formats dates in the format of the language when the user chose none', () => {
+    const attribute = findAttribute(mockAttributeSchema, 'createdAt')!;
+    const unset = { ...options, locale: 'en-US', dateFormat: null, timeFormat: null };
+
+    expect(formatAttributeValue(workPackage, attribute, unset)).toBe('9/1/2026 10:30 AM');
+  });
+
+  it('shows what is no date as it is', () => {
+    const attribute = findAttribute(mockAttributeSchema, 'startDate')!;
+
+    expect(formatAttributeValue({ ...workPackage, startDate: 'someday' } as WorkPackage, attribute, options)).toBe('someday');
   });
 
   it('formats work in hours and duration in days', () => {
@@ -151,8 +178,8 @@ describe('formatAttributeValue', () => {
   });
 
   it('formats in the given locale', () => {
-    const attribute = findAttribute(mockAttributeSchema, 'startDate')!;
-    expect(formatAttributeValue(workPackage, attribute, { ...options, locale: 'de' })).toBe('14.09.2026');
+    const attribute = findAttribute(mockAttributeSchema, 'Budget share')!;
+    expect(formatAttributeValue(workPackage, attribute, { ...options, locale: 'de' })).toBe('0,25');
   });
 });
 

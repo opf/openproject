@@ -1,4 +1,5 @@
 import type { WorkPackage, WorkPackageSchema } from '../../openProjectTypes';
+import { formatDate, formatDateTime, type DateTimeSettings } from '../../utils/dateTime';
 
 export interface WorkPackageAttribute {
   key:string;
@@ -76,8 +77,7 @@ export function findAttribute(schema:WorkPackageSchema, reference:string):WorkPa
 
 export const EMPTY_VALUE = '–';
 
-export interface FormatOptions {
-  locale:string;
+export interface FormatOptions extends DateTimeSettings {
   yes:string;
   no:string;
   days:(count:number) => string;
@@ -119,30 +119,14 @@ function formatNumber(attribute:WorkPackageAttribute, value:number, locale:strin
   return attribute.key === 'percentageDone' ? `${formatted}%` : formatted;
 }
 
-function formatDate(value:string, locale:string):string {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-  if (!match) return value;
-
-  // Built from parts so the date does not shift with the time zone.
-  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
-  return new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(date);
-}
-
-function formatDateTime(value:string, locale:string):string {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-
-  return new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(date);
-}
-
 function formatScalar(attribute:WorkPackageAttribute, value:unknown, options:FormatOptions):string {
   if (typeof value === 'boolean') return value ? options.yes : options.no;
   if (typeof value === 'number') return formatNumber(attribute, value, options.locale);
   if (typeof value !== 'string') return EMPTY_VALUE;
 
   if (attribute.type === 'Duration') return formatDuration(attribute, value, options);
-  if (attribute.type === 'Date') return formatDate(value, options.locale);
-  if (attribute.type === 'DateTime') return formatDateTime(value, options.locale);
+  if (attribute.type === 'Date') return formatDate(value, options) || value;
+  if (attribute.type === 'DateTime') return formatDateTime(value, options) || value;
 
   return value;
 }
