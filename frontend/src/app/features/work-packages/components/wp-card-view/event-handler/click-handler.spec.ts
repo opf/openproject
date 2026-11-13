@@ -76,6 +76,8 @@ describe('CardClickHandler', () => {
         <div class="op-wp-single-card" data-test-selector="op-wp-single-card" tabindex="0">
           <span>${row.workPackageId}</span>
           <button type="button" aria-disabled="true">Status</button>
+          <button type="button" aria-haspopup="menu"><span>Open menu</span></button>
+          <ul role="menu"><li role="none"><button type="button" role="menuitem">Closed</button></li></ul>
         </div>
       </wp-single-card>
     `).join('');
@@ -193,6 +195,26 @@ describe('CardClickHandler', () => {
 
     expect(selected()).toEqual([]);
     expect(focus.focusedWorkPackage).toBeNull();
+    expect(itemClicked).toEqual([]);
+  });
+
+  it('ignores activation of a menu trigger inside the card', () => {
+    const itemClicked:{ workPackageId:string, double:boolean }[] = [];
+    card.itemClicked.subscribe((event) => itemClicked.push(event));
+
+    within(cardSurface('B')).getByRole('button', { name: 'Open menu' }).click();
+
+    expect(selected()).toEqual([]);
+    expect(itemClicked).toEqual([]);
+  });
+
+  it('ignores activation of a menu item inside the card', () => {
+    const itemClicked:{ workPackageId:string, double:boolean }[] = [];
+    card.itemClicked.subscribe((event) => itemClicked.push(event));
+
+    within(cardSurface('B')).getByRole('menuitem', { name: 'Closed' }).click();
+
+    expect(selected()).toEqual([]);
     expect(itemClicked).toEqual([]);
   });
 });

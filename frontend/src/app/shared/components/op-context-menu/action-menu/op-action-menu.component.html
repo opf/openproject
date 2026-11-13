@@ -54,7 +54,7 @@
                 class="ActionListContent"
                 [class.ActionListContent--visual16]="item.octicon || item.icon">
                 <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
-                <span class="ActionListItem-label" [class]="item.labelClass">{{ item.linkText }}</span>
+                <ng-container *ngTemplateOutlet="itemLabel; context: { item: item }" />
                 <span class="ActionListItem-visual ActionListItem-visual--trailing">
                   <svg octicon size="small" icon="chevron-right"></svg>
                 </span>
@@ -93,7 +93,7 @@
                   [class.ActionListContent--visual16]="item.octicon || item.icon"
                   (click)="handleClick(item, $event)">
                   <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
-                  <span class="ActionListItem-label" [class]="item.labelClass">{{ item.linkText }}</span>
+                  <ng-container *ngTemplateOutlet="itemLabel; context: { item: item }" />
                 </a>
               } @else {
                 <button type="button"
@@ -107,7 +107,7 @@
                   [class.ActionListContent--visual16]="item.octicon || item.icon"
                   (click)="handleClick(item, $event)">
                   <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
-                  <span class="ActionListItem-label" [class]="item.labelClass">{{ item.linkText }}</span>
+                  <ng-container *ngTemplateOutlet="itemLabel; context: { item: item }" />
                 </button>
               }
             </li>
@@ -126,11 +126,22 @@
   }
   @if (item.octicon) {
     <span class="ActionListItem-visual ActionListItem-visual--leading">
-      <svg octicon size="small" [icon]="item.octicon"></svg>
+      <svg octicon size="small" [icon]="item.octicon" [class]="item.octiconClass"></svg>
     </span>
   } @else if (item.icon) {
     <span class="ActionListItem-visual ActionListItem-visual--leading">
       <op-icon [icon-classes]="item.icon" />
     </span>
   }
+</ng-template>
+
+<ng-template #itemLabel let-item="item">
+  <span class="ActionListItem-label">
+    @if (item.labelClass) {
+      <!-- Primer reserves the label's ::before for list dividers and hides it on the first and hovered items. -->
+      <span [class]="item.labelClass">{{ item.linkText }}</span>
+    } @else {
+      {{ item.linkText }}
+    }
+  </span>
 </ng-template>

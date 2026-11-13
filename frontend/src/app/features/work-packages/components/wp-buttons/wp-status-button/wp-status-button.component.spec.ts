@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
 import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -35,6 +36,17 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { ToolTipElement } from 'core-app/shared/components/primer/tool-tip-element';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import {
+  OpActionMenuTriggerDirective,
+} from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
+import {
+  WorkPackageStatusDropdownDirective,
+} from 'core-app/shared/components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageStatusButtonComponent } from './wp-status-button.component';
 
 const translations:Record<string, string> = {
@@ -51,12 +63,14 @@ describe('WorkPackageStatusButtonComponent', () => {
 
     await TestBed
       .configureTestingModule({
-        imports: [OpTooltipDirective],
+        imports: [OpTooltipDirective, OpActionMenuComponent, OpActionMenuTriggerDirective, WorkPackageStatusDropdownDirective],
         declarations: [WorkPackageStatusButtonComponent],
         schemas: [NO_ERRORS_SCHEMA],
         providers: [
           { provide: I18nService, useValue: { t: (key:string) => translations[key] ?? key } },
           { provide: SchemaCacheService, useValue: { of: () => schema } },
+          { provide: ToastService, useValue: {} },
+          { provide: WorkPackageNotificationService, useValue: {} },
           {
             provide: HalResourceEditingService,
             useValue: {

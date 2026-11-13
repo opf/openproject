@@ -35,7 +35,7 @@ import { WorkPackageCardViewService } from 'core-app/features/work-packages/comp
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { isInsideDisabledControl } from 'core-common/interactive-element-helper';
+import { isInsideDisabledControl, isInsideMenuControl } from 'core-common/interactive-element-helper';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class CardRightClickHandler implements CardEventHandler {
@@ -72,7 +72,7 @@ export class CardRightClickHandler implements CardEventHandler {
       return true;
     }
 
-    if (isInsideDisabledControl(target)) {
+    if (isInsideDisabledControl(target) || isInsideMenuControl(target)) {
       return true;
     }
 

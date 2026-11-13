@@ -422,6 +422,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageReminderContextMenuDirective,
     WorkPackageGroupToggleDropdownMenuDirective,
     WorkPackageCreateSettingsMenuDirective,
+    WorkPackageStatusDropdownDirective,
     NgSelectModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
@@ -550,7 +551,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageFilterButtonComponent,
 
     // Context menus
-    WorkPackageStatusDropdownDirective,
     WorkPackageViewDropdownMenuDirective,
 
     // Timeline
