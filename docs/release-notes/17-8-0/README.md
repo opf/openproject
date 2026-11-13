@@ -183,7 +183,7 @@ The authentication setting controlling who can create projects now includes a no
 
 The page for creating a new two-factor authentication device during an enforced 2FA login has also been updated to the modern Primer-based interface. For more information, see the [two-factor authentication (2FA) documentation](../../system-admin-guide/authentication/two-factor-authentication/).
 
-[Workflow configuration](../../system-admin-guide/manage-work-packages/work-package-types/workflows/) has moved directly into the work package type settings under **Administration → Work packages → Types → Workflows**, bringing type-specific configuration together in one place. The workflow interface has been updated as well: **Default transitions**, **User is author**, and **User is assignee** can now be selected from a dropdown alongside the role selection.
+[Workflow configuration](../../system-admin-guide/manage-work-packages/work-package-workflows/) has moved directly into the work package type settings under **Administration → Work packages → Types → Workflows**, bringing type-specific configuration together in one place. The workflow interface has been updated as well: **Default transitions**, **User is author**, and **User is assignee** can now be selected from a dropdown alongside the role selection.
 
 ## Important updates and breaking changes
 
