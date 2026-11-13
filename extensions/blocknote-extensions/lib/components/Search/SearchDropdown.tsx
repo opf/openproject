@@ -90,7 +90,7 @@ export const SearchDropdown = ({ onSelect, onCancel, onCreate, autoFocus, render
     handleKeyDown,
   } = useWorkPackageSearchDropdown({
     onSelect,
-    onEscape: onCancel ?? (() => undefined),
+    onEscape: onCancel,
     onCreate,
   });
 
