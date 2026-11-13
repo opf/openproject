@@ -83,18 +83,24 @@ module MeetingAgendaItems
       end
     end
 
-    def perform_drop(service_call, params)
-      begin
-        section_changed, current_section, old_section = check_and_update_section_if_changed(params)
-        update_position(params[:position]&.to_i)
+    def perform_drop(service_call, params) # rubocop:disable Metrics/AbcSize
+      new_section_id = params[:target_id]&.to_i
+      section_changed = @old_section.id != new_section_id
 
-        service_call.success = true
-        service_call.result = { section_changed:, current_section:, old_section: }
-      rescue StandardError => e
-        service_call.success = false
-        service_call.errors.add(:base, e.message)
+      if section_changed
+        move_call = move_to_section(target_section(new_section_id))
+        return move_call if move_call.failure?
       end
 
+      update_position(params[:position]&.to_i)
+
+      service_call.result = { section_changed:,
+                              current_section: @meeting_agenda_item.meeting_section,
+                              old_section: (@old_section if section_changed) }
+      service_call
+    rescue StandardError => e
+      service_call.success = false
+      service_call.errors.add(:base, e.message)
       service_call
     end
 
@@ -123,23 +129,15 @@ module MeetingAgendaItems
                              Journal::CausedByMeetingAgendaItemMoved.new(destination, source_meeting:))
     end
 
-    def check_and_update_section_if_changed(params)
-      current_section = @meeting_agenda_item.meeting_section
-      new_section_id = params[:target_id]&.to_i
+    def move_to_section(new_section)
+      @meeting_agenda_item.meeting_section = new_section
+      contract = UpdateContract.new(@meeting_agenda_item, user)
 
-      if current_section.id != new_section_id
-        old_section = current_section
-        current_section = update_section(new_section_id)
-        return [true, current_section, old_section]
-      end
-
-      [false, current_section, nil]
-    end
-
-    def update_section(new_section_id)
-      target_section(new_section_id).tap do |new_section|
-        @meeting_agenda_item.remove_from_list
-        @meeting_agenda_item.update(meeting_section: new_section)
+      if contract.validate
+        @meeting_agenda_item.save!
+        ServiceResult.success
+      else
+        ServiceResult.failure(errors: contract.errors)
       end
     end
 
@@ -150,20 +148,14 @@ module MeetingAgendaItems
     end
 
     def target_section(new_section_id)
-      # allows from backlog to current meeting
-      target_section = if @meeting.recurring? && @old_section.backlog? && @meeting.backlog == @old_section
-                         MeetingSection
-                         .joins(:meeting)
-                         .where(meetings: { recurring_meeting_id: @meeting.recurring_meeting_id })
-                         .find_by(id: new_section_id)
-                       end
-
-      # allows from current meeting to backlog
-      if @meeting.backlog&.id == new_section_id.to_i
-        target_section ||= @meeting.backlog
+      if @meeting.backlog == @old_section
+        # UpdateContract#section_belongs_to_meeting limits backlog items to the meetings of their series
+        MeetingSection.joins(:meeting).merge(Meeting.visible(user)).find(new_section_id)
+      elsif @meeting.backlog&.id == new_section_id
+        @meeting.backlog
+      else
+        @meeting.sections.find(new_section_id)
       end
-
-      target_section || @meeting.sections.find(new_section_id)
     end
   end
 end
