@@ -38,14 +38,16 @@ module WorkPackageTypes
       # switched or removed through a crafted request.
       def selected_projects
         @selected_projects ||= ::Project
-                                 .where(id: Array(params[:project_ids]))
+                                 .where(id: selected_project_ids)
                                  .where(id: ::ProjectType.where(type_id: @type.id).select(:project_id))
                                  .order(:lft)
       end
 
       # Decided by what was submitted, not by what survives the filter above: a bulk dialog
       # stays a bulk dialog even when only one of its projects remains.
-      def bulk_selection? = Array(params[:project_ids]).many?
+      def bulk_selection? = selected_project_ids.many?
+
+      def selected_project_ids = Array(params[:project_ids])
     end
   end
 end

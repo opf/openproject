@@ -966,6 +966,10 @@ en:
 
     types:
       projects:
+        action_menu:
+          menu_label:
+            one: "Project actions"
+            other: "Actions for %{count} selected projects"
         selection:
           cleared: "Selection cleared."
           not_selectable: "Selection unchanged. This project cannot be selected."

@@ -87,11 +87,6 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
       .to have_css(".color-fg-muted", exact_text: I18n.t("projects.settings.types.project_specific_variant"))
   end
 
-  it "labels the switch action to match the switch dialog" do
-    expect(hardware_row).to have_link(I18n.t("types.edit.projects.actions.switch_variant"))
-    expect(hardware_row).to have_link("Switch variant")
-  end
-
   it "lets rows be selected but not dragged" do
     table = page.find_by_id("project-table")
 
@@ -104,34 +99,22 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
     expect(base_row["tabindex"]).to eq("0")
   end
 
-  it "offers switching and removal for the row's own project" do
-    expect(base_row).to have_css(".ActionListItem", text: "Switch variant")
-    expect(base_row).to have_css(".ActionListItem", text: "Remove type from this project")
-  end
-
-  it "confirms the row's own removal in the removal dialog" do
-    remove = base_row.find("a", text: "Remove type from this project", visible: :all)
-
-    expect(remove[:href]).to eq(new_type_projects_link_deletion_path(type_id: type.id, project_ids: [on_base.id]))
-    expect(remove["data-controller"]).to eq("async-dialog")
-    expect(remove["data-turbo-confirm"]).to be_nil
-  end
-
-  it "points the selection's menu actions at the bulk dialogs" do
+  it "loads each row's menu from the server for the selection it acts on" do
     table = page.find_by_id("project-table")
 
-    expect(table["data-controller"]).to include("admin--type-projects-selection")
-    expect(table["data-admin--type-projects-selection-switch-url-value"])
-      .to eq(new_type_projects_switch_path(type_id: type.id))
-    expect(table["data-admin--type-projects-selection-remove-url-value"])
-      .to eq(new_type_projects_link_deletion_path(type_id: type.id))
+    expect(table["data-controller"]).to include("sortable-lists--menu-source")
+    expect(table["data-sortable-lists--menu-source-url-value"]).to eq(type_projects_menu_path(type_id: type.id))
+    expect(table["data-sortable-lists--menu-source-menu-label-key-value"]).to eq("js.types.projects.action_menu.menu_label")
   end
 
-  it "holds the plural actions back until the row's menu acts on a selection" do
-    batch_items = base_row.all("[data-type-projects-selection-scope='batch']", visible: :all)
+  it "loads a row's menu for its own project until it opens on a selection" do
+    menu = base_row.find("action-menu")
 
-    expect(batch_items.map { it.text(:all).strip }).to eq(["Switch variant", "Remove type from these projects"])
-    expect(batch_items).to all(match_selector("[hidden]", visible: :all))
+    expect(menu[:src]).to eq(type_projects_menu_path(type_id: type.id, ids: [on_base.id], invoker_id: on_base.id))
+  end
+
+  it "names a row's menu after the project it acts on" do
+    expect(base_row).to have_css("tool-tip", exact_text: "Project actions", visible: :all)
   end
 
   context "without any project" do

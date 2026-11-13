@@ -189,6 +189,8 @@ Rails.application.routes.draw do
           resource :switch, only: %i[new create] do
             resource :confirmation, only: %i[new], module: :switches
           end
+
+          resource :menu, only: %i[show]
         end
       end
     end
