@@ -29,7 +29,7 @@
 
 module CustomOptions
   class CreateContract < ::ModelContract
-    include RequiresAdminGuard
+    validate :validate_authorized
 
     attribute :custom_field_id do
       errors.add(:custom_field, :blank) if model.custom_field.nil?
@@ -42,6 +42,14 @@ module CustomOptions
     end
 
     private
+
+    def validate_authorized
+      return if user.admin? && user.active?
+      return if model.custom_field&.allow_additional_project_values? &&
+                user.allowed_in_project?(:manage_work_package_custom_field_values, model.project)
+
+      errors.add :base, :error_unauthorized
+    end
 
     def validate_additional_project_values_allowed
       return if model.project_id.nil? || model.custom_field.nil?
