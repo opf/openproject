@@ -1,13 +1,11 @@
 ---
 sidebar_navigation:
   title: MCP Server
-  priority: 500
+  priority: 800
 description: Integrate AI agents with your OpenProject instance through MCP.
 keywords: ai llm mcp
 ---
 # MCP Server
-
-[feature: mcp_server ]
 
 OpenProject allows AI agents and similar tools to integrate through an API called **Model Context Protocol** (MCP). This allows agents to access information from your OpenProject instance and perform actions.
 
