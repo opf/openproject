@@ -34,11 +34,11 @@ da:
         finish_date: Slutdato
         goal: Sprintmål
         name: Sprintnavn
-        origin: Origin
-        origin_host: Origin host
-        origin_id: Origin ID
-        origin_source: Origin source
-        origin_url: Origin URL
+        origin: Kilde
+        origin_host: Kildens vært
+        origin_id: Id i kilden
+        origin_source: Kildesystem
+        origin_url: URL i kilden
         sharing: Deling
         statuses:
           active: Aktiv
@@ -217,10 +217,10 @@ da:
       shared_sprint_warning_banner: Det er en delt sprint. Du har ikke de nødvendige tilladelser til at redigere den.
     sprint_reports:
       header_infoline_component:
-        planned_html: 'Planned: %{range}'
+        planned_html: 'Planlagt: %{range}'
       missing_dates_blankslate_component:
-        description: Sprint start and finish dates are necessary for the report to show.
-        heading: Missing sprint dates
+        description: Sprinten skal have en start- og slutdato, før rapporten kan vises.
+        heading: Sprintens datoer mangler
       navigation_component:
         next: Næste
         previous: Forrige
@@ -231,40 +231,40 @@ da:
         burndown_chart:
           blankslate:
             no_estimated_hours:
-              description: The burndown chart will appear here once the sprint has an open work package with work time estimate.
-              heading: No work to display
+              description: Burndown-diagrammet vises her, når sprinten har en åben arbejdspakke med estimeret arbejdstid.
+              heading: Der er intet arbejde at vise
             no_story_points:
-              description: The burndown chart will appear here once the sprint has an open work package with estimated story points.
-              heading: No work to display
+              description: Burndown-diagrammet vises her, når sprinten har en åben arbejdspakke med estimerede story points.
+              heading: Der er intet arbejde at vise
             not_started:
-              description: The burndown chart will appear here after the sprint starts.
-              heading: No work to display
+              description: Burndown-diagrammet vises her, når sprinten er startet.
+              heading: Der er intet arbejde at vise
             too_long:
-              description: The sprint duration exceeded the 1-year limit of the burndown chart's timespan.
-              heading: No chart to display
+              description: Sprinten er længere end burndown-diagrammets grænse på 1 år.
+              heading: Der er intet diagram at vise
           series:
-            guideline: Guideline
+            guideline: Ideallinje
             projection:
-              story_points: Remaining story points (projection)
-              time: Remaining estimated time (projection)
+              story_points: Resterende story points (prognose)
+              time: Resterende anslået tid (prognose)
             remaining:
-              story_points: Remaining story points
-              time: Remaining estimated time
+              story_points: Resterende story points
+              time: Resterende anslået tid
           title: Burndown-diagram
         burnup_chart:
           blankslate:
             no_estimated_hours:
-              description: The burnup chart will appear here once the sprint has received a work package with work time estimate.
-              heading: No work to display
+              description: Burnup-diagrammet vises her, når sprinten har fået en arbejdspakke med estimeret arbejdstid.
+              heading: Der er intet arbejde at vise
             no_story_points:
-              description: The burnup chart will appear here once the sprint has received a work package with estimated story points.
-              heading: No work to display
+              description: Burnup-diagrammet vises her, når sprinten har fået en arbejdspakke med estimerede story points.
+              heading: Der er intet arbejde at vise
             not_started:
-              description: The burnup chart will appear here after the sprint starts.
-              heading: No work to display
+              description: Burnup-diagrammet vises her, når sprinten er startet.
+              heading: Der er intet arbejde at vise
             too_long:
-              description: The sprint duration exceeded the 1-year limit of the burnup chart's timespan.
-              heading: No chart to display
+              description: Sprinten er længere end burnup-diagrammets grænse på 1 år.
+              heading: Der er intet diagram at vise
           series:
             completed: Udført arbejde
             guideline: Ideallinje
@@ -274,20 +274,20 @@ da:
         created_resolved_chart:
           blankslate:
             no_work:
-              description: The created vs resolved chart will appear here once a work package has been created or resolved within the sprint.
-              heading: No work to display
+              description: Diagrammet over oprettede og løste arbejdspakker vises her, når en arbejdspakke er oprettet eller løst i sprinten.
+              heading: Der er intet arbejde at vise
             too_long:
-              description: The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan.
-              heading: No chart to display
+              description: Sprinten er længere end grænsen på 1 år for diagrammet over oprettede og løste arbejdspakker.
+              heading: Der er intet diagram at vise
           title: Oprettede og løste arbejdspakker
         epic_progress:
           blankslate:
             no_epics:
-              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
-              heading: No epics to display
+              description: Diagrammet over fremdrift for epics vises her, når sprinten har fået en arbejdspakke, der hører til en epic.
+              heading: Der er ingen epics at vise
             no_work:
-              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
-              heading: No work to display
+              description: Diagrammet over fremdrift for epics vises her, når sprinten har fået en arbejdspakke, der hører til en epic.
+              heading: Der er intet arbejde at vise
           card:
             progress:
               story_points:
@@ -295,16 +295,16 @@ da:
                 other: "%{resolved} / %{count} story points"
               time: "%{resolved} / %{count}"
               work_packages:
-                one: "%{resolved} / %{count} work package"
-                other: "%{resolved} / %{count} work packages"
+                one: "%{resolved} / %{count} arbejdspakke"
+                other: "%{resolved} / %{count} arbejdspakker"
             progress_label:
               story_points:
-                one: "%{epic}: %{resolved} of %{count} story point completed"
-                other: "%{epic}: %{resolved} of %{count} story points completed"
-              time: "%{epic}: %{resolved} of %{count} completed"
+                one: "%{epic}: %{resolved} af %{count} story point er færdigt"
+                other: "%{epic}: %{resolved} af %{count} story points er færdige"
+              time: "%{epic}: %{resolved} af %{count} er færdigt"
               work_packages:
-                one: "%{epic}: %{resolved} of %{count} work package completed"
-                other: "%{epic}: %{resolved} of %{count} work packages completed"
+                one: "%{epic}: %{resolved} af %{count} arbejdspakke er færdig"
+                other: "%{epic}: %{resolved} af %{count} arbejdspakker er færdige"
             work_package_completed: "(%{percentage})"
           title: Fremdrift for epics
         velocity_chart:
@@ -317,25 +317,25 @@ da:
           story_points: "%{value} SP"
           summary:
             story_points:
-              one: Bar chart of committed and completed story points of the last sprint.
-              other: Bar chart of committed and completed story points of the last %{count} sprints.
+              one: Søjlediagram over planlagte og færdige story points i den seneste sprint.
+              other: Søjlediagram over planlagte og færdige story points i de seneste %{count} sprints.
             time:
-              one: Bar chart of committed and completed estimated time of the last sprint.
-              other: Bar chart of committed and completed estimated time of the last %{count} sprints.
+              one: Søjlediagram over planlagt og færdig anslået tid i den seneste sprint.
+              other: Søjlediagram over planlagt og færdig anslået tid i de seneste %{count} sprints.
           summary_average: 'Gennemsnitlig hastighed: %{average}.'
           title: Hastighedsdiagram
           velocity: "%{sprint}:"
           y_axis_title:
             story_points: Story points
-            time: Estimated time
+            time: Anslået tid
         work_package_graph:
           blankslate:
             no_work:
-              description: The work package graph will appear here once the sprint has received a work package.
-              heading: No work to display
+              description: Arbejdspakkegrafen vises her, når sprinten har fået en arbejdspakke.
+              heading: Der er intet arbejde at vise
           summary:
-            completed: 'Bar chart of the work packages in the sprint when it was completed, by status: %{description}.'
-            current: 'Bar chart of the work packages currently in the sprint, by status: %{description}.'
+            completed: 'Søjlediagram over arbejdspakkerne i sprinten, da den blev afsluttet, efter status: %{description}.'
+            current: 'Søjlediagram over arbejdspakkerne i sprinten lige nu efter status: %{description}.'
           title: Graf over arbejdspakker
         work_package_overview:
           blocks:
@@ -358,12 +358,12 @@ da:
           completed_story_points: Færdige story points
           progress_summary:
             story_points:
-              one: "%{percentage} (%{resolved} of %{count} story point)"
-              other: "%{percentage} (%{resolved} of %{count} story points)"
-            time: "%{percentage} (%{resolved} of %{count})"
+              one: "%{percentage} (%{resolved} af %{count} story point)"
+              other: "%{percentage} (%{resolved} af %{count} story points)"
+            time: "%{percentage} (%{resolved} af %{count})"
             work_packages:
-              one: "%{percentage} (%{resolved} of %{count} work package)"
-              other: "%{percentage} (%{resolved} of %{count} work packages)"
+              one: "%{percentage} (%{resolved} af %{count} arbejdspakke)"
+              other: "%{percentage} (%{resolved} af %{count} arbejdspakker)"
           title: Arbejdspakker i sprinten
         work_package_table:
           added:
@@ -399,7 +399,7 @@ da:
             title: Ufærdigt arbejde
     sprints:
       date_cell_component:
-        planned: "(planned)"
+        planned: "(planlagt)"
       row_component:
         action_menu:
           edit_sprint: Rediger sprint
@@ -466,13 +466,13 @@ da:
   ee:
     features:
       multiple_active_sprints: Flere aktive sprints
-      sprint_report_pro_widgets: Full sprint report
+      sprint_report_pro_widgets: Fuld sprintrapport
       sprint_sharing: Deling af sprints
     upsell:
       multiple_active_sprints:
         description: Kør flere sprints samtidig for forskellige teams i projektet for at få mere kontrol og fleksibilitet.
       sprint_report_pro_widgets:
-        description: Add more charts, customize your report and access in-depth data about planning your team’s work.
+        description: Tilføj flere diagrammer, tilpas rapporten, og få adgang til detaljerede data om planlægningen af teamets arbejde.
       sprint_sharing:
         description: Del sprints på tværs af projekter for at samordne teams og koordinere arbejdet i skalerede agile opsætninger (SAFe).
   label_all_sprints: Alle sprints
@@ -501,8 +501,8 @@ da:
       '
     other: "%{count} arbejdspakker er flyttet til %{backlog}, men vises ikke, fordi deres type eller status er udeladt af backloggen.\n"
   permission_create_sprints: Opret sprints
-  permission_manage_backlogs_configuration: Manage backlogs configuration
-  permission_manage_backlogs_configuration_explanation: 'Allows configuring the backlogs module including: choosing which work package types to hide from the backlog, defining which statuses represent a closed or finished state in the project''s workflow and selecting the unit for velocity.
+  permission_manage_backlogs_configuration: Administrer konfigurationen af backlogs
+  permission_manage_backlogs_configuration_explanation: 'Giver adgang til at konfigurere backlogs-modulet, herunder at vælge, hvilke arbejdspakketyper der skal skjules i backloggen, angive, hvilke statusser der står for en lukket eller færdig tilstand i projektets arbejdsgang, og vælge enheden for hastighed.
 
     '
   permission_manage_sprint_items: Administrer elementer i sprints

@@ -25,8 +25,8 @@ de:
     budgets:
       widgets:
         budget_by_cost_type:
-          chart_label: Budget by cost type chart
-          chart_summary: 'Budget amounts by cost type: %{values}.'
+          chart_label: 'Diagramm: Budget nach Kostenart'
+          chart_summary: 'Budgetbeträge nach Kostentyp: %{values}.'
           chart_value: "%{label}: %{value}"
     work_packages:
       properties:

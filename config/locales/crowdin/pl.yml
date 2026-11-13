@@ -124,7 +124,7 @@ pl:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Klienci SCIM
       automation:
-        actions: Actions
+        actions: Działania
       calculated_value_error:
         customized_id: Niestandardowy identyfikator
         customized_type: Typ niestandardowy
@@ -189,20 +189,20 @@ pl:
       favorite:
         favorited: Element
       form_configuration:
-        attribute_groups: Form
-        description: Description
-        name: Name
+        attribute_groups: Formularz
+        description: Opis
+        name: Nazwa
         type_variants: Types and variants using this form
       form_configuration_attribute:
-        attribute_key: Attribute
-        custom_field: Custom field
-        group: Group
-        position: Position
+        attribute_key: Atrybut
+        custom_field: Pole niestandardowe
+        group: Grupa
+        position: Pozycja
       form_configuration_group:
         default_key: Default group
-        kind: Kind
-        label: Label
-        query: Query
+        kind: Rodzaj
+        label: Etykieta
+        query: Zapytanie
       grids/grid:
         column_count: Liczba kolumn
         page: Strona
@@ -391,13 +391,13 @@ pl:
         authentication_method: Metody uwierzytelniania
         jwt_sub: Oświadczenie podmiotu
       status:
-        category: Category
+        category: Kategoria
         default_done_ratio: "% ukończenia"
         excluded_from_totals: Wyłącz z obliczania sum w hierarchii
         is_readonly: Pakiet roboczy tylko do odczytu
       status/category:
-        closed: Closed
-        in_progress: In progress
+        closed: Zakończone
+        in_progress: W toku
         to_do: To-do
       subproject_template_assignment:
         workspace_type: Typ przestrzeni roboczej
@@ -417,7 +417,7 @@ pl:
       type:
         allow_project_variants: Zezwól na warianty specyficzne dla projektu
         color: Kolor
-        description: Description
+        description: Opis
         is_in_roadmap: Domyślnie wyświetlany w planie działania
         is_milestone: Jest Kamieniem Milowym
         project_types: Projekty
@@ -427,14 +427,14 @@ pl:
       type_variant:
         attribute_groups: Formularz
         default_work_package_description: Domyślny tekst opisu
-        description: Description
+        description: Opis
         enabled_in_new_projects: Aktywne w nowych projektach
-        linked_aspects: Inherited configuration
+        linked_aspects: Dziedziczona konfiguracja
         patterns: Wzorce
         project_types: Projekty używające tego wariantu
         variant: Wariant
         variant_name: Nazwa
-        workflow: Workflow
+        workflow: Przepływ pracy
       user:
         admin: Administrator
         auth_source: Źródło uwierzytelniania
@@ -469,7 +469,7 @@ pl:
         button_update_user_information: Zaktualizuj profil
         comments_sorting: Wyświetl działania pakietu roboczego posortowane według
         daily_reminders: Codzienne przypomnienia
-        date_format: Date format
+        date_format: Format daty
         disable_keyboard_shortcuts: Wyłącz skróty klawiaturowe
         dismissed_enterprise_banners: Ukryte banery przedsiębiorstwa
         force_dark_theme_contrast: Wymuś wysoki kontrast w trybie ciemnym
@@ -486,7 +486,7 @@ pl:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Tryb kolorów
-        time_format: Time format
+        time_format: Format czasu
         time_zone: Strefa czasowa
         warn_on_leaving_unsaved: Ostrzegaj mnie, gdy opuszczam zadanie z niezapisanymi zmianami
         workdays: Dni robocze
@@ -547,10 +547,10 @@ pl:
           title: Dni robocze
           true: włącz dni wolne od pracy
         journal_internal: Dziennik wewnętrzny
-        labels: Labels
+        labels: Etykiety
         notify: Powiadom
         observed_in_versions: Zauważono w następujących wersjach
-        origin: Origin
+        origin: Pochodzenie
         origin_host: Origin host
         origin_id: Origin ID
         origin_source: Origin source
@@ -582,8 +582,8 @@ pl:
       work_package_version:
         kind: Rodzaj
       workflow:
-        description: Description
-        name: Name
+        description: Opis
+        name: Nazwa
         type_variants: Types and variants using this workflow
     errors:
       messages:
@@ -752,11 +752,11 @@ pl:
         form_configuration:
           attributes:
             attribute_groups:
-              attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
-              group_without_name: Group name can't be blank.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              attribute_unknown: Użyto nieprawidłowego atrybutu pakietu roboczego.
+              attribute_unknown_name: Użyto nieprawidłowego atrybutu pakietu roboczego. %{attribute}
+              duplicate_group: Nazwy grupy %{group} użyto więcej niż raz. Nazwy grup muszą być niepowtarzalne.
+              group_without_name: Nazwa grupy nie może być pusta.
+              query_invalid: 'Osadzona kwerenda %{group} jest nieprawidłowowa: %{details}'
             base:
               default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
@@ -982,9 +982,9 @@ pl:
               requirements_not_met: 'Musi zawierać znaki następujących typów: %{rules}'
               reused:
                 one: has been used before. Please choose one that is different from your last %{count} password.
-                few: has been used before. Please choose one that is different from your last %{count}.
-                many: has been used before. Please choose one that is different from your last %{count}.
-                other: has been used before. Please choose one that is different from your last %{count}.
+                few: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednie.
+                many: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednie.
+                other: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednie.
               special: specjalne (np. '%')
               uppercase: wielkie litery (np. 'A')
             password_confirmation:
@@ -1095,9 +1095,9 @@ pl:
         body: 'Sprawdź następujące pola:'
         header:
           one: "%{count} error prohibited this %{model} from being saved"
-          few: "%{count} errors prohibited this %{model} from being saved"
-          many: "%{count} errors prohibited this %{model} from being saved"
-          other: "%{count} errors prohibited this %{model} from being saved"
+          few: "%{count} błędy uniemożliwiają zapisanie %{model}"
+          many: "%{count} błędy uniemożliwiają zapisanie %{model}"
+          other: "%{count} błędy uniemożliwiają zapisanie %{model}"
     models:
       action:
         one: Działanie
@@ -1161,9 +1161,9 @@ pl:
         other: Dostawcy uwierzytelniania
       automation:
         one: Automation
-        few: Automations
-        many: Automations
-        other: Automations
+        few: Automatyzacje
+        many: Automatyzacje
+        other: Automatyzacje
       backup:
         one: Kopia zapasowa
         few: Kopie zapasowe
@@ -1275,7 +1275,7 @@ pl:
         many: Ustawienia eksportu
         other: Ustawienia eksportu
       form_configuration:
-        one: Form
+        one: Formularz
         few: Forms
         many: Forms
         other: Forms
@@ -1310,10 +1310,10 @@ pl:
         many: Priorytety
         other: Priorytety
       label:
-        one: Label
-        few: Labels
-        many: Labels
-        other: Labels
+        one: Etykieta
+        few: Etykiety
+        many: Etykiety
+        other: Etykiety
       ldap_auth_source:
         one: Połączenie LDAP
         few: Połączenia LDAP
@@ -1719,7 +1719,7 @@ pl:
         favicon:
           field: Favicon
           field_description: The image should be 32x32px in PNG format on transparent background.
-          title: Custom favicon
+          title: Własny favicon
           title_description: This is the tiny icon that appears next to the page title in the browser. By default the OpenProject favicon is used, but if you upload a new favicon the theme will automatically be changed to Custom theme.
         mobile:
           description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
@@ -1737,7 +1737,7 @@ pl:
         touch_icon:
           field: Touch icon
           field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
-          title: Custom touch icon
+          title: Własny touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
         base_colors: Kolory podstawowe
@@ -1757,7 +1757,7 @@ pl:
         description: Zdefiniuj paletę kolorów do użycia w innym miejscu aplikacji. Będą one dostępne, na przykład podczas wybierania koloru do reprezentowania statusu lub typu.
       edit_color: Edytuj %{color}
       export:
-        description: Upload and manage custom image files used in your PDF exports.
+        description: Przesyłaj niestandardowe pliki graficzne używane w eksportowanych plikach PDF i zarządzaj nimi.
         title: Custom export
       fonts:
         file_is_invalid: nie jest prawidłowym plikiem czcionki TTF.
@@ -1880,8 +1880,8 @@ pl:
         delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
-          basic_auth_password: Password
-          basic_auth_username: Username
+          basic_auth_password: Hasło
+          basic_auth_username: Nazwa użytkownika
           exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Nazwa
           personal_access_token: Personal access token (PAT)
@@ -1922,9 +1922,9 @@ pl:
           JiraCreateRelationsJob:
             title: Create relations for '%{jira_project_name}'
           JiraCreateSprintsJob:
-            title: Create sprints
+            title: Utwórz sprinty
           JiraCreateUsersJob:
-            title: Create users
+            title: Utwórz użytkowników
           JiraDownloadProjectWorkPackageAttachmentsJob:
             title: Download work package attachments for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
@@ -2010,9 +2010,9 @@ pl:
           parts:
             issues:
               one: "%{count} issue"
-              few: "%{count} issues"
-              many: "%{count} issues"
-              other: "%{count} issues"
+              few: "%{count} problemy"
+              many: "%{count} problemów"
+              other: "%{count} problemu"
             jobs:
               one: "%{count} job"
               few: "%{count} jobs"
@@ -2020,9 +2020,9 @@ pl:
               other: "%{count} jobs"
             projects:
               one: "%{count} project"
-              few: "%{count} projects"
-              many: "%{count} projects"
-              other: "%{count} projects"
+              few: "%{count} projekty"
+              many: "%{count} projektów"
+              other: "%{count} projektu"
             resolutions:
               one: "%{count} resolution"
               few: "%{count} resolutions"
@@ -2030,24 +2030,24 @@ pl:
               other: "%{count} resolutions"
             statuses:
               one: "%{count} status"
-              few: "%{count} statuses"
-              many: "%{count} statuses"
-              other: "%{count} statuses"
+              few: "%{count} statusy"
+              many: "%{count} statusów"
+              other: "%{count} statusu"
             types:
               one: "%{count} type"
-              few: "%{count} types"
-              many: "%{count} types"
-              other: "%{count} types"
+              few: "%{count} typy"
+              many: "%{count} typów"
+              other: "%{count} typu"
             users:
-              one: "%{count} user"
-              few: "%{count} users"
-              many: "%{count} users"
-              other: "%{count} users"
+              one: "%{count} użytkownik"
+              few: "%{count} użytkowników"
+              many: "%{count} użytkownika"
+              other: "%{count} użytkownika"
             work_packages:
-              one: "%{count} work package"
-              few: "%{count} work packages"
-              many: "%{count} work packages"
-              other: "%{count} work packages"
+              one: "%{count} pakiet roboczy"
+              few: "%{count} pakiety robocze"
+              many: "%{count} pakietów roboczych"
+              other: "%{count} pakietu roboczego"
           revert_dialog:
             confirm: Rozumiem, że to cofnięcie poskutkuje trwałym usunięciem danych
             description: Spowoduje to usunięcie wszystkich zaimportowanych obiektów (w tym całych projektów).
@@ -2099,14 +2099,14 @@ pl:
                   label: Projekty
                   subtitle: Wybrano jako zakres
                 sprints:
-                  label: Sprints
+                  label: Sprinty
                   subtitle: With goals and work package assignments
                 title: Zaimportowano dane
                 users_and_groups:
                   label: Użytkownicy i grupy
                   subtitle: Involved in imported projects
                 versions:
-                  label: Versions
+                  label: Wersje
                   subtitle: Of the imported projects
                 work_packages:
                   label: Pakiety robocze
@@ -2120,9 +2120,9 @@ pl:
               caption_done: Ukończono
               caption_done_description:
                 one: "%{count} project selected as scope"
-                few: "%{count} projects selected as scope"
-                many: "%{count} projects selected as scope"
-                other: "%{count} projects selected as scope"
+                few: Jako zakres wybrano %{count} projekty
+                many: Jako zakres wybrano %{count} projektów
+                other: Jako zakres wybrano %{count} projektu
               description: Wybierz dane, które chcesz zaimportować z dostępnych danych pobranych z hosta wystąpienia Jira.
               elements:
                 custom_fields: Podzestaw pól niestandardowych
@@ -2138,7 +2138,7 @@ pl:
                 users: Zaangażowani użytkownicy i grupy
                 workflows: Przepływy pracy na poziomie projektu
               label_coming_later: W późniejszym terminie
-              label_coming_soon: Coming soon
+              label_coming_soon: Wkrótce
               label_import: Wybierz projekty, które chcesz zaimportować.
               label_info: Pamiętaj, że to narzędzie importu jest w wersji beta i nie może importować wszystkich typów danych. Poniżej znajduje się podsumowanie tego, co wystąpienie hosta Jira oferuje do importu i co to narzędzie jest obecnie w stanie zaimportować.
               label_progress: Pobieranie danych
@@ -2152,10 +2152,10 @@ pl:
             filter_projects: Filtruj według tekstu
             info: Jako zakres importu można wybrać jedynie te projekty, których członkiem jest właściciel tokenu Jira.
             title: Wybierz projekty do zaimportowania
-          stage_discarded_label: Error
-          stage_in_progress_label: Progress
-          stage_job_error: Error
-          stage_succeeded_label: Completed
+          stage_discarded_label: Błąd
+          stage_in_progress_label: Postęp
+          stage_job_error: Błąd
+          stage_succeeded_label: Ukończony
           stages:
             '1':
               rest_line_text: ''
@@ -2183,7 +2183,7 @@ pl:
               title: Create roles and custom fields
             '6':
               rest_line_text: Creating %{projects_number} more projects
-              title: Create projects
+              title: Utwórz projekty
             '7':
               rest_line_text: Creating versions and sprints for %{projects_number} more projects
               title: Create project versions and sprints
@@ -2216,7 +2216,7 @@ pl:
         '
     labels:
       delete_dialog_component:
-        confirmation: I understand that this action is not reversible
+        confirmation: Rozumiem, że to działanie jest nieodwracalne
         description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
         heading: Delete this label?
         title: Delete this label?
@@ -2227,20 +2227,20 @@ pl:
         description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
       row_component:
         used_in_work_packages:
-          one: "%{count} work package"
-          few: "%{count} work packages"
-          many: "%{count} work packages"
-          other: "%{count} work packages"
+          one: "%{count} pakiet roboczy"
+          few: 'Liczba pakietów roboczych: %{count}'
+          many: 'Liczba pakietów roboczych: %{count}'
+          other: 'Liczba pakietów roboczych: %{count}'
       sub_header_component:
-        button_add: Label
+        button_add: Etykieta
         label_add: Add label
-        search_placeholder: Type here to search
+        search_placeholder: Wpisz tutaj, aby wyszukać
       table_component:
         blank_slate:
           description: Labels created by users on work packages will appear here.
           title: No labels yet
         headers:
-          name: Label
+          name: Etykieta
           usage: Used in
         no_matches:
           description: Try a different search term.
@@ -2301,9 +2301,9 @@ pl:
         description: Usunięcia zastrzeżenia tego identyfikatora projektu nie można cofnąć. Używające go zewnętrzne linki i integracje przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
         description_with_work_packages:
           one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          few: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego %{count} pakietów roboczych) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
+          many: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego %{count} pakietów roboczych) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
+          other: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego %{count} pakietów roboczych) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
         heading: Usunąć zastrzeżenie identyfikatora „%{identifier}”?
         title: Usuń zastrzeżenie identyfikatora
       empty_body: Gdy identyfikator projektu ulegnie zmianie, pojawi się tutaj poprzedni identyfikator, dzięki czemu można będzie usunąć jego zastrzeżenie, gdy będzie to bezpieczne.
@@ -2428,9 +2428,9 @@ pl:
           error_used_in_past: Zarezerwowany przez historię dojść innego projektu
           remaining_projects:
             one: "... %{count} more project"
-            few: "... %{count} more projects"
-            many: "... %{count} more projects"
-            other: "... %{count} more projects"
+            few: "...jeszcze %{count} projekty"
+            many: "...jeszcze %{count} projektów"
+            other: "...jeszcze %{count} projektu"
         banner:
           existing_identifiers_notice: 'Istniejące identyfikatory %{project_count} projektów nie spełniają wymagań dotyczących identyfikatorów semantycznych opartych na projektach. OpenProject może automatycznie zaktualizować je tak, aby były prawidłowe, jak w poniższych przykładach. Kliknij przycisk „Przekonwertuj identyfikatory”, aby zaktualizować identyfikatory wszystkich projektów w ten sposób i włączyć identyfikatory semantyczne oparte na projektach.
 
@@ -2518,10 +2518,10 @@ pl:
         label: 'Rola: %{role}'
         no_role: Wybierz rolę
         roles:
-          one: "%{count} role selected"
-          few: "%{count} roles selected"
-          many: "%{count} roles selected"
-          other: "%{count} roles selected"
+          one: Wybrano %{count} rolę
+          few: Wybrano %{count} role
+          many: Wybrano %{count} ról
+          other: Wybrano %{count} roli
         title: Wybierz role
         with_transitions: With transitions
         without_transitions: Without transitions
@@ -2535,9 +2535,9 @@ pl:
         description: Usunięcie tych statusów spowoduje, że będą one niedostępne dla tego typu i usuną istniejące przepływy pracy. Czy na pewno chcesz kontynuować?
         heading:
           one: Remove %{count} status?
-          few: Remove %{count} statuses?
-          many: Remove %{count} statuses?
-          other: Remove %{count} statuses?
+          few: Usunąć %{count} statusy?
+          many: Usunąć %{count} statusów?
+          other: Usunąć %{count} statusu?
         title: Usuń statusy
       tabs:
         always: Przejścia domyślne
@@ -2549,7 +2549,7 @@ pl:
           assignee: Dodatkowe przejścia dostępne dla osoby przypisanej do pakietu roboczego.
           author: Dodatkowe przejścia dostępne dla autora pakietu roboczego.
         menu_label: Pokazane przejścia
-      workflow_button: Workflow
+      workflow_button: Przepływ pracy
   ai:
     text_transform:
       errors:
@@ -2560,23 +2560,23 @@ pl:
         timeout: Usługa AI nie odpowiedziała na czas.
         upstream_error: Usługa AI zwróciła błąd.
       pane:
-        cancel: Cancel
-        close: Close
-        copy: Copy
-        discard: Discard
+        cancel: Anuluj
+        close: Zamknij
+        copy: Kopia
+        discard: Odrzuć
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
         generating: Generating…
         mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
-        replace: Replace
+        replace: Zastąp
         request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
         title: AI result
-        try_again: Try again
+        try_again: Spróbuj ponownie
   announcements:
-    content: Content
+    content: Zawartość
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane
     show_until: Pokazuj do
@@ -2762,7 +2762,7 @@ pl:
     updated_at: Aktualizacja
     updated_on: Aktualizacja
     uploader: Osoba przesyłająca
-    url: URL
+    url: ADRES URL
     user: Użytkownik
     username: Nazwa użytkownika
     value: Wartość
@@ -2779,19 +2779,19 @@ pl:
     login_and_registration: Logowanie i rejestracja
   automations:
     actions:
-      add: Add action
+      add: Dodaj działanie
       assigned_to:
-        executing_user_value: "(Assign to executing user)"
-      name: Actions
-    conditions: Conditions
+        executing_user_value: "(Przypisz wykonującemu użytkownikowi)"
+      name: Działania
+    conditions: Warunki
     edit: Edit automation %{name}
     new: New automation
-    plural: Automations
+    plural: Automatyzacje
     summary:
       if: If
-      none: None
+      none: Brak
       then: Then
-      title: Summary
+      title: Podsumowanie
       when: When
     trigger: Trigger
     triggers:
@@ -3080,22 +3080,22 @@ pl:
 
           '
         configure: Configure project-specific values for %{project}
-        disable_all: Disable all
+        disable_all: Wyłącz wszystkie
         editing_values_notice: You are currently editing the list of values visible for this custom field in the project [%{project}](project_url).
         empty_state:
           description: Add this custom field to the form of a type that is used in a project.
           title: No project uses this custom field
-        enable_all: Enable all
+        enable_all: Włącz wszystkie
         enabled_values:
-          all: All
-          none: None
+          all: Wszystkie
+          none: Brak
           some: "%{count} of %{total}"
-        filter: Filter by text
+        filter: Filtruj według tekstu
         filter_no_results:
           description: Change the filters to see more projects.
           title: No projects match this filter
         quick_filter:
-          all: All projects
+          all: Wszystkie projekty
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
         values_empty_state:
@@ -3165,7 +3165,7 @@ pl:
     is_enabled_globally: Jest włączony globalnie
     multi_value_more:
       other: i jeszcze %{count}
-    no_results_title_text: There are currently no custom fields.
+    no_results_title_text: Nie ma jeszcze żadnych pól użytkownika.
     no_role_assigment: Brak przypisanie roli
     overview:
       description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
@@ -3192,7 +3192,7 @@ pl:
       none: Brak
     show:
       columns:
-        form: Form
+        form: Formularz
         type_or_variant: Type or variant
       forms:
         blank_slate:
@@ -3275,24 +3275,24 @@ pl:
     distance_in_words:
       about_x_hours:
         one: about %{count} hour
-        few: about %{count} hours
-        many: about %{count} hours
-        other: about %{count} hours
+        few: około %{count} godziny
+        many: około %{count} godziny
+        other: około %{count} godziny
       about_x_months:
         one: about %{count} month
-        few: about %{count} months
-        many: about %{count} months
-        other: about %{count} months
+        few: około %{count} miesięcy
+        many: około %{count} miesięcy
+        other: około %{count} miesięcy
       about_x_years:
         one: about %{count} year
-        few: about %{count} years
-        many: about %{count} years
-        other: about %{count} years
+        few: około %{count} lat
+        many: około %{count} lat
+        other: około %{count} lat
       almost_x_years:
         one: almost %{count} year
-        few: almost %{count} years
-        many: almost %{count} years
-        other: almost %{count} years
+        few: prawie %{count} lata
+        many: prawie %{count} lata
+        other: prawie %{count} lata
       half_a_minute: pół minuty
       less_than_x_minutes:
         one: mniej niż minutę
@@ -3301,49 +3301,49 @@ pl:
         other: mniej niż %{count} minuty
       less_than_x_seconds:
         one: less than %{count} second
-        few: less than %{count} seconds
-        many: less than %{count} seconds
-        other: less than %{count} seconds
+        few: mniej niż %{count} sekundy
+        many: mniej niż %{count} sekundy
+        other: mniej niż %{count} sekundy
       over_x_years:
         one: over %{count} year
-        few: over %{count} years
-        many: over %{count} years
-        other: over %{count} years
+        few: ponad %{count} lata
+        many: ponad %{count} lata
+        other: ponad %{count} lata
       x_days:
         one: "%{count} day"
-        few: "%{count} days"
-        many: "%{count} days"
-        other: "%{count} days"
+        few: "%{count} dnia"
+        many: "%{count} dnia"
+        other: "%{count} dnia"
       x_hours:
-        one: "%{count} hour"
-        few: "%{count} hours"
-        many: "%{count} hours"
-        other: "%{count} hours"
+        one: "%{count} godzina"
+        few: "%{count} godzin"
+        many: "%{count} godzin"
+        other: "%{count} godzin"
       x_hours_abbreviated:
         one: "%{count} hr"
-        few: "%{count} hrs"
-        many: "%{count} hrs"
-        other: "%{count} hrs"
+        few: "%{count} godziny"
+        many: "%{count} godzin"
+        other: "%{count} godzin"
       x_minutes:
         one: "%{count} minute"
-        few: "%{count} minutes"
-        many: "%{count} minutes"
-        other: "%{count} minutes"
+        few: "%{count} minut"
+        many: "%{count} minut"
+        other: "%{count} minut"
       x_minutes_abbreviated:
         one: "%{count} min"
-        few: "%{count} mins"
-        many: "%{count} mins"
-        other: "%{count} mins"
+        few: "%{count} min"
+        many: "%{count} min"
+        other: "%{count} min"
       x_months:
         one: "%{count} month"
-        few: "%{count} months"
-        many: "%{count} months"
-        other: "%{count} months"
+        few: "%{count} miesiące"
+        many: "%{count} miesiące"
+        other: "%{count} miesiące"
       x_seconds:
         one: "%{count} second"
-        few: "%{count} seconds"
-        many: "%{count} seconds"
-        other: "%{count} seconds"
+        few: "%{count} sekundy"
+        many: "%{count} sekundy"
+        other: "%{count} sekundy"
       x_seconds_abbreviated:
         one: "%{count} s"
         few: "%{count} s"
@@ -3351,14 +3351,14 @@ pl:
         other: "%{count} s"
       x_weeks:
         one: "%{count} week"
-        few: "%{count} weeks"
-        many: "%{count} weeks"
-        other: "%{count} weeks"
+        few: "%{count} tygodnie"
+        many: "%{count} tygodni"
+        other: "%{count} tygodnia"
       x_years:
         one: "%{count} year"
-        few: "%{count} years"
-        many: "%{count} years"
-        other: "%{count} years"
+        few: "%{count} lata"
+        many: "%{count} lat"
+        other: "%{count} roku"
     units:
       day:
         one: dzień
@@ -3516,9 +3516,9 @@ pl:
       description_html: Masz dostęp do wszystkich funkcji %{trial_plan}.
       title:
         one: "%{count} day left of %{trial_plan} trial token"
-        few: "%{count} days left of %{trial_plan} trial token"
-        many: "%{count} days left of %{trial_plan} trial token"
-        other: "%{count} days left of %{trial_plan} trial token"
+        few: Pozostały %{count} dni próbnego tokena %{trial_plan}
+        many: Pozostało %{count} dni próbnego tokena %{trial_plan}
+        other: Pozostało %{count} dnia próbnego tokena %{trial_plan}
     trial:
       already_retrieved: 'Twój token próbny wersji Enterprise został już pobrany. Sprawdź, czy do wiadomości e-mail nie został dołączony token. Jeśli potrzebujesz nowego tokena, skontaktuj się z naszym zespołem pomocy technicznej.
 
@@ -3861,16 +3861,16 @@ pl:
     include_sub_items: Uwzględnij elementy podrzędne
     no_results_text: Brak wyników
   form_configurations:
-    button: Form
+    button: Formularz
     change:
       select:
         caption: The type shows its work packages with the attribute groups of the form you pick here.
-        label: Form
+        label: Formularz
         placeholder: Select a form…
       title: Change form
     default:
-      label: Default
-      mark: Mark as default
+      label: Domyślne
+      mark: Oznacz jako domyślny
       marked: "%{name} is now the default form. New types use it."
       name: Default form
     form:
@@ -3881,7 +3881,7 @@ pl:
       copy_title: Copy form %{name}
       description:
         caption: Add a short description about where and how will this form be used.
-        label: Description
+        label: Opis
       edit_title: Edit form
       name:
         caption: Pick a name that will let you identify this form later in other places.
@@ -3899,35 +3899,35 @@ pl:
         title: No forms
       columns:
         name: Form name
-        projects: Projects
+        projects: Projekty
         types_and_variants: Types and variants
       description: Every named work package form in this instance, with the types and variants using it.
       filters:
-        name: Form
+        name: Formularz
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
         one: "%{count} project"
-        few: "%{count} projects"
-        many: "%{count} projects"
-        other: "%{count} projects"
+        few: "%{count} projektów"
+        many: "%{count} projektu"
+        other: "%{count} projektów"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
         one: "%{count} type"
-        few: "%{count} types"
-        many: "%{count} types"
-        other: "%{count} types"
+        few: "%{count} typy"
+        many: "%{count} typów"
+        other: "%{count} typu"
       variants_count:
         one: "%{count} variant"
-        few: "%{count} variants"
-        many: "%{count} variants"
-        other: "%{count} variants"
+        few: "%{count} warianty"
+        many: "%{count} wariantów"
+        other: "%{count} wariantu"
     name:
-      fallback: Form
+      fallback: Formularz
       implicit: "%{name} form"
     selector:
       default: "(Default)"
-      prefix: Form
+      prefix: Formularz
       same_as_type: "(same as type)"
       title: Select form
     start:
@@ -3949,12 +3949,12 @@ pl:
         title: Important changes
     usage:
       dialog:
-        button: View dependent types
+        button: Wyświetl typy zależne
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
         variant_of_html: Variant of %{type}
-        variants: Variants
+        variants: Warianty
       unused: No type or variant uses this form yet.
       used_by_types:
         one: This form is used by %{count} type. Changes apply to it.
@@ -3999,7 +3999,7 @@ pl:
         few: 'Accepted solutions:'
         many: 'Accepted solutions:'
         other: 'Accepted solutions:'
-      add_work_package: Add new work package
+      add_work_package: Dodaj nowy pakiet roboczy
       edit_message: Edit message
       gap:
         load_previous:
@@ -4076,7 +4076,7 @@ pl:
       title: Projekty
     whats_new:
       title: What's new in %{version}
-      unread: Unread
+      unread: Nieprzeczytane
       view_release_video: View release video
   health_reports:
     common:
@@ -4104,7 +4104,7 @@ pl:
         warning: Ostrzeżenie
   help_texts:
     views:
-      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
+      favoured: Oznacz ten widok jako ulubiony i dodaj do zapisanych widoków na pasku bocznym po lewej stronie.
       project: "%{plural} są zawsze dołączone do projektu. Możesz tutaj wybrać tylko te projekty, w których aktywny jest moduł %{plural}. Po utworzeniu modułu %{singular} możesz dodawać do niego pakiety robocze z innych projektów.\n"
       public: Opublikuj ten widok, aby umożliwić dostęp do niego innym użytkownikom. Użytkownicy z uprawnieniami „Zarządzaj widokami publicznymi” mogą zmodyfikować lub usunąć zapytanie publiczne. Nie ma to wpływu na widoczność wyników pakietu roboczego w tym widoku, a użytkownicy mogą widzieć różne wyniki, w zależności od ich uprawnień.
   homescreen:
@@ -4146,13 +4146,13 @@ pl:
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_3:
               description: Create and reuse tags
-              title: Labels
+              title: Etykiety
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_4:
               description: Configure or delegate custom fields per project
               title: Project-specific values
               url: https://www.openproject.org/docs/release-notes/18-0-0/
-          new_features_title: 'The release contains various new features and improvements, such as:
+          new_features_title: 'Wydanie zawiera różne nowe funkcje i ulepszenia, takie jak:
 
             '
         header: Przeczytaj o nowych funkcjach i aktualizacjach produktów.
@@ -4190,7 +4190,7 @@ pl:
   journals:
     cause_descriptions:
       budget_deleted: Budżet został usunięty
-      forum_message_deleted: "(deleted)"
+      forum_message_deleted: "(usunięto)"
       import:
         changed_with_diff: Zmieniono pole %{field} (%{link})
         csv: from CSV
@@ -4289,7 +4289,7 @@ pl:
   label_active_in_new_projects: Aktywne w nowych projektach
   label_activity: Działanie
   label_add_another_file: Dodaj plik
-  label_add_column: Add columns
+  label_add_column: Dodaj kolumny
   label_add_columns: Dodaj wybrane kolumny
   label_add_edit_translations: Dodawanie i edycja tłumaczeń
   label_add_note: Dodaj notatkę
@@ -4570,7 +4570,7 @@ pl:
   label_in: w
   label_in_less_than: w mniej niż
   label_in_more_than: w ponad
-  label_in_progress_work_packages: in progress
+  label_in_progress_work_packages: w toku
   label_inactive: Nieaktywny
   label_include_sub_projects: Uwzględnij podprojekty
   label_includes: obejmuje
@@ -4598,7 +4598,7 @@ pl:
   label_journal_diff: Opis porównania
   label_jump_to_a_project: Skok do projektu...
   label_keyword_plural: Słowa kluczowe
-  label_label_plural: Labels
+  label_label_plural: Etykiety
   label_language: Język
   label_languages: Języki
   label_last_activity: Ostatnia aktywność
@@ -4964,9 +4964,9 @@ pl:
   label_user_search: Szukaj użytkownika
   label_user_settings: Ustawienia użytkownika
   label_users_settings: Ustawienia użytkowników
-  label_value: Value
+  label_value: Wartość
   label_value_x: 'Wartość: %{x}'
-  label_version_custom_field_plural: Version custom fields
+  label_version_custom_field_plural: Pola niestandardowe wersji
   label_version_edit: Edytuj wersję
   label_version_new: Nowa wersja
   label_version_plural: Wersje
@@ -5029,7 +5029,7 @@ pl:
   label_working_hours: Harmonogram pracy
   label_workweek: Tydzień roboczy
   label_x_closed_work_packages_abbr:
-    one: "%{count} closed"
+    one: "%{count} zamkniętego"
     other: 'Liczba zamkniętych: %{count}'
     zero: 0 zamknięty
   label_x_comments:
@@ -5038,9 +5038,9 @@ pl:
     zero: brak komentarzy
   label_x_days:
     one: "%{count} day"
-    few: "%{count} days"
-    many: "%{count} days"
-    other: "%{count} days"
+    few: "%{count} dni"
+    many: "%{count} dnia"
+    other: "%{count} dnia"
   label_x_files:
     one: "%{count} file"
     other: "%{count} pliku"
@@ -5060,11 +5060,11 @@ pl:
     zero: brak elementów
   label_x_items_selected:
     one: "%{count} item selected"
-    few: "%{count} items selected"
-    many: "%{count} items selected"
-    other: "%{count} items selected"
+    few: Wybrano %{count} pozycje
+    many: Wybrano %{count} pozycji
+    other: Wybrano %{count} pozycji
   label_x_open_work_packages_abbr:
-    one: "%{count} open"
+    one: "%{count} otwartego"
     other: 'Liczba otwartych: %{count}'
     zero: 0 otwarty
   label_x_projects:
@@ -5076,19 +5076,19 @@ pl:
     other: "%{count} to-do"
     zero: 0 to-do
   label_x_work_packages:
-    one: "%{count} work package"
+    one: "%{count} pakiet roboczy"
     other: "%{count} pakiety robocze"
     zero: Brak pakietów roboczych
   label_x_working_days:
     one: "%{count} working day"
-    few: "%{count} working days"
-    many: "%{count} working days"
-    other: "%{count} working days"
+    few: "%{count} dni robocze"
+    many: "%{count} dni roboczych"
+    other: "%{count} dnia roboczego"
   label_x_working_days_time_off:
     one: 'Time off: %{count} working day'
-    few: 'Time off: %{count} working days'
-    many: 'Time off: %{count} working days'
-    other: 'Time off: %{count} working days'
+    few: 'Czas wolny: %{count} dni robocze'
+    many: 'Czas wolny: %{count} dni roboczych'
+    other: 'Czas wolny: %{count} dnia roboczego'
   label_yesterday: wczoraj
   label_zen_mode: Tryb Zen
   ldap_auth_sources:
@@ -5257,9 +5257,9 @@ pl:
       mentioned_by: "%{user} wspomniał o tobie w komentarzu"
       more_to_see:
         one: There is %{count} more work package with notifications.
-        few: There are %{count} more work packages with notifications.
-        many: There are %{count} more work packages with notifications.
-        other: There are %{count} more work packages with notifications.
+        few: Istnieją jeszcze %{count} pakiety robocze z powiadomieniami.
+        many: Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.
+        other: Istnieją jeszcze %{count} pakietów roboczych z powiadomieniami.
       open_in_browser: Otwórz w przeglądarce
       reason:
         assigned: Przypisane
@@ -5470,8 +5470,8 @@ pl:
       confirmation_required: Aby potwierdzić tę zmianę, należy wprowadzić hasło do konta.
       title: Aby kontynuować, potwierdź hasło
     timer:
-      stop: Stop
-      tracking: Time tracking
+      stop: Zatrzymaj
+      tracking: Śledzenie czasu
     work:
       actions:
         assign_to_me: Assign work package to me
@@ -5479,7 +5479,7 @@ pl:
         edit_time_entry: Edit time entry
         log_time_from_allocation: Log time from allocation
         open_project: Open project
-        open_work_package: Open work package
+        open_work_package: Otwórz pakiet roboczy
       entries_filter:
         all: All entries
         allocated: Allocations only
@@ -5488,7 +5488,7 @@ pl:
     access_tokens:
       access_tokens: Tokenu dostępu
       description: Tokeny dostawcy są wydawane przez OpenProject, co umożliwia dostęp do nich innym aplikacjom. Tokeny klienta są wydawane przez inne aplikacje, co umożliwia dostęp do nich oprogramowaniu OpenProject.
-      expired_on: Expired on %{date}
+      expired_on: Wygasł %{date}
       headers:
         action: Czynność
         expiration: Wygasa
@@ -5765,7 +5765,7 @@ pl:
           tb: TB
   oauth:
     application:
-      basic_details: Basic details
+      basic_details: Podstawowe szczegóły
       builtin: Wbudowana aplikacja
       client_credentials: Poświadczenia klienta
       confidential: Poufne
@@ -5806,9 +5806,9 @@ pl:
       '
     confirm_revoke_my_application:
       one: Do you really want to remove this application? This will revoke %{count} token active for it.
-      few: Do you really want to remove this application? This will revoke %{count} tokens active for it.
-      many: Do you really want to remove this application? This will revoke %{count} tokens active for it.
-      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
+      few: Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej %{count} aktywne tokeny.
+      many: Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej %{count} aktywnych tokenów.
+      other: Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej %{count} aktywnego tokenu.
     empty_application_lists: Nie zarejestrowano żadnych aplikacji OAuth.
     flows:
       authorization_code: Przepływ Kod autoryzacji
@@ -5827,7 +5827,7 @@ pl:
       api_v3_text: Aplikacja otrzyma pełny dostęp do interfejsu API v3 OpenProject w celu wykonywania działań w twoim imieniu.
       explanations_admin:
         api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
-        mcp: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+        mcp: Aplikacja uzyska dostęp do punktów końcowych protokołu MCP OpenProject. Stanowią one ograniczony podzbiór APIv3, dostosowany do współpracy z agentami AI.
       mcp: Access to Model Context Protocol
       mcp_text: Aplikacja uzyska dostęp do punktów końcowych protokołu MCP OpenProject. Stanowią one ograniczony podzbiór APIv3, dostosowany do współpracy z agentami AI.
   oauth_client:
@@ -5941,11 +5941,11 @@ pl:
   op_primer:
     work_package_card_component:
       drag_handle:
-        label: Drag to reorder
+        label: Przeciągnij, aby zmienić kolejność
       menu:
-        label_actions: Work package actions
-      parent: Parent
-      undisclosed: Undisclosed
+        label_actions: Działania pakietu roboczego
+      parent: Element nadrzędny
+      undisclosed: Niejawny
   open_link_in_a_new_tab: Otwórz łącze w nowej karcie
   page:
     text: Tekst
@@ -6003,7 +6003,7 @@ pl:
         add: Add wiki pages
         caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
         dialog_subtitle: Select the wiki page you would like to add
-        dialog_title: Add existing wiki page
+        dialog_title: Dodaj istniejącą stronę wiki
         manage_label: Manage and reorder wiki pages
         placeholder: Select a wiki page
         unavailable: Unavailable wiki page (%{reference})
@@ -6037,7 +6037,7 @@ pl:
   permission_comment_news: Komentowanie Nowości
   permission_commit_access: Dostęp odczytu i zapisu do repozytorium (wykonanie)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: W projektach szablonowych to uprawnienie ma dodatkową funkcję, umożliwia tworzenie nowych projektów opartych na szablonie.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Zduplikuj pakiety robocze
   permission_create_backup: Utwórz kopie zapasowe
   permission_create_user: Utwórz użytkowników
@@ -6193,9 +6193,9 @@ pl:
         placeholder: Wyszukaj portfolia
       sub_items_html:
         one: "<strong>%{count}</strong> sub-item"
-        few: "<strong>%{count}</strong> sub-items"
-        many: "<strong>%{count}</strong> sub-items"
-        other: "<strong>%{count}</strong> sub-items"
+        few: "<strong>%{count}</strong> podpozycje"
+        many: "<strong>%{count}</strong> podpozycji"
+        other: "<strong>%{count}</strong> podpozycji"
     lists:
       active: Aktywne portfolia
       archived: Zarchiwizowane portfolia
@@ -6307,9 +6307,9 @@ pl:
         in_progress: Marking a phase as complete will complete all previous phases.
         open: Re-opening a phase will also open all future phases.
       title:
-        completed: Completed
-        in_progress: In progress
-        open: Open
+        completed: Ukończony
+        in_progress: W toku
+        open: Otwórz
     settings:
       actions:
         label_disable_all: Wyłącz wszystkie
@@ -6353,8 +6353,8 @@ pl:
         changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
 
           '
-        column_name: Custom field
-        column_variants: Variants
+        column_name: Pole niestandardowe
+        column_variants: Warianty
         no_results_title_text: Nie ma dostępnych pól niestandardowych.
       forums:
         no_results_content_text: Utwórz nowe forum
@@ -6453,21 +6453,21 @@ pl:
             new_heading: Fields that will be added
             nothing_affected: Nie ma to wpływu na żadne pola ani statusy.
             status_count:
-              one: "%{count} work package"
-              few: "%{count} work packages"
-              many: "%{count} work packages"
-              other: "%{count} work packages"
+              one: "%{count} pakiet roboczy"
+              few: "%{count} pakiety robocze"
+              many: "%{count} pakietów roboczych"
+              other: "%{count} pakietu roboczego"
             table_suffix: "(tabela)"
             value_count:
               one: "%{count} work package has a value"
-              few: "%{count} work packages have a value"
-              many: "%{count} work packages have a value"
-              other: "%{count} work packages have a value"
+              few: "%{count} pakiety robocze mają wartość"
+              many: "%{count} pakietów roboczych ma wartość"
+              other: "%{count} pakietu roboczego ma wartość"
             work_packages:
               one: "%{count} work package will use the new configuration"
-              few: "%{count} work packages will use the new configuration"
-              many: "%{count} work packages will use the new configuration"
-              other: "%{count} work packages will use the new configuration"
+              few: Nowej konfiguracji będą używać %{count} pakiety robocze
+              many: Nowej konfiguracji będzie używać %{count} pakietów roboczych
+              other: Nowej konfiguracji będą używać %{count} pakietu roboczego
           success: Projekt używa teraz %{type}.
           target_label: Wariant
           title: "%{type}: przełącz wariant"
@@ -6501,7 +6501,7 @@ pl:
       headline: You’re offline
       headline_online: You’re back online
       reloading: Reloading…
-      retry: Retry
+      retry: Ponów próbę
       retrying: Retrying…
       status_checking: Checking your connection…
       status_restored: Connection restored. Reloading…
@@ -6552,9 +6552,9 @@ pl:
     add_reaction: Dodaj reakcję
     and_others:
       one: and %{count} other
-      few: and %{count} others
-      many: and %{count} others
-      other: and %{count} others
+      few: i %{count} inne
+      many: i %{count} innych
+      other: i %{count} innej
     and_user: i %{user}
     react_with: 'Zareaguj: %{reaction}'
     reaction_by: "%{reaction} —"
@@ -6672,31 +6672,31 @@ pl:
         other: "(Projekty: %{projects})"
       entry_projects_truncated:
         one: "(Projects: %{projects} and %{count} other)"
-        few: "(Projects: %{projects} and %{count} others)"
-        many: "(Projects: %{projects} and %{count} others)"
-        other: "(Projects: %{projects} and %{count} others)"
+        few: "(Projekty: %{projects} i jeszcze %{count})"
+        many: "(Projekty: %{projects} i jeszcze %{count})"
+        other: "(Projekty: %{projects} i jeszcze %{count})"
       heading:
         one: 'This role is still attributed to %{count} member:'
-        few: 'This role is still attributed to %{count} members:'
-        many: 'This role is still attributed to %{count} members:'
-        other: 'This role is still attributed to %{count} members:'
+        few: 'Ta rola jest nadal przypisana do %{count} członków:'
+        many: 'Ta rola jest nadal przypisana do %{count} członka:'
+        other: 'Ta rola jest nadal przypisana do %{count} członka:'
       heading_unused: Czy na pewno chcesz usunąć rolę „%{name}”?
       losing_project_access:
-        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: "%{count} z tych użytkowników straci dostęp do projektów, w których pełnili wyłącznie tę rolę. Czy na pewno chcesz usunąć tę rolę?"
         other: "%{count} z tych użytkowników straci dostęp do projektów, w których pełnili wyłącznie tę rolę. Czy na pewno chcesz usunąć tę rolę?"
         zero: Żaden z tych użytkowników nie straci dostępu do żadnego ze swoich projektów. Czy na pewno chcesz usunąć tę rolę?
       show_memberships: Pokaż wszystkie członkostwa z tą rolą
       summary: "%{users} w %{projects}"
       summary_projects:
         one: "%{count} project"
-        few: "%{count} projects"
-        many: "%{count} projects"
-        other: "%{count} projects"
+        few: "%{count} projekty"
+        many: "%{count} projektów"
+        other: "%{count} projektu"
       summary_users:
-        one: "%{count} user"
-        few: "%{count} users"
-        many: "%{count} users"
-        other: "%{count} users"
+        one: "%{count} użytkownik"
+        few: "%{count} użytkowników"
+        many: "%{count} użytkownika"
+        other: "%{count} użytkownika"
       title: Usuń rolę
     edit:
       default_for_new_projects_warning: 'Ta rola jest skonfigurowana jako domyślna rola nadawana użytkownikom niebędącym administratorami, a którzy tworzą projekt. Nie usuwaj poniższych uprawnień, w przeciwnym razie twórcy projektów nie będą mogli ukończyć konfiguracji swoich nowo utworzonych projektów:'
@@ -6714,9 +6714,9 @@ pl:
       no_permissions: Ta rola nie przyznaje żadnych uprawnień.
       permission_count:
         one: "%{count} permission"
-        few: "%{count} permissions"
-        many: "%{count} permissions"
-        other: "%{count} permissions"
+        few: "%{count} uprawnienia"
+        many: "%{count} uprawnień"
+        other: "%{count} uprawnień"
       preview_action: Wyświetl uprawnienia
       preview_aria_label: Wyświetl uprawnienia roli %{role}
       title: Uprawnienia „%{name}”
@@ -6938,7 +6938,7 @@ pl:
   setting_start_of_week: Początek tygodnia
   setting_sys_api_description: Zarządzanie repozytoriami przez www umożliwia integrację i autoryzację użytkowników do dostępu do repozytoriów.
   setting_sys_api_enabled: Uaktywnij zarządzanie repozytoriami przez www
-  setting_sys_api_key: API key
+  setting_sys_api_key: Klucz API
   setting_time_format: Godzina
   setting_total_percent_complete_mode: Obliczenie % Ukończenia pełnej hierarchii
   setting_total_percent_complete_mode_simple_average: Średnia arytmetyczna
@@ -7147,7 +7147,7 @@ pl:
         heading: Nowa faza
       no_gate: Brak bramki
       non_defined: Obecnie nie są zdefiniowane żadne fazy.
-      order_changed: Order successfully changed.
+      order_changed: Kolejność została zmieniona.
       phase_gates: Bramki faz
       section_header: Fazy
       start_gate: Bramka początkowa
@@ -7205,7 +7205,7 @@ pl:
       section_work_week: Tydzień roboczy
   sharing:
     count:
-      one: "%{count} user"
+      one: "%{count} użytkownik"
       other: "%{count} użytkowników"
       zero: 0 użytkowników
     denied: Nie masz uprawnień do udostępniania %{entities}.
@@ -7562,32 +7562,32 @@ pl:
           few: "%{names} and %{count} more"
           many: "%{names} and %{count} more"
           other: "%{names} and %{count} more"
-        parent_type: Parent type
+        parent_type: Typ nadrzędny
         same_as_type: Same as parent type
       rows:
         form:
-          fields: Fields
-          groups: Sections
+          fields: Pola
+          groups: Sekcje
           required: Of which required
           same_as_base: Same as parent type
         scope:
           availability: Available to
-          enabled_in_new_projects: Active in new projects
-          projects: Projects
+          enabled_in_new_projects: Aktywne w nowych projektach
+          projects: Projekty
         workflows:
           roles: Roles involved
           same_as_base: Same as parent type
-          statuses: Statuses
+          statuses: Statusy
           transitions: Transitions
       sections:
         configuration: Configuration overview
-        form: Form
-        scope: Scope
-        workflows: Workflows
+        form: Formularz
+        scope: Zakres
+        workflows: Przepływy pracy
       title: Compare variants
       title_for_type: Compare variants of %{name}
       values:
-        global: All projects
+        global: Wszystkie projekty
         inheriting_from: Inheriting from
         project_specific: Project-specific ([%{project}](project_url))
         same_as_base: Identical to the parent type
@@ -7602,9 +7602,9 @@ pl:
       progress_label: Krok %{number} z %{total}
       start:
         next_heading: What happens next?
-        submit: Start
+        submit: Rozpocznij
         type:
-          heading: Create a new type
+          heading: Utwórz nowy typ
           lead_html: You are about to create a new work package type in your instance. A type is a kind of work package, such as a Bug, Task or Milestone, with its own form, workflow and settings.
           next_steps: You will configure your type in the next steps, choosing the settings that best fit your needs. Once the type exists, you can create variants of it to adapt individual settings without creating another type.
           objects_description: Form and workflows are standalone objects that can be shared across multiple types and variants. You can select an existing one, create a new one from a copy, or start from scratch.
@@ -7612,14 +7612,14 @@ pl:
           options_heading: Settings and objects
           options_intro: A type is made up of two kinds of building blocks.
           settings_description: Details, defaults, project attributes, projects and PDF export belong to the type itself. You configure them directly for this type.
-          settings_title: Settings
+          settings_title: Ustawienia
         variant:
           heading: Create a new variant
           inherit_description: The variant uses the parent type's settings. Any changes to the parent type are automatically reflected in the variant.
           inherit_title: Use the same settings as the type
           lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
           manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
-          manual_title: Manual configuration
+          manual_title: Konfiguracja ręczna
           next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
           objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
           objects_heading: Reuse workflow and form objects
@@ -7629,11 +7629,11 @@ pl:
         defaults: Domyślne
         details: Szczegóły
         form_configuration: Formularz
-        pdf: Generate PDF
+        pdf: Wygeneruj PDF
         project_attributes: Atrybuty projektu
         projects: Projekty
-        start: Start
-        workflows: Workflow
+        start: Rozpocznij
+        workflows: Przepływ pracy
       success: Utworzono.
     edit:
       breadcrumb_variant: 'Wariant: %{name}'
@@ -7689,7 +7689,7 @@ pl:
             label_enable_all: Włącz wszystkie
             label_toggle_template: Przełącz %{template}
           label: Szablony eksportu PDF
-          order_changed: Order successfully changed.
+          order_changed: Kolejność została zmieniona.
         tab: Wygeneruj PDF
         templates:
           readonly_error: Nie można zmienić, dopóki jest powiązany z typem źródła.
@@ -7781,7 +7781,7 @@ pl:
         actions:
           confirm_remove: Usunąć typ %{type} z %{project}?
           remove_from_project: Usuń z projektu
-          switch_variant: Switch variant
+          switch_variant: Przełącz wariant
         add_dialog:
           no_projects_selected: Wybierz co najmniej jeden projekt.
           search_placeholder: Wyszukaj projekty
@@ -7868,12 +7868,16 @@ pl:
             '
           title: Brak wariantów dla tego typu
         created_by_migration_filter:
-          all: All
+          all: Wszystkie
           migrated: Migrated
         created_in_html: Utworzono w %{project}
         delete:
           description: Projekty korzystające z tego wariantu zostaną przełączone na wariant, który wybierzesz poniżej, zanim ten wariant zostanie usunięty.
           title: Usuń %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filtruj według tekstu
         filter_no_results: Żadne warianty nie spełniają kryteriów tego filtru
         global_section:
@@ -7883,7 +7887,7 @@ pl:
           description: Te warianty są dostępne jedynie w projektach, w których zostały utworzone.
           title: Warianty specyficzne dla projektu
       workflow:
-        tab: Workflow
+        tab: Przepływ pracy
     index:
       add_variant: Dodaj wariant do %{name}
       add_variant_action: Dodaj wariant
@@ -7905,9 +7909,9 @@ pl:
         heading: Usunąć typ „%{name}”?
         projects:
           one: 'The type will be removed from %{count} project:'
-          few: 'The type will be removed from %{count} projects:'
-          many: 'The type will be removed from %{count} projects:'
-          other: 'The type will be removed from %{count} projects:'
+          few: 'Typ zostanie usunięty z %{count} projektów:'
+          many: 'Typ zostanie usunięty z %{count} projektu:'
+          other: 'Typ zostanie usunięty z %{count} projektu:'
         title: Usuń typ
       description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
 
@@ -7927,9 +7931,9 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnych typów.
       project_variants_count:
         one: "%{count} project-specific variant"
-        few: "%{count} project-specific variants"
-        many: "%{count} project-specific variants"
-        other: "%{count} project-specific variants"
+        few: "%{count} warianty specyficzne dla projektu"
+        many: "%{count} wariantów specyficznych dla projektu"
+        other: "%{count} wariantu specyficznego dla projektu"
       remove_default: Nie aktywuj w nowych projektach
       remove_default_notice: "%{name} nie jest już aktywowany w nowych projektach."
       type_label: Typ
@@ -7968,9 +7972,9 @@ pl:
     blocked: zablokowany tymczsowo
     blocked_num_failed_logins:
       one: locked temporarily (%{count} failed login attempt)
-      few: locked temporarily (%{count} failed login attempts)
-      many: locked temporarily (%{count} failed login attempts)
-      other: locked temporarily (%{count} failed login attempts)
+      few: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
+      many: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
+      other: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
     confirm_status_change: Zamierzasz zmienić status „%{name}”. Na pewno chcesz kontynuować?
     deleted: Usunięty uźytkownik
     department_ldap_managed_caption: Ten dział jest zarządzany za pomocą synchronizacji LDAP i nie można go zmienić tutaj.
@@ -8131,18 +8135,18 @@ pl:
         work_days: Dni robocze
         work_days_count:
           one: "%{count} working day"
-          few: "%{count} working days"
-          many: "%{count} working days"
-          other: "%{count} working days"
+          few: "%{count} dni robocze"
+          many: "%{count} dni roboczych"
+          other: "%{count} dnia roboczego"
         work_hours: Godziny pracy
   version_status_closed: Zamknięte
   version_status_locked: zablokowane
   version_status_open: Otwarte
   versions:
     filter_status_labels:
-      closed: Closed
-      locked: Locked
-      open: Open
+      closed: Zakończone
+      locked: Zablokowani
+      open: Otwórz
     index:
       filter_label: Search versions
     overview:
@@ -8317,9 +8321,9 @@ pl:
       could_not_be_saved: 'Nie można zapisać następujących pakietów roboczych:'
       deletion_successful:
         one: Successfully deleted %{count} work package.
-        few: Successfully deleted %{count} work packages.
-        many: Successfully deleted %{count} work packages.
-        other: Successfully deleted %{count} work packages.
+        few: Usunięto %{count} pakiety robocze.
+        many: Usunięto %{count} pakietów roboczych.
+        other: Usunięto %{count} pakietu roboczego.
       descendant: elementy potomne wybranego
       move_failed: Nie można przenieść pakietów roboczych.
       none_could_be_saved: Nie mógł zostać zaktualizowany żaden z pakietów roboczych %{total}.
@@ -8344,25 +8348,25 @@ pl:
       heading: Czy usunąć trwale te pakiety robocze (%{count})?
       hidden_descendants_only_warning:
         one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
-        few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        few: Są %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Jest %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Jest %{count} elementu potomnego, którego nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
       hidden_descendants_warning:
         one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
-        few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        few: Wszystkie widoczne elementy potomne zostaną usunięte. Są jednak %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Wszystkie widoczne elementy potomne zostaną usunięte. Jest jednak %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Wszystkie widoczne elementy potomne zostaną usunięte. Jest jednak %{count} elementu potomnego, którego nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
       title: Usuń pakiety robocze (%{count})
       undeletable_descendants_warning:
         one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
       undeletable_descendants_warning_html:
         one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
     datepicker_modal:
       banner:
         description:
@@ -8420,29 +8424,29 @@ pl:
       heading: Czy trwale usunąć ten pakiet roboczy?
       hidden_descendants_only_warning:
         one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        few: Ten pakiet roboczy ma %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        many: Ten pakiet roboczy ma %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        other: Ten pakiet roboczy ma %{count} elementu potomnego, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
       hidden_descendants_warning:
         one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        few: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        many: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        other: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak %{count} elementu potomnego, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
       title: Usuwanie pakietu roboczego
       undeletable_descendants_warning:
         one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
       undeletable_descendants_warning_html:
         one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        many: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
     import:
       check_file: Check file
       checking_file: Checking %{filename}
-      clear: Clear
+      clear: Wyczyść
       csv:
         file:
           empty: This file is empty.
@@ -8476,11 +8480,11 @@ pl:
           invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
           not_created: could not be created, and no reason was reported.
           too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
-          unknown: does not exist.
+          unknown: nie istnieje.
           unknown_in_project: does not exist in this project.
           unknown_user: does not match a user. Use the email address the user signs in with.
         template:
-          example_category: Documentation
+          example_category: Dokumentacja
           example_version: '1.0'
           examples:
             one:
@@ -8536,10 +8540,10 @@ pl:
             label: Lines with dates
             subtitle: a start or finish date
           types:
-            label: Types
+            label: Typy
             subtitle: used in this file
           work_packages:
-            label: Work packages
+            label: Pakiety robocze
             subtitle: one for every line
         imported:
           again: Import another file
@@ -8567,11 +8571,11 @@ pl:
           attribute: Column
           available: Available values
           column: Column
-          empty: empty
+          empty: puste
           header: Header
           message: Problem
-          row: Line
-          value: Value
+          row: Liniowy
+          value: Wartość
         x_lines:
           one: "%{count} line"
           few: "%{count} lines"
@@ -8617,9 +8621,9 @@ pl:
           no_results_title_text: Obecnie żadne wersje nie są dostępne.
     x_descendants:
       one: "%{count} descendant work package"
-      few: "%{count} work package descendants"
-      many: "%{count} work package descendants"
-      other: "%{count} work package descendants"
+      few: Wiele potomnych pakietów roboczych (%{count})
+      many: Wiele potomnych pakietów roboczych (%{count})
+      other: Wiele potomnych pakietów roboczych (%{count})
   workflows:
     change:
       confirm:
@@ -8630,7 +8634,7 @@ pl:
         title: Use a different workflow for %{name}?
       select:
         caption: The type uses the status transitions of the workflow you pick here.
-        label: Workflow
+        label: Przepływ pracy
         placeholder: Select a workflow…
       title: Change workflow
     copies:
@@ -8652,7 +8656,7 @@ pl:
         other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
       body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
       button: Delete workflow
-      confirmation_checkbox_label: I understand that this action is not reversible.
+      confirmation_checkbox_label: Rozumiem, że to działanie jest nieodwracalne.
       no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
       replace_caption: The selected workflow will be applied to all types and variants listed above.
       replace_label: Replace with workflow
@@ -8666,7 +8670,7 @@ pl:
       copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
-        label: Description
+        label: Opis
       edit_title: Edit workflow
       matrix_caption: Macierz przepływu pracy
       matrix_caption_assignee: Macierz przepływu pracy osoby przypisanej
@@ -8682,7 +8686,7 @@ pl:
       save_title: Save workflow
     index:
       actions:
-        create: Workflow
+        create: Przepływ pracy
         edit: Edit transitions
         menu: Actions for %{name}
         rename: Edit name and description
@@ -8693,19 +8697,19 @@ pl:
         title: No workflows
       columns:
         name: Workflow name
-        projects: Projects
-        roles: Roles
+        projects: Projekty
+        roles: Rol
         types_and_variants: Types and variants
       description: Every named set of status transitions in this instance, with the types and variants using it.
       filters:
-        name: Workflow
+        name: Przepływ pracy
         name_placeholder: Filter by workflow name or description…
         projects_placeholder: Filter projects…
       projects_count:
         one: "%{count} project"
-        few: "%{count} projects"
-        many: "%{count} projects"
-        other: "%{count} projects"
+        few: "%{count} projektów"
+        many: "%{count} projektu"
+        other: "%{count} projektów"
       roles_count:
         one: "%{count} role"
         few: "%{count} roles"
@@ -8716,22 +8720,22 @@ pl:
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
         one: "%{count} type"
-        few: "%{count} types"
-        many: "%{count} types"
-        other: "%{count} types"
+        few: "%{count} typy"
+        many: "%{count} typów"
+        other: "%{count} typu"
       variants_count:
         one: "%{count} variant"
-        few: "%{count} variants"
-        many: "%{count} variants"
-        other: "%{count} variants"
+        few: "%{count} warianty"
+        many: "%{count} wariantów"
+        other: "%{count} wariantu"
     name:
-      fallback: Workflow
+      fallback: Przepływ pracy
       implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Skonfiguruj przejścia statusów dla każdego typu pakietu roboczego.
     selector:
-      prefix: Workflow
+      prefix: Przepływ pracy
       same_as_type: "(same as type)"
       title: Select workflow
     start:
@@ -8746,12 +8750,12 @@ pl:
       title: New workflow
     usage:
       dialog:
-        button: View dependent types
+        button: Wyświetl typy zależne
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variant of %{type}
         variant_of_html: Variant of %{type}
-        variants: Variants
+        variants: Warianty
       unused: No type or variant uses this workflow yet.
       used_by_types:
         one: This workflow is used by %{count} type. Changes apply to it.

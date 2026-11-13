@@ -53,9 +53,9 @@ uk:
     active_editors: Активні редактори
     active_editors_count:
       one: "%{count} active editor"
-      few: "%{count} active editors"
-      many: "%{count} active editors"
-      other: "%{count} active editors"
+      few: "%{count} активних редактори"
+      many: "%{count} активних редактори"
+      other: "%{count} активного редактора"
     admin:
       collaboration_settings:
         banner:

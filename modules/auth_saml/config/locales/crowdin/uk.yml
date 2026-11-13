@@ -186,7 +186,7 @@ uk:
       notice_created: Нового постачальника ідентифікаційних даних SAML успішно створено.
       plural: Постачальники ідентифікаційних даних SAML
       refresh_metadata:
-        apply: Apply changes
+        apply: Застосувати зміни
         description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
         no_changes: The metadata matches the current configuration.
         title: Review metadata changes

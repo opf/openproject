@@ -25,7 +25,7 @@ pl:
     backlogs:
       action_menu:
         menu_label:
-          one: Work package actions
+          one: Działania pakietu roboczego
           few: Actions for %{count} selected work packages
           many: Actions for %{count} selected work packages
           other: Actions for %{count} selected work packages
@@ -53,18 +53,18 @@ pl:
         range_blocked: Wybór pozostaje bez zmian. Ten zakres zawiera pakiet roboczy, który nie ma wpływu na kolejność pozycji na tej liście.
         range_restarted:
           one: Could not extend the range. %{count} work package selected.
-          few: Could not extend the range. %{count} work packages selected.
-          many: Could not extend the range. %{count} work packages selected.
-          other: Could not extend the range. %{count} work packages selected.
+          few: Nie można rozszerzyć zakresu. Wybrano %{count} pakiety robocze.
+          many: Nie można rozszerzyć zakresu. Wybrano %{count} pakietów roboczych.
+          other: Nie można rozszerzyć zakresu. Wybrano %{count} pakietu roboczego.
         range_unavailable: Wybór pozostaje bez zmian. Rozwiń tę listę, aby wybrać ten zakres.
         selected:
           one: "%{count} work package selected."
-          few: "%{count} work packages selected."
-          many: "%{count} work packages selected."
-          other: "%{count} work packages selected."
+          few: Wybrano %{count} pakiety robocze.
+          many: Wybrano %{count} pakietów roboczych.
+          other: Wybrano %{count} pakietu roboczego.
     burndown_chart:
       chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
+      chart_label: Wykres spalania (burndown)
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
     burnup_chart:
@@ -73,12 +73,12 @@ pl:
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
     created_resolved_chart:
-      work_packages: Work packages
+      work_packages: Pakiety robocze
     sprint_charts:
-      non_working_day: Non-working day
+      non_working_day: Dzień nieroboczy
       y_axis_title:
-        story_points: Story points
-        time: Estimated time
+        story_points: Punkty historii
+        time: Szacowany czas
     work_packages:
       properties:
         storyPoints: Historia Punktów

@@ -5,18 +5,18 @@ ko:
       llm_capability_verdict:
         capability: Capability
         model_id: Model
-        state: State
+        state: 상태
       llm_connection:
         api_format: API format
-        api_key: API key
-        base_url: Host URL
+        api_key: API 키
+        base_url: 호스트 URL
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
         env_fingerprint: Applied environment configuration
         env_provisioned_at: Applied from the environment
         llm_features_enabled: Enable LLMs for this instance
       llm_feature_binding:
-        feature_key: Feature
+        feature_key: 기능
         model: Model
         semantic_index: Semantic Index
       llm_model:
@@ -25,18 +25,18 @@ ko:
         capability_reasoning: Reasoning
         capability_structured_output: Structured output
         capability_vision: Vision
-        display_name: Display name
+        display_name: 표시 이름
         manual: Entered by hand
         raw_metadata: Metadata
         external: Model name
       semantic_index:
         context_token_length: Context length
-        description: Description
+        description: 설명
         embedding_vector_dimensions: Dimensions
         llm_feature_bindings: Feature configuration
         model: Model
-        state: Status
-        title: Display name
+        state: 상태
+        title: 표시 이름
     errors:
       messages:
         semantic_search_unavailable: is currently unavailable.
@@ -93,11 +93,11 @@ ko:
       activate:
         body_html: Semantic search will use <b>%{title}</b> immediately.
         body_switch_html: Semantic search switches from <b>%{current}</b> to <b>%{title}</b> immediately. %{current} stays ready and can be reactivated.
-        button: Activate
-        confirm: Activate
+        button: 활성화
+        confirm: 활성화
         success: '"%{title}" is now the active semantic index.'
         title: Activate "%{title}"?
-      active: Active
+      active: 활성
       box:
         empty_description: Create a new semantic index to make work packages findable by meaning.
         empty_title: No semantic index yet
@@ -125,7 +125,7 @@ ko:
           pgvector_missing: The pgvector extension is not installed. Install it and run the migrations again to start indexing.
         progress: "%{percentage}% done"
       menu:
-        delete: Delete
+        delete: 삭제
         locked_while_active: Cannot be deleted while it is active.
         locked_while_indexing: Cannot be deleted while indexing.
       start_indexing:
@@ -136,12 +136,12 @@ ko:
         not_indexable: This semantic index is already being indexed.
         started: Indexing of "%{title}" has started.
       states:
-        failed: Failed
+        failed: 실패
         indexing: Indexing
         not_indexed: Not indexed
         ready: Ready
       stop_indexing:
-        button: Stop
+        button: 중지
         not_indexing: This semantic index is not being indexed.
         stopped: Indexing of "%{title}" was stopped.
     llm_connections:
@@ -209,7 +209,7 @@ ko:
         run_checks: Run checks
         running: Running checks...
         summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
-        title: Health status
+        title: 상태
     llm_models:
       configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
@@ -251,12 +251,12 @@ ko:
         context_window: Context window
         filter_label: Filter models
         identifier: Model
-        kind: Type
+        kind: 유형
         refresh: Refresh models
-        source: Source
+        source: 소스
         source_discovered: Server
         source_discovered_description: Reported by the server
-        source_manual: Manual
+        source_manual: 수동
         source_manual_description: Added manually by an administrator
         source_withdrawn: Withdrawn
         source_withdrawn_description: No longer reported by the server
@@ -316,7 +316,7 @@ ko:
         credentials_present: API key is stored
         enabled: Connection is switched on
         feature_flag: AI features are switched on
-        header: Configuration
+        header: 구성
       errors:
         api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
         catalogue_never_fetched: The model list has never been retrieved from the server.
@@ -380,10 +380,10 @@ ko:
       health_status_component:
         last_check: Last checked %{datetime}.
         never_checked: This connection has not been checked yet.
-        open_report: Open full health report
-        run_checks: Run checks now
+        open_report: 전체 상태 보고서 열기
+        run_checks: 지금 검사 실행
         running: Running checks...
-        title: Health status
+        title: 상태
   menus:
     admin:
       llm_connection: LLM settings

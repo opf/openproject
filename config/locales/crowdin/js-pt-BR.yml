@@ -63,7 +63,7 @@ pt-BR:
         single: Selecionar "%{name}"
       remove: Remover %{name}
     autocompleter:
-      create_label: Create label
+      create_label: Criar etiqueta
       notFoundText: Nenhum item encontrado
       placeholder: Escreva para pesquisar
       project:
@@ -131,10 +131,10 @@ pt-BR:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_link_to_clipboard: Copiar link para área de transferência
     button_copy_to_clipboard: Copiar para a área de transferência
     button_copy_to_other_project: Duplicar em outro projeto
-    button_copy_work_package_id: Copy work package ID
+    button_copy_work_package_id: Copiar ID do pacotes de trabalho
     button_create: Criar
     button_custom-fields: Campos personalizados
     button_delete: Excluir
@@ -150,7 +150,7 @@ pt-BR:
     button_log_time: Registro de tempo
     button_more: Mais
     button_more_actions: Mais ações
-    button_move_to_position: Move to position
+    button_move_to_position: Mover de posição
     button_open_details: Abrir visão detalhada
     button_open_fullscreen: Abrir visualização em tela cheia
     button_quote: Citar
@@ -505,7 +505,7 @@ pt-BR:
     label_in: em
     label_in_less_than: em menos de
     label_in_more_than: em mais de
-    label_in_progress_work_packages: in progress
+    label_in_progress_work_packages: em progresso
     label_incoming_emails: E-mails recebidos
     label_infinity: Infinito
     label_information_plural: Informação
@@ -538,10 +538,10 @@ pt-BR:
     label_open_context_menu: Abrir menu de contexto
     label_open_menu: Abrir menu
     label_open_work_packages: aberto
-    label_origin: Origin
+    label_origin: Origem
     label_origin_id: ID
     label_origin_jira_data_center: Jira Data Center
-    label_origin_source: Source
+    label_origin_source: Fonte
     label_password: Senha
     label_per_page: 'Por página:'
     label_please_wait: Por favor, aguarde
@@ -566,8 +566,8 @@ pt-BR:
     label_reset: Reiniciar
     label_resize_project_menu: Redimensionar menu do projeto
     label_save_as: Salvar como
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: Rolar para a esquerda
+    label_scroll_right: Rolar para a direita
     label_search_columns: Buscar uma coluna
     label_select_watcher: Selecione um observador...
     label_selected_filter_list: Filtros selecionados
@@ -575,9 +575,9 @@ pt-BR:
     label_show_in_menu: Mostrar visualização no menu
     label_sort_by: Ordenar por
     label_sort_higher: Mover para cima
-    label_sort_highest: Move to top
+    label_sort_highest: Mover para o inicio
     label_sort_lower: Mover para baixo
-    label_sort_lowest: Move to bottom
+    label_sort_lowest: Mover para o final
     label_sorted_by: ordenado por
     label_sorting: Ordenação
     label_spent_time: Tempo gasto
@@ -644,7 +644,7 @@ pt-BR:
       center:
         and_more_users:
           one: and %{count} other
-          other: and %{count} others
+          other: e %{count} outros
         empty_state:
           no_notification: Parece que você já está com tudo em dia.
           no_notification_for_filter: Parece que você já está com tudo em dia para este filtro.
@@ -849,11 +849,11 @@ pt-BR:
         range_blocked: Seleção inalterada. Esse intervalo contém um item que não faz parte da ordenação desta lista.
         range_restarted:
           one: Could not extend the range. %{count} item selected.
-          other: Could not extend the range. %{count} items selected.
+          other: Não foi possível ampliar o intervalo. %{count} itens selecionados.
         range_unavailable: Seleção inalterada. Expanda a lista para selecionar todo o intervalo.
         selected:
           one: "%{count} item selected."
-          other: "%{count} items selected."
+          other: "%{count} itens selecionados."
     spot:
       drop_modal:
         close: Fechar o modal
@@ -903,7 +903,7 @@ pt-BR:
     units:
       child_work_packages:
         one: "%{count} child work package"
-        other: "%{count} work package children"
+        other: "%{count} pacotes de trabalho filhos"
       day:
         one: "%{count} day"
         other: "%{count} dias"
@@ -915,7 +915,7 @@ pt-BR:
       hour_string: "%{hours} h"
       word:
         one: "%{count} word"
-        other: "%{count} words"
+        other: "%{count} palavras"
       workPackage:
         one: pacote de trabalho
         other: pacotes de trabalho
@@ -974,7 +974,7 @@ pt-BR:
         all_open: Todos abertos
         assigned_to_me: Atribuído a mim
         created_by_me: Criado por mim
-        in_progress: In progress
+        in_progress: Em andamento
         latest_activity: Última atividade
         manually_sorted: Nova consulta classificada manualmente
         overdue: Atrasado
@@ -1070,7 +1070,7 @@ pt-BR:
         other: Outro
         people: Pessoas
       query:
-        add_columns: Add columns
+        add_columns: Adicionar colunas
         click_to_edit_query_name: Clique para editar o título desta visão.
         column_names: Colunas
         confirm_edit_cancel: Tem certeza que deseja cancelar a edição do nome desta visão? O título será definido novamente com o valor anterior.
@@ -1089,7 +1089,7 @@ pt-BR:
         public_text: 'Publicar esta visualização, permitindo que outros usuários acessem sua visualização. Usuários com a permissão ''Gerenciar visualizações públicas'' podem modificar ou remover a consulta pública. Isso não afeta a visibilidade dos resultados do pacote de trabalho nessa visualização e dependendo de suas permissões, os usuários podem ver resultados diferentes.
 
           '
-        remove_column: Remove column
+        remove_column: Remover coluna
         rename_query_placeholder: Nome desta visão
         sort_ascending: Ordenação crescente
         sort_descending: Ordenação decrescente
@@ -1114,16 +1114,16 @@ pt-BR:
         all_selected:
           one: All %{count} work package on this page selected.
           other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+        cleared: Seleção removida.
         selected:
           one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          other: "%{count} pacotes de trabalho selecionados."
       sharing:
         show_all_users: Exibir todos os usuários com quem o pacote de trabalho foi compartilhado
         title: Compartilhar pacote de trabalho
       table:
         configure_button: Configurar a tabela de pacote de trabalho
-        grid_actions_header: Actions
+        grid_actions_header: Ações
         grid_baseline_header: Comparison status
         relations_button: Relations in %{column} for %{work_package}
         sort_criterion_ascending: "%{column} ascending"

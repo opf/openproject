@@ -5692,7 +5692,7 @@ et:
   permission_comment_news: Uudiseid kommenteerida
   permission_commit_access: Read/write access to repository (commit)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Create backups
   permission_create_user: Loo kasutajaid
@@ -7511,6 +7511,10 @@ et:
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
           title: Delete %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filter by text
         filter_no_results: No variants match this filter
         global_section:

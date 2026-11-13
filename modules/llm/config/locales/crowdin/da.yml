@@ -18,7 +18,7 @@ da:
       llm_feature_binding:
         feature_key: Funktion
         model: Model
-        semantic_index: Semantic Index
+        semantic_index: Semantisk indeks
       llm_model:
         admin_context_window: Kontekstvindue
         capability_function_calling: Værktøjskald
@@ -30,16 +30,16 @@ da:
         raw_metadata: Metadata
         external: Modelnavn
       semantic_index:
-        context_token_length: Context length
-        description: Description
-        embedding_vector_dimensions: Dimensions
-        llm_feature_bindings: Feature configuration
+        context_token_length: Kontekstlængde
+        description: Beskrivelse
+        embedding_vector_dimensions: Dimensioner
+        llm_feature_bindings: Konfiguration af funktioner
         model: Model
         state: Status
-        title: Display name
+        title: Visningsnavn
     errors:
       messages:
-        semantic_search_unavailable: is currently unavailable.
+        semantic_search_unavailable: er ikke tilgængelig i øjeblikket.
       models:
         llm_connection:
           attributes:
@@ -73,7 +73,7 @@ da:
             model_id:
               not_available: tilbydes ikke af den konfigurerede LLM-server.
             semantic_index:
-              not_for_chat_feature: only applies to features that create embeddings.
+              not_for_chat_feature: gælder kun funktioner, der danner embeddings.
         llm_model:
           attributes:
             base:
@@ -84,67 +84,67 @@ da:
         semantic_index:
           attributes:
             base:
-              active: The semantic index is active. Activate another semantic index first.
-              locked_while_indexing: cannot be changed while it is being indexed.
+              active: Det semantiske indeks er aktivt. Aktivér et andet semantisk indeks først.
+              locked_while_indexing: kan ikke ændres, mens det bliver indekseret.
             model_id:
-              not_offered: is not an embedding model offered by the configured LLM server.
+              not_offered: er ikke en embedding-model, som den konfigurerede LLM-server tilbyder.
   admin:
     semantic_indexes:
       activate:
-        body_html: Semantic search will use <b>%{title}</b> immediately.
-        body_switch_html: Semantic search switches from <b>%{current}</b> to <b>%{title}</b> immediately. %{current} stays ready and can be reactivated.
-        button: Activate
-        confirm: Activate
-        success: '"%{title}" is now the active semantic index.'
-        title: Activate "%{title}"?
-      active: Active
+        body_html: Semantisk søgning bruger <b>%{title}</b> med det samme.
+        body_switch_html: Semantisk søgning skifter fra <b>%{current}</b> til <b>%{title}</b> med det samme. %{current} forbliver klar og kan aktiveres igen.
+        button: Aktivér
+        confirm: Aktivér
+        success: '"%{title}" er nu det aktive semantiske indeks.'
+        title: Vil du aktivere "%{title}"?
+      active: Aktiv
       box:
-        empty_description: Create a new semantic index to make work packages findable by meaning.
-        empty_title: No semantic index yet
-        new: Semantic index
-        title: Semantic indexes
+        empty_description: Opret et nyt semantisk indeks, så arbejdspakker kan findes ud fra betydning.
+        empty_title: Der er endnu intet semantisk indeks
+        new: Semantisk indeks
+        title: Semantiske indekser
       destroy:
-        description: The semantic index and its settings will be removed. This cannot be undone.
-        heading: Delete %{title}?
-        title: Delete semantic index
+        description: Det semantiske indeks og dets indstillinger fjernes. Det kan ikke fortrydes.
+        heading: Vil du slette %{title}?
+        title: Slet semantisk indeks
       dialog:
-        edit_title: Edit "%{title}"
-        new_title: New semantic index
+        edit_title: Rediger "%{title}"
+        new_title: Nyt semantisk indeks
       form:
-        context_token_length_caption: Maximum number of tokens embedded per work package.
-        embedding_vector_dimensions_caption: Must match the selected model.
-        immutable: Model, context length and dimensions can't be changed after creation. Create a new semantic index to use different parameters.
-        model_caption: Only models known to create embeddings are offered.
-        option_unqualified: "%{model} (no longer eligible)"
+        context_token_length_caption: Det højeste antal tokens, der indlejres pr. arbejdspakke.
+        embedding_vector_dimensions_caption: Skal passe til den valgte model.
+        immutable: Model, kontekstlængde og dimensioner kan ikke ændres, efter at indekset er oprettet. Opret et nyt semantisk indeks for at bruge andre parametre.
+        model_caption: Kun modeller, der vides at kunne danne embeddings, vises.
+        option_unqualified: "%{model} (kan ikke længere bruges)"
       indexing:
         failed_requests:
-          one: 1 request failed.
-          other: "%{count} requests failed."
+          one: 1 anmodning mislykkedes.
+          other: "%{count} anmodninger mislykkedes."
         not_ready:
-          model_missing: The model %{model} is no longer offered by the connection.
-          no_connection: No active LLM connection is configured.
-          pgvector_missing: The pgvector extension is not installed. Install it and run the migrations again to start indexing.
-        progress: "%{percentage}% done"
+          model_missing: Modellen %{model} tilbydes ikke længere af forbindelsen.
+          no_connection: Der er ikke konfigureret nogen aktiv LLM-forbindelse.
+          pgvector_missing: Udvidelsen pgvector er ikke installeret. Installer den, og kør migreringerne igen for at starte indekseringen.
+        progress: "%{percentage} % færdig"
       menu:
-        delete: Delete
-        locked_while_active: Cannot be deleted while it is active.
-        locked_while_indexing: Cannot be deleted while indexing.
+        delete: Slet
+        locked_while_active: Kan ikke slettes, mens det er aktivt.
+        locked_while_indexing: Kan ikke slettes under indeksering.
       start_indexing:
         button:
-          failed: Retry indexing
-          not_indexed: Start indexing
-          ready: Re-index
-        not_indexable: This semantic index is already being indexed.
-        started: Indexing of "%{title}" has started.
+          failed: Prøv indeksering igen
+          not_indexed: Start indeksering
+          ready: Indekser igen
+        not_indexable: Det semantiske indeks bliver allerede indekseret.
+        started: Indekseringen af "%{title}" er startet.
       states:
-        failed: Failed
-        indexing: Indexing
-        not_indexed: Not indexed
-        ready: Ready
+        failed: Mislykkedes
+        indexing: Indekserer
+        not_indexed: Ikke indekseret
+        ready: Klar
       stop_indexing:
         button: Stop
-        not_indexing: This semantic index is not being indexed.
-        stopped: Indexing of "%{title}" was stopped.
+        not_indexing: Det semantiske indeks bliver ikke indekseret.
+        stopped: Indekseringen af "%{title}" er stoppet.
     llm_connections:
       header_description: Forbind OpenProject til en LLM-server, og se de modeller, den tilbyder.
       delete_api_key:
@@ -271,8 +271,8 @@ da:
       update:
         success: "%{model} er opdateret."
   attributes:
-    semantic_similarity: Similarity
-  label_search_by_meaning: Search by meaning
+    semantic_similarity: Lighed
+  label_search_by_meaning: Søg ud fra betydning
   llm:
     api_formats:
       anthropic: Anthropic
@@ -342,12 +342,12 @@ da:
         not_configured: Der er ikke konfigureret noget endepunkt.
         not_openai_compatible: Endepunktet returnerede ikke en gyldig modelliste. Sørg for, at det peger på et endepunkt, der er kompatibelt med OpenAI's API, inklusive segmentet med API-versionen.
         request_timed_out: Serveren svarede ikke i tide.
-        semantic_index_model_missing: The active semantic index "%{title}" was built with %{model}, which the server no longer offers. Activate another semantic index to keep search by meaning working.
+        semantic_index_model_missing: Det aktive semantiske indeks "%{title}" er bygget med %{model}, som serveren ikke længere tilbyder. Aktivér et andet semantisk indeks, så søgning ud fra betydning bliver ved med at virke.
         server_error: Serveren svarede med status %{status}.
         ssrf_filtered: Endepunktet peger på en blokeret adresse.
         unsupported_api_format: "%{api_format} kræver legitimationsoplysninger, som OpenProject ikke kan gemme."
       features:
-        active_semantic_index_intact: The active semantic index still has its model
+        active_semantic_index_intact: Det aktive semantiske indeks har stadig sin model
         bindings_resolvable: Hver funktion har en model, der kan bruges
         header: AI-funktioner
       inference:
@@ -370,8 +370,8 @@ da:
       chat: Chat
       embedding: Embedding
     pgvector:
-      admin_check: Database extension pgvector enabled (optional)
-      unavailable: Semantic search is unavailable because the pgvector extension is not set up in the database. Install pgvector for PostgreSQL and run the database migrations again. [Learn more](docs_url)
+      admin_check: Databaseudvidelsen pgvector er slået til (valgfri)
+      unavailable: Semantisk søgning er ikke tilgængelig, fordi udvidelsen pgvector ikke er opsat i databasen. Installer pgvector til PostgreSQL, og kør databasemigreringerne igen. [Læs mere](docs_url)
     verdict_states:
       supported: understøttet
       unknown: ikke kontrolleret

@@ -133,7 +133,7 @@ pt-BR:
     assignment_dialog:
       available: "%{hours} disponível"
       confirm_overtime: Atribuir mesmo assim
-      filter_criteria: Criteria
+      filter_criteria: Critério
       no_candidates:
         description: No project member matches the criteria of this placeholder user.
         title: Nenhum membro correspondente
@@ -174,7 +174,7 @@ pt-BR:
     label_resource_planner: Planejador de recursos
     label_resource_planner_plural: Planejadores de recursos
     my_time_management:
-      hidden_work_package: Work package not visible to you
+      hidden_work_package: Pacote de trabalho não visível para você
     new_view_dialog:
       title: Adicionar Visualização
     public_caption: Tornar esta visualização pública para todos os membros do projeto. Isso não afeta a visibilidade dos pacotes de trabalho, que ainda depende das permissões de cada usuário.
