@@ -104,4 +104,75 @@ RSpec.describe FormConfigurations::FormConfigurationsController do
       expect(variant.reload.attribute_groups.map(&:key)).to eq(before)
     end
   end
+
+  describe "GET #configure_dialog" do
+    it "opens the start dialog for an administrator" do
+      get :configure_dialog, format: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    context "with an account that is not an administrator" do
+      let(:user) { create(:user) }
+
+      it "is refused" do
+        get :configure_dialog, format: :turbo_stream
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+  end
+
+  describe "POST #configure" do
+    it "moves on to naming when starting from scratch" do
+      post :configure, params: { start: "scratch" }, format: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "keeps asking when copy is chosen without a source" do
+      post :configure, params: { start: "copy" }, format: :turbo_stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  describe "POST #create" do
+    it "creates a form from scratch and lands on its page", :aggregate_failures do
+      expect { post :create, params: { form_configuration: { name: "Release form" } }, format: :turbo_stream }
+        .to change(FormConfiguration, :count).by(1)
+
+      expect(response).to redirect_to(edit_form_configuration_path(FormConfiguration.find_by(name: "Release form")))
+    end
+
+    it "copies the attribute groups of the form it starts from" do
+      source = create(:form_configuration).tap do |form|
+        form.update!(attribute_groups: [["People", %w[assignee]]])
+      end
+
+      post :create, params: { form_configuration: { name: "Copied form", copy_from_id: source.id } }, format: :turbo_stream
+
+      expect(FormConfiguration.find_by(name: "Copied form").attribute_groups.map(&:key)).to eq(%w[People])
+    end
+
+    it "refuses a name another form already has", :aggregate_failures do
+      create(:form_configuration, name: "Taken")
+
+      expect { post :create, params: { form_configuration: { name: "Taken" } }, format: :turbo_stream }
+        .not_to change(FormConfiguration, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    context "with an account that is not an administrator" do
+      let(:user) { create(:user) }
+
+      it "is refused", :aggregate_failures do
+        expect { post :create, params: { form_configuration: { name: "Release form" } }, format: :turbo_stream }
+          .not_to change(FormConfiguration, :count)
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+  end
 end
