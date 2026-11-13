@@ -87,9 +87,34 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
       .to have_css(".color-fg-muted", exact_text: I18n.t("projects.settings.types.project_specific_variant"))
   end
 
-  it "labels the switch action to match the switch dialog" do
-    expect(hardware_row).to have_link(I18n.t("types.edit.projects.actions.switch_variant"))
-    expect(hardware_row).to have_link("Switch variant")
+  it "lets rows be selected but not dragged" do
+    table = page.find_by_id("project-table")
+
+    expect(table["data-sortable-lists-selection-enabled-value"]).to eq("true")
+    expect(table["data-sortable-lists-drag-enabled-value"]).to eq("false")
+  end
+
+  it "makes each row a focusable selection item identified by its project" do
+    expect(base_row["data-sortable-lists--item-id-value"]).to eq(on_base.id.to_s)
+    expect(base_row["tabindex"]).to eq("0")
+  end
+
+  it "loads each row's menu from the server for the selection it acts on" do
+    table = page.find_by_id("project-table")
+
+    expect(table["data-controller"]).to include("sortable-lists--menu-source")
+    expect(table["data-sortable-lists--menu-source-url-value"]).to eq(type_projects_menu_path(type_id: type.id))
+    expect(table["data-sortable-lists--menu-source-menu-label-key-value"]).to eq("js.types.projects.action_menu.menu_label")
+  end
+
+  it "loads a row's menu for its own project until it opens on a selection" do
+    menu = base_row.find("action-menu")
+
+    expect(menu[:src]).to eq(type_projects_menu_path(type_id: type.id, ids: [on_base.id], invoker_id: on_base.id))
+  end
+
+  it "names a row's menu after the project it acts on" do
+    expect(base_row).to have_css("tool-tip", exact_text: "Project actions", visible: :all)
   end
 
   context "without any project" do

@@ -32,9 +32,21 @@ module WorkPackageTypes
     class RowComponent < OpPrimer::BorderBoxRowComponent
       include WorkPackageTypes::VariantRoutes
 
+      SELECTION_TYPE = "type_project"
+
       alias_method :project, :model
 
-      def row_data = { test_selector: "type-projects-row-#{project.id}" }
+      def row_data
+        {
+          test_selector: "type-projects-row-#{project.id}",
+          controller: "sortable-lists--item contextual-action-menu",
+          sortable_lists__item_id_value: project.id,
+          sortable_lists__item_type_value: SELECTION_TYPE,
+          sortable_lists__item_label_value: project.name
+        }
+      end
+
+      def row_tabindex = 0
 
       def name
         render(Projects::InfoLineComponent.new(project:))
@@ -52,8 +64,6 @@ module WorkPackageTypes
 
       def table_variant = table.variant
 
-      def wizard_params = table.wizard? ? { wizard: true } : {}
-
       def applied_variant = @applied_variant ||= project.type_variant(table_variant.type)
 
       def variant_caption
@@ -69,41 +79,18 @@ module WorkPackageTypes
       end
 
       def action_menu
-        render(Primer::Alpha::ActionMenu.new(anchor_align: :end, test_selector: "type-projects-row-menu")) do |menu|
-          menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible)
-          switch_variant_item(menu) if table.switchable?
-          remove_item(menu)
+        render(
+          Primer::Alpha::ActionMenu.new(
+            menu_id: RowMenuComponent.menu_id(project),
+            src: variant_projects_menu_path(table_variant, ids: [project.id], invoker_id: project.id),
+            anchor_align: :end,
+            test_selector: "type-projects-row-menu"
+          )
+        ) do |menu|
+          menu.with_show_button(icon: "kebab-horizontal",
+                                "aria-label": t("js.types.projects.action_menu.menu_label", count: 1),
+                                scheme: :invisible)
         end
-      end
-
-      def switch_variant_item(menu)
-        menu.with_item(
-          label: I18n.t("types.edit.projects.actions.switch_variant"),
-          tag: :a,
-          href: new_switch_variant_projects_path(table_variant, project_id: project.id, **wizard_params),
-          content_arguments: { data: { controller: "async-dialog" } }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :"list-ordered")
-        end
-      end
-
-      def remove_item(menu)
-        menu.with_item(
-          label: I18n.t("types.edit.projects.actions.remove_from_project"),
-          scheme: :danger,
-          tag: :a,
-          href: unlink_variant_projects_path(table_variant,
-                                             project_id: project.id,
-                                             page: table.rows.current_page,
-                                             **wizard_params),
-          content_arguments: { data: { turbo_method: :delete, turbo_confirm: confirm_removal } }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :trash)
-        end
-      end
-
-      def confirm_removal
-        I18n.t("types.edit.projects.actions.confirm_remove", project: project.name, type: table_variant.type.name)
       end
     end
   end

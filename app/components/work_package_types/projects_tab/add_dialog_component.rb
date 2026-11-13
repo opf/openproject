@@ -33,11 +33,10 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(variant:, wizard: false)
+      def initialize(variant:)
         super()
 
         @variant = variant
-        @wizard = wizard
       end
 
       private

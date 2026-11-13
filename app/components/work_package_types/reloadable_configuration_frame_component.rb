@@ -38,15 +38,18 @@ module WorkPackageTypes
     FRAME_ID = "type-configuration-frame"
     RELOAD_EVENT_NAME = "op-dispatched:types:configuration-changed"
 
-    def initialize(reload_url:, reload_from_location: false)
+    def initialize(reload_url:, reload_from_location: false, target: nil)
       super()
 
       @reload_url = reload_url
       @reload_from_location = reload_from_location
+      @target = target
     end
 
     def call
-      helpers.turbo_frame_tag(FRAME_ID, class: "op-reloadable-configuration-frame", data: frame_data) { content }
+      helpers.turbo_frame_tag(FRAME_ID, class: "op-reloadable-configuration-frame", target: @target, data: frame_data) do
+        content
+      end
     end
 
     private
