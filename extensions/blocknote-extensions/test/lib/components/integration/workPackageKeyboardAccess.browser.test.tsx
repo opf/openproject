@@ -33,6 +33,11 @@ const blockDocument = [
 
 // Placed through the editor: a caret the browser moves natively reaches
 // ProseMirror only after a key pressed straight after it has been handled.
+// The chip shows "#123" for a moment before it starts loading, while it has no options yet.
+async function waitForLoadedChip() {
+  await expect.element(page.getByRole('button', { name: 'Work package #123' })).toBeVisible();
+}
+
 function putCaretBehindChip(editor:any) {
   editor.focus();
   editor.setTextCursorPosition(editor.document[0], 'end');
@@ -41,7 +46,7 @@ function putCaretBehindChip(editor:any) {
 async function renderChipWithCaretBehindIt(initialContent = chipDocument) {
   let editor:any;
   renderEditor({ initialContent, onEditor: (created) => { editor = created; } });
-  await expect.element(page.getByText('#123', { exact: true })).toBeVisible();
+  await waitForLoadedChip();
 
   putCaretBehindChip(editor);
 }
@@ -57,6 +62,12 @@ const sizeItem = () => page.getByRole('menuitem', { name: /^Change size/ });
 const removeItem = () => page.getByRole('menuitem', { name: 'Remove work package' });
 const liveRegion = () => document.querySelector('.op-bn-live-region');
 const firstParagraphText = () => document.querySelector('.bn-inline-content')?.textContent;
+
+async function openOptionsWithKeyboard() {
+  await selectChipWithKeyboard();
+  await userEvent.keyboard('{Enter}');
+  await expect.element(openItem()).toHaveFocus();
+}
 
 describe('Work package keyboard access - selecting an inline chip', () => {
   it('selects the chip with the arrow key before moving past it', async () => {
@@ -189,8 +200,8 @@ describe('Work package keyboard access - the options menu of an inline chip', ()
   });
 
   it('changes the size from the keyboard', async () => {
-    await selectChipWithKeyboard();
-    await userEvent.keyboard('{Enter}{ArrowRight}');
+    await openOptionsWithKeyboard();
+    await userEvent.keyboard('{ArrowRight}');
     await expect.element(sizeItem()).toHaveAccessibleName('Change size: Regular');
 
     await userEvent.keyboard('{Enter}');
@@ -207,8 +218,8 @@ describe('Work package keyboard access - the options menu of an inline chip', ()
   });
 
   it('opens the size menu with the up and down arrow keys as well', async () => {
-    await selectChipWithKeyboard();
-    await userEvent.keyboard('{Enter}{ArrowRight}{ArrowDown}');
+    await openOptionsWithKeyboard();
+    await userEvent.keyboard('{ArrowRight}{ArrowDown}');
 
     const regular = page.getByRole('menuitemradio', { name: 'Regular' });
     await expect.element(regular).toHaveFocus();
@@ -228,8 +239,8 @@ describe('Work package keyboard access - the options menu of an inline chip', ()
   });
 
   it('closes only the size menu on Escape and puts the focus back on the item that opened it', async () => {
-    await selectChipWithKeyboard();
-    await userEvent.keyboard('{Enter}{ArrowRight}{Enter}');
+    await openOptionsWithKeyboard();
+    await userEvent.keyboard('{ArrowRight}{Enter}');
     await expect.element(page.getByRole('menuitemradio', { name: 'Regular' })).toHaveFocus();
 
     await userEvent.keyboard('{Escape}');
@@ -240,8 +251,8 @@ describe('Work package keyboard access - the options menu of an inline chip', ()
   });
 
   it('removes the chip from the keyboard and hands the focus back to the editor', async () => {
-    await selectChipWithKeyboard();
-    await userEvent.keyboard('{Enter}{End}{Enter}');
+    await openOptionsWithKeyboard();
+    await userEvent.keyboard('{End}{Enter}');
 
     await expect.element(page.getByText('#123', { exact: true })).not.toBeInTheDocument();
     await expect.element(page.getByRole('textbox')).toHaveFocus();
@@ -295,7 +306,7 @@ describe('Work package keyboard access - the options menu of an inline chip', ()
       initialContent: chipDocument,
       onEditor: (created) => { editor = created; },
     });
-    await expect.element(page.getByText('#123', { exact: true })).toBeVisible();
+    await waitForLoadedChip();
     // toHaveFocus compares against document.activeElement, which is only the shadow host.
     const focused = () => shadowRoot.activeElement;
 

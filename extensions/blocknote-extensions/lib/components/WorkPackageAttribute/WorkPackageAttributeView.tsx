@@ -91,6 +91,12 @@ export function WorkPackageAttributeBlockView({ resolved, display, reference }:{
   );
 }
 
+export function attributeIdentity(resolved:ResolvedAttribute, displayId:string, reference:string) {
+  return resolved.state === 'ready'
+    ? { workPackageId: resolved.workPackage.displayId, attributeName: resolved.attribute.label }
+    : { workPackageId: displayId, attributeName: reference };
+}
+
 export function attributeTitle(resolved:ResolvedAttribute, displayId:string):string {
   return resolved.state === 'ready'
     ? `${formatWorkPackageId(resolved.workPackage.displayId)} · ${resolved.workPackage.subject}`
