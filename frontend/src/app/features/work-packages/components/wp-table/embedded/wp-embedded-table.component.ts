@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { OpTableActionFactory } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import {
   OpTableActionsService,
@@ -55,10 +55,6 @@ import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
   selector: 'wp-embedded-table',
   templateUrl: './wp-embedded-table.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public queryId?:string;
@@ -93,6 +89,8 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   // If the query was provided to use via the query space,
   // use it to cache first loading
   private loadedQuery:QueryResource|undefined;
+
+  private loadId = 0;
 
   ngOnInit() {
     super.ngOnInit();
@@ -147,20 +145,21 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     this.querySpace
       .initialized
       .values$()
-      .pipe(take(1))
+      .pipe(take(1), this.untilDestroyed())
       .subscribe(() => {
         this.showTablePagination = query.results.total > query.results.count;
-        this.setLoaded();
 
         // Disable compact mode when timeline active
         if (this.wpTableTimeline.isVisible) {
           this.configuration = { ...this.configuration, compactTableStyle: false };
         }
+
+        this.setLoaded();
       });
   }
 
   public loadQuery(visible = true, firstPage = false):Promise<QueryResource> {
-
+    const loadId = ++this.loadId;
     if (this.loadedQuery) {
       const query = this.loadedQuery;
       this.loadedQuery = undefined;
@@ -182,6 +181,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     }
 
     this.error = null;
+    this.cdRef.markForCheck();
     const promise = this
       .apiv3Service
       .queries
@@ -192,12 +192,16 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       )
       .toPromise()
       .then((query:QueryResource) => {
-        this.initializeStates(query);
-        this.onQueryLoaded.emit(query);
-        this.cdRef.markForCheck();
+        if (!this.componentDestroyed && loadId === this.loadId) {
+          this.initializeStates(query);
+          this.onQueryLoaded.emit(query);
+          this.cdRef.markForCheck();
+        }
         return query;
       })
       .catch((error:unknown) => {
+        if (this.componentDestroyed || loadId !== this.loadId) return;
+
         const message = (error as { message?:unknown } | null | undefined)?.message;
         this.error = this.I18n.t(
           'js.error.embedded_table_loading',

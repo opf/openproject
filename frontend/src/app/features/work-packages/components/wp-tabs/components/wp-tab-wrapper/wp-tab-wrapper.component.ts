@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
@@ -38,10 +38,6 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
   templateUrl: './wp-tab-wrapper.html',
   selector: 'op-wp-tab',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpTabWrapperComponent implements OnInit {
   readonly I18n = inject(I18nService);

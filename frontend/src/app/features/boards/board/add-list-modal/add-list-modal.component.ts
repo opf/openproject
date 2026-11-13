@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Board } from 'core-app/features/boards/board/board';
@@ -48,10 +48,6 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 @Component({
   templateUrl: './add-list-modal.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
   readonly boardActions = inject(BoardActionsRegistryService);
@@ -98,9 +94,9 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   public selectedAttribute:HalResource|undefined;
 
   /** avoid double click */
-  public inFlight = false;
+  readonly inFlight = signal(false);
 
-  public warningText:string|undefined;
+  readonly warningText = signal<string|undefined>(undefined);
 
   public text = {
     title: this.I18n.t('js.boards.add_list'),
@@ -119,7 +115,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   };
 
   /** Whether the no results warning is displayed */
-  showWarning = false;
+  readonly showWarning = signal(false);
 
   ngOnInit() {
     super.ngOnInit();
@@ -134,18 +130,17 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   }
 
   create() {
-    this.inFlight = true;
+    this.inFlight.set(true);
     this.actionService
       .addColumnWithActionAttribute(this.board, this.selectedAttribute!)
       .then((board) => firstValueFrom(this.boardService.save(board)))
       .then((board) => {
-        this.inFlight = false;
+        this.inFlight.set(false);
         this.closeMe();
         void Turbo.visit(`${this.pathHelper.boardsPath(this.currentProject.identifier)}/${board.id}`);
       })
       .catch(() => {
-        this.inFlight = false;
-        this.cdRef.detectChanges();
+        this.inFlight.set(false);
       });
   }
 
@@ -183,12 +178,10 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.actionService
       .warningTextWhenNoOptionsAvailable(hasMember)
       .then((text) => {
-        this.warningText = text;
-        this.cdRef.detectChanges();
+        this.warningText.set(text);
       })
       .catch(() => {});
-    this.showWarning = this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && (values.length === 0);
+    this.showWarning.set(searchTerm !== undefined && values.length === 0);
     this.ngSelectComponent.repositionDropdown();
-    this.cdRef.detectChanges();
   }
 }

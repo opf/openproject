@@ -29,7 +29,7 @@ import {
   AfterViewInit,
   Directive,
   Input,
-  SimpleChanges, OnInit, OnChanges, inject,
+  SimpleChanges, OnInit, OnChanges, inject, signal,
 } from '@angular/core';
 import {
   WorkPackageTableConfiguration,
@@ -51,7 +51,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   @Input() public initialLoadingIndicator = true;
 
-  public renderTable = false;
+  public readonly renderTable = signal(false);
 
   public showTablePagination = false;
 
@@ -88,10 +88,10 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   }
 
   public get projectIdentifier() {
-    if (this.configuration.projectContext) {
-      return this.currentProject.identifier || undefined;
-    }
-    return this.configuration.projectIdentifier || undefined;
+    const identifier = this.configuration.projectContext
+      ? this.currentProject.identifier
+      : this.configuration.projectIdentifier;
+    return identifier === '' ? undefined : identifier ?? undefined;
   }
 
   public buildQueryProps():object {
@@ -109,8 +109,8 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   }
 
   protected setLoaded() {
-    this.renderTable = this.configuration.tableVisible;
-    this.cdRef.detectChanges();
+    this.renderTable.set(this.configuration.tableVisible);
+    this.cdRef.markForCheck();
   }
 
   public refresh(visible = true, firstPage = false):void {

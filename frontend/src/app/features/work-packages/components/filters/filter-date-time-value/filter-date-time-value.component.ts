@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, HostBinding, OnInit, Output } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, Output } from '@angular/core';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { Moment } from 'moment';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
@@ -36,10 +36,6 @@ import { AbstractDateTimeValueController } from '../abstract-filter-date-time-va
   selector: 'op-filter-date-time-value',
   templateUrl: './filter-date-time-value.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class FilterDateTimeValueComponent extends AbstractDateTimeValueController implements OnInit {
   @HostBinding('id') get id() {

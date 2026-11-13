@@ -26,7 +26,7 @@
 //++
 
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, ViewChild,
+  AfterViewInit, Component, DestroyRef, inject, OnInit, ViewChild,
 } from '@angular/core';
 import { WorkPackageEmbeddedTableComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table.component';
 import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
@@ -52,17 +52,13 @@ export interface QueryConfigurationLocals {
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   providers: [[{ provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService }]],
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class ExternalQueryConfigurationComponent implements OnInit, AfterViewInit {
   @ViewChild('embeddedTableForConfiguration', { static: true }) private embeddedTable:WorkPackageEmbeddedTableComponent;
 
   readonly locals = inject<QueryConfigurationLocals>(OpQueryConfigurationLocalsToken);
   readonly urlParamsHelper = inject(UrlParamsHelperService);
-  readonly cdRef = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   queryProps:Partial<QueryRequestParams>;
 
@@ -80,11 +76,15 @@ export class ExternalQueryConfigurationComponent implements OnInit, AfterViewIni
     // Open the configuration modal in an asynchronous step
     // to avoid nesting components in the view initialization.
     setTimeout(() => {
+      if (this.destroyRef.destroyed) return;
+
       void this.embeddedTable.openConfigurationModal(() => {
         // The modal emits onDataUpdated immediately after tab onSave hooks run.
         // Defer reading query props by a tick so the embedded query space reflects
         // the latest filter/column changes before we persist them in form configuration.
         setTimeout(() => {
+          if (this.destroyRef.destroyed) return;
+
           this.service.detach();
           if (this.locals.urlParams) {
             this.locals.callback(this.embeddedTable.buildUrlParams());
@@ -93,7 +93,6 @@ export class ExternalQueryConfigurationComponent implements OnInit, AfterViewIni
           }
         });
       });
-      this.cdRef.detectChanges();
     });
   }
 

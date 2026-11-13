@@ -7,11 +7,11 @@
   <div class="spot-divider"></div>
 
   <div class="spot-modal--body spot-container">
-    @if (showWarning && warningText) {
+    @if (showWarning() && warningText(); as warning) {
       <div
         class="op-toast -warning">
         <div class="op-toast--content">
-          <p [innerHTML]="warningText"></p>
+          <p [innerHTML]="warning"></p>
         </div>
       </div>
     }
@@ -60,7 +60,7 @@
         class="button button_no-margin -primary spot-action-bar--action"
         data-test-selector="confirmation-modal--confirmed"
         (click)="create()"
-        [disabled]="!this.selectedAttribute || inFlight"
+        [disabled]="!this.selectedAttribute || inFlight()"
         [textContent]="text.button_add"
       ></button>
     </div>
