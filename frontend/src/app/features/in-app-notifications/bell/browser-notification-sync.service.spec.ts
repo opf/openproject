@@ -32,7 +32,7 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
 import { BrowserNotificationSyncService } from 'core-app/features/in-app-notifications/bell/browser-notification-sync.service';
 
 describe('BrowserNotificationSyncService', () => {
-  let loadedUnread$:Subject<number>;
+  let loadedUnreadUpdates$:Subject<number>;
   let postMessage:ReturnType<typeof vi.fn>;
   let meta:HTMLMetaElement;
 
@@ -46,7 +46,7 @@ describe('BrowserNotificationSyncService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: IanBellService, useValue: { loadedUnread$ } },
+        { provide: IanBellService, useValue: { loadedUnreadUpdates$ } },
         { provide: ConfigurationService, useValue: { activeFeatureFlags: flags } },
       ],
     });
@@ -57,7 +57,7 @@ describe('BrowserNotificationSyncService', () => {
   const flush = () => new Promise((resolve) => { setTimeout(resolve); });
 
   beforeEach(() => {
-    loadedUnread$ = new Subject<number>();
+    loadedUnreadUpdates$ = new Subject<number>();
     postMessage = vi.fn();
     meta = document.createElement('meta');
     meta.name = 'current_user';
@@ -90,7 +90,7 @@ describe('BrowserNotificationSyncService', () => {
   it('posts nothing and does not throw when the registration has no active worker', async () => {
     setup({ active: null }).initialize();
 
-    loadedUnread$.next(3);
+    loadedUnreadUpdates$.next(3);
     await flush();
 
     expect(postMessage).not.toHaveBeenCalled();
@@ -99,17 +99,36 @@ describe('BrowserNotificationSyncService', () => {
   it('asks the worker to reconcile on the first emission after page load', async () => {
     setup().initialize();
 
-    loadedUnread$.next(0);
+    loadedUnreadUpdates$.next(0);
     await flush();
 
     expect(postMessage).toHaveBeenCalledWith({ type: 'reconcile' });
   });
 
+  it('asks the worker to reconcile exactly once per loaded update', async () => {
+    setup().initialize();
+
+    loadedUnreadUpdates$.next(3);
+    await flush();
+
+    expect(postMessage.mock.calls.filter(([message]) => message.type === 'reconcile')).toHaveLength(1);
+  });
+
   it('asks the worker to reconcile whenever the unread count changes', async () => {
     setup().initialize();
 
-    loadedUnread$.next(3);
-    loadedUnread$.next(2);
+    loadedUnreadUpdates$.next(3);
+    loadedUnreadUpdates$.next(2);
+    await flush();
+
+    expect(postMessage.mock.calls.filter(([message]) => message.type === 'reconcile')).toHaveLength(2);
+  });
+
+  it('asks the worker to reconcile after a successful load even when the count is unchanged', async () => {
+    setup().initialize();
+
+    loadedUnreadUpdates$.next(3);
+    loadedUnreadUpdates$.next(3);
     await flush();
 
     expect(postMessage.mock.calls.filter(([message]) => message.type === 'reconcile')).toHaveLength(2);
@@ -118,7 +137,7 @@ describe('BrowserNotificationSyncService', () => {
   it('ignores the placeholder count before the first load', async () => {
     setup().initialize();
 
-    loadedUnread$.next(-1);
+    loadedUnreadUpdates$.next(-1);
     await flush();
 
     expect(postMessage).not.toHaveBeenCalledWith({ type: 'reconcile' });
@@ -127,7 +146,7 @@ describe('BrowserNotificationSyncService', () => {
   it('asks the worker to reconcile once when signed out and sends no account', async () => {
     setup({ loggedIn: 'false' }).initialize();
 
-    loadedUnread$.next(3);
+    loadedUnreadUpdates$.next(3);
     await flush();
 
     expect(postMessage).toHaveBeenCalledTimes(1);
@@ -137,7 +156,7 @@ describe('BrowserNotificationSyncService', () => {
   it('stays inert without notification permission', async () => {
     setup({ permission: 'default' }).initialize();
 
-    loadedUnread$.next(3);
+    loadedUnreadUpdates$.next(3);
     await flush();
 
     expect(postMessage).not.toHaveBeenCalled();
@@ -146,7 +165,7 @@ describe('BrowserNotificationSyncService', () => {
   it('stays inert when the feature flag is off', async () => {
     setup({ flags: [] }).initialize();
 
-    loadedUnread$.next(3);
+    loadedUnreadUpdates$.next(3);
     await flush();
 
     expect(postMessage).not.toHaveBeenCalled();
@@ -157,7 +176,7 @@ describe('BrowserNotificationSyncService', () => {
     delete (navigator as { serviceWorker?:unknown }).serviceWorker;
     service.initialize();
 
-    loadedUnread$.next(3);
+    loadedUnreadUpdates$.next(3);
     await flush();
 
     expect(postMessage).not.toHaveBeenCalled();

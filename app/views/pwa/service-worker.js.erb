@@ -28,22 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
 
 <% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
-/*
- * Service worker of the progressive web app.
- *
- *   - Offline fallback: navigations that cannot reach the server get a precached offline page.
- *   - Push wake-ups: a push carries no content, so the worker fetches the unread summary and
- *     renders one notification per work package.
- *   - Notification clicks open or focus a window on the target page.
- *   - Signing out clears every notification, the remembered state and the app badge.
- *   - An open page asks the worker to reconcile, which closes notifications that are no longer
- *     unread without showing or alerting anything.
- *   - A page reporting a different signed-in user closes the previous user's notifications.
- *
- *   OpenProject --push--> push service --wake-up--> worker --GET notification summary--> OpenProject
- *   worker --show / close--> notifications, app badge
- *   logout navigation --> worker --clears--> notifications, remembered state, app badge
- */
 const Config = Object.freeze({
   cache: { name: <%== pwa_cache_name.to_json %>, state: `${CACHE_PREFIX}push-state` },
   urls: {
@@ -62,16 +46,13 @@ const Config = Object.freeze({
   push: {
     fetchTimeoutMs: 10000,
     signOutTimeoutMs: 10000,
+    maxRememberedUnlisted: 50,
     fallbackTitle: <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>,
     allReadTitle: <%== I18n.t("pwa.push.all_read_title", locale: Setting.default_language).to_json %>,
     icon: <%== image_path("pwa/icon-192.png").to_json %>,
   },
 });
 
-/**
- * What the worker last showed, kept in the cache because the worker stops between pushes.
- * Per notification tag it remembers the content fingerprint and the time of the latest activity.
- */
 class PushState {
   static get shownUrl() {
     return `${Config.urls.push}?shown`;
@@ -93,37 +74,30 @@ class PushState {
   }
 }
 
-/**
- * Decides what to show for an unread summary, without touching the browser.
- *
- * Each group is one work package. Compared with what was shown before, per group:
- *
- * ```
- * new activity since last shown ............................ alert  (sound, renotify)
- * else: open and its content changed, nothing but the
- *       placeholder open, or it was evicted earlier ........ refresh (silent, same tag)
- * else .................................................... skip
- * ```
- *
- * Only the newest five groups are listed; the rest collapse into one "more" notification. A group
- * that drops out of the list is closed and remembered as evicted, so it returns silently if it
- * comes back. Groups are shown oldest first so the newest ends on top.
- *
- * A push must end with something visible: if nothing qualifies, the newest group is refreshed when
- * it is open, otherwise a quiet "nothing new" notice shows, which does not bring dismissed groups
- * back. The refresh is needed even when that notification is already on screen: Safari only counts
- * a push that calls showNotification and drops every subscription of the site after three pushes
- * that did not.
- */
 class NotificationPlan {
   static activityAt(group) {
     return Number(group.revision.split(":")[1]) || 0;
   }
 
+  static listedTags({ groups, more }) {
+    const tags = new Set(groups.map((group) => group.tag));
+    if (more) tags.add(Config.tags.more);
+    return tags;
+  }
+
   static staleTags({ groups, more, openTags }) {
-    const keepTags = new Set(groups.map((group) => group.tag));
-    if (more) keepTags.add(Config.tags.more);
-    return openTags.filter((tag) => !keepTags.has(tag));
+    const listed = NotificationPlan.listedTags({ groups, more });
+    return openTags.filter((tag) => !listed.has(tag));
+  }
+
+  static pruneUnlisted({ state, groups, more }) {
+    const listed = NotificationPlan.listedTags({ groups, more });
+    const entries = Object.entries(state);
+    const unlisted = entries
+      .filter(([tag]) => !listed.has(tag))
+      .sort(([, a], [, b]) => (b.at || 0) - (a.at || 0))
+      .slice(0, Config.push.maxRememberedUnlisted);
+    return Object.fromEntries([...entries.filter(([tag]) => listed.has(tag)), ...unlisted]);
   }
 
   static isNewActivity(previous, at) {
@@ -147,9 +121,15 @@ class NotificationPlan {
     return evicted;
   }
 
-  static stateAfterClose({ closeTags, more, state }) {
+  static stateAfterClose({ closeTags, groups, more, state }) {
     const remaining = Object.fromEntries(Object.entries(state).filter(([tag]) => !closeTags.includes(tag)));
-    return more ? { ...remaining, ...NotificationPlan.evictedState(closeTags, state) } : remaining;
+    if (!more) return remaining;
+
+    return NotificationPlan.pruneUnlisted({
+      state: { ...remaining, ...NotificationPlan.evictedState(closeTags, state) },
+      groups,
+      more,
+    });
   }
 
   static for({ groups, more, openTags, state }) {
@@ -178,15 +158,17 @@ class NotificationPlan {
       }
     }
 
+    // Safari drops every subscription of the site after three pushes that did not call
+    // showNotification, so the newest group is refreshed even when it is already on screen.
     if (show.length === 0) {
       show.push(openTags.includes(groups[0].tag) ? { kind: "refresh", group: groups[0] } : { kind: "nothingNew" });
     }
 
-    return { show, state: more ? { ...state, ...nextState } : nextState };
+    const nextRemembered = more ? NotificationPlan.pruneUnlisted({ state: { ...state, ...nextState }, groups, more }) : nextState;
+    return { show, state: nextRemembered };
   }
 }
 
-/** Lists, closes and shows the worker's notifications; every tag carries the worker's prefix. */
 class Notifications {
   static async listOpen() {
     const notifications = await self.registration.getNotifications();
@@ -259,7 +241,6 @@ class Notifications {
   }
 }
 
-/** Fetches the unread summary with the user's session and reduces the response to one outcome. */
 class UnreadSummary {
   static async fetch() {
     try {
@@ -292,11 +273,6 @@ class Badge {
   }
 }
 
-/**
- * Fingerprints what each notification shows, so the plan can tell whether an open notification
- * is out of date. The fingerprint covers the activity revision, title and body; a change refreshes
- * the notification silently, while only newer activity makes a sound.
- */
 class NotificationFingerprint {
   static async of(...parts) {
     const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify(parts)));
@@ -314,48 +290,6 @@ class NotificationFingerprint {
   }
 }
 
-/**
- * Turns push wake-ups into notifications and clears them on sign-out.
- *
- * Pushes run one at a time through a queue. Whatever goes wrong, a push ends in a visible
- * notification; for a push that shows nothing Chrome shows a generic notice and Safari may
- * revoke the subscription.
- *
- * ```
- * push event ──► queue ──► GET notification summary
- *                            │
- *                            ├─ signed out (401/403)
- *                            │               clear badge, close and forget all, fallback
- *                            ├─ unavailable .. fallback
- *                            ├─ empty ........ close and forget all, "all read", clear badge
- *                            └─ unread ....... set badge
- *                                              close notifications no longer listed
- *                                              fingerprint groups ► plan ► show each item
- *                                              save state
- *
- * any error on the way ► fallback
- *
- * logout navigation ──► bump sign-out generation, sign-out in progress
- *                         ├─ clear now
- *                         └─ response settled, or 10 s passed ► bump generation again, clear once
- *                                               more behind any push (it may have re-shown some)
- * summary fetched across a sign-out, or while one is in progress ► discarded, fallback
- *
- * reconcile message ──► queue ──► none of its notifications open? refresh the badge only
- *                                  else GET notification summary, same outcomes as a push except that
- *                                  nothing is shown and "all read" is not announced; unavailable
- *                                  does nothing; unread closes unlisted notifications (marked
- *                                  evicted when more are collapsed), sets the badge, saves state
- *
- * account message ──► user differs from the last one this worker instance saw?
- *                       yes: bump sign-out generation; close and forget every notification
- *                            that is not this user's, including "more" and the placeholder;
- *                            set the badge from this user's summary
- *                       no (or first message since the worker started): close and forget only
- *                            work package notifications of other users
- *                       either way, if anything was closed or forgotten: refresh the badge
- * ```
- */
 class PushHandler {
   constructor() {
     this.queue = Promise.resolve();
@@ -417,6 +351,7 @@ class PushHandler {
     return this.queue;
   }
 
+  // A push that shows no notification makes Chrome show a generic one, so every path ends in showNotification.
   async showUnread() {
     try {
       await this.render();
@@ -489,7 +424,7 @@ class PushHandler {
     const { state, closeTags } = await this.closeStale(summary);
     if (closeTags.length === 0) return;
 
-    await PushState.write(NotificationPlan.stateAfterClose({ closeTags, more: summary.more, state }));
+    await PushState.write(NotificationPlan.stateAfterClose({ closeTags, groups: summary.groups, more: summary.more, state }));
   }
 
   async showUnreadGroups(summary) {
@@ -529,7 +464,6 @@ class PushHandler {
   }
 }
 
-/** Focuses an existing controlled window of the app and opens a clicked notification's page there, or in a new one. */
 class NotificationClick {
   static sameOriginUrl(url) {
     const resolved = new URL(url, self.location.href);
@@ -558,9 +492,7 @@ class NotificationClick {
   }
 }
 
-/** Precaches the offline page on install and serves it when a navigation cannot reach the app. */
 class OfflinePage {
-  // An error status or a redirect fails the install, which keeps the previous worker.
   static async precache() {
     const response = await fetch(new Request(Config.urls.offline, { credentials: "omit", cache: "reload" }));
     if (!response.ok || response.redirected) throw new Error("Offline page unavailable");
@@ -575,7 +507,6 @@ class OfflinePage {
     }
   }
 
-  // The URL stays the requested one so the offline page can retry it.
   static respondTo(event) {
     const { request } = event;
     if (request.mode !== "navigate" || request.destination !== "document" || request.method !== "GET") return;
@@ -602,12 +533,6 @@ class OfflinePage {
   }
 }
 
-/*****************************************************************************************
- * BROWSER EVENTS
- *
- * The browser calls the worker only through these listeners: install, activate, fetch,
- * push, notificationclick and message. Each one delegates to the classes above.
- *****************************************************************************************/
 const pushHandler = new PushHandler();
 
 self.addEventListener("install", (event) => {
@@ -629,7 +554,6 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Sign-out is detected on navigation because the worker is the only place that sees every logout, including SSO redirects.
 self.addEventListener("fetch", (event) => {
   const response = OfflinePage.respondTo(event);
   if (response && pushHandler.isSignOut(event.request)) {
