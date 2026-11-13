@@ -50,6 +50,8 @@ export interface OpContextMenuItem {
   icon?:string;
   /** Octicon name, rendered instead of the legacy `icon` class. */
   octicon?:DynamicIconName;
+  /** Classes for the leading Octicon, e.g. to color it with a highlight. */
+  octiconClass?:string;
   postIcon?:string|null;
   postIconTitle?:string|null;
   href?:string;

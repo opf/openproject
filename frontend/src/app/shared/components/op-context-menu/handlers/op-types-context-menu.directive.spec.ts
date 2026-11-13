@@ -113,8 +113,7 @@ describe('OpTypesContextMenuDirective', () => {
     const items = within(menu).getAllByRole('menuitem');
     expect(items.map((item) => item.textContent?.trim())).toEqual(['Bug', 'Task']);
     items.forEach((item) => expect(item.querySelector('svg')).toBeNull());
-    const label = items[0].querySelector('.ActionListItem-label')!;
-    expect(label).toHaveClass('__hl_uppercase', '__hl_foreground', '__hl_type_7');
+    expect(within(items[0]).getByText('Bug')).toHaveClass('__hl_uppercase', '__hl_foreground', '__hl_type_7');
   });
 
   it('opens the create form in the content frame when a type is chosen', async () => {

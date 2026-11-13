@@ -90,15 +90,26 @@ describe('OpActionMenuComponent', () => {
     expect(within(subMenu()).getAllByRole('menuitem', { hidden: true })).toHaveLength(2);
   });
 
-  it('puts labelClass on the label and not on the list item', () => {
+  it('puts labelClass on the label text and not on the label or the list item', () => {
     fixture.componentRef.setInput('items', [{ linkText: 'Bug', href: '/bug', labelClass: '__hl_uppercase __hl_foreground __hl_type_7' }]);
     fixture.detectChanges();
 
     const item = within(menu()).getByRole('menuitem', { name: 'Bug', hidden: true });
+    const label = item.querySelector<HTMLElement>('.ActionListItem-label')!;
 
-    expect(item.querySelector('.ActionListItem-label')).toHaveClass('__hl_uppercase', '__hl_foreground', '__hl_type_7');
+    expect(within(label).getByText('Bug')).toHaveClass('__hl_uppercase', '__hl_foreground', '__hl_type_7');
+    expect(label).not.toHaveClass('__hl_uppercase');
     expect(item.closest('li')).not.toHaveClass('__hl_uppercase');
     expect(item).not.toHaveClass('__hl_uppercase');
+  });
+
+  it('puts octiconClass on the leading Octicon', () => {
+    fixture.componentRef.setInput('items', [{ linkText: 'Locked', octicon: 'lock', octiconClass: '__hl_foreground __hl_status_3' }]);
+    fixture.detectChanges();
+
+    const item = within(menu()).getByRole('menuitem', { name: 'Locked', hidden: true });
+
+    expect(item.querySelector('svg')).toHaveClass('__hl_foreground', '__hl_status_3');
   });
 
   it('aligns labels beside legacy icons and Octicons', async () => {
