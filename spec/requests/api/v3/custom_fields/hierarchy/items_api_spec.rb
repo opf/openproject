@@ -92,13 +92,32 @@ RSpec.describe "API v3 custom field hierarchy items", :webmock, content_type: :j
       context "if parent is set to an undefined value" do
         let(:path) { api_v3_paths.custom_field_items(custom_field.id, "wrong item") }
 
-        it_behaves_like "error response", 400, "InvalidQuery", "Parent must be an integer."
+        it_behaves_like "param validation error"
+      end
+
+      context "if parent does not exist" do
+        let(:path) { api_v3_paths.custom_field_items(custom_field.id, not_existing_id(CustomField::Hierarchy::Item)) }
+
+        it_behaves_like "not found"
+      end
+
+      context "if parent belongs to another hierarchy" do
+        let(:other_custom_field) { create(:wp_custom_field, :hierarchy, types: [type]) }
+        let(:path) { api_v3_paths.custom_field_items(custom_field.id, other_custom_field.hierarchy_root.id) }
+
+        it_behaves_like "not found"
       end
 
       context "if depth is negative" do
         let(:path) { api_v3_paths.custom_field_items(custom_field.id, nil, -1) }
 
-        it_behaves_like "error response", 400, "InvalidQuery", "Depth must be greater or equal to 0."
+        it "results in a validation error" do
+          expect(last_response).to have_http_status(:bad_request)
+          expect(JSON.parse(last_response.body)).to include(
+            "errorIdentifier" => "urn:openproject-org:api:v3:errors:BadRequest",
+            "message" => "Bad request: depth does not have a valid value"
+          )
+        end
       end
     end
   end

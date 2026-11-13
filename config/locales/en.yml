@@ -5764,7 +5764,6 @@ en:
       eql?: "must be equal to %{left}."
       filled?: "must be filled."
       format?: "is in invalid format."
-      greater_or_equal_zero: "must be greater or equal to 0."
       gt?: "must be greater than %{num}."
       gteq?: "must be greater than or equal to %{num}."
       hash?: "must be a hash."
@@ -5777,21 +5776,6 @@ en:
       max_size?: "must not be longer than %{num} characters."
       not_found: "not found."
       respond_to?: "does not implement required method."
-      rules:
-        custom_field:
-          format_not_supported: "format '%{field_format}' is unsupported."
-        item:
-          not_persisted: "must be an already existing value."
-          root_item: "cannot be a root value."
-        label:
-          not_unique: "must be unique within the same hierarchy level."
-        parent:
-          not_descendant: "must be a descendant of the hierarchy root."
-          other_project: "must be a global value or belong to the same project."
-        project:
-          additional_values_not_allowed: "cannot add values to this custom field."
-        short:
-          not_unique: "must be unique within the same hierarchy level."
       str?: "must be a string."
       time?: "must be a time."
       type?: "must be %{type}."

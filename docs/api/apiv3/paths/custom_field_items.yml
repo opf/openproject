@@ -39,6 +39,7 @@ get:
       required: false
       schema:
         type: integer
+        minimum: 0
   responses:
     '200':
       description: OK
@@ -51,6 +52,18 @@ get:
               $ref: '../components/examples/hierarchy_item_collection_response.yml'
             'filtered response':
               $ref: '../components/examples/hierarchy_item_collection_filtered_response.yml'
+    '400':
+      description: Returned if `parent` is not an integer or `depth` is not a non-negative integer.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:BadRequest
+                message: 'Bad request: depth does not have a valid value'
     '403':
       description: Returned if the user is not logged in.
       content:
@@ -64,7 +77,10 @@ get:
                 errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
                 message: You are not authorized to access this resource.
     '404':
-      description: Returned if the custom field does not exist or the user lacks the permission to view it.
+      description: |-
+        Returned if the custom field does not exist or the user lacks the permission to view it.
+        Also returned if the `parent` item does not exist, is not part of this custom field's hierarchy,
+        or is not visible to the user.
       content:
         application/hal+json:
           schema:
