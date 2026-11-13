@@ -35,7 +35,29 @@ Rails.application.configure do
 
     require "opentelemetry/sdk"
     require "opentelemetry-exporter-otlp"
-    require "opentelemetry-instrumentation-all"
+    
+    # Available Ruby instrumentations can be found here:
+    # https://github.com/open-telemetry/opentelemetry-ruby-contrib/tree/main/instrumentation
+    require "opentelemetry-instrumentation-action_mailer" # rails
+    require "opentelemetry-instrumentation-action_pack" # rails
+    require "opentelemetry-instrumentation-action_view" # rails
+    require "opentelemetry-instrumentation-active_job" # rails
+    require "opentelemetry-instrumentation-active_record" # rails
+    require "opentelemetry-instrumentation-active_storage" # rails
+    require "opentelemetry-instrumentation-active_support" # rails
+    require "opentelemetry-instrumentation-aws_sdk" # direct dependency
+    require "opentelemetry-instrumentation-dalli" # memcached driver
+    require "opentelemetry-instrumentation-excon" # used by fog
+    require "opentelemetry-instrumentation-faraday" # indirect
+    require "opentelemetry-instrumentation-grape" # direct
+    require "opentelemetry-instrumentation-httpx" # direct dependency
+    require "opentelemetry-instrumentation-net_http" # used by faraday
+    require "opentelemetry-instrumentation-pg" # postgres driver
+    require "opentelemetry-instrumentation-rack"
+    require "opentelemetry-instrumentation-rails" # rails
+    require "opentelemetry-instrumentation-rake"
+    require "opentelemetry-instrumentation-redis"
+
     require "opentelemetry/semconv/incubating/deployment"
     require "opentelemetry/semconv/incubating/host"
     require "opentelemetry/semconv/incubating/service"
