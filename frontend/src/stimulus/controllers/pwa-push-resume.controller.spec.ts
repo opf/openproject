@@ -27,6 +27,7 @@
 
 import { vi } from 'vitest';
 import { setupStimulusTest, type StimulusTestContext } from '../test-helpers';
+import { TurboVisitTracker } from 'core-turbo/turbo-visit-tracker';
 import PwaPushResumeController from './pwa-push-resume.controller';
 
 describe('PwaPushResumeController', () => {
@@ -64,7 +65,7 @@ describe('PwaPushResumeController', () => {
       .mockImplementation(() => Promise.resolve(new Response(null, { status: 204 })));
     const registration = { pushManager: { getSubscription } };
 
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'advance' } }));
+    TurboVisitTracker.lastAction = 'advance';
     localStorage.clear();
     vi.stubGlobal('isSecureContext', true);
     vi.stubGlobal('PushManager', class {});
@@ -81,7 +82,7 @@ describe('PwaPushResumeController', () => {
     vi.restoreAllMocks();
     settlers.forEach((settle) => settle());
     await Promise.resolve();
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'advance' } }));
+    TurboVisitTracker.lastAction = 'advance';
     vi.unstubAllGlobals();
     delete (navigator as { serviceWorker?:unknown }).serviceWorker;
     document.documentElement.removeAttribute('data-turbo-preview');
@@ -149,26 +150,26 @@ describe('PwaPushResumeController', () => {
   });
 
   it('skips a restored history snapshot', async () => {
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'restore' } }));
+    TurboVisitTracker.lastAction = 'restore';
     await mount();
 
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('resumes after an ordinary visit', async () => {
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'advance' } }));
+    TurboVisitTracker.lastAction = 'advance';
     await mount();
 
     await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
   });
 
   it('resumes again on an ordinary visit after a restored one', async () => {
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'restore' } }));
+    TurboVisitTracker.lastAction = 'restore';
     await mount();
     expect(fetchMock).not.toHaveBeenCalled();
     ctx.dispose();
 
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'advance' } }));
+    TurboVisitTracker.lastAction = 'advance';
     await mount();
     await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
   });
@@ -259,7 +260,7 @@ describe('PwaPushResumeController', () => {
 
   it('skips the initial document load restored from the back/forward cache', async () => {
     vi.spyOn(performance, 'getEntriesByType').mockReturnValue([{ type: 'back_forward' } as PerformanceNavigationTiming]);
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: undefined } }));
+    TurboVisitTracker.lastAction = undefined;
     await mount();
 
     expect(fetchMock).not.toHaveBeenCalled();
@@ -267,7 +268,7 @@ describe('PwaPushResumeController', () => {
 
   it('resumes on a Turbo visit after a back/forward document load', async () => {
     vi.spyOn(performance, 'getEntriesByType').mockReturnValue([{ type: 'back_forward' } as PerformanceNavigationTiming]);
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'advance' } }));
+    TurboVisitTracker.lastAction = 'advance';
     await mount();
 
     await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
@@ -297,14 +298,14 @@ describe('PwaPushResumeController', () => {
     getSubscription.mockReturnValue(lookup.promise);
     await mount();
 
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'restore' } }));
+    TurboVisitTracker.lastAction = 'restore';
     lookup.resolve();
     await ctx.nextFrame();
 
     expect(fetchMock).not.toHaveBeenCalled();
     ctx.dispose();
 
-    document.dispatchEvent(new CustomEvent('turbo:visit', { detail: { action: 'advance' } }));
+    TurboVisitTracker.lastAction = 'advance';
     getSubscription.mockResolvedValue({ endpoint });
     await mount();
     await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));

@@ -28,17 +28,11 @@
 import { Controller } from '@hotwired/stimulus';
 import { post } from '@rails/request.js';
 import { currentPushSubscription } from 'core-stimulus/helpers/push-subscription-helpers';
+import { TurboVisitTracker } from 'core-turbo/turbo-visit-tracker';
 
 const ATTEMPTED_STORAGE_KEY = 'push-resume-attempted';
 const ATTEMPTED_SESSIONS_LIMIT = 5;
 const REQUEST_TIMEOUT_MS = 15000;
-
-let lastVisitAction:string|undefined;
-let sessionInFlight:string|undefined;
-
-document.addEventListener('turbo:visit', (event) => {
-  lastVisitAction = (event as CustomEvent<{ action:string }>).detail.action;
-});
 
 /**
  * Re-registers this browser's push subscription with the server after a new
@@ -59,6 +53,8 @@ export default class PwaPushResumeController extends Controller {
     session: String,
   };
 
+  private static sessionInFlight:string|undefined;
+
   declare readonly urlValue:string;
   declare readonly sessionValue:string;
 
@@ -66,9 +62,9 @@ export default class PwaPushResumeController extends Controller {
     if (!this.pageIsFresh()) return;
     if (!this.pushAvailable()) return;
     if (document.querySelector('[data-controller~="my--push-subscription"]')) return;
-    if (this.alreadyAttempted() || sessionInFlight === this.sessionValue) return;
+    if (this.alreadyAttempted() || PwaPushResumeController.sessionInFlight === this.sessionValue) return;
 
-    sessionInFlight = this.sessionValue;
+    PwaPushResumeController.sessionInFlight = this.sessionValue;
     void this.resume();
   }
 
@@ -87,7 +83,7 @@ export default class PwaPushResumeController extends Controller {
     } catch {
       return;
     } finally {
-      sessionInFlight = undefined;
+      PwaPushResumeController.sessionInFlight = undefined;
     }
   }
 
@@ -98,8 +94,8 @@ export default class PwaPushResumeController extends Controller {
   private pageIsFresh():boolean {
     return this.element.isConnected
       && !document.documentElement.hasAttribute('data-turbo-preview')
-      && lastVisitAction !== 'restore'
-      && !(lastVisitAction === undefined && this.loadedFromHistory());
+      && TurboVisitTracker.lastAction !== 'restore'
+      && !(TurboVisitTracker.lastAction === undefined && this.loadedFromHistory());
   }
 
   private loadedFromHistory():boolean {
