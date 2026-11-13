@@ -32,7 +32,7 @@ import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-
 import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { isInsideDisabledControl, isInsideMenuControl } from 'core-common/interactive-element-helper';
@@ -44,7 +44,7 @@ export class CardRightClickHandler implements CardEventHandler {
 
   @LazyInject() wpCardView:WorkPackageCardViewService;
 
-  @LazyInject() opContextMenu:OPContextMenuService;
+  @LazyInject() opActionMenu:OpActionMenuService;
 
   constructor(public readonly injector:Injector,
     _card:WorkPackageCardViewComponent) {
@@ -89,7 +89,7 @@ export class CardRightClickHandler implements CardEventHandler {
     this.selectionGestures.handleContextMenu(wpId, this.wpCardView.renderedCards, element.dataset.classIdentifier);
 
     const handler = new WorkPackageViewContextMenu(this.injector, wpId, evt.target as HTMLElement, {}, card.showInfoButton);
-    this.opContextMenu.show(handler, evt);
+    this.opActionMenu.show(handler, evt);
 
     return false;
   }
