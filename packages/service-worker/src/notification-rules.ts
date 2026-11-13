@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Tags } from './constants';
+import { MAX_REMEMBERED_UNLISTED, Tags } from './constants';
 
 export interface SummaryGroup {
   tag:string;
@@ -94,6 +94,16 @@ export class NotificationRules {
     return Number(group.revision.split(':')[1]) || 0;
   }
 
+  static pruneUnlisted({ state, groups }:{ state:PushStateMap; groups:SummaryGroup[] }):PushStateMap {
+    const listedTags = new Set([...groups.map((group) => group.tag), Tags.more]);
+    const entries = Object.entries(state);
+    const unlisted = entries
+      .filter(([tag]) => !listedTags.has(tag))
+      .sort(([, a], [, b]) => (b.at ?? 0) - (a.at ?? 0))
+      .slice(0, MAX_REMEMBERED_UNLISTED);
+    return Object.fromEntries([...entries.filter(([tag]) => listedTags.has(tag)), ...unlisted]);
+  }
+
   static staleTags({ groups, more, openTags }:{ groups:SummaryGroup[]; more?:SummaryMore; openTags:string[] }):string[] {
     const keepTags = new Set(groups.map((group) => group.tag));
     if (more) keepTags.add(Tags.more);
@@ -121,13 +131,19 @@ export class NotificationRules {
     return evicted;
   }
 
-  static stateAfterClose({ closeTags, more, state }:{
+  static stateAfterClose({ closeTags, groups, more, state }:{
     closeTags:string[];
+    groups:SummaryGroup[];
     more?:SummaryMore;
     state:PushStateMap;
   }):PushStateMap {
     const remaining = Object.fromEntries(Object.entries(state).filter(([tag]) => !closeTags.includes(tag)));
-    return more ? { ...remaining, ...NotificationRules.evictedState(closeTags, state) } : remaining;
+    if (!more) return remaining;
+
+    return NotificationRules.pruneUnlisted({
+      state: { ...remaining, ...NotificationRules.evictedState(closeTags, state) },
+      groups,
+    });
   }
 
   static decide({ groups, more, openTags, state }:{
@@ -165,6 +181,7 @@ export class NotificationRules {
       show.push(openTags.includes(groups[0].tag) ? { kind: 'refresh', group: groups[0] } : { kind: 'nothingNew' });
     }
 
-    return { show, state: more ? { ...state, ...nextState } : nextState };
+    const nextRemembered = more ? NotificationRules.pruneUnlisted({ state: { ...state, ...nextState }, groups }) : nextState;
+    return { show, state: nextRemembered };
   }
 }

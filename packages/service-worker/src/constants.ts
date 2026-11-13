@@ -36,3 +36,5 @@ export const Tags = {
 export const FETCH_TIMEOUT_MS = 10000;
 
 export const SIGN_OUT_TIMEOUT_MS = 10000;
+
+export const MAX_REMEMBERED_UNLISTED = 50;

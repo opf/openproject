@@ -218,7 +218,7 @@ export class PushHandler {
     const { state, closeTags } = await this.closeStale(summary);
     if (closeTags.length === 0) return;
 
-    await PushState.write(NotificationRules.stateAfterClose({ closeTags, more: summary.more, state }));
+    await PushState.write(NotificationRules.stateAfterClose({ closeTags, groups: summary.groups, more: summary.more, state }));
   }
 
   async showUnreadGroups(summary:{ groups:SummaryGroup[]; more?:SummaryMore }):Promise<void> {

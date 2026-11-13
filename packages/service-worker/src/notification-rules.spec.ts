@@ -43,6 +43,9 @@ const more = (fingerprint = 'more-fingerprint'):MoreWithFingerprint => ({ title:
 const decide = (input:{ groups?:GroupWithFingerprint[]; more?:MoreWithFingerprint; openTags?:string[]; state?:PushStateMap }) =>
   NotificationRules.decide({ groups: [], openTags: [], state: {}, ...input });
 
+const remembered = (count:number, firstId = 100):PushStateMap =>
+  Object.fromEntries(Array.from({ length: count }, (_, index) => [tagOf(firstId + index), { fingerprint: `f${index}`, at: index + 1 }]));
+
 const kinds = (result:ReturnType<typeof decide>) => result.show.map((item) => item.kind);
 
 describe('NotificationRules', () => {
@@ -215,6 +218,49 @@ describe('NotificationRules', () => {
     });
   });
 
+  describe('remembered state bound', () => {
+    const limit = 50;
+    const stateWith = (count:number) => ({ ...remembered(count), [Tags.more]: { fingerprint: 'old' } });
+
+    it('keeps only the newest unlisted entries while "more" exists', () => {
+      const result = decide({ groups: [group(1, 100)], more: more(), openTags: [], state: remembered(limit + 10) });
+      const unlisted = Object.keys(result.state).filter((tag) => tag !== tagOf(1) && tag !== Tags.more);
+
+      expect(unlisted).toHaveLength(limit);
+      expect(result.state[tagOf(100)]).toBeUndefined();
+      expect(result.state[tagOf(109)]).toBeUndefined();
+      expect(result.state[tagOf(110)]).toBeDefined();
+      expect(result.state[tagOf(159)]).toBeDefined();
+    });
+
+    it('never prunes the listed groups or the "more" entry', () => {
+      const listed = [group(1, 1), group(2, 2)];
+      const result = decide({ groups: listed, more: more(), openTags: [], state: stateWith(limit + 10) });
+
+      expect(Object.keys(result.state)).toEqual(expect.arrayContaining([tagOf(1), tagOf(2), Tags.more]));
+      expect(result.state[tagOf(1)]?.at).toBe(1);
+    });
+
+    it('does not prune without "more"', () => {
+      const result = decide({ groups: [group(1, 100)], openTags: [], state: remembered(limit + 10) });
+
+      expect(Object.keys(result.state)).toEqual([tagOf(1)]);
+    });
+
+    it('prunes when closing notifications while "more" exists', () => {
+      const state = { ...stateWith(limit + 10), [tagOf(1)]: { fingerprint: 'f', at: 500 } };
+      const result = NotificationRules.stateAfterClose({
+        closeTags: [tagOf(1)], groups: [group(2, 2)], more: more(), state,
+      });
+      const unlisted = Object.keys(result).filter((tag) => tag !== Tags.more);
+
+      expect(unlisted).toHaveLength(limit);
+      expect(result[tagOf(1)]).toEqual({ fingerprint: 'f', at: 500, evicted: true });
+      expect(result[Tags.more]).toBeDefined();
+      expect(result[tagOf(100)]).toBeUndefined();
+    });
+  });
+
   describe('stateAfterClose', () => {
     const state = {
       [tagOf(1)]: { fingerprint: 'd1', at: 100 },
@@ -222,13 +268,13 @@ describe('NotificationRules', () => {
     };
 
     it('forgets the closed groups when nothing collapsed into "more"', () => {
-      const result = NotificationRules.stateAfterClose({ closeTags: [tagOf(2)], state });
+      const result = NotificationRules.stateAfterClose({ closeTags: [tagOf(2)], groups: [], state });
 
       expect(result).toEqual({ [tagOf(1)]: state[tagOf(1)] });
     });
 
     it('remembers the closed groups as evicted when more are collapsed', () => {
-      const result = NotificationRules.stateAfterClose({ closeTags: [tagOf(2)], more: more(), state });
+      const result = NotificationRules.stateAfterClose({ closeTags: [tagOf(2)], groups: [group(1, 100)], more: more(), state });
 
       expect(result).toEqual({
         [tagOf(1)]: state[tagOf(1)],
