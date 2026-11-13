@@ -108,6 +108,11 @@ export default class extends Controller {
           this.currentToken = newToken;
           this.canUseCachedToken = true;
         },
+        (error) => {
+          document.dispatchEvent(new CustomEvent(PROVIDER_AUTH_ERROR_EVENT, {
+            detail: { kind: 'token_refresh' as ProviderAuthErrorKind, message: error.message },
+          }));
+        },
       );
       this.tokenRefreshService.scheduleRefresh(this.tokenExpiresInSecondsValue);
     }
