@@ -28,7 +28,7 @@ Take a look at our release video showing the most important features introduced 
 
 ![AI assistant creating a work package in OpenProject with the MCP Server](openproject_ai_mcp_wp.gif)
 
-OpenProject 17.8 significantly extends the capabilities of the [MCP Server](../../system-admin-guide/integrations/mcp-server/). AI assistants can now **create and update work packages directly in OpenProject**, instead of being limited to searching and reading project information.
+OpenProject 17.8 significantly extends the capabilities of the [MCP Server](../../system-admin-guide/ai/mcp-server/). AI assistants can now **create and update work packages directly in OpenProject**, instead of being limited to searching and reading project information.
 
 The new `create_work_package` and `update_work_package` MCP tools follow the same permissions and business rules as the regular OpenProject UI and API. This includes required fields and `lock_version` checks for updates.
 
