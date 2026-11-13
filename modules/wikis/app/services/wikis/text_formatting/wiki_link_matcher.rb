@@ -33,10 +33,6 @@ module Wikis
       include Dry::Monads[:result]
 
       class << self
-        def applicable?(*)
-          super && OpenProject::FeatureDecisions.wiki_enhancements_active?
-        end
-
         def regexp
           /\[\[\[([0-9]+):([^\]\n]+)\]\]\]/
         end

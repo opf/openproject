@@ -163,15 +163,12 @@ module OpenProject::Wikis
            skip_permissions_check: true,
            after: :relations,
            badge: ->(work_package:, **) { Wikis::PageLinkService.new.count(work_package) },
-           if: lambda { |_project|
-             Wikis::Provider.enabled.exists? &&
-               OpenProject::FeatureDecisions.wiki_enhancements_active?
-           }
+           if: ->(_project) { Wikis::Provider.enabled.exists? }
 
       menu :admin_menu,
            :wiki_providers,
            { controller: "/wikis/admin/wiki_providers", action: :index },
-           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           if: ->(_) { User.current.admin? },
            caption: :"menus.admin.wikis",
            icon: :book
 
@@ -179,7 +176,7 @@ module OpenProject::Wikis
            :external_wiki_providers,
            { controller: "/wikis/admin/wiki_providers", action: :index },
            parent: :wiki_providers,
-           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           if: ->(_) { User.current.admin? },
            caption: :"menus.admin.external_wiki_providers"
 
       menu :admin_menu,
@@ -187,7 +184,7 @@ module OpenProject::Wikis
            { controller: "/wikis/admin/internal_wiki_provider", action: :show },
            parent: :wiki_providers,
            after: :external_wiki_providers,
-           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           if: ->(_) { User.current.admin? },
            caption: :"menus.admin.internal_wiki_provider"
 
       menu :project_menu,
