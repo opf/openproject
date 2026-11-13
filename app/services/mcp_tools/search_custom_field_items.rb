@@ -78,8 +78,8 @@ module McpTools
     def flatten_hierarchy(custom_field)
       visible_ids = visible_value_ids(custom_field)
 
-      ::CustomFields::Hierarchy::HierarchicalItemAggregator
-        .flatten_tree_hash(custom_field.hierarchy_root.hash_tree, visible_ids:)
+      API::V3::CustomFields::Hierarchy::HierarchicalItemAggregate
+        .from_tree(custom_field.hierarchy_root.hash_tree, visible_ids:)
     end
 
     def visible_value_ids(custom_field)

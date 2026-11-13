@@ -44,8 +44,7 @@ module API
 
             def flat_tree(item, depth, visible_ids)
               limit_depth = depth + 1 if depth
-              ::CustomFields::Hierarchy::HierarchicalItemAggregator
-                .flatten_tree_hash(item.hash_tree(limit_depth:), visible_ids:)
+              HierarchicalItemAggregate.from_tree(item.hash_tree(limit_depth:), visible_ids:)
             end
 
             def get_hierarchy_root(query)

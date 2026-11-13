@@ -67,6 +67,11 @@ RSpec.describe "API v3 custom field hierarchy items", :webmock, content_type: :j
         let(:elements) { [root, luke, r2d2, mouse, c3po, mara] }
       end
 
+      it "renders the depth of each item below the root" do
+        depths = JSON.parse(last_response.body).dig("_embedded", "elements").pluck("depth")
+        expect(depths).to eq([nil, 0, 1, 2, 1, 0])
+      end
+
       context "if custom field does not exist" do
         let(:path) { api_v3_paths.custom_field_items(not_existing_id(CustomField)) }
 
@@ -86,6 +91,11 @@ RSpec.describe "API v3 custom field hierarchy items", :webmock, content_type: :j
 
         it_behaves_like "API V3 collection response", 3, 3, "HierarchyItem", "Collection" do
           let(:elements) { [luke, r2d2, c3po] }
+        end
+
+        it "renders the depth relative to the parent" do
+          depths = JSON.parse(last_response.body).dig("_embedded", "elements").pluck("depth")
+          expect(depths).to eq([nil, 0, 0])
         end
       end
 
