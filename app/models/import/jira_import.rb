@@ -89,8 +89,6 @@ module Import
 
       message = "Reference was expected to be found, but it was not. #{jira_leg.class} with id #{jira_leg.id}"
 
-      Rails.logger.error message
-
       raise ActiveRecord::RecordNotFound, message
     end
 

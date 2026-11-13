@@ -207,12 +207,9 @@ RSpec.describe Import::JiraImport do
     end
 
     context "when reference does not exist" do
-      before { allow(Rails.logger).to receive(:error) }
-
-      it "raises a RecordNotFound and logs the missing reference" do
+      it "raises a RecordNotFound" do
         expect { jira_import.find_op_leg!(jira_version) }
           .to raise_error(ActiveRecord::RecordNotFound, message)
-        expect(Rails.logger).to have_received(:error).with(message)
       end
     end
   end

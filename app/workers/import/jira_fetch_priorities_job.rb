@@ -30,26 +30,24 @@
 module Import
   class JiraFetchPrioritiesJob < ApplicationJob
     include JiraJobUtils
+    include JiraJobLogging
+
+    self.jira_object_type = "priority"
 
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     def perform(jira_import_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_object_type:priority") do
-        Rails.logger.debug "Fetching priorities started"
-        prepare_jira_import_ivars(jira_import_id)
-        fetch_data
-        Rails.logger.debug "Fetching priorities finished"
-      end
+      prepare_jira_import_ivars(jira_import_id)
+      fetch_data
     end
 
     private
 
     def fetch_data
       priorities_upsert_data = @jira_client.priorities.map do |payload|
-        Rails.logger.tagged("jira_object_id_or_name:#{payload['name']}") do
+        with_log_context(jira_object_id_or_name: payload["name"]) do
           Rails.logger.debug "Fetched priority"
         end
         {
