@@ -6,7 +6,7 @@ import { MAX_SEARCH_RESULTS, useWorkPackageSearch } from './useWorkPackageSearch
 
 interface UseWorkPackageSearchDropdownOptions {
   onSelect:(wp:WorkPackage) => void;
-  onEscape:() => void;
+  onEscape?:() => void;
   onCreate?:(subject:string) => void;
 }
 
@@ -81,7 +81,7 @@ export function useWorkPackageSearchDropdown({
         }
         break;
       case 'Escape':
-        onEscape();
+        onEscape?.();
         break;
     }
   };

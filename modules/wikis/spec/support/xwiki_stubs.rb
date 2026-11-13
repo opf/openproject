@@ -29,11 +29,11 @@
 
 module XWikiStubs
   def search_endpoint(linkable, provider:, number: 25)
-    "#{provider.url}rest/openproject/links/workPackages/#{linkable.id}?number=#{number}&withInstance=test_uuid"
+    "#{provider.url}rest/openproject/links/workPackages/#{linkable.id}?number=#{number}&instance=test_uuid"
   end
 
   def mentions_endpoint(linkable, provider:)
-    "#{provider.url}rest/openproject/mentions?workPackage=#{linkable.id}&withInstance=test_uuid"
+    "#{provider.url}rest/openproject/mentions?workPackage=#{linkable.id}&instance=test_uuid"
   end
 
   def stub_canonical_page_info(identifier, uid:, title:, href:, provider:, token: "user-bearer-token")
