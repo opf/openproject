@@ -30,8 +30,6 @@ module API
     module CustomFields
       module Hierarchy
         class ItemsAPI < ::API::OpenProjectAPI
-          include Dry::Monads[:result]
-
           helpers ::API::V3::CustomFields::ProjectSpecificValuesHelper
 
           helpers do
@@ -42,24 +40,16 @@ module API
               handle_validation_errors(validation) if validation.failure?
 
               start_item = ::CustomField::Hierarchy::Item.find_by(id: validation[:parent]) || hierarchy_root
-              depth = validation[:depth] || -1
               visible_ids = visible_value_ids(@custom_field)
               raise ::API::Errors::NotFound if !start_item.root? && hidden_value?(start_item, visible_ids)
 
-              flat_tree(start_item, depth, visible_ids)
+              flat_tree(start_item, validation[:depth], visible_ids)
             end
 
             def flat_tree(item, depth, visible_ids)
-              ::CustomFields::Hierarchy::HierarchicalItemService
-                .new
-                .hashed_subtree(item:, depth:)
-                .either(
-                  ->(value) { ::CustomFields::Hierarchy::HierarchicalItemAggregator.flatten_tree_hash(value, visible_ids:) },
-                  ->(error) do
-                    msg = "#{I18n.t('api_v3.errors.code_500')} #{error}"
-                    raise ::API::Errors::SafeInternalError.new(msg)
-                  end
-                )
+              limit_depth = depth + 1 if depth
+              ::CustomFields::Hierarchy::HierarchicalItemAggregator
+                .flatten_tree_hash(item.hash_tree(limit_depth:), visible_ids:)
             end
 
             def get_hierarchy_root(query)

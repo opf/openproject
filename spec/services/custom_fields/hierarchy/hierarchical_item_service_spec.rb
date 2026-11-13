@@ -293,83 +293,6 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
       end
     end
 
-    describe "#get_branch" do
-      context "with a non-root node" do
-        it "returns all the ancestors to that item" do
-          result = service.get_branch(item: mara)
-          expect(result).to be_success
-
-          ancestors = result.value!
-          expect(ancestors.size).to eq(3)
-          expect(ancestors).to contain_exactly(root, luke, mara)
-          expect(ancestors.last).to eq(mara)
-        end
-      end
-
-      context "with a root node" do
-        it "returns a list with the root node" do
-          result = service.get_branch(item: root)
-          expect(result).to be_success
-          expect(result.value!).to match_array(root)
-        end
-      end
-    end
-
-    describe "#get_ancestors" do
-      context "with a non-root node" do
-        it "returns all the ancestors to that item" do
-          result = service.get_ancestors(item: mara)
-          expect(result).to be_success
-
-          ancestors = result.value!
-          expect(ancestors.size).to eq(2)
-          expect(ancestors).to contain_exactly(root, luke)
-        end
-      end
-
-      context "with a root node" do
-        it "returns a empty list" do
-          result = service.get_ancestors(item: root)
-          expect(result).to be_success
-          expect(result.value!).to be_empty
-        end
-      end
-    end
-
-    describe "#get_descendants" do
-      let!(:subitem) { service.insert_item(contract_class:, parent: mara, label: "Sub1").value! }
-      let!(:subitem2) { service.insert_item(contract_class:, parent: mara, label: "sub two").value! }
-      let!(:unrelated_subitem) { service.insert_item(contract_class:, parent: luke, label: "not related").value! }
-
-      context "with a non-root node" do
-        it "returns all the descendants to that item" do
-          result = service.get_descendants(item: mara)
-          expect(result).to be_success
-
-          descendants = result.value!
-          expect(descendants).to contain_exactly(mara, subitem, subitem2)
-        end
-      end
-
-      context "with a leaf node" do
-        it "returns just the leaf node" do
-          result = service.get_descendants(item: subitem2)
-          expect(result).to be_success
-          expect(result.value!).to match_array(subitem2)
-        end
-      end
-
-      context "when does not include self" do
-        it "returns all descendants not including the item passed" do
-          result = service.get_descendants(item: mara, include_self: false)
-          expect(result).to be_success
-
-          descendants = result.value!
-          expect(descendants).to contain_exactly(subitem, subitem2)
-        end
-      end
-    end
-
     describe "#move_item" do
       let(:lando) { service.insert_item(contract_class:, parent: root, label: "lando").value! }
 
@@ -549,28 +472,6 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
         preordered_descendants = root.reload.self_and_descendants_preordered.pluck(:label)
         expect(root.self_and_descendants.reorder(:position_cache).pluck(:label)).to eq(preordered_descendants)
-      end
-    end
-
-    describe "#hashed_subtree" do
-      let!(:lando) { service.insert_item(contract_class:, parent: root, label: "lando").value! }
-      let!(:chewbacca) { service.insert_item(contract_class:, parent: root, label: "AWOOO").value! }
-      let!(:lowbacca) { service.insert_item(contract_class:, parent: chewbacca, label: "ARWWWW").value! }
-
-      it "produces a hash version of the tree" do
-        subtree = service.hashed_subtree(item: root, depth: -1)
-
-        expect(subtree.value!).to be_a(Hash)
-        expect(subtree.value![root].size).to eq(3)
-        expect(subtree.value![root][lando]).to be_empty
-        expect(subtree.value![root][chewbacca][lowbacca]).to be_empty
-      end
-
-      it "produces a hash version of a sub tree with limited depth" do
-        subtree = service.hashed_subtree(item: chewbacca, depth: 0)
-
-        expect(subtree.value!).to be_a(Hash)
-        expect(subtree.value![chewbacca]).to be_empty
       end
     end
   end

@@ -32,28 +32,14 @@ module API
     module CustomFields
       module Hierarchy
         class ItemBranchAPI < ::API::OpenProjectAPI
-          include Dry::Monads[:result]
-
           resource :branch do
             get do
-              ::CustomFields::Hierarchy::HierarchicalItemService
-                .new
-                .get_branch(item: @custom_field_item)
-                .fmap do |items|
-                  items.map do |item|
-                    HierarchicalItemAggregate.new(item:, depth: item.depth - 1, visible_ids: @visible_value_ids)
-                  end
-                end
-                .either(
-                  ->(items) do
-                    self_link = api_v3_paths.custom_field_item_branch(@custom_field_item.id)
-                    HierarchyItemCollectionRepresenter.new(items, self_link:, current_user:)
-                  end,
-                  ->(error) do
-                    msg = "#{I18n.t('api_v3.errors.code_500')} #{error}"
-                    raise ::API::Errors::SafeInternalError.new(msg)
-                  end
-                )
+              items = @custom_field_item.self_and_ancestors.reverse.map do |item|
+                HierarchicalItemAggregate.new(item:, depth: item.depth - 1, visible_ids: @visible_value_ids)
+              end
+
+              self_link = api_v3_paths.custom_field_item_branch(@custom_field_item.id)
+              HierarchyItemCollectionRepresenter.new(items, self_link:, current_user:)
             end
           end
         end

@@ -46,7 +46,7 @@ module API
 
             if parent_item.nil?
               key.failure(:not_found)
-            elsif persistence_service.descendant_of?(item: parent_item, parent: hierarchy_root).failure?
+            elsif !parent_item.descendant_of?(hierarchy_root)
               key.failure(:not_descendant)
             end
           end
@@ -55,12 +55,6 @@ module API
             next unless key?
 
             key.failure(:greater_or_equal_zero) if value < 0
-          end
-
-          private
-
-          def persistence_service
-            @persistence_service ||= ::CustomFields::Hierarchy::HierarchicalItemService.new
           end
         end
       end

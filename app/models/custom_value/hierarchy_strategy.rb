@@ -42,9 +42,7 @@ class CustomValue::HierarchyStrategy < CustomValue::ARObjectStrategy
     item = ar_object(value)
     return :invalid unless item
 
-    parent = custom_field.hierarchy_root
-
-    if persistence_service.descendant_of?(item:, parent:).failure? || !usable_in_project?
+    if !item.descendant_of?(custom_field.hierarchy_root) || !usable_in_project?
       :inclusion
     end
   end
@@ -53,9 +51,5 @@ class CustomValue::HierarchyStrategy < CustomValue::ARObjectStrategy
 
   def ar_class
     CustomField::Hierarchy::Item
-  end
-
-  def persistence_service
-    @persistence_service ||= CustomFields::Hierarchy::HierarchicalItemService.new
   end
 end

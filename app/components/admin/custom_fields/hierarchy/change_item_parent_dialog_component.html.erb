@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
           )
         ) do |tree_view|
           parent = @hierarchy_item.parent
-          descendants = hierarchy_service.get_descendants(item: @hierarchy_item).value!
+          descendants = @hierarchy_item.self_and_descendants.to_a
           item_formatter = standard_tree_view_item_formatter
           label_fn = lambda { |item| with_project_specific_label(item_formatter.format(item:), item) }
 

@@ -342,11 +342,7 @@ module Import
         root = custom_field.hierarchy_root
         return [] if root.nil?
 
-        CustomFields::Hierarchy::HierarchicalItemService
-          .new
-          .get_descendants(item: root, include_self: false)
-          .fmap { |items| items.map(&:ancestry_path) }
-          .value_or([])
+        root.descendants_preordered.map(&:ancestry_path)
       end
 
       def unique_custom_field_name

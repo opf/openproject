@@ -86,9 +86,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
   def custom_field_input_hierarchy(field, input_options)
     root = custom_field.hierarchy_root
-    all_items = CustomFields::Hierarchy::HierarchicalItemService.new
-      .get_descendants(item: root, include_self: false)
-      .either(->(result) { result }, ->(_) { [] })
+    all_items = root.descendants_preordered
 
     by_parent  = all_items.group_by(&:parent_id)
     top_level  = by_parent[root&.id] || []

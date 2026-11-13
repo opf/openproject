@@ -41,6 +41,8 @@ class CustomField::Hierarchy::Item < ApplicationRecord
 
   def to_s = formatter.format(item: self)
 
+  def descendants_preordered = self_and_descendants_preordered.offset(1)
+
   # @deprecated Use [CustomFields::Hierarchy::HierarchicalItemFormatter] instead.
   def ancestry_path(include_shorts_and_weights: false)
     path = self_and_ancestors.filter_map(&:label).reverse.join(" / ")

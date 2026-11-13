@@ -48,4 +48,23 @@ RSpec.describe CustomField::Hierarchy::Item, :model, with_ee: [:custom_field_hie
       expect { custom_field.destroy }.to change(described_class, :count).to(0)
     end
   end
+
+  describe "#descendants_preordered" do
+    let!(:luke) { create(:hierarchy_item, parent: root, label: "luke") }
+    let!(:mara) { create(:hierarchy_item, parent: luke, label: "mara") }
+    let!(:leia) { create(:hierarchy_item, parent: root, label: "leia") }
+    let!(:kylo) { create(:hierarchy_item, parent: leia, label: "kylo") }
+
+    it "returns all descendants depth-first in sort order without the item itself" do
+      expect(root.descendants_preordered).to eq([luke, mara, leia, kylo])
+    end
+
+    it "returns only the descendants of the item" do
+      expect(leia.descendants_preordered).to eq([kylo])
+    end
+
+    it "returns nothing for a leaf" do
+      expect(mara.descendants_preordered).to be_empty
+    end
+  end
 end

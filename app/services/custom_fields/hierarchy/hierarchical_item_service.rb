@@ -108,32 +108,6 @@ module CustomFields
         end
       end
 
-      # Gets all nodes in a tree from the item/node back to the root.
-      # Ordered from root to leaf
-      # @param item [CustomField::Hierarchy::Item] the parent of the node
-      # @return [Success(Array<CustomField::Hierarchy::Item>)]
-      def get_branch(item:)
-        Success(item.self_and_ancestors.reverse)
-      end
-
-      # Gets all nodes in a tree from the item/node back to the root without the item/node itself.
-      # Ordered from root to leaf
-      # @param item [CustomField::Hierarchy::Item] the parent of the node
-      # @return [Success(Array<CustomField::Hierarchy::Item>)]
-      def get_ancestors(item:)
-        Success(item.ancestors.reverse)
-      end
-
-      # Gets all descendant nodes in a tree starting from the item/node.
-      # @param item [CustomField::Hierarchy::Item] the node
-      # @param include_self [Boolean] flag
-      # @return [Success(Array<CustomField::Hierarchy::Item>)]
-      def get_descendants(item:, include_self: true)
-        result = item.self_and_descendants_preordered
-        result = result.offset(1) unless include_self
-        Success(result)
-      end
-
       # Move an item/node to a new parent item/node
       # @param item [CustomField::Hierarchy::Item] the parent of the node
       # @param new_parent [CustomField::Hierarchy::Item] the new parent of the node
@@ -164,26 +138,6 @@ module CustomFields
       # Soft delete the item and children
       def soft_delete_item(item:)
         raise SubclassResponsibilityError
-      end
-
-      # Returns a hash of Item => { Item => [Item] }
-      # @param item [CustomField::Hierarchy::Item] the start node
-      # @param depth [Integer] limits the max depth of the hash. see {ClosureTree#hash_tree}
-      # @return [Success({CustomField::Hierarchy::Item => Array, Hash})]
-      def hashed_subtree(item:, depth: -1)
-        if depth >= 0
-          Success(item.hash_tree(limit_depth: depth + 1))
-        else
-          Success(item.hash_tree)
-        end
-      end
-
-      # Checks if an item is a descendant of another node
-      # @param item [CustomField::Hierarchy::Item] the item to be tested
-      # @param parent [CustomField::Hierarchy::Item] the node to be checked against
-      # @return [Success, Failure]
-      def descendant_of?(item:, parent:)
-        item.descendant_of?(parent) ? Success() : Failure()
       end
 
       private
