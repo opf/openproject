@@ -28,19 +28,7 @@
 #++
 
 module CustomOptions
-  class UpdateContract < ::ModelContract
-    validate :validate_authorized
-
+  class UpdateContract < BaseContract
     attribute :value
-
-    private
-
-    def validate_authorized
-      return if user.admin? && user.active?
-      return if model.custom_field.allow_additional_project_values? &&
-                user.allowed_in_project?(:manage_work_package_custom_field_values, model.project)
-
-      errors.add :base, :error_unauthorized
-    end
   end
 end
