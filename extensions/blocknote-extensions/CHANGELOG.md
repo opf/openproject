@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Give work package attributes the same options menu as work package links, including keyboard access ([BNE-183](https://community.openproject.org/wp/BNE-183))
+
 ## [0.3.4]
 
 Changes up to and including this version were not recorded.
