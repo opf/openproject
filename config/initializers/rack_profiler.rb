@@ -32,7 +32,7 @@ if Rails.env.local? && ENV["OPENPROJECT_RACK_PROFILER_ENABLED"]
   # will conflict when using method aliasing.
   # See https://github.com/MiniProfiler/rack-mini-profiler/pull/444
   require "prepend_net_http_patch"
-  
+
   require "rack-mini-profiler"
   require "flamegraph"
   require "stackprof"
