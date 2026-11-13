@@ -54,7 +54,6 @@ module ITSM
         success = server.update(p.except(:protocol))
 
         if success
-          server.save!
           close_server_configuration_form(protocol: server.protocol)
         else
           update_server_configuration_form(server:)
@@ -75,7 +74,13 @@ module ITSM
 
       def edit_server_configuration
         protocol = params[:server_protocol].to_s
-        update_server_configuration_form(server: mail_server(protocol))
+        server = MailServer.find_or_initialize_by(protocol:) do |server|
+          server.name = derive_server_name(protocol)
+          server.encryption = "tls"
+          server.port = derive_default_port(protocol)
+        end
+
+        update_server_configuration_form(server:)
       end
 
       def close_server_configuration
@@ -88,18 +93,21 @@ module ITSM
         ITSM::Wizard.new(model: nil)
       end
 
-      def mail_server(protocol)
-        MailServer.find_or_initialize_by(protocol:) do |server|
-          server.name = derive_server_name(protocol)
-        end
-      end
-
       def allowed_params
         params.expect(itsm_mail_server: %i[name host port protocol encryption])
       end
 
       def derive_server_name(protocol)
         "#{protocol.upcase} Mail Server"
+      end
+
+      def derive_default_port(protocol)
+        case protocol
+        when "imap"
+          993
+        when "smtp"
+          465 # TLS is default, hence the TLS port is default
+        end
       end
 
       def update_server_configuration_form(server:)
