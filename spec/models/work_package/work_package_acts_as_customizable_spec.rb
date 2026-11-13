@@ -41,6 +41,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     described_class.new type:,
                         project:,
                         author: user,
+                        reporter: user,
                         status:,
                         priority:,
                         subject: "some subject"
