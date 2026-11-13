@@ -456,7 +456,10 @@ Rails.application.reloader.to_prepare do
                      require: :member
 
       wpt.permission :manage_work_package_custom_field_values,
-                     {},
+                     {
+                       "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/custom_fields": %i[show]
+                     },
                      permissible_on: :project,
                      require: :member
 
